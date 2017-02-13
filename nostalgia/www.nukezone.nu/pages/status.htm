@@ -1,0 +1,487 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+
+All code and content within these pages are copyright Primetic (www.primetic.com).
+
+-->
+<html><head>
+<title>NukeZone - Nuke or Be Nuked!</title>
+
+
+<meta name="Author" content="Primetic (www.primetic.com)">
+<meta name="Keywords" content="NukeZone, Guffy, NZ, Web Game, Interactive Game, Strategy Game, Game, Play, Online Game">
+<meta name="Description" content="NukeZone - Nuke or Be Nuked!">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="shortcut icon" href="http://www.nukezone.nu/favicon.ico">
+
+<link rel="stylesheet" href="files/game1.css">
+<!--[if IE]>
+<link rel="stylesheet" href="http://img.nukezone.nu/c1/css/game1-ie.css?0.960">
+<![endif]-->
+</head>
+
+<body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
+
+<center>
+<table border="0" cellpadding="0" cellspacing="0" height="100%" width="925">
+  <tbody><tr>
+    <td background="files/up_left.gif" height="96">&nbsp;</td>
+      <td align="right" background="files/logo_top.gif" height="96" valign="top">
+        <table border="0" cellpadding="0" cellspacing="0" height="96">
+          <tbody><tr>
+			<td align="right" height="69" valign="top">
+				<table border="0" cellpadding="0" cellspacing="4" width="170">
+				<form action="/search.asp" method="GET" name="search" target="_self"></form>
+				<input name="Action" value="FindProvince" type="hidden">
+				  <tbody><tr>
+					<td colspan="2" valign="top"><a href="http://www.nukezone.nu/search.asp?Action=Standard"><img src="files/find_province.gif" alt="Click for more options." border="0" height="13" width="87"></a></td>
+				  </tr>
+				  <tr>
+					<td valign="middle" width="115"><input class="TextBoxA" size="23" name="X1" maxlength="25"></td>
+					<td valign="middle" width="55"><input class="Button" value="Go" style="width:25px" type="submit"></td>
+				  </tr>
+				
+				</tbody></table>
+			</td>
+		  </tr>
+          <tr>
+			<td align="right" height="27" valign="bottom">
+				<table border="0" cellpadding="0" cellspacing="0" width="292">
+				  <tbody><tr>
+					<td width="73">
+			<a href="http://www.nukezone.nu/message.asp?Action=Inbox" id="tabMessages" title="Check your messages or write new messages."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=LocalEvents" id="tabLocals" title="Check your local events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=GlobalEvents" id="tabGlobals" title="Check your global events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/help.asp" id="tabHelp" title="Go to the help page."></a>
+			</td>
+
+				  </tr>
+				</tbody></table>
+			</td>
+		  </tr>
+		</tbody></table>
+	</td>
+    <td background="files/up_right.gif" height="96">&nbsp;</td>
+  </tr>
+  <tr>
+    <td rowspan="2" background="files/middle_left.gif" height="58" width="35">&nbsp;</td>
+      <td background="files/logo_middle.gif" height="19">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+		  <tbody><tr>
+			<td align="right" valign="middle" width="840"><span class="Resources"><b>Money:</b> <span id="show01">$122&nbsp;515</span> &nbsp;| &nbsp;<b>Turns:</b> <span id="show02">171</span> &nbsp;| &nbsp;<b>Land:</b> <span id="show03">169&nbsp;311 m²</span> &nbsp;| &nbsp;<b>Morale:</b> <span id="show04">20% (40%)</span> &nbsp;| &nbsp;<b>Networth:</b> <span id="show05">$1&nbsp;396&nbsp;415</span></span></td>
+			<td width="15">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	  </td>
+    <td rowspan="2" background="files/middle_right.gif" height="58" width="35">&nbsp;</td>
+  </tr>
+  <tr>
+    <td background="files/logo_bottom.gif" height="39">
+		<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+          <tbody><tr>
+			<td align="right" valign="bottom" width="843"><a href="http://www.nukezone.nu/help.asp"><img src="files/pixel.gif" alt="Go to the appropriate chapter in the manual." border="0" height="27" width="28"></a></td>
+			<td width="12">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	</td>
+  </tr>
+  <tr>
+    <td background="files/bottom_left.gif" width="35">&nbsp;</td>
+    <td bgcolor="#D8D4B6" valign="top">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tbody><tr>
+		    <td align="center" height="100%" valign="top" width="178">
+
+		<div id="menuHolder">
+			<a id="onlineCount" href="http://www.nukezone.nu/show.asp?Action=Online">34 Players Online</a>
+			<div id="menuHeader"></div>
+
+			<span>MAIN</span>
+			
+			<a href="game main.htm">Overview</a>
+			<a href="attack page.htm">Attack</a>
+			<a href="research.htm">Research</a>
+			<a href="explore.htm">Explore</a>
+			<a href="market.htm">Market</a>
+			<a href="bank.htm">Bank</a>
+			<a href="clan.htm">Clan</a>
+
+			<span>MILITARY</span>
+			<a href="buildings.htm">Buildings</a>
+			<a href="sea.htm">Sea Units</a>
+			<a href="air.htm">Air Units</a>
+			<a href="vehicles.htm">Vehicles</a>
+			<a href="infantries.htm">Infantries</a>
+			<a href="missiles.htm">Missiles</a>
+			<a href="satelitte.htm">Satellites</a>
+
+			<span>INFORMATION</span>
+				<a href="local events.htm">Local Events</a>
+				<a href="global events.htm">Global Events</a>
+				
+				<a href="http://www.nukezone.nu/events.asp?Action=SearchEvents">Search Events</a>
+				
+			<a href="status.htm">Status</a>
+			<a href="all provinces.htm">All Provinces</a>
+			<a href="all clans.htm">All Clans</a>
+			<a href="top lists.htm">Top Lists</a>
+			<a href="search.htm">Search</a>
+			
+				<a href="http://www.nukezone.nu/forum/clanforum.asp" target="_blank">Clan Forum</a>
+				
+
+			<span>MISC</span>
+			<a href="inbox.htm">Inbox</a>
+			<a href="new message.htm">New Message</a>
+			<a href="preferences.htm">Preferences</a>
+			<a href="help.htm">Help</a>
+			<a href="about us.htm">About Us</a>
+			<a href="logout.htm">Logout</a>
+
+			
+		</div>
+		<br>
+
+	</td>
+            <td height="100%" valign="top" width="677">
+				<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+				  <tbody><tr>
+				    <td background="files/middle_background1.gif" height="46">
+						<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+						  <tbody><tr>
+						    <td height="46" valign="bottom" width="652">
+								<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+								  <tbody><tr>
+									<td height="32" width="10">&nbsp;</td>
+									<td height="32" valign="bottom" width="329"><span class="TitleText">Information</span></td>
+									<td align="right" height="32" valign="bottom" width="313"><span class="BigText">Guffy (#1)</span></td>
+								  </tr>
+								  <tr>
+									<td colspan="3" height="14">&nbsp;</td>
+								  </tr>
+								</tbody></table>
+							</td>
+						  </tr>
+						</tbody></table>
+					</td>
+				  </tr>
+				  <tr>
+					<td style="background-repeat: no-repeat;" background="files/middle_background2.gif" valign="top">
+						<table border="0" cellpadding="0" cellspacing="0" width="660">
+						  <tbody><tr>
+							<td>
+								<br>
+	
+
+	<center>
+	<b><a href="http://www.nukezone.nu/info.asp?Action=Status">Information</a></b> - <a href="http://www.nukezone.nu/info.asp?Action=MilitaryInfo">Military Info</a> - <a href="http://www.nukezone.nu/info.asp?Action=HistoryGraphs">History Graphs</a> - <a href="http://www.nukezone.nu/info.asp?Action=StatisticsBreakdown">Statistics Breakdown (GU only)</a> - <a href="http://www.nukezone.nu/info.asp?Action=Rank">Rank</a>
+	<br><br>
+
+	Information and history about your province.
+	<br><br>
+
+	<table class="content" border="0" width="80%">
+	  <tbody><tr class="header">
+	    <td colspan="2" align="center" width="100%">Main</td>
+	  </tr>
+	  <tr>
+	    <td width="36%">&nbsp;<b>Land:</b></td>
+	    <td width="64%">169&nbsp;311 m²</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Money:</b></td>
+	    <td>$122&nbsp;515</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Turns:</b></td>
+	    <td>171</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Starting Bonus:</b></td>
+	    <td>Offensive</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Status:</b></td>
+	    <td>49min</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Online:</b></td>
+	    <td>Constantly</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Time Online (round):</b></td>
+	    <td><span title="Avg. per day: 1 hour and 15 minutes">2 days, 20 hours and 18 minutes</span></td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Time Online (total):</b></td>
+	    <td><span title="Avg. per day: 2 hours and 44 minutes">244 days, 22 hours and 40 minutes</span></td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>User Type:</b></td>
+	    <td>Free User</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Days Registered:</b></td>
+	    <td>2881</td>
+	  </tr>
+	  <tr>
+	    <td valign="top">&nbsp;<b>Badges (current round):</b></td>
+	    <td>Growth Badge (Novice)<br>Earth Badge (Silver)</td>
+	  </tr>
+	  <tr>
+	    <td valign="top">&nbsp;<b>Badges (previous rounds):</b></td>
+	    <td>&lt;none&gt;</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Community Level:</b></td>
+	    <td>Level 4 (To next level: 486)</td>
+	  </tr>
+	  <tr>
+	    <td valign="top">&nbsp;<b>Community Score:</b></td>
+	    <td>9&nbsp;514
+	    </td>
+	  </tr>
+	  <tr class="header">
+	    <td colspan="2" height="4"></td>
+	  </tr>
+	</tbody></table>
+	
+	<br>
+
+	<table class="content" border="0" width="80%">
+	  <tbody><tr class="header">
+	    <td colspan="2" align="center" width="100%">Networth</td>
+	  </tr>
+	  <tr>
+	    <td width="36%">&nbsp;<b>Last Week:</b></td>
+	    <td width="64%">$1&nbsp;160&nbsp;348</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Current:</b></td>
+	    <td>$1&nbsp;396&nbsp;415</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Difference:</b></td>
+	    <td>+20,34%</td>
+	  </tr>
+	  <tr class="header">
+	    <td colspan="2" height="4"></td>
+	  </tr>
+	</tbody></table>
+	
+	<br>
+
+	<table class="content" border="0" width="80%">
+	  <tbody><tr class="header">
+	    <td colspan="2" align="center" width="100%">Hourly Income</td>
+	  </tr>
+	  <tr>
+	    <td width="36%">&nbsp;<b>Money:</b></td>
+	    <td width="64%">$45&nbsp;000</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Turns:</b></td>
+	    <td>3 (cannot be improved)</td>
+	  </tr>
+	  <tr class="header">
+	    <td colspan="2" height="4"></td>
+	  </tr>
+	</tbody></table>
+	
+	<br>
+
+	<table class="content" border="0" width="80%">
+	  <tbody><tr class="header">
+	    <td colspan="2" align="center" width="100%">Missile Defense</td>
+	  </tr>
+	  <tr>
+	    <td width="36%">&nbsp;<b>Regular Missiles:</b></td>
+	    <td width="64%">1% chance to shoot down</td>
+	  </tr>
+	
+	  <tr class="header">
+	    <td colspan="2" height="4"></td>
+	  </tr>
+	</tbody></table>
+
+	<br>
+
+	<table class="content" border="0" width="80%">
+	  <tbody><tr class="header">
+	    <td colspan="2" align="center" width="100%">History</td>
+	  </tr>
+
+	  <tr>
+	    <td width="50%">&nbsp;<b>Attack Success:</b></td>
+	    <td width="50%">93%</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Defend Success:</b></td>
+	    <td>5%</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Highest Networth:</b></td>
+	    <td>$1&nbsp;415&nbsp;711</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Highest Land Area:</b></td>
+	    <td>170&nbsp;427 m²</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Land Gained in Combat:</b></td>
+	    <td>226&nbsp;706 m²</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Land Lost in Combat:</b></td>
+	    <td>68&nbsp;675 m²</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Money Gained in Combat:</b></td>
+	    <td>$24&nbsp;434&nbsp;302</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Money Lost in Combat:</b></td>
+	    <td>$11&nbsp;352&nbsp;267</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Money Gained in Thievery:</b></td>
+	    <td>$684&nbsp;996</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Money Lost in Thievery:</b></td>
+	    <td>$6&nbsp;493&nbsp;865</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Kills:</b></td>
+	    <td>0</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Kills (during clan wars):</b></td>
+	    <td>0</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Times Killed:</b></td>
+	    <td>0</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Missiles Sent:</b></td>
+	    <td>5</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>NW Damage Made by Missiles:</b></td>
+	    <td>$108&nbsp;493 with 5 missiles</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Enemy Missiles Received:</b></td>
+	    <td>13 (92% avg. hitrate)</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Enemy Missiles Hit:</b></td>
+	    <td>12</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Enemy Missiles Missed:</b></td>
+	    <td>1</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Enemy Missiles Shot Down:</b></td>
+	    <td>0</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Attacks Made:</b></td>
+	    <td>434</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Attacks Made (during clan wars):</b></td>
+	    <td>0</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Wins:</b></td>
+	    <td>402 (93%)</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Attacks Suffered:</b></td>
+	    <td>144</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Attacks Suffered (during clan wars):</b></td>
+	    <td>0</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Defeats:</b></td>
+	    <td>137 (95%)</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Clan Points Gained (current clan):</b></td>
+	    <td>0p</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Clan Points Gained (total):</b></td>
+	    <td>148p</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Aid Sent (current clan):</b></td>
+	    <td>$0</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Aid Received (current clan):</b></td>
+	    <td>$0</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Targets Spied:</b></td>
+	    <td>164</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Time to Complete All Sciences:</b></td>
+	    <td>N/A</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Morale Used:</b></td>
+	    <td>9&nbsp;990%</td>
+	  </tr>
+	  <tr>
+	    <td>&nbsp;<b>Morale Lost:</b></td>
+	    <td>15&nbsp;150%</td>
+	  </tr>
+	  <tr class="header">
+	    <td colspan="2" height="4"></td>
+	  </tr>
+	</tbody></table>
+
+	
+	<br>
+	</center>
+	
+							</td>
+						  </tr>
+						</tbody></table>
+				    </td>
+				  </tr>
+				</tbody></table>
+				</td>
+			  </tr>
+		  <tr> 
+            <td colspan="2" align="center" valign="top">
+				<br><img src="files/primetic.gif" height="35" width="100"><br>
+				Copyright © 2001-2014 <a href="http://www.primetic.com/" target="_blank">Primetic</a>. All Rights Reserved.
+				<br><br>
+				This page was generated in 0 seconds. Current date/time is 2014-09-12 03:44:41.
+		    </td>
+		  </tr>
+		</tbody></table>
+    </td>
+    <td background="files/bottom_right.gif" width="35">&nbsp;</td>
+  </tr>
+</tbody></table>
+</center>
+
+
+
+
+</body></html>

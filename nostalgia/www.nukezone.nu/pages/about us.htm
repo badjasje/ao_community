@@ -1,0 +1,402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+
+All code and content within these pages are copyright Primetic (www.primetic.com).
+
+-->
+<html><head>
+<title>NukeZone - Nuke or Be Nuked!</title>
+
+
+<meta name="Author" content="Primetic (www.primetic.com)">
+<meta name="Keywords" content="NukeZone, Guffy, NZ, Web Game, Interactive Game, Strategy Game, Game, Play, Online Game">
+<meta name="Description" content="NukeZone - Nuke or Be Nuked!">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="shortcut icon" href="http://www.nukezone.nu/favicon.ico">
+
+<link rel="stylesheet" href="files/game1.css">
+<!--[if IE]>
+<link rel="stylesheet" href="http://img.nukezone.nu/c1/css/game1-ie.css?0.960">
+<![endif]-->
+</head>
+
+<body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
+
+<center>
+<table border="0" cellpadding="0" cellspacing="0" height="100%" width="925">
+  <tbody><tr>
+    <td background="files/up_left.gif" height="96">&nbsp;</td>
+      <td align="right" background="files/logo_top.gif" height="96" valign="top">
+        <table border="0" cellpadding="0" cellspacing="0" height="96">
+          <tbody><tr>
+			<td align="right" height="69" valign="top">
+				<table border="0" cellpadding="0" cellspacing="4" width="170">
+				<form action="/search.asp" method="GET" name="search" target="_self"></form>
+				<input name="Action" value="FindProvince" type="hidden">
+				  <tbody><tr>
+					<td colspan="2" valign="top"><a href="http://www.nukezone.nu/search.asp?Action=Standard"><img src="files/find_province.gif" alt="Click for more options." border="0" height="13" width="87"></a></td>
+				  </tr>
+				  <tr>
+					<td valign="middle" width="115"><input class="TextBoxA" size="23" name="X1" maxlength="25"></td>
+					<td valign="middle" width="55"><input class="Button" value="Go" style="width:25px" type="submit"></td>
+				  </tr>
+				
+				</tbody></table>
+			</td>
+		  </tr>
+          <tr>
+			<td align="right" height="27" valign="bottom">
+				<table border="0" cellpadding="0" cellspacing="0" width="292">
+				  <tbody><tr>
+					<td width="73">
+			<a href="http://www.nukezone.nu/message.asp?Action=Inbox" id="tabMessages" title="Check your messages or write new messages."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=LocalEvents" id="tabLocals" title="Check your local events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=GlobalEvents" id="tabGlobals" title="Check your global events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/help.asp" id="tabHelp" title="Go to the help page."></a>
+			</td>
+
+				  </tr>
+				</tbody></table>
+			</td>
+		  </tr>
+		</tbody></table>
+	</td>
+    <td background="files/up_right.gif" height="96">&nbsp;</td>
+  </tr>
+  <tr>
+    <td rowspan="2" background="files/middle_left.gif" height="58" width="35">&nbsp;</td>
+      <td background="files/logo_middle.gif" height="19">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+		  <tbody><tr>
+			<td align="right" valign="middle" width="840"><span class="Resources"><b>Money:</b> <span id="show01">$122&nbsp;515</span> &nbsp;| &nbsp;<b>Turns:</b> <span id="show02">171</span> &nbsp;| &nbsp;<b>Land:</b> <span id="show03">169&nbsp;311 m²</span> &nbsp;| &nbsp;<b>Morale:</b> <span id="show04">30% (35%)</span> &nbsp;| &nbsp;<b>Networth:</b> <span id="show05">$1&nbsp;396&nbsp;415</span></span></td>
+			<td width="15">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	  </td>
+    <td rowspan="2" background="files/middle_right.gif" height="58" width="35">&nbsp;</td>
+  </tr>
+  <tr>
+    <td background="files/logo_bottom.gif" height="39">
+		<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+          <tbody><tr>
+			<td align="right" valign="bottom" width="843"><a href="http://www.nukezone.nu/help.asp"><img src="files/pixel.gif" alt="Go to the appropriate chapter in the manual." border="0" height="27" width="28"></a></td>
+			<td width="12">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	</td>
+  </tr>
+  <tr>
+    <td background="files/bottom_left.gif" width="35">&nbsp;</td>
+    <td bgcolor="#D8D4B6" valign="top">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tbody><tr>
+		    <td align="center" height="100%" valign="top" width="178">
+
+		<div id="menuHolder">
+			<a id="onlineCount" href="http://www.nukezone.nu/show.asp?Action=Online">35 Players Online</a>
+			<div id="menuHeader"></div>
+			<span>MAIN</span>
+			
+			<a href="game main.htm">Overview</a>
+			<a href="attack page.htm">Attack</a>
+			<a href="research.htm">Research</a>
+			<a href="explore.htm">Explore</a>
+			<a href="market.htm">Market</a>
+			<a href="bank.htm">Bank</a>
+			<a href="clan.htm">Clan</a>
+
+			<span>MILITARY</span>
+			<a href="buildings.htm">Buildings</a>
+			<a href="sea.htm">Sea Units</a>
+			<a href="air.htm">Air Units</a>
+			<a href="vehicles.htm">Vehicles</a>
+			<a href="infantries.htm">Infantries</a>
+			<a href="missiles.htm">Missiles</a>
+			<a href="satelitte.htm">Satellites</a>
+
+			<span>INFORMATION</span>
+				<a href="local events.htm">Local Events</a>
+				<a href="global events.htm">Global Events</a>
+				
+				<a href="http://www.nukezone.nu/events.asp?Action=SearchEvents">Search Events</a>
+				
+			<a href="status.htm">Status</a>
+			<a href="all provinces.htm">All Provinces</a>
+			<a href="all clans.htm">All Clans</a>
+			<a href="top lists.htm">Top Lists</a>
+			<a href="search.htm">Search</a>
+			
+				<a href="http://www.nukezone.nu/forum/clanforum.asp" target="_blank">Clan Forum</a>
+				
+
+			<span>MISC</span>
+			<a href="inbox.htm">Inbox</a>
+			<a href="new message.htm">New Message</a>
+			<a href="preferences.htm">Preferences</a>
+			<a href="help.htm">Help</a>
+			<a href="about us.htm">About Us</a>
+			<a href="logout.htm">Logout</a>
+
+			
+		</div>
+		<br>
+
+	</td>
+            <td height="100%" valign="top" width="677">
+				<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+				  <tbody><tr>
+				    <td background="files/middle_background1.gif" height="46">
+						<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+						  <tbody><tr>
+						    <td height="46" valign="bottom" width="652">
+								<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+								  <tbody><tr>
+									<td height="32" width="10">&nbsp;</td>
+									<td height="32" valign="bottom" width="329"><span class="TitleText">About Us</span></td>
+									<td align="right" height="32" valign="bottom" width="313"><span class="BigText">Guffy (#1)</span></td>
+								  </tr>
+								  <tr>
+									<td colspan="3" height="14">&nbsp;</td>
+								  </tr>
+								</tbody></table>
+							</td>
+						  </tr>
+						</tbody></table>
+					</td>
+				  </tr>
+				  <tr>
+					<td style="background-repeat: no-repeat;" background="files/middle_background2.gif" valign="top">
+						<table border="0" cellpadding="0" cellspacing="0" width="660">
+						  <tbody><tr>
+							<td>
+								<br>
+	
+
+	<a href="http://www.nukezone.nu/help.asp?CrewStatus" style="font-size: 9.5pt;">Visit the Crew Status page to get a birds eye view of the crew activities.</a>
+	<br><br>
+
+	<b>The following contact information cannot be used for technical 
+support or any other game related support whatsoever. Please contact our
+ in-game <a href="new message.htm&amp;To=CustomerSupport">Customer Support</a>.</b>
+	<br><br>
+
+		<table class="content" border="0" cellpadding="4" cellspacing="1" width="100%">
+		  <tbody><tr class="header">
+		    <td align="center">Administrators</td>
+		  </tr>
+		    	
+					  <tr>
+					    <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						  <tbody><tr>
+						    <td valign="top"><a href="http://www.nukezone.nu/aboutus.asp?X=1"><b>Guffy (#1) / Stefan Karlström </b></a> (New York City, USA)<br>CEO, Lead Developer, Chief Administrator<br><br>Stefan
+ is the Founder and Lead Developer of NukeZone. He develops all the new 
+features for NZ, SR and NZP. If things are not working properly, he is 
+probably the one to blame.</td>
+						    <td align="right" valign="top" width="90"><a href="http://www.nukezone.nu/aboutus.asp?X=1"><img src="files/111230105.jpg" alt="Avatar" class="BorderImage" border="1" height="80" width="80"></a></td>
+						  </tr>
+						</tbody></table>
+					    </td>
+					  </tr>
+		    			
+					  <tr>
+					    <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						  <tbody><tr>
+						    <td valign="top"><a href="http://www.nukezone.nu/aboutus.asp?X=2"><b>EhpeX (#2) / Anthony Wiezoreck</b></a> (Vancouver, Canada)<br>Director of Operations, Administrator, King and President of NZ<br><br>Tony
+ is our Chief of Operations, which means he is in charge of overseeing 
+the general running of the game. He is also the Chief of Operations for 
+the NZ Portal, making sure that everything there runs smoothly too.</td>
+						    <td align="right" valign="top" width="90"><a href="http://www.nukezone.nu/aboutus.asp?X=2"><img src="files/212211604.jpg" alt="Avatar" class="BorderImage" border="1" height="80" width="80"></a></td>
+						  </tr>
+						</tbody></table>
+					    </td>
+					  </tr>
+		    			
+					  <tr>
+					    <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						  <tbody><tr>
+						    <td valign="top"><a href="http://www.nukezone.nu/aboutus.asp?X=3"><b>Primal (#3) / Steve Brown</b></a> (Guildford, UK)<br>Assistant Director of Operations, Administrator<br><br>Steve assists Tony in overseeing the general running of the game and making sure that the day-to-day tasks are completed.</td>
+						    <td align="right" valign="top" width="90"><a href="http://www.nukezone.nu/aboutus.asp?X=3"><img src="files/312231938.jpg" alt="Avatar" class="BorderImage" border="1" height="80" width="80"></a></td>
+						  </tr>
+						</tbody></table>
+					    </td>
+					  </tr>
+		    			
+					  <tr>
+					    <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						  <tbody><tr>
+						    <td valign="top"><a href="http://www.nukezone.nu/aboutus.asp?X=4"><b>glamDring (#4) / Christian Anderstedt</b></a> (Torslanda, Sweden)<br>Kick-ass-administrator<br><br>So, someone has to clean up this mess?</td>
+						    <td align="right" valign="top" width="90"><a href="http://www.nukezone.nu/aboutus.asp?X=4"><img src="files/411131317.gif" alt="Avatar" class="BorderImage" border="1" height="80" width="80"></a></td>
+						  </tr>
+						</tbody></table>
+					    </td>
+					  </tr>
+		    			
+					  <tr>
+					    <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						  <tbody><tr>
+						    <td valign="top"><a href="http://www.nukezone.nu/aboutus.asp?X=5"><b>Pappahodge (#5) / Keith Hodge</b></a> (Radford, Virginia, USA)<br>Director of Customer Relations, Administrator<br><br>Keith is our newest Admin. He is one of the hardest working and fairest of them all. He will have numerous new tasks.</td>
+						    <td align="right" valign="top" width="90"><a href="http://www.nukezone.nu/aboutus.asp?X=5"><img src="files/1211302343.jpg" alt="Avatar" class="BorderImage" border="1" height="80" width="80"></a></td>
+						  </tr>
+						</tbody></table>
+					    </td>
+					  </tr>
+		    			
+		  <tr class="header">
+		    <td height="4"></td>
+		  </tr>
+		</tbody></table>
+
+		<br>
+
+		<table class="content" border="0" cellpadding="4" cellspacing="1" width="100%">
+		  <tbody><tr class="header">
+		    <td align="center">Game Moderators</td>
+		  </tr>
+		    	
+					  <tr>
+					    <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						  <tbody><tr>
+						    <td valign="top"><a href="http://www.nukezone.nu/aboutus.asp?X=25"><b>Ambius (#25) / Steve Jacks</b></a> (Detroit, USA)<br>Game Moderator<br><br>Ambius is our new Chief of Information and will be working with Gondor to see that the manual is correct and up to date.</td>
+						    <td align="right" valign="top" width="90"><a href="http://www.nukezone.nu/aboutus.asp?X=25"><img src="files/2511120553.jpg" alt="Avatar" class="BorderImage" border="1" height="80" width="80"></a></td>
+						  </tr>
+						</tbody></table>
+					    </td>
+					  </tr>
+		    			
+					  <tr>
+					    <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						  <tbody><tr>
+						    <td valign="top"><a href="http://www.nukezone.nu/aboutus.asp?X=21"><b>Bosje (#21) / Tim Bos</b></a> (The Netherlands)<br>Game Moderator<br><br>Tim is a Dutch Game Moderator, what more to say? ;)</td>
+						    <td align="right" valign="top" width="90"><a href="http://www.nukezone.nu/aboutus.asp?X=21"><img src="files/2111231636.jpg" alt="Avatar" class="BorderImage" border="1" height="80" width="80"></a></td>
+						  </tr>
+						</tbody></table>
+					    </td>
+					  </tr>
+		    			
+					  <tr>
+					    <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						  <tbody><tr>
+						    <td valign="top"><a href="http://www.nukezone.nu/aboutus.asp?X=20"><b>Acardi (#20) / Stephanie V</b></a> (Leuven, Belgium)<br>Game Moderator<br><br>Steph is in charge of looking into the community and seeing what needs or should be addressed and/or changed.</td>
+						    <td align="right" valign="top" width="90"><a href="http://www.nukezone.nu/aboutus.asp?X=20"><img src="files/2005151449.jpg" alt="Avatar" class="BorderImage" border="1" height="80" width="80"></a></td>
+						  </tr>
+						</tbody></table>
+					    </td>
+					  </tr>
+		    			
+					  <tr>
+					    <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						  <tbody><tr>
+						    <td valign="top"><a href="http://www.nukezone.nu/aboutus.asp?X=27"><b>Gondor (#27) / Tom Soetaert </b></a> (Ghent, Belgium)<br>Game Moderator<br><br>As
+ Game Moderator, Gondor is Vice Chief of Information. He will be working
+ on keeping our manual etc. up to date and he is in charge of all unit 
+changes and adjustment.</td>
+						    <td align="right" valign="top" width="90"><a href="http://www.nukezone.nu/aboutus.asp?X=27"><img src="files/2701031919.jpg" alt="Avatar" class="BorderImage" border="1" height="80" width="80"></a></td>
+						  </tr>
+						</tbody></table>
+					    </td>
+					  </tr>
+		    			
+		  <tr class="header">
+		    <td height="4"></td>
+		  </tr>
+		</tbody></table>
+
+		<br>
+
+		<table class="content" border="0" cellpadding="4" cellspacing="1" width="100%">
+		  <tbody><tr class="header">
+		    <td align="center">Forum Moderators</td>
+		  </tr>
+		    	
+					  <tr>
+					    <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						  <tbody><tr>
+						    <td valign="top"><a href="http://www.nukezone.nu/aboutus.asp?X=42"><b>Hotdog (#42) / Tom Green</b></a> (York, United Kingdom)<br>Forum Moderator<br><br>Assigned to: Suggestions Forum and Gold Users Only Forum</td>
+						    <td align="right" valign="top" width="90"><a href="http://www.nukezone.nu/aboutus.asp?X=42"><img src="files/4211240107.jpg" alt="Avatar" class="BorderImage" border="1" height="80" width="80"></a></td>
+						  </tr>
+						</tbody></table>
+					    </td>
+					  </tr>
+					
+					  <tr>
+					    <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						  <tbody><tr>
+						    <td valign="top"><a href="http://www.nukezone.nu/aboutus.asp?X=43"><b>ElNino (#43) / Rick van Beerendonk</b></a> (Tilburg, Netherlands)<br>Assistant IRC Coordinator, Forum Moderator<br><br>Mainly in charge of the official help chat, #NZSupport @ QuakeNet.
+Any questions or ideas for the support should be directed to Rick.</td>
+						    <td align="right" valign="top" width="90"><a href="http://www.nukezone.nu/aboutus.asp?X=43"><img src="files/4311230034.gif" alt="Avatar" class="BorderImage" border="1" height="80" width="80"></a></td>
+						  </tr>
+						</tbody></table>
+					    </td>
+					  </tr>
+					
+					  <tr>
+					    <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						  <tbody><tr>
+						    <td valign="top"><a href="http://www.nukezone.nu/aboutus.asp?X=53"><b>Donald (#53) / Donald MacLean</b></a> (Charlottetown, PEI, Canada)<br>Forum Moderator<br><br>Donald is a mathematical wizz and helps in numerous ways with equations and ideas.</td>
+						    <td align="right" valign="top" width="90"><a href="http://www.nukezone.nu/aboutus.asp?X=53"><img src="files/5306120838.jpg" alt="Avatar" class="BorderImage" border="1" height="80" width="80"></a></td>
+						  </tr>
+						</tbody></table>
+					    </td>
+					  </tr>
+					
+					  <tr>
+					    <td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						  <tbody><tr>
+						    <td valign="top"><a href="http://www.nukezone.nu/aboutus.asp?X=57"><b>The Hero (#57) / Danny Groenen</b></a> (Valkenswaard, Netherlands)<br>Assistant Chief of Information, Forum Moderator<br><br>Assigned to: Getting Started, Suggestions and Ideas</td>
+						    <td align="right" valign="top" width="90"><a href="http://www.nukezone.nu/aboutus.asp?X=57"><img src="files/5709231132.gif" alt="Avatar" class="BorderImage" border="1" height="80" width="80"></a></td>
+						  </tr>
+						</tbody></table>
+					    </td>
+					  </tr>
+					
+		  <tr class="header">
+		    <td height="4"></td>
+		  </tr>
+		</tbody></table>
+	
+							</td>
+						  </tr>
+						</tbody></table>
+				    </td>
+				  </tr>
+				</tbody></table>
+				</td>
+			  </tr>
+		  <tr> 
+            <td colspan="2" align="center" valign="top">
+				<br><img src="files/primetic.gif" height="35" width="100"><br>
+				Copyright © 2001-2014 <a href="http://www.primetic.com/" target="_blank">Primetic</a>. All Rights Reserved.
+				<br><br>
+				This page was generated in 0 seconds. Current date/time is 2014-09-12 03:57:07.
+		    </td>
+		  </tr>
+		</tbody></table>
+    </td>
+    <td background="files/bottom_right.gif" width="35">&nbsp;</td>
+  </tr>
+</tbody></table>
+</center>
+
+
+
+
+</body></html>

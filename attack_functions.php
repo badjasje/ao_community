@@ -1,0 +1,704 @@
+<?php
+
+/* utility functions for attack engine reuse */
+
+/* 
+	determine war type 
+	Params:
+		$attack_clan_id : Clan ID of attacking player
+		$defend_clan_id : Clan ID of defending player
+	Returns:
+		war_type : 'mutual', 'outgoing', 'incoming', 'none'
+*/
+function get_war_type($attack_clan_id, $defend_clan_id) {
+	/* check for clan war to determine points multiplier */
+	$outgoing_war = false;
+	$incoming_war = false;
+	$mutual_war = false;
+	$war_type = "none";
+
+	/* if both players are in a clan */
+	if($defend_clan_id != 0 && $attack_clan_id != 0) {
+		/* check if attacker declared on defender */
+		$outgoing_wars = get_posts(
+			array(
+				'numberposts'	=> -1,
+				'post_type'		=> 'wars',
+				'meta_query'	=> array(
+					'relation'		=> 'AND',
+					array(
+						'key'	 	=> 'declared_on',
+						'value'	  	=> $defend_clan_id,
+						'compare' 	=> '=',
+					),
+					array(
+						'key'	 	=> 'declared_by',
+						'value'	  	=> $attack_clan_id,
+						'compare' 	=> '=',
+					),
+				),
+			)
+		);
+
+		if(count($outgoing_wars) > 0) {
+			$outgoing_war = true;
+		}
+		
+		/* check if defender has declared on attacker */
+		$incoming_wars = get_posts(
+			array(
+				'numberposts'	=> -1,
+				'post_type'		=> 'wars',
+				'meta_query'	=> array(
+					'relation'		=> 'AND',
+					array(
+						'key'	 	=> 'declared_on',
+						'value'	  	=> $attack_clan_id,
+						'compare' 	=> '=',
+					),
+					array(
+						'key'	 	=> 'declared_by',
+						'value'	  	=> $defend_clan_id,
+						'compare' 	=> '=',
+					),
+				),
+			)
+		);
+
+		if(count($incoming_wars) > 0) {
+			$incoming_war = true;
+		}
+
+		/* calculate war multiplier and determine mutual */
+		if ($outgoing_war && $incoming_war) {
+			/* mutual war */
+			$war_type = "mutual";
+		}
+		elseif ($outgoing_war) {
+			/* outgoing only */
+			$war_type = "outgoing";
+		}
+		elseif ($incoming_war) {
+			/* incoming only */
+			$war_type = "incoming";
+		}
+		else {
+			/* no war */
+			$war_type = "none";
+		}
+	}
+	/* return war type */
+	return $war_type;
+}
+
+
+/* 
+	get_war_multiplier
+	Params:
+		$war_type : type of war ('mutual', 'outgoing', 'incoming', 'none')
+	Return:
+		war_multiplier : retrieved from constants
+*/
+function get_war_multiplier($war_type) {
+	/* determine multiplier by type */
+	include('constants.php');
+
+	switch ($war_type) {
+		case 'mutual':
+			$war_multiplier = $WAR_POINTS_MULT_MUTUAL;
+			break;
+		case 'outgoing':
+			$war_multiplier = $WAR_POINTS_MULT_OUTGOING;
+			break;
+		case 'incoming':
+			$war_multiplier = $WAR_POINTS_MULT_INCOMING;
+			break;
+		case 'none':
+			$war_multiplier = $WAR_POINTS_MULT_NONE;
+			break;
+		default:
+			$war_multiplier = 0;		
+	}
+	return $war_multiplier;
+}
+
+
+/* 
+	target_in_range
+	Params:
+		$attack_type : type of attack
+		$attack_nw : networth of attacker
+		$defend_nw : networth of defender
+		$war_type : type of war
+	Return:
+		in_range : true/false
+*/
+function target_in_range($attack_type, $attack_nw, $defend_nw, $war_type) {
+	include('constants.php');
+
+	$in_range = false;
+	$range_min = $attack_nw / $ATTACK_RANGE_MULT;
+	$range_max = $attack_nw * $ATTACK_RANGE_MULT;
+	$in_range = ($defend_nw >= $range_min && $defend_nw <= $range_max);
+
+	/* always in range for spying or mutuals */
+	if ($war_type == 'mutual' || $attack_type == 'spy') {
+		$in_range = true;
+	}
+
+	return $in_range;
+}
+
+
+/* 
+	get_attack_cost
+	Params:
+		$attack_type : type of attack
+		$attack_nw : networth of attacker
+		$defend_nw : networth of defender
+	Return:
+		cost_arr : array with turn and morale costs
+		{
+			'turns' : <value>
+			'morale' : <value>
+		}
+*/
+function get_attack_cost($attack_type, $attack_nw, $defend_nw) {
+	/* determine morale cost and turns */
+	include('constants.php');
+
+	$cost_arr = array();
+	switch ($attack_type) {
+		case 'missile':
+			/* missile attack */
+			$cost_arr['turns'] = $TURNS_MISSILE;
+			if ($defend_nw > $attack_nw)
+				$cost_arr['morale'] = $MORALE_MISSILE_TGT_ABOVE;
+			else
+				$cost_arr['morale'] = $MORALE_MISSILE_TGT_BELOW;
+			break;
+		case 'thief':
+			/* thief attack */
+			$cost_arr['turns'] = $TURNS_THIEF;
+			$cost_arr['morale'] = $MORALE_THIEF;
+			break;
+		case 'spy':
+			/* spy attack */
+			$cost_arr['turns'] = $TURNS_SPY;
+			$cost_arr['morale'] = $MORALE_SPY;
+			break;
+		case 'air_sea':
+		case 'regular':
+		case 'ground':
+			/* unit attack */
+			$cost_arr['turns'] = $TURNS_ATTACK;
+			if ($defend_nw > $attack_nw)
+				$cost_arr['morale'] = $MORALE_ATTACK_TGT_ABOVE;
+			else
+				$cost_arr['morale'] = $MORALE_ATTACK_TGT_BELOW;
+			break;
+		default:
+			/* unrecognized type */
+			$cost_arr['turns'] = 0;
+			$cost_arr['morale'] = 0;
+	}
+	return $cost_arr;
+}
+
+
+/*
+	create_defender_array
+	Params:
+		$target_id : player id for target
+		$type_array : array of types to build for
+	Return:
+		stat_array[$type][$key,'total_life','total_count']['life','count']
+*/
+function create_defender_array($target_id, $type_array) {
+	
+	/*check for starting bonus*/
+	$startingbonus = get_user_meta($target_id, 'starting_bonus',true);
+	$defensive_multi = 1;
+	if($startingbonus == 'defensive'){
+		$defensive_multi = 1.2;
+	}
+	include('units_array.php');
+	include('building_array.php');
+	include('constants.php');
+
+	$target_data = get_user_meta($target_id);
+
+	$stat_array = array();
+	$total_life = 0;
+	$total_count = 0;
+
+	/* calculate building stats */
+	$total_bld_life = 0;
+	$total_bld_count = 0;
+	foreach($buildings as $key => $data) {
+		$build_count = $target_data[$key][0];
+		if ($build_count > 0) {
+			$build_life = $data['life'];
+			$bld_sum_life = $build_count * $build_life;
+			$stat_array['bld'][$key]['life'] = $bld_sum_life;
+			$stat_array['bld'][$key]['count'] = $build_count;
+			
+			$total_bld_life += $bld_sum_life;
+			$total_bld_count += $build_count;
+		}
+	}
+	$stat_array['bld']['total_life'] = $total_bld_life;
+	$stat_array['bld']['total_count'] = $total_bld_count;
+
+	/* calculate unit stats */
+	$total_unit_life = array(
+		'sea' => 0,
+		'air' => 0,
+		'veh' => 0,
+		'inf' => 0
+	);
+	$total_unit_count = array(
+		'sea' => 0,
+		'air' => 0,
+		'veh' => 0,
+		'inf' => 0
+	);
+	foreach($units as $key => $data) {
+		$unit_type = $data['type'];
+		$unit_count = $target_data[$key."_owned"][0];
+		if ($unit_count > 0 && !in_array($key, $SPECIAL_UNITS)) {
+			$unit_life = $data['life'];
+			$unit_sum_life = $unit_life * $unit_count;
+			$stat_array[$unit_type][$key]['life'] = $unit_sum_life;
+			$stat_array[$unit_type][$key]['count'] = $unit_count;
+			
+			$total_unit_life[$unit_type] += $unit_sum_life;
+			$total_unit_count[$unit_type] += $unit_count;
+		}
+	}
+	
+	/* set unit totals in $stat_array array */
+	foreach ($total_unit_count as $type => $count) {
+		if ($count > 0) {
+			$stat_array[$type]['total_count'] = $count;
+			$stat_array[$type]['total_life'] = $total_unit_life[$type];
+		}
+	}
+	
+	return $stat_array;
+}
+
+
+/*
+	create_attacker_array
+	Params:
+		$attack_array : array of types to build for
+	Return:
+		attacker_array[$type][$key,'total_life','total_count']['life','count']
+*/
+function create_attacker_array($attack_array) {
+	include('units_array.php');
+	include('building_array.php');
+
+	$stat_array = array();
+
+	/* calculate unit stats */
+	$total_unit_life = array(
+		'sea' => 0,
+		'air' => 0,
+		'veh' => 0,
+		'inf' => 0
+	);
+	$total_unit_count = array(
+		'sea' => 0,
+		'air' => 0,
+		'veh' => 0,
+		'inf' => 0
+	);
+	foreach($attack_array as $key => $unit_count) {
+		$unit_type = $units[$key]['type'];
+		if ($unit_count > 0) {
+			$unit_life = $units[$key]['life'];
+			$unit_sum_life = $unit_life * $unit_count;
+			$stat_array[$unit_type][$key]['life'] = $unit_sum_life;
+			$stat_array[$unit_type][$key]['count'] = $unit_count;
+			
+			$total_unit_life[$unit_type] += $unit_sum_life;
+			$total_unit_count[$unit_type] += $unit_count;
+		}
+	}
+	
+	/* set unit totals in $stat_array array */
+	foreach ($total_unit_count as $type => $count) {
+		if ($count > 0) {
+			$stat_array[$type]['total_count'] = $count;
+			$stat_array[$type]['total_life'] = $total_unit_life[$type];
+		}
+	}
+	
+	return $stat_array;
+}
+
+
+/* 
+	calculate_defense_by_type
+	Params:
+		$target_id : user id of target
+	Return:
+		$defense_array : array of defensive power by type
+*/
+function calculate_defense_by_type($target_id, $power_on) {
+	include('units_array.php');
+	include('building_array.php');
+	include('constants.php');
+
+	/* initialize attack array with 0 for all */
+	$attack_array = array(
+		'bld' => 0,
+		'sea' => 0,
+		'air' => 0,
+		'veh' => 0,
+		'inf' => 0
+	);
+	/* initialize life array with all 0 */
+	$life_array = array(
+		'bld' => 0,
+		'sea' => 0,
+		'air' => 0,
+		'veh' => 0,
+		'inf' => 0
+	);
+
+	/* get values for buildings */
+	foreach($buildings as $key => $data) {
+		$bld_count = get_user_meta($target_id, $key)[0];
+		
+		/* next building if none */
+		if ($bld_count < 1)
+			continue;
+
+		/* if valid DB add to attack array */
+		if ($power_on && in_array($key, $DEFENSIVE_BUILDINGS)) {
+			$target_type = $buildings[$key]['attacks'][0];
+			$attack_power = $buildings[$key]['attack'];
+
+			/* moved to kill code */
+			$dice_roll = attack_dice_roll();
+			$db_atk_power = $bld_count * $attack_power; // * $dice_roll;
+			$attack_array[$target_type] += $db_atk_power;
+		}
+
+		/* add to life for all */
+		$bld_life = $buildings[$key]['life'];
+		$bld_life_total = $bld_life * $bld_count;
+		$life_array['bld'] += $bld_life_total;
+		
+	}
+
+	/* get defense from units */
+	foreach($units as $key => $data) {
+		$unit_count = get_user_meta($target_id, $key.'_owned')[0];
+		
+		/* if defender has none of this unit continue */
+		if ($unit_count < 1)
+			continue;
+
+		/* calculate attack power per type */
+		$unit_def_types = $units[$key]['defends'];
+		$unit_def_count = count($unit_def_types);
+
+		/* no defense - exit */
+		if ($unit_def_count == 0)
+			continue;
+
+		/* no use calculating if the unit can't defend */
+		if ($unit_def_count < 1)
+			continue;
+
+		$dice_roll = attack_dice_roll();
+		$unit_atk_power = $data['attack'];
+		$atk_power = $unit_atk_power * $unit_count * $dice_roll;
+		$divided_atk_power = $atk_power / $unit_def_count;
+
+		foreach($unit_def_types as $type) {
+			$attack_array[$type] += $divided_atk_power;
+		}
+
+		/* calculate life per type */
+		$unit_life = $units[$key]['life'];
+		$unit_life_total = $unit_life * $unit_count;
+		$unit_type = $units[$key]['type'];
+
+		$life_array[$unit_type] += $unit_life_total;
+	}
+	$defense_array['life'] = $life_array;
+	$defense_array['attack'] = $attack_array;
+
+	return $defense_array;
+}
+
+/*
+	calculate_power
+	Params:
+		$target_id : user id of target
+	Retun:
+		$power_usage : % power used
+*/
+function calculate_power($target_id) {
+	include('building_array.php');
+	/* check if target has PPE researched */
+	$PPE_level = get_user_meta($target_id, 'level_powerplant_efficiency')[0];
+	$PPE_multi = 1;
+	if($PPE_level == 1){$PPE_multi = 1.5;}
+	
+	$used_power 		= 0;
+	$power_production 	= 0;
+	foreach($buildings as $key => $building){
+		$buildings_owned = get_user_meta($target_id, $key);
+		
+		$power_production+=$building['powerprod']*$buildings_owned[0];
+		$used_power+=$building['power']*$buildings_owned[0];
+	}
+	if ($power_production > 0)
+		return ($used_power / ($power_production*$PPE_multi));
+	else
+		return 1000;
+}
+
+
+/* 
+	sum_arrays 
+	Params:
+		$master_array
+		$unit_array
+	Returns:
+		$master_array : values from $unit_array added to $master_array
+*/
+function sum_arrays($master_array, $unit_array) {
+	foreach($unit_array as $unit => $damage) {
+		if (array_key_exists($unit, $master_array)) {
+			$master_array[$unit] += $damage;
+		}
+		else {
+			$master_array[$unit] = $damage;
+		}
+	}
+	return $master_array;
+}
+
+
+/*
+	get_idle_mult
+	Params:
+		$attack_type : type of attack
+		$unit_key : unit being attacked
+	Return:
+		$idle_mult : damage multiplier based on idle status
+*/
+function get_idle_multiplier($attack_type, $unit_key) {
+	$idle_multiplier = 1.0;
+
+	return $idle_multiplier;
+}
+
+/*
+	get_attack_type_multiplier($attack_type)
+	Params:
+		$attack_type
+	Return:
+		$atk_type_mult
+*/
+function get_attack_type_multiplier($attack_type) {
+	$atk_type_mult = 1.0;
+	/* TODO - hook point for attack type multiplier */
+	return $atk_type_mult;
+}
+
+
+/* 
+	attack_dice_roll
+	Params:
+		<none>
+	Return:
+		$dice_modifier
+*/
+function attack_dice_roll() {
+	include('constants.php');
+	return rand($UNIT_DICEROLL_DAMAGE_MIN, $UNIT_DICEROLL_DAMAGE_MAX) / 100;
+}
+
+/*
+	resource_dice_roll
+	Params:
+		<none>
+	Return
+		$dice_modifier
+*/
+function resource_dice_roll() {
+	include('constants.php');
+	return rand($RESOURCE_DICEROLL_MIN, $RESOURCE_DICEROLL_MAX) / 100;
+}
+
+
+/* 
+	calculate_unit_death 
+	Params:
+		$target_data : user data for target player
+		$defender_damage : damage taken per type
+	Return:
+		$damage_array['total_damage',$type][$key] = value
+*/
+function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$target_id) {
+	
+	include('units_array.php');
+	include('building_array.php');
+	include('constants.php');
+
+	$losses = array();
+
+	foreach($unit_array as $type => $type_stats) {
+		$attack_power = 0;
+		if (array_key_exists($type, $attacker_type_power))
+			$attack_power = $attacker_type_power[$type];
+
+		/* ensure we can attack this type */
+		if ($attack_power < 1)
+			continue;
+
+		/* adjust attack power for attack type multiplier */
+		$atk_type_mult = get_attack_type_multiplier($attack_type);
+		$attack_power = $attack_power * $atk_type_mult;
+
+		/* get total life for this type */
+		$total_units = $unit_array[$type]['total_count'];
+
+		foreach($type_stats as $unit_key => $unit_stats) {
+			/* ignore totals */
+			if ($unit_key == 'total_life' || $unit_key == 'total_count')
+				continue;
+
+			/* account for idle rule */
+			$idle_multiplier = get_idle_multiplier($attack_type, $unit_key);
+			$attack_power = $attack_power * $idle_multiplier;
+
+			/* get count for this unit */
+			$unit_count = $unit_stats['count'];
+
+			/* determine portion of attack power dedicated to this unit */
+			
+		
+				$power_ratio = $unit_count / $total_units;
+		
+
+			$distributed_power = $attack_power * $power_ratio;
+			
+			/* dice roll to pseudo randomize */
+			$dice_roll_modifier = attack_dice_roll();
+			$distributed_power = $distributed_power * $dice_roll_modifier;
+
+			/* now calculate kill count */
+			$dmg_reduction = 6;
+			if ($type == 'bld') {
+				$PPE_level = get_user_meta($target_id, 'level_powerplant_efficiency')[0];
+				$PPE_multi = 1;
+				
+				if($buildings[$unit_key] == 'powerplant' || $buildings[$unit_key] == 'advancedpowerplant' ){
+				if($PPE_level == 1){$PPE_multi = 1.5;}
+					
+				}
+				$unit_life = $buildings[$unit_key]['life']*$PPE_multi;
+				
+				$dmg_reduction = $DAMAGE_REDUCTION_FACTOR_BLD;
+			}
+			else {
+				$unit_life = $units[$unit_key]['life'];
+				$dmg_reduction = $DAMAGE_REDUCTION_FACTOR_UNIT;
+			}
+
+			/* reduce damage by factor determined in constants */
+			$effective_atk_power = $distributed_power / $dmg_reduction;
+
+			/* calculate kills as power/life */
+			$units_killed = round($effective_atk_power / $unit_life);
+
+			/* can't kill more than they have */
+			$units_killed = min($units_killed, $unit_count);
+
+			if ($units_killed > 0)
+				$losses[$type][$unit_key] = $units_killed;
+		}
+	}
+	return $losses;
+}
+
+
+/*
+	is_player_dead 
+	Params:
+		$user_id : user id of target
+	Return:
+		$is_dead : is target dead
+*/
+function is_player_dead($user_id) {
+	$bld_total = 0;
+	foreach($buildings as $key => $data) {
+		$bld_total += get_user_meta($user_id, $key)[0];
+	}
+	return $bld_total < 1;
+}
+
+
+/*
+	kill_player
+	Params:
+		$uder_id : user id of target
+	Return:
+		void
+*/
+function kill_player($user_id) {
+	update_user_meta($user_id, 'status', 'dead');
+	update_user_meta($user_id, 'networth', 0);
+	update_user_meta($user_id, 'land', 0);
+	update_user_meta($user_id, 'total_deposits', 0);
+}
+
+
+/*
+	calculate_networth_damage 
+	Params:
+		$damage_array
+	Returns:
+		$networth_damage
+*/
+function calculate_losses($damage_array) {
+	include('units_array.php');
+	include('building_array.php');
+
+	$losses = array();
+	$networth_damage = 0;
+	$buildings_lost = 0;
+	$units_lost = 0;
+	foreach($damage_array as $type => $loss_array) {
+		if($type == 'total_power')
+			continue;
+		foreach($loss_array as $key => $count) {
+			if ($type == 'bld') {
+				$net_ratio = $buildings[$key]['networth'] / 100;
+				$cost = $buildings[$key]['price'];
+				$networth = $net_ratio * $cost;
+				$buildings_lost += $count;
+			}
+			else {
+				$net_ratio = $units[$key]['networth'] / 100;
+				$cost = $units[$key]['price'];
+				$networth = $net_ratio * $cost;
+				$units_lost += $count;
+			}
+			$networth_damage += $networth * $count;
+		}
+	}
+	$losses['networth'] = $networth_damage;
+	$losses['units'] = $units_lost;
+	$losses['buildings'] = $buildings_lost;
+	return $losses;
+}

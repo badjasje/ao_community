@@ -1,0 +1,489 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+
+All code and content within these pages are copyright Primetic (www.primetic.com).
+
+-->
+<html><head>
+<title>NukeZone - Nuke or Be Nuked!</title>
+
+
+<meta name="Author" content="Primetic (www.primetic.com)">
+<meta name="Keywords" content="NukeZone, Guffy, NZ, Web Game, Interactive Game, Strategy Game, Game, Play, Online Game">
+<meta name="Description" content="NukeZone - Nuke or Be Nuked!">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="shortcut icon" href="http://www.nukezone.nu/favicon.ico">
+
+<link rel="stylesheet" href="files/game1.css">
+<!--[if IE]>
+<link rel="stylesheet" href="http://img.nukezone.nu/c1/css/game1-ie.css?0.960">
+<![endif]-->
+</head>
+
+<body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
+
+<center>
+<table border="0" cellpadding="0" cellspacing="0" height="100%" width="925">
+  <tbody><tr>
+    <td background="files/up_left.gif" height="96">&nbsp;</td>
+      <td align="right" background="files/logo_top.gif" height="96" valign="top">
+        <table border="0" cellpadding="0" cellspacing="0" height="96">
+          <tbody><tr>
+			<td align="right" height="69" valign="top">
+				<table border="0" cellpadding="0" cellspacing="4" width="170">
+				<form action="/search.asp" method="GET" name="search" target="_self"></form>
+				<input name="Action" value="FindProvince" type="hidden">
+				  <tbody><tr>
+					<td colspan="2" valign="top"><a href="http://www.nukezone.nu/search.asp?Action=Standard"><img src="files/find_province.gif" alt="Click for more options." border="0" height="13" width="87"></a></td>
+				  </tr>
+				  <tr>
+					<td valign="middle" width="115"><input class="TextBoxA" size="23" name="X1" maxlength="25"></td>
+					<td valign="middle" width="55"><input class="Button" value="Go" style="width:25px" type="submit"></td>
+				  </tr>
+				
+				</tbody></table>
+			</td>
+		  </tr>
+          <tr>
+			<td align="right" height="27" valign="bottom">
+				<table border="0" cellpadding="0" cellspacing="0" width="292">
+				  <tbody><tr>
+					<td width="73">
+			<a href="http://www.nukezone.nu/message.asp?Action=Inbox" id="tabMessages" title="Check your messages or write new messages."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=LocalEvents" id="tabLocals" title="Check your local events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=GlobalEvents" id="tabGlobals" title="Check your global events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/help.asp" id="tabHelp" title="Go to the help page."></a>
+			</td>
+
+				  </tr>
+				</tbody></table>
+			</td>
+		  </tr>
+		</tbody></table>
+	</td>
+    <td background="files/up_right.gif" height="96">&nbsp;</td>
+  </tr>
+  <tr>
+    <td rowspan="2" background="files/middle_left.gif" height="58" width="35">&nbsp;</td>
+      <td background="files/logo_middle.gif" height="19">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+		  <tbody><tr>
+			<td align="right" valign="middle" width="840"><span class="Resources"><b>Money:</b> <span id="show01">$122&nbsp;515</span> &nbsp;| &nbsp;<b>Turns:</b> <span id="show02">171</span> &nbsp;| &nbsp;<b>Land:</b> <span id="show03">169&nbsp;311 m²</span> &nbsp;| &nbsp;<b>Morale:</b> <span id="show04">20% (40%)</span> &nbsp;| &nbsp;<b>Networth:</b> <span id="show05">$1&nbsp;396&nbsp;415</span></span></td>
+			<td width="15">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	  </td>
+    <td rowspan="2" background="files/middle_right.gif" height="58" width="35">&nbsp;</td>
+  </tr>
+  <tr>
+    <td background="files/logo_bottom.gif" height="39">
+		<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+          <tbody><tr>
+			<td align="right" valign="bottom" width="843"><a href="http://www.nukezone.nu/help.asp"><img src="files/pixel.gif" alt="Go to the appropriate chapter in the manual." border="0" height="27" width="28"></a></td>
+			<td width="12">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	</td>
+  </tr>
+  <tr>
+    <td background="files/bottom_left.gif" width="35">&nbsp;</td>
+    <td bgcolor="#D8D4B6" valign="top">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tbody><tr>
+		    <td align="center" height="100%" valign="top" width="178">
+
+		<div id="menuHolder">
+			<a id="onlineCount" href="http://www.nukezone.nu/show.asp?Action=Online">32 Players Online</a>
+			<div id="menuHeader"></div>
+
+			<span>MAIN</span>
+			
+			<a href="game main.htm">Overview</a>
+			<a href="attack page.htm">Attack</a>
+			<a href="research.htm">Research</a>
+			<a href="explore.htm">Explore</a>
+			<a href="market.htm">Market</a>
+			<a href="bank.htm">Bank</a>
+			<a href="clan.htm">Clan</a>
+
+			<span>MILITARY</span>
+			<a href="buildings.htm">Buildings</a>
+			<a href="sea.htm">Sea Units</a>
+			<a href="air.htm">Air Units</a>
+			<a href="vehicles.htm">Vehicles</a>
+			<a href="infantries.htm">Infantries</a>
+			<a href="missiles.htm">Missiles</a>
+			<a href="satelitte.htm">Satellites</a>
+
+			<span>INFORMATION</span>
+				<a href="local events.htm">Local Events</a>
+				<a href="global events.htm">Global Events</a>
+				
+				<a href="http://www.nukezone.nu/events.asp?Action=SearchEvents">Search Events</a>
+				
+			<a href="status.htm">Status</a>
+			<a href="all provinces.htm">All Provinces</a>
+			<a href="all clans.htm">All Clans</a>
+			<a href="top lists.htm">Top Lists</a>
+			<a href="search.htm">Search</a>
+			
+				<a href="http://www.nukezone.nu/forum/clanforum.asp" target="_blank">Clan Forum</a>
+				
+
+			<span>MISC</span>
+			<a href="inbox.htm">Inbox</a>
+			<a href="new message.htm">New Message</a>
+			<a href="preferences.htm">Preferences</a>
+			<a href="help.htm">Help</a>
+			<a href="about us.htm">About Us</a>
+			<a href="logout.htm">Logout</a>
+
+			
+		</div>
+		<br>
+
+	</td>
+            <td height="100%" valign="top" width="677">
+				<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+				  <tbody><tr>
+				    <td background="files/middle_background1.gif" height="46">
+						<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+						  <tbody><tr>
+						    <td height="46" valign="bottom" width="652">
+								<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+								  <tbody><tr>
+									<td height="32" width="10">&nbsp;</td>
+									<td height="32" valign="bottom" width="329"><span class="TitleText">Platinum Clan</span></td>
+									<td align="right" height="32" valign="bottom" width="313"><span class="BigText">Guffy (#1)</span></td>
+								  </tr>
+								  <tr>
+									<td colspan="3" height="14">&nbsp;</td>
+								  </tr>
+								</tbody></table>
+							</td>
+						  </tr>
+						</tbody></table>
+					</td>
+				  </tr>
+				  <tr>
+					<td style="background-repeat: no-repeat;" background="files/middle_background2.gif" valign="top">
+						<table border="0" cellpadding="0" cellspacing="0" width="660">
+						  <tbody><tr>
+							<td>
+								<br>
+	
+
+	The maximum number of clan members is <b>15</b>. Your clan has <b>15</b> members. Only the clan leader and clan trustees may kick people from this clan.
+	<br><br>
+	<center><img src="files/2s0y2xj.jpg" onerror="this.src='http://img.nukezone.nu/IMG5/image_na.gif'; return true" border="0" height="260" width="380"></center><br><br>
+
+	<table class="content" border="0" width="100%">
+	  <tbody><tr class="header">
+	    <td colspan="2" align="center">Maximum Reality (#21531)</td>
+	  </tr>
+	  <tr>
+	    <td width="38%"><b>Clan Name:</b></td>
+	    <td width="62%">Maximum Reality</td>
+	  </tr>
+	  <tr>
+	    <td><b>Clan Tag:</b></td>
+	    <td>[MR]</td>
+	  </tr>
+	  <tr>
+	    <td><b>Clan Type:</b></td>
+	    <td>Platinum Clan</td>
+	  </tr>
+	  <tr>
+	    <td><b>Clan Members:</b></td>
+	    <td>15 (3 online)</td>
+	  </tr>
+	  <tr>
+	    <td><b>Total Networth:</b></td>
+	    <td>$26&nbsp;220&nbsp;121 (avg. $1&nbsp;748&nbsp;008)</td>
+	  </tr>
+	  <tr>
+	    <td><b>Total Land:</b></td>
+	    <td>2&nbsp;008&nbsp;861 m2 (avg. 133&nbsp;924 m2)</td>
+	  </tr>
+	  <tr>
+	    <td><b>Total Attacks:</b></td>
+	    <td>106 (avg. 7,00)</td>
+	  </tr>
+	  <tr>
+	    <td><b>Total Kills (during clan wars):</b></td>
+	    <td>1</td>
+	  </tr>
+	  <tr>
+	    <td><b>Clan Points:</b></td>
+	    <td>528p (Next bonus: 2&nbsp;500p)</td>
+	  </tr>
+	
+		<tr>
+		  <td><b>Clan Pts Gained in Last 24h:</b></td>
+		  <td>0p</td>
+		</tr>
+		
+	  <tr>
+	    <td><b>Combo Points:</b></td>
+	    <td>7&nbsp;009p (Most recent: 121p on September 12th)</td>
+	  </tr>
+	
+		<tr>
+		  <td><b>Current NW Rank:</b></td>
+		  <td>4*</td>
+		</tr>
+		<tr>
+		  <td><b>Current Points Rank:</b></td>
+		  <td>88*</td>
+		</tr>
+		<tr>
+		  <td><b>Current Combo Rank:</b></td>
+		  <td>27*</td>
+		</tr>
+		<tr>
+		  <td><b>Points Rank for Last 24h:</b></td>
+		  <td>N/A**</td>
+		</tr>
+		
+	  <tr>
+	    <td><b>Wars Outgoing:</b></td>
+	    <td>1</td>
+	  </tr>
+	  <tr>
+	    <td><b>Wars Incoming:</b></td>
+	    <td>3</td>
+	  </tr>
+	  <tr>
+	    <td><b>Last Round NW Rank:</b></td>
+	    <td>2</td>
+	  </tr>
+	  <tr>
+	    <td><b>Last Round Points Rank:</b></td>
+	    <td>148</td>
+	  </tr>
+	  <tr>
+	    <td><b>Last Round Combo Rank:</b></td>
+	    <td>47</td>
+	  </tr>
+	  <tr>
+	    <td valign="top"><b>Clan Awards:</b></td>
+	    <td><span style="display: none;" id="fieldAllAwards">Networth Champion (Gold) - R11<br>Networth Champion (Gold) - R12<br>Networth Champion (Gold) - R16<br>Networth Champion (Gold) - R19<br>United Boundaries (Silver) - R20<br>Networth Champion (Gold) - R21<br>Combo Champion (Gold) - R22<br>Networth Champion (Silver) - R25<br>Networth Champion (Bronze) - R31<br>United Boundaries (Gold) - R32<br>United Boundaries (Silver) - R33<br>Networth Champion (Bronze) - R34<br>Networth Champion (Bronze) - R35<br>Networth Champion (Silver) - R39<br>United Boundaries (Gold) - R39<br>Networth Champion (Gold) - R40<br>United Boundaries (Silver) - R40<br>Networth Champion (Gold) - R41<br>Networth Champion (Bronze) - R43<br>United Boundaries (Silver) - R43<br>Combo Champion (Silver) - R44<br>Golden Growth - R45<br>Networth Champion (Gold) - R47<br>Networth Champion (Silver) - R48<br>Golden Growth - R49<br>Networth Champion (Silver) - R50<br>Networth Champion (Gold) - R51<br>Golden Growth - R51<br>Networth Champion (Bronze) - R52<br>United Boundaries (Silver) - R52<br>United Boundaries (Silver) - R54<br>United Boundaries (Bronze) - R55<br>Networth Champion (Bronze) - R56</span><span style="display: inline;" id="fieldShowButton">(<a href="javascript:;" onclick="fieldShowButton.style.display='none'; fieldAllAwards.style.display=''">Show all awards</a>)</span><br>Networth Champion (Bronze) - R57<br>Networth Champion (Silver) - R58<br>United Boundaries (Silver) - R58<br>Networth Champion (Silver) - R59<br>United Boundaries (Gold) - R59</td>
+	  </tr>
+	  <tr>
+	    <td><b>Recruiting:</b></td>
+	    <td>No</td>
+	  </tr>
+	  <tr>
+	    <td valign="top"><b>Training Approval:</b></td>
+	    <td>No (<a href="new message.htm&amp;To=TrainingApproval">request approval</a>)</td>
+	  </tr>
+	
+		  <tr>
+		    <td valign="top"><b>Clan IRC Channel:</b></td>
+		    <td><a href="irc://irc.quakenet.org/real.nz" target="_blank">#real.nz</a></td>
+		  </tr>
+		
+		  <tr>
+		    <td valign="top"><b>Clan Info:</b></td>
+		    <td><br>:: Our reality is your pain ::<br><br>MEDALS:<br><br>• MoE - R42: WIPPAN for Real (#522234)<br>• MoDev - R45: WetGirlsAreHot for Real (#465702)<br>• MoDev - R49: Pride for Real (#472743)<br>• MoDev - R52: Flame for Real (#301016)<br>• MoE - R59: Planet of the Grapes (#8527)<br><br></td>
+		  </tr>
+		
+	  <tr class="header">
+	    <td colspan="2" height="4"></td>
+	  </tr>
+	</tbody></table>
+	<br>
+
+	<center><i>* This rank is updated every 6 hours and only available to Gold/Platinum Clans.</i><br>** This rank is updated every hour on the hour and only available to Gold/Platinum Clans.<br><br></center>
+
+	<table class="content" border="0" width="100%">
+	  <tbody><tr class="header">
+	    <td align="center" width="20">&nbsp;</td>
+	
+                <td onclick="window.location='clan.asp?Action=ClanInformation&amp;SortBy=ProvinceName&amp;Style=Down'" class="ChangeCursor">Province Name (ID)</td>
+                <td onclick="window.location='clan.asp?Action=ClanInformation&amp;SortBy=Points&amp;Style=Down'" class="ChangeCursor" align="right">Points</td>
+                <td onclick="window.location='clan.asp?Action=ClanInformation&amp;SortBy=Networth&amp;Style=Up'" class="ChangeCursor" align="right"><img src="files/sorted_by.gif" border="0" height="10" width="14">Networth</td>
+		
+	  <td width="30">&nbsp;</td>
+	</tr>
+	
+		      <tr>
+			<td align="center" width="20"></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=581427">MrGiggles is for Real (#581427)</a></td>
+				  <td align="right">38p</td>
+				  <td align="right">$2&nbsp;412&nbsp;325</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=581427" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"><b>CT</b></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=294941">Krayzie for Real (#294941)</a></td>
+				  <td align="right">42p</td>
+				  <td align="right">$2&nbsp;162&nbsp;855</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=294941" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=563406">Easts for Real (#563406)</a></td>
+				  <td align="right">19p</td>
+				  <td align="right">$2&nbsp;153&nbsp;632</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=563406" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"><b>CL</b></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=472743">Pride till the end 4 Real (#472743)<br><span class="SmallText">&nbsp;&nbsp;• Don't PM me if you have WHATSAPP..!</span></a></td>
+				  <td align="right">70p</td>
+				  <td align="right">$2&nbsp;044&nbsp;464</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=472743" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=561823">The Royal Pimp for Real (#561823)</a></td>
+				  <td align="right">69p</td>
+				  <td align="right">$1&nbsp;977&nbsp;369</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=561823" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=578353">horsefly for real (#578353)</a></td>
+				  <td align="right">31p</td>
+				  <td align="right">$1&nbsp;938&nbsp;850</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=578353" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=586683">Goodbye NZ for Real (#586683)<br><span class="SmallText">&nbsp;&nbsp;• Xbox Live tag: Senior Watsone</span></a></td>
+				  <td align="right">54p</td>
+				  <td align="right">$1&nbsp;880&nbsp;822</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=586683" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=566273">Are you really for Real (#566273)</a></td>
+				  <td align="right">15p</td>
+				  <td align="right">$1&nbsp;777&nbsp;900</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=566273" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"><b>CT</b></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=8527">Planet Of The Grapes (#8527)</a></td>
+				  <td align="right">16p</td>
+				  <td align="right">$1&nbsp;752&nbsp;324</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=8527" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=563288">Richie for Real (#563288)</a></td>
+				  <td align="right">66p</td>
+				  <td align="right">$1&nbsp;711&nbsp;927</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=563288" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=553577">Gossef (#553577)</a></td>
+				  <td align="right">0p</td>
+				  <td align="right">$1&nbsp;698&nbsp;060</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=553577" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=484976"><i>NGFG Idle (#484976)</i></a></td>
+				  <td align="right">0p</td>
+				  <td align="right">$1&nbsp;396&nbsp;415</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=484976" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=524870">L ASS I for Real (#524870)</a></td>
+				  <td align="right">108p</td>
+				  <td align="right">$1&nbsp;381&nbsp;652</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=524870" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=563049">Brainless Cruel (#563049)</a></td>
+				  <td align="right">0p</td>
+				  <td align="right">$1&nbsp;089&nbsp;505</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=563049" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		      <tr>
+			<td align="center" width="20"></td>
+			
+				  <td><a href="http://www.nukezone.nu/show.asp?Action=Players&amp;X=444492">LMUS is back for Real (#444492)</a></td>
+				  <td align="right">0p</td>
+				  <td align="right">$842&nbsp;021</td>
+				  <td align="center"><a href="http://www.nukezone.nu/clan.asp?Action=Sharing&amp;X=444492" title="Shared Military Information">SMI</a></td>
+				</tr>
+				
+		  <tr class="header">
+		    <td colspan="6" height="4"></td>
+		  </tr>
+		</tbody></table>
+		<br>
+
+		
+
+		<b>CL</b> = Clan Leader<br>
+		
+		<b>CT</b> = Clan Trustee
+		
+							</td>
+						  </tr>
+						</tbody></table>
+				    </td>
+				  </tr>
+				</tbody></table>
+				</td>
+			  </tr>
+		  <tr> 
+            <td colspan="2" align="center" valign="top">
+				<br><img src="files/primetic.gif" height="35" width="100"><br>
+				Copyright © 2001-2014 <a href="http://www.primetic.com/" target="_blank">Primetic</a>. All Rights Reserved.
+				<br><br>
+				This page was generated in 0,0166 seconds. Current date/time is 2014-09-12 03:42:02.
+		    </td>
+		  </tr>
+		</tbody></table>
+    </td>
+    <td background="files/bottom_right.gif" width="35">&nbsp;</td>
+  </tr>
+</tbody></table>
+</center>
+
+
+
+
+</body></html>

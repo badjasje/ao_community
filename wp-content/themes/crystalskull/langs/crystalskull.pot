@@ -1,0 +1,3384 @@
+# Loco Gettext template
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: crystalskull\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: Fri Jun 05 2015 14:07:37 GMT+0200 (Central Europe "
+"Daylight Time)\n"
+"POT-Revision-Date: Wed Nov 18 2015 15:41:52 GMT+0100 (Central Europe "
+"Standard Time)\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#: ../blog-roll-full-tmp.php:21 ../blog-roll-full-tmp.php:25 ../blog-roll-full-
+#: tmp.php:28 ../blog-roll-full-tmp.php:31 ../blog-roll-right-tmp.php:21 ../blog-
+#: roll-right-tmp.php:25 ../blog-roll-right-tmp.php:28 ../blog-roll-right-tmp.php:
+#: 31 ../blog-roll-left-tmp.php:26 ../blog-roll-left-tmp.php:30 ../blog-roll-left-
+#: tmp.php:33 ../blog-roll-left-tmp.php:36
+msgid "Nothing Found"
+msgstr ""
+
+#: ../blog-roll-full-tmp.php:22 ../blog-roll-right-tmp.php:22 ../blog-roll-left-
+#: tmp.php:27
+msgid ""
+"Sorry, but nothing matched your search criteria. Please try again with some "
+"different keywords."
+msgstr ""
+
+#: ../blog-roll-full-tmp.php:26 ../blog-roll-right-tmp.php:26 ../blog-roll-left-
+#: tmp.php:31
+msgid "Sorry, but there are no posts for this category yet."
+msgstr ""
+
+#: ../blog-roll-full-tmp.php:29 ../blog-roll-right-tmp.php:29 ../blog-roll-left-
+#: tmp.php:34
+msgid "Sorry, but there are no posts  for this tag yet."
+msgstr ""
+
+#: ../blog-roll-full-tmp.php:32 ../blog-roll-right-tmp.php:32 ../blog-roll-left-
+#: tmp.php:37
+msgid "Sorry, but there are no posts for this author yet."
+msgstr ""
+
+#: ../short-comments.php:10 ../short-comments-blog.php:10
+msgid "This post is password protected. Enter the password to view any comments."
+msgstr ""
+
+#: ../short-comments.php:27
+#, php-format
+msgid "<span>%d</span> Comments"
+msgstr ""
+
+#: ../short-comments.php:27
+msgid "<span>One</span> Comment"
+msgstr ""
+
+#: ../short-comments.php:49
+#, php-format
+msgid "<span>%d</span> Trackbacks"
+msgstr ""
+
+#: ../short-comments.php:49
+msgid "<span>One</span> Trackback"
+msgstr ""
+
+#: ../short-comments.php:60
+msgid "Leave a comment"
+msgstr ""
+
+#: ../short-comments.php:60
+#, php-format
+msgid "Post a Reply to %s"
+msgstr ""
+
+#: ../short-comments.php:63 ../short-comments-blog.php:36
+#, php-format
+msgid "You must be <a href=\"%s\" title=\"Log in\">logged in</a> to post a comment."
+msgstr ""
+
+#: ../short-comments.php:70
+msgid "Your email is <em>never</em> published nor shared."
+msgstr ""
+
+#: ../short-comments.php:70
+msgid "Required fields are marked <span class=\"required\">*</span>"
+msgstr ""
+
+#: ../short-comments.php:72
+msgid "Name"
+msgstr ""
+
+#: ../short-comments.php:72 ../short-comments.php:76
+msgid "<span class=\"required\">*</span>"
+msgstr ""
+
+#: ../short-comments.php:76
+msgid "Email"
+msgstr ""
+
+#: ../short-comments.php:80 ../short-comments-blog.php:53
+msgid "Website"
+msgstr ""
+
+#: ../short-comments.php:86
+msgid "Comment"
+msgstr ""
+
+#: ../short-comments.php:90
+msgid "Post"
+msgstr ""
+
+#: ../pluginactivation.php:149 ../functions.php:509
+msgid "Install Required Plugins"
+msgstr ""
+
+#: ../pluginactivation.php:150 ../functions.php:510
+msgid "Install Plugins"
+msgstr ""
+
+#: ../pluginactivation.php:151 ../functions.php:511
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: ../pluginactivation.php:152
+msgid "Something went wrong."
+msgstr ""
+
+#: ../pluginactivation.php:153 ../functions.php:513
+#, php-format
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../pluginactivation.php:154 ../functions.php:514
+#, php-format
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../pluginactivation.php:155 ../functions.php:515
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to install the %s plugin. "
+"Contact the administrator of this site for help on getting the plugin "
+"installed."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to install the %s plugins."
+" Contact the administrator of this site for help on getting the plugins "
+"installed."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../pluginactivation.php:156 ../functions.php:516
+#, php-format
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../pluginactivation.php:157 ../functions.php:517
+#, php-format
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../pluginactivation.php:158 ../functions.php:518
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to activate the %s plugin."
+" Contact the administrator of this site for help on getting the plugin "
+"activated."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to activate the %s "
+"plugins. Contact the administrator of this site for help on getting the "
+"plugins activated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../pluginactivation.php:159 ../functions.php:519
+#, php-format
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgid_plural ""
+"The following plugins need to be updated to their latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../pluginactivation.php:160 ../functions.php:520
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to update the %s plugin. "
+"Contact the administrator of this site for help on getting the plugin "
+"updated."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to update the %s plugins. "
+"Contact the administrator of this site for help on getting the plugins "
+"updated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../pluginactivation.php:161 ../functions.php:521
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../pluginactivation.php:162 ../functions.php:522
+msgid "Activate installed plugin"
+msgid_plural "Activate installed plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../pluginactivation.php:163 ../pluginactivation.php:417 ../functions.php:523
+msgid "Return to Required Plugins Installer"
+msgstr ""
+
+#: ../pluginactivation.php:164 ../pluginactivation.php:1543 ../functions.php:524
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: ../pluginactivation.php:165
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr ""
+
+#: ../pluginactivation.php:325
+msgid "Not set"
+msgstr ""
+
+#: ../pluginactivation.php:441 ../pluginactivation.php:441 ../pluginactivation.
+#: php:1717 ../pluginactivation.php:1717
+msgid "Return to the Dashboard"
+msgstr ""
+
+#: ../pluginactivation.php:465
+#, php-format
+msgid "The following plugin was activated successfully: %s."
+msgstr ""
+
+#: ../pluginactivation.php:604
+msgid "Dismiss this notice"
+msgstr ""
+
+#: ../pluginactivation.php:920
+msgid "External Link"
+msgstr ""
+
+#: ../pluginactivation.php:925
+msgid "Private Repository"
+msgstr ""
+
+#: ../pluginactivation.php:928
+msgid "Pre-Packaged"
+msgstr ""
+
+#: ../pluginactivation.php:932
+msgid "WordPress Repository"
+msgstr ""
+
+#: ../pluginactivation.php:934
+msgid "Required"
+msgstr ""
+
+#: ../pluginactivation.php:934
+msgid "Recommended"
+msgstr ""
+
+#: ../pluginactivation.php:936
+msgid "Not Installed"
+msgstr ""
+
+#: ../pluginactivation.php:938
+msgid "Installed But Not Activated"
+msgstr ""
+
+#: ../pluginactivation.php:1082
+#, php-format
+msgid ""
+"No plugins to install or activate. <a href=\"%1$s\" title=\"Return to the "
+"Dashboard\">Return to the Dashboard</a>"
+msgstr ""
+
+#: ../pluginactivation.php:1095
+msgid "Plugin"
+msgstr ""
+
+#: ../pluginactivation.php:1096
+msgid "Source"
+msgstr ""
+
+#: ../pluginactivation.php:1097
+msgid "Type"
+msgstr ""
+
+#: ../pluginactivation.php:1098
+msgid "Status"
+msgstr ""
+
+#: ../pluginactivation.php:1112
+msgid "Install"
+msgstr ""
+
+#: ../pluginactivation.php:1113
+msgid "Activate"
+msgstr ""
+
+#: ../pluginactivation.php:1295
+msgid "The following plugin was activated successfully:"
+msgid_plural "The following plugins were activated successfully:"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../pluginactivation.php:1529
+msgid "Install package not available."
+msgstr ""
+
+#: ../pluginactivation.php:1530
+#, php-format
+msgid "Downloading install package from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+
+#: ../pluginactivation.php:1531
+msgid "Unpacking the package&#8230;"
+msgstr ""
+
+#: ../pluginactivation.php:1532
+msgid "Installing the plugin&#8230;"
+msgstr ""
+
+#: ../pluginactivation.php:1533
+msgid "Plugin install failed."
+msgstr ""
+
+#: ../pluginactivation.php:1534
+msgid "Plugin installed successfully."
+msgstr ""
+
+#: ../pluginactivation.php:1542
+msgid "Plugin activation failed."
+msgstr ""
+
+#: ../pluginactivation.php:1633
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+
+#: ../pluginactivation.php:1634
+#, php-format
+msgid "%1$s installed and activated successfully."
+msgstr ""
+
+#: ../pluginactivation.php:1634 ../pluginactivation.php:1643
+msgid "Show Details"
+msgstr ""
+
+#: ../pluginactivation.php:1634 ../pluginactivation.php:1643
+msgid "Hide Details"
+msgstr ""
+
+#: ../pluginactivation.php:1635
+msgid "All installations and activations have been completed."
+msgstr ""
+
+#: ../pluginactivation.php:1636
+#, php-format
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: ../pluginactivation.php:1640
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+
+#: ../pluginactivation.php:1641
+#, php-format
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr ""
+
+#: ../pluginactivation.php:1642
+#, php-format
+msgid "The installation of %1$s failed."
+msgstr ""
+
+#: ../pluginactivation.php:1643
+#, php-format
+msgid "%1$s installed successfully."
+msgstr ""
+
+#: ../pluginactivation.php:1644
+msgid "All installations have been completed."
+msgstr ""
+
+#: ../pluginactivation.php:1645
+#, php-format
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: ../header.php:68
+msgid "Toggle navigation"
+msgstr ""
+
+#: ../header.php:86
+msgid "No menu assigned!"
+msgstr ""
+
+#: ../header.php:94
+msgid "Your cart."
+msgstr ""
+
+#: ../header.php:99
+msgid "was successfully added to your cart."
+msgstr ""
+
+#: ../header.php:135
+msgid "Search members"
+msgstr ""
+
+#: ../header.php:149 ../functions.php:308
+msgid "Search: "
+msgstr ""
+
+#: ../header.php:173 ../header.php:174 ../functions.php:318
+msgid "Tag: "
+msgstr ""
+
+#: ../header.php:173 ../header.php:174 ../functions.php:301
+msgid "Category: "
+msgstr ""
+
+#: ../header.php:173 ../header.php:174
+msgid "Author: "
+msgstr ""
+
+#: ../header.php:173 ../header.php:174
+msgid "Archive: "
+msgstr ""
+
+#: ../404.php:13
+msgid "Page not found, sorry"
+msgstr ""
+
+#. Name of the template
+msgid "Homepage"
+msgstr ""
+
+#: ../blog-roll.php:45 ../blog-single.php:6 ../widgets/latest_posts/latest_posts.
+#: php:176 ../vc_templates/vc_column_blog.php:84
+msgid "View all posts by"
+msgstr ""
+
+#: ../blog-roll.php:52 ../blog-roll.php:55 ../blog-single.php:13 ../blog-single.
+#: php:16 ../vc_templates/vc_column_blog.php:91 ../vc_templates/vc_column_blog.
+#: php:94
+msgid "0 Comments"
+msgstr ""
+
+#: ../blog-roll.php:52 ../blog-roll.php:55 ../blog-single.php:13 ../blog-single.
+#: php:16 ../vc_templates/vc_column_blog.php:91 ../vc_templates/vc_column_blog.
+#: php:94
+msgid "1 Comment"
+msgstr ""
+
+#: ../blog-roll.php:52 ../blog-roll.php:55 ../blog-single.php:13 ../blog-single.
+#: php:16 ../vc_templates/vc_column_blog.php:91 ../vc_templates/vc_column_blog.
+#: php:94
+#, php-format
+msgid "% Comments"
+msgstr ""
+
+#: ../blog-roll.php:54 ../blog-single.php:15 ../vc_templates/vc_column_news.php:
+#: 214 ../vc_templates/vc_column_news_tabbed.php:262 ..
+#: /vc_templates/vc_column_news_horizontal.php:233 ../vc_templates/vc_column_blog.
+#: php:93
+msgid "No comments in this post"
+msgstr ""
+
+#: ../blog-roll.php:54 ../blog-single.php:15 ../vc_templates/vc_column_news.php:
+#: 214 ../vc_templates/vc_column_news_tabbed.php:262 ..
+#: /vc_templates/vc_column_news_horizontal.php:233 ../vc_templates/vc_column_blog.
+#: php:93
+msgid "One comment in this post"
+msgstr ""
+
+#: ../blog-roll.php:54 ../blog-single.php:15 ../vc_templates/vc_column_news.php:
+#: 214 ../vc_templates/vc_column_news_tabbed.php:262 ..
+#: /vc_templates/vc_column_news_horizontal.php:233 ../vc_templates/vc_column_blog.
+#: php:93
+#, php-format
+msgid "% comments in this post"
+msgstr ""
+
+#: ../blog-roll.php:65 ../vc_templates/vc_column_blog.php:104
+msgid "Read more"
+msgstr ""
+
+#: ../vc.php:31
+msgid "News Block"
+msgstr ""
+
+#: ../vc.php:35 ../vc.php:80 ../vc.php:124 ../vc.php:166 ../vc.php:209 ../vc.php:
+#: 231 ../vc.php:342
+msgid "Content"
+msgstr ""
+
+#: ../vc.php:36
+msgid "A block for news"
+msgstr ""
+
+#: ../vc.php:40 ../vc.php:85 ../vc.php:129 ../vc.php:171 ../vc.php:214 ../vc.php:
+#: 236 ../vc.php:347
+msgid "Title (optional)"
+msgstr ""
+
+#: ../vc.php:44 ../vc.php:89 ../vc.php:133 ../vc.php:175
+msgid "Add title to your news block."
+msgstr ""
+
+#: ../vc.php:48 ../vc.php:93 ../vc.php:137 ../vc.php:179
+msgid "Categories"
+msgstr ""
+
+#: ../vc.php:50 ../vc.php:95 ../vc.php:139 ../vc.php:181
+msgid "Select categories you want to include."
+msgstr ""
+
+#: ../vc.php:55 ../vc.php:100 ../vc.php:144 ../vc.php:186
+msgid "Number of posts to show"
+msgstr ""
+
+#: ../vc.php:59 ../vc.php:104 ../vc.php:148 ../vc.php:190
+msgid "Enter number of posts you wolud like to show in this block."
+msgstr ""
+
+#: ../vc.php:63 ../vc.php:108 ../vc.php:152 ../vc.php:194
+msgid "Custom Border Color"
+msgstr ""
+
+#: ../vc.php:65 ../vc.php:110 ../vc.php:154 ../vc.php:196
+msgid "Select border color for your element."
+msgstr ""
+
+#: ../vc.php:76
+msgid "News Block - Horizontal"
+msgstr ""
+
+#: ../vc.php:81 ../vc.php:125
+msgid "A block for horizontal news"
+msgstr ""
+
+#: ../vc.php:120
+msgid "News Block - Tabbed"
+msgstr ""
+
+#: ../vc.php:162
+msgid "Blog Block"
+msgstr ""
+
+#: ../vc.php:167
+msgid "A blog block"
+msgstr ""
+
+#: ../vc.php:205
+msgid "Contact Block"
+msgstr ""
+
+#: ../vc.php:210
+msgid "A block with contact form."
+msgstr ""
+
+#: ../vc.php:218
+msgid "Add title to your contact block."
+msgstr ""
+
+#: ../vc.php:227
+msgid "Social media Block"
+msgstr ""
+
+#: ../vc.php:232
+msgid "Add social media links"
+msgstr ""
+
+#: ../vc.php:240
+msgid "Add title to your social media block."
+msgstr ""
+
+#: ../vc.php:244
+msgid "Rss link"
+msgstr ""
+
+#: ../vc.php:248
+msgid "Add link to your Rss feed."
+msgstr ""
+
+#: ../vc.php:252 ../themeOptions/options.php:314
+msgid "Dribbble link"
+msgstr ""
+
+#: ../vc.php:256
+msgid "Add link to your Dribbble profile."
+msgstr ""
+
+#: ../vc.php:260 ../themeOptions/options.php:324
+msgid "Vimeo link"
+msgstr ""
+
+#: ../vc.php:264
+msgid "Add link to your Vimeo profile."
+msgstr ""
+
+#: ../vc.php:268 ../themeOptions/options.php:334
+msgid "Youtube link"
+msgstr ""
+
+#: ../vc.php:272
+msgid "Add link to your Youtube profile."
+msgstr ""
+
+#: ../vc.php:276 ../themeOptions/options.php:344
+msgid "Twitch link"
+msgstr ""
+
+#: ../vc.php:280
+msgid "Add link to your Twitch profile."
+msgstr ""
+
+#: ../vc.php:284
+msgid "Steam link"
+msgstr ""
+
+#: ../vc.php:288
+msgid "Add link to your Steam profile."
+msgstr ""
+
+#: ../vc.php:292
+msgid "Pinterest link"
+msgstr ""
+
+#: ../vc.php:296
+msgid "Add link to your Pinterest profile."
+msgstr ""
+
+#: ../vc.php:300
+msgid "Google+ link"
+msgstr ""
+
+#: ../vc.php:304
+msgid "Add link to your Google+ profile."
+msgstr ""
+
+#: ../vc.php:308
+msgid "Twitter link"
+msgstr ""
+
+#: ../vc.php:312
+msgid "Add link to your Twitter profile."
+msgstr ""
+
+#: ../vc.php:316
+msgid "Facebook link"
+msgstr ""
+
+#: ../vc.php:320
+msgid "Add link to your Facebook profile."
+msgstr ""
+
+#: ../vc.php:324
+msgid "DeviantArt link"
+msgstr ""
+
+#: ../vc.php:328
+msgid "Add link to your DeviantArt profile."
+msgstr ""
+
+#: ../vc.php:338
+msgid "Comments Block"
+msgstr ""
+
+#: ../vc.php:343
+msgid "Add comments to your page."
+msgstr ""
+
+#: ../vc.php:351
+msgid "Add title to your comments block."
+msgstr ""
+
+#: ../functions.php:130
+msgid "Home sidebar"
+msgstr ""
+
+#: ../functions.php:132
+msgid "Widgets in this area will be shown in the home page."
+msgstr ""
+
+#: ../functions.php:139
+msgid "General sidebar"
+msgstr ""
+
+#: ../functions.php:141
+msgid "General sidebar for use with page builder."
+msgstr ""
+
+#: ../functions.php:148
+msgid "Blog sidebar"
+msgstr ""
+
+#: ../functions.php:150
+msgid "Widgets in this area will be shown in the blog sidebar."
+msgstr ""
+
+#: ../functions.php:157
+msgid "Footer area widgets"
+msgstr ""
+
+#: ../functions.php:159
+msgid "Widgets in this area will be shown in the footer."
+msgstr ""
+
+#: ../functions.php:170
+msgid "Widgets in this area will be shown in the WooCommerce sidebar."
+msgstr ""
+
+#: ../functions.php:181
+msgid "Widgets in this area will be shown in the BuddyPress sidebar."
+msgstr ""
+
+#: ../functions.php:263
+msgid "Header Menu"
+msgstr ""
+
+#: ../functions.php:264
+msgid "Top Menu"
+msgstr ""
+
+#: ../functions.php:297
+msgid "Home"
+msgstr ""
+
+#: ../functions.php:321
+msgid "Shop"
+msgstr ""
+
+#: ../functions.php:328
+msgid "Archive"
+msgstr ""
+
+#: ../functions.php:512
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: ../functions.php:525
+#, php-format
+msgid "All plugins installed and activated successfully. %s"
+msgstr ""
+
+#: ../functions.php:664
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: ../functions.php:682
+#, php-format
+msgid "By %1$s on %2$s at %3$s"
+msgstr ""
+
+#: ../functions.php:686
+msgid "Edit"
+msgstr ""
+
+#: ../functions.php:687
+msgid "Your trackback is awaiting moderation."
+msgstr ""
+
+#: ../functions.php:911
+msgid "Video url"
+msgstr ""
+
+#: ../functions.php:917
+msgid "Put your embed video URL here"
+msgstr ""
+
+#. Approved comment
+#: ../functions.php:930
+msgid "success"
+msgstr ""
+
+#: ../functions.php:936
+msgid "error"
+msgstr ""
+
+#: ../functions.php:1012
+msgid "Color"
+msgstr ""
+
+#: ../functions.php:1014
+msgid "Pick a Category Color"
+msgstr ""
+
+#: ../functions.php:1027
+msgid "Category Name Background Color"
+msgstr ""
+
+#. Translators: If there are characters in your language that are not supported
+#. by chosen font(s), translate this to 'off'. Do not translate into your own language.
+#: ../functions.php:1223
+msgctxt "Google font: on or off"
+msgid "on"
+msgstr ""
+
+#: ../short-comments-blog.php:45
+msgid "Name*"
+msgstr ""
+
+#: ../short-comments-blog.php:49
+msgid "Email*"
+msgstr ""
+
+#: ../short-comments-blog.php:58
+msgid "Leave a comment..."
+msgstr ""
+
+#: ../short-comments-blog.php:61
+msgid "Submit comment"
+msgstr ""
+
+#: ../post_templates.php:50
+msgid "Sidebar position"
+msgstr ""
+
+#: ../post_templates.php:62
+msgid "Post Template"
+msgstr ""
+
+#: ../theme-functions/page-templates.php:26
+msgid "Clan challenge"
+msgstr ""
+
+#: ../theme-functions/page-templates.php:34
+msgid "Registration"
+msgstr ""
+
+#: ../widgets/latest_posts/latest_posts.php:11 ..
+#: /widgets/latest_posts/latest_posts.php:209
+msgid "SW Latest Posts"
+msgstr ""
+
+#: ../widgets/latest_posts/latest_posts.php:175
+msgid "By"
+msgstr ""
+
+#: ../widgets/latest_posts/latest_posts.php:186 ../widgets/rating/popular-widget.
+#: php:179
+msgid "No popular posts!"
+msgstr ""
+
+#: ../widgets/latest_posts/latest_posts.php:217 ../widgets/rating/popular-widget.
+#: php:210 ../widgets/latest_comments/latest_comments.php:65
+msgid "Title:"
+msgstr ""
+
+#: ../widgets/latest_posts/latest_posts.php:221 ../widgets/rating/popular-widget.
+#: php:214
+msgid "Category:"
+msgstr ""
+
+#: ../widgets/latest_posts/latest_posts.php:222 ../widgets/rating/popular-widget.
+#: php:215
+msgid "All categories"
+msgstr ""
+
+#: ../widgets/latest_posts/latest_posts.php:225 ../widgets/rating/popular-widget.
+#: php:218
+msgid "No. of Posts:"
+msgstr ""
+
+#: ../widgets/rating/popular-widget.php:11 ../widgets/rating/popular-widget.php:202
+msgid "SW Popular Posts"
+msgstr ""
+
+#: ../widgets/instagram/instagram.php:4
+msgid "Displays Instagram photos"
+msgstr ""
+
+#: ../widgets/instagram/instagram.php:5
+msgid "SW Instagram"
+msgstr ""
+
+#: ../widgets/instagram/instagram.php:58
+msgid "Title :"
+msgstr ""
+
+#: ../widgets/instagram/instagram.php:61
+msgid "Username :"
+msgstr ""
+
+#: ../widgets/instagram/instagram.php:64
+msgid "Number of Photos :"
+msgstr ""
+
+#: ../widgets/latest_comments/latest_comments.php:5
+msgid "Show latest comments widget."
+msgstr ""
+
+#: ../widgets/latest_comments/latest_comments.php:6
+msgid "SW Latest Comments"
+msgstr ""
+
+#: ../widgets/latest_comments/latest_comments.php:57
+msgid "Latest Comments"
+msgstr ""
+
+#: ../widgets/latest_comments/latest_comments.php:70
+msgid "Number of comments"
+msgstr ""
+
+#: ../widgets/latest_twitter/latest_twitter_widget.php:14
+msgid "Displays your latest twitter.com updates"
+msgstr ""
+
+#: ../widgets/latest_twitter/latest_twitter_widget.php:37
+msgid "Twitter user: @"
+msgstr ""
+
+#: ../widgets/latest_twitter/latest_twitter_widget.php:38
+msgid "Show"
+msgstr ""
+
+#: ../widgets/latest_twitter/latest_twitter_widget.php:38
+msgid "twitter updates"
+msgstr ""
+
+#: ../widgets/latest_twitter/latest_twitter_widget.php:39
+msgid "Widget title:"
+msgstr ""
+
+#: ../widgets/latest_twitter/latest_twitter_widget.php:40
+msgid "Include replies"
+msgstr ""
+
+#: ../widgets/latest_twitter/latest_twitter_widget.php:42
+msgid ""
+"If your tweets doesn&#8217;t show up with this Application settings please "
+"register another twitter APP on https://apps.twitter.com/app"
+msgstr ""
+
+#: ../widgets/latest_twitter/latest_twitter_widget.php:44
+msgid "Api key:"
+msgstr ""
+
+#: ../widgets/latest_twitter/latest_twitter_widget.php:45
+msgid "Api key secret: "
+msgstr ""
+
+#: ../widgets/latest_twitter/latest_twitter_widget.php:46
+msgid "Token: "
+msgstr ""
+
+#: ../widgets/latest_twitter/latest_twitter_widget.php:47
+msgid "Token secret: "
+msgstr ""
+
+#: ../widgets/latest_twitter/latest_twitter_widget.php:164
+#, php-format
+msgid "Follow %s on Twitter"
+msgstr ""
+
+#: ../themeOptions/rating.php:6
+msgid "Review Info"
+msgstr ""
+
+#: ../themeOptions/rating.php:26
+msgid "Over All Score"
+msgstr ""
+
+#: ../themeOptions/rating.php:42
+msgid "Critera 1"
+msgstr ""
+
+#: ../themeOptions/rating.php:46
+msgid "Critera 1 Score"
+msgstr ""
+
+#: ../themeOptions/rating.php:62
+msgid "Critera 2"
+msgstr ""
+
+#: ../themeOptions/rating.php:66
+msgid "Critera 2 Score"
+msgstr ""
+
+#: ../themeOptions/rating.php:82
+msgid "Critera 3"
+msgstr ""
+
+#: ../themeOptions/rating.php:86
+msgid "Critera 3 Score"
+msgstr ""
+
+#: ../themeOptions/rating.php:102
+msgid "Critera 4"
+msgstr ""
+
+#: ../themeOptions/rating.php:106
+msgid "Critera 4 Score"
+msgstr ""
+
+#: ../themeOptions/rating.php:122
+msgid "Critera 5"
+msgstr ""
+
+#: ../themeOptions/rating.php:126
+msgid "Critera 5 Score"
+msgstr ""
+
+#: ../themeOptions/options.php:37 ../themeOptions/options.php:39
+msgid "General Settings"
+msgstr ""
+
+#: ../themeOptions/options.php:41
+msgid "Upload Your Logo"
+msgstr ""
+
+#: ../themeOptions/options.php:42
+msgid ""
+"Upload your logo. We recommend keeping it within reasonable size. Max 150px "
+"and minimum height of 90px but not more than 120px."
+msgstr ""
+
+#: ../themeOptions/options.php:46
+msgid "Upload Your Favicon"
+msgstr ""
+
+#: ../themeOptions/options.php:47
+msgid "Upload your Favicon. We recommend keeping it within reasonable size. "
+msgstr ""
+
+#: ../themeOptions/options.php:51
+msgid "Login button in the menu"
+msgstr ""
+
+#: ../themeOptions/options.php:52
+msgid "Enable the login avatar in the menu"
+msgstr ""
+
+#: ../themeOptions/options.php:56
+msgid "Image appear effect"
+msgstr ""
+
+#: ../themeOptions/options.php:57
+msgid "Enable the image appearing effect when scrolling down."
+msgstr ""
+
+#: ../themeOptions/options.php:63
+msgid "Contact email"
+msgstr ""
+
+#: ../themeOptions/options.php:64
+msgid "Add your contact email here."
+msgstr ""
+
+#: ../themeOptions/options.php:68
+msgid "News Ticker"
+msgstr ""
+
+#: ../themeOptions/options.php:70
+msgid "Show news ticker"
+msgstr ""
+
+#: ../themeOptions/options.php:71
+msgid "Enable news ticker."
+msgstr ""
+
+#: ../themeOptions/options.php:75
+msgid "Ticker title"
+msgstr ""
+
+#: ../themeOptions/options.php:76
+msgid "Add ticker title."
+msgstr ""
+
+#: ../themeOptions/options.php:81
+msgid "Ticker items"
+msgstr ""
+
+#: ../themeOptions/options.php:82
+msgid "Add ticker items. Use || sign to separate items."
+msgstr ""
+
+#: ../themeOptions/options.php:91 ../themeOptions/options.php:93 ../addons/wp-owl-
+#: carousel/wp_owl_carousel.php:61 ../addons/wp-owl-carousel/CMB2/tests/test-cmb-
+#: field.php:170 ../addons/wp-owl-carousel/CMB2/includes/CMB2_Field.php:908 ..
+#: /addons/wp-owl-carousel/CMB2/includes/CMB2_Field.php:912
+msgid "None"
+msgstr ""
+
+#: ../themeOptions/options.php:92 ../themeOptions/options.php:93 ../addons/wp-owl-
+#: carousel/wp_owl_carousel.php:62
+msgid "All posts"
+msgstr ""
+
+#: ../themeOptions/options.php:95
+msgid "Select category"
+msgstr ""
+
+#: ../themeOptions/options.php:96
+msgid "It will display post titles from that category."
+msgstr ""
+
+#: ../themeOptions/options.php:104
+msgid "Archive page template"
+msgstr ""
+
+#: ../themeOptions/options.php:108
+msgid "Select category/archive page template"
+msgstr ""
+
+#: ../themeOptions/options.php:109
+msgid "Choose template for your category/archive page."
+msgstr ""
+
+#: ../themeOptions/options.php:115
+msgid "Full width"
+msgstr ""
+
+#: ../themeOptions/options.php:116
+msgid "Right Sidebar"
+msgstr ""
+
+#: ../themeOptions/options.php:117
+msgid "Left Sidebar"
+msgstr ""
+
+#: ../themeOptions/options.php:124 ../themeOptions/options.php:126
+msgid "SEO"
+msgstr ""
+
+#: ../themeOptions/options.php:128
+msgid "Home description"
+msgstr ""
+
+#: ../themeOptions/options.php:129
+msgid "Enter home description."
+msgstr ""
+
+#: ../themeOptions/options.php:133
+msgid "Keywords"
+msgstr ""
+
+#: ../themeOptions/options.php:134
+msgid "Enter keywords comma separated."
+msgstr ""
+
+#: ../themeOptions/options.php:142
+msgid "Customize"
+msgstr ""
+
+#: ../themeOptions/options.php:150
+msgid "Backgrounds"
+msgstr ""
+
+#: ../themeOptions/options.php:153
+msgid "Top background"
+msgstr ""
+
+#: ../themeOptions/options.php:154
+msgid "Background for the header of the site."
+msgstr ""
+
+#: ../themeOptions/options.php:159
+msgid "Fixed background"
+msgstr ""
+
+#: ../themeOptions/options.php:160
+msgid "Set background to fixed position."
+msgstr ""
+
+#: ../themeOptions/options.php:164
+msgid "Footer background"
+msgstr ""
+
+#: ../themeOptions/options.php:165
+msgid "Background for the footer of the site."
+msgstr ""
+
+#: ../themeOptions/options.php:170
+msgid "Footer background repeat"
+msgstr ""
+
+#: ../themeOptions/options.php:171
+msgid "You could choose to repeat the background image if you want to use a pattern."
+msgstr ""
+
+#: ../themeOptions/options.php:182
+msgid "Background colour"
+msgstr ""
+
+#: ../themeOptions/options.php:183
+msgid "Colour for the background."
+msgstr ""
+
+#: ../themeOptions/options.php:190
+msgid "Background tint"
+msgstr ""
+
+#: ../themeOptions/options.php:191
+msgid "Enable background overlay color."
+msgstr ""
+
+#: ../themeOptions/options.php:196
+msgid "Background tint color"
+msgstr ""
+
+#: ../themeOptions/options.php:197
+msgid "Give a tint colour to the background image."
+msgstr ""
+
+#: ../themeOptions/options.php:207
+msgid "Colours"
+msgstr ""
+
+#: ../themeOptions/options.php:210
+msgid "Primary Colour"
+msgstr ""
+
+#: ../themeOptions/options.php:211
+msgid ""
+"Affects different background and items of the site like links, some buttons, "
+"etc."
+msgstr ""
+
+#: ../themeOptions/options.php:219
+msgid "Secondary Colour"
+msgstr ""
+
+#: ../themeOptions/options.php:220
+msgid "Affects additional elements of the site."
+msgstr ""
+
+#: ../themeOptions/options.php:231 ../themeOptions/options.php:232
+msgid "Footer"
+msgstr ""
+
+#: ../themeOptions/options.php:234
+msgid "Copyright"
+msgstr ""
+
+#: ../themeOptions/options.php:235
+msgid "You can use HTML code in here."
+msgstr ""
+
+#: ../themeOptions/options.php:239
+msgid "Terms link name"
+msgstr ""
+
+#: ../themeOptions/options.php:240
+msgid "Enter your terms link name."
+msgstr ""
+
+#: ../themeOptions/options.php:244
+msgid "Terms & Conditions"
+msgstr ""
+
+#: ../themeOptions/options.php:245
+msgid "Add link to your t&c file"
+msgstr ""
+
+#: ../themeOptions/options.php:253 ../themeOptions/options.php:255
+msgid "Social Media"
+msgstr ""
+
+#: ../themeOptions/options.php:257
+msgid "Enable Twitter"
+msgstr ""
+
+#: ../themeOptions/options.php:258
+msgid "Show or hide the Twitter icon that shows on the footer section."
+msgstr ""
+
+#: ../themeOptions/options.php:262
+msgid "Twitter Link"
+msgstr ""
+
+#: ../themeOptions/options.php:263
+msgid "Paste your twitter link here."
+msgstr ""
+
+#: ../themeOptions/options.php:267
+msgid "Enable Facebook"
+msgstr ""
+
+#: ../themeOptions/options.php:268
+msgid "Show or hide the Facebook icon that shows on the footer section."
+msgstr ""
+
+#: ../themeOptions/options.php:272
+msgid "Facebook Link"
+msgstr ""
+
+#: ../themeOptions/options.php:273
+msgid "Paste your facebook link here."
+msgstr ""
+
+#: ../themeOptions/options.php:277
+msgid "Enable Steam"
+msgstr ""
+
+#: ../themeOptions/options.php:278
+msgid "Show or hide the Steam icon that shows on the footer section."
+msgstr ""
+
+#: ../themeOptions/options.php:282
+msgid "Steam Link"
+msgstr ""
+
+#: ../themeOptions/options.php:283
+msgid "Paste your Steam link here."
+msgstr ""
+
+#: ../themeOptions/options.php:288
+msgid "Enable Pinterest"
+msgstr ""
+
+#: ../themeOptions/options.php:289
+msgid "Show or hide the Pinterest icon that shows on the footer section."
+msgstr ""
+
+#: ../themeOptions/options.php:293
+msgid "Pinterest Link"
+msgstr ""
+
+#: ../themeOptions/options.php:294
+msgid "Paste your pinterest link here."
+msgstr ""
+
+#: ../themeOptions/options.php:299
+msgid "Enable Google+"
+msgstr ""
+
+#: ../themeOptions/options.php:300
+msgid "Show or hide the Google+ icon that shows on the footer section."
+msgstr ""
+
+#: ../themeOptions/options.php:304
+msgid "Google+ Link"
+msgstr ""
+
+#: ../themeOptions/options.php:305
+msgid "Paste your google+ link here."
+msgstr ""
+
+#: ../themeOptions/options.php:309
+msgid "Enable dribbble"
+msgstr ""
+
+#: ../themeOptions/options.php:310
+msgid "Show or hide the dribbble icon that shows on the footer section."
+msgstr ""
+
+#: ../themeOptions/options.php:315
+msgid "Paste your dribbble link here."
+msgstr ""
+
+#: ../themeOptions/options.php:319
+msgid "Enable vimeo"
+msgstr ""
+
+#: ../themeOptions/options.php:320
+msgid "Show or hide the vimeo icon that shows on the footer section."
+msgstr ""
+
+#: ../themeOptions/options.php:325
+msgid "Paste your vimeo link here."
+msgstr ""
+
+#: ../themeOptions/options.php:329
+msgid "Enable youtube"
+msgstr ""
+
+#: ../themeOptions/options.php:330
+msgid "Show or hide the youtube icon that shows on the footer section."
+msgstr ""
+
+#: ../themeOptions/options.php:335
+msgid "Paste your youtube link here."
+msgstr ""
+
+#: ../themeOptions/options.php:339
+msgid "Enable twitch"
+msgstr ""
+
+#: ../themeOptions/options.php:340
+msgid "Show or hide the twitch icon that shows on the footer section."
+msgstr ""
+
+#: ../themeOptions/options.php:345
+msgid "Paste your twitch link here."
+msgstr ""
+
+#: ../themeOptions/options.php:350
+msgid "Enable RSS"
+msgstr ""
+
+#: ../themeOptions/options.php:351
+msgid "Show or hide the RSS icon that shows on the footer section."
+msgstr ""
+
+#: ../themeOptions/options.php:355
+msgid "RSS Link"
+msgstr ""
+
+#: ../themeOptions/options.php:356
+msgid "Paste your RSS link here."
+msgstr ""
+
+#: ../themeOptions/options.php:362 ../themeOptions/options.php:364
+msgid "WooCommerce"
+msgstr ""
+
+#: ../themeOptions/options.php:367
+msgid "Main shop page sidebar"
+msgstr ""
+
+#: ../themeOptions/options.php:368
+msgid "Choose page layout that you want to use on main WooCommerce page."
+msgstr ""
+
+#: ../themeOptions/options.php:380
+msgid "Single product page sidebar"
+msgstr ""
+
+#: ../themeOptions/options.php:381
+msgid "Choose page layout that you want to use on single product WooCommerce page."
+msgstr ""
+
+#: ../themeOptions/options.php:393 ../themeOptions/options.php:395
+msgid "One click install"
+msgstr ""
+
+#: ../themeOptions/options.php:397
+msgid "demo install"
+msgstr ""
+
+#: ../themeOptions/options.php:398
+msgid "Click to install pre-inserted demo contents."
+msgstr ""
+
+#: ../themeOptions/admin/options-medialibrary-uploader.php:158
+msgid "Upload"
+msgstr ""
+
+#: ../themeOptions/admin/options-medialibrary-uploader.php:180
+msgid "View File"
+msgstr ""
+
+#: ../themeOptions/admin/options-medialibrary-uploader.php:248
+msgid "Gallery"
+msgstr ""
+
+#: ../themeOptions/admin/options-medialibrary-uploader.php:248
+msgid "Previously Uploaded"
+msgstr ""
+
+#: ../themeOptions/admin/options-sanitize.php:200
+msgid "Top Left"
+msgstr ""
+
+#: ../themeOptions/admin/options-sanitize.php:201
+msgid "Top Center"
+msgstr ""
+
+#: ../themeOptions/admin/options-sanitize.php:202
+msgid "Top Right"
+msgstr ""
+
+#: ../themeOptions/admin/options-sanitize.php:203
+msgid "Middle Left"
+msgstr ""
+
+#: ../themeOptions/admin/options-sanitize.php:204
+msgid "Middle Center"
+msgstr ""
+
+#: ../themeOptions/admin/options-sanitize.php:205
+msgid "Middle Right"
+msgstr ""
+
+#: ../themeOptions/admin/options-sanitize.php:206
+msgid "Bottom Left"
+msgstr ""
+
+#: ../themeOptions/admin/options-sanitize.php:207
+msgid "Bottom Center"
+msgstr ""
+
+#: ../themeOptions/admin/options-sanitize.php:208
+msgid "Bottom Right"
+msgstr ""
+
+#: ../themeOptions/admin/options-sanitize.php:220
+msgid "Scroll Normally"
+msgstr ""
+
+#: ../themeOptions/admin/options-sanitize.php:221
+msgid "Fixed in Place"
+msgstr ""
+
+#: ../themeOptions/admin/options-framework.php:186 ../themeOptions/admin/options-
+#: framework.php:215
+msgid "Save All Changes"
+msgstr ""
+
+#: ../themeOptions/admin/options-framework.php:216
+msgid "Restore Defaults Options"
+msgstr ""
+
+#: ../themeOptions/admin/options-framework.php:216
+msgid "Click OK to reset. Any theme settings will be lost!"
+msgstr ""
+
+#: ../themeOptions/admin/options-framework.php:244
+msgid "Default options restored."
+msgstr ""
+
+#: ../themeOptions/admin/options-framework.php:279
+msgid "Options saved."
+msgstr ""
+
+#: ../themeOptions/admin/options-framework.php:328
+msgid "Theme Options"
+msgstr ""
+
+#: ../themeOptions/admin/options-interface.php:135
+msgid "No categories!"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:261
+msgid "- Select -"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:269
+msgid "Afghanistan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:271
+msgid "Albania"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:273
+msgid "Algeria"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:275
+msgid "American Samoa"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:277
+msgid "Andorra"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:279
+msgid "Angola"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:281
+msgid "Anguilla"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:283
+msgid "Antarctica"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:285
+msgid "Antigua and Barbuda"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:287
+msgid "Argentina"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:289
+msgid "Armenia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:291
+msgid "Aruba"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:293
+msgid "Australia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:295
+msgid "Austria"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:297
+msgid "Azerbaijan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:299
+msgid "Bahamas"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:301
+msgid "Bahrain"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:303
+msgid "Bangladesh"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:305
+msgid "Barbados"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:307
+msgid "Belarus"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:309
+msgid "Belgium"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:311
+msgid "Belize"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:313
+msgid "Benin"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:315
+msgid "Bermuda"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:317
+msgid "Bhutan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:319
+msgid "Bolivia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:321
+msgid "Bosnia and Herzegowina"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:323
+msgid "Botswana"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:325
+msgid "Bouvet Island"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:327
+msgid "Brazil"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:329
+msgid "British Indian Ocean Territory"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:331
+msgid "Brunei Darussalam"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:333
+msgid "Bulgaria"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:335
+msgid "Burkina Faso"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:337
+msgid "Burundi"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:339
+msgid "Cambodia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:341
+msgid "Cameroon"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:343
+msgid "Canada"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:345
+msgid "Cape Verde"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:347
+msgid "Cayman Islands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:349
+msgid "Central African Republic"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:351
+msgid "Chad"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:353
+msgid "Chile"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:355
+msgid "China"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:357
+msgid "Christmas Island"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:359
+msgid "Cocos (Keeling) Islands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:361
+msgid "Colombia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:363
+msgid "Comoros"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:365
+msgid "Congo"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:367
+msgid "Cook Islands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:369
+msgid "Costa Rica"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:371
+msgid "Cote D'Ivoire"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:373
+msgid "Croatia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:375
+msgid "Cuba"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:377
+msgid "Cyprus"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:379
+msgid "Czech Republic"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:381
+msgid "Denmark"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:383
+msgid "Djibouti"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:385
+msgid "Dominica"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:387
+msgid "Dominican Republic"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:389
+msgid "East Timor"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:391
+msgid "Ecuador"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:393
+msgid "Egypt"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:395
+msgid "El Salvador"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:397
+msgid "Equatorial Guinea"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:399
+msgid "Eritrea"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:401
+msgid "Estonia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:403
+msgid "Ethiopia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:405
+msgid "Falkland Islands (Malvinas)"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:407
+msgid "Faroe Islands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:409
+msgid "Fiji"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:411
+msgid "Finland"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:413
+msgid "France"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:415
+msgid "France, Metropolitan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:417
+msgid "French Guiana"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:419
+msgid "French Polynesia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:421
+msgid "French Southern Territories"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:423
+msgid "Gabon"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:425
+msgid "Gambia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:427
+msgid "Georgia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:429
+msgid "Germany"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:431
+msgid "Ghana"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:433
+msgid "Gibraltar"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:435
+msgid "Greece"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:437
+msgid "Greenland"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:439
+msgid "Grenada"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:441
+msgid "Guadeloupe"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:443
+msgid "Guam"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:445
+msgid "Guatemala"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:447
+msgid "Guinea"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:449
+msgid "Guinea-bissau"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:451
+msgid "Guyana"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:453
+msgid "Haiti"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:455
+msgid "Heard and Mc Donald Islands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:457
+msgid "Honduras"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:459
+msgid "Hong Kong"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:461
+msgid "Hungary"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:463
+msgid "Iceland"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:465
+msgid "India"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:467
+msgid "Indonesia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:469
+msgid "Iran (Islamic Republic of)"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:471
+msgid "Iraq"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:473
+msgid "Ireland"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:475
+msgid "Israel"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:477
+msgid "Italy"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:479
+msgid "Jamaica"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:481
+msgid "Japan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:483
+msgid "Jordan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:485
+msgid "Kazakhstan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:487
+msgid "Kenya"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:489
+msgid "Kiribati"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:491
+msgid "Korea, Democratic People's Republic of"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:493
+msgid "Korea, Republic of"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:495
+msgid "Kuwait"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:497
+msgid "Kyrgyzstan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:499
+msgid "Lao People's Democratic Republic"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:501
+msgid "Latvia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:503
+msgid "Lebanon"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:505
+msgid "Lesotho"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:507
+msgid "Liberia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:509
+msgid "Libyan Arab Jamahiriya"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:511
+msgid "Liechtenstein"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:513
+msgid "Lithuania"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:515
+msgid "Luxembourg"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:517
+msgid "Macau"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:519
+msgid "Macedonia, The Former Yugoslav Republic of"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:521
+msgid "Madagascar"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:523
+msgid "Malawi"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:525
+msgid "Malaysia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:527
+msgid "Maldives"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:529
+msgid "Mali"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:531
+msgid "Malta"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:533
+msgid "Marshall Islands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:535
+msgid "Martinique"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:537
+msgid "Mauritania"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:539
+msgid "Mauritius"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:541
+msgid "Mayotte"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:543
+msgid "Mexico"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:545
+msgid "Micronesia, Federated States of"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:547
+msgid "Moldova, Republic of"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:549
+msgid "Monaco"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:551
+msgid "Mongolia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:553
+msgid "Montserrat"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:555
+msgid "Morocco"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:557
+msgid "Mozambique"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:559
+msgid "Myanmar"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:561
+msgid "Namibia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:563
+msgid "Nauru"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:565
+msgid "Nepal"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:567
+msgid "Netherlands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:569
+msgid "Netherlands Antilles"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:571
+msgid "New Caledonia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:573
+msgid "New Zealand"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:575
+msgid "Nicaragua"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:577
+msgid "Niger"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:579
+msgid "Nigeria"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:581
+msgid "Niue"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:583
+msgid "Norfolk Island"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:585
+msgid "Northern Mariana Islands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:587
+msgid "Norway"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:589
+msgid "Oman"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:591
+msgid "Pakistan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:593
+msgid "Palau"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:595
+msgid "Panama"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:597
+msgid "Papua New Guinea"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:599
+msgid "Paraguay"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:601
+msgid "Peru"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:603
+msgid "Philippines"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:605
+msgid "Pitcairn"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:607
+msgid "Poland"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:609
+msgid "Portugal"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:611
+msgid "Puerto Rico"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:613
+msgid "Qatar"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:615
+msgid "Reunion"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:617
+msgid "Romania"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:619
+msgid "Russian Federation"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:621
+msgid "Rwanda"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:623
+msgid "Saint Kitts and Nevis"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:625
+msgid "Saint Lucia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:627
+msgid "Saint Vincent and the Grenadines"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:629
+msgid "Samoa"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:631
+msgid "San Marino"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:633
+msgid "Sao Tome and Principe"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:635
+msgid "Saudi Arabia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:637
+msgid "Senegal"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:639
+msgid "Serbia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:641
+msgid "Seychelles"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:643
+msgid "Sierra Leone"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:645
+msgid "Singapore"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:647
+msgid "Slovakia (Slovak Republic)"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:649
+msgid "Slovenia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:651
+msgid "Solomon Islands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:653
+msgid "Somalia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:655
+msgid "South Africa"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:657
+msgid "South Georgia and the South Sandwich Islands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:659
+msgid "Spain"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:661
+msgid "Sri Lanka"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:663
+msgid "St. Helena"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:665
+msgid "St. Pierre and Miquelon"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:667
+msgid "Sudan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:669
+msgid "Suriname"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:671
+msgid "Svalbard and Jan Mayen Islands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:673
+msgid "Swaziland"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:675
+msgid "Sweden"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:677
+msgid "Switzerland"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:679
+msgid "Syrian Arab Republic"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:681
+msgid "Taiwan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:683
+msgid "Tajikistan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:685
+msgid "Tanzania, United Republic of"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:687
+msgid "Thailand"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:689
+msgid "Togo"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:691
+msgid "Tokelau"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:693
+msgid "Tonga"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:695
+msgid "Trinidad and Tobago"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:697
+msgid "Tunisia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:699
+msgid "Turkey"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:701
+msgid "Turkmenistan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:703
+msgid "Turks and Caicos Islands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:705
+msgid "Tuvalu"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:707
+msgid "Uganda"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:709
+msgid "Ukraine"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:711
+msgid "United Arab Emirates"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:713
+msgid "United Kingdom"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:715
+msgid "United States"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:717
+msgid "United States Minor Outlying Islands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:719
+msgid "Uruguay"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:721
+msgid "Uzbekistan"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:723
+msgid "Vanuatu"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:725
+msgid "Vatican City State (Holy See)"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:727
+msgid "Venezuela"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:729
+msgid "Viet Nam"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:731
+msgid "Virgin Islands (British)"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:733
+msgid "Virgin Islands (U.S.)"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:735
+msgid "Wallis and Futuna Islands"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:737
+msgid "Western Sahara"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:739
+msgid "Yemen"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:741
+msgid "Zaire"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:743
+msgid "Zambia"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:745
+msgid "Zimbabwe"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:765
+msgid "Country"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:767
+msgid "Select country"
+msgstr ""
+
+#: ../themeOptions/admin/country/usercountry.php:774
+msgid "City"
+msgstr ""
+
+#: ../vc_templates/vc_column_news.php:209 ../vc_templates/vc_column_news_tabbed.
+#: php:257 ../vc_templates/vc_column_news_horizontal.php:228
+msgid "on"
+msgstr ""
+
+#: ../vc_templates/vc_column_news.php:209 ../vc_templates/vc_column_news_tabbed.
+#: php:257 ../vc_templates/vc_column_news_horizontal.php:228
+msgid "with"
+msgstr ""
+
+#: ../vc_templates/vc_column_news.php:212 ../vc_templates/vc_column_news.php:215 .
+#: ./vc_templates/vc_column_news_tabbed.php:260 ..
+#: /vc_templates/vc_column_news_tabbed.php:263 ..
+#: /vc_templates/vc_column_news_horizontal.php:231 ..
+#: /vc_templates/vc_column_news_horizontal.php:234
+msgid "1"
+msgstr ""
+
+#: ../vc_templates/vc_column_news.php:212 ../vc_templates/vc_column_news.php:215 .
+#: ./vc_templates/vc_column_news_tabbed.php:260 ..
+#: /vc_templates/vc_column_news_tabbed.php:263 ..
+#: /vc_templates/vc_column_news_horizontal.php:231 ..
+#: /vc_templates/vc_column_news_horizontal.php:234
+msgid "%"
+msgstr ""
+
+#: ../vc_templates/vc_comments.php:15
+msgid "Comments are closed!"
+msgstr ""
+
+#: ../vc_templates/vc_contact.php:25
+msgid "Please enter your name."
+msgstr ""
+
+#: ../vc_templates/vc_contact.php:37
+msgid "Please enter your email address."
+msgstr ""
+
+#: ../vc_templates/vc_contact.php:43
+msgid "You entered an invalid email address."
+msgstr ""
+
+#: ../vc_templates/vc_contact.php:55
+msgid "Please enter a message."
+msgstr ""
+
+#: ../vc_templates/vc_contact.php:106
+msgid "Thanks, your email was sent successfully."
+msgstr ""
+
+#: ../vc_templates/vc_contact.php:116
+msgid "Sorry, an error occured."
+msgstr ""
+
+#: ../vc_templates/vc_contact.php:172
+msgid "Send email"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:57
+msgid "Owl Carousel"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:68
+msgid "Posts"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:68
+msgid "Choose post category you want to display"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:70
+msgid "Images"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:70
+msgid "Images to use"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:73
+msgid "Select size"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:73
+msgid "Select image size to use"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:75
+msgid "Rel attribute"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:75
+msgid ""
+"Used to open images in a lightbox, see the documentation of your lightbox "
+"plugin for this value"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:77
+msgid "Link to image size"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:77
+msgid "Generates link to specified image size"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:94
+msgid "Paste this shortcode into a post or a page: "
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:316
+msgid "by "
+msgstr ""
+
+#: ../addons/wp-owl-carousel/wp_owl_carousel.php:317
+msgid "View all posts by "
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:6
+msgid "Items"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:7
+msgid "The number of items you want to see on the screen."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:13
+msgid "Items Desktop"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:14
+msgid "The number of items on desktop resolutions (1199px)"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:20
+msgid "Items Desktop Small"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:21
+msgid "The number of items on small desktop resolutions (979px)"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:27
+msgid "Items Tablet"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:28
+msgid "The number of items on tablet resolutions (768px)"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:34
+msgid "Items Mobile"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:35
+msgid "The number of items on mobile resolutions (479px)"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:41
+msgid "Slide Speed"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:42
+msgid "Slide speed in milliseconds."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:48
+msgid "Pagination Speed"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:49
+msgid "Pagination speed in milliseconds."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:55
+msgid "Rewind Speed"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:56
+msgid "Rewind speed in milliseconds."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:62
+msgid "Rewind Nav"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:63
+msgid "Slide to first item."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:69
+msgid "Single Item"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:70
+msgid "Display only one item."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:76
+msgid "Auto Play"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:77
+msgid ""
+"Change to any integrer for example autoPlay : 5000 to play every 5 seconds, "
+"or 0 to disable autoPlay."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:83
+msgid "Stop On Hover"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:84
+msgid "Stop autoplay on mouse hover"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:90
+msgid "Navigation"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:91
+msgid "Display \"next\" and \"prev\" buttons."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:97
+msgid "Navigation \"Next\""
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:98
+msgid "Text on \"Next\" button"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:104
+msgid "Navigation \"Prev\""
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:105
+msgid "Text on \"Prev\" button"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:111
+msgid "Pagination"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:112
+msgid "Show pagination."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:118
+msgid "Pagination Numbers"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:119
+msgid "Show numbers inside pagination buttons"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:125
+msgid "Item Scale Up"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:126
+msgid "Option to not stretch items when it is less than the supplied items."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:132
+msgid "Scroll per Page"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:133
+msgid ""
+"Scroll per page not per item. This affect next/prev buttons and mouse/touch "
+"dragging."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:139
+msgid "Responsive"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:140
+msgid ""
+"You can use Owl Carousel on desktop-only websites too! Just change that to "
+"\"false\" to disable resposive capabilities"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:146
+msgid "Responsive Refresh Rate"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:147
+msgid "Check window width changes every X ms for responsive actions"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:153
+msgid "Lazy Load"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:154
+msgid ""
+"Delays loading of images. Images outside of viewport won't be loaded before "
+"user scrolls to them. Great for mobile devices to speed up page loadings. "
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:160
+msgid "Lazy Follow"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:161
+msgid ""
+"When pagination used, it skips loading the images from pages that got "
+"skipped. It only loads the images that get displayed in viewport. If set to "
+"false, all images get loaded when pagination used. It is a sub setting of "
+"the lazy load function."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:167
+msgid "Auto Height"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:168
+msgid ""
+"Add height to owl-wrapper-outer so you can use diffrent heights on slides. "
+"Use it only for one item per page setting."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:174
+msgid "Drag Before Animation Finishes"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:175
+msgid "Ignore whether a transition is done or not (only dragging)."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:181
+msgid "Mouse Drag"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:182
+msgid "Turn off/on mouse events."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:188
+msgid "Touch Drag"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:189
+msgid "Turn off/on touch events."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:195
+msgid "Add Class Active"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/owl_settings.php:196
+msgid ""
+"Add \"active\" classes on visible items. Works with any numbers of items on "
+"screen."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:67
+msgid "Test Metabox"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:77 ../addons/wp-owl-
+#: carousel/CMB2/example-functions.php:363
+msgid "Test Text"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:78 ../addons/wp-owl-
+#: carousel/CMB2/example-functions.php:90 ../addons/wp-owl-carousel/CMB2/example-
+#: functions.php:98 ../addons/wp-owl-carousel/CMB2/example-functions.php:106 ..
+#: /addons/wp-owl-carousel/CMB2/example-functions.php:115 ../addons/wp-owl-
+#: carousel/CMB2/example-functions.php:123 ../addons/wp-owl-carousel/CMB2/example-
+#: functions.php:137 ../addons/wp-owl-carousel/CMB2/example-functions.php:144 ..
+#: /addons/wp-owl-carousel/CMB2/example-functions.php:152 ../addons/wp-owl-
+#: carousel/CMB2/example-functions.php:169 ../addons/wp-owl-carousel/CMB2/example-
+#: functions.php:178 ../addons/wp-owl-carousel/CMB2/example-functions.php:186 ..
+#: /addons/wp-owl-carousel/CMB2/example-functions.php:193 ../addons/wp-owl-
+#: carousel/CMB2/example-functions.php:200 ../addons/wp-owl-carousel/CMB2/example-
+#: functions.php:214 ../addons/wp-owl-carousel/CMB2/example-functions.php:227 ..
+#: /addons/wp-owl-carousel/CMB2/example-functions.php:240 ../addons/wp-owl-
+#: carousel/CMB2/example-functions.php:252 ../addons/wp-owl-carousel/CMB2/example-
+#: functions.php:261 ../addons/wp-owl-carousel/CMB2/example-functions.php:269 ..
+#: /addons/wp-owl-carousel/CMB2/example-functions.php:278 ../addons/wp-owl-
+#: carousel/CMB2/example-functions.php:285 ../addons/wp-owl-carousel/CMB2/example-
+#: functions.php:298 ../addons/wp-owl-carousel/CMB2/example-functions.php:364 ..
+#: /addons/wp-owl-carousel/CMB2/example-functions.php:458 ../addons/wp-owl-
+#: carousel/CMB2/example-functions.php:466 ../addons/wp-owl-carousel/CMB2/example-
+#: functions.php:473 ../addons/wp-owl-carousel/CMB2/example-functions.php:480 ..
+#: /addons/wp-owl-carousel/CMB2/example-functions.php:487 ../addons/wp-owl-
+#: carousel/CMB2/example-functions.php:494 ../addons/wp-owl-carousel/CMB2/example-
+#: functions.php:501 ../addons/wp-owl-carousel/CMB2/example-functions.php:539
+msgid "field description (optional)"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:89
+msgid "Test Text Small"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:97
+msgid "Test Text Medium"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:105
+msgid "Website URL"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:114
+msgid "Test Text Email"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:122
+msgid "Test Time"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:129 ../addons/wp-owl-
+#: carousel/CMB2/example-functions.php:130
+msgid "Time zone"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:136
+msgid "Test Date Picker"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:143
+msgid "Test Date Picker (UNIX timestamp)"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:151
+msgid "Test Date/Time Picker Combo (UNIX timestamp)"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:168
+msgid "Test Money"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:177
+msgid "Test Color Picker"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:185
+msgid "Test Text Area"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:192
+msgid "Test Text Area Small"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:199
+msgid "Test Text Area for Code"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:206
+msgid "Test Title Weeeee"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:207
+msgid "This is a title description"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:213
+msgid "Test Select"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:219 ../addons/wp-owl-
+#: carousel/CMB2/example-functions.php:232 ../addons/wp-owl-carousel/CMB2/example-
+#: functions.php:244
+msgid "Option One"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:220 ../addons/wp-owl-
+#: carousel/CMB2/example-functions.php:233 ../addons/wp-owl-carousel/CMB2/example-
+#: functions.php:245
+msgid "Option Two"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:221 ../addons/wp-owl-
+#: carousel/CMB2/example-functions.php:234 ../addons/wp-owl-carousel/CMB2/example-
+#: functions.php:246
+msgid "Option Three"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:226
+msgid "Test Radio inline"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:239
+msgid "Test Radio"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:251
+msgid "Test Taxonomy Radio"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:260
+msgid "Test Taxonomy Select"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:268
+msgid "Test Taxonomy Multi Checkbox"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:277
+msgid "Test Checkbox"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:284
+msgid "Test Multi Checkbox"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:289
+msgid "Check One"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:290
+msgid "Check Two"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:291
+msgid "Check Three"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:297
+msgid "Test wysiwyg"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:305
+msgid "Test Image"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:306
+msgid "Upload an image or enter a URL."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:312
+msgid "Multiple Files"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:313
+msgid "Upload or add multiple images/attachments."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:320
+msgid "oEmbed"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:321
+msgid ""
+"Enter a youtube, twitter, or instagram URL. Supports services listed at <a "
+"href=\"http://codex.wordpress.org/Embeds\">http://codex.wordpress."
+"org/Embeds</a>."
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:354
+msgid "About Page Metabox"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:385
+msgid "Repeating Field Group"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:393
+msgid "Generates reusable form entries"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:395
+msgid "Entry {#}"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:396
+msgid "Add Another Entry"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:397
+msgid "Remove Entry"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:409
+msgid "Entry Title"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:416
+msgid "Description"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:417
+msgid "Write a short description for this entry"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:423
+msgid "Entry Image"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:429
+msgid "Image Caption"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:450
+msgid "User Profile Metabox"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:457
+msgid "Extra Info"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:465
+msgid "Avatar"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:472
+msgid "Facebook URL"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:479
+msgid "Twitter URL"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:486
+msgid "Google+ URL"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:493
+msgid "Linkedin URL"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:500
+msgid "User Field"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:523
+msgid "Theme Options Metabox"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/example-functions.php:538
+msgid "Site Background Color"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/tests/test-cmb-types.php:147 ../addons/wp-owl-
+#: carousel/CMB2/tests/test-cmb-types.php:155 ../addons/wp-owl-
+#: carousel/CMB2/tests/test-cmb-types.php:715 ../addons/wp-owl-
+#: carousel/CMB2/tests/test-cmb-types.php:740 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_Types.php:353 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_Types.php:986 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_hookup.php:183
+msgid "Remove"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/tests/test-cmb-types.php:691 ../addons/wp-owl-
+#: carousel/CMB2/tests/test-cmb-types.php:717 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_Types.php:835
+msgid "Add or Upload Files"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/tests/test-cmb-types.php:714 ../addons/wp-owl-
+#: carousel/CMB2/tests/test-cmb-types.php:739 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_Types.php:984 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_hookup.php:185
+msgid "Download"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/tests/test-cmb-types.php:716 ../addons/wp-owl-
+#: carousel/CMB2/tests/test-cmb-types.php:741 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_Types.php:981 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_hookup.php:184
+msgid "File:"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/tests/test-cmb-types.php:727 ../addons/wp-owl-
+#: carousel/CMB2/tests/test-cmb-types.php:742 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_Types.php:893
+msgid "Add or Upload File"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/tests/test-cmb-types.php:766 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_Ajax.php:133
+msgid "Remove Embed"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/tests/test-cmb-types.php:767 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_Ajax.php:137
+#, php-format
+msgid "No oEmbed Results Found for %s. View more info at"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_Ajax.php:37
+msgid "Please Try Again"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_Types.php:294
+msgid "Add Row"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_Types.php:722 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_Types.php:770
+msgid "No terms"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_Types.php:967 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_hookup.php:182
+msgid "Remove Image"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_Field.php:885
+msgid "Add Group"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_Field.php:886
+msgid "Remove Group"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2.php:112
+msgid "Metabox configuration is required to have an ID parameter"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2.php:302
+msgid "Click to toggle"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:128 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_hookup.php:165
+msgid "Clear"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:129
+msgid "Default"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:130
+msgid "Select Color"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:131
+msgid "Current Color"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:155
+msgid "mm/dd/yy"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:156
+msgid "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:157
+msgid "Su, Mo, Tu, We, Th, Fr, Sa"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:158
+msgid "Sun, Mon, Tue, Wed, Thu, Fri, Sat"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:159
+msgid ""
+"January, February, March, April, May, June, July, August, September, October,"
+" November, December"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:160
+msgid "Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:161
+msgid "Next"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:162
+msgid "Prev"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:163
+msgid "Today"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:164 ../addons/wp-owl-
+#: carousel/CMB2/includes/CMB2_hookup.php:174
+msgid "Done"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:168
+msgid "Choose Time"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:169
+msgid "Time"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:170
+msgid "Hour"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:171
+msgid "Minute"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:172
+msgid "Second"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:173
+msgid "Now"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:175
+msgid "hh:mm TT"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:181
+msgid "Use this file"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/CMB2_hookup.php:186
+msgid "Select / Deselect All"
+msgstr ""
+
+#: ../addons/wp-owl-carousel/CMB2/includes/helper-functions.php:254
+msgid "Save"
+msgstr ""
+
+#: ../woocommerce/content-product.php:92
+msgid "More info"
+msgstr ""
+
+#: ../woocommerce/loop/result-count.php:31
+msgid "Showing the single result"
+msgstr ""
+
+#: ../woocommerce/loop/result-count.php:33
+#, php-format
+msgid "Showing all %d results"
+msgstr ""
+
+#: ../woocommerce/loop/result-count.php:35
+#, php-format
+msgctxt "%1$d = first, %2$d = last, %3$d = total"
+msgid "Showing %1$d&ndash;%2$d of %3$d results"
+msgstr ""
+
+#. Name of the theme
+msgid "Crystal Skull"
+msgstr ""
+
+#. Theme URI of the theme
+msgid "http://www.crystalskullthemes.com/crystalskull/"
+msgstr ""
+
+#. Description of the theme
+msgid ""
+"crystalskull gives you the power to create massive gaming communities. Users "
+"can create clans and challenge each others, keeping track of the matches, "
+"share content and much more!"
+msgstr ""
+
+#. Author of the theme
+msgid "Skywarrior themes"
+msgstr ""
+
+#. Author URI of the theme
+msgid "http://www.crystalskullthemes.com/"
+msgstr ""

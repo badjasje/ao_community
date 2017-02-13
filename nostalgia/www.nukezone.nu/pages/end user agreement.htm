@@ -1,0 +1,444 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+
+All code and content within these pages are copyright Primetic (www.primetic.com).
+
+-->
+<html><head>
+<title>NukeZone - Nuke or Be Nuked!</title>
+
+
+<meta name="Author" content="Primetic (www.primetic.com)">
+<meta name="Keywords" content="NukeZone, Guffy, NZ, Web Game, Interactive Game, Strategy Game, Game, Play, Online Game">
+<meta name="Description" content="NukeZone - Nuke or Be Nuked!">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="shortcut icon" href="http://www.nukezone.nu/favicon.ico">
+
+<link rel="stylesheet" href="files/game1.css">
+<!--[if IE]>
+<link rel="stylesheet" href="http://img.nukezone.nu/c1/css/game1-ie.css?0.960">
+<![endif]-->
+</head>
+
+<body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
+
+<center>
+<table border="0" cellpadding="0" cellspacing="0" height="100%" width="925">
+  <tbody><tr>
+    <td background="files/up_left.gif" height="96">&nbsp;</td>
+      <td align="right" background="files/logo_top.gif" height="96" valign="top">
+        <table border="0" cellpadding="0" cellspacing="0" height="96">
+          <tbody><tr>
+			<td align="right" height="69" valign="top">
+				<table border="0" cellpadding="0" cellspacing="4" width="170">
+				<form action="/search.asp" method="GET" name="search" target="_self"></form>
+				<input name="Action" value="FindProvince" type="hidden">
+				  <tbody><tr>
+					<td colspan="2" valign="top"><a href="http://www.nukezone.nu/search.asp?Action=Standard"><img src="files/find_province.gif" alt="Click for more options." border="0" height="13" width="87"></a></td>
+				  </tr>
+				  <tr>
+					<td valign="middle" width="115"><input class="TextBoxA" size="23" name="X1" maxlength="25"></td>
+					<td valign="middle" width="55"><input class="Button" value="Go" style="width:25px" type="submit"></td>
+				  </tr>
+				
+				</tbody></table>
+			</td>
+		  </tr>
+          <tr>
+			<td align="right" height="27" valign="bottom">
+				<table border="0" cellpadding="0" cellspacing="0" width="292">
+				  <tbody><tr>
+					<td width="73">
+			<a href="http://www.nukezone.nu/message.asp?Action=Inbox" id="tabMessages" title="Check your messages or write new messages."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=LocalEvents" id="tabLocals" title="Check your local events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=GlobalEvents" id="tabGlobals" title="Check your global events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/help.asp" id="tabHelp" title="Go to the help page."></a>
+			</td>
+
+				  </tr>
+				</tbody></table>
+			</td>
+		  </tr>
+		</tbody></table>
+	</td>
+    <td background="files/up_right.gif" height="96">&nbsp;</td>
+  </tr>
+  <tr>
+    <td rowspan="2" background="files/middle_left.gif" height="58" width="35">&nbsp;</td>
+      <td background="files/logo_middle.gif" height="19">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+		  <tbody><tr>
+			<td align="right" valign="middle" width="840"><span class="Resources"><b>Money:</b> <span id="show01">$122&nbsp;515</span> &nbsp;| &nbsp;<b>Turns:</b> <span id="show02">171</span> &nbsp;| &nbsp;<b>Land:</b> <span id="show03">169&nbsp;311 m²</span> &nbsp;| &nbsp;<b>Morale:</b> <span id="show04">30% (35%)</span> &nbsp;| &nbsp;<b>Networth:</b> <span id="show05">$1&nbsp;396&nbsp;415</span></span></td>
+			<td width="15">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	  </td>
+    <td rowspan="2" background="files/middle_right.gif" height="58" width="35">&nbsp;</td>
+  </tr>
+  <tr>
+    <td background="files/logo_bottom.gif" height="39">
+		<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+          <tbody><tr>
+			<td align="right" valign="bottom" width="843"><a href="http://www.nukezone.nu/help.asp"><img src="files/pixel.gif" alt="Go to the appropriate chapter in the manual." border="0" height="27" width="28"></a></td>
+			<td width="12">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	</td>
+  </tr>
+  <tr>
+    <td background="files/bottom_left.gif" width="35">&nbsp;</td>
+    <td bgcolor="#D8D4B6" valign="top">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tbody><tr>
+		    <td align="center" height="100%" valign="top" width="178">
+
+		<div id="menuHolder">
+			<a id="onlineCount" href="http://www.nukezone.nu/show.asp?Action=Online">35 Players Online</a>
+			<div id="menuHeader"></div>
+			
+			<span>MAIN</span>
+			
+			<a href="game main.htm">Overview</a>
+			<a href="attack page.htm">Attack</a>
+			<a href="research.htm">Research</a>
+			<a href="explore.htm">Explore</a>
+			<a href="market.htm">Market</a>
+			<a href="bank.htm">Bank</a>
+			<a href="clan.htm">Clan</a>
+
+			<span>MILITARY</span>
+			<a href="buildings.htm">Buildings</a>
+			<a href="sea.htm">Sea Units</a>
+			<a href="air.htm">Air Units</a>
+			<a href="vehicles.htm">Vehicles</a>
+			<a href="infantries.htm">Infantries</a>
+			<a href="missiles.htm">Missiles</a>
+			<a href="satelitte.htm">Satellites</a>
+
+			<span>INFORMATION</span>
+				<a href="local events.htm">Local Events</a>
+				<a href="global events.htm">Global Events</a>
+				
+				<a href="http://www.nukezone.nu/events.asp?Action=SearchEvents">Search Events</a>
+				
+			<a href="status.htm">Status</a>
+			<a href="all provinces.htm">All Provinces</a>
+			<a href="all clans.htm">All Clans</a>
+			<a href="top lists.htm">Top Lists</a>
+			<a href="search.htm">Search</a>
+			
+				<a href="http://www.nukezone.nu/forum/clanforum.asp" target="_blank">Clan Forum</a>
+				
+
+			<span>MISC</span>
+			<a href="inbox.htm">Inbox</a>
+			<a href="new message.htm">New Message</a>
+			<a href="preferences.htm">Preferences</a>
+			<a href="help.htm">Help</a>
+			<a href="about us.htm">About Us</a>
+			<a href="logout.htm">Logout</a>
+
+			
+		</div>
+		<br>
+
+	</td>
+            <td height="100%" valign="top" width="677">
+				<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+				  <tbody><tr>
+				    <td background="files/middle_background1.gif" height="46">
+						<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+						  <tbody><tr>
+						    <td height="46" valign="bottom" width="652">
+								<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+								  <tbody><tr>
+									<td height="32" width="10">&nbsp;</td>
+									<td height="32" valign="bottom" width="329"><span class="TitleText">EULA</span></td>
+									<td align="right" height="32" valign="bottom" width="313"><span class="BigText">Guffy (#1)</span></td>
+								  </tr>
+								  <tr>
+									<td colspan="3" height="14">&nbsp;</td>
+								  </tr>
+								</tbody></table>
+							</td>
+						  </tr>
+						</tbody></table>
+					</td>
+				  </tr>
+				  <tr>
+					<td style="background-repeat: no-repeat;" background="files/middle_background2.gif" valign="top">
+						<table border="0" cellpadding="0" cellspacing="0" width="660">
+						  <tbody><tr>
+							<td>
+								<br>
+	
+
+	<table class="content" border="0" width="100%">
+	  <tbody><tr class="header">
+	    <td colspan="2" align="center" valign="top" width="100%">End-User License Agreement</td>
+	  </tr>
+	  <tr>
+	    <td colspan="2" align="center" valign="top" width="100%">
+		<textarea readonly="readonly" name="AgreeText" rows="15" cols="90" class="TextBoxB2 wide">This
+ End-User License Agreement (“EULA”) is a legal agreement between you 
+(either an individual or a single entity) and NukeZone. The service of 
+NukeZone is provided to you (the user) for free under the terms and 
+conditions of this EULA. By clicking on the "I Agree" button, you are 
+indicating your agreement to be bound by the terms and conditions of 
+this EULA.
+
+NukeZone makes no warranty that the game will be uninterrupted, timely, 
+secure, or error free. NukeZone disclaims all warranties of any kind. By
+ clicking on the "I Agree" button, user understands and agrees to use 
+our service at your sole risk. User understands and agrees that any 
+material or data downloaded is done at the user's own discretion and 
+sole risk User will be sole responsible for any damage done to the 
+computer or data loss.
+
+User is entirely responsible to maintain the confidentiality of the 
+account and password for the service provided by NukeZone. Also, user is
+ totally responsible for all actions which occur under the account. User
+ agrees to provide accurate, complete, and current information in the 
+registration. Also, the user allow NukeZone to disclose certain 
+registration data about the NukeZone account to the public, including 
+name, year of birth, country and gender.
+
+If any registration data is incorrect, NukeZone retains the right to 
+terminate user's account, and right to use the service. User agrees not 
+to make any commercial use of the product. User also agrees not to use 
+of any graphics, information, or data from NukeZone without the prior 
+written consent from NukeZone. User agrees to indemnify NukeZone against
+ liability for all use of user's account. User is not allowed to use the
+ message service or the forums to send chain letters, spamming, illegal 
+or any other inappropriate messages. User agrees not to transmit in the 
+game any unlawful, harassing, abusive, threatening, harmful, 
+objectionable material of any kind or nature. User further agrees not to
+ transmit any materials that violates any local, national, or 
+international law or regulation.
+
+NukeZone reserves the right to change the game and forum rules at any 
+time without further notice. NukeZone reserves the right to modify or 
+terminate its service to user with or without notice at any time. 
+NukeZone may change the terms and conditions of this disclaimer at any 
+time without further notice.
+
+NukeZone reserves the right to not ship out prizes to specific countries
+ and only guarantee free shipping to Swedish residents. Residents of 
+other countries will get the opportunity to pay the shipping fee in 
+order to receive the prize.
+
+User agrees to not violate any of the following rules:
+
+A. NukeZone Game Rules
+
+A1. General
+Two warnings of any kind results in a ban. Warnings do not have to be 
+given prior to a ban. These rules may be changed at any time without 
+prior notice. Additional conditions for your use of this service can be 
+found in the End-User License Agreement that you accepted upon 
+registration and Gold User/Gold Clan contract if applicable.
+
+A2. Multiple Accounts
+Only one account per individual is allowed. Account sharing counts as 
+multiple accounts and is therefore not allowed. Account trading is not 
+allowed. Multiple accounts or reasonable grounds to suspect multiple 
+accounts result in an immediate ban of all involved accounts. We suggest
+ that only one account should be used per PC to ensure compliance with 
+this rule.
+
+A3. Spam and Harassment
+Spamming is simply the sending of irrelevant messages or messages that 
+has no discussion possibilities. Spamming of any kind results in an 
+immediate ban. Harassment and racist messages are in no way tolerated 
+and results in an immediate ban. Harassment includes posts that attack 
+others in a harmful way. Racism includes posts that attack others based 
+on their race, religion or nationality. All spam and harassment messages
+ that are sent to your inbox should be reported using the "Report this 
+message" link, which is displayed at the bottom of the page while 
+viewing a private message in your Inbox.
+
+A4. Clans
+The clan leader is fully responsible for all information found on the 
+clan properties page including the content of the clan homepage. The 
+Clan Name, Clan Tag, Clan Info, Clan Homepage content and Clan Logo must
+ not contain any unsuitable material. Unsuitable material includes 
+unlawful, harassing, abusive, threatening, harmful, pornographic, 
+objectionable material of any kind or nature. Such material will be 
+defined at the absolute discretion of the NukeZone crew. All clans with 
+such material will be immediately deleted and the clan leader will be 
+warned or banned without prior notice.
+
+A5. Mass Invite
+Mass invite provinces to your clan is strictly forbidden and results in 
+an immediate ban and clan deletion.
+
+A6. Alliances and Help
+A clan alliance simply means any type of cooperation between players 
+that are not in the same clan, or that are without a clan, in a 
+permanent or a temporary form. The only communications that are 
+permitted between clans are asking for a mutual war, asking for peace 
+and arranging the start and/or finish details of a war. Any other forms 
+of communication that discuss cooperation, what your own clan/province 
+intend to do or asking the intent of another clan/province is strictly 
+forbidden.
+
+Any attempt to create an alliance, whether successful or not, will 
+result in an immediate ban from the game and clan deletion without prior
+ notice. It can also include the additional banning of the Clan Leader 
+and possibly the Co-Leader and one or more Trustees depending on the 
+situation. The action taken in response to an alliance or report is at 
+the absolute discretion of the NZ Crew and cannot be appealed.
+
+If you want to help another player, join the same clan.
+
+Joining a clan for the sole purpose of receiving a clan bonus is also 
+considered cooperation and will be treated in the same way.
+
+A7. Boosting
+Sending aid to a specific player for the only reason to boost up that 
+player counts as cheating and results in a ban from the game for all 
+involved players.
+
+A8. Automated Scripts and Bots
+Use of automated scripts or other software that accesses the NukeZone 
+game servers for any reason outside of normal gameplay is not allowed.
+
+A9. Similar province names
+Province names that are specifically designed to mislead, confuse, or 
+make the ability to determine one province from another very difficult 
+are strictly prohibited. Province names may have words in common as long
+ as the intent is not to mislead, confuse, or make it difficult to 
+determine one province from another. Violators will be warned and any 
+further violations will result in a game ban.
+
+A10. Bugs
+All bugs/errors should be reported in the Technical Support and 
+Suggestions forum immediately when found. The act of exploiting bugs, 
+which gives a province an unfair advantage in gameplay, is not 
+tolerated.
+
+A11. Clan Information
+All clan information fields must be in English. Target advertising a 
+clan or province is not allowed if the intention is to only make another
+ clan or province an attackable target. However, you may post your wins 
+and losses in wars that have been fought. Swearing, harassing, or 
+flaming is not allowed.
+
+A12. Abuse towards the NZ Crew
+Messages which are abusive towards or attack the NZ Crew, or any of its 
+members, in any way are not tolerated. This includes messages posted in 
+the forums, on the NZ Portal, through the private messaging system 
+(including replying to forum ban messages or messages sent from Customer
+ Support) and any other means of communication. Abusive messages are 
+anything that contain content which is insulting, offensive, 
+objectionable, or attack the actions the NZ Crew. Such material will be 
+defined at the absolute discretion of the NZ Crew. The communication of 
+such material results in an immediate game ban.
+
+A13. Proxies
+The use of proxy servers, except for those assigned by ISPs for normal 
+use is strictly forbidden. This rule also applies to, but is not limited
+ to, anonymous website proxies and any other means to hide your 
+identity.
+
+B. NukeZone Forum Rules
+
+B1. General
+The administrators and moderators may lock/edit/delete/move posts at 
+their discretion. If a topic has been locked, you should not create a 
+new topic regarding the same matter. All such new topics will be 
+immediately deleted when found. If you feel you want to know more 
+regarding the subject included in the locked topic, please contact the 
+customer support. The reporting of clan alliances should be sent to 
+customer support and the reporting of multies should be sent using the 
+form located on the help page. Such reports must not be posted on the 
+forums under any circumstances.
+
+B2. Spam and Harassment
+Spamming is simply the posting of irrelevant messages or messages that 
+has no discussion possibilities and the posting of multiple copies of 
+similar messages. The bumping of topics is not accepted and counts as 
+spamming. Spamming results in a temporarily or permanent ban and may 
+lead to a game ban.
+
+All harassing and racist posts will be deleted and the author will be 
+banned. Harassment includes posts which attack others in a harmful way. 
+Racism includes posts which attack others based on their race, religion 
+or nationality.
+
+B3. Target Advertising
+The posting targets on the forums is strictly forbidden and results in 
+an immediate temporarily or permanent forum ban without prior warning. 
+Target advertising includes the posting of province names/ids or clan 
+names/ids that is not used to reply to the above messages in a topic.
+
+B4. Game Advertising
+Advertising of other online games that is similar to NukeZone in any way
+ or deemed inappropriate by the NukeZone crew is strictly forbidden. All
+ such posts will be deleted and the author will be warned or possibly 
+banned without prior notice. If you want to advertise on NukeZone, you 
+may purchase a banner.
+
+B5. Links
+The posting of links to sites that contain unsuitable material is 
+strictly forbidden and results in an immediate ban without prior notice.
+ Unsuitable material includes unlawful, harassing, abusive, threatening,
+ harmful, pornographic, and objectionable material of any kind or 
+nature. Such content will be defined as the absolute discretion of the 
+NukeZone crew.
+
+B6. Language
+All non-English posts will be deleted. Continuously ignorance of this 
+rule results in a forum ban without prior notice. Swearing is not 
+allowed on the forums. The most common swear words will be censored 
+using an automatic filter system. The posting of swear words using 
+methods to bypass the filter results in an immediate temporarily or 
+permanent forum ban without prior notice.
+
+B7. Misleading and Impersonating
+Any attempt to intentionally mislead people or spread false information 
+is not allowed, and will result in a temporary or permanent forum ban 
+and may lead to a game ban. In addition, impersonating any member of the
+ NukeZone Crew will not be tolerated and will result in an immediate 
+game ban.</textarea>
+	    </td>
+	  </tr>
+	  <tr class="header">
+	    <td height="4"></td>
+	  </tr>
+	</tbody></table>
+	<br><br>
+	
+							</td>
+						  </tr>
+						</tbody></table>
+				    </td>
+				  </tr>
+				</tbody></table>
+				</td>
+			  </tr>
+		  <tr> 
+            <td colspan="2" align="center" valign="top">
+				<br><img src="files/primetic.gif" height="35" width="100"><br>
+				Copyright © 2001-2014 <a href="http://www.primetic.com/" target="_blank">Primetic</a>. All Rights Reserved.
+				<br><br>
+				This page was generated in 0 seconds. Current date/time is 2014-09-12 03:56:25.
+		    </td>
+		  </tr>
+		</tbody></table>
+    </td>
+    <td background="files/bottom_right.gif" width="35">&nbsp;</td>
+  </tr>
+</tbody></table>
+</center>
+
+
+
+
+</body></html>

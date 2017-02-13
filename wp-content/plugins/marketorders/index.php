@@ -1,0 +1,736 @@
+<?php
+/*
+Plugin Name: Marketorders
+Plugin URI: 
+Description: 
+Version: 1
+Author: Kevin Bogaard
+Author URI:
+License: GPL
+Copyright: Kevin Bogaard
+*/
+
+function wpse_76815_remove_publish_box() {
+    remove_meta_box( 'submitdiv', 'clan', 'side' );
+}
+add_action( 'admin_menu', 'wpse_76815_remove_publish_box' );
+
+function multi_register( $login ) {
+    $user = get_user_by('login',$login);
+    $user_ID = $user->ID;
+    $ip_array = get_field('login_array_general',139664);
+	$useragent = $_SERVER['HTTP_USER_AGENT'];
+
+	$ip_address = $_SERVER['REMOTE_ADDR'];
+	if(empty($ip_array[$ip_address])){
+	$ip_array[$ip_address] = array();}
+	
+	
+	$ip_array[$ip_address][$user_ID] = array(date('Y-m-d H:i:s'),$useragent);
+
+
+	update_field('login_array_general',$ip_array,139664);
+
+
+}
+add_action( 'wp_login', 'multi_register');
+
+
+function count_deposits($user_ID){
+	$args = array(
+	'posts_per_page'   => -1,
+	'author'	=> $user_ID,
+	'post_type'        => 'deposit',
+
+	);
+	$deposits = get_posts( $args ); 
+	return count($deposits);
+}
+function clan_tag($user_ID){
+	
+if(get_user_meta($user_ID, 'clan_id_user', true) != 0){
+	$clan_ID = get_user_meta($user_ID, 'clan_id_user', true);
+	$clantag = get_post_meta($clan_ID, 'clan_tag', true);
+	$chars = array("[", "]");
+	$clantag = str_replace($chars, "", $clantag);
+	return '<strong>['.$clantag.']</strong>';	
+			
+			}
+	
+}
+
+function wpse66094_no_admin_access() {
+    $redirect = isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : home_url( '/' );
+    global $current_user;
+    $user_roles = $current_user->roles;
+    $user_role = array_shift($user_roles);
+    if($user_role === 'subscriber'){
+        exit( wp_redirect( $redirect ) );
+    }
+ }
+
+add_action( 'admin_init', 'wpse66094_no_admin_access', 100 );
+
+
+function create_post_type() {
+	register_post_type( 'market_order',array(
+      'labels' => array(
+        'name' => __( 'Orders' ),
+        'singular_name' => __( 'Order' )
+      ),
+      'public' => true,
+      'has_archive' => true,
+      'supports'    => array( 'title', 'editor', 'author', 'excerpt' ),
+    ));
+	register_post_type( 'event_local',array(
+      'labels' => array(
+        'name' => __( 'Events' ),
+        'singular_name' => __( 'Event' )
+      ),
+      'public' => true,
+      'has_archive' => true,
+      'supports'    => array( 'title', 'editor', 'author', 'excerpt' ),
+    ));
+    register_post_type( 'clan',array(
+      'labels' => array(
+        'name' => __( 'Clans' ),
+        'singular_name' => __( 'Clan' )
+      ),
+      'public' => true,
+      'has_archive' => false,
+    ));
+    register_post_type( 'user_message',array(
+      'labels' => array(
+        'name' => __( 'Messages' ),
+        'singular_name' => __( 'Message' )
+      ),
+      'public' => true,
+      'has_archive' => false,
+    ));
+    register_post_type( 'sub_user_message',array(
+      'labels' => array(
+        'name' => __( 'Sub Messages' ),
+        'singular_name' => __( 'Sub Message' )
+      ),
+      'public' => true,
+      'has_archive' => false,
+    ));
+    register_post_type( 'wars',array(
+      'labels' => array(
+        'name' => __( 'Wars' ),
+        'singular_name' => __( 'War' )
+      ),
+      'public' => true,
+      'has_archive' => false,
+    ));
+    register_post_type( 'deposit',array(
+      'labels' => array(
+        'name' => __( 'Deposits' ),
+        'singular_name' => __( 'Deposit' )
+      ),
+      'public' => true,
+      'show_ui' => true,
+      'has_archive' => false,
+      'supports'           => array( 'title', 'editor', 'author' ),
+    ));
+    register_post_type( 'research',array(
+      'labels' => array(
+        'name' => __( 'Researches' ),
+        'singular_name' => __( 'Research' )
+      ),
+      'public' => true,
+      'has_archive' => false,
+    ));
+    register_post_type( 'sat',array(
+      'labels' => array(
+        'name' => __( 'Satellites' ),
+        'singular_name' => __( 'Satellite' )
+      ),
+      'public' => true,
+      'has_archive' => false,
+    ));
+    register_post_type( 'spy_rep',array(
+      'labels' => array(
+        'name' => __( 'Spy report' ),
+        'singular_name' => __( 'Spy report' )
+      ),
+      'public' => true,
+      'has_archive' => false,
+    ));
+    register_post_type( 'award',array(
+      'labels' => array(
+        'name' => __( 'Clan award' ),
+        'singular_name' => __( 'Clan award' )
+      ),
+      'public' => true,
+      'has_archive' => false,
+    ));
+    register_post_type( 'medal',array(
+      'labels' => array(
+        'name' => __( 'Medal' ),
+        'singular_name' => __( 'Medal' )
+      ),
+      'public' => true,
+      'has_archive' => false,
+    ));
+}
+add_action( 'init', 'create_post_type' );
+
+
+
+
+
+add_action( 'user_register', 'myplugin_registration_save', 10, 1 );
+
+function myplugin_registration_save( $user_id ) {
+	
+update_user_meta($user_id,'clan_id_user',0);
+	
+// Set points & NW position
+update_user_meta($user_id, 'points_position', 0);
+update_user_meta($user_id, 'networth_position', 0);
+	
+// SET BUILDING NEW USER
+update_user_meta($user_id, 'silo', 0);
+update_user_meta($user_id, 'command_centre', 0);
+update_user_meta($user_id, 'shipyard', 0);
+update_user_meta($user_id, 'airfield', 0);
+update_user_meta($user_id, 'warfactory', 0);
+update_user_meta($user_id, 'baracks', 0);
+update_user_meta($user_id, 'powerplant', 50);
+update_user_meta($user_id, 'advancedpowerplant', 0);
+update_user_meta($user_id, 'torpedolauncher', 0);
+update_user_meta($user_id, 'samsite', 0);
+update_user_meta($user_id, 'missileturret', 0);
+update_user_meta($user_id, 'machinegunturret', 0);
+update_user_meta($user_id, 'antimissile', 0);
+
+
+// SET MISSILES NEW USER
+update_user_meta($user_id, 'nuke_owned', 0);
+update_user_meta($user_id, 'nuke_ordered', 0);
+update_user_meta($user_id, 'chemical_owned', 0);
+update_user_meta($user_id, 'chemical_ordered', 0);
+update_user_meta($user_id, 'bio_owned', 0);
+update_user_meta($user_id, 'bio_ordered', 0);
+update_user_meta($user_id, 'moab_owned', 0);
+update_user_meta($user_id, 'moab_ordered', 0);
+
+// SET STATS
+update_user_meta($user_id, 'money', 450000);
+update_user_meta($user_id, 'sold_land_today', 0);
+update_user_meta($user_id, 'explored_today', 0);
+update_user_meta($user_id, 'turns', 200);
+update_user_meta($user_id, 'networth', 0);
+update_user_meta($user_id, 'land', 2000);
+update_user_meta($user_id, 'power', 0);
+update_user_meta($user_id, 'builtland', 1000);
+update_user_meta($user_id, 'morale', 100);
+update_user_meta($user_id, 'morale_pool', 100);
+update_user_meta($user_id, 'clan_id_user', 0);
+update_user_meta($user_id, 'new_events', 0);
+update_user_meta($user_id, 'status', 'nukeprotection');
+$timestamp = strtotime(date('Y-m-d H:i:s'));
+update_user_meta($user_id, 'nuke_protection_timestamp', $timestamp+(12 * 3600));
+update_user_meta($user_id, 'sat_in_progress', 0);
+update_user_meta($user_id, 'sat_owned', 0);
+update_user_meta($user_id, 'total_deposits', 0);
+update_user_meta($user_id, 'new_messages', 0);
+update_user_meta($user_id, 'new_events', 0);
+update_user_meta($user_id, 'user_country', 0);
+update_user_meta($user_ID,'user_clan_points',0);
+
+
+// SET RESEARCH ///
+update_user_meta($user_id, 'level_money_production', 0);
+update_user_meta($user_id, 'level_missile_accuracy', 0);
+update_user_meta($user_id, 'level_sattelite_construction', 0);
+update_user_meta($user_id, 'level_sattelite_construction', 0);
+update_user_meta($user_id, 'level_shipping_time', 0);
+update_user_meta($user_id, 'level_market_discount', 0);
+update_user_meta($user_id, 'level_thieving_effectiveness', 0);
+update_user_meta($user_id, 'level_engineering_effectiveness', 0);
+update_user_meta($user_id, 'level_bank_management', 0);
+update_user_meta($user_id, 'level_powerplant_efficiency', 0);
+update_user_meta($user_id, 'research_in_progress', 0);
+update_user_meta($user_id, 'queued_research', 0);
+
+
+
+include('units_array.php');
+
+foreach ($units as $key => $unit) {
+update_user_meta($user_id, $key.'_owned', 0);
+update_user_meta($user_id, $key.'_ordered', 0);
+
+}}
+
+
+function after_death( $user_id ) {
+ if(!empty($user_id)){
+// SET BUILDING after death
+update_user_meta($user_id, 'silo', 0);
+update_user_meta($user_id, 'command_centre', 0);
+update_user_meta($user_id, 'shipyard', 0);
+update_user_meta($user_id, 'airfield', 0);
+update_user_meta($user_id, 'warfactory', 0);
+update_user_meta($user_id, 'baracks', 0);
+update_user_meta($user_id, 'powerplant', 50);
+update_user_meta($user_id, 'advancedpowerplant', 0);
+update_user_meta($user_id, 'torpedolauncher', 0);
+update_user_meta($user_id, 'samsite', 0);
+update_user_meta($user_id, 'missileturret', 0);
+update_user_meta($user_id, 'machinegunturret', 0);
+update_user_meta($user_id, 'antimissile', 0);
+
+
+// SET MISSILES after death
+update_user_meta($user_id, 'nuke_owned', 0);
+update_user_meta($user_id, 'nuke_ordered', 0);
+update_user_meta($user_id, 'chemical_owned', 0);
+update_user_meta($user_id, 'chemical_ordered', 0);
+update_user_meta($user_id, 'bio_owned', 0);
+update_user_meta($user_id, 'bio_ordered', 0);
+update_user_meta($user_id, 'moab_owned', 0);
+update_user_meta($user_id, 'moab_ordered', 0);
+
+// SET STATS after death
+update_user_meta($user_id, 'money', 450000);
+update_user_meta($user_id, 'sold_land_today', 0);
+update_user_meta($user_id, 'explored_today', 0);
+update_user_meta($user_id, 'turns', 200);
+update_user_meta($user_id, 'networth', 0);
+update_user_meta($user_id, 'land', 2000);
+update_user_meta($user_id, 'power', 0);
+update_user_meta($user_id, 'builtland', 1000);
+update_user_meta($user_id, 'morale', 100);
+update_user_meta($user_id, 'total_deposits', 0);
+
+
+// RESET RESEARCH ///
+update_user_meta($user_id, 'level_money_production', 0);
+update_user_meta($user_id, 'level_missile_accuracy', 0);
+update_user_meta($user_id, 'level_satellite_construction', 0);
+update_user_meta($user_id, 'level_shipping_time', 0);
+update_user_meta($user_id, 'level_market_discount', 0);
+update_user_meta($user_id, 'level_thieving_effectiveness', 0);
+update_user_meta($user_id, 'level_engineering_effectiveness', 0);
+update_user_meta($user_id, 'level_bank_management', 0);
+update_user_meta($user_id, 'level_powerplant_efficiency', 0);
+update_user_meta($user_id, 'research_in_progress', 0);
+update_user_meta($user_id, 'queued_research', 0);
+update_user_meta($user_id, 'sat_in_progress', 0);
+update_user_meta($user_id, 'sat_owned', 0);
+update_user_meta($user_id, 'starting_bonus','');
+
+
+
+
+
+$args = array(
+		'posts_per_page'   => -1,
+		'author'	   => $user_id,
+		'post_type'        => 'research',
+		);
+		$researches_in_progress = get_posts( $args );
+		foreach ($researches_in_progress as $research) {
+			
+			wp_delete_post($research->ID);
+		}
+$args = array(
+		'posts_per_page'   => -1,
+		'author'	   => $user_id,
+		'post_type'        => 'deposit',
+		);
+		$deposits = get_posts( $args );
+		foreach ($deposits as $deposit) {
+			
+			wp_trash_post($deposit->ID);
+		}
+		
+$args = array(
+		'posts_per_page'   => -1,
+		'author'	   => $user_id,
+		'post_type'        => 'market_order',
+		);
+		$orders = get_posts( $args );
+		foreach ($orders as $order) {
+			
+			wp_trash_post($order->ID);
+		}
+}
+
+
+include('units_array.php');
+
+foreach ($units as $key => $unit) {
+update_user_meta($user_id, $key.'_owned', 0);
+update_user_meta($user_id, $key.'_ordered', 0);
+
+}}
+
+function count_all_stats($user_ID){
+	if(!empty($user_ID)){
+	
+	
+	
+include('units_array.php');
+include('missiles_array.php');
+include('building_array.php');
+include('research_array.php');
+include('constants.php');
+
+
+$unit_networth = 0;
+foreach($units as $key => $unit){
+	$units_owned = get_user_meta($user_ID, $key.'_owned',true);
+	if($units_owned > 0){
+	$unit_networth+= $units_owned*$unit['price']*($unit['networth']/100);}
+	
+}
+
+$missile_networth = 0;
+foreach($missiles as $key => $missile){
+	$missiles_owned = get_user_meta($user_ID, $key.'_owned');
+	if($missiles_owned > 0){
+	$missile_networth+= $missiles_owned[0]*$missile['price']*($missile['networth']/100);}
+	
+}
+
+$building_networth 	= 0;
+$totalbuildings 	= 0;
+$used_power 		= 0;
+$power_production 	= 0;
+
+$PPE_level = get_user_meta($user_ID, 'level_powerplant_efficiency')[0];
+	$PPE_multi = 1;
+	if($PPE_level == 1){
+		$PPE_multi = 1.5;
+		}
+
+foreach($buildings as $key => $building){
+	$buildings_owned = get_user_meta($user_ID, $key,true);
+	if($buildings_owned > 0){
+	$totalbuildings+=$buildings_owned;
+	$building_networth+= $buildings_owned*$building['price']*($building['networth']/100);
+	$power_production+=$building['powerprod']*$buildings_owned;
+	$used_power+=$building['power']*$buildings_owned;}
+}
+
+$research_NW = 0;
+foreach($researches as $key => $research){
+	$level = get_user_meta($user_ID, 'level_'.$key,true);
+	if($level > 0){
+	$research_NW+= $research['duration']*$RESEARCH_NW_PER_HOUR*$level;
+	}
+}
+
+
+$land = get_user_meta($user_ID, 'land',true);
+$land_networth = round($land*0.85);
+
+
+update_user_meta( $user_ID,'networth',round($research_NW+$building_networth+$unit_networth+$land_networth+$missile_networth));
+
+update_user_meta( $user_ID,'builtland',$totalbuildings*20);
+if($power_production>0){
+	update_user_meta( $user_ID,'power',$used_power/($power_production*$PPE_multi)*100);}else{
+	update_user_meta( $user_ID,'power',$used_power*100);
+	}
+}
+}
+
+
+
+add_shortcode( 'current-buildings' , 'display_count_buildings' );
+function display_count_buildings(){
+	$user_ID = get_current_user_id();
+    $buildings = count_buildings($user_ID);
+    return '<span class="count_menu">'.$buildings.'</span>';
+} 
+
+function count_buildings($user_ID){
+	include('building_array.php');
+	$totalbuildings = 0;
+	foreach($buildings as $key => $building){
+	$buildings_owned = get_user_meta($user_ID, $key)[0];
+	$totalbuildings+=$buildings_owned;
+}
+return $totalbuildings;
+	
+}
+
+
+
+
+add_shortcode( 'current-units' , 'display_count_units' );
+function display_count_units(){
+	$user_ID = get_current_user_id();
+    $units = count_units($user_ID);
+    return '<span class="count_menu">'.$units.'</span>';
+} 
+
+function count_units($user_ID){
+	include('units_array.php');
+	$totalunits = 0;
+	foreach($units as $key => $unit){
+	$units_owned = get_user_meta($user_ID, $key.'_owned',true);
+	$totalunits+=$units_owned;
+}
+return $totalunits;
+	
+}
+
+
+function bonus_update(){
+	include 'bonus_array.php';
+	$timestamp = strtotime(date('Y-m-d H:i:s'));
+	$args = array(
+		
+		'post_type'		=>	'clan',
+		'posts_per_page' => -1,
+		);
+	
+	$clans = get_posts($args);
+	foreach ($clans as $clan) {
+		$clan_ID = $clan->ID;
+		
+		$clan_members	= get_post_meta($clan_ID,'clan_members');
+		$clan_points	= get_post_meta($clan_ID,'clan_points',true);
+		$bonus_level	= get_post_meta($clan_ID,'bonus_level',true);
+	
+	if(empty($clan_points)){
+		$clan_points = 0;
+	}
+	
+	$level = "level_";
+
+		
+		
+	/* mini clan bonus level 1 */
+	if($bonus_level == 0){
+		if((5000 <= $clan_points) && ($clan_points <= 9999)){
+			
+			$level .= 1;
+			update_post_meta($clan_ID, 'bonus_level', 1);
+			
+		
+			foreach ($clan_members[0] as $member) {
+				$args = array(	
+					'post_title'    => 'Bonus for: #'.$member,
+					'post_status'   => 'publish',
+					'post_type'		=> 'event_local',
+					'post_author'   => $member
+					);
+				
+					$new_event_id = wp_insert_post( $args );
+					update_field('attacktype','bonus', $new_event_id);
+					update_field('bonus_money',$bonus[$level]['money'], $new_event_id);
+					update_field('bonus_turns',$bonus[$level]['turns'], $new_event_id);
+					update_field('defender_id',$member, $new_event_id);
+					update_field('time_attacked',$timestamp, $new_event_id);
+					
+					$event_count = get_user_meta($member, 'new_events')[0];
+					update_user_meta($member, 'new_events', $event_count + 1);
+			}}
+		}
+		
+	
+	/* regular clan bonus level 2*/
+	if($bonus_level == 1){
+		if((10000 <= $clan_points) && ($clan_points <= 19999)){
+			$level .= 2;
+			update_post_meta($clan_ID, 'bonus_level', 2);
+			
+		
+			foreach ($clan_members[0] as $member) {
+				$args = array(	
+					'post_title'    => 'Bonus for: #'.$member,
+					'post_status'   => 'publish',
+					'post_type'		=> 'event_local',
+					'post_author'   => $member
+					);
+			
+					$new_event_id = wp_insert_post( $args );
+					update_field('attacktype','bonus', $new_event_id);
+					update_field('bonus_money',$bonus[$level]['money'], $new_event_id);
+					update_field('bonus_turns',$bonus[$level]['turns'], $new_event_id);
+					update_field('defender_id',$member, $new_event_id);
+					update_field('time_attacked',$timestamp, $new_event_id);
+					
+					$event_count = get_user_meta($member, 'new_events')[0];
+					update_user_meta($member, 'new_events', $event_count + 1);
+			}}
+		}
+		
+	/* regular clan bonus level 3 */
+	if($bonus_level == 2){
+		if((200000 <= $clan_points) && ($clan_points <= 29999)){
+			$level .= 3;
+			update_post_meta($clan_ID, 'bonus_level', 3);
+			
+		
+			foreach ($clan_members[0] as $member) {
+				$args = array(	
+					'post_title'    => 'Bonus for: #'.$member,
+					'post_status'   => 'publish',
+					'post_type'		=> 'event_local',
+					'post_author'   => $member
+					);
+			
+					$new_event_id = wp_insert_post( $args );
+					update_field('attacktype','bonus', $new_event_id);
+					update_field('bonus_money',$bonus[$level]['money'], $new_event_id);
+					update_field('bonus_turns',$bonus[$level]['turns'], $new_event_id);
+					update_field('defender_id',$member, $new_event_id);
+					update_field('time_attacked',$timestamp, $new_event_id);
+					
+					$event_count = get_user_meta($member, 'new_events')[0];
+					update_user_meta($member, 'new_events', $event_count + 1);
+			}}
+		}
+	
+	/* regular clan bonus level 3 */
+	if($bonus_level == 3){
+		if((30000 <= $clan_points) && ($clan_points <= 39999)){
+			$level .= 4;
+			update_post_meta($clan_ID, 'bonus_level', 4);
+			
+		
+			foreach ($clan_members[0] as $member) {
+				$args = array(	
+					'post_title'    => 'Bonus for: #'.$member,
+					'post_status'   => 'publish',
+					'post_type'		=> 'event_local',
+					'post_author'   => $member
+					);
+			
+					$new_event_id = wp_insert_post( $args );
+					update_field('attacktype','bonus', $new_event_id);
+					update_field('bonus_money',$bonus[$level]['money'], $new_event_id);
+					update_field('bonus_turns',$bonus[$level]['turns'], $new_event_id);
+					update_field('defender_id',$member, $new_event_id);
+					update_field('time_attacked',$timestamp, $new_event_id);
+					
+					$event_count = get_user_meta($member, 'new_events')[0];
+					update_user_meta($member, 'new_events', $event_count + 1);
+			}}
+		}
+	
+	/* regular clan bonus level 4 */
+	if($bonus_level == 4){
+		if((30000 <= $clan_points) && ($clan_points <= 39999)){
+			$level .= 5;
+			update_post_meta($clan_ID, 'bonus_level', 5);
+			
+		
+			foreach ($clan_members[0] as $member) {
+				$args = array(	
+					'post_title'    => 'Bonus for: #'.$member,
+					'post_status'   => 'publish',
+					'post_type'		=> 'event_local',
+					'post_author'   => $member
+					);
+			
+					$new_event_id = wp_insert_post( $args );
+					update_field('attacktype','bonus', $new_event_id);
+					update_field('bonus_money',$bonus[$level]['money'], $new_event_id);
+					update_field('bonus_turns',$bonus[$level]['turns'], $new_event_id);
+					update_field('defender_id',$member, $new_event_id);
+					update_field('time_attacked',$timestamp, $new_event_id);
+					
+					$event_count = get_user_meta($member, 'new_events')[0];
+					update_user_meta($member, 'new_events', $event_count + 1);
+			}}
+		}
+		
+	/* regular clan bonus level 5 */
+	if($bonus_level == 5){
+		if((40000 <= $clan_points) && ($clan_points <= 49999)){
+			$level .= 6;
+			update_post_meta($clan_ID, 'bonus_level', 6);
+			
+		
+			foreach ($clan_members[0] as $member) {
+				$args = array(	
+					'post_title'    => 'Bonus for: #'.$member,
+					'post_status'   => 'publish',
+					'post_type'		=> 'event_local',
+					'post_author'   => $member
+					);
+			
+					$new_event_id = wp_insert_post( $args );
+					update_field('attacktype','bonus', $new_event_id);
+					update_field('bonus_money',$bonus[$level]['money'], $new_event_id);
+					update_field('bonus_turns',$bonus[$level]['turns'], $new_event_id);
+					update_field('defender_id',$member, $new_event_id);
+					update_field('time_attacked',$timestamp, $new_event_id);
+					
+					$event_count = get_user_meta($member, 'new_events')[0];
+					update_user_meta($member, 'new_events', $event_count + 1);
+			}}
+		}
+		
+	/* Mega clan bonus level 6 */
+	if($bonus_level == 6){
+		if((50000 <= $clan_points) && ($clan_points <= 59999)){
+			$level .= 7;
+			update_post_meta($clan_ID, 'bonus_level', 7);
+			
+		
+			foreach ($clan_members[0] as $member) {
+				$args = array(	
+					'post_title'    => 'Bonus for: #'.$member,
+					'post_status'   => 'publish',
+					'post_type'		=> 'event_local',
+					'post_author'   => $member
+					);
+			
+					$new_event_id = wp_insert_post( $args );
+					update_field('attacktype','bonus', $new_event_id);
+					update_field('bonus_money',$bonus[$level]['money'], $new_event_id);
+					update_field('bonus_turns',$bonus[$level]['turns'], $new_event_id);
+					update_field('defender_id',$member, $new_event_id);
+					update_field('time_attacked',$timestamp, $new_event_id);
+					
+					$event_count = get_user_meta($member, 'new_events')[0];
+					update_user_meta($member, 'new_events', $event_count + 1);
+			}}
+		}
+	
+	
+	/* Regular clan bonus level 7 */
+	if($bonus_level == 7){
+		if((60000 <= $clan_points) && ($clan_points <= 69999)){
+			$level .= 8;
+			update_post_meta($clan_ID, 'bonus_level', 8);
+			
+		
+			foreach ($clan_members[0] as $member) {
+				$args = array(	
+					'post_title'    => 'Bonus for: #'.$member,
+					'post_status'   => 'publish',
+					'post_type'		=> 'event_local',
+					'post_author'   => $member
+					);
+			
+					$new_event_id = wp_insert_post( $args );
+					update_field('attacktype','bonus', $new_event_id);
+					update_field('bonus_money',$bonus[$level]['money'], $new_event_id);
+					update_field('bonus_turns',$bonus[$level]['turns'], $new_event_id);
+					update_field('defender_id',$member, $new_event_id);
+					update_field('time_attacked',$timestamp, $new_event_id);
+					
+					$event_count = get_user_meta($member, 'new_events')[0];
+					update_user_meta($member, 'new_events', $event_count + 1);
+			}}
+
+		
+		
+		
+		
+		
+		
+		}}}
+
+

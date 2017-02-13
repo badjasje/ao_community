@@ -1,0 +1,132 @@
+/*
+ * 	Core Owl Carousel CSS File
+ *	v1.3.3
+ */
+
+/* clearfix */
+.owl-carousel .owl-wrapper:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+/* display none until init */
+.owl-carousel{
+	display: none;
+	position: relative;
+	width: 100%;
+	-ms-touch-action: pan-y;
+}
+.owl-carousel .owl-wrapper{
+	display: none;
+	position: relative;
+	-webkit-transform: translate3d(0px, 0px, 0px);
+}
+.owl-carousel .owl-wrapper-outer{
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+.owl-carousel .owl-wrapper-outer.autoHeight{
+	-webkit-transition: height 500ms ease-in-out;
+	-moz-transition: height 500ms ease-in-out;
+	-ms-transition: height 500ms ease-in-out;
+	-o-transition: height 500ms ease-in-out;
+	transition: height 500ms ease-in-out;
+}
+
+.owl-carousel .owl-item{
+	float: left;
+}
+.owl-controls .owl-page,
+.owl-controls .owl-buttons div{
+	cursor: pointer;
+}
+.owl-controls {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* mouse grab icon */
+.grabbing {
+    cursor:url(grabbing.png) 8 8, move;
+}
+
+/* fix */
+.owl-carousel  .owl-wrapper,
+.owl-carousel  .owl-item{
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility:    hidden;
+	-ms-backface-visibility:     hidden;
+  -webkit-transform: translate3d(0,0,0);
+  -moz-transform: translate3d(0,0,0);
+  -ms-transform: translate3d(0,0,0);
+  position:relative;
+}
+.car_title .ncategory{
+	position: relative;
+    top: 0px;
+    left: 0px;
+    margin-bottom: 7px;
+    display: inline-block;
+    border-radius: 0px;
+}
+.car_title{
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	padding: 15px 20px;
+	z-index:2;
+	transition: all .35s;
+    -moz-transition: all .35s;
+    -webkit-transition: all .35s;
+    -o-transition: all .35s;
+    color: #ccc;
+}
+.car_title  .car_inner_title{
+    font-size: 18px;
+    color: white;
+    display: block;
+}
+.owl-item:hover .car_title{
+	bottom:10px;
+}
+.owl-item:hover .car_title a{
+	color:white;
+}
+.car_title a{
+	color: #ccc;
+}
+.owl-item .car_image:after, .newsb-thumbnail a:after, .ins_widget ul li a:after, .blog-image a:after {
+    display: block;
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    z-index: 1;
+    opacity:0.8;
+    transition: all .35s;
+    -moz-transition: all .35s;
+    -webkit-transition: all .35s;
+    -o-transition: all .35s;
+  }
+  .newsb-thumbnail a:after {
+    opacity: 0.6;
+}
+.newsb-thumbnail:hover a:after, .newsbv li:hover .newsb-thumbnail a:after, .newsbh li:hover .newsb-thumbnail a:after, .blog-image:hover a:after{
+    opacity: 0;
+}
+.owl-item:hover .car_image:after {
+	opacity:0.2;
+}
+.owl-carousel .owl-item a img{
+	width:100%;
+}

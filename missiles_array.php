@@ -1,0 +1,61 @@
+<?php 
+	
+	$missiles = array(
+	/// AIR UNITS ///
+    'nuke' 		=> array(
+			'price'			=>	'100000',
+			'networth'		=>	15,
+			'normalname'	=>	'Nuclear Missile',
+			'shortname'		=>	'Nuke',
+			'shortatt'		=>  array('s','a','i','b','v'),
+			'attacks'		=>  array('sea','air','inf','bld','veh'),
+			'defends'		=>  array(''),
+			'attack'		=>	25000,
+			'type'			=>	'mis',
+			'life'			=>	0),
+    'chemical' 		=> array(
+			'price'			=>	'50000',
+			'networth'		=>	15,
+			'normalname'	=>	'Chemical Missile',
+			'shortname'		=>	'Chem',
+			'shortatt'		=>  array('s','a','v'),
+			'attacks'		=>  array('sea','air','veh'),
+			'defends'		=>  array(''),
+			'attack'		=>	15000,
+			'type'			=>	'mis',
+			'life'			=>	0),
+	'bio' 		=> array(
+			'price'			=>	'35000',
+			'networth'		=>	15,
+			'normalname'	=>	'Biochemical Missile',
+			'shortname'		=>	'Bio',
+			'shortatt'		=>  array('i'),
+			'attacks'		=>  array('inf'),
+			'defends'		=>  array(''),
+			'attack'		=>	10000,
+			'type'			=>	'mis',
+			'life'			=>	0),
+	'moab' 		=> array(
+			'price'			=>	'45000',
+			'networth'		=>	15,
+			'normalname'	=>	'MOAB',
+			'shortname'		=>	'MOAB',
+			'shortatt'		=>  array('b'),
+			'attacks'		=>  array('bld'),
+			'defends'		=>  array(''),
+			'attack'		=>	8000,
+			'type'			=>	'mis',
+			'life'			=>	0),/*
+	'tomahawk' 		=> array(
+			'price'			=>	'1500',
+			'networth'		=>	15,
+			'normalname'	=>	'Tomahawk',
+			'shortname'		=>	'TOM',
+			'shortatt'		=>  array('b'),
+			'attacks'		=>  array('bld'),
+			'defends'		=>  array(''),
+			'attack'		=>	1000,
+			'type'			=>	'mis',
+			'life'			=>	0),*/
+
+);

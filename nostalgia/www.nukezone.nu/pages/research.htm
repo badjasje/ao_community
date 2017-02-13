@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+
+All code and content within these pages are copyright Primetic (www.primetic.com).
+
+-->
+<html><head>
+<title>NukeZone - Nuke or Be Nuked!</title>
+
+
+<meta name="Author" content="Primetic (www.primetic.com)">
+<meta name="Keywords" content="NukeZone, Guffy, NZ, Web Game, Interactive Game, Strategy Game, Game, Play, Online Game">
+<meta name="Description" content="NukeZone - Nuke or Be Nuked!">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="shortcut icon" href="http://www.nukezone.nu/favicon.ico">
+
+<link rel="stylesheet" href="files/game1.css">
+<!--[if IE]>
+<link rel="stylesheet" href="http://img.nukezone.nu/c1/css/game1-ie.css?0.960">
+<![endif]-->
+</head>
+
+<body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
+
+<center>
+<table border="0" cellpadding="0" cellspacing="0" height="100%" width="925">
+  <tbody><tr>
+    <td background="files/up_left.gif" height="96">&nbsp;</td>
+      <td align="right" background="files/logo_top.gif" height="96" valign="top">
+        <table border="0" cellpadding="0" cellspacing="0" height="96">
+          <tbody><tr>
+			<td align="right" height="69" valign="top">
+				<table border="0" cellpadding="0" cellspacing="4" width="170">
+				<form action="/search.asp" method="GET" name="search" target="_self"></form>
+				<input name="Action" value="FindProvince" type="hidden">
+				  <tbody><tr>
+					<td colspan="2" valign="top"><a href="http://www.nukezone.nu/search.asp?Action=Standard"><img src="files/find_province.gif" alt="Click for more options." border="0" height="13" width="87"></a></td>
+				  </tr>
+				  <tr>
+					<td valign="middle" width="115"><input class="TextBoxA" size="23" name="X1" maxlength="25"></td>
+					<td valign="middle" width="55"><input class="Button" value="Go" style="width:25px" type="submit"></td>
+				  </tr>
+				
+				</tbody></table>
+			</td>
+		  </tr>
+          <tr>
+			<td align="right" height="27" valign="bottom">
+				<table border="0" cellpadding="0" cellspacing="0" width="292">
+				  <tbody><tr>
+					<td width="73">
+			<a href="http://www.nukezone.nu/message.asp?Action=Inbox" id="tabMessages" title="Check your messages or write new messages."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=LocalEvents" id="tabLocals" title="Check your local events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=GlobalEvents" id="tabGlobals" title="Check your global events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/help.asp" id="tabHelp" title="Go to the help page."></a>
+			</td>
+
+				  </tr>
+				</tbody></table>
+			</td>
+		  </tr>
+		</tbody></table>
+	</td>
+    <td background="files/up_right.gif" height="96">&nbsp;</td>
+  </tr>
+  <tr>
+    <td rowspan="2" background="files/middle_left.gif" height="58" width="35">&nbsp;</td>
+      <td background="files/logo_middle.gif" height="19">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+		  <tbody><tr>
+			<td align="right" valign="middle" width="840"><span class="Resources"><b>Money:</b> <span id="show01">$122&nbsp;515</span> &nbsp;| &nbsp;<b>Turns:</b> <span id="show02">171</span> &nbsp;| &nbsp;<b>Land:</b> <span id="show03">169&nbsp;311 m²</span> &nbsp;| &nbsp;<b>Morale:</b> <span id="show04">20% (40%)</span> &nbsp;| &nbsp;<b>Networth:</b> <span id="show05">$1&nbsp;396&nbsp;415</span></span></td>
+			<td width="15">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	  </td>
+    <td rowspan="2" background="files/middle_right.gif" height="58" width="35">&nbsp;</td>
+  </tr>
+  <tr>
+    <td background="files/logo_bottom.gif" height="39">
+		<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+          <tbody><tr>
+			<td align="right" valign="bottom" width="843"><a href="http://www.nukezone.nu/help.asp"><img src="files/pixel.gif" alt="Go to the appropriate chapter in the manual." border="0" height="27" width="28"></a></td>
+			<td width="12">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	</td>
+  </tr>
+  <tr>
+    <td background="files/bottom_left.gif" width="35">&nbsp;</td>
+    <td bgcolor="#D8D4B6" valign="top">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tbody><tr>
+		    <td align="center" height="100%" valign="top" width="178">
+
+		<div id="menuHolder">
+			<a id="onlineCount" href="http://www.nukezone.nu/show.asp?Action=Online">32 Players Online</a>
+			<div id="menuHeader"></div>
+
+			<span>MAIN</span>
+			
+			<a href="game main.htm">Overview</a>
+			<a href="attack page.htm">Attack</a>
+			<a href="research.htm">Research</a>
+			<a href="explore.htm">Explore</a>
+			<a href="market.htm">Market</a>
+			<a href="bank.htm">Bank</a>
+			<a href="clan.htm">Clan</a>
+
+			<span>MILITARY</span>
+			<a href="buildings.htm">Buildings</a>
+			<a href="sea.htm">Sea Units</a>
+			<a href="air.htm">Air Units</a>
+			<a href="vehicles.htm">Vehicles</a>
+			<a href="infantries.htm">Infantries</a>
+			<a href="missiles.htm">Missiles</a>
+			<a href="satelitte.htm">Satellites</a>
+
+			<span>INFORMATION</span>
+				<a href="local events.htm">Local Events</a>
+				<a href="global events.htm">Global Events</a>
+				
+				<a href="http://www.nukezone.nu/events.asp?Action=SearchEvents">Search Events</a>
+				
+			<a href="status.htm">Status</a>
+			<a href="all provinces.htm">All Provinces</a>
+			<a href="all clans.htm">All Clans</a>
+			<a href="top lists.htm">Top Lists</a>
+			<a href="search.htm">Search</a>
+			
+				<a href="http://www.nukezone.nu/forum/clanforum.asp" target="_blank">Clan Forum</a>
+				
+
+			<span>MISC</span>
+			<a href="inbox.htm">Inbox</a>
+			<a href="new message.htm">New Message</a>
+			<a href="preferences.htm">Preferences</a>
+			<a href="help.htm">Help</a>
+			<a href="about us.htm">About Us</a>
+			<a href="logout.htm">Logout</a>
+
+			
+		</div>
+		<br>
+
+	</td>
+            <td height="100%" valign="top" width="677">
+				<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+				  <tbody><tr>
+				    <td background="files/middle_background1.gif" height="46">
+						<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+						  <tbody><tr>
+						    <td height="46" valign="bottom" width="652">
+								<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+								  <tbody><tr>
+									<td height="32" width="10">&nbsp;</td>
+									<td height="32" valign="bottom" width="329"><span class="TitleText">Research</span></td>
+									<td align="right" height="32" valign="bottom" width="313"><span class="BigText">Guffy (#1)</span></td>
+								  </tr>
+								  <tr>
+									<td colspan="3" height="14">&nbsp;</td>
+								  </tr>
+								</tbody></table>
+							</td>
+						  </tr>
+						</tbody></table>
+					</td>
+				  </tr>
+				  <tr>
+					<td style="background-repeat: no-repeat;" background="files/middle_background2.gif" valign="top">
+						<table border="0" cellpadding="0" cellspacing="0" width="660">
+						  <tbody><tr>
+							<td>
+								<br>
+	
+	<script type="text/javascript" src="files/research.js"></script>
+
+	You may only research one science at a time. Each research takes different amount of time to complete and cost <b>25 turns</b>.
+ You may cancel your research while researching. Aborting a research 
+costs no additional turns but all research for the aborted science will 
+be lost.
+	Your amount of <b>Research Labs</b> deducts the time it takes to research by <b>0%</b>.
+	<br><br>
+
+	<form action="research.asp?A=Start" method="POST" name="doResearch" id="doResearch" target="_self">
+	<input value="0" name="X" id="X" type="hidden">
+	<input value="0" name="Y" id="Y" type="hidden">
+	<table class="content" border="0" width="100%">
+	  <tbody><tr class="header">
+	    <td colspan="2" align="center">Current Research</td>
+	  </tr>
+	  <tr class="headerRow">
+	    <td width="76%">Description</td>
+	    <td align="center" width="24%">Status</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Bank Management, Level 1/3</b><br>
+		Bank stores up to $3&nbsp;500&nbsp;000 and bank interest increased by 0.5 percentage points.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Bank Management, Level 2/3</b><br>
+		Bank stores up to $4&nbsp;500&nbsp;000 and bank interest increased by 
+0.75 percentage points, plus option to withdraw money after 24 hours 
+with no interest but with a 25% fee.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Bank Management, Level 3/3</b><br>
+		Bank stores up to $5&nbsp;000&nbsp;000 and bank interest increased by 1
+ percentage points, plus the 25% fee for early withdrawals is removed, 
+plus the 25% fee is removed when sending aid.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Engineer Effectiveness, Level 1/2</b><br>
+		Allows you to build 10 buildings per turn.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Engineer Effectiveness, Level 2/2</b><br>
+		Allows you to build 15 buildings per turn.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Market Discount, Level 1/2</b><br>
+		15% discount on all units purchased from the market.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Market Discount, Level 2/2</b><br>
+		30% discount on all units purchased from the market.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Missile Accuracy, Level 1/2</b><br>
+		90% chance to hit target.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Money Production, Level 1/2</b><br>
+		Income increased to $30&nbsp;000 per hour.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Money Production, Level 2/2</b><br>
+		Income increased to $45&nbsp;000 per hour.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Power Plant Efficiency, Level 1/1</b><br>
+		Power Plants life and power produced increased by 50%.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Satellite Technology, Level 1/3</b><br>
+		Allows you to build satellites.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Satellite Technology, Level 2/3</b><br>
+		Extends the maximum orbit time of satellites by 5 days.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Thief Education, Level 1/3</b><br>
+		Thieves steal two times the amount of money.
+	    </td>
+	    <td align="center" valign="middle">Completed</td>
+	  </tr>
+	
+	  <tr class="header">
+	    <td colspan="2" height="4"></td>
+	  </tr>
+	</tbody></table>
+
+	<br>
+
+	<table class="content" border="0" width="100%">
+	  <tbody><tr class="header">
+	    <td colspan="2" align="center">New Research</td>
+	  </tr>
+	  <tr class="headerRow">
+	    <td width="76%">Description</td>
+	    <td align="center" width="24%">Status</td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Market Shipping Time, Level 1/2 (Time: 5 hours)</b><br>
+		Shipping time reduced to 9 hours.
+	    </td>
+	    <td align="center" valign="middle"><input class="Button2" value="Research" name="Research" onclick="javascript:startResearch(10,100);" type="button"></td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Missile Accuracy, Level 2/2 (Time: 12 hours)</b><br>
+		Missiles have a 95% chance to hit target, and cost 3 turns to build and launch.
+	    </td>
+	    <td align="center" valign="middle"><input class="Button2" value="Research" name="Research" onclick="javascript:startResearch(3,200);" type="button"></td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Satellite Technology, Level 3/3 (Time: 10 hours)</b><br>
+		Construction cost of satellites reduced by 20% and each use of a satellite will cost 4 turns instead of 5.
+	    </td>
+	    <td align="center" valign="middle"><input class="Button2" value="Research" name="Research" onclick="javascript:startResearch(7,300)" type="button"></td>
+	  </tr>
+	
+	  <tr>
+	    <td>
+		<b>Thief Education, Level 2/3 (Time: 5 hours)</b><br>
+		Thieves steal three times the amount of money.
+	    </td>
+	    <td align="center" valign="middle"><input class="Button2" value="Research" name="Research" onclick="javascript:startResearch(2,200);" type="button"></td>
+	  </tr>
+	
+	  <tr class="header">
+	    <td colspan="2" height="4"></td>
+	  </tr>
+	</tbody></table>
+	</form>
+	
+							</td>
+						  </tr>
+						</tbody></table>
+				    </td>
+				  </tr>
+				</tbody></table>
+				</td>
+			  </tr>
+		  <tr> 
+            <td colspan="2" align="center" valign="top">
+				<br><img src="files/primetic.gif" height="35" width="100"><br>
+				Copyright © 2001-2014 <a href="http://www.primetic.com/" target="_blank">Primetic</a>. All Rights Reserved.
+				<br><br>
+				This page was generated in 0 seconds. Current date/time is 2014-09-12 03:42:40.
+		    </td>
+		  </tr>
+		</tbody></table>
+    </td>
+    <td background="files/bottom_right.gif" width="35">&nbsp;</td>
+  </tr>
+</tbody></table>
+</center>
+
+
+
+
+</body></html>

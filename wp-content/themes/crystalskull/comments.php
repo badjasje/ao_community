@@ -1,0 +1,1 @@
+<?php /*silence is golden*/ ?><?php comment_form(); ?><?php if ( ! isset( $content_width ) ) $content_width = 900; ?><?php  posts_nav_link(); previous_posts_link();  ?><?php the_tags('Tags: ', ', ', '<br />'); ?><?php add_editor_style();  ?><div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>

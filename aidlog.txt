@@ -1,0 +1,171 @@
+ID: 301Receiver: 25
+Aid sent: 5000
+
+ID: 301Receiver: 25
+Aid sent: 100000
+
+ID: 226 Receiver: 336
+Aid sent: 250000
+
+ID: 29 Receiver: 344
+Aid sent: 250000
+
+ID: 29 Receiver: 344
+Aid sent: 250000
+
+ID: 29 Receiver: 344
+Aid sent: 250000
+
+ID: 308 Receiver: 344
+Aid sent: 250000
+
+ID: 308 Receiver: 344
+Aid sent: 250000
+
+ID: 308 Receiver: 344
+Aid sent: 250000
+
+ID: 414 Receiver: 29
+Aid sent: 250000
+
+ID: 312 Receiver: 313
+Aid sent: 250000
+
+ID: 312 Receiver: 313
+Aid sent: 250000
+
+ID: 312 Receiver: 313
+Aid sent: 250000
+
+ID: 414 Receiver: 29
+Aid sent: 250000
+
+ID: 29 Receiver: 308
+Aid sent: 250000
+
+ID: 29 Receiver: 308
+Aid sent: 250000
+
+ID: 29 Receiver: 308
+Aid sent: 250000
+
+ID: 187 Receiver: 307
+Aid sent: 250000
+
+ID: 308 Receiver: 344
+Aid sent: 250000
+
+ID: 308 Receiver: 344
+Aid sent: 250000
+
+ID: 308 Receiver: 402
+Aid sent: 250000
+
+ID: 414 Receiver: 402
+Aid sent: 250000
+
+ID: 414 Receiver: 402
+Aid sent: 250000
+
+ID: 414 Receiver: 402
+Aid sent: 250000
+
+ID: 360 Receiver: 315
+Aid sent: 
+
+ID: 312 Receiver: 313
+Aid sent: 250000
+
+ID: 312 Receiver: 313
+Aid sent: 250000
+
+ID: 312 Receiver: 317
+Aid sent: 250000
+
+ID: 214 Receiver: 333
+Aid sent: 250000
+
+ID: 214 Receiver: 333
+Aid sent: 250000
+
+ID: 214 Receiver: 333
+Aid sent: 250000
+
+ID: 475 Receiver: 488
+Aid sent: 250000
+
+ID: 475 Receiver: 488
+Aid sent: 250000
+
+ID: 475 Receiver: 457
+Aid sent: 62067
+
+ID: 402 Receiver: 29
+Aid sent: 250000
+
+ID: 402 Receiver: 29
+Aid sent: 250000
+
+ID: 402 Receiver: 29
+Aid sent: 250000
+
+ID: 151 Receiver: 1
+Aid sent: 5000
+
+ID: 151 Receiver: 1
+Aid sent: 20000
+
+ID: 574 Receiver: 575
+Aid sent: 250000
+
+ID: 308 Receiver: 344
+Aid sent: 1
+
+ID: 29 Receiver: 344
+Aid sent: 250000
+
+ID: 29 Receiver: 344
+Aid sent: 250000
+
+ID: 235 Receiver: 340
+Aid sent: 250000
+
+ID: 561 Receiver: 60
+Aid sent: 250000
+
+ID: 561 Receiver: 60
+Aid sent: 173257
+
+ID: 496 Receiver: 108
+Aid sent: 256
+
+ID: 308 Receiver: 522
+Aid sent: 100000
+
+ID: 165 Receiver: 470
+Aid sent: 250000
+
+ID: 165 Receiver: 471
+Aid sent: 250000
+
+ID: 235 Receiver: 360
+Aid sent: 240000
+
+ID: 166 Receiver: 468
+Aid sent: 250000
+
+ID: 165 Receiver: 468
+Aid sent: 250000
+
+ID: 165 Receiver: 468
+Aid sent: 250000
+
+ID: 575 Receiver: 360
+Aid sent: 250000
+
+ID: 575 Receiver: 76
+Aid sent: 250000
+
+ID: 316 Receiver: 426
+Aid sent: 150000
+

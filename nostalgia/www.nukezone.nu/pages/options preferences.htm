@@ -1,0 +1,413 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+
+All code and content within these pages are copyright Primetic (www.primetic.com).
+
+-->
+<html><head>
+<title>NukeZone - Nuke or Be Nuked!</title>
+
+
+<meta name="Author" content="Primetic (www.primetic.com)">
+<meta name="Keywords" content="NukeZone, Guffy, NZ, Web Game, Interactive Game, Strategy Game, Game, Play, Online Game">
+<meta name="Description" content="NukeZone - Nuke or Be Nuked!">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="shortcut icon" href="http://www.nukezone.nu/favicon.ico">
+
+<link rel="stylesheet" href="files/game1.css">
+<!--[if IE]>
+<link rel="stylesheet" href="http://img.nukezone.nu/c1/css/game1-ie.css?0.960">
+<![endif]-->
+</head>
+
+<body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
+
+<center>
+<table border="0" cellpadding="0" cellspacing="0" height="100%" width="925">
+  <tbody><tr>
+    <td background="files/up_left.gif" height="96">&nbsp;</td>
+      <td align="right" background="files/logo_top.gif" height="96" valign="top">
+        <table border="0" cellpadding="0" cellspacing="0" height="96">
+          <tbody><tr>
+			<td align="right" height="69" valign="top">
+				<table border="0" cellpadding="0" cellspacing="4" width="170">
+				<form action="/search.asp" method="GET" name="search" target="_self"></form>
+				<input name="Action" value="FindProvince" type="hidden">
+				  <tbody><tr>
+					<td colspan="2" valign="top"><a href="http://www.nukezone.nu/search.asp?Action=Standard"><img src="files/find_province.gif" alt="Click for more options." border="0" height="13" width="87"></a></td>
+				  </tr>
+				  <tr>
+					<td valign="middle" width="115"><input class="TextBoxA" size="23" name="X1" maxlength="25"></td>
+					<td valign="middle" width="55"><input class="Button" value="Go" style="width:25px" type="submit"></td>
+				  </tr>
+				
+				</tbody></table>
+			</td>
+		  </tr>
+          <tr>
+			<td align="right" height="27" valign="bottom">
+				<table border="0" cellpadding="0" cellspacing="0" width="292">
+				  <tbody><tr>
+					<td width="73">
+			<a href="http://www.nukezone.nu/message.asp?Action=Inbox" id="tabMessages" title="Check your messages or write new messages."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=LocalEvents" id="tabLocals" title="Check your local events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=GlobalEvents" id="tabGlobals" title="Check your global events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/help.asp" id="tabHelp" title="Go to the help page."></a>
+			</td>
+
+				  </tr>
+				</tbody></table>
+			</td>
+		  </tr>
+		</tbody></table>
+	</td>
+    <td background="files/up_right.gif" height="96">&nbsp;</td>
+  </tr>
+  <tr>
+    <td rowspan="2" background="files/middle_left.gif" height="58" width="35">&nbsp;</td>
+      <td background="files/logo_middle.gif" height="19">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+		  <tbody><tr>
+			<td align="right" valign="middle" width="840"><span class="Resources"><b>Money:</b> <span id="show01">$122&nbsp;515</span> &nbsp;| &nbsp;<b>Turns:</b> <span id="show02">171</span> &nbsp;| &nbsp;<b>Land:</b> <span id="show03">169&nbsp;311 m²</span> &nbsp;| &nbsp;<b>Morale:</b> <span id="show04">30% (35%)</span> &nbsp;| &nbsp;<b>Networth:</b> <span id="show05">$1&nbsp;396&nbsp;415</span></span></td>
+			<td width="15">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	  </td>
+    <td rowspan="2" background="files/middle_right.gif" height="58" width="35">&nbsp;</td>
+  </tr>
+  <tr>
+    <td background="files/logo_bottom.gif" height="39">
+		<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+          <tbody><tr>
+			<td align="right" valign="bottom" width="843"><a href="http://www.nukezone.nu/help.asp"><img src="files/pixel.gif" alt="Go to the appropriate chapter in the manual." border="0" height="27" width="28"></a></td>
+			<td width="12">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	</td>
+  </tr>
+  <tr>
+    <td background="files/bottom_left.gif" width="35">&nbsp;</td>
+    <td bgcolor="#D8D4B6" valign="top">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tbody><tr>
+		    <td align="center" height="100%" valign="top" width="178">
+
+		<div id="menuHolder">
+			<a id="onlineCount" href="http://www.nukezone.nu/show.asp?Action=Online">34 Players Online</a>
+			<div id="menuHeader"></div>
+
+			<span>MAIN</span>
+			
+			<a href="game main.htm">Overview</a>
+			<a href="attack page.htm">Attack</a>
+			<a href="research.htm">Research</a>
+			<a href="explore.htm">Explore</a>
+			<a href="market.htm">Market</a>
+			<a href="bank.htm">Bank</a>
+			<a href="clan.htm">Clan</a>
+
+			<span>MILITARY</span>
+			<a href="buildings.htm">Buildings</a>
+			<a href="sea.htm">Sea Units</a>
+			<a href="air.htm">Air Units</a>
+			<a href="vehicles.htm">Vehicles</a>
+			<a href="infantries.htm">Infantries</a>
+			<a href="missiles.htm">Missiles</a>
+			<a href="satelitte.htm">Satellites</a>
+
+			<span>INFORMATION</span>
+				<a href="local events.htm">Local Events</a>
+				<a href="global events.htm">Global Events</a>
+				
+				<a href="http://www.nukezone.nu/events.asp?Action=SearchEvents">Search Events</a>
+				
+			<a href="status.htm">Status</a>
+			<a href="all provinces.htm">All Provinces</a>
+			<a href="all clans.htm">All Clans</a>
+			<a href="top lists.htm">Top Lists</a>
+			<a href="search.htm">Search</a>
+			
+				<a href="http://www.nukezone.nu/forum/clanforum.asp" target="_blank">Clan Forum</a>
+				
+
+			<span>MISC</span>
+			<a href="inbox.htm">Inbox</a>
+			<a href="new message.htm">New Message</a>
+			<a href="preferences.htm">Preferences</a>
+			<a href="help.htm">Help</a>
+			<a href="about us.htm">About Us</a>
+			<a href="logout.htm">Logout</a>
+
+			
+		</div>
+		<br>
+
+	</td>
+            <td height="100%" valign="top" width="677">
+				<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+				  <tbody><tr>
+				    <td background="files/middle_background1.gif" height="46">
+						<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+						  <tbody><tr>
+						    <td height="46" valign="bottom" width="652">
+								<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+								  <tbody><tr>
+									<td height="32" width="10">&nbsp;</td>
+									<td height="32" valign="bottom" width="329"><span class="TitleText">Options</span></td>
+									<td align="right" height="32" valign="bottom" width="313"><span class="BigText">Guffy (#1)</span></td>
+								  </tr>
+								  <tr>
+									<td colspan="3" height="14">&nbsp;</td>
+								  </tr>
+								</tbody></table>
+							</td>
+						  </tr>
+						</tbody></table>
+					</td>
+				  </tr>
+				  <tr>
+					<td style="background-repeat: no-repeat;" background="files/middle_background2.gif" valign="top">
+						<table border="0" cellpadding="0" cellspacing="0" width="660">
+						  <tbody><tr>
+							<td>
+								<br>
+	
+	<script language="JavaScript">
+	<!--
+	function toggleNamingRestrictions() {
+		if (document.getElementById("namingRest").className == "hide") {
+			document.getElementById("namingRest").className="";
+			document.getElementById("namingRestText").innerHTML = "hide";
+		} else {
+	  		document.getElementById("namingRest").className="hide";
+	  		document.getElementById("namingRestText").innerHTML = "show";
+		}
+	}
+	// -->
+	</script>
+
+	<center><b><a href="http://www.nukezone.nu/preferences.asp?Action=Options">Options</a></b> - <a href="http://www.nukezone.nu/preferences.asp?Action=Ignore">Ignore</a> - <a href="http://www.nukezone.nu/preferences.asp?Action=Colors">Colors</a> - <a href="http://www.nukezone.nu/preferences.asp?Action=Password">Password</a> - <a href="http://www.nukezone.nu/preferences.asp?Action=AutoLogin">Auto Login</a> - <a href="http://www.nukezone.nu/preferences.asp?Action=Signature">Signature/Avatar</a> - <a href="http://www.nukezone.nu/preferences.asp?Action=EnemyList">Enemy List</a> - <a href="http://www.nukezone.nu/preferences.asp?Action=Account">Account</a></center>
+
+	<form name="preferences" action="preferences.asp?Action=Options&amp;X=Save" method="POST" target="_self">
+	<input name="SecurityKey" value="B0MQKNBS" type="hidden">
+
+	<b>NOTE:</b> You cannot change your province name during a round (only 
+during the first 48 hours of a round). You can only change this between 
+two rounds or when you are dead and only once every 14 days. Gold Users 
+are allowed unlimited province name changes anytime during the round, as
+ long as they are 7 days apart.
+
+	<br><br>
+	<b><span class="Asterisk">*</span>Province Name (5-25 chars):</b><br>
+	
+		<input disabled="disabled" name="ProvinceName" size="40" maxlength="25" class="TextBoxB2" value="NGFG Idle">
+		
+
+	<br><br>
+	<b><span class="Asterisk">*</span>Protect My Name (Only available for Gold Users):</b><br>
+	Restrict others from using your NukeZone Province Name in SR/Elite.<br>
+	
+		<input disabled="disabled" value="1" name="ProtectNameSR" type="radio">Yes
+		<input disabled="disabled" checked="checked" value="0" name="ProtectNameSR" type="radio">No
+
+		
+
+	<input name="EmailOld" value="koen314@hotmail.com" type="hidden">
+	<br><br>
+	<b><span class="Asterisk">*</span>E-mail:</b><br>
+	<input name="Email" size="40" maxlength="100" class="TextBoxB2" value="koen314@hotmail.com">
+
+	<br><br>
+	<b><span class="Asterisk">*</span>E-mail visibility for clan mates:</b><br>
+	<input value="1" name="VisibleEmail" type="radio">Visible
+	<input checked="checked" value="0" name="VisibleEmail" type="radio">Hidden
+
+	<br><br>
+	<b>Time Zone:</b><br>
+	<select name="TimeZone" size="1" class="TextBoxB2">
+	  <option value="-12">(GMT-12:00) Kwajalein
+	  </option><option value="-11">(GMT-11:00) Midway Island, Samoa
+	  </option><option value="-10">(GMT-10:00) Hawaii
+	  </option><option value="-9">(GMT-09:00) Alaska
+	  </option><option value="-8">(GMT-08:00) Pacific Time (US &amp; Canada)
+	  </option><option value="-7">(GMT-07:00) Mountain Time (US &amp; Canada), Arizona
+	  </option><option value="-6">(GMT-06:00) Central Time (US &amp; Canada), Mexico City
+	  </option><option value="-5">(GMT-05:00) Eastern Time (US &amp; Canada), Indiana
+	  </option><option value="-4">(GMT-04:00) Atlantic Time (Canada), Santiago
+	  </option><option value="-3,5">(GMT-03:30) Newfoundland
+	  </option><option value="-3">(GMT-03:00) Brasilia, Greenland
+	  </option><option value="-2">(GMT-02:00) Mid-Atlantic
+	  </option><option value="-1">(GMT-01:00) Azores, Cape Verde Is.
+	  </option><option value="0">(GMT) Greenwich Mean Time, Dublin, London
+	  </option><option selected="selected" value="1">(GMT+01:00) Central European Time, Berlin, Stockholm
+	  </option><option value="2">(GMT+02:00) Athens, Helsinki, Riga, Tallinn
+	  </option><option value="3">(GMT+03:00) Baghdad, Kuwait, Moscow
+	  </option><option value="3,5">(GMT+03:30) Tehran
+	  </option><option value="4">(GMT+04:00) Abu Dhabi, Baku, Tbilisi
+	  </option><option value="4,5">(GMT+04:30) Kabul
+	  </option><option value="5">(GMT+05:00) Islamabad, Karachi
+	  </option><option value="5,5">(GMT+05:30) Kolkata, Mumbai, New Delhi
+	  </option><option value="5,75">(GMT+05:45) Kathmandu
+	  </option><option value="6">(GMT+06:00) Astana, Dhaka, Sri Lanka
+	  </option><option value="6,5">(GMT+06:30) Rangoon
+	  </option><option value="7">(GMT+07:00) Bangkok, Hanoi, Jakarta
+	  </option><option value="8">(GMT+08:00) Beijing, Hong Kong, Kuala Lumpur
+	  </option><option value="9">(GMT+09:00) Tokyo, Osaka, Seoul
+	  </option><option value="9,5">(GMT+09:30) Adelaide, Darwin
+	  </option><option value="10">(GMT+10:00) Sydney, Brisbane, Guam
+	  </option><option value="11">(GMT+11:00) Magadan
+	  </option><option value="12">(GMT+12:00) Auckland, Fiji
+	  </option><option value="13">(GMT+13:00) Tonga</option>
+	</select>
+
+	<br><br>
+	<b>Time Format:</b><br>
+	<input value="12" name="TimeHours" type="radio">12 hours (AM/PM)
+	<input checked="checked" value="24" name="TimeHours" type="radio">24 hours
+
+	<br><br>
+	<b>Show Forum Resource Bar:</b><br>
+	<input checked="checked" value="1" name="ForumTopBar" type="radio">Yes
+	<input value="0" name="ForumTopBar" type="radio">No
+
+	<br><br>
+	<b>Military information shared with clan mates:</b><br>
+	<input value="0" name="VisibleClanSharing" type="radio">None
+	<input value="1" name="VisibleClanSharing" type="radio">Standard
+	<input checked="checked" value="2" name="VisibleClanSharing" type="radio">Extended (Gold Clans Only)
+
+	<br><br>
+	<b>Allow clan invitations:</b><br>
+	
+		<input checked="checked" value="1" name="AcceptInvitations" type="radio">Yes
+		<input value="0" name="AcceptInvitations" type="radio">No
+		
+
+	<br><br>
+	<b>Forward all private messages to my email <i>(Only available for Gold Users)</i>:</b><br>
+	
+		<input disabled="disabled" value="1" name="NotifyForward" type="radio">Yes
+		<input disabled="disabled" checked="checked" value="0" name="NotifyForward" type="radio">No
+		
+
+	<br><br>
+	<b>Notify me by email when... <i>(Only available for Gold Users)</i>:</b><br>
+	
+		<input disabled="disabled" name="NotifyMe1" value="1" type="checkbox">...Someone attacks me<br>
+		<input disabled="disabled" name="NotifyMe2" value="1" type="checkbox">...An enemy clan declares war against my clan
+		
+	<br><br>
+	<b>Custom Tabs <i>(Only available for Gold Users)</i>:</b><br>
+	
+		Tab 1: <select disabled="disabled" name="CustomTab1" size="1" class="TextBoxB2">
+			  <option selected="selected" value="MS">Inbox
+			  </option><option value="LE">Local Events
+			  </option><option value="GE">Global Events
+			  </option><option value="AE">Attack Events
+			  </option><option value="SE">Search Events
+			  </option><option value="PF">Forums
+			  </option><option value="CF">Clan Forum
+			  </option><option value="CL">Clan
+			  </option><option value="HP">Help
+			  </option><option value="SR">Speed Round</option>
+			</select><br>
+		Tab 2: <select disabled="disabled" name="CustomTab2" size="1" class="TextBoxB2">
+			  <option value="MS">Inbox
+			  </option><option selected="selected" value="LE">Local Events
+			  </option><option value="GE">Global Events
+			  </option><option value="AE">Attack Events
+			  </option><option value="SE">Search Events
+			  </option><option value="PF">Forums
+			  </option><option value="CF">Clan Forum
+			  </option><option value="CL">Clan
+			  </option><option value="HP">Help
+			  </option><option value="SR">Speed Round</option>
+			</select><br>
+		Tab 3: <select disabled="disabled" name="CustomTab3" size="1" class="TextBoxB2">
+			  <option value="MS">Inbox
+			  </option><option value="LE">Local Events
+			  </option><option selected="selected" value="GE">Global Events
+			  </option><option value="AE">Attack Events
+			  </option><option value="SE">Search Events
+			  </option><option value="PF">Forums
+			  </option><option value="CF">Clan Forum
+			  </option><option value="CL">Clan
+			  </option><option value="HP">Help
+			  </option><option value="SR">Speed Round</option>
+			</select><br>
+		Tab 4: <select disabled="disabled" name="CustomTab4" size="1" class="TextBoxB2">
+			  <option value="MS">Inbox
+			  </option><option value="LE">Local Events
+			  </option><option value="GE">Global Events
+			  </option><option value="AE">Attack Events
+			  </option><option value="SE">Search Events
+			  </option><option value="PF">Forums
+			  </option><option value="CF">Clan Forum
+			  </option><option value="CL">Clan
+			  </option><option selected="selected" value="HP">Help
+			  </option><option value="SR">Speed Round</option>
+			</select><br>
+		Tab 5: <select disabled="disabled" name="CustomTab5" size="1" class="TextBoxB2">
+			  <option selected="selected" value="">None</option>
+			  <option value=""></option>
+			  <option value="MS">Inbox
+			  </option><option value="LE">Local Events
+			  </option><option value="GE">Global Events
+			  </option><option value="AE">Attack Events
+			  </option><option value="SE">Search Events
+			  </option><option value="PF">Forums
+			  </option><option value="CF">Clan Forum
+			  </option><option value="CL">Clan
+			  </option><option value="HP">Help
+			  </option><option value="SR">Speed Round</option>
+			</select>
+		
+
+	<br><br>
+	<b>Beta Testing Program <i>(Only available for Gold Users)</i>:</b><br>
+	This setting lets you enable/disable beta testing features. New 
+features are made available as beta features for testing before being 
+made available to everyone.
+	<br>
+	
+		<input disabled="disabled" value="1" name="BetaTestingProgram" type="radio">Enable
+		<input disabled="disabled" checked="checked" value="0" name="BetaTestingProgram" type="radio">Disable
+		
+
+	<br><br>
+	<input name="Preferences" class="Button2" value="Save" type="submit">&nbsp;&nbsp;<input name="Preferences" class="Button2" onclick="window.location='preferences.asp?Action=Preferences'" value="Cancel" type="button">
+	</form>
+	
+							</td>
+						  </tr>
+						</tbody></table>
+				    </td>
+				  </tr>
+				</tbody></table>
+				</td>
+			  </tr>
+		  <tr> 
+            <td colspan="2" align="center" valign="top">
+				<br><img src="files/primetic.gif" height="35" width="100"><br>
+				Copyright © 2001-2014 <a href="http://www.primetic.com/" target="_blank">Primetic</a>. All Rights Reserved.
+				<br><br>
+				This page was generated in 0 seconds. Current date/time is 2014-09-12 03:47:16.
+		    </td>
+		  </tr>
+		</tbody></table>
+    </td>
+    <td background="files/bottom_right.gif" width="35">&nbsp;</td>
+  </tr>
+</tbody></table>
+</center>
+
+
+
+
+</body></html>

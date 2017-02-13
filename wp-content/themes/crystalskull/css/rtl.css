@@ -1,0 +1,27 @@
+body{
+	direction: rtl;
+	unicode-bidi: embed;
+}
+
+.bx-wrapper .bx-pager, .bx-wrapper .bx-controls-auto{
+	right: 17%;
+}
+.next_slide_text{
+	left:0px;
+	right: initial !important;
+}
+
+.blog-rating .overall-score .rating {
+  text-align: left !important;
+}
+.widget-title i {
+  margin-left: 3px !important;
+}
+div.rating:after {
+	left: 0 !important;
+    text-align: left !important;
+}
+
+.heart-love-count .fa {
+  margin-left: 5px !important;
+}

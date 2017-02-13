@@ -1,0 +1,8 @@
+#RewriteEngine On
+#RewriteBase /
+#RewriteCond %{REMOTE_HOST} !^82.74.167.98 
+#RewriteCond %{REMOTE_HOST} !^80.101.103.224 
+
+#RewriteCond %{REQUEST_URI} !/wp-admin\$  
+
+#RewriteRule .* http://nuke.zone/dashboard [R=302,L]

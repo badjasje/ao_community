@@ -1,0 +1,486 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+
+All code and content within these pages are copyright Primetic (www.primetic.com).
+
+-->
+<html><head>
+<title>NukeZone - Nuke or Be Nuked!</title>
+
+
+<meta name="Author" content="Primetic (www.primetic.com)">
+<meta name="Keywords" content="NukeZone, Guffy, NZ, Web Game, Interactive Game, Strategy Game, Game, Play, Online Game">
+<meta name="Description" content="NukeZone - Nuke or Be Nuked!">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="shortcut icon" href="http://www.nukezone.nu/favicon.ico">
+
+<link rel="stylesheet" href="files/game1.css">
+<!--[if IE]>
+<link rel="stylesheet" href="http://img.nukezone.nu/c1/css/game1-ie.css?0.960">
+<![endif]-->
+</head>
+
+<body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
+
+<center>
+<table border="0" cellpadding="0" cellspacing="0" height="100%" width="925">
+  <tbody><tr>
+    <td background="files/up_left.gif" height="96">&nbsp;</td>
+      <td align="right" background="files/logo_top.gif" height="96" valign="top">
+        <table border="0" cellpadding="0" cellspacing="0" height="96">
+          <tbody><tr>
+			<td align="right" height="69" valign="top">
+				<table border="0" cellpadding="0" cellspacing="4" width="170">
+				<form action="/search.asp" method="GET" name="search" target="_self"></form>
+				<input name="Action" value="FindProvince" type="hidden">
+				  <tbody><tr>
+					<td colspan="2" valign="top"><a href="http://www.nukezone.nu/search.asp?Action=Standard"><img src="files/find_province.gif" alt="Click for more options." border="0" height="13" width="87"></a></td>
+				  </tr>
+				  <tr>
+					<td valign="middle" width="115"><input class="TextBoxA" size="23" name="X1" maxlength="25"></td>
+					<td valign="middle" width="55"><input class="Button" value="Go" style="width:25px" type="submit"></td>
+				  </tr>
+				
+				</tbody></table>
+			</td>
+		  </tr>
+          <tr>
+			<td align="right" height="27" valign="bottom">
+				<table border="0" cellpadding="0" cellspacing="0" width="292">
+				  <tbody><tr>
+					<td width="73">
+			<a href="http://www.nukezone.nu/message.asp?Action=Inbox" id="tabMessages" title="Check your messages or write new messages."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=LocalEvents" id="tabLocals" title="Check your local events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=GlobalEvents" id="tabGlobals" title="Check your global events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/help.asp" id="tabHelp" title="Go to the help page."></a>
+			</td>
+
+				  </tr>
+				</tbody></table>
+			</td>
+		  </tr>
+		</tbody></table>
+	</td>
+    <td background="files/up_right.gif" height="96">&nbsp;</td>
+  </tr>
+  <tr>
+    <td rowspan="2" background="files/middle_left.gif" height="58" width="35">&nbsp;</td>
+      <td background="files/logo_middle.gif" height="19">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+		  <tbody><tr>
+			<td align="right" valign="middle" width="840"><span class="Resources"><b>Money:</b> <span id="show01">$122&nbsp;515</span> &nbsp;| &nbsp;<b>Turns:</b> <span id="show02">171</span> &nbsp;| &nbsp;<b>Land:</b> <span id="show03">169&nbsp;311 m²</span> &nbsp;| &nbsp;<b>Morale:</b> <span id="show04">20% (40%)</span> &nbsp;| &nbsp;<b>Networth:</b> <span id="show05">$1&nbsp;396&nbsp;415</span></span></td>
+			<td width="15">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	  </td>
+    <td rowspan="2" background="files/middle_right.gif" height="58" width="35">&nbsp;</td>
+  </tr>
+  <tr>
+    <td background="files/logo_bottom.gif" height="39">
+		<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+          <tbody><tr>
+			<td align="right" valign="bottom" width="843"><a href="http://www.nukezone.nu/help.asp"><img src="files/pixel.gif" alt="Go to the appropriate chapter in the manual." border="0" height="27" width="28"></a></td>
+			<td width="12">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	</td>
+  </tr>
+  <tr>
+    <td background="files/bottom_left.gif" width="35">&nbsp;</td>
+    <td bgcolor="#D8D4B6" valign="top">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tbody><tr>
+		    <td align="center" height="100%" valign="top" width="178">
+
+		<div id="menuHolder">
+			<a id="onlineCount" href="http://www.nukezone.nu/show.asp?Action=Online">34 Players Online</a>
+			<div id="menuHeader"></div>
+
+			<span>MAIN</span>
+			
+			<a href="game main.htm">Overview</a>
+			<a href="attack page.htm">Attack</a>
+			<a href="research.htm">Research</a>
+			<a href="explore.htm">Explore</a>
+			<a href="market.htm">Market</a>
+			<a href="bank.htm">Bank</a>
+			<a href="clan.htm">Clan</a>
+
+			<span>MILITARY</span>
+			<a href="buildings.htm">Buildings</a>
+			<a href="sea.htm">Sea Units</a>
+			<a href="air.htm">Air Units</a>
+			<a href="vehicles.htm">Vehicles</a>
+			<a href="infantries.htm">Infantries</a>
+			<a href="missiles.htm">Missiles</a>
+			<a href="satelitte.htm">Satellites</a>
+
+			<span>INFORMATION</span>
+				<a href="local events.htm">Local Events</a>
+				<a href="global events.htm">Global Events</a>
+				
+				<a href="http://www.nukezone.nu/events.asp?Action=SearchEvents">Search Events</a>
+				
+			<a href="status.htm">Status</a>
+			<a href="all provinces.htm">All Provinces</a>
+			<a href="all clans.htm">All Clans</a>
+			<a href="top lists.htm">Top Lists</a>
+			<a href="search.htm">Search</a>
+			
+				<a href="http://www.nukezone.nu/forum/clanforum.asp" target="_blank">Clan Forum</a>
+				
+
+			<span>MISC</span>
+			<a href="inbox.htm">Inbox</a>
+			<a href="new message.htm">New Message</a>
+			<a href="preferences.htm">Preferences</a>
+			<a href="help.htm">Help</a>
+			<a href="about us.htm">About Us</a>
+			<a href="logout.htm">Logout</a>
+
+			
+		</div>
+		<br>
+
+	</td>
+            <td height="100%" valign="top" width="677">
+				<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+				  <tbody><tr>
+				    <td background="files/middle_background1.gif" height="46">
+						<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+						  <tbody><tr>
+						    <td height="46" valign="bottom" width="652">
+								<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+								  <tbody><tr>
+									<td height="32" width="10">&nbsp;</td>
+									<td height="32" valign="bottom" width="329"><span class="TitleText">All Provinces</span></td>
+									<td align="right" height="32" valign="bottom" width="313"><span class="BigText">Guffy (#1)</span></td>
+								  </tr>
+								  <tr>
+									<td colspan="3" height="14">&nbsp;</td>
+								  </tr>
+								</tbody></table>
+							</td>
+						  </tr>
+						</tbody></table>
+					</td>
+				  </tr>
+				  <tr>
+					<td style="background-repeat: no-repeat;" background="files/middle_background2.gif" valign="top">
+						<table border="0" cellpadding="0" cellspacing="0" width="660">
+						  <tbody><tr>
+							<td>
+								<br>
+	
+	<form name="provinces" action="show.asp" method="GET" target="_self">
+	<input name="Action" value="Players" type="hidden">
+
+	This is a list of all current provinces that are <b>within your current attack range</b>.
+ Provinces are grouped by networth in seven different groups and can be 
+sorted by networth or land. Use the networth range list to see them all.
+	<br><br>
+
+	Players in <font color="#0E0092">this color</font> are under nuke protection or in vacation mode.<br>Players in <font color="#FF4141">this color</font> are dead.<br>Players in <font color="#FF0072">this color</font> are your clan mates.<br>Players marked with an asterisk (<span class="Asterisk">*</span>) are currently online.<br>You are shown in <i>italic</i>.
+
+	<center>
+	<br>
+	<b>Networth Range:</b> <select size="1" name="Q" class="TextBoxB2">
+	
+			<option value="1">
+			
+		$997&nbsp;439 - $1&nbsp;150&nbsp;000
+			</option><option value="2">
+			
+		$1&nbsp;150&nbsp;001 - $1&nbsp;300&nbsp;000
+			</option><option value="3">
+			
+		$1&nbsp;300&nbsp;001 - $1&nbsp;450&nbsp;000
+			</option><option selected="selected" value="4" class="highlight">
+			
+		$1&nbsp;450&nbsp;001 - $1&nbsp;600&nbsp;000
+			</option><option value="5">
+			
+		$1&nbsp;600&nbsp;001 - $1&nbsp;750&nbsp;000
+			</option><option value="6">
+			
+		$1&nbsp;750&nbsp;001 - $1&nbsp;900&nbsp;000
+			</option><option value="7">
+			
+		$1&nbsp;900&nbsp;001 - $1&nbsp;954&nbsp;981
+	    </option>
+	  </select>
+	<br>
+
+	<b>Land Range:</b> Between <select size="1" name="L1" class="TextBoxB2">
+	
+		<option selected="selected" value="0" class="highlight">-- none --
+		
+	</option><option value="0">
+	
+			</option><option value="10000">
+			10&nbsp;000 m²
+		
+			</option><option value="20000">
+			20&nbsp;000 m²
+		
+			</option><option value="30000">
+			30&nbsp;000 m²
+		
+			</option><option value="40000">
+			40&nbsp;000 m²
+		
+			</option><option value="50000">
+			50&nbsp;000 m²
+		
+			</option><option value="60000">
+			60&nbsp;000 m²
+		
+			</option><option value="70000">
+			70&nbsp;000 m²
+		
+			</option><option value="80000">
+			80&nbsp;000 m²
+		
+			</option><option value="90000">
+			90&nbsp;000 m²
+		
+			</option><option value="100000">
+			100&nbsp;000 m²
+		
+			</option><option value="110000">
+			110&nbsp;000 m²
+		
+			</option><option value="120000">
+			120&nbsp;000 m²
+		
+			</option><option value="130000">
+			130&nbsp;000 m²
+		
+			</option><option value="140000">
+			140&nbsp;000 m²
+		
+			</option><option value="150000">
+			150&nbsp;000 m²
+		
+			</option><option value="160000">
+			160&nbsp;000 m²
+		
+			</option><option value="170000">
+			170&nbsp;000 m²
+		
+			</option><option value="180000">
+			180&nbsp;000 m²
+		
+			</option><option value="190000">
+			190&nbsp;000 m²
+		
+			</option><option value="200000">
+			200&nbsp;000 m²
+		
+			</option><option value="210000">
+			210&nbsp;000 m²
+		
+			</option><option value="220000">
+			220&nbsp;000 m²
+		
+			</option><option value="230000">
+			230&nbsp;000 m²
+		
+			</option><option value="240000">
+			240&nbsp;000 m²
+		
+			</option><option value="250000">
+			250&nbsp;000 m²
+		
+	    </option>
+	  </select>
+	  and
+	<select size="1" name="L2" class="TextBoxB2">
+	
+		<option selected="selected" value="0" class="highlight">-- none --
+		
+	</option><option value="0">
+	
+			</option><option value="10000">
+			10&nbsp;000 m²
+		
+			</option><option value="20000">
+			20&nbsp;000 m²
+		
+			</option><option value="30000">
+			30&nbsp;000 m²
+		
+			</option><option value="40000">
+			40&nbsp;000 m²
+		
+			</option><option value="50000">
+			50&nbsp;000 m²
+		
+			</option><option value="60000">
+			60&nbsp;000 m²
+		
+			</option><option value="70000">
+			70&nbsp;000 m²
+		
+			</option><option value="80000">
+			80&nbsp;000 m²
+		
+			</option><option value="90000">
+			90&nbsp;000 m²
+		
+			</option><option value="100000">
+			100&nbsp;000 m²
+		
+			</option><option value="110000">
+			110&nbsp;000 m²
+		
+			</option><option value="120000">
+			120&nbsp;000 m²
+		
+			</option><option value="130000">
+			130&nbsp;000 m²
+		
+			</option><option value="140000">
+			140&nbsp;000 m²
+		
+			</option><option value="150000">
+			150&nbsp;000 m²
+		
+			</option><option value="160000">
+			160&nbsp;000 m²
+		
+			</option><option value="170000">
+			170&nbsp;000 m²
+		
+			</option><option value="180000">
+			180&nbsp;000 m²
+		
+			</option><option value="190000">
+			190&nbsp;000 m²
+		
+			</option><option value="200000">
+			200&nbsp;000 m²
+		
+			</option><option value="210000">
+			210&nbsp;000 m²
+		
+			</option><option value="220000">
+			220&nbsp;000 m²
+		
+			</option><option value="230000">
+			230&nbsp;000 m²
+		
+			</option><option value="240000">
+			240&nbsp;000 m²
+		
+			</option><option value="250000">
+			250&nbsp;000 m²
+		
+	    </option>
+	  </select>
+	<br><br>
+	<input class="Button2" value="Apply Filter" type="submit">
+	<br><br>
+	</center>
+	
+	<table class="content" border="0" width="100%">
+	
+	<tbody><tr class="header">
+	  <td>Province Name (ID)</td>
+	  <td>User Type</td>
+	  <td>Spied*</td>
+	</tr>
+	
+					<tr>
+					  <td><a href="stefan.htm">Jean Grey (#293616)</a></td>
+					  <td>Free User</td>
+					  <td><a href="stefan.htm"></a></td>
+					</tr>
+					
+					<tr>
+					  <td><a href="zhyg.htm">zHyGis is SiMpLe (#139251)</a></td>
+					  <td>Free User</td>
+					  <td><a href="zhyg.htm"></a></td>
+					</tr>
+					
+					<tr>
+					  <td><a href="wenom.htm">WENom (#287755)</a></td>
+					  <td>Free User</td>
+					  <td><a href="wenom.htm"></a></td>
+					</tr>
+					
+										<tr>
+					  <td><a href="province info mcack.htm">Terror McAck (#485228)</a></td>
+					  <td>Free User</td>
+					  <td><a href="province info mcack.htm"></a></td>
+					</tr>
+					
+															<tr>
+					  <td><a href="sanfe.htm">Sanfe says hastaluego (#297772)</a></td>
+					  <td>Free User</td>
+					  <td><a href="sanfe.htm"></a></td>
+					</tr>
+					
+										  <td><a href="idle.htm">NGFG Idle (#484976)</a></td>
+					  <td>Free User</td>
+					  <td><a href="idle.htm"></a></td>
+					</tr>
+					
+					
+					
+			  <tr class="header">
+			    <td colspan="3" height="4"></td>
+			  </tr>
+			</tbody></table>
+			<center><br>
+			* This column shows when a target was last spied by someone in your 
+clan (Platinum Clans only, based on existing Spy Reports data).
+			<br><br>
+			
+				««
+				
+			&nbsp;Page 1 of 1&nbsp;
+			
+				»»
+				
+			<br><br>
+			<a href="http://www.nukezone.nu/show.asp?Action=Players&amp;Q=4&amp;L1=0&amp;L2=0&amp;Page=1">[</a>
+			
+					<u>1</u>
+					
+			<a href="http://www.nukezone.nu/show.asp?Action=Players&amp;Q=4&amp;L1=0&amp;L2=0&amp;Page=1">]</a>
+			</center>
+			
+							</form></td>
+						  </tr>
+						</tbody></table>
+				    </td>
+				  </tr>
+				</tbody></table>
+				</td>
+			  </tr>
+		  <tr> 
+            <td colspan="2" align="center" valign="top">
+				<br><img src="files/primetic.gif" height="35" width="100"><br>
+				Copyright © 2001-2014 <a href="http://www.primetic.com/" target="_blank">Primetic</a>. All Rights Reserved.
+				<br><br>
+				This page was generated in 1,04688 seconds. Current date/time is 2014-09-12 03:44:48.
+		    </td>
+		  </tr>
+		</tbody></table>
+    </td>
+    <td background="files/bottom_right.gif" width="35">&nbsp;</td>
+  </tr>
+</tbody></table>
+</center>
+
+
+
+
+</body></html>

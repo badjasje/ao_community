@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+
+All code and content within these pages are copyright Primetic (www.primetic.com).
+
+-->
+<html><head>
+<title>NukeZone - Nuke or Be Nuked!</title>
+
+
+<meta name="Author" content="Primetic (www.primetic.com)">
+<meta name="Keywords" content="NukeZone, Guffy, NZ, Web Game, Interactive Game, Strategy Game, Game, Play, Online Game">
+<meta name="Description" content="NukeZone - Nuke or Be Nuked!">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="shortcut icon" href="http://www.nukezone.nu/favicon.ico">
+
+<link rel="stylesheet" href="files/game1.css">
+<!--[if IE]>
+<link rel="stylesheet" href="http://img.nukezone.nu/c1/css/game1-ie.css?0.960">
+<![endif]-->
+</head>
+
+<body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
+
+<center>
+<table border="0" cellpadding="0" cellspacing="0" height="100%" width="925">
+  <tbody><tr>
+    <td background="files/up_left.gif" height="96">&nbsp;</td>
+      <td align="right" background="files/logo_top.gif" height="96" valign="top">
+        <table border="0" cellpadding="0" cellspacing="0" height="96">
+          <tbody><tr>
+			<td align="right" height="69" valign="top">
+				<table border="0" cellpadding="0" cellspacing="4" width="170">
+				<form action="/search.asp" method="GET" name="search" target="_self"></form>
+				<input name="Action" value="FindProvince" type="hidden">
+				  <tbody><tr>
+					<td colspan="2" valign="top"><a href="http://www.nukezone.nu/search.asp?Action=Standard"><img src="files/find_province.gif" alt="Click for more options." border="0" height="13" width="87"></a></td>
+				  </tr>
+				  <tr>
+					<td valign="middle" width="115"><input class="TextBoxA" size="23" name="X1" maxlength="25"></td>
+					<td valign="middle" width="55"><input class="Button" value="Go" style="width:25px" type="submit"></td>
+				  </tr>
+				
+				</tbody></table>
+			</td>
+		  </tr>
+          <tr>
+			<td align="right" height="27" valign="bottom">
+				<table border="0" cellpadding="0" cellspacing="0" width="292">
+				  <tbody><tr>
+					<td width="73">
+			<a href="http://www.nukezone.nu/message.asp?Action=Inbox" id="tabMessages" title="Check your messages or write new messages."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=LocalEvents" id="tabLocals" title="Check your local events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/events.asp?Action=GlobalEvents" id="tabGlobals" title="Check your global events."></a>
+			</td>
+					<td width="73">
+			<a href="http://www.nukezone.nu/help.asp" id="tabHelp" title="Go to the help page."></a>
+			</td>
+
+				  </tr>
+				</tbody></table>
+			</td>
+		  </tr>
+		</tbody></table>
+	</td>
+    <td background="files/up_right.gif" height="96">&nbsp;</td>
+  </tr>
+  <tr>
+    <td rowspan="2" background="files/middle_left.gif" height="58" width="35">&nbsp;</td>
+      <td background="files/logo_middle.gif" height="19">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+		  <tbody><tr>
+			<td align="right" valign="middle" width="840"><span class="Resources"><b>Money:</b> <span id="show01">$122&nbsp;515</span> &nbsp;| &nbsp;<b>Turns:</b> <span id="show02">171</span> &nbsp;| &nbsp;<b>Land:</b> <span id="show03">169&nbsp;311 m²</span> &nbsp;| &nbsp;<b>Morale:</b> <span id="show04">30% (35%)</span> &nbsp;| &nbsp;<b>Networth:</b> <span id="show05">$1&nbsp;396&nbsp;415</span></span></td>
+			<td width="15">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	  </td>
+    <td rowspan="2" background="files/middle_right.gif" height="58" width="35">&nbsp;</td>
+  </tr>
+  <tr>
+    <td background="files/logo_bottom.gif" height="39">
+		<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+          <tbody><tr>
+			<td align="right" valign="bottom" width="843"><a href="http://www.nukezone.nu/help.asp"><img src="files/pixel.gif" alt="Go to the appropriate chapter in the manual." border="0" height="27" width="28"></a></td>
+			<td width="12">&nbsp;</td>
+		  </tr>
+		</tbody></table>
+	</td>
+  </tr>
+  <tr>
+    <td background="files/bottom_left.gif" width="35">&nbsp;</td>
+    <td bgcolor="#D8D4B6" valign="top">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tbody><tr>
+		    <td align="center" height="100%" valign="top" width="178">
+
+		<div id="menuHolder">
+			<a id="onlineCount" href="http://www.nukezone.nu/show.asp?Action=Online">34 Players Online</a>
+			<div id="menuHeader"></div>
+
+			<span>MAIN</span>
+			
+			<a href="http://www.nukezone.nu/game.asp?Action=Main">Overview</a>
+			<a href="http://www.nukezone.nu/attack.asp">Attack</a>
+			<a href="http://www.nukezone.nu/research.asp">Research</a>
+			<a href="http://www.nukezone.nu/explore.asp">Explore</a>
+			<a href="http://www.nukezone.nu/market.asp?Action=Buy">Market</a>
+			<a href="http://www.nukezone.nu/bank.asp">Bank</a>
+			<a href="http://www.nukezone.nu/clan.asp?Action=Clans">Clan</a>
+
+			<span>MILITARY</span>
+			<a href="http://www.nukezone.nu/build.asp?Action=Buildings">Buildings</a>
+			<a href="http://www.nukezone.nu/build.asp?Action=SeaUnits">Sea Units</a>
+			<a href="http://www.nukezone.nu/build.asp?Action=AirUnits">Air Units</a>
+			<a href="http://www.nukezone.nu/build.asp?Action=Vehicles">Vehicles</a>
+			<a href="http://www.nukezone.nu/build.asp?Action=Infantries">Infantries</a>
+			<a href="http://www.nukezone.nu/build.asp?Action=Missiles">Missiles</a>
+			<a href="http://www.nukezone.nu/satellites.asp?Action=Satellites">Satellites</a>
+
+			<span>INFORMATION</span>
+				<a href="http://www.nukezone.nu/events.asp?Action=LocalEvents">Local Events</a>
+				<a href="http://www.nukezone.nu/events.asp?Action=GlobalEvents">Global Events</a>
+				
+				<a href="http://www.nukezone.nu/events.asp?Action=SearchEvents">Search Events</a>
+				
+			<a href="http://www.nukezone.nu/info.asp?Action=Status">Status</a>
+			<a href="http://www.nukezone.nu/show.asp?Action=Players">All Provinces</a>
+			<a href="http://www.nukezone.nu/show.asp?Action=Clans">All Clans</a>
+			<a href="http://www.nukezone.nu/toplist.asp?Action=Provinces">Top Lists</a>
+			<a href="http://www.nukezone.nu/search.asp?Action=Standard">Search</a>
+			
+				<a href="http://www.nukezone.nu/forum/clanforum.asp" target="_blank">Clan Forum</a>
+				
+
+			<span>MISC</span>
+			<a href="http://www.nukezone.nu/message.asp?Action=Inbox">Inbox</a>
+			<a href="new message.htm">New Message</a>
+			<a href="http://www.nukezone.nu/preferences.asp?Action=Preferences">Preferences</a>
+			<a href="http://www.nukezone.nu/help.asp">Help</a>
+			<a href="http://www.nukezone.nu/aboutus.asp">About Us</a>
+			<a href="http://www.nukezone.nu/logout.asp">Logout</a>
+
+			
+		</div>
+		<br>
+
+	</td>
+            <td height="100%" valign="top" width="677">
+				<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+				  <tbody><tr>
+				    <td background="files/middle_background1.gif" height="46">
+						<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+						  <tbody><tr>
+						    <td height="46" valign="bottom" width="652">
+								<table border="0" cellpadding="0" cellspacing="0" height="46" width="652">
+								  <tbody><tr>
+									<td height="32" width="10">&nbsp;</td>
+									<td height="32" valign="bottom" width="329"><span class="TitleText">New Message</span></td>
+									<td align="right" height="32" valign="bottom" width="313"><span class="BigText">Guffy (#1)</span></td>
+								  </tr>
+								  <tr>
+									<td colspan="3" height="14">&nbsp;</td>
+								  </tr>
+								</tbody></table>
+							</td>
+						  </tr>
+						</tbody></table>
+					</td>
+				  </tr>
+				  <tr>
+					<td style="background-repeat: no-repeat;" background="files/middle_background2.gif" valign="top">
+						<table border="0" cellpadding="0" cellspacing="0" width="660">
+						  <tbody><tr>
+							<td>
+								<br>
+	
+
+	<form action="message.asp?Action=NewMessage&amp;Z=W" method="POST" name="newmessage" target="_self" onsubmit="document.newmessage.send.disabled=true">
+	<script language="JavaScript">
+	<!--
+	function deletecontact() {
+	  var link1;
+	  link1 = 'message.asp?Action=NewMessage&X=DeleteContact&C='+document.newmessage.To1.value;
+	  window.location=link1+'';
+	}
+	function addcontact() {
+	  var link2;
+	  link2 = 'message.asp?Action=NewMessage&X=AddContact&C='+document.newmessage.To2.value;
+	  window.location=link2+'';
+	}
+	// -->
+	</script>
+
+	<input name="CheckNum" value="430931250314613083" type="hidden">
+	<input name="MsgType" value="NEW" type="hidden">
+	
+		<b>IMPORTANT:</b> The "All Clan Mates" feature is only available if you are the CL or the first CT for a Gold Clan.<br>
+		
+		<b>NOTE:</b> <a href="http://www.nukezone.nu/help/manual_en.asp#M72" target="_blank">G-Code and Auto-Linking</a> is enabled.<br>
+		
+		<br>
+		<b>Send to Contact List:</b><br>
+
+		<select size="1" name="To1" class="TextBoxB2">
+		  <option selected="selected" value="">none
+		  </option><option value="">
+		  </option><option value="-3">Customer Support
+		
+			</option><option value="-1">All Clan Mates
+			</option><option value="-2">All CL/CTs
+			
+				</option><option value="">
+				
+					</option><option value="239955">Capt Mercer (#239955)
+					
+					</option><option value="484976">Guffy (#1)
+					
+		  </option>
+		</select>&nbsp;&nbsp;[<a href="javascript:deletecontact();">Delete From Contact List</a>]
+		<br><br>
+
+		<b>Send to Province ID:</b><br>
+
+		<input name="To2" size="25" maxlength="7" class="TextBoxB2">&nbsp;&nbsp;[<a href="javascript:addcontact();">Add To Contact List</a>]
+		<br><br>
+		
+
+	<b>Subject:</b><br>
+	
+		<input name="Subject" size="40" maxlength="35" class="TextBoxB2 wide">
+		
+	<br>
+
+	<b>Message:</b><br>
+	<textarea rows="9" name="Message" cols="65" class="TextBoxB2 wide">
+
+[i]Don't attack me - I'm Guffy.[/i]</textarea>
+	<br>
+
+	<center>
+	<b>Notice: <a href="http://www.nukezone.nu/gameRules.asp?A3" target="_blank">Harassment or spam will result in a permanent ban.</a></b><br><br>
+	
+
+	<input name="send" class="Button2" value="Send Message" type="submit">
+	</center>
+	</form>
+	
+							</td>
+						  </tr>
+						</tbody></table>
+				    </td>
+				  </tr>
+				</tbody></table>
+				</td>
+			  </tr>
+		  <tr> 
+            <td colspan="2" align="center" valign="top">
+				<br><img src="files/primetic.gif" height="35" width="100"><br>
+				Copyright © 2001-2014 <a href="http://www.primetic.com/" target="_blank">Primetic</a>. All Rights Reserved.
+				<br><br>
+				This page was generated in 0 seconds. Current date/time is 2014-09-12 03:46:30.
+		    </td>
+		  </tr>
+		</tbody></table>
+    </td>
+    <td background="files/bottom_right.gif" width="35">&nbsp;</td>
+  </tr>
+</tbody></table>
+</center>
+
+
+
+
+</body></html>

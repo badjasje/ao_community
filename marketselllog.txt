@@ -1,0 +1,2856 @@
+ID: 1
+Units sold: 1
+Type: f22_raptors
+
+ID: 1
+Units sold: 1
+Type: f22_raptors
+
+ID: 348
+Units sold: 300
+Type: sparrow
+
+ID: 348
+Units sold: 10
+Type: sniper
+
+ID: 344
+Units sold: 1
+Type: spyplane
+
+ID: 546
+Units sold: 31
+Type: thief
+
+ID: 546
+Units sold: 10
+Type: sniper
+
+ID: 546
+Units sold: 20
+Type: paratrooper
+
+ID: 233
+Units sold: 5020
+Type: battleship
+
+ID: 176
+Units sold: 100
+Type: stealth
+
+ID: 176
+Units sold: 113
+Type: stealth
+
+ID: 259
+Units sold: 369
+Type: grenade
+
+ID: 18
+Units sold: 253
+Type: submarine
+
+ID: 176
+Units sold: 75
+Type: stealth
+
+ID: 25
+Units sold: 440
+Type: jsf
+
+ID: 301
+Units sold: 413
+Type: humvee
+
+ID: 176
+Units sold: 26
+Type: destroyer
+
+ID: 226
+Units sold: 3000
+Type: paratrooper
+
+ID: 18
+Units sold: 8
+Type: spy
+
+ID: 25
+Units sold: 10
+Type: dragon
+
+ID: 25
+Units sold: 186
+Type: armoured
+
+ID: 166
+Units sold: 5000
+Type: navy
+
+ID: 166
+Units sold: 5033
+Type: navy
+
+ID: 336
+Units sold: 238
+Type: seahawk
+
+ID: 336
+Units sold: 122
+Type: frigate
+
+ID: 29
+Units sold: 600000
+Type: b2_bomber
+
+ID: 29
+Units sold: 7000
+Type: b2_bomber
+
+ID: 29
+Units sold: 100000
+Type: b2_bomber
+
+ID: 29
+Units sold: 7
+Type: spyplane
+
+ID: 29
+Units sold: 1
+Type: rah66_commanches
+
+ID: 29
+Units sold: 49000
+Type: b2_bomber
+
+ID: 29
+Units sold: 20000
+Type: b2_bomber
+
+ID: 29
+Units sold: 36000
+Type: b2_bomber
+
+ID: 165
+Units sold: 1500
+Type: cruiser
+
+ID: 165
+Units sold: 4
+Type: spyplane
+
+ID: 360
+Units sold: 126
+Type: m70mlrs
+
+ID: 308
+Units sold: 1995
+Type: paratrooper
+
+ID: 308
+Units sold: 7010
+Type: paratrooper
+
+ID: 308
+Units sold: 26
+Type: thief
+
+ID: 233
+Units sold: 3299
+Type: battleship
+
+ID: 348
+Units sold: 100
+Type: sparrow
+
+ID: 348
+Units sold: 100
+Type: sparrow
+
+ID: 348
+Units sold: 25
+Type: sparrow
+
+ID: 348
+Units sold: 100
+Type: sparrow
+
+ID: 348
+Units sold: 75
+Type: sparrow
+
+ID: 76
+Units sold: 283
+Type: battleship
+
+ID: 348
+Units sold: 233
+Type: sparrow
+
+ID: 301
+Units sold: 359
+Type: humvee
+
+ID: 226
+Units sold: 1200
+Type: navy
+
+ID: 313
+Units sold: 50
+Type: b2_bomber
+
+ID: 176
+Units sold: 50
+Type: destroyer
+
+ID: 284
+Units sold: 71
+Type: abraham
+
+ID: 284
+Units sold: 100
+Type: abraham
+
+ID: 284
+Units sold: 40
+Type: abraham
+
+ID: 284
+Units sold: 32
+Type: abraham
+
+ID: 259
+Units sold: 250
+Type: grenade
+
+ID: 259
+Units sold: 850
+Type: grenade
+
+ID: 37
+Units sold: 48
+Type: battleship
+
+ID: 348
+Units sold: 601
+Type: stealth
+
+ID: 336
+Units sold: 299
+Type: typhoon
+
+ID: 336
+Units sold: 150
+Type: submarine
+
+ID: 336
+Units sold: 145
+Type: sparrow
+
+ID: 336
+Units sold: 700
+Type: seahawk
+
+ID: 336
+Units sold: 5
+Type: carrier
+
+ID: 308
+Units sold: 400
+Type: submarine
+
+ID: 308
+Units sold: 2000
+Type: submarine
+
+ID: 340
+Units sold: 592
+Type: rah66_commanches
+
+ID: 176
+Units sold: 261
+Type: destroyer
+
+ID: 18
+Units sold: 3
+Type: spyplane
+
+ID: 18
+Units sold: 401
+Type: navy
+
+ID: 18
+Units sold: 250
+Type: sparrow
+
+ID: 348
+Units sold: 30
+Type: frigate
+
+ID: 467
+Units sold: 2285
+Type: battleship
+
+ID: 348
+Units sold: 10
+Type: frigate
+
+ID: 348
+Units sold: 333
+Type: frigate
+
+ID: 308
+Units sold: 859
+Type: submarine
+
+ID: 360
+Units sold: 200
+Type: artillery
+
+ID: 555
+Units sold: 17949
+Type: paratrooper
+
+ID: 555
+Units sold: 2444
+Type: dragon
+
+ID: 546
+Units sold: 50
+Type: paratrooper
+
+ID: 545
+Units sold: 5
+Type: spyplane
+
+ID: 545
+Units sold: 100
+Type: paratrooper
+
+ID: 430
+Units sold: 1000
+Type: rocket
+
+ID: 545
+Units sold: 10
+Type: spyplane
+
+ID: 226
+Units sold: 800
+Type: grenade
+
+ID: 471
+Units sold: 50
+Type: seahawk
+
+ID: 471
+Units sold: 150
+Type: seahawk
+
+ID: 471
+Units sold: 200
+Type: seahawk
+
+ID: 471
+Units sold: 500
+Type: seahawk
+
+ID: 348
+Units sold: 494
+Type: paratrooper
+
+ID: 308
+Units sold: 50
+Type: sniper
+
+ID: 344
+Units sold: 530
+Type: artillery
+
+ID: 18
+Units sold: 250
+Type: sparrow
+
+ID: 18
+Units sold: 423
+Type: navy
+
+ID: 464
+Units sold: 3169
+Type: paratrooper
+
+ID: 233
+Units sold: 7
+Type: sniper
+
+ID: 461
+Units sold: 40
+Type: sniper
+
+ID: 461
+Units sold: 903
+Type: paratrooper
+
+ID: 461
+Units sold: 10
+Type: sniper
+
+ID: 482
+Units sold: 40
+Type: thief
+
+ID: 482
+Units sold: 10
+Type: spy
+
+ID: 336
+Units sold: 150
+Type: artillery
+
+ID: 336
+Units sold: 150
+Type: artillery
+
+ID: 336
+Units sold: 8
+Type: dragon
+
+ID: 176
+Units sold: 100
+Type: destroyer
+
+ID: 176
+Units sold: 20
+Type: sniper
+
+ID: 176
+Units sold: 1
+Type: spy
+
+ID: 176
+Units sold: 2
+Type: spyplane
+
+ID: 176
+Units sold: 2
+Type: sniper
+
+ID: 488
+Units sold: 26
+Type: abraham
+
+ID: 259
+Units sold: 2400
+Type: rifle
+
+ID: 545
+Units sold: 200
+Type: paratrooper
+
+ID: 545
+Units sold: 5
+Type: spyplane
+
+ID: 29
+Units sold: 20
+Type: thief
+
+ID: 29
+Units sold: 20
+Type: grenade
+
+ID: 506
+Units sold: 258
+Type: sam
+
+ID: 506
+Units sold: 107
+Type: m70mlrs
+
+ID: 348
+Units sold: 100
+Type: paratrooper
+
+ID: 348
+Units sold: 100
+Type: paratrooper
+
+ID: 348
+Units sold: 523
+Type: paratrooper
+
+ID: 507
+Units sold: 298
+Type: paratrooper
+
+ID: 507
+Units sold: 1808
+Type: rifle
+
+ID: 25
+Units sold: 10
+Type: dragon
+
+ID: 25
+Units sold: 500
+Type: grenade
+
+ID: 433
+Units sold: 27
+Type: submarine
+
+ID: 433
+Units sold: 1
+Type: sparrow
+
+ID: 347
+Units sold: 448
+Type: seahawk
+
+ID: 18
+Units sold: 100
+Type: seahawk
+
+ID: 426
+Units sold: 84
+Type: sam
+
+ID: 426
+Units sold: 231
+Type: m270_rocket
+
+ID: 18
+Units sold: 550
+Type: seahawk
+
+ID: 259
+Units sold: 535
+Type: rifle
+
+ID: 259
+Units sold: 1400
+Type: rifle
+
+ID: 301
+Units sold: 200
+Type: humvee
+
+ID: 301
+Units sold: 182
+Type: humvee
+
+ID: 301
+Units sold: 300
+Type: humvee
+
+ID: 257
+Units sold: 300
+Type: typhoon
+
+ID: 538
+Units sold: 50
+Type: sniper
+
+ID: 360
+Units sold: 190
+Type: artillery
+
+ID: 188
+Units sold: 50
+Type: battleship
+
+ID: 188
+Units sold: 50
+Type: battleship
+
+ID: 188
+Units sold: 50
+Type: battleship
+
+ID: 188
+Units sold: 20
+Type: battleship
+
+ID: 188
+Units sold: 20
+Type: battleship
+
+ID: 188
+Units sold: 20
+Type: battleship
+
+ID: 348
+Units sold: 505
+Type: destroyer
+
+ID: 188
+Units sold: 2000
+Type: battleship
+
+ID: 538
+Units sold: 200
+Type: paratrooper
+
+ID: 538
+Units sold: 1000
+Type: paratrooper
+
+ID: 538
+Units sold: 8080
+Type: paratrooper
+
+ID: 165
+Units sold: 6
+Type: thief
+
+ID: 257
+Units sold: 5
+Type: spyplane
+
+ID: 257
+Units sold: 4
+Type: spy
+
+ID: 25
+Units sold: 248
+Type: grenade
+
+ID: 464
+Units sold: 1000
+Type: armoured
+
+ID: 464
+Units sold: 300
+Type: armoured
+
+ID: 464
+Units sold: 75
+Type: armoured
+
+ID: 336
+Units sold: 150
+Type: artillery
+
+ID: 226
+Units sold: 1704
+Type: armoured
+
+ID: 257
+Units sold: 508
+Type: rah66_commanches
+
+ID: 257
+Units sold: 318
+Type: seahawk
+
+ID: 426
+Units sold: 392
+Type: m70mlrs
+
+ID: 426
+Units sold: 87
+Type: artillery
+
+ID: 18
+Units sold: 650
+Type: seahawk
+
+ID: 18
+Units sold: 200
+Type: sparrow
+
+ID: 316
+Units sold: 188
+Type: paratrooper
+
+ID: 316
+Units sold: 1629
+Type: navy
+
+ID: 233
+Units sold: 111
+Type: battleship
+
+ID: 402
+Units sold: 400
+Type: navy
+
+ID: 317
+Units sold: 1
+Type: spyplane
+
+ID: 317
+Units sold: 2
+Type: thief
+
+ID: 317
+Units sold: 2
+Type: spy
+
+ID: 344
+Units sold: 10
+Type: f22_raptors
+
+ID: 344
+Units sold: 20
+Type: b2_bomber
+
+ID: 188
+Units sold: 1315
+Type: battleship
+
+ID: 19
+Units sold: 15
+Type: sniper
+
+ID: 348
+Units sold: 250
+Type: sparrow
+
+ID: 538
+Units sold: 9652
+Type: paratrooper
+
+ID: 538
+Units sold: 500
+Type: paratrooper
+
+ID: 538
+Units sold: 6209
+Type: paratrooper
+
+ID: 350
+Units sold: 798
+Type: rifle
+
+ID: 301
+Units sold: 243
+Type: artillery
+
+ID: 414
+Units sold: 250
+Type: rah66_commanches
+
+ID: 414
+Units sold: 602
+Type: rah66_commanches
+
+ID: 464
+Units sold: 500
+Type: armoured
+
+ID: 57
+Units sold: 9278
+Type: b2_bomber
+
+ID: 60
+Units sold: 446
+Type: seahawk
+
+ID: 464
+Units sold: 1713
+Type: armoured
+
+ID: 347
+Units sold: 200
+Type: b2_bomber
+
+ID: 507
+Units sold: 862
+Type: armoured
+
+ID: 34
+Units sold: 8
+Type: thief
+
+ID: 34
+Units sold: 4
+Type: spy
+
+ID: 34
+Units sold: 1277
+Type: rocket
+
+ID: 226
+Units sold: 2070
+Type: navy
+
+ID: 259
+Units sold: 1076
+Type: rifle
+
+ID: 348
+Units sold: 40
+Type: submarine
+
+ID: 348
+Units sold: 20
+Type: submarine
+
+ID: 348
+Units sold: 5
+Type: submarine
+
+ID: 348
+Units sold: 151
+Type: submarine
+
+ID: 315
+Units sold: 55
+Type: battleship
+
+ID: 214
+Units sold: 443
+Type: f22_raptors
+
+ID: 214
+Units sold: 954
+Type: b2_bomber
+
+ID: 214
+Units sold: 24
+Type: carrier
+
+ID: 538
+Units sold: 6626
+Type: paratrooper
+
+ID: 350
+Units sold: 2
+Type: spyplane
+
+ID: 350
+Units sold: 2
+Type: spy
+
+ID: 360
+Units sold: 225
+Type: artillery
+
+ID: 543
+Units sold: 7407
+Type: paratrooper
+
+ID: 73
+Units sold: 138
+Type: rah66_commanches
+
+ID: 73
+Units sold: 200
+Type: rah66_commanches
+
+ID: 165
+Units sold: 5
+Type: spyplane
+
+ID: 165
+Units sold: 10
+Type: spy
+
+ID: 165
+Units sold: 100
+Type: sparrow
+
+ID: 165
+Units sold: 100
+Type: sparrow
+
+ID: 165
+Units sold: 50
+Type: sparrow
+
+ID: 464
+Units sold: 399
+Type: paratrooper
+
+ID: 464
+Units sold: 200
+Type: paratrooper
+
+ID: 464
+Units sold: 50
+Type: paratrooper
+
+ID: 464
+Units sold: 25
+Type: paratrooper
+
+ID: 60
+Units sold: 444
+Type: sam
+
+ID: 187
+Units sold: 1839
+Type: navy
+
+ID: 467
+Units sold: 200
+Type: battleship
+
+ID: 426
+Units sold: 70
+Type: artillery
+
+ID: 426
+Units sold: 70
+Type: artillery
+
+ID: 316
+Units sold: 623
+Type: f22_raptors
+
+ID: 316
+Units sold: 60
+Type: carrier
+
+ID: 336
+Units sold: 45
+Type: submarine
+
+ID: 226
+Units sold: 2000
+Type: armoured
+
+ID: 430
+Units sold: 357
+Type: seahawk
+
+ID: 18
+Units sold: 155
+Type: sparrow
+
+ID: 57
+Units sold: 1000
+Type: b2_bomber
+
+ID: 57
+Units sold: 150
+Type: b2_bomber
+
+ID: 57
+Units sold: 300
+Type: b2_bomber
+
+ID: 57
+Units sold: 300
+Type: b2_bomber
+
+ID: 57
+Units sold: 300
+Type: b2_bomber
+
+ID: 57
+Units sold: 7728
+Type: b2_bomber
+
+ID: 347
+Units sold: 193
+Type: jsf
+
+ID: 308
+Units sold: 50
+Type: sniper
+
+ID: 312
+Units sold: 30
+Type: spyplane
+
+ID: 76
+Units sold: 200
+Type: abraham
+
+ID: 76
+Units sold: 600
+Type: abraham
+
+ID: 301
+Units sold: 90
+Type: dragon
+
+ID: 301
+Units sold: 293
+Type: artillery
+
+ID: 301
+Units sold: 900
+Type: humvee
+
+ID: 507
+Units sold: 1
+Type: spyplane
+
+ID: 507
+Units sold: 2
+Type: sniper
+
+ID: 507
+Units sold: 3
+Type: spy
+
+ID: 76
+Units sold: 171
+Type: abraham
+
+ID: 561
+Units sold: 40
+Type: spyplane
+
+ID: 561
+Units sold: 10
+Type: spyplane
+
+ID: 561
+Units sold: 20
+Type: paratrooper
+
+ID: 308
+Units sold: 180
+Type: paratrooper
+
+ID: 308
+Units sold: 100
+Type: battleship
+
+ID: 308
+Units sold: 150
+Type: battleship
+
+ID: 308
+Units sold: 103
+Type: battleship
+
+ID: 308
+Units sold: 150
+Type: battleship
+
+ID: 308
+Units sold: 100
+Type: battleship
+
+ID: 308
+Units sold: 50
+Type: battleship
+
+ID: 226
+Units sold: 715
+Type: grenade
+
+ID: 348
+Units sold: 120
+Type: paratrooper
+
+ID: 233
+Units sold: 500
+Type: battleship
+
+ID: 233
+Units sold: 685
+Type: battleship
+
+ID: 333
+Units sold: 500
+Type: f22_raptors
+
+ID: 301
+Units sold: 599
+Type: dragon
+
+ID: 301
+Units sold: 1000
+Type: artillery
+
+ID: 301
+Units sold: 1000
+Type: artillery
+
+ID: 176
+Units sold: 5
+Type: battleship
+
+ID: 433
+Units sold: 12
+Type: destroyer
+
+ID: 166
+Units sold: 150
+Type: abraham
+
+ID: 166
+Units sold: 1
+Type: abraham
+
+ID: 166
+Units sold: 4
+Type: abraham
+
+ID: 166
+Units sold: 5
+Type: abraham
+
+ID: 166
+Units sold: 5
+Type: abraham
+
+ID: 166
+Units sold: 15
+Type: abraham
+
+ID: 166
+Units sold: 8
+Type: paratrooper
+
+ID: 308
+Units sold: 59
+Type: battleship
+
+ID: 308
+Units sold: 50
+Type: battleship
+
+ID: 308
+Units sold: 50
+Type: battleship
+
+ID: 308
+Units sold: 50
+Type: battleship
+
+ID: 308
+Units sold: 50
+Type: battleship
+
+ID: 546
+Units sold: 20
+Type: thief
+
+ID: 29
+Units sold: 50
+Type: sam
+
+ID: 430
+Units sold: 332
+Type: navy
+
+ID: 471
+Units sold: 150
+Type: seahawk
+
+ID: 471
+Units sold: 250
+Type: seahawk
+
+ID: 233
+Units sold: 10
+Type: sniper
+
+ID: 301
+Units sold: 138
+Type: artillery
+
+ID: 301
+Units sold: 100
+Type: dragon
+
+ID: 301
+Units sold: 1000
+Type: artillery
+
+ID: 301
+Units sold: 1
+Type: spy
+
+ID: 561
+Units sold: 20
+Type: spyplane
+
+ID: 561
+Units sold: 30
+Type: spyplane
+
+ID: 561
+Units sold: 20
+Type: paratrooper
+
+ID: 561
+Units sold: 20
+Type: paratrooper
+
+ID: 561
+Units sold: 20
+Type: spyplane
+
+ID: 561
+Units sold: 30
+Type: spyplane
+
+ID: 575
+Units sold: 197
+Type: b2_bomber
+
+ID: 308
+Units sold: 90
+Type: paratrooper
+
+ID: 350
+Units sold: 20
+Type: sniper
+
+ID: 60
+Units sold: 94
+Type: artillery
+
+ID: 344
+Units sold: 7
+Type: spyplane
+
+ID: 344
+Units sold: 15
+Type: sniper
+
+ID: 575
+Units sold: 249
+Type: rah66_commanches
+
+ID: 316
+Units sold: 5
+Type: sniper
+
+ID: 561
+Units sold: 50
+Type: spyplane
+
+ID: 568
+Units sold: 2
+Type: spy
+
+ID: 568
+Units sold: 10
+Type: rocket
+
+ID: 344
+Units sold: 54
+Type: artillery
+
+ID: 344
+Units sold: 21
+Type: artillery
+
+ID: 344
+Units sold: 7
+Type: m270_rocket
+
+ID: 344
+Units sold: 2
+Type: spyplane
+
+ID: 239
+Units sold: 208
+Type: artillery
+
+ID: 433
+Units sold: 180
+Type: grenade
+
+ID: 433
+Units sold: 875
+Type: rocket
+
+ID: 60
+Units sold: 209
+Type: artillery
+
+ID: 344
+Units sold: 30
+Type: navy
+
+ID: 344
+Units sold: 50
+Type: navy
+
+ID: 313
+Units sold: 20
+Type: seahawk
+
+ID: 507
+Units sold: 59
+Type: abraham
+
+ID: 344
+Units sold: 45
+Type: sniper
+
+ID: 220
+Units sold: 100
+Type: paratrooper
+
+ID: 220
+Units sold: 142
+Type: paratrooper
+
+ID: 220
+Units sold: 200
+Type: paratrooper
+
+ID: 308
+Units sold: 40
+Type: b2_bomber
+
+ID: 60
+Units sold: 50
+Type: jsf
+
+ID: 60
+Units sold: 25
+Type: b2_bomber
+
+ID: 60
+Units sold: 50
+Type: jsf
+
+ID: 60
+Units sold: 25
+Type: b2_bomber
+
+ID: 60
+Units sold: 150
+Type: jsf
+
+ID: 60
+Units sold: 300
+Type: artillery
+
+ID: 360
+Units sold: 42
+Type: artillery
+
+ID: 336
+Units sold: 10
+Type: spyplane
+
+ID: 336
+Units sold: 10
+Type: artillery
+
+ID: 336
+Units sold: 689
+Type: m270_rocket
+
+ID: 214
+Units sold: 200
+Type: submarine
+
+ID: 76
+Units sold: 994
+Type: grenade
+
+ID: 284
+Units sold: 19
+Type: battleship
+
+ID: 575
+Units sold: 226
+Type: seahawk
+
+ID: 340
+Units sold: 1015
+Type: rocket
+
+ID: 239
+Units sold: 259
+Type: artillery
+
+ID: 235
+Units sold: 578
+Type: paratrooper
+
+ID: 235
+Units sold: 185
+Type: navy
+
+ID: 344
+Units sold: 12
+Type: sniper
+
+ID: 344
+Units sold: 15
+Type: seahawk
+
+ID: 278
+Units sold: 16
+Type: thief
+
+ID: 278
+Units sold: 10
+Type: spy
+
+ID: 60
+Units sold: 198
+Type: jsf
+
+ID: 220
+Units sold: 8
+Type: paratrooper
+
+ID: 220
+Units sold: 289
+Type: paratrooper
+
+ID: 220
+Units sold: 300
+Type: paratrooper
+
+ID: 348
+Units sold: 25
+Type: spyplane
+
+ID: 336
+Units sold: 100
+Type: humvee
+
+ID: 336
+Units sold: 300
+Type: artillery
+
+ID: 344
+Units sold: 1
+Type: seahawk
+
+ID: 575
+Units sold: 7
+Type: seahawk
+
+ID: 34
+Units sold: 10
+Type: thief
+
+ID: 214
+Units sold: 39
+Type: battleship
+
+ID: 214
+Units sold: 12
+Type: destroyer
+
+ID: 433
+Units sold: 10
+Type: dragon
+
+ID: 1
+Units sold: 100
+Type: frigate
+
+ID: 278
+Units sold: 1387
+Type: paratrooper
+
+ID: 575
+Units sold: 130
+Type: seahawk
+
+ID: 507
+Units sold: 8
+Type: abraham
+
+ID: 507
+Units sold: 273
+Type: m70mlrs
+
+ID: 235
+Units sold: 466
+Type: paratrooper
+
+ID: 235
+Units sold: 375
+Type: navy
+
+ID: 574
+Units sold: 1
+Type: rah66_commanches
+
+ID: 574
+Units sold: 229
+Type: b2_bomber
+
+ID: 574
+Units sold: 65
+Type: jsf
+
+ID: 574
+Units sold: 1
+Type: typhoon
+
+ID: 574
+Units sold: 201
+Type: seahawk
+
+ID: 313
+Units sold: 527
+Type: seahawk
+
+ID: 313
+Units sold: 8
+Type: carrier
+
+ID: 312
+Units sold: 342
+Type: jsf
+
+ID: 312
+Units sold: 2
+Type: spyplane
+
+ID: 312
+Units sold: 2
+Type: spy
+
+ID: 340
+Units sold: 335
+Type: paratrooper
+
+ID: 76
+Units sold: 183
+Type: b2_bomber
+
+ID: 257
+Units sold: 19
+Type: carrier
+
+ID: 561
+Units sold: 50
+Type: spyplane
+
+ID: 317
+Units sold: 657
+Type: rah66_commanches
+
+ID: 348
+Units sold: 23
+Type: spyplane
+
+ID: 257
+Units sold: 20
+Type: carrier
+
+ID: 235
+Units sold: 500
+Type: navy
+
+ID: 235
+Units sold: 500
+Type: armoured
+
+ID: 316
+Units sold: 119
+Type: b2_bomber
+
+ID: 316
+Units sold: 175
+Type: jsf
+
+ID: 316
+Units sold: 4
+Type: carrier
+
+ID: 574
+Units sold: 1
+Type: spyplane
+
+ID: 574
+Units sold: 78
+Type: f22_raptors
+
+ID: 574
+Units sold: 59
+Type: b2_bomber
+
+ID: 574
+Units sold: 143
+Type: seahawk
+
+ID: 76
+Units sold: 11
+Type: b2_bomber
+
+ID: 426
+Units sold: 483
+Type: f22_raptors
+
+ID: 316
+Units sold: 50
+Type: humvee
+
+ID: 316
+Units sold: 10
+Type: artillery
+
+ID: 360
+Units sold: 40
+Type: m70mlrs
+
+ID: 348
+Units sold: 100
+Type: battleship
+
+ID: 348
+Units sold: 2
+Type: spyplane
+
+ID: 348
+Units sold: 15
+Type: thief
+
+ID: 257
+Units sold: 174
+Type: f22_raptors
+
+ID: 257
+Units sold: 8
+Type: b2_bomber
+
+ID: 257
+Units sold: 75
+Type: carrier
+
+ID: 257
+Units sold: 4
+Type: spy
+
+ID: 340
+Units sold: 469
+Type: navy
+
+ID: 235
+Units sold: 791
+Type: navy
+
+ID: 581
+Units sold: 348
+Type: destroyer
+
+ID: 284
+Units sold: 5
+Type: destroyer
+
+ID: 284
+Units sold: 10
+Type: destroyer
+
+ID: 316
+Units sold: 50
+Type: abraham
+
+ID: 316
+Units sold: 10
+Type: m70mlrs
+
+ID: 220
+Units sold: 189
+Type: paratrooper
+
+ID: 220
+Units sold: 100
+Type: paratrooper
+
+ID: 220
+Units sold: 100
+Type: paratrooper
+
+ID: 220
+Units sold: 200
+Type: paratrooper
+
+ID: 278
+Units sold: 60
+Type: flamethrower
+
+ID: 278
+Units sold: 15
+Type: sniper
+
+ID: 57
+Units sold: 50
+Type: spyplane
+
+ID: 76
+Units sold: 400
+Type: rocket
+
+ID: 360
+Units sold: 60
+Type: artillery
+
+ID: 360
+Units sold: 100
+Type: m70mlrs
+
+ID: 176
+Units sold: 9
+Type: spyplane
+
+ID: 308
+Units sold: 40
+Type: paratrooper
+
+ID: 336
+Units sold: 88
+Type: f22_raptors
+
+ID: 336
+Units sold: 1
+Type: carrier
+
+ID: 284
+Units sold: 1
+Type: cruiser
+
+ID: 284
+Units sold: 12
+Type: battleship
+
+ID: 284
+Units sold: 65
+Type: cruiser
+
+ID: 464
+Units sold: 34
+Type: artillery
+
+ID: 561
+Units sold: 2
+Type: spyplane
+
+ID: 561
+Units sold: 10
+Type: dragon
+
+ID: 561
+Units sold: 5
+Type: dragon
+
+ID: 360
+Units sold: 150
+Type: artillery
+
+ID: 278
+Units sold: 554
+Type: paratrooper
+
+ID: 278
+Units sold: 5
+Type: sniper
+
+ID: 235
+Units sold: 577
+Type: navy
+
+ID: 507
+Units sold: 57
+Type: sam
+
+ID: 507
+Units sold: 5
+Type: sniper
+
+ID: 575
+Units sold: 743
+Type: b2_bomber
+
+ID: 176
+Units sold: 1
+Type: spyplane
+
+ID: 176
+Units sold: 1
+Type: spy
+
+ID: 360
+Units sold: 216
+Type: artillery
+
+ID: 176
+Units sold: 1
+Type: spy
+
+ID: 426
+Units sold: 9
+Type: spyplane
+
+ID: 426
+Units sold: 300
+Type: seahawk
+
+ID: 348
+Units sold: 209
+Type: stealth
+
+ID: 348
+Units sold: 19
+Type: spyplane
+
+ID: 316
+Units sold: 401
+Type: f22_raptors
+
+ID: 257
+Units sold: 15
+Type: spyplane
+
+ID: 257
+Units sold: 13
+Type: spyplane
+
+ID: 257
+Units sold: 9
+Type: dragon
+
+ID: 574
+Units sold: 50
+Type: f22_raptors
+
+ID: 574
+Units sold: 158
+Type: b2_bomber
+
+ID: 574
+Units sold: 179
+Type: seahawk
+
+ID: 507
+Units sold: 59
+Type: sparrow
+
+ID: 25
+Units sold: 1200
+Type: flamethrower
+
+ID: 340
+Units sold: 1066
+Type: navy
+
+ID: 259
+Units sold: 490
+Type: armoured
+
+ID: 360
+Units sold: 132
+Type: artillery
+
+ID: 257
+Units sold: 7
+Type: carrier
+
+ID: 176
+Units sold: 9
+Type: spy
+
+ID: 176
+Units sold: 98
+Type: paratrooper
+
+ID: 176
+Units sold: 151
+Type: grenade
+
+ID: 176
+Units sold: 59
+Type: rocket
+
+ID: 315
+Units sold: 269
+Type: battleship
+
+ID: 344
+Units sold: 8
+Type: spyplane
+
+ID: 257
+Units sold: 2
+Type: spyplane
+
+ID: 257
+Units sold: 1
+Type: spy
+
+ID: 257
+Units sold: 51
+Type: typhoon
+
+ID: 259
+Units sold: 825
+Type: armoured
+
+ID: 37
+Units sold: 125
+Type: battleship
+
+ID: 37
+Units sold: 150
+Type: battleship
+
+ID: 37
+Units sold: 4
+Type: spy
+
+ID: 37
+Units sold: 150
+Type: battleship
+
+ID: 37
+Units sold: 50
+Type: battleship
+
+ID: 506
+Units sold: 215
+Type: destroyer
+
+ID: 426
+Units sold: 856
+Type: seahawk
+
+ID: 574
+Units sold: 44
+Type: b2_bomber
+
+ID: 574
+Units sold: 600
+Type: seahawk
+
+ID: 18
+Units sold: 50
+Type: submarine
+
+ID: 235
+Units sold: 1310
+Type: navy
+
+ID: 235
+Units sold: 94
+Type: armoured
+
+ID: 301
+Units sold: 400
+Type: humvee
+
+ID: 301
+Units sold: 410
+Type: rah66_commanches
+
+ID: 259
+Units sold: 284
+Type: jsf
+
+ID: 360
+Units sold: 298
+Type: m70mlrs
+
+ID: 312
+Units sold: 2
+Type: spy
+
+ID: 257
+Units sold: 18
+Type: b2_bomber
+
+ID: 257
+Units sold: 361
+Type: typhoon
+
+ID: 220
+Units sold: 300
+Type: paratrooper
+
+ID: 220
+Units sold: 151
+Type: paratrooper
+
+ID: 220
+Units sold: 350
+Type: paratrooper
+
+ID: 220
+Units sold: 350
+Type: paratrooper
+
+ID: 284
+Units sold: 78
+Type: cruiser
+
+ID: 574
+Units sold: 1
+Type: spyplane
+
+ID: 574
+Units sold: 200
+Type: f22_raptors
+
+ID: 574
+Units sold: 178
+Type: seahawk
+
+ID: 561
+Units sold: 1
+Type: spyplane
+
+ID: 561
+Units sold: 30
+Type: dragon
+
+ID: 561
+Units sold: 4
+Type: spy
+
+ID: 561
+Units sold: 133
+Type: artillery
+
+ID: 308
+Units sold: 1
+Type: spy
+
+ID: 76
+Units sold: 1676
+Type: rocket
+
+ID: 176
+Units sold: 3
+Type: spyplane
+
+ID: 18
+Units sold: 212
+Type: f22_raptors
+
+ID: 313
+Units sold: 451
+Type: rah66_commanches
+
+ID: 313
+Units sold: 3
+Type: spy
+
+ID: 257
+Units sold: 768
+Type: rah66_commanches
+
+ID: 581
+Units sold: 391
+Type: destroyer
+
+ID: 312
+Units sold: 300
+Type: sam
+
+ID: 316
+Units sold: 972
+Type: flamethrower
+
+ID: 316
+Units sold: 20
+Type: apc
+
+ID: 317
+Units sold: 141
+Type: typhoon
+
+ID: 506
+Units sold: 219
+Type: destroyer
+
+ID: 315
+Units sold: 97
+Type: cruiser
+
+ID: 344
+Units sold: 17
+Type: spy
+
+ID: 235
+Units sold: 500
+Type: navy
+
+ID: 235
+Units sold: 700
+Type: armoured
+
+ID: 239
+Units sold: 320
+Type: artillery
+
+ID: 360
+Units sold: 207
+Type: artillery
+
+ID: 34
+Units sold: 1906
+Type: paratrooper
+
+ID: 278
+Units sold: 214
+Type: submarine
+
+ID: 561
+Units sold: 100
+Type: m270_rocket
+
+ID: 561
+Units sold: 100
+Type: m270_rocket
+
+ID: 561
+Units sold: 287
+Type: m270_rocket
+
+ID: 76
+Units sold: 441
+Type: paratrooper
+
+ID: 575
+Units sold: 267
+Type: b2_bomber
+
+ID: 575
+Units sold: 368
+Type: typhoon
+
+ID: 360
+Units sold: 290
+Type: artillery
+
+ID: 574
+Units sold: 200
+Type: b2_bomber
+
+ID: 574
+Units sold: 349
+Type: seahawk
+
+ID: 176
+Units sold: 1
+Type: spyplane
+
+ID: 176
+Units sold: 1
+Type: spy
+
+ID: 176
+Units sold: 1
+Type: stealth
+
+ID: 73
+Units sold: 15
+Type: dragon
+
+ID: 73
+Units sold: 100
+Type: b2_bomber
+
+ID: 220
+Units sold: 1599
+Type: paratrooper
+
+ID: 573
+Units sold: 7
+Type: spyplane
+
+ID: 301
+Units sold: 466
+Type: artillery
+
+ID: 561
+Units sold: 20
+Type: spyplane
+
+ID: 561
+Units sold: 20
+Type: spyplane
+
+ID: 257
+Units sold: 172
+Type: artillery
+
+ID: 257
+Units sold: 430
+Type: artillery
+
+ID: 312
+Units sold: 230
+Type: artillery
+
+ID: 312
+Units sold: 10
+Type: dragon
+
+ID: 581
+Units sold: 161
+Type: artillery
+
+ID: 348
+Units sold: 90
+Type: battleship
+
+ID: 348
+Units sold: 86
+Type: frigate
+
+ID: 60
+Units sold: 240
+Type: artillery
+
+ID: 60
+Units sold: 62
+Type: m70mlrs
+
+ID: 235
+Units sold: 1084
+Type: seahawk
+
+ID: 340
+Units sold: 741
+Type: grenade
+
+ID: 575
+Units sold: 53
+Type: typhoon
+
+ID: 301
+Units sold: 405
+Type: paratrooper
+
+ID: 34
+Units sold: 30
+Type: thief
+
+ID: 34
+Units sold: 100
+Type: paratrooper
+
+ID: 340
+Units sold: 1200
+Type: rocket
+
+ID: 507
+Units sold: 198
+Type: submarine
+
+ID: 543
+Units sold: 10
+Type: thief
+
+ID: 235
+Units sold: 801
+Type: rah66_commanches
+
+ID: 313
+Units sold: 280
+Type: stealth
+
+ID: 575
+Units sold: 488
+Type: seahawk
+
+ID: 312
+Units sold: 470
+Type: armoured
+
+ID: 76
+Units sold: 466
+Type: grenade
+
+ID: 315
+Units sold: 129
+Type: battleship
+
+ID: 60
+Units sold: 250
+Type: b2_bomber
+
+ID: 561
+Units sold: 10
+Type: spyplane
+
+ID: 257
+Units sold: 139
+Type: f22_raptors
+
+ID: 257
+Units sold: 625
+Type: typhoon
+
+ID: 575
+Units sold: 47
+Type: rah66_commanches
+
+ID: 488
+Units sold: 450
+Type: paratrooper
+
+ID: 348
+Units sold: 8
+Type: spyplane
+
+ID: 220
+Units sold: 1463
+Type: paratrooper
+
+ID: 301
+Units sold: 250
+Type: artillery
+
+ID: 575
+Units sold: 1
+Type: spyplane
+
+ID: 57
+Units sold: 17
+Type: spyplane
+
+ID: 166
+Units sold: 30
+Type: spyplane
+
+ID: 257
+Units sold: 45
+Type: dragon
+
+ID: 257
+Units sold: 4
+Type: spy
+
+ID: 220
+Units sold: 7
+Type: thief
+
+ID: 445
+Units sold: 5
+Type: spy
+
+ID: 574
+Units sold: 7
+Type: typhoon
+
+ID: 574
+Units sold: 97
+Type: seahawk
+
+ID: 561
+Units sold: 741
+Type: f22_raptors
+
+ID: 561
+Units sold: 0
+Type: f22_raptors
+
+ID: 507
+Units sold: 900
+Type: seahawk
+
+ID: 301
+Units sold: 282
+Type: sparrow
+
+ID: 574
+Units sold: 250
+Type: f22_raptors
+
+ID: 475
+Units sold: 43
+Type: paratrooper
+
+ID: 18
+Units sold: 188
+Type: submarine
+
+ID: 18
+Units sold: 508
+Type: f22_raptors
+
+ID: 575
+Units sold: 4
+Type: spy
+
+ID: 575
+Units sold: 468
+Type: navy
+
+ID: 575
+Units sold: 283
+Type: armoured
+
+ID: 507
+Units sold: 279
+Type: f22_raptors
+
+ID: 308
+Units sold: 16
+Type: spyplane
+
+ID: 543
+Units sold: 40
+Type: thief
+
+ID: 257
+Units sold: 2
+Type: spy
+
+ID: 301
+Units sold: 97
+Type: battleship
+
+ID: 25
+Units sold: 500
+Type: seahawk
+
+ID: 25
+Units sold: 500
+Type: flamethrower
+
+ID: 257
+Units sold: 2
+Type: spy
+
+ID: 574
+Units sold: 326
+Type: seahawk
+
+ID: 257
+Units sold: 10
+Type: dragon
+
+ID: 467
+Units sold: 40
+Type: spyplane
+
+ID: 313
+Units sold: 2
+Type: spy
+
+ID: 575
+Units sold: 4
+Type: thief
+
+ID: 575
+Units sold: 875
+Type: grenade
+
+ID: 350
+Units sold: 50
+Type: spyplane
+
+ID: 313
+Units sold: 20
+Type: spyplane
+
+ID: 348
+Units sold: 20
+Type: thief
+
+ID: 574
+Units sold: 326
+Type: seahawk
+
+ID: 220
+Units sold: 1399
+Type: paratrooper
+
+ID: 426
+Units sold: 490
+Type: m270_rocket
+
+ID: 426
+Units sold: 50
+Type: artillery
+
+ID: 76
+Units sold: 50
+Type: paratrooper
+
+ID: 179
+Units sold: 2
+Type: spy
+
+ID: 179
+Units sold: 7
+Type: rocket
+
+ID: 76
+Units sold: 50
+Type: paratrooper
+
+ID: 76
+Units sold: 100
+Type: paratrooper
+
+ID: 445
+Units sold: 5
+Type: spyplane
+
+ID: 445
+Units sold: 5
+Type: sniper
+
+ID: 481
+Units sold: 190
+Type: artillery
+
+ID: 316
+Units sold: 15
+Type: dragon
+
+ID: 316
+Units sold: 16
+Type: artillery
+
+ID: 315
+Units sold: 352
+Type: rocket
+
+ID: 226
+Units sold: 40
+Type: sniper
+
+ID: 574
+Units sold: 373
+Type: seahawk
+
+ID: 308
+Units sold: 3
+Type: spy
+
+ID: 340
+Units sold: 1764
+Type: rifle
+
+ID: 340
+Units sold: 39
+Type: rocket
+
+ID: 312
+Units sold: 3
+Type: spyplane
+
+ID: 316
+Units sold: 5
+Type: artillery
+
+ID: 313
+Units sold: 17
+Type: spyplane
+
+ID: 426
+Units sold: 383
+Type: artillery
+
+ID: 60
+Units sold: 200
+Type: jsf
+
+ID: 312
+Units sold: 1
+Type: spyplane
+
+ID: 257
+Units sold: 100
+Type: rah66_commanches
+
+ID: 257
+Units sold: 100
+Type: rah66_commanches
+
+ID: 257
+Units sold: 50
+Type: rah66_commanches
+
+ID: 257
+Units sold: 40
+Type: rah66_commanches
+
+ID: 257
+Units sold: 50
+Type: rah66_commanches
+
+ID: 257
+Units sold: 10
+Type: rah66_commanches
+
+ID: 312
+Units sold: 3
+Type: spyplane
+
+ID: 312
+Units sold: 20
+Type: spyplane
+
+ID: 176
+Units sold: 70
+Type: stealth
+
+ID: 76
+Units sold: 459
+Type: paratrooper
+
+ID: 257
+Units sold: 140
+Type: rah66_commanches
+
+ID: 226
+Units sold: 333
+Type: armoured
+
+ID: 575
+Units sold: 1
+Type: spyplane
+
+ID: 575
+Units sold: 3
+Type: spy
+
+ID: 575
+Units sold: 400
+Type: navy
+
+ID: 575
+Units sold: 164
+Type: navy
+
+ID: 575
+Units sold: 50
+Type: navy
+
+ID: 60
+Units sold: 621
+Type: jsf
+
+ID: 76
+Units sold: 267
+Type: submarine
+
+ID: 76
+Units sold: 100
+Type: submarine
+
+ID: 315
+Units sold: 240
+Type: rocket
+
+ID: 315
+Units sold: 100
+Type: rocket
+
+ID: 179
+Units sold: 1
+Type: spyplane
+
+ID: 284
+Units sold: 46
+Type: battleship
+
+ID: 284
+Units sold: 13
+Type: frigate
+
+ID: 284
+Units sold: 1
+Type: sparrow
+
+ID: 301
+Units sold: 1
+Type: spyplane
+
+ID: 573
+Units sold: 32
+Type: f22_raptors
+
+ID: 426
+Units sold: 336
+Type: abraham
+
+ID: 590
+Units sold: 285
+Type: abraham
+
+ID: 590
+Units sold: 212
+Type: m70mlrs
+
+ID: 315
+Units sold: 20
+Type: rocket
+
+ID: 315
+Units sold: 20
+Type: rocket
+
+ID: 315
+Units sold: 15
+Type: rocket
+
+ID: 315
+Units sold: 18
+Type: paratrooper
+
+ID: 315
+Units sold: 91
+Type: paratrooper
+
+ID: 360
+Units sold: 378
+Type: artillery
+
+ID: 313
+Units sold: 24
+Type: spyplane
+
+ID: 313
+Units sold: 220
+Type: stealth
+
+ID: 344
+Units sold: 4
+Type: seahawk
+
+ID: 18
+Units sold: 280
+Type: sparrow
+
+ID: 257
+Units sold: 28
+Type: spyplane
+
+ID: 257
+Units sold: 1
+Type: spyplane
+
+ID: 257
+Units sold: 1
+Type: spy
+
+ID: 581
+Units sold: 10
+Type: spyplane
+
+ID: 507
+Units sold: 64
+Type: seahawk
+
+ID: 507
+Units sold: 200
+Type: seahawk
+
+ID: 507
+Units sold: 150
+Type: seahawk
+
+ID: 507
+Units sold: 100
+Type: seahawk
+
+ID: 507
+Units sold: 30
+Type: seahawk
+
+ID: 507
+Units sold: 5
+Type: seahawk
+
+ID: 538
+Units sold: 10
+Type: thief
+
+ID: 538
+Units sold: 10
+Type: sniper
+
+ID: 315
+Units sold: 25
+Type: battleship
+
+ID: 315
+Units sold: 5
+Type: battleship
+
+ID: 315
+Units sold: 5
+Type: battleship
+
+ID: 315
+Units sold: 5
+Type: battleship
+
+ID: 308
+Units sold: 38
+Type: seahawk
+
+ID: 308
+Units sold: 200
+Type: seahawk
+
+ID: 235
+Units sold: 84
+Type: jsf
+
+ID: 60
+Units sold: 400
+Type: b2_bomber
+
+ID: 60
+Units sold: 400
+Type: b2_bomber
+
+ID: 221
+Units sold: 3
+Type: spy
+
+ID: 316
+Units sold: 328
+Type: artillery
+
+ID: 581
+Units sold: 15
+Type: spyplane
+
+ID: 176
+Units sold: 5
+Type: sniper
+
+ID: 176
+Units sold: 20
+Type: spy
+
+ID: 176
+Units sold: 101
+Type: battleship
+
+ID: 176
+Units sold: 31
+Type: stealth
+
+ID: 176
+Units sold: 61
+Type: destroyer
+
+ID: 430
+Units sold: 18
+Type: thief
+
+ID: 29
+Units sold: 10
+Type: spy
+
+ID: 29
+Units sold: 570
+Type: paratrooper
+
+ID: 220
+Units sold: 900
+Type: paratrooper
+
+ID: 220
+Units sold: 1297
+Type: paratrooper
+
+ID: 29
+Units sold: 10
+Type: spy
+
+ID: 226
+Units sold: 130
+Type: navy
+
