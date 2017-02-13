@@ -1,7 +1,7 @@
 <?php 
 
 /* handles hourly monetary income */
-
+/* this is a test comment for git */
 include('constants.php');
 
 require_once("wp-load.php"); 
