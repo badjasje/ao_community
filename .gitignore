@@ -81,3 +81,4 @@ wp-content/themes/twenty*
 
 # ignore intellij IDEs
 .idea
+params.php
