@@ -78,3 +78,6 @@ wp-content/themes/twenty*
 /.user.ini
 /wordfence-waf.php
 /wp-content/wflogs
+
+# ignore intellij IDEs
+.idea
