@@ -89,9 +89,21 @@ jQuery(function(){
 
 
 <div class="tab-pane" id="attacks" role="tabpanel">
+	<br/>
 <form action="" method="get">
-<input type="text" name="landlost" placeholder="filter by land lost" value="<?php echo $_GET['landlost'];?>">
-<input type="text" name="moneylost" placeholder="filter by money lost" value="<?php echo $_GET['moneylost'];?>">
+<div class="row">
+  <div class="col-md-6"><input type="text" name="landlost" placeholder="filter by land lost" value="<?php echo $_GET['landlost'];?>"></div>
+  <div class="col-md-6"><input type="text" name="moneylost" placeholder="filter by money lost" value="<?php echo $_GET['moneylost'];?>"></div>
+</div>	
+<div class="row">
+  <div class="col-md-6"><input type="text" name="attackerid" placeholder="attacker ID" value="<?php echo $_GET['attackerid'];?>"></div>
+  <div class="col-md-6"><input type="text" name="defenderid" placeholder="defender ID" value="<?php echo $_GET['defenderid'];?>"></div>
+</div>	
+
+
+
+
+
 <button class="btn btn-filter" type="submit" value="FILTER">Filter</button>
 	
 </form>
@@ -107,6 +119,28 @@ $land_lost = $_GET['landlost'];
 if(empty($land_lost)){
 	$land_lost = 0;
 }
+
+$all_users = array();
+$users = get_users();
+foreach ($users as $user) {
+	$all_users[] = $user->ID;
+}
+
+$attackerIDs = $all_users;
+$attacker = $_GET['attackerid'];
+if(!empty($attacker)){
+	$attackerIDs = $_GET['attackerid'];
+}
+
+
+$defenderIDs = $all_users;
+$defender = $_GET['defenderid'];
+if(!empty($defender)){
+	$defenderIDs = $_GET['attackerid'];
+}
+
+
+
 
 
 $filter_array = array('regular','air_sea','ground');
@@ -133,7 +167,26 @@ $args = array(
 			'value'   => $land_lost,
 			'type'    => 'numeric',
 			'compare' => '>=',
-		),)
+		),
+		array(
+             'key' => 'attacker_id',
+             'value' => $attackerIDs,
+             'compare' => 'IN'
+           ),
+        array(
+             'key' => 'defender_id',
+             'value' => $defenderIDs,
+             'compare' => 'IN'
+           ),
+         array(
+             'key' => 'attacktype',
+             'value' => $filter_array,
+             'compare' => 'IN'
+           ),
+		
+		
+		
+		)
 						
 );
 		
@@ -232,7 +285,10 @@ if ( $custom_query->have_posts() ) :
 				<div class="attack-profile-image" 
 					style="background: url(<?php echo $avatar;?>);background-size: cover;">
 				</div>
-				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
+				<center>
+				<strong>Current land:</strong><br/><?php echo number_format(get_user_meta($attacker_id, 'land', true), 0, ',', ' ');?> m<sup>2</sup><br/>
+				<strong>Current money:</strong><br/>$ <?php echo number_format(get_user_meta($attacker_id, 'money', true), 0, ',', ' ');?><br/>
+				<br/><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
 	</div>
