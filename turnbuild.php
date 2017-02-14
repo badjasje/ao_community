@@ -258,12 +258,21 @@ if($totalordercost > $totalmoney){
 		
 		
 		
-
+$file = 'turnbuildlog.txt';
+// Open the file to get existing content
+$current = file_get_contents($file);
+// Append a new person to the file
+$current .= "ID: ".$user_ID."\n";
+$current .= "Units ordered: "$unit_name.' '.$ordered_units."\n\n";
+// Write the contents back to the file
+file_put_contents($file, $current);
 
 }}}}
 count_all_stats($user_ID);
 update_user_meta( $user_ID, 'money',$totalmoney-$totalordercost);
 update_user_meta( $user_ID, 'turns',$totalturns-$turns_needed);
+
+
 
 $_SESSION['units_ordered'] = $total_units_ordered;
 $_SESSION['order_price'] = $totalordercost;
