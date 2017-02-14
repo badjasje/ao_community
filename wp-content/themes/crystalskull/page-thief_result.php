@@ -8,60 +8,50 @@ $defender_ID = $_SESSION['target_id'];
 $user_ID     = get_current_user_ID();
 $no_thiefs   = $_SESSION['attack_array']['thief'];
 
-$defender_money = get_user_meta($defender_ID, 'money');
-$attacker_money = get_user_meta($user_ID, 'money');
-$turns = get_user_meta($user_ID,'turns');
+$defender_money = get_user_meta($defender_ID, 'money',true);
+$attacker_money = get_user_meta($user_ID, 'money',true);
+$turns = get_user_meta($user_ID,'turns',true);
 
 $tot_thiefs = get_user_meta($user_ID, 'thief_owned',true);
 $tot_snipers = get_user_meta($defender_ID, 'sniper_owned',true);
 
 /* Check if attacker has enough thiefs */
-if($no_thiefs[0]>$tot_thiefs){
-	echo '<script type="text/javascript">
-			
-		
-		window.location.href = "/attack/step-1/?fail=16";
+if($no_thiefs > $tot_thiefs){
 	
-		</script>';
-    ;
+	wp_redirect(get_permalink(3360).'?fail=16');
     exit;
 	
 }
 
 /* Check if attacker has enough turns */
-if($turns[0]<2){
-	echo '<script type="text/javascript">
-			
-		
-		window.location.href = "/attack/step-1/?fail=1";
+if($turns < 2){
 	
-		</script>';
-    ;
+	wp_redirect(get_permalink(3360).'?fail=1');
     exit;
 	
 }
 
-$thief_level = get_user_meta($user_ID, 'level_thieving_effectiveness')[0];
+$thief_level = get_user_meta($user_ID, 'level_thieving_effectiveness',true);
 
 if($thief_level == 0){
-$money_stolen = ceil($defender_money[0]*pow(1+((rand(1, 2) / 100)),$no_thiefs))-$defender_money[0];
-$caught = rand(75*1+($no_thiefs/2), 100)+$no_thiefs*1.5*($tot_snipers*0.39);
+$money_stolen = ceil($defender_money*pow(1+((rand(10, 20) / 1000)),$no_thiefs))-$defender_money;
+$caught = rand(75, 100)+($no_thiefs*7)+($tot_snipers*0.39);
 }
 if($thief_level == 1){
-$money_stolen = ceil($defender_money[0]*pow(1+((rand(2, 3) / 100)),$no_thiefs))-$defender_money[0];
-$caught = rand(70*1+($no_thiefs/2), 100)+$no_thiefs*1.5*($tot_snipers*0.39);
+$money_stolen = ceil($defender_money*pow(1+((rand(20, 30) / 1000)),$no_thiefs))-$defender_money;
+$caught = rand(70, 100)+($no_thiefs*6)+($tot_snipers*0.39);
 }
 if($thief_level == 2){
-$money_stolen = ceil($defender_money[0]*pow(1+((rand(3, 4) / 100)),$no_thiefs))-$defender_money[0];
-$caught = rand(65*1+($no_thiefs/2), 100)+$no_thiefs*1.5*($tot_snipers*0.39);
+$money_stolen = ceil($defender_money*pow(1+((rand(30, 40) / 1000)),$no_thiefs))-$defender_money;
+$caught = rand(65, 100)+($no_thiefs*5)+($tot_snipers*0.39);
 }
 if($thief_level == 3){
-$money_stolen = ceil($defender_money[0]*pow(1+((rand(4, 5) / 100)),$no_thiefs))-$defender_money[0];
-$caught = rand(60*1+($no_thiefs/2), 100)+$no_thiefs*1.5*($tot_snipers*0.39);
+$money_stolen = ceil($defender_money*pow(1+((rand(40, 50) / 1000)),$no_thiefs))-$defender_money;
+$caught = rand(50, 100)+($no_thiefs*2.5)+($tot_snipers*0.39);
 }
 
-if($defender_money[0] <= $money_stolen){
-	$money_stolen = $defender_money[0];
+if($defender_money <= $money_stolen){
+	$money_stolen = $defender_money;
 }
 
 $result = 'success';
@@ -75,37 +65,33 @@ if ($defender_money == 0) {
 
 
 
-$networth_att = get_user_meta($user_ID, 'networth');
-$networth_def = get_user_meta($defender_ID, 'networth');
+$networth_att = get_user_meta($user_ID, 'networth',true);
+$networth_def = get_user_meta($defender_ID, 'networth',true);
 
 
-// NW Check between attacker & Defender
+/* Check if in range */
 
-
-if (($networth_def[0] > $networth_att[0] /1.4 && $networth_def[0] < $networth_att[0] * 1.4)) {
+if (($networth_def > $networth_att /1.4 && $networth_def < $networth_att * 1.4)) {
 } else {
-    echo '<script type="text/javascript">
-			
-		
-		window.location.href = "/attack/step-1/?fail=9";
-	
-		</script>';
-    ;
+    wp_redirect(get_permalink(3360).'?fail=9');
     exit;
 }
-$oldmorale = get_user_meta($user_ID, 'morale');
 
-if ($oldmorale[0] < 5) {
-    echo '<script type="text/javascript">
-			
-		
-		window.location.href = "/attack/step-1/?fail=2";
+/* Check if attacker has sufficient morale */
+
+$oldmorale = get_user_meta($user_ID, 'morale',true);
+
+if ($oldmorale < 5) {
 	
-		</script>';
+	wp_redirect(get_permalink(3360).'?fail=2');
     exit;
+
 } else {
-    update_user_meta($user_ID, 'morale', $oldmorale[0] - 5);
+    update_user_meta($user_ID, 'morale', $oldmorale - 5);
 }
+
+
+
 
 /* add stats */
 	// attacker
@@ -178,12 +164,12 @@ echo $defender_ID;
 	
 	</article><!-- #post -->
 <?php //// UPDATE MONEY
-if ($money_stolen > $defender_money[0]) {
-    update_user_meta($defender_ID, 'money', $defender_money[0]);
+if ($money_stolen > $defender_money) {
+    update_user_meta($defender_ID, 'money', $defender_money);
 } else {
-    update_user_meta($defender_ID, 'money', $defender_money[0] - $money_stolen);
+    update_user_meta($defender_ID, 'money', $defender_money - $money_stolen);
 }
-update_user_meta($user_ID, 'money', $attacker_money[0] + $money_stolen);
+update_user_meta($user_ID, 'money', $attacker_money + $money_stolen);
 
 
 }
@@ -209,8 +195,8 @@ $args = array(
 			update_field('winner_id',$winner_id, $new_event_id);
 			
 			
-			update_user_meta($user_ID,'turns',$turns[0]-$TURNS_THIEF);
-			update_user_meta($defender_ID, 'new_events', get_user_meta($defender_ID, 'new_events')[0]+1);
+			update_user_meta($user_ID,'turns',$turns-$TURNS_THIEF);
+			update_user_meta($defender_ID, 'new_events', get_user_meta($defender_ID, 'new_events',true)+1);
 			
 			
 			if($result == 'failure'){

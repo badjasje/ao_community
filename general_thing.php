@@ -1,48 +1,34 @@
 <?php
 	
 	require_once("wp-load.php");
-	/*
-	$scores = [100,200,400,500,750,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2500,3000,4500,5000,6000,7000,8000,9000,10000,15000,17500,20000,25000,30000,35000,40000,45000,50000,60000,70000,80000,90000];
-	
-	//shuffle($scores);
-	foreach ($scores as $score) {
-		
-	$res = 5.555 * log($score/2.2 / 400);
-    echo $score.': '.ceil($res).'<br/>';
-    }
-/*
 
-/*
-    
+
+$defender_money = 1000000;
+$no_thiefs = 10;
+$tot_snipers = 0;
+echo 'Defender Money: '.$defender_money.'<br/>';
+echo 'Number of thiefs: '.$no_thiefs.'<br/>';
 
 
 
-$ip_array = get_field('login_array','options');?>
+$thief_level = get_user_meta($user_ID, 'level_thieving_effectiveness',true);
 
+if($thief_level == 0){
+$money_stolen = ceil($defender_money*pow(1+((rand(10, 20) / 1000)),$no_thiefs))-$defender_money;
+$caught = rand(75, 100)+($no_thiefs*7)+($tot_snipers*0.39);
+}
+if($thief_level == 1){
+$money_stolen = ceil($defender_money*pow(1+((rand(20, 30) / 1000)),$no_thiefs))-$defender_money;
+$caught = rand(70, 100)+($no_thiefs*6)+($tot_snipers*0.39);
+}
+if($thief_level == 2){
+$money_stolen = ceil($defender_money*pow(1+((rand(30, 40) / 1000)),$no_thiefs))-$defender_money;
+$caught = rand(65, 100)+($no_thiefs*5)+($tot_snipers*0.39);
+}
+if($thief_level == 3){
+$money_stolen = ceil($defender_money*pow(1+((rand(40, 50) / 1000)),$no_thiefs))-$defender_money;
+$caught = rand(50, 100)+($no_thiefs*2.5)+($tot_snipers*0.39);
+}
 
-<?php
-foreach ($ip_array as $ip => $users) {?>
-<h2><?php echo $ip;?></h2>
-
-<?php 
-	$count = 0;
-	foreach ($users as $user => $stuff) {
-	$member_data = get_userdata($user);
-	$count++;
-	
-?>
-
-<a href="/users/profile/?id=<?php echo $user;?>"><?php echo $member_data->display_name.' (#'.$user.')';?></a><br/>
-
-<?php echo $stuff[0];?><br/>
-
-<?php echo $stuff[1];?><br/><br/>
-
-<?php if($count >= 2){?>
-<h1 style="color:#ff0000;">MULTI</h1>
-
-<?php }}}?>
-
-
-
-
+echo 'Money stolen: '.$money_stolen.'<br/>';
+echo 'Caught: '.$caught;
