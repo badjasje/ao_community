@@ -2,14 +2,21 @@
  /*
  * Template Name: Attack 1
  */
+
 $user_ID = get_current_user_id();
 $networth = get_user_meta($user_ID, 'networth');
 $status = get_user_meta($user_ID, 'status');
 include 'constants.php';
 $sat_owned = get_user_meta($user_ID, 'sat_owned',true);
-if (!empty($_GET['id'])){
-	count_all_stats($_GET['id']);
-	}
+
+$attackUserId = sanitize_text_field($_GET['id']);
+
+if ( ! empty($attackUserId)) {
+	count_all_stats($attackUserId);
+}
+
+$attackUserData = get_userdata($attackUserId);
+
 
 $sat_morale = get_user_meta($user_ID, 'sat_morale',true);
 $last_attacked = rtrim(get_user_meta($user_ID, 'last_attacked',true), ',');
@@ -81,29 +88,32 @@ get_header(); ?>
 			</strong>
 			</span>
 		<span class="rdw-line">Your morale is currently at <?php echo $morale;?>%. <?php if(!empty($sat_owned)){ echo 'Satellite power is currently at '. $sat_morale.'%';}?></span></div><br/>
-		
-		
-		
-		
-		
-		
+
+		<?php if ( ! empty($attackUserId)) : ?>
+            <h3 class="centered">Attacking <?php echo LinkUtil::user_link($attackUserId); ?></h3>
+        <?php endif; ?>
 		
 		<form class="form" action="<?php echo home_url() ?>/attack.php" name="" id="attack" method="post">	
 			<table class="responsive-table">
-				<tr>
-				
-				<td colspan="2">
-				<input style="font-size: 24px;text-align:center;font-weight: bold;" type="text" label="erw" id="target_id" placeholder="Target ID" name="target_id" list='listid' value="<?php if (!empty($_GET['id'])){echo $_GET['id'];}?>"/>
-				 <datalist id='listid'>
-				 <?php foreach ($last_attacked as $last_id){
-					 $member_data = get_userdata($last_id);
-					 
-				 ?>
-				 <option label='<?php echo $member_data->display_name.' (#'.$last_id.')';?>' value='<?php echo $last_id;?>'>
-				 <?php }?>
-				 </datalist>
-				</td>
-				</tr>
+				<?php if (empty($attackUserId)) : ?>
+                    <tr>
+
+                        <td colspan="2">
+                            <input style="font-size: 24px;text-align:center;font-weight: bold;" type="text" label="erw" id="target_id" placeholder="Target ID" name="target_id" list='listid'/>
+
+                            <datalist id='listid'>
+								<?php foreach ($last_attacked as $last_id) :
+								    $member_data = get_userdata($last_id);
+								?>
+                                    <option label='<?php echo $member_data->display_name . ' (#' . $last_id . ')'; ?>' value='<?php echo $last_id; ?>'>
+                                <?php endforeach; ?>
+                            </datalist>
+                        </td>
+                    </tr>
+                <?php else: ?>
+                    <input type="hidden" label="erw" id="target_id" name="target_id" value="<?php echo $attackUserId; ?>" />
+				<?php endif; ?>
+
 				<tr>
 				<td class="left_text_table"><input style="display:none;" type="radio" name="attacktype" id="air_sea" value="air_sea" checked><label class="btn btn-general" for="air_sea">Air & Sea Attack</label>
 				</td>
