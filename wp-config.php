@@ -18,9 +18,6 @@
  * @package WordPress
  */
 
-// Load assault online specific classes
-require_once __DIR__ . '/ao-loader.php';
-
 $params = [
 	'db_name'     => 'assauu_db1',
 	'db_user'     => 'assauu_1',
