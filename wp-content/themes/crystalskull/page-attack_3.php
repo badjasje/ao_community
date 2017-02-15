@@ -5,6 +5,7 @@
 include 'DO_NOT_DELETE.php';
 $units_attack = $_SESSION['attack_array'];
 
+$attackUserId = $_SESSION['target_id'];
 
 get_header(); ?>
 <div class="page normal-page">
@@ -14,6 +15,10 @@ get_header(); ?>
 		<?php if(get_field('game_status','option') != 'Live'):?>
 <div class="notice_message"><span class="rdw-line">The round has ended!</span></div>
 <?php else:?>
+
+        <?php if (!empty($attackUserId)) : ?>
+            <h3 class="centered">Attacking <?php echo LinkUtil::user_link($attackUserId); ?></h3>
+        <?php endif; ?>
 			
 		<?php  //// UNIT ATTACK, A&S, REG & GROUND
 			

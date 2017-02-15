@@ -8,7 +8,8 @@ wp_redirect(get_permalink(3360).'?fail=4');
 exit;
 }
 
-count_all_stats($_SESSION['target_id']);
+$attackUserId = $_SESSION['target_id'];
+count_all_stats($attackUserId);
 
 get_header(); ?>
 <div class="page normal-page">
@@ -27,12 +28,13 @@ get_header(); ?>
 			<?php elseif($attacksuccess == 3):?>
 				<div class="marketnotice insuffunds">No units available for this attack type</div>
 			<?php endif;?><?php }?>
-	
-		
-		
-		
+
+            <?php if ( ! empty($attackUserId)) : ?>
+                <h3 class="centered">Attacking <?php echo LinkUtil::user_link($attackUserId); ?></h3>
+            <?php endif; ?>
+
 <?php if($_SESSION['attacktype'] != 'missile' && $_SESSION['attacktype'] != 'spy'){?>
-	
+
 	<form class="form" action="<?php echo home_url() ?>/attack2.php" name="" id="attack2" method="post">	
 		<?php //////////////// AIR & SEA ATTACK ////////////////
 			$units_total = 0;
@@ -105,8 +107,8 @@ get_header(); ?>
 						});
 					
 					</script>
-					
-				
+
+
 				<?php }}}?>
   				</tbody>
 				</table>
@@ -120,7 +122,7 @@ get_header(); ?>
 		
 		<script>
 			jQuery(".send_all").on("click", function() {
-		    var val = jQuery(this).data("val").split("|");
+		    var val = jQuery(this).data("val").toString().split("|");
 		    jQuery(".unit_input").val(function(i) {
 		        return val[i] || "";
 		    });
@@ -346,7 +348,7 @@ get_header(); ?>
 		
 		<script>
 			jQuery(".send_all").on("click", function() {
-		    var val = jQuery(this).data("val").split("|");
+		    var val = jQuery(this).data("val").toString().split("|");
 		    jQuery(".unit_input").val(function(i) {
 		        return val[i] || "";
 		    });
@@ -437,7 +439,7 @@ get_header(); ?>
 		
 		<script>
 			jQuery(".send_all").on("click", function() {
-		    var val = jQuery(this).data("val").split("|");
+		    var val = jQuery(this).data("val").toString().split("|");
 		    jQuery(".unit_input").val(function(i) {
 		        return val[i] || "";
 		    });
