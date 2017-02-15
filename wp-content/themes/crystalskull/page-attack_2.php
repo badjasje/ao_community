@@ -122,7 +122,7 @@ get_header(); ?>
 		
 		<script>
 			jQuery(".send_all").on("click", function() {
-		    var val = jQuery(this).data("val").split("|");
+		    var val = jQuery(this).data("val").toString().split("|");
 		    jQuery(".unit_input").val(function(i) {
 		        return val[i] || "";
 		    });
@@ -348,7 +348,7 @@ get_header(); ?>
 		
 		<script>
 			jQuery(".send_all").on("click", function() {
-		    var val = jQuery(this).data("val").split("|");
+		    var val = jQuery(this).data("val").toString().split("|");
 		    jQuery(".unit_input").val(function(i) {
 		        return val[i] || "";
 		    });
@@ -439,7 +439,7 @@ get_header(); ?>
 		
 		<script>
 			jQuery(".send_all").on("click", function() {
-		    var val = jQuery(this).data("val").split("|");
+		    var val = jQuery(this).data("val").toString().split("|");
 		    jQuery(".unit_input").val(function(i) {
 		        return val[i] || "";
 		    });
