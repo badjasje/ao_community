@@ -131,7 +131,7 @@ $_SESSION['turns_used'] = $turns_needed;
 $_SESSION['buildings'] = $totalbuildings;
 $_SESSION['status'] = '7';
 count_all_stats($user_ID);
-wp_redirect(get_permalink(3386).'/#build'); exit;
+wp_redirect(get_permalink(3386).'/?tab=build'); exit;
 
 
 }

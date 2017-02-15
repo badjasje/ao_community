@@ -135,5 +135,5 @@ foreach($toSell as $key => $count) {
 /* now update to remove the cash */
 update_user_meta($user_ID,'money',$totalmoney-$total_selling);
 $_SESSION['status'] = '14';
-wp_redirect(get_permalink(3386).'/#demolish'); 
+wp_redirect(get_permalink(3386).'/?tab=demolish'); 
 exit;
