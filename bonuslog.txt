@@ -445,3 +445,9 @@ New Money: 657500 New Turns: 275
 User ID: 317 Event ID: 142087
 New Money: 650375 New Turns: 158
 
+User ID: 60 Event ID: 142508
+New Money: 976473.5 New Turns: 124
+
+User ID: 561 Event ID: 142510
+New Money: 1625114.75 New Turns: 126
+

@@ -3,8 +3,13 @@
  * Template Name: Satellite result
  */
 include 'DO_NOT_DELETE.php';
+include('attack_functions.php');
+include 'units_array.php';
+include 'constants.php';
+
 $attacking_units = $_POST;
 $defender_ID     = $_SESSION['target_id'];
+
 $SEA_ATT_power   = 0;
 $AIR_ATT_power   = 0;
 $INF_ATT_power   = 0;
@@ -25,158 +30,92 @@ $_total_air_units_att = 0;
 $_total_inf_units_att = 0;
 $_total_veh_units_att = 0;
 $_total_sea_units_att = 0;
-$user_ID = get_current_user_id();
-$networth_att = get_user_meta($user_ID, 'networth');
-$turns = get_user_meta($user_ID, 'turns');
-$networth_def = get_user_meta($defender_ID, 'networth');
 
-$sat_morale = get_user_meta($user_ID, 'sat_morale',true);
+
+$user_ID = get_current_user_id();
+$winner_ID = $user_ID;
+
+$turns = get_user_meta($user_ID, 'turns',true);
+
+
+
 
 /* check satellite morale */
 
+$sat_morale = get_user_meta($user_ID, 'sat_morale',true);
 if (100 > $sat_morale) {
-	echo '<script type="text/javascript">
-			
-		
-		window.location.href = "/attack/step-1/?fail=20";
 	
-		</script>';
-        ;exit;	
+	wp_redirect(get_permalink(3360).'?fail=20');
+	exit;
+
 }
 
+/* check if target is alive */
 
-$defender_clan_ID = get_user_meta($defender_ID, 'clan_id_user',true);
-$attacker_clan_ID = get_user_meta($user_ID, 'clan_id_user',true);
-$calculate_points = 0;
-
-/* check if target isn't dead, else redirect */
 $target_status = get_user_meta($defender_ID,'status',true);
 if($target_status == 'dead'){
 	wp_redirect(get_permalink(3360).'?fail=8');
 	exit;
 }
 
-$mutual = 0;
-if($defender_clan_ID != 0 && $attacker_clan_ID != 0){
-
-
-$one_sided = 0;
-$wars = get_posts(array(
-	'numberposts'	=> -1,
-	'post_type'		=> 'wars',
-	'meta_query'	=> array(
-				'relation'		=> 'AND',
-					array(
-						'key'	 	=> 'declared_on',
-						'value'	  	=> $defender_clan_ID,
-						'compare' 	=> '=',
-						),
-					array(
-						'key'	 	=> 'declared_by',
-						'value'	  	=> $attacker_clan_ID,
-						'compare' 	=> '=',
-						),
-),));
-
-if(count($wars) != 0){
-	$calculate_points = count($wars);
-	$mutual = $mutual+1;
-}
-
-}
 
 
 
 
 
-
-/* check for onesided war */
-$wars = get_posts(array(
-	'numberposts'	=> -1,
-	'post_type'		=> 'wars',
-	'meta_query'	=> array(
-				'relation'		=> 'AND',
-					array(
-						'key'	 	=> 'declared_on',
-						'value'	  	=> $attacker_clan_ID,
-						'compare' 	=> '=',
-						),
-					array(
-						'key'	 	=> 'declared_by',
-						'value'	  	=> $defender_clan_ID,
-						'compare' 	=> '=',
-						),
-),));
+$defender_clan_ID = get_user_meta($defender_ID, 'clan_id_user',true);
+$attacker_clan_ID = get_user_meta($user_ID, 'clan_id_user',true);
 
 
-$onesided = count($wars);
 
-if($onesided == 1){
-	$mutual = $mutual+1;
-	$calculate_points = 1;
-	$one_sided = 1;
+$war_type = get_war_type($attacker_clan_ID, $defender_clan_ID);
+$networth_att = get_user_meta($user_ID, 'networth',true);
+$networth_def = get_user_meta($defender_ID, 'networth',true);
+
+
+
+/* check if target in range */
+
+$attack_type = 'satellite';
+$in_range = target_in_range($attack_type, $networth_att, $networth_def, $war_type);
+
+/* validate target in range */
+if (!$in_range) {
+	wp_redirect(get_permalink(3360).'?fail=9');
+	exit;
 }
 
 
+$blddamage = rand (6500,8000);
 
 $result = 'success';
 
 
 
-if($mutual == 2){
-	$one_sided = 0;
-}
-
-
-
-
-// NW Check between attacker & Defender
-
-if($mutual != 2){
-if (($networth_def[0] > $networth_att[0]/1.4 && $networth_def[0] < $networth_att[0]*1.4)){
-	
-	
-}else{
-echo '<script type="text/javascript">
-			
-		
-		window.location.href = "/attack/step-1/?fail=9";
-	
-		</script>';
-        ;exit;	
-}}
-
-
-
-
-
-    
-
-        $blddamage = 5000;
-  
-    
     // KILLING BUILDINGS OF DEFENDER //
     $_total_bld_def = 0;
     foreach ($buildings as $key => $building) {
-        $def_bld_owned = get_user_meta($defender_ID, $key);
-        $_total_bld_def += $def_bld_owned[0];
+        $def_bld_owned = get_user_meta($defender_ID, $key,true);
+        $_total_bld_def += $def_bld_owned;
     }
     
     
-    foreach ($buildings as $key => $building) {
+foreach ($buildings as $key => $building) {
         
+    
+	//bld		
+	$def_bld_owned = get_user_meta($defender_ID, $key,true);
+
         
-        //bld		
-        $def_bld_owned = get_user_meta($defender_ID, $key);
-        $def_bld_owned = $def_bld_owned[0];
-        
-        if ($def_bld_owned > 0) {
-            $percentage = $def_bld_owned / $_total_bld_def;
+	if ($def_bld_owned > 0) {
+		
+		$percentage = $def_bld_owned / $_total_bld_def;
             
-            $damage = $blddamage * $percentage;
-            $buildings_lost = round($damage / $building['life']);
+        $damage = $blddamage * $percentage;
+        
+        $buildings_lost = round($damage / $building['life']);
             
-            if ($buildings_lost > 0) {
+        if ($buildings_lost > 0) {
                 if ($def_bld_owned < $buildings_lost) {
                     update_user_meta($defender_ID, $key, 0);
                     $defender_lost[] = array(
@@ -209,13 +148,10 @@ echo '<script type="text/javascript">
     if ($_total_bld_def <= 0) {
         update_user_meta($defender_ID, 'status', 'dead');
         update_user_meta($defender_ID, 'networth', 0);
-        echo '<script type="text/javascript">
-			
-		
-		window.location.href = "/attack/step-1/?fail=8";
-	
-		</script>';
-        exit;
+        
+        wp_redirect(get_permalink(3360).'?fail=8');
+		exit;
+
     }
 
     
@@ -236,7 +172,7 @@ get_header(); ?>
        
 		
 				
-				<?php
+<?php
 $def_NW_lost           = 0;
 $att_NW_lost           = 0;
 $def_lostunits_tot     = 0;
@@ -262,10 +198,7 @@ foreach ($buildings as $buildingkey => $order) {
     }
 }
 
- 		$land_stolen  = 0;
-        $money_stolen = 0;
-
-
+ 		
 
 
 $killed = false;
@@ -275,106 +208,116 @@ if ($def_lostbuildings_tot >= $_total_bld_def) {
     update_user_meta($defender_ID, 'networth', 0);
     update_user_meta($defender_ID, 'land', 0);
     after_death($defender_ID);
-}else{
-/// UDPDATE DEFENDER NETWORTH
-$def_NW_lost += $land_stolen * 0.85;
-$defender_Networth = get_user_meta($defender_ID, 'networth');
-
-
-
-
+}
 
 
 
 
 ////// CALCULATE CLAN POINTS //////
+
+
+$clan_points_old_att = get_post_meta($attacker_clan_ID,'clan_points',true);
+
+/* calculate clan points */
 $clan_points = 0;
 $unit_points = 0;
 
-$att_clan_ID = get_user_meta($user_ID, 'clan_id_user');
-$old_CP = get_post_meta($att_clan_ID[0],'clan_points');
-
-
-
-
-if($calculate_points == 1 && $result = 'success'){
-			
-	$def_total_units = 0;
-			
-			
-		if($def_total_units != 0 && $def_lostunits_tot != 0){
-			$unit_points = $def_lostunits_tot/$def_total_units;
-			}
-			
-		$defender_Networth = get_user_meta($defender_ID, 'networth');
+if($war_type != 'none' && $result == 'success') {
 	
-			
-			
-				
-			
-			
-			if ($killed != true) {
-				$clan_points = ceil(9+($def_NW_lost/$defender_Networth[0]*170));
-					if($clan_points > 25){
-						$clan_points = 25;
-						}
-				
-				
-		
-			if($one_sided == 1 ){
-				$clan_points = ceil($clan_points/2);
-			}
-			
-			}
-			
-			
-			
-		
 
-			/* check if defender is killed */
-			if ($killed == true) { 
-				/* killed in mutual? */
-				if($mutual == 2){
-					$clan_points = 50;
-				}
-				if($one_sided == 1){
-				/* one sided kill? */
-					$clan_points = 25;	
-				}
-			}
+	if ($killed != true) {
+
+		$clan_points = 13 * log($def_NW_lost/1.4 / 400); 
+		
+		if($clan_points < 1){
+			$clan_points = 1;
+		}
+		$clan_points = ceil($clan_points);
+		/* points cap */
+		if($clan_points > $POINTS_CAP) {
+			$clan_points = $POINTS_CAP;
+		}
+		
+		if($war_type == 'incoming') {
+			$clan_points = ceil($clan_points/2);
 			
-			update_post_meta($att_clan_ID[0],'clan_points',$old_CP[0]+$clan_points);
-			/* 24H pts update */
-			$_pts = get_post_meta($att_clan_ID[0], '24h_pts', true);
-			update_post_meta($attack_clan_id,'24h_pts',$_pts+$clan_points);
+		}
+		
 	}
+	
+	/* determine points multiplier due to war */
+	
+
+	if ($killed == true) {
+		/* add stats */
+		// attacker
+		
+		$kills_made = get_user_meta($user_ID, 'kills_made', true);
+		update_user_meta($user_ID, 'kills_made', $kills_made+1);
+		
+		// defender
+		
+		$times_killed = get_user_meta($defender_ID, 'times_killed', true);
+		update_user_meta($defender_ID, 'times_killed', $times_killed+1);
+		
+		if($war_type == 'mutual') {
+			$clan_points = 50;
+		}
+		elseif($war_type == 'incoming') {
+			$clan_points = 25;
+		}
+		elseif($war_type == 'outgoing') {
+			$clan_points = 25;
+		}
+	}
+}
+
+
+
+	/* add points */
+	$starting_points = get_post_meta($attacker_clan_ID,'clan_points',true);
+	update_post_meta($attacker_clan_ID,'clan_points',$starting_points+$clan_points);
+	/* add attacks for UA */
+	$starting_attacks = get_post_meta($attacker_clan_ID,'ua_total',true);
+	update_post_meta($attacker_clan_ID,'ua_total',$starting_attacks+1);
+	
+	/* 24H pts update */
+	$_pts = get_post_meta($attacker_clan_ID, '24h_pts', true);
+	update_post_meta($attacker_clan_ID,'24h_pts',$_pts+$clan_points);
+
 ?>		
 				
 		
-				
-				
+
 <?php if($result = 'success'){ ?>
+
+<?php $winner_ID = $user_ID;?>
 	
-	<center>
-		<h2>S U C C E S S</h2>
-			<p>Your satellite hit the base of <strong>
-			<a href="/users/profile/?id=<?php echo $defender_ID;?>">
-				<?php $playername = get_userdata($defender_ID);
-					echo $playername->display_name;
-					echo ' (#' . $_SESSION['target_id'] . ')';
-				?></a></strong>
+<center>
+	<h2>S U C C E S S</h2>
+		
+		<p>Your satellite hit the base of 
+		<strong>
+		<a href="/users/profile/?id=<?php echo $defender_ID;?>"><?php $playername = get_userdata($defender_ID);
+			echo $playername->display_name;
+			echo ' (#' . $_SESSION['target_id'] . ')';
+				?>
+		</a>
+		</strong>
+		
+		
 		<?php if ($killed == true) {echo ' and killed this player';} echo '</p>';
 
 		$builtland = 0;
 		$winner_ID = $user_ID;
 			
 			foreach ($buildings as $key => $building) {
-				$ownedbuildings = get_user_meta($defender_ID, $key);
-				if ($ownedbuildings[0] > 0) {
-				$builtland += $ownedbuildings[0] * 20;
+				$ownedbuildings = get_user_meta($defender_ID, $key,true);
+				if ($ownedbuildings > 0) {
+				$builtland += $ownedbuildings * 20;
     			}
 			}
-}
+
 			update_user_meta($defender_ID, 'builtland', ceil($builtland));?>
 					
 					
@@ -463,7 +406,7 @@ update_user_meta($user_ID, 'user_clan_points', $old_CP+$clan_points);
 ////// CREATE EVENT POST ////////////
 $timestamp = strtotime(date('Y-m-d H:i:s'));
 $args = array(	
-				'post_title'    => 'Attack made by '.$user_ID.' Defender: '.$defender_ID,
+				'post_title'    => 'Satellite attack made by '.$user_ID.' Defender: '.$defender_ID,
 				'post_status'   => 'publish',
 				'post_type'		=> 'event_local',
 				'post_author'   => $user_ID
@@ -498,11 +441,11 @@ $args = array(
 			update_field('defender_clan_id',$defender_clan_ID, $new_event_id);
 			update_field('attacker_clan_id',$attacker_clan_ID, $new_event_id);
 			
-			update_user_meta($user_ID,'turns',$turns[0]-3);
+			update_user_meta($user_ID,'turns',$turns-3);
 			
-			update_user_meta($user_ID,'sat_morale',0);
+			update_user_meta($user_ID,'sat_morale',$sat_morale-100);
 			
-			update_user_meta($defender_ID, 'new_events', get_user_meta($defender_ID, 'new_events')[0]+1);
+			update_user_meta($defender_ID, 'new_events', get_user_meta($defender_ID, 'new_events',true)+1);
 			/* Add globals to defender */
 
 $clan = get_user_meta($defender_ID, 'clan_id_user', true);

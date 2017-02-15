@@ -3278,3 +3278,47 @@ ID: 317
 Units sold: 600
 Type: flamethrower
 
+ID: 317
+Units sold: 50
+Type: apc
+
+ID: 317
+Units sold: 400
+Type: artillery
+
+ID: 317
+Units sold: 895
+Type: rifle
+
+ID: 317
+Units sold: 665
+Type: flamethrower
+
+ID: 575
+Units sold: 272
+Type: armoured
+
+ID: 60
+Units sold: 271
+Type: destroyer
+
+ID: 235
+Units sold: 1120
+Type: seahawk
+
+ID: 574
+Units sold: 70
+Type: f22_raptors
+
+ID: 575
+Units sold: 357
+Type: abraham
+
+ID: 313
+Units sold: 20
+Type: dragon
+
+ID: 313
+Units sold: 326
+Type: artillery
+
