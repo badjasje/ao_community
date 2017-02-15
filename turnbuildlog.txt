@@ -259,3 +259,6 @@ Units ordered: spyplane 10
 ID: 317
 Units ordered: rifle 600
 
+ID: 177
+Units ordered: sniper 40
+
