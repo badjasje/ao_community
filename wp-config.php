@@ -18,18 +18,31 @@
  * @package WordPress
  */
 
+$params = [
+	'db_name'     => 'assauu_db1',
+	'db_user'     => 'assauu_1',
+	'db_password' => 'ATL4DW19Xc98SNTG',
+	'db_host'     => 'localhost',
+];
+
+// Include params file and merge with default params if it exists.
+$paramsFile = __DIR__ . '/params.php';
+if (file_exists($paramsFile)) {
+	$params = array_merge($params, require_once $paramsFile);
+}
+
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'assauu_db1');
+define('DB_NAME', $params['db_name']);
 
 /** MySQL database username */
-define('DB_USER', 'assauu_1');
+define('DB_USER', $params['db_user']);
 
 /** MySQL database password */
-define('DB_PASSWORD', 'ATL4DW19Xc98SNTG');
+define('DB_PASSWORD', $params['db_password']);
 
 /** MySQL hostname */
-define('DB_HOST', 'localhost');
+define('DB_HOST', $params['db_host']);
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8mb4');
