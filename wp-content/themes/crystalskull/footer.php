@@ -67,7 +67,7 @@ jQuery( ".menu-item-7706" ).append( "<span class='bluepulse'><a class='bluepulse
 
 <?php if(!empty($new_events) and $new_events != 0):?>
 <script type="text/javascript">
-jQuery( ".menu-item-7706" ).append( "<span class='redpulse'><?php echo $new_events[0];?></span>" );
+jQuery( ".menu-item-7706" ).append( "<span class='redpulse'><?php echo $new_events;?></span>" );
 </script>
 
 <script type="text/javascript">

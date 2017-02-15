@@ -233,18 +233,23 @@ Text Domain: crystalskull
 -webkit-animation-name: redPulse;
   -webkit-animation-duration: 2s;
   -webkit-animation-iteration-count: infinite;
-      min-width: 16px;
-    height: 16px;
-    display: block;
-    border-radius: 100%;
-    color: #fff;
-    text-align: center;
-    line-height: 16px;
-    font-size: 9px;
+        font-size: 11px;
     position: absolute;
     bottom: 42px;
-    right: 0px;
-    z-index:999999;
+    right: -8px;
+    z-index: 999999;
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #999;
+    border-radius: 10px;
 }
 
 .bluepulse{
@@ -266,22 +271,29 @@ Text Domain: crystalskull
 
 .redpulse2 {
     -webkit-animation-name: redPulse;
-    -webkit-animation-duration: 2s;
-    -webkit-animation-iteration-count: infinite;
-    min-width: 16px;
-    height: 16px;
-    display: block;
-    border-radius: 100%;
-    color: #fff;
-    text-align: center;
-    line-height: 16px;
-    font-size: 9px;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-iteration-count: infinite;
+    font-size: 11px;
     position: absolute;
     bottom: 27px;
     right: 6px;
-    vertical-align: middle;
-    line-height: 16px !important;
+    z-index: 999999;
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #999;
+    border-radius: 10px;
 }
+
+
+
 ul.tabs{
 			margin: 0px;
 			padding: 30px;
