@@ -7,6 +7,7 @@ $user_ID = get_current_user_id();
 $users = get_users();
 $networth_you = get_user_meta($user_ID, 'networth');
 include 'constants.php';
+$results = [];
 if( isset( $_GET['usersearch'] ) ){
     //$wpdb needs to be made global, this lets us use it on a page template
     global $wpdb;
