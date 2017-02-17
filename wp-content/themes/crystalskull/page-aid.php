@@ -77,6 +77,13 @@ get_header(); ?>
   					</tbody>
 </table>
 <input type="submit" value="Send aid"></form>
+
+<script>
+	jQuery('form#aid').submit(function(){
+    jQuery(this).find(':input[type=submit]').prop('disabled', true);
+});
+</script>
+
             <?php endif;?><?php endif;?><?php endif;?>
             </div>
         </div>

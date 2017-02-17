@@ -48,7 +48,7 @@ get_header(); ?>
 		
 		
 		
-		<form class="form" action="<?php echo home_url() ?>/research.php" name="" id="market" method="post">
+		<form class="form" action="<?php echo home_url() ?>/research.php" name="" id="research" method="post">
 				
 				
 			<div class="container2">
@@ -109,6 +109,14 @@ get_header(); ?>
 		
 		
 		</form>
+		
+<script>
+	jQuery('form#research').submit(function(){
+    jQuery(this).find(':input[type=submit]').prop('disabled', true);
+});
+</script>
+		
+		
 		<?php else:?>
 		
 		<?php 			
@@ -316,7 +324,11 @@ setInterval(updateETime, 1000 );
 		
 		
 		</form>
-		
+<script>
+	jQuery('form#queue').submit(function(){
+    jQuery(this).find(':input[type=submit]').prop('disabled', true);
+});
+</script>
 		<?php else:?>
 		<!--<center><h2>Currently in your queue</h2></center>
 		<?php $research = get_user_meta($user_ID, 'queued_research')[0];?>
