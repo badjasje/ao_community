@@ -7,6 +7,15 @@ $units_attack = $_SESSION['attack_array'];
 
 $attackUserId = $_SESSION['target_id'];
 
+$attack_type = $_SESSION['attacktype'];
+/* Determine attack name for header */
+if($attack_type == 'ground'){ $attack_name = 'Ground attack'; }
+if($attack_type == 'air_sea'){ $attack_name = 'Air & Sea attack'; }
+if($attack_type == 'regular'){ $attack_name = 'Regular attack'; }
+if($attack_type == 'missile'){ $attack_name = 'Launching missile'; }
+if($attack_type == 'spy'){ $attack_name = 'Spying'; }
+if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
+
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
@@ -16,8 +25,34 @@ get_header(); ?>
 <div class="notice_message"><span class="rdw-line">The round has ended!</span></div>
 <?php else:?>
 
-        <?php if (!empty($attackUserId)) : ?>
-            <h3 class="centered">Attacking <?php echo LinkUtil::user_link($attackUserId); ?></h3>
+        <?php if ( ! empty($attackUserId)) : ?>
+		
+	<?php 
+		
+		
+		if(!empty(get_user_meta($attackUserId, 'avatar_user', true))){
+		$avatar = get_user_meta($attackUserId, 'avatar_user', true);
+		} 
+		else {
+		$avatar = '/wp-content/uploads/2016/11/default_large.png';
+		}
+		?>
+		
+		
+		<ul class="target_info media-list">
+		<li class="media ">
+		<div class="media-left">
+		
+        <img class="profile_image media-object" src="<?php echo $avatar;?>">
+      
+	    </div>
+		<div class="media-body">
+		<h4 class="media-heading">Attacking <?php echo LinkUtil::user_link($attackUserId); ?></h4>
+		<?php echo $attack_name;?>
+    	</div>
+		</li>
+		</ul>
+           
         <?php endif; ?>
 			
 		<?php  //// UNIT ATTACK, A&S, REG & GROUND

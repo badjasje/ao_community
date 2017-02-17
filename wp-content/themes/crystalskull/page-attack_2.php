@@ -7,7 +7,15 @@ if(empty($_SESSION['attacktype'])){
 wp_redirect(get_permalink(3360).'?fail=4');
 exit;
 }
-
+$attack_type = $_SESSION['attacktype'];
+/* Determine attack name for header */
+if($attack_type == 'ground'){ $attack_name = 'Ground attack'; }
+if($attack_type == 'air_sea'){ $attack_name = 'Air & Sea attack'; }
+if($attack_type == 'regular'){ $attack_name = 'Regular attack'; }
+if($attack_type == 'missile'){ $attack_name = 'Launching missile'; }
+if($attack_type == 'spy'){ $attack_name = 'Spying'; }
+if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
+	
 $attackUserId = $_SESSION['target_id'];
 count_all_stats($attackUserId);
 
@@ -29,9 +37,35 @@ get_header(); ?>
 				<div class="marketnotice insuffunds">No units available for this attack type</div>
 			<?php endif;?><?php }?>
 
-            <?php if ( ! empty($attackUserId)) : ?>
-                <h3 class="centered">Attacking <?php echo LinkUtil::user_link($attackUserId); ?></h3>
-            <?php endif; ?>
+<?php if ( ! empty($attackUserId)) : ?>
+		
+	<?php 
+		
+		
+		if(!empty(get_user_meta($attackUserId, 'avatar_user', true))){
+		$avatar = get_user_meta($attackUserId, 'avatar_user', true);
+		} 
+		else {
+		$avatar = '/wp-content/uploads/2016/11/default_large.png';
+		}
+		?>
+		
+		
+		<ul class="target_info media-list">
+		<li class="media ">
+		<div class="media-left">
+		
+        <img class="profile_image media-object" src="<?php echo $avatar;?>">
+      
+	    </div>
+		<div class="media-body">
+		<h4 class="media-heading">Attacking <?php echo LinkUtil::user_link($attackUserId); ?></h4>
+		<?php echo $attack_name;?>
+    	</div>
+		</li>
+		</ul>
+           
+        <?php endif; ?>
 
 <?php if($_SESSION['attacktype'] != 'missile' && $_SESSION['attacktype'] != 'spy'){?>
 

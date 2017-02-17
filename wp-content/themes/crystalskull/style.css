@@ -22,6 +22,11 @@ Text Domain: crystalskull
 @import url('css/tooltip.css');
 @import url('css/vcfixes.css');
 
+
+table{
+	-webkit-border-radius: 0px; 
+    border-radius: 0px; 
+}
 .responsive-table {
   width: 100%;
   margin-bottom: 1.5em;
@@ -137,7 +142,7 @@ Text Domain: crystalskull
 }
 .responsive-table tbody tr {
   margin-bottom: 0.4em;
-  border: 1px solid #9F9F9F;
+  border: 1px solid #ddd;
 }
 @media (min-width: 48em) {
   .responsive-table tbody tr {
@@ -616,6 +621,9 @@ input[type="radio"]:checked + label {
 	text-align: center;
 	margin-bottom:10px;
 }
+table{
+	border:none;
+}
 .attack_head{
 	text-align:center !important;
 	font-size:16px !important;
@@ -903,4 +911,16 @@ input[type="radio"]:checked + label {
 }
 .nav-tabs.nav-justified>.active>a{
 	background-color:#fff;
+}
+.profile_image{
+	width:40px;
+	border-radius:100%;
+	float:left;
+	margin-right:10px;
+}
+.target_info{
+	padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-top:11px;
 }

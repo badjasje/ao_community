@@ -4,7 +4,7 @@
  */
 
 $user_ID = get_current_user_id();
-$networth = get_user_meta($user_ID, 'networth');
+$networth = get_user_meta($user_ID, 'networth',true);
 $status = get_user_meta($user_ID, 'status');
 include 'constants.php';
 $sat_owned = get_user_meta($user_ID, 'sat_owned',true);
@@ -73,24 +73,71 @@ get_header(); ?>
 <?php else:?>
 
 
-		<div class="notice_message">
-			<span class="rdw-line">You can target provinces with a networth between 
-			<strong>
-				<?php 
-					$low_range = $networth[0]/$ATTACK_RANGE_MULT;
-					if($low_range < 3500){
-						$low_range = 3500;
-					}
-					
-					echo '$ '.number_format($low_range, 0, ',', ' ');?> 
-				and 
-				<?php echo '$ '.number_format($networth[0]*$ATTACK_RANGE_MULT, 0, ',', ' ');?>
-			</strong>
-			</span>
-		<span class="rdw-line">Your morale is currently at <?php echo $morale;?>%. <?php if(!empty($sat_owned)){ echo 'Satellite power is currently at '. $sat_morale.'%';}?></span></div><br/>
 
-		<?php if ( ! empty($attackUserId)) : ?>
-            <h3 class="centered">Attacking <?php echo LinkUtil::user_link($attackUserId); ?></h3>
+
+<div class="notice_message">
+	<span class="rdw-line">You can target provinces with a networth between 
+		<strong>
+			<?php 
+				$low_range = $networth/$ATTACK_RANGE_MULT;
+				
+				if($low_range < 3500){
+					$low_range = 3500;
+				}
+					
+				echo '$ '.number_format($low_range, 0, ',', ' ');?> 
+				and 
+				<?php 
+				echo '$ '.number_format($networth*$ATTACK_RANGE_MULT, 0, ',', ' ');
+				
+				?>
+		</strong>
+	</span>
+	<span class="rdw-line">
+		Your morale is currently at <?php echo $morale;?>%. 
+		<?php if(!empty($sat_owned)){ echo 'Satellite power is currently at '. $sat_morale.'%';}?>
+	</span>
+</div>
+
+
+
+
+
+<?php if ( ! empty($attackUserId)) : ?>
+		
+	<?php 
+		
+		$attackUserNW = get_user_meta($attackUserId, 'networth',true);
+		if (($attackUserNW > $networth/1.4 && $attackUserNW < $networth*1.4)){	
+			$range_msg = '<i class="fa fa-check-circle" aria-hidden="true"></i> Target in range';
+			}
+		else {
+			$range_msg = '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Target out of range';
+		}
+		
+		if(!empty(get_user_meta($attackUserId, 'avatar_user', true))){
+		$avatar = get_user_meta($attackUserId, 'avatar_user', true);
+		} 
+		else {
+		$avatar = '/wp-content/uploads/2016/11/default_large.png';
+		}
+		?>
+		
+		
+		<ul class="target_info media-list">
+		<li class="media ">
+		<div class="media-left">
+		
+        <img class="profile_image media-object" src="<?php echo $avatar;?>">
+      
+	    </div>
+		<div class="media-body">
+		<h4 class="media-heading">Attacking <?php echo LinkUtil::user_link($attackUserId); ?></h4>
+		<?php echo $range_msg;?>
+    	</div>
+		</li>
+		</ul>
+           
         <?php endif; ?>
 		
 		<form class="form" action="<?php echo home_url() ?>/attack.php" name="" id="attack" method="post">	
