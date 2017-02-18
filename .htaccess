@@ -7,3 +7,12 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
 </IfModule>
+
+<FilesMatch "^(add_turns|add_money|add_morale)\.php$">
+    # Enable apache < 2.4
+    # Order deny,allow
+    # Deny from all
+
+    # Apache >= 2.4
+    Require all denied
+</FilesMatch>
