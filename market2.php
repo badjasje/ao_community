@@ -14,11 +14,14 @@ if ( 'POST' != $_SERVER['REQUEST_METHOD'] ) {
 
 require( dirname(__FILE__) . '/wp-load.php' );
 
+$activeTab = $_POST['currentTab'] ? sanitize_text_field($_POST['currentTab']) : 'air';
+$marketRedirectUrl = get_permalink(3179) . $activeTab;
+
 nocache_headers();
 if(get_field('game_status','option') == 'Live'){
 $user_ID = get_current_user_id(); 
 
-if ( ! defined( 'ABSPATH' ) ) exit; 
+if ( ! defined( 'ABSPATH' ) ) exit;
 if(empty($user_ID)){
 	wp_redirect(get_permalink(3582)); exit;
 }
@@ -103,15 +106,15 @@ if($key == 'spyplane' || $key == 'spy' || $key == 'thief' || $key == 'sniper'){
 	$total_special+=$_POST["$key"];
 	$total_spec_count+=$_POST["$key"];
 				if(ceil($_POST["$key"]) > $ccspace){
-					$_SESSION['status'] = '15';wp_redirect(get_permalink(3179)); exit;
+					$_SESSION['status'] = '15';wp_redirect($marketRedirectUrl); exit;
 				}
 			}}
 
 $price = $order['price']*2.2*$discount*$shipping_discount;
 $ordered_units = ceil($_POST["$key"]);
-if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect(get_permalink(3179)); exit;}
+if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect($marketRedirectUrl); exit;}
 if(empty($_POST["$key"])){$letter_check = 0;}else{$letter_check = $_POST["$key"];}
-if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect(get_permalink(3179)); exit;}
+if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect($marketRedirectUrl); exit;}
 
 
 $orderamount = $price*$ordered_units;
@@ -122,7 +125,7 @@ $totalordercost = $totalordercost+$orderamount;
 }
 if($total_spec_count > 0){
 if($total_special>500 || $total_special > $ccspace){
-	$_SESSION['status'] = '192';wp_redirect(get_permalink(3179)); exit;
+	$_SESSION['status'] = '192';wp_redirect($marketRedirectUrl); exit;
 	}
 }
 
@@ -134,7 +137,7 @@ $air = 0;
 $veh = 0;
 $sea = 0;
 $inf = 0;
-if($totalordercost > $totalmoney){$_SESSION['status'] = '5';wp_redirect(get_permalink(3179));exit;}
+if($totalordercost > $totalmoney){$_SESSION['status'] = '5';wp_redirect($marketRedirectUrl);exit;}
 
 
 
@@ -154,7 +157,7 @@ foreach($units as $key => $order){
 			$total_air_ordered+=$ordered_units+$owned_units[0]+$units_already_on_order[0];}}
 		
 			if($air>0){
-			if($total_air_ordered > $airspace ){ $_SESSION['status'] = '1';wp_redirect(get_permalink(3179)); exit;}}
+			if($total_air_ordered > $airspace ){ $_SESSION['status'] = '1';wp_redirect($marketRedirectUrl); exit;}}
 
 // CHECK VEHSPACE //
 
@@ -171,7 +174,7 @@ foreach($units as $key => $order){
 			$total_veh_ordered+=$ordered_units+$owned_units[0]+$units_already_on_order[0];}}
 		
 			if($veh>0){
-			if($total_veh_ordered > $vehspace ){ $_SESSION['status'] = '2';wp_redirect(get_permalink(3179)); exit;}}
+			if($total_veh_ordered > $vehspace ){ $_SESSION['status'] = '2';wp_redirect($marketRedirectUrl); exit;}}
 
 // CHECK SEASPACE //
 
@@ -188,7 +191,7 @@ foreach($units as $key => $order){
 			$total_sea_ordered+=$ordered_units+$owned_units[0]+$units_already_on_order[0];}}
 		
 			if($sea>0){
-			if($total_sea_ordered > $seaspace ){ $_SESSION['status'] = '3';wp_redirect(get_permalink(3179)); exit;}}
+			if($total_sea_ordered > $seaspace ){ $_SESSION['status'] = '3';wp_redirect($marketRedirectUrl); exit;}}
 
 // CHECK INFSPACE //
 
@@ -218,7 +221,7 @@ foreach($units as $key => $order){
 			$total_inf_ordered+=$ordered_units+$owned_units[0]+$units_already_on_order[0];}}
 		
 			if($inf>0){
-			if($total_inf_ordered > $infspace ){ $_SESSION['status'] = '4';wp_redirect(get_permalink(3179)); exit;}}			
+			if($total_inf_ordered > $infspace ){ $_SESSION['status'] = '4';wp_redirect($marketRedirectUrl); exit;}}			
 			
 			
 
@@ -291,5 +294,5 @@ file_put_contents($file, $current);
 
 $_SESSION['units_ordered'] = $total_units_ordered;
 $_SESSION['order_price'] = $total_order_amount;
-$_SESSION['status'] = '6';wp_redirect(get_permalink(3179));exit;
+$_SESSION['status'] = '6';wp_redirect($marketRedirectUrl);exit;
 }			
