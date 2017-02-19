@@ -4575,3 +4575,8 @@ ul.clanwar-list li.clanwar-item {
 .clanwar-list li.clanwar-item a:hover {
 	border-bottom: 0;
 }
+
+.pagination-bar {
+    float: left;
+    margin-bottom: 15px;
+}
