@@ -7,6 +7,20 @@ get_header();
 $activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'provicenw';
 
 ?>
+
+<style>
+.tab-content {
+	display: block;
+}
+
+table {
+	border: none;
+}
+
+.responsive-table tbody tr {
+	border: 0px;
+}
+</style>
     <div class="page normal-page">
     <div class="container">
         <div class="row">
@@ -29,7 +43,7 @@ $activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'provicenw';
 	                    </li>
                     </ul>
 
-	                <div class="tab-content current">
+	                <div class="tab-content current build_content">
 						<?php include 'pages/toplist/provice_nw.php'; ?>
 						<?php include 'pages/toplist/clan_points.php'; ?>
 						<?php include 'pages/toplist/clan_nw.php'; ?>
