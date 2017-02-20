@@ -14,6 +14,9 @@ if ( 'POST' != $_SERVER['REQUEST_METHOD'] ) {
 
 require( dirname(__FILE__) . '/wp-load.php' );
 
+$activeTab = $_POST['currentTab'] ? sanitize_text_field($_POST['currentTab']) : 'air';
+$marketRedirectUrl = get_permalink(3938) . $activeTab;
+
 nocache_headers();
 
 
@@ -54,9 +57,9 @@ foreach($units as $key => $order){
 if(!empty($_POST["$key"])){
 $owned_units = get_user_meta($user_ID, $key.'_owned');
 $sold_units = ceil($_POST["$key"]);
-if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect(get_permalink(3938)); exit;}
+if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect($marketRedirectUrl); exit;}
 if(empty($_POST["$key"])){$letter_check = 0;}else{$letter_check = $_POST["$key"];}
-if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect(get_permalink(3938)); exit;}
+if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect($marketRedirectUrl); exit;}
 
 if($owned_units[0] < $sold_units){
 $sold_units = $owned_units[0];
@@ -70,7 +73,7 @@ if($key == 'spy' || $key == 'spyplane' || $key == 'sniper'){
 $specials_sold = get_user_meta($user_ID, 'special_sold_today', true);
 
 if(($specials_sold+$special_selling) > 50){
-	$_SESSION['status'] = '50';wp_redirect(get_permalink(3938));exit;
+	$_SESSION['status'] = '50';wp_redirect($marketRedirectUrl);exit;
 }else{
 	update_user_meta($user_ID,'special_sold_today',$specials_sold+$special_selling);
 }
@@ -82,9 +85,9 @@ foreach($units as $key => $order){
 if(!empty($_POST["$key"])){
 $owned_units = get_user_meta($user_ID, $key.'_owned');
 $sold_units = ceil($_POST["$key"]);
-if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect(get_permalink(3938)); exit;}
+if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect($marketRedirectUrl); exit;}
 if(empty($_POST["$key"])){$letter_check = 0;}else{$letter_check = $_POST["$key"];}
-if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect(get_permalink(3938)); exit;}
+if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect($marketRedirectUrl); exit;}
 
 if($owned_units[0] < $sold_units){
 $sold_units = $owned_units[0];
@@ -115,5 +118,5 @@ update_user_meta($user_ID,'money',$totalmoney+$total_selling);
 }}
 
 count_all_stats($user_ID);
-$_SESSION['status'] = '22';wp_redirect(get_permalink(3938));	//result 
+$_SESSION['status'] = '22';wp_redirect($marketRedirectUrl);	//result 
 exit;
