@@ -4578,5 +4578,25 @@ ul.clanwar-list li.clanwar-item {
 
 .pagination-bar {
     float: left;
-    margin-bottom: 15px;
+    margin: 15px 0;
+}
+
+.tabbed-table .tab-content {
+    display: block;
+}
+
+.tabbed-table table {
+    border: none;
+}
+
+.tabbed-table .responsive-table tbody tr {
+    border: 0;
+}
+
+.tab-pane.padded {
+    padding: 15px;
+}
+
+#explore-tab {
+    margin-top: 20px;
 }
