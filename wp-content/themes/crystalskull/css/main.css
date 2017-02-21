@@ -4593,9 +4593,14 @@ ul.clanwar-list li.clanwar-item {
     border: 0;
 }
 
-.tab-pane.padded {
+.tabbed-table .responsive-table {
+    margin-bottom: 0;
+}
+
+.tabbed-table .padded {
     padding: 15px;
 }
+
 
 #explore-tab {
     margin-top: 20px;

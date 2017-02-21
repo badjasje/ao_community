@@ -60,8 +60,8 @@ get_header(); ?>
 			</ul>
 
 
-			<div class="tab-content current build_content">
-				<div class="tab-pane padded <?php echo $activeTab === 'explore' ? 'active' : ''; ?>"  id="explore" role="tabpanel">
+			<div class="tab-content current build_content tabbed-table">
+				<div class="tab-pane <?php echo $activeTab === 'explore' ? 'active' : ''; ?>"  id="explore" role="tabpanel">
 
 					<?php if(empty(get_user_meta($user_ID, 'explored_today')[0]) || get_user_meta($user_ID, 'explored_today')[0] == 0):?>
 					<center><p>You haven't explored any land today. You can explore 20 000 m<sup>2</sup> </p></center>
@@ -80,12 +80,14 @@ get_header(); ?>
 								</td>
 							</tr>
 						</table>
-						<input type="submit" value="Explore" class="">
+						<div class="padded">
+							<input type="submit" value="Explore" class="">
+						</div>
 					</form>
 				</div>
 
 
-				<div class="tab-pane padded <?php echo $activeTab === 'sell' ? 'active' : ''; ?>"  id="sell" role="tabpanel">
+				<div class="tab-pane <?php echo $activeTab === 'sell' ? 'active' : ''; ?>"  id="sell" role="tabpanel">
 
 					<?php if(empty(get_user_meta($user_ID, 'land_sold_today')[0]) || get_user_meta($user_ID, 'land_sold_today')[0] == 0):?>
 					<center><p>You can sell <strong><?php echo number_format(20000-get_user_meta($user_ID, 'land_sold_today')[0], 0, ',', ' '); ?> m<sup>2</sup></strong>. You currently have <strong><?php if($freeland > 0){echo number_format($freeland, 0, ',', ' ');}else{echo '0';} ?> m<sup>2</sup></strong> free land.</p></center>
@@ -104,7 +106,9 @@ get_header(); ?>
 							</tr>
 						</table>
 
-						<input type="submit" value="Sell land" class="">
+						<div class="padded">
+							<input type="submit" value="Sell land" class="">
+						</div>
 					</form>
 				</div>
 			</div>
