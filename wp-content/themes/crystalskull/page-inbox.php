@@ -2,6 +2,8 @@
  /*
  * Template Name: Buildings
  */
+$activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'inbox';
+
 $user_ID = get_current_user_ID();
 update_user_meta($user_ID,'new_messages',0);
 get_header(); ?>
@@ -33,12 +35,17 @@ get_header(); ?>
 				<div class="marketnotice">Units ordered</div>
 			<?php endif;?><?php endif;?>
 
-			<center><ul class="tabs">
-			<li class="tab-link current" data-tab="tab-1">Inbox</li>
-			<li class="tab-link" data-tab="tab-2">Outbox</li>
-			</ul></center>
-			
-			<div id="tab-1" class="tab-content current">
+			<ul id="inbox-tab" class="nav nav-tabs nav-justified" role="tablist">
+				<li class="nav-item <?php echo $activeTab === 'inbox' ? 'active' : ''; ?>">
+					<a class="nav-link" data-toggle="tab" data-target="#inbox" href="?tab=inbox" role="tab">Inbox</a>
+				</li>
+				<li class="nav-item <?php echo $activeTab === 'outbox' ? 'active' : ''; ?>">
+					<a class="nav-link" data-toggle="tab" data-target="#outbox" href="?tab=outbox" role="tab">Outbox</a>
+				</li>
+			</ul>
+
+			<div class="tab-content current build_content tabbed-table">
+				<div class="tab-pane <?php echo $activeTab === 'inbox' ? 'active' : ''; ?>"  id="inbox" role="tabpanel">
 		
 		
 		
@@ -144,7 +151,20 @@ get_header(); ?>
 										
 					</tbody>
 		</table>
-		<center><?php previous_posts_link('Previous') ?>&nbsp;&nbsp;&nbsp;&nbsp;<?php next_posts_link('Next') ?></center>
+			<div class="padded">
+				<?php
+					add_filter('previous_posts_link_attributes', 'previous_post_id');
+					function previous_post_id() {
+						return 'id="inbox-previous-link"';
+					}
+
+					add_filter('next_posts_link_attributes', 'next_post_id');
+					function next_post_id() {
+						return 'id="inbox-next-link"';
+					}
+				?>
+				<center><?php previous_posts_link('Previous') ?>&nbsp;&nbsp;&nbsp;&nbsp;<?php next_posts_link('Next') ?></center>
+			</div>
 
 		</div><!-- end responsive table container -->
 		</div><!-- end tab 1 -->
@@ -158,7 +178,7 @@ get_header(); ?>
 		
 		
 		<!-- OUTBOX -->
-		<div id="tab-2" class="tab-content">
+		<div class="tab-pane <?php echo $activeTab === 'outbox' ? 'active' : ''; ?>"  id="outbox" role="tabpanel">
 		
 		<div class="container2">
 			<table class="responsive-table">
@@ -227,6 +247,7 @@ get_header(); ?>
 		
 		</div><!-- close table container -->
 		</div><!-- end tab 2 -->
+		</div>
 		
 		</div><!-- end tab container -->
 		
@@ -236,4 +257,27 @@ get_header(); ?>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).on('shown.bs.tab', function (event) {
+        var currentTab = jQuery(event.target).attr('href');
+        history.pushState(null, null, currentTab);
+
+        var prevLinkElement = jQuery('#inbox-previous-link');
+        var prevHref = prevLinkElement.attr('href');
+
+        if (prevHref) {
+            prevLinkElement.attr('href', prevHref.replace(/(\?tab=[a-z]*)$/, currentTab));
+        }
+
+        var nextLinkElement = jQuery('#inbox-next-link');
+        var nextHref = nextLinkElement.attr('href');
+
+        if (nextHref) {
+            console.log(nextHref, currentTab);
+            nextLinkElement.attr('href', nextHref.replace(/(\?tab=[a-z]*)$/, currentTab));
+        }
+    });
+</script>
+
 <?php get_footer(); ?>

@@ -576,7 +576,7 @@ get_header(); ?>
 <script type="text/javascript">
     jQuery(document).on('shown.bs.tab', function (event) {
         var currentTab = jQuery(event.target).attr('href');
-        history.pushState(null, null, jQuery(event.target).attr('href'));
+        history.pushState(null, null, currentTab);
         jQuery('#currentTab').val(currentTab);
     });
 </script>
