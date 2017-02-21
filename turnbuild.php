@@ -14,6 +14,9 @@ if ( 'POST' != $_SERVER['REQUEST_METHOD'] ) {
 
 require( dirname(__FILE__) . '/wp-load.php' );
 
+$activeTab = $_POST['currentTab'] ? sanitize_text_field($_POST['currentTab']) : 'air';
+$unitsRedirectUrl = get_permalink(3415) . $activeTab;
+
 nocache_headers();
 
 $user_ID = get_current_user_id(); 
@@ -86,17 +89,17 @@ $total_spec_count = 0;
 foreach($units as $key => $order){
 		
 		if($order['type'] == 'air'){
-			if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect(get_permalink(3415)); exit;}
+			if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect($unitsRedirectUrl); exit;}
 			$tot_air+=ceil($_POST["$key"]);
 			
 			if(empty($_POST["$key"])){$letter_check = 0;}else{$letter_check = $_POST["$key"];}
-			if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect(get_permalink(3415)); exit;}
+			if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect($unitsRedirectUrl); exit;}
 			
 			if($key == 'spyplane' && $_POST["$key"] > 0){
 				$total_special+=$_POST["$key"];
 				$total_spec_count+=$_POST["$key"];
 				if(ceil($_POST["$key"]) > $ccspace){
-					$_SESSION['status'] = '15';wp_redirect(get_permalink(3415)); exit;
+					$_SESSION['status'] = '15';wp_redirect($unitsRedirectUrl); exit;
 				}
 			}
 			
@@ -110,17 +113,17 @@ foreach($units as $key => $order){
 			$total_air_ordered+=$ordered_units+$owned_units[0]+$units_already_on_order[0];}}
 		
 			if($air>0){
-			if($total_air_ordered > $airspace ){ $_SESSION['status'] = '1';wp_redirect(get_permalink(3415)); exit;}}
+			if($total_air_ordered > $airspace ){ $_SESSION['status'] = '1';wp_redirect($unitsRedirectUrl); exit;}}
 
 // CHECK VEHSPACE //
 
 foreach($units as $key => $order){
 		
 		if($order['type'] == 'veh'){
-			if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect(get_permalink(3415)); exit;}
+			if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect($unitsRedirectUrl); exit;}
 			$tot_veh+=ceil($_POST["$key"]);
 			if(empty($_POST["$key"])){$letter_check = 0;}else{$letter_check = $_POST["$key"];}
-			if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect(get_permalink(3415)); exit;}
+			if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect($unitsRedirectUrl); exit;}
 			$unit_name = $key.'_ordered';
 			$normalname = $order['normalname'];
 			$price = $order['price'];
@@ -131,17 +134,17 @@ foreach($units as $key => $order){
 			$total_veh_ordered+=$ordered_units+$owned_units[0]+$units_already_on_order[0];}}
 		
 			if($veh>0){
-			if($total_veh_ordered > $vehspace ){ $_SESSION['status'] = '2';wp_redirect(get_permalink(3415)); exit;}}
+			if($total_veh_ordered > $vehspace ){ $_SESSION['status'] = '2';wp_redirect($unitsRedirectUrl); exit;}}
 
 // CHECK SEASPACE //
 
 foreach($units as $key => $order){
 		
 		if($order['type'] == 'sea'){
-			if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect(get_permalink(3415)); exit;}
+			if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect($unitsRedirectUrl); exit;}
 			$tot_sea+=ceil($_POST["$key"]);
 			if(empty($_POST["$key"])){$letter_check = 0;}else{$letter_check = $_POST["$key"];}
-			if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect(get_permalink(3415)); exit;}
+			if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect($unitsRedirectUrl); exit;}
 			$unit_name = $key.'_ordered';
 			$normalname = $order['normalname'];
 			$price = $order['price'];
@@ -152,23 +155,23 @@ foreach($units as $key => $order){
 			$total_sea_ordered+=$ordered_units+$owned_units[0]+$units_already_on_order[0];}}
 		
 			if($sea>0){
-			if($total_sea_ordered > $seaspace ){ $_SESSION['status'] = '3';wp_redirect(get_permalink(3415)); exit;}}
+			if($total_sea_ordered > $seaspace ){ $_SESSION['status'] = '3';wp_redirect($unitsRedirectUrl); exit;}}
 
 // CHECK INFSPACE //
 
 foreach($units as $key => $order){
 		
 		if($order['type'] == 'inf'){
-			if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect(get_permalink(3415)); exit;}
+			if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect($unitsRedirectUrl); exit;}
 			$tot_inf+=ceil($_POST["$key"]);
 			if(empty($_POST["$key"])){$letter_check = 0;}else{$letter_check = $_POST["$key"];}
-			if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect(get_permalink(3415)); exit;}
+			if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect($unitsRedirectUrl); exit;}
 			
 			if($key == 'spy' && $_POST["$key"] > 0){
 				$total_special+=$_POST["$key"];
 				$total_spec_count+=$_POST["$key"];
 				if(ceil($_POST["$key"]) > $ccspace){
-					$_SESSION['status'] = '15';wp_redirect(get_permalink(3415)); exit;
+					$_SESSION['status'] = '15';wp_redirect($unitsRedirectUrl); exit;
 				}
 			}
 			
@@ -176,7 +179,7 @@ foreach($units as $key => $order){
 				$total_special+=$_POST["$key"];
 				$total_spec_count+=$_POST["$key"];
 				if(ceil($_POST["$key"]) > $ccspace){
-					$_SESSION['status'] = '15';wp_redirect(get_permalink(3415)); exit;
+					$_SESSION['status'] = '15';wp_redirect($unitsRedirectUrl); exit;
 				}
 			}
 			
@@ -184,7 +187,7 @@ foreach($units as $key => $order){
 				$total_special+=$_POST["$key"];
 				$total_spec_count+=$_POST["$key"];
 				if(ceil($_POST["$key"]) > $ccspace){
-					$_SESSION['status'] = '15';wp_redirect(get_permalink(3415)); exit;
+					$_SESSION['status'] = '15';wp_redirect($unitsRedirectUrl); exit;
 				}
 			}
 			
@@ -198,7 +201,7 @@ foreach($units as $key => $order){
 			$total_inf_ordered+=$ordered_units+$owned_units[0]+$units_already_on_order[0];}}
 		
 			if($inf>0){
-			if($total_inf_ordered > $infspace ){ $_SESSION['status'] = '4';wp_redirect(get_permalink(3415)); exit;}}	
+			if($total_inf_ordered > $infspace ){ $_SESSION['status'] = '4';wp_redirect($unitsRedirectUrl); exit;}}	
 
 echo $total_spec_count.'<br/>';
 echo $total_special.'<br/>';
@@ -206,7 +209,7 @@ echo $ccspace.'<br/>';
 
 if($total_spec_count>0){
 if($total_special>500 || ($total_special/$commandcenter) > $ccspace){
-	$_SESSION['status'] = '192';wp_redirect(get_permalink(3415)); exit;
+	$_SESSION['status'] = '192';wp_redirect($unitsRedirectUrl); exit;
 	}
 }
 
@@ -221,10 +224,10 @@ foreach($units as $key => $order){
 $turns_needed = ceil(($tot_air/10)+($tot_veh/10)+($tot_inf/20)+($tot_sea/5));
 
 if($turns_needed > $totalturns){
-	$_SESSION['status'] = '92';wp_redirect(get_permalink(3415)); exit;
+	$_SESSION['status'] = '92';wp_redirect($unitsRedirectUrl); exit;
 }else{
 if($totalordercost > $totalmoney){
-	$_SESSION['status'] = '5';wp_redirect(get_permalink(3415)); exit;
+	$_SESSION['status'] = '5';wp_redirect($unitsRedirectUrl); exit;
 	}else{
 	
 	$units_built_turns = get_user_meta($user_ID, 'units_built_turns', true);
@@ -278,7 +281,7 @@ $_SESSION['units_ordered'] = $total_units_ordered;
 $_SESSION['order_price'] = $totalordercost;
 $_SESSION['turns_used'] = $turns_needed;
 
-$_SESSION['status'] = '6'; wp_redirect(get_permalink(3415));
+$_SESSION['status'] = '6'; wp_redirect($unitsRedirectUrl);
   
   exit;
 

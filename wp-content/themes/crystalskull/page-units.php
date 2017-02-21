@@ -2,6 +2,10 @@
  /*
  * Template Name: Units
  */
+
+$activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'air';
+
+
  $user_ID = get_current_user_id(); 
 include 'units_array.php';
 include 'count_functions.php';
@@ -63,27 +67,29 @@ get_header(); ?>
              <div class="notice_message"><span class="rdw-line">You can build units using turns. Your units will arrive immediately.</span>
 			<span class="rdw-line">Per turn you can build 10 air units, 10 vehicles, 5 sea units or 20 infantry</span>
              </div>
-			
-			
-			
-			
-			
-			
-			<center>
-			<ul class="tabs">
-			<li class="tab-link current" data-tab="tab-1">Air units</li>
-			<li class="tab-link" data-tab="tab-2">Sea units</li>
-			<li class="tab-link" data-tab="tab-3">Vehicles</li>
-			<li class="tab-link" data-tab="tab-4">Infantry</li>
-			</ul>
-			</center>
+
+            <ul id="explore-tab" class="nav nav-tabs nav-justified" role="tablist">
+	            <li class="nav-item <?php echo $activeTab === 'air' ? 'active' : ''; ?>">
+		            <a class="nav-link" data-toggle="tab" data-target="#air" href="?tab=air" role="tab">Air units</a>
+	            </li>
+	            <li class="nav-item <?php echo $activeTab === 'sea' ? 'active' : ''; ?>">
+		            <a class="nav-link" data-toggle="tab" data-target="#sea" href="?tab=sea" role="tab">Sea units</a>
+	            </li>
+	            <li class="nav-item <?php echo $activeTab === 'vehicles' ? 'active' : ''; ?>">
+		            <a class="nav-link" data-toggle="tab" data-target="#vehicles" href="?tab=vehicles" role="tab">Vehicles</a>
+	            </li>
+	            <li class="nav-item <?php echo $activeTab === 'infantry' ? 'active' : ''; ?>">
+		            <a class="nav-link" data-toggle="tab" data-target="#infantry" href="?tab=infantry" role="tab">Infantry</a>
+	            </li>
+            </ul>
 			
 			
 			
 			<form class="form" action="<?php echo home_url() ?>/turnbuild.php" name="" id="market" method="post">
-				
-				
-				<div id="tab-1" class="tab-content current">
+				<input type="hidden" name="currentTab" id="currentTab" value="?tab=<?php echo $activeTab; ?>" />
+
+				<div class="tab-content current build_content tabbed-table">
+				<div class="tab-pane <?php echo $activeTab === 'air' ? 'active' : ''; ?>"  id="air" role="tabpanel">
 				<div class="container2">
 				<table class="responsive-table">
 					<thead>
@@ -186,10 +192,10 @@ get_header(); ?>
 				</tbody>
 				</table>
 				</div>
-					<div class="space_desc">Your empty airfields allow you to build a maximum of <strong><?php echo $max_space;?></strong> air units.
+					<div class="space_desc padded">Your empty airfields allow you to build a maximum of <strong><?php echo $max_space;?></strong> air units.
 				</div></div>
-				
-				<div id="tab-2" class="tab-content">
+
+				<div class="tab-pane <?php echo $activeTab === 'sea' ? 'active' : ''; ?>"  id="sea" role="tabpanel">
 				<div class="container2">
 				<table class="responsive-table">
 					<thead>
@@ -280,11 +286,11 @@ get_header(); ?>
   					</tbody>
 				</table>
 				</div>
-					<div class="space_desc">Your empty shipyards allow you to build a maximum of <strong><?php echo $max_space;?></strong> sea units.
+					<div class="space_desc padded">Your empty shipyards allow you to build a maximum of <strong><?php echo $max_space;?></strong> sea units.
 				</div></div>
-				
-				
-				<div id="tab-3" class="tab-content">
+
+
+				<div class="tab-pane <?php echo $activeTab === 'vehicles' ? 'active' : ''; ?>"  id="vehicles" role="tabpanel">
 				<div class="container2">
 				<table class="responsive-table">
 					<thead>
@@ -374,10 +380,10 @@ get_header(); ?>
 					<?php endif;?><?php }?>
 				</table>
 				</div>
-					<div class="space_desc">Your empty warfactories allow you to build a maximum of <strong><?php echo $max_space;?></strong> vehicles.</div>
+					<div class="space_desc padded">Your empty warfactories allow you to build a maximum of <strong><?php echo $max_space;?></strong> vehicles.</div>
 				</div>
-				
-				<div id="tab-4" class="tab-content">
+
+				<div class="tab-pane <?php echo $activeTab === 'infantry' ? 'active' : ''; ?>"  id="infantry" role="tabpanel">
 				<div class="container2">
 				<table class="responsive-table">
 					<thead>
@@ -477,20 +483,29 @@ get_header(); ?>
   					</tbody>
 				</table>
 				</div>
-					<div class="space_desc">Your empty barracks allow you to build a maximum of <strong><?php echo $max_space;?></strong> infantry.</div>
+					<div class="space_desc padded">Your empty barracks allow you to build a maximum of <strong><?php echo $max_space;?></strong> infantry.</div>
 				</div>
 					<?php session_unset(); ?>
-					
-					<br/>
-				
-					<input type="submit" value="Build" class="">
-					<div class="footer_continue">
-					<input type="submit" value="Build" class="">
+
+					<div class="padded" style="padding: 0 15px 15px 15px;">
+						<input type="submit" value="Build" class="">
+						<div class="footer_continue">
+						<input type="submit" value="Build" class="">
+						</div>
 					</div>
-           </form
+				</div>
+           </form>
             </div>
             <?php endif;?>
         </div>
     </div></div>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).on('shown.bs.tab', function (event) {
+        var currentTab = jQuery(event.target).attr('href');
+        history.pushState(null, null, currentTab);
+        jQuery('#currentTab').val(currentTab);
+    });
+</script>
 <?php get_footer(); ?>
