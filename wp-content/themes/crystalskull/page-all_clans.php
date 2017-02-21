@@ -61,7 +61,7 @@ get_header(); ?>
 		
 		
 		<div class="container">
-			<ul id="explore-tab" class="nav nav-tabs nav-justified" role="tablist">
+			<ul id="clans-tab" class="nav nav-tabs nav-justified" role="tablist">
 				<li class="nav-item <?php echo $activeTab === 'all' ? 'active' : ''; ?>">
 					<a class="nav-link" data-toggle="tab" data-target="#all" href="?tab=all" role="tab">All clans</a>
 				</li>
@@ -72,7 +72,7 @@ get_header(); ?>
 
 		<div class="tab-content current build_content tabbed-table">
 			<div class="tab-pane <?php echo $activeTab === 'all' ? 'active' : ''; ?>"  id="all" role="tabpanel">
-				
+
 			<table>
 				<tr>
 					<td>Clan

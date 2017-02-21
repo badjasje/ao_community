@@ -2,6 +2,8 @@
  /*
  * Template Name: Users
  */
+$activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'all';
+
 $user_ID = get_current_user_id();
 
 $users = get_users();
@@ -66,183 +68,190 @@ get_header(); ?>
 
 </table>
 
+		<ul id="users-tab" class="nav nav-tabs nav-justified" role="tablist">
+			<li class="nav-item <?php echo $activeTab === 'all' ? 'active' : ''; ?>">
+				<a class="nav-link" data-toggle="tab" data-target="#all" href="?tab=all" role="tab">All users</a>
+			</li>
+			<li class="nav-item <?php echo $activeTab === 'in-range' ? 'active' : ''; ?>">
+				<a class="nav-link" data-toggle="tab" data-target="#in-range" href="?tab=in-range" role="tab">In range</a>
+			</li>
+			<li class="nav-item <?php echo $activeTab === 'online' ? 'active' : ''; ?>">
+				<a class="nav-link" data-toggle="tab" data-target="#online" href="?tab=online" role="tab">Online</a>
+			</li>
+		</ul>
 
-			<ul class="tabs">
-			<li class="tab-link current" data-tab="tab-1">All users</li>
-			<li class="tab-link" data-tab="tab-2">In range</li>
-			<li class="tab-link" data-tab="tab-3">Online</li>
-			</ul>	
-		</center>
-		<div id="tab-1" class="tab-content current">
-	
-			
-			<table class="responsive-table sortable">
-				<thead>
-					<tr>
-						<td></td>
-						<td>Name</td>
-						<td>Networth</td>
-						<td>Clan</td>
-						<td>Land</td>
-  					</tr>
-				</thead>
-			<tbody>
-			<?php 
-				
-				
-				foreach ($users as $user) {
-				$user_NW = get_user_meta($user->ID, 'networth');
-				$user_land = get_user_meta($user->ID, 'land');
-				$networth = get_user_meta($user->ID, 'networth');
-				$user_status = get_user_meta($user->ID, 'status');
-				$clan_id = get_user_meta($user->ID, 'clan_id_user');
-				$last_online = get_user_meta($user->ID, 'last_online');
-				if(!empty($last_online)){
-				$last_seen = $timestamp - $last_online[0];}
-				?>
-				<tr>
-					<td>
-					<?php if(!empty(get_user_meta($user->ID, 'avatar_user', true))):?>
-                    
-			<div style='border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($user->ID, 'avatar_user', true);?>");background-size: cover;'></div>
-			<?php else:?>
-			<div style='border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
-                    
-			<?php endif;?>
-				</td>
-				<td>
-					<a class="<?php echo get_user_meta($user->ID,'status',true);?>" href="/users/profile/?id=<?php echo $user->ID;?> "><?php echo $user->display_name.' (#'.$user->ID; ?>)</a><?php
-						if(!empty($last_online)){
-						if($last_seen < 7200 && !empty($last_online[0])){echo ' <span style="color:#ff0000">*</span';}}?>
-				
-				</td>
-				<td sorttable_customkey="<?php echo $user_NW[0];?>">$ <?php echo number_format($user_NW[0], 0, ',', ' ')?></td>
-				<td><?php if($clan_id[0] == 0){
-							echo 'none';}else{
-							echo '<a href="'.get_the_permalink($clan_id[0]).'">'.get_the_title($clan_id[0]).' (#'.$clan_id[0].')</a>';
-							}?></td>
-				<td sorttable_customkey="<?php echo $user_land[0];?>"><?php echo number_format($user_land[0], 0, ',', ' ')?>m<sup>2</sup></td>
-				
-				</tr>
-				<?php }?>
-			</tbody>
-			</table>
-			
-			
-		</div>
-			
-			
-			
-			
-		<div id="tab-2" class="tab-content">
-				<center>You can target provinces with a networth between <?php echo '$ '.number_format($networth_you[0]/$ATTACK_RANGE_MULT, 0, ',', ' ').' and $ '.number_format($networth_you[0]*$ATTACK_RANGE_MULT, 0, ',', ' ');?></center><br/>
-			
-			
-			<table class="responsive-table">
-				<thead>
-					<tr>
-						<td></td>
-						<td>Name</td>
-						<td>Networth</td>
-						<td>Clan</td>
-						<td>Land</td>
-  					</tr>
-				</thead>
+		<div class="tab-content current build_content tabbed-table">
+			<div class="tab-pane <?php echo $activeTab === 'all' ? 'active' : ''; ?>"  id="all" role="tabpanel">
+
+
+				<table class="responsive-table sortable">
+					<thead>
+						<tr>
+							<td></td>
+							<td>Name</td>
+							<td>Networth</td>
+							<td>Clan</td>
+							<td>Land</td>
+	                    </tr>
+					</thead>
 				<tbody>
-			
-			<?php 
-			
-				
-				foreach ($users as $user) {
-				$user_land = get_user_meta($user->ID, 'land');
-				
-				$user_NW = get_user_meta($user->ID, 'networth');
-				if (($user_NW[0] > $networth_you[0]/$ATTACK_RANGE_MULT && $user_NW[0] < $networth_you[0]*$ATTACK_RANGE_MULT)){	
+				<?php
+
+
+					foreach ($users as $user) {
+					$user_NW = get_user_meta($user->ID, 'networth');
+					$user_land = get_user_meta($user->ID, 'land');
+					$networth = get_user_meta($user->ID, 'networth');
+					$user_status = get_user_meta($user->ID, 'status');
 					$clan_id = get_user_meta($user->ID, 'clan_id_user');
-				?>
-				<tr>
-					<td>
-					<?php if(!empty(get_user_meta($user->ID, 'avatar_user', true))):?>
-                    
-			<div style='border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($user->ID, 'avatar_user', true);?>");background-size: cover;'></div>
-			<?php else:?>
-			<div style='border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
-                    
-			<?php endif;?>
-				</td>
-				<td><a class="<?php echo $user_status[0];?>" href="/users/profile/?id=<?php echo $user->ID;?> "><?php echo $user->display_name.' (#'.$user->ID;?>)</a></td>
-				<td sorttable_customkey="<?php echo $user_NW[0];?>">$ <?php echo number_format($user_NW[0], 0, ',', ' ')?></td>
-				<td><?php if($clan_id[0] == 0){
-							echo 'none';}else{
-							echo '<a href="'.get_the_permalink($clan_id[0]).'">'.get_the_title($clan_id[0]).' (#'.$clan_id[0].')</a>';
-							}?></td>
-				<td sorttable_customkey="<?php echo $user_land[0];?>"><?php echo number_format($user_land[0], 0, ',', ' ')?>m<sup>2</sup></td>
-				
-				</tr>
-				<?php }}?>
-				</tbody>
-			</table>
-		</div>
-		
-		
-		
-		<div id="tab-3" class="tab-content">
-	
-			
-			<table class="responsive-table">
+					$last_online = get_user_meta($user->ID, 'last_online');
+					if(!empty($last_online)){
+					$last_seen = $timestamp - $last_online[0];}
+					?>
 					<tr>
-						<thead>
-						<td></td>
-						<td>Name</td>
-						<td>Networth</td>
-						<td>Clan</td>
-						<td>Land</td>
-						</thead>
-  					</tr>
-  					<tbody>
-			
-			<?php 
-				
-				
-				foreach ($users as $user) {
-				$user_NW = get_user_meta($user->ID, 'networth');
-				$user_land = get_user_meta($user->ID, 'land');
-				$networth = get_user_meta($user->ID, 'networth');
-				$user_status = get_user_meta($user->ID, 'status');
-				$clan_id = get_user_meta($user->ID, 'clan_id_user');
-				$last_online = get_user_meta($user->ID, 'last_online');
-				
-				if(!empty($last_online[0])){
-				$last_seen = $timestamp - $last_online[0];
-			
-				if($last_seen < 7200 && !empty($last_online[0])) { ?>
-				<tr>
+						<td>
+						<?php if(!empty(get_user_meta($user->ID, 'avatar_user', true))):?>
+
+				<div style='border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($user->ID, 'avatar_user', true);?>");background-size: cover;'></div>
+				<?php else:?>
+				<div style='border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
+
+				<?php endif;?>
+					</td>
 					<td>
-					<?php if(!empty(get_user_meta($user->ID, 'avatar_user', true))):?>
-                    
-			<div style='border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($user->ID, 'avatar_user', true);?>");background-size: cover;'></div>
-			<?php else:?>
-			<div style='border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
-                    
-			<?php endif;?>
-				</td>
-				<td>
-					<a class="<?php echo $user_status[0];?>" href="/users/profile/?id=<?php echo $user->ID;?> "><?php echo $user->display_name.' (#'.$user->ID;?>)</a><span style="color:#ff0000"> *</span>
-				
-				</td>
-				<td>$ <?php echo number_format($user_NW[0], 0, ',', ' ')?></td>
-				<td><?php if($clan_id[0] == 0){
-							echo 'none';}else{
-							echo '<a href="'.get_the_permalink($clan_id[0]).'">'.get_the_title($clan_id[0]).' (#'.$clan_id[0].')</a>';
-							} ?></td>
-				<td><?php echo number_format($user_land[0], 0, ',', ' ')?>m<sup>2</sup></td>
-				
-				</tr>
-				<?php }}} ?>
-  					</tbody>
-			</table>
-			
-			
+						<a class="<?php echo get_user_meta($user->ID,'status',true);?>" href="/users/profile/?id=<?php echo $user->ID;?> "><?php echo $user->display_name.' (#'.$user->ID; ?>)</a><?php
+							if(!empty($last_online)){
+							if($last_seen < 7200 && !empty($last_online[0])){echo ' <span style="color:#ff0000">*</span';}}?>
+
+					</td>
+					<td sorttable_customkey="<?php echo $user_NW[0];?>">$ <?php echo number_format($user_NW[0], 0, ',', ' ')?></td>
+					<td><?php if($clan_id[0] == 0){
+								echo 'none';}else{
+								echo '<a href="'.get_the_permalink($clan_id[0]).'">'.get_the_title($clan_id[0]).' (#'.$clan_id[0].')</a>';
+								}?></td>
+					<td sorttable_customkey="<?php echo $user_land[0];?>"><?php echo number_format($user_land[0], 0, ',', ' ')?>m<sup>2</sup></td>
+
+					</tr>
+					<?php }?>
+				</tbody>
+				</table>
+
+
+			</div>
+
+
+
+
+			<div class="tab-pane <?php echo $activeTab === 'in-range' ? 'active' : ''; ?>"  id="in-range" role="tabpanel">
+					<center>You can target provinces with a networth between <?php echo '$ '.number_format($networth_you[0]/$ATTACK_RANGE_MULT, 0, ',', ' ').' and $ '.number_format($networth_you[0]*$ATTACK_RANGE_MULT, 0, ',', ' ');?></center><br/>
+
+
+				<table class="responsive-table">
+					<thead>
+						<tr>
+							<td></td>
+							<td>Name</td>
+							<td>Networth</td>
+							<td>Clan</td>
+							<td>Land</td>
+	                    </tr>
+					</thead>
+					<tbody>
+
+				<?php
+
+
+					foreach ($users as $user) {
+					$user_land = get_user_meta($user->ID, 'land');
+
+					$user_NW = get_user_meta($user->ID, 'networth');
+					if (($user_NW[0] > $networth_you[0]/$ATTACK_RANGE_MULT && $user_NW[0] < $networth_you[0]*$ATTACK_RANGE_MULT)){
+						$clan_id = get_user_meta($user->ID, 'clan_id_user');
+					?>
+					<tr>
+						<td>
+						<?php if(!empty(get_user_meta($user->ID, 'avatar_user', true))):?>
+
+				<div style='border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($user->ID, 'avatar_user', true);?>");background-size: cover;'></div>
+				<?php else:?>
+				<div style='border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
+
+				<?php endif;?>
+					</td>
+					<td><a class="<?php echo $user_status[0];?>" href="/users/profile/?id=<?php echo $user->ID;?> "><?php echo $user->display_name.' (#'.$user->ID;?>)</a></td>
+					<td sorttable_customkey="<?php echo $user_NW[0];?>">$ <?php echo number_format($user_NW[0], 0, ',', ' ')?></td>
+					<td><?php if($clan_id[0] == 0){
+								echo 'none';}else{
+								echo '<a href="'.get_the_permalink($clan_id[0]).'">'.get_the_title($clan_id[0]).' (#'.$clan_id[0].')</a>';
+								}?></td>
+					<td sorttable_customkey="<?php echo $user_land[0];?>"><?php echo number_format($user_land[0], 0, ',', ' ')?>m<sup>2</sup></td>
+
+					</tr>
+					<?php }}?>
+					</tbody>
+				</table>
+			</div>
+
+
+
+			<div class="tab-pane <?php echo $activeTab === 'online' ? 'active' : ''; ?>"  id="online" role="tabpanel">
+
+
+				<table class="responsive-table">
+						<tr>
+							<thead>
+							<td></td>
+							<td>Name</td>
+							<td>Networth</td>
+							<td>Clan</td>
+							<td>Land</td>
+							</thead>
+	                    </tr>
+	                    <tbody>
+
+				<?php
+
+
+					foreach ($users as $user) {
+					$user_NW = get_user_meta($user->ID, 'networth');
+					$user_land = get_user_meta($user->ID, 'land');
+					$networth = get_user_meta($user->ID, 'networth');
+					$user_status = get_user_meta($user->ID, 'status');
+					$clan_id = get_user_meta($user->ID, 'clan_id_user');
+					$last_online = get_user_meta($user->ID, 'last_online');
+
+					if(!empty($last_online[0])){
+					$last_seen = $timestamp - $last_online[0];
+
+					if($last_seen < 7200 && !empty($last_online[0])) { ?>
+					<tr>
+						<td>
+						<?php if(!empty(get_user_meta($user->ID, 'avatar_user', true))):?>
+
+				<div style='border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($user->ID, 'avatar_user', true);?>");background-size: cover;'></div>
+				<?php else:?>
+				<div style='border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
+
+				<?php endif;?>
+					</td>
+					<td>
+						<a class="<?php echo $user_status[0];?>" href="/users/profile/?id=<?php echo $user->ID;?> "><?php echo $user->display_name.' (#'.$user->ID;?>)</a><span style="color:#ff0000"> *</span>
+
+					</td>
+					<td>$ <?php echo number_format($user_NW[0], 0, ',', ' ')?></td>
+					<td><?php if($clan_id[0] == 0){
+								echo 'none';}else{
+								echo '<a href="'.get_the_permalink($clan_id[0]).'">'.get_the_title($clan_id[0]).' (#'.$clan_id[0].')</a>';
+								} ?></td>
+					<td><?php echo number_format($user_land[0], 0, ',', ' ')?>m<sup>2</sup></td>
+
+					</tr>
+					<?php }}} ?>
+	                    </tbody>
+				</table>
+
+
+			</div>
 		</div>
 		
 		</div>
@@ -253,4 +262,12 @@ get_header(); ?>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).on('shown.bs.tab', function (event) {
+        var currentTab = jQuery(event.target).attr('href');
+        history.pushState(null, null, currentTab);
+    });
+</script>
+
 <?php get_footer(); ?>
