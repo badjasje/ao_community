@@ -1957,3 +1957,93 @@ Units ordered: seahawk 9
 ID: 239
 Units ordered: sparrow 400
 
+ID: 235
+Units ordered: seahawk 100
+
+ID: 433
+Units ordered: jsf 36
+
+ID: 235
+Units ordered: navy 600
+
+ID: 433
+Units ordered: jsf 150
+
+ID: 235
+Units ordered: navy 100
+
+ID: 575
+Units ordered: artillery 9
+
+ID: 574
+Units ordered: seahawk 700
+
+ID: 457
+Units ordered: sniper 20
+
+ID: 575
+Units ordered: artillery 300
+
+ID: 575
+Units ordered: artillery 200
+
+ID: 176
+Units ordered: spy 20
+
+ID: 176
+Units ordered: rocket 100
+
+ID: 176
+Units ordered: armoured 1000
+
+ID: 176
+Units ordered: rocket 200
+
+ID: 313
+Units ordered: paratrooper 100
+
+ID: 176
+Units ordered: armoured 60
+
+ID: 575
+Units ordered: artillery 20
+
+ID: 313
+Units ordered: spyplane 20
+
+ID: 313
+Units ordered: spyplane 50
+
+ID: 543
+Units ordered: thief 35
+
+ID: 543
+Units ordered: spy 5
+
+ID: 73
+Units ordered: b2_bomber 190
+
+ID: 615
+Units ordered: rocket 80
+
+ID: 543
+Units ordered: thief 35
+
+ID: 543
+Units ordered: thief 20
+
+ID: 543
+Units ordered: thief 20
+
+ID: 624
+Units ordered: abraham 300
+
+ID: 624
+Units ordered: artillery 100
+
+ID: 543
+Units ordered: thief 20
+
+ID: 543
+Units ordered: thief 20
+

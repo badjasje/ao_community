@@ -64,7 +64,7 @@ if($user_status[0] == 'dead'){
 	after_death($user_ID);
 	update_user_meta($user_ID, 'status', 'nukeprotection');
 	$timestamp = strtotime(date('Y-m-d H:i:s'));
-	update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(12 * 3600));
+	update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(24 * 3600));
 }}
 
 
