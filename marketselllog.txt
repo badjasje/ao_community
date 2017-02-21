@@ -4658,3 +4658,43 @@ ID: 360
 Units sold: 160
 Type: seahawk
 
+ID: 220
+Units sold: 1154
+Type: paratrooper
+
+ID: 348
+Units sold: 659
+Type: paratrooper
+
+ID: 348
+Units sold: 137
+Type: armoured
+
+ID: 60
+Units sold: 100
+Type: rah66_commanches
+
+ID: 257
+Units sold: 4
+Type: spy
+
+ID: 235
+Units sold: 41
+Type: seahawk
+
+ID: 257
+Units sold: 5
+Type: b2_bomber
+
+ID: 574
+Units sold: 740
+Type: seahawk
+
+ID: 581
+Units sold: 150
+Type: seahawk
+
+ID: 581
+Units sold: 150
+Type: seahawk
+

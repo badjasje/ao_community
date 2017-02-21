@@ -1930,3 +1930,30 @@ Units ordered: typhoon 1200
 ID: 41
 Units ordered: b2_bomber 237
 
+ID: 312
+Units ordered: artillery 40
+
+ID: 220
+Units ordered: thief 20
+
+ID: 347
+Units ordered: armoured 400
+
+ID: 348
+Units ordered: thief 4
+
+ID: 426
+Units ordered: b2_bomber 100
+
+ID: 235
+Units ordered: spy 2
+
+ID: 235
+Units ordered: spyplane 1
+
+ID: 235
+Units ordered: seahawk 9
+
+ID: 239
+Units ordered: sparrow 400
+

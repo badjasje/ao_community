@@ -94,6 +94,7 @@ jQuery( ".shiftnav-toggle" ).append( "<span class='redpulse2'><?php echo $new_me
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
   ga('create', 'UA-40825301-45', 'auto');
+  ga('set', 'userId', <?php echo $user_ID;?>); // De gebruikers-ID instellen op basis van de ingelogde user_id.
   ga('send', 'pageview');
 
 </script>
