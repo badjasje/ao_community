@@ -5310,3 +5310,11 @@ ID: 176
 Units sold: 200
 Type: rocket
 
+ID: 581
+Units sold: 100
+Type: submarine
+
+ID: 581
+Units sold: 75
+Type: submarine
+

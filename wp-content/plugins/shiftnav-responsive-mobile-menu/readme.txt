@@ -3,8 +3,8 @@ Contributors: sevenspark
 Donate link: http://shiftnav.io/pro
 Tags: responsive, menu, navigation, mobile, off-canvas, app, slide, sidebar
 Requires at least: 4.0
-Tested up to: 4.6.1
-Stable tag: 1.5.1
+Tested up to: 4.7.2
+Stable tag: 1.5.1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,9 @@ Please see the [ShiftNav Quick Setup Guide](http://sevenspark.com/docs/shiftnav-
 
 
 == Changelog ==
+
+= 1.5.1.1 =
+* Fix: Properly handle UberMenu Menu Segments when they have been renamed by the user and using multiple segments
 
 = 1.5.1 =
 * Update: Update Font Awesome icons to 4.7

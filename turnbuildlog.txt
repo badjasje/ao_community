@@ -2800,3 +2800,24 @@ Units ordered: sam 20
 ID: 29
 Units ordered: rocket 140
 
+ID: 581
+Units ordered: battleship 95
+
+ID: 234
+Units ordered: b2_bomber 1930
+
+ID: 370
+Units ordered: abraham 276
+
+ID: 504
+Units ordered: abraham 190
+
+ID: 347
+Units ordered: battleship 30
+
+ID: 347
+Units ordered: battleship 50
+
+ID: 257
+Units ordered: rocket 300
+

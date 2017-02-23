@@ -117,10 +117,15 @@ class ShiftNavWalker extends Walker_Nav_Menu {
 	 * @param int    $id     Current item ID.
 	 */
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+// echo $item->ID."<br/>";
+//if( $item->ID == 2120 ) shiftp( $item );
 
-//if( $item->ID == 1739 ) shiftp( $item );
 		//Menu Segments
-		if( $item->object == 'ubermenu-custom' && $item->post_name == 'menu-segment' ){
+		//shiftp( $item );
+//echo $item->ID . ' :: ' . $item->object.'<br/>';
+//if( $item->object == 'ubermenu-custom' ) shiftp( $item );
+
+		if( $item->object == 'ubermenu-custom' && $item->type_label == '[UberMenu Menu Segment]' ){
 			return $this->handle_menu_segment( $output , $item , $depth , $args , $id );
 		}
 
@@ -393,7 +398,8 @@ class ShiftNavWalker extends Walker_Nav_Menu {
 			// unset( $children_elements[ $id ] );
 
 			//This is the part of Walker_Nav_Menu:dispay_element that handles printing children
-			if( $element->post_name == 'menu-segment' && shiftnav_op( 'process_uber_segments' , 'general' ) !== 'off' ){
+//echo $element->ID . ' :: ' . $element->type_label. '<br/>';
+			if( $element->type_label == '[UberMenu Menu Segment]' && shiftnav_op( 'process_uber_segments' , 'general' ) !== 'off' ){
 				//$element->shiftnav_menu_segment = 'hi';
 				//echo $element->ID ;
 			}
@@ -506,7 +512,7 @@ class ShiftNavWalker extends Walker_Nav_Menu {
 
 
 	function handle_menu_segment( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-		
+
 		if( !defined( 'UBERMENU_MENU_ITEM_META_KEY' ) ){
 			return;
 		}
@@ -541,6 +547,7 @@ class ShiftNavWalker extends Walker_Nav_Menu {
 			'depth'			=> 0,
 			'shiftnav_segment' => $item->ID,
 			'shiftnav_instance' => $args->shiftnav,
+			'shiftnav'		=> $args->shiftnav,
 			//'uber_instance'	=> $this->args->uber_instance,
 			//'uber_segment'	=> $this->ID,
 		);

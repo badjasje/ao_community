@@ -732,5 +732,49 @@ function bonus_update(){
 		
 		
 		}}}
+/* Extra columns in user backend */
+function new_modify_user_table( $column ) {
+    $column['networth'] = 'Networth';
+    $column['land'] = 'Land';
+    $column['playername'] = 'Playername';
+    $column['lastseen'] = 'Last seen';
+    $column['clan'] = 'Clan';
+    return $column;
+}
+add_filter( 'manage_users_columns', 'new_modify_user_table' );
 
-
+function new_modify_user_table_row( $val, $column_name, $user_id ) {
+	
+	$member_data = get_userdata($user_id);
+	$lastseen = date('G:i:s | d-m-Y', get_user_meta($user_id, 'last_online', true));
+	$clan_id = get_user_meta($user_id, 'clan_id_user',true);
+   
+    switch ($column_name) {
+        case 'networth' :
+            return '$ '.number_format(get_user_meta($user_id, 'networth', true), 0, ',', ' ');
+            break;
+        case 'land' :
+            return number_format(get_user_meta($user_id, 'land', true), 0, ',', ' ').' m<sup>2</sup>';
+            break;
+        case 'playername' :
+            return '<a target="_blank" href="/users/profile/?id='.$user_id.'">'.$member_data->display_name.' (#'.$user_id.')</a>';
+            break;
+		case 'lastseen' :
+            return $lastseen;
+            break;
+        case 'clan' :
+        
+        if($clan_id == 0){
+			return 'none';
+			}
+			else{
+			return '<a target="_blank" href="'.get_the_permalink($clan_id).'">'.get_the_title($clan_id).' (#'.$clan_id.')</a>';
+		}
+        
+           
+            break;
+        default:
+    }
+    return $val;
+}
+add_filter( 'manage_users_custom_column', 'new_modify_user_table_row', 10, 3 );
