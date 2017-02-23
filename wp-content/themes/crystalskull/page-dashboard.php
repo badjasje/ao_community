@@ -227,7 +227,7 @@ $timer_left = $nuke_protection_timestamp[0]-$timestamp;
 
 <center>
 	Protection time left: <span id="countdown_time"></span> <br/>
-	<?php if($timeleft < 43200):?>
+	<?php if($timer_left < 43200):?>
 	<a onclick="return confirm('Are you sure you want to remove protection?')" class="btn btn-danger" href="/remove_np.php/?user=<?php echo $user_ID;?>">
   <i class="fa fa-trash-o fa-lg"></i> Remove Protection</a>
 	<?php endif;?>
