@@ -16,7 +16,7 @@ if ($categories) {
     $forumsAvailable = false;
 
     foreach ($categories as $category) {
-	    if($category->term_id == 133){ 
+	    if($category->term_id == 252){ 
         echo '<div class="title-element" id="forum-category-'.$category->term_id.'">';
             echo $category->name;
             echo '<span class="last-post-headline">'.__('Last post:', 'asgaros-forum').'</span>';
