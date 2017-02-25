@@ -268,7 +268,7 @@ if ( $custom_query->have_posts() ) :
 			
 			
 			<div class="row">
-				<?php if($winner_id == $attacker_id):?>
+		
 				<div class="col-md-12 event-result"><strong>Attacker losses: <?php echo $att_tot_unitslost;?> units</strong><br/>
 				
 				<?php
@@ -302,7 +302,7 @@ if ( $custom_query->have_posts() ) :
 				?>
 				
 				</div>
-				<?php endif;?>
+			
 			</div>
 			
 		</div>
