@@ -28,12 +28,17 @@ $activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'provicenw';
 	                    <li class="nav-item <?php echo $activeTab === 'clannw' ? 'active' : ''; ?>">
 		                    <a class="nav-link" data-toggle="tab" data-target="#clannw" href="/toplists/?tab=clannw" role="tab">Clan networth</a>
 	                    </li>
+		                <li class="nav-item <?php echo $activeTab === 'clanpointstoday' ? 'active' : ''; ?>">
+			                <a class="nav-link" data-toggle="tab" data-target="#clanpointstoday" href="/toplists/?tab=clanpointstoday" role="tab">Clan points today</a>
+		                </li>
                     </ul>
 
 	                <div class="tab-content current build_content tabbed-table">
 						<?php include 'pages/toplist/provice_nw.php'; ?>
 						<?php include 'pages/toplist/clan_points.php'; ?>
 						<?php include 'pages/toplist/clan_nw.php'; ?>
+
+						<?php include 'pages/toplist/clan_points_today.php'; ?>
 	                </div>
 
 	                <script>

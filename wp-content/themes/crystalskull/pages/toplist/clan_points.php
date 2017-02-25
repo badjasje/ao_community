@@ -33,7 +33,8 @@
 
 					<?php endif;?>
 				</td>
-				<td><a href="<?php echo $clan->guid;?>"><?php echo $clan->post_title.' (#'.$clan->ID.')';?></a></td>
+
+				<td><a href="<?php echo get_permalink($clan); ?>"><?php echo $clan->post_title.' (#'.$clan->ID.')';?></a></td>
 				<td><?php echo ceil(get_post_meta($clan->ID, 'clan_points')[0]);?></td>
 
 
