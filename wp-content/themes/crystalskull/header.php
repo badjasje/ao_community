@@ -122,39 +122,47 @@ $user = get_userdata($user_ID);
 <div class="title_wrapper container">
 
 
-            <div class="col-lg-12">
+			<div class="col-lg-12">
 
-            	<?php if(is_single() && ( get_post_type($post->ID) == 'post')){
-				  	$categories = wp_get_post_categories($post->ID);
+				<?php if (is_single() && (get_post_type($post->ID) == 'post')) {
+					$categories = wp_get_post_categories($post->ID);
 					echo "<div class='cat-single'>";
 					foreach ($categories as $category) { ?>
-					<?php $cat_data = get_option("category_$category");  ?>
-					<a href="<?php echo esc_url(get_category_link($category)); ?>" class="ncategory" style="background-color: <?php echo esc_attr($cat_data['catBG']); ?> !important" >
-       							  <?php	echo esc_attr(get_cat_name($category)); ?>
-					</a>
+						<?php $cat_data = get_option("category_$category"); ?>
+						<a href="<?php echo esc_url(get_category_link($category)); ?>" class="ncategory" style="background-color: <?php echo esc_attr($cat_data['catBG']); ?> !important">
+							<?php echo esc_attr(get_cat_name($category)); ?>
+						</a>
 					<?php }
 					echo "</div>";
-				}  ?>
-             <h1><?php the_title();?> <?php if(is_page(3486)):?><a href="/users/profile/?id=<?php echo $user->ID;?> "><?php echo $user->display_name.' (#'.$user->ID;?>)</a>
-             <?php if(!empty(get_user_meta($user->ID, 'avatar_user', true))):?>
-                    
-			<div style='border: 1px solid #fff;position: relative;vertical-align: middle;display: inline-block;border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($user->ID, 'avatar_user', true);?>");background-size: cover;'></div>	<?php else:?>
-			<div style='border: 1px solid #fff;position: relative;vertical-align: middle;display: inline-block;border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
-                    
-			<?php endif;?>
-             
-             
-             
-             <?php endif;?><?php if(is_page(3520)):  $user__ID = $_GET['id']; $user = get_userdata($user__ID); $last_online = get_user_meta($user__ID, 'last_online');
-				if(!empty($last_online)){ $timestamp = strtotime(date('Y-m-d H:i:s'));
-				$last_seen = $timestamp - $last_online[0];}?><?php echo $user->display_name;?> (#<?php echo $user__ID;?>) <?php
-						if(!empty($last_online)){
-						if($last_seen < 7200 && !empty($last_online[0])){echo ' <span style="color:#ff0000">*</span';}}?><?php endif;?>
-            </h1>
-            </div>
-            <div class="col-lg-12 breadcrumbs"><strong><?php crystalskull_breadcrumbs(); ?></strong></div>
+				} ?>
+				<h1><?php the_title(); ?>
+					<?php if (is_page(3486)): ?>
+						<a href="/users/profile/?id=<?php echo $user->ID; ?>"><?php echo $user->display_name . ' (#' . $user->ID; ?>)</a>
+						<?php if (!empty(get_user_meta($user->ID, 'avatar_user', true))): ?>
+							<div style='border: 1px solid #fff;position: relative;vertical-align: middle;display: inline-block;border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($user->ID, 'avatar_user', true); ?>");background-size: cover;'></div>
+						<?php else: ?>
+							<div style='border: 1px solid #fff;position: relative;vertical-align: middle;display: inline-block;border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
+						<?php endif; ?>
+					<?php endif; ?>
 
-        <div class="clear"></div>
+					<?php if (is_page(3520)): $user__ID = $_GET['id'];
+						$user = get_userdata($user__ID);
+						$last_online = get_user_meta($user__ID, 'last_online');
+						if (!empty($last_online)) {
+							$timestamp = strtotime(date('Y-m-d H:i:s'));
+							$last_seen = $timestamp - $last_online[0];
+						} ?><?php echo $user->display_name; ?> (#<?php echo $user__ID; ?>) <?php
+						if (!empty($last_online)) {
+							if ($last_seen < 7200 && !empty($last_online[0])) {
+								echo ' <span style="color:#ff0000">*</span>';
+							}
+						} ?>
+					<?php endif; ?>
+				</h1>
+			</div>
+            <div class="col-lg-12 breadcrumbs" style="float: left; margin-top: 0;"><strong><?php crystalskull_breadcrumbs(); ?></strong></div>
+            <div class="clear"></div>
+
 </div>
 
 
