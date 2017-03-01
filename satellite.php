@@ -27,6 +27,7 @@ if ( !is_user_logged_in() ) {
 	wp_redirect(get_permalink(3582)); exit;
 	}
 $totalmoney = get_user_meta($user_ID, 'money',true);
+$totalturns = get_user_meta($user_ID, 'money',true);
 
 /* get key of satellite */
 $ordered = $_POST['satellite'];
@@ -36,7 +37,7 @@ $satcost = $satellites[$ordered]['price'];
 
 /* Check if user has enough cash */
 if($totalmoney < $satcost){$_SESSION['status'] = '1';wp_redirect(get_permalink(8578));exit;}
-
+if($totalturns < 25){$_SESSION['status'] = '2';wp_redirect(get_permalink(8578));exit;}
 
 $args = array(
 				'post_title'    => $satellites[$ordered]['name'],
@@ -58,6 +59,7 @@ $args = array(
 
 			update_user_meta($user_ID, 'sat_in_progress', $ordered);
 			update_user_meta($user_ID, 'money', $totalmoney-$satcost);
+			update_user_meta($user_ID, 'turns', $totalturns-25);
 $_SESSION['status'] = '6';wp_redirect(get_permalink(8578));exit;
 
 

@@ -19,7 +19,7 @@ get_header(); ?>
 			<?php elseif($_SESSION['status'] == 1):?>
 				<div class="marketnotice insuffunds">Insufficient funds</div>
 			<?php elseif($_SESSION['status'] == 2):?>
-				<div class="marketnotice insuffunds">Build more warfactories</div>
+				<div class="marketnotice insuffunds">Not enough turns</div>
 			<?php elseif($_SESSION['status'] == 3):?>
 				<div class="marketnotice insuffunds">Build more shipyards</div>
 			<?php elseif($_SESSION['status'] == 4):?>
@@ -42,6 +42,7 @@ get_header(); ?>
 			
 			
 			<?php if($sat_progress != '0'):?>
+			
 			<table class="responsive-table">
 					<thead>
 						<tr>
@@ -127,6 +128,7 @@ get_header(); ?>
 
 			
 			<?php if($sat_level != 0 && $sat_owned != 'laser' && $sat_progress != 'laser'):?>
+			<div class="notice_message"><span class="rdw-line">Building a satellite requires 25 turns</span></div><br/>
 			<form class="form" action="<?php echo home_url() ?>/satellite.php" name="" id="satellite" method="post">
 				
 				
