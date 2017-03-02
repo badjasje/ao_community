@@ -202,7 +202,7 @@ foreach ($bonuses as $bonus) {
 		
 		$money = get_user_meta($receiver_ID, 'money',true);	
 		$money_new = $money + $bonus_money;
-		update_user_meta($user_ID, 'money', $money_new);
+		update_user_meta($receiver_ID, 'money', $money_new);
 	
 		/* Add bonus turns */
 		$turns = get_user_meta($receiver_ID, 'turns',true);
