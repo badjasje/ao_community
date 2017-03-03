@@ -27,7 +27,7 @@ if ( !is_user_logged_in() ) {
 	wp_redirect(get_permalink(3582)); exit;
 	}
 $totalmoney = get_user_meta($user_ID, 'money',true);
-$totalturns = get_user_meta($user_ID, 'money',true);
+$totalturns = get_user_meta($user_ID, 'turns',true);
 
 /* get key of satellite */
 $ordered = $_POST['satellite'];
