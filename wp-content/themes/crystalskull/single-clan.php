@@ -226,11 +226,11 @@ get_header(); ?>
 			<td sorttable_customkey="<?php echo $land[0];?>" data-title="Land" sorttable_customkey="<?php echo $land[0];?>"><?php echo number_format($land[0], 0, ',', ' '); ?> m<sup>2</sup>
 			</td>
 			<td><?php if($user_ID == $clanleader[0] && $member != $user_ID){?>
-			<a href="/kick.php/?id=<?php echo $member;?>&clan=<?php echo $clan_id;?>">Kick</a>
+			<a href="/kick.php/?id=<?php echo $member;?>&clan=<?php echo $clan_id;?>" onclick="return confirm('Are you sure you want to kick <?php echo $member_data->display_name.' (#'.$member.')';?> from your clan?')">Kick</a>
 			<?php } ?>
 			<?php if($member != $user_ID && $member != $clanleader[0] && $member != $ct_1 && $member != $ct_2 && $member != $ct_3 && $member != $ct_4){?>
 			<?php if($user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4){?>
-			<a href="/kick.php/?id=<?php echo $member;?>&clan=<?php echo $clan_id;?>">Kick</a>
+			<a href="/kick.php/?id=<?php echo $member;?>&clan=<?php echo $clan_id;?>" onclick="return confirm('Are you sure you want to kick <?php echo $member_data->display_name.' (#'.$member.')';?> from your clan?')">Kick</a>
 			<?php }} ?>
 			<?php if($_member == false):?>
 			<td data-title="Actions">
