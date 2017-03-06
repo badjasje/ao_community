@@ -535,7 +535,7 @@ if($war_type != 'none' && $result == 'success') {
 			($unit_points * $POINTS_UNITS_WEIGHT) 
 		);*/
 		//$clan_points = ceil(1 + $defender_networth_lost*0.00022) + $unit_points - ($attacker_networth_lost*0.000025);
-		$clan_points = 3 * log($defender_networth_lost/2.4 / 400)*$aggressive_multi; 
+		$clan_points = 5 * log($defender_networth_lost/2.4 / 400)*$aggressive_multi; 
 		if($clan_points < 1){
 			$clan_points = 1;
 		}
