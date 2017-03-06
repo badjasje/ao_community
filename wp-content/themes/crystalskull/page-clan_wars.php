@@ -10,7 +10,9 @@ $clan_leader = get_post_meta($declarer_clan_ID[0], 'clan_leader');
  $ct_2 = get_post_meta($declarer_clan_ID[0],'ct_2')[0];
  $ct_3 = get_post_meta($declarer_clan_ID[0],'ct_3')[0];
  $ct_4 = get_post_meta($declarer_clan_ID[0],'ct_4')[0];
- 
+
+$clan_networth = get_post_meta($declarer_clan_ID[0], 'clan_networth', true);
+
  $wars_on = get_posts(array(
 	'numberposts'	=> -1,
 	'post_type'		=> 'wars',
@@ -33,8 +35,12 @@ get_header(); ?>
 			<div class="notice_message"><span class="rdw-line">The round has ended!</span></div>
 			<?php else:?>     
 	       
-           <div class="notice_message"><span class="rdw-line">This is where you manage your clan wars.</span> <span class="rdw-line">After 24 hours you are able to declare peace with a clan</span></div><br/>
-			
+           <div class="notice_message">
+	           <span class="rdw-line">This is where you manage your clan wars.</span>
+	           <span class="rdw-line">After 24 hours you are able to declare peace with a clan</span>
+	           <span class="rdw-line">You can target clans with a networth between <?php echo GameUtil::format_networth($clan_networth/1.4); ?> and <?php echo GameUtil::format_networth($clan_networth*1.4);?></span>
+           </div><br/>
+
 			<?php if(!empty($_SESSION['status'])):?>
 			<?php if($_SESSION['status'] == 0):?>
 				<div class="marketnotice"></div>

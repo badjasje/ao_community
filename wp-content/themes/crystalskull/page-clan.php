@@ -81,7 +81,7 @@ get_header('clan'); ?>
 			</tr>
 			<?php else: ?>
 			<tr>
-				<td><center><a href="/leave.php/?user=<?php echo $user_ID;?>">Leave clan</a></center></td>
+				<td><center><a href="/leave.php/?user=<?php echo $user_ID;?>" onclick="return confirm('Are you sure you want to leave your clan?')">Leave clan</a></center></td>
 			</tr>
 			<?php endif;?>
 		</table>
