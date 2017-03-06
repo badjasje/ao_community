@@ -9,8 +9,14 @@ $timestamp = strtotime(date('Y-m-d H:i:s'));
 $users = get_users();
 foreach ($users as $user) {
 
-		$user_ID = $user->ID;	
-		
+	$user_ID = $user->ID;	
+	
+	$sat_endlife = get_user_meta($user_ID, 'sat_endlife',true);
+	$timeleft = $sat_endlife-$timestamp;
+		if($timeleft >= 0){
+			update_user_meta($user_ID, 'sat_owned', 0);
+		}
+
 
 	
 	$args = array(

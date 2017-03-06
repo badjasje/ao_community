@@ -188,6 +188,7 @@ $timestamp = strtotime(date('Y-m-d H:i:s'));
 		<div class="notice_message"><span class="rdw-line">You currently own a <?php echo $satellites[$sat_owned]['name'];?></span>
 		<?php 
 			$timestamp = strtotime(date('Y-m-d H:i:s'));
+			
 			$timeleft = $sat_endlife-$timestamp;
 			if($timeleft >= 0){
 	
