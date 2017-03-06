@@ -452,7 +452,7 @@ $emps = get_posts(array(
 	'meta_value'	=> $user_ID
 ));
 $empReduction = count($emps)*20;
-echo $empReduction;
+
 if($power_production > 0){
 	update_user_meta( $user_ID,'power',$used_power/($power_production*$PPE_multi)*100);}
 	else{
