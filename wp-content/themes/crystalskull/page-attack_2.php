@@ -20,7 +20,9 @@ if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
 	
 $attackUserId = $_SESSION['target_id'];
 count_all_stats($attackUserId);
-
+echo '<pre>';
+print_r($_SESSION);
+echo '</pre>';
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
@@ -626,14 +628,21 @@ get_header(); ?>
 		<?php endif;?>
 		</form>
 		<?php endif;?>
-		<?php 
-			////// SEND MISSILE
+
+
+
+<?php /* use satellite */			
+
+if($_SESSION['attacktype'] == 'satellite'):  ?>
+
+<?php 
+	include 'satellite_array.php';
+	$sat_owned = get_user_meta($user_ID, 'sat_owned', true);?>
 			
-			if($_SESSION['attacktype'] == 'satellite'):  ?>
 			
-			<form class="form" action="<?php echo home_url() ?>/attack2.php" name="" id="attack2" method="post">
+<form class="form" action="<?php echo home_url() ?>/attack2.php" name="" id="attack2" method="post">
 			
-		<table class="responsive-table">
+	<table class="responsive-table">
 			<thead>
 					<tr>
 						<th scope="col">Name</th>
@@ -644,16 +653,16 @@ get_header(); ?>
 			</thead>
 					<tr>
 						<td data-title="Name"> 
-						Laser beam satellite
+						<?php echo $satellites[$sat_owned]['name'];?>
 						</td>
 						<td data-title="Attack">
-							10 000		
+						<?php echo $satellites[$sat_owned]['attack'];?>	
 						</td>
 						<td data-title="Targets">
-							Buildings
+						<?php echo $satellites[$sat_owned]['targets'];?>
 						</td>
 						<td>
-							<input style="display:none;" type="radio" name="<?php echo $key;?>" id="sat_<?php echo $key;?>" checked required value="1"><label class="btn btn-general" for="sat_<?php echo $key;?>">Select</label>
+							<input style="display:none;" type="radio" name="sattype" value="<?php echo $sat_owned;?>" id="sat_<?php echo $sat_owned;?>" checked required value="1"><label class="btn btn-general" for="sat_<?php echo $sat_owned;?>">Select</label>
 							<?php /*<input checked="checked" type="radio" name="<?php echo $key;?>" value="1"> */?>
 						</td>
 					</tr>

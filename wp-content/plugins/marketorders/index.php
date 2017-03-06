@@ -173,6 +173,14 @@ function create_post_type() {
       'public' => true,
       'has_archive' => false,
     ));
+    register_post_type( 'emp',array(
+      'labels' => array(
+        'name' => __( 'EMP' ),
+        'singular_name' => __( 'EMP' )
+      ),
+      'public' => true,
+      'has_archive' => false,
+    ));
 }
 add_action( 'init', 'create_post_type' );
 
@@ -433,11 +441,28 @@ $land_networth = round($land*0.85);
 update_user_meta( $user_ID,'networth',round($research_NW+$building_networth+$unit_networth+$land_networth+$missile_networth));
 
 update_user_meta( $user_ID,'builtland',$totalbuildings*20);
-if($power_production>0){
-	update_user_meta( $user_ID,'power',$used_power/($power_production*$PPE_multi)*100);}else{
+
+
+$empReduction = 0;
+
+$emps = get_posts(array(
+	'numberposts'	=> -1,
+	'post_type'		=> 'emp',
+	'meta_key'		=> 'defender_emp',
+	'meta_value'	=> $user_ID
+));
+$empReduction = count($emps)*20;
+echo $empReduction;
+if($power_production > 0){
+	update_user_meta( $user_ID,'power',$used_power/($power_production*$PPE_multi)*100);}
+	else{
 	update_user_meta( $user_ID,'power',$used_power*100);
 	}
 }
+
+$power = get_user_meta($user_ID, 'power', true);
+update_user_meta( $user_ID,'power',$power+$empReduction);
+
 }
 
 

@@ -6493,6 +6493,7 @@ Units ordered: spyplane 1
 ID: 235
 Units ordered: grenade 880
 
+<<<<<<< HEAD
 ID: 76
 Units ordered: artillery 1000
 
@@ -6723,4 +6724,11 @@ Units ordered: artillery 70
 
 ID: 76
 Units ordered: spy 3
+=======
+ID: 2
+Units ordered: paratrooper 60
+
+ID: 2
+Units ordered: b2_bomber 40
+>>>>>>> Sat stuff
 

@@ -186,7 +186,7 @@ get_header(); ?>
 				</td>
 				</tr>
 				
-				<?php if($sat_owned == 'laser'):?>
+				<?php if($sat_owned != 0 || !empty($sat_owned)):?>
 				<tr>
 				<td class="left_text_table"><input style="display:none;" type="radio" name="attacktype" id="satellite" value="satellite"><label class="btn btn-general" for="satellite">Use satellite</label>
 				</td>

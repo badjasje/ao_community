@@ -4,6 +4,7 @@
 	'laser' 	=> array(
 			'price'			=>	'1000000',
 			'networth'		=>	14,
+			'targets'		=> 'Buildings',
 			'name'			=>	'Laser Beam Satellite',
 			'desc'			=>	'Gain the ability to fire an orbital laser cannon every 5 hours.',
 			'attack'		=>	25000),/*
@@ -30,12 +31,13 @@
 			'networth'		=>	14,
 			'name'			=>	'Anti-missile satellite',
 			'desc'			=>	'An anti-missile satellite grants 100% protection against missiles.',
-			'attack'		=>	0),
+			'attack'		=>	0),*/
 	'empsat' 		=> array(
 			'price'			=>	'500000',
 			'networth'		=>	14,
+			'targets'		=> 'Power',
 			'name'			=>	'EMP satellite',
 			'desc'			=>	'Disables 20% of the target power production',
-			'attack'		=>	0),*/
+			'attack'		=>	'n.a'),
 
 );

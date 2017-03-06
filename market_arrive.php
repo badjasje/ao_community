@@ -50,4 +50,29 @@ foreach ($orders as $order) {
 	}
 	
 	}
+
+$empargs = array(
+	'posts_per_page'   => -1,
+	'post_status'      => 'publish',
+	'post_type'        => 'emp',
+);
+
+$emps = get_posts( $empargs ); 
+
+foreach ($emps as $emp) {
+$end_time = get_post_meta($emp->ID,'timestamp_emp',true);
+$user_emp = get_post_meta($emp->ID,'defender_emp',true);
+
+$timeleft = $end_time-$timestamp;
+
+if($timeleft <= 0){
+	wp_trash_post($emp->ID);
+	count_all_stats($user_emp);
 }
+	
+	
+}
+	
+	
+	
+} /* end game live

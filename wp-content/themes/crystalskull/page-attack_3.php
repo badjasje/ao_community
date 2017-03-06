@@ -15,7 +15,9 @@ if($attack_type == 'regular'){ $attack_name = 'Regular attack'; }
 if($attack_type == 'missile'){ $attack_name = 'Launching missile'; }
 if($attack_type == 'spy'){ $attack_name = 'Spying'; }
 if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
-
+echo '<pre>';
+print_r($_SESSION);
+echo '</pre>';
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
@@ -157,18 +159,26 @@ get_header(); ?>
 			if($_SESSION['attacktype'] == 'satellite'): 
 			include 'satellite_array.php';
 			$sat_owned = get_user_meta($user_ID, 'sat_owned',true);
+			if($sat_owned == 'laser'){
+			$resultURL = home_url().'/attack/satellite-result/';
+			}
+			if($sat_owned == 'empsat'){
+			$resultURL = home_url().'/attack/emp-result/';
+			}
 			?>
 			
 			
 			
-		<form class="form" action="<?php echo home_url() ?>/attack/satellite-result/" name="" id="attack" method="post">	
+		<form class="form" action="<?php echo $resultURL;?>" name="" id="attack" method="post">	
 		
-		<table>
+		<table class="responsive-table">
+			<thead>
 					<tr>
-						<td><strong>Name</strong></td>
-						<td><strong>Firing</strong></td>
-				
+						<th scope="col"><strong>Name</strong></th>
+						<th scope="col"><strong>Firing</strong></th>
   					</tr>
+			</thead>
+			<tbody>
   			<tr>
 				<td>
 					<?php echo $satellites[$sat_owned]['name'];?>
@@ -183,7 +193,7 @@ get_header(); ?>
 			
 			
 			</tr>
-		
+			</tbody>
 		</table>
 		<input style="width:100%" type="submit" value="FIRE" class="">
 		</form>
