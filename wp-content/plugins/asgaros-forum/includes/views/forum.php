@@ -4,6 +4,14 @@ if (!defined('ABSPATH')) exit;
 
 echo '<h1 class="main-title">'.esc_html(stripslashes($this->get_name($this->current_forum, $this->tables->forums))).'</h1>';
 
+$user_ID = get_current_user_ID();
+$clan_id_user = get_user_meta($user_ID, 'clan_id_user',true);
+$clan_forum_id = get_post_meta($clan_id_user, 'clan_forum_id', true);
+$current_cat = $this->current_category;
+if($clan_forum_id != $current_cat){
+	wp_redirect(get_permalink(3486)); exit;
+}
+
 ?>
 
 <div>

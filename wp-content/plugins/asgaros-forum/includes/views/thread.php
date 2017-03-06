@@ -2,6 +2,13 @@
 
 if (!defined('ABSPATH')) exit;
 
+$user_ID = get_current_user_ID();
+$clan_id_user = get_user_meta($user_ID, 'clan_id_user',true);
+$clan_forum_id = get_post_meta($clan_id_user, 'clan_forum_id', true);
+$current_cat = $this->current_category;
+if($clan_forum_id != $current_cat){
+	wp_redirect(get_permalink(3486)); exit;
+}
 echo '<h1 class="main-title">'.esc_html(stripslashes($this->get_name($this->current_topic, $this->tables->topics))).'</h1>';
 
 ?>
@@ -21,6 +28,7 @@ echo '<h1 class="main-title">'.esc_html(stripslashes($this->get_name($this->curr
     $avatars_available = get_option('show_avatars');
     $threadStarter = $this->get_thread_starter($this->current_topic);
     foreach ($posts as $post) {
+
         $counter++;
         ?>
         <div class="post" id="postid-<?php echo $post->id; ?>">
