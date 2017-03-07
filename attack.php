@@ -32,6 +32,8 @@ $user_data = get_user_meta($user_ID);
 $clan_id = $user_data['clan_id_user'][0];
 $turns = $user_data['turns'][0];
 $morale = $user_data['morale'][0];
+$maintarget = $_POST['maintarget'];
+
 
 $sat_morale = get_user_meta($user_ID, 'sat_morale',true);
 
@@ -144,7 +146,7 @@ if ($user_power > 100) {
 $_SESSION['attacktype'] = $attacktype;
 $_SESSION['target_id'] = $target_id;
 $_SESSION['attackmode'] = $attackmode;
-
+$_SESSION['maintarget'] = $maintarget;
 wp_redirect(get_permalink(3363));	//stap 2
 exit;
 }

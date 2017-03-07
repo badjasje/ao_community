@@ -31,10 +31,12 @@ if($target_status == 'dead'){
 	wp_redirect(get_permalink(3360).'?fail=8');
 	exit;
 }
-
+$maintarget = $_SESSION['maintarget'];
 $attackmode = $_SESSION['attackmode'];
+
 $extra_morale_cost = 0;
 $aggressive_multi = 1;
+
 $life_deduct = 1;
 if($attackmode == 'aggressive'){
 	$extra_morale_cost = 10;
@@ -365,8 +367,24 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 			
 			$type = 'bld';
 			$count_key = $key;
-			$killed = round($killed*$defender_loss_decrease);
 			
+			if($maintarget != 'none'){
+				
+				if($maintarget == $buildings[$key]['targetname']){
+					$killed = round($killed*$defender_loss_decrease*1.35);
+					}else{
+					$killed = round($killed*$defender_loss_decrease*0.60);	
+				}
+					
+				
+			}else{
+				
+				$killed = round($killed*$defender_loss_decrease);
+			}
+			
+			
+			
+			 
 			$owned_blds = get_user_meta($target_id, $key,true);
 			
 			if($killed > $owned_blds){

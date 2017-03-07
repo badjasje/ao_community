@@ -3,10 +3,12 @@
  * Template Name: Attack step 2
  */
 include 'DO_NOT_DELETE.php';
+
 if(empty($_SESSION['attacktype'])){
 wp_redirect(get_permalink(3360).'?fail=4');
 exit;
 }
+
 $attack_type = $_SESSION['attacktype'];
 /* Determine attack name for header */
 if($attack_type == 'ground'){ $attack_name = 'Ground attack'; }
