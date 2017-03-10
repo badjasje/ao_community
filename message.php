@@ -23,11 +23,12 @@ $title = $_POST['title'];
 $message = $_POST['message'];
 $receiver = $_POST['receiver'];
 if(empty($title)){$_SESSION['status'] = '1';wp_redirect(get_permalink(4020).'?id='.$_POST['receiver']);exit;}
-
+	$slug = md5(uniqid(rand(), TRUE));
 	$args = array(
 				'post_title'    => $title,
 				'post_content'	=> $message,
 				'post_status'   => 'publish',
+				'post_name'		=> $slug,
 				'post_type'		=> 'user_message',
 				'post_author'   => $user_ID
 				);
