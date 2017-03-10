@@ -87,7 +87,7 @@ if (!$in_range) {
 
 
 $blddamage = rand (6500,8000);
-
+update_user_meta($user_ID,'sat_morale',$sat_morale-100);
 $result = 'success';
 
 
@@ -443,7 +443,7 @@ $args = array(
 			
 			update_user_meta($user_ID,'turns',$turns-3);
 			
-			update_user_meta($user_ID,'sat_morale',$sat_morale-100);
+			
 			
 			update_user_meta($defender_ID, 'new_events', get_user_meta($defender_ID, 'new_events',true)+1);
 			/* Add globals to defender */
