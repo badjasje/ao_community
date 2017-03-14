@@ -150,14 +150,40 @@ if(is_plugin_active('buddypress/bp-loader.php') && function_exists( 'bp_current_
 
 
 
+<div class="after-nav ">
 
-        <div class="after-nav ">
-        	<div class="container globalstats">
-            <div class="statitem"><strong>Money:</strong> $ <?php echo number_format($totalmoney[0], 0, ',', ' '); ?></div>
-			<div class="statitem"><strong>Networth:</strong> $ <?php echo number_format($networth[0], 0, ',', ' '); ?></div> 
-			<div class="statitem"><strong>Turns:</strong> <?php echo $turns[0]; ?></div>
-			<div class="statitem"><strong>Morale:</strong> <?php echo $morale[0]; ?>% <sup>(<?php echo $moralepool[0];?>%)</sup></div>
-			<div class="statitem"><strong>Land:</strong> <?php echo number_format($land[0], 0, ',', ' '); ?> m<sup>2</sup></div>
-            </div>
-        </div>
+	<!-- Desktop View -->
 
+	<div class="container globalstats">
+		<div class="statitem"><strong>Money:</strong> $ <?php echo number_format($totalmoney[0], 0, ',', ' '); ?></div>
+		<div class="statitem"><strong>Networth:</strong> $ <?php echo number_format($networth[0], 0, ',', ' '); ?></div> 
+		<div class="statitem"><strong>Turns:</strong> <?php echo $turns[0]; ?></div>
+		<div class="statitem"><strong>Morale:</strong> <?php echo $morale[0]; ?>% <sup>(<?php echo $moralepool[0];?>%)</sup></div>
+		<div class="statitem"><strong>Land:</strong> <?php echo number_format($land[0], 0, ',', ' '); ?> m<sup>2</sup></div>
+		<div class="statitem"><strong>Sat. power:</strong> <?php echo $sat_morale; ?>%</div>
+	</div>
+            
+	<!-- mobile view -->
+	
+	<table class="statsmobile" style="border:none;width:350px;margin-left:auto;margin-right:auto;">
+		<tr>
+			<td width="50%">
+				<a href="/events/incoming/"><?php if($new_events[0] > 0):?> <span style="color:#ff0000"><?php echo $new_events[0];?></span> 
+				new event<?php if($new_events[0] > 1 || $new_events[0] == 0){echo 's';}?> <?php else:?> <?php echo $new_events[0];?> 
+				new event<?php if($new_events[0] > 1 || $new_events[0] == 0){echo 's';}?> <?php endif;?></a><hr/>
+				<strong>Turns:</strong> <?php echo $turns[0]; ?><br/>
+				<strong>Morale:</strong> <?php echo $morale[0]; ?>% <sup>(<?php echo $moralepool[0];?>%)</sup><br/>
+				<strong>Land:</strong> <?php echo number_format($land[0], 0, ',', ' '); ?> m<sup>2</sup><br/>
+			</td>
+
+			<td width="50%">
+				<a href="/inbox/"><?php if($new_messages[0] > 0):?> <span style="color:#ff0000"><?php echo $new_messages[0];?></span> 
+				new message<?php if($new_messages[0] > 1 || $new_messages[0] == 0){echo 's';}?> <?php else:?> <?php echo $new_messages[0];?> 
+				new message<?php if($new_messages[0] > 1 || $new_messages[0] == 0){echo 's';}?> <?php endif;?></a><hr/>
+				<strong>Money:</strong> $ <?php echo number_format($totalmoney[0], 0, ',', ' '); ?><br/>
+				<strong>Networth:</strong> $ <?php echo number_format($networth[0], 0, ',', ' '); ?><br/>
+				<strong>Sat. power:</strong> <?php echo $sat_morale; ?>%<br/>
+			</td>
+		</tr>
+	</table>
+</div>
