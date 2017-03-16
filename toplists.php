@@ -184,4 +184,42 @@
 		
 	<?php } ?>
 	</table><br/>
+
+<?php
+		
+		$args = array(
+	'meta_key'     => 'nw_damage_defender',
+	'posts_per_page'	=> 200,
+	'post_type'		=> 'event_local',
+	'orderby'      => 'meta_value_num',
+	'order'        => 'DESC',);
 	
+	$attacks = get_posts($args); ?>
+	
+	
+	<strong>Medal of Devastation</strong>
+	<table>
+	<?php 
+		$users = array();
+		$count = 0;
+		foreach ($attacks as $attack) {
+		
+		$user_ID = $attack->post_author;
+		if(!in_array($user_ID, $users)){
+		$count++;
+		$member_data = get_userdata($user_ID);
+		$damage = get_post_meta($attack->ID, 'nw_damage_defender', true)?>
+		<tr>
+			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)
+			</td>
+			<td>$ <?php echo number_format($damage, 0, ',', ' '); ?>
+			</td>
+		</tr>
+		
+		
+	<?php 
+		
+		$users[] = $user_ID;
+		if($count == 10){die;}
+		}} ?>
+	</table><br/>
