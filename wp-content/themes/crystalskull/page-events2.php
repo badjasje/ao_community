@@ -15,40 +15,102 @@ get_header(); ?>
 <div class="page normal-page">
      <div class="container">
 	     
-	    <div class="row battlereport-header">
-		<div class="col-md-12"><img class="attack-image" src="http://assault.online/wp-content/uploads/2016/03/missile.png"> Battle report - Regular attack <span class="hover-tip" data-toggle="tooltip" data-original-title="$20 000 networth damage done" data-placement="right">
-								<i class="fa fa-info-circle" aria-hidden="true"></i>
-								</span></div>
-		</div>
-	    <div class="row event-row">
-		<div class="col-md-2">
-			<div class="row">
-				<div class="col-md-12"><div class="attack-profile-image" style="background: url(&quot;http://assault.online/wp-content/uploads/2017/01/giphy-1.gif&quot;);background-size: cover;"></div>
-				</div>
-			</div>
-			
-		</div>
-		<div class="col-md-10">
-			<div class="row">
-				<div class="col-md-12 event-message">You were attacked by [Crim] Criminal Disaster (#283) and you lost the battle.<br/>In this attack 95 m2 and $ 8 979 was stolen. 
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12 event-result"><strong>Attacker losses: 208 units</strong><br/>
-Grenade Soldier: 41, Navy Seal: 35, Rifle infantry: 71, FIM-92 stinger: 61, <br/><br/>
-
-<strong>Defender losses: 34 units and 13 buildings.</strong><br/>
-B2 Stealth Bomber: 19, M2 Bradley: 15, Airfield: 3, Warfactory: 1, Powerplant: 3, Torpedo Launcher: 2, SAM Site: 1, Missile Turret: 1, Machinegun Turret: 2,
-				</div>
-			</div>
+<div class="row">
+	<div class="col-md-4 medal_col">
+		<div class="row medal_box">
+			<div class="col-md-12 medal_header"><strong>Medal of Earth</strong></div>
+			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moe_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moe_next', true);?> m<sup>2</sup></div>
+			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moe_prev', true);?> m<sup>2</sup></div>
 		</div>
 	</div>
+	
+	<div class="col-md-4 medal_col">
+		<div class="row medal_box">
+			<div class="col-md-12 medal_header"><strong>Medal of Honor</strong></div>
+			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moh_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moh_next', true);?> pts</div>
+			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moh_prev', true);?> pts</div>
+		</div>
+	</div>
+	
+	<div class="col-md-4 medal_col">
+		<div class="row medal_box">
+			<div class="col-md-12 medal_header"><strong>Medal of Growth</strong></div>
+			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'mog_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'mog_next', true), 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'mog_prev', true), 0, ',', ' ');?></div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="col-md-4 medal_col">
+		<div class="row medal_box">
+			<div class="col-md-12 medal_header"><strong>Medal of Courage</strong></div>
+			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moc_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moc_next', true);?> attacks</div>
+			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moc_prev', true);?> attacks</div>
+		</div>
+	</div>
+	
+	<div class="col-md-4 medal_col">
+		<div class="row medal_box">
+			<div class="col-md-12 medal_header"><strong>Medal of Death</strong></div>
+			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'mod_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'mod_next', true);?> kills</div>
+			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'mod_prev', true);?> kills</div>
+		</div>
+	</div>
+	
+	<div class="col-md-4 medal_col">
+		<div class="row medal_box">
+			<div class="col-md-12 medal_header"><strong>Medal of Thievery</strong></div>
+			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'mot_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'mot_next', true), 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'mot_prev', true), 0, ',', ' ');?></div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-4 medal_col">
+		<div class="row medal_box">
+			<div class="col-md-12 medal_header"><strong>Medal of Destruction</strong></div>
+			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'modes_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'modes_next', true), 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'modes_prev', true), 0, ',', ' ');?></div>
+		</div>
+	</div>
+	
+</div>
 	     
 	     
-	     
-	     
-	     
-	     
+	     <br/><br/><br/>
 	     
 	     
 	     
