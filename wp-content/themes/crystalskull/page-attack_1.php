@@ -197,13 +197,39 @@ get_header(); ?>
 				<tr>
 				
 				<td colspan="2">
-	
-				<div class="styled-select slate">
-				<select id="attackmode" name="attackmode">
-				  <option name="attackmode" value="normal">Normal</option>
-				  <option name="attackmode" value="aggressive">Aggressive (Higher gain and higher loss. Costs 10% extra morale.)</option>
-				</select>
+				
+				<div class="row">
+				<div class="col-md-6">
+					<div class="styled-select slate">
+						<select id="attackmode" name="attackmode">
+							<option name="attackmode" value="normal">Normal</option>
+							<option name="attackmode" value="aggressive">Aggressive (Higher gain and higher loss. Costs 10% extra morale.)</option>
+						</select>
+					</div>
 				</div>
+				
+				<div class="col-md-6">
+					<div class="styled-select slate">
+						<select id="maintarget" name="maintarget">
+							<option name="maintarget" value="none">-- none --</option>
+							<option name="maintarget" value="power">Power plants</option>
+							<option name="maintarget" value="silo">Missile silos</option>
+							<option name="maintarget" value="command">Command centres</option>
+							<option name="maintarget" value="shipyard">Shipyards</option>
+							<option name="maintarget" value="airfield">Airfields</option>
+							<option name="maintarget" value="barracks">Barracks</option>
+							<option name="maintarget" value="warfactory">Warfactories</option>
+							<option name="maintarget" value="defense">Defense buildings</option>
+							<option name="maintarget" value="ams">Anti-Missile System</option>
+						</select>
+					</div>
+				</div>
+				</div>
+				
+				
+				
+				
+				
 				</td>
 				</tr>
 		</table>	
