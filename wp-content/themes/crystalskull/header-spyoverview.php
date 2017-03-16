@@ -11,27 +11,29 @@
     if(!is_user_logged_in()){
 	    wp_redirect(get_permalink(3491));
     }
-$user_ID = get_current_user_ID();
-$new_events = get_user_meta($user_ID, 'new_events');
-$new_global_events = get_user_meta($user_ID, 'new_global_events',true);
-$new_messages = get_user_meta($user_ID, 'new_messages');
-$user_status = get_user_meta($user_ID, 'status');
-$nuke_protection_timestamp = get_user_meta($user_ID,'nuke_protection_timestamp');
-$clan_ID = get_user_meta($user_ID, 'clan_id_user')[0];
+$user_ID 					= 	get_current_user_ID();
 
-$level_money_production = get_user_meta($user_ID, 'level_money_production',true);
-$sat_level = get_user_meta($user_ID, 'level_satellite_construction',true);
-$sat_morale = get_user_meta($user_ID, 'sat_morale',true);
+$new_events 				= 	get_user_meta($user_ID, 'new_events',true);
+$new_global_events 			= 	get_user_meta($user_ID, 'new_global_events',true);
+$new_messages 				= 	get_user_meta($user_ID, 'new_messages',true);
+$user_status 				= 	get_user_meta($user_ID, 'status',true);
+$nuke_protection_timestamp 	= 	get_user_meta($user_ID,'nuke_protection_timestamp',true);
+$clan_ID 					= 	get_user_meta($user_ID, 'clan_id_user',true);
 
-$morale = get_user_meta($user_ID, 'morale',true);
-$moralepool = get_user_meta($user_ID, 'morale_pool',true);
-$totalmoney = get_user_meta($user_ID, 'money');
-	$networth = get_user_meta($user_ID, 'networth');
-	$turns = get_user_meta($user_ID, 'turns');
-	$morale = get_user_meta($user_ID, 'morale');
-	$moralepool = get_user_meta($user_ID, 'morale_pool');
-	$land = get_user_meta($user_ID, 'land');
-	$builtland = get_user_meta($user_ID, 'builtland');
+$level_money_production 	= 	get_user_meta($user_ID, 'level_money_production',true);
+$sat_level 					= 	get_user_meta($user_ID, 'level_satellite_construction',true);
+$sat_morale 				= 	get_user_meta($user_ID, 'sat_morale',true);
+
+$morale 					= 	get_user_meta($user_ID, 'morale',true);
+$moralepool					= 	get_user_meta($user_ID, 'morale_pool',true);
+$totalmoney 				= 	get_user_meta($user_ID, 'money',true);
+$networth 					= 	get_user_meta($user_ID, 'networth',true);
+$turns 						= 	get_user_meta($user_ID, 'turns',true);
+$morale 					= 	get_user_meta($user_ID, 'morale',true);
+$moralepool 				= 	get_user_meta($user_ID, 'morale_pool',true);
+$land 						= 	get_user_meta($user_ID, 'land',true);
+$builtland 					= 	get_user_meta($user_ID, 'builtland',true);
+
 if($user_status[0] == 'dead'){
 	
 	after_death($user_ID);
@@ -40,7 +42,7 @@ $user = get_userdata($user_ID);
 	?>
 
     <?php include_once 'css/colours.css.php'; ?>
-	<?php $currentlang = apply_filters( "wpml_home_url", esc_url(home_url('/')));  ?>
+
 
 <?php wp_head(); 	
 ?>
@@ -152,39 +154,117 @@ $user = get_userdata($user_ID);
 
 <div class="after-nav ">
 
-	<!-- Desktop View -->
 
-	<div class="container globalstats">
-		<div class="statitem"><strong>Money:</strong> $ <?php echo number_format($totalmoney[0], 0, ',', ' '); ?></div>
-		<div class="statitem"><strong>Networth:</strong> $ <?php echo number_format($networth[0], 0, ',', ' '); ?></div> 
-		<div class="statitem"><strong>Turns:</strong> <?php echo $turns[0]; ?></div>
-		<div class="statitem"><strong>Morale:</strong> <?php echo $morale[0]; ?>% <sup>(<?php echo $moralepool[0];?>%)</sup></div>
-		<div class="statitem"><strong>Land:</strong> <?php echo number_format($land[0], 0, ',', ' '); ?> m<sup>2</sup></div>
-		<div class="statitem"><strong>Sat. power:</strong> <?php echo $sat_morale; ?>%</div>
-	</div>
-            
-	<!-- mobile view -->
+
+<div class="container globalstats">
+
 	
-	<table class="statsmobile" style="border:none;width:350px;margin-left:auto;margin-right:auto;">
-		<tr>
-			<td width="50%">
-				<a href="/events/incoming/"><?php if($new_events[0] > 0):?> <span style="color:#ff0000"><?php echo $new_events[0];?></span> 
-				new event<?php if($new_events[0] > 1 || $new_events[0] == 0){echo 's';}?> <?php else:?> <?php echo $new_events[0];?> 
-				new event<?php if($new_events[0] > 1 || $new_events[0] == 0){echo 's';}?> <?php endif;?></a><hr/>
-				<strong>Turns:</strong> <?php echo $turns[0]; ?><br/>
-				<strong>Morale:</strong> <?php echo $morale[0]; ?>% <sup>(<?php echo $moralepool[0];?>%)</sup><br/>
-				<strong>Land:</strong> <?php echo number_format($land[0], 0, ',', ' '); ?> m<sup>2</sup><br/>
-			</td>
+            
+	<!-- Desktop view -->
+	
+	
+	<div class="row statsdesktop">
+		
+		<div class="col-md-2">
+			<ul class="list-group desktopitem">
+				<li class="list-group-item">
+					<strong>Money:</strong> $ <?php echo number_format($totalmoney, 0, ',', ' '); ?>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-2">
+			<ul class="list-group desktopitem">
+				<li class="list-group-item">
+					<strong>Networth:</strong> $ <?php echo number_format($networth, 0, ',', ' '); ?>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-2">
+			<ul class="list-group desktopitem">
+				<li class="list-group-item">
+					<strong>Turns:</strong> <?php echo $turns; ?>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-2">
+			<ul class="list-group desktopitem">
+				<li class="list-group-item">
+					<strong>Morale:</strong> <?php echo $morale; ?>% <sup>(<?php echo $moralepool;?>%)</sup>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-2">
+			<ul class="list-group desktopitem">
+				<li class="list-group-item">
+					<strong>Land:</strong> <?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-2">
+			<ul class="list-group desktopitem">
+				<li class="list-group-item">
+					<strong>Sat. power:</strong> $ <?php echo $sat_morale; ?>%
+				</li>
+			</ul>
+		</div>
+	
+		
 
-			<td width="50%">
-				<a href="/inbox/"><?php if($new_messages[0] > 0):?> <span style="color:#ff0000"><?php echo $new_messages[0];?></span> 
-				new message<?php if($new_messages[0] > 1 || $new_messages[0] == 0){echo 's';}?> <?php else:?> <?php echo $new_messages[0];?> 
-				new message<?php if($new_messages[0] > 1 || $new_messages[0] == 0){echo 's';}?> <?php endif;?></a><hr/>
-				<strong>Money:</strong> $ <?php echo number_format($totalmoney[0], 0, ',', ' '); ?><br/>
-				<strong>Networth:</strong> $ <?php echo number_format($networth[0], 0, ',', ' '); ?><br/>
-				<strong>Sat. power:</strong> <?php echo $sat_morale; ?>%<br/>
-			</td>
-		</tr>
-	</table>
+	</div>
+	
+	<!-- Mobile view -->
+	<div class="row statsmobile">
+		<div class="col-xs-6 mobilestatblock">
+			<ul class="list-group listitem_smallspace">
+				<li class="list-group-item statitem">
+					<a href="/events/incoming/">Events <span class="badge"><?php echo $new_events;?></span></a>
+				</li>
+				
+			</ul>
+		</div>
+		
+		<div class="col-xs-6 mobilestatblock">
+			<ul class="list-group listitem_smallspace">
+				<li class="list-group-item statitem">
+					<a href="/inbox/">Messages <span class="badge"><?php echo $new_messages;?></span></a>
+				</li>
+				
+			</ul>
+		</div>
+
+		
+		<div class="col-xs-6 mobilestatblock">
+			<ul class="list-group desktopitem">
+				<li class="list-group-item statitem">
+					<strong>Money:</strong> $ <?php echo number_format($totalmoney, 0, ',', ' '); ?>
+				</li>
+				<li class="list-group-item statitem">
+					<strong>Networth:</strong> $ <?php echo number_format($networth, 0, ',', ' '); ?>
+				</li>
+				<li class="list-group-item statitem">
+					<strong>Turns:</strong> <?php echo $turns; ?>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="col-xs-6 mobilestatblock">
+			<ul class="list-group desktopitem">
+				<li class="list-group-item statitem">
+					<strong>Morale:</strong> <?php echo $morale;?>%
+				</li>
+				<li class="list-group-item statitem">
+					<strong>Land:</strong> <?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup>
+				</li>
+				<li class="list-group-item statitem">
+					<strong>Sat. power:</strong> <?php echo $sat_morale; ?>%
+				</li>
+			</ul>
+		</div>
+		
+
+	</div>
+
+	
 </div>
+	</div>
 

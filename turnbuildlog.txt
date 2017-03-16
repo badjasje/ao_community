@@ -6732,3 +6732,6 @@ ID: 2
 Units ordered: b2_bomber 40
 >>>>>>> Sat stuff
 
+ID: 1
+Units ordered: b2_bomber 4200
+

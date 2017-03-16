@@ -4126,7 +4126,7 @@ body #matches .profile-fimage.match-fimage {
     height: auto;
 }
 div[class*=col] {
-    width: 100%!important;
+    /*width: 100%!important;*/
 }
 body .clan-page .clan-nav {
     margin-top: 20px;

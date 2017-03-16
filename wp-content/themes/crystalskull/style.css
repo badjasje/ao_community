@@ -409,9 +409,8 @@ ul.tabs{
 .globalstats{
 	text-align: center;
 }
-.statitem{
-	display: inline;
-	margin-right:5%
+.statsdesktop{
+	display: block;
 }
 .statsmobile{
 	display: none;
@@ -423,13 +422,21 @@ ul.tabs{
     color: #fff;
     background-color: #3b5998;
 }
-
+.desktopitem{
+	margin-bottom: 0px !important;
+}
+.listitem_smallspace{
+	margin-bottom: 10px !important;
+}
 @media (max-width: 800px) {
-  	.globalstats{
-	display: none;
+	.statitem{
+		padding:10px 3px !important;
 	}
+  	.statsdesktop{
+	  	display: none;
+  	}
 	.statsmobile{
-		display: table;
+		display: block;
 	}
 	.facebookbutton{
 	padding: 5px; 10px;
@@ -923,4 +930,19 @@ table{
     background-color: #fff;
     border: 1px solid #ddd;
     margin-top:11px;
+}
+.medal_col{
+	margin-bottom:20px;
+}
+.medal_box{
+	border: 1px solid #132a3a;
+	background-color:#fff;
+}
+.medal_header{
+	background-color:#132a3a;
+	padding:5px 12px;
+	color:#fff;
+}
+.medal_row{
+	padding:5px 12px;
 }

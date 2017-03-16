@@ -37,7 +37,7 @@ input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, in
 	color:<?php echo of_get_option('primary_color'); ?> !important;
 }
 
-.single-product.woocommerce .single_add_to_cart_button, .after-nav, .gallery-item a img, .match-map .map-image img, .nextmatch_wrap:hover img, .wrap:hover .clan1img, .matchimages img, .dropdown-menu, .widget .clanwar-list > li:first-child, .footer_widget .clanwar-list > li:first-child{
+.single-product.woocommerce .single_add_to_cart_button, .gallery-item a img, .match-map .map-image img, .nextmatch_wrap:hover img, .wrap:hover .clan1img, .matchimages img, .dropdown-menu, .widget .clanwar-list > li:first-child, .footer_widget .clanwar-list > li:first-child{
 	border-color:<?php echo of_get_option('primary_color'); ?> !important;
 }
 
