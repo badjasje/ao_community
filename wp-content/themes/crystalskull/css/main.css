@@ -839,8 +839,7 @@ body .ubermenu-sub-indicators .ubermenu-submenu .ubermenu-has-submenu-drop>.uber
     position: relative;
     z-index: 1;
     padding: 0;
-    margin-top: -30px;
-    margin-bottom: 50px;
+    margin-top: -75px;
 }
 
 .title_wrapper .col-lg-12 {
