@@ -229,6 +229,89 @@ foreach ($bonuses as $bonus) {
 }
 
 
+/* Get all current wars */
+
+$wars = get_posts(array(
+	'numberposts'	=> -1,
+	'post_status'   => 'publish',
+	'post_type'		=> 'wars',
+
+));
+
+
+
+foreach ($wars as $war) {
+	
+	/* get war declared time */
+	$war_time = $war->post_title;
+	
+	/* check if 3 days have passed */
+	if($war_time+(86400*3) < $timestamp){
+		
+		$declarer_clan_ID = get_post_meta($war->ID, 'declared_by', true);
+		$declarer_ID = get_post_meta($declarer_clan_ID, 'clan_leader', true);
+		
+		$declared_on = get_post_meta($war->ID, 'declared_on', true);
+		$def_clan_leader = get_post_meta($declared_on, 'clan_leader', true);
+		
+		
+		/* Create peace event */
+		$args = array(	
+			'post_title'    => 'PEACE',
+			'post_status'   => 'publish',
+			'post_type'		=> 'event_local',
+			'post_author'   => 1
+			);
+			$new_event_id = wp_insert_post( $args );
+
+
+			update_field('attacktype','peace_declared', $new_event_id);
+
+			update_field('attacker_clan_id',$declarer_clan_ID, $new_event_id);
+			update_field('defender_clan_id',$declared_on, $new_event_id);
+
+			update_field('attacker_id',$declarer_ID, $new_event_id);
+			update_field('defender_id',$def_clan_leader, $new_event_id);
+
+			update_field('time_attacked',$timestamp, $new_event_id);
+
+/* add clan to cooldown list */
+$cooldownlist = get_post_meta($declarer_clan_ID, 'cooldown_list', true);
+
+$clan_ID = $declared_on;
+
+$cooldownlist[$clan_ID] = $timestamp+(48 * 3600);
+update_post_meta($declarer_clan_ID, 'cooldown_list',$cooldownlist );
+
+
+/* update events */
+
+$clan_members = get_post_meta($declared_on,'clan_members');
+
+foreach ($clan_members[0] as $member) {
+	$globals = get_user_meta($member, 'new_global_events', true);
+	update_user_meta($member, 'new_global_events', $globals+1);
+}
+
+
+$clan_members2 = get_post_meta($declarer_clan_ID,'clan_members');
+
+foreach ($clan_members2[0] as $member2) {
+	$globals = get_user_meta($member2, 'new_global_events', true);
+	update_user_meta($member2, 'new_global_events', $globals+1);
+}	
+	
+	
+	
+wp_trash_post($war->ID);
+		
+		
+		
+	}
+	
+	
+	
+	}
 
 		
 	} // Closure Pause/Live statement
