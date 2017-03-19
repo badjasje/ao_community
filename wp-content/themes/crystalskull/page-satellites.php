@@ -8,6 +8,13 @@ $sat_level = get_user_meta($user_ID, 'level_satellite_construction',true);
 $sat_owned = get_user_meta($user_ID, 'sat_owned',true);
 $sat_progress = get_user_meta($user_ID, 'sat_in_progress',true);
 $sat_endlife = get_user_meta($user_ID, 'sat_endlife',true);
+$sat_status = get_user_meta($user_ID, 'stealth_sat_status',true);
+$stealth_sat_time = get_user_meta($user_ID, 'stealth_sat_time',true);
+
+
+
+
+
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
@@ -28,6 +35,8 @@ get_header(); ?>
 				<div class="marketnotice insuffunds">Insufficient funds</div>
 			<?php elseif($_SESSION['status'] == 6):?>
 				<div class="marketnotice">Satellite ordered</div>
+			<?php elseif($_SESSION['status'] == 999):?>
+			<div class="marketnotice">Stealth satellite activated</div>
 			<?php elseif($_SESSION['status'] == 12):?>
 				<div class="marketnotice insuffunds">Enter a valid number</div>
 			<?php endif;?><?php endif;?>
@@ -195,7 +204,19 @@ $timestamp = strtotime(date('Y-m-d H:i:s'));
 			$timeleft2 = date('H:i:s', $timeleft);
 			?>
 		<span class="rdw-line"><?php echo date('d', $timeleft);?> days</strong> and <strong><?php echo $timeleft2;}?></strong> before your satellite re-enters the atmosphere.</span></div>
+		<?php if($sat_owned == 'stealths'):?>
+			<?php if($sat_status == 'active'):?><br/>
+				<div class="notice_message"><span class="rdw-line">Stealth satellite active.</span><span class="rdw-line"><?php echo human_time_diff( $stealth_sat_time,$timestamp);?> before you need to reactivate. </span></div>
+			<?php else:?>
+			<br/>
+			<center>
+				<a class="btn btn-general" href="/activate_stealthsat.php" onclick="return confirm('Are you sure you want to activate your stealth satellite?')">
+				<i class="fa fa-power-off" aria-hidden="true"></i> Activate stealth satellite</a>
+			</center>
+				
+			<?php endif;?>
 		
+		<?php endif;?>
 		<?php endif;?>
 		<?php endif;?>
             

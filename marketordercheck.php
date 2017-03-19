@@ -11,12 +11,18 @@ foreach ($users as $user) {
 
 	$user_ID = $user->ID;	
 	
+	/* sat crash */
 	$sat_endlife = get_user_meta($user_ID, 'sat_endlife',true);
 	$timeleft = $sat_endlife-$timestamp;
 		if($timeleft >= 0){
 			update_user_meta($user_ID, 'sat_owned', 0);
 		}
-
+	/* deactivate stealth sat */
+	$stealth_sat_time = get_user_meta($user_ID, 'stealth_sat_time',true);
+	$timeleft = $stealth_sat_time-$timestamp;
+		if($timeleft >= 0){
+			update_user_meta($user_ID, 'stealth_sat_time', 'inactive');
+		}
 
 	
 	$args = array(

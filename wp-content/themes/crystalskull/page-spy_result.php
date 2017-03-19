@@ -4,7 +4,10 @@
  */
 $defender_ID = $_SESSION['target_id'];
 $succes = (rand(80,100));
-
+$sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
+if($sat_status == 'active'){
+	$succes = 100;
+}
 $clan_defender_id = get_user_meta($defender_ID, 'clan_id_user', true);
 $spytype = $_SESSION['attack_array']['sendspy'];
 	$turns = get_user_meta($user_ID, 'turns');
@@ -22,9 +25,10 @@ get_header(); ?>
         <div class="row">
             <div class="col-lg-12 col-md-12">
        
-			<?php if($_SESSION['attack_array']['sendspy'] == 'spy'):?>
-			<?php if($succes != 100):include('units_array.php');?>
-			<?php $winner_id = $user_ID;?>
+<?php if($_SESSION['attack_array']['sendspy'] == 'spy'):?>
+	<?php if($succes != 100):
+		include('units_array.php');?>
+		<?php $winner_id = $user_ID;?>
 			<center><h2>S U C C E S S</h2></center>
 			<div class="notice_message">
 			Your spy entered the base of <a href="/users/profile/?id=<?php

@@ -47,6 +47,49 @@ if($turns < 2){
 	
 }
 
+<<<<<<< HEAD
+=======
+$thief_level = get_user_meta($user_ID, 'level_thieving_effectiveness',true);
+
+if($thief_level == 0){
+$money_stolen = ceil($defender_money*pow(1+((rand(10, 20) / 1000)),$no_thiefs))-$defender_money;
+$caught = rand(75, 100)+($no_thiefs*7)+($tot_snipers*0.39);
+}
+if($thief_level == 1){
+$money_stolen = ceil($defender_money*pow(1+((rand(20, 30) / 1000)),$no_thiefs))-$defender_money;
+$caught = rand(70, 100)+($no_thiefs*6)+($tot_snipers*0.39);
+}
+if($thief_level == 2){
+$money_stolen = ceil($defender_money*pow(1+((rand(30, 40) / 1000)),$no_thiefs))-$defender_money;
+$caught = rand(65, 100)+($no_thiefs*5)+($tot_snipers*0.39);
+}
+if($thief_level == 3){
+$money_stolen = ceil($defender_money*pow(1+((rand(40, 50) / 1000)),$no_thiefs))-$defender_money;
+$caught = rand(50, 100)+($no_thiefs*2.5)+($tot_snipers*0.39);
+}
+
+if($defender_money <= $money_stolen){
+	$money_stolen = $defender_money;
+}
+
+$result = 'success';
+if($caught > 90){
+	$result = 'failure';
+}
+
+if ($defender_money == 0) {
+    $money_stolen = 0;
+}
+
+
+if($sat_status == 'active'){
+	$result = 'failure';
+}
+
+$networth_att = get_user_meta($user_ID, 'networth',true);
+$networth_def = get_user_meta($defender_ID, 'networth',true);
+
+>>>>>>> Stealth Satellite implementation
 
 /* Check if in range */
 

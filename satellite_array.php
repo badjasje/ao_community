@@ -13,12 +13,12 @@
 			'networth'		=>	14,
 			'name'			=>	'Communication Satellite',
 			'desc'			=>	'Additional 10% attack power for units attacking',
-			'attack'		=>	0),
-    'stealth' 		=> array(
-			'price'			=>	'750000',
+			'attack'		=>	0), */
+    'stealths' 		=> array(
+			'price'			=>	'450000',
 			'networth'		=>	14,
 			'name'			=>	'Stealth satellite',
-			'desc'			=>	'Gain the ability to hide defend your base from special units with a success rate of 100%',
+			'desc'			=>	'When activated, the Stealth Satellite will hide your base from enemy spies, thieves, snipers, laser beam satellites and EMP satellites.  It hides your base for 7 hours.'),/*
 			'attack'		=>	0),
 	'spysat' 		=> array(
 			'price'			=>	'500000',
