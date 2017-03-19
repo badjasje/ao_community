@@ -21,7 +21,7 @@ if($target_status == 'dead'){
 	exit;
 }
 
-$shootdown_chance = (($AMS*125)/$def_land)*100;
+$shootdown_chance = (($AMS*100)/$def_land)*100;
 
 if($shootdown_chance > 75){
 	$shootdown_chance = 75;
