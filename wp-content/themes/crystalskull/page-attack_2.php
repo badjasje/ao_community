@@ -20,9 +20,7 @@ if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
 	
 $attackUserId = $_SESSION['target_id'];
 count_all_stats($attackUserId);
-echo '<pre>';
-print_r($_SESSION);
-echo '</pre>';
+
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">

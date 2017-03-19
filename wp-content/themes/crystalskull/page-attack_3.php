@@ -15,9 +15,7 @@ if($attack_type == 'regular'){ $attack_name = 'Regular attack'; }
 if($attack_type == 'missile'){ $attack_name = 'Launching missile'; }
 if($attack_type == 'spy'){ $attack_name = 'Spying'; }
 if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
-echo '<pre>';
-print_r($_SESSION);
-echo '</pre>';
+
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
