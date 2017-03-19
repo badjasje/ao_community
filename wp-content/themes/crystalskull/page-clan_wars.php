@@ -37,7 +37,7 @@ get_header(); ?>
 	       
            <div class="notice_message">
 	           <span class="rdw-line">This is where you manage your clan wars.</span>
-	           <span class="rdw-line">After 24 hours you are able to declare peace with a clan</span>
+	           <span class="rdw-line">After 24 hours you are able to declare peace with a clan. A war will auto peace after 72 hours.</span>
 	           <span class="rdw-line">You can target clans with a networth between <?php echo GameUtil::format_networth($clan_networth/1.4); ?> and <?php echo GameUtil::format_networth($clan_networth*1.4);?></span>
            </div><br/>
 
