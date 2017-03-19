@@ -71,6 +71,12 @@ if ($oldmorale < 5) {
 
 $success = do_thief($level, $no_thiefs, $tot_snipers, $defender_money);
 
+$sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
+if($sat_status == 'active'){
+	$success = 0;
+	
+}
+
 
 get_header(); ?>
 <div class="page normal-page">
@@ -253,7 +259,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 	
 	$dice = ($thieves * $thief_multiplier) + $snipersHit;
 	/* Debug stuff.. uncomment to enable 
-	*/
+	
 	echo "successNo:".$randMax."<br/>";
 	echo "thieves:".$thieves."<br/>";
 	echo "snipers:".$snipers."<br/>";
@@ -262,6 +268,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 	echo "dice:".$dice."<br/>";
 	echo "thiefChance:".(100-$dice)."<br/>";
 	echo "cashMultiplier:".$cashMultiplier."<br/>";
+	*/
 	
 	
 	if ($randMax > $dice) {

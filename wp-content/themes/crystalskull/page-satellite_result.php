@@ -90,6 +90,12 @@ $blddamage = rand (6500,8000);
 update_user_meta($user_ID,'sat_morale',$sat_morale-100);
 $result = 'success';
 
+$sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
+if($sat_status == 'active'){
+	$result = 'failure';
+	
+}
+
 
 
     // KILLING BUILDINGS OF DEFENDER //

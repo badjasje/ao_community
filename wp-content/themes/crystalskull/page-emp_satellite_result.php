@@ -88,6 +88,12 @@ if (!$in_range) {
 
 $result = 'success';
 
+$sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
+if($sat_status == 'active'){
+	$result = 'failure';
+	
+}
+
 
 include('units_array.php');
 include('building_array.php');

@@ -9,6 +9,13 @@ $clan_defender_id = get_user_meta($defender_ID, 'clan_id_user', true);
 $spytype = $_SESSION['attack_array']['sendspy'];
 	$turns = get_user_meta($user_ID, 'turns');
 	update_user_meta($user_ID,'turns',$turns[0]-1);
+	
+$sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
+if($sat_status == 'active'){
+	$success = 100;
+	
+}
+	
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
