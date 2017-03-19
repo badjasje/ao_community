@@ -253,15 +253,15 @@ $buildings = array(
 	'advancedpowerplant' => array(
 			'price'			=>	'1300',
 			'networth'		=>	6,
-			'description'	=>	"Produces 18000 power.",
+			'description'	=>	"Produces 15000 power.",
 			'normalname'	=>	'Advanced Powerplant',
 			'targetname'	=> 	'power',
 			'attacks'		=>  array(),
 			'attack'		=>	0,
 			'type'			=>	'bds',
-			'powerprod'		=>	18000,
+			'powerprod'		=>	15000,
 			'power'			=> 	0,
-			'life'			=>	55),
+			'life'			=>	50),
 	
 	'torpedolauncher'	=> array(
 			'price'			=>	'1580',
@@ -273,7 +273,7 @@ $buildings = array(
 			'type'			=>	'bds',
 			'powerprod'		=>	0,
 			'power'			=>	750,
-			'life'			=>	400),
+			'life'			=>	360),
 	
 	'samsite'			=> array(
 			'price'			=>	'1495',
@@ -285,7 +285,7 @@ $buildings = array(
 			'type'			=>	'bds',
 			'powerprod'		=>	0,
 			'power'			=>	600,
-			'life'			=>	360),
+			'life'			=>	330),
 	
 	'missileturret'		=> array(
 			'price'			=>	'1500',
@@ -297,7 +297,7 @@ $buildings = array(
 			'type'			=>	'bds',
 			'powerprod'		=>	0,
 			'power'			=>	550,
-			'life'			=>	380),
+			'life'			=>	340),
 	
 	'machinegunturret'	=> array(
 			'price'			=>	'1465',
@@ -309,19 +309,19 @@ $buildings = array(
 			'type'			=>	'bds',
 			'powerprod'		=>	0,
 			'power'			=>	700,
-			'life'			=>	340),
+			'life'			=>	300),
 	
 	'antimissile'		=> array(
 			'price'			=>	'5000',
 			'networth'		=>	14,
 			'normalname'	=>	'Anti-Missile System',
 			'targetname'	=> 	'ams',
-			'description'	=>	'Every Anti-Missile System protects 150m2 of your built land.',
+			'description'	=>	'Every Anti-Missile System protects 100m2 of your built land.',
 			'attacks'		=>  array('mis'),
 			'attack'		=>	0,
 			'type'			=>	'bds',
 			'powerprod'		=>	0,
-			'power'			=>	425,
+			'power'			=>	2400,
 			'life'			=>	390),
 );
 
