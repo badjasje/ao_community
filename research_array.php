@@ -39,8 +39,10 @@
 			'duration'				=>	'5'),
 	'market_discount'			=> array(
 			'name'					=> 'Market discount',
-			'level1'				=> '15% discount on all units purchased from the market',
-			'level2'				=> '30% discount on all units purchased from the market',
+			'level1'				=> '{value}% discount on all units purchased from the market',
+			'level1_value'          => '15',
+			'level2'				=> '{value}% discount on all units purchased from the market',
+			'level2_value'          => '30',
 			'maxlevel'				=> 2,
 			'description'			=> 'Decreases market prices',
 			'duration'				=>	'5'),
