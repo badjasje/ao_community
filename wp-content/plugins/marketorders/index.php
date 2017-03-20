@@ -239,7 +239,7 @@ update_user_meta($user_id, 'clan_id_user', 0);
 update_user_meta($user_id, 'new_events', 0);
 update_user_meta($user_id, 'status', 'nukeprotection');
 $timestamp = strtotime(date('Y-m-d H:i:s'));
-update_user_meta($user_id, 'nuke_protection_timestamp', $timestamp+(12 * 3600));
+update_user_meta($user_id, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
 update_user_meta($user_id, 'sat_in_progress', 0);
 update_user_meta($user_id, 'sat_owned', 0);
 update_user_meta($user_id, 'total_deposits', 0);
