@@ -6735,3 +6735,27 @@ Units ordered: b2_bomber 40
 ID: 1
 Units ordered: b2_bomber 4200
 
+ID: 655
+Units ordered: b2_bomber 193
+
+ID: 655
+Units ordered: b2_bomber 300
+
+ID: 714
+Units ordered: spyplane 20
+
+ID: 714
+Units ordered: spyplane 20
+
+ID: 714
+Units ordered: spyplane 10
+
+ID: 569
+Units ordered: sniper 25
+
+ID: 569
+Units ordered: sniper 75
+
+ID: 569
+Units ordered: thief 23
+

@@ -8118,3 +8118,15 @@ ID: 176
 Units sold: 300
 Type: navy
 
+ID: 714
+Units sold: 20
+Type: spyplane
+
+ID: 714
+Units sold: 20
+Type: spyplane
+
+ID: 714
+Units sold: 10
+Type: spyplane
+

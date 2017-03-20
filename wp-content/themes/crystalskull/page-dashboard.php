@@ -87,7 +87,7 @@ $user = get_userdata($user_ID);
 				<div class="col-lg-12 col-md-12">
 					
 			<?php if(get_field('game_status','option') == 'Pause' && $user_ID != 1):?>
-			<div class="notice_message"><span class="rdw-line">The round has ended! Expect a new round on the 5th of february.</span></div><br/>
+			<div class="notice_message"><span class="rdw-line">The round has ended! Expect a new round on the 20th of march.</span></div><br/>
 			<?php else:?>
 			
 			
@@ -244,7 +244,7 @@ function updateETime() {
   };
 
 
-    days = Math.floor( diff / (1000*60*60*24) ),
+    days = Math.floor( diff / (1000*60*60*48) ),
     hours = Math.floor( diff / (1000*60*60) ),
     mins = Math.floor( diff / (1000*60) ),
     secs = Math.floor( diff / 1000 ),
@@ -256,6 +256,7 @@ function updateETime() {
 
     document.getElementById("countdown_time")
         .innerHTML =
+        
             pad(hh) + ':' + //' hours ' +
             pad(mm) + ':' + //' minutes ' +
             pad(ss) ; //+ ' seconds' ;
@@ -322,7 +323,7 @@ setInterval(updateETime, 1000 );
 							</tr>
 						</tbody>
 					</table>
-				<div class="notice_message">Current round date: 5th of February - 15th of March 2017. <span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on the 15th of March 2017, at a random time." data-placement="right">
+				<div class="notice_message">Current round date: 20th of March - 20th of April 2017. <span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on the 20th of April 2017, at a random time." data-placement="right">
 								<i class="fa fa-info-circle" aria-hidden="true"></i>
 								</span></div><br/>
 				

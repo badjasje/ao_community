@@ -233,7 +233,7 @@ if($war_type != 'none' && $result == 'success') {
 
 	if ($killed != true) {
 
-		$clan_points = 13 * log($def_NW_lost/1.4 / 400); 
+		$clan_points = 7.8 * log($def_NW_lost/1.4 / 400); 
 		
 		if($clan_points < 1){
 			$clan_points = 1;

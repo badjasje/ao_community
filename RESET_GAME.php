@@ -1,13 +1,13 @@
 <?php
-	
+	/*
 	// DELETE FROM `assauu_db1`.`23zx_posts` WHERE `23zx_posts`.`post_type` = 'event_local'   <- USE AS SQL COMMAND
-	/*require_once("wp-load.php");
+	require_once("wp-load.php");
 	include('units_array.php');
 	
 				$args = array(
 
 				'offset'       => 0,
-				'number'       => 600,
+				'number'       => 1000,
 
 			 ); 
 				
@@ -16,7 +16,9 @@
 				foreach ($users as $user) {
 					
 					$user_ID = $user->ID;
-					
+				//update_user_meta($user_ID, 'reset_status', 0);
+				
+				
 				update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
 				/*if(get_user_meta($user_ID, 'reset_status', true) == 0){
 			
@@ -131,11 +133,36 @@ update_user_meta($user_ID, 'queued_research', 0);
 update_user_meta($user_ID, 'sat_in_progress', 0);
 update_user_meta($user_ID, 'sat_owned', 0);
 
+// reset medal positioning //
+
+update_user_meta($user_ID,'moe_position',0);
+update_user_meta($user_ID,'moe_next',0);
+update_user_meta($user_ID,'moe_prev',0);
+update_user_meta($user_ID,'moh_position',0);
+update_user_meta($user_ID,'moh_next',0);
+update_user_meta($user_ID,'moh_prev',0);
+update_user_meta($user_ID,'mog_position',0);
+update_user_meta($user_ID,'mog_next',0);
+update_user_meta($user_ID,'mog_prev',0);
+update_user_meta($user_ID,'moc_position',0);
+update_user_meta($user_ID,'moc_next',0);
+update_user_meta($user_ID,'moc_prev',0);
+update_user_meta($user_ID,'mod_position',0);
+update_user_meta($user_ID,'mod_next',0);
+update_user_meta($user_ID,'mod_prev',0);
+update_user_meta($user_ID,'mot_position',0);
+update_user_meta($user_ID,'mot_next',0);
+update_user_meta($user_ID,'mot_prev',0);
+update_user_meta($user_ID,'modes_position',0);
+update_user_meta($user_ID,'modes_prev',0);
+update_user_meta($user_ID,'modes_next',0);
+
+
 update_user_meta($user_ID, 'reset_status', 1);
-				}*/
+				}
 				
 			
-				} 
+				} */
 
 
 
@@ -166,7 +193,7 @@ foreach ($clans as $clan) {
 	
 
 
-
+*/
 	
 	
 	
