@@ -5,8 +5,10 @@
 	'money_production' 			=> array(
 			'name'					=> 'Money production',
 			'description'			=> 'Increases hourly income',
-			'level1'				=> 'Income increased to $25 000 per hour',
-			'level2'				=> 'Income increased to $35 000 per hour',
+			'level1'				=> 'Income increased to {value} per hour',
+			'level1_value'          => 25000,
+			'level2'				=> 'Income increased to {value} per hour',
+			'level2_value'          => 35000,
 			'maxlevel'				=> 2,
 			'duration'				=>	'15'),
 	'missile_accuracy' 			=> array(

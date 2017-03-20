@@ -18,6 +18,11 @@ if ($startingbonus === 'shipping') {
 	$market_discount_bonus = 10;
 }
 
+$money_bonus = 0;
+if ($startingbonus === 'finance') {
+	$money_bonus = 10;
+}
+
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
@@ -84,6 +89,10 @@ get_header(); ?>
 								case 'market_discount':
 									$md_discount_research = $research[$level.'_value']+$market_discount_bonus;
 									echo str_replace('{value}', $md_discount_research, $research[$level]);
+									break;
+								case 'money_production':
+									$money_research = $research[$level.'_value'] * (1 + ($money_bonus / 100));
+									echo str_replace('{value}', GameUtil::format_money($money_research), $research[$level]);
 									break;
 								default:
 									echo $research[$level];
@@ -175,6 +184,10 @@ get_header(); ?>
 							case 'market_discount':
 								$md_discount_research = $research[$level.'_value']+$market_discount_bonus;
 								echo str_replace('{value}', $md_discount_research, $research[$level]);
+								break;
+							case 'money_production':
+								$money_research = $research[$level.'_value'] * (1 + ($money_bonus / 100));
+								echo str_replace('{value}', GameUtil::format_money($money_research), $research[$level]);
 								break;
 							default:
 								echo $research[$level];
@@ -306,6 +319,10 @@ setInterval(updateETime, 1000 );
 							case 'market_discount':
 								$md_discount_research = $research[$level.'_value']+$market_discount_bonus;
 								$research_effect = str_replace('{value}', $md_discount_research, $research[$level]);
+								break;
+							case 'money_production':
+								$money_research = $research[$level.'_value'] * (1 + ($money_bonus / 100));
+								$research_effect = str_replace('{value}', GameUtil::format_money($money_research), $research[$level]);
 								break;
 							default:
 								$research_effect = $research[$level];
