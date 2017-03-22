@@ -965,11 +965,11 @@ table{
 	width:100%;
 }
 .profile_row{
-	padding:5px;
+	padding:10px;
 	border-bottom:1px solid #ddd;
 }
 .profile_row_last{
-	padding:5px;
+	padding:10px;
 	
 }
 @media (max-width: 768px) {

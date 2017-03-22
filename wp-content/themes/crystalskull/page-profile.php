@@ -7,6 +7,9 @@ if(empty($user__ID)){
 	wp_redirect(get_permalink(3486));
 }
 $user = get_userdata($user__ID);
+if ( $user === false ) {
+	wp_redirect(get_permalink(3486));
+}
 count_all_stats($user__ID);
 $user_NW = get_user_meta($user__ID, 'networth',true);
 $user_land = get_user_meta($user__ID, 'land',true);
