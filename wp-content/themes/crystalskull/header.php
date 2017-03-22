@@ -220,7 +220,7 @@ $user = get_userdata($user_ID);
 		<div class="col-md-2">
 			<ul class="list-group desktopitem">
 				<li class="list-group-item">
-					<strong>Sat. power:</strong> $ <?php echo $sat_morale; ?>%
+					<strong>Sat. power:</strong> <?php echo $sat_morale; ?>%
 				</li>
 			</ul>
 		</div>

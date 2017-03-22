@@ -205,7 +205,7 @@ if(is_plugin_active('buddypress/bp-loader.php') && function_exists( 'bp_current_
 		<div class="col-md-2">
 			<ul class="list-group desktopitem">
 				<li class="list-group-item">
-					<strong>Sat. power:</strong> $ <?php echo $sat_morale; ?>%
+					<strong>Sat. power:</strong> <?php echo $sat_morale; ?>%
 				</li>
 			</ul>
 		</div>

@@ -513,16 +513,6 @@ setInterval(updateETime, 1000 );
 			
 		
 		
-		
-		
-		<br/>
-		<br/>
-		<center>
-			<a class="btn btn-general" href="/reset_province.php" onclick="return confirm('Are you sure you want to reset your province?')"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> &nbsp;RESET PROVINCE</a><br>
-		</center>
-		<?php if(current_user_can('activate_plugins')){ ?><br>
-		<br>
-
 <div class="row">
 	<div class="col-md-4 medal_col">
 		<div class="row medal_box">
@@ -616,6 +606,22 @@ setInterval(updateETime, 1000 );
 	</div>
 	
 </div>
+		
+		
+		<br/>
+		<br/>
+		<center>
+			<a class="btn btn-general" href="/reset_province.php" onclick="return confirm('Are you sure you want to reset your province?')"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> &nbsp;RESET PROVINCE</a><br>
+		</center>
+		
+
+
+
+
+
+		<?php if(current_user_can('activate_plugins')){ ?><br>
+		<br>
+
 		<center>
 			<h2>Message all users</h2>
 		</center>

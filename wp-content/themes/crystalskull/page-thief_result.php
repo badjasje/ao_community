@@ -47,8 +47,7 @@ if($turns < 2){
 	
 }
 
-<<<<<<< HEAD
-=======
+
 $thief_level = get_user_meta($user_ID, 'level_thieving_effectiveness',true);
 
 if($thief_level == 0){
@@ -89,7 +88,7 @@ if($sat_status == 'active'){
 $networth_att = get_user_meta($user_ID, 'networth',true);
 $networth_def = get_user_meta($defender_ID, 'networth',true);
 
->>>>>>> Stealth Satellite implementation
+
 
 /* Check if in range */
 
