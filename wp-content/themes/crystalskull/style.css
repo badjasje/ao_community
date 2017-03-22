@@ -946,3 +946,34 @@ table{
 .medal_row{
 	padding:5px 12px;
 }
+.profile_block{
+	border: 1px solid #ddd;
+	padding:20px;
+	background-color:#fff;
+	margin-bottom:20px;
+}
+.button_block{
+	border: 1px solid #ddd;
+	padding:10px 5px 8px 5px;
+	background-color:#fff;
+	margin-bottom:20px;
+}
+.buttoncol{
+	padding:0px 5px;
+}
+.profilebutton{
+	width:100%;
+}
+.profile_row{
+	padding:5px;
+	border-bottom:1px solid #ddd;
+}
+.profile_row_last{
+	padding:5px;
+	
+}
+@media (max-width: 768px) {
+.profile_block{
+	padding:20px 0px 0px 0px;
+}
+}
