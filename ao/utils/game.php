@@ -8,6 +8,10 @@ class GameUtil {
 	 * @return string
 	 */
 	public static function format_networth($networth) {
-		return sprintf('$ %s', number_format(ceil($networth), 0, ',', ' '));
+		return GameUtil::format_money(ceil($networth));
+	}
+
+	public static function format_money($money) {
+		return sprintf('$ %s', number_format($money, 0, ',', ' '));
 	}
 }

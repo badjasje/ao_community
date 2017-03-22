@@ -12,6 +12,17 @@ $research_reduce = 1;
 if($startingbonus == 'defensive'){
 	$research_reduce = 0.9;
 }
+
+$market_discount_bonus = 0;
+if ($startingbonus === 'shipping') {
+	$market_discount_bonus = 10;
+}
+
+$money_bonus = 0;
+if ($startingbonus === 'finance') {
+	$money_bonus = 10;
+}
+
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
@@ -69,16 +80,28 @@ get_header(); ?>
 					<?php echo $research['name'];?>
 				</th>
 				<td data-title="Effect">
-					<?php 
-						$current = get_user_meta($user_ID, 'level_'.$key,true);
-						
-						if($research['maxlevel'] != $current){
-						$level = 'level'.($current+1);
-						echo $research[$level];}
-						else{
-							echo '<strong>Maximum level reached.</strong>'; 
+					<?php
+						$current = get_user_meta($user_ID, 'level_' . $key, true);
+
+						$level = 'level' . ($current + 1);
+						if ($research['maxlevel'] != $current) {
+							switch ($key) {
+								case 'market_discount':
+									$md_discount_research = $research[$level.'_value']+$market_discount_bonus;
+									echo str_replace('{value}', $md_discount_research, $research[$level]);
+									break;
+								case 'money_production':
+									$money_research = $research[$level.'_value'] * (1 + ($money_bonus / 100));
+									echo str_replace('{value}', GameUtil::format_money($money_research), $research[$level]);
+									break;
+								default:
+									echo $research[$level];
+									break;
+							}
+						} else {
+							echo '<strong>Maximum level reached.</strong>';
 						}
-						?>
+					?>
 				</td>
 				<td data-title="Time">
 					<?php echo $research['duration']*$research_reduce;?> hours
@@ -140,7 +163,7 @@ get_header(); ?>
 							<th scope="col">Name</th>
 							<th scope="col">Effect</th>
 							<th scope="col">Time left</th>
-		
+							<th scope="col"></th>
 						</tr>
 					</thead>
 				<tbody>
@@ -151,51 +174,65 @@ get_header(); ?>
 					<?php echo $research['name'];?>
 				</th>
 				<td data-title="Effect">
-					<?php 
-						$current = get_user_meta($user_ID, 'level_'.$key,true);
-						
-						if($research['maxlevel'] != $current){
-						$level = 'level'.($current+1);
-						echo $research[$level];}
-						else{
-							echo '<strong>Maximum level reached.</strong>'; 
+					<?php
+					$current = get_user_meta($user_ID, 'level_' . $key, true);
+
+					if ($research['maxlevel'] != $current) {
+						$level = 'level' . ($current + 1);
+
+						switch ($key) {
+							case 'market_discount':
+								$md_discount_research = $research[$level.'_value']+$market_discount_bonus;
+								echo str_replace('{value}', $md_discount_research, $research[$level]);
+								break;
+							case 'money_production':
+								$money_research = $research[$level.'_value'] * (1 + ($money_bonus / 100));
+								echo str_replace('{value}', GameUtil::format_money($money_research), $research[$level]);
+								break;
+							default:
+								echo $research[$level];
+								break;
 						}
-						?>
+					} else {
+						echo '<strong>Maximum level reached.</strong>';
+					}
+					?>
 				</td>
 				
-					<?php 
-						
-						
-						$timestamp = strtotime(date('Y-m-d H:i:s'));
-					
-							$researchhours = $research['duration']*3600*$research_reduce;
-							foreach ($researches_in_progress as $research) {
-								
-								if($key == $research->post_content){
-								$researchtime_left = $research->post_title-$timestamp;
-								$progress = ($researchhours-$researchtime_left)/$researchhours*100;
-								
-								?><td data-title="Time">
-								<?php 
-									if($researchtime_left > 0){
-									echo '<span id="countdown_time"></span>';
-									}?>
-									
+					<?php
+
+
+					$timestamp = strtotime(date('Y-m-d H:i:s'));
+
+					$researchhours = $research['duration'] * 3600 * $research_reduce;
+					foreach ($researches_in_progress as $research) : ?>
+						<td data-title="Time">
+							<?php
+							if ($key == $research->post_content) {
+								$researchtime_left = $research->post_title - $timestamp;
+								$progress          = ($researchhours - $researchtime_left) / $researchhours * 100;
+
+								?>
+
+									<?php
+									if ($researchtime_left > 0) {
+										echo '<span id="countdown_time"></span>';
+									} ?>
 								</td>
 								<?php
-								
-								}if($research_queued == $key){
-									echo '<td><strong>Queued</strong></td>';}else{
-									echo '<td>&nbsp;</td>';
-								}}
-						
-						
-						
-						
+
+							}
+							?>
+						</td>
+						<?php
+						if ($research_queued == $key) {
+							echo '<td><strong>Queued</strong></td>';
+						} else {
+							echo '<td>&nbsp;</td>';
+						}
 					?>
-				
-			
-			
+
+					<?php endforeach; ?>
 			</tr>
 			<script>
 				 var
@@ -258,36 +295,52 @@ setInterval(updateETime, 1000 );
 					<?php echo $research['name'];?>
 				</th>
 				<td data-title="Effect">
-					<?php 
-						$current = get_user_meta($user_ID, 'level_'.$key,true);
-						
-						$queued = get_user_meta($user_ID, 'queued_research',true);
-						$in_progress = get_user_meta($user_ID, 'research_in_progress',true);
-					
-						$max = false;
-						
-						$extra_level = 0;
-						
-						if($in_progress == $key && $research['maxlevel'] == $current+1){
-						
+					<?php
+					$current = get_user_meta($user_ID, 'level_' . $key, true);
+
+					$queued      = get_user_meta($user_ID, 'queued_research', true);
+					$in_progress = get_user_meta($user_ID, 'research_in_progress', true);
+
+					$max = false;
+
+					$extra_level = 0;
+
+					if ($in_progress == $key && $research['maxlevel'] == $current + 1) {
+
 						$max = true;
-						echo '<strong>Maximum level reached.</strong>'; }
-						else{
-							if($in_progress == $key){
-								$extra_level = 1;
-							}
-							$level = 'level'.($current+1+$extra_level);
-							if($research['maxlevel'] < $current){
-							echo $research[$level];
-							}else{
-							if(array_key_exists($level,$researches[$key])){echo $research[$level];}
-							}
+						echo '<strong>Maximum level reached.</strong>';
+					} else {
+						if ($in_progress == $key) {
+							$extra_level = 1;
 						}
-						
-						
-						if($research['maxlevel'] == $current){$max = true;
-							echo '<strong>Maximum level reached.</strong>'; 
+						$level = 'level' . ($current + 1 + $extra_level);
+
+						switch ($key) {
+							case 'market_discount':
+								$md_discount_research = $research[$level.'_value']+$market_discount_bonus;
+								$research_effect = str_replace('{value}', $md_discount_research, $research[$level]);
+								break;
+							case 'money_production':
+								$money_research = $research[$level.'_value'] * (1 + ($money_bonus / 100));
+								$research_effect = str_replace('{value}', GameUtil::format_money($money_research), $research[$level]);
+								break;
+							default:
+								$research_effect = $research[$level];
+								break;
 						}
+
+						if ($research['maxlevel'] < $current) {
+							echo $research_effect;
+						} else if (array_key_exists($level, $researches[$key])) {
+							echo $research_effect;
+						}
+					}
+
+
+					if ($research['maxlevel'] == $current) {
+						$max = true;
+						echo '<strong>Maximum level reached.</strong>';
+					}
 						
 						
 						
