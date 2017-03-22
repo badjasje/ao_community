@@ -4,6 +4,7 @@
  * Template Name: Thief result
  * V1.0 kevin sometime
  * V2.0 haywardd/mega 20170302
+ * V2.1 haywardd/mega 20170322 fixed single thief money being too high
  */
 include('constants.php');
 
@@ -247,11 +248,7 @@ if($success == 0){
 
 function do_thief($level, $thieves, $snipers, $defender_money) {
 	
-	//Set thief_multiplier based on number sent. The higher the multiplier, the lower the success chance 
-	//This is a default, overrided by case
-	if ($thieves == 1) {
-		$thief_multiplier=1;
-	}
+	//Set thief_multiplier based on number sent. The higher the multiplier, the lower the success chance but higher the money stolen
 	
 	//Sets some variables based on research level 
 	switch ($level) {
@@ -299,7 +296,12 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		break;
 	}
 	
-	$dice = ($thieves * $thief_multiplier) + $snipersHit;
+	if ($thieves == 1) {
+		$dice = 1+$snipersHit;
+	}
+	else {
+		$dice = ($thieves * $thief_multiplier) + $snipersHit;
+	}
 	/* Debug stuff.. uncomment to enable 
 	
 	echo "successNo:".$randMax."<br/>";
