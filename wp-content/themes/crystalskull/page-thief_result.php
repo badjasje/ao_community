@@ -260,7 +260,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  $randMax = mt_rand(0,100);
 		  //Sets the damage an individual sniper does to the thieves
 		  $snipersHit = ($snipers*0.29)*(mt_rand(70,130)/100);
-		  $cashMultiplier = ((mt_rand(1,10)*($thieves/$thief_multiplier))/100);
+		  $cashMultiplier = ((mt_rand(1,5)*($thieves/$thief_multiplier))/100);
 		  
 		break;
 		case 2:
@@ -271,7 +271,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  $randMax = mt_rand(10,100);		
 		  //Sets the damage an individual sniper does to the thieves
 		  $snipersHit = ($snipers*0.29)*(mt_rand(70,130)/100);		
-		  $cashMultiplier = ((mt_rand(2,13)*($thieves/$thief_multiplier))/100);  
+		  $cashMultiplier = ((mt_rand(2,7)*($thieves/$thief_multiplier))/100);  
 		break;		
 		case 3:
 		  if (!(isset($thief_multiplier))) {
@@ -282,7 +282,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  $randMax = mt_rand(20,100);	
 		  //Sets the damage an individual sniper does to the thieves
 		  $snipersHit = ($snipers*0.29)*(mt_rand(70,130)/100);		 
-		  $cashMultiplier = ((mt_rand(3,13)*($thieves/$thief_multiplier))/100);
+		  $cashMultiplier = ((mt_rand(4,9)*($thieves/$thief_multiplier))/100);
 		break;
 		default:
 		  if (!(isset($thief_multiplier))) {
@@ -292,7 +292,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  $randMax = mt_rand(40,100);		
 		  //Sets the damage an individual sniper does to the thieves
 		  $snipersHit = ($snipers*0.29)*(mt_rand(70,130)/100);	
-		  $cashMultiplier = ((mt_rand(5,13)*($thieves/$thief_multiplier))/100);	  
+		  $cashMultiplier = ((mt_rand(5,9)*($thieves/$thief_multiplier))/100);	  
 		break;
 	}
 	

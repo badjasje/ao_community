@@ -8294,3 +8294,207 @@ ID: 176
 Units sold: 2
 Type: spy
 
+ID: 60
+Units sold: 318
+Type: rah66_commanches
+
+ID: 678
+Units sold: 40
+Type: armoured
+
+ID: 675
+Units sold: 433
+Type: flamethrower
+
+ID: 676
+Units sold: 389
+Type: flamethrower
+
+ID: 590
+Units sold: 200
+Type: b2_bomber
+
+ID: 722
+Units sold: 40
+Type: grenade
+
+ID: 722
+Units sold: 10
+Type: rah66_commanches
+
+ID: 722
+Units sold: 30
+Type: seahawk
+
+ID: 722
+Units sold: 225
+Type: paratrooper
+
+ID: 722
+Units sold: 65
+Type: grenade
+
+ID: 722
+Units sold: 150
+Type: rifle
+
+ID: 722
+Units sold: 15
+Type: navy
+
+ID: 722
+Units sold: 10
+Type: flamethrower
+
+ID: 722
+Units sold: 5
+Type: rocket
+
+ID: 724
+Units sold: 10
+Type: spyplane
+
+ID: 724
+Units sold: 10
+Type: spyplane
+
+ID: 724
+Units sold: 10
+Type: spyplane
+
+ID: 724
+Units sold: 10
+Type: spyplane
+
+ID: 724
+Units sold: 10
+Type: spyplane
+
+ID: 679
+Units sold: 10
+Type: sam
+
+ID: 350
+Units sold: 20
+Type: thief
+
+ID: 714
+Units sold: 20
+Type: spyplane
+
+ID: 590
+Units sold: 281
+Type: b2_bomber
+
+ID: 714
+Units sold: 30
+Type: spyplane
+
+ID: 37
+Units sold: 25
+Type: battleship
+
+ID: 575
+Units sold: 100
+Type: artillery
+
+ID: 709
+Units sold: 9
+Type: rocket
+
+ID: 676
+Units sold: 47
+Type: armoured
+
+ID: 446
+Units sold: 159
+Type: abraham
+
+ID: 433
+Units sold: 19
+Type: rifle
+
+ID: 433
+Units sold: 387
+Type: rocket
+
+ID: 176
+Units sold: 1
+Type: spyplane
+
+ID: 675
+Units sold: 360
+Type: armoured
+
+ID: 676
+Units sold: 538
+Type: armoured
+
+ID: 665
+Units sold: 182
+Type: paratrooper
+
+ID: 590
+Units sold: 300
+Type: b2_bomber
+
+ID: 679
+Units sold: 231
+Type: sam
+
+ID: 722
+Units sold: 50
+Type: sniper
+
+ID: 714
+Units sold: 20
+Type: spyplane
+
+ID: 714
+Units sold: 30
+Type: spyplane
+
+ID: 675
+Units sold: 635
+Type: rocket
+
+ID: 446
+Units sold: 1
+Type: spyplane
+
+ID: 446
+Units sold: 3
+Type: spy
+
+ID: 713
+Units sold: 16
+Type: abraham
+
+ID: 676
+Units sold: 387
+Type: grenade
+
+ID: 590
+Units sold: 30
+Type: b2_bomber
+
+ID: 590
+Units sold: 20
+Type: b2_bomber
+
+ID: 590
+Units sold: 10
+Type: b2_bomber
+
+ID: 590
+Units sold: 10
+Type: b2_bomber
+
+ID: 590
+Units sold: 230
+Type: b2_bomber
+
+ID: 317
+Units sold: 40
+Type: paratrooper
+

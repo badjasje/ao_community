@@ -7311,3 +7311,531 @@ Units ordered: thief 5
 ID: 717
 Units ordered: thief 10
 
+ID: 347
+Units ordered: sniper 10
+
+ID: 60
+Units ordered: b2_bomber 100
+
+ID: 348
+Units ordered: thief 20
+
+ID: 433
+Units ordered: spyplane 1
+
+ID: 676
+Units ordered: flamethrower 160
+
+ID: 316
+Units ordered: artillery 30
+
+ID: 350
+Units ordered: thief 20
+
+ID: 433
+Units ordered: rifle 40
+
+ID: 675
+Units ordered: flamethrower 300
+
+ID: 639
+Units ordered: spyplane 5
+
+ID: 639
+Units ordered: thief 10
+
+ID: 639
+Units ordered: spy 5
+
+ID: 234
+Units ordered: thief 5
+
+ID: 433
+Units ordered: navy 100
+
+ID: 575
+Units ordered: thief 4
+
+ID: 433
+Units ordered: rifle 38
+
+ID: 590
+Units ordered: b2_bomber 200
+
+ID: 522
+Units ordered: thief 5
+
+ID: 522
+Units ordered: sniper 10
+
+ID: 522
+Units ordered: spy 5
+
+ID: 348
+Units ordered: thief 20
+
+ID: 348
+Units ordered: sniper 20
+
+ID: 722
+Units ordered: thief 5
+
+ID: 722
+Units ordered: sniper 5
+
+ID: 722
+Units ordered: navy 10
+
+ID: 433
+Units ordered: navy 40
+
+ID: 433
+Units ordered: rocket 19
+
+ID: 722
+Units ordered: sniper 20
+
+ID: 722
+Units ordered: sniper 20
+
+ID: 724
+Units ordered: spyplane 10
+
+ID: 724
+Units ordered: spyplane 10
+
+ID: 724
+Units ordered: spyplane 10
+
+ID: 724
+Units ordered: spyplane 10
+
+ID: 724
+Units ordered: sniper 3
+
+ID: 724
+Units ordered: paratrooper 11
+
+ID: 724
+Units ordered: grenade 62
+
+ID: 724
+Units ordered: armoured 74
+
+ID: 724
+Units ordered: flamethrower 48
+
+ID: 724
+Units ordered: f22_raptors 25
+
+ID: 724
+Units ordered: jsf 25
+
+ID: 724
+Units ordered: typhoon 50
+
+ID: 724
+Units ordered: frigate 20
+
+ID: 724
+Units ordered: carrier 4
+
+ID: 724
+Units ordered: stealth 20
+
+ID: 724
+Units ordered: submarine 20
+
+ID: 724
+Units ordered: cruiser 16
+
+ID: 724
+Units ordered: sparrow 20
+
+ID: 724
+Units ordered: apc 7
+
+ID: 724
+Units ordered: humvee 20
+
+ID: 724
+Units ordered: sam 20
+
+ID: 724
+Units ordered: abraham 13
+
+ID: 724
+Units ordered: m70mlrs 20
+
+ID: 724
+Units ordered: m270_rocket 20
+
+ID: 724
+Units ordered: sniper 5
+
+ID: 724
+Units ordered: paratrooper 5
+
+ID: 614
+Units ordered: battleship 20
+
+ID: 350
+Units ordered: thief 20
+
+ID: 350
+Units ordered: sniper 20
+
+ID: 433
+Units ordered: rocket 57
+
+ID: 722
+Units ordered: sniper 35
+
+ID: 624
+Units ordered: sniper 40
+
+ID: 464
+Units ordered: sniper 15
+
+ID: 714
+Units ordered: spyplane 20
+
+ID: 590
+Units ordered: b2_bomber 200
+
+ID: 714
+Units ordered: spyplane 30
+
+ID: 724
+Units ordered: spyplane 5
+
+ID: 724
+Units ordered: f22_raptors 5
+
+ID: 639
+Units ordered: rah66_commanches 200
+
+ID: 639
+Units ordered: typhoon 150
+
+ID: 639
+Units ordered: rah66_commanches 100
+
+ID: 639
+Units ordered: typhoon 30
+
+ID: 729
+Units ordered: spyplane 5
+
+ID: 729
+Units ordered: jsf 5
+
+ID: 729
+Units ordered: thief 10
+
+ID: 729
+Units ordered: sniper 5
+
+ID: 729
+Units ordered: spy 5
+
+ID: 729
+Units ordered: rifle 50
+
+ID: 729
+Units ordered: rocket 50
+
+ID: 729
+Units ordered: armoured 50
+
+ID: 729
+Units ordered: flamethrower 50
+
+ID: 729
+Units ordered: paratrooper 20
+
+ID: 729
+Units ordered: grenade 20
+
+ID: 729
+Units ordered: navy 20
+
+ID: 729
+Units ordered: paratrooper 20
+
+ID: 729
+Units ordered: grenade 20
+
+ID: 729
+Units ordered: navy 20
+
+ID: 729
+Units ordered: rocket 20
+
+ID: 481
+Units ordered: paratrooper 100
+
+ID: 575
+Units ordered: artillery 100
+
+ID: 724
+Units ordered: seahawk 60
+
+ID: 724
+Units ordered: seahawk 17
+
+ID: 724
+Units ordered: b2_bomber 31
+
+ID: 727
+Units ordered: thief 5
+
+ID: 727
+Units ordered: sniper 10
+
+ID: 727
+Units ordered: spy 5
+
+ID: 457
+Units ordered: sniper 10
+
+ID: 457
+Units ordered: spy 5
+
+ID: 467
+Units ordered: artillery 80
+
+ID: 457
+Units ordered: spyplane 5
+
+ID: 730
+Units ordered: destroyer 80
+
+ID: 644
+Units ordered: sniper 30
+
+ID: 446
+Units ordered: spyplane 2
+
+ID: 446
+Units ordered: spy 7
+
+ID: 176
+Units ordered: spyplane 1
+
+ID: 176
+Units ordered: spy 2
+
+ID: 176
+Units ordered: paratrooper 18
+
+ID: 678
+Units ordered: armoured 400
+
+ID: 727
+Units ordered: spyplane 1
+
+ID: 675
+Units ordered: rocket 800
+
+ID: 675
+Units ordered: apc 10
+
+ID: 313
+Units ordered: spy 10
+
+ID: 313
+Units ordered: thief 6
+
+ID: 445
+Units ordered: sniper 25
+
+ID: 678
+Units ordered: armoured 100
+
+ID: 308
+Units ordered: spyplane 5
+
+ID: 308
+Units ordered: thief 5
+
+ID: 308
+Units ordered: sniper 10
+
+ID: 308
+Units ordered: spy 5
+
+ID: 678
+Units ordered: armoured 80
+
+ID: 676
+Units ordered: armoured 100
+
+ID: 676
+Units ordered: armoured 60
+
+ID: 676
+Units ordered: armoured 100
+
+ID: 678
+Units ordered: armoured 100
+
+ID: 679
+Units ordered: humvee 500
+
+ID: 312
+Units ordered: thief 5
+
+ID: 734
+Units ordered: rifle 100
+
+ID: 734
+Units ordered: rocket 50
+
+ID: 734
+Units ordered: armoured 25
+
+ID: 734
+Units ordered: flamethrower 25
+
+ID: 734
+Units ordered: humvee 10
+
+ID: 734
+Units ordered: sam 10
+
+ID: 734
+Units ordered: m270_rocket 10
+
+ID: 734
+Units ordered: m70mlrs 10
+
+ID: 734
+Units ordered: artillery 10
+
+ID: 734
+Units ordered: abraham 10
+
+ID: 734
+Units ordered: grenade 25
+
+ID: 734
+Units ordered: navy 25
+
+ID: 734
+Units ordered: rifle 200
+
+ID: 734
+Units ordered: grenade 25
+
+ID: 734
+Units ordered: navy 25
+
+ID: 734
+Units ordered: rocket 50
+
+ID: 734
+Units ordered: armoured 25
+
+ID: 734
+Units ordered: flamethrower 25
+
+ID: 734
+Units ordered: rifle 100
+
+ID: 734
+Units ordered: rocket 100
+
+ID: 734
+Units ordered: flamethrower 50
+
+ID: 734
+Units ordered: armoured 50
+
+ID: 706
+Units ordered: rocket 650
+
+ID: 706
+Units ordered: navy 400
+
+ID: 720
+Units ordered: destroyer 96
+
+ID: 720
+Units ordered: cruiser 105
+
+ID: 714
+Units ordered: spyplane 20
+
+ID: 714
+Units ordered: spyplane 30
+
+ID: 368
+Units ordered: destroyer 100
+
+ID: 676
+Units ordered: grenade 400
+
+ID: 676
+Units ordered: spy 1
+
+ID: 676
+Units ordered: grenade 59
+
+ID: 676
+Units ordered: grenade 57
+
+ID: 706
+Units ordered: navy 100
+
+ID: 734
+Units ordered: sniper 5
+
+ID: 736
+Units ordered: rah66_commanches 500
+
+ID: 736
+Units ordered: typhoon 380
+
+ID: 313
+Units ordered: thief 6
+
+ID: 614
+Units ordered: battleship 35
+
+ID: 179
+Units ordered: b2_bomber 290
+
+ID: 433
+Units ordered: navy 20
+
+ID: 706
+Units ordered: rocket 200
+
+ID: 720
+Units ordered: battleship 25
+
+ID: 644
+Units ordered: thief 40
+
+ID: 433
+Units ordered: navy 20
+
+ID: 433
+Units ordered: navy 19
+
+ID: 433
+Units ordered: navy 20
+
+ID: 706
+Units ordered: navy 100
+
+ID: 720
+Units ordered: battleship 40
+
+ID: 736
+Units ordered: typhoon 50
+
+ID: 433
+Units ordered: navy 20
+
