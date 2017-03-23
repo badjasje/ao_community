@@ -41,10 +41,13 @@ if($discount_level >= 2){
 }
 
 $startingbonus = get_user_meta($user_ID, 'starting_bonus',true);
-$shipping_discount = 1;
+$shipping_discount = 0;
 if($startingbonus == 'shipping'){
-	$shipping_discount = 0.9;
+	$shipping_discount = 0.1;
 }
+
+$discount_value = $discount-$shipping_discount;
+
 $enddate = get_field('end_date','option');
 $endstamp = strtotime($enddate);
 $timestamp = strtotime(date('Y-m-d H:i:s'));
@@ -163,7 +166,7 @@ get_header(); ?>
 						</td>
 
 						<td data-title="Price">
-						$ <?php echo ceil($order['price']*2.2*$discount*$shipping_discount);?>
+						$ <?php echo ceil($order['price']*2.2*$discount_value);?>
 						</td>
 
 						<td data-title="Att/Life">

@@ -86,9 +86,10 @@ if($MSlevel == 0 || empty($MSlevel)){
 						}
 
 $startingbonus = get_user_meta($user_ID, 'starting_bonus',true);
-$shipping_discount = 1;
+$shipping_discount = 0;
+
 if($startingbonus == 'shipping'){
-	$shipping_discount = 0.9;
+	$shipping_discount = 0.1;
 }
 
 include 'units_array.php';
@@ -98,9 +99,10 @@ include 'units_array.php';
 
 $totalordercost = 0;
 $total_spec_count = 0;
+$discount_value = $discount-$shipping_discount;
 foreach($units as $key => $order){
 
-	
+
 if($key == 'spyplane' || $key == 'spy' || $key == 'thief' || $key == 'sniper'){
 	if($_POST["$key"] > 0){
 	$total_special+=$_POST["$key"];
@@ -110,7 +112,7 @@ if($key == 'spyplane' || $key == 'spy' || $key == 'thief' || $key == 'sniper'){
 				}
 			}}
 
-$price = $order['price']*2.2*$discount*$shipping_discount;
+$price = $order['price']*2.2*$discount_value;
 $ordered_units = ceil($_POST["$key"]);
 if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect($marketRedirectUrl); exit;}
 if(empty($_POST["$key"])){$letter_check = 0;}else{$letter_check = $_POST["$key"];}
@@ -123,6 +125,7 @@ $totalordercost = $totalordercost+$orderamount;
 
 
 }
+
 if($total_spec_count > 0){
 if($total_special>500 || $total_special > $ccspace){
 	$_SESSION['status'] = '192';wp_redirect($marketRedirectUrl); exit;
