@@ -77,7 +77,7 @@ $args = array(
 	'meta_value'	=> get_current_user_ID(),
 	'post_type'        => 'market_order',
 	'meta_query'	=> array(
-		'relation' => 'OR',
+		'relation' => 'AND',
 		array(
 			'key' => 'user_placed_id',
 			'value' => get_current_user_ID(),

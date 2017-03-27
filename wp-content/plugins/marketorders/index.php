@@ -387,6 +387,7 @@ include('missiles_array.php');
 include('building_array.php');
 include('research_array.php');
 include('constants.php');
+include('satellite_array.php');
 
 
 $unit_networth = 0;
@@ -433,12 +434,16 @@ foreach($researches as $key => $research){
 	}
 }
 
-
+$sat_owned = get_user_meta($user_ID, 'sat_owned', true);
+$sat_NW = 0;
+if($sat_owned != 0){
+$sat_NW = $satellites[$sat_owned]['price']*0.06;
+}
 $land = get_user_meta($user_ID, 'land',true);
 $land_networth = round($land*0.85);
 
 
-update_user_meta( $user_ID,'networth',round($research_NW+$building_networth+$unit_networth+$land_networth+$missile_networth));
+update_user_meta( $user_ID,'networth',round($sat_NW+$research_NW+$building_networth+$unit_networth+$land_networth+$missile_networth));
 
 update_user_meta( $user_ID,'builtland',$totalbuildings*20);
 

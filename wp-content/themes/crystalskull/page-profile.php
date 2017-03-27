@@ -127,7 +127,7 @@ get_header('profile'); ?>
 	</div>
 </div>		
 				
-
+<?php $count = 0;?>
 <?php if($visiting_user != $user__ID && ($clan_id != $clan_id_user || $clan_id == 0) && !in_array($visiting_user, $CT_CL_array)):?>
 <!-- Visiting non-clanmember as non CT/CL -->
 <div class="row button_block">
@@ -152,7 +152,11 @@ get_header('profile'); ?>
 
 
 
-<?php if($visiting_user != $user__ID && $clan_id != $clan_id_user  && in_array($visiting_user, $CT_CL_array) && count($members) == 7):?>
+
+
+
+<?php if($visiting_user != $user__ID && $clan_id != $clan_id_user && in_array($visiting_user, $CT_CL_array) && count($members) == 7):?>
+<?php $count = 1;?>
 <!-- Visiting non-clanmember as non CT/CL -->
 <div class="row button_block">
  	
@@ -176,7 +180,8 @@ get_header('profile'); ?>
 
 
 
-<?php if($visiting_user != $user__ID && $clan_id != $clan_id_user && in_array($visiting_user, $CT_CL_array) && count($members) < 7):?>
+<?php if($visiting_user != $user__ID && $clan_id != $clan_id_user && $clan_id == 0 && in_array($visiting_user, $CT_CL_array) && count($members) < 7):?>
+<?php $count = 1;?>
 <!-- Visiting non-clanmember as CT/CL, members below 7 -->
 <div class="row button_block">
  	
@@ -204,8 +209,49 @@ get_header('profile'); ?>
 <?php endif;?>
 
 
-<?php if($visiting_user == $user__ID):?>
+<?php if($visiting_user != $user__ID && $clan_id != $clan_id_user && $count != 1 && in_array($visiting_user, $CT_CL_array)):?>
+<!-- Visiting non-clanmember as non CT/CL -->
+<div class="row button_block">
+ 	
+ 	<div class="col-md-4 buttoncol">
+	 	<center><a class="btn btn-attack profilebutton" href="/attack/step-1/?id=<?php echo $user__ID;?>">
+		 	<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack</a></center>
+	</div>
+	
+	<div class="col-md-4 buttoncol">
+		<center><a class="btn btn-general profilebutton" href="/spy-reports/?id=<?php echo $user__ID;?>">
+			<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports</a></center>
+	</div>
+	
+	<div class="col-md-4 buttoncol">
+	  <center><a class="btn btn-general profilebutton" href="/send-message/?id=<?php echo $user__ID;?>">
+		  <i class="fa fa-envelope-o" aria-hidden="true"></i> &nbsp;Send message</a></center>
+	</div>
+  
+</div>
+<?php endif;?>
 
+
+
+
+<?php if($clan_id == $clan_id_user && $visiting_user != $user__ID):?>
+<!-- Visiting clanmember profile -->
+<div class="row button_block">
+ 	
+	<div class="col-md-12 buttoncol">
+	  	<center><a class="btn btn-general profilebutton" href="/send-message/?id=<?php echo $user__ID;?>">
+		  <i class="fa fa-envelope-o" aria-hidden="true"></i> &nbsp;Send message</a></center>
+	</div>
+  
+</div>
+<?php endif;?>
+
+
+
+
+
+<?php if($visiting_user == $user__ID):?>
+<!-- visiting own profile -->
 <div class="row button_block">
  	
  	<div class="col-md-6 buttoncol">

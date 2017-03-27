@@ -26,7 +26,7 @@ foreach ($orders as $order) {
 		
 		/* check if order is satellite */
 		$sats = array('laser','comsat','stealths','spysat','spysat','amssat','empsat');
-
+	
 		if(!in_array($unit_type, $sats)){
 		
 		$units_in_this_order = get_post_meta($order->ID,'amount_ordered',true);
@@ -35,17 +35,20 @@ foreach ($orders as $order) {
 	
 		update_user_meta( $user_ID,$unit_type.'_ordered',$total_units_on_order - $units_in_this_order);
 		update_user_meta( $user_ID,$unit_type.'_owned',$units_in_this_order+$ownedunits);
-		
-		}else{
+		wp_trash_post($order->ID);
+		}
+			
+		if(get_post_meta($order->ID,'order_type',true) == 'satellite'){ 
 		
 		update_user_meta( $user_ID,'sat_owned',$unit_type);
 		update_user_meta( $user_ID,'sat_in_progress',0);
 		update_user_meta( $user_ID,'sat_endlife',$timestamp+(10*86400));
+		wp_trash_post($order->ID);
 		}	
 		
 		/* trash order post */
 		//wp_delete_post($order->ID);
-		wp_trash_post($order->ID);
+		
 		count_all_stats($user_ID);
 	}
 	

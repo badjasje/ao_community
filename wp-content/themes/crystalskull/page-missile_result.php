@@ -23,19 +23,27 @@ if($target_status == 'dead'){
 
 $shootdown_chance = (($AMS*100)/$def_land)*100;
 
-if($shootdown_chance > 75){
+
+
+if($shootdown_chance >= 75){
 	$shootdown_chance = 75;
 }
 
 $shootdown = rand(1, 100);
 
-$shotdown = false;
+
+
 if($shootdown < $shootdown_chance){
 	$shotdown = true;
 }
+
+if($AMS == 0){
+	$shotdown = false;
+}
+
 $power = get_user_meta($defender_ID, 'power', true);
 if($power > 100){
-	$shotdown = true;
+	$shotdown = false;
 }
 
 $SEA_ATT_power   = 0;
