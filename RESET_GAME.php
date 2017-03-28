@@ -1,6 +1,6 @@
 <?php
 	/*
-	// DELETE FROM `assauu_db1`.`23zx_posts` WHERE `23zx_posts`.`post_type` = 'event_local'   <- USE AS SQL COMMAND
+	// DELETE FROM `assauu_db1`.`23zx_posts` WHERE `23zx_posts`.`post_type` = 'shop_order'   <- USE AS SQL COMMAND
 	require_once("wp-load.php");
 	include('units_array.php');
 	

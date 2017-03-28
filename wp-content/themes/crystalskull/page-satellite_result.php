@@ -91,9 +91,10 @@ update_user_meta($user_ID,'sat_morale',$sat_morale-100);
 $result = 'success';
 
 $sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
+
 if($sat_status == 'active'){
 	$result = 'failure';
-	
+	$blddamage = 0;
 }
 
 
@@ -295,7 +296,9 @@ if($war_type != 'none' && $result == 'success') {
 				
 		
 
-<?php if($result = 'success'){ ?>
+<?php 
+	
+	if($result == 'success'){ ?>
 
 <?php $winner_ID = $user_ID;?>
 	
@@ -386,8 +389,9 @@ if($war_type != 'none' && $result == 'success') {
 					
 					
 <?php if($result == 'failure'){ ?>
+<center>
 					<h2>F A I L U R E</h2>
-					<p>Your missile missed the base of <a href="/users/profile/?id=<?php
+					<p>Your satellite missed the base of <a href="/users/profile/?id=<?php
     echo $defender_ID;
 	 $winner_ID = $defender_ID;
 ?>"><strong><?php

@@ -330,6 +330,8 @@ update_user_meta($user_id, 'queued_research', 0);
 update_user_meta($user_id, 'sat_in_progress', 0);
 update_user_meta($user_id, 'sat_owned', 0);
 update_user_meta($user_id, 'starting_bonus','');
+update_user_meta($user_id, 'stealth_sat_status',0);
+
 
 
 

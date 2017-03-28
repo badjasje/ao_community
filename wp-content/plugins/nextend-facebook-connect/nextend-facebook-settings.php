@@ -77,7 +77,7 @@ if (!class_exists('NextendFBSettings')) {
             <div class="error"><strong><p>Facebook needs the CURL PHP extension. Contact your server adminsitrator!</p></strong></div>
             <?php
         } else {
-            $version = curl_version();
+            $version       = curl_version();
             $ssl_supported = ($version['features'] & CURL_VERSION_SSL);
             if (!$ssl_supported) {
                 ?>
@@ -158,8 +158,8 @@ if (!class_exists('NextendFBSettings')) {
         <?php $nextend_fb_connect = maybe_unserialize(get_option('nextend_fb_connect')); ?>
 
         <form method="post" action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=nextend-facebook-connect">
-        <?php wp_nonce_field( 'nextend-facebook-connect' ); ?>
-	<input type="hidden" name="newfb_update_options" value="Y">
+        <?php wp_nonce_field('nextend-facebook-connect'); ?>
+            <input type="hidden" name="newfb_update_options" value="Y">
 
 	<table class="form-table">
 		<tr>
