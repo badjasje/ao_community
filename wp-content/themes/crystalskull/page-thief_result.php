@@ -259,13 +259,13 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  //Set the number that must be higher than caughtChance in order for thieving to work
 		  $randMax = mt_rand(0,100);
 		  //Sets the damage an individual sniper does to the thieves
-<<<<<<< HEAD
+
 		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);
 		  $cashMultiplier = ((mt_rand(1,5)*($thieves/$thief_multiplier))/100);
-=======
+
 		  $snipersHit = ($snipers*0.39)*(mt_rand(70,130)/100);
 		  $cashMultiplier = ((mt_rand(1,10)*($thieves/$thief_multiplier))/100);
->>>>>>> 33b99ddcba13cf74abd86ef352743ed8a0521d4f
+
 		  
 		break;
 		case 2:
@@ -275,13 +275,13 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  //Set the number that must be higher than caughtChance in order for thieving to work
 		  $randMax = mt_rand(10,100);		
 		  //Sets the damage an individual sniper does to the thieves
-<<<<<<< HEAD
+
 		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);		
 		  $cashMultiplier = ((mt_rand(2,7)*($thieves/$thief_multiplier))/100);  
-=======
+
 		  $snipersHit = ($snipers*0.39)*(mt_rand(70,130)/100);		
 		  $cashMultiplier = ((mt_rand(2,13)*($thieves/$thief_multiplier))/100);  
->>>>>>> 33b99ddcba13cf74abd86ef352743ed8a0521d4f
+
 		break;		
 		case 3:
 		  if (!(isset($thief_multiplier))) {
@@ -291,13 +291,13 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  //Set the number that must be higher than caughtChance in order for thieving to work
 		  $randMax = mt_rand(20,100);	
 		  //Sets the damage an individual sniper does to the thieves
-<<<<<<< HEAD
+
 		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);		 
 		  $cashMultiplier = ((mt_rand(4,9)*($thieves/$thief_multiplier))/100);
-=======
+
 		  $snipersHit = ($snipers*0.39)*(mt_rand(70,130)/100);		 
 		  $cashMultiplier = ((mt_rand(3,13)*($thieves/$thief_multiplier))/100);
->>>>>>> 33b99ddcba13cf74abd86ef352743ed8a0521d4f
+
 		break;
 		default:
 		  if (!(isset($thief_multiplier))) {
@@ -306,13 +306,13 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  //Set the number that must be higher than caughtChance in order for thieving to work
 		  $randMax = mt_rand(40,100);		
 		  //Sets the damage an individual sniper does to the thieves
-<<<<<<< HEAD
+
 		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);	
 		  $cashMultiplier = ((mt_rand(5,9)*($thieves/$thief_multiplier))/100);	  
-=======
+
 		  $snipersHit = ($snipers*0.39)*(mt_rand(70,130)/100);	
 		  $cashMultiplier = ((mt_rand(5,13)*($thieves/$thief_multiplier))/100);	  
->>>>>>> 33b99ddcba13cf74abd86ef352743ed8a0521d4f
+
 		break;
 	}
 	
