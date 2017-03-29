@@ -10311,3 +10311,42 @@ Units ordered: artillery 6
 ID: 716
 Units ordered: thief 10
 
+ID: 722
+Units ordered: rifle 60
+
+ID: 60
+Units ordered: artillery 10
+
+ID: 487
+Units ordered: spyplane 5
+
+ID: 676
+Units ordered: paratrooper 20
+
+ID: 738
+Units ordered: navy 34
+
+ID: 752
+Units ordered: abraham 40
+
+ID: 752
+Units ordered: artillery 40
+
+ID: 738
+Units ordered: navy 30
+
+ID: 433
+Units ordered: armoured 100
+
+ID: 235
+Units ordered: spyplane 2
+
+ID: 488
+Units ordered: apc 30
+
+ID: 235
+Units ordered: spy 1
+
+ID: 712
+Units ordered: cruiser 78
+

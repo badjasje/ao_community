@@ -9874,3 +9874,35 @@ ID: 234
 Units sold: 10
 Type: thief
 
+ID: 679
+Units sold: 100
+Type: artillery
+
+ID: 679
+Units sold: 50
+Type: artillery
+
+ID: 679
+Units sold: 50
+Type: artillery
+
+ID: 679
+Units sold: 50
+Type: artillery
+
+ID: 679
+Units sold: 50
+Type: artillery
+
+ID: 575
+Units sold: 40
+Type: artillery
+
+ID: 575
+Units sold: 1243
+Type: m270_rocket
+
+ID: 674
+Units sold: 50
+Type: battleship
+
