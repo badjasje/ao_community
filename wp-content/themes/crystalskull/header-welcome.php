@@ -62,6 +62,7 @@ $user = get_userdata($user_ID);
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
+
 <div id="main_wrapper">
 
     <!-- NAVBAR
