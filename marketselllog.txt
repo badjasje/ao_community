@@ -10502,3 +10502,51 @@ ID: 29
 Units sold: 5
 Type: sniper
 
+ID: 475
+Units sold: 208
+Type: paratrooper
+
+ID: 475
+Units sold: 238
+Type: rifle
+
+ID: 475
+Units sold: 325
+Type: rocket
+
+ID: 713
+Units sold: 50
+Type: battleship
+
+ID: 713
+Units sold: 100
+Type: submarine
+
+ID: 340
+Units sold: 842
+Type: flamethrower
+
+ID: 340
+Units sold: 5
+Type: spyplane
+
+ID: 575
+Units sold: 524
+Type: abraham
+
+ID: 60
+Units sold: 124
+Type: sam
+
+ID: 176
+Units sold: 9
+Type: spyplane
+
+ID: 176
+Units sold: 1
+Type: spyplane
+
+ID: 259
+Units sold: 1200
+Type: grenade
+

@@ -44,7 +44,7 @@ $args = array(
          ),
          array(
            'key' => 'attacktype',
-           'value' => array('satellite','regular','air_sea','ground','missile','war_declared','peace_declared'),
+           'value' => array('empsat','satellite','regular','air_sea','ground','missile','war_declared','peace_declared'),
            'compare' => 'IN'
          ),
      array(
@@ -597,6 +597,101 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 	</div>
 
 <?php endif; // End satellite attacks ?>	
+
+
+
+
+
+
+<?php if($attack_type == 'empsat'): ?>
+
+<?php 	
+	$member_data = get_userdata($attacker_id);
+	$defender_data = get_userdata($defender_id);
+?>
+
+<!-- Event header -->
+<div class="row battlereport-header" <?php if(in_array($defender_id, $members[0])): // attack by clanmember ?> style="background-color:#607785;"<?php endif;?>>
+	<div class="col-md-12">
+		<img class="attack-image" src="http://assault.online/wp-content/uploads/2016/03/satellite.png"> 
+		EMP Satellite report
+	</div>
+</div>
+<!-- Event header -->
+
+
+<div class="row event-row">
+	
+<!-- Attacker image -->	
+	<div class="col-md-2">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="attack-profile-image" 
+					style="background: url(<?php echo $avatar;?>);background-size: cover;">
+				</div>
+				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
+			</div>
+		</div>
+	</div>
+<!-- Attacker image -->		
+	
+	
+	<div class="col-md-10">
+			<div class="row">
+				<div class="col-md-12 event-message">
+				
+		<?php if(in_array($attacker_id, $members[0])) { // Clan member is attacker?>
+						
+			<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
+			<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> fired an EMP satellite at
+						
+						
+			<?php echo clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
+			<?php echo $defender_data->display_name.' (#'.$defender_id.')';?></a> and 
+						
+			
+			<?php if($winner_id == $attacker_id){?>
+				hit the enemy base.
+			
+			
+			<?php } else { ?>
+				
+				<strong>missed the enemy base.</strong>
+				
+			<?php }}?>
+						
+						
+		<?php if(in_array($defender_id, $members[0])) { //Clanmember is defender?>
+			<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
+			<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> used an EMP satellite on
+					
+			<?php echo clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
+			<?php echo $defender_data->display_name.' (#'.$defender_id.')';?></a>
+						
+						
+			 and 
+						
+			<?php if($winner_id == $attacker_id){?>
+					missed the base.
+				<?php } else { ?>
+				<strong>hit the base</strong>
+			<?php }}?>
+
+				
+				
+				
+				</div>
+			</div>
+			
+			
+			<div class="row">
+				<center>Power decreased by 20% for 6 hours.</center>
+			</div>
+			
+		</div>
+	</div>
+
+<?php endif; // End EMP Sat hit ?>	
 
 
 

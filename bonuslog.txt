@@ -1321,3 +1321,30 @@ New Money: 556068.38 New Turns: 139
 User ID: 29 Event ID: 193773
 New Money: 594412.5 New Turns: 93
 
+User ID: 340 Event ID: 193828
+New Money: 1076387.7 New Turns: 188
+
+User ID: 712 Event ID: 194043
+New Money: 784403.4 New Turns: 150
+
+User ID: 60 Event ID: 194039
+New Money: 516466.05 New Turns: 77
+
+User ID: 575 Event ID: 193831
+New Money: 750860.305 New Turns: 164
+
+User ID: 368 Event ID: 193776
+New Money: 711775.25 New Turns: 204
+
+User ID: 433 Event ID: 194040
+New Money: 528729.41 New Turns: 125
+
+User ID: 234 Event ID: 192796
+New Money: 901548.725 New Turns: 215
+
+User ID: 426 Event ID: 194045
+New Money: 811776.6 New Turns: 99
+
+User ID: 235 Event ID: 193829
+New Money: 794374.25 New Turns: 77
+
