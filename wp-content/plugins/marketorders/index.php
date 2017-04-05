@@ -538,11 +538,17 @@ $status = get_user_meta($user_ID, 'status', true);
 if($status == 'online'){
 
 	if($totalbuildings < 50){
+		$low_buildings = get_user_meta($user_ID, 'low_buildings', true);
+		if($low_buildings == 'on'){
 		notify_user($user_ID,'buildings');
+		}
 		}
 
 	if($power+$empReduction > 100){
+		$low_power = get_user_meta($user_ID, 'low_power', true);
+		if($low_power == 'on'){
 		notify_user($user_ID,'power');
+		}
 		}
 	}
 } // end count stats 
