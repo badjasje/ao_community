@@ -10,6 +10,66 @@ License: GPL
 Copyright: Kevin Bogaard
 */
 
+
+function notify_user($user_ID,$type){
+
+$phonenumber = get_user_meta($user_ID, 'phone_number', true);
+if(!empty(is_numeric($phonenumber))){
+	
+$remove = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U","+");
+$phonenumber = str_replace($remove, "", $phonenumber);
+	
+$message = '';
+	
+$LP_notified = get_user_meta($user_ID, 'low_power_notified', true);
+$LB_notified = get_user_meta($user_ID, 'low_buildings_notified', true);
+
+
+if($LP_notified == 'no' && $type == 'power'){
+	$message = 'Assault.Online Warning! Your power is currently offline. Restore your power as soon as possible.';
+	update_user_meta($user_ID, 'low_power_notified', 'yes');
+	
+}
+
+if($LB_notified == 'no' && $type == 'buildings'){
+	$message = 'Assault.Online Warning! You have 50 buildings or less. Rebuild as soon as possible.';
+	update_user_meta($user_ID, 'low_buildings_notified', 'yes');
+	
+}
+	
+
+include('messagebird/autoload.php');
+
+
+$MessageBird = new \MessageBird\Client('rDfeaa4JedfVIxfPDM60gjMvh'); // Set your own API access key here.
+
+$Message             = new \MessageBird\Objects\Message();
+$Message->originator = 'AO';
+$Message->recipients = array($phonenumber);
+$Message->body       = $message;
+
+try { 
+	if($message != ''){
+    $MessageResult = $MessageBird->messages->create($Message);
+    }
+    
+
+} catch (\MessageBird\Exceptions\AuthenticateException $e) {
+    // That means that your accessKey is unknown
+    echo 'wrong login';
+
+} catch (\MessageBird\Exceptions\BalanceException $e) {
+    // That means that you are out of credits, so do something about it.
+    echo 'no balance';
+
+} catch (\Exception $e) {
+    echo $e->getMessage();
+}
+
+} // end empty phone number check
+
+} // end notify user
+
 function wpse_76815_remove_publish_box() {
     remove_meta_box( 'submitdiv', 'clan', 'side' );
 }
@@ -428,6 +488,8 @@ foreach($buildings as $key => $building){
 	$used_power+=$building['power']*$buildings_owned;}
 }
 
+
+
 $research_NW = 0;
 foreach($researches as $key => $research){
 	$level = get_user_meta($user_ID, 'level_'.$key,true);
@@ -470,8 +532,20 @@ if($power_production > 0){
 $power = get_user_meta($user_ID, 'power', true);
 update_user_meta( $user_ID,'power',$power+$empReduction);
 
-}
+$status = get_user_meta($user_ID, 'status', true);
 
+
+if($status == 'online'){
+
+	if($totalbuildings < 50){
+		notify_user($user_ID,'buildings');
+		}
+
+	if($power+$empReduction > 100){
+		notify_user($user_ID,'power');
+		}
+	}
+} // end count stats 
 
 
 add_shortcode( 'current-buildings' , 'display_count_buildings' );
@@ -810,3 +884,5 @@ function new_modify_user_table_row( $val, $column_name, $user_id ) {
     return $val;
 }
 add_filter( 'manage_users_custom_column', 'new_modify_user_table_row', 10, 3 );
+
+

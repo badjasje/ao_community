@@ -9,6 +9,8 @@ foreach ($users as $user) {
 	update_user_meta($user_ID,'land_sold_today',0);
 	update_user_meta($user_ID,'aid_sent_today',0);
 	update_user_meta($user_ID,'special_sold_today',0);
+	update_user_meta($user_ID, 'low_power_notified', 'no');
+	update_user_meta($user_ID, 'low_buildings_notified', 'no');
 	}
 $args = array(
 		
