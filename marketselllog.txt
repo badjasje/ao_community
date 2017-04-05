@@ -12366,3 +12366,11 @@ ID: 573
 Units sold: 50
 Type: artillery
 
+ID: 1
+Units sold: 2200
+Type: b2_bomber
+
+ID: 1
+Units sold: 1000
+Type: battleship
+
