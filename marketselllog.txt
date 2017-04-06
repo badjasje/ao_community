@@ -12374,3 +12374,207 @@ ID: 1
 Units sold: 1000
 Type: battleship
 
+ID: 575
+Units sold: 14
+Type: paratrooper
+
+ID: 575
+Units sold: 62
+Type: navy
+
+ID: 76
+Units sold: 300
+Type: artillery
+
+ID: 176
+Units sold: 4
+Type: spyplane
+
+ID: 25
+Units sold: 834
+Type: grenade
+
+ID: 312
+Units sold: 45
+Type: b2_bomber
+
+ID: 722
+Units sold: 467
+Type: navy
+
+ID: 722
+Units sold: 239
+Type: rifle
+
+ID: 575
+Units sold: 700
+Type: armoured
+
+ID: 76
+Units sold: 380
+Type: abraham
+
+ID: 714
+Units sold: 5
+Type: thief
+
+ID: 573
+Units sold: 225
+Type: abraham
+
+ID: 573
+Units sold: 255
+Type: artillery
+
+ID: 402
+Units sold: 1090
+Type: paratrooper
+
+ID: 575
+Units sold: 459
+Type: navy
+
+ID: 674
+Units sold: 200
+Type: battleship
+
+ID: 714
+Units sold: 20
+Type: thief
+
+ID: 350
+Units sold: 50
+Type: sniper
+
+ID: 676
+Units sold: 10
+Type: paratrooper
+
+ID: 676
+Units sold: 20
+Type: paratrooper
+
+ID: 676
+Units sold: 30
+Type: paratrooper
+
+ID: 676
+Units sold: 30
+Type: paratrooper
+
+ID: 676
+Units sold: 20
+Type: paratrooper
+
+ID: 76
+Units sold: 200
+Type: navy
+
+ID: 488
+Units sold: 5
+Type: spyplane
+
+ID: 674
+Units sold: 50
+Type: battleship
+
+ID: 674
+Units sold: 50
+Type: battleship
+
+ID: 674
+Units sold: 50
+Type: battleship
+
+ID: 674
+Units sold: 20
+Type: battleship
+
+ID: 674
+Units sold: 2
+Type: battleship
+
+ID: 674
+Units sold: 10
+Type: battleship
+
+ID: 674
+Units sold: 20
+Type: battleship
+
+ID: 674
+Units sold: 20
+Type: battleship
+
+ID: 674
+Units sold: 20
+Type: battleship
+
+ID: 674
+Units sold: 28
+Type: battleship
+
+ID: 176
+Units sold: 6
+Type: spyplane
+
+ID: 575
+Units sold: 15
+Type: paratrooper
+
+ID: 575
+Units sold: 50
+Type: navy
+
+ID: 176
+Units sold: 5
+Type: paratrooper
+
+ID: 643
+Units sold: 207
+Type: abraham
+
+ID: 315
+Units sold: 2
+Type: spyplane
+
+ID: 315
+Units sold: 2
+Type: spy
+
+ID: 315
+Units sold: 83
+Type: b2_bomber
+
+ID: 315
+Units sold: 25
+Type: b2_bomber
+
+ID: 679
+Units sold: 2000
+Type: armoured
+
+ID: 997
+Units sold: 205
+Type: artillery
+
+ID: 575
+Units sold: 10
+Type: navy
+
+ID: 575
+Units sold: 297
+Type: navy
+
+ID: 504
+Units sold: 100
+Type: battleship
+
+ID: 235
+Units sold: 300
+Type: navy
+
+ID: 504
+Units sold: 150
+Type: battleship
+
