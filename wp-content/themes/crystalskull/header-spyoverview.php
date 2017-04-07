@@ -3,7 +3,10 @@
     <head>
 
     <meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<?php
+		$user_ID = get_current_user_ID();
+		echo desktop_view($user_ID);
+		?>
     <?php //globals
 	    
     global $post, $page, $paged, $woocommerce;

@@ -11,6 +11,18 @@ Copyright: Kevin Bogaard
 */
 
 
+function desktop_view($user_ID){
+	$desktop = get_user_meta($user_ID, 'desktop_view', true);
+	if($desktop == 'on'){
+		return '<meta name="viewport" content="width=1280">';
+	}else{
+		return '<meta name="viewport" content="width=device-width, initial-scale=1">';
+	}
+	
+	
+	
+}
+
 function notify_user($user_ID,$type){
 
 $phonenumber = get_user_meta($user_ID, 'phone_number', true);

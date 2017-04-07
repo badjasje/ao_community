@@ -13,6 +13,13 @@
  $phone_number = get_user_meta($user_ID, 'phone_number', true);
  $low_buildings = get_user_meta($user_ID, 'low_buildings', true);
  $low_power = get_user_meta($user_ID, 'low_power', true);
+ $desktopView = get_user_meta($user_ID, 'desktop_view',true);
+ 
+ $desktopcheck = '';
+ if($desktopView == 'on'){
+	 $desktopcheck = 'checked';
+	 
+ }
  
  $lowBDScheck = '';
  if($low_buildings == 'on'){
@@ -91,6 +98,18 @@ get_header(); ?>
 						<input type="tel" value="<?php echo $phone_number;?>" type="text" class="form-control" placeholder="example: 316123456789" name="phonenumber" aria-describedby="sizing-addon3">
 					</div>
 				
+				</div>
+			</div>
+			
+			<div class="row profile_row">
+				<div class="col-xs-5">Force desktop view on mobile?</div>
+				<div class="col-xs-7">
+					<div class="input-group">
+						      <span class="input-group-addon">
+						        <input type="checkbox" aria-label="" name="desktopview" <?php echo $desktopcheck;?>>
+						      </span>
+						      <input type="text" class="form-control" value="Force desktop view" disabled>
+						    </div><!-- /input-group -->
 				</div>
 			</div>
 			
