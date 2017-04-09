@@ -3,15 +3,18 @@
     <head>
 
     <meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<?php
+		$user_ID = get_current_user_ID();
+		echo desktop_view($user_ID);
+		?>
     <?php //globals
-	    
+		
     global $post, $page, $paged, $woocommerce;
     
     if(!is_user_logged_in()){
 	    wp_redirect(get_permalink(3491));
     }
-$user_ID = get_current_user_ID();
+
 
 $new_events 				= 	get_user_meta($user_ID, 'new_events',true);
 $new_global_events 			= 	get_user_meta($user_ID, 'new_global_events',true);

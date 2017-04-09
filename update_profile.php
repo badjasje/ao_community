@@ -40,6 +40,7 @@ if ( $movefile && !isset( $movefile['error'] ) ) {
 wp_update_user( array( 'ID' => $user_ID, 'display_name' => $_POST['username'] ) );
 update_user_meta($user_ID, 'name_change_counter',1);
 update_user_meta($user_ID,'phone_number',$_POST['phonenumber']);
+update_user_meta($user_ID,'desktop_view',$_POST['desktopview']);
 
 update_user_meta($user_ID, 'low_power',$_POST['low_power']);
 update_user_meta($user_ID, 'low_buildings',$_POST['buildings']);
