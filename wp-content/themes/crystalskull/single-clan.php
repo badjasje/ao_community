@@ -2,17 +2,17 @@
 $declarer_ID = get_current_user_ID();
 
 $nw_att = get_user_meta($declarer_ID, 'networth',true);
-$declarer_clan_ID = get_user_meta($declarer_ID, 'clan_id_user');
-$declarer_clanleader = get_post_meta($declarer_clan_ID[0],'clan_leader');
+$declarer_clan_ID = get_user_meta($declarer_ID, 'clan_id_user',true);
+$declarer_clanleader = get_post_meta($declarer_clan_ID,'clan_leader',true);
 
-$cooldownlist = get_post_meta($declarer_clan_ID[0], 'cooldown_list', true);
+$cooldownlist = get_post_meta($declarer_clan_ID, 'cooldown_list',true);
 
-$decct_1 = get_post_meta($declarer_clan_ID[0],'ct_1')[0];
-$decct_2 = get_post_meta($declarer_clan_ID[0],'ct_2')[0];
-$decct_3 = get_post_meta($declarer_clan_ID[0],'ct_3')[0];
-$decct_4 = get_post_meta($declarer_clan_ID[0],'ct_4')[0];
+$decct_1 = get_post_meta($declarer_clan_ID,'ct_1',true);
+$decct_2 = get_post_meta($declarer_clan_ID,'ct_2',true);
+$decct_3 = get_post_meta($declarer_clan_ID,'ct_3',true);
+$decct_4 = get_post_meta($declarer_clan_ID,'ct_4',true);
 
-$allowed_to_declare = array($declarer_clanleader[0],$decct_1,$decct_2,$decct_3,$decct_4);
+$allowed_to_declare = array($declarer_clanleader,$decct_1,$decct_2,$decct_3,$decct_4);
 				
 $warcount = get_posts(array(
 	'numberposts'	=> -1,
@@ -25,20 +25,23 @@ $warcount = get_posts(array(
                ),
             array(
                  'key' => 'declared_on',
-                 'value' => $declarer_clan_ID[0]
+                 'value' => $declarer_clan_ID
                ))
 ));
 
+
+
 $warcount = count($warcount);
+
 $timestamp = strtotime(date('Y-m-d H:i:s'));
 
 if($declarer_clan_ID != 0){
-	$dec_clan_members = get_post_meta($declarer_clan_ID[0],'clan_members');
+	$dec_clan_members = get_post_meta($declarer_clan_ID,'clan_members');
 
 	$dec_tot_networth = 0;
 					foreach ($dec_clan_members[0] as $dec_member) {
-					$dec_networth = get_user_meta($dec_member, 'networth');
-					$dec_tot_networth+=$dec_networth[0];}
+					$dec_networth = get_user_meta($dec_member, 'networth',true);
+					$dec_tot_networth+=$dec_networth;}
 }
 
  $wars_on = get_posts(array(
@@ -46,49 +49,86 @@ if($declarer_clan_ID != 0){
 	'post_type'		=> 'wars',
 	'post_status'   => 'publish',
 	'meta_key'		=> 'declared_by',
-	'meta_value'	=> $declarer_clan_ID[0]
+	'meta_value'	=> $declarer_clan_ID
 ));
 	$declared_on = array();
+	$peaceID = 0;
 foreach ($wars_on as $war) {
-	$declared_on[] = get_post_meta($war->ID,'declared_on')[0];
+	$defClanID = get_post_meta($war->ID,'declared_on',true);
+	$att_ClanID = get_post_meta($war->ID,'declared_by',true);
 	
+	
+	if($defClanID == get_the_id()){
+		$peaceID = $war->ID;
+	}
+	$declared_on[] = $defClanID;
 	}
 $_member = false;
+
+if(in_array($declarer_ID, $dec_clan_members[0])){
+	$_member = true;
+	
+}
+
 get_header(); ?>
 <div class="blog blog-ind">
 	<div class="container ">
 	<div class="row">
-
-		<div class="col-lg-12 col-md-12">
-			
-			<?php 
-				$clan_id = get_the_ID();
-				$clan_members = get_post_meta($clan_id,'clan_members');
+		
+	<?php 
+		
+		$clan_id = get_the_ID();
+		$clan_members = get_post_meta($clan_id,'clan_members');
 				
-				 $ct_1 = get_post_meta($clan_id,'ct_1')[0];
-				 $ct_2 = get_post_meta($clan_id,'ct_2')[0];
-				 $ct_3 = get_post_meta($clan_id,'ct_3')[0];
-				 $ct_4 = get_post_meta($clan_id,'ct_4')[0];
+		$ct_1 = get_post_meta($clan_id,'ct_1',true);
+		$ct_2 = get_post_meta($clan_id,'ct_2',true);
+		$ct_3 = get_post_meta($clan_id,'ct_3',true);
+		$ct_4 = get_post_meta($clan_id,'ct_4',true);
 				
-				$clanleader = get_post_meta($clan_id,'clan_leader');
-				$clan_points = get_post_meta($clan_id,'clan_points');
-				while ( have_posts() ) : the_post(); ?>
-			<?php if(!empty(get_post_meta($clan_id, 'clan_image', true))):?>
-			<center><div style="width:100%; height:300px;background: url('<?php echo get_post_meta($clan_id, 'clan_image', true); ?>') center center;background-repeat: no-repeat;"></center><br/><?php endif;?>
-		<table class="responsive-table">
-			<tr>
-				<td class="report_content"><strong>Name</strong></td>
-				<td class="report_content"><?php echo get_the_title($clan_id);?></td>
-			</tr>
-			<tr>
-				<td class="report_content"><strong>Members</strong></td>
-				<td class="report_content"><?php echo count($clan_members[0]);?></td>
-			</tr>
-			<tr>
-				<td class="report_content"><strong>Awards</strong></td>
-				<td class="report_content">
+		$clanleader = get_post_meta($clan_id,'clan_leader',true);
+		$clan_points = get_post_meta($clan_id,'clan_points',true);
+		$clantag = get_post_meta($clan_id,'clan_tag',true);
+		
+		$tot_networth = 0;
+		foreach ($clan_members[0] as $member) {
 					
-					<?php 
+		count_all_stats($member);
+		$networth = get_user_meta($member, 'networth',true);
+		$tot_networth+=$networth;
+		
+		}
+			
+		update_post_meta($clan_id, 'clan_networth', ceil($tot_networth));
+			
+				
+		while ( have_posts() ) : the_post(); ?>
+		<?php if(!empty(get_post_meta($clan_id, 'clan_image', true))):?>
+		<div class="row profile_block">	
+		
+			<center>
+			<div style="width:100%; height:300px;background: url('<?php echo get_post_meta($clan_id, 'clan_image', true); ?>') center center;background-repeat: no-repeat;">
+			</center>
+		
+		</div>
+		<?php endif;?>
+		
+		<div class="row profile_block">
+			<div class="row">
+				
+				<div class="row profile_row">
+					<div class="col-xs-5">Name</div>
+					<div class="col-xs-7"><?php echo get_the_title($clan_id);?></div>
+				</div>
+				
+				<div class="row profile_row">
+					<div class="col-xs-5">Members</div>
+					<div class="col-xs-7"><?php echo count($clan_members[0]);?></div>
+				</div>
+				
+				<div class="row profile_row">
+					<div class="col-xs-5">Awards</div>
+					<div class="col-xs-7">
+						<?php 
 				
 						$aw_args = array(
 							'post_type'		=>	'award',
@@ -101,204 +141,411 @@ get_header(); ?>
 							$position = get_post_meta($award->ID, 'position_clan', true);
 							$round = get_post_meta($award->ID, 'round', true);
 						?>
-						<i class="fa fa-trophy fa-lg" aria-hidden="true"></i> &nbsp;<?php echo $round;?>: <?php echo $award->post_title;?> - <strong><?php echo strtoupper($position);?></strong><br/>
+						<i class="fa fa-trophy fa-lg" aria-hidden="true"></i> 
+						&nbsp;<?php echo $round;?>: <?php echo $award->post_title;?> - <strong>
+						<?php echo strtoupper($position);?></strong><br/>
 						<?php } ?>
-					
-					
-				</td>
-			</tr> 
-			<tr>
-				<td class="report_content"><strong>Tag</strong></td>
-				<td class="report_content"><?php $clantag = get_post_meta($clan_id,'clan_tag'); echo $clantag[0];?></td>
-			</tr>
-			<tr>
-				<td class="report_content"><strong>Total networth</strong></td>
-				<td class="report_content">$ <?php 
-					$tot_networth = 0;
-					foreach ($clan_members[0] as $member) {
-					
-					count_all_stats($member);
-					$networth = get_user_meta($member, 'networth');
-					$tot_networth+=$networth[0];}
-					echo number_format($tot_networth, 0, ',', ' ');
-					update_post_meta($clan_id, 'clan_networth', ceil($tot_networth));
-				?>
-				</td>
-			</tr>
-			<tr>
-				<td class="report_content"><strong>Points</strong></td>
-				<td class="report_content"><?php if(!empty($clan_points)){echo number_format($clan_points[0], 0, ',', ' ');}else{echo '0';}?>pts <sup><?php echo get_post_meta($clan_id, '24h_pts', true);?>pts today</sup></td>
-			</tr>
-			<tr>
-				<td class="report_content"><strong>Message</strong></td>
-				<td class="report_content"><?php echo str_replace("\r", "<br />", get_the_content($clan_id)); ?></td>
-			</tr>
-		</table><br/>
-		<div class="clan_sorter">
-		<center>Sort by
-		<a class="sort-buttons"onclick="sorttable.innerSortFunction.apply(document.getElementById('landsort'), [])">Land</a>
-		<a class="sort-buttons"onclick="sorttable.innerSortFunction.apply(document.getElementById('nwsort'), [])">Networth</a>
-		<?php if (in_array($user_ID, $clan_members[0])):?>
-		<a class="sort-buttons"onclick="sorttable.innerSortFunction.apply(document.getElementById('ptssort'), [])">Points</a>
-		<?php endif;?>
-		</center>
-		<br/>
-		</div>
-		<table class="responsive-table sortable">
-			<thead>
-			<tr style="text-align:center;">
+						
+						
+						
+					</div>
+				</div>
 				
-				<td></td>
-				<td></td>
-				<td><strong>Name</strong>
-				</td>
-				<td id="nwsort"><strong>Networth</strong>
-				</td>
-				<?php if (in_array($user_ID, $clan_members[0])): $_member = true;?>
-				<td id="ptssort"><strong>Points</strong>
-				</td>
-				<?php endif;?>
-				<td id="landsort"><strong>Land</strong>
-				</td>
-				<td>
-				</td>
-				<?php if($declarer_clan_ID[0] != get_the_id()):?>
-				<td>
-				</td>
-				<?php endif;?>
-				</thead>
-			</tr>
-			<tbody>
-		<?php 
+				<div class="row profile_row">
+					<div class="col-xs-5">Tag</div>
+					<div class="col-xs-7"><?php echo $clantag;?></div>
+				</div>
+				
+				<div class="row profile_row">
+					<div class="col-xs-5">Total networth</div>
+					<div class="col-xs-7">$ <?php echo number_format($tot_networth, 0, ',', ' ');?></div>
+				</div>
+				
+				<div class="row profile_row">
+					<div class="col-xs-5">Points</div>
+					<div class="col-xs-7">
+						<?php if(!empty($clan_points)){
+							echo number_format($clan_points, 0, ',', ' ');
+							}
+							else{
+								echo '0';}?>pts <sup><?php echo get_post_meta($clan_id, '24h_pts', true);?>pts today</sup>
+					</div>
+				</div>
+				
+				<div class="row profile_row_last">
+					<div class="col-xs-5">Message</div>
+					<div class="col-xs-7"><?php echo str_replace("\r", "<br />", get_the_content($clan_id)); ?></div>
+				</div>
+				
+			</div>
 			
-			//$key = array_search(223, $clan_members[0]);
-			//unset($clan_members[0][$key]);
 			
-			//update_field('clan_members', $clan_members, $clan_id);
-			
-			foreach ($clan_members[0] as $key => $member) {
-				$member_data = get_userdata($member);
-				$networth = get_user_meta($member, 'networth');
-				$land = get_user_meta($member, 'land');
-				$last_online = get_user_meta($member, 'last_online');
-				if(!empty($last_online)){
-				$last_seen = $timestamp - $last_online[0];}
-			?>
-		<tr><td><?php if($member == $clanleader[0] ){echo '<center><strong>CL </strong></center>';} ?>
-				<?php if($member == $ct_1 || $member == $ct_2 || $member == $ct_3 || $member == $ct_4 ){echo '<center><strong>CT </strong></center>';} ?>
-			</td>
-			<td>
-				<?php if(!empty(get_user_meta($member, 'avatar_user', true))):?>
-                    
-			<div style='border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($member, 'avatar_user', true);?>");background-size: cover;'></div>
-			<?php else:?>
-			<div style='border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
-                    
-			<?php endif;?>
-			</td>
-			<td data-title="User"><a class="<?php echo get_user_meta($member,'status',true);?>" href="/users/profile/?id=<?php echo $member;?>"><?php echo $member_data->display_name.' (#'.$member.')';?></a> <?php
-						if(!empty($last_online)){
-						if($last_seen < 7200 && !empty($last_online[0])){echo ' <span style="color:#ff0000">*</span';}}?>
+		</div>
+		
+		
+		
+<?php 
+	// range checker 
+	$inRange = 'no';
+	$warText = 'war';
+	if($tot_networth > $dec_tot_networth/1.4 && $tot_networth < $dec_tot_networth*1.4){
+		$inRange = 'yes';
+		$warText = 'war';
+	}
+	if($warcount == 1){
+		$inRange = 'yes';
+		$warText = 'mutual war';
+	}
+	// can peace clan? 
+	$canPeace = false;
+	if($peaceID != 0 && ($timestamp-get_the_title($peaceID) > 86400)){
+		$canPeace = true;
+	}
+	
+	?>		
+		
+		
+		
+		
+		
+		
+		
 
-			</td>
-			<td sorttable_customkey="<?php echo $networth[0];?>" data-title="Networth">
-				<?php if($_member == true):?>
-				$ <?php echo number_format($networth[0], 0, ',', ' '); ?>
-				<?php else:?>
-				<?php if(($nw_att/1.4 <= $networth[0]) && ($networth[0] <= $nw_att*1.4)):?>
-				<strong>$ <?php echo number_format($networth[0], 0, ',', ' '); ?></strong>
-				<?php else:?>
-				$ <?php echo number_format($networth[0], 0, ',', ' '); ?>
-				<?php endif;?><?php endif;?>
-			</td>
-			<?php if($_member == true):
-				$pts = get_user_meta($member, 'user_clan_points',true);
+		
+<?php if(!in_array($declarer_ID, $clan_members[0])):?>
+<!-- Enemy clan block -->
+<div class="row profile_block">	
+<div class="row clan_header_row">
+	<div class="col-md-1"></div>
+	<div class="col-md-4"><strong>Name</strong></div>
+	<div class="col-md-3"><strong>Networth</strong></div>
+	<div class="col-md-2"><strong>Land</strong></div>
+	<div class="col-md-2"></div>
+</div>
+
+<?php 
+	$NRmembers = count($clan_members[0]);
+	$counter = 0;
+	foreach ($clan_members[0] as $key => $member) {
+		$extraClass = '';
+		$counter++;
+		if($counter == $NRmembers){
+			$extraClass = '_last';
+			
+		}
+		$member_data = get_userdata($member);
+		$networth = get_user_meta($member, 'networth',true);
+		$land = get_user_meta($member, 'land',true);
+		$last_online = get_user_meta($member, 'last_online',true);
+		if(!empty($last_online)){
+		$last_seen = $timestamp - $last_online;
+		}
 			?>
-			<td sorttable_customkey="<?php echo $pts;?>" data-title="Points">
-				<?php 
-					
-					if(empty($pts)){$pts = 0;}
-						echo $pts;
-					
-					 ?>
-			</td>
+<div class="row clan_profile_row<?php echo $extraClass;?>">
+	<div class="col-md-1">
+		<?php if(!empty(get_user_meta($member, 'avatar_user', true))):?>
+                    
+			<div class="clan_avatar" style='border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($member, 'avatar_user', true);?>");background-size: cover;'></div>
+			<?php else:?>
+			<div class="clan_avatar" style='border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
+                    
 			<?php endif;?>
-			<td sorttable_customkey="<?php echo $land[0];?>" data-title="Land" sorttable_customkey="<?php echo $land[0];?>"><?php echo number_format($land[0], 0, ',', ' '); ?> m<sup>2</sup>
-			</td>
-			<td><?php if($user_ID == $clanleader[0] && $member != $user_ID){?>
+		
+		
+	</div>
+	<div class="col-md-4 clan_column center_clan_col border_bottom_mobile">
+		
+		<a class="<?php echo get_user_meta($member,'status',true);?>" href="/users/profile/?id=<?php echo $member;?>">
+			<?php echo $member_data->display_name.' (#'.$member.')';?></a> 
+			<?php if(!empty($last_online)){
+					if($last_seen < 7200 && !empty($last_online[0])){
+						echo ' <span style="color:#ff0000">*</span>';
+						}
+					}?>
+					
+		<?php if($member == $clanleader ){
+			echo '<strong> CL</strong>';
+			} ?>
+		<?php if($member == $ct_1 || $member == $ct_2 || $member == $ct_3 || $member == $ct_4 ){
+				echo '<strong> CT</strong>';
+			} ?>
+			
+			
+	</div>
+	<div class="col-md-3 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Networth</span>
+		<span class="clan_data_right">
+		<?php if($_member == true):?>
+			$ <?php echo number_format($networth, 0, ',', ' '); ?>
+				<?php else:?>
+				<?php if(($nw_att/1.4 <= $networth) && ($networth <= $nw_att*1.4)):?>
+				<strong>$ <?php echo number_format($networth, 0, ',', ' '); ?></strong>
+				<?php else:?>
+				$ <?php echo number_format($networth, 0, ',', ' '); ?>
+				<?php endif;?>
+		<?php endif;?>
+		</span>
+
+	</div>
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Land</span>
+		<span class="clan_data_right">
+		<?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup>
+		</span>
+	</div>
+	
+	<div class="col-md-2 clan_column center_clan_col">
+		<a href="/attack/step-1/?id=<?php echo $member;?>"><i class="fa fa-crosshairs fa-lg" aria-hidden="true"></i></a> 
+		<a href="/spy-reports/?id=<?php echo $member;?>"><i class="fa fa-binoculars" aria-hidden="true"></i></a>
+	</div>
+</div>
+
+<?php }?>
+</div>
+
+<?php if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists(get_the_id(), $cooldownlist) && $inRange == 'yes' && $canPeace == false):?>
+
+<div class="row button_block">
+ 	
+ 	<div class="col-md-6 buttoncol">
+	 	<?php if (in_array(get_the_ID(), $declared_on)):?>
+	 	<center><span class="btn btn-disabled profilebutton">
+		 	<i class="fa fa-fire" aria-hidden="true"></i> &nbsp;You are at war with this clan</span></center>
+		 <?php else:?>
+		 <center><a class="btn btn-general profilebutton" onclick="return confirm('Are you sure you want to declare <?php echo $warText;?>?')" href="/declare_war.php?clan=<?php echo $clan_id;?>">
+		 	<i class="fa fa-fire" aria-hidden="true"></i> &nbsp;Declare <?php echo $warText;?></a></center>
+		 <?php endif;?>
+	</div>
+	
+	<div class="col-md-6 buttoncol">
+	 	<center><a class="btn btn-general profilebutton" href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+		 	<i class="fa fa-bar-binoculars" aria-hidden="true"></i> &nbsp;View spyreports</a></center>
+	</div>
+
+</div>
+<?php endif;?>
+
+
+
+<?php if(in_array($declarer_ID, $allowed_to_declare) && $canPeace == true):?>
+<!-- Declare peace block -->
+<div class="row button_block">
+ 	
+ 	<div class="col-md-6 buttoncol">	
+		 <center><a class="btn btn-general profilebutton" onclick="return confirm('Are you sure you want to declare peace?')" href="/declare_peace.php/?war=<?php echo $peaceID;?>">
+		 	<i class="fa fa-fire" aria-hidden="true"></i> &nbsp;Declare peace</a></center>
+	</div>
+	
+	<div class="col-md-6 buttoncol">
+	 	<center><a class="btn btn-general profilebutton" href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+		 	<i class="fa fa-bar-binoculars" aria-hidden="true"></i> &nbsp;View spyreports</a></center>
+	</div>
+
+</div>
+<?php endif;?>
+
+
+
+
+<?php if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists(get_the_id(), $cooldownlist) && $inRange == 'no' && $canPeace == false):?>
+
+<div class="row button_block">
+ 	
+ 	<div class="col-md-6 buttoncol">
+	 	<center><span class="btn btn-disabled profilebutton">
+		 	<i class="fa fa-fire" aria-hidden="true"></i> &nbsp;Currently not in range</span></center>
+	</div>
+	
+	<div class="col-md-6 buttoncol">
+	 	<center><a class="btn btn-general profilebutton" href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+		 	<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports</a></center>
+	</div>
+
+</div>
+<?php endif;?>
+
+
+<?php if(!in_array($declarer_ID, $allowed_to_declare) || array_key_exists(get_the_id(), $cooldownlist)):?>
+
+<div class="row button_block">
+	<div class="col-md-3 buttoncol">
+	</div>
+	
+	<div class="col-md-6 buttoncol">
+	 	<center><a class="btn btn-general profilebutton" href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+		 	<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports</a></center>
+	</div>
+	
+	<div class="col-md-3 buttoncol">
+	</div>
+
+</div>
+
+<?php endif;?>
+
+
+
+
+<!-- End enemy clan block -->
+
+<?php endif;?>
+
+
+
+
+
+
+
+<?php if(in_array($declarer_ID, $clan_members[0])):?>
+<!-- Own clan block -->
+<div class="row profile_block">	
+<div class="row clan_header_row">
+	<div class="col-md-1"></div>
+	<div class="col-md-4"><strong>Name</strong></div>
+	<div class="col-md-2"><strong>Networth</strong></div>
+	<div class="col-md-2"><strong>Land</strong></div>
+	<div class="col-md-2"><strong>Points</strong></div>
+	<div class="col-md-1"></div>
+</div>
+
+<?php 
+	$NRmembers = count($clan_members[0]);
+	$counter = 0;
+	foreach ($clan_members[0] as $key => $member) {
+		$extraClass = '';
+		$counter++;
+		if($counter == $NRmembers){
+			$extraClass = '_last';
+			
+		}
+		$member_data = get_userdata($member);
+		$networth = get_user_meta($member, 'networth',true);
+		$land = get_user_meta($member, 'land',true);
+		$last_online = get_user_meta($member, 'last_online',true);
+		$pts = get_user_meta($member, 'user_clan_points',true);
+		if(!empty($last_online)){
+		$last_seen = $timestamp - $last_online;
+		}
+			?>
+<div class="row clan_profile_row<?php echo $extraClass;?>">
+	<div class="col-md-1">
+		<?php if(!empty(get_user_meta($member, 'avatar_user', true))):?>
+                    
+			<div class="clan_avatar" style='border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($member, 'avatar_user', true);?>");background-size: cover;'></div>
+			<?php else:?>
+			<div class="clan_avatar" style='border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
+                    
+			<?php endif;?>
+		
+		
+	</div>
+	<div class="col-md-4 clan_column center_clan_col border_bottom_mobile">
+		
+		<a class="<?php echo get_user_meta($member,'status',true);?>" href="/users/profile/?id=<?php echo $member;?>">
+			<?php echo $member_data->display_name.' (#'.$member.')';?></a> 
+			<?php if(!empty($last_online)){
+					if($last_seen < 7200 && !empty($last_online[0])){
+						echo ' <span style="color:#ff0000">*</span>';
+						}
+					}?>
+					
+		<?php if($member == $clanleader ){
+			echo '<strong> CL</strong>';
+			} ?>
+		<?php if($member == $ct_1 || $member == $ct_2 || $member == $ct_3 || $member == $ct_4 ){
+				echo '<strong> CT</strong>';
+			} ?>
+			
+			
+	</div>
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Networth</span>
+		<span class="clan_data_right">
+		<?php if($_member == true):?>
+			$ <?php echo number_format($networth, 0, ',', ' '); ?>
+				<?php else:?>
+				<?php if(($nw_att/1.4 <= $networth) && ($networth <= $nw_att*1.4)):?>
+				<strong>$ <?php echo number_format($networth, 0, ',', ' '); ?></strong>
+				<?php else:?>
+				$ <?php echo number_format($networth, 0, ',', ' '); ?>
+				<?php endif;?>
+		<?php endif;?>
+		</span>
+
+	</div>
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Land</span>
+		<span class="clan_data_right">
+		<?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup>
+		</span>
+	</div>
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Points</span>
+		<span class="clan_data_right">
+		<?php echo number_format($pts, 0, ',', ' '); ?>pts
+		</span>
+	</div>
+	
+	<div class="col-md-1 clan_column center_clan_col">
+		<?php if($user_ID == $clanleader && $member != $user_ID){?>
 			<a href="/kick.php/?id=<?php echo $member;?>&clan=<?php echo $clan_id;?>" onclick="return confirm('Are you sure you want to kick <?php echo $member_data->display_name.' (#'.$member.')';?> from your clan?')">Kick</a>
 			<?php } ?>
-			<?php if($member != $user_ID && $member != $clanleader[0] && $member != $ct_1 && $member != $ct_2 && $member != $ct_3 && $member != $ct_4){?>
+			<?php if($member != $user_ID && $member != $clanleader && $member != $ct_1 && $member != $ct_2 && $member != $ct_3 && $member != $ct_4){?>
 			<?php if($user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4){?>
 			<a href="/kick.php/?id=<?php echo $member;?>&clan=<?php echo $clan_id;?>" onclick="return confirm('Are you sure you want to kick <?php echo $member_data->display_name.' (#'.$member.')';?> from your clan?')">Kick</a>
 			<?php }} ?>
-			<?php if($_member == false):?>
-			<td data-title="Actions">
-				<a href="/attack/step-1/?id=<?php echo $member;?>"><i class="fa fa-crosshairs fa-lg" aria-hidden="true"></i></a> <a href="/spy-reports/?id=<?php echo $member;?>"><i class="fa fa-binoculars" aria-hidden="true"></i></a>
-			</td>
-			<?php endif;?>
-			
-			
-			</td>
-		</tr>
-		
-		
-		
-		
-		<?php }?>
-			</tbody>
-		</table>
-			<?php endwhile; // end of the loop. ?>
+
+	</div>
+</div>
+
+<?php }?>
+</div>
+<!-- End own clan block -->
+<?php endif;?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php endwhile; // end of the post loop. ?>
 
 <?php if(get_field('game_status','option') != 'Live'):?>
-			<div class="notice_message"><span class="rdw-line">The round has ended!</span></div>
-			<?php else:?>
-<?php 
-	/* check to not be able to declare on own clan */
-	if($declarer_clan_ID[0] != get_the_id()):?> 
-
-
-<?php if (!in_array(get_the_ID(), $declared_on)){ ?>
-	
-	
-	<?php 
-		$candeclare = false;
-		if (($tot_networth > $dec_tot_networth/1.4 && $tot_networth < $dec_tot_networth*1.4)){	
-			$candeclare = true;
-		?>	
-		
-		<?php if(in_array($declarer_ID, $allowed_to_declare)){?>
-		<?php if(!array_key_exists(get_the_id(), $cooldownlist)):?>
-	<center><a onclick="return confirm('Are you sure you want to declare war?')" class="btn btn-general" href="/declare_war.php?clan=<?php echo $clan_id;?>"><i class="fa fa-fire" aria-hidden="true"></i> Declare war on <?php echo get_the_title($clan_id).' (#'.$clan_id;?>)</a></center>
+	<div class="notice_message"><span class="rdw-line">The round has ended!</span></div>
 		<?php else:?>
+
+	
+		<?php if(array_key_exists(get_the_id(), $cooldownlist)):?>
+
 		<div class="notice_message"><span class="rdw-line">
 			<?php 
-				
 				$timeleft = $cooldownlist[$clan_id]-$timestamp;
-		
-				
-	
-				//$timeleft = date('d:H:i:s', $timeleft);
-				
-				echo human_time_diff( $cooldownlist[$clan_id],$timestamp);?> left before you can declare war</span></div>
+				echo human_time_diff( $cooldownlist[$clan_id],$timestamp);?> left before you can declare war</span>
+		</div>
 		<?php endif;?>
-		<?php }?>
 		
 		
 
-		<?php } elseif($candeclare == false && $warcount != 1) {?>
-		<div class="notice_message"><span class="rdw-line">Clan out of range. You cannot declare war.</span></div>
-		<?php } if($warcount == 1 && in_array($declarer_ID, $allowed_to_declare)) {?>
-		<center><a onclick="return confirm('Are you sure you want to declare mutual war?')" class="btn btn-general" href="/declare_war.php?clan=<?php echo $clan_id;?>"><i class="fa fa-fire" aria-hidden="true"></i> Declare mutual war on <?php echo get_the_title($clan_id).' (#'.$clan_id;?>)</a></center>
-		<?php }?><?php } ?>
-
-
-<?php endif;?>
 
 <?php if (in_array(get_the_ID(), $declared_on)){ ?>
 	<div class="notice_message"><span class="rdw-line">You are at war with this clan</span></div>
 <?php }?><br/>
-<center><a class="btn btn-general" href="/spy-report-overview/?id=<?php echo $clan_id;?>"><i class="fa fa-binoculars" aria-hidden="true"></i> View spy report overview</a></center>
 		<?php endif;?>
 		
 		</div><!-- /.span12 -->

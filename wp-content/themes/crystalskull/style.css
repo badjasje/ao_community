@@ -492,6 +492,12 @@ ul.tabs{
     margin-bottom: 3px;
     text-transform: uppercase;
 }
+.btn-disabled {
+    color: #4b4b4b;
+    background-color: #ddd;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+}
 .btn-filter {
     color: #fff !important;
     background-color: #2d4350 !important;
@@ -977,3 +983,100 @@ table{
 	padding:20px 0px 0px 0px;
 }
 }
+
+
+.col-xs-15,
+.col-sm-15,
+.col-md-15,
+.col-lg-15 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-15 {
+    width: 20%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+.col-sm-15 {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-15 {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-15 {
+        width: 20%;
+        float: left;
+    }
+}
+
+
+.clan_column{
+	line-height: 38px;
+    vertical-align: middle;
+
+}
+.clan_data_left{
+	display: none;
+}
+.clan_data_right{
+	float:left;
+}
+border_bottom_mobile{
+	border:none;
+}
+.clan_profile_row{
+	padding:10px 0px;
+	border-bottom:1px solid #ddd;
+}
+.clan_profile_row_last{
+	padding:10px 0px;
+	border:none;
+}
+@media (max-width: 992px) {
+.clan_avatar{
+	margin-left:auto;
+	margin-right:auto;
+}
+.clan_header_row{
+	display: none;
+}
+.center_clan_col{
+	text-align: center;
+}
+.clan_data_left{
+	display: inline-block;
+}
+.clan_data_right{
+	float:right;
+}
+.border_bottom_mobile{
+	border-bottom:1px solid rgba(221, 221, 221, 0.25);
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
