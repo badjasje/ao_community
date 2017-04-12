@@ -376,9 +376,11 @@ function calculate_defense_by_type($target_id, $power_on) {
 		/* next building if none */
 		if ($bld_count < 1)
 			continue;
-
+		$power = get_user_meta($target_id, 'power', true);
+	
+		
 		/* if valid DB add to attack array */
-		if ($power_on && in_array($key, $DEFENSIVE_BUILDINGS)) {
+		if ($power < 100 && in_array($key, $DEFENSIVE_BUILDINGS)) {
 			$target_type = $buildings[$key]['attacks'][0];
 			$attack_power = $buildings[$key]['attack'];
 
