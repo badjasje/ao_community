@@ -13,6 +13,7 @@ $filter_array = array(	'empsat',
 						'nukeprotection',
 						'aid',
 						'user_kicked',
+						'sat_crash',
 						'spy');
 
 
@@ -887,6 +888,63 @@ $avatar = get_user_meta($user_ID, 'avatar_user', true);
 	</div>
 
 <?php endif; // End kick event ?>
+
+
+
+
+
+
+<?php if($attack_type == 'sat_crash'): ?>
+
+<?php
+	
+	$avatar = get_user_meta($defender_id, 'avatar_user', true);
+		if(empty($avatar)){
+			$avatar = '/wp-content/uploads/2016/11/default_large.png';
+		}
+?>
+
+
+<!-- Event header -->
+<div class="row battlereport-header">
+	<div class="col-md-12">
+		<img class="attack-image" src="http://assault.online/wp-content/uploads/2016/03/research.png"> 
+		Satellite crashed
+	</div>
+</div>
+<!-- Event header -->
+
+
+<div class="row event-row">
+	
+<!-- Attacker image -->	
+	<div class="col-md-2">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="attack-profile-image" 
+					style="background: url(<?php echo $avatar;?>);background-size: cover;">
+				</div>
+				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
+			</div>
+		</div>
+	</div>
+<!-- Attacker image -->		
+	
+	
+	<div class="col-md-10">
+			<div class="row">
+				<div class="col-md-12 event-message">
+				
+				Your satellite crashed and burned up in the atmosphere.
+				
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
+
+<?php endif; // End sat crash event ?>
 
 
 

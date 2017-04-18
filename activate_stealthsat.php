@@ -33,7 +33,7 @@ if($sat_morale < 100){
 $timestamp = strtotime(date('Y-m-d H:i:s'));
 
 update_user_meta($user_ID, 'stealth_sat_status', 'active');
-update_user_meta($user_ID, 'stealth_sat_time', $timestamp+3600*7);
+update_user_meta($user_ID, 'stealth_sat_time', $timestamp+3600*3.5);
 update_user_meta($user_ID, 'sat_morale', $sat_morale-100);
 
 

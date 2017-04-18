@@ -17,14 +17,34 @@ foreach ($users as $user) {
 		if($timeleft <= 0){
 			update_user_meta($user_ID, 'sat_owned', 0);
 			update_user_meta($user_ID, 'sat_endlife', 0);
+			
+			$args = array(	
+				'post_title'    => 'Sat crash: '.$user_ID,
+				'post_status'   => 'publish',
+				'post_type'		=> 'event_local',
+				'post_author'   => $user_ID
+				);
+				
+			$new_event_id = wp_insert_post( $args );
+			update_field('attacktype','sat_crash', $new_event_id);
+
+
+
+			update_field('attacker_id',0, $new_event_id);
+			update_field('defender_id',$user_ID, $new_event_id);
+			update_field('time_attacked',$timestamp, $new_event_id);
+
+			/* update event count */
+			$event_count = get_user_meta($user_ID, 'new_events',true);
+			update_user_meta($user_ID, 'new_events', $event_count + 1);
 		}
 		
 		
 	/* deactivate stealth sat */
 	$stealth_sat_time = get_user_meta($user_ID, 'stealth_sat_time',true);
 	$timeleft = $stealth_sat_time-$timestamp;
-		if($timeleft >= 0){
-			update_user_meta($user_ID, 'stealth_sat_time', 'inactive');
+		if($timeleft <= 0){
+			update_user_meta($user_ID, 'stealth_sat_status', 'inactive');
 		}
 
 	
