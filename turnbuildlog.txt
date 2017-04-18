@@ -20856,3 +20856,9 @@ Units ordered: thief 40
 ID: 29
 Units ordered: thief 45
 
+ID: 344
+Units ordered: thief 20
+
+ID: 696
+Units ordered: sam 276
+

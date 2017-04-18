@@ -18182,3 +18182,7 @@ ID: 102
 Units sold: 250
 Type: artillery
 
+ID: 344
+Units sold: 50
+Type: sniper
+
