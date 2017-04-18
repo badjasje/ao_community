@@ -240,11 +240,11 @@ jQuery(document).ready(function() {
 						foreach($spy_array as $key => $amount){?>
 						<?php if($key != 'enhance'):?>
 							
-							<?php if($amount > 49):?>
+							
 								<?php echo $key;?> 
 								<strong><?php echo $amount;?></strong>
 								<br/>
-							<?php endif;?>
+							
 						<?php endif;?>
 					<?php }?>
 					
@@ -269,32 +269,18 @@ jQuery(document).ready(function() {
 					
 					<?php 
 						if($buildingreportcount > 0){
-						foreach($building_array as $key => $amount){?>
-						<?php if($amount > 49):?>
-						<?php echo $key;?> 
-						<strong><?php 
-							if($amount >= 50 && $amount < 100){echo '50-99';}
-							if($amount >= 100 && $amount < 250){echo '100-249';}
-							if($amount >= 250 && $amount < 500){echo '250-499';}
-							if($amount >= 500 && $amount < 1000){echo '500-999';}
-							if($amount >= 1000 && $amount < 2000){echo '1000-1999';}
-							if($amount >= 2000 && $amount < 3000){echo '2000-2999';}
-							if($amount >= 3000 && $amount < 5000){echo '3000-4999';}
-							if($amount >= 5000 && $amount < 7500){echo '5000-7499';}
-							if($amount >= 7500 && $amount < 10000){echo '7500-9999';}
-							if($amount >= 10000 && $amount < 15000){echo '10000-14999';}
-							if($amount >= 15000 && $amount < 20000){echo '15000-19999';}
-							if($amount >= 20000 && $amount < 25000){echo '20000-24999';}
-							if($amount >= 25000 && $amount < 30000){echo '25000-29999';}
-						?>
-						</strong>
-						<br/>
 
+						foreach($building_array as $building => $amount){ ?>
+						<?php if($building != 'enhance'):?>
+							
+							
+								<?php echo $building;?> 
+								<strong><?php echo $amount;?></strong>
+								<br/>
+							
 						<?php endif;?>
 					<?php }?>
-					<br/><strong>All other buildings below 49</strong>
-					
-					
+
 					<?php }?>
 				</div>
 				</td>
