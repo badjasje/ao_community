@@ -59,74 +59,78 @@ get_header('spyrep'); ?>
 			$reports = get_posts( $args ); 
 		
 		
-			$count = 0;
-			foreach ($reports as $report) {
-			$author = $report->post_author;
-			$member_data = get_userdata($author);
-			$spy_array = get_post_meta($report->ID, 'spy_array', true);
+$count = 0;
+
+	foreach ($reports as $report) {
+		$author = $report->post_author;
+		$member_data = get_userdata($author);
+		$spy_array = get_post_meta($report->ID, 'spy_array', true);
 			
-			$count++;
+		$count++;
 			?>
-			<div class="notice_message">
-			Last spied by <a href="/users/profile/?id=<?php echo $author;?>"><?php echo $member_data->display_name.' (#'.$author.')';?></a> \ <?php echo $report->post_date;?> 
-			<table style="margin-bottom:0px;"class="responsive-table">
-				<tbody>
-				<tr>
-					<td style="color:#fff">
-					Registered: <strong><?php echo number_format(get_post_meta($report->ID, 'spied_land', true), 0, ',', ' '); ?> m<sup>2</sup></strong><br/>
-					Current: <strong><?php echo number_format(get_user_meta($target_id, 'land', true), 0, ',', ' '); ?> m<sup>2</sup></strong>
-					</td>
-					<td style="color:#fff">
-					Registered: <strong>$ <?php echo number_format(get_post_meta($report->ID, 'spied_nw', true), 0, ',', ' ');?></strong><br/>
-					Current: <strong>$ <?php echo number_format(get_user_meta($target_id, 'networth', true), 0, ',', ' ');?></strong>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-			</div><br/>
-			<table class="responsive-table">
-				<thead>
-				<th scope="col">Name</th>
-				<th scope="col">Owned</th>
-				</thead>
-				<tbody>
-			<?php foreach ($spy_array as $building => $amount) {
-				if($amount >= 50 && $amount < 100){$displayamount = '50-99';}
-				if($amount >= 100 && $amount < 250){$displayamount = '100-249';}
-				if($amount >= 250 && $amount < 500){$displayamount = '250-499';}
-				if($amount >= 500 && $amount < 1000){$displayamount = '500-999';}
-				if($amount >= 1000 && $amount < 2000){$displayamount = '1000-1999';}
-				if($amount >= 2000 && $amount < 3000){$displayamount = '2000-2999';}
-				if($amount >= 3000 && $amount < 5000){$displayamount = '3000-4999';}
-				if($amount >= 5000 && $amount < 7500){$displayamount = '5000-7499';}
-				if($amount >= 7500 && $amount < 10000){$displayamount = '7500-9999';}
-				if($amount >= 10000 && $amount < 15000){$displayamount = '10000-14999';}
-				if($amount >= 15000 && $amount < 20000){$displayamount = '15000-19999';}
-				if($amount >= 20000 && $amount < 25000){$displayamount = '20000-24999';}
-				if($amount >= 25000 && $amount < 30000){$displayamount = '25000-29999';}
-				
-				
-			?>
-			<?php if($amount > 49):?>
+	
+	
+<div class="notice_message">
+	Last spied by <a href="/users/profile/?id=<?php echo $author;?>"><?php echo $member_data->display_name.' (#'.$author.')';?></a> \ <?php echo $report->post_date;?> 
+		
+	<?php if($spy_array['enhance'] > 0):?>
+		<br/>Enhanced <?php echo $spy_array['enhance'];?> times	
+	<?php endif;?>
+		
+		
+<table style="margin-bottom:0px;"class="responsive-table">
+	<tbody>
+		<tr>
+			<td style="color:#fff">
+				Registered: <strong><?php echo number_format(get_post_meta($report->ID, 'spied_land', true), 0, ',', ' '); ?> m<sup>2</sup></strong><br/>
+				Current: <strong><?php echo number_format(get_user_meta($target_id, 'land', true), 0, ',', ' '); ?> m<sup>2</sup></strong>
+			</td>
+			
+			<td style="color:#fff">
+				Registered: <strong>$ <?php echo number_format(get_post_meta($report->ID, 'spied_nw', true), 0, ',', ' ');?></strong><br/>
+				Current: <strong>$ <?php echo number_format(get_user_meta($target_id, 'networth', true), 0, ',', ' ');?></strong>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+</div> <!-- end notice message -->
+
+<br/>
+			
+			
+			
+			
+<table class="responsive-table">
+	<thead>
+		<th scope="col">Name</th>
+		<th scope="col">Owned</th>
+	</thead>
+	<tbody>
+	
+	<?php foreach ($spy_array as $building => $amount) { ?>
+		
+		<?php if($building != 'enhance'):?>
+			
 			<tr>
 				<td data-title="Name"><?php echo $building;?></td>
-				<td data-title="Owned"><?php echo $displayamount;?></td>	
+				<td data-title="Owned"><?php echo $amount;?></td>	
 			</tr>
-			<?php endif;?>
-			<?php }?>
-			<tr>
-				<td><strong>Other buildings</strong></td>
-				<td>0-49</td>	
-			</tr>
+			
+		<?php endif;?>
+			
+		<?php }?>
+		
+			
 			</tbody>
 			</table>
-			<?php }?>
+			
 			<?php if($count == 0):?>
 			<div class="notice_message">No spy reports for this player.</div><br/>
             <?php endif;?>
 			</div>
 			
-			
+			<?php }?>
 			
 			<div id="tab-2" class="tab-content">
 	           <?php
@@ -162,6 +166,9 @@ get_header('spyrep'); ?>
 			?>
 			<div class="notice_message">
 			Last spied by <a href="/users/profile/?id=<?php echo $author;?>"><?php echo $member_data->display_name.' (#'.$author.')';?></a> \ <?php echo $report->post_date;?> 
+			<?php if($spy_array['enhance'] > 0):?>
+			<br/>Enhanced <?php echo $spy_array['enhance'];?> times
+			<?php endif;?>
 			<table style="margin-bottom:0px;"class="responsive-table">
 				<tbody>
 				
@@ -184,32 +191,19 @@ get_header('spyrep'); ?>
 				<th scope="col">Owned</th>
 				</thead>
 				<tbody>
-			<?php foreach ($spy_array as $unit => $amount) {
-				if($amount >= 50 && $amount < 100){$displayamount = '50-99';}
-				if($amount >= 100 && $amount < 250){$displayamount = '100-249';}
-				if($amount >= 250 && $amount < 500){$displayamount = '250-499';}
-				if($amount >= 500 && $amount < 1000){$displayamount = '500-999';}
-				if($amount >= 1000 && $amount < 2000){$displayamount = '1000-1999';}
-				if($amount >= 2000 && $amount < 3000){$displayamount = '2000-2999';}
-				if($amount >= 3000 && $amount < 5000){$displayamount = '3000-4999';}
-				if($amount >= 5000 && $amount < 7500){$displayamount = '5000-7499';}
-				if($amount >= 7500 && $amount < 10000){$displayamount = '7500-9999';}
-				if($amount >= 10000 && $amount < 15000){$displayamount = '10000-14999';}
-				if($amount >= 15000 && $amount < 20000){$displayamount = '15000-19999';}
-				if($amount >= 20000 && $amount < 25000){$displayamount = '20000-24999';}
-				if($amount >= 25000 && $amount < 30000){$displayamount = '25000-29999';}
+			<?php 
+			
+				foreach ($spy_array as $unit => $amount) {
+				
 			?>
-			<?php if($amount > 49):?>
+			<?php if($unit != 'enhance'):?>
 			<tr>
 				<td data-title="Name"><?php echo $unit;?></td>
-				<td data-title="Owned"><?php echo $displayamount;?></td>	
+				<td data-title="Owned"><?php echo $amount;?></td>	
 			</tr>
 			<?php endif;?>
 			<?php }?>
-			<tr>
-				<td><strong>Other units</strong></td>
-				<td>0-49</td>	
-			</tr>
+		
 			</tbody>
 			</table>
 			<?php }?>

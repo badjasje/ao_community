@@ -8,7 +8,11 @@ $sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
 if($sat_status == 'active'){
 	$succes = 100;
 }
+
 $clan_defender_id = get_user_meta($defender_ID, 'clan_id_user', true);
+$clan_ID = get_user_meta($user_ID, 'clan_id_user', true);
+$timestamp = strtotime(date('Y-m-d H:i:s'));
+
 $spytype = $_SESSION['attack_array']['sendspy'];
 	$turns = get_user_meta($user_ID, 'turns');
 	update_user_meta($user_ID,'turns',$turns[0]-1);
@@ -18,6 +22,102 @@ if($sat_status == 'active'){
 	$success = 100;
 	
 }
+
+
+
+
+$members = get_post_meta($clan_ID,'clan_members',true);
+			
+			
+			/* enhancing spy */
+			$enhanceSpy = 0;
+			
+			$args = array(
+			'posts_per_page'   => -1,
+			'author__in'	=> $members,
+			'orderby'          => 'date',
+			'order'            => 'DESC',
+			'meta_query'	=> array(
+				'relation'		=> 'AND',
+					array(
+						'key'	 	=> 'spied_id',
+						'value'	  	=> $defender_ID,
+						'compare' 	=> '=',
+						),
+					array(
+						'key'	 	=> 'spy_type',
+						'value'	  	=> 'spy',
+						'compare' 	=> '=',
+						),
+						
+					
+					),
+			'post_type'        => 'spy_rep',
+			);
+			$reports = get_posts( $args ); 		
+		
+			foreach ($reports as $report) {
+				
+			
+			$posttime = strtotime($report->post_date);
+			
+			if($posttime-$timestamp-3600+300 > 0){
+			
+				$enhanceSpy+=1;
+				}
+			
+			}
+			if($enhanceSpy > 3){
+				$enhanceSpy = 3;
+			}
+			
+			
+			
+			
+			/* enhancing plane */
+			$enhancePlane = 0;
+			
+			$args = array(
+			'posts_per_page'   => -1,
+			'author__in'	=> $members,
+			'orderby'          => 'date',
+			'order'            => 'DESC',
+			'meta_query'	=> array(
+				'relation'		=> 'AND',
+					array(
+						'key'	 	=> 'spied_id',
+						'value'	  	=> $defender_ID,
+						'compare' 	=> '=',
+						),
+					array(
+						'key'	 	=> 'spy_type',
+						'value'	  	=> 'spyplane',
+						'compare' 	=> '=',
+						),
+						
+					
+					),
+			'post_type'        => 'spy_rep',
+			);
+			$reports = get_posts( $args ); 		
+		
+			foreach ($reports as $report) {
+				
+			
+			$posttime = strtotime($report->post_date);
+			
+			if($posttime-$timestamp-3600+300 > 0){
+			
+				$enhancePlane+=1;
+				}
+			
+			}
+			if($enhancePlane > 3){
+				$enhancePlane = 3;
+			}
+			
+			
+			
 	
 get_header(); ?>
 <div class="page normal-page">
@@ -31,10 +131,18 @@ get_header(); ?>
 		<?php $winner_id = $user_ID;?>
 			<center><h2>S U C C E S S</h2></center>
 			<div class="notice_message">
-			Your spy entered the base of <a href="/users/profile/?id=<?php
-echo $defender_ID;
-?>"><strong><?php $playername = get_userdata($defender_ID); echo $playername->display_name; echo ' (#' . $_SESSION['target_id'] . ')</a>';
-?> </strong>
+			<span class="rdw-line">Your spy entered the base of 
+				<a href="/users/profile/?id=<?php echo $defender_ID;?>">
+				<strong><?php $playername = get_userdata($defender_ID); echo $playername->display_name; echo ' (#' . $_SESSION['target_id'] . ')</a>'; ?> </strong> 
+				<?php if($enhanceSpy < 3):?>
+					Spy report enhanced <?php echo $enhanceSpy;?> times.
+				<?php else:?>
+					Spy report fully enhanced.
+				<?php endif;?>
+			</span>
+			<?php if($enhanceSpy < 3):?>
+				<span class="rdw-line">Re-spy this target within 5 minutes to enhance spy reports</span>
+			<?php endif;?>
 			</div><br/>
 			<center>
 		
@@ -43,11 +151,14 @@ echo $defender_ID;
 			
 			
 				
-			<?php 
-			$spy_array = array();	
+		<?php 
+			
+			
+			$amountArray = array();	
+			$spy_array = array();
 			foreach ($units as $key => $unit) {
 			$owned_units = get_user_meta($defender_ID, $key.'_owned');
-			$spy_array[$unit['normalname']] = $owned_units[0];}
+			$amountArray[$unit['normalname']] = $owned_units[0];}
 			?>
 			<table class="responsive-table">
 				<thead>
@@ -55,7 +166,23 @@ echo $defender_ID;
 				<th scope="col">Owned</th>
 				</thead>
 				<tbody>
-			<?php foreach ($spy_array as $unit => $amount) {
+			<?php foreach ($amountArray as $unit => $amount) {
+				
+				
+				if($amount>0){
+				$displayamount = max(round($amount/(1+(mt_rand(120, 300)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(120, 300)/100)))));
+				
+				if($enhanceSpy == 1){
+					$displayamount = max(round($amount/(1+(mt_rand(75, 150)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(75, 150)/100)))));
+				}
+				if($enhanceSpy == 2){
+					$displayamount = max(round($amount/(1+(mt_rand(40, 75)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(40, 75)/100)))));
+				}
+				if($enhanceSpy == 3){
+					$displayamount = max(round($amount/(1+(mt_rand(5, 10)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(5, 10)/100)))));
+				}
+				$spy_array[$unit] = $displayamount;
+				/*
 				if($amount >= 50 && $amount < 100){$displayamount = '50-99';}
 				if($amount >= 100 && $amount < 250){$displayamount = '100-249';}
 				if($amount >= 250 && $amount < 500){$displayamount = '250-499';}
@@ -69,18 +196,20 @@ echo $defender_ID;
 				if($amount >= 15000 && $amount < 20000){$displayamount = '15000-19999';}
 				if($amount >= 20000 && $amount < 25000){$displayamount = '20000-24999';}
 				if($amount >= 25000 && $amount < 30000){$displayamount = '25000-29999';}
+				*/
+			
 			?>
-			<?php if($amount > 49):?>
+		
 			<tr>
 				<td data-title="Name"><?php echo $unit;?></td>
 				<td data-title="Owned"><?php echo $displayamount;?></td>	
 			</tr>
-			<?php endif;?>
-			<?php }?>
-			<tr>
-				<td><strong>Other units</strong></td>
-				<td>0-49</td>	
-			</tr>
+			
+			<?php 
+				$spy_array['enhance'] = $enhanceSpy;
+				
+				}}?>
+			
 			</tbody>
 			</table>
 		
@@ -94,7 +223,7 @@ echo $defender_ID;
 				
 			
 			$new_event_id = wp_insert_post( $args );
-			$clan_ID = get_user_meta($user_ID, 'clan_id_user', true);
+			
 			update_field('spied_id', $defender_ID, $new_event_id);
 			update_field('clan_id_report', $clan_ID, $new_event_id);
 			update_field('spy_type', 'spy', $new_event_id);
@@ -137,18 +266,31 @@ echo $defender_ID;
 echo $defender_ID;
 ?>"><strong><?php $playername = get_userdata($defender_ID); echo $playername->display_name; echo ' (#' . $_SESSION['target_id'] . ')</a>';
 ?> </strong>
+			<?php if($enhancePlane < 3):?>
+					Spy report enhanced <?php echo $enhancePlane;?> times.
+				<?php else:?>
+					Spy report fully enhanced.
+				<?php endif;?>
+			</span>
+			<?php if($enhancePlane < 3):?>
+				<span class="rdw-line">Re-spy this target within 5 minutes to enhance spy reports</span>
+			<?php endif;?>
+
 			</div><br/>
 			<center>
 		
 
 		<p><a class="btn btn-general" href="<?php echo get_the_permalink($clan_defender_id);?>">View clan</a> <a class="btn btn-general" href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">Spy report overview for clan</a></p></center>
+		
+		
+		<?php 
 			
-			<?php 
-			$spy_array = array();		
+			
+			$amountArray = array();	
+			$spy_array = array();
 			foreach ($buildings as $key => $unit) {
 			$owned_units = get_user_meta($defender_ID, $key);
-			$spy_array[$unit['normalname']] = $owned_units[0];
-			}
+			$amountArray[$unit['normalname']] = $owned_units[0];}
 			?>
 			<table class="responsive-table">
 				<thead>
@@ -156,7 +298,23 @@ echo $defender_ID;
 				<th scope="col">Owned</th>
 				</thead>
 				<tbody>
-			<?php foreach ($spy_array as $building => $amount) {
+			<?php foreach ($amountArray as $unit => $amount) {
+				
+				
+				if($amount>0){
+				$displayamount = max(round($amount/(1+(mt_rand(120, 300)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(120, 300)/100)))));
+				
+				if($enhancePlane == 1){
+					$displayamount = max(round($amount/(1+(mt_rand(75, 150)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(75, 150)/100)))));
+				}
+				if($enhancePlane == 2){
+					$displayamount = max(round($amount/(1+(mt_rand(40, 75)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(40, 75)/100)))));
+				}
+				if($enhancePlane == 3){
+					$displayamount = max(round($amount/(1+(mt_rand(5, 10)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(5, 10)/100)))));
+				}
+				$spy_array[$unit] = $displayamount;
+				/*
 				if($amount >= 50 && $amount < 100){$displayamount = '50-99';}
 				if($amount >= 100 && $amount < 250){$displayamount = '100-249';}
 				if($amount >= 250 && $amount < 500){$displayamount = '250-499';}
@@ -170,20 +328,32 @@ echo $defender_ID;
 				if($amount >= 15000 && $amount < 20000){$displayamount = '15000-19999';}
 				if($amount >= 20000 && $amount < 25000){$displayamount = '20000-24999';}
 				if($amount >= 25000 && $amount < 30000){$displayamount = '25000-29999';}
+				*/
+			
 			?>
-			<?php if($amount > 49):?>
+		
 			<tr>
-				<td data-title="Name"><?php echo $building;?></td>
+				<td data-title="Name"><?php echo $unit;?></td>
 				<td data-title="Owned"><?php echo $displayamount;?></td>	
 			</tr>
-			<?php endif;?>
-			<?php }?>
-			<tr>
-				<td><strong>Other buildings</strong></td>
-				<td>0-49</td>	
-			</tr>
+			
+			<?php 
+				$spy_array['enhance'] = $enhancePlane;
+				
+				}}?>
+			
 			</tbody>
 			</table>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 			
 		
 <?php 
@@ -228,7 +398,7 @@ echo $defender_ID;
 <?php 
 	
 /* Create Spy event post */
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+
 $args = array(	
 	'post_title'    => 'Spy attempt by '.$user_ID.' Defender: '.$defender_ID.' '.$spytype,
 	'post_status'   => 'publish',
