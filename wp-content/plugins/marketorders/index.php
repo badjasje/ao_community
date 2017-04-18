@@ -511,10 +511,14 @@ foreach($researches as $key => $research){
 }
 
 $sat_owned = get_user_meta($user_ID, 'sat_owned', true);
+
 $sat_NW = 0;
-if($sat_owned != 0){
+
+if($sat_owned != 0 || !empty($sat_owned)){
 $sat_NW = $satellites[$sat_owned]['price']*0.06;
 }
+
+
 $land = get_user_meta($user_ID, 'land',true);
 $land_networth = round($land*0.85);
 

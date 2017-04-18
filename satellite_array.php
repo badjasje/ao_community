@@ -15,7 +15,7 @@
 			'desc'			=>	'Additional 10% attack power for units attacking',
 			'attack'		=>	0), */
     'stealths' 		=> array(
-			'price'			=>	'450000',
+			'price'			=>	'600000',
 			'networth'		=>	14,
 			'name'			=>	'Stealth satellite',
 			'desc'			=>	'When activated, the Stealth Satellite will hide your base from enemy spies, thieves, snipers, laser beam satellites and EMP satellites.  It hides your base for 7 hours.'),/*
