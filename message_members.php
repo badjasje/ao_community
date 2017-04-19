@@ -67,4 +67,4 @@ $receiver = $user;
 		}
 		
 				
-	$_SESSION['status'] = '7'; wp_redirect(get_permalink(4506));
+	$_SESSION['status'] = 'Message sent to all members'; wp_redirect(get_permalink(4506));

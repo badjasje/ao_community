@@ -15,6 +15,15 @@ $timestamp = strtotime(date('Y-m-d H:i:s'));
 
 $spytype = $_SESSION['attack_array']['sendspy'];
 	$turns = get_user_meta($user_ID, 'turns');
+	
+/* check if user has enough turns */
+if($turns < 1){ 
+	
+	$_SESSION['status'] = 'Not enough turns';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
+	exit;
+	}	
+
 	update_user_meta($user_ID,'turns',$turns[0]-1);
 	
 $sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);

@@ -26,4 +26,4 @@ if($clan_leader != $user_ID){
 update_post_meta($clan_ID,'clan_leader',$_POST['new_leader']);
 
 
-$_SESSION['status'] = '6';wp_redirect(get_permalink(3601));exit;
+$_SESSION['status'] = 'New clan leader set';wp_redirect(get_permalink(3601));exit;

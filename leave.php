@@ -72,7 +72,7 @@ update_user_meta($user,'new_clan_timestamp',$timestamp+86400);
 
 
 
-$_SESSION['status'] = '4';
+$_SESSION['status'] = 'You left your clan';
 wp_redirect(get_permalink(3601));
 }
 

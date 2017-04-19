@@ -40,7 +40,7 @@ if($clan_ID_deleter[0] == $clan && $user_ID == $clan_leader[0]){
 			
 		}
 		wp_trash_post($clan);
-		$_SESSION['status'] = '2';
+		$_SESSION['status'] = 'Your clan was deleted';
 		wp_redirect(get_permalink(3601));		
 		
 		 $wars_on = get_posts(array(
@@ -68,6 +68,6 @@ if($clan_ID_deleter[0] == $clan && $user_ID == $clan_leader[0]){
 		
 		
 		}else{
-		$_SESSION['status'] = '3';
+		$_SESSION['status'] = 'You cannot do that';
 		wp_redirect(get_permalink(3601));
 		}

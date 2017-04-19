@@ -22,7 +22,7 @@ if(empty($_POST['main_message'])){
 $title = $_POST['title'];
 $message = $_POST['message'];
 $receiver = $_POST['receiver'];
-if(empty($title)){$_SESSION['status'] = '1';wp_redirect(get_permalink(4020).'?id='.$_POST['receiver']);exit;}
+if(empty($title)){$_SESSION['status'] = 'Message sent';wp_redirect(get_permalink(4020).'?id='.$_POST['receiver']);exit;}
 	$slug = md5(uniqid(rand(), TRUE));
 	$args = array(
 				'post_title'    => $title,
@@ -52,7 +52,7 @@ if(empty($title)){$_SESSION['status'] = '1';wp_redirect(get_permalink(4020).'?id
 			update_post_meta($new_sub_id, 'sender_id', $user_ID);
 			update_post_meta($new_sub_id, 'receiver_id', $receiver);
 			update_post_meta($new_sub_id, 'receiver_status', 'New');
-			$_SESSION['status'] = '1';wp_redirect(get_permalink(3656));exit;}
+			$_SESSION['status'] = 'Message sent';wp_redirect(get_permalink(3656));exit;}
 			else{
 			
 			
@@ -82,7 +82,7 @@ if(empty($title)){$_SESSION['status'] = '1';wp_redirect(get_permalink(4020).'?id
 	
 			
 			update_post_meta($new_sub_id, 'receiver_status', 'New');
-			$_SESSION['status'] = '1';wp_redirect(get_permalink(3656));exit;	
+			$_SESSION['status'] = 'Message sent';wp_redirect(get_permalink(3656));exit;	
 			
 				
 				

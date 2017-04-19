@@ -10,6 +10,14 @@ License: GPL
 Copyright: Kevin Bogaard
 */
 
+function alert_notification($message){
+	
+	return '<div class="alert alert-warning alert-dismissible blue_alert" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<i class="fa fa-info-circle" aria-hidden="true"></i> '.$message.'.
+			</div>';
+	
+}
 
 function desktop_view($user_ID){
 	$desktop = get_user_meta($user_ID, 'desktop_view', true);

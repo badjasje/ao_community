@@ -34,8 +34,10 @@ $cashMultiplier = 0;
 // Various validations
 /* Check if attacker has enough thiefs */
 if($no_thiefs > $tot_thiefs){
+
+	$_SESSION['status'] = 'Not enough thiefs';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
 	
-	wp_redirect(get_permalink(3360).'?fail=16');
     exit;
 	
 }
@@ -43,7 +45,8 @@ if($no_thiefs > $tot_thiefs){
 /* Check if attacker has enough turns */
 if($turns < 2){
 	
-	wp_redirect(get_permalink(3360).'?fail=1');
+	$_SESSION['status'] = 'Not enough turns';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
     exit;
 	
 }
@@ -95,7 +98,8 @@ $networth_def = get_user_meta($defender_ID, 'networth',true);
 
 if (($networth_def > $networth_att /1.4 && $networth_def < $networth_att * 1.4)) {
 } else {
-    wp_redirect(get_permalink(3360).'?fail=9');
+    $_SESSION['status'] = 'Out of networth range';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
     exit;
 }
 
@@ -105,7 +109,8 @@ $oldmorale = get_user_meta($user_ID, 'morale',true);
 
 if ($oldmorale < 5) {
 	
-	wp_redirect(get_permalink(3360).'?fail=2');
+	$_SESSION['status'] = 'Insufficient morale';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
     exit;
 
 } 
@@ -173,7 +178,7 @@ if ($success > 0) {
 }
 else {
 	//Failure 
-	echo "FAILURE!";
+	
 	$money_stolen = 0;
 	update_user_meta($user_ID, 'morale', $oldmorale - 5);
 

@@ -25,7 +25,7 @@ $user_ID = get_current_user_id();
 $research = $_POST['queue'];
 $totalturns = get_user_meta($user_ID, 'turns');
 
-if($totalturns[0] < 30){$_SESSION['status'] = '2';wp_redirect(get_permalink(4837));exit;}
+if($totalturns[0] < 30){$_SESSION['status'] = 'Not enough turns';wp_redirect(get_permalink(4837));exit;}
 
 
 
@@ -34,4 +34,4 @@ if($totalturns[0] < 30){$_SESSION['status'] = '2';wp_redirect(get_permalink(4837
 			update_user_meta($user_ID, 'queued_research', $research);
 			update_user_meta( $user_ID, 'turns',$totalturns[0]-30);
 			
-			$_SESSION['status'] = '13';wp_redirect(get_permalink(4837));exit;
+			$_SESSION['status'] = $researches[$research]['name'].' research queued';wp_redirect(get_permalink(4837));exit;

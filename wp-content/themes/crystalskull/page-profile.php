@@ -50,12 +50,12 @@ get_header('profile'); ?>
      <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-       <?php if(!empty($_SESSION['status'])):?>
-			<?php if($_SESSION['status'] == 1):?>
-				<div class="marketnotice">Invite sent</div>
-			<?php endif;?><?php endif;?>
-
-			<div class="container2">
+	            
+	            <?php if(!empty($_SESSION['status'])):?>
+					<?php echo alert_notification($_SESSION['status']);?>
+				<?php endif; // End empty status check ?>
+       
+       			<div class="container2">
 				
 				
 				

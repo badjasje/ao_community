@@ -10,29 +10,12 @@ get_header(); ?>
      <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-				<?php if(!empty($_SESSION['status'])):?>
-			<?php if($_SESSION['status'] == 0):?>
-				<div class="marketnotice">Units ordered</div>
-			<?php elseif($_SESSION['status'] == 1):?>
-				<div class="marketnotice insuffunds">Insufficient funds</div>
-			<?php elseif($_SESSION['status'] == 2):?>
-				<div class="marketnotice insuffunds">Your research doesn't allow you to deposit this much</div>
-			<?php elseif($_SESSION['status'] == 3):?>
-				<div class="marketnotice">Deposit placed</div>
-			<?php elseif($_SESSION['status'] == 4):?>
-				<div class="marketnotice insuffunds">You already made 10 deposits</div>
-			<?php elseif($_SESSION['status'] == 5):?>
-				<div class="marketnotice">$ <?php echo number_format($_SESSION['withdrawn'], 0, ',', ' '); ?> withdrawn</div>
-			<?php elseif($_SESSION['status'] == 6):?>
-				<div class="marketnotice">The total sum exceeds the amount of deposited money you can have at this time.</div>
-			<?php elseif($_SESSION['status'] == 7):?>
-				<div class="marketnotice">You canceled your deposit. $ <?php echo number_format($_SESSION['withdrawn'], 0, ',', ' '); ?> withdrawn</div>
-			<?php elseif($_SESSION['status'] == 12):?>
-				<div class="marketnotice insuffunds">Enter a valid number</div>
-			<?php elseif($_SESSION['status'] == 13):?>
-				<div class="marketnotice insuffunds">Deposit at least $ 5 000</div>
-			<?php endif;?><?php endif;?>
-				
+	            
+	            <?php if(!empty($_SESSION['status'])):?>
+					<?php echo alert_notification($_SESSION['status']);?>
+				<?php endif; // End empty status check ?>
+	            
+								
 			<?php if(get_field('game_status','option') != 'Live'):?>
 			<div class="notice_message"><span class="rdw-line">The round has ended!</span></div>
 			<?php else:?>

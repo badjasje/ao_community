@@ -87,7 +87,7 @@ foreach($buildings as $key => $order){
 
 	/* validate $sold_buildings is a positive integer */
 	if(!is_numeric($sold_buildings) || $sold_buildings < 0) {
-		$_SESSION['status'] = '12';
+		$_SESSION['status'] = 'Enter a valid number';
 		wp_redirect(get_permalink(3386)); 
 		exit;
 	}
@@ -98,7 +98,8 @@ foreach($buildings as $key => $order){
 						
 	/* validate no demolishing filled buildings */
 	if (array_key_exists($key, $max_sell) && $sold_buildings > $max_sell[$key]) {
-		$_SESSION['status'] = '17';
+		$_SESSION['status'] = 'You must sell units occupying the buildings before you can
+                            demolish them';
 		wp_redirect(get_permalink(3386)); 
 		exit;
 	}
@@ -113,7 +114,7 @@ foreach($buildings as $key => $order){
 $tot_buildings_owned = count_buildings($user_ID);
 
 if($total_buildings == $tot_buildings_owned){
-	$_SESSION['status'] = '1322';
+	$_SESSION['status'] = 'Cannot demolish all your buildings';
 	wp_redirect(get_permalink(3386)); 
 	exit;
 }
@@ -121,7 +122,7 @@ if($total_buildings == $tot_buildings_owned){
 
 /* validate you have enough money to sell these */
 if($totalmoney < $total_selling){ 
-	$_SESSION['status'] = '2';
+	$_SESSION['status'] = 'Insufficient funds';
 	wp_redirect(get_permalink(3386)); 
 	exit;
 }
@@ -134,6 +135,6 @@ foreach($toSell as $key => $count) {
 }
 /* now update to remove the cash */
 update_user_meta($user_ID,'money',$totalmoney-$total_selling);
-$_SESSION['status'] = '14';
+$_SESSION['status'] = 'Buildings demolished';
 wp_redirect(get_permalink(3386).'/?tab=demolish'); 
 exit;

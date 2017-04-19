@@ -35,203 +35,195 @@ $user = get_userdata($user_ID);
 <div class="page normal-page">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-12 col-md-12">
+			
 				
-				<?php if(!empty($_SESSION['status'])):?><?php if($_SESSION['status'] == 0):?>
+			<?php if(!empty($_SESSION['status'])):?>
+				<?php echo alert_notification($_SESSION['status']);?>
+			<?php endif; // End empty status check ?>
 
-				<div class="marketnotice">
-					Units ordered
-				</div>
-				<?php elseif($_SESSION['status'] == 1):?>
 
-				<div class="marketnotice">
-					Nuke protection removed.
-				</div>
-				<?php elseif($_SESSION['status'] == 2):?>
-
-				<div class="marketnotice insuffunds">
-					Build more warfactories
-				</div>
-				<?php elseif($_SESSION['status'] == 3):?>
-
-				<div class="marketnotice insuffunds">
-					Build more shipyards
-				</div>
-				<?php elseif($_SESSION['status'] == 4):?>
-
-				<div class="marketnotice insuffunds">
-					Build more baracks
-				</div>
-				<?php elseif($_SESSION['status'] == 5):?>
-
-				<div class="marketnotice insuffunds">
-					Insufficient funds
-				</div>
-				<?php elseif($_SESSION['status'] == 1337):?>
-
-				<div class="marketnotice">
-					Username changed
-				</div>
-				<?php elseif($_SESSION['status'] == 1231):?>
-
-				<div class="marketnotice">
-					Startingbonus picked
-				</div>
-				<?php elseif($_SESSION['status'] == 20):?>
-
-				<div class="marketnotice">
-					Message sent to all users
-				</div>
-				<?php endif;?><?php endif;?>
-
-				<div class="col-lg-12 col-md-12">
 					
-			<?php if(get_field('game_status','option') == 'Pause' && $user_ID != 1):?>
-			<div class="notice_message"><span class="rdw-line">The round has ended! Expect a new round on the 20th of march.</span></div><br/>
-			<?php else:?>
+<?php if(get_field('game_status','option') == 'Pause' && $user_ID != 1):?>
+			
+	<div class="notice_message">
+		<span class="rdw-line">The round has ended! Expect a new round on the 20th of march.</span>
+	</div>
+	
+	<br/>
 			
 			
-			<?php
-							   	$bonuses = array('offensive','defensive','finance','shipping');
-								if(!in_array($startingbonus, $bonuses)):?>
-	    
-	            <center><h2>Pick a starting bonus</h2></center>
-	    <form class="form" action="<?php echo home_url() ?>/startingbonus.php" name="" id="starting_bonus" method="post">	
-	       	            
-	    <input style="display:none;" type="radio" name="bonustype" id="offensive" value="offensive" >
-	    	<label class="startingbonus" for="offensive">
-	    		<h3 class="startinghead"><i class="fa fa-fire" aria-hidden="true"></i> Offensive</h3>
-	    		Gain twice the land and money during attacks, plus 75 turns.
-	    	
-	    	</label>
-	    
-	    <input style="display:none;" type="radio" name="bonustype" id="defensive" value="defensive" >
-	    	<label class="startingbonus" for="defensive">
-	    		<h3 class="startinghead"><i class="fa fa-shield" aria-hidden="true"></i> Defensive</h3>
-	    		Constructing 10 buildings per turn by default (to a maximum of 20 with full research), plus 20% extra defense for all defending units, plus 10% time deduction when researching, plus 3 500 m<sup>2</sup> of land.
-	    		</label>
-	    
-	    <input style="display:none;" type="radio" name="bonustype" id="finance" value="finance" >
-	    	<label class="startingbonus" for="finance">
-	    		<h3 class="startinghead"><i class="fa fa-usd" aria-hidden="true"></i> Finance</h3>
-	    		Hourly income increased by 10%, bank capacity is raised by 50% and $400 000 money.
-	    		</label>
-	    
-	    <input style="display:none;" type="radio" name="bonustype" id="shipping" value="shipping" >
-	    	<label class="startingbonus" for="shipping">
-				<h3 class="startinghead"><i class="fa fa-truck" aria-hidden="true"></i> Shipping</h2>
-	    		Missile orders ship 50% faster, plus ability to choose exact arrival time for units (up to 6 hours delayed), plus 10% default market discount (max 40% with research), 2 500 m<sup>2</sup> land and $250 000 money.
-	    		</label>
-	    <input type="submit" value="Pick starting bonus" class="">
-	    </form>
-		<br/>
-		<hr/>
-		<br/>
-	    <?php endif;?>
+<?php else:?>
+			
+			
+	<?php 	$bonuses = array('offensive','defensive','finance','shipping');
+								
+			if(!in_array($startingbonus, $bonuses)):?>
+		
+		<div class="col-md-12">
+			<div class="startBonusCol">
+		    	<div class="alert alert-warning alert-dismissible blue_alert" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Notice!</strong> Pick a starting bonus.
+				</div>
+				
+				
+		    	<form class="form" action="<?php echo home_url() ?>/startingbonus.php" name="" id="starting_bonus" method="post">	
+		       	            
+					<input style="display:none;" type="radio" name="bonustype" id="offensive" value="offensive" >
 					
-					<?php 
-					$args = array(
-					'author'        =>  $user_ID, // I could also use $user_ID, right?
-					'numberposts'	=> -1,
-					'orderby'       =>  'post_date',
-					'post_type'		=>	'event_local',
+						<label class="startingbonus" for="offensive">
+							<h3 class="startinghead"><i class="fa fa-fire" aria-hidden="true"></i> Offensive</h3>
+							Gain twice the land and money during attacks, plus 75 turns.
+						</label>
+		    
+		    
+					<input style="display:none;" type="radio" name="bonustype" id="defensive" value="defensive" >
+		    	
+						<label class="startingbonus" for="defensive">
+							<h3 class="startinghead"><i class="fa fa-shield" aria-hidden="true"></i> Defensive</h3>
+							Constructing 10 buildings per turn by default (to a maximum of 20 with full research), 
+							plus 20% extra defense for all defending units, plus 10% time deduction when researching, plus 3 500 m<sup>2</sup> of land.
+						</label>
+		    
+		    
+					<input style="display:none;" type="radio" name="bonustype" id="finance" value="finance" >
+		    	
+						<label class="startingbonus" for="finance">
+							<h3 class="startinghead"><i class="fa fa-usd" aria-hidden="true"></i> Finance</h3>
+							Hourly income increased by 10%, bank capacity is raised by 50% and $400 000 money.
+						</label>
+						
+		    
+					<input style="display:none;" type="radio" name="bonustype" id="shipping" value="shipping" >
+						
+						<label class="startingbonus" for="shipping">
+							<h3 class="startinghead"><i class="fa fa-truck" aria-hidden="true"></i> Shipping</h3>
+							Missile orders ship 50% faster, plus ability to choose exact arrival time for units (up to 6 hours delayed), 
+							plus 10% default market discount (max 40% with research), 2 500 m<sup>2</sup> land and $250 000 money.
+						</label>
+		    
+		    
+					<input type="submit" value="Pick starting bonus" class="noTopMargin">
 					
-					'meta_query'	=> array(
-						'relation'		=> 'AND',
+				</form>
+				
+			</div> <!-- // End startBonusCol -->
+		</div> <!-- // End pick starting bonus column -->
+	<?php endif; // End starting bonus picking ?>
+		
+					
+			
+<?php 
+		$args = array(
+			'author'        =>  $user_ID, // I could also use $user_ID, right?
+			'numberposts'	=> -1,
+			'orderby'       =>  'post_date',
+			'post_type'		=>	'event_local',
+					
+				'meta_query'	=> array(
+					'relation'		=> 'AND',
 						array(
 							'key'	 	=> 'attacktype',
 							'value'	  	=> array('bonus'),
 							'compare' 	=> 'IN',
 						),
-						),			
-					'order'         =>  'ASC' );	
-					$bonus_posts = get_posts( $args );
-					foreach ($bonus_posts as $bonus) {
-					$event_ID = $bonus->ID;
-					$money = get_post_meta($event_ID, 'bonus_money', true);
-					$turns = get_post_meta($event_ID, 'bonus_turns', true);
-					$used = get_post_meta($event_ID, 'bonus_used', true);
-					if($used != 'yes'){
+					),			
+			'order'         =>  'ASC' );	
+					
+				
+		$bonus_posts = get_posts( $args );
+			
+			foreach ($bonus_posts as $bonus) {
+				$event_ID = $bonus->ID;
+				$money = get_post_meta($event_ID, 'bonus_money', true);
+				$turns = get_post_meta($event_ID, 'bonus_turns', true);
+				$used = get_post_meta($event_ID, 'bonus_used', true);
+					
+				if($used != 'yes'){
 					$time = get_post_meta($bonus->ID,'time_attacked', true)+(86400*2);
 					$autoreceive = $time - $timestamp;
 						
 					?>
-					<div class="bonus_message">
-						You can now receive a clan bonus of $ <?php echo number_format($money, 0, ',', ' '); ?> and 
-						<?php echo $turns;?> turns. Auto receive in <?php echo human_time_diff( $time,$timestamp);?>
+	<div classs="row">	
+		<div class="col-md-12">
+			<div class="bonus_message">
+				You can now receive a clan bonus of $ <?php echo number_format($money, 0, ',', ' '); ?> and 
+				<?php echo $turns;?> turns. Auto receive in <?php echo human_time_diff( $time,$timestamp);?>
 						
-						
-						<a class="btn btn-bonus" href="/receive_bonus.php/?id=<?php echo $event_ID;?>">Receive Bonus</a></div><br/>
-						
-					<?php }}?>
-			
-			
-			<?php if($clan_ID != 0){ ?>
-	
-			<div class="notice_message">
-				<h2 style="color:#fff;"><i class="fa fa-info-circle" aria-hidden="true"></i> Clan Message</h2>
-				<?php if(!empty(get_post_meta($clan_ID, 'clan_message')[0])){echo get_post_meta($clan_ID, 'clan_message')[0];}?>
+					<a class="btn btn-bonus" href="/receive_bonus.php/?id=<?php echo $event_ID;?>">Receive Bonus</a>
 			</div>
-			<br/>
+		</div>
+	</div>	<br/>
+				<?php }}?>
+		
+				
+			<?php if($clan_ID != 0){ ?>
+	<div classs="row">	
+		<div class="col-md-12">
+			<div style="margin-bottom: 20px;" class="notice_message">
+				<h2 style="color:#fff;"><i class="fa fa-info-circle" aria-hidden="true"></i> Clan Message</h2>
+				<?php if(!empty(get_post_meta($clan_ID, 'clan_message')[0])){
+					echo get_post_meta($clan_ID, 'clan_message')[0];
+					}?>
+			</div>
+		</div>
+	</div>
+			
 		<?php }?>
 					
-					
-					
-					
-					<table class="responsive-table">
-						<thead>
-							<tr>
-								<th scope="col">Status</th>
+	<div class="break"></div>
+	
+			<table class="responsive-table">
+				<thead>
+					<tr>
+						<th scope="col">Status</th>
 
-								<th scope="col">Points rank</th>
+						<th scope="col">Points rank</th>
 
-								<th scope="col">Networth rank</th>
+						<th scope="col">Networth rank</th>
 
-								<th scope="col">Power usage</th>
+						<th scope="col">Power usage</th>
 
-								<th scope="col">Events</th>
+						<th scope="col">Events</th>
 
-								<th scope="col">Inbox</th>
+						<th scope="col">Inbox</th>
 
-								<th scope="col">Hourly income</th>
+						<th scope="col">Hourly income</th>
 
-								<th scope="col">Morale <sup>(Pool)</sup></th>
+						<th scope="col">Morale <sup>(Pool)</sup></th>
+						
+						<?php if(in_array($startingbonus, $bonuses)):?>
+						<th scope="col">Starting bonus</th>
+						<?php endif;?>
+						
+						<?php if(!empty($sat_level) || $sat_level != 0):?>
+
+						<th scope="col">Satellite power</th><?php endif;?>
+					</tr>
+				</thead>
+
+
+				<tbody>
+					<tr>
+						<th scope="row">
+							<?php if($user_status[0] =='nukeprotection'):
 								
-								<?php if(in_array($startingbonus, $bonuses)):?>
-								<th scope="col">Starting bonus</th>
-								<?php endif;?>
-								
-								<?php if(!empty($sat_level) || $sat_level != 0):?>
-
-								<th scope="col">Satellite power</th><?php endif;?>
-							</tr>
-						</thead>
-
-
-						<tbody>
-							<tr>
-								<th scope="row">
-									<?php if($user_status[0] =='nukeprotection'):
-									                                                                                                                                    $timestamp = strtotime(date('Y-m-d H:i:s'));
-									                                                                                                                            
-									                                                                                                                                    $timeleft = $nuke_protection_timestamp[0]-$timestamp;
-$timer_left = $nuke_protection_timestamp[0]-$timestamp;								                                                                                                                        
+								$timestamp = strtotime(date('Y-m-d H:i:s'));	                                                                                                                            
+								$timeleft = $nuke_protection_timestamp[0]-$timestamp;
+								$timer_left = $nuke_protection_timestamp[0]-$timestamp;								                                                                                                                        
 									                                                                                                                                
-									                                                                                                                                    if($timeleft < 0){
-									                                                                                                                                    update_user_meta($user_ID, 'status', 'online');}
-									                                                                                                                                    $timeleft = date('H:i:s', $timeleft);
-									                                                                                                                                    
-									                                                                                                                                    
-									                                                                                                                                    
-									                                                                                                                                ?>
+								if($timeleft < 0){
+									update_user_meta($user_ID, 'status', 'online');
+									}
+								$timeleft = date('H:i:s', $timeleft); ?>
 
-<center>
-	Protection time left: <span id="countdown_time"></span> <br/>
-	<?php if($timer_left < 43200):?>
-	<a onclick="return confirm('Are you sure you want to remove protection?')" class="btn btn-danger" href="/remove_np.php/?user=<?php echo $user_ID;?>">
-  <i class="fa fa-trash-o fa-lg"></i> Remove Protection</a>
-	<?php endif;?>
-</center>
+				<center>Protection time left: <span id="countdown_time"></span> <br/>
+					<?php if($timer_left < 43200):?>
+						<a onclick="return confirm('Are you sure you want to remove protection?')" class="btn btn-danger" href="/remove_np.php/?user=<?php echo $user_ID;?>">
+						<i class="fa fa-trash-o fa-lg"></i> Remove Protection</a>
+				</center>	
+						<?php endif;?>
+
 									
 			<script>
 				 var
@@ -323,6 +315,7 @@ setInterval(updateETime, 1000 );
 							</tr>
 						</tbody>
 					</table>
+				
 				<div class="notice_message">Current round date: 20th of March - 20th of April 2017. <span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on the 20th of April 2017, at a random time." data-placement="right">
 								<i class="fa fa-info-circle" aria-hidden="true"></i>
 								</span></div><br/>
@@ -426,55 +419,55 @@ setInterval(updateETime, 1000 );
 
 
 							<tbody>
-								<?php 
-								                                                                                                                $custom_query_args['paged'] = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
-								                                                                                                                
-								                                                                                                                $args = array(
-								                                                                                                                'posts_per_page'   => 5,
-								                                                                                                                'orderby'          => 'date',
-								                                                                                                                'order'            => 'DESC',
-								                                                                                                                'paged'             =>  $custom_query_args['paged'],
-								                                                                                                                'post_type'        => 'sub_user_message',
-								                                                                                                                'meta_query'    => array(
-								                                                                                                                    'relation'      => 'OR',
-								                                                                                                                        array(
-								                                                                                                                            'key'       => 'receiver_id',
-								                                                                                                                            'value'     => $user_ID,
-								                                                                                                                            'compare'   => '=',
-								                                                                                                                            ),
+						<?php 
+                        $custom_query_args['paged'] = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+                        
+                        $args = array(
+                        'posts_per_page'   => 5,
+                        'orderby'          => 'date',
+                        'order'            => 'DESC',
+                        'paged'             =>  $custom_query_args['paged'],
+                        'post_type'        => 'sub_user_message',
+                        'meta_query'    => array(
+                            'relation'      => 'OR',
+                                array(
+                                    'key'       => 'receiver_id',
+                                    'value'     => $user_ID,
+                                    'compare'   => '=',
+                                    ),
 								                                                                                                                        
 								                                                                                                                            
 								                                                                                                                        
-								                                                                                                                        )
-								                                                                                                                    );
-								                                                                                                                // Instantiate custom query
-								                                                                                                                        $custom_query = new WP_Query( $args );
-								                                                                                                                        
-								                                                                                                                        // Pagination fix
-								                                                                                                                        $temp_query = $wp_query;
-								                                                                                                                        $wp_query   = NULL;
-								                                                                                                                        $wp_query   = $custom_query;
+                        )
+                    );
+                // Instantiate custom query
+                        $custom_query = new WP_Query( $args );
+                        
+                        // Pagination fix
+                        $temp_query = $wp_query;
+                        $wp_query   = NULL;
+                        $wp_query   = $custom_query;
 
-								                                                                                                                        // Output custom query loop
-								                                                                                                                        if ( $custom_query->have_posts() ) :
-								                                                                                                                            while ( $custom_query->have_posts() ) :
-								                                                                                                                            $custom_query->the_post();
-								                                                                                                                $message_ID = get_the_id();
-								                                                                                                                $parent_ID = get_post_meta($message_ID, 'parent_message_id',true);
-								                                                                                                                $sender = get_userdata( get_the_author_meta('ID') );
-								                                                                                                                $receiver_id = get_post_meta($message_ID, 'receiver_id',true);
-								                                                                                                                $sender_id = get_post_meta($message_ID, 'receiver_id',true);        
-								                                                                                                                $receiver = get_userdata( $receiver_id );   
-								                                                                                                                ?>
+                        // Output custom query loop
+                        if ( $custom_query->have_posts() ) :
+                            while ( $custom_query->have_posts() ) :
+                            $custom_query->the_post();
+                $message_ID = get_the_id();
+                $parent_ID = get_post_meta($message_ID, 'parent_message_id',true);
+                $sender = get_userdata( get_the_author_meta('ID') );
+                $receiver_id = get_post_meta($message_ID, 'receiver_id',true);
+                $sender_id = get_post_meta($message_ID, 'receiver_id',true);        
+                $receiver = get_userdata( $receiver_id );   
+                ?>
 
 								<tr>
 									<th class="inbox_title" scope="row">
-										<a href="<?php echo get_the_permalink($parent_ID);?>"><?php 
-										                                                                                                                                                
-										                                                                                                                                                if (strlen(get_the_title($parent_ID)) > 55) {
-										                                                                                                                                                echo substr(get_the_title($parent_ID), 0, 55) . '...'; } else {
-										                                                                                                                                                echo get_the_title($parent_ID);
-										                                                                                                                                                }?></a>
+	<a href="<?php echo get_the_permalink($parent_ID);?>"><?php 
+	                                                                                                                                                
+                        if (strlen(get_the_title($parent_ID)) > 55) {
+                        echo substr(get_the_title($parent_ID), 0, 55) . '...'; } else {
+                        echo get_the_title($parent_ID);
+                                    }?></a>
 									</th>
 
 									<td data-title="From">

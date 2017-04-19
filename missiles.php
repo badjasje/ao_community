@@ -48,15 +48,15 @@ $price = $order['price'];
 $ordered_missiles = ceil($_POST["$key"]);
 
 if(empty($_POST["$key"])){$letter_check = 0;}else{$letter_check = $_POST["$key"];}
-if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect(get_permalink(3457)); exit;}
+if(!is_numeric($letter_check)){$_SESSION['status'] = 'Enter a valid number';wp_redirect(get_permalink(3457)); exit;}
 $orderamount = $price*$ordered_missiles;
 
 $totalordercost+=$orderamount;
 $totalturncost+=$ordered_missiles*5;
 
 }
-if($totalordercost > $totalmoney){$_SESSION['status'] = '2'; wp_redirect(get_permalink(3457));exit;}
-if($turns < $totalturncost){$_SESSION['status'] = '3'; wp_redirect(get_permalink(3457));exit;}
+if($totalordercost > $totalmoney){$_SESSION['status'] = 'Insufficient funds'; wp_redirect(get_permalink(3457));exit;}
+if($turns < $totalturncost){$_SESSION['status'] = 'Not enough turns'; wp_redirect(get_permalink(3457));exit;}
 
 
 
@@ -86,7 +86,7 @@ foreach($missiles as $key => $order){
 			$total_missile_ordered+=$ordered_missiles+$owned_missiles[0]+$missiles_already_on_order[0];}
 		
 			if($mis>0){
-			if($total_missile_ordered > $missilespace ){ $_SESSION['status'] = '4';wp_redirect(get_permalink(3457)); exit;}}
+			if($total_missile_ordered > $missilespace ){ $_SESSION['status'] = 'Build more missile silos';wp_redirect(get_permalink(3457)); exit;}}
 
 // BUILD MISSILES //
 $total_missiles_ordered = 0;
@@ -138,7 +138,7 @@ foreach($missiles as $key => $order){
 
 
 }}
-$_SESSION['status'] = '1';
+$_SESSION['status'] = $total_missiles_ordered.' missiles ordered for '.$totalturncost.' turns and $ '.number_format($totalordercost, 0, ',', ' ');
 wp_redirect(get_permalink(3457));exit;
 
 

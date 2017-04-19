@@ -20,7 +20,7 @@ if ( !is_user_logged_in() ) {
 	}
  
 update_user_meta($user_ID, 'status', 'dead');
-
+$_SESSION['status'] = 'Account has been reset';
 wp_redirect(get_permalink(3486)); 
 exit;
 

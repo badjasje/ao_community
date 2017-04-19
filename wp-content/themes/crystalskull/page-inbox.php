@@ -19,22 +19,10 @@ get_header(); ?>
 		<div class="container">
 			
 			<?php if(!empty($_SESSION['status'])):?>
-			<?php if($_SESSION['status'] == 0):?>
-				<div class="marketnotice">Units ordered</div>
-			<?php elseif($_SESSION['status'] == 1):?>
-				<div class="marketnotice">Message sent</div>
-			<?php elseif($_SESSION['status'] == 2):?>
-				<div class="marketnotice insuffunds">Build more warfactories</div>
-			<?php elseif($_SESSION['status'] == 3):?>
-				<div class="marketnotice insuffunds">Build more shipyards</div>
-			<?php elseif($_SESSION['status'] == 4):?>
-				<div class="marketnotice insuffunds">Build more baracks</div>
-			<?php elseif($_SESSION['status'] == 5):?>
-				<div class="marketnotice insuffunds">Insufficient funds</div>
-			<?php elseif($_SESSION['status'] == 6):?>
-				<div class="marketnotice">Units ordered</div>
-			<?php endif;?><?php endif;?>
-
+					<?php echo alert_notification($_SESSION['status']);?>
+			<?php endif; // End empty status check ?>
+			
+			
 			<ul id="inbox-tab" class="nav nav-tabs nav-justified" role="tablist">
 				<li class="nav-item <?php echo $activeTab === 'inbox' ? 'active' : ''; ?>">
 					<a class="nav-link" data-toggle="tab" data-target="#inbox" href="?tab=inbox" role="tab">Inbox</a>

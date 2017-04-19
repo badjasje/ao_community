@@ -28,7 +28,8 @@ $target_data = get_user_meta($target_id);
 /* check if target isn't dead, else redirect */
 $target_status = get_user_meta($target_id,'status',true);
 if($target_status == 'dead'){
-	wp_redirect(get_permalink(3360).'?fail=8');
+	$_SESSION['status'] = 'This player is dead';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
 $maintarget = $_SESSION['maintarget'];
@@ -59,7 +60,8 @@ $in_range = target_in_range($attack_type, $attack_nw, $defend_nw, $war_type);
 
 /* validate target in range */
 if (!$in_range) {
-	wp_redirect(get_permalink(3360).'?fail=9');
+	$_SESSION['status'] = 'Out of networth range';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
 
@@ -74,13 +76,15 @@ $attack_curr_morale = get_user_meta($user_id, 'morale')[0];
 
 /* validate attacker has sufficient morale */
 if ($attack_cost_morale > $attack_curr_morale) {
-	wp_redirect(get_permalink(3360).'?fail=2');
+	$_SESSION['status'] = 'Insufficient morale';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
 
 /* validate attacker has sufficient turns */
 if ($attack_cost_turns > $attack_curr_turns) {
-	wp_redirect(get_permalink(3360).'?fail=1');
+	$_SESSION['status'] = 'Not enough turns';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
 

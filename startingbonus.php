@@ -68,5 +68,6 @@ if($bonustype == 'shipping'){
 
 
 
-$_SESSION['status'] = '1231';wp_redirect(get_permalink(3486));exit;
+$_SESSION['status'] = 'Starting bonus picked';
+wp_redirect(get_permalink(3486));exit;
 

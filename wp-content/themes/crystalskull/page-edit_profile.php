@@ -46,12 +46,9 @@ get_header(); ?>
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	            
-<?php if(!empty($_SESSION['status'])):?><?php if($_SESSION['status'] == 3212):?>
-
-				<div class="marketnotice">
-					Profile updated
-				</div>
-<?php endif;?> <?php endif;?> 
+				<?php if(!empty($_SESSION['status'])):?>
+					<?php echo alert_notification($_SESSION['status']);?>
+				<?php endif; // End empty status check ?>
 
 
 
@@ -169,7 +166,10 @@ get_header(); ?>
 	</div>
 </div>	  
 	            
-	            
+<center>
+	<a class="btn btn-general" href="/reset_province.php" onclick="return confirm('Are you sure you want to reset your account? You will lose all your units, research and buildings!')">
+		<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> &nbsp;RESET ACCOUNT</a><br>
+</center>    
 	            
 	            
 	            

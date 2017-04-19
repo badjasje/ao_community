@@ -71,5 +71,6 @@ $open_invites = array();}
 			update_post_meta($_GET['clan'], 'open_invites', $open_invites);
 			update_user_meta($user,'new_messages',1);
 			
-			$_SESSION['status'] = '1';wp_redirect(get_permalink(3520).'?id='.$_GET['user']);exit;
+			$_SESSION['status'] = 'Invite sent';
+			wp_redirect(get_permalink(3520).'?id='.$_GET['user']);exit;
 		

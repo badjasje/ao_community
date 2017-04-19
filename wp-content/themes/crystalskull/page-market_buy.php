@@ -59,28 +59,10 @@ get_header(); ?>
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	            
-	        <?php if(!empty($_SESSION['status'])):?>
-			<?php if($_SESSION['status'] == 0):?>
-				<div class="marketnotice">Units ordered</div>
-			<?php elseif($_SESSION['status'] == 1):?>
-				<div class="marketnotice insuffunds">Build more airfields</div>
-			<?php elseif($_SESSION['status'] == 2):?>
-				<div class="marketnotice insuffunds">Build more warfactories</div>
-			<?php elseif($_SESSION['status'] == 3):?>
-				<div class="marketnotice insuffunds">Build more shipyards</div>
-			<?php elseif($_SESSION['status'] == 4):?>
-				<div class="marketnotice insuffunds">Build more baracks</div>
-			<?php elseif($_SESSION['status'] == 5):?>
-				<div class="marketnotice insuffunds">Insufficient funds</div>
-			<?php elseif($_SESSION['status'] == 192):?>
-				<div class="marketnotice insuffunds">Cannot build more than 500 special units</div>
-			<?php elseif($_SESSION['status'] == 15):?>
-				<div class="marketnotice insuffunds">Not enough command centres</div>
-			<?php elseif($_SESSION['status'] == 6):?>
-				<div class="marketnotice"><?php echo $_SESSION['units_ordered'];?> units ordered, for the total price of $ <?php echo number_format($_SESSION['order_price'], 0, ',', ' ');?></div>
-			<?php elseif($_SESSION['status'] == 12):?>
-				<div class="marketnotice insuffunds">Enter a valid number</div>
-			<?php endif;?><?php endif;?> 
+			<?php if(!empty($_SESSION['status'])):?>
+				<?php echo alert_notification($_SESSION['status']);?>
+			<?php endif; // End empty status check ?>
+	            
 	           
 	        <?php if(get_field('game_status','option') != 'Live'):?>
 			<div class="notice_message"><span class="rdw-line">The round has ended!</span></div>

@@ -24,5 +24,5 @@ update_post_meta($clan_ID, 'clan_name_change', 1);
 	}
 	
 
-
+$_SESSION['status'] = 'Clan name changed';
 wp_redirect(get_permalink(3601)); exit;

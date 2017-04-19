@@ -16,23 +16,12 @@ get_header('clan'); ?>
      <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-			<?php if(!empty($_SESSION['status'])):?>
-			<?php if($_SESSION['status'] == 0):?>
-				<div class="marketnotice"></div>
-			<?php elseif($_SESSION['status'] == 1):?>
-				<div class="marketnotice insuffunds">This clan name already exists</div>
-			<?php elseif($_SESSION['status'] == 2):?>
-				<div class="marketnotice">Your clan was deleted</div>
-			<?php elseif($_SESSION['status'] == 3):?>
-				<div class="marketnotice insuffunds">You cannot do that</div>
-			<?php elseif($_SESSION['status'] == 4):?>
-				<div class="marketnotice">You left your clan</div>
-			<?php elseif($_SESSION['status'] == 5):?>
-				<div class="marketnotice insuffunds">Insufficient funds</div>
-			<?php elseif($_SESSION['status'] == 6):?>
-				<div class="marketnotice">New clan leader set</div>
-			<?php endif;?><?php endif;?>
-		<?php if($clan_id_user == 0):?>
+	            
+	            <?php if(!empty($_SESSION['status'])):?>
+					<?php echo alert_notification($_SESSION['status']);?>
+				<?php endif; // End empty status check ?>
+	            
+	        		<?php if($clan_id_user == 0):?>
 		
 		<div class="notice_message">You are currently not in a clan! Create a clan or join one.</div>
 		<br/>

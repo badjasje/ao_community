@@ -69,5 +69,6 @@ if($discount_level == 2){
 			update_user_meta( $user_ID,'money',$totalmoney+$cashback);
 			
 			wp_trash_post($order_ID);
-			$_SESSION['status'] = '92';wp_redirect(get_permalink(3204)); exit;
+			$_SESSION['status'] = 'Order canceled. You received $ '.number_format($cashback, 0, ',', ' ');
+			wp_redirect(get_permalink(3204)); exit;
 }

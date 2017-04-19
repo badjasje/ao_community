@@ -28,7 +28,9 @@ if($current_research != 0){
 $research = $_POST['research'];
 $totalturns = get_user_meta($user_ID, 'turns');
 
-if($totalturns[0] < 25){$_SESSION['status'] = '2';wp_redirect(get_permalink(4837));exit;}
+if($totalturns[0] < 25){$_SESSION['status'] = 'Not enough turns';
+	wp_redirect(get_permalink(4837));exit;
+	}
 
 $timestamp = strtotime(date('Y-m-d H:i:s'));
 
@@ -56,4 +58,4 @@ $args = array(
 			update_user_meta($user_ID, 'research_in_progress', $research);
 			update_user_meta( $user_ID, 'turns',$totalturns[0]-25);
 			
-			$_SESSION['status'] = '1';wp_redirect(get_permalink(4837));exit;
+			$_SESSION['status'] = $researches[$research]['name'].' research started';wp_redirect(get_permalink(4837));exit;

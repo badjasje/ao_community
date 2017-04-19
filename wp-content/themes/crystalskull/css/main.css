@@ -77,7 +77,7 @@ a {
     cursor: pointer;
     outline: 0!important;
 }
-.wp-editor-container textarea.wp-editor-area, input[type=file], input[type=password],input[type=text], select, textarea{
+.wp-editor-container textarea.wp-editor-area, input[type=file], input[type=password],input[type=text], select{
 	transition: all .35s ease-in-out;
     -moz-transition: all .35s ease-in-out;
     -webkit-transition: all .35s ease-in-out;
@@ -187,17 +187,21 @@ html.fullwidth body .blog, html.fullwidth body .normal-page, html.fullwidth body
 .nicescroll-rails {
     z-index: 9999!important;
 }
-.wp-editor-container textarea.wp-editor-area, input[type=file], input[type=password], input[type=password]:active, input[type=password]:focus, input[type=password]:hover, input[type=text], input[type=text]:active, input[type=text]:focus, input[type=text]:hover, select, select:active, select:focus, select:hover, textarea, textarea:active, textarea:focus, textarea:hover {
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    background-color: #fbfbfb;
-    border: 1px solid #a3a3a3;
+.wp-editor-container textarea.wp-editor-area, input[type=file], input[type=password], input[type=password]:active, input[type=password]:focus, input[type=password]:hover, input[type=text], input[type=text]:active, input[type=text]:focus, input[type=text]:hover, select, select:active, select:focus, select:hover,textarea, textarea:active, textarea:focus, textarea:hover {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    background-color: #fff;
+    border: 1px solid #ddd;
     padding: 8px;
     font-size: 14px;
     width: 100%;
     line-height: 21px;
-    color: #000;
+    color: #5f5d5d;
+}
+textarea, textarea:active, textarea:focus, textarea:hover{
+	padding:20px;
+	font-size: 16px;
 }
 .uneditable-input:focus, input[type=color]:focus, input[type=date]:focus, input[type=datetime-local]:focus, input[type=datetime]:focus, input[type=email]:focus, input[type=month]:focus, input[type=number]:focus, input[type=password]:focus, input[type=search]:focus, input[type=tel]:focus, input[type=text]:focus, input[type=time]:focus, input[type=url]:focus, input[type=week]:focus, textarea:focus {
     -webkit-transition: linear .3s;
@@ -220,10 +224,12 @@ html.fullwidth body .blog, html.fullwidth body .normal-page, html.fullwidth body
     -webkit-transition: all .35s ease-in-out;
     -o-transition: all .35s ease-in-out;
     padding: 5px 14px;
-    background-color: transparent;
-    border-style: solid;
-    border-width:1px;
-    border-radius: 30px;
+    background-color: #ddd;
+	border:0px;
+	border:1px solid #ddd;
+  
+   
+   
 
     text-transform: capitalize;
     font-weight: 400;
@@ -233,6 +239,11 @@ html.fullwidth body .blog, html.fullwidth body .normal-page, html.fullwidth body
     position: relative;
     z-index: 1;
     overflow: hidden;
+}
+input[type=submit]:hover{
+	border:1px solid #2d4350;
+	background-color:#fff;
+	color:#2d4350 !important;
 }
 .woocommerce .price_slider_amount button:hover , .button-big:hover, .button-medium:hover, .button-small:hover, button[type=submit]:hover, input[type=button]:hover, input[type=submit]:hover {
     color: #fff;

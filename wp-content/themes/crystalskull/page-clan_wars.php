@@ -31,6 +31,10 @@ get_header(); ?>
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	            
+			<?php if(!empty($_SESSION['status'])):?>
+				<?php echo alert_notification($_SESSION['status']);?>
+			<?php endif; // End empty status check ?>
+	            
 			<?php if(get_field('game_status','option') != 'Live'):?>
 			<div class="notice_message"><span class="rdw-line">The round has ended!</span></div>
 			<?php else:?>     
@@ -41,22 +45,6 @@ get_header(); ?>
 	           <span class="rdw-line">You can target clans with a networth between <?php echo GameUtil::format_networth($clan_networth/1.4); ?> and <?php echo GameUtil::format_networth($clan_networth*1.4);?></span>
            </div><br/>
 
-			<?php if(!empty($_SESSION['status'])):?>
-			<?php if($_SESSION['status'] == 0):?>
-				<div class="marketnotice"></div>
-			<?php elseif($_SESSION['status'] == 1):?>
-				<div class="marketnotice">Peace declared</div>
-			<?php elseif($_SESSION['status'] == 2):?>
-				<div class="marketnotice insuffunds">Build more warfactories</div>
-			<?php elseif($_SESSION['status'] == 3):?>
-				<div class="marketnotice insuffunds">Build more shipyards</div>
-			<?php elseif($_SESSION['status'] == 4):?>
-				<div class="marketnotice insuffunds">Build more baracks</div>
-			<?php elseif($_SESSION['status'] == 5):?>
-				<div class="marketnotice insuffunds">Insufficient funds</div>
-			<?php elseif($_SESSION['status'] == 6):?>
-				<div class="marketnotice">Units ordered</div>
-			<?php endif;?><?php endif;?>
 			
 			<table class="responsive-table">
 				<tr>

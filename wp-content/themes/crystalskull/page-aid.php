@@ -13,27 +13,11 @@ get_header(); ?>
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	            
-	        <?php if(!empty($_SESSION['status'])):?>
-			<?php if($_SESSION['status'] == 15):?>
-				<div class="marketnotice">Aid sent</div>
-			<?php elseif($_SESSION['status'] == 25):?>
-				<div class="marketnotice insuffunds">Insufficient funds</div>
-			<?php elseif($_SESSION['status'] == 2):?>
-				<div class="marketnotice insuffunds">Build more warfactories</div>
-			<?php elseif($_SESSION['status'] == 3):?>
-				<div class="marketnotice insuffunds">Build more shipyards</div>
-			<?php elseif($_SESSION['status'] == 4):?>
-				<div class="marketnotice insuffunds">Build more baracks</div>
-			<?php elseif($_SESSION['status'] == 5):?>
-				<div class="marketnotice insuffunds">Insufficient funds</div>
-			<?php elseif($_SESSION['status'] == 15):?>
-				<div class="marketnotice insuffunds">Not enough command centres</div>
-			<?php elseif($_SESSION['status'] == 6):?>
-				<div class="marketnotice">Units ordered</div>
-			<?php elseif($_SESSION['status'] == 12):?>
-				<div class="marketnotice insuffunds">Enter a valid number</div>
-			<?php endif;?><?php endif;?> 
+	            <?php if(!empty($_SESSION['status'])):?>
+					<?php echo alert_notification($_SESSION['status']);?>
+				<?php endif; // End empty status check ?>
 	            
+	      	            
 	            
 	            
 	    <?php if(get_field('game_status','option') != 'Live'):?>

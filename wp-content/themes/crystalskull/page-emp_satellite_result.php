@@ -45,7 +45,9 @@ $turns = get_user_meta($user_ID, 'turns',true);
 $sat_morale = get_user_meta($user_ID, 'sat_morale',true);
 if (100 > $sat_morale) {
 	
-	wp_redirect(get_permalink(3360).'?fail=20');
+	$_SESSION['status'] = 'Insufficient satellite power';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
+
 	exit;
 
 }
@@ -54,7 +56,8 @@ if (100 > $sat_morale) {
 
 $target_status = get_user_meta($defender_ID,'status',true);
 if($target_status == 'dead'){
-	wp_redirect(get_permalink(3360).'?fail=8');
+	$_SESSION['status'] = 'This player is dead';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
 	exit;
 }
 
@@ -81,7 +84,8 @@ $in_range = target_in_range($attack_type, $networth_att, $networth_def, $war_typ
 
 /* validate target in range */
 if (!$in_range) {
-	wp_redirect(get_permalink(3360).'?fail=9');
+	$_SESSION['status'] = 'Out of networth range';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
 	exit;
 }
 

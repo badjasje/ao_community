@@ -55,13 +55,21 @@ $money = get_user_meta($user_ID, 'money',true);
 $aid = $_POST['amount'];
 
 if($aid > $money){
-	$_SESSION['status'] = '25';wp_redirect(get_permalink(49609)); exit;
+	$_SESSION['status'] = 'Insufficient funds';wp_redirect(get_permalink(49609)); exit;
 }
-if($_POST['amount'] < 0){$_SESSION['status'] = '12';wp_redirect(get_permalink(49609)); exit;}
+if($_POST['amount'] < 0){$_SESSION['status'] = 'Enter a valid number';wp_redirect(get_permalink(49609)); exit;}
 
-if(empty($_POST['amount'])){$letter_check = 0;}else{$letter_check = $_POST['amount'];}
+if(empty($_POST['amount'])){
+		$letter_check = 0;
+	}
+		else
+	{
+		$letter_check = $_POST['amount'];
+	}
 
-if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect(get_permalink(49609)); exit;}
+if(!is_numeric($letter_check)){$_SESSION['status'] = 'Enter a valid number';
+	wp_redirect(get_permalink(49609)); exit;
+	}
 
 
 if($aid > 250000){
@@ -108,6 +116,7 @@ file_put_contents($file, $current);
 
 
 
-$_SESSION['status'] = '15';wp_redirect(get_permalink(49609)); exit;
+$_SESSION['status'] = '$ '.number_format($aid, 0, ',', ' ').' aid sent';
+wp_redirect(get_permalink(49609)); exit;
 
 }

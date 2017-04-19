@@ -35,7 +35,7 @@ update_user_meta($user_ID,'status','online');
 				update_field('defender_id',$user_ID, $new_event_id);
 				update_field('attacker_id',$user_ID, $new_event_id);
 				update_field('time_attacked',$timestamp, $new_event_id);
-$_SESSION['status'] = '1';wp_redirect(get_permalink(3486));exit; //back to dashboard
+$_SESSION['status'] = 'Assault Protection removed';wp_redirect(get_permalink(3486));exit; //back to dashboard
 }else{
 wp_redirect(get_permalink(3486));exit; //back to dashboard
 }

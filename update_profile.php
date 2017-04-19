@@ -16,9 +16,7 @@ nocache_headers();
 
 
 $user_ID = get_current_user_id(); 
-echo '<pre>';
-print_r($_POST['low_power']);
-echo '</pre>';
+
 
 $uploadedfile = $_FILES['file'];
 
@@ -47,4 +45,4 @@ update_user_meta($user_ID, 'low_buildings',$_POST['buildings']);
 
 update_user_meta($user_ID,'user_country',$_POST['countrycode']);
 
-$_SESSION['status'] = '3212';wp_redirect(get_permalink(6570)); exit;
+$_SESSION['status'] = 'Profile updated';wp_redirect(get_permalink(6570)); exit;

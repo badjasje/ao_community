@@ -37,5 +37,5 @@ update_user_meta($user_ID, 'stealth_sat_time', $timestamp+3600*3.5);
 update_user_meta($user_ID, 'sat_morale', $sat_morale-100);
 
 
-$_SESSION['status'] = '999';
+$_SESSION['status'] = 'Stealth satellite activated';
 wp_redirect(get_permalink(8578)); exit;

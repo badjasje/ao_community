@@ -81,7 +81,7 @@ foreach ($clan_members2[0] as $member2) {
 	
 	
 wp_trash_post($_GET['war']);
-$_SESSION['status'] = '1';wp_redirect(get_permalink(3842));exit;
+$_SESSION['status'] = 'Peace declared';wp_redirect(get_permalink(3842));exit;
 }else{
 	echo 'nope';
 }

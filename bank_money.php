@@ -15,8 +15,19 @@ if ( 'POST' != $_SERVER['REQUEST_METHOD'] ) {
 require( dirname(__FILE__) . '/wp-load.php' );
 if(get_field('game_status','option') == 'Live'){
 nocache_headers();
-if(!is_numeric($_POST['amount'])){$_SESSION['status'] = '12';wp_redirect(get_permalink(3953)); exit;}
-if($_POST['amount'] <= 0){$_SESSION['status'] = '12';wp_redirect(get_permalink(3953)); exit;}
+
+
+if(!is_numeric($_POST['amount'])){
+	$_SESSION['status'] = 'Enter a valid number';
+	wp_redirect(get_permalink(3953)); exit;
+	}
+
+
+if($_POST['amount'] <= 0){
+	$_SESSION['status'] = 'Enter a valid number';
+	wp_redirect(get_permalink(3953)); exit;
+	}
+
 
 /* Get some important variables */
 $user_ID = get_current_user_id(); 
@@ -28,10 +39,16 @@ if(empty($user_ID)){
 if ( !is_user_logged_in() ) { 
 	wp_redirect(get_permalink(3582)); exit;
 	}
+	
 $money = get_user_meta($user_ID,'money');
 
+
 /* check if user actually has enough cash */
-if($money[0] < $_POST['amount']){$_SESSION['status'] = '1';wp_redirect(get_permalink(3953));exit;}
+if($money[0] < $_POST['amount']){
+	$_SESSION['status'] = 'Insufficient funds';
+	wp_redirect(get_permalink(3953));exit;
+	}
+
 
 $deposits = get_user_meta($user_ID,'total_deposits');
 if(empty($deposits)){
@@ -80,19 +97,33 @@ if($banklevel == 3){
 }
 
 
+
 /* check for minimum value */
-if($_POST['amount'] < 5000){$_SESSION['status'] = '13';wp_redirect(get_permalink(3953));exit;}
+if($_POST['amount'] < 5000){
+	$_SESSION['status'] = 'Deposit at least $ 5 000';
+	wp_redirect(get_permalink(3953));exit;
+	}
+	
 
 /* check amount of deposits made, max 10 */
-if($deposits[0] == 10){$_SESSION['status'] = '4';wp_redirect(get_permalink(3953));exit;}
-
+if($deposits[0] == 10){
+	$_SESSION['status'] = 'You already made 10 deposits';
+	wp_redirect(get_permalink(3953));exit;
+	}
 
 
 /* check if the sum of the amount + the amount already deposited doesn't exceed the max set by research */
-if($tot_deposited+$_POST['amount'] > $max_tot){$_SESSION['status'] = '6';wp_redirect(get_permalink(3953));exit;}
+if($tot_deposited+$_POST['amount'] > $max_tot){
+	$_SESSION['status'] = 'The total sum exceeds the amount of deposited money you can have at this time';
+	wp_redirect(get_permalink(3953));exit;
+	}
+
 
 /* check if deposit doesn't exceed the max deposit based on research */
-if($_POST['amount'] > $max_dep){$_SESSION['status'] = '2';wp_redirect(get_permalink(3953));exit;}else{
+if($_POST['amount'] > $max_dep){
+	$_SESSION['status'] = "Your research doesn't allow you to deposit this much";
+	wp_redirect(get_permalink(3953));exit;
+	}else{
 	
 
 
@@ -117,7 +148,7 @@ $RELEASE_DATE = $timestamp+($_POST['days']*86400);
 			update_user_meta($user_ID,'total_deposits',$deposits[0]+1);
 	
 	/* return to banking page succesful */
-	$_SESSION['status'] = '3';wp_redirect(get_permalink(3953));exit;
+	$_SESSION['status'] = 'Deposit placed';wp_redirect(get_permalink(3953));exit;
 	
 }
 }

@@ -482,6 +482,7 @@ ul.tabs{
     font-size: 18px;
     line-height: 28px;
     color: #fff;
+    
 }
 .bonus_message{
 	background-color: #425C6B;
@@ -530,7 +531,9 @@ ul.tabs{
 	background-color: #425C6B;
 	text-align:center;
 	cursor: pointer;
+	margin-bottom:10px;
 }
+
 #progress {
  	width: 100%;
     padding-top: 20px;
@@ -931,11 +934,14 @@ table{
 	float:left;
 	margin-right:10px;
 }
-.target_info{
+.target_info,.single_inbox_message{
 	padding: 20px;
     background-color: #fff;
     border: 1px solid #ddd;
     margin-top:11px;
+}
+.single_inbox_message{
+	margin-top:0px;
 }
 .medal_col{
 	margin-bottom:20px;
@@ -978,9 +984,19 @@ table{
 	padding:10px;
 	
 }
+.mobile_dash_header{
+	display:none;
+}
 @media (max-width: 768px) {
 .profile_block{
 	padding:20px 0px 0px 0px;
+}
+.inbox_header{
+	display:none;
+}
+
+.mobile_dash_header{
+	display: block;
 }
 }
 
@@ -1066,17 +1082,54 @@ border_bottom_mobile{
 }
 }
 
+.startBonusCol{
+	padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-bottom:20px;
+}
 
+.noTopMargin{
+	margin-top:0px !important;
+}
 
+.blue_alert{
+	color: #425c6b;
+    background-color: #f6f7f8;
+    border-color: #425c6b;
+    margin-bottom:10px;
+    text-align:center;
+}
 
+.status_header{
+	padding: 10px;
+    background-color: #ddd;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+	
+}
+.status_header_left{
+	text-align: left;
+	font-size:14px;
+}
 
+.dashboard-status{
+	border:1px solid #ddd;
+}
+.status_column{
+	border:1px solid #ddd;
+	background-color:#fff;
+	
+}
+.status_block{
+	margin-bottom:20px;
+}
 
-
-
-
-
-
-
+.secBlock{
+	margin-bottom:20px;
+}
 
 
 

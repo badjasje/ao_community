@@ -57,44 +57,12 @@ get_header(); ?>
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-				<?php if (!empty($_SESSION['status'])): ?>
-					<?php if ($_SESSION['status'] == 7): ?>
-                        <div class="marketnotice"><?php echo $_SESSION['buildings'];
-							if ($_SESSION['buildings'] > 1) {
-								echo ' buildings';
-							} else {
-								echo ' building';
-							} ?> built using <?php echo $_SESSION['turns_used'];
-							if ($_SESSION['turns_used'] > 1) {
-								echo ' turns';
-							} else {
-								echo ' turn';
-							}
-
-
-							?></div>
-					<?php elseif ($_SESSION['status'] == 1): ?>
-                        <div class="marketnotice insuffunds">Not enough turns</div>
-					<?php elseif ($_SESSION['status'] == 2): ?>
-                        <div class="marketnotice insuffunds">Insufficient funds</div>
-					<?php elseif ($_SESSION['status'] == 3): ?>
-                        <div class="marketnotice insuffunds">You cannot enter negative amounts</div>
-					<?php elseif ($_SESSION['status'] == 4): ?>
-                        <div class="marketnotice insuffunds">Not enough free land</div>
-					<?php elseif ($_SESSION['status'] == 5): ?>
-                        <div class="marketnotice insuffunds">Insufficient funds</div>
-					<?php elseif ($_SESSION['status'] == 12): ?>
-                        <div class="marketnotice insuffunds">Enter a valid number</div>
-					<?php elseif ($_SESSION['status'] == 1322): ?>
-                        <div class="marketnotice insuffunds">Cannot demolish all your buildings</div>
-					<?php elseif ($_SESSION['status'] == 14): ?>
-                        <div class="marketnotice">Buildings demolished</div>
-					<?php elseif ($_SESSION['status'] == 17): ?>
-                        <div class="marketnotice insuffunds">You must sell units occupying the buildings before you can
-                            demolish them
-                        </div>
-					<?php endif; ?><?php endif; ?>
-
+	            
+	            <?php if(!empty($_SESSION['status'])):?>
+					<?php echo alert_notification($_SESSION['status']);?>
+				<?php endif; // End empty status check ?>
+	            
+		
 
 				<?php if (get_field('game_status', 'option') != 'Live'): ?>
                     <div class="notice_message"><span class="rdw-line">The round has ended!</span></div>

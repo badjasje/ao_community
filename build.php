@@ -64,14 +64,14 @@ include 'building_array.php';
 $totalordercost = 0;
 $totalbuildings = 0;
 foreach($buildings as $key => $order){
-if($_POST["$key"] < 0){$_SESSION['status'] = '12';wp_redirect(get_permalink(3386)); exit;}
+if($_POST["$key"] < 0){$_SESSION['status'] = 'Enter a valid number';wp_redirect(get_permalink(3386)); exit;}
 $price = $order['price'];
 $ordered_buildings = ceil($_POST["$key"]);
 if(empty($_POST["$key"])){$letter_check = 0;}else{$letter_check = $_POST["$key"];}
 
-if(!is_numeric($letter_check)){$_SESSION['status'] = '12';wp_redirect(get_permalink(3386)); exit;}
+if(!is_numeric($letter_check)){$_SESSION['status'] = 'Enter a valid number';wp_redirect(get_permalink(3386)); exit;}
 
-if($ordered_buildings < 0){$_SESSION['status'] = '3';wp_redirect(get_permalink(3386)); exit;}
+if($ordered_buildings < 0){$_SESSION['status'] = 'You cannot enter negative amounts';wp_redirect(get_permalink(3386)); exit;}
 $orderamount = $price*$ordered_buildings;
 $totalbuildings+=$ordered_buildings;
 $totalordercost = $totalordercost+$orderamount;
@@ -83,14 +83,14 @@ $land_needed = ceil($totalbuildings*20);
 
 
 if(($land[0]-$builtland[0]) < $land_needed){
-	$_SESSION['status'] = '4';wp_redirect(get_permalink(3386)); exit;
+	$_SESSION['status'] = 'Not enough free land';wp_redirect(get_permalink(3386)); exit;
 }
 
 if($turns_needed > $totalturns){
-	$_SESSION['status'] = '1';wp_redirect(get_permalink(3386)); exit;
+	$_SESSION['status'] = 'Not enough turns';wp_redirect(get_permalink(3386)); exit;
 }else{
 if($totalordercost > $totalmoney){
-	$_SESSION['status'] = '2';wp_redirect(get_permalink(3386)); exit;
+	$_SESSION['status'] = 'Insufficient funds';wp_redirect(get_permalink(3386)); exit;
 	}else{
 		
 	$buildings_built = get_user_meta($user_ID, 'buildings_built', true);
@@ -127,9 +127,8 @@ if($totalordercost > $totalmoney){
 
 
 }}}}
-$_SESSION['turns_used'] = $turns_needed;
-$_SESSION['buildings'] = $totalbuildings;
-$_SESSION['status'] = '7';
+
+$_SESSION['status'] = $totalbuildings.' buildings built using ' .$turns_needed.' turns';
 count_all_stats($user_ID);
 wp_redirect(get_permalink(3386).'/?tab=build'); exit;
 

@@ -9,7 +9,7 @@ $attacking_units 	= 		$_POST;
 $defender_ID     	= 		$_SESSION['target_id'];
 $target_id 			= 		$_SESSION['target_id'];
 
-
+$shotdown			= 		false;
 $AMS 		= 	get_user_meta($defender_ID, 'antimissile', true);
 $def_land 	= 	get_user_meta($defender_ID, 'builtland', true);
 
@@ -17,7 +17,8 @@ $def_land 	= 	get_user_meta($defender_ID, 'builtland', true);
 /* check if target isn't dead, else redirect */
 $target_status = get_user_meta($defender_ID,'status',true);
 if($target_status == 'dead'){
-	wp_redirect(get_permalink(3360).'?fail=8');
+	$_SESSION['status'] = 'This player is dead';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
 	exit;
 }
 
@@ -69,7 +70,7 @@ $_total_sea_units_att = 0;
 
 $user_ID = get_current_user_id();
 $networth_att = get_user_meta($user_ID, 'networth',true);
-$turns = get_user_meta($user_ID, 'turns');
+$turns = get_user_meta($user_ID, 'turns',true);
 $networth_def = get_user_meta($defender_ID, 'networth',true);
 
 
@@ -192,7 +193,8 @@ if($mutual != 2){
 	
 	}else{
 	
-	wp_redirect(get_permalink(3360).'?fail=9');
+	$_SESSION['status'] = 'Out of networth range';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
 	exit;
 
 	}
@@ -216,16 +218,14 @@ $oldmorale = get_user_meta($user_ID, 'morale', true);
  
 if ($oldmorale < $moralecost) {
 	    	    
-	wp_redirect(get_permalink(3360).'?fail=2');
+	$_SESSION['status'] = 'Insufficient morale';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
 	exit;
 
 }
 
-/* update morale */
-update_user_meta($user_ID, 'morale', $oldmorale - $moralecost);
+
     
-
-
  
 $key = $_SESSION['attack_array']['missile'];
 $missile_type = $_SESSION['attack_array']['missile'];
@@ -235,11 +235,22 @@ $owned_miss = get_user_meta($user_ID, $key.'_owned',true);
 
 if($owned_miss <= 0 ){
 	     	
-	wp_redirect(get_permalink(3360).'?fail=14');
+	$_SESSION['status'] = 'Not enough missiles of this type';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
 	exit; 	
 	
 }
 
+/* check if user has enough turns */
+if($turns < 3){ 
+	
+	$_SESSION['status'] = 'Not enough turns';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
+	exit;
+	}
+
+/* update morale */
+update_user_meta($user_ID, 'morale', $oldmorale - $moralecost);
 
 /* update attacker missile */
 update_user_meta($user_ID,$key.'_owned',$owned_miss-1);
@@ -898,7 +909,7 @@ $args = array(
 			
 			}
 			
-			update_user_meta($user_ID,'turns',$turns[0]-3);
+			update_user_meta($user_ID,'turns',$turns-3);
 			update_user_meta($defender_ID, 'new_events', get_user_meta($defender_ID, 'new_events')[0]+1);
 			
 			$user_pts = get_user_meta($user_ID, 'user_clan_points',true);

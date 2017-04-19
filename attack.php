@@ -48,36 +48,42 @@ if($attackmode == 'aggressive'){
 /* == validate the attack == */
 /* target id cannot be blank */
 if ($target_id == '') {
-	wp_redirect(get_permalink(3360).'?fail=4');
+	$_SESSION['status'] = 'Choose a player ID to attack';
+	wp_redirect(get_permalink(3360));
 	exit;
 }
 
 /* validate target id must be numeric */
 if(!is_numeric($target_id)) {
-	wp_redirect(get_permalink(3360).'?fail=12')
-	;exit;
+	$_SESSION['status'] = 'Enter a valid number';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
+	exit;
 }
 
 /* target cannot be yourself */
 if ($target_id == $user_ID) {
-	wp_redirect(get_permalink(3360).'?fail=6');
+	$_SESSION['status'] = 'You cannot target yourself';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
 
 /* target must be a real user */
 if (get_userdata($target_id) == false) {
-	wp_redirect(get_permalink(3360).'?fail=5');
+	$_SESSION['status'] = 'Player ID not found';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
     exit;
 }
 
 /* target cannot be dead or in protection */
 $status = get_user_meta($target_id, 'status')[0];
 if($status == 'dead') {
-	wp_redirect(get_permalink(3360).'?fail=8');
+	$_SESSION['status'] = 'This player is dead';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
 if ($status == 'nukeprotection') {
-	wp_redirect(get_permalink(3360).'?fail=13');
+	$_SESSION['status'] = 'You cannot attack someone who is under Assault Protection';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
 
@@ -85,7 +91,8 @@ if ($status == 'nukeprotection') {
 if($clan_id != 0){
 	$members = get_post_meta($clan_id, 'clan_members')[0];
 	if(in_array($target_id, $members)){
-		wp_redirect(get_permalink(3360).'?fail=11');
+		$_SESSION['status'] = 'You cannot attack your own clan members';
+		wp_redirect(get_permalink(3360).'?id='.$target_id);
 		exit;
 	}
 }
@@ -103,7 +110,8 @@ $networth_att = $user_data['networth'][0];
 $networth_def = get_user_meta($target_id, 'networth')[0];
 
 if($networth_def < 3500){
-	wp_redirect(get_permalink(3360).'?fail=9');
+	$_SESSION['status'] = 'Out of networth range';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
 
@@ -111,7 +119,8 @@ if($networth_def < 3500){
 
 $in_range = target_in_range($attacktype, $networth_att, $networth_def, $war_type);
 if (!$in_range) {
-	wp_redirect(get_permalink(3360).'?fail=9');
+	$_SESSION['status'] = 'Out of networth range';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
 
@@ -119,26 +128,29 @@ if (!$in_range) {
 $cost_arr = get_attack_cost($attacktype, $networth_att, $networth_def);
 /* check morale */
 if ($cost_arr['morale']+$extra_morale_cost > $morale) {
-	wp_redirect(get_permalink(3360).'?fail=2');
+	$_SESSION['status'] = 'Insufficient morale';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
 /* check satellite morale */
 if($attacktype == 'satellite'){
 if (100 > $sat_morale) {
-	wp_redirect(get_permalink(3360).'?fail=20');
+	$_SESSION['status'] = 'Not enough satellite power';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }}
 
 /* check turns */
 if ($cost_arr['turns'] > $turns) {
-	wp_redirect(get_permalink(3360).'?fail=1');
+	$_SESSION['status'] = 'Not enough turns';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
 
 /* check power */
 $user_power = $user_data['power'][0];
 if ($user_power > 100) {
-	wp_redirect(get_permalink(3360).'?fail=15');
+	wp_redirect(get_permalink(3360).'?id=15');
 	exit;
 }
 

@@ -84,8 +84,8 @@ $total_incl_interest = ceil($amount*pow($rates[$days]['interest']+($extra_intere
 			update_user_meta($user_ID,'money',$money+$total_incl_interest);
 			update_user_meta($user_ID,'total_deposits',$deposits-1);
 			wp_trash_post($deposit);
-	$_SESSION['status'] = '5';
-	$_SESSION['withdrawn'] = $total_incl_interest;
+	$_SESSION['status'] = '$ '.number_format($total_incl_interest, 0, ',', ' ').' withdrawn';
+
 	wp_redirect(get_permalink(3953));
 	exit;
 }
@@ -101,8 +101,8 @@ $amount = get_post_meta($deposit,'amount',true)*$early_penalty;
 	update_user_meta($user_ID,'total_deposits',$deposits-1);
 	wp_trash_post($deposit);
 	
-	$_SESSION['status'] = '7';
-	$_SESSION['withdrawn'] = $amount;
+	$_SESSION['status'] = 'You canceled your deposit. '.number_format($amount, 0, ',', ' ').' withdrawn';
+
 	wp_redirect(get_permalink(3953));
 	exit;	
 	

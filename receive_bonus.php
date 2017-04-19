@@ -9,10 +9,10 @@ $user_ID = get_current_user_id();
 
 if ( ! defined( 'ABSPATH' ) ) exit; 
 if(empty($user_ID)){
-	wp_redirect(get_permalink(3582)); exit;
+	wp_redirect(get_permalink(3486)); exit;
 }
 if ( !is_user_logged_in() ) { 
-	wp_redirect(get_permalink(3582)); exit;
+	wp_redirect(get_permalink(3486)); exit;
 	}
 $event_ID = $_GET['id'];
 
@@ -51,9 +51,9 @@ if($user_ID == $receiver_ID){
 	
 	
 	
-	
-	wp_redirect(get_permalink(7643)); exit;
+	$_SESSION['status'] = 'Bonus received';
+	wp_redirect(get_permalink(3486)); exit;
 	
 }else{
-	wp_redirect(get_permalink(7643)); exit;
+	wp_redirect(get_permalink(3486)); exit;
 }

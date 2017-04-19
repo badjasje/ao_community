@@ -30,9 +30,17 @@ get_header(); ?>
         <div class="row">
             <div class="col-lg-12 col-md-12">
 			<?php if($status[0] == 'nukeprotection'):?>
-		<div class="notice_message"><span class="rdw-line">You are under Nuke Protection and cannot attack.</span></div>
+			<div class="notice_message"><span class="rdw-line">You are under Nuke Protection and cannot attack.</span></div>
 		
 		<?php else:?>
+		
+				<?php if(!empty($_SESSION['status'])):?>
+					<?php echo alert_notification($_SESSION['status']);?>
+				<?php endif; // End empty status check ?>
+	            
+		
+		
+		
 		<?php if (!empty($_GET['fail'])) { $attacksuccess = $_GET['fail']; ?>
 			<?php if($attacksuccess == 1):?>
 				<div class="marketnotice insuffunds">Not enough turns</div>
@@ -237,7 +245,7 @@ get_header(); ?>
 		</form>		
 		<?php endif;?>
 		<?php endif;?>
-            
+		<?php session_unset();?>
             </div>
         </div>
     </div>
