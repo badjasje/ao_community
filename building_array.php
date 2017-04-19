@@ -162,6 +162,20 @@
 			'life'			=>	390),
 );
 */
+$user_ID = get_current_user_id();
+$AMS = get_user_meta($user_ID, 'antimissile', true);
+$def_land 	= 	get_user_meta($user_ID, 'builtland', true);
+$shootdown_chance = 0;
+if($AMS > 0){
+
+$shootdown_chance = (($AMS*100)/$def_land)*100;
+
+
+if($shootdown_chance >= 75){
+	$shootdown_chance = 75;
+}
+}
+
 $buildings = array(
     'silo' 		=> array(
 			'price'			=>	'22000',
@@ -316,7 +330,7 @@ $buildings = array(
 			'networth'		=>	14,
 			'normalname'	=>	'Anti-Missile System',
 			'targetname'	=> 	'ams',
-			'description'	=>	'Every Anti-Missile System protects 100m2 of your built land.',
+			'description'	=>	'Every Anti-Missile System protects 100m2 of your built land. Chance to shoot down missiles is currently '.$shootdown_chance. '%',
 			'attacks'		=>  array('mis'),
 			'attack'		=>	0,
 			'type'			=>	'bds',
