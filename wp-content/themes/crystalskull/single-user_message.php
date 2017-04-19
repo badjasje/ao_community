@@ -12,10 +12,10 @@ if(!in_array($user_ID, $messagearray)){
 
 
 <div class="blog blog-ind">
-	<div class="container ">
+	<div class="container">
 	<div class="row">
 
-		<div class="col-lg-12 col-md-12">
+		
 			<?php while ( have_posts() ) : the_post(); ?>
 			<?php 
 				$invite_hash = get_post_meta(get_the_ID(),'invite_hash');
@@ -45,29 +45,70 @@ if(!in_array($user_ID, $messagearray)){
 				update_post_meta($message->ID, 'receiver_status', 'Read');
 			}
 			
-			?>
+			if($sender_ID != $user_ID){
+				$sender_ID = $sender->ID;
+			}
 			
-			<table class="responsive-table"style="margin-bottom:10px;margin-left:auto;margin-right:auto;max-width:500px;">
-			<tr>
-				<td class="report_header"><strong><center><?php if($sender_ID != $user_ID){echo $sender->display_name;?> (#<?php echo $sender->ID.')';}?>
-</center></strong>
-				</td>
-			</tr>
-			<tr>
-				<td class="report_content"><div style="line-height: 1.9;"><?php echo str_replace("\r", "<br />", $message->post_content);?></div>
-				</td>
-			</tr>
-		
-		
-		
-			</table>
 			
-			<?php }?>
-				<form style="margin-left:auto;margin-right:auto;max-width:500px;"class="form" action="<?php echo home_url() ?>/message.php" name="" id="message" method="post">
-				<input type="hidden" name="main_message" value="<?php echo $mainmessage_ID;?>">
-				​<textarea style="width:100%;"id="message" rows="10" name="message"placeholder="Your message..."cols="70"></textarea>
-				<input type="submit" value="Send reply">
-			</form>
+			
+			if(!empty(get_user_meta($sender_ID, 'avatar_user', true))){
+				$avatar = get_user_meta($sender_ID, 'avatar_user', true);
+			} 
+			else {
+				$avatar = '/wp-content/uploads/2016/11/default_large.png';
+			}
+		?>
+		
+		
+		
+			
+		
+<div class="row">
+<div class="col-md-2"></div>
+
+<div class="col-md-8">
+	<ul class="single_inbox_message media-list">
+		<li class="media ">
+			<div class="media-left">
+				<img class="profile_image media-object" src="<?php echo $avatar;?>">
+			</div>
+			
+			<div class="media-body">
+				<h4 class="media-heading"><?php echo LinkUtil::user_link($sender_ID); ?></h4>
+				<?php echo str_replace("\r", "<br />", $message->post_content);?>
+    		</div>
+		</li>
+	</ul>
+</div>
+
+<div class="col-md-2"></div>
+</div> <!-- /row -->
+	
+			
+<?php }?>
+
+
+<div class="row">
+<div class="col-md-2"></div>
+
+<div class="col-md-8">
+	<div class="message_field">
+		<form class="form" action="<?php echo home_url() ?>/message.php" name="" id="message" method="post">
+			<input type="hidden" name="main_message" value="<?php echo $mainmessage_ID;?>">
+			​<textarea id="message" required rows="10" name="message" placeholder="Your message..."></textarea>
+			
+				<input type="submit" value="Send">
+	
+		</form>
+	</div>
+	
+</div>
+
+<div class="col-md-2"></div>
+</div><!-- /row -->
+
+
+				
 			<?php endif;?>
 			<?php if(!empty($invite_hash[0])):
 				$clan_ID = get_post_meta(get_the_ID(),'clan_id_invited');
@@ -97,7 +138,7 @@ if(!in_array($user_ID, $messagearray)){
 			<?php endif;?><?php endif;?>
 			<?php endwhile; // end of the loop. ?>
 		
-		</div><!-- /.span12 -->
+	
 
 	</div><!-- /row -->
 	</div>

@@ -7,12 +7,18 @@ $user = get_userdata( $receiver_ID );
 if(!is_user_logged_in()) {
 wp_redirect(get_permalink(3491)); exit;
 }
+if(!empty(get_user_meta($receiver_ID, 'avatar_user', true))){
+				$avatar = get_user_meta($receiver_ID, 'avatar_user', true);
+			} 
+			else {
+				$avatar = '/wp-content/uploads/2016/11/default_large.png';
+			}
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-       <center><h1>Send message to <a href="/users/profile/?id=<?php echo $receiver_ID;?> "><?php echo $user->display_name.' (#'.$receiver_ID;?>)</a></h1></center>
+   
 			
 			<?php if(!empty($_SESSION['status'])):?>
 			<?php if($_SESSION['status'] == 0):?>
@@ -33,23 +39,48 @@ get_header(); ?>
 				<div class="marketnotice insuffunds">Enter a valid number</div>
 			<?php endif;?><?php endif;?>
 			
-			<form class="form" action="<?php echo home_url() ?>/message.php" name="" id="message" method="post">
-				<table style="margin-left:auto;margin-right:auto;max-width:450px;">
-					<tr>
-						<td><center>
-				<input style="width:95%;" type="text" id="title" required placeholder="Subject"name="title"/>
-				<input type="hidden" name="receiver" value="<?php echo $receiver_ID;?>">
-						</td></center>
-					</tr>
-					<tr>
-						<td><center>
-				​<textarea style="width:95%;"id="message" rows="10" name="message"placeholder="Your message..."cols="70"></textarea>
-						</td></center>
-					</tr>
-				</table>
-				<center><input type="submit" value="Send message to <?php echo $user->display_name.' (#'.$receiver_ID;?>)"></center>
-			</form>
-            
+<div class="row">
+<div class="col-md-2"></div>
+
+<div class="col-md-8">
+	<ul class="single_inbox_message media-list">
+		<li class="media ">
+			<div class="media-left">
+				<img class="profile_image media-object" src="<?php echo $avatar;?>">
+			</div>
+			
+			<div class="media-body">
+				<h4 class="media-heading"><?php echo LinkUtil::user_link($receiver_ID); ?></h4>
+				Sending message
+    		</div>
+		</li>
+	</ul>
+</div>
+
+<div class="col-md-2"></div>
+</div> <!-- /row -->
+			
+<div class="row">
+<div class="col-md-2"></div>
+
+<div class="col-md-8">
+	<div class="message_field">
+		<form class="form" action="<?php echo home_url() ?>/message.php" name="" id="message" method="post">
+			<input style="margin-bottom:10px;"type="text" id="title" required placeholder="Subject"name="title"/>
+			<input type="hidden" name="receiver" value="<?php echo $receiver_ID;?>">
+			​<textarea id="message" required rows="10" name="message" placeholder="Your message..."></textarea>
+			
+				<input type="submit" value="Send">
+	
+		</form>
+	</div>
+	
+</div>
+
+<div class="col-md-2"></div>
+</div><!-- /row -->
+			
+	            
             </div>
         </div>
     </div>
