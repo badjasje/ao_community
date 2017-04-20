@@ -97,7 +97,7 @@ if(!in_array($user_ID, $messagearray)){
 			<input type="hidden" name="main_message" value="<?php echo $mainmessage_ID;?>">
 			​<textarea id="message" required rows="10" name="message" placeholder="Your message..."></textarea>
 			
-				<input type="submit" value="Send">
+				<input class="submitBtn" type="submit" value="Send">
 	
 		</form>
 	</div>
@@ -106,6 +106,14 @@ if(!in_array($user_ID, $messagearray)){
 
 <div class="col-md-2"></div>
 </div><!-- /row -->
+		<script>
+			jQuery(document).ready(function () {
+			jQuery("#message").submit(function () {
+	        jQuery(".submitBtn").attr("disabled", true);
+	        return true;
+	    	});
+		});
+		</script>
 
 
 				

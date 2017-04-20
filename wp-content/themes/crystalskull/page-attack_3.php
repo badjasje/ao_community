@@ -101,9 +101,9 @@ get_header(); ?>
 		<?php }} ?>
 			</tbody>
 		</table>
-		<input style="width:100%" type="submit" value="ATTACK" class="">
+		<input class="submitBtn" style="width:100%" type="submit" value="ATTACK" class="">
 		<div class="footer_continue">
-			<input style="width:100%" type="submit" value="ATTACK" class="">
+			<input class="submitBtn" style="width:100%" type="submit" value="ATTACK" class="">
 		</div>
 		</form>
 		<?php endif;?>
@@ -143,7 +143,7 @@ get_header(); ?>
 			</tr>
 		
 		</table>
-		<input style="width:100%" type="submit" value="ATTACK" class="">
+		<input class="submitBtn" style="width:100%" type="submit" value="ATTACK" class="">
 		</form>
 		<?php endif;?>
 		
@@ -193,7 +193,7 @@ get_header(); ?>
 			</tr>
 			</tbody>
 		</table>
-		<input style="width:100%" type="submit" value="FIRE" class="">
+		<input class="submitBtn" style="width:100%" type="submit" value="FIRE" class="">
 		</form>
 		<?php endif;?>
 		
@@ -239,7 +239,7 @@ get_header(); ?>
 			</tr>
 		<?php }} ?>
 		</table>
-		<input style="width:100%" type="submit" value="SEND" class="">
+		<input class="submitBtn" style="width:100%" type="submit" value="SEND" class="">
 		</form>
 		<?php endif;?>
 		
@@ -247,7 +247,7 @@ get_header(); ?>
 			
 			
 			if($_SESSION['attacktype'] == 'sniper'):?>
-		<form class="form" action="<?php echo home_url() ?>/attack/sniper-result/" name="" id="attack" method="post">	
+		<form  class="form" action="<?php echo home_url() ?>/attack/sniper-result/" name="" id="attack" method="post">	
 		
 		<table>
 					<tr>
@@ -281,7 +281,7 @@ get_header(); ?>
 			</tr>
 		<?php }} ?>
 		</table>
-		<input style="width:100%" type="submit" value="SEND" class="">
+		<input class="submitBtn" style="width:100%" type="submit" value="SEND" class="">
 		</form>
 		<?php endif;?>
 		
@@ -319,11 +319,22 @@ get_header(); ?>
 			</tr>
 		<?php } ?>
 		</table>
-		<input style="width:100%" type="submit" value="SEND" class="">
+		<input class="submitBtn" style="width:100%" type="submit" value="SEND" class="">
 		</form>
 		<?php endif;?>
 		<?php endif;?>
-            
+
+		<script>
+			jQuery(document).ready(function () {
+			jQuery("#attack").submit(function () {
+	        jQuery(".submitBtn").attr("disabled", true);
+	        return true;
+	    	});
+		});
+		</script>
+
+
+
             </div>
         </div>
     </div>

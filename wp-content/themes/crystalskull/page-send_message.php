@@ -70,9 +70,17 @@ get_header(); ?>
 			<input type="hidden" name="receiver" value="<?php echo $receiver_ID;?>">
 			​<textarea id="message" required rows="10" name="message" placeholder="Your message..."></textarea>
 			
-				<input type="submit" value="Send">
+				<input class="submitBtn" type="submit" value="Send">
 	
 		</form>
+		<script>
+			jQuery(document).ready(function () {
+			jQuery("#message").submit(function () {
+	        jQuery(".submitBtn").attr("disabled", true);
+	        return true;
+	    	});
+		});
+		</script>
 	</div>
 	
 </div>
