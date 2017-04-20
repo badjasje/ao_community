@@ -38,7 +38,7 @@ $winner_ID = $user_ID;
 $turns = get_user_meta($user_ID, 'turns',true);
 
 /* check if user has enough turns */
-if($turns < 3{ 
+if($turns < 3){ 
 	
 	$_SESSION['status'] = 'Not enough turns';
 	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
@@ -91,7 +91,7 @@ $in_range = target_in_range($attack_type, $networth_att, $networth_def, $war_typ
 
 /* validate target in range */
 if (!$in_range) {
-	w$_SESSION['status'] = 'Out of networth range';
+	$_SESSION['status'] = 'Out of networth range';
 	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
 	exit;
 }
