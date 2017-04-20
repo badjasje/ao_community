@@ -160,6 +160,7 @@ update_field('deduction_emp',20, $new_emp_id);
 					
 					
 <?php if($result == 'failure'){ ?>
+<center>
 					<h2>F A I L U R E</h2>
 					<p>Your satellite missed the base of <a href="/users/profile/?id=<?php
     echo $defender_ID;
