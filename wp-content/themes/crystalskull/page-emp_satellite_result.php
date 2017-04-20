@@ -111,7 +111,7 @@ get_header(); ?>
 				
 				
 				
-<?php if($result = 'success'){ ?>
+<?php if($result == 'success'){ ?>
 <?php $winner_ID = $user_ID;?>
 <center>
 	<h2>S U C C E S S</h2>
