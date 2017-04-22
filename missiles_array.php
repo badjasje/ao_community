@@ -4,7 +4,7 @@
 	/// AIR UNITS ///
     'nuke' 		=> array(
 			'price'			=>	'100000',
-			'networth'		=>	15,
+			'networth'		=>	7,
 			'normalname'	=>	'Nuclear Missile',
 			'shortname'		=>	'Nuke',
 			'shortatt'		=>  array('s','a','i','b','v'),
@@ -15,7 +15,7 @@
 			'life'			=>	0),
     'chemical' 		=> array(
 			'price'			=>	'50000',
-			'networth'		=>	15,
+			'networth'		=>	7,
 			'normalname'	=>	'Chemical Missile',
 			'shortname'		=>	'Chem',
 			'shortatt'		=>  array('s','a','v'),
@@ -26,7 +26,7 @@
 			'life'			=>	0),
 	'bio' 		=> array(
 			'price'			=>	'35000',
-			'networth'		=>	15,
+			'networth'		=>	7,
 			'normalname'	=>	'Biochemical Missile',
 			'shortname'		=>	'Bio',
 			'shortatt'		=>  array('i'),
@@ -37,7 +37,7 @@
 			'life'			=>	0),
 	'moab' 		=> array(
 			'price'			=>	'45000',
-			'networth'		=>	15,
+			'networth'		=>	7,
 			'normalname'	=>	'MOAB',
 			'shortname'		=>	'MOAB',
 			'shortatt'		=>  array('b'),
