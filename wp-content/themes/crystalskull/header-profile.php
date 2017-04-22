@@ -85,11 +85,37 @@ $user = get_userdata($user_ID);
     </div><!-- /.container -->
     </div><!-- /.top-menu-bar -->
 
-       <div class="navbar navbar-inverse navbar-static-top container" role="navigation">
-       	<div class="logo col-lg-3 col-md-3">
-            		<a class="brand" href="<?php  echo esc_url(site_url('/')); ?>"> <img src="<?php echo esc_url(of_get_option('logo')); ?>" alt="logo"  /> </a><div class="events_head"><a href="/events/incoming/"><?php if($new_events > 0):?> <span style="color:#ff0000"><?php echo $new_events;?></span> new event<?php if($new_events > 1 || $new_events == 0){echo 's';}?> <?php else:?> <?php echo $new_events;?> new event<?php if($new_events > 1 || $new_events == 0){echo 's';}?> <?php endif;?></a> - <a href="/events/global/"><?php if($new_global_events > 0):?> <span style="color:#ff0000"><?php echo $new_global_events;?></span> new global event<?php if($new_global_events > 1 || $new_global_events == 0){echo 's';}?> <?php else:?> <?php echo $new_global_events;?> new global event<?php if($new_global_events > 1 || $new_global_events == 0){echo 's';}?> <?php endif;?></a></div>
-
-          		</div>
+<div class="navbar navbar-inverse navbar-static-top container" role="navigation">
+	<div class="logo col-lg-3 col-md-3">
+		<a class="brand" href="<?php  echo esc_url(site_url('/dashboard')); ?>"> 
+			<img src="<?php echo esc_url(of_get_option('logo')); ?>" alt="logo"  /> 
+		</a>
+	
+		<div class="events_head">
+			<a href="/events/incoming/">
+				<div class="col-xs-6 eventsButtons">
+					<?php if($new_events > 0):?> 
+						<span style="color:#ff0000">
+							<?php echo $new_events;?></span> event<?php if($new_events > 1 || $new_events == 0){echo 's';}?> 
+					<?php else:?> 
+						<?php echo $new_events;?> event<?php if($new_events > 1 || $new_events == 0){echo 's';}?> 
+					<?php endif;?>
+				</div>
+			</a>
+			<a href="/events/global/">
+				<div class="col-xs-6 eventsButtons">
+			
+					<?php if($new_global_events > 0):?> 
+						<span style="color:#ff0000">
+							<?php echo $new_global_events;?></span> global event
+							<?php if($new_global_events > 1 || $new_global_events == 0){echo 's';}?> 
+					<?php else:?> 
+						<?php echo $new_global_events;?> global event<?php if($new_global_events > 1 || $new_global_events == 0){echo 's';}?> 
+					<?php endif;?>
+				</div>
+			</a>
+		</div>
+	</div>
 			 <?php if(!function_exists( 'ubermenu' )){ ?>
             <div class="navbar-header">
               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">

@@ -328,9 +328,7 @@ input[type=submit]:hover{
 }
 .logo img {
     max-width: 100%;
-    margin-top: 10px;
     max-height: 66px;
-    margin-left: -8px;
     top:10px;
     position: relative;
 }

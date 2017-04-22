@@ -89,10 +89,37 @@ $user = get_userdata($user_ID);
     </div><!-- /.container -->
     </div><!-- /.top-menu-bar -->
 
-       <div class="navbar navbar-inverse navbar-static-top container" role="navigation">
-       	<div class="logo col-lg-3 col-md-3">
-            		<a class="brand" href="<?php  echo esc_url(site_url('/dashboard')); ?>"> <img src="<?php echo esc_url(of_get_option('logo')); ?>" alt="logo"  /> </a><div class="events_head"><a href="/events/incoming/"><?php if($new_events > 0):?> <span style="color:#ff0000"><?php echo $new_events;?></span> new event<?php if($new_events > 1 || $new_events == 0){echo 's';}?> <?php else:?> <?php echo $new_events;?> new event<?php if($new_events > 1 || $new_events == 0){echo 's';}?> <?php endif;?></a> - <a href="/events/global/"><?php if($new_global_events > 0):?> <span style="color:#ff0000"><?php echo $new_global_events;?></span> new global event<?php if($new_global_events > 1 || $new_global_events == 0){echo 's';}?> <?php else:?> <?php echo $new_global_events;?> new global event<?php if($new_global_events > 1 || $new_global_events == 0){echo 's';}?> <?php endif;?></a></div>
-          		</div>
+<div class="navbar navbar-inverse navbar-static-top container" role="navigation">
+	<div class="logo col-lg-3 col-md-3">
+		<a class="brand" href="<?php  echo esc_url(site_url('/dashboard')); ?>"> 
+			<img src="<?php echo esc_url(of_get_option('logo')); ?>" alt="logo"  /> 
+		</a>
+	
+		<div class="events_head">
+			<a href="/events/incoming/">
+				<div class="col-xs-6 eventsButtons">
+					<?php if($new_events > 0):?> 
+						<span style="color:#ff0000">
+							<?php echo $new_events;?></span> event<?php if($new_events > 1 || $new_events == 0){echo 's';}?> 
+					<?php else:?> 
+						<?php echo $new_events;?> event<?php if($new_events > 1 || $new_events == 0){echo 's';}?> 
+					<?php endif;?>
+				</div>
+			</a>
+			<a href="/events/global/">
+				<div class="col-xs-6 eventsButtons">
+			
+					<?php if($new_global_events > 0):?> 
+						<span style="color:#ff0000">
+							<?php echo $new_global_events;?></span> global event
+							<?php if($new_global_events > 1 || $new_global_events == 0){echo 's';}?> 
+					<?php else:?> 
+						<?php echo $new_global_events;?> global event<?php if($new_global_events > 1 || $new_global_events == 0){echo 's';}?> 
+					<?php endif;?>
+				</div>
+			</a>
+		</div>
+	</div>
 			 <?php if(!function_exists( 'ubermenu' )){ ?>
             <div class="navbar-header">
               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -144,11 +171,9 @@ $user = get_userdata($user_ID);
 				<h1><?php the_title(); ?>
 					<?php if (is_page(3486)): ?>
 						<a href="/users/profile/?id=<?php echo $user->ID; ?>"><?php echo $user->display_name . ' (#' . $user->ID; ?>)</a>
-						<?php if (!empty(get_user_meta($user->ID, 'avatar_user', true))): ?>
-							<div style='border: 1px solid #fff;position: relative;vertical-align: middle;display: inline-block;border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($user->ID, 'avatar_user', true); ?>");background-size: cover;'></div>
-						<?php else: ?>
-							<div style='border: 1px solid #fff;position: relative;vertical-align: middle;display: inline-block;border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
-						<?php endif; ?>
+						
+						<div style='position: relative;vertical-align: middle;display: inline-block;'><?php echo small_avatar($user->ID,'');?></div>
+						
 					<?php endif; ?>
 
 					<?php if (is_page(3520)): $user__ID = $_GET['id'];

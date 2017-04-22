@@ -632,6 +632,9 @@ input[type="radio"]:checked + label {
 	text-transform: uppercase;
 }
 @media (max-width: 768px) {
+.toplist_block{
+	border-top:1px solid #ddd;
+}
 .clan_sorter{
 	display: inline;
 	text-align: center;
@@ -651,7 +654,7 @@ table{
 	margin-bottom: -1px !important;
 }
 .events_head{
-	top:5px;
+	top:12px;
 }
 .fa-info-circle{
 	color:#fff;
@@ -817,7 +820,22 @@ table{
 	background-color:#fff;
 	
 }
+.eventsButtons{
+	border: 1px solid #fff;
+    background-color: #ddd;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.eventsButtons:hover{
+	border: 1px solid #425c6b;
+    background-color: #fff;
+    text-transform: uppercase;
+    
+}
 @media (max-width: 768px) {
+.logo.col-lg-3{
+	min-height:95px !important;
+}
 .barlabels{
 	top: 350px;
 	-webkit-transform: rotate(90deg);
@@ -855,13 +873,7 @@ table{
 .event-result{
 	text-align:center;
 }
-.attack-profile-image{
-	width:90px;
-	height:90px;
-	border-radius:100%;
-	margin-left:auto;
-	margin-right:auto;
-}
+
 
 @media (max-width: 768px) {
 	.event-message{
@@ -1130,6 +1142,47 @@ border_bottom_mobile{
 .secBlock{
 	margin-bottom:20px;
 }
+.clan_buttons{
+	text-align: center;
+}
+.smallAvatar{
+	border-radius: 50%;
+    height: 40px;
+    width: 40px;
+	text-align: center;
+    line-height: 40px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+}
+.setAvatar{
+	border-radius:100%;
+	height:40px;
+	background-size: cover !important;
+	width:40px;
+}
+.leftAvatar{
+	float: left;
+    margin-right: 10px;
+}
+.largeAvatar{
+	margin-bottom:20px;
+	height:120px;
+	width:120px;
+	line-height: 120px;
+	font-size: 66px;
+}
+.attack-profile-image{
+	width:90px;
+	height:90px;
+	line-height: 90px;
+	font-size: 50px;
+	margin-left:auto;
+	margin-right:auto;
+}
+.toplist_block{
 
-
-
+    padding: 20px;
+    background-color: #fff;
+    margin-bottom: 20px;
+}

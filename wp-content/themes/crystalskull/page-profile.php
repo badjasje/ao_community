@@ -63,11 +63,11 @@ get_header('profile'); ?>
 <div class="row profile_block">
 	<div class="col-md-2">
 		<center>
-		<?php if(!empty(get_user_meta($user__ID, 'avatar_user', true))):?>
-			<div style='border-radius:100%;margin-bottom:20px;height:120px;width:120px;background: url("<?php echo get_user_meta($user__ID, 'avatar_user', true);?>");background-size: cover;'></div>
-		<?php else:?>
-			<div style='border-radius:100%;margin-bottom:20px;height:120px;width:120px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
-		<?php endif;?>
+		
+			<div style='border-radius:100%;margin-bottom:20px;height:120px;width:120px;'>
+				<?php echo small_avatar($user->ID,'largeAvatar');?>
+			</div>	
+		
 		</center>
 		
 		
