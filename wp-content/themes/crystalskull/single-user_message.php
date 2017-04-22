@@ -51,12 +51,7 @@ if(!in_array($user_ID, $messagearray)){
 			
 			
 			
-			if(!empty(get_user_meta($sender_ID, 'avatar_user', true))){
-				$avatar = get_user_meta($sender_ID, 'avatar_user', true);
-			} 
-			else {
-				$avatar = '/wp-content/uploads/2016/11/default_large.png';
-			}
+		
 		?>
 		
 		
@@ -70,7 +65,7 @@ if(!in_array($user_ID, $messagearray)){
 	<ul class="single_inbox_message media-list">
 		<li class="media ">
 			<div class="media-left">
-				<img class="profile_image media-object" src="<?php echo $avatar;?>">
+				<div class="leftAvatar"><?php echo small_avatar($sender_ID,'');?></div>
 			</div>
 			
 			<div class="media-body">

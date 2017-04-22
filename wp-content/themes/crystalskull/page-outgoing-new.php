@@ -151,9 +151,7 @@ if ( $custom_query->have_posts() ) :
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($defender_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -266,9 +264,7 @@ if ( $custom_query->have_posts() ) :
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($defender_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -340,9 +336,7 @@ if ( $custom_query->have_posts() ) :
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($defender_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -437,9 +431,7 @@ if ( $custom_query->have_posts() ) :
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($defender_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -524,9 +516,7 @@ $thiefs_lost = get_post_meta($event_ID, 'thiefs_lost', true);
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($defender_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>

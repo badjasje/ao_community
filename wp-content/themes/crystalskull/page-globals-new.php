@@ -179,9 +179,7 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -341,9 +339,7 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -514,9 +510,7 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -626,9 +620,7 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -728,9 +720,7 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -800,9 +790,7 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>

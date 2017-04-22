@@ -41,23 +41,14 @@ get_header(); ?>
 
 <?php if ( ! empty($attackUserId)) : ?>
 		
-	<?php 
-		
-		
-		if(!empty(get_user_meta($attackUserId, 'avatar_user', true))){
-		$avatar = get_user_meta($attackUserId, 'avatar_user', true);
-		} 
-		else {
-		$avatar = '/wp-content/uploads/2016/11/default_large.png';
-		}
-		?>
+
 		
 		
 		<ul class="target_info media-list">
 		<li class="media ">
 		<div class="media-left">
 		
-        <img class="profile_image media-object" src="<?php echo $avatar;?>">
+        <div class="leftAvatar"><?php echo small_avatar($attackUserId,'');?></div>
       
 	    </div>
 		<div class="media-body">

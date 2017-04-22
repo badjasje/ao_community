@@ -7,12 +7,7 @@ $user = get_userdata( $receiver_ID );
 if(!is_user_logged_in()) {
 wp_redirect(get_permalink(3491)); exit;
 }
-if(!empty(get_user_meta($receiver_ID, 'avatar_user', true))){
-				$avatar = get_user_meta($receiver_ID, 'avatar_user', true);
-			} 
-			else {
-				$avatar = '/wp-content/uploads/2016/11/default_large.png';
-			}
+
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
@@ -20,24 +15,7 @@ get_header(); ?>
             <div class="col-lg-12 col-md-12">
    
 			
-			<?php if(!empty($_SESSION['status'])):?>
-			<?php if($_SESSION['status'] == 0):?>
-				<div class="marketnotice">Units ordered</div>
-			<?php elseif($_SESSION['status'] == 1):?>
-				<div class="marketnotice insuffunds">Enter a title</div>
-			<?php elseif($_SESSION['status'] == 2):?>
-				<div class="marketnotice insuffunds">Build more warfactories</div>
-			<?php elseif($_SESSION['status'] == 3):?>
-				<div class="marketnotice insuffunds">Build more shipyards</div>
-			<?php elseif($_SESSION['status'] == 4):?>
-				<div class="marketnotice insuffunds">Build more baracks</div>
-			<?php elseif($_SESSION['status'] == 5):?>
-				<div class="marketnotice insuffunds">Insufficient funds</div>
-			<?php elseif($_SESSION['status'] == 6):?>
-				<div class="marketnotice">Units ordered</div>
-			<?php elseif($_SESSION['status'] == 12):?>
-				<div class="marketnotice insuffunds">Enter a valid number</div>
-			<?php endif;?><?php endif;?>
+	
 			
 <div class="row">
 <div class="col-md-2"></div>
@@ -46,7 +24,7 @@ get_header(); ?>
 	<ul class="single_inbox_message media-list">
 		<li class="media ">
 			<div class="media-left">
-				<img class="profile_image media-object" src="<?php echo $avatar;?>">
+				<div class="leftAvatar"><?php echo small_avatar($receiver_ID,'');?></div>
 			</div>
 			
 			<div class="media-body">

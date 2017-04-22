@@ -28,11 +28,7 @@
 				<tr>
 					<td><?php echo $offset + $position += 1; ?></td>
 					<td>
-						<?php if (!empty(get_user_meta($user->ID, 'avatar_user', true))): ?>
-							<div style='border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($user->ID, 'avatar_user', true); ?>");background-size: cover;'></div>
-						<?php else: ?>
-							<div style='border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
-						<?php endif; ?>
+						<?php echo small_avatar($user->ID,'');?>
 					</td>
 					<td>
 						<a class="<?php echo get_user_meta($user->ID, 'status', true); ?>" href="/users/profile/?id=<?php echo $user->ID; ?> "><?php echo $user->display_name . ' (#' . $user->ID; ?>)</a></td>

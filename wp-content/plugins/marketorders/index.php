@@ -9,7 +9,126 @@ Author URI:
 License: GPL
 Copyright: Kevin Bogaard
 */
-
+function small_avatar($user_ID,$type){
+	
+	$addClass = '';
+	if(!empty($type)){
+		$addClass = $type;
+	}
+	
+	if($user_ID != 0){
+	$avatar = get_user_meta($user_ID, 'avatar_user', true);
+	
+	if(!empty($avatar)){
+                    
+		return "<div class='setAvatar clan_avatar $addClass' style='background: url(".$avatar.");'></div>";
+		
+		}
+		
+		else {
+			
+		$member_data = get_userdata($user_ID);
+		$userName = $member_data->display_name;
+		$frstLetter = strtoupper (substr($userName,0,1));
+		$color = '#2D434E';  // Basic color 
+		if(in_array($frstLetter, array('A'))){
+			$color = '#2D434E';
+		}
+		if(in_array($frstLetter, array('B'))){
+			$color = '#607782';
+		}
+		if(in_array($frstLetter, array('C'))){
+			$color = '#425D69';
+		}
+		if(in_array($frstLetter, array('D'))){
+			$color = '#1B3642';
+		}
+		if(in_array($frstLetter, array('E'))){
+			$color = '#0D2632';
+		}
+		if(in_array($frstLetter, array('F'))){
+			$color = '#343855';
+		}
+		if(in_array($frstLetter, array('G'))){
+			$color = '#6C708E';
+		}
+		if(in_array($frstLetter, array('H'))){
+			$color = '#4C5173';
+		}
+		if(in_array($frstLetter, array('I'))){
+			$color = '#212648';
+		}
+		if(in_array($frstLetter, array('J'))){
+			$color = '#121636';
+		}
+		if(in_array($frstLetter, array('K'))){
+			$color = '#315842';
+		}
+		if(in_array($frstLetter, array('L'))){
+			$color = '#6A937C';
+		}
+		if(in_array($frstLetter, array('M'))){
+			$color = '#49775D';
+		}
+		if(in_array($frstLetter, array('N'))){
+			$color = '#1C4B31';
+		}
+		if(in_array($frstLetter, array('O'))){
+			$color = '#0D3820';
+		}
+		if(in_array($frstLetter, array('P'))){
+			$color = '#7B6C44';
+		}
+		if(in_array($frstLetter, array('Q'))){
+			$color = '#CEBE95';
+		}
+		if(in_array($frstLetter, array('R'))){
+			$color = '#CEBE95';
+		}
+		if(in_array($frstLetter, array('S'))){
+			$color = '#A79566';
+		}
+		if(in_array($frstLetter, array('T'))){
+			$color = '#695728';
+		}
+		if(in_array($frstLetter, array('U'))){
+			$color = '#4F3E12';
+		}
+		if(in_array($frstLetter, array('V'))){
+			$color = '#7B5044';
+		}
+		if(in_array($frstLetter, array('W'))){
+			$color = '#CEA195';
+		}
+		if(in_array($frstLetter, array('X'))){
+			$color = '#A77366';
+		}
+		if(in_array($frstLetter, array('Y'))){
+			$color = '#693528';
+		}
+		if(in_array($frstLetter, array('Z'))){
+			$color = '#4F1F12';
+		}
+		
+		}
+		
+		return "<div class='clan_avatar smallAvatar $addClass' style='background-color:$color;'>$frstLetter</div>";
+						
+			
+		
+		}else{
+			
+			
+		return "<div class='clan_avatar smallAvatar $addClass' style='background-color:#ddd;'>?</div>";	
+		
+		}
+	
+                    
+	
+	
+	
+	
+}
 function alert_notification($message){
 	
 	return '<div class="alert alert-warning alert-dismissible blue_alert" role="alert">

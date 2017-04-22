@@ -243,13 +243,7 @@ get_header(); ?>
 			?>
 <div class="row clan_profile_row<?php echo $extraClass;?>">
 	<div class="col-md-1">
-		<?php if(!empty(get_user_meta($member, 'avatar_user', true))):?>
-                    
-			<div class="clan_avatar" style='border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($member, 'avatar_user', true);?>");background-size: cover;'></div>
-			<?php else:?>
-			<div class="clan_avatar" style='border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
-                    
-			<?php endif;?>
+		<?php echo small_avatar($member,'');?>
 		
 		
 	</div>
@@ -429,13 +423,8 @@ get_header(); ?>
 			?>
 <div class="row clan_profile_row<?php echo $extraClass;?>">
 	<div class="col-md-1">
-		<?php if(!empty(get_user_meta($member, 'avatar_user', true))):?>
-                    
-			<div class="clan_avatar" style='border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_user_meta($member, 'avatar_user', true);?>");background-size: cover;'></div>
-			<?php else:?>
-			<div class="clan_avatar" style='border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
-                    
-			<?php endif;?>
+		<?php echo small_avatar($member,'');?>
+		
 		
 		
 	</div>

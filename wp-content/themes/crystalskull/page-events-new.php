@@ -239,9 +239,8 @@ if ( $custom_query->have_posts() ) :
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
+
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -363,9 +362,7 @@ if ( $custom_query->have_posts() ) :
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -477,9 +474,7 @@ if ( $custom_query->have_posts() ) :
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -562,9 +557,7 @@ if ( $custom_query->have_posts() ) :
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -620,8 +613,9 @@ if ( $custom_query->have_posts() ) :
 $thiefs_lost = get_post_meta($event_ID, 'thiefs_lost', true);
 
 /* set unknown avatar if attacker wins */
+
 if($winner_id != $defender_id){
-$avatar = '/wp-content/uploads/2016/11/default_large.png';
+$attacker_id = 0;
 }
 
 ?>
@@ -644,9 +638,8 @@ $avatar = '/wp-content/uploads/2016/11/default_large.png';
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
+				
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -697,9 +690,7 @@ $avatar = '/wp-content/uploads/2016/11/default_large.png';
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($user_ID,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -752,7 +743,7 @@ $avatar = get_user_meta($user_ID, 'avatar_user', true);
 <div class="row battlereport-header">
 	<div class="col-md-12">
 		<img class="attack-image" src="http://assault.online/wp-content/uploads/2016/03/research.png"> 
-		Nukeprotection removed
+		Assault Protection removed
 	</div>
 </div>
 <!-- Event header -->
@@ -764,9 +755,7 @@ $avatar = get_user_meta($user_ID, 'avatar_user', true);
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($user_ID,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -778,7 +767,7 @@ $avatar = get_user_meta($user_ID, 'avatar_user', true);
 			<div class="row">
 				<div class="col-md-12 event-message">
 				
-				Nukeprotection removed
+				Assault Protection removed
 				
 				</div>
 			</div>
@@ -813,9 +802,7 @@ $avatar = get_user_meta($user_ID, 'avatar_user', true);
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -863,9 +850,7 @@ $avatar = get_user_meta($user_ID, 'avatar_user', true);
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -921,9 +906,7 @@ $avatar = get_user_meta($user_ID, 'avatar_user', true);
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($user_ID,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -960,6 +943,7 @@ $sender = '<a href="/users/profile/?id='.$attacker_id.'">'.$member_data->display
 
 if($winner_id == $attacker_id){
 if($show == 'no'){
+$attacker_id = 0;
 $avatar = '/wp-content/uploads/2016/11/default_large.png';
 $sender = '<strong>Someone</strong>';
 }
@@ -1001,9 +985,7 @@ if($spy_type == 'spyplane'){
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="attack-profile-image" 
-					style="background: url(<?php echo $avatar;?>);background-size: cover;">
-				</div>
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>

@@ -136,7 +136,7 @@ get_header(); ?>
 		<li class="media ">
 		<div class="media-left">
 		
-        <img class="profile_image media-object" src="<?php echo $avatar;?>">
+        <div class="leftAvatar"><?php echo small_avatar($attackUserId,'');?></div>
       
 	    </div>
 		<div class="media-body">
