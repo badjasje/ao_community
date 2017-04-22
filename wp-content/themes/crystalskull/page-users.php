@@ -48,9 +48,9 @@ get_header(); ?>
 <div class="row clan_header_row">
 	<div class="col-md-1"></div>
 	<div class="col-md-4"><strong>Name</strong></div>
-	<div class="col-md-3"><strong>Networth</strong></div>
+	<div class="col-md-2"><strong>Networth</strong></div>
 	<div class="col-md-2"><strong>Land</strong></div>
-	<div class="col-md-2"></div>
+	<div class="col-md-3"><strong>Clan</strong></div>
 </div>
 
 <?php 
@@ -64,7 +64,7 @@ get_header(); ?>
 	foreach ($users as $user) {
 		
 		$user_ID = $user->ID;
-		
+		$clan_id = get_user_meta($user_ID, 'clan_id_user',true);
 		$member_data = get_userdata($user_ID);
 		
 		$networth = get_user_meta($user_ID, 'networth',true);
@@ -103,7 +103,7 @@ get_header(); ?>
 			
 			
 	</div>
-	<div class="col-md-3 clan_column border_bottom_mobile">
+	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Networth</span>
 		<span class="clan_data_right">
 		
@@ -119,9 +119,13 @@ get_header(); ?>
 		</span>
 	</div>
 	
-	<div class="col-md-2 clan_column center_clan_col">
-		<a href="/attack/step-1/?id=<?php echo $user_ID;?>"><i class="fa fa-crosshairs fa-lg" aria-hidden="true"></i></a> 
-		<a href="/spy-reports/?id=<?php echo $user_ID;?>"><i class="fa fa-binoculars" aria-hidden="true"></i></a>
+	<div class="col-md-3 clan_column center_clan_col">
+		
+		<?php if($clan_id == 0){
+						echo 'Clanless';}else{
+						echo '<a href="'.get_the_permalink($clan_id).'">'.get_the_title($clan_id).' (#'.$clan_id.')</a>';
+							}?>	
+	
 	</div>
 </div>
 
@@ -145,9 +149,9 @@ get_header(); ?>
 <div class="row clan_header_row">
 	<div class="col-md-1"></div>
 	<div class="col-md-4"><strong>Name</strong></div>
-	<div class="col-md-3"><strong>Networth</strong></div>
+	<div class="col-md-2"><strong>Networth</strong></div>
 	<div class="col-md-2"><strong>Land</strong></div>
-	<div class="col-md-2"></div>
+	<div class="col-md-3"><strong>Clan</strong></div>
 </div>
 
 
@@ -161,7 +165,7 @@ get_header(); ?>
 	foreach ($users as $user) {
 		
 		$user_ID = $user->ID;
-		
+		$clan_id = get_user_meta($user_ID, 'clan_id_user',true);
 		$member_data = get_userdata($user_ID);
 		
 		$networth = get_user_meta($user_ID, 'networth',true);
@@ -202,7 +206,7 @@ get_header(); ?>
 			
 			
 	</div>
-	<div class="col-md-3 clan_column border_bottom_mobile">
+	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Networth</span>
 		<span class="clan_data_right">
 		
@@ -218,9 +222,13 @@ get_header(); ?>
 		</span>
 	</div>
 	
-	<div class="col-md-2 clan_column center_clan_col">
-		<a href="/attack/step-1/?id=<?php echo $user_ID;?>"><i class="fa fa-crosshairs fa-lg" aria-hidden="true"></i></a> 
-		<a href="/spy-reports/?id=<?php echo $user_ID;?>"><i class="fa fa-binoculars" aria-hidden="true"></i></a>
+	<div class="col-md-3 clan_column center_clan_col">
+		
+		<?php if($clan_id == 0){
+						echo 'Clanless';}else{
+						echo '<a href="'.get_the_permalink($clan_id).'">'.get_the_title($clan_id).' (#'.$clan_id.')</a>';
+							}?>	
+	
 	</div>
 </div>
 
@@ -240,9 +248,10 @@ get_header(); ?>
 <div class="row clan_header_row">
 	<div class="col-md-1"></div>
 	<div class="col-md-4"><strong>Name</strong></div>
-	<div class="col-md-3"><strong>Networth</strong></div>
+	<div class="col-md-2"><strong>Networth</strong></div>
 	<div class="col-md-2"><strong>Land</strong></div>
-	<div class="col-md-2"></div>
+	<div class="col-md-3"><strong>Clan</strong></div>
+
 </div>
 
 
@@ -256,7 +265,7 @@ get_header(); ?>
 	foreach ($users as $user) {
 		
 		$user_ID = $user->ID;
-		
+		$clan_id = get_user_meta($user_ID, 'clan_id_user',true);
 		$member_data = get_userdata($user_ID);
 		
 		$networth = get_user_meta($user_ID, 'networth',true);
@@ -299,7 +308,7 @@ get_header(); ?>
 			
 			
 	</div>
-	<div class="col-md-3 clan_column border_bottom_mobile">
+	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Networth</span>
 		<span class="clan_data_right">
 		
@@ -314,11 +323,16 @@ get_header(); ?>
 		<?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup>
 		</span>
 	</div>
+	<div class="col-md-3 clan_column center_clan_col">
+		
+		<?php if($clan_id == 0){
+						echo 'Clanless';}else{
+						echo '<a href="'.get_the_permalink($clan_id).'">'.get_the_title($clan_id).' (#'.$clan_id.')</a>';
+							}?>	
 	
-	<div class="col-md-2 clan_column center_clan_col">
-		<a href="/attack/step-1/?id=<?php echo $user_ID;?>"><i class="fa fa-crosshairs fa-lg" aria-hidden="true"></i></a> 
-		<a href="/spy-reports/?id=<?php echo $user_ID;?>"><i class="fa fa-binoculars" aria-hidden="true"></i></a>
 	</div>
+	
+
 </div>
 
 <?php  }}?>
