@@ -632,6 +632,9 @@ input[type="radio"]:checked + label {
 	text-transform: uppercase;
 }
 @media (max-width: 768px) {
+.responsive-table tbody{
+	background-color:#fff !important;
+}
 .toplist_block{
 	border-top:1px solid #ddd;
 }
@@ -852,7 +855,7 @@ table{
 	text-align:center;
 }
 .event-row{
-	background-color: #fbfbfb;
+	background-color: #fff;
     border-left: 1px solid #2d4350;
     border-right: 1px solid #2d4350;
     border-bottom: 1px solid #2d4350;

@@ -106,12 +106,15 @@ get_header(); ?>
 			if($_SESSION['attacktype'] == 'missile'): ?>
 		<form class="form" action="<?php echo home_url() ?>/attack/missile-result/" name="" id="attack" method="post">	
 		
-		<table>
+		<table class="responsive-table">
+			<thead>
 					<tr>
-						<td><strong>Name</strong></td>
-						<td><strong>Launching</strong></td>
+						<th scope="col"><strong>Name</strong></th>
+						<th scope="col"><strong>Launching</strong></th>
 				
   					</tr>
+			</thead>
+			<tbody>
   				<?php
 			$key = $_SESSION['attack_array']['missile'];
 			$units_owned = get_user_meta($user_ID, $key.'_owned',true);
@@ -119,10 +122,10 @@ get_header(); ?>
 			
 			
 			?><tr>
-			<td>
+			<td  data-title="Name">
 				<?php echo $missiles[$key]['normalname'];?>
 			</td>
-			<td>
+			<td  data-title="Launching">
 				1
 			</td>
 			
@@ -132,7 +135,7 @@ get_header(); ?>
 			
 			
 			</tr>
-		
+			</tbody>
 		</table>
 		<input class="submitBtn" style="width:100%" type="submit" value="ATTACK" class="">
 		</form>
@@ -198,12 +201,15 @@ get_header(); ?>
 			if($_SESSION['attacktype'] == 'thief'):?>
 		<form class="form" action="<?php echo home_url() ?>/attack/thief-result/" name="" id="attack" method="post">	
 		
-		<table>
+		<table class="responsive-table">
+			<thead>
 					<tr>
-						<td><strong>Name</strong></td>
-						<td><strong>Sending to battle</strong></td>
+						<th scope="col"><strong>Name</strong></th>
+						<th scope="col"><strong>Sending to battle</strong></th>
 				
   					</tr>
+			</thead>
+			<tbody>
 		<?php foreach($units_attack as $key => $order){
 			
 			$units_owned = get_user_meta($user_ID, $key.'_owned');
@@ -215,10 +221,10 @@ get_header(); ?>
 				$percentage = $order/$units_owned[0];
 			}
 			?><tr>
-			<td>
+			<td  data-title="Name">
 				<?php echo $units[$key]['normalname'];?>
 			</td>
-			<td>
+			<td  data-title="Sending">
 				<?php echo $units_owned[0]*$percentage;?>
 			</td>
 			
@@ -229,6 +235,7 @@ get_header(); ?>
 			
 			</tr>
 		<?php }} ?>
+			</tbody>
 		</table>
 		<input class="submitBtn" style="width:100%" type="submit" value="SEND" class="">
 		</form>
@@ -283,22 +290,25 @@ get_header(); ?>
 			if($_SESSION['attacktype'] == 'spy'):?>
 		<form class="form" action="<?php echo home_url() ?>/attack/spy-result/" name="" id="attack" method="post">	
 		
-		<table>
+		<table class="responsive-table">
+			<thead>
 					<tr>
-						<td><strong>Name</strong></td>
-						<td><strong>Send to enemy base</strong></td>
+						<th scope="col"><strong>Name</strong></th>
+						<th scope="col"><strong>Send to enemy base</strong></th>
 				
   					</tr>
+			</thead>
+			<tbody>
 		<?php foreach($units_attack as $key => $order){
 			
 			$units_owned = get_user_meta($user_ID, $order.'_owned');
 		
 			
 			?><tr>
-			<td>
+			<td data-title="Name">
 				<?php echo $units[$order]['normalname'];?>
 			</td>
-			<td>
+			<td data-title="Sending">
 				1
 			</td>
 			
@@ -309,6 +319,7 @@ get_header(); ?>
 			
 			</tr>
 		<?php } ?>
+			</tbody>
 		</table>
 		<input class="submitBtn" style="width:100%" type="submit" value="SEND" class="">
 		</form>
