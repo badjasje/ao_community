@@ -36,44 +36,53 @@ get_header('clan'); ?>
 		<input type="submit"  value="Create your clan" class="">
 		</form>
 		<?php else:?>
-
-		<table class="responsive-table">
-			<tr>
-				<td><center><a href="<?php echo get_the_permalink($clan_id_user);?>">Clan information</a></center></td>
-			</tr>
-			<?php if(in_array($user_ID, $allowed)):?>
-			<tr>
-				<td><center><a href="/edit-clan">Edit clan</a></center></td>
-			</tr>
-			<?php endif;?>
-			<?php if(in_array($user_ID, $allowed)):?>
-			<tr>
-				<td><center><a href="/open-invites">Open invites</a></center></td>
-			</tr>
-			<?php endif;?>
-			<tr>
-				<td><center><a href="/clan-member-information">Clan member information</a></center></td>
-			</tr>
+		
+		
+		<div class="list-group clan_buttons">
 			
-			<tr>
-				<td><center><a href="/clan-wars">Clan wars</a></center></td>
-			</tr>
-			<tr>
-				<td><center><a href="/bonus-overview/">Bonus overview</a></center></td>
-			</tr>
-			<tr>
-				<td><center><a href="/send-aid">Send aid</a></center></td>
-			</tr>
-			<?php if($clan_leader == $user_ID):?>
-			<tr>
-				<td><center><a style="color:#ff0000;font-weight:bold;" href="/delete.php/?clan=<?php echo $clan_id_user;?>" onclick="return confirm('Are you sure you want to delete your clan?')">Delete clan</a></center></td>
-			</tr>
-			<?php else: ?>
-			<tr>
-				<td><center><a href="/leave.php/?user=<?php echo $user_ID;?>" onclick="return confirm('Are you sure you want to leave your clan?')">Leave clan</a></center></td>
-			</tr>
-			<?php endif;?>
-		</table>
+			<a href="<?php echo get_the_permalink($clan_id_user);?>" class="list-group-item">
+			<h4 class="list-group-item-heading"><i style="color:#333 !important"class="fa fa-info-circle" aria-hidden="true"></i> Clan information</h4>
+  			</a>
+			
+  			<?php if(in_array($user_ID, $allowed)):?>
+  			<a href="/edit-clan" class="list-group-item">
+			<h4 class="list-group-item-heading"><i class="fa fa-wrench" aria-hidden="true"></i> Edit clan</h4>
+  			</a>
+  			
+  			<a href="/open-invites" class="list-group-item">
+			<h4 class="list-group-item-heading"><i class="fa fa-envelope-open-o" aria-hidden="true"></i> Open invites</h4>
+  			</a>
+  			<?php endif;?>
+  			<a href="/clan-member-information" class="list-group-item">
+			<h4 class="list-group-item-heading"><i class="fa fa-users" aria-hidden="true"></i> Clan member information</h4>
+  			</a>
+  			
+  			<a href="/clan-wars" class="list-group-item">
+			<h4 class="list-group-item-heading"><i class="fa fa-fire" aria-hidden="true"></i> Clan wars</h4>
+  			</a>
+  			
+  			<a href="/bonus-overview/" class="list-group-item">
+			<h4 class="list-group-item-heading"><i class="fa fa-bar-chart" aria-hidden="true"></i> Bonus overview</h4>
+  			</a>
+  			
+  			<a href="/send-aid/" class="list-group-item">
+			<h4 class="list-group-item-heading"><i class="fa fa-usd" aria-hidden="true"></i> Send aid</h4>
+  			</a>
+  			
+  			<?php if($clan_leader == $user_ID):?>
+  			
+  			<a onclick="return confirm('Are you sure you want to delete your clan?')" href="/delete.php/?clan=<?php echo $clan_id_user;?>" class="list-group-item">
+			<h4 class="list-group-item-heading"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete clan</h4>
+  			</a>
+  			
+  			<?php endif;?>
+  			
+</div>
+		
+		
+		
+		
+	
 		
 		<?php endif;?>
 			
