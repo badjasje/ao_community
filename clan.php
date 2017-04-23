@@ -74,7 +74,7 @@ $args = array(
 			));
 			update_post_meta($new_order_id, 'clan_forum_id', $ID);
 			
-			
+			update_user_meta($user_ID, 'clan_create_counter', 1);
 			wp_redirect(get_permalink(3601));
   
 			exit;

@@ -2,13 +2,16 @@
  /*
  * Template Name: Clan
  */
- $user_ID = get_current_user_ID();
- $clan_id_user = get_user_meta($user_ID, 'clan_id_user',true);
+$user_ID = get_current_user_ID();
+
+$clan_id_user = get_user_meta($user_ID, 'clan_id_user',true);
 $clan_leader = get_post_meta($clan_id_user, 'clan_leader',true);
- $ct_1 = get_post_meta($clan_id_user,'ct_1',true);
- $ct_2 = get_post_meta($clan_id_user,'ct_2',true);
- $ct_3 = get_post_meta($clan_id_user,'ct_3',true);
- $ct_4 = get_post_meta($clan_id_user,'ct_4',true);
+$clanCreate = get_user_meta($user_ID,'clan_create_counter', true);
+
+$ct_1 = get_post_meta($clan_id_user,'ct_1',true);
+$ct_2 = get_post_meta($clan_id_user,'ct_2',true);
+$ct_3 = get_post_meta($clan_id_user,'ct_3',true);
+$ct_4 = get_post_meta($clan_id_user,'ct_4',true);
  
  $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clan_leader);
 get_header('clan'); ?>
@@ -22,19 +25,38 @@ get_header('clan'); ?>
 				<?php endif; // End empty status check ?>
 	            
 	        		<?php if($clan_id_user == 0):?>
-		
-		<div class="notice_message">You are currently not in a clan! Create a clan or join one.</div>
-		<br/>
+<?php if($clanCreate != 1):?>
+<div class="notice_message">
+	<span class="rdw-line">You are currently not in a clan! Create a clan or join one.</span>
+	<span class="rdw-line">You can only create one clan per round</span>
+</div>
+<br/>
 		
 		
 		<form action="<?php echo home_url() ?>/clan.php" name="" id="clan" method="post">
 		
-			<input class="small_input" type="text" name="clanname" minlength="3" maxlength="20" id="clanname" placeholder="Clan Name. Max 20 characters."><br/><br/>
-			<input class="small_input" type="text" name="clantag" id="clantag" maxlength="5"placeholder="Clan Tag. Max 5 characters."><br/><br/>
+			<input required class="small_input" type="text" name="clanname" minlength="3" maxlength="20" id="clanname" placeholder="Clan Name. Max 20 characters."><br/><br/>
+			<input required class="small_input" type="text" name="clantag" id="clantag" maxlength="5"placeholder="Clan Tag. Max 5 characters."><br/><br/>
 			<textarea rows="5" class="small_input" type="text" name="clanmessage" id="clanmessager" placeholder="Clan Message"></textarea>
 			
-		<input type="submit"  value="Create your clan" class="">
+		<input type="submit"  class="submitBtn" value="Create your clan" class="">
 		</form>
+		
+		<script>
+			jQuery(document).ready(function () {
+			jQuery("#clan").submit(function () {
+	        jQuery(".submitBtn").attr("disabled", true);
+	        return true;
+	    	});
+		});
+		</script>
+<?php else:?>
+<div class="notice_message">
+	<span class="rdw-line">You already created a clan this round.</span>
+</div>
+<br/>
+<?php endif;?>
+
 		<?php else:?>
 		
 		
