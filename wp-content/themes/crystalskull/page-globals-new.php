@@ -109,6 +109,8 @@ $winner_id = get_post_meta($global_event_ID,'winner_id',true);
 $def_unitslost = get_post_meta($global_event_ID,'defender_lost');
 $att_unitslost = get_post_meta($global_event_ID,'attacker_lost');
 
+$defender_points = get_post_meta($global_event_ID,'defender_points',true);
+
 $def_tot_unitslost = get_post_meta($global_event_ID,'def_total_units_lost',true);
 $att_tot_unitslost = get_post_meta($global_event_ID,'att_total_units_lost',true);
 
@@ -243,6 +245,9 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 		
 		<?php } else { ?>
 		<strong>won the battle</strong>
+			<?php if($defender_points != 0):?>
+				<?php echo $defender_points;?> clan point<?php if($defender_points>1){echo 's';}?> gained for successful base defense.
+			<?php endif;?>
 		<?php }?>
 	<?php endif;?>
 				
