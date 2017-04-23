@@ -9,7 +9,7 @@ include 'constants.php';
 
 
 $attacking_units = $_POST;
-
+$def_clan_points = 0;
 /* retrieve attacker user data */
 $user_id = get_current_user_id();
 $user_data = get_user_meta($user_id);
@@ -436,7 +436,7 @@ foreach($attacker_unit_losses as $unit_type => $breakdown) {
 		$owned_units = get_user_meta($user_id, $key.'_owned',true);
 			
 			if($killed > $owned_units*$_SESSION[$key]['percentage']){
-				$killed = $owned_units*$_SESSION[$key]['percentage'];
+				$killed = ceil($owned_units*$_SESSION[$key]['percentage']);
 			}
 		
 		
@@ -684,6 +684,7 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 	<h2>F A I L U R E</h2>
 	<p>You lost the battle against <a href="/users/profile/?id=<?php
 	echo $target_id;
+	
 ?>">
 <strong>
 
@@ -742,7 +743,33 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 	<tr>
 		<th class="report_content" colspan="3"><center>Your networth decreased: <strong>$
 			<?php
+					
 				echo number_format($attacker_networth_lost, 0, ',', ' ');
+				
+				if($war_type != 'none'){
+				$def_clan_points = 1.2 * log($attacker_networth_lost/2.9 / 400); 
+				$def_clan_points = ceil($def_clan_points);
+				if($def_clan_points < 1){
+					$def_clan_points = 1;
+				}
+				if($def_clan_points > 4){
+					$def_clan_points = 4;
+				}
+				
+				/* update pts for defender */
+				$defPts = get_user_meta($target_id, 'user_clan_points',true);
+				update_user_meta($target_id,'user_clan_points',$defPts+$def_clan_points);
+				
+				/* add points for defender clan */
+				$defClanPts = get_post_meta($defend_clan_id,'clan_points',true);
+				update_post_meta($defend_clan_id,'clan_points',$defClanPts+$defPts);
+	
+	
+				/* 24H pts update defender clan */
+				$defPts24 = get_post_meta($defend_clan_id, '24h_pts', true);
+				update_post_meta($defend_clan_id,'24h_pts',$defPts24+$defPts);
+				
+				}
 			?></strong></center>
 		</td>
 	</tr>
@@ -862,6 +889,8 @@ foreach ($clan_members_att[0] as $member_att) {
 
 
 update_field('clan_points', $clan_points, $new_event_id);
+update_field('defender_points', $def_clan_points, $new_event_id);
+
 count_all_stats($target_id);
 count_all_stats($user_id);
 
