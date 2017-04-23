@@ -6,7 +6,7 @@ $activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'all';
 
 $user_ID = get_current_user_id();
 
-
+$users = get_users();
 $networth_you = get_user_meta($user_ID, 'networth',true);
 include 'constants.php';
 
@@ -19,6 +19,35 @@ get_header(); ?>
             <div class="col-lg-12 col-md-12">
 			<div class="container">
 				
+				
+				
+       <script type="text/javascript">
+jQuery(document).ready(function() {
+  jQuery(".searchclans").select2();
+});
+</script>
+
+
+	     
+	     
+<form>
+	<select id="clan" name="clan" class="searchclans" onchange="if (this.value) window.location.href=this.value">
+
+
+	<?php foreach ($users as $user) {
+		$user_ID = $user->ID;
+		$member_data = get_userdata($user_ID);
+
+		?>
+
+  
+		<option name="clan" value="/users/profile/?id=<?php echo $user_ID;?>">
+			<a class="<?php echo get_user_meta($user_ID,'status',true);?>" href="/users/profile/?id=<?php echo $user_ID;?>">
+			<?php echo $member_data->display_name.' (#'.$user_ID.')';?></a></option>
+		<?php }?>
+	</select>
+</form>
+<br/>				
 
 
 		<ul id="users-tab" class="nav nav-tabs nav-justified" role="tablist">
@@ -57,7 +86,7 @@ get_header(); ?>
 	
 
 	
-	$users = get_users();
+
 	
 	$NRmembers = count($users);
 	$counter = 0;
