@@ -734,7 +734,8 @@ function crystalskull_custom_comments($comment, $args, $depth) {
     $GLOBALS['comment_depth'] = $depth;
   ?>
     <li class="comment">
-        <div class="wcontainer"><?php echo get_avatar( $comment->user_id, 50, '', 'author image', array('class' => 'authorimg') ); ?>
+        <div class="wcontainer"><?php echo small_avatar($comment->user_id,'commentAvatar');?>
+        
   <?php if ($comment->comment_approved == '0'){ ?><span class='unapproved'><?php esc_html_e("Your comment is awaiting moderation.", 'crystalskull'); ?></span> <?php } ?>
           <div class="comment-body">
              <div class="comment-author"><?php crystalskull_commenter_link() ?> <?php comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?></div>
