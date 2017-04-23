@@ -81,7 +81,7 @@ get_header(); ?>
 						
 						</select>
 					</td>
-					<td><input type="text" id="amount" name="amount" placeholder="Enter amount"/>
+					<td><input required type="text" id="amount" name="amount" placeholder="Enter amount"/>
 					</td>
 				</tr>
 				</tbody>
