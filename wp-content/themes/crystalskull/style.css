@@ -1189,3 +1189,10 @@ border_bottom_mobile{
     background-color: #fff;
     margin-bottom: 20px;
 }
+.commentAvatar{
+	width: 90px;
+    height: 90px;
+    line-height: 90px;
+    font-size: 50px;
+    float:left;
+}
