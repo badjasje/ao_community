@@ -1214,3 +1214,5 @@ border_bottom_mobile{
     overflow: hidden !important;
     text-overflow: ellipsis;
 }
+.container-outer { border:1px solid #ddd;overflow-x: scroll; overflow-y: hidden; height: 500px; }
+.container-inner { height: 500px; background-color: #2d4350;}

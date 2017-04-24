@@ -6,6 +6,7 @@
 			'networth'		=>	14,
 			'targets'		=> 'Buildings',
 			'name'			=>	'Laser Beam Satellite',
+			'shortname'		=>	'LBS',
 			'desc'			=>	'Gain the ability to fire an orbital laser cannon every 5 hours.',
 			'attack'		=>	25000),/*
     'comsat' 		=> array(
@@ -18,6 +19,7 @@
 			'price'			=>	'600000',
 			'networth'		=>	14,
 			'name'			=>	'Stealth satellite',
+			'shortname'		=>	'STE',
 			'desc'			=>	'When activated, the Stealth Satellite will hide your base from enemy spies, thieves, snipers, laser beam satellites and EMP satellites.  It hides your base for 7 hours.'),/*
 			'attack'		=>	0),
 	'spysat' 		=> array(
@@ -36,6 +38,7 @@
 			'price'			=>	'500000',
 			'networth'		=>	14,
 			'targets'		=> 'Power',
+			'shortname'		=>	'EMP',
 			'name'			=>	'EMP satellite',
 			'desc'			=>	'Disables 20% of the target power production',
 			'attack'		=>	'n.a'),
