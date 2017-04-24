@@ -514,7 +514,7 @@ get_header('home'); ?>
 					</div>
 					<div class="col-md-4">
 						<span class="clan_data_left">From</span>
-						<span class="clan_data_right">
+						<span class="clan_data_right ellipsedColumn">
 						<?php if($sender->ID == $user_ID){
 							echo 'Sent by you';}else{?>
 							<a href="/users/profile/?id=<?php echo $sender->ID;?>">

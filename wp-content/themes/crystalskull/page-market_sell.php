@@ -9,6 +9,7 @@ $user_ID = get_current_user_id();
 include 'units_array.php';
 $airspace = get_user_meta($user_ID, 'airfield');
 $seaspace = get_user_meta($user_ID, 'shipyard');
+$specialSold = get_user_meta($user_ID, 'special_sold_today',true);
 $vehspace = get_user_meta($user_ID, 'warfactory');
 $infspace = get_user_meta($user_ID, 'baracks');
 $discount_level = get_user_meta($user_ID, 'level_market_discount',true);
@@ -49,7 +50,11 @@ get_header(); ?>
 			<?php else:?>
 				
 			
-			<div class="notice_message"><span class="rdw-line">Selling units returns 50% of the original market price</span></div>
+			<div class="notice_message">
+				<span class="rdw-line">Selling units returns 50% of the original market price</span>
+				<span class="rdw-line"><?php echo $specialSold;?> special units sold today. You can sell a maximum of 50 special units per day.</span>
+				
+			</div>
 
 			<ul id="explore-tab" class="nav nav-tabs nav-justified" role="tablist">
 				<li class="nav-item <?php echo $activeTab === 'air' ? 'active' : ''; ?>">

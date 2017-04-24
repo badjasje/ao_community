@@ -738,9 +738,14 @@ function crystalskull_custom_comments($comment, $args, $depth) {
         
   <?php if ($comment->comment_approved == '0'){ ?><span class='unapproved'><?php esc_html_e("Your comment is awaiting moderation.", 'crystalskull'); ?></span> <?php } ?>
           <div class="comment-body">
-             <div class="comment-author"><?php crystalskull_commenter_link() ?> <?php comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?></div>
-             <i><small><?php comment_time('M j, Y @ G:i a'); ?></small> </i><br />
+             <div class="comment-author"><?php echo LinkUtil::user_link($comment->user_id);?> 
              <?php comment_text() ?>
+             <i><small><?php comment_time('M j, Y @ G:i a'); ?></small> </i>
+             <br/>
+             
+             <?php comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?></div>
+             
+             
 
         </div>
         <div class="clear"></div>
@@ -769,6 +774,9 @@ function crystalskull_custom_pings($comment, $args, $depth) {
 
 /*Produces an avatar image with the hCard-compliant photo class*/
 function crystalskull_commenter_link() {
+	echo '<pre>';
+	print_r($commenter);
+	echo '</pre>';
    $commenter = get_comment_author_link();
     if ( preg_match( '/<a[^>]* class=[^>]+>/', $commenter ) ) {
         $commenter = preg_replace( '/(<a[^>]* class=[\'"]?)/', '\\1url ' , $commenter );

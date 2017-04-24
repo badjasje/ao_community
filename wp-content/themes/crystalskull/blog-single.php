@@ -3,8 +3,10 @@
 	<div class="blog-info"><!-- blog-info -->
 		<div class="post-pinfo">
 
-			<a data-original-title="<?php esc_html_e("View all posts by", 'crystalskull'); ?> <?php echo esc_attr(get_the_author()); ?>" data-toggle="tooltip" href="<?php echo esc_url(get_author_posts_url( get_the_author_meta( 'ID' ))); ?>"><?php echo get_avatar( get_the_author_meta('ID'), 60, '', 'author image', array('class' => 'authorimg') ); ?> by <?php echo esc_attr(get_the_author()); ?></a>
-			<i>|</i>
+	
+				<?php echo small_avatar(get_the_author_meta('ID'),'singlePostAvatar');?>
+				
+			 &nbsp;<?php echo LinkUtil::user_link(get_the_author_meta('ID')); ?> <i>|</i>
 			<?php $postcats = wp_get_post_categories($post->ID); if ($postcats) {?>  <?php foreach($postcats as $c) {$cat = get_category( $c ); ?>  <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>"> <?php echo esc_attr($cat->cat_name) . ' '; ?> </a><?php } ?> 	<i>|</i> <?php } ?>
 
 
