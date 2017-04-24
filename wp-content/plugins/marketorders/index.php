@@ -1035,3 +1035,73 @@ function new_modify_user_table_row( $val, $column_name, $user_id ) {
 add_filter( 'manage_users_custom_column', 'new_modify_user_table_row', 10, 3 );
 
 
+
+
+/* extra medal columns */
+add_filter( 'manage_medal_posts_columns', 'set_custom_edit_medal_columns' );
+add_action( 'manage_medal_posts_custom_column' , 'custom_medal_column', 10, 2 );
+
+function set_custom_edit_medal_columns($columns) {
+   
+    $columns['winner'] = 'Winner';
+    $columns['round'] = 'Round';
+
+    return $columns;
+}
+
+function custom_medal_column( $column, $post_id ) {
+	$user_ID = get_post_meta($post_id, 'winning_user', true);
+	$round = get_post_meta($post_id, 'medal_round', true);
+		$member_data = get_userdata($user_ID);
+		$userName = $member_data->display_name;
+    switch ( $column ) {
+		
+		
+        case 'winner' :
+           echo $userName.' (#'.$user_ID.')';
+            break;
+
+        case 'round' :
+            echo $round;
+            break;
+
+    }
+}
+
+/* extra award columns */
+
+
+add_filter( 'manage_award_posts_columns', 'set_custom_edit_award_columns' );
+add_action( 'manage_award_posts_custom_column' , 'custom_award_column', 10, 2 );
+
+function set_custom_edit_award_columns($columns) {
+   
+    $columns['winner'] = 'Winner';
+    $columns['position'] = 'Position';
+    $columns['round'] = 'Round';
+
+    return $columns;
+}
+
+function custom_award_column( $column, $post_id ) {
+	
+	$clanID = get_post_meta($post_id, 'winning_clan', true);
+	$round = get_post_meta($post_id, 'round', true);
+	$position = get_post_meta($post_id, 'position_clan', true);	
+	
+    switch ( $column ) {
+		
+        case 'winner' :
+           	echo get_the_title($clanID).' (#'.$clanID.')';
+            break;
+            
+		case 'position' :
+			echo $position;
+            break;
+
+        case 'round' :
+            echo $round;
+            break;
+
+    }
+}
