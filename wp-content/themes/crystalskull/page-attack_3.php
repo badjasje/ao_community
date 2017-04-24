@@ -14,6 +14,7 @@ if($attack_type == 'air_sea'){ $attack_name = 'Air & Sea attack'; }
 if($attack_type == 'regular'){ $attack_name = 'Regular attack'; }
 if($attack_type == 'missile'){ $attack_name = 'Launching missile'; }
 if($attack_type == 'spy'){ $attack_name = 'Spying'; }
+if($attack_type == 'thief'){ $attack_name = 'Thieving'; }
 if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
 
 get_header(); ?>
@@ -104,7 +105,18 @@ get_header(); ?>
 			
 			
 			if($_SESSION['attacktype'] == 'missile'): ?>
-		<form class="form" action="<?php echo home_url() ?>/attack/missile-result/" name="" id="attack" method="post">	
+			<?php
+			$key = $_SESSION['attack_array']['missile'];
+			$units_owned = get_user_meta($user_ID, $key.'_owned',true);
+			
+				$url = '/attack/missile-result/';
+			if($key == 'empmis'){
+				$url = '/attack/emp-missile-result/';
+			}
+			
+			?>
+	
+		<form class="form" action="<?php echo home_url().$url ?>" name="" id="attack" method="post">	
 		
 		<table class="responsive-table">
 			<thead>
@@ -115,13 +127,7 @@ get_header(); ?>
   					</tr>
 			</thead>
 			<tbody>
-  				<?php
-			$key = $_SESSION['attack_array']['missile'];
-			$units_owned = get_user_meta($user_ID, $key.'_owned',true);
-			
-			
-			
-			?><tr>
+  				<tr>
 			<td  data-title="Name">
 				<?php echo $missiles[$key]['normalname'];?>
 			</td>

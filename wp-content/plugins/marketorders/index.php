@@ -663,7 +663,13 @@ $emps = get_posts(array(
 	'meta_key'		=> 'defender_emp',
 	'meta_value'	=> $user_ID
 ));
-$empReduction = count($emps)*20;
+$empReduction = 0;
+foreach ($emps as $emp) {
+	$empReduction += get_post_meta($emp->ID, 'deduction_emp', true);
+	
+	
+}
+
 
 if($power_production > 0){
 	update_user_meta( $user_ID,'power',$used_power/($power_production*$PPE_multi)*100);}
@@ -695,6 +701,40 @@ if($status == 'online'){
 		}
 	}
 } // end count stats 
+
+
+
+add_shortcode( 'current-satellites' , 'display_count_satellites' );
+function display_count_satellites(){
+	include('satellite_array.php');
+	$user_ID = get_current_user_id();
+    $sat = get_user_meta($user_ID, 'sat_owned', true);
+    $sat_owned = 'none';
+    if($sat != '0'){
+	    $sat_owned = $satellites[$sat]['shortname'];
+    }
+    return '<span class="count_menu">'.$sat_owned.'</span>';
+} 
+
+add_shortcode( 'current-missiles' , 'display_count_missiles' );
+function display_count_missiles(){
+	$user_ID = get_current_user_id();
+    $missiles = count_missiles($user_ID);
+    return '<span class="count_menu">'.$missiles.'</span>';
+} 
+
+
+
+function count_missiles($user_ID){
+	include('missiles_array.php');
+	$totalmissiles = 0;
+	foreach($missiles as $key => $missile){
+	$missiles_owned = get_user_meta($user_ID, $key.'_owned',true);
+	$totalmissiles+=$missiles_owned;
+}
+return $totalmissiles;
+	
+}
 
 
 add_shortcode( 'current-buildings' , 'display_count_buildings' );

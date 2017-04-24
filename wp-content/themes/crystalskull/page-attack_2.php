@@ -16,6 +16,7 @@ if($attack_type == 'air_sea'){ $attack_name = 'Air & Sea attack'; }
 if($attack_type == 'regular'){ $attack_name = 'Regular attack'; }
 if($attack_type == 'missile'){ $attack_name = 'Launching missile'; }
 if($attack_type == 'spy'){ $attack_name = 'Spying'; }
+if($attack_type == 'thief'){ $attack_name = 'Thieving'; }
 if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
 	
 $attackUserId = $_SESSION['target_id'];

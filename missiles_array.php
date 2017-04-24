@@ -45,7 +45,21 @@
 			'defends'		=>  array(''),
 			'attack'		=>	8000,
 			'type'			=>	'mis',
-			'life'			=>	0),/*
+			'life'			=>	0),
+	'empmis' 	=> array(
+			'price'			=>	'65000',
+			'networth'		=>	7,
+			'normalname'	=>	'EMP Missile',
+			'shortname'		=>	'EMP Missile',
+			'shortatt'		=>  array('b'),
+			'attacks'		=>  array(''),
+			'defends'		=>  array(''),
+			'attack'		=>	0,
+			'type'			=>	'mis',
+			'life'			=>	0),
+			
+			
+			/*
 	'tomahawk' 		=> array(
 			'price'			=>	'1500',
 			'networth'		=>	15,

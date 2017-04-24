@@ -4,6 +4,7 @@
  */
 $user_ID = get_current_user_ID();
 $filter_array = array(	'empsat',
+						'empmissile',
 						'satellite',
 						'regular',
 						'air_sea',
@@ -601,6 +602,71 @@ if ( $custom_query->have_posts() ) :
 				<center>Power decreased by 20% for 6 hours.</center>
 			</div>
 			
+		</div>
+	</div>
+
+<?php endif; // End EMP attacks ?>
+
+
+<?php if($attack_type == 'empmissile'): ?>
+
+<!-- Event header -->
+<div class="row battlereport-header">
+	<div class="col-md-12">
+		<img class="attack-image" src="http://assault.online/wp-content/uploads/2016/03/<?php echo 'missile';?>.png"> 
+		EMP Missile report
+		
+	</div>
+</div>
+<!-- Event header -->
+
+
+<div class="row event-row">
+	
+<!-- Attacker image -->	
+	<div class="col-md-2">
+		<div class="row">
+			<div class="col-md-12">
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
+				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
+			</div>
+		</div>
+	</div>
+<!-- Attacker image -->		
+	
+	
+	<div class="col-md-10">
+			<div class="row">
+				<div class="col-md-12 event-message">
+				<?php if($status_defender == 'death'):?>	
+					
+				<?php clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
+				<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> hit your base with a missile and <strong>you died</strong> 
+				
+				<?php else:?>
+				
+				<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
+				<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> launched an EMP missile and
+					
+				<?php if($winner_id == $defender_id):?>
+					
+					<strong>missed</strong> your base.
+
+				<?php else: ?>
+					
+					<strong>hit</strong> your base. 
+					
+				<?php endif; endif;?>
+				
+				
+				</div>
+			</div>
+			
+			<?php if($winner_id == $attacker_id):?>
+			<div class="row">
+				<center>Power decreased by 15% for 6 hours.</center>
+			</div>
+			<?php endif;?>
 		</div>
 	</div>
 

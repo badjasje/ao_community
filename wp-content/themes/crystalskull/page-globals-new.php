@@ -44,7 +44,7 @@ $args = array(
          ),
          array(
            'key' => 'attacktype',
-           'value' => array('empsat','satellite','regular','air_sea','ground','missile','war_declared','peace_declared'),
+           'value' => array('empmissile','empsat','satellite','regular','air_sea','ground','missile','war_declared','peace_declared'),
            'compare' => 'IN'
          ),
      array(
@@ -689,6 +689,136 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 	</div>
 
 <?php endif; // End EMP Sat hit ?>	
+
+
+
+
+<?php if($attack_type == 'empmissile'): ?>
+
+<?php 	
+	$member_data = get_userdata($attacker_id);
+	$defender_data = get_userdata($defender_id);
+?>
+
+<!-- Event header -->
+<div class="row battlereport-header" <?php if(in_array($defender_id, $members[0])): // attack by clanmember ?> style="background-color:#607785;"<?php endif;?>>
+	<div class="col-md-12">
+		<img class="attack-image" src="http://assault.online/wp-content/uploads/2016/03/missile.png"> 
+		EMP Missile report
+	</div>
+</div>
+<!-- Event header -->
+
+
+<div class="row event-row">
+	
+<!-- Attacker image -->	
+	<div class="col-md-2">
+		<div class="row">
+			<div class="col-md-12">
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
+				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
+			</div>
+		</div>
+	</div>
+<!-- Attacker image -->		
+	
+	
+	<div class="col-md-10">
+			<div class="row">
+				<div class="col-md-12 event-message">
+				
+		<?php if(in_array($attacker_id, $members[0])) { // Clanmember is attacker ?>
+			
+			<?php if(get_post_meta($global_event_ID, 'shotdown', true) == 'shotdown'){?>
+			
+			
+				<?php echo clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
+				<?php echo $defender_data->display_name.' (#'.$defender_id.')';?></a> shot down the EMP missile of
+			
+			
+				<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
+				<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a>
+			
+			
+			<?php } else {?>
+						
+				<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
+				<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> launched an EMP missile at
+						
+						
+				<?php echo clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
+				<?php echo $defender_data->display_name.' (#'.$defender_id.')';?></a> and 
+						
+			
+				<?php if($winner_id == $attacker_id){?>
+			
+				hit the enemy base.
+				
+	
+			
+				<?php } else { ?>
+				
+				<strong>missed the enemy base.</strong>
+			
+			<?php }}} ?>
+						
+						
+		
+		
+		
+		<?php if(in_array($defender_id, $members[0])) { // Clanmember is defender ?>
+			<?php if(get_post_meta($global_event_ID, 'shotdown', true) == 'shotdown'){?>
+			
+			
+			<?php echo clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
+			<?php echo $defender_data->display_name.' (#'.$defender_id.')';?></a> shot down the EMP missile of
+			
+			
+			<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
+			<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a>
+			
+			
+			<?php }else {?>
+			
+			<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
+			<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> launched an EMP missile at 
+				
+			<?php echo clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
+			<?php echo $defender_data->display_name.' (#'.$defender_id.')';?></a>
+						
+						
+			
+						
+			
+			<?php if($winner_id == $attacker_id){?>
+				and <strong>hit</strong> the base.
+
+			<?php } else { ?>
+		
+				and <strong>missed the base.</strong>
+						
+			<?php }}}?>
+						
+					
+					
+
+
+				
+				
+				
+				</div>
+			</div>
+			
+			<?php if($winner_id == $attacker_id){?>
+				<div class="row">
+					<center>Power decreased by 15% for 6 hours.</center>
+				</div>
+			<?php } ?>
+		</div>
+	</div>
+
+<?php endif; // End EMP missile hit ?>	
 
 
 
