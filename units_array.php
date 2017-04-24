@@ -656,7 +656,7 @@
 			'type'			=>	'air',
 			'life'			=>	35),
 	'seahawk' 		=> array(
-			'price'			=>	'675',
+			'price'			=>	'875',
 			'networth'		=>	10,
 			'normalname'	=>	'MH-60 Black Hawk',
 			'attacks'		=>  array('veh','bld'),
