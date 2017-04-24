@@ -431,11 +431,25 @@ $args = array(
 $clan = get_user_meta($defender_ID, 'clan_id_user', true);
 $clan_members = get_post_meta($clan,'clan_members');
 
+
 if(!empty($clan) || $clan != 0){
 foreach ($clan_members[0] as $member) {
 	$globals = get_user_meta($member, 'new_global_events', true);
 	update_user_meta($member, 'new_global_events', $globals+1);
 }}
+
+/* add globals attacker */
+
+$clan_att = get_user_meta($user_ID, 'clan_id_user', true);
+$clan_members_att = get_post_meta($clan_att,'clan_members');
+
+if(!empty($clan_att) || $clan_att != 0){
+foreach ($clan_members_att[0] as $member_att) {
+	$globals = get_user_meta($member_att, 'new_global_events', true);
+	update_user_meta($member_att, 'new_global_events', $globals+1);
+}}
+
+
 count_all_stats($target_id);
 count_all_stats($user_ID);
 ?>
