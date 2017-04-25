@@ -23,7 +23,7 @@ $sat_owned = get_user_meta($user_ID, 'sat_owned',true);
 $sat_morale = get_user_meta($user_ID, 'sat_morale',true);
 $turns = get_user_meta($user_ID, 'turns',true);
 
-if($turns < 3){
+if($turns < 2){
 	$_SESSION['status'] = 'Not enough turns. You need 3 turns to activate your stealth satellite';
 	wp_redirect(get_permalink(8578)); exit;
 	
@@ -43,7 +43,7 @@ $timestamp = strtotime(date('Y-m-d H:i:s'));
 update_user_meta($user_ID, 'stealth_sat_status', 'active');
 update_user_meta($user_ID, 'stealth_sat_time', $timestamp+3600*3.5);
 update_user_meta($user_ID, 'sat_morale', $sat_morale-100);
-update_user_meta($user_ID, 'turns', $turns-3);
+update_user_meta($user_ID, 'turns', $turns-2);
 
 
 $_SESSION['status'] = 'Stealth satellite activated';

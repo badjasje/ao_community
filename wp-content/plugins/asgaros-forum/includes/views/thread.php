@@ -40,19 +40,12 @@ echo '<h1 class="main-title">'.esc_html(stripslashes($this->get_name($this->curr
             <div class="post-content">
                 <div class="post-author">
                     <?php
-                    if ($this->options['highlight_authors'] && ($counter > 1 || $this->current_page > 0) && $threadStarter == $post->author_id) {
-                        echo '<small class="post-author-marker">'.__('Thread Author', 'asgaros-forum').'</small>';
-                    }
 
                     if ($avatars_available) {?>
                     <center>
-                    <?php if(!empty(get_user_meta($post->author_id, 'avatar_user', true))):?>
                     
-			<div style='margin-top:5px;display:inline-block;height:60px;width:60px;background: url("<?php echo get_user_meta($post->author_id, 'avatar_user', true);?>");background-size: cover;'></div>
-			<?php else:?>
-			<div style='margin-top:5px;display:inline-block;height:60px;width:60px;background: url("/wp-content/uploads/2016/11/default_large.png");background-size: cover;'></div>
                     
-			<?php endif;?>
+			<?php echo small_avatar($post->author_id,'forumAvatar');?>
              </center>
                     <?php }
                     ?>

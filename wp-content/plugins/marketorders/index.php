@@ -422,6 +422,8 @@ update_user_meta($user_id, 'bio_owned', 0);
 update_user_meta($user_id, 'bio_ordered', 0);
 update_user_meta($user_id, 'moab_owned', 0);
 update_user_meta($user_id, 'moab_ordered', 0);
+update_user_meta($user_ID, 'empmis_owned', 0);
+update_user_meta($user_ID, 'empmis_ordered', 0);
 
 // SET STATS
 update_user_meta($user_id, 'money', 450000);

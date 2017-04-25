@@ -111,6 +111,8 @@ jQuery(document).ready(function() {
 		if(!empty($last_online)){
 		$last_seen = $timestamp - $last_online;
 		}
+		
+			if($last_seen < 1728000 && !empty($last_online[0])){
 			?>
 <div class="row clan_profile_row<?php echo $extraClass;?>">
 	<div class="col-md-1">
@@ -158,7 +160,7 @@ jQuery(document).ready(function() {
 	</div>
 </div>
 
-<?php  }?>
+<?php  }}?>
 </div>
 			</div> <!-- // End tab pane 1 -->
 

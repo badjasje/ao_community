@@ -25,6 +25,15 @@ if( function_exists('acf_add_options_page') ) {
 	
 }
 
+
+function users_last_login() {
+	$timestamp = strtotime(date('Y-m-d H:i:s'));
+    
+    $userinfo = wp_get_current_user();
+    update_user_meta( $userinfo->ID, 'last_online', $timestamp-7200 );
+}
+add_action('clear_auth_cookie', 'users_last_login', 10);
+
 /*Remove shiftnav on homepage */
 add_action( 'wp_head' , 'remove_shiftnav' );
 function remove_shiftnav(){
@@ -64,7 +73,7 @@ if($user_status[0] == 'dead'){
 	after_death($user_ID);
 	update_user_meta($user_ID, 'status', 'nukeprotection');
 	$timestamp = strtotime(date('Y-m-d H:i:s'));
-	update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(24 * 3600));
+	update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
 }}
 
 

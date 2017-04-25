@@ -74,6 +74,11 @@ get_header('home'); ?>
      <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">
+	            
+	            <div class="alert alert-warning alert-dismissible blue_alert" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<strong>Display problems?</strong> Clean your cache!
+			</div>
 <div class="row">
 	<div class="col-md-12">
 		<?php if(!empty($_SESSION['status'])):?>
@@ -335,8 +340,8 @@ get_header('home'); ?>
 <div classs="row">	
 	<div class="col-md-12">
 		<div class="notice_message">
-			Current round date: 20th of March - 20th of April 2017. 
-				<span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on the 20th of April 2017, at a random time." data-placement="right">
+			Current round date: 25th of April - 25th of May 2017. 
+				<span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on the 25th of May 2017, at a random time." data-placement="right">
 					<i class="fa fa-info-circle" aria-hidden="true"></i>
 				</span>
 		</div>

@@ -1,6 +1,6 @@
 <footer>
 	<div class="container">
-		<center>Current date/time is <strong><?php echo date("d-m-Y | G:i"); ?></strong>
+		<center>Current date/time is <strong><?php echo date("d-m-Y | G:i", strtotime('+2 hours')); ?></strong>
 		<?php if (is_user_logged_in() ) :?>
 		<br/><a href="<?php echo wp_logout_url( get_permalink(3491) ); ?>">Logout</a>
 		<?php endif;?>

@@ -192,7 +192,7 @@ $user = get_userdata($user_ID);
 					<?php endif; ?>
 				</h1>
 			</div>
-            <div class="col-lg-12 breadcrumbs" style="float: left; margin-top: 0;"><strong><?php crystalskull_breadcrumbs(); ?></strong></div>
+            <div class="col-lg-12 breadcrumbs" style="float:left;margin-top: 0;"><strong><?php crystalskull_breadcrumbs(); ?></strong></div>
             <div class="clear"></div>
 
 </div>

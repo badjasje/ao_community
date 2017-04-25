@@ -20862,3 +20862,54 @@ Units ordered: thief 20
 ID: 696
 Units ordered: sam 276
 
+ID: 91
+Units ordered: sniper 50
+
+ID: 91
+Units ordered: sniper 20
+
+ID: 406
+Units ordered: spyplane 30
+
+ID: 406
+Units ordered: spyplane 20
+
+ID: 1081
+Units ordered: battleship 150
+
+ID: 355
+Units ordered: grenade 100
+
+ID: 355
+Units ordered: flamethrower 100
+
+ID: 355
+Units ordered: f22_raptors 50
+
+ID: 355
+Units ordered: rah66_commanches 50
+
+ID: 355
+Units ordered: m70mlrs 100
+
+ID: 355
+Units ordered: abraham 86
+
+ID: 355
+Units ordered: rah66_commanches 21
+
+ID: 355
+Units ordered: f22_raptors 17
+
+ID: 504
+Units ordered: artillery 450
+
+ID: 714
+Units ordered: spyplane 50
+
+ID: 752
+Units ordered: rocket 100
+
+ID: 752
+Units ordered: apc 50
+

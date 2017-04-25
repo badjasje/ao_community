@@ -12,9 +12,11 @@ foreach ($users as $user) {
 	$user_ID = $user->ID;	
 	
 	/* sat crash */
+	$sat_owned = get_user_meta($user_ID, 'sat_owned', true)
 	$sat_endlife = get_user_meta($user_ID, 'sat_endlife',true);
 	$timeleft = $sat_endlife-$timestamp;
-		if($timeleft <= 0){
+		if($timeleft <= 0 && $sat_owned != 0){
+			
 			update_user_meta($user_ID, 'sat_owned', 0);
 			update_user_meta($user_ID, 'sat_endlife', 0);
 			

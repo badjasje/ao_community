@@ -1207,6 +1207,14 @@ border_bottom_mobile{
     color: #fff;
     float:left;
 }
+.forumAvatar{
+	width: 60px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 33px;
+    border-radius: 50% !important;
+	
+}
 .ellipsedColumn{
     display: inline-block;
     width: 160px;
