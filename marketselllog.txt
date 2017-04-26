@@ -1,0 +1,20 @@
+ID: 714
+Units sold: 50
+Type: spyplane
+
+ID: 1083
+Units sold: 50
+Type: b2_bomber
+
+ID: 37
+Units sold: 50
+Type: sniper
+
+ID: 714
+Units sold: 50
+Type: spyplane
+
+ID: 406
+Units sold: 50
+Type: spyplane
+

@@ -339,6 +339,7 @@ function create_post_type() {
       ),
       'public' => true,
       'has_archive' => false,
+      'supports'    => array( 'title', 'editor', 'author', 'excerpt' ),
     ));
     register_post_type( 'sat',array(
       'labels' => array(
@@ -1147,3 +1148,4 @@ function custom_award_column( $column, $post_id ) {
 
     }
 }
+

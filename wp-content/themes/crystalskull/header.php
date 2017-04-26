@@ -297,7 +297,7 @@ $user = get_userdata($user_ID);
 		<div class="col-xs-6 mobilestatblock">
 			<ul class="list-group desktopitem">
 				<li class="list-group-item statitem">
-					<strong>Morale:</strong> <?php echo $morale;?>%
+					<strong>Morale:</strong> <?php echo $morale;?>% <sup>(<?php echo $moralepool;?>%)</sup>
 				</li>
 				<li class="list-group-item statitem">
 					<strong>Land:</strong> <?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup>

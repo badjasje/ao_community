@@ -12,9 +12,10 @@ foreach ($users as $user) {
 	$user_ID = $user->ID;	
 	
 	/* sat crash */
-	$sat_owned = get_user_meta($user_ID, 'sat_owned', true)
+	$sat_owned = get_user_meta($user_ID, 'sat_owned', true);
 	$sat_endlife = get_user_meta($user_ID, 'sat_endlife',true);
 	$timeleft = $sat_endlife-$timestamp;
+		
 		if($timeleft <= 0 && $sat_owned != 0){
 			
 			update_user_meta($user_ID, 'sat_owned', 0);
@@ -39,7 +40,7 @@ foreach ($users as $user) {
 			/* update event count */
 			$event_count = get_user_meta($user_ID, 'new_events',true);
 			update_user_meta($user_ID, 'new_events', $event_count + 1);
-		}
+		} // End sat crash
 		
 		
 	/* deactivate stealth sat */
@@ -51,8 +52,8 @@ foreach ($users as $user) {
 
 	
 	$args = array(
-	'posts_per_page'   => 1,
-	'author'	   => $user_ID,
+	'posts_per_page'   => -1,
+	'author'	   		=> $user_ID,
 	'post_type'        => 'research',
 	);
 	$researches = get_posts( $args ); 
@@ -89,7 +90,7 @@ foreach ($users as $user) {
 				update_field('time_attacked',$timestamp, $new_event_id);
 				
 				/* Delete research post */
-				wp_delete_post($research->ID);
+				wp_trash_post($research->ID);
 				
 		$queued_research = get_user_meta($user_ID, 'queued_research')[0];
 		
