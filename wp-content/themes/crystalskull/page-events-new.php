@@ -195,7 +195,6 @@ if ( $custom_query->have_posts() ) :
 	$defender_NW_lost = get_post_meta($event_ID, 'nw_damage_defender', true);
 	$attacker_NW_lost = get_post_meta($event_ID, 'nw_damage_attacker', true);
 	
-	$defender_points = get_post_meta($event_ID,'defender_points',true);
 	
 	$timeattacked = get_post_meta($event_ID,'time_attacked',true);
 	$timestamp = strtotime(date('Y-m-d H:i:s'));
@@ -264,10 +263,7 @@ if ( $custom_query->have_posts() ) :
 				<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> and you 
 					
 				<?php if($winner_id == $defender_id):?>
-					<strong>won</strong> the battle. 
-					<?php if($defender_points != 0):?>
-					<?php echo $defender_points;?> clan point<?php if($defender_points>1){echo 's';}?> gained for successfully defending your base.
-					<?php endif;?>
+					<strong>won</strong> the battle.
 					
 				<?php else: ?>
 					
