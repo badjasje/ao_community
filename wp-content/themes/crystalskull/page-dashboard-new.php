@@ -69,6 +69,26 @@ if($user_status == 'dead'){
 }
 $user = get_userdata($user_ID); 
 
+if($clan_ID == 0){
+$clans = get_posts(array(
+	'numberposts'	=> -1,
+	'post_type'		=> 'clan',
+	'meta_key'		=> 'autojoin_allowed',
+	'meta_value'	=> 'yes'
+));
+
+$clanCount = 0;
+
+foreach ($clans as $clan) { 
+	
+	$members = count(get_post_meta($clan->ID,'clan_members',true));
+	
+	if($members < 7){
+		$clanCount++;
+	}
+}
+}
+
 get_header('home'); ?>
 <div class="page normal-page">
      <div class="container">
@@ -331,6 +351,52 @@ get_header('home'); ?>
 	
 	</div>
 </div> <!-- // End status column -->
+          
+
+<div class="row">
+	<div class="col-md-12">
+	<div class="row button_block">
+ 	
+ 		<div class="col-md-6 buttoncol">
+	 		<center><a class="btn btn-general profilebutton" href="/users/profile/edit/">
+		 		<i class="fa fa-wrench" aria-hidden="true"></i> &nbsp;Edit your profile</a></center>
+		</div>
+	
+		<div class="col-md-6 buttoncol">
+	 		<center><a class="btn btn-general profilebutton" href="/player-statistics/">
+		 		<i class="fa fa-bar-chart" aria-hidden="true"></i> &nbsp;View statistics</a></center>
+		</div>
+	</div>
+	</div>
+</div> <!-- // End edit profile & statistics button block -->
+
+
+
+<?php if($clan_ID == 0):?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="row textNotify">
+			<div class="col-md-12">
+				<center><span class="rdw-line">Join a clan to get the full assault.online experience.</span> <span class="rdw-line">
+				<?php echo $clanCount;?> clan<?php if($clanCount == 0 || $clanCount > 1){ echo 's';}?> currently looking for players.</span></center><br/>
+			</div>
+			
+			<div class="col-md-4">
+			</div>
+	
+			<div class="col-md-4">
+				<center><a class="btn btn-general profilebutton" href="/join-a-clan/">
+				<i class="fa fa-user-plus" aria-hidden="true"></i> &nbsp;View clans</a>
+				</center>
+			</div>
+	
+			<div class="col-md-4">
+			</div>
+  
+		</div>
+	</div>
+</div> <!-- // End join clan block -->
+<?php endif;?>
 
 
 
