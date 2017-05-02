@@ -150,7 +150,8 @@ if ($cost_arr['turns'] > $turns) {
 /* check power */
 $user_power = $user_data['power'][0];
 if ($user_power > 100) {
-	wp_redirect(get_permalink(3360).'?id=15');
+	$_SESSION['status'] = 'You cannot attack with power offline';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
 

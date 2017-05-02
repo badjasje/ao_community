@@ -9,7 +9,7 @@ include 'constants.php';
 
 
 $attacking_units = $_POST;
-$def_clan_points = 0;
+
 /* retrieve attacker user data */
 $user_id = get_current_user_id();
 $user_data = get_user_meta($user_id);
@@ -360,7 +360,7 @@ if (
 	$defender_unit_loss_decrease = 0.9;
 }
 
-
+$defender_units_lost = 0;
 
 
 /* translate array structure for display + calculate & deduct losses */
@@ -436,7 +436,7 @@ foreach($attacker_unit_losses as $unit_type => $breakdown) {
 		$owned_units = get_user_meta($user_id, $key.'_owned',true);
 			
 			if($killed > $owned_units*$_SESSION[$key]['percentage']){
-				$killed = ceil($owned_units*$_SESSION[$key]['percentage']);
+				$killed = $owned_units*$_SESSION[$key]['percentage'];
 			}
 		
 		
@@ -544,10 +544,7 @@ if($war_type != 'none' && $result == 'success') {
 	foreach($defender_unit_array as $type => $unit_stats) {
 		$def_total_units += $unit_stats['total_count'];
 	}			
-		
-	if($def_total_units != 0 && $defender_units_lost != 0){
-		$unit_points = $defender_units_lost*0.0225;    // OLD  /$def_total_units; 
-	}
+	
 
 	$defender_networth = get_user_meta($target_id, 'networth')[0];
 	if ($killed != true) {
@@ -684,7 +681,6 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 	<h2>F A I L U R E</h2>
 	<p>You lost the battle against <a href="/users/profile/?id=<?php
 	echo $target_id;
-	
 ?>">
 <strong>
 
@@ -701,9 +697,7 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 	}
 ?>
 </p>
-<?php
-	endif;
-?>
+<?php endif; ?>
 
 <center>
 <table class="responsive-table">
@@ -743,33 +737,7 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 	<tr>
 		<th class="report_content" colspan="3"><center>Your networth decreased: <strong>$
 			<?php
-					
 				echo number_format($attacker_networth_lost, 0, ',', ' ');
-				
-				if($war_type != 'none'){
-				$def_clan_points = 1.2 * log($attacker_networth_lost/2.9 / 400); 
-				$def_clan_points = ceil($def_clan_points);
-				if($def_clan_points < 1){
-					$def_clan_points = 1;
-				}
-				if($def_clan_points > 4){
-					$def_clan_points = 4;
-				}
-				
-				/* update pts for defender */
-				$defPts = get_user_meta($target_id, 'user_clan_points',true);
-				update_user_meta($target_id,'user_clan_points',$defPts+$def_clan_points);
-				
-				/* add points for defender clan */
-				$defClanPts = get_post_meta($defend_clan_id,'clan_points',true);
-				update_post_meta($defend_clan_id,'clan_points',$defClanPts+$defPts);
-	
-	
-				/* 24H pts update defender clan */
-				$defPts24 = get_post_meta($defend_clan_id, '24h_pts', true);
-				update_post_meta($defend_clan_id,'24h_pts',$defPts24+$defPts);
-				
-				}
 			?></strong></center>
 		</td>
 	</tr>
@@ -831,6 +799,8 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 </table>
 
 <a class="btn btn-general" href="/attack/result/"><i class="fa fa-refresh" aria-hidden="true"></i> STRIKE AGAIN</a>
+
+
 <?php 
 
 
@@ -889,10 +859,7 @@ foreach ($clan_members_att[0] as $member_att) {
 
 
 update_field('clan_points', $clan_points, $new_event_id);
-update_field('defender_points', $def_clan_points, $new_event_id);
 
-count_all_stats($target_id);
-count_all_stats($user_id);
 
 if($killed == true){
 			update_post_meta($new_event_id, 'status_defender', 'death');
@@ -910,6 +877,9 @@ $user_pts = get_user_meta($user_id, 'user_clan_points')[0];
 update_user_meta($user_id,'user_clan_points',$user_pts+$clan_points);
 $last_ids = get_user_meta($user_id, 'last_attacked', true);
 update_user_meta($user_id, 'last_attacked', $target_id.','.$last_ids);
+
+count_all_stats($target_id);
+count_all_stats($user_id);
 
 ?>
 

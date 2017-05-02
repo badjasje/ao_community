@@ -162,9 +162,9 @@
 			'life'			=>	390),
 );
 */
-$user_ID = get_current_user_id();
-$AMS = get_user_meta($user_ID, 'antimissile', true);
-$def_land 	= 	get_user_meta($user_ID, 'builtland', true);
+$player_ID = get_current_user_id();
+$AMS = get_user_meta($player_ID, 'antimissile', true);
+$def_land 	= 	get_user_meta($player_ID, 'builtland', true);
 $shootdown_chance = 0;
 if($AMS > 0){
 

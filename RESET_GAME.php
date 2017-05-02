@@ -1,10 +1,10 @@
 <?php
 	/*
 	// DELETE FROM `assauu_db1`.`23zx_posts` WHERE `23zx_posts`.`post_type` = 'shop_order'   <- USE AS SQL COMMAND*/
-	/* require_once("wp-load.php");
+	/*require_once("wp-load.php");
 	include('units_array.php');
 	
-				$args = array(
+			$args = array(
 
 				'offset'       => 0,
 				'number'       => 1500,
@@ -16,17 +16,19 @@
 				foreach ($users as $user) {
 					
 					
-					}/*
+					
 					$user_ID = $user->ID;
 				//update_user_meta($user_ID, 'reset_status', 0);
 				
 				
-				update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
-				/*if(get_user_meta($user_ID, 'reset_status', true) == 0){
+				
+				update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(48 * 3600));}
+				/*
+				if(get_user_meta($user_ID, 'reset_status', true) == 0){
 			
 				update_user_meta($user_ID, 'new_global_events', 0);
 				update_user_meta($user_ID, 'new_events', 0);
-				update_user_meta($user_ID,'land_gained_combat',0);
+				update_user_meta($user_ID, 'land_gained_combat',0);
 				update_user_meta($user_ID, 'points_position', 0);
 				update_user_meta($user_ID, 'last_attacked', '');
 				update_user_meta($user_ID, 'networth_position', 0);
@@ -78,7 +80,7 @@
 				update_user_meta($user_ID,'turns_lost',0);
 				update_user_meta($user_ID,'highest_land',0);
 				update_user_meta($user_ID,'highest_networth',0);
-				update_user_meta($user_ID, 'stealth_sat_status', inactive);
+				update_user_meta($user_ID, 'stealth_sat_status', 'inactive');
 				update_user_meta($user_ID, 'stealth_sat_time', 0);
 				update_user_meta($user_ID, 'sat_morale', 0);
 				
@@ -121,12 +123,12 @@ update_user_meta($user_ID, 'empmis_ordered', 0);
 
 
 // SET STATS after death
-update_user_meta($user_ID, 'money', 450000);
+update_user_meta($user_ID, 'money', 4500000);
 update_user_meta($user_ID, 'sold_land_today', 0);
 update_user_meta($user_ID, 'explored_today', 0);
-update_user_meta($user_ID, 'turns', 200);
+update_user_meta($user_ID, 'turns', 350);
 update_user_meta($user_ID, 'networth', 0);
-update_user_meta($user_ID, 'land', 2000);
+update_user_meta($user_ID, 'land', 4000);
 update_user_meta($user_ID, 'power', 0);
 update_user_meta($user_ID, 'builtland', 1000);
 update_user_meta($user_ID, 'morale', 0);
@@ -174,10 +176,10 @@ update_user_meta($user_ID,'modes_next',0);
 
 
 update_user_meta($user_ID, 'reset_status', 1);
-				} */
+				} 
 				
 			
-				// } 
+				} 
 
 
 /*
@@ -206,7 +208,7 @@ foreach ($clans as $clan) {
 	}
 	
 
-*/
+
 
 	
 	

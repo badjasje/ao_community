@@ -9,6 +9,9 @@ Author URI:
 License: GPL
 Copyright: Kevin Bogaard
 */
+
+
+
 function small_avatar($user_ID,$type){
 	
 	$addClass = '';
@@ -245,6 +248,7 @@ function count_deposits($user_ID){
 	$deposits = get_posts( $args ); 
 	return count($deposits);
 }
+
 function clan_tag($user_ID){
 	
 if(get_user_meta($user_ID, 'clan_id_user', true) != 0){
@@ -477,100 +481,100 @@ update_user_meta($user_id, $key.'_ordered', 0);
 
 
 function after_death( $user_id ) {
- if(!empty($user_id)){
-// SET BUILDING after death
-update_user_meta($user_id, 'silo', 0);
-update_user_meta($user_id, 'command_centre', 0);
-update_user_meta($user_id, 'shipyard', 0);
-update_user_meta($user_id, 'airfield', 0);
-update_user_meta($user_id, 'warfactory', 0);
-update_user_meta($user_id, 'baracks', 0);
-update_user_meta($user_id, 'powerplant', 50);
-update_user_meta($user_id, 'advancedpowerplant', 0);
-update_user_meta($user_id, 'torpedolauncher', 0);
-update_user_meta($user_id, 'samsite', 0);
-update_user_meta($user_id, 'missileturret', 0);
-update_user_meta($user_id, 'machinegunturret', 0);
-update_user_meta($user_id, 'antimissile', 0);
+	
+	if(!empty($user_id)){
+		// SET BUILDING after death
+		update_user_meta($user_id, 'silo', 0);
+		update_user_meta($user_id, 'command_centre', 0);
+		update_user_meta($user_id, 'shipyard', 0);
+		update_user_meta($user_id, 'airfield', 0);
+		update_user_meta($user_id, 'warfactory', 0);
+		update_user_meta($user_id, 'baracks', 0);
+		update_user_meta($user_id, 'powerplant', 50);
+		update_user_meta($user_id, 'advancedpowerplant', 0);
+		update_user_meta($user_id, 'torpedolauncher', 0);
+		update_user_meta($user_id, 'samsite', 0);
+		update_user_meta($user_id, 'missileturret', 0);
+		update_user_meta($user_id, 'machinegunturret', 0);
+		update_user_meta($user_id, 'antimissile', 0);
 
 
-// SET MISSILES after death
-update_user_meta($user_id, 'nuke_owned', 0);
-update_user_meta($user_id, 'nuke_ordered', 0);
-update_user_meta($user_id, 'chemical_owned', 0);
-update_user_meta($user_id, 'chemical_ordered', 0);
-update_user_meta($user_id, 'bio_owned', 0);
-update_user_meta($user_id, 'bio_ordered', 0);
-update_user_meta($user_id, 'moab_owned', 0);
-update_user_meta($user_id, 'moab_ordered', 0);
+		// SET MISSILES after death
+		update_user_meta($user_id, 'nuke_owned', 0);
+		update_user_meta($user_id, 'nuke_ordered', 0);
+		update_user_meta($user_id, 'chemical_owned', 0);
+		update_user_meta($user_id, 'chemical_ordered', 0);
+		update_user_meta($user_id, 'bio_owned', 0);
+		update_user_meta($user_id, 'bio_ordered', 0);
+		update_user_meta($user_id, 'moab_owned', 0);
+		update_user_meta($user_id, 'moab_ordered', 0);
 
-// SET STATS after death
-update_user_meta($user_id, 'money', 450000);
-update_user_meta($user_id, 'sold_land_today', 0);
-update_user_meta($user_id, 'explored_today', 0);
-update_user_meta($user_id, 'turns', 200);
-update_user_meta($user_id, 'networth', 0);
-update_user_meta($user_id, 'land', 2000);
-update_user_meta($user_id, 'power', 0);
-update_user_meta($user_id, 'builtland', 1000);
-update_user_meta($user_id, 'morale', 100);
-update_user_meta($user_id, 'total_deposits', 0);
-
-
-// RESET RESEARCH ///
-update_user_meta($user_id, 'level_money_production', 0);
-update_user_meta($user_id, 'level_missile_accuracy', 0);
-update_user_meta($user_id, 'level_satellite_construction', 0);
-update_user_meta($user_id, 'level_shipping_time', 0);
-update_user_meta($user_id, 'level_market_discount', 0);
-update_user_meta($user_id, 'level_thieving_effectiveness', 0);
-update_user_meta($user_id, 'level_engineering_effectiveness', 0);
-update_user_meta($user_id, 'level_bank_management', 0);
-update_user_meta($user_id, 'level_powerplant_efficiency', 0);
-update_user_meta($user_id, 'research_in_progress', 0);
-update_user_meta($user_id, 'queued_research', 0);
-update_user_meta($user_id, 'sat_in_progress', 0);
-update_user_meta($user_id, 'sat_owned', 0);
-update_user_meta($user_id, 'starting_bonus','');
-update_user_meta($user_id, 'stealth_sat_status',0);
+		// SET STATS after death
+		update_user_meta($user_id, 'money', 4500000);
+		update_user_meta($user_id, 'sold_land_today', 0);
+		update_user_meta($user_id, 'explored_today', 0);
+		update_user_meta($user_id, 'turns', 350);
+		update_user_meta($user_id, 'networth', 0);
+		update_user_meta($user_id, 'land', 4000);
+		update_user_meta($user_id, 'power', 0);
+		update_user_meta($user_id, 'builtland', 1000);
+		update_user_meta($user_id, 'morale', 0);
+		update_user_meta($user_id, 'total_deposits', 0);
 
 
+		// RESET RESEARCH ///
+		update_user_meta($user_id, 'level_money_production', 0);
+		update_user_meta($user_id, 'level_missile_accuracy', 0);
+		update_user_meta($user_id, 'level_satellite_construction', 0);
+		update_user_meta($user_id, 'level_shipping_time', 0);
+		update_user_meta($user_id, 'level_market_discount', 0);
+		update_user_meta($user_id, 'level_thieving_effectiveness', 0);
+		update_user_meta($user_id, 'level_engineering_effectiveness', 0);
+		update_user_meta($user_id, 'level_bank_management', 0);
+		update_user_meta($user_id, 'level_powerplant_efficiency', 0);
+		update_user_meta($user_id, 'research_in_progress', 0);
+		update_user_meta($user_id, 'queued_research', 0);
+		update_user_meta($user_id, 'sat_in_progress', 0);
+		update_user_meta($user_id, 'sat_owned', 0);
+		update_user_meta($user_id, 'starting_bonus','');
+		update_user_meta($user_id, 'stealth_sat_status',0);
 
 
+		$args = array(
+				'posts_per_page'   => -1,
+				'author'	   => $user_id,
+				'post_type'        => 'research',
+				);
+				$researches_in_progress = get_posts( $args );
+				foreach ($researches_in_progress as $research) {
+					
+					wp_delete_post($research->ID);
+				}
 
-
-$args = array(
-		'posts_per_page'   => -1,
-		'author'	   => $user_id,
-		'post_type'        => 'research',
-		);
-		$researches_in_progress = get_posts( $args );
-		foreach ($researches_in_progress as $research) {
-			
-			wp_delete_post($research->ID);
-		}
-$args = array(
-		'posts_per_page'   => -1,
-		'author'	   => $user_id,
-		'post_type'        => 'deposit',
-		);
-		$deposits = get_posts( $args );
-		foreach ($deposits as $deposit) {
-			
-			wp_trash_post($deposit->ID);
-		}
 		
-$args = array(
-		'posts_per_page'   => -1,
-		'author'	   => $user_id,
-		'post_type'        => 'market_order',
-		);
-		$orders = get_posts( $args );
-		foreach ($orders as $order) {
-			
-			wp_trash_post($order->ID);
-		}
-}
+		$args = array(
+				'posts_per_page'   => -1,
+				'author'	   => $user_id,
+				'post_type'        => 'deposit',
+				);
+				$deposits = get_posts( $args );
+				foreach ($deposits as $deposit) {
+					
+					wp_trash_post($deposit->ID);
+				}
+		
+		
+		$args = array(
+				'posts_per_page'   => -1,
+				'author'	   => $user_id,
+				'post_type'        => 'market_order',
+				);
+				$orders = get_posts( $args );
+				foreach ($orders as $order) {
+					
+					wp_trash_post($order->ID);
+				}
+
 
 
 include('units_array.php');
@@ -579,11 +583,16 @@ foreach ($units as $key => $unit) {
 update_user_meta($user_id, $key.'_owned', 0);
 update_user_meta($user_id, $key.'_ordered', 0);
 
-}}
+}
+} // End empty userID check 
+
+} // End after death
+
+
 
 function count_all_stats($user_ID){
-	if(!empty($user_ID)){
-	
+
+if(!empty($user_ID)){
 	
 	
 include('units_array.php');
@@ -593,42 +602,49 @@ include('research_array.php');
 include('constants.php');
 include('satellite_array.php');
 
-
+/* calculate unit NW */
 $unit_networth = 0;
 foreach($units as $key => $unit){
 	$units_owned = get_user_meta($user_ID, $key.'_owned',true);
-	if($units_owned > 0){
-	$unit_networth+= $units_owned*$unit['price']*($unit['networth']/100);}
 	
-}
+		if($units_owned > 0){
+			$unit_networth+= $units_owned*$unit['price']*($unit['networth']/100);
+			}
+	} // End calculate unit NW
 
+/* calculate missile NW */
 $missile_networth = 0;
 foreach($missiles as $key => $missile){
 	$missiles_owned = get_user_meta($user_ID, $key.'_owned');
-	if($missiles_owned > 0){
-	$missile_networth+= $missiles_owned[0]*$missile['price']*($missile['networth']/100);}
 	
-}
+		if($missiles_owned > 0){
+			$missile_networth+= $missiles_owned[0]*$missile['price']*($missile['networth']/100);
+			}
+	} // End calculate missile NW
 
 $building_networth 	= 0;
 $totalbuildings 	= 0;
 $used_power 		= 0;
 $power_production 	= 0;
 
-$PPE_level = get_user_meta($user_ID, 'level_powerplant_efficiency')[0];
-	$PPE_multi = 1;
+$PPE_level = get_user_meta($user_ID, 'level_powerplant_efficiency',true);
+$PPE_multi = 1;
+	
 	if($PPE_level == 1){
 		$PPE_multi = 1.5;
 		}
 
+/* calculate building NW */
 foreach($buildings as $key => $building){
 	$buildings_owned = get_user_meta($user_ID, $key,true);
-	if($buildings_owned > 0){
-	$totalbuildings+=$buildings_owned;
-	$building_networth+= $buildings_owned*$building['price']*($building['networth']/100);
-	$power_production+=$building['powerprod']*$buildings_owned;
-	$used_power+=$building['power']*$buildings_owned;}
-}
+	
+		if($buildings_owned > 0){
+			$totalbuildings+=$buildings_owned;
+			$building_networth+= $buildings_owned*$building['price']*($building['networth']/100);
+			$power_production+=$building['powerprod']*$buildings_owned;
+			$used_power+=$building['power']*$buildings_owned;
+			}
+	} // End calculate building NW
 
 
 
@@ -674,18 +690,22 @@ foreach ($emps as $emp) {
 }
 
 
+
 if($power_production > 0){
-	update_user_meta( $user_ID,'power',$used_power/($power_production*$PPE_multi)*100);}
+		update_user_meta( $user_ID,'power',$used_power/($power_production*$PPE_multi)*100);
+		}
 	else{
-	update_user_meta( $user_ID,'power',$used_power*100);
+		update_user_meta( $user_ID,'power',$used_power*100);
 	}
-}
+
 
 $power = get_user_meta($user_ID, 'power', true);
-update_user_meta( $user_ID,'power',$power+$empReduction);
+update_user_meta($user_ID,'power',$power+$empReduction);
+
+
+
 
 $status = get_user_meta($user_ID, 'status', true);
-
 
 if($status == 'online'){
 
@@ -703,6 +723,9 @@ if($status == 'online'){
 		}
 		}
 	}
+	
+} // end empty user ID check
+
 } // end count stats 
 
 

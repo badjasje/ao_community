@@ -2188,3 +2188,396 @@ New Money: 1380356.9 New Turns: 75
 User ID: 761 Event ID: 222647
 New Money: 500374.85 New Turns: 101
 
+User ID: 675 Event ID: 236389
+New Money: 252949.45 New Turns: 193
+
+User ID: 676 Event ID: 236390
+New Money: 286200 New Turns: 236
+
+User ID: 678 Event ID: 236391
+New Money: 271100 New Turns: 182
+
+User ID: 997 Event ID: 236393
+New Money: 745000 New Turns: 253
+
+User ID: 675 Event ID: 236499
+New Money: 507866.45 New Turns: 227
+
+User ID: 676 Event ID: 236500
+New Money: 518600 New Turns: 286
+
+User ID: 575 Event ID: 236394
+New Money: 332351.4555 New Turns: 66
+
+User ID: 575 Event ID: 236504
+New Money: 832351.4555 New Turns: 141
+
+User ID: 678 Event ID: 236501
+New Money: 651100 New Turns: 245
+
+User ID: 997 Event ID: 236503
+New Money: 739600 New Turns: 287
+
+User ID: 674 Event ID: 236388
+New Money: 606000 New Turns: 139
+
+User ID: 674 Event ID: 236498
+New Money: 1106000 New Turns: 214
+
+User ID: 712 Event ID: 236740
+New Money: 362526.4 New Turns: 146
+
+User ID: 575 Event ID: 236830
+New Money: 572434.9555 New Turns: 146
+
+User ID: 674 Event ID: 236824
+New Money: 1636000 New Turns: 296
+
+User ID: 678 Event ID: 236827
+New Money: 562871 New Turns: 258
+
+User ID: 675 Event ID: 236825
+New Money: 538009.78 New Turns: 174
+
+User ID: 997 Event ID: 236829
+New Money: 655083 New Turns: 292
+
+User ID: 257 Event ID: 237032
+New Money: 252025.75 New Turns: 174
+
+User ID: 575 Event ID: 237047
+New Money: 918744.9555 New Turns: 197
+
+User ID: 678 Event ID: 237044
+New Money: 501908.9 New Turns: 269
+
+User ID: 590 Event ID: 236738
+New Money: 358548.37 New Turns: 97
+
+User ID: 675 Event ID: 237042
+New Money: 548044.78 New Turns: 224
+
+User ID: 675 Event ID: 237064
+New Money: 1048044.78 New Turns: 299
+
+User ID: 575 Event ID: 237069
+New Money: 865032.4555 New Turns: 204
+
+User ID: 675 Event ID: 237077
+New Money: 1548044.78 New Turns: 374
+
+User ID: 575 Event ID: 237082
+New Money: 1365032.4555 New Turns: 279
+
+User ID: 590 Event ID: 236959
+New Money: 858548.37 New Turns: 172
+
+User ID: 614 Event ID: 236739
+New Money: 252933 New Turns: 161
+
+User ID: 997 Event ID: 237046
+New Money: 1033604 New Turns: 348
+
+User ID: 997 Event ID: 237068
+New Money: 506454 New Turns: 226
+
+User ID: 997 Event ID: 237081
+New Money: 529204 New Turns: 255
+
+User ID: 433 Event ID: 236737
+New Money: 294881.98 New Turns: 203
+
+User ID: 433 Event ID: 236958
+New Money: 794881.98 New Turns: 278
+
+User ID: 575 Event ID: 237170
+New Money: 511445.0145 New Turns: 132
+
+User ID: 997 Event ID: 237169
+New Money: 519455 New Turns: 273
+
+User ID: 712 Event ID: 236961
+New Money: 591619.2 New Turns: 190
+
+User ID: 674 Event ID: 237041
+New Money: 2120600 New Turns: 343
+
+User ID: 674 Event ID: 237063
+New Money: 2620600 New Turns: 418
+
+User ID: 674 Event ID: 237076
+New Money: 3120600 New Turns: 493
+
+User ID: 674 Event ID: 237164
+New Money: 3620600 New Turns: 568
+
+User ID: 575 Event ID: 237226
+New Money: 521865.0145 New Turns: 176
+
+User ID: 676 Event ID: 236826
+New Money: 715000 New Turns: 253
+
+User ID: 676 Event ID: 237043
+New Money: 715000 New Turns: 328
+
+User ID: 997 Event ID: 237225
+New Money: 679884 New Turns: 300
+
+User ID: 367 Event ID: 237035
+New Money: 602796 New Turns: 182
+
+User ID: 674 Event ID: 237220
+New Money: 4135600 New Turns: 643
+
+User ID: 676 Event ID: 237065
+New Money: 1215000 New Turns: 403
+
+User ID: 676 Event ID: 237078
+New Money: 715000 New Turns: 478
+
+User ID: 575 Event ID: 237364
+New Money: 500774.0145 New Turns: 219
+
+User ID: 678 Event ID: 237066
+New Money: 528978.9 New Turns: 283
+
+User ID: 678 Event ID: 237079
+New Money: 510578.9 New Turns: 301
+
+User ID: 678 Event ID: 237167
+New Money: 500128.9 New Turns: 335
+
+User ID: 678 Event ID: 237223
+New Money: 589278.9 New Turns: 377
+
+User ID: 678 Event ID: 237361
+New Money: 713028.9 New Turns: 422
+
+User ID: 674 Event ID: 237358
+New Money: 4650600 New Turns: 718
+
+User ID: 676 Event ID: 237166
+New Money: 730000 New Turns: 553
+
+User ID: 676 Event ID: 237222
+New Money: 1230000 New Turns: 628
+
+User ID: 676 Event ID: 237360
+New Money: 1730000 New Turns: 703
+
+User ID: 675 Event ID: 237359
+New Money: 756309.78 New Turns: 335
+
+User ID: 675 Event ID: 237221
+New Money: 1256309.78 New Turns: 410
+
+User ID: 675 Event ID: 237165
+New Money: 1756309.78 New Turns: 485
+
+User ID: 317 Event ID: 237033
+New Money: 455759 New Turns: 270
+
+User ID: 590 Event ID: 237399
+New Money: 521476.37 New Turns: 169
+
+User ID: 997 Event ID: 237363
+New Money: 522684 New Turns: 279
+
+User ID: 60 Event ID: 236736
+New Money: 334400 New Turns: 122
+
+User ID: 60 Event ID: 236957
+New Money: 520900 New Turns: 166
+
+User ID: 60 Event ID: 237397
+New Money: 502000 New Turns: 181
+
+User ID: 743 Event ID: 236392
+New Money: 589000 New Turns: 155
+
+User ID: 997 Event ID: 237723
+New Money: 849294 New Turns: 246
+
+User ID: 678 Event ID: 237721
+New Money: 578772.9 New Turns: 408
+
+User ID: 313 Event ID: 237030
+New Money: 457225 New Turns: 169
+
+User ID: 575 Event ID: 237724
+New Money: 503149.0145 New Turns: 254
+
+User ID: 676 Event ID: 237720
+New Money: 705960 New Turns: 680
+
+User ID: 674 Event ID: 237718
+New Money: 2880600 New Turns: 623
+
+User ID: 316 Event ID: 237034
+New Money: 259869 New Turns: 229
+
+User ID: 312 Event ID: 237031
+New Money: 253702 New Turns: 160
+
+User ID: 257 Event ID: 237929
+New Money: 535081.9 New Turns: 153
+
+User ID: 367 Event ID: 237932
+New Money: 519520 New Turns: 155
+
+User ID: 313 Event ID: 237927
+New Money: 713515 New Turns: 125
+
+User ID: 614 Event ID: 236960
+New Money: 1175000 New Turns: 240
+
+User ID: 614 Event ID: 237400
+New Money: 1675000 New Turns: 315
+
+User ID: 433 Event ID: 237398
+New Money: 1070000 New Turns: 321
+
+User ID: 248 Event ID: 236741
+New Money: 251750 New Turns: 210
+
+User ID: 248 Event ID: 236962
+New Money: 515750 New Turns: 245
+
+User ID: 248 Event ID: 237402
+New Money: 513750 New Turns: 225
+
+User ID: 575 Event ID: 244129
+New Money: 648735 New Turns: 59
+
+User ID: 743 Event ID: 244127
+New Money: 3379840 New Turns: 68
+
+User ID: 997 Event ID: 244128
+New Money: 467584 New Turns: 52
+
+User ID: 674 Event ID: 244123
+New Money: 519494 New Turns: 52
+
+User ID: 997 Event ID: 244505
+New Money: 672994 New Turns: 92
+
+User ID: 743 Event ID: 244504
+New Money: 4514366.4 New Turns: 78
+
+User ID: 60 Event ID: 244627
+New Money: 252231.9025 New Turns: 225
+
+User ID: 29 Event ID: 244968
+New Money: 354781.9 New Turns: 279
+
+User ID: 676 Event ID: 244125
+New Money: 333820 New Turns: 333
+
+User ID: 575 Event ID: 244506
+New Money: 620735 New Turns: 192
+
+User ID: 678 Event ID: 244126
+New Money: 384418.15 New Turns: 205
+
+User ID: 402 Event ID: 244967
+New Money: 266232 New Turns: 275
+
+User ID: 522 Event ID: 244970
+New Money: 337168 New Turns: 222
+
+User ID: 308 Event ID: 244965
+New Money: 579693 New Turns: 165
+
+User ID: 344 Event ID: 244966
+New Money: 338493 New Turns: 174
+
+User ID: 433 Event ID: 244628
+New Money: 294997 New Turns: 368
+
+User ID: 675 Event ID: 244124
+New Money: 461271.885 New Turns: 200
+
+User ID: 675 Event ID: 244501
+New Money: 511271.885 New Turns: 232
+
+User ID: 678 Event ID: 244503
+New Money: 687757.15 New Turns: 246
+
+User ID: 368 Event ID: 244971
+New Money: 451694.5 New Turns: 151
+
+User ID: 614 Event ID: 244630
+New Money: 252386 New Turns: 293
+
+User ID: 257 Event ID: 245971
+New Money: 259975 New Turns: 357
+
+User ID: 1051 Event ID: 245975
+New Money: 258892.5 New Turns: 358
+
+User ID: 308 Event ID: 245985
+New Money: 651961 New Turns: 160
+
+User ID: 433 Event ID: 246021
+New Money: 528254 New Turns: 218
+
+User ID: 60 Event ID: 246020
+New Money: 813022.6525 New Turns: 82
+
+User ID: 248 Event ID: 244632
+New Money: 313936.5 New Turns: 156
+
+User ID: 315 Event ID: 246014
+New Money: 252658.62 New Turns: 202
+
+User ID: 522 Event ID: 245990
+New Money: 577687 New Turns: 187
+
+User ID: 674 Event ID: 244500
+New Money: 525494 New Turns: 181
+
+User ID: 575 Event ID: 246250
+New Money: 501301 New Turns: 166
+
+User ID: 676 Event ID: 244502
+New Money: 536915 New Turns: 329
+
+User ID: 367 Event ID: 245974
+New Money: 629381.5 New Turns: 174
+
+User ID: 368 Event ID: 245991
+New Money: 600764.5 New Turns: 233
+
+User ID: 997 Event ID: 246249
+New Money: 503494 New Turns: 243
+
+User ID: 257 Event ID: 246656
+New Money: 681768.7 New Turns: 289
+
+User ID: 675 Event ID: 246245
+New Money: 519271.885 New Turns: 259
+
+User ID: 1079 Event ID: 244633
+New Money: 254592.5 New Turns: 168
+
+User ID: 1079 Event ID: 246026
+New Money: 754592.5 New Turns: 243
+
+User ID: 402 Event ID: 245987
+New Money: 1058039 New Turns: 190
+
+User ID: 29 Event ID: 245988
+New Money: 518767 New Turns: 143
+
+User ID: 761 Event ID: 246019
+New Money: 250825.08 New Turns: 68
+
+User ID: 712 Event ID: 244631
+New Money: 866818.25 New Turns: 333
+
+User ID: 712 Event ID: 246024
+New Money: 1366818.25 New Turns: 408
+
+User ID: 678 Event ID: 246247
+New Money: 567600.2315 New Turns: 289
+

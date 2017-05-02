@@ -75,10 +75,7 @@ get_header('home'); ?>
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	            
-	            <div class="alert alert-warning alert-dismissible blue_alert" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-				<strong>Display problems?</strong> Clean your cache!
-			</div>
+	        
 <div class="row">
 	<div class="col-md-12">
 		<?php if(!empty($_SESSION['status'])):?>
@@ -234,7 +231,7 @@ get_header('home'); ?>
 					$timeleft = date('H:i:s', $timeleft); ?>
 						
 					Protection time left: <span id="countdown_time"></span>
-					<?php if($timer_left < 43200){?>
+					<?php if($timer_left < 86400){?>
 						<a onclick="return confirm('Are you sure you want to remove protection?')" class="btn btn-danger" href="/remove_np.php/?user=<?php echo $user_ID;?>">
 						<i class="fa fa-trash-o fa-lg"></i> Remove Protection</a>
 					<?php }?>
@@ -340,8 +337,8 @@ get_header('home'); ?>
 <div classs="row">	
 	<div class="col-md-12">
 		<div class="notice_message">
-			Current round date: 25th of April - 25th of May 2017. 
-				<span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on the 25th of May 2017, at a random time." data-placement="right">
+			Current round date: 25th of April - 30th of May 2017. 
+				<span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on the 30th of May 2017, at a random time." data-placement="right">
 					<i class="fa fa-info-circle" aria-hidden="true"></i>
 				</span>
 		</div>

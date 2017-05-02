@@ -65,7 +65,7 @@ get_header('profile'); ?>
 		<center>
 		
 			<div style='border-radius:100%;margin-bottom:20px;height:120px;width:120px;'>
-				<?php echo small_avatar($user->ID,'largeAvatar');?>
+				<?php echo small_avatar($user__ID,'largeAvatar');?>
 			</div>	
 		
 		</center>

@@ -91,6 +91,14 @@ get_header('clan'); ?>
 			<h4 class="list-group-item-heading"><i class="fa fa-usd" aria-hidden="true"></i> Send aid</h4>
   			</a>
   			
+  			<?php if($clan_leader != $user_ID):?>
+  			
+  			<a onclick="return confirm('Are you sure you want to leave your clan?')" href="/leave.php/?user=<?php echo $user_ID;?>" class="list-group-item">
+			<h4 class="list-group-item-heading"><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i> Leave clan</h4>
+  			</a>
+  			
+  			<?php endif;?>
+  			
   			<?php if($clan_leader == $user_ID):?>
   			
   			<a onclick="return confirm('Are you sure you want to delete your clan?')" href="/delete.php/?clan=<?php echo $clan_id_user;?>" class="list-group-item">
