@@ -24,7 +24,7 @@ function small_avatar($user_ID,$type){
 	
 	if(!empty($avatar)){
                     
-		return "<div class='setAvatar clan_avatar $addClass' style='background: url(".$avatar.");'></div>";
+		return "<a href='/users/profile/?id=$user_ID'><div class='setAvatar clan_avatar $addClass' style='background: url(".$avatar.");'></div></a>";
 		
 		}
 		
@@ -115,7 +115,7 @@ function small_avatar($user_ID,$type){
 		
 		}
 		
-		return "<div class='clan_avatar smallAvatar $addClass' style='background-color:$color;'>$frstLetter</div>";
+		return "<a href='/users/profile/?id=$user_ID'><div class='clan_avatar smallAvatar $addClass' style='background-color:$color;'>$frstLetter</div></a>";
 						
 			
 		
