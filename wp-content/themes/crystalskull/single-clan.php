@@ -74,6 +74,9 @@ get_header(); ?>
 <div class="blog blog-ind">
 	<div class="container ">
 	<div class="row">
+		<?php if(!empty($_SESSION['status'])):?>
+					<?php echo alert_notification($_SESSION['status']);?>
+				<?php endif; // End empty status check ?>
 		
 	<?php 
 		
@@ -248,7 +251,14 @@ get_header(); ?>
 		
 	</div>
 	<div class="col-md-4 clan_column center_clan_col border_bottom_mobile">
-		
+		<div class="ctclField">
+			<?php if($member == $clanleader ){
+			echo '<strong>CL</strong>';
+			} ?>
+			<?php if($member == $ct_1 || $member == $ct_2 || $member == $ct_3 || $member == $ct_4 ){
+				echo '<strong>CT</strong>';
+			} ?>
+			</div>
 		<a class="<?php echo get_user_meta($member,'status',true);?>" href="/users/profile/?id=<?php echo $member;?>">
 			<?php echo $member_data->display_name.' (#'.$member.')';?></a> 
 			<?php if(!empty($last_online)){
@@ -257,12 +267,6 @@ get_header(); ?>
 						}
 					}?>
 					
-		<?php if($member == $clanleader ){
-			echo '<strong> CL</strong>';
-			} ?>
-		<?php if($member == $ct_1 || $member == $ct_2 || $member == $ct_3 || $member == $ct_4 ){
-				echo '<strong> CT</strong>';
-			} ?>
 			
 			
 	</div>
@@ -429,8 +433,16 @@ get_header(); ?>
 		
 	</div>
 	<div class="col-md-4 clan_column center_clan_col border_bottom_mobile">
-		
+		<div class="ctclField">
+			<?php if($member == $clanleader ){
+			echo '<strong>CL</strong>';
+			} ?>
+			<?php if($member == $ct_1 || $member == $ct_2 || $member == $ct_3 || $member == $ct_4 ){
+				echo '<strong>CT</strong>';
+			} ?>
+			</div>
 		<a class="<?php echo get_user_meta($member,'status',true);?>" href="/users/profile/?id=<?php echo $member;?>">
+			
 			<?php echo $member_data->display_name.' (#'.$member.')';?></a> 
 			<?php if(!empty($last_online)){
 					if($last_seen < 7200 && !empty($last_online[0])){
@@ -438,12 +450,7 @@ get_header(); ?>
 						}
 					}?>
 					
-		<?php if($member == $clanleader ){
-			echo '<strong> CL</strong>';
-			} ?>
-		<?php if($member == $ct_1 || $member == $ct_2 || $member == $ct_3 || $member == $ct_4 ){
-				echo '<strong> CT</strong>';
-			} ?>
+		
 			
 			
 	</div>
@@ -542,5 +549,5 @@ get_header(); ?>
 	</div><!-- /row -->
 	</div>
 </div><!-- /containerblog -->
-
+<?php session_unset(); ?>
 <?php get_footer(); ?>

@@ -1224,3 +1224,13 @@ border_bottom_mobile{
 }
 .container-outer { border:1px solid #ddd;overflow-x: scroll; overflow-y: hidden; height: 500px; }
 .container-inner { height: 500px; background-color: #2d4350;}
+.textNotify{
+	border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+.ctclField{
+	width:20px;
+	display: inline-block;
+}
