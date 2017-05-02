@@ -13,7 +13,26 @@ $ct_2 = get_post_meta($clan_id_user,'ct_2',true);
 $ct_3 = get_post_meta($clan_id_user,'ct_3',true);
 $ct_4 = get_post_meta($clan_id_user,'ct_4',true);
  
- $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clan_leader);
+$allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clan_leader);
+
+$clans = get_posts(array(
+	'numberposts'	=> -1,
+	'post_type'		=> 'clan',
+	'meta_key'		=> 'autojoin_allowed',
+	'meta_value'	=> 'yes'
+));
+
+$clanCount = 0;
+
+foreach ($clans as $clan) { 
+	
+	$members = count(get_post_meta($clan->ID,'clan_members',true));
+	
+	if($members < 7){
+		$clanCount++;
+	}
+}
+
 get_header('clan'); ?>
 <div class="page normal-page">
      <div class="container">
@@ -55,7 +74,27 @@ get_header('clan'); ?>
 	<span class="rdw-line">You already created a clan this round.</span>
 </div>
 <br/>
+
+
 <?php endif;?>
+
+<div class="row textNotify">
+	<div class="col-md-12">
+ 	<center><span class="rdw-line">Join a clan to get the full assault.online experience.</span> <span class="rdw-line">
+ 	<?php echo $clanCount;?> clan<?php if($clanCount == 0 || $clanCount > 1){ echo 's';}?> currently looking for players.</span></center><br/>
+</div>
+ 	<div class="col-md-4">
+	</div>
+	
+	<div class="col-md-4">
+		<center><a class="btn btn-general profilebutton" href="/join-a-clan/">
+			<i class="fa fa-user-plus" aria-hidden="true"></i> &nbsp;View clans</a></center>
+	</div>
+	
+	<div class="col-md-4">
+	</div>
+  
+</div>
 
 		<?php else:?>
 		

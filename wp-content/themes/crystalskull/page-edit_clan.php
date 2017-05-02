@@ -13,8 +13,41 @@ $user_ID = get_current_user_id();
 
 $changecount = get_post_meta($clan_ID, 'clan_name_change', true);
 $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
- 
- $clan = get_post($clan_ID);
+
+$autojoin = get_post_meta($clan_ID, 'autojoin_allowed', true);
+$autojoinDesc = get_post_meta($clan_ID, 'autojoin_description', true);
+$playstyle = get_post_meta($clan_ID, 'autojoin_playstyle', true);
+
+$casual = '';
+$points = '';
+$networth = '';
+$other = '';
+if($playstyle == 'Casual'){
+	$casual = 'selected="selected"';
+}
+if($playstyle == 'Points'){
+	$points = 'selected="selected"';
+}
+if($playstyle == 'Networth'){
+	$networth = 'selected="selected"';
+}
+if($playstyle == 'Other'){
+	$other = 'selected="selected"';
+}
+
+
+$autojoinYes = '';
+$autojoinNo = '';
+
+if($autojoin == 'yes'){
+	$autojoinYes = 'selected="selected"';
+}
+if($autojoin == 'no'){
+	$autojoinNo = 'selected="selected"';
+}
+
+
+$clan = get_post($clan_ID);
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
@@ -80,6 +113,7 @@ get_header(); ?>
 
 <div class="row edit_clan_first">
 	<div class="col-md-8 edit_clan_box">
+		<h2 class="leftH2">Set clan trustees</h2>
 		<form class="form" action="<?php echo home_url() ?>/clan_trustee.php" name="" id="clan_trustee" method="post">
 		<table class="responsive-table">
 			<thead>
@@ -219,6 +253,7 @@ get_header(); ?>
 				</form>
 	</div>
 	<div class="col-md-4 edit_clan_box">
+		<h2 class="leftH2">Switch clan leader</h2>
 		<form class="form" action="<?php echo home_url() ?>/clan_leader.php" name="" id="clan_leader" method="post">
 		<table class="responsive-table">
 			<thead>
@@ -258,44 +293,61 @@ get_header(); ?>
 		
 		
 	</div>
+	
+	<div class="col-md-6 edit_clan_box">
+
+		<h2 class="leftH2">Message all clan members</h2>
+		<div class="message_field">
+		<form class="form" action="<?php echo home_url() ?>/message_members.php" name="" id="message" method="post">
+			<input style="margin-bottom:10px;"type="text" id="title" required placeholder="Subject" name="title"/>
+			<input type="hidden" name="receiver" value="<?php echo $receiver_ID;?>">
+			​<textarea id="message" required rows="10" name="message" placeholder="Your message..."></textarea>
+			
+				<input class="submitBtn" type="submit" value="Send">
+	
+		</form>
+		<script>
+			jQuery(document).ready(function () {
+			jQuery("#message").submit(function () {
+	        jQuery(".submitBtn").attr("disabled", true);
+	        return true;
+	    	});
+		});
+		</script>
+	</div>
+		
+		
+	</div>
+	<div class="col-md-6 edit_clan_box">
+		<h2 class="leftH2">Allow auto join</h2>
+		<center>Using this function you can easily recruit new clan members</center><br/>
+			<form class="form" action="<?php echo home_url() ?>/set_autojoin.php" name="autojoin" id="autojoin" method="post">
+				<label>Allow players to automatically join your clan?</label>
+				<select name="autojoin">
+					<option <?php echo $autojoinNo;?> value="no">No</option>
+					<option <?php echo $autojoinYes;?> value="yes">Yes</option>
+				</select>
+				<br/><br/><label>A short description of your clan</label>
+				<input style="margin-top:10px;margin-bottom:10px;" type="text" name="description" id="description" value="<?php echo $autojoinDesc;?>" required placeholder="Short description. 'Sell' your clan!" name="description"/>
+				<br/><br/><label>Playstyle or goal of your clan</label>
+				<select name="playstyle">
+					<option <?php echo $casual;?> value="Casual">Casual</option>
+					<option <?php echo $points;?> value="Points">Points</option>
+					<option <?php echo $networth;?> value="Networth">Networth</option>
+					<option <?php echo $other;?> value="Other">Other</option>
+				</select>
+				
+				<input class="submitBtn" type="submit" value="Save">
+			</form>
+	</div>
+		
+	
+	
+	
 </div>
 <?php endif;?>
-<?php if(in_array($user_ID, $allowed)):?>			
-				
-			<center>
-			<h2>Message all members</h2>
-		</center>
 
-
-		<form action="<?php echo home_url() ?>/message_members.php" class="form" id="message" method="post" name="">
-			<table style="margin-left:auto;margin-right:auto;max-width:450px;">
-				<tr>
-					<td>
-						<center>
-							<input id="title" name="title" placeholder="Subject" style="width:95%;" type="text">
-						</center>
-					</td>
-				</tr>
-
-
-				<tr>
-					<td>
-						<center>
-							​ 
-
-							<textarea cols="70" id="message" name="message" placeholder="Your message..." rows="10" style="width:95%;"></textarea>
-						</center>
-					</td>
-				</tr>
-			</table>
-
-
-			<center>
-				<input type="submit" value="Send message to all">
-			</center>
-		</form>
-			
-			<?php endif;?><?php endif;?>
+<?php endif;?>
 
             
             </div>
