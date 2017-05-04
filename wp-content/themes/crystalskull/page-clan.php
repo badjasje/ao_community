@@ -60,7 +60,7 @@ get_header('clan'); ?>
 			
 		<input type="submit"  class="submitBtn" value="Create your clan" class="">
 		</form>
-		
+		<br/>
 		<script>
 			jQuery(document).ready(function () {
 			jQuery("#clan").submit(function () {
