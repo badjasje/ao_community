@@ -510,12 +510,12 @@ function after_death( $user_id ) {
 		update_user_meta($user_id, 'moab_ordered', 0);
 
 		// SET STATS after death
-		update_user_meta($user_id, 'money', 4500000);
+		update_user_meta($user_id, 'money', 450000);
 		update_user_meta($user_id, 'sold_land_today', 0);
 		update_user_meta($user_id, 'explored_today', 0);
-		update_user_meta($user_id, 'turns', 350);
+		update_user_meta($user_id, 'turns', 200);
 		update_user_meta($user_id, 'networth', 0);
-		update_user_meta($user_id, 'land', 4000);
+		update_user_meta($user_id, 'land', 2000);
 		update_user_meta($user_id, 'power', 0);
 		update_user_meta($user_id, 'builtland', 1000);
 		update_user_meta($user_id, 'morale', 0);
