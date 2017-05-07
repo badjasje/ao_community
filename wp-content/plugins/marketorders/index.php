@@ -10,7 +10,139 @@ License: GPL
 Copyright: Kevin Bogaard
 */
 
+function hook_css() {
+$user_ID = get_current_user_id();
+	
+$nightmode = get_user_meta($user_ID, 'nightmode', true);
 
+if($nightmode == 'yes'){
+    ?>
+        <style>
+          .logo img{
+	filter: invert(100%);
+}
+body .navbar-inverse,body .blog{
+	background-color:#5f5d5d;
+}
+.navbar-inverse .nav>li>a{
+	color:#fff;
+}
+.navbar-collapse:after{
+	border-color: #5f5d5d transparent transparent transparent;
+}
+.navbar-collapse:before{
+	border-color: transparent #5f5d5d transparent transparent;
+}
+.after-nav{
+	background-color:#5f5d5d;
+	border-bottom:1px solid #2d4350;
+}
+.list-group-item{
+	background-color:#2d4350;
+	color:#fff;
+	border:0px;
+}
+body .normal-page{
+	background-color:#5f5d5d;
+}
+.build_content,.select2-results{
+	background-color:#8a8a8a;
+}
+
+.status_column {
+    background-color: #8a8a8a;
+    color: #fff;
+    border: 1px solid #2d4350;
+}
+.nav-tabs.nav-justified>li>a{
+	background-color: #2d4350 !important;
+	color:#fff;
+}
+.nav-tabs a{
+	border:0px;
+}
+.status_column a{
+	color: #fff;
+}
+.status_header{
+	background-color: #2d4350;
+	color:#fff;
+}
+.event-row{
+	background-color: #8a8a8a;
+}
+.toplist_block{
+	background-color: #8a8a8a;
+}
+.toplist_block a{
+	color:#fff;
+}
+.button_block,.textNotify,.profile_block {
+    border: 1px solid #2d4350;
+    padding: 10px 5px 8px 5px;
+    background-color: #8a8a8a;
+}
+.textNotify,.profile_block,body{
+	color:#fff;
+}
+.medal_box {
+    background-color: #8a8a8a;
+    color: #fff;
+}
+h2,h4{
+	color:#e4e4e4;
+}
+.responsive-table tbody tr{
+	border: 1px solid #2d4350;
+	background-color:#8a8a8a;
+}
+table tbody tr:nth-child(even){
+	background-color: #8a8a8a;
+}
+.target_info, .single_inbox_message {
+    padding: 20px;
+    background-color: #8a8a8a;
+    border: 1px solid #2d4350;
+    margin-top: 11px;
+}
+.target_info a,.single_inbox_message a{
+	color:#fff;
+}
+table tbody tr td,.responsive-table tbody th[scope="row"],.responsive-table tbody td[data-title]:before{
+	color:#fff;
+}
+.inbox_title a,.responsive-table tbody td a,.h1, h1{
+	color:#fff;
+}
+.clan_column a,.clan_profile_row a,table tbody tr td a{
+	color:#fff;
+}
+.wp-editor-container textarea.wp-editor-area, input[type=file], input[type=password], input[type=password]:active, input[type=password]:focus, input[type=password]:hover, input[type=text], input[type=text]:active, input[type=text]:focus, input[type=text]:hover, select, select:active, select:focus, select:hover, textarea, textarea:active, textarea:focus, textarea:hover{
+	background-color:#2f2f2f;
+	color:#fff;
+}
+.blue_alert{
+	background-color:#2d4350;
+	color:#fff;
+}
+
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #fff;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #fff;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #fff;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #fff;
+}
+</style>
+    <?php
+}}
+add_action('wp_head', 'hook_css');
 
 function small_avatar($user_ID,$type){
 	

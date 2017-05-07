@@ -17,7 +17,6 @@ $PwrUsage 					= get_user_meta($user_ID, 'power',true);
 $AMS 						= get_user_meta($user_ID, 'antimissile', true);
 $def_land 					= get_user_meta($user_ID, 'builtland', true);
 
-
 $level_money_production 	= get_user_meta($user_ID, 'level_money_production',true);
 $sat_level 					= get_user_meta($user_ID, 'level_satellite_construction',true);
 $sat_morale 				= get_user_meta($user_ID, 'sat_morale',true);
@@ -32,6 +31,13 @@ $finance_multi = 1;
 
 if($startingbonus == 'finance'){
 	$finance_multi = 1.1;
+}
+
+/* Check for nightmode */
+$nightmodeChecked = '';
+$nightmode = get_user_meta($user_ID, 'nightmode', true);
+if($nightmode == 'yes'){
+	$nightmodeChecked = 'checked';
 }
 
 
@@ -291,7 +297,7 @@ get_header('home'); ?>
 					<div class="col-xs-6"><?php echo $morale.'% <sup>('.$moralepool.'%)</sup>';?></div>
 				</div>
 				
-				<div class="row profile_row_last">
+				<div class="row profile_row">
 					<div class="col-xs-6"><strong>Starting bonus</strong></div>
 					<div class="col-xs-6">
 					
@@ -305,6 +311,19 @@ get_header('home'); ?>
 					
 					</div>
 				</div>
+				
+				<div class="row profile_row_last">
+					<div class="col-xs-6"><strong>Night mode</strong></div>
+					<div class="col-xs-6">
+						<form class="form"  action="<?php echo home_url() ?>/nightmode.php" name="" id="nightmode" method="post">
+						<label class="switch">
+							<input onChange="this.form.submit()" <?php echo $nightmodeChecked;?>  type="checkbox">
+							<div class="slider round"></div>
+						</label>
+						</form>
+					</div>
+				</div>
+
 				
 			</div>
 		</div>
