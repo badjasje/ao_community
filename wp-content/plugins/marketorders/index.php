@@ -89,6 +89,7 @@ body .normal-page{
     background-color: #8a8a8a;
     color: #fff;
 }
+
 h2,h4{
 	color:#e4e4e4;
 }
@@ -114,8 +115,11 @@ table tbody tr td,.responsive-table tbody th[scope="row"],.responsive-table tbod
 .inbox_title a,.responsive-table tbody td a,.h1, h1{
 	color:#fff;
 }
-.clan_column a,.clan_profile_row a,table tbody tr td a{
+.clan_column a,.clan_profile_row a,table tbody tr td a,.event-row a,.close{
 	color:#fff;
+}
+.close{
+	opacity: 0.8;
 }
 .wp-editor-container textarea.wp-editor-area, input[type=file], input[type=password], input[type=password]:active, input[type=password]:focus, input[type=password]:hover, input[type=text], input[type=text]:active, input[type=text]:focus, input[type=text]:hover, select, select:active, select:focus, select:hover, textarea, textarea:active, textarea:focus, textarea:hover{
 	background-color:#2f2f2f;

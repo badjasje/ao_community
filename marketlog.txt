@@ -24442,3 +24442,2544 @@ Units ordered: 34
 ID: 234
 Units ordered: 1000
 
+ID: 253
+Units ordered: 5
+
+ID: 678
+Units ordered: 300
+
+ID: 678
+Units ordered: 40
+
+ID: 575
+Units ordered: 220
+
+ID: 761
+Units ordered: 42
+
+ID: 761
+Units ordered: 33
+
+ID: 575
+Units ordered: 200
+
+ID: 575
+Units ordered: 200
+
+ID: 761
+Units ordered: 30
+
+ID: 575
+Units ordered: 118
+
+ID: 316
+Units ordered: 84
+
+ID: 367
+Units ordered: 106
+
+ID: 367
+Units ordered: 216
+
+ID: 367
+Units ordered: 382
+
+ID: 220
+Units ordered: 86
+
+ID: 316
+Units ordered: 113
+
+ID: 1051
+Units ordered: 186
+
+ID: 761
+Units ordered: 9
+
+ID: 220
+Units ordered: 1982
+
+ID: 713
+Units ordered: 195
+
+ID: 406
+Units ordered: 83
+
+ID: 220
+Units ordered: 1982
+
+ID: 220
+Units ordered: 1982
+
+ID: 220
+Units ordered: 1661
+
+ID: 315
+Units ordered: 264
+
+ID: 220
+Units ordered: 321
+
+ID: 316
+Units ordered: 134
+
+ID: 313
+Units ordered: 452
+
+ID: 504
+Units ordered: 169
+
+ID: 1078
+Units ordered: 75
+
+ID: 488
+Units ordered: 1938
+
+ID: 220
+Units ordered: 2323
+
+ID: 220
+Units ordered: 904
+
+ID: 220
+Units ordered: 70
+
+ID: 220
+Units ordered: 1982
+
+ID: 234
+Units ordered: 2638
+
+ID: 220
+Units ordered: 20
+
+ID: 234
+Units ordered: 132
+
+ID: 234
+Units ordered: 744
+
+ID: 102
+Units ordered: 1162
+
+ID: 234
+Units ordered: 399
+
+ID: 102
+Units ordered: 358
+
+ID: 433
+Units ordered: 130
+
+ID: 102
+Units ordered: 300
+
+ID: 220
+Units ordered: 904
+
+ID: 102
+Units ordered: 97
+
+ID: 257
+Units ordered: 496
+
+ID: 475
+Units ordered: 4000
+
+ID: 1095
+Units ordered: 54
+
+ID: 457
+Units ordered: 2145
+
+ID: 457
+Units ordered: 1174
+
+ID: 487
+Units ordered: 3928
+
+ID: 749
+Units ordered: 20
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 5
+
+ID: 749
+Units ordered: 5
+
+ID: 749
+Units ordered: 5
+
+ID: 749
+Units ordered: 5
+
+ID: 749
+Units ordered: 5
+
+ID: 464
+Units ordered: 20
+
+ID: 464
+Units ordered: 333
+
+ID: 464
+Units ordered: 111
+
+ID: 317
+Units ordered: 964
+
+ID: 248
+Units ordered: 28
+
+ID: 643
+Units ordered: 121
+
+ID: 340
+Units ordered: 279
+
+ID: 257
+Units ordered: 150
+
+ID: 406
+Units ordered: 80
+
+ID: 713
+Units ordered: 350
+
+ID: 713
+Units ordered: 100
+
+ID: 457
+Units ordered: 4091
+
+ID: 313
+Units ordered: 1170
+
+ID: 313
+Units ordered: 800
+
+ID: 504
+Units ordered: 71
+
+ID: 316
+Units ordered: 105
+
+ID: 257
+Units ordered: 271
+
+ID: 433
+Units ordered: 16
+
+ID: 487
+Units ordered: 2650
+
+ID: 614
+Units ordered: 30
+
+ID: 575
+Units ordered: 170
+
+ID: 316
+Units ordered: 15
+
+ID: 37
+Units ordered: 78
+
+ID: 678
+Units ordered: 500
+
+ID: 1081
+Units ordered: 65
+
+ID: 714
+Units ordered: 114
+
+ID: 759
+Units ordered: 77
+
+ID: 1050
+Units ordered: 62
+
+ID: 761
+Units ordered: 52
+
+ID: 761
+Units ordered: 79
+
+ID: 316
+Units ordered: 177
+
+ID: 316
+Units ordered: 133
+
+ID: 316
+Units ordered: 35
+
+ID: 248
+Units ordered: 26
+
+ID: 316
+Units ordered: 189
+
+ID: 316
+Units ordered: 226
+
+ID: 316
+Units ordered: 77
+
+ID: 714
+Units ordered: 979
+
+ID: 714
+Units ordered: 200
+
+ID: 257
+Units ordered: 190
+
+ID: 257
+Units ordered: 191
+
+ID: 316
+Units ordered: 21
+
+ID: 575
+Units ordered: 17
+
+ID: 678
+Units ordered: 89
+
+ID: 575
+Units ordered: 500
+
+ID: 675
+Units ordered: 100
+
+ID: 675
+Units ordered: 100
+
+ID: 575
+Units ordered: 247
+
+ID: 475
+Units ordered: 3150
+
+ID: 234
+Units ordered: 1521
+
+ID: 475
+Units ordered: 2789
+
+ID: 475
+Units ordered: 170
+
+ID: 1084
+Units ordered: 10
+
+ID: 1084
+Units ordered: 10
+
+ID: 504
+Units ordered: 65
+
+ID: 312
+Units ordered: 145
+
+ID: 714
+Units ordered: 153
+
+ID: 457
+Units ordered: 1926
+
+ID: 675
+Units ordered: 100
+
+ID: 675
+Units ordered: 100
+
+ID: 675
+Units ordered: 100
+
+ID: 675
+Units ordered: 76
+
+ID: 1020
+Units ordered: 150
+
+ID: 1020
+Units ordered: 108
+
+ID: 37
+Units ordered: 75
+
+ID: 248
+Units ordered: 60
+
+ID: 248
+Units ordered: 60
+
+ID: 367
+Units ordered: 420
+
+ID: 257
+Units ordered: 129
+
+ID: 60
+Units ordered: 43
+
+ID: 315
+Units ordered: 74
+
+ID: 316
+Units ordered: 64
+
+ID: 37
+Units ordered: 254
+
+ID: 1078
+Units ordered: 103
+
+ID: 315
+Units ordered: 246
+
+ID: 312
+Units ordered: 180
+
+ID: 678
+Units ordered: 144
+
+ID: 312
+Units ordered: 700
+
+ID: 312
+Units ordered: 190
+
+ID: 60
+Units ordered: 9
+
+ID: 457
+Units ordered: 2521
+
+ID: 1078
+Units ordered: 62
+
+ID: 368
+Units ordered: 252
+
+ID: 248
+Units ordered: 8
+
+ID: 248
+Units ordered: 30
+
+ID: 248
+Units ordered: 5
+
+ID: 43
+Units ordered: 60
+
+ID: 487
+Units ordered: 649
+
+ID: 1095
+Units ordered: 20
+
+ID: 1095
+Units ordered: 20
+
+ID: 641
+Units ordered: 154
+
+ID: 313
+Units ordered: 160
+
+ID: 749
+Units ordered: 100
+
+ID: 749
+Units ordered: 80
+
+ID: 43
+Units ordered: 24
+
+ID: 433
+Units ordered: 188
+
+ID: 220
+Units ordered: 3334
+
+ID: 220
+Units ordered: 461
+
+ID: 433
+Units ordered: 233
+
+ID: 248
+Units ordered: 50
+
+ID: 248
+Units ordered: 15
+
+ID: 248
+Units ordered: 40
+
+ID: 678
+Units ordered: 365
+
+ID: 406
+Units ordered: 35
+
+ID: 678
+Units ordered: 49
+
+ID: 313
+Units ordered: 75
+
+ID: 1051
+Units ordered: 138
+
+ID: 1051
+Units ordered: 20
+
+ID: 678
+Units ordered: 320
+
+ID: 464
+Units ordered: 500
+
+ID: 464
+Units ordered: 99
+
+ID: 464
+Units ordered: 99
+
+ID: 464
+Units ordered: 66
+
+ID: 464
+Units ordered: 10
+
+ID: 464
+Units ordered: 3
+
+ID: 749
+Units ordered: 30
+
+ID: 257
+Units ordered: 360
+
+ID: 367
+Units ordered: 44
+
+ID: 464
+Units ordered: 300
+
+ID: 614
+Units ordered: 100
+
+ID: 614
+Units ordered: 66
+
+ID: 253
+Units ordered: 150
+
+ID: 315
+Units ordered: 136
+
+ID: 475
+Units ordered: 575
+
+ID: 475
+Units ordered: 375
+
+ID: 575
+Units ordered: 61
+
+ID: 406
+Units ordered: 184
+
+ID: 433
+Units ordered: 139
+
+ID: 738
+Units ordered: 24
+
+ID: 504
+Units ordered: 174
+
+ID: 1095
+Units ordered: 59
+
+ID: 749
+Units ordered: 15
+
+ID: 749
+Units ordered: 4
+
+ID: 749
+Units ordered: 63
+
+ID: 43
+Units ordered: 36
+
+ID: 317
+Units ordered: 370
+
+ID: 433
+Units ordered: 3
+
+ID: 1048
+Units ordered: 50
+
+ID: 1048
+Units ordered: 50
+
+ID: 1048
+Units ordered: 25
+
+ID: 749
+Units ordered: 3
+
+ID: 1078
+Units ordered: 80
+
+ID: 1050
+Units ordered: 20
+
+ID: 43
+Units ordered: 18
+
+ID: 37
+Units ordered: 195
+
+ID: 433
+Units ordered: 27
+
+ID: 367
+Units ordered: 38
+
+ID: 367
+Units ordered: 42
+
+ID: 60
+Units ordered: 47
+
+ID: 504
+Units ordered: 56
+
+ID: 714
+Units ordered: 1344
+
+ID: 241
+Units ordered: 200
+
+ID: 241
+Units ordered: 400
+
+ID: 241
+Units ordered: 2
+
+ID: 241
+Units ordered: 1
+
+ID: 241
+Units ordered: 2
+
+ID: 241
+Units ordered: 50
+
+ID: 312
+Units ordered: 306
+
+ID: 312
+Units ordered: 85
+
+ID: 367
+Units ordered: 144
+
+ID: 220
+Units ordered: 4139
+
+ID: 1050
+Units ordered: 5
+
+ID: 1050
+Units ordered: 76
+
+ID: 60
+Units ordered: 29
+
+ID: 749
+Units ordered: 46
+
+ID: 368
+Units ordered: 458
+
+ID: 575
+Units ordered: 700
+
+ID: 575
+Units ordered: 600
+
+ID: 433
+Units ordered: 82
+
+ID: 1020
+Units ordered: 230
+
+ID: 1020
+Units ordered: 3
+
+ID: 1020
+Units ordered: 60
+
+ID: 1020
+Units ordered: 32
+
+ID: 433
+Units ordered: 140
+
+ID: 433
+Units ordered: 39
+
+ID: 315
+Units ordered: 80
+
+ID: 253
+Units ordered: 90
+
+ID: 253
+Units ordered: 52
+
+ID: 60
+Units ordered: 23
+
+ID: 475
+Units ordered: 305
+
+ID: 248
+Units ordered: 89
+
+ID: 248
+Units ordered: 7
+
+ID: 1050
+Units ordered: 10
+
+ID: 1095
+Units ordered: 37
+
+ID: 316
+Units ordered: 257
+
+ID: 406
+Units ordered: 61
+
+ID: 749
+Units ordered: 44
+
+ID: 1083
+Units ordered: 2
+
+ID: 43
+Units ordered: 40
+
+ID: 316
+Units ordered: 733
+
+ID: 316
+Units ordered: 268
+
+ID: 1020
+Units ordered: 130
+
+ID: 1020
+Units ordered: 112
+
+ID: 1020
+Units ordered: 97
+
+ID: 1101
+Units ordered: 250
+
+ID: 1101
+Units ordered: 40
+
+ID: 1101
+Units ordered: 111
+
+ID: 475
+Units ordered: 200
+
+ID: 60
+Units ordered: 21
+
+ID: 76
+Units ordered: 800
+
+ID: 76
+Units ordered: 100
+
+ID: 575
+Units ordered: 500
+
+ID: 76
+Units ordered: 50
+
+ID: 60
+Units ordered: 101
+
+ID: 1081
+Units ordered: 764
+
+ID: 686
+Units ordered: 124
+
+ID: 575
+Units ordered: 790
+
+ID: 1052
+Units ordered: 125
+
+ID: 749
+Units ordered: 66
+
+ID: 749
+Units ordered: 3
+
+ID: 316
+Units ordered: 36
+
+ID: 749
+Units ordered: 30
+
+ID: 749
+Units ordered: 30
+
+ID: 749
+Units ordered: 22
+
+ID: 241
+Units ordered: 100
+
+ID: 253
+Units ordered: 30
+
+ID: 253
+Units ordered: 59
+
+ID: 60
+Units ordered: 5
+
+ID: 1125
+Units ordered: 100
+
+ID: 1094
+Units ordered: 2
+
+ID: 1094
+Units ordered: 2
+
+ID: 1094
+Units ordered: 800
+
+ID: 1094
+Units ordered: 90
+
+ID: 316
+Units ordered: 185
+
+ID: 614
+Units ordered: 169
+
+ID: 1081
+Units ordered: 101
+
+ID: 315
+Units ordered: 122
+
+ID: 76
+Units ordered: 650
+
+ID: 76
+Units ordered: 100
+
+ID: 317
+Units ordered: 516
+
+ID: 316
+Units ordered: 124
+
+ID: 749
+Units ordered: 30
+
+ID: 241
+Units ordered: 50
+
+ID: 60
+Units ordered: 5
+
+ID: 504
+Units ordered: 191
+
+ID: 686
+Units ordered: 26
+
+ID: 713
+Units ordered: 150
+
+ID: 433
+Units ordered: 141
+
+ID: 316
+Units ordered: 610
+
+ID: 406
+Units ordered: 164
+
+ID: 315
+Units ordered: 40
+
+ID: 433
+Units ordered: 11
+
+ID: 367
+Units ordered: 1251
+
+ID: 367
+Units ordered: 356
+
+ID: 367
+Units ordered: 3
+
+ID: 614
+Units ordered: 51
+
+ID: 316
+Units ordered: 388
+
+ID: 761
+Units ordered: 137
+
+ID: 1101
+Units ordered: 136
+
+ID: 312
+Units ordered: 422
+
+ID: 1125
+Units ordered: 488
+
+ID: 1101
+Units ordered: 110
+
+ID: 1101
+Units ordered: 82
+
+ID: 60
+Units ordered: 27
+
+ID: 1051
+Units ordered: 205
+
+ID: 368
+Units ordered: 234
+
+ID: 686
+Units ordered: 64
+
+ID: 573
+Units ordered: 931
+
+ID: 641
+Units ordered: 33
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 60
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 41
+
+ID: 678
+Units ordered: 600
+
+ID: 678
+Units ordered: 40
+
+ID: 1095
+Units ordered: 219
+
+ID: 749
+Units ordered: 23
+
+ID: 749
+Units ordered: 7
+
+ID: 749
+Units ordered: 3
+
+ID: 749
+Units ordered: 49
+
+ID: 749
+Units ordered: 15
+
+ID: 749
+Units ordered: 1
+
+ID: 738
+Units ordered: 100
+
+ID: 738
+Units ordered: 100
+
+ID: 738
+Units ordered: 90
+
+ID: 464
+Units ordered: 100
+
+ID: 220
+Units ordered: 3789
+
+ID: 1083
+Units ordered: 20
+
+ID: 1083
+Units ordered: 225
+
+ID: 248
+Units ordered: 112
+
+ID: 248
+Units ordered: 23
+
+ID: 738
+Units ordered: 20
+
+ID: 433
+Units ordered: 63
+
+ID: 678
+Units ordered: 400
+
+ID: 678
+Units ordered: 200
+
+ID: 678
+Units ordered: 116
+
+ID: 678
+Units ordered: 20
+
+ID: 761
+Units ordered: 176
+
+ID: 367
+Units ordered: 214
+
+ID: 1094
+Units ordered: 351
+
+ID: 253
+Units ordered: 100
+
+ID: 253
+Units ordered: 175
+
+ID: 464
+Units ordered: 222
+
+ID: 312
+Units ordered: 571
+
+ID: 312
+Units ordered: 30
+
+ID: 504
+Units ordered: 228
+
+ID: 312
+Units ordered: 35
+
+ID: 312
+Units ordered: 41
+
+ID: 738
+Units ordered: 36
+
+ID: 406
+Units ordered: 160
+
+ID: 575
+Units ordered: 62
+
+ID: 406
+Units ordered: 56
+
+ID: 367
+Units ordered: 120
+
+ID: 1048
+Units ordered: 22
+
+ID: 1048
+Units ordered: 100
+
+ID: 1048
+Units ordered: 100
+
+ID: 1048
+Units ordered: 25
+
+ID: 1048
+Units ordered: 25
+
+ID: 1048
+Units ordered: 150
+
+ID: 1048
+Units ordered: 150
+
+ID: 614
+Units ordered: 105
+
+ID: 614
+Units ordered: 20
+
+ID: 575
+Units ordered: 120
+
+ID: 575
+Units ordered: 134
+
+ID: 575
+Units ordered: 120
+
+ID: 43
+Units ordered: 26
+
+ID: 575
+Units ordered: 183
+
+ID: 575
+Units ordered: 50
+
+ID: 575
+Units ordered: 100
+
+ID: 575
+Units ordered: 50
+
+ID: 60
+Units ordered: 45
+
+ID: 686
+Units ordered: 67
+
+ID: 60
+Units ordered: 13
+
+ID: 738
+Units ordered: 36
+
+ID: 60
+Units ordered: 8
+
+ID: 241
+Units ordered: 50
+
+ID: 241
+Units ordered: 150
+
+ID: 406
+Units ordered: 41
+
+ID: 1051
+Units ordered: 111
+
+ID: 761
+Units ordered: 206
+
+ID: 761
+Units ordered: 48
+
+ID: 749
+Units ordered: 122
+
+ID: 686
+Units ordered: 31
+
+ID: 614
+Units ordered: 59
+
+ID: 60
+Units ordered: 16
+
+ID: 1050
+Units ordered: 189
+
+ID: 316
+Units ordered: 1000
+
+ID: 316
+Units ordered: 606
+
+ID: 60
+Units ordered: 16
+
+ID: 60
+Units ordered: 39
+
+ID: 1081
+Units ordered: 124
+
+ID: 60
+Units ordered: 11
+
+ID: 464
+Units ordered: 333
+
+ID: 1101
+Units ordered: 125
+
+ID: 315
+Units ordered: 36
+
+ID: 60
+Units ordered: 12
+
+ID: 1050
+Units ordered: 60
+
+ID: 686
+Units ordered: 49
+
+ID: 678
+Units ordered: 200
+
+ID: 678
+Units ordered: 200
+
+ID: 573
+Units ordered: 250
+
+ID: 573
+Units ordered: 219
+
+ID: 464
+Units ordered: 100
+
+ID: 464
+Units ordered: 22
+
+ID: 714
+Units ordered: 227
+
+ID: 614
+Units ordered: 11
+
+ID: 464
+Units ordered: 5
+
+ID: 60
+Units ordered: 12
+
+ID: 738
+Units ordered: 48
+
+ID: 253
+Units ordered: 98
+
+ID: 1048
+Units ordered: 25
+
+ID: 368
+Units ordered: 187
+
+ID: 614
+Units ordered: 150
+
+ID: 614
+Units ordered: 1
+
+ID: 1051
+Units ordered: 1
+
+ID: 367
+Units ordered: 612
+
+ID: 406
+Units ordered: 100
+
+ID: 590
+Units ordered: 1016
+
+ID: 367
+Units ordered: 210
+
+ID: 367
+Units ordered: 95
+
+ID: 575
+Units ordered: 230
+
+ID: 575
+Units ordered: 150
+
+ID: 575
+Units ordered: 20
+
+ID: 315
+Units ordered: 17
+
+ID: 367
+Units ordered: 14
+
+ID: 248
+Units ordered: 50
+
+ID: 674
+Units ordered: 525
+
+ID: 312
+Units ordered: 614
+
+ID: 312
+Units ordered: 87
+
+ID: 220
+Units ordered: 3595
+
+ID: 220
+Units ordered: 340
+
+ID: 614
+Units ordered: 100
+
+ID: 43
+Units ordered: 60
+
+ID: 317
+Units ordered: 800
+
+ID: 713
+Units ordered: 224
+
+ID: 738
+Units ordered: 60
+
+ID: 504
+Units ordered: 73
+
+ID: 761
+Units ordered: 338
+
+ID: 313
+Units ordered: 177
+
+ID: 315
+Units ordered: 159
+
+ID: 722
+Units ordered: 1748
+
+ID: 315
+Units ordered: 16
+
+ID: 590
+Units ordered: 724
+
+ID: 686
+Units ordered: 61
+
+ID: 60
+Units ordered: 255
+
+ID: 179
+Units ordered: 150
+
+ID: 574
+Units ordered: 750
+
+ID: 574
+Units ordered: 50
+
+ID: 676
+Units ordered: 300
+
+ID: 433
+Units ordered: 270
+
+ID: 313
+Units ordered: 39
+
+ID: 575
+Units ordered: 160
+
+ID: 433
+Units ordered: 110
+
+ID: 464
+Units ordered: 70
+
+ID: 614
+Units ordered: 26
+
+ID: 614
+Units ordered: 3
+
+ID: 76
+Units ordered: 850
+
+ID: 76
+Units ordered: 100
+
+ID: 1125
+Units ordered: 60
+
+ID: 997
+Units ordered: 200
+
+ID: 997
+Units ordered: 10
+
+ID: 60
+Units ordered: 5
+
+ID: 1079
+Units ordered: 200
+
+ID: 1079
+Units ordered: 623
+
+ID: 315
+Units ordered: 65
+
+ID: 1129
+Units ordered: 25
+
+ID: 1125
+Units ordered: 23
+
+ID: 1129
+Units ordered: 4
+
+ID: 614
+Units ordered: 20
+
+ID: 1050
+Units ordered: 170
+
+ID: 1050
+Units ordered: 65
+
+ID: 1125
+Units ordered: 15
+
+ID: 590
+Units ordered: 800
+
+ID: 575
+Units ordered: 500
+
+ID: 257
+Units ordered: 181
+
+ID: 1050
+Units ordered: 8
+
+ID: 1050
+Units ordered: 3
+
+ID: 575
+Units ordered: 300
+
+ID: 1125
+Units ordered: 26
+
+ID: 179
+Units ordered: 60
+
+ID: 60
+Units ordered: 14
+
+ID: 749
+Units ordered: 168
+
+ID: 248
+Units ordered: 78
+
+ID: 1078
+Units ordered: 27
+
+ID: 76
+Units ordered: 800
+
+ID: 76
+Units ordered: 100
+
+ID: 1125
+Units ordered: 142
+
+ID: 997
+Units ordered: 200
+
+ID: 406
+Units ordered: 161
+
+ID: 1125
+Units ordered: 59
+
+ID: 312
+Units ordered: 537
+
+ID: 312
+Units ordered: 53
+
+ID: 312
+Units ordered: 44
+
+ID: 761
+Units ordered: 142
+
+ID: 60
+Units ordered: 5
+
+ID: 60
+Units ordered: 5
+
+ID: 1050
+Units ordered: 18
+
+ID: 1125
+Units ordered: 38
+
+ID: 316
+Units ordered: 85
+
+ID: 316
+Units ordered: 75
+
+ID: 590
+Units ordered: 881
+
+ID: 1050
+Units ordered: 18
+
+ID: 1125
+Units ordered: 67
+
+ID: 1125
+Units ordered: 10
+
+ID: 674
+Units ordered: 75
+
+ID: 714
+Units ordered: 266
+
+ID: 676
+Units ordered: 300
+
+ID: 678
+Units ordered: 300
+
+ID: 1125
+Units ordered: 22
+
+ID: 678
+Units ordered: 100
+
+ID: 464
+Units ordered: 15
+
+ID: 464
+Units ordered: 197
+
+ID: 1125
+Units ordered: 53
+
+ID: 743
+Units ordered: 20
+
+ID: 674
+Units ordered: 102
+
+ID: 402
+Units ordered: 400
+
+ID: 674
+Units ordered: 48
+
+ID: 313
+Units ordered: 104
+
+ID: 575
+Units ordered: 800
+
+ID: 643
+Units ordered: 1772
+
+ID: 43
+Units ordered: 83
+
+ID: 714
+Units ordered: 127
+
+ID: 317
+Units ordered: 400
+
+ID: 641
+Units ordered: 236
+
+ID: 1050
+Units ordered: 22
+
+ID: 313
+Units ordered: 132
+
+ID: 433
+Units ordered: 87
+
+ID: 713
+Units ordered: 200
+
+ID: 367
+Units ordered: 88
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 9
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 20
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 6
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 10
+
+ID: 749
+Units ordered: 5
+
+ID: 749
+Units ordered: 5
+
+ID: 749
+Units ordered: 5
+
+ID: 749
+Units ordered: 5
+
+ID: 997
+Units ordered: 26
+
+ID: 674
+Units ordered: 224
+
+ID: 674
+Units ordered: 21
+
+ID: 749
+Units ordered: 10
+
+ID: 997
+Units ordered: 157
+
+ID: 997
+Units ordered: 200
+
+ID: 308
+Units ordered: 1000
+
+ID: 997
+Units ordered: 200
+
+ID: 308
+Units ordered: 685
+
+ID: 743
+Units ordered: 40
+
+ID: 406
+Units ordered: 300
+
+ID: 714
+Units ordered: 74
+
+ID: 1081
+Units ordered: 123
+
+ID: 433
+Units ordered: 72
+
+ID: 253
+Units ordered: 300
+
+ID: 575
+Units ordered: 800
+
+ID: 575
+Units ordered: 25
+
+ID: 643
+Units ordered: 1957
+
+ID: 686
+Units ordered: 216
+
+ID: 1078
+Units ordered: 40
+
+ID: 1078
+Units ordered: 31
+
+ID: 1078
+Units ordered: 15
+
+ID: 1078
+Units ordered: 80
+
+ID: 241
+Units ordered: 56
+
+ID: 241
+Units ordered: 67
+
+ID: 241
+Units ordered: 50
+
+ID: 367
+Units ordered: 269
+
+ID: 614
+Units ordered: 100
+
+ID: 220
+Units ordered: 2711
+
+ID: 220
+Units ordered: 271
+
+ID: 614
+Units ordered: 1
+
+ID: 614
+Units ordered: 1
+
+ID: 678
+Units ordered: 150
+
+ID: 575
+Units ordered: 206
+
+ID: 43
+Units ordered: 141
+
+ID: 60
+Units ordered: 52
+
+ID: 1050
+Units ordered: 2
+
+ID: 406
+Units ordered: 84
+
+ID: 575
+Units ordered: 41
+
+ID: 575
+Units ordered: 58
+
+ID: 761
+Units ordered: 290
+
+ID: 316
+Units ordered: 173
+
+ID: 1029
+Units ordered: 50
+
+ID: 1029
+Units ordered: 300
+
+ID: 316
+Units ordered: 109
+
+ID: 253
+Units ordered: 114
+
+ID: 253
+Units ordered: 122
+
+ID: 76
+Units ordered: 800
+
+ID: 76
+Units ordered: 150
+
+ID: 1050
+Units ordered: 36
+
+ID: 316
+Units ordered: 60
+
+ID: 590
+Units ordered: 858
+
+ID: 37
+Units ordered: 372
+
+ID: 29
+Units ordered: 600
+
+ID: 367
+Units ordered: 167
+
+ID: 367
+Units ordered: 21
+
+ID: 313
+Units ordered: 90
+
+ID: 1051
+Units ordered: 381
+
+ID: 402
+Units ordered: 246
+
+ID: 1048
+Units ordered: 25
+
+ID: 1048
+Units ordered: 50
+
+ID: 1048
+Units ordered: 50
+
+ID: 312
+Units ordered: 200
+
+ID: 312
+Units ordered: 220
+
+ID: 312
+Units ordered: 30
+
+ID: 1048
+Units ordered: 25
+
+ID: 1048
+Units ordered: 25
+
+ID: 1048
+Units ordered: 50
+
+ID: 315
+Units ordered: 201
+
+ID: 313
+Units ordered: 122
+
+ID: 257
+Units ordered: 250
+
+ID: 1081
+Units ordered: 198
+
+ID: 313
+Units ordered: 249
+
+ID: 235
+Units ordered: 219
+
+ID: 235
+Units ordered: 90
+
+ID: 235
+Units ordered: 104
+
+ID: 575
+Units ordered: 58
+
+ID: 1050
+Units ordered: 55
+
+ID: 522
+Units ordered: 775
+
+ID: 1050
+Units ordered: 65
+
+ID: 344
+Units ordered: 975
+
+ID: 1050
+Units ordered: 3
+
+ID: 1101
+Units ordered: 80
+
+ID: 60
+Units ordered: 13
+
+ID: 315
+Units ordered: 29
+
+ID: 253
+Units ordered: 44
+
+ID: 368
+Units ordered: 280
+
+ID: 315
+Units ordered: 25
+
+ID: 575
+Units ordered: 700
+
+ID: 575
+Units ordered: 420
+
+ID: 575
+Units ordered: 68
+
+ID: 433
+Units ordered: 39
+
+ID: 60
+Units ordered: 7
+
+ID: 60
+Units ordered: 16
+
+ID: 761
+Units ordered: 426
+
+ID: 253
+Units ordered: 57
+
+ID: 253
+Units ordered: 55
+
+ID: 614
+Units ordered: 1
+
+ID: 1111
+Units ordered: 525
+
+ID: 1125
+Units ordered: 45
+
+ID: 60
+Units ordered: 7
+
+ID: 590
+Units ordered: 875
+
+ID: 749
+Units ordered: 15
+
+ID: 749
+Units ordered: 15
+
+ID: 749
+Units ordered: 15
+
+ID: 749
+Units ordered: 15
+
+ID: 749
+Units ordered: 25
+
+ID: 749
+Units ordered: 25
+
+ID: 749
+Units ordered: 25
+
+ID: 749
+Units ordered: 25
+
+ID: 749
+Units ordered: 5
+
+ID: 749
+Units ordered: 5
+
+ID: 749
+Units ordered: 5
+
+ID: 749
+Units ordered: 5
+
+ID: 313
+Units ordered: 126
+
+ID: 686
+Units ordered: 55
+
+ID: 641
+Units ordered: 307
+
+ID: 253
+Units ordered: 20
+
+ID: 60
+Units ordered: 8
+
+ID: 997
+Units ordered: 100
+
+ID: 997
+Units ordered: 200
+
+ID: 997
+Units ordered: 61
+
+ID: 522
+Units ordered: 55
+
+ID: 522
+Units ordered: 75
+
+ID: 714
+Units ordered: 251
+
+ID: 722
+Units ordered: 3109
+
+ID: 313
+Units ordered: 53
+
+ID: 575
+Units ordered: 153
+
+ID: 1081
+Units ordered: 173
+
+ID: 315
+Units ordered: 88
+
+ID: 1125
+Units ordered: 61
+
+ID: 464
+Units ordered: 500
+
+ID: 1125
+Units ordered: 51
+
+ID: 73
+Units ordered: 140
+
+ID: 241
+Units ordered: 100
+
+ID: 37
+Units ordered: 80
+
+ID: 674
+Units ordered: 265
+
+ID: 1051
+Units ordered: 64
+
+ID: 575
+Units ordered: 375
+
+ID: 575
+Units ordered: 126
+
+ID: 1051
+Units ordered: 59
+
+ID: 575
+Units ordered: 50
+
+ID: 575
+Units ordered: 400
+
+ID: 575
+Units ordered: 250
+
+ID: 575
+Units ordered: 50
+
+ID: 1081
+Units ordered: 87
+
+ID: 312
+Units ordered: 14
+
+ID: 60
+Units ordered: 26
+
+ID: 316
+Units ordered: 123
+
+ID: 504
+Units ordered: 144
+
+ID: 406
+Units ordered: 173
+
+ID: 686
+Units ordered: 177
+
+ID: 368
+Units ordered: 122
+
+ID: 253
+Units ordered: 227
+
+ID: 433
+Units ordered: 61
+
+ID: 433
+Units ordered: 14
+
+ID: 433
+Units ordered: 100
+
+ID: 1101
+Units ordered: 130
+
+ID: 590
+Units ordered: 884
+
+ID: 738
+Units ordered: 36
+
+ID: 60
+Units ordered: 9
+
+ID: 179
+Units ordered: 290
+
+ID: 179
+Units ordered: 7
+
+ID: 433
+Units ordered: 61
+
+ID: 406
+Units ordered: 40
+
+ID: 312
+Units ordered: 330
+
+ID: 312
+Units ordered: 35
+
+ID: 1078
+Units ordered: 30
+
+ID: 1078
+Units ordered: 214
+
+ID: 464
+Units ordered: 477
+
+ID: 641
+Units ordered: 600
+
+ID: 641
+Units ordered: 201
+
+ID: 253
+Units ordered: 54
+
+ID: 464
+Units ordered: 10
+
+ID: 464
+Units ordered: 500
+
+ID: 253
+Units ordered: 79
+
+ID: 575
+Units ordered: 421
+
+ID: 575
+Units ordered: 250
+
+ID: 464
+Units ordered: 10
+
+ID: 235
+Units ordered: 110
+
+ID: 239
+Units ordered: 22465
+
+ID: 253
+Units ordered: 35
+
+ID: 316
+Units ordered: 261
+
+ID: 316
+Units ordered: 183
+
+ID: 239
+Units ordered: 3060
+
+ID: 239
+Units ordered: 2300
+
+ID: 239
+Units ordered: 900
+
+ID: 722
+Units ordered: 3329
+
+ID: 504
+Units ordered: 281
+
+ID: 1078
+Units ordered: 27
+
+ID: 239
+Units ordered: 1200
+
+ID: 239
+Units ordered: 300
+
+ID: 678
+Units ordered: 500
+
+ID: 239
+Units ordered: 300
+
+ID: 239
+Units ordered: 300
+
+ID: 590
+Units ordered: 803
+
+ID: 37
+Units ordered: 79
+
+ID: 686
+Units ordered: 157
+
+ID: 475
+Units ordered: 1204
+
+ID: 738
+Units ordered: 19
+
+ID: 722
+Units ordered: 6783
+
+ID: 722
+Units ordered: 2100
+
+ID: 722
+Units ordered: 220
+
+ID: 1125
+Units ordered: 155
+
+ID: 60
+Units ordered: 14
+
+ID: 714
+Units ordered: 199
+
+ID: 313
+Units ordered: 80
+
+ID: 76
+Units ordered: 750
+
+ID: 76
+Units ordered: 100
+
+ID: 749
+Units ordered: 47
+
+ID: 76
+Units ordered: 700
+
+ID: 76
+Units ordered: 100
+
+ID: 738
+Units ordered: 51
+
+ID: 678
+Units ordered: 200
+
+ID: 678
+Units ordered: 400
+
+ID: 713
+Units ordered: 550
+
+ID: 678
+Units ordered: 450
+
+ID: 313
+Units ordered: 72
+
+ID: 433
+Units ordered: 94
+
+ID: 433
+Units ordered: 151
+
+ID: 220
+Units ordered: 1658
+
+ID: 714
+Units ordered: 145
+
+ID: 738
+Units ordered: 20
+
+ID: 761
+Units ordered: 300
+
+ID: 761
+Units ordered: 305
+
+ID: 674
+Units ordered: 418
+
+ID: 406
+Units ordered: 159
+
+ID: 1079
+Units ordered: 200
+
+ID: 1079
+Units ordered: 170
+
+ID: 312
+Units ordered: 200
+
+ID: 312
+Units ordered: 110
+
+ID: 312
+Units ordered: 19
+
+ID: 316
+Units ordered: 120
+
+ID: 316
+Units ordered: 223
+
+ID: 241
+Units ordered: 5
+
+ID: 241
+Units ordered: 13
+
+ID: 241
+Units ordered: 50
+
+ID: 241
+Units ordered: 50
+
+ID: 1029
+Units ordered: 350
+
+ID: 997
+Units ordered: 350
+
+ID: 43
+Units ordered: 43
+
+ID: 1111
+Units ordered: 205
+
+ID: 1094
+Units ordered: 600
+
+ID: 1094
+Units ordered: 100
+
+ID: 1094
+Units ordered: 172
+
+ID: 1083
+Units ordered: 15
+
+ID: 1083
+Units ordered: 65
+
+ID: 1083
+Units ordered: 250
+
+ID: 1083
+Units ordered: 250
+
+ID: 367
+Units ordered: 67
+
+ID: 1083
+Units ordered: 42
+
+ID: 1083
+Units ordered: 42
+
+ID: 1083
+Units ordered: 2
+
+ID: 1083
+Units ordered: 2
+
+ID: 1083
+Units ordered: 15
+
+ID: 1083
+Units ordered: 15
+
+ID: 344
+Units ordered: 274
+
+ID: 575
+Units ordered: 1100
+
+ID: 674
+Units ordered: 237
+
+ID: 997
+Units ordered: 482
+
+ID: 997
+Units ordered: 100
+
+ID: 997
+Units ordered: 9
+
+ID: 997
+Units ordered: 20
+
+ID: 464
+Units ordered: 333
+
+ID: 997
+Units ordered: 650
+
+ID: 997
+Units ordered: 150
+
+ID: 997
+Units ordered: 600
+
+ID: 997
+Units ordered: 200
+
+ID: 665
+Units ordered: 1
+
+ID: 665
+Units ordered: 154
+
+ID: 749
+Units ordered: 75
+
+ID: 749
+Units ordered: 1
+
+ID: 686
+Units ordered: 263
+
+ID: 433
+Units ordered: 40
+
+ID: 749
+Units ordered: 4
+
+ID: 749
+Units ordered: 5
+
+ID: 749
+Units ordered: 3
+
+ID: 749
+Units ordered: 60
+
+ID: 749
+Units ordered: 26
+
+ID: 239
+Units ordered: 690
+
+ID: 239
+Units ordered: 524
+
+ID: 433
+Units ordered: 65
+
+ID: 433
+Units ordered: 100
+
+ID: 313
+Units ordered: 71
+
+ID: 641
+Units ordered: 200
+
+ID: 641
+Units ordered: 82
+
+ID: 1029
+Units ordered: 827
+
+ID: 1029
+Units ordered: 813
+
+ID: 433
+Units ordered: 100
+
+ID: 433
+Units ordered: 43
+
+ID: 406
+Units ordered: 73
+
