@@ -2,13 +2,14 @@
  /*
  * Template Name: Research
  */
- include 'research_array.php';
- $user_ID = get_current_user_id();
- $research_in_progress = get_user_meta($user_ID, 'research_in_progress')[0];
- $research_queued = get_user_meta($user_ID, 'queued_research')[0];
- 
+include 'research_array.php';
+$user_ID = get_current_user_id();
+$research_in_progress = get_user_meta($user_ID, 'research_in_progress',true);
+$research_queued = get_user_meta($user_ID, 'queued_research',true);
+$timestamp = strtotime(date('Y-m-d H:i:s'));
 $startingbonus = get_user_meta($user_ID, 'starting_bonus',true);
 $research_reduce = 1;
+
 if($startingbonus == 'defensive'){
 	$research_reduce = 0.9;
 }
@@ -23,12 +24,20 @@ if ($startingbonus === 'finance') {
 	$money_bonus = 10;
 }
 
+$researchURL = '/research.php';
+$btnText = 'Research';
+
+if($research_in_progress != '0'){
+	$researchURL = '/queue_research.php';
+	$btnText = 'Queue research';	
+}
+
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-	            
+	           
 	            <?php if(!empty($_SESSION['status'])):?>
 					<?php echo alert_notification($_SESSION['status']);?>
 				<?php endif; // End empty status check ?>
@@ -39,386 +48,122 @@ get_header(); ?>
 		<div class="notice_message"><span class="rdw-line">The round has ended!</span></div>
 		<?php else:?>
 		<div class="notice_message"><span class="rdw-line">One research costs 25 turns. Queuing a research costs an additional 5 turns.</span></div><br/>
-		<?php if(empty($research_in_progress) || $research_in_progress = 0):?>
-		
-		
-		
-		<form class="form" action="<?php echo home_url() ?>/research.php" name="" id="research" method="post">
-				
-				
-			<div class="container2">
-				<table class="responsive-table">
-					<thead>
-						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Effect</th>
-							<th scope="col">Time</th>
-							<th scope="col">Pick research</th>
-						</tr>
-					</thead>
-				<tbody>
-			<?php foreach ($researches as $key => $research) {
-			?>
-			<tr>
-				<th scope="row">
-					<?php echo $research['name'];?>
-				</th>
-				<td data-title="Effect">
-					<?php
-						$current = get_user_meta($user_ID, 'level_' . $key, true);
 
-						$level = 'level' . ($current + 1);
-						if ($research['maxlevel'] != $current) {
-							switch ($key) {
-								case 'market_discount':
-									$md_discount_research = $research[$level.'_value']+$market_discount_bonus;
-									echo str_replace('{value}', $md_discount_research, $research[$level]);
-									break;
-								case 'money_production':
-									$money_research = $research[$level.'_value'] * (1 + ($money_bonus / 100));
-									echo str_replace('{value}', GameUtil::format_money($money_research), $research[$level]);
-									break;
-								default:
-									echo $research[$level];
-									break;
-							}
-						} else {
-							echo '<strong>Maximum level reached.</strong>';
-						}
-					?>
-				</td>
-				<td data-title="Time">
-					<?php echo $research['duration']*$research_reduce;?> hours
-				</td>
-			
-				<td data-title="Pick research">
-					<?php 
-						
-						if($research['maxlevel'] != $current){
-						$level = 'level'.($current+1);
-						echo "<input type='radio' name='research' required value='$key'>";}
-						
-						?>
-				</td>
-			</tr>
-			
-			
-			<?php }?>
-				</tbody>
-		</table>
-		
-		<input type="submit" value="Research" class="">
-		<div class="footer_continue">
-		<input type="submit" value="Research" class="">
+
+
+
+
+
+
+
+<div class="row profile_block">
+<div class="row researchHeader">
+	<div class="col-md-2"><strong>Name</strong></div>
+	<div class="col-md-6"><strong>Effect</strong></div>
+	<div class="col-md-2"><strong>Time</strong></div>
+	<div class="col-md-2"></div>
+</div>
+
+<?php foreach ($researches as $key => $research) {
+		$inProgress = 0;
+		$current = get_user_meta($user_ID, 'level_' . $key, true);
+		if($key == $research_in_progress){
+			$inProgress = 1;
+		}
+?>
+<form class="form" action="<?php echo home_url() ?><?php echo $researchURL;?>" name="" id="research" method="post">
+<div class="row research_row">
+	<div class="row">
+		<div class="col-md-2 researchAlCenter">
+			<span class="researchTitle"><?php echo $research['name'];?></span><br/>
+			<sup>Current level: <?php echo $current;?></sup>
 		</div>
-		</div><!-- end container div -->
-		
-		
-		
-		</form>
-		
-<script>
-	jQuery('form#research').submit(function(){
-    jQuery(this).find(':input[type=submit]').prop('disabled', true);
-});
-</script>
-		
-		
-		<?php else:?>
-		
-		<?php 			
-					/* Get researches for user */
-					$args = array(
-							'posts_per_page'   => 1,
-							'author'	   => $user_ID,
-							'post_type'        => 'research',
-							);
-							$researches_in_progress = get_posts( $args ); ?>
-		
-		
-		
-		
-		
-			<div class="container2">
+		<div class="col-md-6 researchAlCenter">
+			<?php
+				$level = 'level' . ($current + 1);
 				
-				<table class="responsive-table">
-					<thead>
-						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Effect</th>
-							<th scope="col">Time left</th>
-							<th scope="col"></th>
-						</tr>
-					</thead>
-				<tbody>
-			<?php foreach ($researches as $key => $research) {
-			?>
-			<tr>
-				<th scope="row">
-					<?php echo $research['name'];?>
-				</th>
-				<td data-title="Effect">
-					<?php
-					$current = get_user_meta($user_ID, 'level_' . $key, true);
-
-					if ($research['maxlevel'] != $current) {
-						$level = 'level' . ($current + 1);
-
-						switch ($key) {
-							case 'market_discount':
-								$md_discount_research = $research[$level.'_value']+$market_discount_bonus;
-								echo str_replace('{value}', $md_discount_research, $research[$level]);
-								break;
-							case 'money_production':
-								$money_research = $research[$level.'_value'] * (1 + ($money_bonus / 100));
-								echo str_replace('{value}', GameUtil::format_money($money_research), $research[$level]);
-								break;
-							default:
-								echo $research[$level];
-								break;
+				if ($research['maxlevel'] != $current) {
+					switch ($key) {
+					
+					case 'market_discount':
+						$md_discount_research = $research[$level.'_value']+$market_discount_bonus;
+						echo str_replace('{value}', $md_discount_research, $research[$level]);
+					break;
+					case 'money_production':
+						$money_research = $research[$level.'_value'] * (1 + ($money_bonus / 100));
+						echo str_replace('{value}', GameUtil::format_money($money_research), $research[$level]);
+					break;
+					default:
+						echo $research[$level];
+					break;
 						}
 					} else {
 						echo '<strong>Maximum level reached.</strong>';
 					}
-					?>
-				</td>
-				
-					<?php
-
-
-					$timestamp = strtotime(date('Y-m-d H:i:s'));
-
-					$researchhours = $research['duration'] * 3600 * $research_reduce;
-					foreach ($researches_in_progress as $research) : ?>
-						<td data-title="Time">
-							<?php
-							if ($key == $research->post_content) {
-								$researchtime_left = $research->post_title - $timestamp;
-								$progress          = ($researchhours - $researchtime_left) / $researchhours * 100;
-
-								?>
-
-									<?php
-									if ($researchtime_left > 0) {
-										echo '<span id="countdown_time"></span>';
-									} ?>
-								</td>
-								<?php
-
-							}
-							?>
-						</td>
-						<?php
-						if ($research_queued == $key) {
-							echo '<td><strong>Queued</strong></td>';
-						} else {
-							echo '<td>&nbsp;</td>';
-						}
-					?>
-
-					<?php endforeach; ?>
-			</tr>
-			<script>
-				 var
-    diff = <?php echo $researchtime_left*1000;?>;
-
-function updateETime() {
-
-  function pad(num) {
-    return num > 9 ? num : '0'+num;
-  };
-
-
-    days = Math.floor( diff / (1000*60*60*24) ),
-    hours = Math.floor( diff / (1000*60*60) ),
-    mins = Math.floor( diff / (1000*60) ),
-    secs = Math.floor( diff / 1000 ),
-
-    dd = days,
-    hh = hours - days * 24,
-    mm = mins - hours * 60,
-    ss = secs - mins * 60;
-
-    document.getElementById("countdown_time")
-        .innerHTML =
-            pad(hh) + ':' + //' hours ' +
-            pad(mm) + ':' + //' minutes ' +
-            pad(ss) ; //+ ' seconds' ;
-    
-    diff -= 142.85714285714285;
-
-}
-setInterval(updateETime, 1000 );
-		   	</script>
-			
-			<?php }?>
-				</tbody>
-		</table>
-		</div><!-- end container div -->
-		<?php if(empty($research_queued) || $research_queued != 0):?>
-		<center><h2>Queue your next research at a cost of 30 turns<h2></center>
-		
-		<form class="form" action="<?php echo home_url() ?>/queue_research.php" name="" id="queue" method="post">
-				
-				
-			<div class="container2">
-				<table class="responsive-table">
-					<thead>
-						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Effect</th>
-							<th scope="col">Time</th>
-							<th scope="col">Pick research</th>
-						</tr>
-					</thead>
-				<tbody>
-			<?php foreach ($researches as $key => $research) {
-			?>
-			<tr>
-				<th scope="row">
-					<?php echo $research['name'];?>
-				</th>
-				<td data-title="Effect">
-					<?php
-					$current = get_user_meta($user_ID, 'level_' . $key, true);
-
-					$queued      = get_user_meta($user_ID, 'queued_research', true);
-					$in_progress = get_user_meta($user_ID, 'research_in_progress', true);
-
-					$max = false;
-
-					$extra_level = 0;
-
-					if ($in_progress == $key && $research['maxlevel'] == $current + 1) {
-
-						$max = true;
-						echo '<strong>Maximum level reached.</strong>';
-					} else {
-						if ($in_progress == $key) {
-							$extra_level = 1;
-						}
-						$level = 'level' . ($current + 1 + $extra_level);
-
-						switch ($key) {
-							case 'market_discount':
-								$md_discount_research = $research[$level.'_value']+$market_discount_bonus;
-								$research_effect = str_replace('{value}', $md_discount_research, $research[$level]);
-								break;
-							case 'money_production':
-								$money_research = $research[$level.'_value'] * (1 + ($money_bonus / 100));
-								$research_effect = str_replace('{value}', GameUtil::format_money($money_research), $research[$level]);
-								break;
-							default:
-								$research_effect = $research[$level];
-								break;
-						}
-
-						if ($research['maxlevel'] < $current) {
-							echo $research_effect;
-						} else if (array_key_exists($level, $researches[$key])) {
-							echo $research_effect;
-						}
-					}
-
-
-					if ($research['maxlevel'] == $current) {
-						$max = true;
-						echo '<strong>Maximum level reached.</strong>';
-					}
-						
-						
-						
-						?>
-				</td>
-				<td data-title="Time">
-					<?php if($max == false){ echo $research['duration']*$research_reduce.' hours';}?>
-				</td>
-			
-				<td data-title="Pick research">
-					<?php 
-						
-						if($max == false){
-						if($research['maxlevel'] != $current){
-						$level = 'level'.($current+1);
-						echo "<input type='radio' name='queue' required value='$key'>";}}
-						
-						
-						?>
-				</td>
-			</tr>
-			
-			
-			<?php }?>
-				</tbody>
-		</table>
-		
-		<input type="submit" value="Queue this research" class="">
-		<div class="footer_continue">
-			<input type="submit" value="Queue this research" class="">
+				?>
 		</div>
-		</div><!-- end container div -->
 		
-		
-		
-		</form>
-<script>
-	jQuery('form#queue').submit(function(){
-    jQuery(this).find(':input[type=submit]').prop('disabled', true);
-});
-</script>
-		<?php else:?>
-		<!--<center><h2>Currently in your queue</h2></center>
-		<?php $research = get_user_meta($user_ID, 'queued_research')[0];?>
-		<div class="container2">
-				<table class="responsive-table">
-					<thead>
-						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Effect</th>
-							<th scope="col">Starts in</th>
-		
-						</tr>
-					</thead>
-				<tbody>
-			<tr>
-				<th scope="row">
-					<?php echo $researches[$research]['name'];?>
-				</th>
-				<td data-title="Effect">
-					<?php 
-						$current = get_user_meta($user_ID, 'level_'.$research)[0];
-						
-						if( $researches[$research]['maxlevel'] != $current){
-						$level = 'level'.($current+1);
-						echo  $researches[$research][$level];}
-						else{
-							echo '<strong>Maximum level reached.</strong>'; 
-						}
-						?>
-				</td>
-				
-				<td data-title="Starts in">
-					<?php 
-						if($researchtime_left > 0){
-						echo date('H:i:s', $researchtime_left);}?>
-				</td>
-				
+		<div class="col-md-2 researchTime researchAlCenter">
 			
-			
-			</tr>
-			
-			
+			<span class="mobileSpan">Time: </span><?php echo $research['duration']*$research_reduce;?> hours
+		</div>
 		
-				</tbody>
-		</table>
+		<div class="col-md-2">
+			<?php if($research_in_progress == '0' && $research_queued == '0'):?>
+				<?php if($research['maxlevel'] != $current):?>
+				<input style="display:none;" type="radio" name="research" id="<?php echo $key;?>" value="<?php echo $key;?>" required >
+				<label class="btn btn-general selectResearch" for="<?php echo $key;?>">Select</label>
+				<?php endif;?>
+			<?php endif;?>
+			<?php if($research_in_progress != '0' && $research_queued == '0'):?>
+				<?php if($research['maxlevel'] != $current):?>
+					<input style="display:none;" type="radio" name="queue" id="<?php echo $key;?>" value="<?php echo $key;?>" required >
+					<label class="btn btn-general selectResearch" for="<?php echo $key;?>">Queue Select</label>
+				<?php endif;?>
+			<?php endif;?>
+			<?php if($research_queued == $key):?>
+			<strong><i class="fa fa-clock-o" aria-hidden="true"></i> Research in queue</strong>
+			<?php endif;?>
+		</div>
+	</div>
+	<?php if($inProgress == 1):?>
+	<?php	$args = array(
+			'posts_per_page'   => 1,
+			'author'	   => $user_ID,
+			'post_type'        => 'research',
+			);
+		$researches_in_progress = get_posts( $args );
+		$completionTime = $researches_in_progress[0]->post_title;
+		$researchID = $researches_in_progress[0]->ID;
+		$timeLeft = $completionTime-$timestamp;
+		$gmt_timestamp = get_post_time('U',true, $researchID,true);
+		$totaltime = $completionTime-$gmt_timestamp;
+		$percentage = round((1-($timeLeft/$totaltime))*100);
+		$timeLeft = date('H:i:s', $timeLeft);
+		?>
+	
+	
+	
+	<div class="row progressRow">
+		<div class="col-md-12">
+			<div class="progress progressBarnomargin">
+				<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $percentage;?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $percentage;?>%;">
+				<?php echo $percentage;?>% Complete - Time left: <?php echo $timeLeft;?>
+  				</div>
+			</div>
+		</div>
+	</div>
+	<?php endif;?>
+</div>
+<?php }?>
+<input type="submit" value="<?php echo $btnText;?>" class="">
+		<div class="footer_continue">
+		<input type="submit" value="<?php echo $btnText;?>" class="">
+		</div>
+</div>
+</form>
 
-				
-		-->
-		<?php endif;?>
-		
-		
-		<?php endif;?>
-		<?php endif;?>
+<?php endif;?>
             
             </div>
         </div>

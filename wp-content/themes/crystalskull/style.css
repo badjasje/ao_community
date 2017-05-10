@@ -631,6 +631,9 @@ input[type="radio"]:checked + label {
 	border-radius:3px;
 	text-transform: uppercase;
 }
+.sortingHeadMob{
+	display:none;
+}
 @media (max-width: 768px) {
 .responsive-table tbody{
 	background-color:#fff !important;
@@ -642,6 +645,9 @@ input[type="radio"]:checked + label {
 	display: inline;
 	text-align: center;
 	margin-bottom:10px;
+}
+.sortingHeadMob{
+	display: block;
 }
 table{
 	border:none;
@@ -999,14 +1005,46 @@ table{
 	padding:10px;
 	
 }
+.research_row{
+	padding:10px 0px;
+	border-bottom:1px solid #ddd;
+}
+.progressRow{
+	margin-top:10px;
+}
+.progressBarnomargin{
+	margin-bottom:0px !important;
+}
+.selectResearch{
+	width:100%;
+}
+.progress-bar{
+	background-color:  rgba(45, 67, 80, 0.75) !important;
+}
 .mobile_dash_header{
 	display:none;
 }
+.mobileSpan{
+	display: none;
+}
 @media (max-width: 768px) {
+.mobileSpan{
+	display: inline-block;
+}
+.researchAlCenter{
+	text-align:center;
+}
+.researchTime{
+	padding:10px;
+}
+.researchTitle{
+	font-weight:bold;
+	font-size: 20px;
+}
 .profile_block{
 	padding:20px 0px 0px 0px;
 }
-.inbox_header{
+.inbox_header,.researchHeader{
 	display:none;
 }
 
