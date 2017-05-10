@@ -1109,6 +1109,18 @@ border_bottom_mobile{
 	padding:10px 0px;
 	border-bottom:1px solid #ddd;
 }
+.clan_profile_row2{
+	padding:10px 0px;
+	border-bottom:1px solid #ddd;
+}
+.clan_profile_row3{
+	padding:10px 0px;
+	border-bottom:1px solid #ddd;
+}
+.clan_profile_row4{
+	padding:10px 0px;
+	border-bottom:1px solid #ddd;
+}
 .clan_profile_row_last{
 	padding:10px 0px;
 	border:none;
@@ -1329,4 +1341,7 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+.inRange{
+	font-weight:bold;
 }

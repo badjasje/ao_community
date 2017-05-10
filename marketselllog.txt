@@ -1290,6 +1290,7 @@ ID: 487
 Units sold: 527
 Type: artillery
 
+<<<<<<< Updated upstream
 ID: 761
 Units sold: 53
 Type: jsf
@@ -2698,3 +2699,13 @@ ID: 1111
 Units sold: 507
 Type: paratrooper
 
+=======
+ID: 1
+Units sold: 2442
+Type: humvee
+
+ID: 1
+Units sold: 1200
+Type: artillery
+
+>>>>>>> Stashed changes

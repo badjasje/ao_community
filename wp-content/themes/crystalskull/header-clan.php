@@ -47,6 +47,8 @@ $user = get_userdata($user_ID);
 
 <?php wp_head(); 	
 ?>
+<script type='text/javascript' src='/wp-content/themes/crystalskull/js/sortingdivs.js'></script>
+
 </head>
 <body <?php body_class(); ?>>
 	<script>

@@ -25098,6 +25098,7 @@ Units ordered: rocket 30
 ID: 1100
 Units ordered: armoured 13
 
+<<<<<<< Updated upstream
 ID: 678
 Units ordered: humvee 400
 
@@ -27272,4 +27273,8 @@ Units ordered: sniper 155
 
 ID: 60
 Units ordered: artillery 30
+=======
+ID: 1
+Units ordered: thief 5
+>>>>>>> Stashed changes
 
