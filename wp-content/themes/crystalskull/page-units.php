@@ -29,7 +29,7 @@ $commandcenter = get_user_meta($user_ID, 'command_centre',true);
 $ccspace = ($commandcenter*5)-$spies-$thiefs-$planes-$spies_ordered-$thiefs_ordered-$planes_ordered-$sniper-$sniper_ordered;
 get_header(); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	            

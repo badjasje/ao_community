@@ -12,7 +12,7 @@
 
 <?php if ( is_plugin_active( 'buddypress/bp-loader.php' ) && bp_is_blog_page() ){?>
 <div class="page normal-page ">
-      <div class="container">
+      <div class="container containerNZ">
         <div class="row">
             <?php if(is_active_sidebar( 'buddypress' )){ ?>
             <div class="col-lg-8 col-md-8">

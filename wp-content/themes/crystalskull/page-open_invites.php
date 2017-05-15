@@ -7,7 +7,7 @@ $clan_id_user = get_user_meta($user_ID,'clan_id_user');
 $open_invites = get_post_meta($clan_id_user[0],'open_invites');
 get_header(); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
        <table>

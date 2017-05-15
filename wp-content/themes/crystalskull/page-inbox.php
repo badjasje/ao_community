@@ -8,7 +8,7 @@ $user_ID = get_current_user_ID();
 update_user_meta($user_ID,'new_messages',0);
 get_header(); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
 		

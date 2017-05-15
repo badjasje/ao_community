@@ -11,7 +11,7 @@ $totalturns = get_user_meta($user_ID, 'turns');
 $totalmissiles = count_missilespace($user_ID);
 get_header(); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	            

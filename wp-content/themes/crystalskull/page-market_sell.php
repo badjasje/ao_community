@@ -33,7 +33,7 @@ if($discount_level == 2){
 /** @TODO: This page contains a lot of duplication, while only a few things are different per tab. Should be refactored */
 get_header(); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
 			<div class="container">

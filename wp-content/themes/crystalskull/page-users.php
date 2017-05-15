@@ -19,7 +19,7 @@ get_header(); ?>
      <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-			<div class="container">
+			<div class="container containerNZ">
 				
 				
 				
@@ -36,7 +36,7 @@ jQuery(document).ready(function() {
 	<select id="clan" name="clan" class="searchclans" onchange="if (this.value) window.location.href=this.value">
 
 
-	<?php foreach ($users as $user) {
+	<?php foreach ($allUsers as $user) {
 		$user_ID = $user->ID;
 		$member_data = get_userdata($user_ID);
 

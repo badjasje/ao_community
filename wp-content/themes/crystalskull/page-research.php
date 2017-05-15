@@ -34,7 +34,7 @@ if($research_in_progress != '0'){
 
 get_header(); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	           
@@ -122,7 +122,7 @@ get_header(); ?>
 				<?php endif;?>
 			<?php endif;?>
 			<?php if($research_queued == $key):?>
-			<strong><i class="fa fa-clock-o" aria-hidden="true"></i> Research in queue</strong>
+			<center><strong><i class="fa fa-clock-o" aria-hidden="true"></i> Research in queue</strong></center>
 			<?php endif;?>
 		</div>
 	</div>

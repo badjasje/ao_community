@@ -12,7 +12,7 @@ $activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'provicenw';
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-                <div class="container">
+                <div class="container containerNZ">
 
 					<?php if (get_field('game_status', 'option') != 'Live'): ?>
                         <div class="notice_message"><span class="rdw-line">The round has ended!</span></div>

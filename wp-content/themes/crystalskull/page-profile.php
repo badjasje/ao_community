@@ -47,7 +47,7 @@ $CT_CL_array = array($ct_1,$ct_2,$ct_3,$ct_4,$cl_1);
 $members = get_post_meta($clan_id_user,'clan_members',true);
 get_header('profile'); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	            

@@ -12,7 +12,7 @@ $members = get_post_meta($clan_ID,'clan_members',true);
 $members[] = $user_ID;
 get_header('spyrep'); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	            
