@@ -32,6 +32,7 @@ if($target_status == 'dead'){
 	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
+
 $maintarget = $_SESSION['maintarget'];
 $attackmode = $_SESSION['attackmode'];
 
@@ -51,6 +52,15 @@ $defend_clan_id = $target_data['clan_id_user'][0];
 /* retrieve attack info */
 $attack_type = $_SESSION['attacktype'];
 $attack_array = $_SESSION['attack_array'];
+
+$dmgMulti = 0.85;
+$resourceMulti = 1.2;
+
+if($attack_type == 'air_sea' || 'ground' ){
+	$dmgMulti = 1.15;
+	$resourceMulti = 0.9;
+}
+
 
 /* determine war type */
 $war_type = get_war_type($attack_clan_id, $defend_clan_id);
@@ -198,19 +208,19 @@ foreach ($attack_array as $key => $count) {
 	$atk_types = $units[$key]['attacks'];
 	$type_count = count($atk_types);
 	if($units[$key]['type'] == 'veh'){
-		$atk_power_total = ($count * $units[$key]['attack'])+$added_dragon_damage;
+		$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti)+$added_dragon_damage;
 		$atk_power_distrib = $atk_power_total / $type_count;
 	}
 	elseif($units[$key]['type'] == 'inf'){
-		$atk_power_total = ($count * $units[$key]['attack'])+$added_apc_damage;
+		$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti)+$added_apc_damage;
 		$atk_power_distrib = $atk_power_total / $type_count;
 	}
 	elseif($units[$key]['type'] == 'air'){
-		$atk_power_total = ($count * $units[$key]['attack'])+$added_carrier_damage;
+		$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti)+$added_carrier_damage;
 		$atk_power_distrib = $atk_power_total / $type_count;
 	}
 	else{
-		$atk_power_total = $count * $units[$key]['attack'];
+		$atk_power_total = $count * $units[$key]['attack']*$dmgMulti;
 		$atk_power_distrib = $atk_power_total / $type_count;	
 	}
 
@@ -483,12 +493,12 @@ if($result == 'success'){
 
 	$startingbonus = get_user_meta($user_id, 'starting_bonus', true);
 	if($startingbonus == 'offensive'){
-	$land_stolen   = max(ceil($freeland * ($STOLEN_LAND_RATIO*2*$aggressive_multi) * resource_dice_roll()), 0);
-	$money_stolen  = max(ceil($money * ($STOLEN_MONEY_RATIO*2*$aggressive_multi) * resource_dice_roll()), 0);
+	$land_stolen   = max(ceil($freeland * ($STOLEN_LAND_RATIO*2*$resourceMulti*$aggressive_multi) * resource_dice_roll()), 0);
+	$money_stolen  = max(ceil($money * ($STOLEN_MONEY_RATIO*2*$resourceMulti*$aggressive_multi) * resource_dice_roll()), 0);
 	}
 	else{
-	$land_stolen   = max(ceil($freeland * $STOLEN_LAND_RATIO * $aggressive_multi * resource_dice_roll()), 0);
-	$money_stolen  = max(ceil($money * $STOLEN_MONEY_RATIO * $aggressive_multi * resource_dice_roll()), 0);
+	$land_stolen   = max(ceil($freeland * $STOLEN_LAND_RATIO * $resourceMulti * $aggressive_multi * resource_dice_roll()), 0);
+	$money_stolen  = max(ceil($money * $STOLEN_MONEY_RATIO * $resourceMulti * $aggressive_multi * resource_dice_roll()), 0);
 	}
 
 	$attackermoney = get_user_meta($user_id, 'money')[0];
@@ -800,7 +810,14 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 
 <a class="btn btn-general" href="/attack/result/"><i class="fa fa-refresh" aria-hidden="true"></i> STRIKE AGAIN</a>
 
-
+<script> 
+  jQuery("a").click(function (event) {
+    if (jQuery(this).hasClass("disabled")) {
+        event.preventDefault();
+    }
+    jQuery(this).addClass("disabled");
+});
+</script>
 <?php 
 
 
