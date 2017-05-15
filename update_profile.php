@@ -35,9 +35,31 @@ if ( $movefile && !isset( $movefile['error'] ) ) {
 }
 
 if(!empty($_POST['username'])){
-wp_update_user( array( 'ID' => $user_ID, 'display_name' => $_POST['username'] ) );
-update_user_meta($user_ID, 'name_change_counter',1);
+	
+	
+$args= array(
+	'search' => $_POST['username'], // or login or nicename in this example
+	'search_fields' => array('user_login','user_nicename','display_name')
+	);
+	
+	$user = new WP_User_Query($args);	
+	
+	$users = count($user->results);
+	
+	if($user->results[0]->data->ID != $user_ID){
+		if($users >= 1){
+			$_SESSION['status'] = 'Username already exists';wp_redirect(get_permalink(6570)); exit;
+		}
+	}
+
+if(strtolower($_POST['username']) != strtolower($user->results[0]->data->display_name)){
+	
+	wp_update_user( array( 'ID' => $user_ID, 'display_name' => $_POST['username'] ) );
+	update_user_meta($user_ID, 'name_change_counter',1);
+	
+	}
 }
+
 update_user_meta($user_ID,'phone_number',$_POST['phonenumber']);
 update_user_meta($user_ID,'desktop_view',$_POST['desktopview']);
 
