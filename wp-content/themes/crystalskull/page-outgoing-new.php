@@ -26,7 +26,7 @@ $args = array(
 					),
 				array(
 					'key'	 	=> 'attacktype',
-					'value'	  	=> array('satellite','air_sea','thief','ground','missile','regular','death'),
+					'value'	  	=> array('satellite','air_sea','thief','ground','missile','regular','death','sniper'),
 					'compare' 	=> 'IN',
 					),)
 );
@@ -231,7 +231,127 @@ if ( $custom_query->have_posts() ) :
 		</div>
 	</div>
 
-<?php endif; // End regular, ground & air&sea attacks ?>	      
+<?php endif; // End regular, ground & air&sea attacks ?>	 
+
+
+
+
+
+
+
+
+
+
+<?php if($attack_type == 'sniper'): ?>
+
+
+
+<!-- Event header -->
+<div class="row battlereport-header">
+	<div class="col-md-12">
+		<img class="attack-image" src="http://assault.online/wp-content/uploads/2016/03/research.png"> 
+		Sniper report
+		<span class="hover-tip" data-toggle="tooltip" data-html="true" 
+		data-original-title="<center><strong>Defender networth lost:</strong><br/>
+		$ <?php echo number_format($defender_NW_lost, 0, ',', ' '); ?><br/>
+		<strong>Attacker networth lost:</strong><br/>
+		$ <?php echo number_format($attacker_NW_lost, 0, ',', ' '); ?></center>" data-placement="right">
+		<i class="fa fa-info-circle" aria-hidden="true"></i>
+		</span>
+	</div>
+</div>
+<!-- Event header -->
+
+
+<div class="row event-row">
+	
+<!-- Attacker image -->	
+	<div class="col-md-2">
+		<div class="row">
+			<div class="col-md-12">
+				<?php echo small_avatar($defender_id,'attack-profile-image');?>
+				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
+			</div>
+		</div>
+	</div>
+<!-- Attacker image -->			
+	
+	
+	<div class="col-md-10">
+			<div class="row">
+				<div class="col-md-12 event-message">
+				<?php if($status_defender == 'death'):?>	
+					
+				You attacked <?php clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
+				<?php echo $member_data->display_name.' (#'.$defender_id.')';?></a> and <strong>killed this player.</strong> 
+				
+				<?php else:?>
+				
+				You attacked <?php echo clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
+				<?php echo $member_data->display_name.' (#'.$defender_id.')';?></a> and you 
+					
+				<?php if($winner_id == $attacker_id):?>
+					<strong>won</strong> the battle.
+					
+				
+					
+				<?php else: ?>
+					
+					<strong>lost</strong> the battle. 
+					
+					
+				<?php endif; endif;?>
+				
+				
+				</div>
+			</div>
+			
+			
+			<div class="row">
+				<div class="col-md-12 event-result"><strong>Attacker losses: <?php echo $att_tot_unitslost;?> units</strong><br/>
+				
+				<?php
+					
+				foreach ($units as $key => $order) {
+					foreach ($att_unitslost[0] as $att_unitlost) {
+					if (isset($att_unitlost[$key])) {
+						echo $order['normalname'] . ': ' . $att_unitlost[$key] . ', ';
+        			}
+						}
+					}
+				?>
+				<?php if($att_tot_unitslost > 0):?>
+				<br/>
+				<?php endif;?>
+				<br/>
+
+				<strong>Defender losses: <?php echo $def_tot_unitslost;?> units</strong><br/>
+				<?php
+				foreach ($units as $key => $order) {
+					foreach ($def_unitslost[0] as $def_unitlost) {
+					if (isset($def_unitlost[$key])) {
+						echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
+        			}
+						}
+					}
+				?>
+				<?php
+				foreach ($buildings as $key => $order) {
+					foreach ($def_unitslost[0] as $def_unitlost) {
+					if (isset($def_unitlost[$key])) {
+						echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
+        			}
+						}
+					}
+				?>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<?php endif; // End sniper attacks ?>
+
+     
             
             
 

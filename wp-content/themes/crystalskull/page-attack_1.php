@@ -190,7 +190,7 @@ get_header(); ?>
 				</td>
 				</tr>
 				<tr>
-				<!--<td class="left_text_table"><label for="sniper"><input type="radio" name="attacktype" id="sniper" value="sniper"> Send sniper</label> (not done. dont use.)-->
+				<td class="left_text_table"><input style="display:none;" type="radio" name="attacktype" id="sniper" value="sniper"><label class="btn btn-general" for="sniper">Send sniper</label>
 				</td>
 				</tr>
 				

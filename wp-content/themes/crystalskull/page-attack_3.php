@@ -16,6 +16,7 @@ if($attack_type == 'missile'){ $attack_name = 'Launching missile'; }
 if($attack_type == 'spy'){ $attack_name = 'Spying'; }
 if($attack_type == 'thief'){ $attack_name = 'Thieving'; }
 if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
+if($attack_type == 'sniper'){ $attack_name = 'Sending sniper'; }
 
 get_header(); ?>
 <div class="page normal-page">
@@ -257,7 +258,7 @@ get_header(); ?>
 					<tr>
 						<td><strong>Name</strong></td>
 						<td><strong>Sending to battle</strong></td>
-				
+						<td><strong>Percentage</strong></td>
   					</tr>
 		<?php foreach($units_attack as $key => $order){
 			
@@ -277,7 +278,10 @@ get_header(); ?>
 				<?php echo $units_owned[0]*$percentage;?>
 			</td>
 			
-			
+			<td data-title="Percentage">
+				<input type="hidden" name="<?php echo $key;?>" value="<?php echo $percentage;?>">
+				<?php echo round($percentage*100,0).'%';$_SESSION[$key]['percentage'] = $percentage;?>
+			</td>
 		
 			
 			

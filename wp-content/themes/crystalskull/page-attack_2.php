@@ -18,7 +18,7 @@ if($attack_type == 'missile'){ $attack_name = 'Launching missile'; }
 if($attack_type == 'spy'){ $attack_name = 'Spying'; }
 if($attack_type == 'thief'){ $attack_name = 'Thieving'; }
 if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
-	
+if($attack_type == 'sniper'){ $attack_name = 'Sending sniper'; }	
 $attackUserId = $_SESSION['target_id'];
 count_all_stats($attackUserId);
 
@@ -241,7 +241,7 @@ get_header(); ?>
 					
 					$thief_owned = get_user_meta($user_ID, 'sniper_owned',true);
 				?>
-				<div class="notice_message"><span class="rdw-line">Snipers are used to kill thiefs and spies</span> <span class="rdw-line">Sending more snipers increases the amount of thiefs and spies killed but also increases the chance to get caught.</span></div><br/>
+				<div class="notice_message"><span class="rdw-line">Snipers are used to kill thiefs, spies and other snipers</span> <span class="rdw-line">Sending more snipers increases the amount of thiefs and spies killed but also increases the chance to get caught.</span></div><br/>
 				<table class="responsive-table">
 					<tr>
 						<td><strong>Name</strong></td>
