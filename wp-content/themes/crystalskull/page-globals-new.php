@@ -244,9 +244,9 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 		and <strong>$ <?php echo number_format($moneylost, 0, ',', ' '); ?></strong> was stolen.
 		
 		<?php } else { ?>
-		<strong>won the battle</strong>
+		<strong>won the battle.</strong>
 			<?php if($defender_points != 0):?>
-				<?php echo $defender_points;?> clan point<?php if($defender_points>1){echo 's';}?> gained for successful base defense.
+				<br/><?php echo $defender_points;?> clan point<?php if($defender_points>1){echo 's';}?> gained for successful base defense.
 			<?php endif;?>
 		<?php }?>
 	<?php endif;?>

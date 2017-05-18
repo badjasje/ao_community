@@ -170,6 +170,8 @@ if ( $custom_query->have_posts() ) :
 	$event_ID = get_the_id();
 	$defender_id = get_post_meta($event_ID,'defender_id',true);
 	$attacker_id = get_post_meta($event_ID,'attacker_id',true);
+	
+	$defender_points = get_post_meta($event_ID,'defender_points',true);
 
 	$member_data = get_userdata($attacker_id);
 	
@@ -265,6 +267,9 @@ if ( $custom_query->have_posts() ) :
 					
 				<?php if($winner_id == $defender_id):?>
 					<strong>won</strong> the battle.
+					<?php if($defender_points != 0):?>
+						<br/><?php echo $defender_points;?> clan point<?php if($defender_points>1){echo 's';}?> gained for successful base defense.
+					<?php endif;?>
 					
 				<?php else: ?>
 					
