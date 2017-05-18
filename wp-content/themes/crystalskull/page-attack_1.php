@@ -5,7 +5,7 @@
 
 $user_ID = get_current_user_id();
 $networth = get_user_meta($user_ID, 'networth',true);
-$status = get_user_meta($user_ID, 'status');
+$status = get_user_meta($user_ID, 'status',true);
 include 'constants.php';
 $sat_owned = get_user_meta($user_ID, 'sat_owned',true);
 
@@ -24,13 +24,21 @@ $last_attacked = explode(',',$last_attacked);
 
 $morale = get_user_meta($user_ID, 'morale',true);
 $moralepool = get_user_meta($user_ID, 'morale_pool',true);
+
+$satDisabled = 'disabled';
+$satDisabledClass = 'btn-disabled';
+if($sat_owned != 0 || !empty($sat_owned) && $sat_owned != 'stealths'){
+	$satDisabled = '';
+	$satDisabledClass = 'btn-general';
+}
+
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-			<?php if($status[0] == 'nukeprotection'):?>
-			<div class="notice_message"><span class="rdw-line">You are under Nuke Protection and cannot attack.</span></div>
+			<?php if($status == 'nukeprotection'):?>
+			<div class="notice_message "><span class="rdw-line">You are under Assault Protection and cannot attack.</span></div>
 		
 		<?php else:?>
 		
@@ -39,42 +47,7 @@ get_header(); ?>
 				<?php endif; // End empty status check ?>
 	            
 		
-		
-		
-		<?php if (!empty($_GET['fail'])) { $attacksuccess = $_GET['fail']; ?>
-			<?php if($attacksuccess == 1):?>
-				<div class="marketnotice insuffunds">Not enough turns</div>
-			<?php elseif($attacksuccess == 2):?>
-				<div class="marketnotice insuffunds">Insufficient morale</div>
-			<?php elseif($attacksuccess == 3):?>
-				<div class="marketnotice insuffunds">No units available for this attack type</div>
-			<?php elseif($attacksuccess == 4):?>
-				<div class="marketnotice insuffunds">Choose a province ID to attack</div>
-			<?php elseif($attacksuccess == 5):?>
-				<div class="marketnotice insuffunds">Province ID not found</div>
-			<?php elseif($attacksuccess == 6):?>
-				<div class="marketnotice insuffunds">You cannot target yourself</div>
-			<?php elseif($attacksuccess == 7):?>
-				<div class="marketnotice insuffunds">No units selected</div>
-			<?php elseif($attacksuccess == 8):?>
-				<div class="marketnotice insuffunds">This player is dead</div>
-			<?php elseif($attacksuccess == 9):?>
-				<div class="marketnotice insuffunds">Out of networth range</div>
-			<?php elseif($attacksuccess == 12):?>
-				<div class="marketnotice insuffunds">Enter a valid number</div>
-			<?php elseif($attacksuccess == 11):?>
-				<div class="marketnotice insuffunds">You cannot attack your own clanmates</div>
-			<?php elseif($attacksuccess == 13):?>
-				<div class="marketnotice insuffunds">You cannot attack someone who is under nuke protection</div>
-			<?php elseif($attacksuccess == 14):?>
-				<div class="marketnotice insuffunds">No more missiles left of this type.</div>
-			<?php elseif($attacksuccess == 15):?>
-				<div class="marketnotice insuffunds">You cannot attack while power is out.</div>
-			<?php elseif($attacksuccess == 16):?>
-				<div class="marketnotice insuffunds">Not enough thiefs</div>
-			<?php elseif($attacksuccess == 20):?>
-				<div class="marketnotice insuffunds">Not enough satellite power</div>
-			<?php endif;?><?php }?>
+
 
 <?php if(get_field('game_status','option') != 'Live'):?>
 <div class="notice_message"><span class="rdw-line">The round has ended!</span></div>
@@ -83,7 +56,7 @@ get_header(); ?>
 
 
 
-<div class="notice_message">
+<div class="notice_message notice_margin">
 	<span class="rdw-line">You can target provinces with a networth between 
 		<strong>
 			<?php 
@@ -109,7 +82,7 @@ get_header(); ?>
 
 
 
-
+<form class="form" action="<?php echo home_url() ?>/attack.php" name="" id="attack" method="post">
 
 <?php if ( ! empty($attackUserId)) : ?>
 		
@@ -145,104 +118,282 @@ get_header(); ?>
     	</div>
 		</li>
 		</ul>
-           
-        <?php endif; ?>
+           <input type="hidden" label="erw" id="target_id" name="target_id" value="<?php echo $attackUserId; ?>" />
+<?php endif; ?>
+
+
+
+
+
+<div class="row profile_block">
+	
+	<?php if (empty($attackUserId)) : ?>
+	<div class="row">
 		
-		<form class="form" action="<?php echo home_url() ?>/attack.php" name="" id="attack" method="post">	
-			<table class="responsive-table">
-				<?php if (empty($attackUserId)) : ?>
-                    <tr>
-
-                        <td colspan="2">
-                            <input style="font-size: 24px;text-align:center;font-weight: bold;" type="text" label="erw" id="target_id" placeholder="Target ID" name="target_id" list='listid'/>
-
-                            <datalist id='listid'>
-								<?php foreach ($last_attacked as $last_id) :
-								    $member_data = get_userdata($last_id);
-								?>
-                                    <option label='<?php echo $member_data->display_name . ' (#' . $last_id . ')'; ?>' value='<?php echo $last_id; ?>'>
-                                <?php endforeach; ?>
-                            </datalist>
-                        </td>
-                    </tr>
-                <?php else: ?>
-                    <input type="hidden" label="erw" id="target_id" name="target_id" value="<?php echo $attackUserId; ?>" />
-				<?php endif; ?>
-
-				<tr>
-				<td class="left_text_table"><input style="display:none;" type="radio" name="attacktype" id="air_sea" value="air_sea" checked><label class="btn btn-general" for="air_sea">Air & Sea Attack</label>
-				</td>
-				<td class="left_text_table"><input style="display:none;" type="radio" name="attacktype" id="regular" value="regular"><label class="btn btn-general" for="regular">Regular Attack</label>
-				</td>
-				</tr>
-				
-				<tr>
-				<td class="left_text_table"><input style="display:none;" type="radio" name="attacktype" id="ground" value="ground"><label class="btn btn-general" for="ground">Ground attack</label>
-				</td>
-				<td class="left_text_table"><input style="display:none;" type="radio" name="attacktype" id="missile" value="missile"><label class="btn btn-general" for="missile">Launch Missile</label>
-				</td>
-				</tr>
-				
-				<tr>
-				<td class="left_text_table"><input style="display:none;" type="radio" name="attacktype" id="spy" value="spy"><label class="btn btn-general" for="spy">Send spy</label>
-				</td>
-				<td class="left_text_table"><input style="display:none;" type="radio" name="attacktype" id="thief" value="thief"><label class="btn btn-general" for="thief">Send thief</label>
-				</td>
-				</tr>
-				<tr>
-				<td class="left_text_table"><input style="display:none;" type="radio" name="attacktype" id="sniper" value="sniper"><label class="btn btn-general" for="sniper">Send sniper</label>
-				</td>
-				</tr>
-				
-				<?php if($sat_owned != 0 || !empty($sat_owned) && $sat_owned != 'stealths'):?>
-				<tr>
-				<td class="left_text_table"><input style="display:none;" type="radio" name="attacktype" id="satellite" value="satellite"><label class="btn btn-general" for="satellite">Use satellite</label>
-				</td>
-				<td>
-				</td>
-				</tr>
-				<?php endif;?>
-				<tr>
-				
-				<td colspan="2">
-				
-				<div class="row">
-				<div class="col-md-6">
-					<div class="styled-select slate">
-						<select id="attackmode" name="attackmode">
-							<option name="attackmode" value="normal">Normal</option>
-							<option name="attackmode" value="aggressive">Aggressive (Higher gain and higher loss. Costs 10% extra morale.)</option>
-						</select>
-					</div>
+		<div class="col-md-12 attackField"> 
+		<input type="text" label="erw" id="target_id" placeholder="Target ID" name="target_id" list='listid'/>
+			<datalist id='listid'>
+				<?php foreach ($last_attacked as $last_id) :
+					$member_data = get_userdata($last_id);?>
+					<option label='<?php echo $member_data->display_name . ' (#' . $last_id . ')'; ?>' value='<?php echo $last_id; ?>'>
+				<?php endforeach; ?>
+			</datalist>		
+	</div>
+	</div>
+	
+	<?php endif; ?>
+	
+	<div class="row">
+		
+		<div class="col-md-6">
+			<div class="row">
+				<input style="display:none;" type="radio" name="attacktype" id="air_sea" value="air_sea" checked>
+				<label class="btn btn-general attackButton" for="air_sea">Air & Sea Attack</label>
+			</div>
+			<div class="row" id="air_sea_desc">
+				<div class="attackDescription">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack type air and sea units can be used.<br/>
+					Deals more damage than ground and regular attack types but less resources gained per attack.
 				</div>
-				
-				<div class="col-md-6">
-					<div class="styled-select slate">
-						<select id="maintarget" name="maintarget">
-							<option name="maintarget" value="none">-- none --</option>
-							<option name="maintarget" value="power">Power plants</option>
-							<option name="maintarget" value="silo">Missile silos</option>
-							<option name="maintarget" value="command">Command centres</option>
-							<option name="maintarget" value="shipyard">Shipyards</option>
-							<option name="maintarget" value="airfield">Airfields</option>
-							<option name="maintarget" value="barracks">Barracks</option>
-							<option name="maintarget" value="warfactory">Warfactories</option>
-							<option name="maintarget" value="defense">Defense buildings</option>
-							<option name="maintarget" value="ams">Anti-Missile System</option>
-						</select>
-					</div>
+			</div>
+		</div> <!-- // End col-md-6 -->
+		
+		<div class="col-md-6">
+			<div class="row">
+				<input style="display:none;" type="radio" name="attacktype" id="regular" value="regular">
+				<label class="btn btn-general attackButton" for="regular">Regular Attack</label>
+			</div>
+			
+			<div class="row" id="regular_desc">
+				<div class="attackDescription">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack type air units, infantry and vehicles can be used.<br/>
+					Deals less damage than ground and air & sea attack types. However, more resources gained per attack. 
 				</div>
+			</div>
+		</div> <!-- // End col-md-6 -->
+	</div> <!-- // End row -->
+	
+	
+	
+	
+	<div class="row">
+		
+		<div class="col-md-6">
+			<div class="row">
+				<input style="display:none;" type="radio" name="attacktype" id="ground" value="ground">
+				<label class="btn btn-general attackButton" for="ground">Ground attack</label>
+			</div>
+			
+			<div class="row" id="ground_desc">
+				<div class="attackDescription">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack type infantry and vehicles can be used.<br/>
+					Deals slightly less damage than air & sea attack types but more resources gained per attack.
 				</div>
-				
-				
-				
-				
-				
-				</td>
-				</tr>
-		</table>	
-		<input type="submit" value="Next Step" class="">					
-		</form>		
+			</div>
+		</div> <!-- // End col-md-6 -->
+		
+		
+		<div class="col-md-6">
+			<div class="row">
+				<input style="display:none;" type="radio" name="attacktype" id="missile" value="missile">
+				<label class="btn btn-general attackButton" for="missile">Launch Missile</label>
+			</div>
+		
+			<div class="row" id="missile_desc">
+				<div class="attackDescription">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack type missiles can be launched.<br/>
+					You currently own <?php echo count_missiles($user_ID);?> missile<?php echo plural_func(count_missiles($user_ID));?>
+				</div>
+			</div>
+		</div> <!-- // End col-md-6 -->
+	</div> <!-- // End row -->
+	
+	
+	<div class="row">
+		
+		<div class="col-md-6">
+			<div class="row">
+				<input style="display:none;" type="radio" name="attacktype" id="spy" value="spy">
+				<label class="btn btn-general attackButton" for="spy">Send spy</label>
+			</div>
+			
+			<div class="row" id="spy_desc">
+				<div class="attackDescription">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack type a spy or spyplane can be sent.<br/>
+					A spy gathers intelligence about units. A spyplane gathers intelligence about buildings.
+
+				</div>
+			</div>
+			
+		</div> <!-- // End col-md-6 -->
+		
+		<div class="col-md-6">
+			<div class="row">
+				<input style="display:none;" type="radio" name="attacktype" id="thief" value="thief">
+				<label class="btn btn-general attackButton" for="thief">Send thief</label>
+			</div>
+			
+			<div class="row" id="thief_desc">
+				<div class="attackDescription">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack type thiefs can be sent.<br/>
+					Thiefs are used to steal money. You currently own <?php echo count_unit($user_ID,'thief');?> thief<?php echo plural_func(count_unit($user_ID,'thief'));?>
+				</div>
+			</div>
+			
+		</div> <!-- // End col-md-6 -->
+	</div> <!-- // End row -->
+	
+	
+	<div class="row">
+		
+		<div class="col-md-6">
+			<div class="row">
+				<input style="display:none;" type="radio" name="attacktype" id="sniper" value="sniper">
+				<label class="btn btn-general attackButton" for="sniper">Send sniper</label>
+			</div>
+			
+			<div class="row" id="sniper_desc">
+				<div class="attackDescription">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack type snipers can be sent.<br/>
+					Snipers are used to kill thiefs, spies and other snipers. You currently own <?php echo count_unit($user_ID,'sniper');?> sniper<?php echo plural_func(count_unit($user_ID,'sniper'));?>
+				</div>
+			</div>
+		</div> <!-- // End col-md-6 -->
+		
+		<div class="col-md-6">
+			<div class="row">
+				<input style="display:none;" type="radio" name="attacktype" disabled id="satellite" value="satellite">
+				<label class="btn <?php echo $satDisabledClass;?> attackButton" <?php echo $satDisabled;?> for="satellite">Use satellite</label>
+			</div>
+			
+			<div class="row" id="satellite_desc">
+				<div class="attackDescription">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack air and sea units can be used. <br/>
+					Does more damage than ground and regular attack but there is less gain.
+				</div>
+			</div>
+			
+		</div> <!-- // End col-md-6 -->
+	</div> <!-- // End row -->
+	
+
+
+<div class="row">
+	<div class="col-md-6 attackSelect">
+			<div class="attackType_title">Attack Mode</div>
+			<div class="styled-select slate">
+				<select id="attackmode" name="attackmode">
+					<option name="attackmode" value="normal">Normal</option>
+					<option name="attackmode" value="aggressive">Aggressive (Higher gain and higher loss. Costs 10% extra morale.)</option>
+				</select>
+			</div>
+	</div>
+	
+	<div class="col-md-6 attackSelect">
+			<div class="attackType_title">Main Target</div>
+			<div class="styled-select slate">
+				<select id="maintarget" name="maintarget">
+					<option name="maintarget" value="none">-- none --</option>
+					<option name="maintarget" value="power">Power plants</option>
+					<option name="maintarget" value="silo">Missile silos</option>
+					<option name="maintarget" value="command">Command centres</option>
+					<option name="maintarget" value="shipyard">Shipyards</option>
+					<option name="maintarget" value="airfield">Airfields</option>
+					<option name="maintarget" value="barracks">Barracks</option>
+					<option name="maintarget" value="warfactory">Warfactories</option>
+					<option name="maintarget" value="defense">Defense buildings</option>
+					<option name="maintarget" value="ams">Anti-Missile System</option>
+				</select>
+			</div>
+	</div>
+</div>	
+
+<div class="col-md-12"> 
+	<input type="submit" value="Next Step" class="">	
+</div>
+
+</div> <!-- // End row entire block -->
+
+</form>
+
+<script>
+	jQuery(document).ready(function() {
+		jQuery('#regular_desc').hide();
+		jQuery('#ground_desc').hide();
+		jQuery('#missile_desc').hide();
+		jQuery('#spy_desc').hide();
+		jQuery('#thief_desc').hide();
+		jQuery('#sniper_desc').hide();
+		jQuery('#satellite_desc').hide();
+
+   jQuery('input[type="radio"]').click(function() {
+       if(jQuery(this).attr('id') == 'air_sea') {
+            jQuery('#air_sea_desc').show(750);           
+       }
+
+       else {
+            jQuery('#air_sea_desc').hide(750);   
+       }
+       
+       if(jQuery(this).attr('id') == 'regular') {
+            jQuery('#regular_desc').show(750);           
+       }
+
+       else {
+            jQuery('#regular_desc').hide(750);   
+       }
+       if(jQuery(this).attr('id') == 'ground') {
+            jQuery('#ground_desc').show(750);           
+       }
+
+       else {
+            jQuery('#ground_desc').hide(750);   
+       }
+       if(jQuery(this).attr('id') == 'missile') {
+            jQuery('#missile_desc').show(750);           
+       }
+
+       else {
+            jQuery('#missile_desc').hide(750);   
+       }
+       if(jQuery(this).attr('id') == 'spy') {
+            jQuery('#spy_desc').show(750);           
+       }
+
+       else {
+            jQuery('#spy_desc').hide(750);   
+       }
+       if(jQuery(this).attr('id') == 'thief') {
+            jQuery('#thief_desc').show(750);           
+       }
+
+       else {
+            jQuery('#thief_desc').hide(750);   
+       }
+       if(jQuery(this).attr('id') == 'sniper') {
+            jQuery('#sniper_desc').show(750);           
+       }
+
+       else {
+            jQuery('#sniper_desc').hide(750);   
+       }
+       if(jQuery(this).attr('id') == 'satellite') {
+            jQuery('#satellite_desc').show(750);           
+       }
+
+       else {
+            jQuery('#satellite_desc').hide(750);   
+       }
+       
+   });
+});
+</script>
+
+
+
+
+
+
 		<?php endif;?>
 		<?php endif;?>
 		<?php session_unset();?>
