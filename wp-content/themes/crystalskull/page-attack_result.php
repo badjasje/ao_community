@@ -42,8 +42,8 @@ $aggressive_multi = 1;
 $life_deduct = 1;
 if($attackmode == 'aggressive'){
 	$extra_morale_cost = 10;
-	$life_deduct = 1.1;
-	$aggressive_multi = 1.15;
+	$life_deduct = 1.13;
+	$aggressive_multi = 1.20;
 }
 
 $defend_nw = $target_data['networth'][0];
@@ -54,11 +54,16 @@ $attack_type = $_SESSION['attacktype'];
 $attack_array = $_SESSION['attack_array'];
 
 $dmgMulti = 0.85;
-$resourceMulti = 1.2;
+$resourceMulti = 1.25;
 
-if($attack_type == 'air_sea' || 'ground' ){
-	$dmgMulti = 1.15;
+if($attack_type == 'air_sea'){
+	$dmgMulti = 1.17;
 	$resourceMulti = 0.9;
+}
+
+if($attack_type == 'ground' ){
+	$dmgMulti = 1.10;
+	$resourceMulti = 1;
 }
 
 
@@ -446,7 +451,7 @@ foreach($attacker_unit_losses as $unit_type => $breakdown) {
 		$owned_units = get_user_meta($user_id, $key.'_owned',true);
 			
 			if($killed > $owned_units*$_SESSION[$key]['percentage']){
-				$killed = $owned_units*$_SESSION[$key]['percentage'];
+				$killed = round($owned_units*$_SESSION[$key]['percentage']);
 			}
 		
 		
@@ -646,9 +651,36 @@ if($war_type != 'none' && $result == 'success') {
 	$buildings_lost = get_user_meta($target_id, 'buildings_lost', true);
 	update_user_meta($target_id, 'buildings_lost', $buildings_lost+$defender_buildings_lost);
 	
+	
 
+/* Defender clan points */
 	
+$defender_points = 0;
 	
+if($result == 'failure' && $war_type != 'none'){
+	
+	$defender_points = round(1.3 * log($attacker_networth_lost/3.4 / 400));
+	
+	if($defender_points < 1){
+		$defender_points = 1;
+	}
+	
+	if($defender_points > 5){
+		$defender_points = 5;
+	}
+
+$defPts = get_user_meta($target_id, 'user_clan_points',true);
+update_user_meta($target_id,'user_clan_points',$defPts+$defender_points);
+
+$_def24Hpts = get_post_meta($defend_clan_id, '24h_pts', true);
+update_post_meta($defend_clan_id,'24h_pts',$_def24Hpts+$defender_points);
+
+$starting_Defpoints = get_post_meta($defend_clan_id,'clan_points',true);
+update_post_meta($defend_clan_id,'clan_points',$starting_Defpoints+$defender_points);
+	
+}
+	
+
 	
 	?>
 	
@@ -845,6 +877,9 @@ update_field('attacker_id',$user_id, $new_event_id);
 update_field('winner_id',$winner_id, $new_event_id);
 update_field('attacktype',$attack_type, $new_event_id);
 update_field('outcome',$result, $new_event_id);
+
+update_field('defender_points',$defender_points, $new_event_id);
+
 
 update_field('nw_damage_defender',$defender_networth_lost, $new_event_id);
 update_field('nw_damage_attacker',$attacker_networth_lost, $new_event_id);
