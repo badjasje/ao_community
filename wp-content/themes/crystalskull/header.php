@@ -124,14 +124,7 @@ $user = get_userdata($user_ID);
 			</a>
 		</div>
 	</div>
-			 <?php if(!function_exists( 'ubermenu' )){ ?>
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only"><?php esc_html_e('Toggle navigation', 'crystalskull'); ?></span>
-                <span class="fa fa-bars"></span>
-              </button>
-            </div>
-            <?php } ?>
+			 
 
             <div class="navbar-collapse <?php if(!function_exists( 'ubermenu' )){ echo 'collapse'; } ?>">
 
