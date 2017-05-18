@@ -10,6 +10,17 @@ License: GPL
 Copyright: Kevin Bogaard
 */
 
+function plural_func($number){
+	if($number == 0 || $number > 1){
+		return 's';
+	}
+	
+}
+function count_unit($user_ID,$unit_type){
+	$units = get_user_meta($user_ID, $unit_type.'_owned', true);
+	return $units;
+}
+
 function hook_css() {
 $user_ID = get_current_user_id();
 	
@@ -147,6 +158,208 @@ table tbody tr td,.responsive-table tbody th[scope="row"],.responsive-table tbod
     <?php
 }}
 add_action('wp_head', 'hook_css');
+
+
+
+
+
+
+
+
+
+/*   NZ color scheme
+function hook_NZ_css() {
+$user_ID = get_current_user_id();
+	
+$nightmode = get_user_meta($user_ID, 'nightmode', true);
+
+
+    ?>
+        <style>
+          .logo img{
+	filter: invert(100%);
+}
+body .navbar-inverse,body .blog{
+	background-color:#35382f;
+}
+.navbar-inverse .nav>li>a{
+	color:#95947E;
+}
+.navbar-collapse:after{
+	border-color: #35382f transparent transparent transparent;
+}
+.navbar-collapse:before{
+	border-color: transparent #35382f transparent transparent;
+}
+.after-nav{
+	background-color:#35382f;
+	border-bottom:0px solid #747463;
+}
+.list-group-item{
+	background-color:#747463;
+	color:#d8d4b6;
+	border:0px;
+}
+body .normal-page{
+	background-color:#78806b;
+	padding-top: 0px;
+}
+.build_content,.select2-results{
+	background-color:#c6c4a8;
+}
+.btn-general{
+	background-color:#747463;
+	color: #d8d4b6;
+}
+.btn-general:hover{
+	background-color:rgba(116, 116, 99, 0.5);
+	color: #35382f;
+}
+.status_column {
+    background-color: #c6c4a8;
+    color: #fff;
+    border: 1px solid #747463;
+}
+.nav-tabs.nav-justified>li>a{
+	background-color: #747463 !important;
+	color:#fff;
+}
+.nav-tabs a{
+	border:0px;
+}
+.status_column a{
+	color: #fff;
+}
+.status_header{
+	background-color: #747463;
+	color:#fff;
+}
+.event-row{
+	background-color: #c6c4a8;
+}
+.toplist_block{
+	background-color: #c6c4a8;
+}
+.toplist_block a{
+	color:#fff;
+}
+.button_block,.textNotify,.profile_block {
+    border: 1px solid #747463;
+    padding: 10px 5px 8px 5px;
+    background-color: #c6c4a8;
+}
+.textNotify,.profile_block,body{
+	color:#fff;
+}
+.notice_message, .bonus_message{
+	background-color: #c6c4a8;
+	color:#35382f;
+	color: #747463;
+    border: 1px solid #747463;
+}
+.status_header{
+	color:#d8d4b6;
+}
+.medal_header{
+	background-color:#747463;
+	color: #d8d4b6;
+}
+.medal_box{
+	background-color: #c6c4a8;
+	color:#747463;
+	border: 1px solid #747463;
+}
+.status_column{
+	color:#747463;
+}
+
+.notice_message{
+	margin-top:20px;
+}
+.containerNZ{
+	background-color: #d8d4b6;
+	border-left: 5px solid #272922;
+    border-right: 5px solid #272922;
+}
+
+.title_wrapper .col-lg-12 h1,.title_wrapper .breadcrumbs,.navbar-inverse .nav>li.active>a, .navbar-inverse .nav>li.current-menu-item>a, .navbar-inverse .nav>li>a:hover, .navbar .nav li.current-menu-parent a, .navbar .nav li.current_page_item a{
+	color:#d8d4b6;
+}
+.eventsButtons {
+    border: 1px solid #d8d4b6;
+    background-color: #747463;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #d8d4b6;
+}
+
+#sform input[type=search], .ubermenu .wpcf7-submit:hover, body .ubermenu-skin-clean-white .ubermenu-item-level-0:hover > .ubermenu-target, body .ubermenu-skin-clean-white .ubermenu-item-level-0.ubermenu-active > .ubermenu-target, body .flex-control-paging li a.flex-active, body .flex-control-paging li a:hover, body .wpb_posts_slider .flex-caption h2 a, .navbar-inverse .nav>li.active>a, .navbar-inverse .nav>li.current-menu-item>a, .navbar-inverse .nav>li>a:hover, .navbar .nav li.current-menu-parent a, .navbar .nav li.current_page_item a, .button-big:hover, .button-medium:hover, .button-small:hover, button[type=submit]:hover, input[type=button]:hover, input[type=submit]:hover, .navbar-nav>li:after, .ticker-title, .after-nav .container:before, div.pagination a:focus, div.pagination a:hover, div.pagination span.current, .page-numbers:focus, .page-numbers:hover, .page-numbers.current, body.woocommerce nav.woocommerce-pagination ul li a:focus, body.woocommerce nav.woocommerce-pagination ul li a:hover, body.woocommerce nav.woocommerce-pagination ul li span.current, .widget .clanwar-list .tabs li:hover a, .widget .clanwar-list .tabs li.selected a, .bgpattern, .post-review, .widget_shopping_cart, .woocommerce .cart-notification, .cart-notification, .splitter li[class*="selected"] > a, .splitter li a:hover, .ls-wp-container .ls-nav-prev, .ls-wp-container .ls-nav-next, a.ui-accordion-header-active, .accordion-heading:hover, .block_accordion_wrapper .ui-state-hover, .cart-wrap, .clanwar-list li ul.tabs li:hover, .clanwar-list li ul.tabs li.selected a:hover, .clanwar-list li ul.tabs li.selected a, .dropdown .caret, .tagcloud a:hover, .progress-striped .bar, .bgpattern:hover > .icon, .progress-striped .bar, .member:hover > .bline, .blog-date span.date, .pbg, .pbg:hover, .pimage:hover > .pbg, ul.social-media li a:hover, .navigation a, .pagination ul > .active > a, .pagination ul > .active > span, .list_carousel a.prev:hover, .list_carousel a.next:hover, .pricetable .pricetable-col.featured .pt-price, .block_toggle .open, .pricetable .pricetable-featured .pt-price, .isotopeMenu, .bbp-topic-title h3, .modal-body .reg-btn, #LoginWithAjax_SubmitButton .reg-btn, .footer_widget h3, buddypress div.item-list-tabs ul li.selected a, .results-main-bg, .blog-date-noimg, .blog-date, .ticker-wrapper.has-js, .ticker-swipe{
+	background-color: #747463;
+}
+
+h2,h4{
+	color:#e4e4e4;
+}
+.responsive-table tbody tr{
+	border: 1px solid #747463;
+	background-color:#c6c4a8;
+}
+table tbody tr:nth-child(even){
+	background-color: #c6c4a8;
+}
+.target_info, .single_inbox_message {
+    padding: 20px;
+    background-color: #c6c4a8;
+    border: 1px solid #747463;
+    margin-top: 11px;
+}
+.target_info a,.single_inbox_message a{
+	color:#fff;
+}
+table tbody tr td,.responsive-table tbody th[scope="row"],.responsive-table tbody td[data-title]:before{
+	color:#fff;
+}
+.inbox_title a,.responsive-table tbody td a,.h1, h1{
+	color:#fff;
+}
+.clan_column a,.clan_profile_row a,table tbody tr td a,.event-row a,.close{
+	color:#fff;
+}
+.close{
+	opacity: 0.8;
+}
+.wp-editor-container textarea.wp-editor-area, input[type=file], input[type=password], input[type=password]:active, input[type=password]:focus, input[type=password]:hover, input[type=text], input[type=text]:active, input[type=text]:focus, input[type=text]:hover, select, select:active, select:focus, select:hover, textarea, textarea:active, textarea:focus, textarea:hover{
+	background-color:#2f2f2f;
+	color:#fff;
+}
+.blue_alert{
+	background-color:#747463;
+	color:#fff;
+}
+
+
+::-webkit-input-placeholder { 
+    color:    #fff;
+}
+:-moz-placeholder { 
+    color:    #fff;
+}
+::-moz-placeholder { 
+    color:    #fff;
+}
+:-ms-input-placeholder {
+    color:    #fff;
+}
+#main_wrapper, .owl-item .car_image:after, .newsb-thumbnail a:after, .ins_widget ul li a:after, .blog-image a:after{
+		background: url(<?php echo get_template_directory_uri(); ?>/img/pattern.png) top left repeat rgba(216, 212, 182, 0.4);
+	}
+</style>
+    <?php
+}
+add_action('wp_head', 'hook_NZ_css');
+
+*/
+
 
 function small_avatar($user_ID,$type){
 	
