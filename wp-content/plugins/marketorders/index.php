@@ -21,6 +21,37 @@ function count_unit($user_ID,$unit_type){
 	return $units;
 }
 
+function header_events($user_ID){
+
+$new_events = get_user_meta($user_ID, 'new_events',true);
+$new_global_events = get_user_meta($user_ID, 'new_global_events',true);
+
+$redClass = "";
+$globalClass = "";
+if($new_events > 0){
+	$redClass = "redNotify";
+}
+if($new_global_events > 0){
+	$globalClass = "redNotify";
+}
+	
+return "
+	<div class='events_head'>
+			<a href='/events/incoming/'>
+				<div class='col-xs-6 eventsButtons'>
+						<span class='$redClass'>$new_events</span> event".plural_func($new_events)."
+				</div>
+			</a>
+			<a href='/events/global/'>
+				<div class='col-xs-6 eventsButtons'>
+						<span class='$globalClass'>$new_global_events</span> global event".plural_func($new_global_events)."
+				</div>
+			</a>
+		</div>
+	";
+	
+}
+
 function hook_css() {
 $user_ID = get_current_user_id();
 	

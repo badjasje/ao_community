@@ -702,7 +702,7 @@ table{
 	text-align: center;
 	font-size:12px;
 }
-.dead{
+.dead,.redNotify{
 	color:#ff0000;
 }
 .nukeprotection{
@@ -1188,11 +1188,8 @@ border_bottom_mobile{
 	background-color:#fff;
 	
 }
-.status_block{
-	margin-bottom:20px;
-}
 
-.secBlock{
+.secBlock,.notice_margin,.status_block{
 	margin-bottom:20px;
 }
 .clan_buttons{
@@ -1344,4 +1341,54 @@ input:checked + .slider:before {
 }
 .inRange{
 	font-weight:bold;
+}
+.attackField input{
+	font-size: 24px;
+	text-align:center;
+	font-weight: bold;
+	margin-bottom:5px;
+	border: 1px solid #2d4350;
+}
+.attackField input:hover{
+	font-size: 24px;
+	text-align:center;
+	font-weight: bold;
+	margin-bottom:5px;
+	border: 1px solid #2d4350;
+}
+.attackField input[type=text]:focus{
+	font-size: 24px;
+	text-align:center;
+	font-weight: bold;
+	margin-bottom:5px;
+	border: 1px solid #2d4350;
+}
+
+
+.attackButton{
+	width:100%;
+	margin-bottom:10px;
+}
+.attackDescription{
+	font-size: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    padding:7px;
+}
+.attackSelect{
+	margin-bottom:5px;
+}
+.attackSelect select{
+	color:#2d4350;
+	border: 1px solid #2d4350;
+}
+.attackType_title{
+	text-transform: uppercase;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 5px;
+    font-weight: bold;
+    padding-bottom: 3px;
+    margin-top: 10px;
 }

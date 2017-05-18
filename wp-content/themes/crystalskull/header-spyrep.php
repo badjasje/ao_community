@@ -89,30 +89,7 @@ $user = get_userdata($user_ID);
 			<img src="<?php echo esc_url(of_get_option('logo')); ?>" alt="logo"  /> 
 		</a>
 	
-		<div class="events_head">
-			<a href="/events/incoming/">
-				<div class="col-xs-6 eventsButtons">
-					<?php if($new_events > 0):?> 
-						<span style="color:#ff0000">
-							<?php echo $new_events;?></span> event<?php if($new_events > 1 || $new_events == 0){echo 's';}?> 
-					<?php else:?> 
-						<?php echo $new_events;?> event<?php if($new_events > 1 || $new_events == 0){echo 's';}?> 
-					<?php endif;?>
-				</div>
-			</a>
-			<a href="/events/global/">
-				<div class="col-xs-6 eventsButtons">
-			
-					<?php if($new_global_events > 0):?> 
-						<span style="color:#ff0000">
-							<?php echo $new_global_events;?></span> global event
-							<?php if($new_global_events > 1 || $new_global_events == 0){echo 's';}?> 
-					<?php else:?> 
-						<?php echo $new_global_events;?> global event<?php if($new_global_events > 1 || $new_global_events == 0){echo 's';}?> 
-					<?php endif;?>
-				</div>
-			</a>
-		</div>
+		<?php echo header_events($user_ID);?>
 	</div>
 			 <?php if(!function_exists( 'ubermenu' )){ ?>
             <div class="navbar-header">
