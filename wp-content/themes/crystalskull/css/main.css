@@ -301,7 +301,7 @@ input[type=submit]:hover{
 }
 .logo.col-lg-3 {
     text-align: left;
-    padding:0px 10px 10px 20px;
+    padding:0px 10px 10px 10px;
     min-height: 70px;
 }
 .logo.col-lg-3 a{
