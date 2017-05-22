@@ -3,7 +3,7 @@
  * Template Name: Spy Result
  */
 $defender_ID = $_SESSION['target_id'];
-$success = (rand(60,100));
+$success = (rand(30,100));
 $sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
 if($sat_status == 'active'){
 	$success = 100;
@@ -50,7 +50,7 @@ get_header(); ?>
             <div class="col-lg-12 col-md-12">
        
 <?php if($_SESSION['attack_array']['sendspy'] == 'spy'):?>
-	<?php if($success != 100):
+	<?php if($success <= 90):
 		include('units_array.php');?>
 		<?php $winner_id = $user_ID;?>
 			<center><h2>S U C C E S S</h2></center>
@@ -182,7 +182,7 @@ echo $defender_ID;
 			
 			
 			<?php if($_SESSION['attack_array']['sendspy'] == 'spyplane'):?>
-			<?php if($success != 100): include('building_array.php');?>
+			<?php if($success <= 90): include('building_array.php');?>
 			<?php $winner_id = $user_ID;?>
 			<center><h2>S U C C E S S</h2>
 			<div class="notice_message">
