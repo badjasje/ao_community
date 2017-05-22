@@ -35,96 +35,7 @@ if($sat_status == 'active'){
 
 
 
-$members = get_post_meta($clan_ID,'clan_members',true);
-			
-			
-			/* enhancing spy */
-			$enhanceSpy = 0;
-			
-			$args = array(
-			'posts_per_page'   => -1,
-			'author__in'	=> $members,
-			'orderby'          => 'date',
-			'order'            => 'DESC',
-			'meta_query'	=> array(
-				'relation'		=> 'AND',
-					array(
-						'key'	 	=> 'spied_id',
-						'value'	  	=> $defender_ID,
-						'compare' 	=> '=',
-						),
-					array(
-						'key'	 	=> 'spy_type',
-						'value'	  	=> 'spy',
-						'compare' 	=> '=',
-						),
-						
-					
-					),
-			'post_type'        => 'spy_rep',
-			);
-			$reports = get_posts( $args ); 		
-		
-			foreach ($reports as $report) {
-				
-			
-			$posttime = strtotime($report->post_date);
-			
-			if($posttime-$timestamp-3600+300 > 0){
-			
-				$enhanceSpy+=1;
-				}
-			
-			}
-			if($enhanceSpy > 3){
-				$enhanceSpy = 3;
-			}
-			
-			
-			
-			
-			/* enhancing plane */
-			$enhancePlane = 0;
-			
-			$args = array(
-			'posts_per_page'   => -1,
-			'author__in'	=> $members,
-			'orderby'          => 'date',
-			'order'            => 'DESC',
-			'meta_query'	=> array(
-				'relation'		=> 'AND',
-					array(
-						'key'	 	=> 'spied_id',
-						'value'	  	=> $defender_ID,
-						'compare' 	=> '=',
-						),
-					array(
-						'key'	 	=> 'spy_type',
-						'value'	  	=> 'spyplane',
-						'compare' 	=> '=',
-						),
-						
-					
-					),
-			'post_type'        => 'spy_rep',
-			);
-			$reports = get_posts( $args ); 		
-		
-			foreach ($reports as $report) {
-				
-			
-			$posttime = strtotime($report->post_date);
-			
-			if($posttime-$timestamp-3600+300 > 0){
-			
-				$enhancePlane+=1;
-				}
-			
-			}
-			if($enhancePlane > 3){
-				$enhancePlane = 3;
-			}
-			
+
 			
 			
 	
@@ -150,7 +61,7 @@ get_header(); ?>
 				<?php endif;?>
 			</span>
 			<?php if($enhanceSpy < 3):?>
-				<span class="rdw-line">Re-spy this target within 5 minutes to enhance spy reports</span>
+				<span class="rdw-line">Re-spy this target within 15 minutes to enhance spy reports</span>
 			<?php endif;?>
 			</div><br/>
 			<center>
@@ -179,16 +90,16 @@ get_header(); ?>
 				
 				
 				if($amount>0){
-				$displayamount = max(round($amount/(1+(mt_rand(120, 300)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(120, 300)/100)))));
+				$displayamount = max(round($amount/(1+(mt_rand(36, 72)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(36, 72)/100)))));
 				
 				if($enhanceSpy == 1){
-					$displayamount = max(round($amount/(1+(mt_rand(75, 150)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(75, 150)/100)))));
+					$displayamount = max(round($amount/(1+(mt_rand(12, 36)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(12, 36)/100)))));
 				}
 				if($enhanceSpy == 2){
-					$displayamount = max(round($amount/(1+(mt_rand(40, 75)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(40, 75)/100)))));
+					$displayamount = max(round($amount/(1+(mt_rand(6, 12)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(6, 12)/100)))));
 				}
 				if($enhanceSpy == 3){
-					$displayamount = max(round($amount/(1+(mt_rand(5, 10)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(5, 10)/100)))));
+					$displayamount = max(round($amount/(1+(mt_rand(3, 6)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(3, 6)/100)))));
 				}
 				$spy_array[$unit] = $displayamount;
 				/*
@@ -282,7 +193,7 @@ echo $defender_ID;
 				<?php endif;?>
 			</span>
 			<?php if($enhancePlane < 3):?>
-				<span class="rdw-line">Re-spy this target within 5 minutes to enhance spy reports</span>
+				<span class="rdw-line">Re-spy this target within 15 minutes to enhance spy reports</span>
 			<?php endif;?>
 
 			</div><br/>
@@ -311,16 +222,16 @@ echo $defender_ID;
 				
 				
 				if($amount>0){
-				$displayamount = max(round($amount/(1+(mt_rand(120, 300)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(120, 300)/100)))));
+				$displayamount = max(round($amount/(1+(mt_rand(36, 72)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(36, 72)/100)))));
 				
 				if($enhancePlane == 1){
-					$displayamount = max(round($amount/(1+(mt_rand(75, 150)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(75, 150)/100)))));
+					$displayamount = max(round($amount/(1+(mt_rand(12, 36)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(12, 36)/100)))));
 				}
 				if($enhancePlane == 2){
-					$displayamount = max(round($amount/(1+(mt_rand(40, 75)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(40, 75)/100)))));
+					$displayamount = max(round($amount/(1+(mt_rand(6, 12)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(6, 12)/100)))));
 				}
 				if($enhancePlane == 3){
-					$displayamount = max(round($amount/(1+(mt_rand(5, 10)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(5, 10)/100)))));
+					$displayamount = max(round($amount/(1+(mt_rand(3, 6)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(3, 6)/100)))));
 				}
 				$spy_array[$unit] = $displayamount;
 				/*
