@@ -34,7 +34,7 @@ if($sat_owned != 0 || !empty($sat_owned) && $sat_owned != 'stealths'){
 
 get_header(); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
 			<?php if($status == 'nukeprotection'):?>
