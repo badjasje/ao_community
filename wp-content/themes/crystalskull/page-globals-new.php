@@ -680,10 +680,11 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 				</div>
 			</div>
 			
-			
+			<?php if($winner_id == $attacker_id){?>
 			<div class="row">
 				<center>Power decreased by 20% for 6 hours.</center>
 			</div>
+			<?php }?>
 			
 		</div>
 	</div>
