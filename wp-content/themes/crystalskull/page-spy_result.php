@@ -3,10 +3,10 @@
  * Template Name: Spy Result
  */
 $defender_ID = $_SESSION['target_id'];
-$succes = (rand(80,100));
+$success = (rand(60,100));
 $sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
 if($sat_status == 'active'){
-	$succes = 100;
+	$success = 100;
 }
 
 $clan_defender_id = get_user_meta($defender_ID, 'clan_id_user', true);
@@ -27,9 +27,13 @@ if($turns < 1){
 	update_user_meta($user_ID,'turns',$turns[0]-1);
 	
 $sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
+
+$snipers = get_user_meta($defender_ID, 'snipers_owned', true);
+
+$success = $success+$snipers*0.25;
+
 if($sat_status == 'active'){
 	$success = 100;
-	
 }
 
 
@@ -46,7 +50,7 @@ get_header(); ?>
             <div class="col-lg-12 col-md-12">
        
 <?php if($_SESSION['attack_array']['sendspy'] == 'spy'):?>
-	<?php if($succes != 100):
+	<?php if($success != 100):
 		include('units_array.php');?>
 		<?php $winner_id = $user_ID;?>
 			<center><h2>S U C C E S S</h2></center>
@@ -178,7 +182,7 @@ echo $defender_ID;
 			
 			
 			<?php if($_SESSION['attack_array']['sendspy'] == 'spyplane'):?>
-			<?php if($succes != 100): include('building_array.php');?>
+			<?php if($success != 100): include('building_array.php');?>
 			<?php $winner_id = $user_ID;?>
 			<center><h2>S U C C E S S</h2>
 			<div class="notice_message">
