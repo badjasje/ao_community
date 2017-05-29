@@ -10,6 +10,37 @@ License: GPL
 Copyright: Kevin Bogaard
 */
 
+function get_user_name($user_ID){
+	$timestamp = strtotime(date('Y-m-d H:i:s'));
+	$status = get_user_meta($user_ID,'status',true);
+	$last_online = get_user_meta($user_ID, 'last_online',true);
+	$member_data = get_userdata($user_ID);
+	$displayName = $member_data->display_name;
+	
+	if(!empty($last_online)){
+		$last_seen = $timestamp - $last_online;
+		}
+	
+	
+	$onlineStar = '';
+	if($last_seen < 7200 && !empty($last_online)){
+		
+		$onlineStar = '<span style="color:#ff0000">*</span>';
+		
+		}
+	$extraStyle = '';
+	
+	if($status == 'dead' ){
+		$extraStyle = 'style="color:#ff0000"';
+		}
+	if($status == 'nukeprotection' ){
+		$extraStyle = 'style="color:#009eff"';
+		}
+
+return "<a class='memberField' $extraStyle href='/users/profile/?id=$user_ID'>$displayName (#$user_ID)</a> $onlineStar";
+	
+}
+
 function plural_func($number){
 	if($number == 0 || $number > 1){
 		return 's';
@@ -44,7 +75,7 @@ return "
 			</a>
 			<a href='/events/global/'>
 				<div class='col-xs-6 eventsButtons'>
-						<span class='$globalClass'>$new_global_events</span> global event".plural_func($new_global_events)."
+						<span class='globalNew $globalClass'>$new_global_events</span> global event".plural_func($new_global_events)."
 				</div>
 			</a>
 		</div>
@@ -198,7 +229,7 @@ add_action('wp_head', 'hook_css');
 
 
 
-/*   NZ color scheme
+/*   NZ color scheme 
 function hook_NZ_css() {
 $user_ID = get_current_user_id();
 	
@@ -234,6 +265,7 @@ body .navbar-inverse,body .blog{
 body .normal-page{
 	background-color:#78806b;
 	padding-top: 0px;
+	padding-bottom: 0px; 
 }
 .build_content,.select2-results{
 	background-color:#c6c4a8;
@@ -280,7 +312,10 @@ body .normal-page{
     background-color: #c6c4a8;
 }
 .textNotify,.profile_block,body{
-	color:#fff;
+	color:#35382f;
+}
+.profile_block{
+	margin-top:20px;
 }
 .notice_message, .bonus_message{
 	background-color: #c6c4a8;
@@ -300,21 +335,36 @@ body .normal-page{
 	color:#747463;
 	border: 1px solid #747463;
 }
-.status_column{
+.status_column,.textNotify{
 	color:#747463;
 }
-
-.notice_message{
-	margin-top:20px;
+.status_column a{
+	color: #747463;
 }
+
+
 .containerNZ{
 	background-color: #d8d4b6;
 	border-left: 5px solid #272922;
     border-right: 5px solid #272922;
+    padding: 20px 15px;
 }
-
+.status_header{
+	margin-top:0px;
+}
+.battlereport-header {
+    background-color: #747463;
+    color: #d8d4b6;
+    }
+.event-row {
+    border-left: 1px solid #747463;
+    border-right: 1px solid #747463;
+    border-bottom: 1px solid #747463;
 .title_wrapper .col-lg-12 h1,.title_wrapper .breadcrumbs,.navbar-inverse .nav>li.active>a, .navbar-inverse .nav>li.current-menu-item>a, .navbar-inverse .nav>li>a:hover, .navbar .nav li.current-menu-parent a, .navbar .nav li.current_page_item a{
 	color:#d8d4b6;
+}
+.current_but {
+    background-color: #35382f !important;
 }
 .eventsButtons {
     border: 1px solid #d8d4b6;
@@ -345,27 +395,29 @@ table tbody tr:nth-child(even){
     margin-top: 11px;
 }
 .target_info a,.single_inbox_message a{
-	color:#fff;
+	color:#35382f;
 }
 table tbody tr td,.responsive-table tbody th[scope="row"],.responsive-table tbody td[data-title]:before{
-	color:#fff;
+	color:#35382f;
 }
 .inbox_title a,.responsive-table tbody td a,.h1, h1{
-	color:#fff;
+	color:#35382f;
 }
 .clan_column a,.clan_profile_row a,table tbody tr td a,.event-row a,.close{
-	color:#fff;
+	color:#35382f;
 }
 .close{
 	opacity: 0.8;
 }
 .wp-editor-container textarea.wp-editor-area, input[type=file], input[type=password], input[type=password]:active, input[type=password]:focus, input[type=password]:hover, input[type=text], input[type=text]:active, input[type=text]:focus, input[type=text]:hover, select, select:active, select:focus, select:hover, textarea, textarea:active, textarea:focus, textarea:hover{
 	background-color:#2f2f2f;
-	color:#fff;
+	color:#d8d4b6;
 }
 .blue_alert{
+	margin-top:20px;
 	background-color:#747463;
-	color:#fff;
+	color:#d8d4b6;
+	border-color:#d8d4b6;
 }
 
 
@@ -516,7 +568,7 @@ function alert_notification($message){
 	
 	return '<div class="alert alert-warning alert-dismissible blue_alert" role="alert">
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<i class="fa fa-info-circle" aria-hidden="true"></i> '.$message.'.
+				<i style="color:#425c6b" class="fa fa-info-circle" aria-hidden="true"></i> '.$message.'.
 			</div>';
 	
 }
@@ -1135,8 +1187,10 @@ function count_missiles($user_ID){
 	include('missiles_array.php');
 	$totalmissiles = 0;
 	foreach($missiles as $key => $missile){
-	$missiles_owned = get_user_meta($user_ID, $key.'_owned',true);
-	$totalmissiles+=$missiles_owned;
+		if($key != 'tomahawk'){
+			$missiles_owned = get_user_meta($user_ID, $key.'_owned',true);
+			$totalmissiles+=$missiles_owned;
+		}
 }
 return $totalmissiles;
 	

@@ -57,13 +57,7 @@
 	
 	<div class="col-md-4 clan_column center_clan_col border_bottom_mobile">
 
-		<a class="memberField <?php echo get_user_meta($user_ID,'status',true);?>" href="/users/profile/?id=<?php echo $user_ID;?>">
-			<?php echo $member_data->display_name.' (#'.$user_ID.')';?></a> 
-			<?php if(!empty($last_online)){
-					if($last_seen < 7200 && !empty($last_online[0])){
-						echo ' <span style="color:#ff0000">*</span>';
-						}
-					}?>			
+		<?php echo get_user_name($user_ID);?>		
 
 	</div>
 	<div class="col-md-2 clan_column border_bottom_mobile">
