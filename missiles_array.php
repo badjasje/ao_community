@@ -58,11 +58,9 @@
 			'type'			=>	'mis',
 			'life'			=>	0),
 			
-			
-			/*
 	'tomahawk' 		=> array(
 			'price'			=>	'1500',
-			'networth'		=>	15,
+			'networth'		=>	10,
 			'normalname'	=>	'Tomahawk',
 			'shortname'		=>	'TOM',
 			'shortatt'		=>  array('b'),
@@ -70,6 +68,6 @@
 			'defends'		=>  array(''),
 			'attack'		=>	1000,
 			'type'			=>	'mis',
-			'life'			=>	0),*/
+			'life'			=>	0),
 
 );
