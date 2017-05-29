@@ -10,4 +10,4 @@
 	
 		echo 'Assault.Online';
 	}
-	
+	exit;

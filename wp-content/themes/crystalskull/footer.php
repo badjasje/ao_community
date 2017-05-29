@@ -36,8 +36,12 @@ jQuery( ".menu-item-7706" ).append( "<span class='bluepulse'><a class='bluepulse
 	function myFunction() {
 		$.get('<?php echo get_site_url();?>/checkevents.php', function(data) {
 			var newevents = data; 
-		    $('title').text(newevents);
-			
+			var onlynumbers = newevents.match(/\d+/); // 123456
+		    if (onlynumbers > 1){
+		    $('title').text(newevents); 
+		    $('.globalNew').text(onlynumbers);
+		    $( ".globalNew" ).addClass( "redNotify" );
+			}
 
             
             
