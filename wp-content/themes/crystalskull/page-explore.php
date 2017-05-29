@@ -30,7 +30,7 @@ get_header(); ?>
 			<div class="notice_message">
 				<span class="rdw-line">You can currently explore <?php
 				
-				if(200-((ceil($ownedland[0]*0.002))) < 50){echo '50';}else{echo 200-((ceil($ownedland[0]*0.002)));} ?>
+				if(200-((ceil($ownedland[0]*0.002))) < 25){echo '25';}else{echo 200-((ceil($ownedland[0]*0.002)));} ?>
 				
 				m<sup>2</sup> per turn.</span>
 			</div>
