@@ -241,9 +241,29 @@ foreach ($attack_array as $key => $count) {
 			$attacker_type_damage[$type] = $atk_power_distrib;
 	}
 }
+$tomahawks = get_user_meta($user_id, 'tomahawk_owned', true);
+$tomahawkPerc = $_SESSION['tomahawk']['percentage'];
+
+$tomahawksSent = floor($tomahawks*$tomahawkPerc);
+
+$samSites = get_user_meta($target_id, 'samsite', true);
+$ams = get_user_meta($target_id, 'antimissile', true);
+
+$shotdown = ceil(($samSites*(mt_rand(110,125)/1000))+($ams*(mt_rand(190,250)/1000)));
+
+if($shotdown > $tomahawksSent){
+	$shotdown = ceil($tomahawksSent*0.75);
+	
+}
+
+if($tomahawksSent > 0){
+	$tomahawkDamage = ($tomahawksSent-$shotdown)*3000;
+	$attacker_type_damage['bld'] += $tomahawkDamage;
+}
 
 
 
+update_user_meta($user_id, 'tomahawk_owned', $tomahawks-$tomahawksSent);
 
 
 /* add statistics for defender and attacker */
@@ -370,9 +390,9 @@ if (
 	$land_stolen  = 0;
 	$money_stolen = 0;
 	$winner_id = $target_id;
-	$attacker_extra_losses = 1.1;
-	$defender_loss_decrease = 0.5;
-	$defender_unit_loss_decrease = 0.9;
+	$attacker_extra_losses = 1.35;
+	$defender_loss_decrease = 0.35;
+	$defender_unit_loss_decrease = 0.5;
 }
 
 $defender_units_lost = 0;
@@ -490,6 +510,11 @@ $money_stolen = 0;
 
 /* if success calculate resources stolen */
 if($result == 'success'){
+	$extraLandKill = 1;
+	if ($defender_buildings_lost >= $defender_building_total) {
+		$extraLandKill = 2.5;
+	}
+	
 	
 	$money     = get_user_meta($target_id, 'money')[0];
 	$land      = get_user_meta($target_id, 'land')[0];
@@ -498,12 +523,12 @@ if($result == 'success'){
 
 	$startingbonus = get_user_meta($user_id, 'starting_bonus', true);
 	if($startingbonus == 'offensive'){
-	$land_stolen   = max(ceil($freeland * ($STOLEN_LAND_RATIO*2*$resourceMulti*$aggressive_multi) * resource_dice_roll()), 0);
-	$money_stolen  = max(ceil($money * ($STOLEN_MONEY_RATIO*2*$resourceMulti*$aggressive_multi) * resource_dice_roll()), 0);
+	$land_stolen   = max(ceil($freeland * ($STOLEN_LAND_RATIO*2*$resourceMulti*$aggressive_multi*$extraLandKill) * resource_dice_roll()), 0);
+	$money_stolen  = max(ceil($money * ($STOLEN_MONEY_RATIO*2*$resourceMulti*$aggressive_multi*$extraLandKill) * resource_dice_roll()), 0);
 	}
 	else{
-	$land_stolen   = max(ceil($freeland * $STOLEN_LAND_RATIO * $resourceMulti * $aggressive_multi * resource_dice_roll()), 0);
-	$money_stolen  = max(ceil($money * $STOLEN_MONEY_RATIO * $resourceMulti * $aggressive_multi * resource_dice_roll()), 0);
+	$land_stolen   = max(ceil($freeland * $STOLEN_LAND_RATIO * $resourceMulti * $aggressive_multi * $extraLandKill * resource_dice_roll()), 0);
+	$money_stolen  = max(ceil($money * $STOLEN_MONEY_RATIO * $resourceMulti * $aggressive_multi * $extraLandKill * resource_dice_roll()), 0);
 	}
 
 	$attackermoney = get_user_meta($user_id, 'money')[0];
@@ -804,6 +829,12 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 				}
 			}
 			?>
+			<?php if(($tomahawksSent-$shotdown)>0):?>
+			<br/><?php echo ($tomahawksSent-$shotdown);?> tomahaw<?php echo plural_func($tomahawksSent-$shotdown);?> hit the enemy base<br/>
+			<?php endif;?>
+			<?php if($shotdown > 0):?>
+			<?php echo $shotdown;?> tomahawk<?php echo plural_func($shotdown);?> shotdown
+			<?php endif;?>
 		</td>		
 		<td class="report_content"><strong>Units Killed: 
 			<?php
