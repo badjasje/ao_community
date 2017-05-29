@@ -187,7 +187,7 @@ html.fullwidth body .blog, html.fullwidth body .normal-page, html.fullwidth body
 .nicescroll-rails {
     z-index: 9999!important;
 }
-.wp-editor-container textarea.wp-editor-area, input[type=file], input[type=password], input[type=password]:active, input[type=password]:focus, input[type=password]:hover, input[type=text], input[type=text]:active, input[type=text]:focus, input[type=text]:hover, select, select:active, select:focus, select:hover,textarea, textarea:active, textarea:focus, textarea:hover {
+.wp-editor-container textarea.wp-editor-area, input[type=file], input[type=password], input[type=password]:active, input[type=password]:focus, input[type=password]:hover, input[type=text], input[type=number], input[type=text]:active, input[type=text]:focus, input[type=text]:hover, select, select:active, select:focus, select:hover,textarea, textarea:active, textarea:focus, textarea:hover {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px;
