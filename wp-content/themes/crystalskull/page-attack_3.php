@@ -63,16 +63,24 @@ get_header(); ?>
   				</tr>
 			</thead>
 			<tbody>
-		<?php foreach($units_attack as $key => $order){
+
+<?php foreach($units_attack as $key => $order){
 			
-			$units_owned = get_user_meta($user_ID, $key.'_owned');
+	if($key != 'tomahawk'){
 			
-			if($order > 0){
+		$units_owned = get_user_meta($user_ID, $key.'_owned');
+			
+		if($order > 0){
+			
 			if($order >= $units_owned[0]){
+				
 				$percentage = 1;
-			}else{
+				
+				}else{
+				
 				$percentage = $order/$units_owned[0];
-			}
+				
+				}
 			?><tr>
 			<td data-title="Name">
 				<?php echo $units[$key]['normalname'];?>
@@ -91,7 +99,40 @@ get_header(); ?>
 			
 			
 			</tr>
-		<?php }} ?>
+		<?php }}} ?>
+		<?php 
+			$tomahawk_owned = get_user_meta($user_ID, 'tomahawk_owned',true);
+		
+			$order = $_SESSION['attack_array']['tomahawk'];
+			
+			if($order > 0){
+			if($order >= $tomahawk_owned){
+				$percentage = 1;
+			}else{
+				$percentage = $order/$tomahawk_owned;
+			}
+			?><tr>
+			<td data-title="Name">
+				Tomahawk
+			</td>
+			<td data-title="Sending to battle">
+				<?php echo $tomahawk_owned*$percentage;?>
+			</td>
+			<td data-title="Percentage">
+				<input type="hidden" name="tomahawk" value="<?php echo $percentage;?>">
+				<?php echo round($percentage*100,0).'%';$_SESSION[$key]['percentage'] = $percentage;?>
+			</td>
+			
+			
+		<?php } ?>
+			
+			
+			
+			</tr>
+		
+			
+			
+		
 			</tbody>
 		</table>
 		<input class="submitBtn" style="width:100%" type="submit" value="ATTACK" class="">

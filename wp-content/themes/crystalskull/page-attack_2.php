@@ -84,6 +84,8 @@ get_header(); ?>
 			<?php
 				$sendall = array();
 				$tot_units = 0;
+				$tomahawkspace = get_user_meta($user_ID, 'submarine_owned',true)*2;
+				$maxTomahawk = min($tomahawkspace,get_user_meta($user_ID, 'tomahawk_owned', true));
 			foreach($units as $key => $unit){
 				$units_owned = get_user_meta($user_ID, $key.'_owned');
 				$tot_units+=$units_owned[0];
@@ -121,9 +123,8 @@ get_header(); ?>
 					
 				<td data-title="Owned">
 					<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned[0];$units_total+=$units_owned[0];?></span>				</td>
-					
 				<td>
-					<input class="unit_input" placeholder="Enter amount to send, or click unit amount" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
+					<input class="unit_input" placeholder="Enter amount to send, or click unit amount" type="number" min="0" max="<?php echo $units_owned[0];?>" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
 				</td>
 					
 			</tr>
@@ -138,6 +139,60 @@ get_header(); ?>
 
 
 				<?php }}}?>
+				<?php if($maxTomahawk > 0):?>
+				<?php $sendall[] = $maxTomahawk; ?>
+				<tr>
+				<td data-title="Name">
+					<strong>Tomahawk</strong>
+				</td>
+				
+				<td data-title="Attack/Life">
+					1000 / 0			
+				</td>
+				
+				<td data-title="Targets">
+						bds
+				</td>
+					
+				<td data-title="Owned">
+					<span class="allbutton" id="button_tomahawk"></span>				</td>
+					
+				<td>
+					<input type="number" class="unit_input" placeholder="Enter amount to send, or click missile amount" min="0" max="<?php echo $maxTomahawk;?>" type="text" id="tomahawk" name="tomahawk"/>
+				</td>
+					
+			</tr>
+					<script type="text/javascript">
+						jQuery("#button_tomahawk").click(function() {
+							var maxtomahawk = Math.min(jQuery('#submarine').val() * 2,<?php echo $maxTomahawk;?>);
+						jQuery("#tomahawk").val(maxtomahawk);
+						jQuery("#button").show();
+						jQuery("#message").hide();
+						});
+						
+						jQuery("#buttonsubmarine").click(function() {
+							var maxtomahawk = Math.min(jQuery('#submarine').val() * 2,<?php echo $maxTomahawk;?>);
+							jQuery('#button_tomahawk').text(maxtomahawk);
+							jQuery("#tomahawk").attr({
+								"max" : maxtomahawk        // substitute your own
+      
+								});
+							
+							});
+						
+						jQuery(document).ready(function(){
+							jQuery("#submarine").bind("change paste keyup propertychange click", function() {
+								var maxtomahawk = Math.min(jQuery('#submarine').val() * 2,<?php echo $maxTomahawk;?>);
+						        jQuery('#button_tomahawk').text(maxtomahawk);
+						        jQuery("#tomahawk").attr({
+								"max" : maxtomahawk        // substitute your own
+      
+								});
+						    });    
+						});
+											
+					</script>
+			<?php endif;?>
   				</tbody>
 				</table>
 			
@@ -324,7 +379,8 @@ get_header(); ?>
 				foreach($units as $key => $unit){
 					$units_owned = get_user_meta($user_ID, $key.'_owned');
 					$units_total+=$units_owned[0];
-					if($unit['type'] == 'veh' || $unit['type'] == 'inf' || $unit['type'] == 'air' and $unit['normalname'] != 'Thief' and $unit['normalname'] != 'Spy' and $unit['normalname'] != 'SR-71 Spyplane' and $unit['normalname'] != 'Sniper'){
+					if($unit['type'] == 'veh' || $unit['type'] == 'inf' || $unit['type'] == 'air'){
+					if($key != 'sniper' && $key != 'thief' && $key != 'spyplane' && $key != 'spy' ){
 					if($units_owned[0]>0){
 						$sendall[] = $units_owned[0];
 					?>
@@ -364,7 +420,7 @@ get_header(); ?>
 					</script>
 					
 					
-				<?php }}}?>
+				<?php }}}}?>
   				</tbody>
 				</table>
 				<br/>
@@ -571,6 +627,7 @@ get_header(); ?>
 		<?php 
 			$owned = 0;
 			foreach($missiles as $key => $missile){
+					if($key != 'tomahawk'){
 					$missiles_owned = get_user_meta($user_ID, $key.'_owned');
 					$owned+=$missiles_owned[0];
 					if($missiles_owned[0]>0){
@@ -610,7 +667,7 @@ get_header(); ?>
 					
 					
 					
-				<?php }}?>
+				<?php }}}?>
 				</tbody>
 		</table><br/>
 		<?php if($owned>0):?>

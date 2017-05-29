@@ -102,10 +102,11 @@ function count_missilespace($user_id) {
 		
 		foreach($missiles as $key => $missile){
 	
-
+		if($key != 'tomahawk'){
 		$missiles_owned = get_user_meta($user_id, $key.'_owned',true);
 		$missiles_ordered = get_user_meta($user_id, $key.'_ordered',true);
 		$totalmissiles+=($missiles_owned+$missiles_ordered);
+		}
 		}
 		return $totalmissiles;
 	}

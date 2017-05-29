@@ -26,14 +26,14 @@ if(empty($user_ID)){
 if ( !is_user_logged_in() ) { 
 	wp_redirect(get_permalink(3582)); exit;
 	}
-$totalmoney = get_user_meta($user_ID, 'money');
-$totalmoney = $totalmoney[0];
+$totalmoney = get_user_meta($user_ID, 'money',true);
 
-$turns = get_user_meta($user_ID, 'turns');
-$turns = $turns[0];
+$turns = get_user_meta($user_ID, 'turns',true);
 
-$missilespace = get_user_meta($user_ID, 'silo');
-$missilespace = $missilespace[0];
+
+$missilespace = get_user_meta($user_ID, 'silo',true);
+$tomahawkspace = get_user_meta($user_ID, 'submarine_owned',true)*2;
+
 
 include 'missiles_array.php';
 
@@ -49,10 +49,23 @@ $ordered_missiles = ceil($_POST["$key"]);
 
 if(empty($_POST["$key"])){$letter_check = 0;}else{$letter_check = $_POST["$key"];}
 if(!is_numeric($letter_check)){$_SESSION['status'] = 'Enter a valid number';wp_redirect(get_permalink(3457)); exit;}
-$orderamount = $price*$ordered_missiles;
 
+if($key != 'tomahawk'){
+
+$orderamount = $price*$ordered_missiles;
 $totalordercost+=$orderamount;
 $totalturncost+=$ordered_missiles*5;
+
+}
+if($key == 'tomahawk'){
+	
+$orderamount = $price*$ordered_missiles;
+$totalordercost+=$orderamount;
+$totalturncost+=ceil($ordered_missiles/3);
+	
+}
+
+
 
 }
 if($totalordercost > $totalmoney){$_SESSION['status'] = 'Insufficient funds'; wp_redirect(get_permalink(3457));exit;}
@@ -75,18 +88,48 @@ if($startingbonus == 'shipping'){
 
 foreach($missiles as $key => $order){
 		
-		
-			$missile_name = $key.'_ordered';
-			$normalname = $order['normalname'];
-			$price = $order['price'];
-			$ordered_missiles = ceil($_POST["$key"]);
-			$mis+=$ordered_missiles;
-			$owned_missiles = get_user_meta($user_ID, $key.'_owned');
-			$missiles_already_on_order = get_user_meta($user_ID, $key.'_ordered');
-			$total_missile_ordered+=$ordered_missiles+$owned_missiles[0]+$missiles_already_on_order[0];}
-		
-			if($mis>0){
-			if($total_missile_ordered > $missilespace ){ $_SESSION['status'] = 'Build more missile silos';wp_redirect(get_permalink(3457)); exit;}}
+			if($key != 'tomahawk'){
+				
+				$missile_name = $key.'_ordered';
+				$normalname = $order['normalname'];
+				$price = $order['price'];
+				$ordered_missiles = ceil($_POST["$key"]);
+				$mis+=$ordered_missiles;
+				
+				$owned_missiles = get_user_meta($user_ID, $key.'_owned',true);
+				$missiles_already_on_order = get_user_meta($user_ID, $key.'_ordered',true);
+				
+				$total_missile_ordered+=$ordered_missiles+$owned_missiles+$missiles_already_on_order;}
+				
+				if($mis>0){
+					if($total_missile_ordered > $missilespace ){ 
+						$_SESSION['status'] = 'Build more missile silos';
+						wp_redirect(get_permalink(3457)); 
+						exit;
+						}
+					}
+			
+			
+			if($key == 'tomahawk'){
+				
+				$owned_tomahawks = get_user_meta($user_ID, $key.'_owned',true);
+				$tomahawks_already_on_order = get_user_meta($user_ID, $key.'_ordered',true);
+				
+				$ordered_tomahawks = ceil($_POST["$key"]);
+				
+				$total_tomahawks_ordered = $ordered_tomahawks + $tomahawks_already_on_order + $owned_tomahawks;
+				
+				if($ordered_tomahawks > 0){
+					if($total_tomahawks_ordered > $tomahawkspace ){ 
+						$_SESSION['status'] = 'Build more submarines';
+						wp_redirect(get_permalink(3457)); 
+						exit;
+						}
+					}
+					
+					
+				}
+			}
 
 // BUILD MISSILES //
 $total_missiles_ordered = 0;
