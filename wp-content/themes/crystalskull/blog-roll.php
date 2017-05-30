@@ -4,17 +4,7 @@
 
 		<div class="blog-image right"><!-- blog-image -->
 
-		<?php
-		if (has_post_thumbnail()) { ?>
-			<?php
-				$thumb = get_post_thumbnail_id();
-				$img_url = wp_get_attachment_url( $thumb,'full'); //get img URL
-				$image = crystalskull_aq_resize( $img_url, 817, 320, true, '', true ); //resize & crop img
-			?>
-				<a href="<?php the_permalink(); ?>"><img alt="img"  src="<?php echo esc_url($image[0]); ?>" /></a>
-		<?php }else{ ?>
-				<a href="<?php the_permalink(); ?>"><img alt="default" src="<?php echo  get_template_directory_uri().'/img/defaults/default.jpg'; ?> " /></a>
-		<?php } ?>
+	
 
 
 
@@ -32,9 +22,11 @@
 			</h2>
 			<div class="post-pinfo">
 
-			<a data-original-title="<?php esc_html_e("View all posts by", 'crystalskull'); ?> <?php echo esc_attr(get_the_author()); ?>" data-toggle="tooltip" href="<?php echo esc_url(get_author_posts_url( get_the_author_meta( 'ID' ))); ?>"><?php echo get_avatar( get_the_author_meta('ID'), 60, '', 'author image', array('class' => 'authorimg') ); ?> by <?php echo esc_attr(get_the_author()); ?></a>
-			<i>|</i>
-			<?php $postcats = wp_get_post_categories($post->ID); if ($postcats) {?>  <?php foreach($postcats as $c) {$cat = get_category( $c ); ?>  <a href="<?php echo esc_url(get_category_link($cat->cat_ID)); ?>"> <?php echo esc_attr($cat->cat_name) . ' '; ?> </a><?php } ?> <i>|</i> <?php } ?>
+	
+				<?php echo small_avatar(get_the_author_meta('ID'),'singlePostAvatar');?>
+				
+			 &nbsp;<?php echo LinkUtil::user_link(get_the_author_meta('ID')); ?> <i>|</i>
+			<?php $postcats = wp_get_post_categories($post->ID); if ($postcats) {?>  <?php foreach($postcats as $c) {$cat = get_category( $c ); ?>  <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>"> <?php echo esc_attr($cat->cat_name) . ' '; ?> </a><?php } ?> 	<i>|</i> <?php } ?>
 
 
 			<?php if ( is_plugin_active( 'disqus-comment-system/disqus.php' )){ ?>
@@ -50,7 +42,6 @@
 	       <span class="date"> <?php the_time('d'); ?> <?php the_time('M'); ?> <?php the_time('Y'); ?></span>
 
 		</div>
-			<?php the_excerpt(10); ?>
 
 			<a href="<?php the_permalink(); ?>" class="button-small"><?php esc_html_e("Read more", 'crystalskull'); ?></a>
 		</div><!-- blog-content -->
