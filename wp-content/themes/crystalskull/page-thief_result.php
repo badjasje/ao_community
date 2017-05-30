@@ -268,8 +268,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);
 		  $cashMultiplier = ((mt_rand(1,5)*($thieves/$thief_multiplier))/100);
 
-		  $snipersHit = ($snipers*0.39)*(mt_rand(70,130)/100);
-		  $cashMultiplier = ((mt_rand(1,10)*($thieves/$thief_multiplier))/100);
+		 
 
 		  
 		break;
@@ -284,8 +283,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);		
 		  $cashMultiplier = ((mt_rand(2,7)*($thieves/$thief_multiplier))/100);  
 
-		  $snipersHit = ($snipers*0.39)*(mt_rand(70,130)/100);		
-		  $cashMultiplier = ((mt_rand(2,13)*($thieves/$thief_multiplier))/100);  
+	
 
 		break;		
 		case 3:
@@ -300,8 +298,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);		 
 		  $cashMultiplier = ((mt_rand(4,9)*($thieves/$thief_multiplier))/100);
 
-		  $snipersHit = ($snipers*0.39)*(mt_rand(70,130)/100);		 
-		  $cashMultiplier = ((mt_rand(3,13)*($thieves/$thief_multiplier))/100);
+		  
 
 		break;
 		default:
@@ -315,8 +312,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);	
 		  $cashMultiplier = ((mt_rand(5,9)*($thieves/$thief_multiplier))/100);	  
 
-		  $snipersHit = ($snipers*0.39)*(mt_rand(70,130)/100);	
-		  $cashMultiplier = ((mt_rand(5,13)*($thieves/$thief_multiplier))/100);	  
+		
 
 		break;
 	}
