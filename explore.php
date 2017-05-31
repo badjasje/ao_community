@@ -29,7 +29,10 @@ if ( !is_user_logged_in() ) {
 $ownedland = get_user_meta($user_ID, 'land');
 $explored_today = get_user_meta($user_ID, 'explored_today');
 $perturnm2 = 200-((ceil($ownedland[0]*0.002)));
-if($perturnm2 < 25){
+if($perturnm2 < 50){
+	$perturnm2 = 50;
+}
+if ($perturnm2 < 25) {
 	$perturnm2 = 25;
 }
 
