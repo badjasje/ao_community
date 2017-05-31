@@ -277,7 +277,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		break;
 		case 1:
 		  if (!(isset($thief_multiplier))) {
-			  $thief_multiplier=3.8;
+			  $thief_multiplier=3.6;
 		  }
 		  
 		  $sqrtThieves = sqrt($thieves);
@@ -294,7 +294,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		break;		
 		case 2:
 		  if (!(isset($thief_multiplier))) {
-			  $thief_multiplier=3.5;
+			  $thief_multiplier=3.4;
 
 		  }
 		  
