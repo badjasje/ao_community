@@ -287,7 +287,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  //Sets the damage an individual sniper does to the thieves
 
 		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);		
-		  $cashMultiplier = ((mt_rand(2,7)*($sqrtThieves/$thief_multiplier))/100);  
+		  $cashMultiplier = ((mt_rand(2,6)*($sqrtThieves/$thief_multiplier))/100);  
 
 	
 
@@ -305,7 +305,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  //Sets the damage an individual sniper does to the thieves
 
 		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);		 
-		  $cashMultiplier = ((mt_rand(4,9)*($sqrtThieves/$thief_multiplier))/100);
+		  $cashMultiplier = ((mt_rand(4,7)*($sqrtThieves/$thief_multiplier))/100);
 
 		  
 
@@ -325,7 +325,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		  //Sets the damage an individual sniper does to the thieves
 
 		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);	
-		  $cashMultiplier = ((mt_rand(5,9)*($sqrtThieves/$thief_multiplier))/100);	  
+		  $cashMultiplier = ((mt_rand(5,8)*($sqrtThieves/$thief_multiplier))/100);	  
 
 		  //Old: 
 		  // 5 * (1/3) =0.33    / 100 = 2%
