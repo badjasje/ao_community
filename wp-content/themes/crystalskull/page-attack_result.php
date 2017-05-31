@@ -371,10 +371,9 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 }}
 
 
-// Increased the overkill needed to win the battle by 10%
-// MEGA 20150531
+
 if($defender_total_power*1.3 <= $attacker_total_power){
-//if($defender_total_power*1.2 <= $attacker_total_power){
+
 	$result = 'success';
 	$winner_id = $user_id;
 }
