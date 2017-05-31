@@ -427,7 +427,7 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 			//Reduce lost buildings to just 40% if the attack was not successful
 			//MEGA 20170531
 			if ($result == 'failure') {
-				$killed = $killed*0.4;
+				$killed = floor($killed*0.4);
 			}
 			
 			 
@@ -453,7 +453,7 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 			//Reduce lost units to just 40% if the attack was not successful
 			//MEGA 20170531
 			if ($result == 'failure') {
-				$killed = $killed*0.4;
+				$killed = floor($killed*0.4);
 			}
 			
 			$defender_units_lost+=$killed;
