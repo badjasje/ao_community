@@ -1189,7 +1189,7 @@
 			'normalname'	=>	'Typhoon Attack Submarine',
 			'attacks'		=>  array('bld','sea'),
 			'defends'		=>  array('sea'),
-			'attack'		=>	90,
+			'attack'		=>	60,
 			'type'			=>	'sea',
 			'life'			=>	50),
 	'cruiser' 			=> array(
