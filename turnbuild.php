@@ -67,9 +67,9 @@ $sniper_ordered = get_user_meta($user_ID, 'sniper_ordered',true);
 
 $commandcenter = get_user_meta($user_ID, 'command_centre',true);
 $ccspace = ($commandcenter*5)-$spies-$thiefs-$planes-$spies_ordered-$thiefs_ordered-$planes_ordered-$sniper-$sniper_ordered;
-echo $ccspace.'<br/>';
+
 $total_special = $spies+$thiefs+$planes+$spies_ordered+$thiefs_ordered+$planes_ordered+$sniper+$sniper_ordered;
-echo $total_special.'<br/>';
+
 $air = 0;
 $veh = 0;
 $sea = 0;
@@ -206,7 +206,11 @@ foreach($units as $key => $order){
 
 
 if($total_spec_count>0){
-if($total_special>500 || ($total_special/$commandcenter) > $ccspace){
+	echo $total_special.' total special<br/>';
+	echo $ccspace.' cc space<br/>';
+	echo $total_spec_count.' tot spec count';
+
+if($total_special>500 || $total_spec_count > $ccspace){
 	$_SESSION['status'] = 'Cannot build more than 500 special units';wp_redirect($unitsRedirectUrl); exit;
 	}
 }
