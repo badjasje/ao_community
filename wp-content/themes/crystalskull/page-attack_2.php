@@ -85,7 +85,8 @@ get_header(); ?>
 				$sendall = array();
 				$tot_units = 0;
 				$tomahawkspace = get_user_meta($user_ID, 'submarine_owned',true)*2;
-				$maxTomahawk = min($tomahawkspace,get_user_meta($user_ID, 'tomahawk_owned', true));
+				$maxNetworth = round(get_user_meta($user_ID, 'networth',true)/10000*2);
+				$maxTomahawk = min($tomahawkspace,$maxNetworth,get_user_meta($user_ID, 'tomahawk_owned', true));
 			foreach($units as $key => $unit){
 				$units_owned = get_user_meta($user_ID, $key.'_owned');
 				$tot_units+=$units_owned[0];
@@ -195,7 +196,9 @@ get_header(); ?>
 			<?php endif;?>
   				</tbody>
 				</table>
-			
+				<?php if($maxTomahawk > 0):?>
+					<div class="tomahawkNotification">You can send 2 tomahawk missiles for every $10 000 province networth.</div>
+				<?php endif;?>
 				<?php if($tot_units > 0):?>
 		
 		<div class="row">

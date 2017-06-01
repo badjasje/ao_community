@@ -249,7 +249,7 @@ $tomahawksSent = floor($tomahawks*$tomahawkPerc);
 $samSites = get_user_meta($target_id, 'samsite', true);
 $ams = get_user_meta($target_id, 'antimissile', true);
 
-$shotdown = ceil(($samSites*(mt_rand(110,125)/1000))+($ams*(mt_rand(190,250)/1000)));
+$shotdown = ceil(($samSites*(mt_rand(120,135)/1000))+($ams*(mt_rand(190,250)/1000)));
 
 if($shotdown > $tomahawksSent){
 	$shotdown = ceil($tomahawksSent*0.75);
@@ -257,8 +257,12 @@ if($shotdown > $tomahawksSent){
 }
 
 if($tomahawksSent > 0){
-	$tomahawkDamage = ($tomahawksSent-$shotdown)*3000;
-	$attacker_type_damage['bld'] += $tomahawkDamage;
+	
+	$tomahawkDamage = ($tomahawksSent-$shotdown)*1850*(mt_rand(90,110)/100);
+	
+	$damageDamp = sqrt(($tomahawksSent-$shotdown)*2.3);
+	
+	$attacker_type_damage['bld'] += $tomahawkDamage*((100-$damageDamp)/100);
 }
 
 
@@ -460,6 +464,7 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 $attacker_units_lost = 0;
 $attacker_networth_lost = 0;
 
+$attacker_networth_lost+= $tomahawksSent*150;
 
 $att_unitslost = array();
 foreach($attacker_unit_losses as $unit_type => $breakdown) {
