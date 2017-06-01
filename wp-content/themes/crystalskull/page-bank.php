@@ -4,7 +4,13 @@
  */
 include 'interest_array.php';
 $user_ID = get_current_user_id();
-$banklevel = get_user_meta($user_ID, 'level_bank_management')[0];
+$banklevel = get_user_meta($user_ID, 'level_bank_management',true);
+$money = get_user_meta($user_ID, 'money',true);
+$timestamp = current_time('timestamp');
+$total_deposited = 0;
+$total_final = 0;
+$unlocked = 0;
+	
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
@@ -57,76 +63,84 @@ get_header(); ?>
 				
 				Your current research allows you to deposit a total of $ <?php echo number_format($max_tot, 0, ',', ' '); ?>. $ <?php echo number_format($max_dep, 0, ',', ' '); ?> maximum per deposit.</span>
 				
-				<span class="rdw-line">The minimum required to deposit is $ 5 000. You currently have <?php echo count_deposits($user_ID);?> deposits.</span></div><br/>
+<span class="rdw-line">
+	The minimum required to deposit is $ 5 000. You currently have <?php echo count_deposits($user_ID);?> deposits.
+</span></div><br/>
 				
-				<form onsubmit="return checkForm(this);" id="bankform" action="<?php echo home_url() ?>/bank_money.php" name="" id="bank" method="post">
-				
-			<table class="responsive-table">
-				<thead>
-				<tr>
-					<th scope="col">Days</th>
-					<th scope="col">Amount</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<td>
-						<select name="days">
-						<?php foreach ($rates as $key => $rate) { ?>
-						
-						<option name="days" value="<?php echo $key;?>"><?php echo $key;?> days (<?php echo ($rate['interest']-1)*100+$extra_interest;?>% daily interest</option>
-						
-						<?php } ?>
-						
-						
-						</select>
-					</td>
-					<td><input required type="text" id="amount" name="amount" placeholder="Enter amount"/>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-			<input type="submit" name="submitBtn" value="Deposit money" class="">
-				</form>
+<?php $maxDepositAmount = min($max_dep,$money);?>
 
-				<br/>
-				<center><h1>Your deposits</h1></center>
-				<br/>
+
+<form onsubmit="return checkForm(this);" id="bankform" action="<?php echo home_url() ?>/bank_money.php" name="" id="bank" method="post">
+					
+					
+<div class="row bankBlock">
+	<div class="row">
+		<div class="row">
+			<div class="col-md-6 attackSelect styled-select slate">
+				<select name="days">
+					<?php foreach ($rates as $key => $rate) { ?>
+						<option name="days" value="<?php echo $key;?>">
+						<?php echo $key;?> days (<?php echo ($rate['interest']-1)*100+$extra_interest;?>% daily interest
+						</option>
+					<?php } ?>
+				</select>
+			</div>
 		
-				<div class="clan_sorter">
-				<center>Sort by
-				<a class="sort-buttons"onclick="sorttable.innerSortFunction.apply(document.getElementById('depsort'), [])">Deposited</a>
-				<a class="sort-buttons"onclick="sorttable.innerSortFunction.apply(document.getElementById('intsort'), [])">Incl. interest</a>
-				<a class="sort-buttons"onclick="sorttable.innerSortFunction.apply(document.getElementById('datesort'), [])">Date</a>
-				</center>
-				<br/>
+			<div class="col-md-6">
+		
+				<div class="col-xs-10 depField">
+					<input required type="text" id="amount" name="amount" placeholder="Enter amount"/>
 				</div>
+			
+				<div id="maxdep" class="col-xs-2 maxDep">
+					MAX
+				</div>
+			
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<input type="submit" name="submitBtn" value="Deposit money" class="">
+			</div>
+		</div>
+	</div>
+</div>
+
+</form>
 				
-				
-				<table class="responsive-table sortable">
-					<thead>
-					<tr>
-						<th id="depsort" scope="col">Deposited</th>
-						<th id="intsort" scope="col">Including interest</th>
-						<th id="datesort" scope="col">Releasedate</th>
-						<th scope="col">Release</th>
-					</tr>
-					</thead>
-					<tbody>
-				<?php 	
+<script type="text/javascript">
+	jQuery("#maxdep").click(function() {
+	jQuery("#amount").val("<?php echo $maxDepositAmount;?>");
+	});
+
+</script>
+
+<div class="row profile_block">
+	<div class="row bankHeader">
+		<div class="col-md-12">Your deposits</div>
+	</div>
 	
-		$args = array(
-	'posts_per_page'   => -1,
-	'author'	=> get_current_user_ID(),
-	'post_type'        => 'deposit',
-	'meta_key' => 'release_date',
-	'orderby'    => 'meta_value_num',
-	);
+	<div class="row clan_header_row">
+		<div class="col-md-3"><strong>Deposited</strong></div>
+		<div class="col-md-3"><strong>Including interest</strong></div>
+		<div class="col-md-3"><strong>Releasedate</strong></div>
+		<div class="col-md-3"></div>
+	</div>
+	
+	
+	
+<?php 	
+	
+	$args = array(
+		'posts_per_page'   => -1,
+		'author'	=> get_current_user_ID(),
+		'post_type'        => 'deposit',
+		'meta_key' => 'release_date',
+		'orderby'    => 'meta_value_num',
+		);
+	
 	$deposits = get_posts( $args ); 
-	$timestamp = strtotime(date('Y-m-d H:i:s'));
-	$total_deposited = 0;
-	$total_final = 0;
-	$unlocked = 0;
+	
 	foreach ($deposits as $deposit) {
 		$days = get_post_meta($deposit->ID,'days',true);
 		$deposited = get_post_meta($deposit->ID,'amount',true);
@@ -136,37 +150,46 @@ get_header(); ?>
 		$total_final+=$incl_interest;
 		$release_stamp = get_post_meta($deposit->ID,'release_date',true);
 	?>
-			<tr>
-				<td sorttable_customkey="<?php echo $deposited;?>" data-title="Deposited">
-					$ <?php echo number_format($deposited, 0, ',', ' '); ?>
-				</td>
-				
-				<td sorttable_customkey="<?php echo $incl_interest;?>" data-title="Including interest">
-					$ <?php echo number_format(ceil($incl_interest), 0, ',', ' '); ?>
-					<?php //echo get_post_meta($deposit->ID,'amount')[0]*(1+(0.02*5));?>
-				</td>
-				
-				<td sorttable_customkey="<?php echo $release_stamp;?>" data-title="Release date">
-					<?php echo date('H:i | d-m-Y', $release_stamp);?>
-				</td>
+	
+	<div class="row clan_profile_row">
+		<div class="col-md-3">
+			<span class="clan_data_left">Deposited</span>
+			<span class="clan_data_right">
+			$ <?php echo number_format($deposited, 0, ',', ' '); ?>
+			</span>
+		</div>
+		<div class="col-md-3">
+			<span class="clan_data_left">Including interest</span>
+			<span class="clan_data_right">
+			$ <?php echo number_format(ceil($incl_interest), 0, ',', ' '); ?>
+			</span>
+		</div>
+		<div class="col-md-3">
+			<span class="clan_data_left">Release date</span>
+			<span class="clan_data_right">
+			<?php echo date('H:i | d-m-Y', $release_stamp);?>
+			</span>
+		</div>
+		<div class="col-md-3">
 			
-				<td>
-					<?php 
-						$time_left = get_post_meta($deposit->ID,'release_date')[0]-$timestamp;
-						if($banklevel == 0 || $banklevel == 1):?>
+			
+<?php 
+	$time_left = get_post_meta($deposit->ID,'release_date')[0]-$timestamp;
+		
+		if($banklevel == 0 || $banklevel == 1):?>
 			
 				
-					<?php 
-					if($time_left < 0){ 
-						$unlocked+=$incl_interest;
-						
-					?>
-				<form onsubmit="return checkForm(this);" class="form" action="<?php echo home_url() ?>/withdraw_money.php" name="" id="cancel" method="post">
-					<input style="display:none;"type="text" id="deposit" name="deposit" value="<?php echo $deposit->ID;?>"/>
-					<input name="submitBtn" onclick="return confirm('Are you sure you want to withdraw $ <?php echo number_format(ceil($incl_interest), 0, ',', ' '); ?>?')" class="btn btn-general"type="submit" value="Withdraw" class="">
-					</form>
-				<?php }?>
-				<?php elseif($banklevel >= 2):?>
+			<?php if($time_left < 0){ 
+					$unlocked+=$incl_interest;
+				?>
+		
+		<form onsubmit="return checkForm(this);" class="form" action="<?php echo home_url() ?>/withdraw_money.php" name="" id="cancel" method="post">
+			<input style="display:none;"type="text" id="deposit" name="deposit" value="<?php echo $deposit->ID;?>"/>
+			<input name="submitBtn" onclick="return confirm('Are you sure you want to withdraw $ <?php echo number_format(ceil($incl_interest), 0, ',', ' '); ?>?')" class="btn btn-general"type="submit" value="Withdraw" class="">
+		</form>
+			<?php }?>
+			
+			<?php elseif($banklevel >= 2):?>
 				
 				<?php 
 					$dep_placed = get_post_meta($deposit->ID,'deposit_placed')[0];
@@ -187,19 +210,23 @@ get_header(); ?>
 					</form>
 				<?php }?>
 				<?php endif;?>
-				</td>
-			</tr>
-				
-				
-				
-			<?php	}?>
-					</tbody>
-				</table>
 			
+			
+			
+		</div>
+	</div>
+	
+	<?php }?>
+	<div class="row">
+		<div class="depTotals">	
 			<strong>Total deposited:</strong> $ <?php echo number_format($total_deposited, 0, ',', ' '); ?> (<?php echo count_deposits($user_ID);?> deposits)<br/>
 			<strong>Total final:</strong> $ <?php echo number_format($total_final, 0, ',', ' '); ?><br/>
 			<strong>Total Available (unlocked):</strong> $ <?php echo number_format($unlocked, 0, ',', ' '); ?>
-			<br/><br/>
+		</div>
+	</div>
+</div>
+
+		
 			<?php endif;?>
 			<?php session_unset(); ?>
             

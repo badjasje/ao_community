@@ -735,13 +735,13 @@ table{
 
 .styled-select {
 
-   height: 50px;
+   height: 54px;
 
 }
 
 .styled-select select {
    font-size: 18px;
-   height: 50px;
+   height: 54px;
  
 }
 
@@ -985,6 +985,13 @@ table{
 	background-color:#fff;
 	margin-bottom:20px;
 }
+.bankBlock{
+	border: 1px solid #ddd;
+	padding:20px;
+	background-color:#fff;
+	margin-bottom:20px;
+}
+
 .button_block{
 	border: 1px solid #ddd;
 	padding:10px 5px 8px 5px;
@@ -1043,6 +1050,9 @@ table{
 }
 .profile_block{
 	padding:20px 0px 0px 0px;
+}
+.bankBlock{
+	padding:20px 0px 20px 0px;
 }
 .inbox_header,.researchHeader{
 	display:none;
@@ -1346,7 +1356,7 @@ input:checked + .slider:before {
 	font-size: 24px;
 	text-align:center;
 	font-weight: bold;
-	margin-bottom:20px;
+	margin-bottom:20px !important;
 	border: 1px solid #2d4350;
 }
 .attackField input:hover{
@@ -1396,4 +1406,59 @@ input:checked + .slider:before {
 	padding: 8px 0px;
 	border: 1px solid #ddd;
     background-color: #fff;
+}
+.tomahawkNotification{
+	background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.maxDep{
+	font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #2d4350;
+    padding: 16px 0px;
+    background-color: #2d4350;
+    color: #fff;
+}
+.depField input{
+	font-size: 24px;
+	text-align:center;
+	font-weight: bold;
+	padding-right: 0px !important;
+	padding-left: 0px !important;
+	margin-bottom:20px !important;
+	border: 1px solid #2d4350;
+}
+.depField{
+	padding-right: 0px !important;
+	padding-left: 0px !important;
+}
+.depField input:hover{
+	font-size: 24px;
+	text-align:center;
+	font-weight: bold;
+	margin-bottom:5px;
+	border: 1px solid #2d4350;
+}
+.depField input[type=text]:focus{
+	font-size: 24px;
+	text-align:center;
+	font-weight: bold;
+	margin-bottom:5px;
+	border: 1px solid #2d4350;
+}
+.bankHeader{
+	border-bottom: 1px solid #ddd;
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+.depTotals{
+	margin-top:20px;
 }
