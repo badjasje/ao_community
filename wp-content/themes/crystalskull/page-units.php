@@ -106,7 +106,9 @@ get_header(); ?>
 					</td>
 					
 					<td data-title="Price">
-					$ <?php echo $order['price'];?>
+					<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
+							$ <?php echo $order['price'];?>
+						</span>
 					</td>
 					
 					<td data-title="Att/Life">
@@ -212,7 +214,9 @@ get_header(); ?>
 					</td>
 					
 					<td data-title="Price">
-					$ <?php echo $order['price'];?>
+					<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
+							$ <?php echo $order['price'];?>
+						</span>
 					</td>
 					
 					<td data-title="Att/Life">
@@ -307,7 +311,9 @@ get_header(); ?>
 					</td>
 					
 					<td data-title="Price">
-					$ <?php echo $order['price'];?>
+					<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
+							$ <?php echo $order['price'];?>
+						</span>
 					</td>
 					
 					<td data-title="Att/Life">
@@ -400,7 +406,9 @@ get_header(); ?>
 					</td>
 					
 					<td data-title="Price">
-					$ <?php echo $order['price'];?>
+					<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
+							$ <?php echo $order['price'];?>
+						</span>
 					</td>
 					
 					<td data-title="Att/Life">
