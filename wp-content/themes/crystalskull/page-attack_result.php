@@ -192,6 +192,51 @@ foreach ($attack_array as $key => $count) {
 	}
 
 	
+/* start checking for damage split */
+$defHasAir = false;
+$defHasSea = false;
+$defHasInf = false;
+$defHasVeh = false;
+
+$defAirTot = 0;
+$defSeaTot = 0;
+$defInfTot = 0;
+$defVehTot = 0;
+
+$removeArray = array('air','sea','inf','veh');
+
+foreach ($units as $key => $unit) {
+	
+	if($units[$key]['type'] == 'air'){
+		$defAirTot += get_user_meta($target_id, $key.'_owned', true);
+	}
+	if($units[$key]['type'] == 'sea'){
+		$defSeaTot += get_user_meta($target_id, $key.'_owned', true);
+	}
+	if($units[$key]['type'] == 'inf'){
+		$defInfTot += get_user_meta($target_id, $key.'_owned', true);
+	}
+	if($units[$key]['type'] == 'veh'){
+		$defVehTot += get_user_meta($target_id, $key.'_owned', true);
+	}
+}
+
+/* If defender has unit type, unset from remove array */
+if($defAirTot > 0){
+	unset($removeArray[0]);
+}
+if($defSeaTot > 0){
+	unset($removeArray[1]);
+}
+if($defInfTot > 0){
+	unset($removeArray[2]);
+}
+if($defVehTot > 0){
+	unset($removeArray[3]);
+}
+
+
+
 /* iterate over attack array */
 /* damage by type */
 $attacker_type_damage = array();
@@ -210,28 +255,81 @@ foreach ($attack_array as $key => $count) {
 	
 
 	/* distribute attack power equally across types */
-	$atk_types = $units[$key]['attacks'];
-	$type_count = count($atk_types);
+	$atk_types 		= $units[$key]['attacks'];
+	$typecountInit 	= count($atk_types);
+	
+	/* removing attack types defender does not have */
+	$atk_types 		= array_diff($atk_types, $removeArray);
+	$type_count 	= count($atk_types);
+	
+	
 	if($units[$key]['type'] == 'veh'){
 		$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti)+$added_dragon_damage;
-		$atk_power_distrib = $atk_power_total / $type_count;
+		
+		$typeMulti = 1;
+		$typeDif = $type_count-$typecountInit;
+		
+		if($typeDif == -1){
+			$typeMulti = 0.9;
+		}
+		if($typeDif == -2){
+			$typeMulti = 0.8;
+		}
+		
+		$atk_power_distrib = $atk_power_total*$typeMulti / $type_count;
 	}
 	elseif($units[$key]['type'] == 'inf'){
 		$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti)+$added_apc_damage;
-		$atk_power_distrib = $atk_power_total / $type_count;
+		
+		$typeMulti = 1;
+		$typeDif = $type_count-$typecountInit;
+		
+		if($typeDif == -1){
+			$typeMulti = 0.9;
+		}
+		if($typeDif == -2){
+			$typeMulti = 0.8;
+		}
+		
+		
+		$atk_power_distrib = $atk_power_total*$typeMulti / $type_count;
 	}
 	elseif($units[$key]['type'] == 'air'){
 		$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti)+$added_carrier_damage;
-		$atk_power_distrib = $atk_power_total / $type_count;
+		
+		$typeMulti = 1;
+		$typeDif = $type_count-$typecountInit;
+		
+		if($typeDif == -1){
+			$typeMulti = 0.9;
+		}
+		if($typeDif == -2){
+			$typeMulti = 0.8;
+		}
+		
+		
+		$atk_power_distrib = $atk_power_total*$typeMulti / $type_count;
 	}
 	else{
 		$atk_power_total = $count * $units[$key]['attack']*$dmgMulti;
-		$atk_power_distrib = $atk_power_total / $type_count;	
+		
+		$typeMulti = 1;
+		$typeDif = $type_count-$typecountInit;
+		
+		if($typeDif == -1){
+			$typeMulti = 0.9;
+		}
+		if($typeDif == -2){
+			$typeMulti = 0.8;
+		}
+		
+		$atk_power_distrib = $atk_power_total*$typeMulti / $type_count;	
 	}
 
 	/* damage per unit */
 	$attacker_single_unit_damage = array();
 	foreach($atk_types as $type) {
+		
 		$one_type = array($type);
 
 		/* calculate attack totals by type */
@@ -241,6 +339,14 @@ foreach ($attack_array as $key => $count) {
 			$attacker_type_damage[$type] = $atk_power_distrib;
 	}
 }
+
+
+echo '<pre>';
+print_r($attacker_type_damage);
+echo '</pre>';
+
+
+
 $tomahawks = get_user_meta($user_id, 'tomahawk_owned', true);
 $tomahawkPerc = $_SESSION['tomahawk']['percentage'];
 
