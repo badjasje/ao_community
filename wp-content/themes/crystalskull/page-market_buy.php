@@ -119,7 +119,7 @@ get_header(); ?>
 							<th scope="col">Targets</th>
 							<th scope="col">Max</th>
 							<?php if($startingbonus == 'shipping'):?>
-							<th scope="colr">Delay <span class="hover-tip"  data-toggle="tooltip" data-original-title="Input the delay in minutes. You can delay market orders up to 6 hours. 360 minutes." data-placement="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></th>
+							<th scope="colr">Delay <span class="hover-tip"  data-toggle="tooltip" data-original-title="Input the delay in minutes. You can delay market orders up to 6 hours. 360 minutes." data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span></th>
 							<?php endif;?>
 							<th scope="col"></th>
 	                    </tr>
@@ -138,7 +138,7 @@ get_header(); ?>
 						<th scope="row">
 							<?php echo $order['normalname'];?>
 							<?php if($order['description']):?>
-							<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+							<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 							<?php endif;?>
 						</th>
 
@@ -148,7 +148,11 @@ get_header(); ?>
 						</td>
 
 						<td data-title="Price">
-						$ <?php echo ceil($order['price']*2.2*$discount_value);?>
+						
+						<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
+							$ <?php echo ceil($order['price']*2.2*$discount_value);?>
+						</span>
+						
 						</td>
 
 						<td data-title="Att/Life">
@@ -231,7 +235,7 @@ get_header(); ?>
 							<th scope="col">Targets</th>
 							<th scope="col">Max</th>
 							<?php if($startingbonus == 'shipping'):?>
-							<th scope="colr">Delay <span class="hover-tip"  data-toggle="tooltip" data-original-title="Input the delay in minutes. You can delay market orders up to 6 hours. 360 minutes." data-placement="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></th>
+							<th scope="colr">Delay <span class="hover-tip"  data-toggle="tooltip" data-original-title="Input the delay in minutes. You can delay market orders up to 6 hours. 360 minutes." data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span></th>
 							<?php endif;?>
 							<th scope="col"></th>
 	                    </tr>
@@ -249,7 +253,7 @@ get_header(); ?>
 						<th scope="row">
 							<?php echo $order['normalname'];?>
 							<?php if($order['description']):?>
-							<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+							<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 							<?php endif;?>
 						</th>
 
@@ -259,7 +263,9 @@ get_header(); ?>
 						</td>
 
 						<td data-title="Price">
-						$ <?php echo ceil($order['price']*2.2*$discount);?>
+						<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
+							$ <?php echo ceil($order['price']*2.2*$discount_value);?>
+						</span>
 						</td>
 
 						<td data-title="Att/Life">
@@ -332,7 +338,7 @@ get_header(); ?>
 							<th scope="col">Targets</th>
 							<th scope="col">Max</th>
 							<?php if($startingbonus == 'shipping'):?>
-							<th scope="colr">Delay <span class="hover-tip"  data-toggle="tooltip" data-original-title="Input the delay in minutes. You can delay market orders up to 6 hours. 360 minutes." data-placement="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></th>
+							<th scope="colr">Delay <span class="hover-tip"  data-toggle="tooltip" data-original-title="Input the delay in minutes. You can delay market orders up to 6 hours. 360 minutes." data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span></th>
 							<?php endif;?>
 							<th scope="col"></th>
 	                    </tr>
@@ -350,7 +356,7 @@ get_header(); ?>
 						<th scope="row">
 							<?php echo $order['normalname'];?>
 							<?php if($order['description']):?>
-							<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+							<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 							<?php endif;?>
 						</th>
 
@@ -360,7 +366,9 @@ get_header(); ?>
 						</td>
 
 						<td data-title="Price">
-						$ <?php echo ceil($order['price']*2.2*$discount);?>
+						<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
+							$ <?php echo ceil($order['price']*2.2*$discount_value);?>
+						</span>
 						</td>
 
 						<td data-title="Att/Life">
@@ -439,7 +447,7 @@ get_header(); ?>
 							<th scope="col">Targets</th>
 							<th scope="col">Max</th>
 							<?php if($startingbonus == 'shipping'):?>
-							<th scope="colr">Delay <span class="hover-tip"  data-toggle="tooltip" data-original-title="Input the delay in minutes. You can delay market orders up to 6 hours. 360 minutes." data-placement="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span></th>
+							<th scope="colr">Delay <span class="hover-tip"  data-toggle="tooltip" data-original-title="Input the delay in minutes. You can delay market orders up to 6 hours. 360 minutes." data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span></th>
 							<?php endif;?>
 							<th scope="col"></th>
 	                    </tr>
@@ -457,7 +465,7 @@ get_header(); ?>
 						<th scope="row">
 							<?php echo $order['normalname'];?>
 							<?php if($order['description']):?>
-							<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+							<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 							<?php endif;?>
 						</th>
 
@@ -467,7 +475,9 @@ get_header(); ?>
 						</td>
 
 						<td data-title="Price">
-						$ <?php echo ceil($order['price']*2.2*$discount);?>
+						<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
+							$ <?php echo ceil($order['price']*2.2*$discount_value);?>
+						</span>
 						</td>
 
 						<td data-title="Att/Life">
