@@ -376,7 +376,8 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 
 
 
-if($defender_total_power*1.2 <= $attacker_total_power){
+if($defender_total_power*1.3 <= $attacker_total_power){
+
 	$result = 'success';
 	$winner_id = $user_id;
 }
@@ -408,6 +409,8 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 	foreach($breakdown as $key => $killed) {
 		if ($unit_type == 'bld') {
 			
+			
+			
 			$type = 'bld';
 			$count_key = $key;
 			
@@ -425,7 +428,11 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 				$killed = round($killed*$defender_loss_decrease);
 			}
 			
-			
+			//Reduce lost buildings to just 40% if the attack was not successful
+			//MEGA 20170531
+			if ($result == 'failure') {
+				$killed = floor($killed*0.4);
+			}
 			
 			 
 			$owned_blds = get_user_meta($target_id, $key,true);
@@ -447,6 +454,11 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 			if($killed > $owned_units){
 				$killed = $owned_units;
 			}
+			//Reduce lost units to just 40% if the attack was not successful
+			//MEGA 20170531
+			if ($result == 'failure') {
+				$killed = floor($killed*0.4);
+			}
 			
 			$defender_units_lost+=$killed;
 			$defender_networth_lost+=$killed*$units[$key]['price']*($units[$key]['networth']/100);
@@ -455,6 +467,8 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 			'type' => $type,
 			$key => $killed
 		);
+		
+		
 		$prev_units = get_user_meta($target_id, $count_key)[0];
 		$new_units = max($prev_units - $killed, 0);
 		update_user_meta($target_id, $count_key, $new_units);
@@ -691,11 +705,13 @@ if($result == 'failure' && $war_type != 'none'){
 	
 	$defender_points = round(1.3 * log($attacker_networth_lost/3.4 / 400));
 	
-	if($defender_points < 1){
+	//Saw a bug here.. If pts were exactly 5, it would break the logic and award some crazy points
+	//MEGA 20170531
+	if($defender_points <= 1){
 		$defender_points = 1;
 	}
 	
-	if($defender_points > 5){
+	if($defender_points >= 5){
 		$defender_points = 5;
 	}
 
@@ -835,7 +851,7 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 			}
 			?>
 			<?php if(($tomahawksSent-$shotdown)>0):?>
-			<br/><?php echo ($tomahawksSent-$shotdown);?> tomahaw<?php echo plural_func($tomahawksSent-$shotdown);?> hit the enemy base<br/>
+			<br/><?php echo ($tomahawksSent-$shotdown);?> tomahawk<?php echo plural_func($tomahawksSent-$shotdown);?> hit the enemy base<br/>
 			<?php endif;?>
 			<?php if($shotdown > 0):?>
 			<?php echo $shotdown;?> tomahawk<?php echo plural_func($shotdown);?> shotdown
