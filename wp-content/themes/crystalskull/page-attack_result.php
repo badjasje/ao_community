@@ -253,19 +253,19 @@ $attackerRemoveArray = array('air','sea','inf','veh');
 foreach ($attack_array as $key => $count) {
 	if($count > 0){
 		if($units[$key]['type'] == 'air'){
-			echo $key;
+			
 			$attAirTot = 1;
 		}
 		if($units[$key]['type'] == 'sea'){
-			echo $key;
+			
 			$attSeaTot = 1;
 		}
 		if($units[$key]['type'] == 'inf'){
-			echo $key;
+			
 			$attInfTot = 1;
 		}
 		if($units[$key]['type'] == 'veh'){
-			echo $key;
+			
 			$attVehTot = 1;
 	}
 		

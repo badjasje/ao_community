@@ -581,7 +581,7 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
 		$total_units = $unit_array[$type]['total_count'];
 
 		foreach($type_stats as $unit_key => $unit_stats) {
-			echo $unit_key;
+		
 			/* ignore totals */
 			if ($unit_key == 'total_life' || $unit_key == 'total_count')
 				continue;
