@@ -53,9 +53,11 @@ $defend_clan_id = $target_data['clan_id_user'][0];
 $attack_type = $_SESSION['attacktype'];
 $attack_array = $_SESSION['attack_array'];
 
+/* standard regular attack multis */
 $dmgMulti = 0.85;
 $resourceMulti = 1.25;
 
+/* set multis other attack types */
 if($attack_type == 'air_sea'){
 	$dmgMulti = 1.17;
 	$resourceMulti = 0.9;
@@ -239,7 +241,39 @@ if($defVehTot > 0){
 
 /* iterate over attack array */
 /* damage by type */
+
+$attAirTot = 0;
+$attSeaTot = 0;
+$attInfTot = 0;
+$attVehTot = 0;
+
 $attacker_type_damage = array();
+$attackerRemoveArray = array('air','sea','inf','veh');
+
+foreach ($attack_array as $key => $count) {
+	if($count > 0){
+		if($units[$key]['type'] == 'air'){
+			echo $key;
+			$attAirTot = 1;
+		}
+		if($units[$key]['type'] == 'sea'){
+			echo $key;
+			$attSeaTot = 1;
+		}
+		if($units[$key]['type'] == 'inf'){
+			echo $key;
+			$attInfTot = 1;
+		}
+		if($units[$key]['type'] == 'veh'){
+			echo $key;
+			$attVehTot = 1;
+	}
+		
+		
+	}
+	
+}
+
 
 foreach ($attack_array as $key => $count) {
 	
@@ -264,6 +298,8 @@ foreach ($attack_array as $key => $count) {
 	
 	
 	if($units[$key]['type'] == 'veh'){
+		
+		
 		$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti)+$added_dragon_damage;
 		
 		$typeMulti = 1;
@@ -279,6 +315,8 @@ foreach ($attack_array as $key => $count) {
 		$atk_power_distrib = $atk_power_total*$typeMulti / $type_count;
 	}
 	elseif($units[$key]['type'] == 'inf'){
+		
+		
 		$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti)+$added_apc_damage;
 		
 		$typeMulti = 1;
@@ -295,6 +333,8 @@ foreach ($attack_array as $key => $count) {
 		$atk_power_distrib = $atk_power_total*$typeMulti / $type_count;
 	}
 	elseif($units[$key]['type'] == 'air'){
+		
+		
 		$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti)+$added_carrier_damage;
 		
 		$typeMulti = 1;
@@ -311,6 +351,7 @@ foreach ($attack_array as $key => $count) {
 		$atk_power_distrib = $atk_power_total*$typeMulti / $type_count;
 	}
 	else{
+		
 		$atk_power_total = $count * $units[$key]['attack']*$dmgMulti;
 		
 		$typeMulti = 1;
@@ -340,11 +381,19 @@ foreach ($attack_array as $key => $count) {
 	}
 }
 
-
-echo '<pre>';
-print_r($attacker_type_damage);
-echo '</pre>';
-
+/* If defender has unit type, unset from remove array */
+if($attAirTot > 0){
+	unset($attackerRemoveArray[0]);
+}
+if($attSeaTot > 0){
+	unset($attackerRemoveArray[1]);
+}
+if($attInfTot > 0){
+	unset($attackerRemoveArray[2]);
+}
+if($attVehTot > 0){
+	unset($attackerRemoveArray[3]);
+}
 
 
 $tomahawks = get_user_meta($user_id, 'tomahawk_owned', true);
@@ -391,7 +440,7 @@ $defender_power_on = $defender_power_usage < 1;
 
 
 /* calculate defense by type */
-$defense_by_type = calculate_defense_by_type($target_id, $defender_power_on);
+$defense_by_type = calculate_defense_by_type($target_id, $defender_power_on, $attackerRemoveArray);
 $defense_attack_type = $defense_by_type['attack'];
 $defense_life_type = $defense_by_type['life'];
 
@@ -569,10 +618,13 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 			$defender_units_lost+=$killed;
 			$defender_networth_lost+=$killed*$units[$key]['price']*($units[$key]['networth']/100);
 		}
-		$def_unitslost[] = array(
-			'type' => $type,
-			$key => $killed
-		);
+		
+		if($killed > 0){
+			$def_unitslost[] = array(
+				'type' => $type,
+				$key => $killed
+				);
+		}
 		
 		
 		$prev_units = get_user_meta($target_id, $count_key)[0];
@@ -951,7 +1003,9 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 			foreach ($units as $key => $order) {
 				foreach ($att_unitslost as $att_unitlost) {
 					if (isset($att_unitlost[$key])) {
-						echo $order['normalname'] . ': ' . $att_unitlost[$key] . '<br/>';
+						if($att_unitlost[$key] > 0){
+							echo $order['normalname'] . ': ' . $att_unitlost[$key] . '<br/>';
+						}
 					}
 				}
 			}
@@ -971,7 +1025,9 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 			foreach ($units as $key => $order) {
 				foreach ($def_unitslost as $def_unitlost) {
 					if (isset($def_unitlost[$key])) {
-						echo $order['normalname'] . ': ' . $def_unitlost[$key] . '<br/>';
+						if($def_unitlost[$key] > 0){
+							echo $order['normalname'] . ': ' . $def_unitlost[$key] . '<br/>';
+						}
 					}
 				}
 			}

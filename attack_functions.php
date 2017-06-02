@@ -347,11 +347,11 @@ function create_attacker_array($attack_array) {
 	Return:
 		$defense_array : array of defensive power by type
 */
-function calculate_defense_by_type($target_id, $power_on) {
+function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) {
 	include('units_array.php');
 	include('building_array.php');
 	include('constants.php');
-
+	
 	/* initialize attack array with 0 for all */
 	$attack_array = array(
 		'bld' => 0,
@@ -407,6 +407,10 @@ function calculate_defense_by_type($target_id, $power_on) {
 
 		/* calculate attack power per type */
 		$unit_def_types = $units[$key]['defends'];
+	
+		/* Unset types not used in attack by attacker */
+		$unit_def_types = array_diff($unit_def_types, $attackerRemoveArray);
+		
 		$unit_def_count = count($unit_def_types);
 
 		/* no defense - exit */
@@ -551,15 +555,17 @@ function resource_dice_roll() {
 		$damage_array['total_damage',$type][$key] = value
 */
 function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$target_id) {
-	
+
 	include('units_array.php');
 	include('building_array.php');
 	include('constants.php');
 
 	$losses = array();
-
+	
 	foreach($unit_array as $type => $type_stats) {
+		
 		$attack_power = 0;
+		
 		if (array_key_exists($type, $attacker_type_power))
 			$attack_power = $attacker_type_power[$type];
 
@@ -575,6 +581,7 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
 		$total_units = $unit_array[$type]['total_count'];
 
 		foreach($type_stats as $unit_key => $unit_stats) {
+			echo $unit_key;
 			/* ignore totals */
 			if ($unit_key == 'total_life' || $unit_key == 'total_count')
 				continue;
@@ -605,11 +612,12 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
 				$PPE_multi = 1;
 				
 				if($buildings[$unit_key] == 'powerplant' || $buildings[$unit_key] == 'advancedpowerplant' ){
-				if($PPE_level == 1){$PPE_multi = 1.5;}
-					
+					if($PPE_level == 1){
+						$PPE_multi = 1.5;
+					}
 				}
-				$unit_life = $buildings[$unit_key]['life']*$PPE_multi;
 				
+				$unit_life = $buildings[$unit_key]['life']*$PPE_multi;
 				$dmg_reduction = $DAMAGE_REDUCTION_FACTOR_BLD;
 			}
 			else {
