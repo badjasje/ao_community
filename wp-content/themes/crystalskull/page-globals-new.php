@@ -131,6 +131,9 @@ $moneylost = get_post_meta($global_event_ID,'money_lost',true);
 $defender_NW_lost = get_post_meta($global_event_ID, 'nw_damage_defender', true);
 $attacker_NW_lost = get_post_meta($global_event_ID, 'nw_damage_attacker', true);
 
+$tomahawkHit = get_post_meta($global_event_ID,'tomahawk_hit',true);
+$tomahawkDown = get_post_meta($global_event_ID,'tomahawk_down',true);
+
 $timestamp = strtotime(date('Y-m-d H:i:s'));
 
 $clan_points = get_post_meta($global_event_ID,'clan_points', true);
@@ -289,6 +292,13 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 						}
 					}
 				?>
+				
+				<?php if(($tomahawkHit)>0):?>
+				<br/><br/><?php echo ($tomahawkHit);?> tomahawk<?php echo plural_func($tomahawkHit);?> hit<br/>
+				<?php endif;?>
+				<?php if($tomahawkDown > 0):?>
+				<?php echo $tomahawkDown;?> tomahawk<?php echo plural_func($tomahawkDown);?> shot down
+				<?php endif;?>
 				
 				</div>
 			

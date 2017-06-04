@@ -85,6 +85,9 @@ if ( $custom_query->have_posts() ) :
 	$def_tot_unitslost = get_post_meta($event_ID,'def_total_units_lost',true);
 	$att_tot_unitslost = get_post_meta($event_ID,'att_total_units_lost',true);
 	
+	$tomahawkHit = get_post_meta($event_ID,'tomahawk_hit',true);
+	$tomahawkDown = get_post_meta($event_ID,'tomahawk_down',true);
+	
 	if(empty($def_tot_unitslost)){
 	$def_tot_unitslost = 0;
 	}
@@ -226,6 +229,12 @@ if ( $custom_query->have_posts() ) :
 						}
 					}
 				?>
+				<?php if(($tomahawkHit)>0):?>
+				<br/><br/><?php echo ($tomahawkHit);?> tomahawk<?php echo plural_func($tomahawkHit);?> hit the enemy base<br/>
+				<?php endif;?>
+				<?php if($tomahawkDown > 0):?>
+				<?php echo $tomahawkDown;?> tomahawk<?php echo plural_func($tomahawkDown);?> shot down
+				<?php endif;?>
 				</div>
 			</div>
 		</div>
