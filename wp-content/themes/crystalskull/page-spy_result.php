@@ -36,6 +36,96 @@ if($sat_status == 'active'){
 	$success = 100;
 }
 
+$members = get_post_meta($clan_ID,'clan_members',true);
+			
+			
+			/* enhancing spy */
+			$enhanceSpy = 0;
+			
+			$args = array(
+			'posts_per_page'   => -1,
+			'author__in'	=> $members,
+			'orderby'          => 'date',
+			'order'            => 'DESC',
+			'meta_query'	=> array(
+				'relation'		=> 'AND',
+					array(
+						'key'	 	=> 'spied_id',
+						'value'	  	=> $defender_ID,
+						'compare' 	=> '=',
+						),
+					array(
+						'key'	 	=> 'spy_type',
+						'value'	  	=> 'spy',
+						'compare' 	=> '=',
+						),
+						
+					
+					),
+			'post_type'        => 'spy_rep',
+			);
+			$reports = get_posts( $args ); 		
+		
+			foreach ($reports as $report) {
+				
+			
+			$posttime = strtotime($report->post_date);
+			
+			if($posttime-$timestamp-3600+300 > 0){
+			
+				$enhanceSpy+=1;
+				}
+			
+			}
+			if($enhanceSpy > 3){
+				$enhanceSpy = 3;
+			}
+			
+			
+			
+			
+			/* enhancing plane */
+			$enhancePlane = 0;
+			
+			$args = array(
+			'posts_per_page'   => -1,
+			'author__in'	=> $members,
+			'orderby'          => 'date',
+			'order'            => 'DESC',
+			'meta_query'	=> array(
+				'relation'		=> 'AND',
+					array(
+						'key'	 	=> 'spied_id',
+						'value'	  	=> $defender_ID,
+						'compare' 	=> '=',
+						),
+					array(
+						'key'	 	=> 'spy_type',
+						'value'	  	=> 'spyplane',
+						'compare' 	=> '=',
+						),
+						
+					
+					),
+			'post_type'        => 'spy_rep',
+			);
+			$reports = get_posts( $args ); 		
+		
+			foreach ($reports as $report) {
+				
+			
+			$posttime = strtotime($report->post_date);
+			
+			if($posttime-$timestamp-3600+300 > 0){
+			
+				$enhancePlane+=1;
+				}
+			
+			}
+			if($enhancePlane > 3){
+				$enhancePlane = 3;
+			}
+			
 
 
 
@@ -90,20 +180,28 @@ get_header(); ?>
 				<th scope="col">Owned</th>
 				</thead>
 				<tbody>
-			<?php foreach ($amountArray as $unit => $amount) {
+			<?php 
+				foreach ($amountArray as $unit => $amount) {
 				
 				
 				if($amount>0){
-				$displayamount = max(round($amount/(1+(mt_rand(36, 72)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(36, 72)/100)))));
+					
+				$rangeDamp = 1 - sqrt(($amount)*1.4)/100;
+				if($rangeDamp < 0){
+					$rangeDamp = 0.2;
+				}
+				
+		
+				$displayamount = max(round($amount/(1+(mt_rand(20*$rangeDamp, 30*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(36*$rangeDamp, 72*$rangeDamp)/100)))));
 				
 				if($enhanceSpy == 1){
-					$displayamount = max(round($amount/(1+(mt_rand(12, 36)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(12, 36)/100)))));
+					$displayamount = max(round($amount/(1+(mt_rand(10*$rangeDamp, 20*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(12*$rangeDamp, 36*$rangeDamp)/100)))));
 				}
 				if($enhanceSpy == 2){
-					$displayamount = max(round($amount/(1+(mt_rand(6, 12)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(6, 12)/100)))));
+					$displayamount = max(round($amount/(1+(mt_rand(6*$rangeDamp, 12*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(6*$rangeDamp, 12*$rangeDamp)/100)))));
 				}
 				if($enhanceSpy == 3){
-					$displayamount = max(round($amount/(1+(mt_rand(3, 6)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(3, 6)/100)))));
+					$displayamount = max(round($amount/(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)))));
 				}
 				$spy_array[$unit] = $displayamount;
 				/*
@@ -226,16 +324,22 @@ echo $defender_ID;
 				
 				
 				if($amount>0){
-				$displayamount = max(round($amount/(1+(mt_rand(36, 72)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(36, 72)/100)))));
+				
+				$rangeDamp = 1 - sqrt(($amount)*2.3)/100;
+				if($rangeDamp < 0){
+					$rangeDamp = 0.2;
+				}
+				
+				$displayamount = max(round($amount/(1+(mt_rand(36*$rangeDamp, 72*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(36, 72)/100)))));
 				
 				if($enhancePlane == 1){
-					$displayamount = max(round($amount/(1+(mt_rand(12, 36)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(12, 36)/100)))));
+					$displayamount = max(round($amount/(1+(mt_rand(12*$rangeDamp, 36*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(12, 36)/100)))));
 				}
 				if($enhancePlane == 2){
-					$displayamount = max(round($amount/(1+(mt_rand(6, 12)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(6, 12)/100)))));
+					$displayamount = max(round($amount/(1+(mt_rand(6*$rangeDamp, 12*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(6, 12)/100)))));
 				}
 				if($enhancePlane == 3){
-					$displayamount = max(round($amount/(1+(mt_rand(3, 6)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(3, 6)/100)))));
+					$displayamount = max(round($amount/(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)))));
 				}
 				$spy_array[$unit] = $displayamount;
 				/*
