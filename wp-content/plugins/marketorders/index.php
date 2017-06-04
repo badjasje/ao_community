@@ -1100,10 +1100,22 @@ $sat_NW = $satellites[$sat_owned]['price']*0.06;
 $land = get_user_meta($user_ID, 'land',true);
 $land_networth = round($land*0.85);
 
-
-update_user_meta( $user_ID,'networth',round($sat_NW+$research_NW+$building_networth+$unit_networth+$land_networth+$missile_networth));
+$totalNW = round($sat_NW+$research_NW+$building_networth+$unit_networth+$land_networth+$missile_networth);
+update_user_meta( $user_ID,'networth',$totalNW);
 
 update_user_meta( $user_ID,'builtland',$totalbuildings*20);
+
+$highestNW = get_user_meta($user_ID, 'highest_networth', true);
+if($totalNW > $highestNW){
+	update_user_meta($user_ID, 'highest_networth', $totalNW);
+}
+
+$highestLand = get_user_meta($user_ID, 'highest_land', true);
+if($land > $highestLand){
+	update_user_meta($user_ID, 'highest_land', $land);
+}
+
+
 
 
 $empReduction = 0;
