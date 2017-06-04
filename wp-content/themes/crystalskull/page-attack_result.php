@@ -893,9 +893,10 @@ update_post_meta($defend_clan_id,'clan_points',$starting_Defpoints+$defender_poi
 <?php
 /* add statistics for defender and attacker */
 //attacker
-$succesful_attacks = get_user_meta($user_id, 'succesful_attacks', true);
-update_user_meta($user_id, 'succesful_attacks', $succesful_attacks+1);
-
+if($war_type != 'none'){
+	$succesful_attacks = get_user_meta($user_id, 'succesful_attacks', true);
+	update_user_meta($user_id, 'succesful_attacks', $succesful_attacks+1);
+}
 
 
 //defender
@@ -1014,7 +1015,7 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 			<br/><?php echo ($tomahawksSent-$shotdown);?> tomahawk<?php echo plural_func($tomahawksSent-$shotdown);?> hit the enemy base<br/>
 			<?php endif;?>
 			<?php if($shotdown > 0):?>
-			<?php echo $shotdown;?> tomahawk<?php echo plural_func($shotdown);?> shotdown
+			<?php echo $shotdown;?> tomahawk<?php echo plural_func($shotdown);?> shot down
 			<?php endif;?>
 		</td>		
 		<td class="report_content"><strong>Units Killed: 
@@ -1092,6 +1093,10 @@ update_field('winner_id',$winner_id, $new_event_id);
 update_field('attacktype',$attack_type, $new_event_id);
 update_field('outcome',$result, $new_event_id);
 
+update_field('tomahawk_hit', $tomahawksSent-$shotdown, $new_event_id);
+update_field('tomahawk_down', $shotdown, $new_event_id);
+
+update_field('war_status', $war_type, $new_event_id);
 update_field('defender_points',$defender_points, $new_event_id);
 
 
