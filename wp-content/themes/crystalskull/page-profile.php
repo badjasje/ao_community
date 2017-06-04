@@ -129,6 +129,7 @@ get_header('profile'); ?>
 				
 <?php $count = 0;?>
 <?php if($visiting_user != $user__ID && ($clan_id != $clan_id_user || $clan_id == 0) && !in_array($visiting_user, $CT_CL_array)):?>
+<?php $count = 1;?>
 <!-- Visiting non-clanmember as non CT/CL -->
 <div class="row button_block">
  	
@@ -234,7 +235,7 @@ get_header('profile'); ?>
 
 
 
-<?php if($clan_id == $clan_id_user && $visiting_user != $user__ID):?>
+<?php if($clan_id == $clan_id_user && $count != 1 && $visiting_user != $user__ID):?>
 <!-- Visiting clanmember profile -->
 <div class="row button_block">
  	
