@@ -66,7 +66,7 @@
 			'shortatt'		=>  array('b'),
 			'attacks'		=>  array('bld'),
 			'defends'		=>  array(''),
-			'attack'		=>	1000,
+			'attack'		=>	1850,
 			'type'			=>	'mis',
 			'life'			=>	0),
 
