@@ -422,8 +422,8 @@ get_header('home'); ?>
 <div classs="row">	
 	<div class="col-md-12">
 		<div class="notice_message">
-			Current round date: 25th of April - 30th of May 2017. 
-				<span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on the 30th of May 2017, at a random time." data-placement="right">
+			Current round date: 5th of june - 5th of july 2017. 
+				<span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on the 5th of July 2017, at a random time." data-placement="right">
 					<i class="fa fa-info-circle" aria-hidden="true"></i>
 				</span>
 		</div>
@@ -729,10 +729,53 @@ get_header('home'); ?>
 			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'modes_prev', true), 0, ',', ' ');?></div>
 		</div>
 	</div>
-	
 </div>
        
-       
+<!-- NEWS -->
+
+<div classs="row">	
+	<div class="status_block">
+		
+		<div class="col-md-6 secBlock">
+			<div class="status_header status_header_left inbox_header">
+				<div class="row">
+					<div class="col-md-12">News</div>
+				</div>
+			</div>
+			
+			<div class="status_header status_header_left mobile_dash_header">
+				<div class="row">
+					<center>News</center>
+				</div>
+			</div>
+				
+			<div class="status_column">
+				<?php	
+					$args = array(
+						'posts_per_page'   => 5,
+						'orderby'          => 'date',
+						'order'            => 'DESC',
+						'post_status'      => 'publish',
+						'post_type'        => 'post'
+					);
+				
+					$posts = get_posts( $args ); 
+				
+				foreach ($posts as $post) { ?>
+				
+				
+				<div class="row profile_row">
+					<div class="col-md-12">
+						<a href="<?php echo get_the_permalink($post->ID);?>">
+							<?php echo $post->post_title;?>
+						</a>
+					</div>
+				</div>
+				<?php }?>
+			</div>
+		</div>
+	</div>
+</div>
        
 
 <?php endif; // End check if game is live ?>
