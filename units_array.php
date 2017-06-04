@@ -1069,7 +1069,7 @@
 			'defends'		=>  array(),
 			'attack'		=>	140,
 			'type'			=>	'inf',
-			'life'			=>	150),
+			'life'			=>	200),
 	'spy' 		=> array(
 			'price'			=>	'4000',
 			'description'	=>	'Spies are used to gather intelligence about your targets units.',

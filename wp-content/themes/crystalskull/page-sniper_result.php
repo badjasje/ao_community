@@ -104,7 +104,7 @@ if($result == 'success'){
 
 $thief_life = $units['thief']['life']*$defender_thiefs;
 $spy_life = $units['spy']['life']*$defender_spies;
-$sniper_life = $units['sniper']['life']*$defender_snipers;
+$sniper_life = ($units['sniper']['life']-50)*$defender_snipers;
 
 $tot_life = $thief_life+$spy_life+$sniper_life;
 
