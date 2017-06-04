@@ -29,34 +29,38 @@ get_header('spyrep'); ?>
 <?php endif;?>
 
 	          </center>
-	            <center><ul class="tabs">
-			<li class="tab-link current" data-tab="tab-1">Buildings</li>
-			<li class="tab-link" data-tab="tab-2">Units</li>
-			</ul></center>
+<center>
+	<ul class="tabs">
+		<li class="tab-link current" data-tab="tab-1">Buildings</li>
+		<li class="tab-link" data-tab="tab-2">Units</li>
+	</ul>
+</center>
+
+
+
+<div id="tab-1" class="tab-content current">
+<?php
+	$args = array(
+	'posts_per_page'   => 1,
+	'author__in'	=> $members,
+	'meta_query'	=> array(
+	'relation'		=> 'AND',
+		array(
+			'key'	 	=> 'spied_id',
+			'value'	  	=> $target_id,
+			'compare' 	=> '=',
+			),
+		array(
+			'key'	 	=> 'spy_type',
+			'value'	  	=> 'spyplane',
+			'compare' 	=> '=',
+			),
 			
-			<div id="tab-1" class="tab-content current">
-	           <?php
-			   $args = array(
-			'posts_per_page'   => 1,
-			'author__in'	=> $members,
-			'meta_query'	=> array(
-				'relation'		=> 'AND',
-					array(
-						'key'	 	=> 'spied_id',
-						'value'	  	=> $target_id,
-						'compare' 	=> '=',
-						),
-					array(
-						'key'	 	=> 'spy_type',
-						'value'	  	=> 'spyplane',
-						'compare' 	=> '=',
-						),
-						
-					
-					),
-			'post_type'        => 'spy_rep',
-			);
-			$reports = get_posts( $args ); 
+		
+		),
+	'post_type'        => 'spy_rep',
+	);
+	$reports = get_posts( $args ); 
 		
 		
 $count = 0;
@@ -131,13 +135,13 @@ $count = 0;
 			</div>
 			
 			<?php }?>
-			
+            </div>
 			<div id="tab-2" class="tab-content">
 	           <?php
 			   $args = array(
-			'posts_per_page'   => 1,
-			'author__in'	=> $members,
-			'meta_query'	=> array(
+			   	'posts_per_page'   => 1,
+			   	'author__in'	=> $members,
+			   	'meta_query'	=> array(
 				'relation'		=> 'AND',
 					array(
 						'key'	 	=> 'spied_id',
@@ -155,7 +159,7 @@ $count = 0;
 			'post_type'        => 'spy_rep',
 			);
 			$reports = get_posts( $args ); 
-			
+		
 		
 			$count = 0;
 			foreach ($reports as $report) {
