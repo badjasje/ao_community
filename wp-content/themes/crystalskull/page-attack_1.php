@@ -262,14 +262,14 @@ get_header(); ?>
 		
 		<div class="col-md-6">
 			<div class="row">
-				<input style="display:none;" type="radio" name="attacktype" disabled id="satellite" value="satellite">
+				<input style="display:none;" type="radio" name="attacktype" <?php echo $satDisabled;?> id="satellite" value="satellite">
 				<label class="btn <?php echo $satDisabledClass;?> attackButton" <?php echo $satDisabled;?> for="satellite">Use satellite</label>
 			</div>
 			
 			<div class="row" id="satellite_desc">
 				<div class="attackDescription">
-					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack air and sea units can be used. <br/>
-					Does more damage than ground and regular attack but there is less gain.
+					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack a satellite can be fired <br/>
+					EMP or Laser Beam satellite can be used
 				</div>
 			</div>
 			

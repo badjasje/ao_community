@@ -1,9 +1,14 @@
 <?php
 	/*
 	// DELETE FROM `assauu_db1`.`23zx_posts` WHERE `23zx_posts`.`post_type` = 'shop_order'   <- USE AS SQL COMMAND*/
-	/*require_once("wp-load.php");
-	include('units_array.php');
+	/*
+	require_once("wp-load.php");
 	
+	include('units_array.php');
+	include('building_array.php');
+	include('missiles_array.php');
+	
+/*
 			$args = array(
 
 				'offset'       => 0,
@@ -17,7 +22,7 @@
 					
 					
 					
-					$user_ID = $user->ID;
+				$user_ID = $user->ID;
 				//update_user_meta($user_ID, 'reset_status', 0);
 				
 				
@@ -91,98 +96,85 @@
 
 				}
 				
-				// SET BUILDING after death
-update_user_meta($user_ID, 'silo', 0);
-update_user_meta($user_ID, 'command_centre', 0);
-update_user_meta($user_ID, 'shipyard', 0);
-update_user_meta($user_ID, 'airfield', 0);
-update_user_meta($user_ID, 'warfactory', 0);
-update_user_meta($user_ID, 'baracks', 0);
-update_user_meta($user_ID, 'powerplant', 50);
-update_user_meta($user_ID, 'advancedpowerplant', 0);
-update_user_meta($user_ID, 'torpedolauncher', 0);
-update_user_meta($user_ID, 'samsite', 0);
-update_user_meta($user_ID, 'missileturret', 0);
-update_user_meta($user_ID, 'machinegunturret', 0);
-update_user_meta($user_ID, 'antimissile', 0);
+				foreach ($units as $key => $unit) {
+				update_user_meta($user_ID, $key.'_owned', 0);
+				update_user_meta($user_ID, $key.'_ordered', 0);
+
+				}
+				
+				foreach ($buildings as $key => $building) {
+				update_user_meta($user_ID, $key, 0);
+				}
+				
+				update_user_meta($user_ID, 'powerplant', 50);
+				
+				foreach ($missiles as $key => $missile) {
+				update_user_meta($user_ID, $key.'_owned', 0);
+				update_user_meta($user_ID, $key.'_ordered', 0);
+				}
+
+				// SET STATS after death
+				update_user_meta($user_ID, 'money', 450000);
+				update_user_meta($user_ID, 'sold_land_today', 0);
+				update_user_meta($user_ID, 'explored_today', 0);
+				update_user_meta($user_ID, 'turns', 200);
+				update_user_meta($user_ID, 'networth', 0);
+				update_user_meta($user_ID, 'land', 2000);
+				update_user_meta($user_ID, 'power', 0);
+				update_user_meta($user_ID, 'builtland', 1000);
+				update_user_meta($user_ID, 'morale', 0);
+				update_user_meta($user_ID, 'morale_pool', 0);
+				update_user_meta($user_ID, 'total_deposits', 0);
 
 
+				// RESET RESEARCH ///
+				update_user_meta($user_ID, 'level_money_production', 0);
+				update_user_meta($user_ID, 'level_missile_accuracy', 0);
+				update_user_meta($user_ID, 'level_satellite_construction', 0);
+				update_user_meta($user_ID, 'level_shipping_time', 0);
+				update_user_meta($user_ID, 'level_market_discount', 0);
+				update_user_meta($user_ID, 'level_thieving_effectiveness', 0);
+				update_user_meta($user_ID, 'level_engineering_effectiveness', 0);
+				update_user_meta($user_ID, 'level_bank_management', 0);
+				update_user_meta($user_ID, 'level_powerplant_efficiency', 0);
+				update_user_meta($user_ID, 'research_in_progress', 0);
+				update_user_meta($user_ID, 'queued_research', 0);
+				update_user_meta($user_ID, 'sat_in_progress', 0);
+				update_user_meta($user_ID, 'sat_owned', 0);
+
+				// reset medal positioning //
+				
+				update_user_meta($user_ID,'moe_position',0);
+				update_user_meta($user_ID,'moe_next',0);
+				update_user_meta($user_ID,'moe_prev',0);
+				update_user_meta($user_ID,'moh_position',0);
+				update_user_meta($user_ID,'moh_next',0);
+				update_user_meta($user_ID,'moh_prev',0);
+				update_user_meta($user_ID,'mog_position',0);
+				update_user_meta($user_ID,'mog_next',0);
+				update_user_meta($user_ID,'mog_prev',0);
+				update_user_meta($user_ID,'moc_position',0);
+				update_user_meta($user_ID,'moc_next',0);
+				update_user_meta($user_ID,'moc_prev',0);
+				update_user_meta($user_ID,'mod_position',0);
+				update_user_meta($user_ID,'mod_next',0);
+				update_user_meta($user_ID,'mod_prev',0);
+				update_user_meta($user_ID,'mot_position',0);
+				update_user_meta($user_ID,'mot_next',0);
+				update_user_meta($user_ID,'mot_prev',0);
+				update_user_meta($user_ID,'modes_position',0);
+				update_user_meta($user_ID,'modes_prev',0);
+				update_user_meta($user_ID,'modes_next',0);
 
 
-// SET MISSILES after death
-update_user_meta($user_ID, 'nuke_owned', 0);
-update_user_meta($user_ID, 'nuke_ordered', 0);
-update_user_meta($user_ID, 'chemical_owned', 0);
-update_user_meta($user_ID, 'chemical_ordered', 0);
-update_user_meta($user_ID, 'bio_owned', 0);
-update_user_meta($user_ID, 'bio_ordered', 0);
-update_user_meta($user_ID, 'moab_owned', 0);
-update_user_meta($user_ID, 'moab_ordered', 0);
-update_user_meta($user_ID, 'empmis_owned', 0);
-update_user_meta($user_ID, 'empmis_ordered', 0);
-
-
-// SET STATS after death
-update_user_meta($user_ID, 'money', 4500000);
-update_user_meta($user_ID, 'sold_land_today', 0);
-update_user_meta($user_ID, 'explored_today', 0);
-update_user_meta($user_ID, 'turns', 350);
-update_user_meta($user_ID, 'networth', 0);
-update_user_meta($user_ID, 'land', 4000);
-update_user_meta($user_ID, 'power', 0);
-update_user_meta($user_ID, 'builtland', 1000);
-update_user_meta($user_ID, 'morale', 0);
-update_user_meta($user_ID, 'total_deposits', 0);
-
-
-// RESET RESEARCH ///
-update_user_meta($user_ID, 'level_money_production', 0);
-update_user_meta($user_ID, 'level_missile_accuracy', 0);
-update_user_meta($user_ID, 'level_satellite_construction', 0);
-update_user_meta($user_ID, 'level_shipping_time', 0);
-update_user_meta($user_ID, 'level_market_discount', 0);
-update_user_meta($user_ID, 'level_thieving_effectiveness', 0);
-update_user_meta($user_ID, 'level_engineering_effectiveness', 0);
-update_user_meta($user_ID, 'level_bank_management', 0);
-update_user_meta($user_ID, 'level_powerplant_efficiency', 0);
-update_user_meta($user_ID, 'research_in_progress', 0);
-update_user_meta($user_ID, 'queued_research', 0);
-update_user_meta($user_ID, 'sat_in_progress', 0);
-update_user_meta($user_ID, 'sat_owned', 0);
-
-// reset medal positioning //
-
-update_user_meta($user_ID,'moe_position',0);
-update_user_meta($user_ID,'moe_next',0);
-update_user_meta($user_ID,'moe_prev',0);
-update_user_meta($user_ID,'moh_position',0);
-update_user_meta($user_ID,'moh_next',0);
-update_user_meta($user_ID,'moh_prev',0);
-update_user_meta($user_ID,'mog_position',0);
-update_user_meta($user_ID,'mog_next',0);
-update_user_meta($user_ID,'mog_prev',0);
-update_user_meta($user_ID,'moc_position',0);
-update_user_meta($user_ID,'moc_next',0);
-update_user_meta($user_ID,'moc_prev',0);
-update_user_meta($user_ID,'mod_position',0);
-update_user_meta($user_ID,'mod_next',0);
-update_user_meta($user_ID,'mod_prev',0);
-update_user_meta($user_ID,'mot_position',0);
-update_user_meta($user_ID,'mot_next',0);
-update_user_meta($user_ID,'mot_prev',0);
-update_user_meta($user_ID,'modes_position',0);
-update_user_meta($user_ID,'modes_prev',0);
-update_user_meta($user_ID,'modes_next',0);
-
-
-update_user_meta($user_ID, 'reset_status', 1);
+				update_user_meta($user_ID, 'reset_status', 1);
 				} 
 				
 			
-				} 
+			} 
 
 
-/*
+
 
 // Reset clan points and NW 
 $args = array(

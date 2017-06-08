@@ -1,4 +1,26 @@
 <footer>
+	<script>
+	(function($) {
+	function myFunction() {
+		$.get('<?php echo get_site_url();?>/checkevents.php', function(data) {
+			var newevents = data; 
+			var onlynumbers = newevents.match(/\d+/); // 123456
+			$('title').text(newevents);
+		    if (onlynumbers > 1){ 
+		    $('.globalNew').text(onlynumbers);
+		    $( ".globalNew" ).addClass( "redNotify" );
+			}
+
+            
+            
+            });
+
+    }
+
+var i = setInterval(function() { myFunction(); }, 10000);
+
+})(jQuery);
+</script>
 	<div class="container">
 		<center>Current date/time is <strong><?php echo date("d-m-Y | G:i", strtotime('+2 hours')); ?></strong>
 		<?php if (is_user_logged_in() ) :?>
@@ -31,28 +53,7 @@
 jQuery( ".menu-item-7706" ).append( "<span class='bluepulse'><a class='bluepulse' href='/events/global/'><?php echo $new_globals;?> new globals</a></span>" );
 </script>
 <?php endif; */?>
-<script>
-	(function($) {
-	function myFunction() {
-		$.get('<?php echo get_site_url();?>/checkevents.php', function(data) {
-			var newevents = data; 
-			var onlynumbers = newevents.match(/\d+/); // 123456
-		    if (onlynumbers > 1){
-		    $('title').text(newevents); 
-		    $('.globalNew').text(onlynumbers);
-		    $( ".globalNew" ).addClass( "redNotify" );
-			}
 
-            
-            
-            });
-
-    }
-
-var i = setInterval(function() { myFunction(); }, 10000);
-
-})(jQuery);
-</script>
 
 <?php if(!empty($new_events) and $new_events != 0):?>
 <script type="text/javascript">

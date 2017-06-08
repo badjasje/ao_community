@@ -26,11 +26,13 @@ if($current_research != 0){
 }
 /* Get research input by user */
 $research = $_POST['research'];
-$totalturns = get_user_meta($user_ID, 'turns');
+$totalturns = get_user_meta($user_ID, 'turns',true);
 
-if($totalturns[0] < 25){$_SESSION['status'] = 'Not enough turns';
+if($totalturns < 25){
+	$_SESSION['status'] = 'Not enough turns';
 	wp_redirect(get_permalink(4837));exit;
 	}
+update_user_meta( $user_ID, 'turns',$totalturns-25);
 
 $timestamp = strtotime(date('Y-m-d H:i:s'));
 
@@ -56,6 +58,6 @@ $args = array(
 			$new_research_id = wp_insert_post( $args );
 			
 			update_user_meta($user_ID, 'research_in_progress', $research);
-			update_user_meta( $user_ID, 'turns',$totalturns[0]-25);
+			
 			
 			$_SESSION['status'] = $researches[$research]['name'].' research started';wp_redirect(get_permalink(4837));exit;

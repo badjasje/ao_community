@@ -97,6 +97,9 @@ if($nightmode == 'yes'){
 body .navbar-inverse,body .blog{
 	background-color:#5f5d5d;
 }
+.tomahawkSpan{
+	color:#000 !important;
+}
 .navbar-inverse .nav>li>a{
 	color:#fff;
 }

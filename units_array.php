@@ -1032,14 +1032,14 @@
 			'type'			=>	'veh',
 			'life'			=>	35),
 	'm70mlrs' 			=> array(
-			'price'			=>	'735',
+			'price'			=>	'835',
 			'networth'		=>	10,
 			'normalname'	=>	'Apocalypse Tank',
 			'attacks'		=>  array('air','veh'),
 			'defends'		=>  array('air','veh'),
 			'attack'		=>	70,
 			'type'			=>	'veh',
-			'life'			=>	50),
+			'life'			=>	45),
 	'm270_rocket' 		=> array(
 			'price'			=>	'540',
 			'networth'		=>	10,

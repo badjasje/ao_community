@@ -101,6 +101,33 @@ get_header(); ?>
 						echo '<strong>Maximum level reached.</strong>';
 					}
 				?>
+			<?php if($inProgress == 1):?>
+			<br/><strong>In progress<span id="dots"></span></strong>
+			
+			<script>
+				var dots = 0;
+    
+				jQuery(document).ready(function()
+				{
+				    setInterval (type, 600);
+				});
+				
+				function type()
+				{
+				    if(dots < 3)
+				    {
+				        jQuery('#dots').append('.');
+				        dots++;
+				    }
+				    else
+				    {
+				        jQuery('#dots').html('');
+				        dots = 0;
+				    }
+				}
+			</script>
+			
+			<?php endif;?>
 		</div>
 		
 		<div class="col-md-2 researchTime researchAlCenter">
@@ -116,7 +143,12 @@ get_header(); ?>
 				<?php endif;?>
 			<?php endif;?>
 			<?php if($research_in_progress != '0' && $research_queued == '0'):?>
-				<?php if($research['maxlevel'] != $current):?>
+				<?php 
+					$researchCount = 0;
+					if($research_in_progress == $key){
+					$researchCount = 1;
+				}?>
+				<?php if($research['maxlevel'] != $current+$researchCount):?>
 					<input style="display:none;" type="radio" name="queue" id="<?php echo $key;?>" value="<?php echo $key;?>" required >
 					<label class="btn btn-general selectResearch" for="<?php echo $key;?>">Queue Select</label>
 				<?php endif;?>
