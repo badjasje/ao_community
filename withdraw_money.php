@@ -45,7 +45,7 @@ $money = get_user_meta($user_ID,'money',true);
 
 
 $deposits = get_user_meta($user_ID,'total_deposits',true);
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 
 
 

@@ -22,7 +22,7 @@
 			'name'					=> 'Satellite technology',
 			'level1'				=> 'Allows you to build satellites',
 			'level2'				=> 'Extends the maximum orbit time of satellites by 5 days',
-			'level3'				=> 'Construction cost of satellites reduced by 20% and each use of a satellite will cost 4 turns instead of 5',
+			'level3'				=> 'Construction cost of satellites reduced by 20%',
 			'maxlevel'				=> 3,
 			'description'			=> 'Enables you to build sattelites',
 			'duration'				=>	'10'),

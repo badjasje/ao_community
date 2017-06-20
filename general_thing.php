@@ -1,15 +1,16 @@
 <?php
-	/*
-	require_once("wp-load.php");
 	
-/*
+	require_once("wp-load.php");
+	$user_ID = 1;
+	update_field('m270_rocket_owned',99,'user_'.$user_ID);
+	/*
+
 $args = array(
 
 				'offset'       => 0,
 				'number'       => 1500,
-				'meta_key'     => 'total_deposits',
-				'meta_value'   => 0,
-				'meta_compare' => '>'
+				'meta_key'     => 'level_bank_management',
+			
 
 			 ); 
 				
@@ -17,20 +18,12 @@ $args = array(
 				
 				foreach ($users as $user) {
 					
-					$args = array(
-						'posts_per_page'   => -1,
-						'author'	=> $user->ID,
-						'post_type'        => 'deposit',
-						'meta_key' => 'release_date',
-						'orderby'    => 'meta_value_num',
-						);
+				
 					
-					$depositsCurrent = count(get_posts( $args )); 
-					
-					
-					$deposits = get_user_meta($user->ID, 'total_deposits', true);
-					echo '<a target="_blank"href="http://assault.online/wp-admin/user-edit.php?user_id='.$user->ID.'">'.$user->ID .' Deposits old: '.$deposits.'</a><br/>';
-					echo $depositsCurrent.'<br/><br/>';
+					$levelBM = get_user_meta($user->ID, 'level_bank_management', true);			
+				
+					echo '<a target="_blank"href="http://assault.online/wp-admin/user-edit.php?user_id='.$user->ID.'"> Player: '.$levelBM.'</a><br/>';
+					echo $levelBM.'<br/><br/>';
 					
 					
 					

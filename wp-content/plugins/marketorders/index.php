@@ -124,7 +124,12 @@ body .normal-page{
 .build_content,.select2-results{
 	background-color:#8a8a8a;
 }
-
+.clanpageitem, a.list-group-item .list-group-item-heading{
+	color:#fff;
+}
+a.list-group-item:focus, a.list-group-item:hover{
+	background-color:#7a7a7a;
+}
 .status_column {
     background-color: #8a8a8a;
     color: #fff;
@@ -903,6 +908,7 @@ update_user_meta($user_id, 'level_bank_management', 0);
 update_user_meta($user_id, 'level_powerplant_efficiency', 0);
 update_user_meta($user_id, 'research_in_progress', 0);
 update_user_meta($user_id, 'queued_research', 0);
+update_user_meta($user_id, 'first_visit', 0);
 
 
 
@@ -1620,4 +1626,50 @@ function custom_award_column( $column, $post_id ) {
 
     }
 }
+
+add_shortcode( 'buildings-manual' , 'display_all_buildings' );
+function display_all_buildings(){
+	include('building_array.php');
+	$allBDS = '<div class="row">';
+	foreach ($buildings as $building) {
+	$name = $building['normalname'];
+	$desc = $building['description'];
+	$attacks = $building['attacks'];
+	$power = $building['power'];
+	$price = $building['price'];
+	$powerProd = $building['powerprod'];
+	$allBDS.= "<div class='col-md-6 querymanualbds'><strong>$name</strong><br/><i>$desc</i><br/><br/>Power usage: $power<br/>Power production: $powerProd<br/>Price: $$price<br/><br/></div>";
+	}
+	$allBDS.= '</div>';
+    return $allBDS;
+} 
+
+
+add_shortcode( 'units-manual' , 'display_all_units' );
+function display_all_units(){
+	include('units_array.php');
+	$allunits = '<div class="row">';
+	foreach ($units as $unit) {
+	$name = $unit['normalname'];
+	$desc = $unit['description'];
+	$attack = $unit['attack'];
+	$life = $unit['life'];
+	if(isset($desc)){
+		$desc = $unit['description'];
+		$desc = "<i>$desc</i><br/><br/>";
+	}else{
+		$desc = '';
+	}
+	$attacks = implode(", ",$unit['attacks']);
+
+	$price = $unit['price'];
+	$type = $unit['type'];
+	$allunits.= "<div class='col-md-6 querymanualunits'><strong>$name</strong><br/>$desc Price: $$price<br/>Attacks: $attacks<br/>Attack: $attack / Life: $life<br/>Type: $type</div>";
+	}
+	$allunits.= '</div>';
+    return $allunits;
+} 
+
+
+
 

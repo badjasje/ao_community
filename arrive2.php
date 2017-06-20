@@ -25,9 +25,10 @@ if ( $the_query->have_posts() ) {
 	while ( $the_query->have_posts() ) {
 		$the_query->the_post();
 	$orderID = get_the_id();
+	
 	$user_ID = get_field('user_placed_id',$orderID);
 	$delivery_time = get_field('delivery_time',$orderID);
-
+	
 	$timeleft = $delivery_time-$timestamp;
 	if($timeleft <= 0){
 	
@@ -43,22 +44,17 @@ if ( $the_query->have_posts() ) {
 		$ownedunits = get_user_meta($user_ID, $unit_type.'_owned',true);
 		$total_units_on_order = get_user_meta($user_ID, $unit_type.'_ordered',true);
 	
-		update_field( $unit_type.'_ordered',$total_units_on_order - $units_in_this_order,'user_'.$user_ID);
-		update_field( $unit_type.'_owned',$units_in_this_order+$ownedunits,'user_'.$user_ID);
-		
-		wp_trash_post($orderID);
+		update_user_meta( $user_ID,$unit_type.'_ordered',$total_units_on_order - $units_in_this_order);
+		update_user_meta( $user_ID,$unit_type.'_owned',$units_in_this_order+$ownedunits);
+		wp_trash_post($order->ID);
 		}
 			
 		if(get_field('order_type',$orderID) == 'satellite'){ 
-		$sat_level = get_user_meta($user_ID, 'level_satellite_construction', true);
-		$days = 10;
-		if($sat_level >= 1){
-			$days = 15;
-		}
+		
 		update_user_meta( $user_ID,'sat_owned',$unit_type);
 		update_user_meta( $user_ID,'sat_in_progress',0);
-		update_user_meta( $user_ID,'sat_endlife',$timestamp+($days*86400));
-		wp_trash_post($orderID);
+		update_user_meta( $user_ID,'sat_endlife',$timestamp+(10*86400));
+		wp_trash_post($order->ID);
 		}	
 		
 		/* trash order post */

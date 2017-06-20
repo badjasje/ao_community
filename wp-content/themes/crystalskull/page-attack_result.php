@@ -54,7 +54,7 @@ $attack_type = $_SESSION['attacktype'];
 $attack_array = $_SESSION['attack_array'];
 
 /* standard regular attack multis */
-$dmgMulti = 0.85;
+$dmgMulti = 0.95;
 $resourceMulti = 1.25;
 
 /* set multis other attack types */
@@ -309,7 +309,7 @@ foreach ($attack_array as $key => $count) {
 			$typeMulti = 0.9;
 		}
 		if($typeDif == -2){
-			$typeMulti = 0.8;
+			$typeMulti = 0.75;
 		}
 		
 		$atk_power_distrib = $atk_power_total*$typeMulti / $type_count;
@@ -326,7 +326,7 @@ foreach ($attack_array as $key => $count) {
 			$typeMulti = 0.9;
 		}
 		if($typeDif == -2){
-			$typeMulti = 0.8;
+			$typeMulti = 0.75;
 		}
 		
 		
@@ -344,7 +344,7 @@ foreach ($attack_array as $key => $count) {
 			$typeMulti = 0.9;
 		}
 		if($typeDif == -2){
-			$typeMulti = 0.8;
+			$typeMulti = 0.75;
 		}
 		
 		
@@ -361,7 +361,7 @@ foreach ($attack_array as $key => $count) {
 			$typeMulti = 0.9;
 		}
 		if($typeDif == -2){
-			$typeMulti = 0.8;
+			$typeMulti = 0.75;
 		}
 		
 		$atk_power_distrib = $atk_power_total*$typeMulti / $type_count;	
@@ -531,7 +531,7 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 
 
 
-if($defender_total_power*1.3 <= $attacker_total_power){
+if($defender_total_power*1.2 <= $attacker_total_power){
 
 	$result = 'success';
 	$winner_id = $user_id;

@@ -170,7 +170,7 @@ get_header(); ?>
 				<h4>New clan name</h4>
 				<p>
 					<form class="form" action="<?php echo home_url() ?>/change_clan_name.php?id=<?php echo $clan_ID;?>" name="" id="clanname" method="post">
-						<input class="new_user_name" type="text" id="display_name" name="clanname"><br/><br/>
+						<input required class="new_user_name" type="text" id="display_name" name="clanname"><br/><br/>
 						<input type="submit" value="CHANGE CLAN NAME">
 					</form>	
 				</p>

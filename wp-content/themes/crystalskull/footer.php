@@ -26,6 +26,10 @@ var i = setInterval(function() { myFunction(); }, 10000);
 		<?php if (is_user_logged_in() ) :?>
 		<br/><a href="<?php echo wp_logout_url( get_permalink(3491) ); ?>">Logout</a>
 		<?php endif;?>
+		<br/><br/>
+		<a target="_blank" href="https://www.facebook.com/assault.online/">
+			<i class="fa fa-facebook-official" aria-hidden="true"></i>
+		</a>
 		</center>
 
 	</div>

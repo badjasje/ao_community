@@ -128,7 +128,7 @@ if($_POST['amount'] > $max_dep){
 
 
 /* Create the actual deposit */	
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 $RELEASE_DATE = $timestamp+($_POST['days']*86400);	
 	
 		$args = array(

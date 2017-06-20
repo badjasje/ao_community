@@ -360,10 +360,18 @@ get_header('home'); ?>
 					<div class="col-xs-6">$ <?php echo number_format($income, 0, ',', ' ');?></div>
 				</div>
 				
-				<div class="row profile_row_last">
+				<div class="row profile_row">
 					<div class="col-xs-6"><strong>Satellite power</strong></div>
 					<div class="col-xs-6"><?php echo $sat_morale;?>%</div>
 				</div>
+				
+				<div class="row profile_row_last">
+					<div class="col-xs-6"><strong>Like us on Facebook</strong></div>
+					<div class="col-xs-6"><div style="padding-bottom: 9px;" class="fb-like" data-href="https://www.facebook.com/assault.online/" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+					</div>
+				</div>
+				
+				
 				
 			</div>
 		</div>
@@ -641,7 +649,12 @@ get_header('home'); ?>
 <div class="row">
 	<div class="col-md-4 medal_col">
 		<div class="row medal_box">
-			<div class="col-md-12 medal_header"><strong>Medal of Earth</strong></div>
+			<div class="col-md-12 medal_header">
+				<strong>Medal of Earth
+				<span class="hover-tip"  data-toggle="tooltip" data-original-title="Highest land area at the end of round." data-placement="bottom">
+					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
+				
+				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moe_position', true);?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
@@ -653,7 +666,12 @@ get_header('home'); ?>
 	
 	<div class="col-md-4 medal_col">
 		<div class="row medal_box">
-			<div class="col-md-12 medal_header"><strong>Medal of Honor</strong></div>
+			<div class="col-md-12 medal_header">
+				<strong>Medal of Honor
+				<span class="hover-tip"  data-toggle="tooltip" data-original-title="Most clan points gained by a province." data-placement="bottom">
+					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
+				
+				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moh_position', true);?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
@@ -665,7 +683,12 @@ get_header('home'); ?>
 	
 	<div class="col-md-4 medal_col">
 		<div class="row medal_box">
-			<div class="col-md-12 medal_header"><strong>Medal of Growth</strong></div>
+			<div class="col-md-12 medal_header">
+				<strong>Medal of Growth
+				<span class="hover-tip"  data-toggle="tooltip" data-original-title="Highest networth at the end of round." data-placement="bottom">
+					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
+					
+				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'mog_position', true);?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
@@ -681,7 +704,11 @@ get_header('home'); ?>
 <div class="row">
 	<div class="col-md-4 medal_col">
 		<div class="row medal_box">
-			<div class="col-md-12 medal_header"><strong>Medal of Courage</strong></div>
+			<div class="col-md-12 medal_header">
+				<strong>Medal of Courage
+				<span class="hover-tip"  data-toggle="tooltip" data-original-title="Most attacks made by a province during clan war." data-placement="bottom">
+					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
+				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moc_position', true);?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
@@ -693,7 +720,11 @@ get_header('home'); ?>
 	
 	<div class="col-md-4 medal_col">
 		<div class="row medal_box">
-			<div class="col-md-12 medal_header"><strong>Medal of Death</strong></div>
+			<div class="col-md-12 medal_header">
+				<strong>Medal of Death
+				<span class="hover-tip"  data-toggle="tooltip" data-original-title="Killed most provinces during clan wars." data-placement="bottom">
+				<i class="fa fa-info-circle" aria-hidden="true"></i></span>
+				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'mod_position', true);?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
@@ -705,7 +736,11 @@ get_header('home'); ?>
 	
 	<div class="col-md-4 medal_col">
 		<div class="row medal_box">
-			<div class="col-md-12 medal_header"><strong>Medal of Thievery</strong></div>
+			<div class="col-md-12 medal_header">
+				<strong>Medal of Thievery
+				<span class="hover-tip"  data-toggle="tooltip" data-original-title="Most money stolen at the end of round." data-placement="bottom">
+					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
+				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'mot_position', true);?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
@@ -720,7 +755,11 @@ get_header('home'); ?>
 <div class="row">
 	<div class="col-md-4 medal_col">
 		<div class="row medal_box">
-			<div class="col-md-12 medal_header"><strong>Medal of Destruction</strong></div>
+			<div class="col-md-12 medal_header">
+				<strong>Medal of Destruction
+				<span class="hover-tip"  data-toggle="tooltip" data-original-title="Most networth damage made using missiles." data-placement="bottom">
+					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
+				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'modes_position', true);?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
@@ -860,8 +899,10 @@ setInterval(updateETime, 1000 );
        
        
        
-       
-       
+<?php if(get_user_meta($user_ID, 'first_visit', true) == 0):?>
+
+<?php endif;?>
+<?php //update_user_meta($user_id, 'first_visit', 1);?>
        
        
        

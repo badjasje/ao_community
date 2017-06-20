@@ -200,8 +200,14 @@ $timestamp = strtotime(date('Y-m-d H:i:s'));
 			</center>
 				
 			<?php endif;?>
+			
+			
 		
 		<?php endif;?>
+		<br/><center>
+				<a class="btn btn-general" href="/crashsat.php" onclick="return confirm('Are you sure you want to demolish your satellite? This will cost 20% of the original price.')">
+				<i class="fa fa-trash-o" aria-hidden="true"></i> Demolish satellite</a>
+			</center>
 		<?php endif;?>
 		<?php endif;?>
             

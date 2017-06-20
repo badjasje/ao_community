@@ -28,12 +28,17 @@ if ( !is_user_logged_in() ) {
 	}
 $totalmoney = get_user_meta($user_ID, 'money',true);
 $totalturns = get_user_meta($user_ID, 'turns',true);
+$sat_level = get_user_meta($user_ID, 'level_satellite_construction', true);
+$satdeduct = 1;
+if($sat_level >= 2){
+	$satdeduct = 0.8;
+}
 
 /* get key of satellite */
 $ordered = $_POST['satellite'];
 
 /* calculate order cost */
-$satcost = $satellites[$ordered]['price'];
+$satcost = $satellites[$ordered]['price']*$satdeduct;
 
 /* Check if user has enough cash */
 if($totalmoney < $satcost){$_SESSION['status'] = 'Insufficient funds';wp_redirect(get_permalink(8578));exit;}

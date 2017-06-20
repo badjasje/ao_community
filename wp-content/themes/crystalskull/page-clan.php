@@ -102,38 +102,38 @@ get_header('clan'); ?>
 		<div class="list-group clan_buttons">
 			
 			<a href="<?php echo get_the_permalink($clan_id_user);?>" class="list-group-item">
-			<h4 class="list-group-item-heading"><i style="color:#333 !important"class="fa fa-info-circle" aria-hidden="true"></i> Clan information</h4>
+			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-info-circle clanpageitem" aria-hidden="true"></i> Clan information</h4>
   			</a>
 			
   			<?php if(in_array($user_ID, $allowed)):?>
   			<a href="/edit-clan" class="list-group-item">
-			<h4 class="list-group-item-heading"><i class="fa fa-wrench" aria-hidden="true"></i> Edit clan</h4>
+			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-wrench clanpageitem" aria-hidden="true"></i> Edit clan</h4>
   			</a>
   			
   			<a href="/open-invites" class="list-group-item">
-			<h4 class="list-group-item-heading"><i class="fa fa-envelope-open-o" aria-hidden="true"></i> Open invites</h4>
+			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-envelope-open-o clanpageitem" aria-hidden="true"></i> Open invites</h4>
   			</a>
   			<?php endif;?>
   			<a href="/clan-member-information" class="list-group-item">
-			<h4 class="list-group-item-heading"><i class="fa fa-users" aria-hidden="true"></i> Clan member information</h4>
+			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-users clanpageitem" aria-hidden="true"></i> Clan member information</h4>
   			</a>
   			
   			<a href="/clan-wars" class="list-group-item">
-			<h4 class="list-group-item-heading"><i class="fa fa-fire" aria-hidden="true"></i> Clan wars</h4>
+			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-fire clanpageitem" aria-hidden="true"></i> Clan wars</h4>
   			</a>
   			
   			<a href="/bonus-overview/" class="list-group-item">
-			<h4 class="list-group-item-heading"><i class="fa fa-bar-chart" aria-hidden="true"></i> Bonus overview</h4>
+			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-bar-chart clanpageitem" aria-hidden="true"></i> Bonus overview</h4>
   			</a>
   			
   			<a href="/send-aid/" class="list-group-item">
-			<h4 class="list-group-item-heading"><i class="fa fa-usd" aria-hidden="true"></i> Send aid</h4>
+			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-usd clanpageitem" aria-hidden="true"></i> Send aid</h4>
   			</a>
   			
   			<?php if($clan_leader != $user_ID):?>
   			
   			<a onclick="return confirm('Are you sure you want to leave your clan?')" href="/leave.php/?user=<?php echo $user_ID;?>" class="list-group-item">
-			<h4 class="list-group-item-heading"><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i> Leave clan</h4>
+			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-arrow-circle-o-down clanpageitem" aria-hidden="true"></i> Leave clan</h4>
   			</a>
   			
   			<?php endif;?>
@@ -141,7 +141,7 @@ get_header('clan'); ?>
   			<?php if($clan_leader == $user_ID):?>
   			
   			<a onclick="return confirm('Are you sure you want to delete your clan?')" href="/delete.php/?clan=<?php echo $clan_id_user;?>" class="list-group-item">
-			<h4 class="list-group-item-heading"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete clan</h4>
+			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-trash-o clanpageitem" aria-hidden="true"></i> Delete clan</h4>
   			</a>
   			
   			<?php endif;?>

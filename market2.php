@@ -296,6 +296,6 @@ file_put_contents($file, $current);
 
 
 
-$_SESSION['status'] = $total_units_ordered. 'units ordered for a total price of $ '.number_format($total_order_amount, 0, ',', ' ');
+$_SESSION['status'] = $total_units_ordered. ' units ordered for a total price of $ '.number_format($total_order_amount, 0, ',', ' ');
 wp_redirect($marketRedirectUrl);exit;
 }			

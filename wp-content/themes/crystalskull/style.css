@@ -1462,3 +1462,21 @@ input:checked + .slider:before {
 .depTotals{
 	margin-top:20px;
 }
+.manualcontainer{
+	background-color:#fff;
+	border:1px solid #ddd;
+	padding:20px;
+}
+.querymanualbds{
+	min-height:190px;
+	border-bottom:1px solid #ddd;
+	padding-top:20px;
+}
+.querymanualunits{
+	min-height:210px;
+	border-bottom:1px solid #ddd;
+	padding-top:20px;
+}
+.clanpageitem{
+	color:#333;
+}
