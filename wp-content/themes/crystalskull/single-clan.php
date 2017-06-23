@@ -409,17 +409,28 @@ get_header(); ?>
 
 
 <?php if(in_array($declarer_ID, $clan_members[0])):?>
-<!-- Own clan block -->
-<div class="row profile_block">	
-<div class="row clan_header_row">
-	<div class="col-md-1"></div>
-	<div class="col-md-4"><strong>Name</strong></div>
-	<div class="col-md-2"><strong>Networth</strong></div>
-	<div class="col-md-2"><strong>Land</strong></div>
-	<div class="col-md-2"><strong>Points</strong></div>
-	<div class="col-md-1"></div>
+<div class="storeDetails-heads button_block sortingHeadMob">
+	<center>
+	<strong>Sort:</strong> <a href="" class="sort" data-sort=".memberField">Name</a> - 
+	<a href="" class="sort sort-number" data-sort=".store-pop-span2">Networth</a> -
+	<a href="" class="sort sort-number" data-sort=".land">Land</a> - 
+	<a href="" class="sort sort-number" data-sort=".points">Points</a>
+	</center>
 </div>
 
+<!-- Own clan block -->
+
+
+<div class="row profile_block storeDetails-heads">	
+<div class="row clan_header_row ">
+	<div class="col-md-1"></div>
+	<div class="col-md-4"><strong><a href="" class="sort" data-sort=".memberField">Name</a></strong></div>
+	<div class="col-md-2"><strong><a href="" class="sort sort-number" data-sort=".store-pop-span2">Networth</a></strong></div>
+	<div class="col-md-2"><strong><a href="" class="sort sort-number" data-sort=".land">Land</a></strong></div>
+	<div class="col-md-2"><strong><a href="" class="sort sort-number" data-sort=".points">Points</a></strong></div>
+	<div class="col-md-2"></div>
+</div>
+<div id="values">
 <?php 
 	$NRmembers = count($clan_members[0]);
 	$counter = 0;
@@ -439,7 +450,7 @@ get_header(); ?>
 		$last_seen = $timestamp - $last_online;
 		}
 			?>
-<div class="row clan_profile_row<?php echo $extraClass;?>">
+<div class="row clan_profile_row">
 	<div class="col-md-1">
 		<?php echo small_avatar($member,'');?>
 		
@@ -455,7 +466,7 @@ get_header(); ?>
 				echo '<strong>CT</strong>';
 			} ?>
 			</div>
-		<a class="<?php echo get_user_meta($member,'status',true);?>" href="/users/profile/?id=<?php echo $member;?>">
+		<a class="memberField <?php echo get_user_meta($member,'status',true);?>" href="/users/profile/?id=<?php echo $member;?>">
 			
 			<?php echo $member_data->display_name.' (#'.$member.')';?></a> 
 			<?php if(!empty($last_online)){
@@ -470,7 +481,7 @@ get_header(); ?>
 	</div>
 	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Networth</span>
-		<span class="clan_data_right">
+		<span class="clan_data_right store-pop-span2">
 		<?php if($_member == true):?>
 			$ <?php echo number_format($networth, 0, ',', ' '); ?>
 				<?php else:?>
@@ -485,13 +496,13 @@ get_header(); ?>
 	</div>
 	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Land</span>
-		<span class="clan_data_right">
+		<span class="clan_data_right land">
 		<?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup>
 		</span>
 	</div>
 	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Points</span>
-		<span class="clan_data_right">
+		<span class="clan_data_right points">
 		<?php echo number_format($pts, 0, ',', ' '); ?>pts
 		</span>
 	</div>
@@ -509,6 +520,8 @@ get_header(); ?>
 </div>
 
 <?php }?>
+</div>
+<div id="result"></div>
 </div>
 <!-- End own clan block -->
 <?php endif;?>
