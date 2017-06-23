@@ -935,7 +935,7 @@
 			'networth'		=>	10,
 			'normalname'	=>	'Black Eagle',
 			'attacks'		=>  array('veh','bld'),
-			'defends'		=>  array('air'),
+			'defends'		=>  array('veh'),
 			'attack'		=>	55,
 			'type'			=>	'air',
 			'life'			=>	35),
