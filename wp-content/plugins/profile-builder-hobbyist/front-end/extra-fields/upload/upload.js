@@ -69,7 +69,7 @@ jQuery(document).ready(function(){
                     result += '<img width="80" height="80" src="'+ thumbnailUrl +'"/>';
                     result += '</a>';
                     result += '</div>';
-                    result += '<p><span class="file-name">'+attachments[i].filename+'</span><span class="file-type">'+attachments[i].mime +'</span><span class="wppb-remove-upload">Remove</span></p></div>';
+                    result += '<p><span class="file-name">'+attachments[i].filename+'</span><span class="file-type">'+attachments[i].mime +'</span><span class="wppb-remove-upload" tabindex="0">Remove</span></p></div>';
 
                     // if multiple upload false remove previous upload details
                     if( uploadButton.data( 'multiple_upload' ) == false ){
@@ -101,6 +101,12 @@ jQuery(document).ready(function(){
         // Restore the main ID when the add media button is pressed
         jQuery('a.add_media').on('click', function() {
             wp.media.model.settings.post.id = wp_media_post_id;
+        });
+
+        jQuery(document).on('keypress', '.wppb-remove-upload', function(e){
+            if(e.which == 13) {
+                jQuery(this).trigger('click');
+            }
         });
 
         jQuery(document).on('click', '.wppb-remove-upload', function(e){

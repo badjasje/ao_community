@@ -10,6 +10,10 @@ Upload Field
     color:#FF0000;
 }
 
+.wppb-remove-upload:focus{
+    border:1px dotted blue;
+}
+
 /* upload field */
 .upload-field-details{
     display:inline-block;

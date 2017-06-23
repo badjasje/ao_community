@@ -1,4 +1,4 @@
-<?php if (wfConfig::liveTrafficEnabled()): ?>
+<?php if (wfConfig::liveTrafficEnabled() && wfConfig::get('liveActivityPauseEnabled')): ?>
 	<div id="wfLiveTrafficOverlayAnchor"></div>
 	<div id="wfLiveTrafficDisabledMessage">
 		<h2>Live Updates Paused<br /><small>Click inside window to resume</small></h2>
@@ -148,6 +148,7 @@
 								<div class="wf-filtered-traffic" data-bind="foreach: listings">
 									<div>
 										<div>
+											<!-- ko if: $root.groupBy().param() == 'ip' -->
 											<div data-bind="if: loc()">
 												<img data-bind="attr: { src: '<?php echo wfUtils::getBaseURL() . 'images/flags/'; ?>' + loc().countryCode.toLowerCase() + '.png',
 															alt: loc().countryName, title: loc().countryName }" width="16" height="11"
@@ -175,10 +176,38 @@
 												</span>
 											</div>
 											<div>
-												&nbsp;<span class="wfReverseLookup"><span data-bind="text: IP" style="display:none;"></span></span>
-											</div>
+												<span class="wfReverseLookup"><span data-bind="text: IP" style="display:none;"></span></span>
+											</div> 
+											<!-- /ko -->
+											<!-- ko if: $root.groupBy().param() == 'type' -->
 											<div>
-												<span
+												<strong>Type:</strong>
+												<span data-bind="if: jsRun() == '1'">Human</span>
+												<span data-bind="if: jsRun() == '0'">Bot</span>
+											</div>
+											<!-- /ko -->
+											<!-- ko if: $root.groupBy().param() == 'user_login' -->
+											<div>
+												<strong>Username:</strong> <span data-bind="text: username()"></span>
+											</div>
+											<!-- /ko -->
+											<!-- ko if: $root.groupBy().param() == 'statusCode' -->
+											<div>
+												<strong>HTTP Response Code:</strong> <span data-bind="text: statusCode()"></span>
+											</div>
+											<!-- /ko -->
+											<!-- ko if: $root.groupBy().param() == 'action' -->
+											<div>
+												<strong>Firewall Response:</strong> <span data-bind="text: firewallAction()"></span>
+											</div>
+											<!-- /ko -->
+											<!-- ko if: $root.groupBy().param() == 'url' -->
+											<div>
+												<strong>URL:</strong> <span data-bind="text: displayURL()"></span>
+											</div>
+											<!-- /ko -->
+											<div>
+												<strong>Last Hit:</strong> <span
 													data-bind="attr: { 'data-timestamp': ctime, text: 'Last hit was ' + ctime() + ' ago.' }"
 													class="wfTimeAgo wfTimeAgo-timestamp"></span>
 											</div>
@@ -194,13 +223,13 @@
 								<div id="wf-lt-listings" data-bind="foreach: listings">
 									<div data-bind="attr: { id: ('wfActEvent_' + id()), 'class': cssClasses }">
 										<div>
-													<span data-bind="if: action() != 'loginOK' && user()">
+													<span data-bind="if: action() != 'loginOK' && action() != 'loginFailValidUsername' && action() != 'loginFailInvalidUsername' && user()">
 														<span data-bind="html: user.avatar" class="wfAvatar"></span>
 														<a data-bind="attr: { href: user.editLink }, text: user().display_name"
 														   target="_blank"></a>
 													</span>
 													<span data-bind="if: loc()">
-														<span data-bind="if: action() != 'loginOK' && user()"> in</span>
+														<span data-bind="if: action() != 'loginOK' && action() != 'loginFailValidUsername' && action() != 'loginFailInvalidUsername' && user()"> in</span>
 														<img data-bind="attr: { src: '<?php echo wfUtils::getBaseURL() . 'images/flags/'; ?>' + loc().countryCode.toLowerCase() + '.png',
 															alt: loc().countryName, title: loc().countryName }" width="16"
 															 height="11"
@@ -211,7 +240,7 @@
 													</span>
 													<span data-bind="if: !loc()">
 														<span
-															data-bind="text: action() != 'loginOK' && user() ? 'at an' : 'An'"></span> unknown location at IP <a
+															data-bind="text: action() != 'loginOK' && action() != 'loginFailValidUsername' && action() != 'loginFailInvalidUsername' && user() ? 'at an' : 'An'"></span> unknown location at IP <a
 															data-bind="text: IP, attr: { href: WFAD.makeIPTrafLink(IP()) }"
 															target="_blank"></a>
 													</span>

@@ -38549,3 +38549,78 @@ Units ordered: b2_bomber 33
 ID: 1271
 Units ordered: b2_bomber 68
 
+ID: 714
+Units ordered: spyplane 5
+
+ID: 641
+Units ordered: b2_bomber 30
+
+ID: 234
+Units ordered: artillery 800
+
+ID: 1205
+Units ordered: grenade 200
+
+ID: 1205
+Units ordered: grenade 200
+
+ID: 60
+Units ordered: b2_bomber 80
+
+ID: 590
+Units ordered: artillery 250
+
+ID: 165
+Units ordered: spyplane 4
+
+ID: 1271
+Units ordered: b2_bomber 75
+
+ID: 1208
+Units ordered: spy 25
+
+ID: 1208
+Units ordered: spyplane 5
+
+ID: 691
+Units ordered: spyplane 5
+
+ID: 691
+Units ordered: thief 15
+
+ID: 691
+Units ordered: spy 5
+
+ID: 344
+Units ordered: thief 5
+
+ID: 344
+Units ordered: spy 5
+
+ID: 522
+Units ordered: seahawk 200
+
+ID: 522
+Units ordered: seahawk 200
+
+ID: 360
+Units ordered: typhoon 200
+
+ID: 360
+Units ordered: typhoon 100
+
+ID: 713
+Units ordered: spyplane 2
+
+ID: 1228
+Units ordered: b2_bomber 90
+
+ID: 686
+Units ordered: artillery 80
+
+ID: 722
+Units ordered: b2_bomber 100
+
+ID: 686
+Units ordered: artillery 40
+

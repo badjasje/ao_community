@@ -16,8 +16,8 @@ function wppb_select_cpt_handler( $output, $form_location, $field, $user_id, $fi
 
         $args = apply_filters( 'wppb_cpt_select_args', array( 'post_type' => $field['cpt'], 'orderby' => 'menu_order title', 'order' => 'ASC', 'posts_per_page' => '200', 'post_status' => 'publish' ), $field );
         $wppb_cpt_query = new WP_Query($args);
-        
-        
+
+
         if ( $form_location != 'back_end' ){
             $error_mark = ( ( $field['required'] == 'Yes' ) ? '<span class="wppb-required" title="'.wppb_required_field_error($field["field-title"]).'">*</span>' : '' );
 
@@ -40,10 +40,10 @@ function wppb_select_cpt_handler( $output, $form_location, $field, $user_id, $fi
                     if ( $cpt->post_title == '' )
                         $cpt->post_title = 'No title. ID: ' . $cpt->ID;
 
-                    $output .= '<option value="'. esc_attr( $cpt->ID ) .'"  '. selected( $cpt->ID, $cpt_value, false ) .' >'. esc_html( $cpt->post_title ) .'</option>';
+                    $output .= '<option value="'. esc_attr( $cpt->ID ) .'"  '. selected( $cpt->ID, $cpt_value, false ) .' >'. apply_filters( 'wppb_fields_cpt_select_label', esc_html( $cpt->post_title ), $cpt->ID) .'</option>';
                 }
             }
-            
+
             $output .= '</select>';
             if( !empty( $item_description ) )
                 $output .= '<span class="wppb-description-delimiter">'.$item_description.'</span>';

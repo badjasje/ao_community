@@ -392,17 +392,8 @@ $w = new wfConfig();
 						<?php
 						$options = array( //Contents should already be HTML-escaped as needed
 							array(
-								'id' 		=> 'scansEnabled_public',
-								'label'		=> 'Scan public facing site for vulnerabilities <a href="http://docs.wordfence.com/en/Wordfence_options#Scan_public_facing_site" target="_blank" class="wfhelp"></a>',
-								'premium'	=> true,
-							),
-							array(
 								'id' 		=> 'scansEnabled_checkHowGetIPs',
 								'label'		=> 'Scan for misconfigured How does Wordfence get IPs <a href="http://docs.wordfence.com/en/Wordfence_options#Scan_for_misconfigured_How_does_Wordfence_get_IPs" target="_blank" class="wfhelp"></a>',
-							),
-							array(
-								'id' 		=> 'scansEnabled_heartbleed',
-								'label'		=> 'Scan for the HeartBleed vulnerability <a href="http://docs.wordfence.com/en/Wordfence_options#Scan_for_the_HeartBleed_vulnerability" target="_blank" class="wfhelp"></a>',
 							),
 							array(
 								'id' 		=> 'scansEnabled_checkReadableConfig',
@@ -459,7 +450,7 @@ $w = new wfConfig();
 							),
 							array(
 								'id' 		=> 'scansEnabled_oldVersions',
-								'label'		=> 'Scan for out of date plugins, themes and WordPress versions <a href="http://docs.wordfence.com/en/Wordfence_options#Scan_for_out_of_date_plugins.2C_themes_and_WordPress_versions" target="_blank" class="wfhelp"></a>',
+								'label'		=> 'Scan for out of date, abandoned, and vulnerable plugins, themes, and WordPress versions <a href="http://docs.wordfence.com/en/Wordfence_options#Scan_for_out_of_date_plugins.2C_themes_and_WordPress_versions" target="_blank" class="wfhelp"></a>',
 							),
 							array(
 								'id' 		=> 'scansEnabled_suspiciousAdminUsers',
@@ -648,7 +639,7 @@ $w = new wfConfig();
 						<div class="wfMarker" id="wfMarkerLoginSecurity"></div>
 						<h3>Login Security Options <a href="http://docs.wordfence.com/en/Wordfence_options#Login_Security_Options" target="_blank" class="wfhelp"></a></h3>
 						<div class="wf-form-group">
-							<label for="blockedTime" class="wf-col-sm-5 wf-control-label">Enforce strong passwords <a href="http://docs.wordfence.com/en/Wordfence_options#Enforce_strong_passwords.3F" target="_blank" class="wfhelp"></a></label>
+							<label for="loginSec_strongPasswds" class="wf-col-sm-5 wf-control-label">Enforce strong passwords <a href="http://docs.wordfence.com/en/Wordfence_options#Enforce_strong_passwords.3F" target="_blank" class="wfhelp"></a></label>
 							<div class="wf-col-sm-7">
 								<select class="wf-form-control" id="loginSec_strongPasswds" name="loginSec_strongPasswds">
 									<option value="">Do not force users to use strong passwords</option>
@@ -939,6 +930,10 @@ $w = new wfConfig();
 						</div>
 						<?php
 						$options = array( //Contents should already be HTML-escaped as needed
+							array(
+								'id'		=> 'liveActivityPauseEnabled',
+								'label'		=> 'Pause live updates when window loses focus <a href="http://docs.wordfence.com/en/Wordfence_options#Pause_live_updates_when_window_loses_focus" target="_blank" class="wfhelp"></a>',
+							),
 							array(
 								'id' 		=> 'deleteTablesOnDeact',
 								'label'		=> 'Delete Wordfence tables and data on deactivation <a href="http://docs.wordfence.com/en/Wordfence_options#Delete_Wordfence_tables_and_data_on_deactivation.3F" target="_blank" class="wfhelp"></a>',

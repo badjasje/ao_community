@@ -34,8 +34,6 @@ class wfConfig {
 			//"perfLoggingEnabled" => array('value' => false, 'autoload' => self::AUTOLOAD),
 			"scheduledScansEnabled" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"lowResourceScansEnabled" => array('value' => false, 'autoload' => self::AUTOLOAD),
-			"scansEnabled_public" => array('value' => false, 'autoload' => self::AUTOLOAD),
-			"scansEnabled_heartbleed" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_checkHowGetIPs" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_core" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_themes" => array('value' => false, 'autoload' => self::AUTOLOAD),
@@ -57,6 +55,7 @@ class wfConfig {
 			"scansEnabled_highSense" => array('value' => false, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_oldVersions" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"scansEnabled_suspiciousAdminUsers" => array('value' => true, 'autoload' => self::AUTOLOAD),
+			"liveActivityPauseEnabled" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"firewallEnabled" => array('value' => true, 'autoload' => self::AUTOLOAD),
 			"blockFakeBots" => array('value' => false, 'autoload' => self::AUTOLOAD),
 			"autoBlockScanners" => array('value' => true, 'autoload' => self::AUTOLOAD),
@@ -122,7 +121,7 @@ class wfConfig {
 			'maxScanHits_action' => "throttle",
 			'blockedTime' => "300",
 			'email_summary_interval' => 'weekly',
-			'email_summary_excluded_directories' => 'wp-content/cache,wp-content/plugins/wordfence/tmp',
+			'email_summary_excluded_directories' => 'wp-content/cache,wp-content/wflogs',
 			'allowed404s' => "/favicon.ico\n/apple-touch-icon*.png\n/*@2x.png\n/browserconfig.xml",
 			'wafAlertWhitelist' => '',
 			'wafAlertInterval' => 600,
@@ -130,7 +129,7 @@ class wfConfig {
 			'howGetIPs_trusted_proxies' => '',
 		)
 	);
-	public static $serializedOptions = array('lastAdminLogin', 'scanSched', 'emailedIssuesList', 'wf_summaryItems', 'adminUserList', 'twoFactorUsers', 'alertFreqTrack', 'wfStatusStartMsgs', 'vulnerabilities_plugin', 'vulnerabilities_theme', 'dashboardData');
+	public static $serializedOptions = array('lastAdminLogin', 'scanSched', 'emailedIssuesList', 'wf_summaryItems', 'adminUserList', 'twoFactorUsers', 'alertFreqTrack', 'wfStatusStartMsgs', 'vulnerabilities_plugin', 'vulnerabilities_theme', 'dashboardData', 'malwarePrefixes');
 	public static function setDefaults() {
 		foreach (self::$defaultConfig['checkboxes'] as $key => $config) {
 			$val = $config['value'];
@@ -190,8 +189,13 @@ class wfConfig {
 		return $options;
 	}
 	public static function updateTableExists() {
-		$table = self::table();
-		self::$tableExists = (strtolower(self::getDB()->querySingle("SHOW TABLES LIKE '%s'", $table)) == strtolower($table));
+		global $wpdb;
+		self::$tableExists = $wpdb->get_col($wpdb->prepare(<<<SQL
+SELECT TABLE_NAME FROM information_schema.TABLES
+WHERE TABLE_SCHEMA=DATABASE()
+AND TABLE_NAME=%s
+SQL
+			, self::table()));
 	}
 	private static function updateCachedOption($name, $val) {
 		$options = self::loadAllOptions();
@@ -319,6 +323,10 @@ class wfConfig {
 		}
 
 		if (($key == 'apiKey' || $key == 'isPaid' || $key == 'other_WFNet') && wfWAF::getInstance() && !WFWAF_SUBDIRECTORY_INSTALL) {
+			if ($key == 'isPaid' || $key == 'other_WFNet') {
+				$val = !!$val;
+			}
+			
 			try {
 				wfWAF::getInstance()->getStorageEngine()->setConfig($key, $val);
 			} catch (wfWAFStorageFileException $e) {
@@ -339,10 +347,10 @@ class wfConfig {
 			wfWAFIPBlocksController::synchronizeConfigSettings();
 		} 
 	}
-	public static function get($key, $default = false) {
+	public static function get($key, $default = false, $allowCached = true) {
 		global $wpdb;
 		
-		if (self::hasCachedOption($key)) {
+		if ($allowCached && self::hasCachedOption($key)) {
 			return self::getCachedOption($key);
 		}
 		
@@ -683,6 +691,57 @@ class wfConfig {
 		wfConfig::set('autoUpdate', '0');	
 		wp_clear_scheduled_hook('wordfence_daily_autoUpdate');
 	}
+	public static function createLock($name, $timeout = null) { //Polyfill since WP's built-in version wasn't added until 4.5
+		global $wpdb;
+		$oldBlogID = $wpdb->set_blog_id(0);
+		
+		if (function_exists('WP_Upgrader::create_lock')) {
+			$result = WP_Upgrader::create_lock($name, $timeout);
+			$wpdb->set_blog_id($oldBlogID);
+			return $result;
+		}
+		
+		if (!$timeout) {
+			$timeout = 3600;
+		}
+		
+		$lock_option = $name . '.lock';
+		$lock_result = $wpdb->query($wpdb->prepare("INSERT IGNORE INTO `{$wpdb->options}` (`option_name`, `option_value`, `autoload`) VALUES (%s, %s, 'no') /* LOCK */", $lock_option, time()));
+		
+		if (!$lock_result) {
+			$lock_result = get_option($lock_option);
+			if (!$lock_result) {
+				$wpdb->set_blog_id($oldBlogID);
+				return false;
+			}
+			
+			if ($lock_result > (time() - $timeout)) {
+				$wpdb->set_blog_id($oldBlogID);
+				return false;
+			}
+			
+			self::releaseLock($name);
+			$wpdb->set_blog_id($oldBlogID);
+			return self::createLock($name, $timeout);
+		}
+		
+		update_option($lock_option, time());
+		$wpdb->set_blog_id($oldBlogID);
+		return true;
+	}
+	public static function releaseLock($name) {
+		global $wpdb;
+		$oldBlogID = $wpdb->set_blog_id(0);
+		if (function_exists('WP_Upgrader::release_lock')) {
+			$result = WP_Upgrader::release_lock($name);
+		}
+		else {
+			$result = delete_option($name . '.lock');
+		}
+		
+		$wpdb->set_blog_id($oldBlogID);
+		return $result;
+	}
 	public static function autoUpdate(){
 		try {
 			if(getenv('noabort') != '1' && stristr($_SERVER['SERVER_SOFTWARE'], 'litespeed') !== false){
@@ -712,6 +771,11 @@ class wfConfig {
 			}
 			require_once(ABSPATH . 'wp-includes/update.php');
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
+			
+			if (!self::createLock('wfAutoUpdate')) {
+				return;
+			}
+			
 			wp_update_plugins();
 			ob_start();
 			$upgrader = new Plugin_Upgrader();
@@ -725,6 +789,8 @@ class wfConfig {
 			$output = @ob_get_contents();
 			@ob_end_clean();
 		} catch(Exception $e){}
+		
+		self::releaseLock('wfAutoUpdate');
 	}
 	
 	/**

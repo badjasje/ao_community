@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html  <?php language_attributes(); ?>>
     <head>
-
     <meta charset="<?php bloginfo( 'charset' ); ?>">
 	<?php
 		$user_ID = get_current_user_ID();
 		echo desktop_view($user_ID);
 		?>
     <?php //globals
-		
-    global $post, $page, $paged, $woocommerce;
-    
-    if(!is_user_logged_in()){
-	    wp_redirect(get_permalink(3491));
+		if(!is_user_logged_in()){
+		wp_redirect(get_permalink(3491));
     }
+		
+    global $post, $page, $paged;
+    
+    
 
 
 $new_events 				= 	get_user_meta($user_ID, 'new_events',true);
@@ -86,21 +86,7 @@ $user = get_userdata($user_ID);
 
     <!-- NAVBAR
     ================================================== -->
-      <div class="navbar-wrapper ">
-      	<div class="top-menu-bar">
-      	<div class="container">
-
-        <div class="top-menu">
-        	 <?php if(has_nav_menu('top-menu')) { ?>
-			<?php wp_nav_menu( array( 'theme_location'  => 'top-menu', 'depth' => 0,'sort_column' => 'menu_order', 'items_wrap' => '<ul  class="nav navbar-nav">%3$s</ul>') ); ?>
-		 	<?php } ?>
-		 </div>
-
-		
-
-    </div><!-- /.container -->
-    </div><!-- /.top-menu-bar -->
-
+<div class="navbar-wrapper ">
 <div class="navbar navbar-inverse navbar-static-top container" role="navigation">
 	<div class="logo col-lg-3 col-md-3">
 		<a class="brand" href="<?php  echo esc_url(site_url('/dashboard')); ?>"> 
@@ -111,7 +97,7 @@ $user = get_userdata($user_ID);
 	</div>
 			 
 
-            <div class="navbar-collapse <?php if(!function_exists( 'ubermenu' )){ echo 'collapse'; } ?>">
+            <div class="navbar-collapse">
 
 
                 <?php if(has_nav_menu('header-menu')) { ?>

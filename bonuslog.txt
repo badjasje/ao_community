@@ -3928,3 +3928,15 @@ New Money: 786461.13 Old turns: 1 | New Turns: 76
 User ID: 475 Event ID: 344026
 New Money: 500380.73 Old turns: 10 | New Turns: 85
 
+User ID: 234 Event ID: 344028
+New Money: 1053533 Old turns: 85 | New Turns: 160
+
+User ID: 713 Event ID: 340179
+New Money: 607196.6675 Old turns: 32 | New Turns: 107
+
+User ID: 235 Event ID: 344741
+New Money: 1145060.6 Old turns: 1 | New Turns: 76
+
+User ID: 360 Event ID: 344743
+New Money: 901092.5 Old turns: 13 | New Turns: 88
+

@@ -352,7 +352,12 @@ class ShiftNavWalker extends Walker_Nav_Menu {
 	 * @param array  $args   An array of arguments. @see wp_nav_menu()
 	 */
 	function end_el( &$output, $item, $depth = 0, $args = array() ) {
-		$output .= "</li>";
+		if( $item->object != 'ubermenu-custom' ||
+			$item->type_label != '[UberMenu Menu Segment]' || 
+			shiftnav_op( 'process_uber_segments' , 'general' ) == 'off' ){
+				
+			$output .= "</li>";
+		}
 	}
 
 

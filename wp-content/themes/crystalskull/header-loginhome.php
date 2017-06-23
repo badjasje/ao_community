@@ -11,7 +11,7 @@
 	?>
 
     <?php include_once 'css/colours.css.php'; ?>
-	<?php $currentlang = apply_filters( "wpml_home_url", esc_url(home_url('/')));  ?>
+
 
 <?php wp_head(); 	
 ?>

@@ -147,6 +147,7 @@ Class PB_Conditional_Fields {
 				echo '<script type="text/javascript">
 						function wppbHideActions( liElement ){
 							jQuery( "input[type=\'text\'], input[type=\'email\'], input[type=\'number\'], input[type=\'hidden\'], textarea, select option, input[type=\'checkbox\'], input[type=\'radio\']", jQuery( liElement ) ).each( function(){
+								/* do this for cascading conditional fields meaning if a field is hidden and another field is dependent on it than hide it as well */
 								if( jQuery( this )[0].hasAttribute("value") ){
 									jQuery( this ).attr( "conditional-value", jQuery( this ).attr("value") );
 									jQuery( this ).removeAttr("value");
@@ -155,6 +156,13 @@ Class PB_Conditional_Fields {
 								else{
 									jQuery( this ).attr( "conditional-value", jQuery( this ).text() );
 									jQuery( this ).trigger("change");
+								}
+								
+								/* we do this so we do not send them in $_POST so we do not change their value */
+								/* the repeater field hidden count needs to be in the $_POST */
+								if( jQuery( this )[0].hasAttribute("name") && jQuery( this ).attr("name").substring(0, 20) != "wppb_repeater_field_" ){
+									jQuery( this ).attr( "conditional-name", jQuery( this ).attr("name") );
+									jQuery( this ).removeAttr("name");
 								}
 								
 								// Trigger a custom event that will remove the HTML attribute -required- for hidden fields. This is necessary for browsers to allow form submission.
@@ -170,6 +178,11 @@ Class PB_Conditional_Fields {
 
 									// Trigger a custom event that will add the HTML attribute -required- back again, for previously hidden fields.
 									jQuery( this ).trigger( "wppbAddRequiredAttributeEvent" );
+								}
+								
+								if( jQuery( this )[0].hasAttribute("conditional-name") ){
+									jQuery( this ).attr( "name", jQuery( this ).attr("conditional-name") );
+									jQuery( this ).removeAttr("conditional-name");
 								}
 							} )
 						}
@@ -407,6 +420,9 @@ Class PB_Conditional_Fields {
 								break;
 							case 'default-website':
 								return 'website';
+								break;
+							case 'select-user-role':
+								return 'custom_field_user_role';
 								break;
 						}
 					}

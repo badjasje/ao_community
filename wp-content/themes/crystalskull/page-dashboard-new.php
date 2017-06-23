@@ -95,7 +95,7 @@ foreach ($clans as $clan) {
 }
 }
 
-get_header('home'); ?>
+get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

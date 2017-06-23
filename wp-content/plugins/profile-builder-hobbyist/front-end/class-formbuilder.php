@@ -15,6 +15,17 @@ class Profile_Builder_Form_Creator{
 	
 	// Constructor method for the class
 	function __construct( $args ) {
+
+        /* we should stop the execution of the forms if they are in the wp_head hook because it should not be there.
+        SEO plugins can execute shortcodes in the auto generated descriptions */
+        global $wp_current_filter;
+        if( !empty( $wp_current_filter ) && is_array( $wp_current_filter ) ){
+            foreach( $wp_current_filter as $filter ){
+                if( $filter == 'wp_head' )
+                    return;
+            }
+        }
+
 		// Merge the input arguments and the defaults
 		$this->args = wp_parse_args( $args, $this->defaults );
 
@@ -181,13 +192,22 @@ class Profile_Builder_Form_Creator{
             return $redirect_old;
         }
 
-        if ( isset( $wppb_general_settings['adminApproval'] ) && ( $wppb_general_settings['adminApproval'] == 'yes' ) ) {
-            return $redirect_old;
-        }
-
         /* get user id */
         $user = get_user_by( 'email', trim( sanitize_email( $_POST['email'] ) ) );
         $nonce = wp_create_nonce( 'autologin-'. $user->ID .'-'. (int)( time() / 60 ) );
+
+        if ( isset( $wppb_general_settings['adminApproval'] ) && ( $wppb_general_settings['adminApproval'] == 'yes' ) ) {
+            if( !empty( $wppb_general_settings['adminApprovalOnUserRole'] ) ) {
+                foreach ($user->roles as $role) {
+                    if ( in_array( $role, $wppb_general_settings['adminApprovalOnUserRole'] ) ) {
+                        return $redirect_old;
+                    }
+                }
+            }
+            else {
+                return $redirect_old;
+            }
+        }
 
         /* define redirect location */
         if( $this->args['redirect_activated'] == 'No' ) {
@@ -238,7 +258,7 @@ class Profile_Builder_Form_Creator{
 	function wppb_form_content( $message ) {
 		$field_check_errors = array();
 
-		if( isset( $_REQUEST['action'] ) ) {
+		if( isset( $_REQUEST['action'] ) && $_REQUEST['form_name'] == $this->args['form_name'] ) {
 			$field_check_errors = $this->wppb_test_required_form_values( $_REQUEST );			
 			if( empty( $field_check_errors ) ) {
 
@@ -264,6 +284,11 @@ class Profile_Builder_Form_Creator{
                         $account_name = sanitize_user( $_POST['username'] );
                     } elseif( isset( $_POST['email'] ) && ( trim( $_POST['email'] ) != '' ) ) {
                         $account_name = sanitize_email( $_POST['email'] );
+                    }else{
+                        /* we are in the edit form with no username or email field */
+                        $current_user = wp_get_current_user();
+                        if( !empty( $current_user ) )
+                            $account_name = $current_user->user_login;
                     }
 
                     if( $this->args['form_type'] == 'register' ) {

@@ -3,8 +3,8 @@ Contributors: sevenspark
 Donate link: http://shiftnav.io/pro
 Tags: responsive, menu, navigation, mobile, off-canvas, app, slide, sidebar
 Requires at least: 4.0
-Tested up to: 4.7.2
-Stable tag: 1.5.1.1
+Tested up to: 4.8
+Stable tag: 1.5.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,23 @@ Please see the [ShiftNav Quick Setup Guide](http://sevenspark.com/docs/shiftnav-
 
 
 == Changelog ==
+
+
+= 1.5.2 =
+
+* Enhancement: Reorganize code to better handle deferred and async javascript
+* Enhancement: Add disable_content attribute to shiftnav_toggle shortcode
+* Enhancement: Don't throw error when there's an invalid hash string
+
+
+
+
+= 1.5.1.2 =
+
+* UX Enhancement: Main toggle now closes open secondary menu 
+* jQuery 3 Compatibility Enhancement: Change .size() calls to .length
+* Fix: Remove extraneous closing tag when using UberMenu Menu Segments in ShiftNav
+
 
 = 1.5.1.1 =
 * Fix: Properly handle UberMenu Menu Segments when they have been renamed by the user and using multiple segments
@@ -200,5 +217,4 @@ Version 1.3 includes new features and enhancements
 = 0.1 =
 
 Initial Beta Release
-
 

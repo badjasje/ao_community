@@ -18,9 +18,7 @@ function wppb_include_extra_fields_files() {
 	include_once( WPPB_PLUGIN_DIR.'/front-end/extra-fields/textarea/textarea.php' );
 	include_once( WPPB_PLUGIN_DIR.'/front-end/extra-fields/timepicker/timepicker.php' );
 	include_once( WPPB_PLUGIN_DIR.'/front-end/extra-fields/upload/upload.php' );
-	include_once( WPPB_PLUGIN_DIR.'/front-end/extra-fields/avatar/avatar.php' );
-	include_once( WPPB_PLUGIN_DIR.'/front-end/extra-fields/recaptcha/recaptcha.php' );
-	include_once( WPPB_PLUGIN_DIR.'/front-end/extra-fields/user-role/user-role.php' );
+	include_once( WPPB_PLUGIN_DIR.'/front-end/extra-fields/avatar/avatar.php' );	
 	include_once( WPPB_PLUGIN_DIR.'/front-end/extra-fields/wysiwyg/wysiwyg.php' );
 	include_once( WPPB_PLUGIN_DIR.'/front-end/extra-fields/validation/validation.php' );
 	include_once( WPPB_PLUGIN_DIR.'/front-end/extra-fields/map/map.php' );

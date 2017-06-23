@@ -94,6 +94,15 @@
 					$(this).hide();
 				});
 
+				$(window).bind("scroll", function() {
+					$(this).scrollTop() > 200 ? $(".wf-scrollTop").fadeIn() : $(".wf-scrollTop").fadeOut()
+				});
+				$(".wf-scrollTop").click(function(e) {
+					return e.stopPropagation(), $("body,html").animate({
+						scrollTop: 0
+					}, 800), !1;
+				});
+
 				var tabs = jQuery('#wordfenceTopTabs').find('a');
 				if (tabs.length > 0) {
 					tabs.click(function() {
@@ -511,7 +520,7 @@
 				}, parseInt(WordfenceAdminVars.actUpdateInterval));
 			},
 			updateActivityLog: function() {
-				if (this.activityLogUpdatePending || !this.windowHasFocus()) {
+				if (this.activityLogUpdatePending || (!this.windowHasFocus() && WordfenceAdminVars.allowsPausing == '1')) {
 					if (!jQuery('body').hasClass('wordfenceLiveActivityPaused') && !this.activityLogUpdatePending) {
 						jQuery('body').addClass('wordfenceLiveActivityPaused');
 					}
@@ -541,6 +550,14 @@
 					}
 					if (res.signatureUpdateTime) {
 						this.updateSignaturesTimestamp(res.signatureUpdateTime);
+					}
+					
+					if (res.scanFailed) {
+						jQuery('#wf-scan-failed-time-ago').text(res.scanFailedTiming);
+						jQuery('#wf-scan-failed').show();
+					}
+					else {
+						jQuery('#wf-scan-failed').hide();
 					}
 				}
 				this.activityLogUpdatePending = false;
@@ -666,6 +683,10 @@
 					msg = item.msg.replace('SUM_ENDSKIPPED:', '');
 					jQuery('div.wfSummaryMsg:contains("' + msg + '")').next().addClass('wfSummaryResult').html('Skipped.');
 					summaryUpdated = true;
+				} else if (item.msg.indexOf('SUM_ENDIGNORED') != -1) {
+					msg = item.msg.replace('SUM_ENDIGNORED:', '');
+					jQuery('div.wfSummaryMsg:contains("' + msg + '")').next().addClass('wfSummaryIgnored').html('Ignored.');
+					summaryUpdated = true;
 				} else if (item.msg.indexOf('SUM_DISABLED:') != -1) {
 					msg = item.msg.replace('SUM_DISABLED:', '');
 					jQuery('#consoleSummary').append('<div class="wfSummaryLine"><div class="wfSummaryDate">[' + item.date + ']</div><div class="wfSummaryMsg">' + msg + '</div><div class="wfSummaryResult">Disabled [<a href="admin.php?page=WordfenceSecOpt">Visit Options to Enable</a>]</div><div class="wfClear"></div>');
@@ -700,7 +721,7 @@
 				}
 			},
 			updateTicker: function(forceUpdate) {
-				if ((!forceUpdate) && (this.tickerUpdatePending || !this.windowHasFocus())) {
+				if ((!forceUpdate) && (this.tickerUpdatePending || (!this.windowHasFocus() && WordfenceAdminVars.allowsPausing == '1'))) {
 					if (!jQuery('body').hasClass('wordfenceLiveActivityPaused') && !this.tickerUpdatePending) {
 						jQuery('body').addClass('wordfenceLiveActivityPaused');
 					}
@@ -915,6 +936,10 @@
 				limit = limit || WordfenceAdminVars.scanIssuesPerPage;
 				var self = this;
 				this.ajax('wordfence_loadIssues', {offset: offset, limit: limit}, function(res) {
+					var newCount = parseInt(res.issueCounts.new) || 0;
+					var ignoredCount = (parseInt(res.issueCounts.ignoreP) || 0) + (parseInt(res.issueCounts.ignoreC) || 0);
+					jQuery('#wfNewIssuesTab .wfIssuesCount').text(' (' + newCount + ')');
+					jQuery('#wfIgnoredIssuesTab .wfIssuesCount').text(' (' + ignoredCount + ')'); 
 					self.displayIssues(res, callback);
 				});
 			},
@@ -2708,7 +2733,12 @@
 						if (typeof onSuccess === 'function') {
 							return onSuccess.apply(this, arguments);
 						}
-					} else {
+					}
+					else if (typeof res === 'object' && res.errorMsg) {
+						self.colorbox((self.isSmallScreen ? '300px' : '400px'), 'Error saving Firewall configuration', 'There was an error saving the ' +
+							'Web Application Firewall configuration settings: ' + res.errorMsg);
+					}
+					else {
 						self.colorbox((self.isSmallScreen ? '300px' : '400px'), 'Error saving Firewall configuration', 'There was an error saving the ' +
 							'Web Application Firewall configuration settings.');
 					}

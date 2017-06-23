@@ -82,13 +82,6 @@ function shiftnav_get_settings_fields(){
 
 			),
 
-			90040 => array(
-				'name' => 'swipe_open',
-				'label' => __( 'Swipe Open', 'shiftnav' ),
-				'desc' => __( 'Swipe to open the main ShiftNav Panel in iOS and Android.  Not all themes will be compatible, as touch swipes can conflict with theme scripts.  Make sure enabling this doesn\'t prevent other touch functionality on your site from working', 'shiftnav' ),
-				'type' => 'checkbox',
-				'default' => 'off'
-			),
 
 			50 => array(
 				'name'	=> 'skin',
@@ -486,38 +479,6 @@ function shiftnav_get_settings_fields(){
 		),
 
 		
-
-		120 => array(
-			'name' 		=> 'swipe_close',
-			'label' 	=> __( 'Swipe Close', 'shiftnav' ),
-			'desc' 		=> __( 'Enable swiping to close the ShiftNav panel on Android and iOS.  Touch events may not interact well with all themes.', 'shiftnav' ),
-			'type' 		=> 'checkbox',
-			'default' 	=> 'off'
-		),
-
-		130 => array(
-			'name' 		=> 'swipe_tolerance_x',
-			'label' 	=> __( 'Swipe Tolerance: Horizontal', 'shiftnav' ),
-			'desc' 		=> __( 'The minimum horizontal pixel distance before the swipe is triggered.  Do not include <code>px</code>', 'shiftnav' ),
-			'type' 		=> 'text',
-			'default' 	=> 150
-		),
-
-		140 => array(
-			'name' 		=> 'swipe_tolerance_y',
-			'label' 	=> __( 'Swipe Tolerance: Vertical', 'shiftnav' ),
-			'desc' 		=> __( 'The maximum horizontal pixel distance allowed for the swipe to be triggered.  Do not include <code>px</code>', 'shiftnav' ),
-			'type' 		=> 'text',
-			'default' 	=> 60
-		),
-
-		150 => array(
-			'name' 		=> 'swipe_edge_proximity',
-			'label' 	=> __( 'Swipe Edge Proximity', 'shiftnav' ),
-			'desc' 		=> __( 'The distance from the edge, within which the first touch event must occur for the swipe to be triggered.  Do not include <code>px</code>', 'shiftnav' ),
-			'type' 		=> 'text',
-			'default' 	=> 80
-		),
 
 		160 => array(
 			'name' 		=> 'open_current',

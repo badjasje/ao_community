@@ -109,7 +109,7 @@ function wppb_make_upload_button( $field, $input_value ){
                 $upload_button .= '</span><span class="file-type">';
                 $upload_button .= $file_type;
                 $upload_button .= '</span>';
-                $upload_button .= '<span class="wppb-remove-upload">' . __('Remove', 'profile-builder') . '</span>';
+                $upload_button .= '<span class="wppb-remove-upload" tabindex="0">' . __('Remove', 'profile-builder') . '</span>';
                 $upload_button .= '</p></div>';
             }
         }

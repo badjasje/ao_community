@@ -15,7 +15,7 @@ function wppb_checkbox_handler( $output, $form_location, $field, $user_id, $fiel
         else
             $input_value = ( !empty( $field['default-options'] ) ? array_map( 'trim', explode( ',', $field['default-options'] ) ) : array() );
 
-        if( $form_location == 'register' && isset( $request_data[ wppb_handle_meta_name( $field['meta-name'] ) ] ) && !empty( $request_data[ wppb_handle_meta_name( $field['meta-name'] ) ] ) )
+        if( isset( $request_data[ wppb_handle_meta_name( $field['meta-name'] ) ] ) && !empty( $request_data[ wppb_handle_meta_name( $field['meta-name'] ) ] ) )
             $input_value = $request_data[ wppb_handle_meta_name( $field['meta-name'] ) ];
 
 		$extra_attr = apply_filters( 'wppb_extra_attribute', '', $field, $form_location );

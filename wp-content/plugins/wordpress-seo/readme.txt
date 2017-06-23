@@ -4,9 +4,9 @@ Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
-Requires at least: 4.4
-Tested up to: 4.7
-Stable tag: 4.1
+Requires at least: 4.6
+Tested up to: 4.8
+Stable tag: 4.9
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -29,7 +29,7 @@ Using the snippet preview, you can see a rendering of what your post or page wil
 = Page Analysis =
 The Yoast SEO plugins [Page Analysis](https://yoast.com/content-seo-wordpress-linkdex/) functionality checks simple things you're bound to forget. It checks, for instance, if you have images in your post and whether they have an alt tag containing the focus keyword for that post. It also checks whether your posts are long enough, whether you've written a meta description and if that meta description contains your focus keyword, if you've used any subheadings within your post, etc. etc.
 
-The plugin also allows you to write meta titles and descriptions for all your category, tag and custom taxonomy archives, giving you the option to further optimize those pages.
+The plugin alsgruo allows you to write meta titles and descriptions for all your category, tag and custom taxonomy archives, giving you the option to further optimize those pages.
 
 Combined, this plugin makes sure that your content is the type of content search engines will love!
 
@@ -124,53 +124,31 @@ You'll find answers to many of your questions on [kb.yoast.com](https://kb.yoast
 
 == Changelog ==
 
-= 4.1.0 =
+= 4.9.0 =
 
-Release Date: January 17th, 2017
-
-* Bugfixes:
-	* Fixes a glitch in the notification center where a notification would be shown twice.
-	* Fixes a bug where the realtime analysis didn't work on term pages.
-	* Fixes a bug where the sitemap invalidation uses an expensive query to clean up old validators.
-
-* Enhancements:
-	* Added a mobile snippet preview.
-	* Added a function that allows retrieving an option only when it's been autoloaded.
-	* Remove review banner from mobile, props [abhinavkumar940](https://github.com/abhinavkumar940).
-	* Add labels to redirect checkboxes in the search console to improve accessibility.
-
-= 4.0.2 =
-
-Release Date: December 20th, 2016
+Release Date: June 7th, 2017
 
 * Bugfixes
-	* Fixes a bug where shortcodes would be kept in the content that would be analyzed, which would result in incorrect results.
-	* Fixes a bug where the user language would be used to analyze the content instead of the site language.
+	* Fixes a bug where there were certain assessments missing when switching to cornerstone content.
+	* Fixes a bug where the configuration wizard button was visible for users who didn't have enough rights to access the configuration wizard.
+	* Fixes a bug where the column `ID` was ambiguous, causing an SQL error.
+	* Fixes a bug where the category URL in the sitemap was encoded twice.
+	* Fixes a bug where an old upgrade notice is not removed.
 
-= 4.0.0 =
+* Enhancements
+	* Removes the noodp advanced robots meta value as it is no longer used.
+	* Loads the translations only when the configuration wizard endpoint is called, instead of every time `rest_api_init` is called.
 
-Release Date: December 13th, 2016
+= 4.8.0 =
 
-* Enhancements:
-	* License manager: Add a get_extension_url method to Yoast_Product to retrieve the URL where people can extend/upgrade their license.
-	* License manager: Add a set_extension_url method to Yoast_Product to set the URL where people can extend/upgrade their license.
-	* Updates the credits page.
-	* Improves plugin naming in translations.
-	* Improves translations by making texts more consistent.
-	* Displays the translations in the language chosen by the user in stead of using only the site language.
-	* Improves the styling of the banners.
-	* Adds passive voice for German.
-	* Adds more transition words for French.
-	* Improves feedback strings for the meta description length assessment.
-	* Improves matching of the keyword in the first paragraph.
-	* Improves the snippet preview to match the styling of googles snippet.
+Release Date: May 23rd, 2017
 
-* Bugfixes:
-	* Fixes a compatibility bug with the onboarding wizard and Polylang, and possibly more plugins that prevented the configuration wizard from working properly.
-	* Fixes a bug where post format archives showed up in sitemap when disabled.
-	* Fixes a bug where an old update notice would not be removed.
-	* Fixes a bug where keywords with periods where not highlighted in the snippet.
-	* Fixes a bug where the title of the metabox wasn't displayed correctly.
+* Bugfixes
+	* Fixes a bug where the tabs in the social and advanced metabox section are gone when keyword analysis has been disabled.
+
+* Enhancements
+	* Optimizes the way the cornerstone flag is saved.
+	* Analyzes the content using cornerstone assessors when a post or page is cornerstone content.
 
 = Earlier versions =
 

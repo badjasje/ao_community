@@ -4,7 +4,7 @@ Tags: facebook, register, login, social connect, social, facebook connect
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 3.0
 Tested up to: 4.7.3
-Stable tag: 2.0.0
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,6 +71,12 @@ After you activated the plugin, the plugin will automatically
 2. Our Social Connect plugins in the profile page for account linking
 
 == Changelog ==
+
+= 2.0.2 =
+* Fix: Fatal error: Call to undefined method Facebook\Facebook::getAccessToken()
+
+= 2.0.1 =
+* Fix: Redirect uri mismatch in spacial server environment
 
 = 2.0.0 =
 * The latest Facebook PHP API used: https://github.com/facebook/php-graph-sdk
