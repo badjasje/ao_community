@@ -10,7 +10,7 @@ $user_ID = get_current_user_id();
  $ct_2 = get_post_meta($clan_ID,'ct_2',true);
  $ct_3 = get_post_meta($clan_ID,'ct_3',true);
  $ct_4 = get_post_meta($clan_ID,'ct_4',true);
-
+$settings = array( 'media_buttons' => false );
 $changecount = get_post_meta($clan_ID, 'clan_name_change', true);
 $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
 
@@ -63,7 +63,8 @@ get_header(); ?>
 <?php if(in_array($user_ID, $allowed)):?>		
 			
 <div class="row edit_clan_first">
-	<div class="col-md-4 edit_clan_box">		
+	<div class="col-md-6 edit_clan_box">
+		<h2>Set clan image</h2>		
 		<?php if(!empty(get_post_meta($clan_ID, 'clan_image', true))):?>
 				<center><img style="width:200px;" src="<?php echo get_post_meta($clan_ID, 'clan_image', true); ?>"></center><br/><?php endif;?>
 				<form action="/set_clan_image.php" method="post" enctype="multipart/form-data">
@@ -72,17 +73,28 @@ get_header(); ?>
 				<input type="submit" value="Upload Image" name="submit">
 				</form>
 	</div>
-	<div class="col-md-4 edit_clan_box">	
+	<div class="col-md-6 edit_clan_box">	
+		<h2>Edit public message</h2>
 		<form class="form" action="<?php echo home_url() ?>/public_message.php" name="" id="market" method="post">
 		<input type="hidden" name="clan" value="<?php echo $clan_ID;?>">
 		<textarea rows="5" class="message_box" type="text" name="publicmessage" id="clanmessager"><?php echo $clan->post_content;?></textarea><center>
 		<input type="submit" value="Edit public message"></form>
 	</div>
-	<div class="col-md-4 edit_clan_box">
+</div>
+
+
+
+
+
+
+
+<div class="row edit_clan_first">
+	<div class="col-md-12 edit_clan_box">
+		<h2>Edit clan message</h2>
 		<form class="form" action="<?php echo home_url() ?>/clan_message.php" name="" id="market" method="post">
 		<input type="hidden" name="clan" value="<?php echo $clan_ID;?>">
-		<textarea rows="5" class="message_box" type="text" name="clanmessage" id="clanmessager">
-		<?php if(!empty(get_post_meta($clan_ID, 'clan_message')[0])){echo get_post_meta($clan_ID, 'clan_message')[0];}?></textarea>
+		<?php wp_editor(get_post_meta($clan_ID, 'clan_message')[0],'clanmessage',$settings);?>
+	
 		<input type="submit" value="Edit clan message"></form>
 	</div>
 </div>
