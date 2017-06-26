@@ -285,15 +285,7 @@ get_header(); ?>
 	<div class="col-md-3 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Networth</span>
 		<span class="clan_data_right store-pop-span2">
-		<?php if($_member == true):?>
-			$ <?php echo number_format($networth, 0, ',', ' '); ?>
-				<?php else:?>
-				<?php if(($nw_att/1.4 <= $networth) && ($networth <= $nw_att*1.4)):?>
-				<strong>$ <?php echo number_format($networth, 0, ',', ' '); ?></strong>
-				<?php else:?>
-				$ <?php echo number_format($networth, 0, ',', ' '); ?>
-				<?php endif;?>
-		<?php endif;?>
+		<?php echo networth_range($member);?>
 		</span>
 
 	</div>
@@ -482,15 +474,7 @@ get_header(); ?>
 	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Networth</span>
 		<span class="clan_data_right store-pop-span2">
-		<?php if($_member == true):?>
-			$ <?php echo number_format($networth, 0, ',', ' '); ?>
-				<?php else:?>
-				<?php if(($nw_att/1.4 <= $networth) && ($networth <= $nw_att*1.4)):?>
-				<strong>$ <?php echo number_format($networth, 0, ',', ' '); ?></strong>
-				<?php else:?>
-				$ <?php echo number_format($networth, 0, ',', ' '); ?>
-				<?php endif;?>
-		<?php endif;?>
+		<?php echo networth_range($member);?>
 		</span>
 
 	</div>

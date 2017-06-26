@@ -108,7 +108,7 @@ get_header('profile'); ?>
 			</div>
 			<div class="row profile_row">
 				<div class="col-xs-5">Networth</div>
-				<div class="col-xs-7">$ <?php echo number_format($user_NW, 0, ',', ' ')?></div>
+				<div class="col-xs-7"><?php echo networth_range($user__ID);?></div>
 			</div>
 			<div class="row profile_row">
 				<div class="col-xs-5">Land</div>

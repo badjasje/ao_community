@@ -16,6 +16,30 @@ remove_action('wp_print_styles', 'print_emoji_styles');
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 remove_action( 'admin_print_styles', 'print_emoji_styles' );
 
+function networth_range($user_ID){
+	
+	$viewerID = get_current_user_id();
+	
+	$networth = get_user_meta($user_ID, 'networth', true);
+	$viewerNetworth = get_user_meta($viewerID, 'networth', true);
+
+	
+	if(($viewerNetworth/1.4 <= $networth) && ($networth <= $viewerNetworth*1.4)){
+		
+	return '<span class="hover-tip"  data-toggle="tooltip" data-original-title="This user is in your networth range" data-placement="bottom">
+				<span class="inRange">$ '.number_format($networth, 0, ',', ' ').'</span>
+			</span>';
+	}else{
+		return '<span>$ '.number_format($networth, 0, ',', ' ').'</span>';
+	}
+	
+	
+	
+						
+}
+
+
+
 function get_user_name($user_ID){
 	$timestamp = strtotime(date('Y-m-d H:i:s'));
 	$status = get_user_meta($user_ID,'status',true);

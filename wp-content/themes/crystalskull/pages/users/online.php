@@ -27,7 +27,6 @@
 		$clan_id = get_user_meta($user_ID, 'clan_id_user',true);
 		$member_data = get_userdata($user_ID);
 		
-		$networth = get_user_meta($user_ID, 'networth',true);
 		$land = get_user_meta($user_ID, 'land',true);
 		$last_online = get_user_meta($user_ID, 'last_online',true);
 	
@@ -37,11 +36,7 @@
 			$extraClass = '_last';
 			
 		}
-		$inRangeClass = '';
-		if (($networth > $networth_you/$ATTACK_RANGE_MULT && $networth < $networth_you*$ATTACK_RANGE_MULT)){
-			$inRangeClass = 'inRange';
-		}
-		
+	
 		
 		if(!empty($last_online)){
 		$last_seen = $timestamp - $last_online;
@@ -62,9 +57,9 @@
 	</div>
 	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Networth</span>
-		<span class="clan_data_right store-pop-span2 <?php echo $inRangeClass;?>">
+		<span class="clan_data_right store-pop-span2">
 		
-			$ <?php echo number_format($networth, 0, ',', ' '); ?>
+			<?php echo networth_range($user_ID);?>
 					
 		</span>
 
