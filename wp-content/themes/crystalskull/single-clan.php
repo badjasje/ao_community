@@ -559,7 +559,14 @@ get_header(); ?>
 		<div class="notice_message"><span class="rdw-line">
 			<?php 
 				$timeleft = $cooldownlist[$clan_id]-$timestamp;
-				echo human_time_diff( $cooldownlist[$clan_id],$timestamp);?> left before you can declare war</span>
+				echo human_time_diff( $cooldownlist[$clan_id],$timestamp);?> left before you can declare a new war on this clan</span>
+				<?php if($warcount == 1):?>
+				<a href="/resumewar.php/?declaredon=<?php echo get_the_id();?>&declaredby=<?php echo $declarer_clan_ID;?>">
+					<div style="margin-top:10px;padding:10px;background-color:#fff;color:#5f5d5d;">
+						However, you can still choose to resume your previous war
+					</div>
+				</a>
+				<?php endif;?>
 		</div>
 		<?php endif;?>
 		
