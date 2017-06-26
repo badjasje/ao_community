@@ -475,7 +475,7 @@ get_header(); ?>
 				foreach($units as $key => $unit){
 					$units_owned = get_user_meta($user_ID, $key.'_owned');
 					$units_total+=$units_owned[0];
-					if($unit['type'] == 'veh' || $unit['type'] == 'inf' and $unit['normalname'] != 'Thief' and $unit['normalname'] != 'Spy' and $unit['normalname'] != 'SR-71 Spyplane'){
+					if($unit['type'] == 'veh' || $unit['type'] == 'inf' and $unit['normalname'] != 'Thief' and $unit['normalname'] != 'Spy' and $unit['normalname'] != 'Sniper' and $unit['normalname'] != 'SR-71 Spyplane'){
 					if($units_owned[0]>0){
 						$sendall[] = $units_owned[0];
 					?>

@@ -14,7 +14,16 @@ $clan_ID = get_user_meta($user_ID, 'clan_id_user', true);
 $timestamp = strtotime(date('Y-m-d H:i:s'));
 
 $spytype = $_SESSION['attack_array']['sendspy'];
-	$turns = get_user_meta($user_ID, 'turns');
+$turns = get_user_meta($user_ID, 'turns',true);
+$spies = get_user_meta($user_ID, 'spy_owned',true);
+
+/* check if user has enough spies */
+if($spies < 1){ 
+	
+	$_SESSION['status'] = 'Not enough spies';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
+	exit;
+	}	
 	
 /* check if user has enough turns */
 if($turns < 1){ 
@@ -24,7 +33,7 @@ if($turns < 1){
 	exit;
 	}	
 
-	update_user_meta($user_ID,'turns',$turns[0]-1);
+	update_user_meta($user_ID,'turns',$turns-1);
 	
 $sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
 

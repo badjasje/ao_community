@@ -1,8 +1,7 @@
 <?php
 	
 	require_once("wp-load.php");
-	$user_ID = 1;
-	update_field('m270_rocket_owned',99,'user_'.$user_ID);
+	echo current_time( 'G:i:s | d-m-Y');
 	/*
 
 $args = array(

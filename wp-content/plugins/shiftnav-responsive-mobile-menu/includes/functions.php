@@ -253,10 +253,7 @@ function shiftnav_toggle_shortcode( $atts, $content ){
 		'el'		=> 'a',
 		'class'		=> '',
 		'icon'		=> '',
-		'disable_content' => '',
 	), $atts, 'shiftnav_toggle' ) );
-
-	if( $disable_content = 'true' ) $content = false;
 
 	ob_start();
 
@@ -318,6 +315,11 @@ function shiftnav_load_assets(){
 		'shift_body_wrapper'	=>	shiftnav_op( 'shift_body_wrapper' , 'general' ),
 		'lock_body'				=>	shiftnav_op( 'lock_body' , 'general' ),
 		'lock_body_x'			=>	shiftnav_op( 'lock_body_x' , 'general' ),
+		'swipe_close'			=>	shiftnav_op( 'swipe_close' , 'general' ),
+		'swipe_open'			=>	shiftnav_op( 'swipe_open' , 'shiftnav-main' ),
+		'swipe_tolerance_x'		=>	shiftnav_op( 'swipe_tolerance_x' , 'general' ),
+		'swipe_tolerance_y'		=>	shiftnav_op( 'swipe_tolerance_y' , 'general' ),
+		'swipe_edge_proximity'	=>	shiftnav_op( 'swipe_edge_proximity' , 'general' ),
 		'open_current'			=>	shiftnav_op( 'open_current' , 'general' ),
 		'collapse_accordions'	=> 	shiftnav_op( 'collapse_accordions' , 'general' ),
 		'scroll_panel'			=>	shiftnav_op( 'scroll_panel' , 'general' ),

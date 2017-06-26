@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html  <?php language_attributes(); ?>>
     <head>
+
     <meta charset="<?php bloginfo( 'charset' ); ?>">
 	<?php
 		$user_ID = get_current_user_ID();
 		echo desktop_view($user_ID);
 		?>
     <?php //globals
-		if(!is_user_logged_in()){
-		wp_redirect(get_permalink(3491));
-    }
 		
-    global $post, $page, $paged;
+    global $post, $page, $paged, $woocommerce;
     
-    
+    if(!is_user_logged_in()){
+	    wp_redirect(get_permalink(3491));
+    }
 
 
 $new_events 				= 	get_user_meta($user_ID, 'new_events',true);
@@ -74,19 +74,25 @@ $user = get_userdata($user_ID);
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/nl_NL/sdk.js#xfbml=1&version=v2.9&appId=329219064110878";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
 <div id="main_wrapper">
 
     <!-- NAVBAR
     ================================================== -->
-<div class="navbar-wrapper ">
+      <div class="navbar-wrapper ">
+      	<div class="top-menu-bar">
+      	<div class="container">
+
+        <div class="top-menu">
+        	 <?php if(has_nav_menu('top-menu')) { ?>
+			<?php wp_nav_menu( array( 'theme_location'  => 'top-menu', 'depth' => 0,'sort_column' => 'menu_order', 'items_wrap' => '<ul  class="nav navbar-nav">%3$s</ul>') ); ?>
+		 	<?php } ?>
+		 </div>
+
+		
+
+    </div><!-- /.container -->
+    </div><!-- /.top-menu-bar -->
+
 <div class="navbar navbar-inverse navbar-static-top container" role="navigation">
 	<div class="logo col-lg-3 col-md-3">
 		<a class="brand" href="<?php  echo esc_url(site_url('/dashboard')); ?>"> 
@@ -97,7 +103,7 @@ $user = get_userdata($user_ID);
 	</div>
 			 
 
-            <div class="navbar-collapse">
+            <div class="navbar-collapse <?php if(!function_exists( 'ubermenu' )){ echo 'collapse'; } ?>">
 
 
                 <?php if(has_nav_menu('header-menu')) { ?>

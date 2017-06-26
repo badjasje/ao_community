@@ -16,7 +16,7 @@ module.exports = function(grunt) {
       minify: {
         files: {
           'assets/css/shiftnav.min.css' : ['assets/css/shiftnav.css'],
-          'pro/assets/css/shiftnav.min.css' : ['pro/assets/css/shiftnav.css']
+          //'pro/assets/css/shiftnav.min.css' : ['pro/assets/css/shiftnav.css']
         }
       }
       /*
@@ -32,7 +32,7 @@ module.exports = function(grunt) {
 
     'closure-compiler': {
       frontend: {
-        closurePath: '/usr/local/opt/closure-compiler/libexec',
+        //closurePath: '/usr/local/lib/closure-compiler',
         js: 'assets/js/*.js',
         jsOutputFile: 'assets/js/shiftnav.min.js',
         maxBuffer: 500,
@@ -52,9 +52,6 @@ module.exports = function(grunt) {
           {
             "assets/css/shiftnav.css": "assets/css/shiftnav.less"
           },
-          {
-            "pro/assets/css/shiftnav.css": "pro/assets/css/shiftnav.less"
-          },
         ]
       }
     },
@@ -62,7 +59,7 @@ module.exports = function(grunt) {
     makepot: {
       target: {
         options: {
-          mainFile: 'shiftnav.php',
+          mainFile: 'shiftnav-responsive-mobile-menu.php',
           domainPath: '/languages',
           potFilename: 'shiftnav.pot',
           // include: [
@@ -92,6 +89,7 @@ module.exports = function(grunt) {
   grunt.registerTask('compile', ['closure-compiler']);
 
   // Default task(s).
-  grunt.registerTask('default', ['less','closure-compiler','makepot']);
+  //grunt.registerTask('default', ['less','closure-compiler','makepot']);
+  grunt.registerTask('default', ['less','cssmin','closure-compiler','makepot']);
 
 };

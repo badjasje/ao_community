@@ -119,7 +119,7 @@ function shiftnav_toggle( $target_id , $content = null, $args = array() ){
 	$ops = shiftnav_get_instance_options( $target_id );
 	//shiftp( $ops );	
 
-	if( $content == null && $content !== false ){
+	if( $content == null ){
 		$content = isset( $ops['toggle_content'] ) ? $ops['toggle_content'] : '';
 		//if( !$content ) $content = __( 'Toggle ShiftNav' , 'shiftnav' );
 	}

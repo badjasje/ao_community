@@ -286,6 +286,8 @@ $file = 'marketlog.txt';
 // Open the file to get existing content
 $current = file_get_contents($file);
 // Append a new person to the file
+$time = current_time( 'G:i:s | d-m-Y');
+$current .= $time."\n";
 $current .= "ID: ".$user_ID."\n";
 $current .= "Units ordered: ".$ordered_units."\n\n";
 // Write the contents back to the file

@@ -45,7 +45,8 @@ if($user_ID == $receiver_ID){
 	// Append a new person to the file
 	
 	$turns_newest = get_user_meta($user_ID, 'turns',true);
-	
+	$time = current_time( 'G:i:s | d-m-Y');
+	$current .= $time."\n";
 	$current .= "User ID: ".$user_ID." Event ID: ".$event_ID."\n";
 	$current .= "New Money: ".$money_new." Old turns: ".$turns." | New Turns: ".$turns_newest."\n\n";
 	// Write the contents back to the file
