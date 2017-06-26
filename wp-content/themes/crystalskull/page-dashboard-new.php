@@ -383,13 +383,19 @@ get_header(); ?>
 <div class="row">
 	<div class="col-md-12">
 	<div class="row button_block">
+		
+		<div class="col-md-4 buttoncol">
+	 	<center><a class="btn btn-general profilebutton" href="/military-overview/?id=<?php echo $user_ID;?>">
+		 	<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Military overview</a></center>
+		</div>
+	
  	
- 		<div class="col-md-6 buttoncol">
+ 		<div class="col-md-4 buttoncol">
 	 		<center><a class="btn btn-general profilebutton" href="/users/profile/edit/">
 		 		<i class="fa fa-wrench" aria-hidden="true"></i> &nbsp;Edit your profile</a></center>
 		</div>
 	
-		<div class="col-md-6 buttoncol">
+		<div class="col-md-4 buttoncol">
 	 		<center><a class="btn btn-general profilebutton" href="/player-statistics/">
 		 		<i class="fa fa-bar-chart" aria-hidden="true"></i> &nbsp;View statistics</a></center>
 		</div>

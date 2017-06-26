@@ -237,14 +237,21 @@ get_header('profile'); ?>
 
 <?php if($clan_id == $clan_id_user && $count != 1 && $visiting_user != $user__ID):?>
 <!-- Visiting clanmember profile -->
+
 <div class="row button_block">
  	
-	<div class="col-md-12 buttoncol">
-	  	<center><a class="btn btn-general profilebutton" href="/send-message/?id=<?php echo $user__ID;?>">
+ 	<div class="col-md-6 buttoncol">
+	 	<center><a class="btn btn-general profilebutton" href="/military-overview/?id=<?php echo $user__ID;?>">
+		 	<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Military overview</a></center>
+	</div>
+	
+	<div class="col-md-6 buttoncol">
+	 	<center><a class="btn btn-general profilebutton" href="/send-message/?id=<?php echo $user__ID;?>">
 		  <i class="fa fa-envelope-o" aria-hidden="true"></i> &nbsp;Send message</a></center>
 	</div>
-  
+
 </div>
+
 <?php endif;?>
 
 
@@ -254,13 +261,18 @@ get_header('profile'); ?>
 <?php if($visiting_user == $user__ID):?>
 <!-- visiting own profile -->
 <div class="row button_block">
+	
+	<div class="col-md-4 buttoncol">
+	 	<center><a class="btn btn-general profilebutton" href="/military-overview/?id=<?php echo $user__ID;?>">
+		 	<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Military overview</a></center>
+	</div>
  	
- 	<div class="col-md-6 buttoncol">
+ 	<div class="col-md-4 buttoncol">
 	 	<center><a class="btn btn-general profilebutton" href="/users/profile/edit/">
 		 	<i class="fa fa-wrench" aria-hidden="true"></i> &nbsp;Edit your profile</a></center>
 	</div>
 	
-	<div class="col-md-6 buttoncol">
+	<div class="col-md-4 buttoncol">
 	 	<center><a class="btn btn-general profilebutton" href="/player-statistics/">
 		 	<i class="fa fa-bar-chart" aria-hidden="true"></i> &nbsp;View statistics</a></center>
 	</div>
