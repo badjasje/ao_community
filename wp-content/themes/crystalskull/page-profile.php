@@ -278,7 +278,7 @@ get_header('profile'); ?>
 
 			<?php if(current_user_can('activate_plugins')){ ?>
 			<center><a href="/admin-tools/?user_id=<?php echo $user__ID;?>">Admin edit user</a></center>
-			<center><a target="_blank" href="http://assault.online/wp-admin/user-edit.php?user_id=<?php echo $user__ID;?>&wp_http_referer=%2Fwp-admin%2Fusers.php">Backend edit</a></center>
+			<center><a target="_blank" href="/wp-admin/user-edit.php?user_id=<?php echo $user__ID;?>&wp_http_referer=%2Fwp-admin%2Fusers.php">Backend edit</a></center>
 			
 			
 			<?php }?>
