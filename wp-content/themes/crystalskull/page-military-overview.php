@@ -25,6 +25,7 @@ include 'units_array.php';
 include 'building_array.php';
 include 'missiles_array.php';
 include 'interest_array.php';
+include 'research_array.php';
 
 // Get orders 
 
@@ -292,11 +293,49 @@ get_header(); ?>
 		</div>
 	</div>
 </div>     
-	            
-	            
-	            
-	            
-	            
+	          
+	          
+	          
+	          
+	          
+<!-- Research block -->
+
+<div class="row profile_block">
+	<div class="row bankHeader">
+		<div class="col-md-12">Research</div>
+	</div>
+	
+	<div class="row clan_header_row">
+		<div class="col-md-6"><strong>Name</strong></div>
+		<div class="col-md-6"><strong>Level</strong></div>
+	</div> 
+	
+	
+<?php foreach ($researches as $key => $research) {
+		$level = get_user_meta($user__ID, 'level_'.$key,true);
+
+?>	
+	<div class="row clan_profile_row">
+		<div class="col-md-6">
+			<span class="clan_data_left">Name</span>
+			<span class="clan_data_right">
+			<?php echo $research['name'];?>
+			</span>
+		</div>
+		<div class="col-md-6">
+			<span class="clan_data_left">Level</span>
+			<span class="clan_data_right">
+			<?php echo $level;?>
+			</span>
+		</div>
+	</div>
+<?php }?>	
+	
+</div>  	          
+	          
+	          
+	          
+	  
 	            
        
             
