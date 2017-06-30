@@ -21,7 +21,7 @@ if ( !is_user_logged_in() ) {
 	
 	
 $sat_owned = get_user_meta($user_ID, 'sat_owned', true);
-$demolishCost = $satellites[$sat_owned]['price'] * 0.8;
+$demolishCost = $satellites[$sat_owned]['price'] * 0.2;
 
 $totalmoney = get_user_meta($user_ID, 'money',true);
 
