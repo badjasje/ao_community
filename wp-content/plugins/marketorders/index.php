@@ -16,6 +16,41 @@ remove_action('wp_print_styles', 'print_emoji_styles');
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 remove_action( 'admin_print_styles', 'print_emoji_styles' );
 
+function unit_types($user_ID){
+	include('units_array.php');
+	$type_array = array();
+	foreach ($units as $key => $unit) {
+		$units = get_user_meta($user_ID, $key.'_owned', true);
+			
+			if($units > 0){
+			$type_array[$unit['type']] += $units;
+			}
+
+	}
+	return $type_array;
+	
+}
+
+function can_attack($user_ID){
+	include('units_array.php');
+	$attack_array = array();
+	foreach ($units as $key => $unit) {
+		$units = get_user_meta($user_ID, $key.'_owned', true);
+			
+			if($units > 0){
+			$attacks = $unit['attacks'];
+			if(!empty($attacks)){
+			$attack_array[] = array_shift($attacks);
+			}}
+
+	}
+	if(($key = array_search('n.a', $attack_array)) !== false) {
+   		unset($attack_array[$key]);
+	}
+	return array_unique($attack_array);
+	
+}
+
 function networth_range($user_ID){
 	
 	$viewerID = get_current_user_id();
