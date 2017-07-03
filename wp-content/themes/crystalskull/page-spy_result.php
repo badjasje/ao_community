@@ -44,7 +44,10 @@ $success = $success+$snipers*0.25;
 if($sat_status == 'active'){
 	$success = 100;
 }
-
+if($clan_ID != 0){
+	$spiednr = get_user_meta($user_ID, 'spied_current_clan',true);
+	update_user_meta($user_ID,'spied_current_clan',$spiednr+1);
+}
 $members = get_post_meta($clan_ID,'clan_members',true);
 			
 			
