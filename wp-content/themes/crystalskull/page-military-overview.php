@@ -78,7 +78,7 @@ get_header(); ?>
             <div class="col-lg-12 col-md-12">
 	            
 
-
+ <div class="col-lg-12 col-md-12">
 <ul class="target_info media-list">
 	<li class="media ">
 		<div class="media-left">
@@ -90,11 +90,12 @@ get_header(); ?>
 	</div>
 	</li>
 	</ul>
-		
+ </div>
 		
 
 <!-- owned/ordered unites block -->
-
+<div class="row">
+	<div class="col-md-6">
 <div class="row profile_block">
 	<div class="row bankHeader">
 		<div class="col-md-12">Units</div>
@@ -128,11 +129,11 @@ get_header(); ?>
 <?php }}?>	
 	
 </div>
+	</div>
 
-
-
+<div class="col-md-6">
 <!-- on order block -->
-	            
+
 <div class="row profile_block">
 	<div class="row bankHeader">
 		<div class="col-md-12">Current orders</div>
@@ -184,6 +185,46 @@ get_header(); ?>
 <?php endif;?>
 </div>
 
+<!-- owned/ordered missiles block -->
+
+<div class="row profile_block">
+	<div class="row bankHeader">
+		<div class="col-md-12">Missiles</div>
+	</div>
+	
+	<div class="row clan_header_row">
+		<div class="col-md-6"><strong>Name</strong></div>
+		<div class="col-md-6"><strong>Owned (ordered)</strong></div>
+	</div> 
+	
+	
+<?php foreach ($missiles as $key => $missile) {
+		$owned = get_user_meta($user__ID, $key.'_owned', true);
+		$ordered = get_user_meta($user__ID, $key.'_ordered', true);
+		if($owned > 0 || $ordered > 0){
+?>	
+	<div class="row clan_profile_row">
+		<div class="col-md-6">
+			<span class="clan_data_left">Name</span>
+			<span class="clan_data_right">
+			<?php echo $missile['normalname'];?>
+			</span>
+		</div>
+		<div class="col-md-6">
+			<span class="clan_data_left">Owned (ordered)</span>
+			<span class="clan_data_right">
+			<?php echo $owned;?> (<?php echo $ordered;?>)
+			</span>
+		</div>
+	</div>
+<?php }}?>	
+	
+</div>
+
+
+
+</div>
+</div>
 
 
 
