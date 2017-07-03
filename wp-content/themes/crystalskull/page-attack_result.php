@@ -88,8 +88,8 @@ $attack_cost_turns = $attack_cost_arr['turns'];
 $attack_cost_morale = $attack_cost_arr['morale']+$extra_morale_cost;
 
 /* retrieve attacker's current resources */
-$attack_curr_turns = get_user_meta($user_id, 'turns')[0];
-$attack_curr_morale = get_user_meta($user_id, 'morale')[0];
+$attack_curr_turns = get_user_meta($user_id, 'turns',true);
+$attack_curr_morale = get_user_meta($user_id, 'morale',true);
 
 /* validate attacker has sufficient morale */
 if ($attack_cost_morale > $attack_curr_morale) {
@@ -756,6 +756,9 @@ $clan_points = 0;
 $unit_points = 0;
 
 if($war_type != 'none' && $result == 'success') {
+	
+	$inwarattacks = get_user_meta($user_id, 'in_war_attacks', true);
+	update_user_meta($user_id, 'in_war_attacks', $inwarattacks+1);
 	
 	$def_total_units = 0;
 	foreach($defender_unit_array as $type => $unit_stats) {
