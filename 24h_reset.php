@@ -23,12 +23,15 @@ $args = array(
 	
 		$_24Hpts = get_post_meta($clan->ID, '24h_pts', true);
 		$_24Hlist = get_post_meta($clan->ID, '24h_pts_list', true);
-		
+		$_24HNWlist = get_post_meta($clan->ID, '24h_nw_list', true);
 
-		
+		$clanNW = get_post_meta($clan->ID, 'clan_networth', true);
+
 		$_24Hlist[date("d-m-Y")] = $_24Hpts;
-		update_post_meta($clan->ID, '24h_pts_list',$_24Hlist );
+		$_24HNWlist[date("d-m-Y")] = $clanNW;
 		
+		update_post_meta($clan->ID, '24h_pts_list',$_24Hlist );
+		update_post_meta($clan->ID, '24h_nw_list',$_24HNWlist );
 		
 		update_post_meta($clan->ID, '24h_pts', 0);
 		
