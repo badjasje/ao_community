@@ -1177,6 +1177,14 @@ $land_networth = round($land*0.85);
 $totalNW = round($sat_NW+$research_NW+$building_networth+$unit_networth+$land_networth+$missile_networth);
 update_user_meta( $user_ID,'networth',$totalNW);
 
+
+update_user_meta( $user_ID,'sat_nw',round($sat_NW));
+update_user_meta( $user_ID,'research_nw',round($research_NW));
+update_user_meta( $user_ID,'building_nw',round($building_networth));
+update_user_meta( $user_ID,'unit_nw',round($unit_networth));
+update_user_meta( $user_ID,'land_nw',round($land_networth));
+update_user_meta( $user_ID,'missile_nw',round($missile_networth));
+
 update_user_meta( $user_ID,'builtland',$totalbuildings*20);
 
 $highestNW = get_user_meta($user_ID, 'highest_networth', true);
