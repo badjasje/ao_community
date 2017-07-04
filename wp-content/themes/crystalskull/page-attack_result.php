@@ -598,6 +598,7 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 			
 			$defender_buildings_lost+=$killed;
 			$defender_networth_lost+=$killed*$buildings[$key]['price']*($buildings[$key]['networth']/100);
+			$defender_building_NW_lost+=$killed*$buildings[$key]['price']*($buildings[$key]['networth']/100);
 		}
 		else {
 			$type = 'unit';
@@ -617,6 +618,7 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 			
 			$defender_units_lost+=$killed;
 			$defender_networth_lost+=$killed*$units[$key]['price']*($units[$key]['networth']/100);
+			$defender_unit_NW_lost+=$killed*$units[$key]['price']*($units[$key]['networth']/100);
 		}
 		
 		if($killed > 0){
@@ -768,13 +770,16 @@ if($war_type != 'none' && $result == 'success') {
 
 	$defender_networth = get_user_meta($target_id, 'networth')[0];
 	if ($killed != true) {
-		/* calculate points using weights - minimum of 1 */
-		/*$clan_points = ceil(1 +
-			(($defender_networth_lost / $defender_networth) * $POINTS_NET_WEIGHT) +
-			($unit_points * $POINTS_UNITS_WEIGHT) 
-		);*/
-		//$clan_points = ceil(1 + $defender_networth_lost*0.00022) + $unit_points - ($attacker_networth_lost*0.000025);
-		$clan_points = 5 * log($defender_networth_lost/2.4 / 400)*$aggressive_multi; 
+		$building_CP = 0;
+		
+		/* check if there is building damage done */
+		if($defender_building_NW_lost > 0){
+			$building_CP = 5 * log($defender_building_NW_lost/2.2 / 500)*$aggressive_multi; 
+		}
+		
+		$unit_CP = 2.5 * log($defender_unit_NW_lost/2.2 / 200)*$aggressive_multi; 
+		$clan_points = $building_CP+$unit_CP;
+		
 		if($clan_points < 1){
 			$clan_points = 1;
 		}

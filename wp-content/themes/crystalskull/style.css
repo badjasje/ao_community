@@ -1484,22 +1484,209 @@ input:checked + .slider:before {
 }
 .chartWrapper {
     position: relative;
+    
+   
 }
-
+.chartitem{
+	background-color:#fff;
+    border:1px solid #ddd;
+    padding:10px;
+	overflow: hidden;
+	margin-bottom:20px;
+	
+}
 .chartWrapper > canvas {
     position: absolute;
     left: 0;
+    
     top: 0;
     pointer-events:none;
 }
 
 .chartAreaWrapper {
-    width: 1150px;
+    width: 1100px;
     overflow-x: scroll;
+    overflow-y:hidden;
+}
+.memberrowSecond{
+	border-top: 1px solid rgba(221, 221, 221, 0.25);
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.bdsunitsrow{
+	border-top: 1px solid rgba(221, 221, 221, 0.25);
+    margin-top: 10px;
+    padding-top: 10px;
+}
+.collapsebox{
+	margin-top:10px;
+	padding:20px;
+	border:1px solid rgba(222, 222, 222, 0.50)
 }
 @media (max-width: 768px) {
+.memberrowSecond{
+	display: none;
+}
+.collapsebox{
+	margin-bottom:10px;
+}
+.firstRow{
+	display: none;
+}
 .chartAreaWrapper {
     width: 400px;
     overflow-x: scroll;
+    
 }
 }
+body{
+background-image: url('https://subtlepatterns.com/patterns/squairy_light.png')
+}
+
+.containersplash {
+z-index: 999999;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #2d4350;
+   overflow: visible;
+   -webkit-animation: bodyanimate 1s 1 linear;
+   -moz-animation: bodyanimate 1s 1 linear;
+   animation: color bodyanimate 1s 1 linear;
+   -webkit-animation-delay: 18s;
+   -moz-animation-delay: 18s;
+   animation-delay: 18s;
+   -webkit-animation-fill-mode: forwards;
+   -moz-animation-fill-mode: forwards;
+   animation-fill-mode: forwards;
+
+   margin: 0px;
+   padding: 10% 0 0 0;
+   font-weight: 200;
+font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  -webkit-font-smoothing: antialiased;
+
+   
+}
+
+
+
+.containersplash a{color: #000; text-decoration: none;}
+.containersplash a:hover{color: #000; text-decoration: none;}
+
+.scroller {
+width: 100%;
+  overflow: visible;
+  text-align: center;
+}
+
+.scroller span {
+  display: block;
+  font-size: 300%;
+  color: #222;
+}
+
+
+
+
+
+.blue, .blueb{
+width: 100%;
+text-align: center;
+font-size: 600%;
+opacity: 0;
+-webkit-animation: color 6s 1 linear;
+-moz-animation: color 6s 1 linear;
+animation: color 6s 1 linear;
+-webkit-animation-delay: 1s;
+-moz-animation-delay: 1s;
+animation-delay: 1s;
+-webkit-animation-fill-mode: forwards;
+-moz-animation-fill-mode: forwards;
+animation-fill-mode: forwards;
+}
+.blue {
+color: #fff;
+}
+
+
+.blueb {
+font-weight: 700;
+color: #2c90c6 !important;
+}
+
+
+@-webkit-keyframes color {
+    0% {opacity: 0;}
+   40% {opacity: 1;}
+   80% {opacity: 1;}
+   90% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+@-moz-keyframes color {
+    0% {opacity: 0;}
+   40% {opacity: 1;}
+   80% {opacity: 1;}
+   90% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+@keyframes color {
+    0% {opacity: 0;}
+   40% {opacity: 1;}
+   80% {opacity: 1;}
+   90% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+
+
+
+
+
+
+@-webkit-keyframes scroll {
+    0% {left: -100%; opacity: 0;}
+   60% {left: 0; opacity: 1;}
+   90% {left: 0; opacity: 1;}
+  100% {left: -100%; opacity: 0;}
+}
+
+@-moz-keyframes scroll {
+    0% {left: -100%; opacity: 0;}
+   60% {left: 0; opacity: 1;}
+   90% {left: 0; opacity: 1;}
+  100% {left: -100%; opacity: 0;}
+}
+
+@keyframes scroll {
+    0% {left: -100%; opacity: 0;}
+   60% {left: 0; opacity: 1;}
+   90% {left: 0; opacity: 1;}
+  100% {left: -100%; opacity: 0;}
+}
+
+
+
+
+
+
+@-webkit-keyframes bodyanimate{
+   0%  {opacity: 1;}
+   100% {opacity: 0;}
+}
+
+@-moz-keyframes bodyanimate{
+   0%  {opacity: 1;}
+   100% {opacity: 0;}
+}
+
+@keyframes bodyanimate{
+   0%  {opacity: 1;}
+   100% {opacity: 0; z-index: -999999;}
+}
+
