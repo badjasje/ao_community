@@ -373,8 +373,54 @@ get_header(); ?>
 <?php }?>	
 	
 </div>  	          
-	          
-	          
+<div class="row profile_block"> 
+	<div class="col-md-6">	      
+		<h2>Networth breakdown</h2>
+		<canvas id="nwbreakdown" width="338" height="338"></canvas>
+	</div>
+	<div class="col-md-6">	      
+	</div>
+</div>
+<script>
+       
+            // pie chart data
+            var pieData = [
+                {	label: 'Satellite networth',
+                    value: <?php echo get_user_meta($user__ID, 'sat_nw', true);?>,
+                    color:"#2D434E"
+                },
+                {	label: 'Research networth',
+                    value : <?php echo get_user_meta($user__ID, 'research_nw', true);?>,
+                    color : "#1B3642"
+                },
+                {	label: 'Building networth',
+                    value : <?php echo get_user_meta($user__ID, 'building_nw', true);?>,
+                    color : "#6C708E"
+                },
+                {	label: 'Unit networth',
+                    value : <?php echo get_user_meta($user__ID, 'unit_nw', true);?>,
+                    color : "#121636"
+                },
+                {	label: 'Land networth',
+                    value : <?php echo get_user_meta($user__ID, 'land_nw', true);?>,
+                    color : "#49775D"
+                },
+                {	label: 'Missile networth',
+                    value : <?php echo get_user_meta($user__ID, 'missile_nw', true);?>,
+                    color : "#7B6C44"
+                }
+            ];
+            // pie chart options
+            var pieOptions = {
+                 segmentShowStroke : true,
+                 animateScale : true
+            }
+            // get pie chart canvas
+            var countries= document.getElementById("nwbreakdown").getContext("2d");
+            // draw pie chart
+            new Chart(countries).Pie(pieData, pieOptions);
+         
+        </script>
 	          
 	  
 	            
