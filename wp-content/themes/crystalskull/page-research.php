@@ -47,7 +47,10 @@ get_header(); ?>
 		<?php if(get_field('game_status','option') != 'Live'):?>
 		<div class="notice_message"><span class="rdw-line">The round has ended!</span></div>
 		<?php else:?>
-		<div class="notice_message"><span class="rdw-line">One research costs 25 turns. Queuing a research costs an additional 5 turns.</span></div><br/>
+		<div class="notice_message">
+			<span class="rdw-line">One research costs 25 turns. Queuing a research costs an additional 5 turns.</span>
+			<span class="rdw-line">Every hour of research adds $ 950 networth</span>
+			</div><br/>
 
 
 
@@ -131,8 +134,12 @@ get_header(); ?>
 		</div>
 		
 		<div class="col-md-2 researchTime researchAlCenter">
-			
-			<span class="mobileSpan">Time: </span><?php echo $research['duration']*$research_reduce;?> hours
+			<?php if($research['maxlevel'] != $current):?>
+			<span class="hover-tip"  data-toggle="tooltip" data-original-title="$ <?php echo number_format($research['duration']*950, 0, ',', ' ');?> networth added when completing this research" data-placement="bottom">
+				<span class="mobileSpan">Time: </span>
+				<?php echo $research['duration']*$research_reduce;?> hours <i class="fa fa-info-circle" aria-hidden="true"></i>
+			</span>
+			<?php endif;?>
 		</div>
 		
 		<div class="col-md-2">
