@@ -33,6 +33,13 @@ if($target_status == 'dead'){
 	exit;
 }
 
+/* check if target isn't under protection, else redirect */
+if($target_status == 'nukeprotection'){
+	$_SESSION['status'] = 'This player is under Assault Protection';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
+	exit;
+}
+
 $maintarget = $_SESSION['maintarget'];
 $attackmode = $_SESSION['attackmode'];
 
