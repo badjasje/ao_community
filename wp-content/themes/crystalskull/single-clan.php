@@ -177,7 +177,26 @@ get_header(); ?>
 				
 				<div class="row profile_row_last">
 					<div class="col-xs-5">Message</div>
-					<div class="col-xs-7"><?php echo str_replace("\r", "<br />", get_the_content($clan_id)); ?></div>
+					<div class="col-xs-7">
+						<?php 
+							$message = str_replace("\r", "<br />", get_the_content($clan_id));
+							$output_1 = substr($message, 0, 350);
+							$output_2 = substr($message, 350);
+							
+							if(strlen($message) > 350):?>
+							<?php echo $output_1;?>
+							<br/><a data-toggle="collapse" href="#clanmessage">Read more</a>
+
+		
+							<div id="clanmessage" class="collapse">
+							<?php echo $output_2;?>
+							</div>
+							<?php else:?>
+								<?php echo $message;?>
+							<?php endif;?>
+							
+							
+							</div>
 				</div>
 				
 			</div>
