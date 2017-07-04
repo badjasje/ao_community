@@ -3,12 +3,10 @@
  * Template Name: Attack step 2
  */
 include 'DO_NOT_DELETE.php';
-
 if(empty($_SESSION['attacktype'])){
 wp_redirect(get_permalink(3360).'?fail=4');
 exit;
 }
-
 $attack_type = $_SESSION['attacktype'];
 /* Determine attack name for header */
 if($attack_type == 'ground'){ $attack_name = 'Ground attack'; }
@@ -21,7 +19,6 @@ if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
 if($attack_type == 'sniper'){ $attack_name = 'Sending sniper'; }	
 $attackUserId = $_SESSION['target_id'];
 count_all_stats($attackUserId);
-
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
@@ -89,10 +86,10 @@ get_header(); ?>
 				$maxTomahawk = min($tomahawkspace,$maxNetworth,get_user_meta($user_ID, 'tomahawk_owned', true));
 			foreach($units as $key => $unit){
 				$units_owned = get_user_meta($user_ID, $key.'_owned');
-				$tot_units+=$units_owned[0];
+				
 				
 				if($unit['type'] == 'air' || $unit['type'] == 'sea' and $unit['normalname'] != 'SR-71 Spyplane'){
-				
+				$tot_units+=$units_owned[0];
 				if($units_owned[0]>0){
 					$sendall[] = $units_owned[0];
 					?>
@@ -381,9 +378,10 @@ get_header(); ?>
 					$units_total = 0;
 				foreach($units as $key => $unit){
 					$units_owned = get_user_meta($user_ID, $key.'_owned');
-					$units_total+=$units_owned[0];
+					
 					if($unit['type'] == 'veh' || $unit['type'] == 'inf' || $unit['type'] == 'air'){
 					if($key != 'sniper' && $key != 'thief' && $key != 'spyplane' && $key != 'spy' ){
+						$units_total+=$units_owned[0];
 					if($units_owned[0]>0){
 						$sendall[] = $units_owned[0];
 					?>
@@ -474,8 +472,9 @@ get_header(); ?>
 					$units_total = 0;
 				foreach($units as $key => $unit){
 					$units_owned = get_user_meta($user_ID, $key.'_owned');
-					$units_total+=$units_owned[0];
+					
 					if($unit['type'] == 'veh' || $unit['type'] == 'inf' and $unit['normalname'] != 'Thief' and $unit['normalname'] != 'Spy' and $unit['normalname'] != 'Sniper' and $unit['normalname'] != 'SR-71 Spyplane'){
+						$units_total+=$units_owned[0];
 					if($units_owned[0]>0){
 						$sendall[] = $units_owned[0];
 					?>
