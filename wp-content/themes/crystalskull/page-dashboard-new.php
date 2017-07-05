@@ -115,10 +115,143 @@ get_header(); ?>
 <?php if(get_field('game_status','option') == 'Pause' && $user_ID != 1): // Check if game is live or not ?>
 			
 	<div class="notice_message">
-		<span class="rdw-line">The round has ended! Expect a new round on the 25th of april.</span>
+		<span class="rdw-line">The round has ended! Expect a new round on the 10th of july.</span>
 	</div>
 	
-	<br/>
+	
+<div classs="row">	
+	<div class="col-md-12 status_block">
+		<div class="col-md-12 status_header">
+			
+			<?php if($user_status =='nukeprotection'):?>
+			
+			<?php
+				$timestamp = strtotime(date('Y-m-d H:i:s'));	                                                                                                                            
+				$timeleft = $nuke_protection_timestamp-$timestamp;
+				$timer_left = $nuke_protection_timestamp-$timestamp;								                                                                                                                        
+									                                                                                                                                
+				if($timeleft < 0){
+					update_user_meta($user_ID, 'status', 'online');
+									}
+					$timeleft = date('H:i:s', $timeleft); ?>
+						
+					Protection time left: n.a
+						<?php elseif($user_status =='online'): ?>
+							Current status: Online 
+						<?php endif;?>
+
+		</div>
+		
+		<div class="col-md-6 status_column">
+			<div class="row">
+				<div class="row profile_row">
+					<div class="col-xs-6"><strong>Points rank</strong></div>
+					<div class="col-xs-6"><?php echo number_format($PtsRank, 0, ',', ' ');?></div>
+				</div>
+				
+				<div class="row profile_row">
+					<div class="col-xs-6"><strong>AMS coverage</strong></div>
+					<div class="col-xs-6"><?php echo number_format($shootdown_chance, 0, ',', ' ');?>%</div>
+				</div>
+				
+				<div class="row profile_row">
+					<div class="col-xs-6"><strong>Events</strong></div>
+					<div class="col-xs-6">
+						<a href="/events/incoming/">
+							<?php if($new_events > 0):?> 
+								<span style="color:#ff0000"><?php echo $new_events;?></span> new event<?php if($new_events > 1 || $new_events == 0){echo 's';}?> 
+								<?php else:?> <?php echo $new_events;?> new event<?php if($new_events > 1 || $new_events == 0){echo 's';}?> 
+							<?php endif;?>
+						</a>
+					</div>
+				</div>
+				
+				<div class="row profile_row">
+					<div class="col-xs-6"><strong>Morale & pool</strong></div>
+					<div class="col-xs-6"><?php echo $morale.'% <sup>('.$moralepool.'%)</sup>';?></div>
+				</div>
+				
+				<div class="row profile_row">
+					<div class="col-xs-6"><strong>Starting bonus</strong></div>
+					<div class="col-xs-6">
+					
+						<?php if(in_array($startingbonus, $boni)):?>
+							<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $bonuses[$startingbonus]['description'];?>" data-placement="left">
+								<i class="fa <?php echo $bonuses[$startingbonus]['icon'];?>" aria-hidden="true"></i> <?php echo $bonuses[$startingbonus]['name'];?>
+							</span>
+						<?php else:?>
+							<u>No starting bonus picked</u>
+						<?php endif;?>
+					
+					</div>
+				</div>
+				
+				<div class="row profile_row_last">
+					<div class="col-xs-6"><strong>Night mode</strong></div>
+					<div class="col-xs-6">
+						<form class="form"  action="<?php echo home_url() ?>/nightmode.php" name="" id="nightmode" method="post">
+						<label class="switch">
+							<input onChange="this.form.submit()" <?php echo $nightmodeChecked;?>  type="checkbox">
+							<div class="slider round"></div>
+						</label>
+						</form>
+					</div>
+				</div>
+
+				
+			</div>
+		</div>
+	
+	
+		<div class="col-md-6 status_column">
+			<div class="row">
+				<div class="row profile_row">
+					<div class="col-xs-6"><strong>Networth rank</strong></div>
+					<div class="col-xs-6"><?php echo number_format($NwRank, 0, ',', ' ');?></div>
+				</div>
+				
+				<div class="row profile_row">
+					<div class="col-xs-6"><strong>Power usage</strong></div>
+					<div class="col-xs-6"><?php echo number_format($PwrUsage, 0, ',', ' ');?>%</div>
+				</div>
+				
+				<div class="row profile_row">
+					<div class="col-xs-6"><strong>Inbox</strong></div>
+					<div class="col-xs-6">
+						<a href="/inbox/">
+							<?php if($new_messages > 0):?> 
+								<span style="color:#ff0000"><?php echo $new_messages;?></span> new message<?php if($new_messages > 1 || $new_messages == 0){echo 's';}?> 
+							<?php else:?> 
+								<?php echo $new_messages;?> new message<?php if($new_messages > 1 || $new_messages == 0){echo 's';}?> 
+							<?php endif;?>
+						</a>
+					
+					</div>
+				</div>
+				
+				<div class="row profile_row">
+					<div class="col-xs-6"><strong>Hourly income</strong></div>
+					<div class="col-xs-6">$ <?php echo number_format($income, 0, ',', ' ');?></div>
+				</div>
+				
+				<div class="row profile_row">
+					<div class="col-xs-6"><strong>Satellite power</strong></div>
+					<div class="col-xs-6"><?php echo $sat_morale;?>%</div>
+				</div>
+				
+				<div class="row profile_row_last">
+					<div class="col-xs-6"><strong>Like us on Facebook</strong></div>
+					<div class="col-xs-6"><div style="padding-bottom: 9px;" class="fb-like" data-href="https://www.facebook.com/assault.online/" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+					</div>
+				</div>
+				
+				
+				
+			</div>
+		</div>
+	
+	</div>
+</div> <!-- // End status column -->
 				
 <?php else:?>
 
@@ -383,19 +516,13 @@ get_header(); ?>
 <div class="row">
 	<div class="col-md-12">
 	<div class="row button_block">
-		
-		<div class="col-md-4 buttoncol">
-	 	<center><a class="btn btn-general profilebutton" href="/military-overview/?id=<?php echo $user_ID;?>">
-		 	<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Military overview</a></center>
-		</div>
-	
  	
- 		<div class="col-md-4 buttoncol">
+ 		<div class="col-md-6 buttoncol">
 	 		<center><a class="btn btn-general profilebutton" href="/users/profile/edit/">
 		 		<i class="fa fa-wrench" aria-hidden="true"></i> &nbsp;Edit your profile</a></center>
 		</div>
 	
-		<div class="col-md-4 buttoncol">
+		<div class="col-md-6 buttoncol">
 	 		<center><a class="btn btn-general profilebutton" href="/player-statistics/">
 		 		<i class="fa fa-bar-chart" aria-hidden="true"></i> &nbsp;View statistics</a></center>
 		</div>
