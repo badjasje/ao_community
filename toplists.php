@@ -195,7 +195,21 @@
 	'posts_per_page'	=> 200,
 	'post_type'		=> 'event_local',
 	'orderby'      => 'meta_value_num',
-	'order'        => 'DESC',);
+	'order'        => 'DESC',
+	'meta_query'	=> array(
+		'relation'		=> 'OR',
+		array(
+			'key'		=> 'war_status',
+			'compare'	=> '=',
+			'value'		=> 'incoming',
+		),
+		array(
+			'key'		=> 'war_status',
+			'compare'	=> '=',
+			'value'		=> 'outgoing',
+		)),
+	
+	);
 	
 	$attacks = get_posts($args); ?>
 	
@@ -211,7 +225,7 @@
 		if(!in_array($user_ID, $users)){
 		$count++;
 		$member_data = get_userdata($user_ID);
-		$damage = get_post_meta($attack->ID, 'nw_damage_defender', true)?>
+		$damage = get_post_meta($attack->ID, 'nw_damage_defender', true);?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)
 			</td>
