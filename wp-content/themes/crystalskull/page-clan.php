@@ -147,14 +147,65 @@ get_header('clan'); ?>
   			<?php endif;?>
   			
 </div>
-		
-		
-		
-		
-	
+
 		
 		<?php endif;?>
+		
+<?php if(in_array($user_ID, $allowed)):?>
+<div class="row edit_clan_first">
+	
+	<div class="col-md-6 edit_clan_box">
+
+		<h2 class="leftH2">Message all clan members</h2>
+		<div class="message_field">
+		<form class="form" action="<?php echo home_url() ?>/message_members.php" name="" id="message" method="post">
+			<input style="margin-bottom:10px;"type="text" id="title" required placeholder="Subject" name="title"/>
+			<input type="hidden" name="receiver" value="<?php echo $receiver_ID;?>">
+			​<textarea id="message" required rows="10" name="message" placeholder="Your message..."></textarea>
 			
+				<input class="submitBtn" type="submit" value="Send">
+	
+		</form>
+		<script>
+			jQuery(document).ready(function () {
+			jQuery("#message").submit(function () {
+	        jQuery(".submitBtn").attr("disabled", true);
+	        return true;
+	    	});
+		});
+		</script>
+	</div>
+		
+		
+	</div>
+	<div class="col-md-6 edit_clan_box">
+		<h2 class="leftH2">Allow auto join</h2>
+		<center>Using this function you can easily recruit new clan members</center><br/>
+			<form class="form" action="<?php echo home_url() ?>/set_autojoin.php" name="autojoin" id="autojoin" method="post">
+				<label>Allow players to automatically join your clan?</label>
+				<select name="autojoin">
+					<option <?php echo $autojoinNo;?> value="no">No</option>
+					<option <?php echo $autojoinYes;?> value="yes">Yes</option>
+				</select>
+				<br/><br/><label>A short description of your clan</label>
+				<input style="margin-top:10px;margin-bottom:10px;" type="text" name="description" id="description" value="<?php echo $autojoinDesc;?>" required placeholder="Short description. 'Sell' your clan!" name="description"/>
+				<br/><br/><label>Playstyle or goal of your clan</label>
+				<select name="playstyle">
+					<option <?php echo $casual;?> value="Casual">Casual</option>
+					<option <?php echo $points;?> value="Points">Points</option>
+					<option <?php echo $networth;?> value="Networth">Networth</option>
+					<option <?php echo $other;?> value="Other">Other</option>
+				</select>
+				
+				<input class="submitBtn" type="submit" value="Save">
+			</form>
+	</div>
+		
+	
+	
+	
+</div>
+<?php endif;?>		
 			
 			
 			<?php session_unset(); ?>

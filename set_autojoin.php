@@ -35,4 +35,4 @@ update_post_meta($clan_ID, 'autojoin_description',$_POST['description']);
 
 
  
-$_SESSION['status'] = 'Autojoin settings saved'; wp_redirect(get_permalink(4506));
+$_SESSION['status'] = 'Autojoin settings saved'; wp_redirect(get_permalink(3601));
