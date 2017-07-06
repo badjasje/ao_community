@@ -65,6 +65,7 @@ get_header(); ?>
 			$units_total = 0;
 			
 			if($_SESSION['attacktype'] == 'air_sea'){?>
+			TEST DAVE
 				<table class="responsive-table">
 					<thead>
 					<tr>
