@@ -919,6 +919,7 @@
 			'defends'		=>  array(),
 			'attack'		=>	0,
 			'type'			=>	'air',
+			'sectype'		=>	'special',
 			'life'			=>	200),
 	'dragon' 		=> array(
 			'price'			=>	'1500',
@@ -929,6 +930,7 @@
 			'defends'		=>  array(),
 			'attack'		=>	0,
 			'type'			=>	'air',
+			'sectype'		=>	'special',
 			'life'			=>	85),
     'f22_raptors' 		=> array(
 			'price'			=>	'830',
@@ -938,6 +940,7 @@
 			'defends'		=>  array('veh'),
 			'attack'		=>	55,
 			'type'			=>	'air',
+			'sectype'		=>	'normal',
 			'life'			=>	35),
     'rah66_commanches' 	=> array(
 			'price'			=>	'875',
@@ -947,6 +950,7 @@
 			'defends'		=>  array('inf','veh'),
 			'attack'		=>	55,
 			'type'			=>	'air',
+			'sectype'		=>	'normal',
 			'life'			=>	40),
 	'b2_bomber' 	=> array(
 			'price'			=>	'2200',
@@ -956,6 +960,7 @@
 			'defends'		=>  array(),
 			'attack'		=>	120,
 			'type'			=>	'air',
+			'sectype'		=>	'bk',
 			'life'			=>	80),
 	'jsf' 		=> array(
 			'price'			=>	'640',
@@ -965,6 +970,7 @@
 			'defends'		=>  array('inf'),
 			'attack'		=>	35,
 			'type'			=>	'air',
+			'sectype'		=>	'normal',
 			'life'			=>	35),
 	'typhoon' 			=> array(
 			'price'			=>	'650',
@@ -974,6 +980,7 @@
 			'defends'		=>  array('air','sea'),
 			'attack'		=>	40,
 			'type'			=>	'air',
+			'sectype'		=>	'normal',
 			'life'			=>	30),
 	'seahawk' 		=> array(
 			'price'			=>	'830',
@@ -983,6 +990,7 @@
 			'defends'		=>  array('sea'),
 			'attack'		=>	65,
 			'type'			=>	'air',
+			'sectype'		=>	'normal',
 			'life'			=>	40),
 	/// VEHICLES ///
 	'apc' 		=> array(
@@ -994,6 +1002,7 @@
 			'defends'		=>  array(),
 			'attack'		=>	0,
 			'type'			=>	'veh',
+			'sectype'		=>	'special',
 			'life'			=>	85),
 	'humvee' 		=> array(
 			'price'			=>	'500',
@@ -1012,6 +1021,7 @@
 			'defends'		=>  array('veh'),
 			'attack'		=>	65,
 			'type'			=>	'veh',
+			'sectype'		=>	'normal',
 			'life'			=>	40),
 	'abraham' 		=> array(
 			'price'			=>	'730',
@@ -1021,6 +1031,7 @@
 			'defends'		=>  array('inf','veh'),
 			'attack'		=>	50,
 			'type'			=>	'veh',
+			'sectype'		=>	'normal',
 			'life'			=>	30),
 	'artillery' 		=> array(
 			'price'			=>	'1275',
@@ -1030,6 +1041,7 @@
 			'defends'		=>  array(''),
 			'attack'		=>	85,
 			'type'			=>	'veh',
+			'sectype'		=>	'bk',
 			'life'			=>	35),
 	'm70mlrs' 			=> array(
 			'price'			=>	'835',
@@ -1039,6 +1051,7 @@
 			'defends'		=>  array('air','veh'),
 			'attack'		=>	70,
 			'type'			=>	'veh',
+			'sectype'		=>	'normal',
 			'life'			=>	45),
 	'm270_rocket' 		=> array(
 			'price'			=>	'540',
@@ -1048,6 +1061,7 @@
 			'defends'		=>  array('sea'),
 			'attack'		=>	40,
 			'type'			=>	'veh',
+			'sectype'		=>	'normal',
 			'life'			=>	30),
 	/// INFANTRY ///
 	'thief' 		=> array(
@@ -1059,6 +1073,7 @@
 			'defends'		=>  array(),
 			'attack'		=>	0,
 			'type'			=>	'inf',
+			'sectype'		=>	'special',
 			'life'			=>	60),
 	'sniper' 		=> array(
 			'price'			=>	'5000',
@@ -1069,6 +1084,7 @@
 			'defends'		=>  array(),
 			'attack'		=>	140,
 			'type'			=>	'inf',
+			'sectype'		=>	'special',
 			'life'			=>	200),
 	'spy' 		=> array(
 			'price'			=>	'4000',
@@ -1079,6 +1095,7 @@
 			'defends'		=>  array(),
 			'attack'		=>	0,
 			'type'			=>	'inf',
+			'sectype'		=>	'special',
 			'life'			=>	250),
 	'paratrooper' 		=> array(
 			'price'			=>	'1100',
@@ -1088,6 +1105,7 @@
 			'defends'		=>  array(),
 			'attack'		=>	60,
 			'type'			=>	'inf',
+			'sectype'		=>	'bk',
 			'life'			=>	30),
 	'grenade' 		=> array(
 			'price'			=>	'445',
@@ -1097,6 +1115,7 @@
 			'defends'		=>  array('veh'),
 			'attack'		=>	30,
 			'type'			=>	'inf',
+			'sectype'		=>	'normal',
 			'life'			=>	15),
 	'navy' 			=> array(
 			'price'			=>	'825',
@@ -1106,6 +1125,7 @@
 			'defends'		=>  array('inf'),
 			'attack'		=>	45,
 			'type'			=>	'inf',
+			'sectype'		=>	'normal',
 			'life'			=>	35),
 	'rifle' 		=> array(
 			'price'			=>	'800',
@@ -1115,6 +1135,7 @@
 			'defends'		=>  array('inf'),
 			'attack'		=>	55,
 			'type'			=>	'inf',
+			'sectype'		=>	'normal',
 			'life'			=>	35),
 	'rocket' 		=> array(
 			'price'			=>	'850',
@@ -1124,6 +1145,7 @@
 			'defends'		=>  array('sea'),
 			'attack'		=>	40,
 			'type'			=>	'inf',
+			'sectype'		=>	'normal',
 			'life'			=>	55),
 	'armoured' 		=> array(
 			'price'			=>	'540',
@@ -1133,6 +1155,7 @@
 			'defends'		=>  array('air','veh'),
 			'attack'		=>	35,
 			'type'			=>	'inf',
+			'sectype'		=>	'normal',
 			'life'			=>	20),
 	'flamethrower' 	=> array(
 			'price'			=>	'500',
@@ -1142,6 +1165,7 @@
 			'defends'		=>  array('sea','air','bld'),
 			'attack'		=>	20,
 			'type'			=>	'inf',
+			'sectype'		=>	'normal',
 			'life'			=>	20),
 	
 	
@@ -1154,6 +1178,7 @@
 			'defends'		=>  array(),
 			'attack'		=>	110,
 			'type'			=>	'sea',
+			'sectype'		=>	'bk',
 			'life'			=>	90),
 	'frigate' 		=> array(
 			'price'			=>	'865',
@@ -1163,6 +1188,7 @@
 			'defends'		=>  array('inf'),
 			'attack'		=>	70,
 			'type'			=>	'sea',
+			'sectype'		=>	'normal',
 			'life'			=>	40),
 	'carrier' 		=> array(
 			'price'			=>	'2250',
@@ -1173,6 +1199,7 @@
 			'defends'		=>  array(''),
 			'attack'		=>	0,
 			'type'			=>	'sea',
+			'sectype'		=>	'normal',
 			'life'			=>	175),
 	/*'stealth' 			=> array(
 			'price'			=>	'900',
@@ -1191,6 +1218,7 @@
 			'defends'		=>  array('sea'),
 			'attack'		=>	60,
 			'type'			=>	'sea',
+			'sectype'		=>	'normal',
 			'life'			=>	50),
 	'cruiser' 			=> array(
 			'price'			=>	'1200',
@@ -1200,6 +1228,7 @@
 			'defends'		=>  array('air'),
 			'attack'		=>	90,
 			'type'			=>	'sea',
+			'sectype'		=>	'normal',
 			'life'			=>	70),
 	'destroyer' 		=> array(
 			'price'			=>	'1125',
@@ -1209,6 +1238,7 @@
 			'defends'		=>  array('veh','inf'),
 			'attack'		=>	70,
 			'type'			=>	'sea',
+			'sectype'		=>	'normal',
 			'life'			=>	50),
 	'sparrow'	 		=> array(
 			'price'			=>	'1025',
@@ -1218,5 +1248,6 @@
 			'defends'		=>  array('sea','veh'),
 			'attack'		=>	65,
 			'type'			=>	'sea',
+			'sectype'		=>	'normal',
 			'life'			=>	55),
 );

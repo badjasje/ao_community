@@ -313,10 +313,10 @@ foreach ($attack_array as $key => $count) {
 		$typeDif = $type_count-$typecountInit;
 		
 		if($typeDif == -1){
-			$typeMulti = 0.9;
+			$typeMulti = 0.8;
 		}
 		if($typeDif == -2){
-			$typeMulti = 0.75;
+			$typeMulti = 0.7;
 		}
 		
 		$atk_power_distrib = $atk_power_total*$typeMulti / $type_count;
@@ -330,10 +330,10 @@ foreach ($attack_array as $key => $count) {
 		$typeDif = $type_count-$typecountInit;
 		
 		if($typeDif == -1){
-			$typeMulti = 0.9;
+			$typeMulti = 0.8;
 		}
 		if($typeDif == -2){
-			$typeMulti = 0.75;
+			$typeMulti = 0.7;
 		}
 		
 		
@@ -348,10 +348,10 @@ foreach ($attack_array as $key => $count) {
 		$typeDif = $type_count-$typecountInit;
 		
 		if($typeDif == -1){
-			$typeMulti = 0.9;
+			$typeMulti = 0.8;
 		}
 		if($typeDif == -2){
-			$typeMulti = 0.75;
+			$typeMulti = 0.7;
 		}
 		
 		
@@ -365,10 +365,10 @@ foreach ($attack_array as $key => $count) {
 		$typeDif = $type_count-$typecountInit;
 		
 		if($typeDif == -1){
-			$typeMulti = 0.9;
+			$typeMulti = 0.8;
 		}
 		if($typeDif == -2){
-			$typeMulti = 0.75;
+			$typeMulti = 0.7;
 		}
 		
 		$atk_power_distrib = $atk_power_total*$typeMulti / $type_count;	
@@ -610,8 +610,14 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 		else {
 			$type = 'unit';
 			$count_key = $key.'_owned';
-			$killed = round($killed*$defender_unit_loss_decrease);
 			
+			if($units[$key]['sectype'] == 'bk'){
+				$killed = round($killed*0.65*$defender_unit_loss_decrease);
+			}
+			else
+			{
+				$killed = round($killed*$defender_unit_loss_decrease);
+			}
 			$owned_units = get_user_meta($target_id, $key.'_owned',true);
 			
 			if($killed > $owned_units){
