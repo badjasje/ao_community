@@ -89,6 +89,17 @@ if (!$in_range) {
 	exit;
 }
 
+// Check if user is member of clan for 24h, if not, cannot attack out of range in mutual
+$join_timestamp = get_user_meta($user_id, 'clan_join_stamp', true);
+$timestamp = current_time('timestamp');
+$in_range = target_in_range($attack_type, $attack_nw, $defend_nw, 'none');
+
+if ($war_type == 'mutual' && $timestamp < $join_timestamp && $in_range != true) {
+	$_SESSION['status'] = 'Cannot attack out of networth range in mutual the first 24 hours after joining a clan';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
+	exit;
+}
+
 /* calculate attack cost */
 $attack_cost_arr = get_attack_cost($attack_type, $attack_nw, $defend_nw);
 $attack_cost_turns = $attack_cost_arr['turns'];
@@ -1091,7 +1102,7 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 
 
 /* create event post */
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+
 $args = array(	
 	'post_title'    => 'Attack made by '.$user_id.' Defender: '.$target_id,
 	'post_status'   => 'publish',

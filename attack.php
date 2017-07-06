@@ -124,6 +124,17 @@ if (!$in_range) {
 	exit;
 }
 
+// Check if user is member of clan for 24h, if not, cannot attack out of range in mutual
+$join_timestamp = get_user_meta($user_ID, 'clan_join_stamp', true);
+$timestamp = current_time('timestamp');
+$in_range = target_in_range($attack_type, $networth_att, $networth_def, 'none');
+
+if ($war_type == 'mutual' && $timestamp < $join_timestamp && $in_range != true) {
+	$_SESSION['status'] = 'Cannot attack out of networth range in mutual war the first 24 hours after joining a clan';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
+	exit;
+}
+
 /* determine if attacker has required resourced */
 $cost_arr = get_attack_cost($attacktype, $networth_att, $networth_def);
 /* check morale */

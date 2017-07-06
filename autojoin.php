@@ -34,7 +34,7 @@ if(count($members[0]) >= 7){
 	wp_redirect(get_permalink(3601)); exit;
 }
 
-
+$timestamp = current_time('timestamp');
 /* check if autojoin allowed */
 $autojoin = get_post_meta($clan, 'autojoin_allowed', true);
 
@@ -53,7 +53,8 @@ if($clan_ID != 0){
 }
 /* Update clan ID user */
 update_user_meta($user_ID,'clan_id_user',$clan);
-		
+/* Update timestamp for joining */
+update_user_meta($user_ID, 'clan_join_stamp', $timestamp+86400);
 /* Update clan members */						
 $clan_members = array_shift($clan_members);
 	$clan_members[] = $user_ID;

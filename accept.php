@@ -26,6 +26,7 @@ if ( !is_user_logged_in() ) {
 $invitekey = $_GET['invite'];
 $clan = $_GET['clan'];
 $clan_members = get_post_meta($_GET['clan'],'clan_members');
+$timestamp = current_time('timestamp');
 if(count($members[0]) >= 7){ 
 						wp_redirect(get_permalink(3601)); exit;
 					}
@@ -53,7 +54,10 @@ if($clan_ID[0] == 0){
 					update_post_meta($clan, 'clan_members', $clan_members);
 					update_post_meta($_GET['id'], 'invite_status', 'accept');
 					update_post_meta($clan, 'open_invites', $open_invites[0]);
+					update_user_meta($user_ID, 'clan_join_stamp', $timestamp+86400);
 					wp_redirect(get_permalink($clan));
+					
+
 			
 				}
 			}
