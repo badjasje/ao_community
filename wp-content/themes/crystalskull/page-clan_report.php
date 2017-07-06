@@ -1,11 +1,15 @@
 <?php
  /*
- * Template Name: Clan Spy rep overview
+ * Template Name: Clan spy rep overview
  */
 $clan_ID = $_GET['id'];
 $clan_members = get_post_meta($clan_ID,'clan_members');
 $visiting_user = get_current_user_id();
-$nw_att = get_user_meta($visiting_user, 'networth', true);
+$clanleader = get_post_meta($clan_ID, 'clan_leader', true);
+$ct_1 = get_post_meta($clan_ID,'ct_1',true);
+$ct_2 = get_post_meta($clan_ID,'ct_2',true);
+$ct_3 = get_post_meta($clan_ID,'ct_3',true);
+$ct_4 = get_post_meta($clan_ID,'ct_4',true);
 
 $visiting_clan = get_user_meta($visiting_user, 'clan_id_user', true);
 if($visiting_clan != 0){
@@ -13,302 +17,433 @@ if($visiting_clan != 0){
 }
 $visiting_members = get_post_meta($visiting_clan,'clan_members',true);
 $args = array(
-		
 		'post_type'		=>	'clan',
 		'posts_per_page' => -1,
+		'post__not_in'   => array($visiting_clan),
 		);
 	
-	$clans = get_posts($args);
-	
+$clans = get_posts($args);
+
+include('units_array.php');
+
+
 get_header('spyoverview'); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
-	       <script type="text/javascript">
-jQuery(document).ready(function() {
-  jQuery(".searchclans").select2();
-});
+            <div class="col-lg-12 col-md-12">
+       
+       
+
+<?php if(get_field('game_status','option') != 'Live'):?>
+	<div class="notice_message"><span class="rdw-line">The round has ended!</span></div><br/>
+<?php else:?> 
+
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+	  jQuery(".searchclans").select2();
+	});
 </script>
 
 
-	     
-	     
-	        <form>
-	        <select id="clan" name="clan" class="searchclans" onchange="if (this.value) window.location.href=this.value">
-		        <option disabled selected name="clan" value="<?php echo $clan_ID;?>">Currently viewing: <?php echo get_the_title($clan_ID);?> (#<?php echo $clan_ID;?>)</option>
-		        <?php if($visiting_clan != 0):?>
-		        <option disabled  name="clan" value="<?php echo $clan_ID;?>">Clans in range &rarrb;</option>
-		        <?php foreach ($clans as $clan) {
-			    $tot_networth = get_post_meta($clan->ID, 'clan_networth', true);
-		        ?>
-				<?php if (($tot_networth > $clan_NW/1.4 && $tot_networth < $clan_NW*1.4)){	?>	
-				  <option class="inrange" name="clan" value="/spy-report-overview/?id=<?php echo $clan->ID;?>"><strong><?php echo get_the_title($clan->ID);?> (#<?php echo $clan->ID;?>)</strong></option>
-				 <?php }}?>
-				 <?php endif;?>
-				 <option disabled  name="clan" value="<?php echo $clan_ID;?>">Clans out of range &rarrb;</option>
-		        <?php foreach ($clans as $clan) {?>
-				  
-				  <option name="clan" value="/spy-report-overview/?id=<?php echo $clan->ID;?>"><?php echo get_the_title($clan->ID);?> (#<?php echo $clan->ID;?>)</option>
-				  <?php }?>
-			</select>
-	        </form>
-	        <br/>
-            <div class="col-lg-12 col-md-12">
-	        <div class="clan_sorter">
-			<center>Sort by
-			<a class="sort-buttons"onclick="sorttable.innerSortFunction.apply(document.getElementById('landsort'), [])">Land</a>
-			<a class="sort-buttons"onclick="sorttable.innerSortFunction.apply(document.getElementById('nwsort'), [])">Networth</a>
-			<?php if (in_array($user_ID, $clan_members[0])):?>
-			<a class="sort-buttons"onclick="sorttable.innerSortFunction.apply(document.getElementById('ptssort'), [])">Points</a>
-			<?php endif;?>
-			</center>
-			<br/>
+
+
+<form>
+	<select id="clan" name="clan" class="searchclans" onchange="if (this.value) window.location.href=this.value">
+		<option disabled selected name="clan" value="<?php echo $clan_ID;?>">
+			Currently viewing: <?php echo get_the_title($clan_ID);?> (#<?php echo $clan_ID;?>)
+		</option>
+		
+	<?php if($visiting_clan != 0):?>
+		<option disabled  name="clan" value="<?php echo $clan_ID;?>">
+			Clans in range &rarrb;
+		</option>
+		        
+	<?php foreach ($clans as $clan) {
+		$tot_networth = get_post_meta($clan->ID, 'clan_networth', true);
+		?>
+				
+	<?php if (($tot_networth > $clan_NW/1.4 && $tot_networth < $clan_NW*1.4)){	?>	
+		<option class="inrange" name="clan" value="/spy-report-overview/?id=<?php echo $clan->ID;?>">
+			<strong><?php echo get_the_title($clan->ID);?> (#<?php echo $clan->ID;?>)</strong>
+		</option>
+	<?php }}?>
+	<?php endif;?>
+	
+		<option disabled  name="clan" value="<?php echo $clan_ID;?>">
+			Clans out of range &rarrb;
+		</option>
+	
+	<?php foreach ($clans as $clan) {?>
+		<option name="clan" value="/spy-report-overview/?id=<?php echo $clan->ID;?>">
+			<?php echo get_the_title($clan->ID);?> (#<?php echo $clan->ID;?>)
+		</option>
+	<?php }?>
+	</select>
+</form>
+
+<br/>
+
+
+<div class="storeDetails-heads button_block">
+	<center>
+	<strong>Sort:</strong> <a href="" class="sort" data-sort=".memberField">Name</a> - 
+	<a href="" class="sort sort-number" data-sort=".store-pop-span2">Networth</a> -
+	<a href="" class="sort sort-number" data-sort=".land">Land</a>
+	</center>
+</div>
+
+<!-- Own clan block -->
+
+
+<div class="row profile_block storeDetails-heads">	
+
+<div id="values">
+<?php 
+	$NRmembers = count($clan_members[0]);
+	$counter = 0;
+	foreach ($clan_members[0] as $key => $member) {
+		
+		
+		
+		
+		
+		
+		// Get latest unit report
+$unitargs = array(
+'posts_per_page'   => 1,
+'author__in'   => $visiting_members,
+'meta_query'	=> array(
+	'relation'		=> 'AND',
+		array(
+			'key'	 	=> 'spied_id',
+			'value'	  	=> $member,
+			'compare' 	=> '=',
+			),
+		array(
+			'key'	 	=> 'clan_id_report',
+			'value'	  	=> $visiting_clan,
+			'compare' 	=> '=',
+			),
+		array(
+			'key'	 	=> 'spy_type',
+			'value'	  	=> 'spy',
+			'compare' 	=> '=',
+			),
+			
+		
+		),
+'post_type'        => 'spy_rep',
+);
+
+$unitRep = get_posts( $unitargs );
+$unitRep_ID = $unitRep[0]->ID;
+if(count($unitRep) > 0){
+	$unitRep_date = get_the_date('G:i | d-m-Y',$unitRep_ID);
+}else{
+	$unitRep_date = 'No reports';
+}
+$unitrepStamp = get_the_time('U',$unitRep_ID);	
+$unitarray = get_post_meta($unitRep_ID, 'spy_array', true);
+
+$attack_array = array();
+foreach ($units as $unit) {
+	foreach ($unitarray as $unitname => $amount) {
+		if($unitname == $unit['normalname']){
+			$attack_array[] = array_shift($attacks);
+			$attacks = $unit['attacks'];
+				
+				if(!empty($attacks)){
+					$attack_array[] = array_shift($attacks);
+				}
+			}
+		}	
+	}
+
+$attack_array = array_diff($attack_array,array('n.a',''));
+$attack_array = array_unique($attack_array);
+
+$type_array = array();
+foreach ($units as $unit) {
+	foreach ($unitarray as $unitname => $amount) {
+		if($unitname == $unit['normalname'] && $unitname != 'Spy' && $unitname != 'SR-71 Spyplane'){
+		
+			$types = $unit['type'];
+			$type_array[] = $types;
+			
+			}
+		}	
+	}
+
+$type_array = array_diff($type_array,array('n.a',''));
+$type_array = array_unique($type_array);
+
+// Get latest building report
+$buildingargs = array(
+'posts_per_page'   => 1,
+'author__in'   => $visiting_members,
+'meta_query'	=> array(
+	'relation'		=> 'AND',
+		array(
+			'key'	 	=> 'spied_id',
+			'value'	  	=> $member,
+			'compare' 	=> '=',
+			),
+		array(
+			'key'	 	=> 'clan_id_report',
+			'value'	  	=> $visiting_clan,
+			'compare' 	=> '=',
+			),
+		array(
+			'key'	 	=> 'spy_type',
+			'value'	  	=> 'spyplane',
+			'compare' 	=> '=',
+			),
+			
+		
+		),
+'post_type'        => 'spy_rep',
+);
+
+$bldRep = get_posts( $buildingargs );
+$bldRep_ID = $bldRep[0]->ID;
+
+if(count($bldRep) > 0){
+	$bldRep_date = get_the_date('G:i | d-m-Y',$bldRep_ID);
+}else{
+	$bldRep_date = 'No reports';
+}	
+
+$bldrepStamp = get_the_time('U',$bldRep_ID);	
+$bldarray = get_post_meta($bldRep_ID, 'spy_array', true);
+
+$regNW = 0;
+$regLand = 0;
+if($unitrepStamp > $bldrepStamp){
+	$regNW = get_post_meta($unitRep_ID, 'spied_nw', true);
+	$regLand = get_post_meta($unitRep_ID, 'spied_land', true);
+}else{
+	$regNW = get_post_meta($bldRep_ID, 'spied_nw', true);
+	$regLand = get_post_meta($bldRep_ID, 'spied_land', true);
+}
+
+		
+		
+		
+		$land = get_user_meta($member, 'land', true);
+		
+		
+		$extraClass = '';
+		$counter++;
+		if($counter == $NRmembers){
+			$extraClass = '_last';
+			
+		}
+		$member_data = get_userdata($member);
+		$last_online = get_user_meta($member, 'last_online',true);
+		$spiednr = get_user_meta($user_ID, 'spied_current_clan',true);
+		
+		if(!empty($last_online)){
+		$last_seen = $timestamp - $last_online;
+		}
+			?>
+
+	<div class="row clan_profile_row">
+		<div class="row firstRow">
+			<div class="col-md-4"></div>
+			<div class="col-md-2"><strong>Networth current</strong></div>
+			<div class="col-md-2"><strong>Land current</strong></div>
+			<div class="col-md-2"><strong>Units spied date</strong></div>
+			<div class="col-md-2"><strong>Buildings spied date</strong></div>
+		</div>
+	
+	<div class="row">
+	<div class="col-md-4 clan_column center_clan_col border_bottom_mobile">
+		<div class="ctclField">
+			<?php if($member == $clanleader ){
+			echo '<strong>CL</strong>';
+			} ?>
+			<?php if($member == $ct_1 || $member == $ct_2 || $member == $ct_3 || $member == $ct_4 ){
+				echo '<strong>CT</strong>';
+			} ?>
 			</div>
-	        
-	        <table class="responsive-table sortable">
-			<thead>
-			<tr style="text-align:center;">
-				
+		<a class="memberField <?php echo get_user_meta($member,'status',true);?>" href="/users/profile/?id=<?php echo $member;?>">
 			
-				<td><strong>Name</strong>
-				</td>
-				<td id="nwsort"><strong>Networth<br/><sup>current/registered</sup></strong>
-				</td>
-				<td id="landsort"><strong>Land<br/><sup>current/registered</sup></strong>
-				</td>
-				<td>
-				</td>
-				<td>
-				</td>
-				<td>
-				</td>
-				<td>
-				</td>
-				</thead>
-			</tr>
-			<tbody>
-	            <?php 
+			<?php echo $member_data->display_name.' (#'.$member.')';?></a> 
+			<?php if(!empty($last_online)){
+					if($last_seen < 7200 && !empty($last_online[0])){
+						echo ' <span style="color:#ff0000">*</span>';
+						}
+					}?><a href="/spy-reports/?id=<?php echo $member;?>"><i class="fa fa-binoculars" aria-hidden="true"></i></a>
+						<a href="/attack/step-1/?id=<?php echo $member;?>"><i class="fa fa-crosshairs fa-lg" aria-hidden="true"></i></a>
+					
+		
 			
+			
+	</div>
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Networth current</span>
+		<span class="clan_data_right store-pop-span2">
+			<?php echo networth_range($member);?>
+		</span>
+
+	</div>
 	
-			
-			foreach ($clan_members[0] as $key => $member) {
-				$member_data = get_userdata($member);
-				$networth = get_user_meta($member, 'networth');
-				$land = get_user_meta($member, 'land');
-				$last_online = get_user_meta($member, 'last_online');
-				if(!empty($last_online)){
-				$last_seen = $timestamp - $last_online[0];}
-			?>
-		<tr>
-
-			<td data-title="User">
-				<?php
-			   $args = array(
-			'posts_per_page'   => 1,
-			'author__in'   => $visiting_members,
-			'meta_query'	=> array(
-				'relation'		=> 'AND',
-					array(
-						'key'	 	=> 'spied_id',
-						'value'	  	=> $member,
-						'compare' 	=> '=',
-						),
-					array(
-						'key'	 	=> 'clan_id_report',
-						'value'	  	=> $visiting_clan,
-						'compare' 	=> '=',
-						),
-					array(
-						'key'	 	=> 'spy_type',
-						'value'	  	=> 'spy',
-						'compare' 	=> '=',
-						),
-						
-					
-					),
-			'post_type'        => 'spy_rep',
-			);
-			
-			
-			$buildingargs = array(
-			'posts_per_page'   => 1,
-			'author__in'   => $visiting_members,
-			'meta_query'	=> array(
-				'relation'		=> 'AND',
-					array(
-						'key'	 	=> 'spied_id',
-						'value'	  	=> $member,
-						'compare' 	=> '=',
-						),
-					array(
-						'key'	 	=> 'clan_id_report',
-						'value'	  	=> $visiting_clan,
-						'compare' 	=> '=',
-						),
-					array(
-						'key'	 	=> 'spy_type',
-						'value'	  	=> 'spyplane',
-						'compare' 	=> '=',
-						),
-						
-					
-					),
-			'post_type'        => 'spy_rep',
-			);
-			
-			
-			$buildingreports = get_posts( $buildingargs ); 
-			$reports = get_posts( $args ); 
-			$buildingreportcount = count($buildingreports);
-			$unitreportcount = count($reports);
-			
-			$report_ID = $reports[0]->ID;
-			$buildingreport_ID = $buildingreports[0]->ID;
-			
-			$report_date = get_the_date('G:i:s | d-m-Y',$report_ID);
-			
-			$spied_nw = get_post_meta($report_ID, 'spied_nw', true);
-			$spied_land = get_post_meta($report_ID, 'spied_land', true);
-			$spy_array = get_post_meta($report_ID, 'spy_array', true);
-			
-			$building_array = get_post_meta($buildingreport_ID, 'spy_array', true);
-			?>
-				
-				
-				<?php if($report_ID):?><sup>Last spied: <?php echo $report_date;?></sup><br/><?php endif;?>
-				<a class="<?php echo get_user_meta($member,'status',true);?>" href="/users/profile/?id=<?php echo $member;?>"><?php echo $member_data->display_name.' (#'.$member.')';?></a> <?php
-						if(!empty($last_online)){
-						if($last_seen < 7200 && !empty($last_online[0])){echo ' <span style="color:#ff0000">*</span';}}?> 
-
-			</td>
-			<td sorttable_customkey="<?php echo $networth[0];?>" data-title="Networth">
-				
-			
-			
-				
-				<?php if(($nw_att/1.4 <= $networth[0]) && ($networth[0] <= $nw_att*1.4)):?>
-				<strong>$ <?php echo number_format($networth[0], 0, ',', ' '); ?></strong>
-				<?php else:?>
-				$ <?php echo number_format($networth[0], 0, ',', ' '); ?>
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Land current</span>
+		<span class="clan_data_right land">
+		<span class="hover-tip"  data-toggle="tooltip" data-html="true"  data-original-title="Highest land: <?php echo $highest_land;?> m<sup>2</sup>" data-placement="bottom">
+		<?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup></span>
+		</span>
+	</div>
+	
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Units spied date</span>
+		<span class="clan_data_right points">
+			<?php echo $unitRep_date; ?>
+		</span>
+	</div>
+	
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Buildings spied date</span>
+		<span class="clan_data_right spied">
+			<?php echo $bldRep_date; ?>
+		</span>
+	</div>
+	</div> <!-- End first member row -->	
+	
+	
+	
+	
+	<div class="row lastmemberrow"> <!-- Start second member row -->
+	
+	<div class="row memberrowSecond">
+	<div class="col-md-4"></div>
+	<div class="col-md-2"><strong>Networth registered</strong></div>
+	<div class="col-md-2"><strong>Land registered</strong></div>
+	<div class="col-md-2"><strong>Unit types</strong></div>
+	<div class="col-md-2"><strong>Can attack</strong></div>
+	</div>
+	
+	<div class="row">
+	<div class="col-md-4 clan_column"></div>
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Networth registered</span>
+		<span class="clan_data_right">
+			$ <?php echo number_format($regNW, 0, ',', ' '); ?>
+		</span>
+		
+	</div>
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Land registered</span>
+		<span class="clan_data_right">
+			<?php echo number_format($regLand, 0, ',', ' '); ?> m<sup>2</sup>
+		</span>
+	</div>
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		
+		<span class="clan_data_left">Unit types</span>
+		<span class="clan_data_right">
+			<?php echo implode(", ", array_values($type_array));?>
+		</span>
+		
+	</div>
+	<div class="col-md-2 clan_column">
+		
+		<span class="clan_data_left">Can attack</span>
+		<span class="clan_data_right">
+			<?php echo implode(", ", array_values($attack_array));?>
+		</span>
+		
+	</div>
+	</div>
+		
+	</div> <!-- End second member row -->
+	
+	
+	
+	
+	
+	<div class="row lastmemberrow"> <!-- Start second member row -->
+	
+	<div class="row bdsunitsrow">
+	<div class="col-md-4">
+		<form class="form" action="<?php echo home_url() ?>/attack.php" name="" id="attack" method="post">
+			<input style="display:none" type="text" id="target_id"  name="target_id" value="<?php echo $member;?>"/>
+			<input style="display:none;" type="radio" name="attacktype" checked id="spy" value="spy">
+			<button style="margin-top:0px;" type="submit" value="Re-spy" class="btn respybutton">
+				<i class="fa fa-binoculars" aria-hidden="true"></i> RE-SPY</button>				
+		</form>
+	</div>
+	<div class="col-md-4">
+		
+		<a class="btn btn-general profilebutton" data-toggle="collapse" href="#units_<?php echo $member;?>">
+		 	<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Unit report</a>
+		
+		<div id="units_<?php echo $member;?>" class="collapse collapsebox">
+			<?php foreach($unitarray as $key => $amount){?>
+				<?php if($key != 'enhance'):?>
+					<span style="float:left;"><?php echo $key;?></span>
+					<span style="float:right;"><strong><?php echo $amount;?></strong></span>
+					<br/>
 				<?php endif;?>
-				<?php if($spied_nw):?> / $ <?php echo number_format($spied_nw, 0, ',', ' '); ?><?php endif;?>
-			</td>
+			<?php }?>
+						
+						
+				
+		</div>
+		
+	</div>
+	<div class="col-md-4">
+		<a class="btn btn-general profilebutton" data-toggle="collapse" href="#buildings_<?php echo $member;?>">
+		 	<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Building report</a>
+		<div id="buildings_<?php echo $member;?>" class="collapse collapsebox">
+			<?php foreach($bldarray as $key => $amount){?>
+				<?php if($key != 'enhance'):?>
+					<span style="float:left;"><?php echo $key;?></span>
+					<span style="float:right;"><strong><?php echo $amount;?></strong></span>
+					<br/>
+				<?php endif;?>
+			<?php }?>
+		</div>
+		
+	</div>
+	</div>
+
 	
-			<td sorttable_customkey="<?php echo $land[0];?>" data-title="Land" sorttable_customkey="<?php echo $land[0];?>">
-				<?php echo number_format($land[0], 0, ',', ' '); ?> m<sup>2</sup> <?php if($spied_land):?> / <?php echo number_format($spied_land, 0, ',', ' '); ?> m<sup>2</sup><?php endif;?>
-			</td>
-			
-			<td data-title="Spy report">
-					<script>
-				jQuery(document).ready(function(){
-					jQuery("#content_<?php echo $member;?>research").hide();
-					
-					jQuery("#show_<?php echo $member;?>research").click(function(){
-					jQuery("#content_<?php echo $member;?>research").toggle();
-					
-					
-				    jQuery('.fontawesome<?php echo $member;?>').toggle('1000');
-				    jQuery(".fa", this).toggleClass("fa-arrow-right fa-arrow-left");
-			
-    				});
-
-				});
-				</script>
-				
-				<script>
-				jQuery(document).ready(function(){
-					jQuery("#content_<?php echo $member;?>building").hide();
-					
-					jQuery("#show_<?php echo $member;?>building").click(function(){
-					jQuery("#content_<?php echo $member;?>building").toggle();
-					
-					
-				    jQuery('.fontawesome<?php echo $member;?>').toggle('1000');
-				    jQuery(".fa", this).toggleClass("fa-arrow-right fa-arrow-left");
-			
-    				});
-
-				});
-				</script>
-				
-				<span style="border: 1px solid #172d3a;padding: 0px 10px;cursor: pointer" id="show_<?php echo $member;?>research">Unit report <i class="fa fa-arrow-right" aria-hidden="true"></i></span>
-				<div  id="content_<?php echo $member;?>research" class="member_units">
-					
-					
-					<?php 
-						if($unitreportcount > 0){
-						foreach($spy_array as $key => $amount){?>
-						<?php if($key != 'enhance'):?>
-							
-							
-								<?php echo $key;?> 
-								<strong><?php echo $amount;?></strong>
-								<br/>
-							
-						<?php endif;?>
-					<?php }?>
-					
-					<?php }?>
-					
-					
-				</div>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				</td>
-				<td>
-					<span style="border: 1px solid #172d3a;padding: 0px 10px;cursor: pointer" id="show_<?php echo $member;?>building">Building report <i class="fa fa-arrow-right" aria-hidden="true"></i></span>
-				<div  id="content_<?php echo $member;?>building" class="member_units">
-					
-					
-					<?php 
-						if($buildingreportcount > 0){
-
-						foreach($building_array as $building => $amount){ ?>
-						<?php if($building != 'enhance'):?>
-							
-							
-								<?php echo $building;?> 
-								<strong><?php echo $amount;?></strong>
-								<br/>
-							
-						<?php endif;?>
-					<?php }?>
-
-					<?php }?>
-				</div>
-				</td>
-			<td data-title="Actions">
-				<a href="/attack/step-1/?id=<?php echo $member;?>"><i class="fa fa-crosshairs fa-lg" aria-hidden="true"></i></a> <a href="/spy-reports/?id=<?php echo $member;?>"><i class="fa fa-binoculars" aria-hidden="true"></i></a>
-			</td>
-			
-			
-			<td>
-				<form class="form" action="<?php echo home_url() ?>/attack.php" name="" id="attack" method="post">
-				<input style="display:none" type="text" id="target_id"  name="target_id" value="<?php echo $member;?>"/>
-				<input style="display:none;" type="radio" name="attacktype" checked id="spy" value="spy">
-				<input type="submit" value="Re-spy" class="">					
-			</form>
-			</td>
-		</tr>
-		
-		
-		
-		
-		<?php }?>
-			</tbody>
-		</table>
 	
+	
+	
+	
+	
+	
+	
+	</div>
+</div> <!-- // End profile row -->
+
+<?php $typecounter = 0;} ?>
+</div>
+<div id="result"></div>
+</div>
+
+
+
+
+
+
+
+
+
+      
+<?php endif;?> <!-- End live check -->
+       
+       
+       
+       
        
             
-            </div>
-        </div>
-    </div>
-</div>
+            </div> <!-- col-lg-12 col-md-12 -->
+        </div> <!-- End main row -->
+    </div> <!-- End container -->
+</div> <!-- End page normal-page -->
 <?php get_footer(); ?>

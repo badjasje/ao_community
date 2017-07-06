@@ -1690,3 +1690,23 @@ color: #2c90c6 !important;
    100% {opacity: 0; z-index: -999999;}
 }
 
+.respybutton {
+	width: 100% !important;
+    color: #fff !important;
+    background-color: #2d4350 !important;
+    margin-bottom: 3px !important; 
+    text-transform: uppercase !important;
+    display: inline-block !important;
+    padding: 6px 12px !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 1.42857143 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    vertical-align: middle !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    background-image: none !important;
+    border: 1px solid transparent !important;
+    border-radius: 4px !important;
+}

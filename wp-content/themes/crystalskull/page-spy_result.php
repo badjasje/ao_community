@@ -16,14 +16,26 @@ $timestamp = strtotime(date('Y-m-d H:i:s'));
 $spytype = $_SESSION['attack_array']['sendspy'];
 $turns = get_user_meta($user_ID, 'turns',true);
 $spies = get_user_meta($user_ID, 'spy_owned',true);
+$spyplanes = get_user_meta($user_ID, 'spyplane_owned',true);
 
-/* check if user has enough spies */
-if($spies < 1){ 
+
+
+/* check if user has enough spies or spy planes */
+if($spies < 1 && $_SESSION['attack_array']['sendspy'] == 'spy'){ 
 	
 	$_SESSION['status'] = 'Not enough spies';
 	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
 	exit;
 	}	
+	
+if($spyplanes < 1 && $_SESSION['attack_array']['sendspy'] == 'spyplane'){ 
+	
+	$_SESSION['status'] = 'Not enough spy planes';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
+	exit;
+	}
+	
+	
 	
 /* check if user has enough turns */
 if($turns < 1){ 
@@ -44,10 +56,7 @@ $success = $success+$snipers*0.25;
 if($sat_status == 'active'){
 	$success = 100;
 }
-if($clan_ID != 0){
-	$spiednr = get_user_meta($user_ID, 'spied_current_clan',true);
-	update_user_meta($user_ID,'spied_current_clan',$spiednr+1);
-}
+
 $members = get_post_meta($clan_ID,'clan_members',true);
 			
 			
