@@ -502,7 +502,7 @@ function sum_arrays($master_array, $unit_array) {
 		$idle_mult : damage multiplier based on idle status
 */
 function get_idle_multiplier($attack_type, $unit_key) {
-	echo $unit_key;
+	//echo $unit_key;
 	$idle_multiplier = 1.0;
 
 	return $idle_multiplier;
