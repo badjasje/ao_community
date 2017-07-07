@@ -3,45 +3,47 @@
 /* handles morale income */
 
 include('constants.php');
+require_once("wp-load.php");
 
-require_once("wp-load.php"); 
-if(get_field('game_status','option') == 'Live'){
-$users = get_users();
-foreach ($users as $user) {
-	$user_ID = $user->data->ID;
+// Global.
+$moraleIncome = $INCOME_MORALE;
 
-	
-	$morale = get_user_meta($user_ID, 'morale')[0];
-	
-	$sat_morale = get_user_meta($user_ID, 'sat_morale',true);
-	
-	if($sat_morale < 100){
-	update_user_meta($user_ID, 'sat_morale', $sat_morale+5);
-	}
-	
-	
-	$moralepool = get_user_meta($user_ID, 'morale_pool')[0];
-	$additional_morale = 0;
-	
-	if($moralepool > 0){
-		$additional_morale = 5;
-	}
+if (get_field('game_status', 'option') == 'Live') {
+    $users = get_users();
+    foreach ($users as $user) {
+        $userId = $user->data->ID;
 
-	$morale_income = $INCOME_MORALE;
-	$morale_new = $morale + $morale_income;
-	
-	if($morale < 100){
-		update_user_meta($user_ID, 'morale', min($morale_new+$additional_morale,100));	
-		update_user_meta($user_ID, 'morale_pool', $moralepool-$additional_morale);	
-	}
-	if($morale == 100 && $moralepool < 100){
-		update_user_meta($user_ID, 'morale_pool', $moralepool+5);	
-	}
-	
-	if($morale == 100 && $moralepool == 100){
-		$morale_lost = get_user_meta($user_ID, 'morale_lost', true);
-		update_user_meta($user_ID, 'morale_lost', $morale_lost+5);	
-	}
-	
-	
-}}
+        AddSatPower($userId);
+        AddMorale($userId, $moraleIncome);
+    }
+}
+
+function AddSatPower($userId) {
+    $currentSatPower = get_user_meta($userId, 'sat_morale', true);
+
+    if ($currentSatPower < 100) {
+        update_user_meta($userId, 'sat_morale', $currentSatPower + 5);
+    }
+}
+
+function AddMorale($userId, $moraleIncome) {
+    $currentMorale = get_user_meta($userId, 'morale', true);
+    $moralePool = get_user_meta($userId, 'morale_pool', true);
+    $takeFromPool = $moralePool > 0 && $currentMorale < 95;
+    $moraleToAdd = $takeFromPool ? $moraleIncome + 5 : $moraleIncome;
+
+    if ($currentMorale < 100) {
+        update_user_meta($userId, 'morale', min($currentMorale + $moraleToAdd, 100));
+    }
+
+    if ($takeFromPool) {
+        update_user_meta($userId, 'morale_pool', $moralePool - 5);
+    } else {
+        update_user_meta($userId, 'morale_pool', min($moralePool+5,100));
+    }
+
+    if ($currentMorale == 100 && $moralePool == 100) {
+        $morale_lost = get_user_meta($userId, 'morale_lost', true);
+        update_user_meta($userId, 'morale_lost', $morale_lost + 5);
+    }
+}
