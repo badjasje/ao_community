@@ -47,7 +47,7 @@
 			'life'			=>	40),
 	'b2_bomber' 	=> array(
 			'price'			=>	'2200',
-			'networth'		=>	12,
+			'networth'		=>	13,
 			'normalname'	=>	'Kirov Airship',
 			'attacks'		=>  array('bld'),
 			'defends'		=>  array(),
@@ -129,7 +129,7 @@
 			'life'			=>	30),
 	'artillery' 		=> array(
 			'price'			=>	'1275',
-			'networth'		=>	12,
+			'networth'		=>	13,
 			'normalname'	=>	'Prism Tank',
 			'attacks'		=>  array('bld'),
 			'defends'		=>  array(''),
@@ -193,7 +193,7 @@
 			'life'			=>	250),
 	'paratrooper' 		=> array(
 			'price'			=>	'1100',
-			'networth'		=>	12,
+			'networth'		=>	13,
 			'normalname'	=>	'G.I',
 			'attacks'		=>  array('bld'),
 			'defends'		=>  array(),
@@ -266,7 +266,7 @@
 	/// SEA ///
 	'battleship' 		=> array(
 			'price'			=>	'2150',
-			'networth'		=>	12,
+			'networth'		=>	13,
 			'normalname'	=>	'Dreadnought',
 			'attacks'		=>  array('bld'),
 			'defends'		=>  array(),
