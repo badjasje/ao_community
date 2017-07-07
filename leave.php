@@ -81,7 +81,7 @@ update_post_meta($clan, 'clan_points', $new_clanpoints);
 
 
 
-$_SESSION['status'] = 'You left your clan'.$cp_lost.' clan points lost';
+$_SESSION['status'] = 'You left your clan. '.get_the_title($clan).' (#'.$clan.') lost '.$cp_lost.' clan points';
 wp_redirect(get_permalink(3601));
 }
 
