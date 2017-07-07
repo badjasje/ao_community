@@ -623,7 +623,7 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 			$count_key = $key.'_owned';
 			
 			if($units[$key]['sectype'] == 'bk'){
-				$killed = round($killed*0.65*$defender_unit_loss_decrease);
+				$killed = round($killed*0.75*$defender_unit_loss_decrease);
 			}
 			else
 			{
