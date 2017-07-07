@@ -132,7 +132,7 @@ get_header('clan'); ?>
   			
   			<?php if($clan_leader != $user_ID):?>
   			
-  			<a onclick="return confirm('Are you sure you want to leave your clan?')" href="/leave.php/?user=<?php echo $user_ID;?>" class="list-group-item">
+  			<a onclick="return confirm('Are you sure you want to leave your clan? Your clan will lose 25% of your total clan points.')" href="/leave.php/?user=<?php echo $user_ID;?>" class="list-group-item">
 			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-arrow-circle-o-down clanpageitem" aria-hidden="true"></i> Leave clan</h4>
   			</a>
   			

@@ -456,7 +456,7 @@ get_header(); ?>
 		$networth = get_user_meta($member, 'networth',true);
 		$land = get_user_meta($member, 'land',true);
 		$last_online = get_user_meta($member, 'last_online',true);
-		$pts = get_user_meta($member, 'user_clan_points',true);
+		$pts = get_user_meta($member, 'current_clan_points',true);
 		if(!empty($last_online)){
 		$last_seen = $timestamp - $last_online;
 		}
@@ -512,11 +512,11 @@ get_header(); ?>
 	
 	<div class="col-md-1 clan_column center_clan_col">
 		<?php if($user_ID == $clanleader && $member != $user_ID){?>
-			<a href="/kick.php/?id=<?php echo $member;?>&clan=<?php echo $clan_id;?>" onclick="return confirm('Are you sure you want to kick <?php echo $member_data->display_name.' (#'.$member.')';?> from your clan?')">Kick</a>
+			<a href="/kick.php/?id=<?php echo $member;?>&clan=<?php echo $clan_id;?>" onclick="return confirm('Are you sure you want to kick <?php echo $member_data->display_name.' (#'.$member.')';?> from your clan? Your clan will lose <?php echo round($pts*0.25);?> clan points.')">Kick</a>
 			<?php } ?>
 			<?php if($member != $user_ID && $member != $clanleader && $member != $ct_1 && $member != $ct_2 && $member != $ct_3 && $member != $ct_4){?>
 			<?php if($user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4){?>
-			<a href="/kick.php/?id=<?php echo $member;?>&clan=<?php echo $clan_id;?>" onclick="return confirm('Are you sure you want to kick <?php echo $member_data->display_name.' (#'.$member.')';?> from your clan?')">Kick</a>
+			<a href="/kick.php/?id=<?php echo $member;?>&clan=<?php echo $clan_id;?>" onclick="return confirm('Are you sure you want to kick <?php echo $member_data->display_name.' (#'.$member.')';?> from your clan? Your clan will lose <?php echo round($pts*0.25);?> clan points.)')">Kick</a>
 			<?php }} ?>
 
 	</div>

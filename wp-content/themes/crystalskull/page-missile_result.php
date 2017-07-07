@@ -915,6 +915,10 @@ $args = array(
 			$user_pts = get_user_meta($user_ID, 'user_clan_points',true);
 			update_user_meta($user_ID,'user_clan_points',$user_pts+$clan_points);
 			
+			// Update attacker points for current clan
+			$userAttPts = get_user_meta($user_ID, 'current_clan_points',true);
+			update_user_meta($user_ID, 'current_clan_points', $userAttPts+$clan_points);
+			
 			/* Add globals to defender */
 
 $clan = get_user_meta($defender_ID, 'clan_id_user', true);

@@ -70,9 +70,18 @@ update_user_meta($user,'clan_id_user',0);
 $timestamp = strtotime(date('Y-m-d H:i:s'));
 update_user_meta($user,'new_clan_timestamp',$timestamp+86400);
 
+$cp_lost = round(get_user_meta($user, 'current_clan_points', true)*0.25);
+$clan_points = get_post_meta($clan, 'clan_points', true);
+$new_clanpoints = $clan_points-$cp_lost;
+if($new_clanpoints < 0){
+	$new_clanpoints = 0;
+}
+update_user_meta($user, 'current_clan_points', 0);
+update_post_meta($clan, 'clan_points', $new_clanpoints);
 
 
-$_SESSION['status'] = 'You left your clan';
+
+$_SESSION['status'] = 'You left your clan'.$cp_lost.' clan points lost';
 wp_redirect(get_permalink(3601));
 }
 

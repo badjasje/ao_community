@@ -420,10 +420,14 @@ if($war_type != 'none' && $result == 'success') {
 
 			
 			
-			<?php 
+<?php 
 
 $old_CP = get_user_meta($user_ID, 'user_clan_points', true);
 update_user_meta($user_ID, 'user_clan_points', $old_CP+$clan_points);
+
+// Update attacker points for current clan
+$userAttPts = get_user_meta($user_ID, 'current_clan_points',true);
+update_user_meta($user_ID, 'current_clan_points', $userAttPts+$clan_points);
 
 ////// CREATE EVENT POST ////////////
 $timestamp = strtotime(date('Y-m-d H:i:s'));

@@ -95,7 +95,7 @@ $timestamp = current_time('timestamp');
 $in_range = target_in_range($attack_type, $attack_nw, $defend_nw, 'none');
 
 if ($war_type == 'mutual' && $timestamp < $join_timestamp && $in_range != true) {
-	$_SESSION['status'] = 'Cannot attack out of networth range in mutual the first 24 hours after joining a clan';
+	$_SESSION['status'] = 'Cannot attack out of networth range in mutual war the first 24 hours after joining a clan';
 	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
 }
@@ -795,13 +795,17 @@ if($war_type != 'none' && $result == 'success') {
 	$defender_networth = get_user_meta($target_id, 'networth')[0];
 	if ($killed != true) {
 		$building_CP = 0;
+		$unit_CP = 0;
 		
-		/* check if there is building damage done */
+		// Check if building damage is done
 		if($defender_building_NW_lost > 0){
-			$building_CP = 5 * log($defender_building_NW_lost/2.2 / 500)*$aggressive_multi; 
+			$building_CP = 5 * log($defender_building_NW_lost / 2.2 / 500)*$aggressive_multi; 
 		}
 		
-		$unit_CP = 2.5 * log($defender_unit_NW_lost/2.2 / 200)*$aggressive_multi; 
+		// Check if unit damage is done
+		if($defender_unit_NW_lost > 0){
+			$unit_CP = 2.5 * log($defender_unit_NW_lost / 2.2 / 200)*$aggressive_multi; 
+		}
 		$clan_points = $building_CP+$unit_CP;
 		
 		if($clan_points < 1){
@@ -907,6 +911,11 @@ if($result == 'failure' && $war_type != 'none'){
 
 $defPts = get_user_meta($target_id, 'user_clan_points',true);
 update_user_meta($target_id,'user_clan_points',$defPts+$defender_points);
+
+// Update points for current clan
+$userDefPts = get_user_meta($target_id, 'current_clan_points',true);
+update_user_meta($target_id, 'current_clan_points', $userDefPts+$defPts);
+
 
 $_def24Hpts = get_post_meta($defend_clan_id, '24h_pts', true);
 update_post_meta($defend_clan_id,'24h_pts',$_def24Hpts+$defender_points);
@@ -1178,6 +1187,11 @@ update_user_meta($target_id, 'new_events', $event_count + 1);
 /* update attacker points */
 $user_pts = get_user_meta($user_id, 'user_clan_points')[0];
 update_user_meta($user_id,'user_clan_points',$user_pts+$clan_points);
+
+// Update attacker points for current clan
+$userAttPts = get_user_meta($user_id, 'current_clan_points',true);
+update_user_meta($user_id, 'current_clan_points', $userAttPts+$clan_points);
+
 $last_ids = get_user_meta($user_id, 'last_attacked', true);
 update_user_meta($user_id, 'last_attacked', $target_id.','.$last_ids);
 
