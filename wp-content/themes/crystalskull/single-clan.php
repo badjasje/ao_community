@@ -563,7 +563,7 @@ get_header(); ?>
 			<?php 
 				$timeleft = $cooldownlist[$clan_id]-$timestamp;
 				echo human_time_diff( $cooldownlist[$clan_id],$timestamp);?> left before you can declare a new war on this clan</span>
-				<?php if($warcount == 1):?>
+				<?php if($warcount == 1 && in_array($declarer_ID, $allowed_to_declare)):?>
 				<a href="/resumewar.php/?declaredon=<?php echo get_the_id();?>&declaredby=<?php echo $declarer_clan_ID;?>">
 					<div style="margin-top:10px;padding:10px;background-color:#fff;color:#5f5d5d;">
 						However, you can still choose to resume your previous war
