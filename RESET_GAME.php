@@ -88,6 +88,11 @@
 				update_user_meta($user_ID, 'stealth_sat_status', 'inactive');
 				update_user_meta($user_ID, 'stealth_sat_time', 0);
 				update_user_meta($user_ID, 'sat_morale', 0);
+				update_user_meta($user_ID, 'spied_current_clan', 0);
+				update_user_meta($user_ID, 'current_clan_points', 0);
+				update_user_meta($user_ID, 'new_clan_timestamp', 0);
+				update_user_meta($user_ID, 'in_war_attacks', 0);
+				
 				
 				
 				foreach ($units as $key => $unit) {
@@ -125,6 +130,7 @@
 				update_user_meta($user_ID, 'morale', 0);
 				update_user_meta($user_ID, 'morale_pool', 0);
 				update_user_meta($user_ID, 'total_deposits', 0);
+				
 
 
 				// RESET RESEARCH ///
@@ -196,6 +202,11 @@ foreach ($clans as $clan) {
 	update_post_meta($clan->ID, '24h_pts', 0);
 	update_post_meta($clan->ID, 'cooldown_list', '');
 	update_post_meta($clan->ID, 'open_invites', '');
+	update_post_meta($clan->ID, '24h_nw_list', '');
+
+	
+	
+	
 	
 	}
 	
