@@ -54,8 +54,8 @@ get_header('clan'); ?>
 		
 		<form action="<?php echo home_url() ?>/clan.php" name="" id="clan" method="post">
 		
-			<input required class="small_input" type="text" name="clanname" minlength="3" maxlength="20" id="clanname" placeholder="Clan Name. Max 20 characters."><br/><br/>
-			<input required class="small_input" type="text" name="clantag" id="clantag" maxlength="5"placeholder="Clan Tag. Max 5 characters."><br/><br/>
+			<input required class="small_input" type="text" name="clanname" minlength="3" maxlength="30" id="clanname" placeholder="Clan Name. Max 20 characters."><br/><br/>
+			<input required class="small_input" type="text" name="clantag" id="clantag" maxlength="5" placeholder="Clan Tag. Max 5 characters."><br/><br/>
 			<textarea rows="5" class="small_input" type="text" name="clanmessage" id="clanmessager" placeholder="Clan Message"></textarea>
 			
 		<input type="submit"  class="submitBtn" value="Create your clan" class="">

@@ -124,7 +124,10 @@ get_header(); ?>
 				<h4>New clan name</h4>
 				<p>
 					<form class="form" action="<?php echo home_url() ?>/change_clan_name.php?id=<?php echo $clan_ID;?>" name="" id="clanname" method="post">
-						<input required class="new_user_name" type="text" id="display_name" name="clanname"><br/><br/>
+						<input required class="new_user_name" type="text" id="display_name" minlength="3" maxlength="30" name="clanname"><br/>
+						<h4>New clan tag</h4>
+						<input required value="<?php echo get_post_meta($clan_ID, 'clan_tag', true);?>" class="new_user_name" type="text" name="clantag" id="clantag" maxlength="5"><br/>
+						<br/>
 						<input type="submit" value="CHANGE CLAN NAME">
 					</form>	
 				</p>

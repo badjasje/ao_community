@@ -20,6 +20,7 @@ if($user_ID == $clanleader && $clan_ID == $_GET['id']){
 
 // Update the post into the database
 wp_update_post( $my_post );
+update_post_meta($clan_ID, 'clan_tag', $_POST['clantag']);
 update_post_meta($clan_ID, 'clan_name_change', 1);
 	}
 	
