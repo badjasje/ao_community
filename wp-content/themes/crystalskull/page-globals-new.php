@@ -44,7 +44,7 @@ $args = array(
          ),
          array(
            'key' => 'attacktype',
-           'value' => array('empmissile','empsat','satellite','regular','air_sea','ground','missile','war_declared','peace_declared'),
+           'value' => array('empmissile','empsat','satellite','regular','air_sea','ground','missile','war_declared','peace_declared','user_change'),
            'compare' => 'IN'
          ),
      array(
@@ -127,7 +127,7 @@ $timeattacked = get_post_meta($global_event_ID,'time_attacked',true);
 
 $landlost = get_post_meta($global_event_ID,'land_lost',true);
 $moneylost = get_post_meta($global_event_ID,'money_lost',true);
-
+$outcome = get_post_meta($global_event_ID,'outcome',true);
 $defender_NW_lost = get_post_meta($global_event_ID, 'nw_damage_defender', true);
 $attacker_NW_lost = get_post_meta($global_event_ID, 'nw_damage_attacker', true);
 
@@ -969,7 +969,60 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 <?php endif; // End Declaration Event ?>
 	            
 
+<?php if($attack_type == 'user_change'): ?>
 
+<!-- Event header -->
+<div class="row battlereport-header">
+	<div class="col-md-12">
+		<img class="attack-image" src="http://assault.online/wp-content/uploads/2016/03/research.png"> 
+		<?php if($outcome == 'kicked'):?>
+			User kicked
+		<?php elseif($outcome == 'joined'):?>
+			User joined
+		<?php elseif($outcome == 'left'):?>
+			User left
+		<?php endif;?>
+	</div>
+</div>
+<!-- Event header -->
+
+
+<div class="row event-row">
+	
+<!-- Attacker image -->	
+	<div class="col-md-2">
+		<div class="row">
+			<div class="col-md-12">
+				<?php echo small_avatar($defender_id,'attack-profile-image');?>
+				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
+			</div>
+		</div>
+	</div>
+<!-- Attacker image -->		
+	
+	
+	<div class="col-md-10">
+			<div class="row">
+				<div class="col-md-12 event-message">
+				
+				<?php if($outcome == 'kicked'):?>
+					<?php echo LinkUtil::user_link($attacker_id); ?> kicked <?php echo LinkUtil::user_link($defender_id); ?> from your clan.<br/>
+					<?php echo $clan_points;?> clan points lost.
+				<?php elseif($outcome == 'joined'):?>
+					<?php echo LinkUtil::user_link($defender_id); ?> joined your clan.
+				<?php elseif($outcome == 'left'):?>
+					<?php echo LinkUtil::user_link($defender_id); ?> left your clan.
+					<?php echo $clan_points;?> clan points lost.
+				<?php endif;?>
+				
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
+
+<?php endif; // End Declaration Event ?>
 
                
 	            

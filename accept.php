@@ -26,7 +26,8 @@ if ( !is_user_logged_in() ) {
 $invitekey = $_GET['invite'];
 $clan = $_GET['clan'];
 $clan_members = get_post_meta($_GET['clan'],'clan_members');
-$timestamp = current_time('timestamp');
+$clan_leader = get_post_meta($clan,'clan_leader',true);
+$timestamp = strtotime(date('Y-m-d H:i:s'));
 if(count($members[0]) >= 7){ 
 						wp_redirect(get_permalink(3601)); exit;
 					}
@@ -55,6 +56,34 @@ if($clan_ID[0] == 0){
 					update_post_meta($_GET['id'], 'invite_status', 'accept');
 					update_post_meta($clan, 'open_invites', $open_invites[0]);
 					update_user_meta($user_ID, 'clan_join_stamp', $timestamp+86400);
+					
+					
+
+
+					$args = array(	
+						'post_title'    => 'Clan member joined a clan: '.$user,
+						'post_status'   => 'publish',
+						'post_type'		=> 'event_local',
+						'post_author'   => $clan_leader
+					);
+					$new_event_id = wp_insert_post( $args );
+					update_field('attacktype','user_change', $new_event_id);
+					update_field('outcome','joined', $new_event_id);
+					
+					
+					update_field('attacker_id',$clan_leader, $new_event_id);
+					update_field('defender_id',$user_ID, $new_event_id);
+					update_field('attacker_clan_id',$clan, $new_event_id);
+					update_field('time_attacked',$timestamp, $new_event_id);
+					
+					
+					
+					if(!empty($clan) || $clan != 0){
+					foreach ($clan_members[0] as $member) {
+						$globals = get_user_meta($member, 'new_global_events', true);
+						update_user_meta($member, 'new_global_events', $globals+1);
+					}}
+					
 					wp_redirect(get_permalink($clan));
 					
 

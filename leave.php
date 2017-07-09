@@ -42,6 +42,7 @@ update_post_meta($clan, 'previous_members', $previous_members);
 
 if($user == $user_ID){
 $clan_members = get_post_meta($clan,'clan_members');
+$clan_leader = get_post_meta($clan,'clan_leader',true);
 
 $clan_members = array_shift($clan_members);	
 
@@ -79,6 +80,30 @@ if($new_clanpoints < 0){
 update_user_meta($user, 'current_clan_points', 0);
 update_post_meta($clan, 'clan_points', $new_clanpoints);
 
+
+
+$args = array(	
+	'post_title'    => 'Clan member left a clan: '.$user,
+	'post_status'   => 'publish',
+	'post_type'		=> 'event_local',
+	'post_author'   => $clan_leader
+);
+$new_event_id = wp_insert_post( $args );
+update_field('attacktype','user_change', $new_event_id);
+update_field('outcome','left', $new_event_id);
+
+
+update_field('attacker_id',$clan_leader, $new_event_id);
+update_field('defender_id',$user_ID, $new_event_id);
+update_field('attacker_clan_id',$clan, $new_event_id);
+update_field('time_attacked',$timestamp, $new_event_id);
+update_field('clan_points',$cp_lost, $new_event_id);
+
+if(!empty($clan) || $clan != 0){
+foreach ($clan_members[0] as $member) {
+	$globals = get_user_meta($member, 'new_global_events', true);
+	update_user_meta($member, 'new_global_events', $globals+1);
+}}
 
 
 $_SESSION['status'] = 'You left your clan. '.get_the_title($clan).' (#'.$clan.') lost '.$cp_lost.' clan points';

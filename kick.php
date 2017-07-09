@@ -85,8 +85,8 @@ $args = array(
 	'post_author'   => $user_ID
 );
 $new_event_id = wp_insert_post( $args );
-update_field('attacktype','user_kicked', $new_event_id);
-
+update_field('attacktype','user_change', $new_event_id);
+update_field('outcome','kicked', $new_event_id);
 
 
 update_field('attacker_id',$user_ID, $new_event_id);
@@ -99,7 +99,16 @@ update_field('time_attacked',$timestamp, $new_event_id);
 $event_count = get_user_meta($user, 'new_events',true);
 update_user_meta($user, 'new_events', $event_count + 1);
 
-$cp_lost = round(get_user_meta($user, 'user_clan_points', true)*0.25);
+
+$clan_members = get_post_meta($clan,'clan_members');
+
+if(!empty($clan) || $clan != 0){
+foreach ($clan_members[0] as $member) {
+	$globals = get_user_meta($member, 'new_global_events', true);
+	update_user_meta($member, 'new_global_events', $globals+1);
+}}
+
+$cp_lost = round(get_user_meta($user, 'current_clan_points', true)*0.25);
 $clan_points = get_post_meta($clan, 'clan_points', true);
 $new_clanpoints = $clan_points-$cp_lost;
 if($new_clanpoints < 0){
@@ -107,6 +116,7 @@ if($new_clanpoints < 0){
 }
 update_user_meta($user, 'current_clan_points', 0);
 update_post_meta($clan, 'clan_points', $new_clanpoints);
+update_field('clan_points',$cp_lost, $new_event_id);
 
 $_SESSION['status'] = 'Clan member kicked. '.$cp_lost.' clan points lost';
 wp_redirect(get_permalink($clan));
