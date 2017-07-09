@@ -36,7 +36,7 @@ if ( $movefile && !isset( $movefile['error'] ) ) {
 
 if(!empty($_POST['username'])){
 	
-	
+if(get_user_meta($user_ID, 'name_change_counter', true) != 1){
 $args= array(
 	'search' => $_POST['username'], // or login or nicename in this example
 	'search_fields' => array('user_login','user_nicename','display_name')
@@ -59,6 +59,7 @@ if(strtolower($_POST['username']) != strtolower($user->results[0]->data->display
 	
 	}
 }
+} // end check for name change counter
 
 update_user_meta($user_ID,'phone_number',$_POST['phonenumber']);
 update_user_meta($user_ID,'desktop_view',$_POST['desktopview']);
