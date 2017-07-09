@@ -53,6 +53,8 @@ $user = get_userdata($user_ID);
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
+
 <script type='text/javascript' src='/wp-content/themes/crystalskull/js/sortingdivs.js'></script>
 
 </head>
