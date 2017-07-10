@@ -8,7 +8,7 @@
 	include('building_array.php');
 	include('missiles_array.php');
 	
-/*
+
 			$args = array(
 
 				'offset'       => 0,
@@ -24,6 +24,7 @@
 					
 				$user_ID = $user->ID;
 				//update_user_meta($user_ID, 'reset_status', 0);
+				
 				
 				
 				
@@ -179,7 +180,7 @@
 			
 			} 
 
-
+/*
 
 
 // Reset clan points and NW 

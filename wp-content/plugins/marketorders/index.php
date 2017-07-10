@@ -528,6 +528,8 @@ function small_avatar($user_ID,$type){
 	$avatar = get_user_meta($user_ID, 'avatar_user', true);
 	
 	if(!empty($avatar)){
+		
+		$avatar = str_replace("http://", "https://", $avatar);
                     
 		return "<a href='/users/profile/?id=$user_ID'><div class='setAvatar clan_avatar $addClass' style='background: url(".$avatar.");'></div></a>";
 		
