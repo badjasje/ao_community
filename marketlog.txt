@@ -1706,3 +1706,11 @@ Units ordered: 58
 ID: 1125
 Units ordered: 321
 
+12:04:27 | 10-07-2017
+ID: 1324
+Units ordered: 40
+
+12:04:28 | 10-07-2017
+ID: 1324
+Units ordered: 60
+

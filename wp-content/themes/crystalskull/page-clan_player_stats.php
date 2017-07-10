@@ -253,16 +253,21 @@ get_header(); ?>
 		 	<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Research</a>
 		
 		<div id="research_<?php echo $member;?>" class="collapse collapsebox">
-				<?php foreach ($researches as $key => $research) {
-					$level = get_user_meta($member, 'level_'.$key,true); ?>	
+				<?php 
+					$inprogress = get_user_meta($member, 'research_in_progress',true);
+					foreach ($researches as $key => $research) {
+					$level = get_user_meta($member, 'level_'.$key,true);
+					 ?>	
 		
 				<span style="float:left;"><?php echo $research['name'];?></span> 
 				<span style="float:right;">Level: <?php echo $level;?></span>
 				<br/>
 					
 					<?php }?>
-						
-						
+				<?php if($inprogress != '0'):?>
+					<br/>
+					<strong>In progress: <?php echo $researches[$inprogress]['name'];?></strong>
+				<?php endif;?>
 				
 		</div>
 		

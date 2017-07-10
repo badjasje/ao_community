@@ -40,6 +40,7 @@ if($clan_ID_deleter[0] == $clan && $user_ID == $clan_leader[0]){
 			
 		}
 		wp_trash_post($clan);
+		update_user_meta($user_ID,'clan_id_user',0);
 		$_SESSION['status'] = 'Your clan was deleted';
 		wp_redirect(get_permalink(3601));		
 		
