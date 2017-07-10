@@ -17,6 +17,7 @@ $ct_2 = get_post_meta($clan_ID,'ct_2',true);
 $ct_3 = get_post_meta($clan_ID,'ct_3',true);
 $ct_4 = get_post_meta($clan_ID,'ct_4',true);
 include('count_functions.php');
+include('research_array.php');
 
 
 get_header(); ?>
@@ -246,7 +247,26 @@ get_header(); ?>
 	<div class="row lastmemberrow"> <!-- Start second member row -->
 	
 	<div class="row bdsunitsrow">
-	<div class="col-md-4"></div>
+	<div class="col-md-4">
+		
+		<a class="btn btn-general profilebutton" data-toggle="collapse" href="#research_<?php echo $member;?>">
+		 	<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Research</a>
+		
+		<div id="research_<?php echo $member;?>" class="collapse collapsebox">
+				<?php foreach ($researches as $key => $research) {
+					$level = get_user_meta($member, 'level_'.$key,true); ?>	
+		
+				<span style="float:left;"><?php echo $research['name'];?></span> 
+				<span style="float:right;">Level: <?php echo $level;?></span>
+				<br/>
+					
+					<?php }?>
+						
+						
+				
+		</div>
+		
+	</div>
 	<div class="col-md-4">
 		
 		<a class="btn btn-general profilebutton" data-toggle="collapse" href="#units_<?php echo $member;?>">
