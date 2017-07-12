@@ -15397,3 +15397,39 @@ ID: 308
 Units sold: 897
 Type: m270_rocket
 
+ID: 368
+Units sold: 637
+Type: m270_rocket
+
+ID: 522
+Units sold: 38
+Type: humvee
+
+ID: 522
+Units sold: 350
+Type: m70mlrs
+
+ID: 1284
+Units sold: 5
+Type: paratrooper
+
+ID: 1303
+Units sold: 50
+Type: f22_raptors
+
+ID: 1303
+Units sold: 70
+Type: f22_raptors
+
+ID: 1303
+Units sold: 50
+Type: f22_raptors
+
+ID: 464
+Units sold: 528
+Type: rifle
+
+ID: 464
+Units sold: 15
+Type: paratrooper
+

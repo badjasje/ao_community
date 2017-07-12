@@ -1950,3 +1950,55 @@ Units ordered: paratrooper 20
 ID: 43
 Units ordered: paratrooper 179
 
+15:52:08 | 12-07-2017
+ID: 1299
+Units ordered: rah66_commanches 50
+
+15:52:08 | 12-07-2017
+ID: 1299
+Units ordered: typhoon 50
+
+16:08:28 | 12-07-2017
+ID: 1303
+Units ordered: spyplane 1
+
+16:26:39 | 12-07-2017
+ID: 1303
+Units ordered: f22_raptors 50
+
+16:27:08 | 12-07-2017
+ID: 1303
+Units ordered: f22_raptors 70
+
+16:27:34 | 12-07-2017
+ID: 1303
+Units ordered: f22_raptors 50
+
+16:33:40 | 12-07-2017
+ID: 590
+Units ordered: spy 3
+
+16:34:50 | 12-07-2017
+ID: 590
+Units ordered: abraham 500
+
+16:35:16 | 12-07-2017
+ID: 590
+Units ordered: abraham 300
+
+16:35:26 | 12-07-2017
+ID: 1029
+Units ordered: spy 20
+
+16:35:46 | 12-07-2017
+ID: 590
+Units ordered: abraham 100
+
+16:46:58 | 12-07-2017
+ID: 1286
+Units ordered: b2_bomber 60
+
+16:46:58 | 12-07-2017
+ID: 1286
+Units ordered: typhoon 140
+
