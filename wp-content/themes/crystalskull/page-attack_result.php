@@ -100,10 +100,54 @@ if ($war_type == 'mutual' && $timestamp < $join_timestamp && $in_range != true) 
 	exit;
 }
 
-/* calculate attack cost */
-$attack_cost_arr = get_attack_cost($attack_type, $attack_nw, $defend_nw);
-$attack_cost_turns = $attack_cost_arr['turns'];
-$attack_cost_morale = $attack_cost_arr['morale']+$extra_morale_cost;
+// Function for calculating morale cost of the attack.
+function get_attack_cost_morale($attack_type, $attack_nw, $defend_nw) {
+    global $MORALE_ATTACK_TGT_ABOVE, $MORALE_ATTACK_TGT_BELOW, $MORALE_MISSILE_TGT_ABOVE, $MORALE_MISSILE_TGT_BELOW,
+           $MORALE_THIEF, $MORALE_SPY;
+
+    $targetIsBigger = $attack_nw < $defend_nw;
+    $moraleCost = 0;
+    switch (strtolower($attack_type)) {
+        case 'missile':
+            $moraleCost = $targetIsBigger ? $MORALE_MISSILE_TGT_ABOVE : $MORALE_MISSILE_TGT_BELOW
+            break;
+        case 'thief':
+            $moraleCost = $MORALE_THIEF;
+            break;
+        case 'spy':
+            $moraleCost = $MORALE_SPY;
+            break;
+        case 'air_sea':
+            $moraleCost = $targetIsBigger ? $cost_arr['morale'] = $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
+            break;
+        case 'regular':
+            $moraleCost = $targetIsBigger ? $cost_arr['morale'] = $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
+            break;
+        case 'ground':
+            $moraleCost = $targetIsBigger ? $cost_arr['morale'] = $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
+            break;
+        default:
+            /* unrecognized type */
+            $cost_arr['turns'] = 0;
+            $cost_arr['morale'] = 0;
+    }
+    return $moraleCost;
+};
+
+function get_attack_cost_turns($attack_type) {
+    global $TURNS_MISSILE, $TURNS_SPY, $TURNS_THIEF, $TURNS_ATTACK;
+    if (strtolower($attack_type) == 'thief')
+        return $TURNS_THIEF;
+    if (strtolower($attack_type) == 'spy')
+        return $TURNS_SPY;
+    if (strtolower($attack_type) == 'missile')
+        return $TURNS_MISSILE;
+    if (strtolower($attack_type) == 'air_sea' || 'regular' || 'ground'||)
+        return $TURNS_ATTACK;
+};
+
+$attack_cost_turns = get_attack_cost_turns($attack_type);
+$attack_cost_morale = get_attack_cost_morale($attack_type, $attack_nw, $defend_nw)+$extra_morale_cost;
 
 /* retrieve attacker's current resources */
 $attack_curr_turns = get_user_meta($user_id, 'turns',true);
