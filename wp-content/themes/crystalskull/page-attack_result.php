@@ -100,10 +100,8 @@ if ($war_type == 'mutual' && $timestamp < $join_timestamp && $in_range != true) 
 	exit;
 }
 
-/* calculate attack cost */
-$attack_cost_arr = get_attack_cost($attack_type, $attack_nw, $defend_nw);
-$attack_cost_turns = $attack_cost_arr['turns'];
-$attack_cost_morale = $attack_cost_arr['morale']+$extra_morale_cost;
+$attack_cost_turns = get_attack_cost_turns($attack_type);
+$attack_cost_morale = get_attack_cost_morale($attack_type, $attack_nw, $defend_nw)+$extra_morale_cost;
 
 /* retrieve attacker's current resources */
 $attack_curr_turns = get_user_meta($user_id, 'turns',true);
