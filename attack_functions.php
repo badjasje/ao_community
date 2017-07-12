@@ -149,21 +149,6 @@ function target_in_range($attack_type, $attack_nw, $defend_nw, $war_type) {
 	return $in_range;
 }
 
-
-/* 
-	get_attack_cost
-	Params:
-		$attack_type : type of attack
-		$attack_nw : networth of attacker
-		$defend_nw : networth of defender
-	Return:
-		cost_arr : array with turn and morale costs
-		{
-			'turns' : <value>
-			'morale' : <value>
-		}
-*/
-
 // Function for calculating morale cost of the attack.
 function get_attack_cost_morale($attack_type, $attack_nw, $defend_nw) {
     global $MORALE_ATTACK_TGT_ABOVE, $MORALE_ATTACK_TGT_BELOW, $MORALE_MISSILE_TGT_ABOVE, $MORALE_MISSILE_TGT_BELOW,
@@ -173,7 +158,7 @@ function get_attack_cost_morale($attack_type, $attack_nw, $defend_nw) {
     $moraleCost = 0;
     switch (strtolower($attack_type)) {
         case 'missile':
-            $moraleCost = $targetIsBigger ? $MORALE_MISSILE_TGT_ABOVE : $MORALE_MISSILE_TGT_BELOW
+            $moraleCost = $targetIsBigger ? $MORALE_MISSILE_TGT_ABOVE : $MORALE_MISSILE_TGT_BELOW;
             break;
         case 'thief':
             $moraleCost = $MORALE_THIEF;
@@ -182,18 +167,14 @@ function get_attack_cost_morale($attack_type, $attack_nw, $defend_nw) {
             $moraleCost = $MORALE_SPY;
             break;
         case 'air_sea':
-            $moraleCost = $targetIsBigger ? $cost_arr['morale'] = $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
+            $moraleCost = $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
             break;
         case 'regular':
-            $moraleCost = $targetIsBigger ? $cost_arr['morale'] = $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
+            $moraleCost = $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
             break;
         case 'ground':
-            $moraleCost = $targetIsBigger ? $cost_arr['morale'] = $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
+            $moraleCost = $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
             break;
-        default:
-            /* unrecognized type */
-            $cost_arr['turns'] = 0;
-            $cost_arr['morale'] = 0;
     }
     return $moraleCost;
 };
@@ -206,7 +187,7 @@ function get_attack_cost_turns($attack_type) {
         return $TURNS_SPY;
     if (strtolower($attack_type) == 'missile')
         return $TURNS_MISSILE;
-    if (strtolower($attack_type) == 'air_sea' || 'regular' || 'ground'||)
+    if (strtolower($attack_type) == 'air_sea' || 'regular' || 'ground')
         return $TURNS_ATTACK;
 };
 
