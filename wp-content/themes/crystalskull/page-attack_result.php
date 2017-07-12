@@ -799,14 +799,37 @@ if($war_type != 'none' && $result == 'success') {
 		
 		// Check if building damage is done
 		if($defender_building_NW_lost > 0){
+                  if($defender_building_NW_lost < 1500) {
+
+			$building_CP = 5 * log($defender_building_NW_lost / 2.2 / 470)*$aggressive_multi; 
+                  }
+                  else {
 			$building_CP = 5 * log($defender_building_NW_lost / 2.2 / 500)*$aggressive_multi; 
-		}
+	          }
+          	}
 		
 		// Check if unit damage is done
 		if($defender_unit_NW_lost > 0){
-			$unit_CP = 2.5 * log($defender_unit_NW_lost / 2.2 / 200)*$aggressive_multi; 
+			$unit_CP = 3.5 * log($defender_unit_NW_lost / 2.2 / 200)*$aggressive_multi; 
 		}
-		$clan_points = $building_CP+$unit_CP;
+
+
+                if (($defender_building_NW_lost + $defender_unit_NW_lost) < 3500) {
+                  //echo "NewLogic";
+                  $clan_points = ceil(log(($defender_building_NW_lost + $defender_unit_NW_lost)/1.6))-2;
+                  //echo log(($defender_building_NW_lost + $defender_unit_NW_lost)/1.4);
+                  if (($defender_building_NW_list + $defender_unit_NW_lost) < 2000) {
+                    $clan_points = ceil($clan_points/2);
+                  }
+                }
+                else if (ceil(log($defender_building_NW_lost + $defender_unit_NW_lost)-1) > $building_CP+$unit_CP) {
+	          //echo "Here";
+                  $clan_points = $building_CP+$unit_CP;
+                }
+                else {
+                  //echo "Else";
+	          $clan_points = $building_CP+$unit_CP;
+                }
 		
 		if($clan_points < 1){
 			$clan_points = 1;
