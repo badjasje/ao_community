@@ -134,7 +134,7 @@ $attacker_NW_lost = get_post_meta($global_event_ID, 'nw_damage_attacker', true);
 $tomahawkHit = get_post_meta($global_event_ID,'tomahawk_hit',true);
 $tomahawkDown = get_post_meta($global_event_ID,'tomahawk_down',true);
 
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 
 $clan_points = get_post_meta($global_event_ID,'clan_points', true);
 

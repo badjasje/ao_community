@@ -32,7 +32,7 @@ if (!is_user_logged_in()) {
 if (count($incomingWars) < 1) {
     update_user_meta($user_ID, 'status', 'dead');
 
-    $_SESSION['status'] = 'Account has been reset, madafaka';
+    $_SESSION['status'] = 'Account has been reset.';
     wp_redirect(get_permalink(3486));
     exit;
 } else {

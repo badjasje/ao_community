@@ -34,7 +34,7 @@ if($totalturns < 25){
 	}
 update_user_meta( $user_ID, 'turns',$totalturns-25);
 
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 
 $startingbonus = get_user_meta($user_ID, 'starting_bonus',true);
 $research_reduce = 1;

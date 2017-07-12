@@ -32,7 +32,7 @@ if($declarer_ID == $clan_leader || $ct_1 || $ct_2 || $ct_3 || $ct_4 ){
 $declared_on = get_post_meta($_GET['war'], 'declared_on', true);
 $def_clan_leader = get_post_meta($declared_on, 'clan_leader', true);
 
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 $args = array(	
 	'post_title'    => 'PEACE',
 	'post_status'   => 'publish',

@@ -82,7 +82,7 @@ get_header(); ?>
 					
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon" id="sizing-addon3"><i class="fa fa-user-o" aria-hidden="true"></i></span>
-						<input <?php echo $disable_input;?> value="<?php echo $user->display_name;?>" type="text" class="form-control" placeholder="Username" name="username" aria-describedby="sizing-addon3">
+						<input <?php echo $disable_input;?> maxlength="25" value="<?php echo $user->display_name;?>" type="text" class="form-control" placeholder="Username" name="username" aria-describedby="sizing-addon3">
 					</div>
 					</div>
 				</div>

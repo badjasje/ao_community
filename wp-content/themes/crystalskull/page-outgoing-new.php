@@ -98,7 +98,7 @@ if ( $custom_query->have_posts() ) :
 	$def_tot_buildingslost = get_post_meta($event_ID,'total_buildings_lost',true);
 	
 	$timeattacked = get_post_meta($event_ID,'time_attacked',true);
-	$timestamp = strtotime(date('Y-m-d H:i:s'));
+	$timestamp = current_time('timestamp');
 	
 	$landlost = get_post_meta($event_ID,'land_lost',true);
 	$moneylost = get_post_meta($event_ID,'money_lost',true);

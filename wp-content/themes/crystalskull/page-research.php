@@ -143,7 +143,7 @@ get_header(); ?>
 		</div>
 		
 		<div class="col-md-2">
-			<?php if($research_in_progress == '0' && $research_queued == '0'):?>
+			<?php if($research_in_progress == '0' && $research_queued == '0' || empty($research_queued)):?>
 				<?php if($research['maxlevel'] != $current):?>
 				<input style="display:none;" type="radio" name="research" id="<?php echo $key;?>" value="<?php echo $key;?>" required >
 				<label class="btn btn-general selectResearch" for="<?php echo $key;?>">Select</label>

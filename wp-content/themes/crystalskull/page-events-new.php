@@ -203,7 +203,7 @@ if ( $custom_query->have_posts() ) :
 	
 	
 	$timeattacked = get_post_meta($event_ID,'time_attacked',true);
-	$timestamp = strtotime(date('Y-m-d H:i:s'));
+	$timestamp = current_time('timestamp');
 	$attack_type = get_post_meta($event_ID,'attacktype',true);
 	$winner_id = get_post_meta($event_ID,'winner_id',true);
 	

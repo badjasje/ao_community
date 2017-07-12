@@ -24,7 +24,7 @@ if ( !is_user_logged_in() ) {
 	wp_redirect(get_permalink(3582)); exit;
 	}
 $declarer_clan_ID = get_user_meta($declarer_ID, 'clan_id_user');
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 $def_clan_leader = get_post_meta($_GET['clan'], 'clan_leader', true);
 
 $args = array(

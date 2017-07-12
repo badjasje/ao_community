@@ -92,7 +92,7 @@ foreach ($users as $user) {
 				/* Delete research post */
 				wp_trash_post($research->ID);
 				
-		$queued_research = get_user_meta($user_ID, 'queued_research')[0];
+		$queued_research = get_user_meta($user_ID, 'queued_research',true);
 		
 		if(!empty($queued_research) || $queued_research != 0){
 		
