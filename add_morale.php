@@ -39,7 +39,7 @@ function AddMorale($userId, $moraleIncome) {
     if ($takeFromPool) {
         update_user_meta($userId, 'morale_pool', $moralePool - 5);
     }
-    if ($takeFromPool === false && $currentMorale > 95){
+    if ($takeFromPool === false && $currentMorale > 95 && $moralePool < 100){
         update_user_meta($userId, 'morale_pool', min($moralePool+5,100));
     }
 
