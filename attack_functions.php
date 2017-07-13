@@ -10,6 +10,8 @@
 	Returns:
 		war_type : 'mutual', 'outgoing', 'incoming', 'none'
 */
+include('constants.php');
+
 function get_war_type($attack_clan_id, $defend_clan_id) {
 	/* check for clan war to determine points multiplier */
 	$outgoing_war = false;
@@ -170,32 +172,33 @@ function get_attack_cost_morale($attack_type, $attack_nw, $defend_nw) {
            $MORALE_THIEF, $MORALE_SPY;
 
     $targetIsBigger = $attack_nw < $defend_nw;
-    $moraleCost = 0;
+
     switch (strtolower($attack_type)) {
         case 'missile':
-            $moraleCost = $targetIsBigger ? $MORALE_MISSILE_TGT_ABOVE : $MORALE_MISSILE_TGT_BELOW
+            return $targetIsBigger ? $MORALE_MISSILE_TGT_ABOVE : $MORALE_MISSILE_TGT_BELOW;
             break;
         case 'thief':
-            $moraleCost = $MORALE_THIEF;
+            return $MORALE_THIEF;
             break;
         case 'spy':
-            $moraleCost = $MORALE_SPY;
+            return $MORALE_SPY;
             break;
         case 'air_sea':
-            $moraleCost = $targetIsBigger ? $cost_arr['morale'] = $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
+            return $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
             break;
         case 'regular':
-            $moraleCost = $targetIsBigger ? $cost_arr['morale'] = $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
+            return $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
             break;
         case 'ground':
-            $moraleCost = $targetIsBigger ? $cost_arr['morale'] = $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
+            return $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
             break;
-        default:
-            /* unrecognized type */
-            $cost_arr['turns'] = 0;
-            $cost_arr['morale'] = 0;
+        case 'regular':
+            return $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
+            break;
+        case 'ground':
+            return $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
+            break;
     }
-    return $moraleCost;
 };
 
 function get_attack_cost_turns($attack_type) {
@@ -206,7 +209,7 @@ function get_attack_cost_turns($attack_type) {
         return $TURNS_SPY;
     if (strtolower($attack_type) == 'missile')
         return $TURNS_MISSILE;
-    if (strtolower($attack_type) == 'air_sea' || 'regular' || 'ground'||)
+    if (strtolower($attack_type) == 'air_sea' || 'regular' || 'ground')
         return $TURNS_ATTACK;
 };
 

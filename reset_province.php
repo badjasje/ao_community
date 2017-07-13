@@ -13,7 +13,7 @@ $clanId = get_user_meta($userId, 'clan_id_user');
 $incomingWars = get_posts(array(
     'numberposts' => -1,
     'post_type' => 'wars',
-    'meta_key' => 'declared_by',
+    'meta_key' => 'declared_on',
     'meta_value' => $clanId[0]
         ));
 
