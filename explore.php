@@ -40,16 +40,10 @@ elseif ($perturnm2 < 25) {
 $freeland = get_user_meta($user_ID, 'builtland')[0]/$ownedland[0];
 
 
-if($_POST['turns'] < 1){
+if($_POST['turns'] < 1 || !is_numeric(($_POST['turns']))){
 	$_SESSION['status'] = 'Enter a valid number';
 	wp_redirect($exploreUrl); exit;
 	}
-
-if(!is_numeric($_POST['turns'])){
-	$_SESSION['status'] = 'Enter a valid number';
-	wp_redirect($exploreUrl); exit;
-	}
-
 
 if($perturnm2 <0){
 	$_SESSION['status'] = 'No more exploring possible';
