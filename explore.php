@@ -40,7 +40,7 @@ elseif ($perturnm2 < 25) {
 $freeland = get_user_meta($user_ID, 'builtland')[0]/$ownedland[0];
 
 
-if($_POST['turns'] < 0){
+if($_POST['turns'] < 1){
 	$_SESSION['status'] = 'Enter a valid number';
 	wp_redirect($exploreUrl); exit;
 	}
