@@ -136,10 +136,9 @@ if ($war_type == 'mutual' && $timestamp < $join_timestamp && $in_range != true) 
 }
 
 /* determine if attacker has required resourced */
-$turnCost = get_attack_cost_turns($attacktype);
-$moraleCost = get_attack_cost_morale($attacktype, $networth_att, $networth_def);
+$cost_arr = get_attack_cost($attacktype, $networth_att, $networth_def);
 /* check morale */
-if ($moraleCost+$extra_morale_cost > $morale) {
+if ($cost_arr['morale']+$extra_morale_cost > $morale) {
 	$_SESSION['status'] = 'Insufficient morale';
 	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
@@ -153,7 +152,7 @@ if (100 > $sat_morale) {
 }}
 
 /* check turns */
-if ($turnCost > $turns) {
+if ($cost_arr['turns'] > $turns) {
 	$_SESSION['status'] = 'Not enough turns';
 	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
