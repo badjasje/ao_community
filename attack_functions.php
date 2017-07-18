@@ -12,6 +12,50 @@
 */
 include('constants.php');
 
+
+function calculate_pts ($unit_damage, $bld_damage, $aggressive_multi) {
+	//MEGA 2017-07-18
+
+	if ($unit_damage == 0) {
+		//As you cant sqrt 0
+		$unit_damage = 0.01;
+	} 
+	if ($bld_damage == 0) {
+		//As you cant sqrt 0
+		$bld_damage = 0.01;
+	}
+	
+	//Because log(10)+log(10) is more than log(20), we need to merge the damage from uk and bk at the outset!
+	$damage = $bld_damage + $unit_damage;	
+	
+	if ($damage < 1101) {
+		$multiplier = 0.4;
+		// To award 1 pt, not 2, for very low attacks. Slowly tiers up to when the normal numbers take over.
+	}
+	elseif ($damage < 1501) {
+		$multiplier = 0.55;
+	}
+	elseif ($damage < 1901) {
+		$multiplier = 0.76;
+	}
+	else {
+		$multiplier = 1.15;
+	}
+
+	$random_factor = (mt_rand(94,106)/100); //Set randomness
+
+	$pts_gained =  ((((sqrt($damage)*log($damage))/100)*$multiplier)*$random_factor)*$aggressive_multi; //Calculate the points! 
+	$pts = ceil ($pts_gained);	 //Round to higher number
+
+	if($pts > $POINTS_CAP) {
+		$pts = $POINTS_CAP;  // If more than max, set to max!
+	}	
+	
+	return $pts;
+	
+}
+
+
 function get_war_type($attack_clan_id, $defend_clan_id) {
 	/* check for clan war to determine points multiplier */
 	$outgoing_war = false;
