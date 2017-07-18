@@ -14,8 +14,10 @@ include('constants.php');
 
 
 function calculate_pts ($unit_damage, $bld_damage, $aggressive_multi) {
+	
 	//MEGA 2017-07-18
 
+	global $POINTS_CAP;
 	if ($unit_damage == 0) {
 		//As you cant sqrt 0
 		$unit_damage = 0.01;
