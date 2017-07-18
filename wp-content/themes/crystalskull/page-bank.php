@@ -4,6 +4,7 @@
  */
 include 'interest_array.php';
 $user_ID = get_current_user_id();
+update_user_meta($user_ID, 'user_lock', 0);
 $banklevel = get_user_meta($user_ID, 'level_bank_management',true);
 $money = get_user_meta($user_ID, 'money',true);
 $timestamp = current_time('timestamp');

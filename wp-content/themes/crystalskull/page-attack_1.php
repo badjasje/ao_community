@@ -4,6 +4,7 @@
  */
 
 $user_ID = get_current_user_id();
+update_user_meta($user_ID, 'user_lock', 0);
 $networth = get_user_meta($user_ID, 'networth',true);
 $status = get_user_meta($user_ID, 'status',true);
 include 'constants.php';

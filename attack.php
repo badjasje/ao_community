@@ -20,7 +20,7 @@ nocache_headers();
 
 /* initialize core variables */
 $user_ID = get_current_user_id(); 
-
+update_user_meta($user_ID, 'user_lock', 0);
 if ( ! defined( 'ABSPATH' ) ) exit; 
 if(empty($user_ID)){
 	wp_redirect(get_permalink(3582)); exit;

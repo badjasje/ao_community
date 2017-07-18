@@ -32,6 +32,15 @@ if($_POST['amount'] <= 0){
 /* Get some important variables */
 $user_ID = get_current_user_id(); 
 
+$userLock = get_user_meta($user_ID, 'user_lock', true);
+
+if($userLock == 1){
+	update_user_meta($user_ID, 'user_lock', 0);
+	$_SESSION['status'] = 'Please try again.';
+	wp_redirect(get_permalink(3582));
+}
+update_user_meta($user_id, 'user_lock', 1);
+
 if ( ! defined( 'ABSPATH' ) ) exit; 
 if(empty($user_ID)){
 	wp_redirect(get_permalink(3582)); exit;
@@ -148,9 +157,8 @@ $RELEASE_DATE = $timestamp+($_POST['days']*86400);
 			update_user_meta($user_ID,'total_deposits',$deposits[0]+1);
 	
 	/* return to banking page succesful */
+	update_user_meta($user_ID, 'user_lock', 0);
 	$_SESSION['status'] = 'Deposit placed';wp_redirect(get_permalink(3953));exit;
 	
 }
 }
-
-

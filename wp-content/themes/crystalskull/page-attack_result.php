@@ -12,6 +12,16 @@ $attacking_units = $_POST;
 
 /* retrieve attacker user data */
 $user_id = get_current_user_id();
+
+$userLock = get_user_meta($user_id, 'user_lock', true);
+
+if($userLock == 1){
+	update_user_meta($user_id, 'user_lock', 0);
+	$_SESSION['status'] = 'Please try again.';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
+}
+update_user_meta($user_id, 'user_lock', 1);
+
 $user_data = get_user_meta($user_id);
 
 $attack_nw = $user_data['networth'][0];
@@ -1218,7 +1228,7 @@ update_user_meta($user_id, 'last_attacked', $target_id.','.$last_ids);
 
 count_all_stats($target_id);
 count_all_stats($user_id);
-
+update_user_meta($user_id, 'user_lock', 0);
 ?>
 
             
