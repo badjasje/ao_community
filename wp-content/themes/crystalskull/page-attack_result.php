@@ -802,6 +802,9 @@ if($war_type != 'none' && $result == 'success') {
 
 	$defender_networth = get_user_meta($target_id, 'networth')[0];
 	if ($killed != true) {
+		
+		/*
+		
 		$building_CP = 0;
 		$unit_CP = 0;
 		
@@ -842,11 +845,14 @@ if($war_type != 'none' && $result == 'success') {
 		if($clan_points < 1){
 			$clan_points = 1;
 		}
+		
 		$clan_points = ceil($clan_points);
-		/* points cap */
-		if($clan_points > $POINTS_CAP) {
-			$clan_points = $POINTS_CAP;
-		}
+		 points cap */
+		
+		//Call MEGAs new function 2017-07-18
+		$clan_points = calculate_pts($defender_building_NW_lost,$defender_unit_NW_lost,$aggressive_multi);
+		
+
 	}
 	
 	/* determine points multiplier due to war */

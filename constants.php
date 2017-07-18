@@ -62,7 +62,7 @@ $SPECIAL_UNITS = array('spyplane', 'thief', 'spy','sniper');
 
 /* damage reduction factor */
 $DAMAGE_REDUCTION_FACTOR_UNIT = 25;
-$DAMAGE_REDUCTION_FACTOR_BLD = 12;
+$DAMAGE_REDUCTION_FACTOR_BLD = 13;
 
 /* points calculation constants */
 $POINTS_NET_WEIGHT = 200;
