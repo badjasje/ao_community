@@ -6,6 +6,7 @@
 include('startingbonus_array.php');
 
 $user_ID 					= get_current_user_ID();
+update_user_meta($user_ID, 'user_lock', 0);
 $new_events 				= get_user_meta($user_ID, 'new_events',true);
 $new_messages 				= get_user_meta($user_ID, 'new_messages',true);
 $user_status 				= get_user_meta($user_ID, 'status',true);

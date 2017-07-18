@@ -39,7 +39,7 @@ if($userLock == 1){
 	$_SESSION['status'] = 'Please try again.';
 	wp_redirect(get_permalink(3582));
 }
-update_user_meta($user_id, 'user_lock', 1);
+update_user_meta($user_ID, 'user_lock', 1);
 
 if ( ! defined( 'ABSPATH' ) ) exit; 
 if(empty($user_ID)){

@@ -19,6 +19,15 @@ nocache_headers();
 /* initialize core variables */
 $user_ID = get_current_user_id(); 
 
+$userLock = get_user_meta($user_ID, 'user_lock', true);
+
+if($userLock == 1){
+	update_user_meta($user_ID, 'user_lock', 0);
+	$_SESSION['status'] = 'Please try again.';
+	wp_redirect(get_permalink(3582));
+}
+update_user_meta($user_ID, 'user_lock', 1);
+
 if ( ! defined( 'ABSPATH' ) ) exit; 
 if(empty($user_ID)){
 	wp_redirect(get_permalink(3582)); exit;
@@ -67,7 +76,7 @@ if($bonustype == 'shipping'){
 
 
 
-
+update_user_meta($user_ID, 'user_lock', 0);
 $_SESSION['status'] = 'Starting bonus picked';
 wp_redirect(get_permalink(3486));exit;
 
