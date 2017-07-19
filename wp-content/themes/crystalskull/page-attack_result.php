@@ -598,9 +598,9 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 			if($maintarget != 'none'){
 				
 				if($maintarget == $buildings[$key]['targetname']){
-					$killed = round($killed*$defender_loss_decrease*1.35);
+					$killed = round($killed*$defender_loss_decrease*1.20);
 					}else{
-					$killed = round($killed*$defender_loss_decrease*0.60);	
+					$killed = round($killed*$defender_loss_decrease*0.80);	
 				}
 					
 				

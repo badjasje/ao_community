@@ -266,7 +266,7 @@ $buildings = array(
 			'type'			=>	'bds',
 			'powerprod'		=>	3000,
 			'power'			=> 	0,
-			'life'			=>	125),
+			'life'			=>	135),
 	
 	'advancedpowerplant' => array(
 			'price'			=>	'1300',
@@ -279,7 +279,7 @@ $buildings = array(
 			'type'			=>	'bds',
 			'powerprod'		=>	15000,
 			'power'			=> 	0,
-			'life'			=>	50),
+			'life'			=>	60),
 	
 	'torpedolauncher'	=> array(
 			'price'			=>	'1580',
