@@ -5,9 +5,19 @@
 include 'DO_NOT_DELETE.php';
 
 
+$user_ID = get_current_user_id();
+
+
 $attacking_units 	= 		$_POST;
 $defender_ID     	= 		$_SESSION['target_id'];
 $target_id 			= 		$_SESSION['target_id'];
+
+$userLock = get_user_meta($user_ID, 'user_lock', true);
+
+if($userLock == 1){
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
+}
+update_user_meta($user_ID, 'user_lock', 1);
 
 $shotdown			= 		false;
 $AMS 		= 	get_user_meta($defender_ID, 'antimissile', true);
@@ -68,7 +78,7 @@ $_total_inf_units_att = 0;
 $_total_veh_units_att = 0;
 $_total_sea_units_att = 0;
 
-$user_ID = get_current_user_id();
+
 $networth_att = get_user_meta($user_ID, 'networth',true);
 $turns = get_user_meta($user_ID, 'turns',true);
 $networth_def = get_user_meta($defender_ID, 'networth',true);
@@ -1006,6 +1016,7 @@ update_post_meta($attacker_clan_ID, 'war_array', $war_array_att);
 
 count_all_stats($target_id);
 count_all_stats($user_ID);
+update_user_meta($user_ID, 'user_lock', 0);
 ?>
 
             

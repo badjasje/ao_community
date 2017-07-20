@@ -35,6 +35,14 @@ $_total_sea_units_att = 0;
 $user_ID = get_current_user_id();
 $winner_ID = $user_ID;
 
+
+$userLock = get_user_meta($user_ID, 'user_lock', true);
+
+if($userLock == 1){
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
+}
+update_user_meta($user_ID, 'user_lock', 1);
+
 $turns = get_user_meta($user_ID, 'turns',true);
 
 /* check if user has enough turns */
@@ -484,6 +492,7 @@ foreach ($clan_members[0] as $member) {
 }}
 count_all_stats($defender_ID);
 count_all_stats($user_ID);
+update_user_meta($user_ID, 'user_lock', 0);
 ?>
 
             
