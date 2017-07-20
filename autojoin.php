@@ -52,7 +52,7 @@ if($clan_ID != 0){
 	wp_redirect(get_permalink(3601)); exit;
 	
 }
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 
 $args = array(	
 	'post_title'    => 'Clan member joined a clan: '.$user,

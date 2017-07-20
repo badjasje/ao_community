@@ -78,7 +78,7 @@ $args = array(
 	
 $units = get_posts( $args ); 
 
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 	
 	foreach ($units as $order) {
 		$units_in_this_order = get_post_meta($order->ID,'amount_ordered',true);
@@ -181,7 +181,7 @@ $timestamp = strtotime(date('Y-m-d H:i:s'));
 		<?php if($sat_owned != '0'):?>
 		<div class="notice_message"><span class="rdw-line">You currently own a <?php echo $satellites[$sat_owned]['name'];?></span>
 		<?php 
-			$timestamp = strtotime(date('Y-m-d H:i:s'));
+			$timestamp = current_time('timestamp');
 			
 			$timeleft = $sat_endlife-$timestamp;
 			if($timeleft >= 0){

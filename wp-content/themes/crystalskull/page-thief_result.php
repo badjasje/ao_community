@@ -213,7 +213,7 @@ $attempts_received = get_user_meta($defender_ID, 'attempts_received', true);
 update_user_meta($defender_ID, 'attempts_received', $attempts_received+1);
 
 ////// CREATE EVENT POST ////////////
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 $args = array(	
 		'post_title'    => 'Thieving done by '.$user_ID.' Defender: '.$defender_ID,
 		'post_status'   => 'publish',

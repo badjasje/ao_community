@@ -88,7 +88,7 @@ $event_count = get_user_meta($receiver, 'new_events',true);
 update_user_meta($receiver, 'new_events', $event_count + 1);
 
 /* Create event */
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 $args = array(	
 	'post_title'    => 'Aid sent by '.$user_ID.' Receiver: '.$receiver,
 	'post_status'   => 'publish',

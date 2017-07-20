@@ -38,7 +38,7 @@ $args = array(
 				'post_type'		=> 'clan',
 				'post_author'   => $user_ID
 				);
-				$timestamp = strtotime(date('Y-m-d H:i:s'));
+				$timestamp = current_time('timestamp');
 			
 			$new_order_id = wp_insert_post( $args );
 			update_field('clan_tag', $_POST['clantag'], $new_order_id);

@@ -208,7 +208,7 @@ $user = get_userdata($user_ID);
 						<th scope="row">
 							<?php if($user_status[0] =='nukeprotection'):
 								
-								$timestamp = strtotime(date('Y-m-d H:i:s'));	                                                                                                                            
+								$timestamp = current_time('timestamp');	                                                                                                                            
 								$timeleft = $nuke_protection_timestamp[0]-$timestamp;
 								$timer_left = $nuke_protection_timestamp[0]-$timestamp;								                                                                                                                        
 									                                                                                                                                
@@ -361,7 +361,7 @@ setInterval(updateETime, 1000 );
 								    );
 								    $units = get_posts( $args ); 
 
-								    $timestamp = strtotime(date('Y-m-d H:i:s'));
+								    $timestamp = current_time('timestamp');
 								    
 								    foreach ($units as $order) {
 								        $units_in_this_order = get_post_meta($order->ID,'amount_ordered',true);

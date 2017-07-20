@@ -6,7 +6,7 @@ include 'research_array.php';
 $user_ID = get_current_user_id();
 $research_in_progress = get_user_meta($user_ID, 'research_in_progress',true);
 $research_queued = get_user_meta($user_ID, 'queued_research',true);
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 $startingbonus = get_user_meta($user_ID, 'starting_bonus',true);
 $research_reduce = 1;
 

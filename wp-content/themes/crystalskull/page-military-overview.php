@@ -37,7 +37,7 @@ $args = array(
 	);
 $orders = get_posts( $args ); 
 	
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 
 
 

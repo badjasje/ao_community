@@ -49,7 +49,7 @@ get_header(); ?>
 	);
 	$units = get_posts( $args ); 
 
-	$timestamp = strtotime(date('Y-m-d H:i:s'));
+	$timestamp = current_time('timestamp');
 	
 	foreach ($units as $order) {
 		$units_in_this_order = get_post_meta($order->ID,'amount_ordered',true);

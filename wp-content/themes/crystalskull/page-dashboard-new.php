@@ -127,7 +127,7 @@ get_header(); ?>
 			<?php if($user_status =='nukeprotection'):?>
 			
 			<?php
-				$timestamp = strtotime(date('Y-m-d H:i:s'));	                                                                                                                            
+				$timestamp = current_time('timestamp');	                                                                                                                            
 				$timeleft = $nuke_protection_timestamp-$timestamp;
 				$timer_left = $nuke_protection_timestamp-$timestamp;								                                                                                                                        
 									                                                                                                                                
@@ -381,7 +381,7 @@ get_header(); ?>
 			<?php if($user_status =='nukeprotection'):?>
 			
 			<?php
-				$timestamp = strtotime(date('Y-m-d H:i:s'));	                                                                                                                            
+				$timestamp = current_time('timestamp');	                                                                                                                            
 				$timeleft = $nuke_protection_timestamp-$timestamp;
 				$timer_left = $nuke_protection_timestamp-$timestamp;								                                                                                                                        
 									                                                                                                                                
@@ -609,7 +609,7 @@ get_header(); ?>
 				$units = get_posts( $args ); 
 				$NrOrders = count($units);
 
-				$timestamp = strtotime(date('Y-m-d H:i:s'));
+				$timestamp = current_time('timestamp');
 				$count = 0;			    
 			    foreach ($units as $order) {
 				    $count++;

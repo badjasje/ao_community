@@ -68,7 +68,7 @@ if($user == $ct_4){
 
 update_post_meta($clan, 'clan_members', $clan_members);
 update_user_meta($user,'clan_id_user',0);
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 update_user_meta($user,'new_clan_timestamp',$timestamp+86400);
 
 $cp_lost = round(get_user_meta($user, 'current_clan_points', true)*0.25);

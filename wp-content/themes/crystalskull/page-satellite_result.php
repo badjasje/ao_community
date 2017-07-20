@@ -430,7 +430,7 @@ $userAttPts = get_user_meta($user_ID, 'current_clan_points',true);
 update_user_meta($user_ID, 'current_clan_points', $userAttPts+$clan_points);
 
 ////// CREATE EVENT POST ////////////
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 $args = array(	
 				'post_title'    => 'Satellite attack made by '.$user_ID.' Defender: '.$defender_ID,
 				'post_status'   => 'publish',

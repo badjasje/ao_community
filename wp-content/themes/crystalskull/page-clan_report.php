@@ -162,7 +162,7 @@ foreach ($units as $unit) {
 
 $attack_array = array_diff($attack_array,array('n.a',''));
 $attack_array = array_unique($attack_array);
-
+$timestamp = current_time('timestamp');
 $type_array = array();
 foreach ($units as $unit) {
 	foreach ($unitarray as $unitname => $amount) {

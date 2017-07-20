@@ -50,7 +50,7 @@ $discount_value = $discount-$shipping_discount;
 
 $enddate = get_field('end_date','option');
 $endstamp = strtotime($enddate);
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 $timeleft = $endstamp-$timestamp;
 
 get_header(); ?>

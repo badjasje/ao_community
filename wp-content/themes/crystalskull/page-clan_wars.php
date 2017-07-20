@@ -54,7 +54,7 @@ get_header(); ?>
 				
 				<?php foreach ($wars_on as $war){
 					$declared_on_ID = get_post_meta($war->ID, 'declared_on');
-					$timestamp = strtotime(date('Y-m-d H:i:s'));
+					$timestamp = current_time('timestamp');
 					
 				?>
 				<tr>
@@ -86,7 +86,7 @@ get_header(); ?>
 				
 				<?php foreach ($wars_by as $war){
 					$declared_on_ID = get_post_meta($war->ID, 'declared_by');
-					$timestamp = strtotime(date('Y-m-d H:i:s'));
+					$timestamp = current_time('timestamp');
 					
 				?>
 				<tr>

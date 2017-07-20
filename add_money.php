@@ -35,7 +35,7 @@ foreach ($users as $user) {
 	$money_new = $money + $money_income;
 
 	error_log("new money:".$money_new);
-	$timestamp = strtotime(date('Y-m-d H:i:s'));
+	$timestamp = current_time('timestamp');
 	$last_online = get_user_meta($user_ID, 'last_online', true);
 	$difference = $timestamp-$last_online;
 	if($difference < 259200){

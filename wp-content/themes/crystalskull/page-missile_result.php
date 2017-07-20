@@ -863,7 +863,7 @@ if($clan_points < 1){
 
 
 ////// CREATE EVENT POST ////////////
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 $args = array(	
 				'post_title'    => 'Missile launched by '.$user_ID.' Defender: '.$defender_ID,
 				'post_status'   => 'publish',

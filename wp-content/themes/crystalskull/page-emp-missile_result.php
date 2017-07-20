@@ -385,7 +385,7 @@ update_field('deduction_emp',15, $new_emp_id);
 
 
 ////// CREATE EVENT POST ////////////
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 $args = array(	
 				'post_title'    => 'EMP Missile launched by '.$user_ID.' Defender: '.$defender_ID,
 				'post_status'   => 'publish',

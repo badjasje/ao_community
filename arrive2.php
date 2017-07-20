@@ -4,7 +4,7 @@
 		
 if(get_field('game_status','option') == 'Live'){
 	
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 
 $args = array(
 	'posts_per_page'   => -1,

@@ -148,7 +148,7 @@ $user = get_userdata($user_ID);
 		$last_online = get_user_meta($user__ID, 'last_online',true);
 				
 				if(!empty($last_online)){ 
-					$timestamp = strtotime(date('Y-m-d H:i:s'));
+					$timestamp = current_time('timestamp');
 					$last_seen = $timestamp - $last_online;
 					}?>
 			<?php echo $user->display_name;?> (#<?php echo $user__ID;?>) 

@@ -238,7 +238,7 @@ update_user_meta($user_ID, 'sniper_owned', $attSnipers-$attackerLost);
 	
 
 ////// CREATE EVENT POST ////////////
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 $args = array(	
 				'post_title'    => 'Snipers sent by '.$user_ID.' Defender: '.$defender_ID,
 				'post_status'   => 'publish',

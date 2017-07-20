@@ -27,7 +27,7 @@ if( function_exists('acf_add_options_page') ) {
 
 
 function users_last_login() {
-	$timestamp = strtotime(date('Y-m-d H:i:s'));
+	$timestamp = current_time('timestamp');
     
     $userinfo = wp_get_current_user();
     update_user_meta( $userinfo->ID, 'last_online', $timestamp-7200 );
@@ -72,7 +72,7 @@ if($user_status[0] == 'dead'){
 	
 	after_death($user_ID);
 	update_user_meta($user_ID, 'status', 'nukeprotection');
-	$timestamp = strtotime(date('Y-m-d H:i:s'));
+	$timestamp = current_time('timestamp');
 	update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
 }}
 
@@ -1386,7 +1386,7 @@ $user_ID = get_current_user_id();
 count_all_stats($user_ID);
 
 }
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 update_user_meta( $user_ID,'last_online',$timestamp);
 }
 

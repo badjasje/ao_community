@@ -6,7 +6,7 @@ include 'DO_NOT_DELETE.php';
 include('attack_functions.php');
 include 'units_array.php';
 include 'constants.php';
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 $attacking_units = $_POST;
 $defender_ID     = $_SESSION['target_id'];
 

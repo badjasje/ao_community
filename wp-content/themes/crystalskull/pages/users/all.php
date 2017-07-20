@@ -18,7 +18,7 @@
 <div id="values2">
 	
 	<?php 
-
+	$timestamp = current_time('timestamp');
 	$NRmembers = count($allUsers);
 	$counter = 0;
 	foreach ($allUsers as $allUser) {

@@ -38,7 +38,7 @@ if($sat_morale < 100){
 	wp_redirect(get_permalink(8578)); exit;
 }
 
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 
 update_user_meta($user_ID, 'stealth_sat_status', 'active');
 update_user_meta($user_ID, 'stealth_sat_time', $timestamp+3600*3.5);

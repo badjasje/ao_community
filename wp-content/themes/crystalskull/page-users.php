@@ -13,7 +13,7 @@ $networth_you = get_user_meta($user_ID, 'networth',true);
 include 'constants.php';
 
 
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">

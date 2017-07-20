@@ -4,7 +4,7 @@
 	require( dirname(__FILE__) . '/wp-load.php' );
 	
 if(get_field('game_status','option') == 'Live'){
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 	
 $users = get_users();
 foreach ($users as $user) {
@@ -156,7 +156,7 @@ foreach ($users as $user) {
 
 include 'bonus_array.php';
 	
-	$timestamp = strtotime(date('Y-m-d H:i:s'));
+	$timestamp = current_time('timestamp');
 	$args = array(
 		
 		'post_type'		=>	'clan',

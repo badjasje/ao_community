@@ -66,7 +66,7 @@ if($user == $ct_4){
 }
 update_post_meta($clan, 'clan_members', $clan_members);
 update_user_meta($user,'clan_id_user',0);
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 update_user_meta($user,'new_clan_timestamp',$timestamp+86400);
 
 $previous_members = get_post_meta($clan,'previous_members');
@@ -76,7 +76,7 @@ $previous_members[] = $user;
 update_post_meta($clan, 'previous_members', $previous_members);
 
 /* user kicked event */
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 
 $args = array(	
 	'post_title'    => 'Clan member kicked: '.$user,

@@ -27,7 +27,7 @@ $invitekey = $_GET['invite'];
 $clan = $_GET['clan'];
 $clan_members = get_post_meta($_GET['clan'],'clan_members');
 $clan_leader = get_post_meta($clan,'clan_leader',true);
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 if(count($members[0]) >= 7){ 
 						wp_redirect(get_permalink(3601)); exit;
 					}

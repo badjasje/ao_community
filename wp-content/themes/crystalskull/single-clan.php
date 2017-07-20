@@ -33,7 +33,7 @@ $warcount = get_posts(array(
 
 $warcount = count($warcount);
 
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 
 if($declarer_clan_ID != 0){
 	$dec_clan_members = get_post_meta($declarer_clan_ID,'clan_members');

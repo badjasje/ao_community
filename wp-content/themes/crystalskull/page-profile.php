@@ -14,7 +14,7 @@ count_all_stats($user__ID);
 $user_NW = get_user_meta($user__ID, 'networth',true);
 $user_land = get_user_meta($user__ID, 'land',true);
 $clan_id = get_user_meta($user__ID, 'clan_id_user',true);
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 $clan_timestamp = get_user_meta($user__ID, 'new_clan_timestamp', true);
 
 

@@ -76,7 +76,7 @@ function networth_range($user_ID){
 
 
 function get_user_name($user_ID){
-	$timestamp = strtotime(date('Y-m-d H:i:s'));
+	$timestamp = current_time('timestamp');
 	$status = get_user_meta($user_ID,'status',true);
 	$last_online = get_user_meta($user_ID, 'last_online',true);
 	$member_data = get_userdata($user_ID);
@@ -951,7 +951,7 @@ update_user_meta($user_id, 'morale_pool', 100);
 update_user_meta($user_id, 'clan_id_user', 0);
 update_user_meta($user_id, 'new_events', 0);
 update_user_meta($user_id, 'status', 'nukeprotection');
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 update_user_meta($user_id, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
 update_user_meta($user_id, 'sat_in_progress', 0);
 update_user_meta($user_id, 'sat_owned', 0);
@@ -1335,7 +1335,7 @@ return $totalunits;
 
 function bonus_update(){
 	include 'bonus_array.php';
-	$timestamp = strtotime(date('Y-m-d H:i:s'));
+	$timestamp = current_time('timestamp');
 	$args = array(
 		
 		'post_type'		=>	'clan',

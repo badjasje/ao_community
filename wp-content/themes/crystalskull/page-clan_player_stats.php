@@ -48,6 +48,7 @@ get_header(); ?>
 	$NRmembers = count($clan_members[0]);
 	$counter = 0;
 	foreach ($clan_members[0] as $key => $member) {
+		$timestamp = current_time('timestamp');
 		$attacksMade = get_user_meta($member, 'in_war_attacks', true);
 		$pts = get_user_meta($member, 'user_clan_points',true);
 		$PPA = round($pts / $attacksMade,1);

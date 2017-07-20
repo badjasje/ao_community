@@ -85,7 +85,7 @@ get_header(); ?>
 						$att_tot_unitslost = get_post_meta($event_ID,'att_total_units_lost');
 						$def_tot_buildingslost = get_post_meta($event_ID,'total_buildings_lost');
 						$timeattacked = get_post_meta($event_ID,'time_attacked');
-						$timestamp = strtotime(date('Y-m-d H:i:s'));
+						$timestamp = current_time('timestamp');
 						$landlost = get_post_meta($event_ID,'land_lost');
 						$moneylost = get_post_meta($event_ID,'money_lost');
 						$attack_type = get_post_meta($event_ID,'attacktype', true);

@@ -11,7 +11,7 @@ if($sat_status == 'active'){
 
 $clan_defender_id = get_user_meta($defender_ID, 'clan_id_user', true);
 $clan_ID = get_user_meta($user_ID, 'clan_id_user', true);
-$timestamp = strtotime(date('Y-m-d H:i:s'));
+$timestamp = current_time('timestamp');
 
 $spytype = $_SESSION['attack_array']['sendspy'];
 $turns = get_user_meta($user_ID, 'turns',true);

@@ -22,7 +22,7 @@
 	$NRmembers = count($allUsers);
 	$counter = 0;
 	foreach ($allUsers as $allUser) {
-		
+		$timestamp = current_time('timestamp');
 		$user_ID = $allUser->ID;
 		$clan_id = get_user_meta($user_ID, 'clan_id_user',true);
 		$member_data = get_userdata($user_ID);
