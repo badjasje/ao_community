@@ -943,6 +943,67 @@ foreach ($clan_members_att[0] as $member_att) {
 }}
 
 
+$warcheck = get_posts(
+	array(
+		'numberposts'	=> -1,
+		'post_type'		=> 'wars',
+		'meta_query'	=> array(
+			'relation'		=> 'AND',
+			array(
+				'key'	 	=> 'declared_on',
+				'value'	  	=> array($clan_att,$defender_clan_ID),
+				'compare' 	=> 'IN',
+			),
+			array(
+				'key'	 	=> 'declared_by',
+				'value'	  	=> array($clan_att,$defender_clan_ID),
+				'compare' 	=> 'IN',
+			),
+		),
+	)
+);
+
+$warstatID = get_post_meta($warcheck[0]->ID, 'war_array_id', true);
+
+
+// Update war stats array for defender clan
+$war_array_def = get_post_meta($defender_clan_ID, 'war_array', true);
+$war_array_def[$warstatID]['nw_dmg_rec'] += $def_NW_lost;
+$war_array_def[$warstatID]['missiles_received'] += 1;
+if($result == 'success'){
+	$war_array_def[$warstatID]['missiles_hit_def'] += 1;
+}
+
+if($killed == true){
+	$war_array_def[$warstatID]['deaths'] += 1;
+}
+
+$war_array_def[$warstatID]['bds_lost'] += $def_lostbuildings_tot;
+$war_array_def[$warstatID]['units_lost'] += $def_lostunits_tot;
+
+update_post_meta($defender_clan_ID, 'war_array', $war_array_def);
+
+
+
+// Update war stats array for attacker clan
+$war_array_att = get_post_meta($attacker_clan_ID, 'war_array', true);
+$war_array_att[$warstatID]['nw_dmg_done'] += $def_NW_lost;
+$war_array_att[$warstatID]['clan_points'] += $clan_points;
+$war_array_att[$warstatID]['missiles_sent'] += 1;
+if($result == 'success'){
+	$war_array_att[$warstatID]['missiles_hit_att'] += 1;
+}
+$war_array_att[$warstatID]['bds_killed'] += $def_lostbuildings_tot;
+$war_array_att[$warstatID]['units_killed'] += $def_lostunits_tot;
+
+if($killed == true){
+	$war_array_def[$warstatID]['kills'] += 1;
+}
+
+update_post_meta($attacker_clan_ID, 'war_array', $war_array_att);
+
+
+
 count_all_stats($target_id);
 count_all_stats($user_ID);
 ?>

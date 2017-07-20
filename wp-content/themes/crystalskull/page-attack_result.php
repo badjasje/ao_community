@@ -16,8 +16,6 @@ $user_id = get_current_user_id();
 $userLock = get_user_meta($user_id, 'user_lock', true);
 
 if($userLock == 1){
-	update_user_meta($user_id, 'user_lock', 0);
-	$_SESSION['status'] = 'Please try again.';
 	wp_redirect(get_permalink(3360).'?id='.$target_id);
 }
 update_user_meta($user_id, 'user_lock', 1);
@@ -450,14 +448,40 @@ if($tomahawksSent > 0){
 
 update_user_meta($user_id, 'tomahawk_owned', $tomahawks-$tomahawksSent);
 
+// Check if there are wars for statistic counting
+
+$warcheck = get_posts(
+	array(
+		'numberposts'	=> -1,
+		'post_type'		=> 'wars',
+		'meta_query'	=> array(
+			'relation'		=> 'AND',
+			array(
+				'key'	 	=> 'declared_on',
+				'value'	  	=> array($attack_clan_id,$defend_clan_id),
+				'compare' 	=> 'IN',
+			),
+			array(
+				'key'	 	=> 'declared_by',
+				'value'	  	=> array($attack_clan_id,$defend_clan_id),
+				'compare' 	=> 'IN',
+			),
+		),
+	)
+);
+
+$warstatID = get_post_meta($warcheck[0]->ID, 'war_array_id', true);
 
 /* add statistics for defender and attacker */
 //attacker
 $attacks_made = get_user_meta($user_id, 'attacks_made', true);
 update_user_meta($user_id, 'attacks_made', $attacks_made+1);
+
 //defender
 $attacks_received = get_user_meta($target_id, 'attacks_received', true);
 update_user_meta($target_id, 'attacks_received', $attacks_received+1);
+
+
 
 
 /* calculate power usage */
@@ -1231,6 +1255,59 @@ update_user_meta($user_id, 'current_clan_points', $userAttPts+$clan_points);
 
 $last_ids = get_user_meta($user_id, 'last_attacked', true);
 update_user_meta($user_id, 'last_attacked', $target_id.','.$last_ids);
+
+
+
+$war_array_def = get_post_meta($defend_clan_id, 'war_array', true);
+$war_array_def[$warstatID]['attacks_received'] += 1;
+$war_array_def[$warstatID]['nw_dmg_rec'] += $defender_networth_lost;
+$war_array_def[$warstatID]['bds_lost'] += $defender_buildings_lost;
+$war_array_def[$warstatID]['units_lost'] += $defender_units_lost;
+$war_array_def[$warstatID]['land_lost'] += $land_stolen;
+$war_array_def[$warstatID]['money_lost'] += $money_stolen;
+$war_array_def[$warstatID]['clan_points'] += $defender_points;
+
+if($killed == true){
+	$war_array_def[$warstatID]['deaths'] += 1;
+}
+
+if($result == 'failure'){
+	$war_array_def[$warstatID]['successfull_def'] += 1;
+}
+
+update_post_meta($defend_clan_id, 'war_array', $war_array_def);
+
+
+
+
+
+
+
+// Updating stats for war
+$war_array_att = get_post_meta($attack_clan_id, 'war_array', true);
+$war_array_att[$warstatID]['attacks_made'] += 1;
+if($result == 'success'){
+	$war_array_att[$warstatID]['successfull_att'] += 1;
+}
+
+$war_array_att[$warstatID]['nw_dmg_done'] += $defender_networth_lost;
+
+if($defender_networth_lost > $war_array_att[$warstatID]['highest_nw_dmg']){
+	$war_array_att[$warstatID]['highest_nw_dmg'] = $defender_networth_lost;
+	$war_array_att[$warstatID]['highest_dmg_id'] = $new_event_id;
+}
+
+$war_array_att[$warstatID]['bds_killed'] += $defender_buildings_lost;
+$war_array_att[$warstatID]['units_killed'] += $defender_units_lost;
+$war_array_att[$warstatID]['land_gained'] += $land_stolen;
+$war_array_att[$warstatID]['money_gained'] += $money_stolen;
+$war_array_att[$warstatID]['clan_points'] += $clan_points;
+
+if($killed == true){
+	$war_array_att[$warstatID]['kills'] += 1;
+}
+
+update_post_meta($attack_clan_id, 'war_array', $war_array_att);
 
 count_all_stats($target_id);
 count_all_stats($user_id);

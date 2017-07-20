@@ -3,27 +3,29 @@
  * Template Name: Clan Wars
  */
 $declarer_ID = get_current_user_ID();
-$declarer_clan_ID = get_user_meta($declarer_ID, 'clan_id_user');
-$clan_leader = get_post_meta($declarer_clan_ID[0], 'clan_leader');
+$declarer_clan_ID = get_user_meta($declarer_ID, 'clan_id_user',true);
+$clan_leader = get_post_meta($declarer_clan_ID, 'clan_leader',true);
 
- $ct_1 = get_post_meta($declarer_clan_ID[0],'ct_1')[0];
- $ct_2 = get_post_meta($declarer_clan_ID[0],'ct_2')[0];
- $ct_3 = get_post_meta($declarer_clan_ID[0],'ct_3')[0];
- $ct_4 = get_post_meta($declarer_clan_ID[0],'ct_4')[0];
+$war_array = get_post_meta($declarer_clan_ID, 'war_array', true);
 
-$clan_networth = get_post_meta($declarer_clan_ID[0], 'clan_networth', true);
+ $ct_1 = get_post_meta($declarer_clan_ID,'ct_1',true);
+ $ct_2 = get_post_meta($declarer_clan_ID,'ct_2',true);
+ $ct_3 = get_post_meta($declarer_clan_ID,'ct_3',true);
+ $ct_4 = get_post_meta($declarer_clan_ID,'ct_4',true);
+
+$clan_networth = get_post_meta($declarer_clan_ID, 'clan_networth', true);
 
  $wars_on = get_posts(array(
 	'numberposts'	=> -1,
 	'post_type'		=> 'wars',
 	'meta_key'		=> 'declared_by',
-	'meta_value'	=> $declarer_clan_ID[0]
+	'meta_value'	=> $declarer_clan_ID
 ));
 $wars_by = get_posts(array(
 	'numberposts'	=> -1,
 	'post_type'		=> 'wars',
 	'meta_key'		=> 'declared_on',
-	'meta_value'	=> $declarer_clan_ID[0]
+	'meta_value'	=> $declarer_clan_ID
 ));
 get_header(); ?>
 <div class="page normal-page">
@@ -63,7 +65,7 @@ get_header(); ?>
 					<td data-title="Duration"><?php echo human_time_diff( get_the_title($war->ID), $timestamp );?>
 					</td>
 					<td><?php if($timestamp-get_the_title($war->ID) > 86400){?>
-					<?php if($clan_leader[0] == $user_ID || $user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4):?>
+					<?php if($clan_leader == $user_ID || $user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4):?>
 					<a onclick="return confirm('Are you sure you want to declare peace?')" class="btn btn-general" href="/declare_peace.php/?war=<?php echo $war->ID;?>">DECLARE PEACE</a>
 					<?php endif;?>
 					
@@ -100,6 +102,45 @@ get_header(); ?>
 				<?php }?>
 			</table>
 			<?php endif;?>
+            
+<div class="row profile_block">	
+<div class="row clan_header_row ">
+	<div class="col-md-2"><strong>Date</strong></div>
+	<div class="col-md-3"><strong>War against</strong></div>
+	<div class="col-md-3"><strong>First declared by</strong></div>
+	<div class="col-md-1"><strong>Mutual?</strong></div>
+	<div class="col-md-3"></div>
+
+</div>
+
+<?php foreach ($war_array as $key => $war) {
+	$warred_clan =  array_shift(array_diff(array($war['declarer_id'],$war['receiver_id']), array($declarer_clan_ID)));
+	
+?>
+<div class="row clan_profile_row">
+	<div class="col-md-2"><?php echo date('H:i | d-m-Y', $war['date']);?></div>
+	<div class="col-md-3">
+		<a href="<?php echo get_the_permalink($warred_clan);?>"><?php echo get_the_title($warred_clan);?></a></div>
+	<div class="col-md-3">
+		<a href="<?php echo get_the_permalink($war['declarer_id']);?>"><?php echo get_the_title($war['declarer_id']);?></a>
+	</div>
+	<div class="col-md-1">
+		<?php if($war['mutual_date'] != 0):?>
+			Yes
+		<?php endif;?>
+	</div>
+	<div class="col-md-3">
+		<a class="btn btn-general profilebutton" href="/war-statistics/?id=<?php echo $key;?>">
+		 <i class="fa fa-graph" aria-hidden="true"></i> &nbsp;View statistics</a>
+	</div>
+
+
+</div>
+<?php }?>
+            
+            
+            
+            
             
             </div>
         </div>
