@@ -61,7 +61,7 @@ get_header(); ?>
 									<center><strong>Enter the amount of turns you wish to explore</strong></center>
 								</td>
 								<td>
-									<input class="small_input" type="text" id="turns" name="turns" value=""/>
+									<input pattern="[0-9]" type="number" class="small_input" type="text" id="turns" name="turns" value=""/>
 								</td>
 							</tr>
 						</table>
@@ -86,7 +86,7 @@ get_header(); ?>
 									<center><strong><span class="rdw-line-2">Enter the amount of land you wish to sell.</span> <span class="rdw-line-2">1 m<sup>2</sup> has a value of $ 75</span></strong></center>
 								</td>
 								<td>
-									<input class="small_input" type="text" id="land" name="land" value="" placeholder="For example: 2000"/>
+									<input pattern="[0-9]" type="number"  class="small_input" type="text" id="land" name="land" value="" placeholder="For example: 2000"/>
 								</td>
 							</tr>
 						</table>
