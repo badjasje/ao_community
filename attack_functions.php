@@ -439,7 +439,7 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
 
 			/* moved to kill code */
 			$dice_roll = attack_dice_roll();
-			$db_atk_power = $bld_count * $attack_power; // * $dice_roll;
+			$db_atk_power = $bld_count * $attack_power * 2.38; // 2.38 to counter reduction factors implemented
 			$attack_array[$target_type] += $db_atk_power;
 		}
 
@@ -614,10 +614,10 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
 	include('building_array.php');
 	include('constants.php');
 
-	$losses = array();
-	
-	foreach($unit_array as $type => $type_stats) {
+	$losses = array();		
 		
+	foreach($unit_array as $type => $type_stats) {
+
 		$attack_power = 0;
 		
 		if (array_key_exists($type, $attacker_type_power))
