@@ -146,7 +146,7 @@ get_header(); ?>
 
 <div class="row profile_block">
 	<div class="row bankHeader">
-		<div class="col-md-12">Outgoing</div>
+		<div class="col-md-12">Incoming</div>
 	</div>
 	
 	
