@@ -1,6 +1,6 @@
 <?php
-	/*
-	// DELETE FROM `assauu_db1`.`23zx_posts` WHERE `23zx_posts`.`post_type` = 'shop_order'   <- USE AS SQL COMMAND*/
+	
+	// DELETE FROM `assauu_db1`.`23zx_posts` WHERE `23zx_posts`.`post_type` = 'shop_order'   <- USE AS SQL COMMAND
 	/*
 	require_once("wp-load.php");
 	
@@ -23,7 +23,7 @@
 					
 					
 				$user_ID = $user->ID;
-				//update_user_meta($user_ID, 'reset_status', 0);
+				//update_user_meta($user_ID, 'reset_status', 0);}
 				
 				
 				
@@ -204,6 +204,7 @@ foreach ($clans as $clan) {
 	update_post_meta($clan->ID, 'cooldown_list', '');
 	update_post_meta($clan->ID, 'open_invites', '');
 	update_post_meta($clan->ID, '24h_nw_list', '');
+	update_post_meta($clan->ID, 'war_array', '');
 
 	
 	

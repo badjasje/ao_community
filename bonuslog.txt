@@ -118,3 +118,11 @@ New Money: 519929 Old turns: 159 | New Turns: 234
 User ID: 360 Event ID: 350750
 New Money: 521264.5 Old turns: 1 | New Turns: 76
 
+8:11:49 | 24-07-2017
+User ID: 402 Event ID: 405824
+New Money: 269786.6 Old turns: 16 | New Turns: 66
+
+10:44:38 | 24-07-2017
+User ID: 344 Event ID: 405820
+New Money: 287155.25 Old turns: 50 | New Turns: 100
+

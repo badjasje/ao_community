@@ -20,6 +20,12 @@ include 'research_array.php';
 
 /* Get necessary vars */
 $user_ID = get_current_user_id(); 
+
+if($userLock == 1){
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
+}
+update_user_meta($user_ID, 'user_lock', 1);
+
 $current_research = get_user_meta($user_ID, 'research_in_progress', true);
 if($current_research != 0){
 	wp_redirect(get_permalink(4837));exit;
@@ -59,5 +65,5 @@ $args = array(
 			
 			update_user_meta($user_ID, 'research_in_progress', $research);
 			
-			
+			update_user_meta($user_ID, 'user_lock', 0);
 			$_SESSION['status'] = $researches[$research]['name'].' research started';wp_redirect(get_permalink(4837));exit;

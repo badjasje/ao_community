@@ -1,7 +1,17 @@
 <?php
 	
 	require_once("wp-load.php");
-	echo current_time( 'G:i:s | d-m-Y');
+	
+	/*
+	$users = get_users();
+	foreach ($users as $user) {
+		$user_ID = $user->data->ID;
+		$currentCP = get_user_meta($user_ID, 'user_clan_points', true);
+		update_user_meta($user_ID, 'current_clan_points',$currentCP);
+		
+		}
+
+	
 	/*
 
 $args = array(

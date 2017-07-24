@@ -975,7 +975,7 @@ update_user_meta($target_id,'user_clan_points',$defPts+$defender_points);
 
 // Update points for current clan
 $userDefPts = get_user_meta($target_id, 'current_clan_points',true);
-update_user_meta($target_id, 'current_clan_points', $userDefPts+$defPts);
+update_user_meta($target_id, 'current_clan_points', $userDefPts+$defender_points);
 
 
 $_def24Hpts = get_post_meta($defend_clan_id, '24h_pts', true);

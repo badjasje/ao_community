@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles market orders
+ * Handles queueing researches
  *
  * @package WordPress
  */
@@ -22,7 +22,7 @@ include 'research_array.php';
 $user_ID = get_current_user_id(); 
 
 /* Get research input by user */
-$research = $_POST['queue'];
+$research = $_POST['research'];
 $totalturns = get_user_meta($user_ID, 'turns');
 
 if($totalturns[0] < 30){$_SESSION['status'] = 'Not enough turns';wp_redirect(get_permalink(4837));exit;}

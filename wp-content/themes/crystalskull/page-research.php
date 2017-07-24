@@ -5,9 +5,22 @@
 include 'research_array.php';
 $user_ID = get_current_user_id();
 $research_in_progress = get_user_meta($user_ID, 'research_in_progress',true);
+update_user_meta($user_ID, 'user_lock', 0);
 $research_queued = get_user_meta($user_ID, 'queued_research',true);
 $timestamp = current_time('timestamp');
 $startingbonus = get_user_meta($user_ID, 'starting_bonus',true);
+
+
+$args = array(
+	'posts_per_page'   => -1,
+	'author'        	=>  $user_ID,
+	'orderby'          => 'date',
+	'order'            => 'DESC',
+	'post_type'        => 'research'
+	);
+$researchCount = count(get_posts($args));
+
+
 $research_reduce = 1;
 
 if($startingbonus == 'defensive'){
@@ -26,10 +39,12 @@ if ($startingbonus === 'finance') {
 
 $researchURL = '/research.php';
 $btnText = 'Research';
+$selectText = 'Select';
 
-if($research_in_progress != '0'){
+if($researchCount == 1){
 	$researchURL = '/queue_research.php';
 	$btnText = 'Queue research';	
+	$selectText = 'Queue select';
 }
 
 get_header(); ?>
@@ -142,24 +157,22 @@ get_header(); ?>
 			<?php endif;?>
 		</div>
 		
+		<?php 
+			$researchCount = 0;
+			if($research_in_progress == $key){
+				$researchCount = 1;
+				}
+			?>
+		
 		<div class="col-md-2">
-			<?php if($research_in_progress == '0' && $research_queued == '0' || empty($research_queued)):?>
-				<?php if($research['maxlevel'] != $current):?>
-				<input style="display:none;" type="radio" name="research" id="<?php echo $key;?>" value="<?php echo $key;?>" required >
-				<label class="btn btn-general selectResearch" for="<?php echo $key;?>">Select</label>
+			<?php if($research_queued == '0' || $researchCount == 0):?>
+				<?php if($research['maxlevel'] > $current+$researchCount):?>
+					<input style="display:none;" type="radio" name="research" id="<?php echo $key;?>" value="<?php echo $key;?>" required >
+					<label class="btn btn-general selectResearch" for="<?php echo $key;?>"><?php echo $selectText;?></label>
 				<?php endif;?>
 			<?php endif;?>
-			<?php if($research_in_progress != '0' && $research_queued == '0'):?>
-				<?php 
-					$researchCount = 0;
-					if($research_in_progress == $key){
-					$researchCount = 1;
-				}?>
-				<?php if($research['maxlevel'] != $current+$researchCount):?>
-					<input style="display:none;" type="radio" name="queue" id="<?php echo $key;?>" value="<?php echo $key;?>" required >
-					<label class="btn btn-general selectResearch" for="<?php echo $key;?>">Queue Select</label>
-				<?php endif;?>
-			<?php endif;?>
+			
+		
 			<?php if($research_queued == $key):?>
 			<center><strong><i class="fa fa-clock-o" aria-hidden="true"></i> Research in queue</strong></center>
 			<?php endif;?>
@@ -175,8 +188,7 @@ get_header(); ?>
 		$completionTime = $researches_in_progress[0]->post_title;
 		$researchID = $researches_in_progress[0]->ID;
 		$timeLeft = $completionTime-$timestamp;
-		$gmt_timestamp = get_post_time('U',true, $researchID,true);
-		$totaltime = $completionTime-$gmt_timestamp;
+		$totaltime = $research['duration']*60*60*$research_reduce;
 		$percentage = round((1-($timeLeft/$totaltime))*100);
 		$timeLeft = date('H:i:s', $timeLeft);
 		?>
@@ -195,12 +207,23 @@ get_header(); ?>
 	<?php endif;?>
 </div>
 <?php }?>
-<input type="submit" value="<?php echo $btnText;?>" class="">
+<?php if($research_queued == '0' || $researchCount == 0):?>
+<input type="submit" value="<?php echo $btnText;?>" class="submitBtn">
 		<div class="footer_continue">
-		<input type="submit" value="<?php echo $btnText;?>" class="">
+		<input type="submit" value="<?php echo $btnText;?>" class="submitBtn">
 		</div>
+<?php endif;?>
 </div>
 </form>
+
+<script>
+	jQuery(document).ready(function () {
+	jQuery("#research").submit(function () {
+    jQuery(".submitBtn").attr("disabled", true);
+    return true;
+	});
+});
+</script>
 
 <?php endif;?>
             
