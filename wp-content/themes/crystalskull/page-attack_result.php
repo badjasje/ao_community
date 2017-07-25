@@ -16,7 +16,8 @@ $user_id = get_current_user_id();
 $userLock = get_user_meta($user_id, 'user_lock', true);
 
 if($userLock == 1){
-	wp_redirect(get_permalink(3360).'?id='.$target_id);
+	echo 'How about no.';
+	die;
 }
 update_user_meta($user_id, 'user_lock', 1);
 

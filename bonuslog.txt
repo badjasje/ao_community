@@ -126,3 +126,115 @@ New Money: 269786.6 Old turns: 16 | New Turns: 66
 User ID: 344 Event ID: 405820
 New Money: 287155.25 Old turns: 50 | New Turns: 100
 
+12:27:09 | 24-07-2017
+User ID: 308 Event ID: 405826
+New Money: 472288.5 Old turns: 85 | New Turns: 135
+
+16:44:39 | 24-07-2017
+User ID: 697 Event ID: 407007
+New Money: 388066 Old turns: 27 | New Turns: 77
+
+17:11:44 | 24-07-2017
+User ID: 504 Event ID: 407011
+New Money: 263384 Old turns: 19 | New Turns: 69
+
+17:16:09 | 24-07-2017
+User ID: 29 Event ID: 405821
+New Money: 326430.04 Old turns: 60 | New Turns: 110
+
+17:19:37 | 24-07-2017
+User ID: 464 Event ID: 405825
+New Money: 495593.595 Old turns: 149 | New Turns: 199
+
+19:15:05 | 24-07-2017
+User ID: 1378 Event ID: 407013
+New Money: 778613 Old turns: 63 | New Turns: 113
+
+20:50:15 | 24-07-2017
+User ID: 522 Event ID: 405823
+New Money: 250772.887 Old turns: 43 | New Turns: 93
+
+22:56:02 | 24-07-2017
+User ID: 368 Event ID: 405822
+New Money: 345315.395 Old turns: 103 | New Turns: 153
+
+23:25:58 | 24-07-2017
+User ID: 402 Event ID: 407918
+New Money: 502955.2355 Old turns: 19 | New Turns: 94
+
+23:36:12 | 24-07-2017
+User ID: 1029 Event ID: 407495
+New Money: 897855.393 Old turns: 78 | New Turns: 128
+
+23:39:01 | 24-07-2017
+User ID: 308 Event ID: 407920
+New Money: 725141.132 Old turns: 29 | New Turns: 104
+
+23:48:12 | 24-07-2017
+User ID: 344 Event ID: 407914
+New Money: 735087.09 Old turns: 30 | New Turns: 105
+
+0:09:50 | 25-07-2017
+User ID: 686 Event ID: 407499
+New Money: 272299.82 Old turns: 153 | New Turns: 203
+
+1:25:30 | 25-07-2017
+User ID: 368 Event ID: 407916
+New Money: 699454.395 Old turns: 122 | New Turns: 197
+
+5:02:10 | 25-07-2017
+User ID: 522 Event ID: 407917
+New Money: 564524.847 Old turns: 31 | New Turns: 106
+
+6:40:03 | 25-07-2017
+User ID: 575 Event ID: 408350
+New Money: 451701.1575 Old turns: 23 | New Turns: 73
+
+6:40:59 | 25-07-2017
+User ID: 16 Event ID: 408349
+New Money: 527955.204 Old turns: 1 | New Turns: 51
+
+7:24:50 | 25-07-2017
+User ID: 1020 Event ID: 407496
+New Money: 255137 Old turns: 43 | New Turns: 93
+
+8:04:47 | 25-07-2017
+User ID: 1203 Event ID: 407500
+New Money: 438200.92 Old turns: 112 | New Turns: 162
+
+8:19:05 | 25-07-2017
+User ID: 235 Event ID: 408346
+New Money: 716525.6215 Old turns: 19 | New Turns: 69
+
+8:25:20 | 25-07-2017
+User ID: 29 Event ID: 407915
+New Money: 821617.645 Old turns: 64 | New Turns: 139
+
+8:51:56 | 25-07-2017
+User ID: 1363 Event ID: 407501
+New Money: 325180.242 Old turns: 64 | New Turns: 114
+
+8:54:36 | 25-07-2017
+User ID: 615 Event ID: 407498
+New Money: 445443.377 Old turns: 64 | New Turns: 114
+
+9:14:52 | 25-07-2017
+User ID: 1268 Event ID: 408348
+New Money: 450956.98 Old turns: 85 | New Turns: 135
+
+9:35:25 | 25-07-2017
+User ID: 464 Event ID: 407919
+New Money: 1348303.595 Old turns: 63 | New Turns: 138
+
+9:59:50 | 25-07-2017
+User ID: 641 Event ID: 407012
+New Money: 401496.2 Old turns: 159 | New Turns: 209
+
+11:18:39 | 25-07-2017
+User ID: 1052 Event ID: 407497
+New Money: 331759.989 Old turns: 98 | New Turns: 148
+
+12:40:21 | 25-07-2017
+User ID: 360 Event ID: 408347
+New Money: 289454.287 Old turns: 0 | New Turns: 50
+

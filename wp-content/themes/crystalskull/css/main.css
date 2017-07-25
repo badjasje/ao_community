@@ -2661,11 +2661,10 @@ ul.comment-list li {
     top: 0;
     right: 0;
     padding: 5px 10px!important;
-    font-size: 10px;
+    font-size: 12px;
     position: relative;
 }
 .comment-body .comment-author {
-    font-weight: 700;
     margin-bottom: 5px;
 }
 .comment-body .comment-author .comment-info {

@@ -1,11 +1,15 @@
 <?php 
 
-	
-
 require_once("wp-load.php");
 	
-
 $user_ID = get_current_user_id(); 
+$turnLock = get_user_meta($user_ID, 'turn_lock', true);
+
+if($turnLock == 1){
+	$_SESSION['status'] = 'Please try again in a few minutes.';
+	wp_redirect(get_permalink(3582));exit;
+}
+
 
 if ( ! defined( 'ABSPATH' ) ) exit; 
 if(empty($user_ID)){
