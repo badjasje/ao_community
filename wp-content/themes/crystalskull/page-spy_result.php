@@ -91,8 +91,8 @@ $members = get_post_meta($clan_ID,'clan_members',true);
 				
 			
 			$posttime = strtotime($report->post_date);
-			
-			if($posttime-$timestamp-3600+300 > 0){
+		
+			if($posttime-$timestamp+900 > 0){
 			
 				$enhanceSpy+=1;
 				}
@@ -137,7 +137,7 @@ $members = get_post_meta($clan_ID,'clan_members',true);
 			
 			$posttime = strtotime($report->post_date);
 			
-			if($posttime-$timestamp-3600+300 > 0){
+			if($posttime-$timestamp+900 > 0){
 			
 				$enhancePlane+=1;
 				}

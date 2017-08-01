@@ -27,9 +27,11 @@ if ( $the_query->have_posts() ) {
 	$orderID = get_the_id();
 	$user_ID = get_field('user_placed_id',$orderID);
 	$delivery_time = get_field('delivery_time',$orderID);
+	$moraleLock = get_user_meta($user_ID, 'morale_lock', true);
+	$turnLock = get_user_meta($user_ID, 'turn_lock', true);
 
 	$timeleft = $delivery_time-$timestamp;
-	if($timeleft <= 0){
+	if($timeleft <= 0 && $moraleLock == 0 && $turnLock == 0){
 	
 		$unit_type = get_field('unit_type',$orderID);
 		

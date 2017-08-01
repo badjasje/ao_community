@@ -16,6 +16,12 @@ require( dirname(__FILE__) . '/wp-load.php' );
 
 $declarer_ID = get_current_user_id(); 
 
+$userLock = get_user_meta($declarer_ID, 'user_lock', true);
+if($userLock == 1){
+	exit;
+}
+update_user_meta($declarer_ID, 'user_lock', 1);
+
 if ( ! defined( 'ABSPATH' ) ) exit; 
 if(empty($declarer_ID)){
 	wp_redirect(get_permalink(3582)); exit;
@@ -204,5 +210,5 @@ if(count($warcheck) > 0){
 }
 
 
-
+update_user_meta($declarer_ID, 'user_lock', 0);
 wp_redirect(get_permalink($_GET['clan']));exit;

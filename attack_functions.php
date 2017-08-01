@@ -439,7 +439,7 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
 
 			/* moved to kill code */
 			$dice_roll = attack_dice_roll();
-			$db_atk_power = $bld_count * $attack_power * 2.38; // 2.38 to counter reduction factors implemented
+			$db_atk_power = $bld_count * $attack_power * 2.38 * 0.8; // 2.38 to counter reduction factors implemented. 0.8 to decrease strength a bit
 			$attack_array[$target_type] += $db_atk_power;
 		}
 

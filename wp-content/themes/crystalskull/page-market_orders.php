@@ -2,6 +2,8 @@
  /*
  * Template Name: Market orders
  */
+$user_ID = get_current_user_ID();
+update_user_meta($user_ID, 'user_lock', 0);
 get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">
@@ -44,7 +46,7 @@ get_header(); ?>
 		$args = array(
 	'posts_per_page'   => -1,
 	'meta_key'		=> 'user_placed_id',
-	'meta_value'	=> get_current_user_ID(),
+	'meta_value'	=> $user_ID,
 	'post_type'        => 'market_order',
 	);
 	$units = get_posts( $args ); 
@@ -79,7 +81,7 @@ get_header(); ?>
 		<td data-title="Cancel"><?php if($order_type != 'missile' || $order_type != 'satellite'):?>
 			<form class="form" action="<?php echo home_url() ?>/cancel_order.php" name="" id="cancel" method="post">
 			<input style="display:none;"type="text" id="order" name="order" value="<?php echo $order->ID;?>"/>
-			<input onclick="return confirm('Are you sure you want to cancel this order?')" class="btn btn-general"type="submit" value="Cancel" class="">
+			<input onclick="return confirm('Are you sure you want to cancel this order?')" class="btn btn-general submitBtn" type="submit" value="Cancel" class="">
 			</form>
 			<?php endif;?>
 		</td>
@@ -93,7 +95,16 @@ get_header(); ?>
 	</tbody>
 	</table>
 	<?php endif;?><?php endif;?>
-            
+
+<script>
+jQuery(document).ready(function () {
+jQuery("#cancel").submit(function () {
+jQuery(".submitBtn").attr("disabled", true);
+return true;
+});
+});
+</script>
+		
             </div>
         </div>
     </div>

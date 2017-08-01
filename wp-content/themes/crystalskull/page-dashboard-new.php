@@ -1000,7 +1000,7 @@ get_header(); ?>
        
        
        
-       
+<?php if($user_status =='nukeprotection'):?>    
 <script>
 var
 diff = <?php echo $timer_left*1000;?>;
@@ -1034,7 +1034,7 @@ diff -= 1000;
 }
 setInterval(updateETime, 1000 );
 </script>	       
-       
+<?php endif;?>
        
        
        

@@ -725,7 +725,7 @@ if($clan_points < 1){
 		
 			/* 24H pts update */
 			$_pts = get_post_meta($att_clan_ID[0], '24h_pts', true);
-			update_post_meta($attack_clan_id,'24h_pts',$_pts+$clan_points);
+			update_post_meta($att_clan_ID[0],'24h_pts',$_pts+$clan_points);
 	}
 ?>		
 				

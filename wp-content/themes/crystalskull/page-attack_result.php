@@ -14,6 +14,13 @@ $attacking_units = $_POST;
 $user_id = get_current_user_id();
 
 $userLock = get_user_meta($user_id, 'user_lock', true);
+$moraleLock = get_user_meta($user_id, 'morale_lock', true);
+
+if($moraleLock == 1){
+	$_SESSION['status'] = 'Morale updating, please try again in a few seconds.';
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
+	exit;
+}else{
 
 if($userLock == 1){
 	echo 'How about no.';
@@ -1313,6 +1320,7 @@ update_post_meta($attack_clan_id, 'war_array', $war_array_att);
 count_all_stats($target_id);
 count_all_stats($user_id);
 update_user_meta($user_id, 'user_lock', 0);
+}
 ?>
 
             

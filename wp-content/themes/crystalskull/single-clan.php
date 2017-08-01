@@ -1,6 +1,6 @@
 <?php 
 $declarer_ID = get_current_user_ID();
-
+update_user_meta($declarer_ID, 'user_lock', 0);
 $nw_att = get_user_meta($declarer_ID, 'networth',true);
 $declarer_clan_ID = get_user_meta($declarer_ID, 'clan_id_user',true);
 $declarer_clanleader = get_post_meta($declarer_clan_ID,'clan_leader',true);
@@ -335,7 +335,7 @@ get_header(); ?>
 	 	<center><span class="btn btn-disabled profilebutton">
 		 	<i class="fa fa-fire" aria-hidden="true"></i> &nbsp;You are at war with this clan</span></center>
 		 <?php else:?>
-		 <center><a class="btn btn-general profilebutton" onclick="return confirm('Are you sure you want to declare <?php echo $warText;?>?')" href="/declare_war.php?clan=<?php echo $clan_id;?>">
+		 <center><a class="btn btn-general profilebutton declarewar" onclick="return confirm('Are you sure you want to declare <?php echo $warText;?>?')" href="/declare_war.php?clan=<?php echo $clan_id;?>">
 		 	<i class="fa fa-fire" aria-hidden="true"></i> &nbsp;Declare <?php echo $warText;?></a></center>
 		 <?php endif;?>
 	</div>
@@ -346,6 +346,15 @@ get_header(); ?>
 	</div>
 
 </div>
+<script> 
+  jQuery(".declarewar").click(function (event) {
+    if (jQuery(this).hasClass("disabled")) {
+        event.preventDefault();
+    }
+    jQuery(this).addClass("disabled");
+});
+</script>
+
 <?php endif;?>
 
 

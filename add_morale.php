@@ -12,9 +12,10 @@ if (get_field('game_status', 'option') == 'Live') {
     $users = get_users();
     foreach ($users as $user) {
         $userId = $user->data->ID;
-
-        AddSatPower($userId);
-        AddMorale($userId, $moraleIncome);
+		update_user_meta($userId, 'morale_lock', 1);
+        	AddSatPower($userId);
+			AddMorale($userId, $moraleIncome);
+        update_user_meta($userId, 'morale_lock', 0);
     }
 }
 
