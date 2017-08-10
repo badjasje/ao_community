@@ -232,10 +232,14 @@ $bonuses = get_posts(array(
 foreach ($bonuses as $bonus) {
 	$used = get_post_meta($bonus->ID,'bonus_used', true);
 	
+	$receiver_ID = get_post_meta($bonus->ID, 'defender_id', true);
+	$moraleLock = get_user_meta($receiver_ID, 'morale_lock', true);
+	$turnLock = get_user_meta($receiver_ID, 'turn_lock', true);
+	
 	if($used != 'yes'){
 		$time = get_post_meta($bonus->ID,'time_attacked', true)+(86400*2);
-		if($timestamp > $time){
-		$receiver_ID = get_post_meta($bonus->ID, 'defender_id', true);
+		if($timestamp > $time && $moraleLock == 0 && $turnLock == 0){
+		
 		$bonus_money = get_post_meta($bonus->ID,'bonus_money', true);
 		
 		$money = get_user_meta($receiver_ID, 'money',true);	

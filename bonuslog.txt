@@ -778,3 +778,571 @@ New Money: 555189.45 Old turns: 0 | New Turns: 75
 User ID: 1202 Event ID: 422372
 New Money: 1600000 Old turns: 170 | New Turns: 245
 
+15:19:11 | 01-08-2017
+User ID: 722 Event ID: 425672
+New Money: 294420 Old turns: 4 | New Turns: 54
+
+16:45:13 | 01-08-2017
+User ID: 308 Event ID: 426034
+New Money: 543953.517 Old turns: 5 | New Turns: 80
+
+16:46:30 | 01-08-2017
+User ID: 29 Event ID: 426029
+New Money: 848912 Old turns: 0 | New Turns: 75
+
+17:23:25 | 01-08-2017
+User ID: 464 Event ID: 426033
+New Money: 690498.74 Old turns: 26 | New Turns: 101
+
+18:01:06 | 01-08-2017
+User ID: 368 Event ID: 426030
+New Money: 738206.524 Old turns: 61 | New Turns: 136
+
+18:09:22 | 01-08-2017
+User ID: 344 Event ID: 426028
+New Money: 664813.164 Old turns: 39 | New Turns: 114
+
+18:41:06 | 01-08-2017
+User ID: 522 Event ID: 426031
+New Money: 677186.794 Old turns: 48 | New Turns: 123
+
+19:25:35 | 01-08-2017
+User ID: 357 Event ID: 425161
+New Money: 586357 Old turns: 161 | New Turns: 236
+
+20:21:41 | 01-08-2017
+User ID: 749 Event ID: 425674
+New Money: 286271 Old turns: 26 | New Turns: 76
+
+20:26:30 | 01-08-2017
+User ID: 1020 Event ID: 422897
+New Money: 666868.911 Old turns: 3 | New Turns: 78
+
+20:30:15 | 01-08-2017
+User ID: 615 Event ID: 422899
+New Money: 726775.097 Old turns: 40 | New Turns: 115
+
+22:57:11 | 01-08-2017
+User ID: 1298 Event ID: 423383
+New Money: 519342 Old turns: 167 | New Turns: 242
+
+3:57:09 | 02-08-2017
+User ID: 1050 Event ID: 425159
+New Money: 689417 Old turns: 51 | New Turns: 126
+
+5:57:02 | 02-08-2017
+User ID: 1052 Event ID: 422898
+New Money: 618357.7515 Old turns: 25 | New Turns: 100
+
+6:10:34 | 02-08-2017
+User ID: 1203 Event ID: 422901
+New Money: 796226.963 Old turns: 18 | New Turns: 93
+
+7:11:25 | 02-08-2017
+User ID: 1370 Event ID: 426927
+New Money: 720992.75 Old turns: 101 | New Turns: 151
+
+8:52:01 | 02-08-2017
+User ID: 686 Event ID: 422900
+New Money: 692847.91 Old turns: 21 | New Turns: 96
+
+19:12:53 | 02-08-2017
+User ID: 1029 Event ID: 426530
+New Money: 861874.618 Old turns: 4 | New Turns: 79
+
+20:19:17 | 02-08-2017
+User ID: 464 Event ID: 428790
+New Money: 724842.265 Old turns: 47 | New Turns: 122
+
+20:26:11 | 02-08-2017
+User ID: 697 Event ID: 428870
+New Money: 640070 Old turns: 13 | New Turns: 88
+
+20:27:28 | 02-08-2017
+User ID: 308 Event ID: 428791
+New Money: 1164105.197 Old turns: 7 | New Turns: 82
+
+20:44:24 | 02-08-2017
+User ID: 573 Event ID: 428873
+New Money: 1231116.55 Old turns: 5 | New Turns: 80
+
+21:12:48 | 02-08-2017
+User ID: 1086 Event ID: 428872
+New Money: 1117201.75 Old turns: 50 | New Turns: 125
+
+21:57:26 | 02-08-2017
+User ID: 29 Event ID: 428786
+New Money: 1335427.625 Old turns: 18 | New Turns: 93
+
+22:24:21 | 02-08-2017
+User ID: 1201 Event ID: 429047
+New Money: 508300 Old turns: 14 | New Turns: 89
+
+22:38:40 | 02-08-2017
+User ID: 504 Event ID: 428874
+New Money: 1113345.45 Old turns: 59 | New Turns: 134
+
+22:45:53 | 02-08-2017
+User ID: 1298 Event ID: 428871
+New Money: 518304.53 Old turns: 248 | New Turns: 323
+
+23:43:55 | 02-08-2017
+User ID: 1385 Event ID: 429051
+New Money: 629859 Old turns: 22 | New Turns: 97
+
+2:32:39 | 03-08-2017
+User ID: 1319 Event ID: 429049
+New Money: 812464 Old turns: 20 | New Turns: 95
+
+3:13:40 | 03-08-2017
+User ID: 252 Event ID: 425676
+New Money: 251972.75 Old turns: 207 | New Turns: 257
+
+4:48:26 | 03-08-2017
+User ID: 344 Event ID: 428785
+New Money: 825747.495 Old turns: 1 | New Turns: 76
+
+8:26:18 | 03-08-2017
+User ID: 1052 Event ID: 426532
+New Money: 517874.9415 Old turns: 34 | New Turns: 109
+
+8:33:39 | 03-08-2017
+User ID: 1052 Event ID: 429171
+New Money: 500045.6415 Old turns: 75 | New Turns: 150
+
+9:53:19 | 03-08-2017
+User ID: 615 Event ID: 426534
+New Money: 515249.5365 Old turns: 66 | New Turns: 141
+
+13:18:44 | 03-08-2017
+User ID: 1020 Event ID: 429170
+New Money: 501708.497 Old turns: 26 | New Turns: 101
+
+13:50:03 | 03-08-2017
+User ID: 368 Event ID: 428787
+New Money: 560838.924 Old turns: 2 | New Turns: 77
+
+15:14:01 | 03-08-2017
+User ID: 1020 Event ID: 426531
+New Money: 542641.497 Old turns: 85 | New Turns: 160
+
+15:21:46 | 03-08-2017
+User ID: 686 Event ID: 426535
+New Money: 501830.9225 Old turns: 10 | New Turns: 85
+
+15:29:59 | 03-08-2017
+User ID: 522 Event ID: 428788
+New Money: 545731.819 Old turns: 38 | New Turns: 113
+
+15:48:08 | 03-08-2017
+User ID: 1029 Event ID: 429169
+New Money: 1897264.1785 Old turns: 57 | New Turns: 132
+
+16:59:35 | 03-08-2017
+User ID: 1383 Event ID: 429050
+New Money: 520057.14 Old turns: 28 | New Turns: 103
+
+17:56:54 | 03-08-2017
+User ID: 1363 Event ID: 426537
+New Money: 1325394.913 Old turns: 18 | New Turns: 93
+
+19:08:57 | 03-08-2017
+User ID: 1378 Event ID: 428876
+New Money: 1031608.4 Old turns: 4 | New Turns: 79
+
+20:47:48 | 03-08-2017
+User ID: 1365 Event ID: 430987
+New Money: 1040000 Old turns: 219 | New Turns: 294
+
+21:10:07 | 03-08-2017
+User ID: 189 Event ID: 430984
+New Money: 726080.3 Old turns: 82 | New Turns: 157
+
+22:34:54 | 03-08-2017
+User ID: 29 Event ID: 431159
+New Money: 516206.796 Old turns: 73 | New Turns: 148
+
+23:12:44 | 03-08-2017
+User ID: 1374 Event ID: 426926
+New Money: 915987.475 Old turns: 173 | New Turns: 223
+
+0:19:51 | 04-08-2017
+User ID: 308 Event ID: 431164
+New Money: 1034778.8095 Old turns: 58 | New Turns: 133
+
+0:44:36 | 04-08-2017
+User ID: 522 Event ID: 431161
+New Money: 617303.319 Old turns: 20 | New Turns: 95
+
+1:15:58 | 04-08-2017
+User ID: 1303 Event ID: 430986
+New Money: 619500 Old turns: 203 | New Turns: 278
+
+1:19:51 | 04-08-2017
+User ID: 368 Event ID: 431160
+New Money: 1668288.924 Old turns: 67 | New Turns: 142
+
+2:24:32 | 04-08-2017
+User ID: 344 Event ID: 431158
+New Money: 522609.13 Old turns: 40 | New Turns: 115
+
+5:50:43 | 04-08-2017
+User ID: 464 Event ID: 431163
+New Money: 2367913.915 Old turns: 56 | New Turns: 131
+
+6:29:46 | 04-08-2017
+User ID: 402 Event ID: 428789
+New Money: 522048.3505 Old turns: 58 | New Turns: 133
+
+10:26:51 | 04-08-2017
+User ID: 504 Event ID: 431940
+New Money: 1185565.85 Old turns: 8 | New Turns: 83
+
+11:12:43 | 04-08-2017
+User ID: 1288 Event ID: 430983
+New Money: 519765 Old turns: 178 | New Turns: 253
+
+11:47:23 | 04-08-2017
+User ID: 1086 Event ID: 431938
+New Money: 545522.5 Old turns: 52 | New Turns: 127
+
+11:59:38 | 04-08-2017
+User ID: 686 Event ID: 429173
+New Money: 643476.8225 Old turns: 35 | New Turns: 110
+
+15:21:35 | 04-08-2017
+User ID: 1284 Event ID: 430981
+New Money: 554422 Old turns: 7 | New Turns: 82
+
+15:50:20 | 04-08-2017
+User ID: 29 Event ID: 432462
+New Money: 501377 Old turns: 55 | New Turns: 130
+
+15:53:42 | 04-08-2017
+User ID: 1286 Event ID: 430982
+New Money: 1220000 Old turns: 204 | New Turns: 279
+
+16:02:52 | 04-08-2017
+User ID: 615 Event ID: 429172
+New Money: 518698.9665 Old turns: 36 | New Turns: 111
+
+17:16:35 | 04-08-2017
+User ID: 686 Event ID: 432120
+New Money: 535676.56 Old turns: 115 | New Turns: 190
+
+18:02:27 | 04-08-2017
+User ID: 308 Event ID: 432467
+New Money: 576115.8095 Old turns: 71 | New Turns: 146
+
+18:06:42 | 04-08-2017
+User ID: 344 Event ID: 432461
+New Money: 929016.13 Old turns: 134 | New Turns: 209
+
+18:12:14 | 04-08-2017
+User ID: 522 Event ID: 432464
+New Money: 609556.319 Old turns: 80 | New Turns: 155
+
+18:21:58 | 04-08-2017
+User ID: 402 Event ID: 431162
+New Money: 501463.3505 Old turns: 93 | New Turns: 168
+
+18:31:34 | 04-08-2017
+User ID: 1363 Event ID: 429175
+New Money: 795488.913 Old turns: 25 | New Turns: 100
+
+19:04:24 | 04-08-2017
+User ID: 615 Event ID: 432119
+New Money: 500873.9665 Old turns: 51 | New Turns: 126
+
+19:15:03 | 04-08-2017
+User ID: 1379 Event ID: 433044
+New Money: 2002993 Old turns: 186 | New Turns: 261
+
+23:05:43 | 04-08-2017
+User ID: 1203 Event ID: 429174
+New Money: 559609.863 Old turns: 42 | New Turns: 117
+
+23:06:48 | 04-08-2017
+User ID: 235 Event ID: 433040
+New Money: 814150 Old turns: 8 | New Turns: 83
+
+23:11:11 | 04-08-2017
+User ID: 402 Event ID: 432465
+New Money: 500406.3505 Old turns: 128 | New Turns: 203
+
+5:47:56 | 05-08-2017
+User ID: 697 Event ID: 431936
+New Money: 1345000 Old turns: 179 | New Turns: 254
+
+6:33:16 | 05-08-2017
+User ID: 315 Event ID: 433039
+New Money: 503888.9025 Old turns: 19 | New Turns: 94
+
+7:41:48 | 05-08-2017
+User ID: 1029 Event ID: 432116
+New Money: 662214.6935 Old turns: 35 | New Turns: 110
+
+7:51:23 | 05-08-2017
+User ID: 1052 Event ID: 432118
+New Money: 500448.2815 Old turns: 23 | New Turns: 98
+
+10:18:02 | 05-08-2017
+User ID: 1299 Event ID: 430985
+New Money: 601502 Old turns: 94 | New Turns: 169
+
+16:01:47 | 05-08-2017
+User ID: 368 Event ID: 432463
+New Money: 2058229.024 Old turns: 86 | New Turns: 161
+
+16:58:27 | 05-08-2017
+User ID: 308 Event ID: 434990
+New Money: 1384430.6095 Old turns: 20 | New Turns: 95
+
+16:59:32 | 05-08-2017
+User ID: 29 Event ID: 434985
+New Money: 727759.8775 Old turns: 53 | New Turns: 128
+
+17:33:59 | 05-08-2017
+User ID: 60 Event ID: 435027
+New Money: 535851 Old turns: 1 | New Turns: 76
+
+18:05:58 | 05-08-2017
+User ID: 16 Event ID: 433042
+New Money: 675444.4705 Old turns: 131 | New Turns: 206
+
+18:37:39 | 05-08-2017
+User ID: 433 Event ID: 435028
+New Money: 634533.435 Old turns: 0 | New Turns: 75
+
+22:14:34 | 05-08-2017
+User ID: 368 Event ID: 434986
+New Money: 2885087.4565 Old turns: 60 | New Turns: 135
+
+23:44:27 | 05-08-2017
+User ID: 686 Event ID: 434156
+New Money: 502886.7425 Old turns: 68 | New Turns: 143
+
+0:04:08 | 06-08-2017
+User ID: 1271 Event ID: 435220
+New Money: 500311.6 Old turns: 144 | New Turns: 219
+
+1:08:20 | 06-08-2017
+User ID: 360 Event ID: 433041
+New Money: 505544 Old turns: 2 | New Turns: 77
+
+3:03:21 | 06-08-2017
+User ID: 1125 Event ID: 435217
+New Money: 578861.25 Old turns: 116 | New Turns: 191
+
+3:40:39 | 06-08-2017
+User ID: 1378 Event ID: 431942
+New Money: 1983400 Old turns: 171 | New Turns: 246
+
+6:00:13 | 06-08-2017
+User ID: 1363 Event ID: 432122
+New Money: 1088122.193 Old turns: 43 | New Turns: 118
+
+7:00:23 | 06-08-2017
+User ID: 1298 Event ID: 431937
+New Money: 538000 Old turns: 189 | New Turns: 264
+
+9:36:23 | 06-08-2017
+User ID: 1152 Event ID: 435218
+New Money: 657935.8 Old turns: 76 | New Turns: 151
+
+12:58:45 | 06-08-2017
+User ID: 464 Event ID: 432466
+New Money: 1672369.14 Old turns: 37 | New Turns: 112
+
+18:51:05 | 06-08-2017
+User ID: 1029 Event ID: 434152
+New Money: 731184.893 Old turns: 0 | New Turns: 75
+
+20:04:32 | 06-08-2017
+User ID: 1370 Event ID: 436207
+New Money: 3179774.75 Old turns: 203 | New Turns: 278
+
+22:44:35 | 06-08-2017
+User ID: 344 Event ID: 434984
+New Money: 1969598.6925 Old turns: 52 | New Turns: 127
+
+4:38:43 | 07-08-2017
+User ID: 464 Event ID: 434989
+New Money: 502039.64 Old turns: 54 | New Turns: 129
+
+7:40:50 | 07-08-2017
+User ID: 29 Event ID: 438376
+New Money: 554948 Old turns: 56 | New Turns: 131
+
+7:53:32 | 07-08-2017
+User ID: 464 Event ID: 438380
+New Money: 500718.89 Old turns: 121 | New Turns: 196
+
+7:56:59 | 07-08-2017
+User ID: 1050 Event ID: 435031
+New Money: 736152 Old turns: 3 | New Turns: 78
+
+8:16:38 | 07-08-2017
+User ID: 402 Event ID: 434988
+New Money: 501137.075 Old turns: 123 | New Turns: 198
+
+9:26:05 | 07-08-2017
+User ID: 1374 Event ID: 436206
+New Money: 500064.475 Old turns: 206 | New Turns: 281
+
+10:10:14 | 07-08-2017
+User ID: 344 Event ID: 438375
+New Money: 902138.5125 Old turns: 133 | New Turns: 208
+
+11:27:13 | 07-08-2017
+User ID: 308 Event ID: 438381
+New Money: 725609.7045 Old turns: 68 | New Turns: 143
+
+11:39:29 | 07-08-2017
+User ID: 614 Event ID: 435030
+New Money: 742085 Old turns: 130 | New Turns: 205
+
+12:28:01 | 07-08-2017
+User ID: 1095 Event ID: 435032
+New Money: 950000 Old turns: 175 | New Turns: 250
+
+13:35:00 | 07-08-2017
+User ID: 713 Event ID: 436205
+New Money: 2026149.7075 Old turns: 27 | New Turns: 102
+
+13:43:29 | 07-08-2017
+User ID: 686 Event ID: 439053
+New Money: 513128.23 Old turns: 11 | New Turns: 86
+
+21:34:47 | 07-08-2017
+User ID: 368 Event ID: 438377
+New Money: 797818.2565 Old turns: 1 | New Turns: 76
+
+22:28:33 | 07-08-2017
+User ID: 1086 Event ID: 439389
+New Money: 513416.0225 Old turns: 34 | New Turns: 109
+
+22:35:08 | 07-08-2017
+User ID: 697 Event ID: 439387
+New Money: 880902 Old turns: 25 | New Turns: 100
+
+22:45:30 | 07-08-2017
+User ID: 1378 Event ID: 439393
+New Money: 1194317 Old turns: 73 | New Turns: 148
+
+0:05:39 | 08-08-2017
+User ID: 402 Event ID: 438379
+New Money: 501253.075 Old turns: 160 | New Turns: 235
+
+8:21:42 | 08-08-2017
+User ID: 573 Event ID: 439390
+New Money: 878653.9 Old turns: 76 | New Turns: 151
+
+9:44:55 | 08-08-2017
+User ID: 1298 Event ID: 439388
+New Money: 607324.4 Old turns: 213 | New Turns: 288
+
+12:02:44 | 08-08-2017
+User ID: 522 Event ID: 438378
+New Money: 714701.869 Old turns: 199 | New Turns: 274
+
+12:11:48 | 08-08-2017
+User ID: 29 Event ID: 441250
+New Money: 522700 Old turns: 46 | New Turns: 121
+
+12:24:50 | 08-08-2017
+User ID: 308 Event ID: 441255
+New Money: 547506.6805 Old turns: 19 | New Turns: 94
+
+13:08:46 | 08-08-2017
+User ID: 368 Event ID: 441251
+New Money: 607560.2565 Old turns: 51 | New Turns: 126
+
+18:07:05 | 08-08-2017
+User ID: 615 Event ID: 439052
+New Money: 702484.49 Old turns: 10 | New Turns: 85
+
+23:02:23 | 08-08-2017
+User ID: 575 Event ID: 442403
+New Money: 521950 Old turns: 21 | New Turns: 96
+
+23:38:07 | 08-08-2017
+User ID: 1029 Event ID: 439049
+New Money: 515553.551 Old turns: 46 | New Turns: 121
+
+0:08:00 | 09-08-2017
+User ID: 1052 Event ID: 439051
+New Money: 575892.6785 Old turns: 93 | New Turns: 168
+
+1:14:35 | 09-08-2017
+User ID: 1125 Event ID: 441396
+New Money: 617602.25 Old turns: 64 | New Turns: 139
+
+3:43:54 | 09-08-2017
+User ID: 464 Event ID: 441254
+New Money: 791495.57 Old turns: 38 | New Turns: 113
+
+5:03:42 | 09-08-2017
+User ID: 1379 Event ID: 442404
+New Money: 865000 Old turns: 206 | New Turns: 281
+
+8:20:36 | 09-08-2017
+User ID: 402 Event ID: 441253
+New Money: 547923.746 Old turns: 141 | New Turns: 216
+
+10:12:47 | 09-08-2017
+User ID: 615 Event ID: 441576
+New Money: 648870.74 Old turns: 9 | New Turns: 84
+
+11:10:44 | 09-08-2017
+User ID: 686 Event ID: 441577
+New Money: 517269.155 Old turns: 2 | New Turns: 77
+
+13:13:07 | 09-08-2017
+User ID: 368 Event ID: 443309
+New Money: 851897.4365 Old turns: 39 | New Turns: 114
+
+16:41:05 | 09-08-2017
+User ID: 1152 Event ID: 441397
+New Money: 629263.2 Old turns: 52 | New Turns: 127
+
+17:25:47 | 09-08-2017
+User ID: 315 Event ID: 442399
+New Money: 1010000 Old turns: 8 | New Turns: 83
+
+18:41:05 | 09-08-2017
+User ID: 1303 Event ID: 443995
+New Money: 555514.75 Old turns: 1 | New Turns: 76
+
+20:23:36 | 09-08-2017
+User ID: 1299 Event ID: 443994
+New Money: 523360 Old turns: 165 | New Turns: 240
+
+22:40:56 | 09-08-2017
+User ID: 1385 Event ID: 444245
+New Money: 655063.25 Old turns: 5 | New Turns: 80
+
+2:20:29 | 10-08-2017
+User ID: 1365 Event ID: 443996
+New Money: 670354 Old turns: 239 | New Turns: 314
+
+2:50:07 | 10-08-2017
+User ID: 344 Event ID: 441249
+New Money: 2436213.805 Old turns: 134 | New Turns: 209
+
+7:40:10 | 10-08-2017
+User ID: 1029 Event ID: 441573
+New Money: 517229.736 Old turns: 0 | New Turns: 75
+
+10:25:49 | 10-08-2017
+User ID: 308 Event ID: 443313
+New Money: 1141808.8405 Old turns: 15 | New Turns: 90
+
+11:02:35 | 10-08-2017
+User ID: 1271 Event ID: 441399
+New Money: 2193947.2 Old turns: 166 | New Turns: 241
+
+11:50:55 | 10-08-2017
+User ID: 16 Event ID: 442402
+New Money: 1629042.8625 Old turns: 86 | New Turns: 161
+

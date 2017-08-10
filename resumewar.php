@@ -29,13 +29,12 @@
 	),
 ));
 
-echo '<pre>';
-print_r($posts);
-echo '</pre>';
 
+$timestamp = current_time('timestamp');
 $my_post = array(
       'ID'           => $posts[0]->ID,
       'post_status'   => 'publish',
+      'post_title'   => $timestamp,
 
   );
 

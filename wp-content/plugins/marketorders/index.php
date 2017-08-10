@@ -730,7 +730,7 @@ function multi_register( $login ) {
     $ip_array = get_field('login_array_general',139664);
 	$useragent = $_SERVER['HTTP_USER_AGENT'];
 
-	$ip_address = $_SERVER['REMOTE_ADDR'];
+	$ip_address = $_SERVER["HTTP_CF_CONNECTING_IP"];
 	if(empty($ip_array[$ip_address])){
 	$ip_array[$ip_address] = array();}
 	
