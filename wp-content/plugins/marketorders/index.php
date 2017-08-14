@@ -156,6 +156,8 @@ $nightmode = get_user_meta($user_ID, 'nightmode', true);
 if($nightmode == 'yes'){
     ?>
         <style>
+	        .manualcontainer {
+    background-color: #6d6d6d;}
           .logo img{
 	filter: invert(100%);
 }
