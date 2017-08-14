@@ -502,6 +502,10 @@ $defense_by_type = calculate_defense_by_type($target_id, $defender_power_on, $at
 $defense_attack_type = $defense_by_type['attack'];
 $defense_life_type = $defense_by_type['life'];
 
+$defense_by_type2 = calculate_defense_by_type2($target_id, $defender_power_on, $attackerRemoveArray);
+$defense_attack_type2 = $defense_by_type2['attack'];  // Used to calculate Attack Power vs Defense Power
+$defense_life_type2 = $defense_by_type2['life'];
+
 
 /* get defender breakdown to determine kills */
 $defender_unit_array = create_defender_array($target_id, array_keys($attacker_type_damage));
@@ -530,12 +534,11 @@ foreach($attacker_type_damage as $type => $attack) {
 		$attacker_total_power += $attack;
 }
 $defender_total_power = 0;
-foreach($defense_attack_type as $type => $attack) {
+foreach($defense_attack_type2 as $type => $attack) {
 	$valid_types = array_keys($attacker_unit_array);
 	if(in_array($type, $valid_types))
 		$defender_total_power += $attack;
 }
-
 
 
 /* calculate loss totals */
@@ -997,9 +1000,15 @@ update_post_meta($defend_clan_id,'clan_points',$starting_Defpoints+$defender_poi
 
 	
 	?>
-	
+<div id="attackCanvas">
 <center>
-<?php if ($result == 'success'): ?>
+<?php 
+	
+echo 'DEF tot power: '.$defender_total_power.'<br/>';
+echo 'ATT tot power: '.$attacker_total_power.'<br/>';
+echo 'Difference: '.round(($attacker_total_power-$defender_total_power)/$defender_total_power*100).'%';	
+	
+if ($result == 'success'): ?>
 <?php
 /* add statistics for defender and attacker */
 //attacker
@@ -1019,6 +1028,7 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 
 	
 	?>
+
 	<h2>S U C C E S S</h2>
 	<p>You won the battle against <strong>
 	<a href="/users/profile/?id=<?php echo $target_id;?>">
@@ -1164,17 +1174,13 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 	</tr>
 	</tbody>
 </table>
+</div>
 
+<center>
 <a class="btn btn-general" href="/attack/result/"><i class="fa fa-refresh" aria-hidden="true"></i> STRIKE AGAIN</a>
+</center>
+<input type="submit" id="btnSave" class="submitBtn" value="Save attack as PNG"/>
 
-<script> 
-  jQuery("a").click(function (event) {
-    if (jQuery(this).hasClass("disabled")) {
-        event.preventDefault();
-    }
-    jQuery(this).addClass("disabled");
-});
-</script>
 <?php 
 
 
@@ -1323,7 +1329,29 @@ update_user_meta($user_id, 'user_lock', 0);
 }
 ?>
 
-            
+<script> 
+  jQuery("a").click(function (event) {
+    if (jQuery(this).hasClass("disabled")) {
+        event.preventDefault();
+    }
+    jQuery(this).addClass("disabled");
+});
+
+jQuery(function() { 
+    jQuery("#btnSave").click(function() { 
+        html2canvas(jQuery("#attackCanvas"), {
+            onrendered: function(canvas) {
+                theCanvas = canvas;
+                document.body.appendChild(canvas);
+
+                canvas.toBlob(function(blob) {
+					saveAs(blob, "<?php echo $new_event_id;?>.png"); 
+				});
+            }
+        });
+    });
+}); 
+</script>
             </div>
         </div>
     </div>

@@ -1713,3 +1713,8 @@ color: #2c90c6 !important;
     border: 1px solid transparent !important;
     border-radius: 4px !important;
 }
+#attackCanvas{
+	padding-top:10px;
+	padding-bottom:10px;
+	background-color:#f7f7f7
+}

@@ -56,7 +56,8 @@ $user = get_userdata($user_ID);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
 
 <script type='text/javascript' src='/wp-content/themes/crystalskull/js/sortingdivs.js'></script>
-
+<script type='text/javascript' src='/wp-content/themes/crystalskull/js/html2canvas.js'></script>
+<script type='text/javascript' src='/wp-content/themes/crystalskull/js/FileSaver.js'></script>
 </head>
 <body <?php body_class(); ?>>
 	<script>
