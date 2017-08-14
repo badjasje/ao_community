@@ -496,6 +496,108 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
 	return $defense_array;
 }
 
+
+
+function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray) {
+	include('units_array.php');
+	include('building_array.php');
+	include('constants.php');
+	
+	/* initialize attack array with 0 for all */
+	$attack_array = array(
+		'bld' => 0,
+		'sea' => 0,
+		'air' => 0,
+		'veh' => 0,
+		'inf' => 0
+	);
+	/* initialize life array with all 0 */
+	$life_array = array(
+		'bld' => 0,
+		'sea' => 0,
+		'air' => 0,
+		'veh' => 0,
+		'inf' => 0
+	);
+
+	/* get values for buildings */
+	foreach($buildings as $key => $data) {
+		$bld_count = get_user_meta($target_id, $key)[0];
+		
+		/* next building if none */
+		if ($bld_count < 1)
+			continue;
+		$power = get_user_meta($target_id, 'power', true);
+	
+		
+		/* if valid DB add to attack array */
+		if ($power < 100 && in_array($key, $DEFENSIVE_BUILDINGS)) {
+			$target_type = $buildings[$key]['attacks'][0];
+			$attack_power = $buildings[$key]['attack'];
+
+			/* moved to kill code */
+			$dice_roll = attack_dice_roll();
+			$db_atk_power = $bld_count * $attack_power; 
+			$attack_array[$target_type] += $db_atk_power;
+		}
+
+		/* add to life for all */
+		$bld_life = $buildings[$key]['life'];
+		$bld_life_total = $bld_life * $bld_count;
+		$life_array['bld'] += $bld_life_total;
+		
+	}
+
+	/* get defense from units */
+	foreach($units as $key => $data) {
+		$unit_count = get_user_meta($target_id, $key.'_owned')[0];
+		
+		/* if defender has none of this unit continue */
+		if ($unit_count < 1)
+			continue;
+
+		/* calculate attack power per type */
+		$unit_def_types = $units[$key]['defends'];
+	
+		/* Unset types not used in attack by attacker */
+		$unit_def_types = array_diff($unit_def_types, $attackerRemoveArray);
+		
+		$unit_def_count = count($unit_def_types);
+
+		/* no defense - exit */
+		if ($unit_def_count == 0)
+			continue;
+
+		/* no use calculating if the unit can't defend */
+		if ($unit_def_count < 1)
+			continue;
+
+		$dice_roll = attack_dice_roll();
+		$unit_atk_power = $data['attack'];
+		$atk_power = $unit_atk_power * $unit_count * $dice_roll;
+		$divided_atk_power = $atk_power / $unit_def_count;
+
+		foreach($unit_def_types as $type) {
+			$attack_array[$type] += $divided_atk_power;
+		}
+
+		/* calculate life per type */
+		$unit_life = $units[$key]['life'];
+		$unit_life_total = $unit_life * $unit_count;
+		$unit_type = $units[$key]['type'];
+
+		$life_array[$unit_type] += $unit_life_total;
+	}
+	$defense_array['life'] = $life_array;
+	$defense_array['attack'] = $attack_array;
+
+	return $defense_array;
+}
+
+
+
+
+
 /*
 	calculate_power
 	Params:
