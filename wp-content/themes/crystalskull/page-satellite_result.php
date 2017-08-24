@@ -490,6 +490,21 @@ foreach ($clan_members[0] as $member) {
 	$globals = get_user_meta($member, 'new_global_events', true);
 	update_user_meta($member, 'new_global_events', $globals+1);
 }}
+
+
+/* Add globals to attacker */
+
+$clan_att = get_user_meta($user_ID, 'clan_id_user', true);
+$clan_members_att = get_post_meta($clan_att,'clan_members');
+
+if(!empty($clan_att) || $clan_att != 0){
+foreach ($clan_members_att[0] as $member_att) {
+	$globals = get_user_meta($member_att, 'new_global_events', true);
+	update_user_meta($member_att, 'new_global_events', $globals+1);
+}}
+
+
+
 count_all_stats($defender_ID);
 count_all_stats($user_ID);
 update_user_meta($user_ID, 'user_lock', 0);
