@@ -103,6 +103,17 @@ update_field('attacker_id',$user_ID, $new_event_id);
 update_field('attacktype','aid', $new_event_id);
 update_field('time_attacked',$timestamp, $new_event_id);
 update_field('money_lost', $aid, $new_event_id);
+update_field('attacker_clan_id', $clan_ID, $new_event_id);
+
+$clan_att = get_user_meta($user_ID, 'clan_id_user', true);
+$clan_members_att = get_post_meta($clan_att,'clan_members');
+
+if(!empty($clan_att) || $clan_att != 0){
+foreach ($clan_members_att[0] as $member_att) {
+	$globals = get_user_meta($member_att, 'new_global_events', true);
+	update_user_meta($member_att, 'new_global_events', $globals+1);
+}}
+
 
 
 $file = 'aidlog.txt';

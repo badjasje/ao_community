@@ -44,7 +44,19 @@ $args = array(
          ),
          array(
            'key' => 'attacktype',
-           'value' => array('empmissile','empsat','satellite','regular','air_sea','ground','missile','war_declared','peace_declared','user_change'),
+           'value' => array(
+           		'aid',
+           		'empmissile',
+           		'empsat',
+           		'satellite',
+           		'regular',
+           		'air_sea',
+           		'ground',
+           		'missile',
+           		'war_declared',
+           		'peace_declared',
+           		'user_change'
+           		),
            'compare' => 'IN'
          ),
      array(
@@ -901,6 +913,52 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 	</div>
 
 <?php endif; // End Declaration Event ?>
+
+
+
+
+
+<?php if($attack_type == 'aid'): ?>
+
+
+<!-- Event header -->
+<div class="row battlereport-header">
+	<div class="col-md-12">
+		<img class="attack-image" src="http://assault.online/wp-content/uploads/2016/03/research.png"> 
+		Aid sent
+	</div>
+</div>
+<!-- Event header -->
+
+
+<div class="row event-row">
+	
+<!-- Attacker image -->	
+	<div class="col-md-2">
+		<div class="row">
+			<div class="col-md-12">
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
+				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
+			</div>
+		</div>
+	</div>
+<!-- Attacker image -->		
+	
+	
+	<div class="col-md-10">
+			<div class="row">
+				<div class="col-md-12 event-message">
+				
+				<?php echo get_user_name($attacker_id);?> aided <?php echo get_user_name($defender_id);?> <strong>$ <?php echo number_format($moneylost, 0, ',', ' '); ?></strong>
+				
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
+
+<?php endif; // End Aid Event ?>
 	            
 	            
 
