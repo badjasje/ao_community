@@ -21,12 +21,12 @@
 		$prev_land = get_user_meta($prev_ID, 'land', true); 
 		
 		update_user_meta($user_ID, 'moe_position', $position);
-		update_user_meta($user_ID, 'moe_prev', $land-$prev_land);
+		update_user_meta($user_ID, 'moe_prev', round($land-$prev_land));
 		
 		if($position == 1){
 			update_user_meta($user_ID, 'moe_next', 0);
 		}else{
-			update_user_meta($user_ID, 'moe_next', $next_land-$land);
+			update_user_meta($user_ID, 'moe_next', round($next_land-$land));
 		}
 		
 		}
