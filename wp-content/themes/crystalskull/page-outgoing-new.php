@@ -515,6 +515,15 @@ if ( $custom_query->have_posts() ) :
 
 				<strong>Defender losses: <?php echo $def_tot_unitslost;?> units and <?php echo $def_tot_buildingslost;?> buildings</strong><br/>
 				<?php
+				foreach ($units as $key => $order) {
+					foreach ($def_unitslost[0] as $def_unitlost) {
+					if (isset($def_unitlost[$key])) {
+						echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
+        			}
+						}
+					}
+				?>
+				<?php
 				foreach ($buildings as $key => $order) {
 					foreach ($def_unitslost[0] as $def_unitlost) {
 					if (isset($def_unitlost[$key])) {
@@ -688,8 +697,8 @@ $thiefs_lost = get_post_meta($event_ID, 'thiefs_lost', true);
 
 	<?php endwhile; ?>
 <center>
-	<div class="btn btn-general"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> <?php previous_posts_link('Previous') ?></div>
-	<div class="btn btn-general"><?php next_posts_link('Next') ?> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></div>
+	<?php previous_posts_link('Previous') ?>
+	<?php next_posts_link('Next') ?>
 </center>
 		<?php wp_reset_postdata(); ?>
 		<?php endif; ?>

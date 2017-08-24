@@ -1031,8 +1031,8 @@ $attack_type = get_post_meta($global_event_ID,'attacktype',true);
 endif; ?>
 
 <center>
-	<div class="btn btn-general"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> <?php previous_posts_link('Previous') ?></div>
-	<div class="btn btn-general"><?php next_posts_link('Next') ?> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></div>
+	<?php previous_posts_link('Previous') ?>
+	<?php next_posts_link('Next') ?>
 </center>
 
 <?php wp_reset_postdata(); // fixes bug where below ACF fields wont display 
