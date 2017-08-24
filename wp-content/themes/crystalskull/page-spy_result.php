@@ -482,6 +482,10 @@ update_field('show_spy_sender',$show, $new_event_id);
 $event_count = get_user_meta($defender_ID, 'new_events',true);
 update_user_meta($defender_ID, 'new_events', $event_count + 1);
 
+$spied = get_user_meta($user_ID, 'spied_current_clan', true);
+update_user_meta($user_ID, 'spied_current_clan', $spied+1);
+
+
 ?>
 
 
