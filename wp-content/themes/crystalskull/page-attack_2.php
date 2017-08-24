@@ -258,10 +258,19 @@ get_header(); ?>
 					
 			
 					<td data-title="Owned">
-					<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned[0];$units_total+=$units_owned[0];?></span>
+					<span><?php echo $units_owned[0];$units_total+=$units_owned[0];?></span>
 					</td>
 					<td>
-					<input class="small_input" placeholder="Enter how many units you want to send to battle" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
+					<select id="<?php echo $key;?>" name="<?php echo $key;?>">
+						
+						<?php 
+							$count = 1;
+							foreach(range(1,min(10,$units_owned[0])) as $index) {?>
+						<option name="<?php echo $key;?>" value="<?php echo $count;?>"><?php echo $count;?></option>
+						<?php 
+							$count++;
+							}?>
+					</select>
 					</td>
 					</tr>
 					<script type="text/javascript">
