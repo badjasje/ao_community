@@ -10,7 +10,7 @@ if ( 'POST' != $_SERVER['REQUEST_METHOD'] ) {
 	require( dirname(__FILE__) . '/wp-load.php' );
 if(get_field('game_status','option') == 'Live'){
 	include 'units_array.php';
-	
+	include 'satellite_array.php';
 	$order_ID = $_POST['order'];
 	
 	$user_ID = get_current_user_id(); 
@@ -36,6 +36,7 @@ if($user_ID != $placed_ID){
 	
 
 $unit_type = get_post_meta($order_ID,'unit_type',true);
+$order_type = get_post_meta($order_ID,'order_type',true);
 	
 $discount_level = get_user_meta($user_ID, 'level_market_discount',true);
 
@@ -75,6 +76,10 @@ if($discount_level == 2){
 			update_user_meta( $user_ID,'money',$totalmoney+$cashback);
 			
 			wp_trash_post($order_ID);
+			if($order_type == 'satellite'){
+				update_user_meta($user_ID, 'sat_in_progress', 0);
+				$cashback = $satellites[$unit_type]['price']*0.75;	
+			}
 			update_user_meta($user_ID, 'user_lock', 0);
 			$_SESSION['status'] = 'Order canceled. You received $ '.number_format($cashback, 0, ',', ' ');
 			wp_redirect(get_permalink(3204)); exit;
