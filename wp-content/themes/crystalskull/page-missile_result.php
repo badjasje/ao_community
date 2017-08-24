@@ -19,7 +19,7 @@ if($userLock == 1){
 }
 update_user_meta($user_ID, 'user_lock', 1);
 
-$shotdown			= 		false;
+$shotdown	= 	false;
 $AMS 		= 	get_user_meta($defender_ID, 'antimissile', true);
 $def_land 	= 	get_user_meta($defender_ID, 'builtland', true);
 

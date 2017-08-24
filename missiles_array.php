@@ -32,7 +32,7 @@
 			'shortatt'		=>  array('i'),
 			'attacks'		=>  array('inf'),
 			'defends'		=>  array(''),
-			'attack'		=>	10000,
+			'attack'		=>	6000,
 			'type'			=>	'mis',
 			'life'			=>	0),
 	'moab' 		=> array(
