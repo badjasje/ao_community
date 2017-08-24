@@ -42,7 +42,9 @@
                     </td>
 
                     <td data-title="Price">
+	                    <span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per building." data-placement="bottom">
                         $ <?php echo $order['price']; ?>
+	                    </span>
                     </td>
 
                     <td data-title="Att/Life">
