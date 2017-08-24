@@ -183,7 +183,7 @@ get_header(); ?>
 
 
 						<td data-title="Max">
-							<?php 	$max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount)));
+							<?php 	$max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount_value)));
 									$max_space = ($airspace[0]*10)-count_airspace($user_ID);
 
 							?>
@@ -294,7 +294,7 @@ get_header(); ?>
 
 
 						<td data-title="Max">
-							<?php 	$max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount)));
+							<?php 	$max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount_value)));
 									$max_space = ($seaspace[0]*5)-count_seaspace($user_ID);
 
 							?>
@@ -397,7 +397,7 @@ get_header(); ?>
 
 
 						<td data-title="Max">
-							<?php 	$max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount)));
+							<?php 	$max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount_value)));
 									$max_space = ($vehspace[0]*10)-count_vehspace($user_ID);
 
 							?>
@@ -506,7 +506,7 @@ get_header(); ?>
 
 
 						<td data-title="Max">
-							<?php 	$max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount)));
+							<?php 	$max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount_value)));
 									$max_space = ($infspace[0]*20)-count_infspace($user_ID);
 
 							?>
