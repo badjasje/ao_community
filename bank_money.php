@@ -115,7 +115,7 @@ if($_POST['amount'] < 5000){
 	
 
 /* check amount of deposits made, max 10 */
-if($deposits[0] == 10){
+if($deposits[0] >= 10){
 	$_SESSION['status'] = 'You already made 10 deposits';
 	wp_redirect(get_permalink(3953));exit;
 	}

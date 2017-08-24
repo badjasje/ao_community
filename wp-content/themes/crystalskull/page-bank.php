@@ -11,6 +11,20 @@ $timestamp = current_time('timestamp');
 $total_deposited = 0;
 $total_final = 0;
 $unlocked = 0;
+
+
+$enddate = get_field('end_date','option');
+$endstamp = strtotime($enddate);
+$daysleft = $endstamp-$timestamp;
+$daysleft = floor($daysleft/60/60/24);
+
+$disabled = '';
+$placeholder = 'Enter amount';
+if($daysleft < 3){
+	$disabled = 'disabled';
+	$placeholder = 'Not available';
+}
+
 	
 get_header(); ?>
 <div class="page normal-page">
@@ -78,43 +92,59 @@ get_header(); ?>
 	<div class="row">
 		<div class="row">
 			<div class="col-md-6 attackSelect styled-select slate">
-				<select name="days">
-					<?php foreach ($rates as $key => $rate) { ?>
-						<option name="days" value="<?php echo $key;?>">
-						<?php echo $key;?> days (<?php echo ($rate['interest']-1)*100+$extra_interest;?>% daily interest
-						</option>
-					<?php } ?>
-				</select>
+				<select <?php echo $daysleft;?> name="days">
+					<?php 
+						$count = 3;
+						if($daysleft < 3){
+							$count = 1;
+							$daysleft = 1;
+						}
+						foreach (range($count,min($daysleft,10)) as $rateDay) {?>
+					<?php if($daysleft < 3):?>
+						<option name="days">
+						 	You can no longer deposit money.
+						 </option>
+					<?php else:?>
+					<option name="days" value="<?php echo $count;?>">
+						 <?php echo $count;?> days (<?php echo ($rates[$count]['interest']-1)*100+$extra_interest;?>% daily interest)
+					</option>
+					<?php endif;?>
+					<?php 
+						$count++;
+						} ?>
+					</select>	
 			</div>
 		
 			<div class="col-md-6">
 		
 				<div class="col-xs-10 depField">
-					<input required type="text" id="amount" name="amount" placeholder="Enter amount"/>
+					<input <?php echo $disabled;?> required type="text" id="amount" name="amount" placeholder="<?php echo $placeholder;?>"/>
 				</div>
-			
+				
 				<div id="maxdep" class="col-xs-2 maxDep">
 					MAX
 				</div>
+				
 			
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<input type="submit" name="submitBtn" value="Deposit money" class="">
+				<input <?php echo $disabled;?> type="submit" name="submitBtn" value="Deposit money" class="">
 			</div>
 		</div>
 	</div>
 </div>
 
 </form>
-				
+<?php if($daysleft >= 3):?>	
 <script type="text/javascript">
 	jQuery("#maxdep").click(function() {
 	jQuery("#amount").val("<?php echo $maxDepositAmount;?>");
 	});
 
 </script>
+<?php endif;?>
 
 <div class="row profile_block">
 	<div class="row bankHeader">
@@ -219,10 +249,12 @@ get_header(); ?>
 	
 	<?php }?>
 	<div class="row">
+		<div class="col-md-12">
 		<div class="depTotals">	
 			<strong>Total deposited:</strong> $ <?php echo number_format($total_deposited, 0, ',', ' '); ?> (<?php echo count_deposits($user_ID);?> deposits)<br/>
 			<strong>Total final:</strong> $ <?php echo number_format($total_final, 0, ',', ' '); ?><br/>
-			<strong>Total Available (unlocked):</strong> $ <?php echo number_format($unlocked, 0, ',', ' '); ?>
+			<strong>Total Available (unlocked):</strong> $ <?php echo number_format($unlocked, 0, ',', ' '); ?><br/><br/>
+		</div>
 		</div>
 	</div>
 </div>
