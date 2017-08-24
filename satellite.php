@@ -29,6 +29,11 @@ if ( !is_user_logged_in() ) {
 $totalmoney = get_user_meta($user_ID, 'money',true);
 $totalturns = get_user_meta($user_ID, 'turns',true);
 $sat_level = get_user_meta($user_ID, 'level_satellite_construction', true);
+if($sat_level == 0){
+	$_SESSION['status'] = 'Research satellite construction you tool. And stop abusing. Found a bug? REPORT IT.';
+	wp_redirect(get_permalink(8578));
+	exit;
+}
 $satdeduct = 1;
 if($sat_level >= 2){
 	$satdeduct = 0.8;
