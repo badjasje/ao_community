@@ -16,19 +16,36 @@ get_header('spyrep'); ?>
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	            
-	            
-	        <?php if(get_field('game_status','option') != 'Live'):?>
-<div class="notice_message"><span class="rdw-line">The round has ended!</span></div><br/>
+
+
+  
+<?php if(get_field('game_status','option') != 'Live'):?>
+	<div class="notice_message">
+		<span class="rdw-line">The round has ended!</span>
+	</div>
+	<br/>
 <?php else:?>
 	            
-	            <center>
-<a class="btn btn-general" href="/users/profile/?id=<?php echo $target_id;?>"><i class="fa fa-user-o" aria-hidden="true"></i> Profile</a> 
-<a class="btn btn-general" href="/attack/step-1/?id=<?php echo $target_id;?>"><i class="fa fa-crosshairs" aria-hidden="true"></i> Attack</a> 
-<?php if($target_clan_ID != 0):?>
-<a class="btn btn-general" href="/spy-report-overview/?id=<?php echo $target_clan_ID;?>"><i class="fa fa-address-card-o" aria-hidden="true"></i> Clan reports</a> 
-<?php endif;?>
 
-	          </center>
+
+<center>
+	<a class="btn btn-general" href="/users/profile/?id=<?php echo $target_id;?>">
+		<i class="fa fa-user-o" aria-hidden="true"></i> Profile
+	</a> 
+	
+	<a class="btn btn-general" href="/attack/step-1/?id=<?php echo $target_id;?>">
+		<i class="fa fa-crosshairs" aria-hidden="true"></i> Attack
+	</a> 
+	
+	<?php if($target_clan_ID != 0):?>
+		<a class="btn btn-general" href="/spy-report-overview/?id=<?php echo $target_clan_ID;?>">
+			<i class="fa fa-address-card-o" aria-hidden="true"></i> Clan reports
+		</a> 
+	<?php endif;?>
+</center>
+
+
+
 <center>
 	<ul class="tabs">
 		<li class="tab-link current" data-tab="tab-1">Buildings</li>
@@ -39,43 +56,44 @@ get_header('spyrep'); ?>
 
 
 <div id="tab-1" class="tab-content current">
+
 <?php
-	$args = array(
-	'posts_per_page'   => 1,
-	'author__in'	=> $members,
-	'meta_query'	=> array(
-	'relation'		=> 'AND',
-		array(
-			'key'	 	=> 'spied_id',
-			'value'	  	=> $target_id,
-			'compare' 	=> '=',
-			),
-		array(
-			'key'	 	=> 'spy_type',
-			'value'	  	=> 'spyplane',
-			'compare' 	=> '=',
-			),
-			
-		
+$args = array(
+'posts_per_page'   => 1,
+'author__in'	=> $members,
+'meta_query'	=> array(
+'relation'		=> 'AND',
+	array(
+		'key'	 	=> 'spied_id',
+		'value'	  	=> $target_id,
+		'compare' 	=> '=',
 		),
-	'post_type'        => 'spy_rep',
-	);
-	$reports = get_posts( $args ); 
+	array(
+		'key'	 	=> 'spy_type',
+		'value'	  	=> 'spyplane',
+		'compare' 	=> '=',
+		),
+		
+	
+	),
+'post_type'        => 'spy_rep',
+);
+$reports = get_posts( $args ); 
 		
 		
 $count = 0;
 
-	foreach ($reports as $report) {
-		$author = $report->post_author;
-		$member_data = get_userdata($author);
-		$spy_array = get_post_meta($report->ID, 'spy_array', true);
-			
-		$count++;
-			?>
+foreach ($reports as $report) {
+	$author = $report->post_author;
+	$member_data = get_userdata($author);
+	$spy_array = get_post_meta($report->ID, 'spy_array', true);	
+	$count++;
+	?>
 	
 	
 <div class="notice_message">
-	Last spied by <a href="/users/profile/?id=<?php echo $author;?>"><?php echo $member_data->display_name.' (#'.$author.')';?></a> \ <?php echo $report->post_date;?> 
+	Last spied by <a href="/users/profile/?id=<?php echo $author;?>">
+		<?php echo $member_data->display_name.' (#'.$author.')';?></a> \ <?php echo $report->post_date;?> 
 		
 	<?php if($spy_array['enhance'] > 0):?>
 		<br/>Enhanced <?php echo $spy_array['enhance'];?> times	
@@ -123,56 +141,67 @@ $count = 0;
 			
 		<?php endif;?>
 			
-		<?php }?>
-		
+	<?php }?>
 			
-			</tbody>
-			</table>
+	</tbody>
+</table>
 			
-			<?php if($count == 0):?>
-			<div class="notice_message">No spy reports for this player.</div><br/>
-            <?php endif;?>
-			</div>
+
+<?php if($count == 0):?>
+	<div class="notice_message">No spy reports for this player.</div><br/>
+<?php endif;?>
 			
-			<?php }?>
-            </div>
-			<div id="tab-2" class="tab-content">
-	           <?php
-			   $args = array(
-			   	'posts_per_page'   => 1,
-			   	'author__in'	=> $members,
-			   	'meta_query'	=> array(
-				'relation'		=> 'AND',
-					array(
-						'key'	 	=> 'spied_id',
-						'value'	  	=> $target_id,
-						'compare' 	=> '=',
-						),
-					array(
-						'key'	 	=> 'spy_type',
-						'value'	  	=> 'spy',
-						'compare' 	=> '=',
-						),
-						
-					
-					),
-			'post_type'        => 'spy_rep',
-			);
-			$reports = get_posts( $args ); 
+
+			
+<?php }?>
+
+</div> <!-- Close tab-1 -->
+        
+
+
+<div id="tab-2" class="tab-content">
+<?php
+$args = array(
+	'posts_per_page'   => 1,
+	'author__in'	=> $members,
+	'meta_query'	=> array(
+'relation'		=> 'AND',
+	array(
+		'key'	 	=> 'spied_id',
+		'value'	  	=> $target_id,
+		'compare' 	=> '=',
+		),
+	array(
+		'key'	 	=> 'spy_type',
+		'value'	  	=> 'spy',
+		'compare' 	=> '=',
+		),
 		
-		
-			$count = 0;
-			foreach ($reports as $report) {
-			$author = $report->post_author;
-			$member_data = get_userdata($author);
-			$spy_array = get_post_meta($report->ID, 'spy_array', true);
-			$count++;
-			?>
-			<div class="notice_message">
-			Last spied by <a href="/users/profile/?id=<?php echo $author;?>"><?php echo $member_data->display_name.' (#'.$author.')';?></a> \ <?php echo $report->post_date;?> 
+	
+	),
+'post_type'        => 'spy_rep',
+);
+$reports = get_posts( $args ); 
+
+
+$count = 0;
+foreach ($reports as $report) {
+$author = $report->post_author;
+$member_data = get_userdata($author);
+$spy_array = get_post_meta($report->ID, 'spy_array', true);
+$count++;
+?>
+
+
+
+<div class="notice_message">
+	Last spied by <a href="/users/profile/?id=<?php echo $author;?>">
+		<?php echo $member_data->display_name.' (#'.$author.')';?></a> \ <?php echo $report->post_date;?> 
+			
 			<?php if($spy_array['enhance'] > 0):?>
-			<br/>Enhanced <?php echo $spy_array['enhance'];?> times
+				<br/>Enhanced <?php echo $spy_array['enhance'];?> times
 			<?php endif;?>
+			
 			<table style="margin-bottom:0px;"class="responsive-table">
 				<tbody>
 				
@@ -188,7 +217,9 @@ $count = 0;
 				</tr>
 				</tbody>
 			</table>
-			</div><br/>
+</div><br/>
+
+
 			<table class="responsive-table">
 				<thead>
 				<th scope="col">Name</th>
