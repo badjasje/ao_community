@@ -200,8 +200,9 @@ get_header(); ?>
 				<?php if($tot_units > 0):?>
 		
 		<div class="row">
-		  <div class="col-md-8"><input  id="button" type="submit" value="Next step" class=""></div>
-		  <div class="col-md-4"><center><div class="send_all btn btn-general" style="margin-top: 11px;"data-val="<?php echo implode('|',$sendall);?>">Send all available units</div></center></div>
+		  
+		  <div class="col-md-4 col-sm-push-8"><center><div class="send_all btn btn-general" style="margin-top: 11px;"data-val="<?php echo implode('|',$sendall);?>">Send all available units</div></center></div>
+		  <div class="col-md-8 col-sm-pull-4"><input  id="button" type="submit" value="Next step" class=""></div>
 		</div>
 		
 		<script>
@@ -437,8 +438,9 @@ get_header(); ?>
 				<br/>
 				<?php if($units_total > 0):?>
 		<div class="row">
-		  <div class="col-md-8"><input  id="button" type="submit" value="Next step" class=""></div>
-		  <div class="col-md-4"><center><div class="send_all btn btn-general" style="margin-top: 11px;"data-val="<?php echo implode('|',$sendall);?>">Send all available units</div></center></div>
+		  
+		  <div class="col-md-4 col-sm-push-8"><center><div class="send_all btn btn-general" style="margin-top: 11px;"data-val="<?php echo implode('|',$sendall);?>">Send all available units</div></center></div>
+		  <div class="col-md-8 col-sm-pull-4"><input  id="button" type="submit" value="Next step" class=""></div>
 		</div>
 		
 		<script>
@@ -529,8 +531,9 @@ get_header(); ?>
 				<br/>
 				<?php if($units_total>0):?>
 		<div class="row">
-		  <div class="col-md-8"><input  id="button" type="submit" value="Next step" class=""></div>
-		  <div class="col-md-4"><center><div class="send_all btn btn-general" style="margin-top: 11px;"data-val="<?php echo implode('|',$sendall);?>">Send all available units</div></center></div>
+		  
+		  <div class="col-md-4 col-sm-push-8"><center><div class="send_all btn btn-general" style="margin-top: 11px;"data-val="<?php echo implode('|',$sendall);?>">Send all available units</div></center></div>
+		  <div class="col-md-8 col-sm-pull-4"><input  id="button" type="submit" value="Next step" class=""></div>
 		</div>
 		
 		<script>
