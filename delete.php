@@ -33,6 +33,32 @@ if($user_ID != $clan_leader[0]){
 }
 
 if($clan_ID_deleter[0] == $clan && $user_ID == $clan_leader[0]){	
+	
+	$wars_on = get_posts(array(
+		 'numberposts'	=> -1,
+		 'post_type'	=> 'wars',
+		 'meta_key'		=> 'declared_by',
+		 'post_status'  => 'publish',
+		 'meta_value'	=> $clan
+		 ));
+		 
+	$wars_by = get_posts(array(
+		 'numberposts'	=> -1,
+		 'post_type'	=> 'wars',
+		 'meta_key'		=> 'declared_on',
+		 'post_status'  => 'publish',
+		 'meta_value'	=> $clan
+		 ));
+		 
+	$warcount = count($wars_on)+count($wars_by);
+		 
+	if($warcount > 0){
+		$_SESSION['status'] = 'Cannot delete clan during a clan war.';
+		wp_redirect(get_permalink(3601));
+		exit;
+		
+	}
+		 
 		$clan_members = get_post_meta($clan,'clan_members');
 		foreach ($clan_members as $member) {
 	
@@ -44,23 +70,13 @@ if($clan_ID_deleter[0] == $clan && $user_ID == $clan_leader[0]){
 		$_SESSION['status'] = 'Your clan was deleted';
 		wp_redirect(get_permalink(3601));		
 		
-		 $wars_on = get_posts(array(
-		 'numberposts'	=> -1,
-		 'post_type'		=> 'wars',
-		 'meta_key'		=> 'declared_by',
-		 'meta_value'	=> $clan
-		 ));
+		 
 		
 		foreach ($wars_on as $war) {
 			wp_delete_post($war->ID);
 		}
 		
-		$wars_by = get_posts(array(
-		 'numberposts'	=> -1,
-		 'post_type'	=> 'wars',
-		 'meta_key'		=> 'declared_on',
-		 'meta_value'	=> $clan
-		 ));
+		
 		
 		foreach ($wars_by as $war) {
 			wp_delete_post($war->ID);
