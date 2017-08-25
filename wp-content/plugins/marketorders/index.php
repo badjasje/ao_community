@@ -163,9 +163,29 @@ $nightmode = get_user_meta($user_ID, 'nightmode', true);
 if($nightmode == 'yes'){
     ?>
         <style>
-	        .manualcontainer {
-    background-color: #6d6d6d;}
-          .logo img{
+	        
+.attackSelect select {
+	color: #fff;
+    border: 1px solid #2d4350;
+}
+.blog-ind .blog-content {
+    padding-bottom: 25px;
+    background-color: #8a8a8a;
+    border: 1px solid #2d4350;
+    font-size: 14px;
+    color: #fff;
+}
+.blog-ind .blog-info {
+    border: 1px solid #2d4350;
+    position: relative;
+    border-bottom: 0px;
+    background-color: #2d4350;
+    color: #fff;
+}
+.manualcontainer {
+    background-color: #6d6d6d;
+}
+.logo img{
 	filter: invert(100%);
 }
 body .navbar-inverse,body .blog{
