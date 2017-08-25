@@ -7,7 +7,6 @@ $activeTab = sanitize_text_field($_GET['tab']);
 
 include 'building_array.php';
 include 'units_array.php';
-$newToken = generateFormToken('form1');
 
 $land       = get_user_meta($user_ID, 'land');
 $builtland  = get_user_meta($user_ID, 'builtland');
