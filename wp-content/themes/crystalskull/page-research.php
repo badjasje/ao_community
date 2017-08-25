@@ -199,7 +199,9 @@ get_header(); ?>
 		<div class="col-md-12">
 			<div class="progress progressBarnomargin">
 				<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $percentage;?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $percentage;?>%;">
+				<div style="position:relative;width:200px;">
 				<?php echo $percentage;?>% Complete - Time left: <?php echo $timeLeft;?>
+				</div>
   				</div>
 			</div>
 		</div>
