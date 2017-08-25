@@ -908,6 +908,22 @@ get_header(); ?>
 			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'modes_prev', true), 0, ',', ' ');?></div>
 		</div>
 	</div>
+
+	<div class="col-md-4 medal_col">
+		<div class="row medal_box">
+			<div class="col-md-12 medal_header">
+				<strong>Medal of Devastation
+				<span class="hover-tip"  data-toggle="tooltip" data-original-title="Most networth damage done in a single attack. Attack must be done in clan war." data-placement="bottom">
+					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
+				</strong></div>
+			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'modev_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row">Networth damage:</div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'modev_damage', true), 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row"></div>
+			<div class="col-md-6 col-xs-6 medal_row"></div>
+		</div>
+	</div>
 </div>
        
 <!-- NEWS -->

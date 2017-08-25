@@ -213,89 +213,49 @@ $args = array(
 		
 		}
 		
-		/*
-		
-			
-	<?php } ?>
-	</table><br/>
-	<?php
-		
+	
 		$args = array(
-	'meta_key'     => 'kills_made',
-	'number'	=> 10,
+	'meta_key'     => 'nw_damage_defender',
+	'posts_per_page'	=> 300,
+	'post_type'		=> 'event_local',
 	'orderby'      => 'meta_value_num',
-	'order'        => 'DESC',);
+	'order'        => 'DESC',
+	'meta_query'	=> array(
+		'relation'		=> 'OR',
+		array(
+			'key'		=> 'war_status',
+			'compare'	=> '=',
+			'value'		=> 'incoming',
+		),
+		array(
+			'key'		=> 'war_status',
+			'compare'	=> '=',
+			'value'		=> 'mutual',
+		),
+		array(
+			'key'		=> 'war_status',
+			'compare'	=> '=',
+			'value'		=> 'outgoing',
+		)),
 	
-	$users = get_users($args); ?>
+	);
 	
-	<strong>Medal of Death</strong>
-	<table>
-	<?php foreach ($users as $user) {
-		$user_ID = $user->ID;
+	$attacks = get_posts($args); 
+		$position = 0;
+		$users = array();
+		$count = 0;
+		foreach ($attacks as $attack) {
+		
+		$user_ID = $attack->post_author;
+		if(!in_array($user_ID, $users)){
+		$count++;
+		$position += 1;
 		$member_data = get_userdata($user_ID);
-		$kills = get_user_meta($user_ID, 'kills_made', true);?>
-		<tr>
-			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)
-			</td>
-			<td><?php echo number_format($kills, 0, ',', ' '); ?>
-			</td>
-		</tr>
+		$damage = get_post_meta($attack->ID, 'nw_damage_defender', true);
+		update_user_meta($user_ID, 'modev_position', $position);	
+		update_user_meta($user_ID, 'modev_damage', $damage);
 		
-		
-	<?php } ?>
-	</table><br/>
-
-<?php
-		
-		$args = array(
-	'meta_key'     => 'money_gained_thieving',
-	'number'	=> 10,
-	'orderby'      => 'meta_value_num',
-	'order'        => 'DESC',);
-	
-	$users = get_users($args); ?>
-	
-	<strong>Medal of Thievery</strong>
-	<table>
-	<?php foreach ($users as $user) {
-		$user_ID = $user->ID;
-		$member_data = get_userdata($user_ID);
-		$stolen = get_user_meta($user_ID, 'money_gained_thieving', true);?>
-		<tr>
-			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)
-			</td>
-			<td>$ <?php echo number_format($stolen, 0, ',', ' '); ?>
-			</td>
-		</tr>
-		
-		
-	<?php } ?>
-	</table><br/>
-	
-<?php
-		
-		$args = array(
-	'meta_key'     => 'nw_damage_missiles',
-	'number'	=> 10,
-	'orderby'      => 'meta_value_num',
-	'order'        => 'DESC',);
-	
-	$users = get_users($args); ?>
-	
-	<strong>Medal of Destruction</strong>
-	<table>
-	<?php foreach ($users as $user) {
-		$user_ID = $user->ID;
-		$member_data = get_userdata($user_ID);
-		$damage = get_user_meta($user_ID, 'nw_damage_missiles', true);?>
-		<tr>
-			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)
-			</td>
-			<td>$ <?php echo number_format($damage, 0, ',', ' '); ?>
-			</td>
-		</tr>
-		
-		
-	<?php } ?>
-	</table><br/>
+		$users[] = $user_ID;
+		if($count == 200){die;}
+		}}
 	
