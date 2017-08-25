@@ -267,7 +267,7 @@
 	'battleship' 		=> array(
 			'price'			=>	'2150',
 			'networth'		=>	13,
-			'normalname'	=>	'Dreadnought',
+			'normalname'	=>	'Battleship',
 			'attacks'		=>  array('bld'),
 			'defends'		=>  array(),
 			'attack'		=>	110,
@@ -307,7 +307,7 @@
 	'submarine' 		=> array(
 			'price'			=>	'1000',
 			'networth'		=>	10,
-			'normalname'	=>	'Typhoon Attack Submarine',
+			'normalname'	=>	'Submarine',
 			'attacks'		=>  array('bld','sea'),
 			'defends'		=>  array('sea'),
 			'attack'		=>	60,
