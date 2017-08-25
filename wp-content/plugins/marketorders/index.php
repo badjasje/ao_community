@@ -40,21 +40,20 @@ function unit_types($user_ID){
 
 function can_attack($user_ID){
 	include('units_array.php');
-	$attack_array = array();
+	$attack_array = '';
 	foreach ($units as $key => $unit) {
 		$units = get_user_meta($user_ID, $key.'_owned', true);
 			
 			if($units > 0){
 			$attacks = $unit['attacks'];
 			if(!empty($attacks)){
-			$attack_array[] = array_shift($attacks);
+			$attack_array .= implode(", ", $attacks);
+			$attack_array .= ', ';
 			}}
 
 	}
-	if(($key = array_search('n.a', $attack_array)) !== false) {
-   		unset($attack_array[$key]);
-	}
-	return array_unique($attack_array);
+	
+	return $attack_array;
 	
 }
 

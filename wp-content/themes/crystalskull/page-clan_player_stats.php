@@ -62,7 +62,7 @@ get_header(); ?>
 		$power = get_user_meta($member, 'power', true);
 		
 		$highest_networth = number_format(get_user_meta($member, 'highest_networth', true), 0, ',', ' ');
-		$highest_land = number_format(get_user_meta($member, 'highest_land', true), 0, ',', ' ');
+		$freeLand = number_format(get_user_meta($member, 'land', true)-get_user_meta($member, 'builtland', true), 0, ',', ' ');
 		
 		$extraClass = '';
 		$counter++;
@@ -72,7 +72,7 @@ get_header(); ?>
 		}
 		$member_data = get_userdata($member);
 		$last_online = get_user_meta($member, 'last_online',true);
-		$spiednr = get_user_meta($user_ID, 'spied_current_clan',true);
+		$spiednr = get_user_meta($member, 'spied_current_clan',true);
 		
 		if(!empty($last_online)){
 		$last_seen = $timestamp - $last_online;
@@ -123,7 +123,7 @@ get_header(); ?>
 	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Land</span>
 		<span class="clan_data_right land">
-		<span class="hover-tip"  data-toggle="tooltip" data-html="true"  data-original-title="Highest land: <?php echo $highest_land;?> m<sup>2</sup>" data-placement="bottom">
+		<span class="hover-tip"  data-toggle="tooltip" data-html="true"  data-original-title="Free land: <?php echo $freeLand;?> m<sup>2</sup>" data-placement="bottom">
 		<?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup></span>
 		</span>
 	</div>
@@ -224,7 +224,7 @@ get_header(); ?>
 	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Can attack</span>
 		<span class="clan_data_right">
-		<?php echo implode(", ", array_values(can_attack($member)));?>
+		<?php  echo rtrim(can_attack($member),", ");?>
 		</span>
 	</div>
 	<div class="col-md-2 clan_column border_bottom_mobile">
