@@ -52,7 +52,7 @@ $enddate = get_field('end_date','option');
 $endstamp = strtotime($enddate);
 $timestamp = current_time('timestamp');
 $timeleft = $endstamp-$timestamp;
-
+$marketclose = $timeleft-86400;
 get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">
@@ -86,7 +86,14 @@ get_header(); ?>
 <?php if($timeleft<86400):?>
 <span class="rdw-line">You cannot order units during the last 24 hours of the round.</span</div></div>	
 <?php else:?>
-<span class="rdw-line">There is a waiting time of <?php echo $hours;?> hours based on your completed research.</span</div></div>
+<span class="rdw-line">There is a waiting time of <?php echo $hours;?> hours based on your completed research.</span>
+<?php if($timeleft < 172800+86400):?>
+<span class="rdw-line-2" style="margin-top:10px;"><span id="countdown_time"></span> left before the market closes.</span>
+<?php endif;?>
+</div></div>
+
+
+
 	<ul id="explore-tab" class="nav nav-tabs nav-justified" role="tablist">
 		<li class="nav-item <?php echo $activeTab === 'air' ? 'active' : ''; ?>">
 			<a class="nav-link" data-toggle="tab" data-target="#air" href="?tab=air" role="tab">Air units</a>
@@ -574,6 +581,39 @@ get_header(); ?>
         history.pushState(null, null, currentTab);
         jQuery('#currentTab').val(currentTab);
     });
-</script>
+
+
+var
+diff = <?php echo $marketclose*1000;?>;
+
+function updateETime() {
+
+function pad(num) {
+return num > 9 ? num : '0'+num;
+};
+
+
+days = Math.floor( diff / (1000*60*60*48) ),
+hours = Math.floor( diff / (1000*60*60) ),
+mins = Math.floor( diff / (1000*60) ),
+secs = Math.floor( diff / 1000 ),
+
+dd = days,
+hh = hours - days * 24,
+mm = mins - hours * 60,
+ss = secs - mins * 60;
+
+document.getElementById("countdown_time")
+.innerHTML =
+
+pad(hh) + ':' + //' hours ' +
+pad(mm) + ':' + //' minutes ' +
+pad(ss) ; //+ ' seconds' ;
+
+diff -= 1000;
+
+}
+setInterval(updateETime, 1000 );
+</script>	 
 
 <?php get_footer(); ?>
