@@ -22,6 +22,18 @@ add_filter('previous_posts_link_attributes', 'posts_link_attributes');
 function posts_link_attributes() {
     return 'class="btn btn-general"';
 }
+function my_login_logo() { ?>
+    <style type="text/css">
+        #login h1 a, .login h1 a {
+            background-image: url("/wp-content/uploads/2016/03/AO_logo.png");
+		height:30px;
+		width:320px;
+		background-size: 320px;
+		background-repeat: no-repeat;
+        }
+    </style>
+<?php }
+add_action( 'login_enqueue_scripts', 'my_login_logo' );
 
 function unit_types($user_ID){
 	include('units_array.php');
