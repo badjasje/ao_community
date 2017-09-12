@@ -1770,4 +1770,15 @@ color: #2c90c6 !important;
 	.market_column{
 	line-height: 20px;
 	}
-	}
+}
+.maxExplore{
+	font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #2d4350;
+    padding: 0px 0px;
+    background-color: #2d4350;
+    color: #fff;
+}
+}

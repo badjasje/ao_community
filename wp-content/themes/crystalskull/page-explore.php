@@ -48,53 +48,15 @@ get_header(); ?>
 			<div class="tab-content current build_content tabbed-table">
 				<div class="tab-pane <?php echo $activeTab === 'explore' ? 'active' : ''; ?>"  id="explore" role="tabpanel">
 
-					<?php if(empty(get_user_meta($user_ID, 'explored_today')[0]) || get_user_meta($user_ID, 'explored_today')[0] == 0):?>
-					<center><p>You haven't explored any land today. You can explore 20 000 m<sup>2</sup> </p></center>
-					<?php else:?>
-					<center><p>You have explored <strong><?php echo number_format(get_user_meta($user_ID, 'explored_today')[0], 0, ',', ' '); ?> m<sup>2</sup></strong> today. You can explore an additional <strong><?php echo number_format(20000-get_user_meta($user_ID, 'explored_today')[0], 0, ',', ' '); ?> m<sup>2</sup></strong> <i>(<?php echo floor((20000-get_user_meta($user_ID, 'explored_today')[0])/(200-((ceil($ownedland[0]*0.002)))));?> turns)</i></p></center>
-					<?php endif;?>
-
-					<form class="form" action="<?php echo home_url() ?>/explore.php" name="" id="explore" method="post">
-						<table class="responsive-table">
-							<tr>
-								<td>
-									<center><strong>Enter the amount of turns you wish to explore</strong></center>
-								</td>
-								<td>
-									<input pattern="[0-9]" type="number" class="small_input" type="text" id="turns" name="turns" value=""/>
-								</td>
-							</tr>
-						</table>
-						<div class="padded">
-							<input type="submit" value="Explore" class="">
-						</div>
-					</form>
+					<?php include 'pages/explore/explore.php'; ?>
+					
 				</div>
 
 
 				<div class="tab-pane <?php echo $activeTab === 'sell' ? 'active' : ''; ?>"  id="sell" role="tabpanel">
 
-					<?php if(empty(get_user_meta($user_ID, 'land_sold_today')[0]) || get_user_meta($user_ID, 'land_sold_today')[0] == 0):?>
-					<center><p>You can sell <strong><?php echo number_format(20000-get_user_meta($user_ID, 'land_sold_today')[0], 0, ',', ' '); ?> m<sup>2</sup></strong>. You currently have <strong><?php if($freeland > 0){echo number_format($freeland, 0, ',', ' ');}else{echo '0';} ?> m<sup>2</sup></strong> free land.</p></center>
-					<?php else:?>
-					<center><p>You have sold <strong><?php echo number_format(get_user_meta($user_ID, 'land_sold_today')[0], 0, ',', ' '); ?> m<sup>2</sup></strong> today. You can sell an additional <strong><?php echo number_format(20000-get_user_meta($user_ID, 'land_sold_today')[0], 0, ',', ' '); ?> m<sup>2</sup></strong> You currently have <strong><?php if($freeland > 0){echo number_format($freeland, 0, ',', ' ');}else{echo '0';} ?> m<sup>2</sup></strong> free land</p></center>
-					<?php endif;?>
-					<form class="form" action="<?php echo home_url() ?>/sell_land.php" name="" id="explore" method="post">
-						<table class="responsive-table">
-							<tr>
-								<td>
-									<center><strong><span class="rdw-line-2">Enter the amount of land you wish to sell.</span> <span class="rdw-line-2">1 m<sup>2</sup> has a value of $ 75</span></strong></center>
-								</td>
-								<td>
-									<input pattern="[0-9]" type="number"  class="small_input" type="text" id="land" name="land" value="" placeholder="For example: 2000"/>
-								</td>
-							</tr>
-						</table>
-
-						<div class="padded">
-							<input type="submit" value="Sell land" class="">
-						</div>
-					</form>
+					<?php include 'pages/explore/sell.php'; ?>
+					
 				</div>
 			</div>
 			
