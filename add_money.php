@@ -23,13 +23,13 @@ foreach ($users as $user) {
 	}
 	
 	if($money_production_level == 0 || empty($money_production_level)){
-		$money_income = $INCOME_MONEY*$finance_multi;
+		$money_income = 15000*$finance_multi;
 	}
 	if($money_production_level == 1){
-		$money_income = $INCOME_MONEY+10000*$finance_multi;
+		$money_income = 25000*$finance_multi;
 	}
 	if($money_production_level == 2){
-		$money_income = $INCOME_MONEY+20000*$finance_multi;
+		$money_income = 35000*$finance_multi;
 	}
 	
 	$money_new = $money + $money_income;

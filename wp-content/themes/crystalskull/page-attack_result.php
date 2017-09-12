@@ -1002,11 +1002,7 @@ update_post_meta($defend_clan_id,'clan_points',$starting_Defpoints+$defender_poi
 	?>
 <div id="attackCanvas">
 <center>
-<?php 
-	
-echo 'DEF tot power: '.$defender_total_power.'<br/>';
-echo 'ATT tot power: '.$attacker_total_power.'<br/>';
-echo 'Difference: '.round(($attacker_total_power-$defender_total_power)/$defender_total_power*100).'%';	
+<?php 	
 	
 if ($result == 'success'): ?>
 <?php

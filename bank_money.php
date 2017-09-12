@@ -37,8 +37,8 @@ $userLock = get_user_meta($user_ID, 'user_lock', true);
 if($userLock == 1){
 	update_user_meta($user_ID, 'user_lock', 0);
 	$_SESSION['status'] = 'Please try again.';
-	wp_redirect(get_permalink(3582));
-}
+	wp_redirect(get_permalink(3582));exit;
+}else{
 update_user_meta($user_ID, 'user_lock', 1);
 
 if ( ! defined( 'ABSPATH' ) ) exit; 
@@ -161,4 +161,4 @@ $RELEASE_DATE = $timestamp+($_POST['days']*86400);
 	$_SESSION['status'] = 'Deposit placed';wp_redirect(get_permalink(3953));exit;
 	
 }
-}
+}}

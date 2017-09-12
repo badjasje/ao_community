@@ -57,6 +57,21 @@ $warcheck = get_posts(
 		)
 	);
 
+if(count($warcheck) == 0){
+$decNW = get_post_meta($declarer_clan_ID, 'clan_networth', true);
+$recWN = get_post_meta($_GET['clan'], 'clan_networth', true);
+
+if($recWN > $decNW/1.4 && $recWN < $decNW*1.4){
+	
+}else{
+	$_SESSION['status'] = 'You cannot do that.';
+wp_redirect(get_permalink($_GET['clan']));exit;
+	
+}
+	
+	}
+
+
 if(count($warcheck) > 0){
 
 $war_ID = get_post_meta($warcheck[0]->ID, 'war_array_id', true);
