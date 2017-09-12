@@ -240,6 +240,11 @@ a.list-group-item:focus, a.list-group-item:hover{
     color: #fff;
     border: 1px solid #2d4350;
 }
+@media (max-width: 768px) {
+.marketHeader{
+	background-color: #2d4350 !important;
+}
+}
 .nav-tabs.nav-justified>li>a{
 	background-color: #2d4350 !important;
 	color:#fff;
@@ -257,10 +262,10 @@ a.list-group-item:focus, a.list-group-item:hover{
 .event-row{
 	background-color: #8a8a8a;
 }
-.toplist_block{
+.toplist_block,.market_column,.market_block,.spaceNotice,.totalsField{
 	background-color: #8a8a8a;
 }
-.toplist_block a{
+.toplist_block a,.spaceNotice,.totalsField{
 	color:#fff;
 }
 .button_block,.textNotify,.profile_block {

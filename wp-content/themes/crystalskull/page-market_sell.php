@@ -52,8 +52,6 @@ get_header(); ?>
 			
 			<div class="notice_message">
 				<span class="rdw-line">Selling units returns 50% of the original market price</span>
-				<span class="rdw-line"><?php echo $specialSold;?> special units sold today. You can sell a maximum of 50 special units per day.</span>
-				
 			</div>
 
 			<ul id="explore-tab" class="nav nav-tabs nav-justified" role="tablist">
@@ -77,223 +75,52 @@ get_header(); ?>
 				<input type="hidden" name="currentTab" id="currentTab" value="?tab=<?php echo $activeTab; ?>" />
 				<div class="tab-content current build_content tabbed-table">
 					<div class="tab-pane <?php echo $activeTab === 'air' ? 'active' : ''; ?>"  id="air" role="tabpanel">
-						<div class="container2">
-							<table class="responsive-table">
-							<thead>
-
-								<tr>
-									<th scope="col">Name</th>
-									<th scope="col">Price</th>
-									<th scope="col">You can sell</th>
-									<th scope="col"></th>
-			                    </tr>
-			                    </thead
-			                    <tbody>
-							<?php // AIR TABLE
-								$totalair = 0;
-								foreach($units as $key => $order){
-								$units_owned = get_user_meta($user_ID, $key.'_owned');
-								$units_ordered = get_user_meta($user_ID, $key.'_ordered');
-								$unittype = $units[$key]['type'];
-								if($units_owned[0] != 0){
-								?>
-								<?php if($unittype == 'air'):?>
-								<tr>
-								<th scope="row">
-								<?php echo $order['normalname'];?>
-								</th>
-
-								<td data-title="Price">
-								$ <?php echo ceil($order['price']*2.2*0.65*$discount*$shipping_discount);?>
-								</td>
-
-								<td data-title="You can sell">
-									<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned[0];?></span>						</td>
-
-								<th colspan="2">
-								<input class="small_input" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
-								</th>
-								</tr>
-								<script type="text/javascript">
-									jQuery("#button<?php echo $key;?>").click(function() {
-									jQuery("#<?php echo $key;?>").val("<?php echo $units_owned[0];?>");
-									jQuery("#button").show();
-									jQuery("#message").hide();
-									});
-
-								</script>
-								<?php endif;?><?php }}?>
-			                    </tbody>
-							</table>
-						</div>
+						
+						<?php include 'pages/market/sell/air.php'; ?>
+							
 					</div>
 
-				<div class="tab-pane <?php echo $activeTab === 'sea' ? 'active' : ''; ?>"  id="sea" role="tabpanel">
-				<div class="container2">
-				<table class="responsive-table">
-				<thead>
-			
-					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Price</th>
-						<th scope="col">You can sell</th>
-						<th scope="col"></th>
-  					</tr>
-  					</thead
-  					<tbody>
-				<?php // SEA TABLE
-					$totalair = 0;
-					foreach($units as $key => $order){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
-					$units_ordered = get_user_meta($user_ID, $key.'_ordered');
-					$unittype = $units[$key]['type'];
-					if($units_owned[0] != 0){
-					?>
-					<?php if($unittype == 'sea'):?>
-					<tr>
-					<th scope="row">
-					<?php echo $order['normalname'];?>
-					</th>
-
-					<td data-title="Price">
-					$ <?php echo ceil($order['price']*2.2*0.65*$discount*$shipping_discount);?>
-					</td>
-
-					<td data-title="You can sell">
-						<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned[0];?></span>						</td>
-
-					<th colspan="2">
-					<input class="small_input" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
-					</th>
-					</tr>
-					<script type="text/javascript">
-						jQuery("#button<?php echo $key;?>").click(function() {
-						jQuery("#<?php echo $key;?>").val("<?php echo $units_owned[0];?>");
-						jQuery("#button").show();
-						jQuery("#message").hide();
-						});
-
-					</script>
-					<?php endif;?><?php }}?>
-  					</tbody>
-				</table>
-				</div>
-				</div>
-
-
-				<div class="tab-pane <?php echo $activeTab === 'vehicles' ? 'active' : ''; ?>"  id="vehicles" role="tabpanel">
-				<div class="container2">
-				<table class="responsive-table">
-				<thead>
-			
-					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Price</th>
-						<th scope="col">You can sell</th>
-						<th scope="col"></th>
-  					</tr>
-  					</thead
-  					<tbody>
-				<?php // VEHICLES TABLE
-					$totalair = 0;
-					foreach($units as $key => $order){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
-					$units_ordered = get_user_meta($user_ID, $key.'_ordered');
-					$unittype = $units[$key]['type'];
-					if($units_owned[0] != 0){
-					?>
-					<?php if($unittype == 'veh'):?>
-					<tr>
-					<th scope="row">
-					<?php echo $order['normalname'];?>
-					</th>
+					<div class="tab-pane <?php echo $activeTab === 'sea' ? 'active' : ''; ?>"  id="sea" role="tabpanel">
 					
-					<td data-title="Price">
-					$ <?php echo ceil($order['price']*2.2*0.65*$discount*$shipping_discount);?>
-					</td>
+						<?php include 'pages/market/sell/sea.php'; ?>
 					
-					<td data-title="You can sell">
-						<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned[0];?></span>						</td>
-					
-					<th colspan="2">
-					<input class="small_input" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
-					</th>
-					</tr>
-					<script type="text/javascript">
-						jQuery("#button<?php echo $key;?>").click(function() {
-						jQuery("#<?php echo $key;?>").val("<?php echo $units_owned[0];?>");
-						jQuery("#button").show();
-						jQuery("#message").hide();
-						});
-					
-					</script>
-					<?php endif;?><?php }}?>
-  					</tbody>
-				</table>
-				</div>
-				</div>
-
-				<div class="tab-pane <?php echo $activeTab === 'infantry' ? 'active' : ''; ?>"  id="infantry" role="tabpanel">
-				<div class="container2">
-				<table class="responsive-table">
-				<thead>
-			
-					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Price</th>
-						<th scope="col">You can sell</th>
-						<th scope="col"></th>
-  					</tr>
-  					</thead
-  					<tbody>
-				<?php // INF TABLE
-					$totalair = 0;
-					foreach($units as $key => $order){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
-					$units_ordered = get_user_meta($user_ID, $key.'_ordered');
-					$unittype = $units[$key]['type'];
-					if($units_owned[0] != 0){
-					?>
-					<?php if($unittype == 'inf'):?>
-					<tr>
-					<th scope="row">
-					<?php echo $order['normalname'];?>
-					</th>
-					
-					<td data-title="Price">
-					$ <?php echo ceil($order['price']*2.2*0.65*$discount*$shipping_discount);?>
-					</td>
-					
-					<td data-title="You can sell">
-						<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned[0];?></span>						</td>
-					
-					<th colspan="2">
-					<input class="small_input" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
-					</th>
-					</tr>
-					<script type="text/javascript">
-						jQuery("#button<?php echo $key;?>").click(function() {
-						jQuery("#<?php echo $key;?>").val("<?php echo $units_owned[0];?>");
-						jQuery("#button").show();
-						jQuery("#message").hide();
-						});
-					
-					</script>
-					<?php endif;?><?php }}?>
-  					</tbody>
-				</table>
-				</div>
-				</div>
-					
-					
-					
-
-				<div class="padded">
-					<input type="submit" value="Sell Units" class="">
-					<div class="footer_continue">
-					<input type="submit" value="Sell Units" class="">
 					</div>
+
+
+					<div class="tab-pane <?php echo $activeTab === 'vehicles' ? 'active' : ''; ?>"  id="vehicles" role="tabpanel">
+				
+						<?php include 'pages/market/sell/veh.php'; ?>
+				
+					</div>
+
+					<div class="tab-pane <?php echo $activeTab === 'infantry' ? 'active' : ''; ?>"  id="infantry" role="tabpanel">
+					
+						<?php include 'pages/market/sell/inf.php'; ?>
+					
+					</div>
+					
+				
+				<div class="col-md-12 totalsField">
+				
+					<div class="col-md-4">
+						Number of units: <span id="total">0</span>
+					</div>
+					<div class="col-md-4">
+						Total: $ <span id="order_total">0</span>
+					</div>
+					<div class="col-md-4">
+						Networth lost : $ -<span id="networth_total">0</span>
+					</div>
+	
 				</div>
+					
+
+				<input type="submit" value="Sell Units" class="">
+				
+				<div class="footer_continue">
+					<input type="submit" value="Sell Units" class="">
+				</div>
+		
 					
 					
 		
@@ -310,6 +137,29 @@ get_header(); ?>
 </div>
 
 <script type="text/javascript">
+	
+		// Set total number of units value
+	jQuery('body').on('change', '.sellunits', function() {
+		
+    var arr = document.getElementsByClassName('sellunits');
+    var tot=0;
+    for(var i=0;i<arr.length;i++){
+        if(parseInt(arr[i].value))
+            tot += parseInt(arr[i].value);
+    }
+    document.getElementById('total').value = tot;
+    
+    var span = document.getElementById('total');
+
+while( span.firstChild ) {
+    span.removeChild( span.firstChild );
+}
+
+span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
+    
+	});
+	
+	
     jQuery(document).on('shown.bs.tab', function (event) {
         var currentTab = jQuery(event.target).attr('href');
         history.pushState(null, null, currentTab);

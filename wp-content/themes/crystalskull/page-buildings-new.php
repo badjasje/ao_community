@@ -69,7 +69,6 @@ get_header(); ?>
 
 
                     <div class="notice_message"><span
-                                class="rdw-line">Your free land allows you to build <strong><?php echo floor(($land[0] - $builtland[0]) / 20); ?></strong> buildings.</span><span
                                 class="rdw-line">
 
 			<?php if ($EElevel == 0 || empty($EElevel)) {
@@ -129,11 +128,53 @@ get_header(); ?>
 						<?php include 'pages/buildings/build.php'; ?>
 
 						<?php include 'pages/buildings/demolish.php'; ?>
+						
+					
                     </div>
 
 				<?php endif; ?>
 				<?php session_unset(); ?>
+<script>
+		// Set total number of units value
+	jQuery('body').on('change', '.buyunits', function() {
+		
+    var arr = document.getElementsByClassName('buyunits');
+    var tot=0;
+    for(var i=0;i<arr.length;i++){
+        if(parseInt(arr[i].value))
+            tot += parseInt(arr[i].value);
+    }
+    document.getElementById('total').value = tot;
+    
+    var span = document.getElementById('total');
 
+while( span.firstChild ) {
+    span.removeChild( span.firstChild );
+}
+span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
+
+});
+
+jQuery('body').on('change', '.demobds', function() {
+		
+    var arr = document.getElementsByClassName('demobds');
+    var tot=0;
+    for(var i=0;i<arr.length;i++){
+        if(parseInt(arr[i].value))
+            tot += parseInt(arr[i].value);
+    }
+    document.getElementById('demototal').value = tot;
+    
+    var span = document.getElementById('demototal');
+
+while( span.firstChild ) {
+    span.removeChild( span.firstChild );
+}
+span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
+
+
+	});
+</script>
 
             </div>
         </div>

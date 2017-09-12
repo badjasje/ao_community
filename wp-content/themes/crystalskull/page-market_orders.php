@@ -4,6 +4,7 @@
  */
 $user_ID = get_current_user_ID();
 update_user_meta($user_ID, 'user_lock', 0);
+include 'units_array.php';
 get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">
@@ -28,19 +29,23 @@ get_header(); ?>
 			<?php else:?>
 			
 			
-			<div class="notice_message"><span class="rdw-line">Your current orders. Canceled unit orders return 75% of the initial order value.</span>
+			<div class="notice_message">
 			<span class="rdw-line">Missile orders cannot be canceled.</span></div><br/>
 			
-			<table class="responsive-table">
-					<thead>
-					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Ordered</th>
-						<th scope="col">Time left</th>
-						<th scope="col"></th>
-  					</tr>
-  					</thead>
-  					<tbody>
+			<div class="spaceNotice">
+				Your current orders. Canceled unit orders return 75% of the initial order value.
+			</div>
+			
+			<div class="row market_block">	
+				<div class="row clan_header_row storeDetails-heads">
+					<div class="col-md-3"><strong>Name</strong></div>
+					<div class="col-md-2"><strong>Ordered</strong></div>
+					<div class="col-md-2"><strong>Order value</strong></div>
+					<div class="col-md-2"><strong>Time left</strong></div>
+					<div class="col-md-3"></div>
+				</div>
+			
+			
 			<?php 	
 	
 		$args = array(
@@ -49,14 +54,15 @@ get_header(); ?>
 	'meta_value'	=> $user_ID,
 	'post_type'        => 'market_order',
 	);
-	$units = get_posts( $args ); 
+	$orders = get_posts( $args ); 
 
 	$timestamp = current_time('timestamp');
-	
-	foreach ($units as $order) {
+	$totalOrder = 0;
+	foreach ($orders as $order) {
 		$units_in_this_order = get_post_meta($order->ID,'amount_ordered',true);
+		
 		$order_type = get_post_meta($order->ID,'order_type',true);
-
+		$unit_type = get_post_meta($order->ID,'unit_type',true);
 		$user_ID = $order->post_author;
 		$delivery_time = get_post_meta($order->ID,'delivery_time',true);
 		
@@ -64,36 +70,73 @@ get_header(); ?>
 		$timeleft = $delivery_time-$timestamp;
 		
 		if($timeleft >= 0){
-	
+		$ordervalue = get_post_meta($order->ID, 'order_value', true);
+		$totalNetworth += $ordervalue*$units[$unit_type]['networth']/100;
 		$timeleft = date('H:i:s', $timeleft);
-		
+		$totalOrder += $units_in_this_order;
+		$totalorderValue += $ordervalue;
 		?>
-		<tr>
-		<td data-title="Name">
-			<label><strong><?php echo get_the_title($order->ID);?></strong></label>
-		</td>
-		<td data-title="Units in order">
-			<label><?php echo $units_in_this_order;?></label>
-		</td>
-		<td data-title="Time left">
-			<label><?php echo $timeleft;?></label>
-		</td>
-		<td data-title="Cancel"><?php if($order_type != 'missile' || $order_type != 'satellite'):?>
+		
+		
+		<div class="row clan_profile_row2">
+		
+		<div class="col-md-3 center_clan_col market_column marketHeader">
+			<?php echo get_the_title($order->ID);?>
+		</div>
+	
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Ordered</span>
+		<span class="clan_data_right">
+			<?php echo $units_in_this_order;?>
+		</span>
+
+	</div>
+	
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Order value</span>
+		<span class="clan_data_right">
+			$ <?php echo number_format($ordervalue, 0, ',', ' ');?>
+		</span>
+
+	</div>
+	
+
+	<div class="col-md-2 clan_column">
+		<span class="clan_data_left">Time left</span>
+		<span class="clan_data_right">
+			<?php echo $timeleft;?>
+		</span>
+	</div>
+	<div class="col-md-3 clan_column border_bottom_mobile">
+		<?php if($order_type != 'missile' || $order_type != 'satellite'):?>
 			<form class="form" action="<?php echo home_url() ?>/cancel_order.php" name="" id="cancel" method="post">
 			<input style="display:none;"type="text" id="order" name="order" value="<?php echo $order->ID;?>"/>
 			<input onclick="return confirm('Are you sure you want to cancel this order?')" class="btn btn-general submitBtn" type="submit" value="Cancel" class="">
 			</form>
-			<?php endif;?>
-		</td>
-		</tr>
-		
-		
+		<?php endif;?>
+	</div>
+</div> <! // Close Unit row -->
+
+
 		
 		<?php }}
 		
 		?>
-	</tbody>
-	</table>
+</div>
+
+<div class="col-md-12 totalsField">
+				
+	<div class="col-md-4">
+		Units on order: <?php echo $totalOrder;?>
+	</div>
+	<div class="col-md-4">
+		Total order value: $ <?php echo number_format($totalorderValue, 0, ',', ' ');?>
+	</div>
+	<div class="col-md-4">
+		Added networth : $ <?php echo number_format($totalNetworth, 0, ',', ' ');?>
+	</div>
+	
+</div>
 	<?php endif;?><?php endif;?>
 
 <script>

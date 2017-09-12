@@ -65,10 +65,10 @@ get_header(); ?>
 	            
 	           
 	        <?php if(get_field('game_status','option') != 'Live'):?>
-			<div class="notice_message"><span class="rdw-line">The round has ended!</span></div>
+			<div class="marketMessage notice_message"><span class="rdw-line">The round has ended!</span></div>
 			<?php else:?>
 	        
-            <div class="notice_message">
+            <div class="marketMessage notice_message">
 	            <span class="rdw-line">The market enables you to buy units without using turns.</span>
 				<?php $MSlevel = get_user_meta($user_ID, 'level_shipping_time')[0];
 
@@ -114,452 +114,52 @@ get_header(); ?>
 				<div class="tab-content current build_content tabbed-table">
 
 					<div class="tab-pane <?php echo $activeTab === 'air' ? 'active' : ''; ?>"  id="air" role="tabpanel">
-
-					<center><p>Your empty airfields allow you to build a maximum of <strong><?php echo ($airspace[0]*10)-count_airspace($user_ID);?></strong> air units.</p></center>
-					<table class="responsive-table">
-						<thead>
-						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Owned (ordered)</th>
-							<th scope="col">Price</th>
-							<th scope="col">Att/Life</th>
-							<th scope="col">Targets</th>
-							<th scope="col">Max</th>
-							<?php if($startingbonus == 'shipping'):?>
-							<th scope="colr">Delay <span class="hover-tip"  data-toggle="tooltip" data-original-title="Input the delay in minutes. You can delay market orders up to 6 hours. 360 minutes." data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span></th>
-							<?php endif;?>
-							<th scope="col"></th>
-	                    </tr>
-	                    </thead>
-	                    <tbody>
-					<?php // AIR TABLE
-
-						$totalair = 0;
-						foreach($units as $key => $order){
-						$units_owned = get_user_meta($user_ID, $key.'_owned');
-						$units_ordered = get_user_meta($user_ID, $key.'_ordered');
-						$unittype = $units[$key]['type'];
-						?>
-						<?php if($unittype == 'air'):?>
-						<tr>
-						<th scope="row">
-							<?php echo $order['normalname'];?>
-							<?php if($order['description']):?>
-							<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-							<?php endif;?>
-						</th>
-
-						<td data-title="Owned">
-						<?php echo $units_owned[0];?>
-						(<?php echo $units_ordered[0]; ?>)
-						</td>
-
-						<td data-title="Price">
-						
-						<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
-							$ <?php echo ceil($order['price']*2.2*$discount_value);?>
-						</span>
-						
-						</td>
-
-						<td data-title="Att/Life">
-							<?php echo $order['attack'];?>/<?php echo $order['life'];?>
-						</td>
-
-
-						<td data-title="Targets">
-						<?php
-
-							$i = 0;
-							$len = count($order['attacks']);
-							if(empty($order['attacks'])){echo 'n.a';}
-							foreach($order['attacks'] as $attack){
-							if ($i == $len - 1) {
-							echo $attack;
-	                        }else{echo $attack.', ';}
-
-							$i++;
-							;
-
-
-							}?>
-						</td>
-						<?php if($startingbonus == 'shipping'):?>
-
-						<?php endif;?>
-
-
-						<td data-title="Max">
-							<?php 	$max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount_value)));
-									$max_space = ($airspace[0]*10)-count_airspace($user_ID);
-
-							?>
-							<?php if($key == 'spyplane'):?>
-							<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($ccspace,$max_money,$max_space));?></span>
-							<?php else:?>
-							<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($max_money,$max_space));?></span>
-							<?php endif;?>
-						</td>
-						<?php if($startingbonus == 'shipping'):?>
-						<td data-title="Delay">
-						<input style="width:50%"type="number" id="delay<?php echo $key;?>" min="0" name="delay<?php echo $key;?>" placeholder="Delay in min."/>
-						</td>
-						<?php endif;?>
-						<th colspan='2'data-title="">
-						<input type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
-						</th>
-						</tr>
-						<script type="text/javascript">
-							jQuery("#button<?php echo $key;?>").click(function() {
-							jQuery("#<?php echo $key;?>").val("<?php
-								if($key == 'spyplane'){
-								echo (min($ccspace,$max_money,$max_space));}
-								else{
-								echo (min($max_money,$max_space));
-								}
-								?>");
-							jQuery("#button").show();
-							jQuery("#message").hide();
-							});
-
-						</script>
-						<?php endif;?><?php }?>
-					</tbody>
-					</table>
+					
+						<?php include 'pages/market/buy/air.php'; ?>
 
 					</div>
 
 					<div class="tab-pane <?php echo $activeTab === 'sea' ? 'active' : ''; ?>"  id="sea" role="tabpanel">
 
-					<center><p>Your empty shipyards allow you to build a maximum of <strong><?php echo ($seaspace[0]*5)-count_seaspace($user_ID);?></strong> sea units.</p></center>
-					<table class="responsive-table">
-						<thead>
-						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Owned (ordered)</th>
-							<th scope="col">Price</th>
-							<th scope="col">Att/Life</th>
-							<th scope="col">Targets</th>
-							<th scope="col">Max</th>
-							<?php if($startingbonus == 'shipping'):?>
-							<th scope="colr">Delay <span class="hover-tip"  data-toggle="tooltip" data-original-title="Input the delay in minutes. You can delay market orders up to 6 hours. 360 minutes." data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span></th>
-							<?php endif;?>
-							<th scope="col"></th>
-	                    </tr>
-	                    </thead>
-	                    <tbody>
-					<?php // SEA TABLE
-						$totalsea = 0;
-						foreach($units as $key => $order){
-						$units_owned = get_user_meta($user_ID, $key.'_owned');
-						$units_ordered = get_user_meta($user_ID, $key.'_ordered');
-						$unittype = $units[$key]['type'];
-						?>
-						<?php if($unittype == 'sea'):?>
-						<tr>
-						<th scope="row">
-							<?php echo $order['normalname'];?>
-							<?php if($order['description']):?>
-							<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-							<?php endif;?>
-						</th>
-
-						<td data-title="Owned">
-						<?php echo $units_owned[0]; ?>
-						(<?php echo $units_ordered[0]; ?>)
-						</td>
-
-						<td data-title="Price">
-						<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
-							$ <?php echo ceil($order['price']*2.2*$discount_value);?>
-						</span>
-						</td>
-
-						<td data-title="Att/Life">
-							<?php echo $order['attack'];?>/<?php echo $order['life'];?>
-						</td>
-
-
-						<td data-title="Targets">
-						<?php
-
-							$i = 0;
-							$len = count($order['attacks']);
-							if(empty($order['attacks'])){echo 'n.a';}
-							foreach($order['attacks'] as $attack){
-							if ($i == $len - 1) {
-							echo $attack;
-	                        }else{echo $attack.', ';}
-
-							$i++;
-							;
-
-
-							}?>
-						</td>
-
-
-
-						<td data-title="Max">
-							<?php 	$max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount_value)));
-									$max_space = ($seaspace[0]*5)-count_seaspace($user_ID);
-
-							?>
-							<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($max_money,$max_space));?></span>
-						</td>
-						<?php if($startingbonus == 'shipping'):?>
-						<td data-title="Delay">
-						<input style="width:50%" type="number" min="0" id="delay<?php echo $key;?>" name="delay<?php echo $key;?>" placeholder="Delay in min."/>
-						</td>
-						<?php endif;?>
-						<th colspan='2'data-title="">
-						<input class="small_input" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
-						</th>
-						</tr>
-						<script type="text/javascript">
-							jQuery("#button<?php echo $key;?>").click(function() {
-							jQuery("#<?php echo $key;?>").val("<?php echo (min($max_money,$max_space));?>");
-							jQuery("#button").show();
-							jQuery("#message").hide();
-							});
-
-						</script>
-						<?php endif;?><?php }?>
-	                    </tbody>
-					</table>
+						<?php include 'pages/market/buy/sea.php'; ?>
 
 					</div>
 
 
 					<div class="tab-pane <?php echo $activeTab === 'vehicles' ? 'active' : ''; ?>"  id="vehicles" role="tabpanel">
 
-					<center><p>Your empty warfactories allow you to build a maximum of <strong><?php echo ($vehspace[0]*10)-count_vehspace($user_ID);?></strong> vehicles.</p>
-					</center>
-					<table class="responsive-table">
-						<thead>
-						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Owned (ordered)</th>
-							<th scope="col">Price</th>
-							<th scope="col">Att/Life</th>
-							<th scope="col">Targets</th>
-							<th scope="col">Max</th>
-							<?php if($startingbonus == 'shipping'):?>
-							<th scope="colr">Delay <span class="hover-tip"  data-toggle="tooltip" data-original-title="Input the delay in minutes. You can delay market orders up to 6 hours. 360 minutes." data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span></th>
-							<?php endif;?>
-							<th scope="col"></th>
-	                    </tr>
-	                    </thead>
-	                    <tbody>
-					<?php // VEH TABLE
-						$totalveh = 0;
-						foreach($units as $key => $order){
-						$units_owned = get_user_meta($user_ID, $key.'_owned');
-						$units_ordered = get_user_meta($user_ID, $key.'_ordered');
-						$unittype = $units[$key]['type'];
-						?>
-						<?php if($unittype == 'veh'):?>
-						<tr>
-						<th scope="row">
-							<?php echo $order['normalname'];?>
-							<?php if($order['description']):?>
-							<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-							<?php endif;?>
-						</th>
-
-						<td data-title="Owned">
-						<?php echo $units_owned[0];?>
-						(<?php echo $units_ordered[0]; ?>)
-						</td>
-
-						<td data-title="Price">
-						<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
-							$ <?php echo ceil($order['price']*2.2*$discount_value);?>
-						</span>
-						</td>
-
-						<td data-title="Att/Life">
-							<?php echo $order['attack'];?>/<?php echo $order['life'];?>
-						</td>
-
-
-						<td data-title="Targets">
-						<?php
-
-							$i = 0;
-							$len = count($order['attacks']);
-							if(empty($order['attacks'])){echo 'n.a';}
-							foreach($order['attacks'] as $attack){
-							if ($i == $len - 1) {
-							echo $attack;
-	                        }else{echo $attack.', ';}
-
-							$i++;
-							;
-
-
-							}?>
-						</td>
-
-
-
-						<td data-title="Max">
-							<?php 	$max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount_value)));
-									$max_space = ($vehspace[0]*10)-count_vehspace($user_ID);
-
-							?>
-							<?php if($key == 'spy' || $key == 'thief' || $key == 'sniper'):?>
-							<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($ccspace,$max_money,$max_space));?></span>
-							<?php else:?>
-							<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($max_money,$max_space));?></span>
-							<?php endif;?>
-						</td>
-						<?php if($startingbonus == 'shipping'):?>
-						<td data-title="Delay">
-						<input style="width:50%" type="number" min="0" id="delay<?php echo $key;?>" name="delay<?php echo $key;?>" placeholder="Delay in min."/>
-						</td>
-						<?php endif;?>
-						<th colspan='2'data-title="">
-						<input class="small_input" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
-						</th>
-						</tr>
-						<script type="text/javascript">
-							jQuery("#button<?php echo $key;?>").click(function() {
-							jQuery("#<?php echo $key;?>").val("<?php
-								if($key == 'spy' || $key == 'thief' || $key == 'sniper'){
-								echo (min($ccspace,$max_money,$max_space));}
-								else{
-								echo (min($max_money,$max_space));
-								}?>");
-							jQuery("#button").show();
-							jQuery("#message").hide();
-							});
-
-						</script>
-						<?php endif;?><?php }?>
-					</table>
+						<?php include 'pages/market/buy/veh.php'; ?>
 
 					</div>
 
 					<div class="tab-pane <?php echo $activeTab === 'infantry' ? 'active' : ''; ?>"  id="infantry" role="tabpanel">
+						
+						<?php include 'pages/market/buy/inf.php'; ?>
+						
+					</div>
 
-					<center><p>Your empty baracks allow you to build a maximum of <strong><?php echo ($infspace[0]*20)-count_infspace($user_ID);?></strong> infantry.</p></center>
-					<table class="responsive-table">
-						<thead>
-						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Owned (ordered)</th>
-							<th scope="col">Price</th>
-							<th scope="col">Att/Life</th>
-							<th scope="col">Targets</th>
-							<th scope="col">Max</th>
-							<?php if($startingbonus == 'shipping'):?>
-							<th scope="colr">Delay <span class="hover-tip"  data-toggle="tooltip" data-original-title="Input the delay in minutes. You can delay market orders up to 6 hours. 360 minutes." data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span></th>
-							<?php endif;?>
-							<th scope="col"></th>
-	                    </tr>
-	                    </thead>
-	                    <tbody>
-					<?php // INF TABLE
-						$totalinf = 0;
-						foreach($units as $key => $order){
-						$units_owned = get_user_meta($user_ID, $key.'_owned');
-						$units_ordered = get_user_meta($user_ID, $key.'_ordered');
-						$unittype = $units[$key]['type'];
-						?>
-						<?php if($unittype == 'inf'):?>
-						<tr>
-						<th scope="row">
-							<?php echo $order['normalname'];?>
-							<?php if($order['description']):?>
-							<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="bottom"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-							<?php endif;?>
-						</th>
-
-						<td data-title="Owned">
-						<?php echo $units_owned[0];?>
-						(<?php echo $units_ordered[0]; ?>)
-						</td>
-
-						<td data-title="Price">
-						<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
-							$ <?php echo ceil($order['price']*2.2*$discount_value);?>
-						</span>
-						</td>
-
-						<td data-title="Att/Life">
-							<?php echo $order['attack'];?>/<?php echo $order['life'];?>
-						</td>
-
-
-						<td data-title="Targets">
-						<?php
-
-							$i = 0;
-							$len = count($order['attacks']);
-							if(empty($order['attacks'])){echo 'n.a';}
-							foreach($order['attacks'] as $attack){
-							if ($i == $len - 1) {
-							echo $attack;
-	                        }else{echo $attack.', ';}
-
-							$i++;
-							;
-
-
-							}?>
-						</td>
-
-
-
-						<td data-title="Max">
-							<?php 	$max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount_value)));
-									$max_space = ($infspace[0]*20)-count_infspace($user_ID);
-
-							?>
-							<?php if($key == 'spy' || $key == 'thief' || $key == 'sniper'):?>
-							<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($ccspace,$max_money,$max_space));?></span>
-							<?php else:?>
-							<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($max_money,$max_space));?></span>
-							<?php endif;?>
-						</td>
-						<?php if($startingbonus == 'shipping'):?>
-						<td data-title="Delay">
-						<input style="width:50%"type="number" id="delay<?php echo $key;?>" min="0" name="delay<?php echo $key;?>" placeholder="Delay in min."/>
-						</td>
-						<?php endif;?>
-						<th colspan='2'data-title="">
-						<input class="small_input" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
-						</th>
-						</tr>
-						<script type="text/javascript">
-							jQuery("#button<?php echo $key;?>").click(function() {
-							jQuery("#<?php echo $key;?>").val("<?php
-								if($key == 'spy' || $key == 'thief' || $key == 'sniper'){
-								echo (min($ccspace,$max_money,$max_space));}
-								else{
-								echo (min($max_money,$max_space));
-								}?>");
-							jQuery("#button").show();
-							jQuery("#message").hide();
-							});
-
-						</script>
-						<?php endif;?><?php }?>
-	                    </tbody>
-					</table>
+					<div class="col-md-12 totalsField">
+				
+							<div class="col-md-4">
+								Number of units: <span id="total">0</span>
+							</div>
+							<div class="col-md-4">
+								Total cost: $ <span id="order_total">0</span>
+							</div>
+							<div class="col-md-4">
+								Added networth : $ <span id="networth_total">0</span>
+							</div>
+	
 					</div>
 
 
 
-
-
-					<div class="padded">
+				
 						<input type="submit" value="Place order" class="">
 						<div class="footer_continue">
 							<input type="submit" value="Place order" class="">
 						</div>
-					</div>
+					
 
 
 
@@ -576,13 +176,40 @@ get_header(); ?>
 </div>
 
 <script type="text/javascript">
+	
+	// Set total number of units value
+	jQuery('body').on('change', '.buyunits', function() {
+		
+    var arr = document.getElementsByClassName('buyunits');
+    var tot=0;
+    for(var i=0;i<arr.length;i++){
+        if(parseInt(arr[i].value))
+            tot += parseInt(arr[i].value);
+    }
+    document.getElementById('total').value = tot;
+    
+    var span = document.getElementById('total');
+
+while( span.firstChild ) {
+    span.removeChild( span.firstChild );
+}
+
+span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
+    
+	});
+
+
+	
+	
+	
+	
     jQuery(document).on('shown.bs.tab', function (event) {
         var currentTab = jQuery(event.target).attr('href');
         history.pushState(null, null, currentTab);
         jQuery('#currentTab').val(currentTab);
     });
 
-
+<?php if($timeleft < 172800+86400):?>
 var
 diff = <?php echo $marketclose*1000;?>;
 
@@ -614,6 +241,7 @@ diff -= 1000;
 
 }
 setInterval(updateETime, 1000 );
+<?php endif;?>
 </script>	 
 
 <?php get_footer(); ?>

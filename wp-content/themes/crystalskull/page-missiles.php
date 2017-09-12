@@ -62,11 +62,7 @@ get_header(); ?>
                         </li>
                     </ul>
 
-                   <script>
-                        jQuery(document).on('shown.bs.tab', function (event) {
-                            history.pushState(null, null, jQuery(event.target).attr('href'));
-                        });
-                    </script>
+               
 
 
                     <!-- Tab panes -->
@@ -76,7 +72,31 @@ get_header(); ?>
 						<?php include 'pages/missiles/sell.php'; ?>
                     </div>
 			
-			
+<script>	                   
+// Set total number of units value
+jQuery('body').on('change', '.buyunits', function() {
+
+var arr = document.getElementsByClassName('buyunits');
+var tot=0;
+for(var i=0;i<arr.length;i++){
+if(parseInt(arr[i].value))
+tot += parseInt(arr[i].value);
+}
+document.getElementById('total').value = tot;
+
+var span = document.getElementById('total');
+
+while( span.firstChild ) {
+span.removeChild( span.firstChild );
+}
+
+span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
+
+});
+jQuery(document).on('shown.bs.tab', function (event) {
+history.pushState(null, null, jQuery(event.target).attr('href'));
+});
+</script>			
 			
 			
 			

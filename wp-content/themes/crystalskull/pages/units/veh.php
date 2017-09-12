@@ -1,27 +1,26 @@
-<div class="tab-pane <?php echo $activeTab === 'buy' ? 'active': ''; ?>" id="buy" role="tabpanel">
-
-<form class="form" action="<?php echo home_url() ?>/missiles.php" name="" id="market" method="post">
 <div class="spaceNotice">
-	Your empty missile silo's allow you to build a maximum of <strong><?php echo $missilespace[0]-$totalmissiles;?></strong> missiles
+	Your empty warfactories allow you to build a maximum of <strong><?php echo ($vehspace[0]*10)-count_vehspace($user_ID);?></strong> vehicles.
 </div>
+
+
 <div class="row market_block">	
 	<div class="row clan_header_row storeDetails-heads">
 		<div class="col-md-2"><strong>Name</strong></div>
 		<div class="col-md-2"><strong>Owned (ordered)</strong></div>
 		<div class="col-md-1"><strong>Price</strong></div>
-		<div class="col-md-1"><strong>Attack</strong></div>
+		<div class="col-md-1"><strong>Att/Life</strong></div>
 		<div class="col-md-2"><strong>Targets</strong></div>
 		<div class="col-md-1"><strong>Max</strong></div>
 		<div class="col-md-3"></div>
 	</div>
-<?php // AIR TABLE
-$totalair = 0;
-foreach($missiles as $key => $order){
+<?php // veh TABLE
+$totalveh = 0;
+foreach($units as $key => $order){
 $units_owned = get_user_meta($user_ID, $key.'_owned');
 $units_ordered = get_user_meta($user_ID, $key.'_ordered');
-$unittype = $missiles[$key]['type'];
+$unittype = $units[$key]['type'];
 ?>
-
+<?php if($unittype == 'veh'):?>
 			
 	<div class="row clan_profile_row2">
 		
@@ -48,18 +47,16 @@ $unittype = $missiles[$key]['type'];
 		<span class="clan_data_right">
 			<span 	class="hover-tip"  
 					data-toggle="tooltip" 
-					data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. 
-					$ <?php echo $order['price']*$order['networth']/100;?> per unit." 
-					data-placement="bottom">
-						$ <?php echo ceil($order['price']);?>
-			</span>	
+					data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
+					$ <?php echo $order['price'];?>
+			</span>
 		</span>
 
 	</div>
 	<div class="col-md-1 clan_column border_bottom_mobile">
-		<span class="clan_data_left">Attack</span>
+		<span class="clan_data_left">Att/Life</span>
 		<span class="clan_data_right land">
-		 	<?php echo $order['attack'];?>
+		 	<?php echo $order['attack'];?>/<?php echo $order['life'];?>
 		</span>
 	</div>
 	
@@ -84,36 +81,29 @@ $unittype = $missiles[$key]['type'];
 	<div class="col-md-1 clan_column">
 		<span class="clan_data_left">Max</span>
 		<span class="clan_data_right">
-			<?php 	
-			if($key != 'tomahawk'){
-			$max_money = floor($totalmoney[0]/($order['price']));
-			$max_turns = floor($totalturns[0]*5);
-			$max_space = $missilespace[0]-$totalmissiles;
-			}else{
-			$max_money = floor($totalmoney[0]/($order['price']));
-			$max_turns = round($totalturns[0]/3);
-			$max_space = $tomahawkspace-get_user_meta($user_ID, 'tomahawk_owned', true)-get_user_meta($user_ID, 'tomahawk_ordered', true);
-				
-			}
+				<?php 	$max_money = floor($totalmoney[0]/($order['price']));
+						$max_turns = floor($totalturns[0]*10);
+						$max_space = ($vehspace[0]*10)-count_vehspace($user_ID);
+								
 							
 						?>
-			<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($max_money,$max_turns,$max_space));?></span>
+						<?php if($key == 'spyplane' || $key == 'spy' || $key == 'thief' || $key == 'sniper'):?>
+						<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($ccspace,$max_money,$max_turns,$max_space));?></span>
+						<?php else:?>
+						<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($max_money,$max_turns,$max_space));?></span>
+						<?php endif;?>
 		</span>
 	</div>
 	<div class="col-md-3 clan_column border_bottom_mobile">
-		<?php if($missileAccLevel == 0 && $key == 'tomahawk'):?>
-			<div class="tomahawkSpan">Level 1 missile accuracy required</div>
-		<?php else:?>
-			<input onblur="calculate_<?php echo $key;?>()" min="0" class="marketInput buyunits" type="number" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
-			<input type="number" id="<?php echo $key;?>_total" class="ordertotal" hidden />
-			<input type="number" id="<?php echo $key;?>_nw_total" class="nwtotal" hidden />
-		<?php endif;?>
+		<input onblur="calculate_<?php echo $key;?>()" min="0" class="marketInput buyunits" type="number" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
+		<input type="number" id="<?php echo $key;?>_total" class="ordertotal" hidden />
+		<input type="number" id="<?php echo $key;?>_nw_total" class="nwtotal" hidden />
+		<input type="number" id="<?php echo $key;?>_turn_total" class="turntotal" hidden  />
 	</div>
 </div> <! // Close Unit row -->
 
 <script type="text/javascript">
-	<?php if($missileAccLevel == 0 && $key == 'tomahawk'):?>
-	<?php else:?>
+	
 	calculate_<?php echo $key;?> = function()
 	{
 	// Caculate order total in hidden field
@@ -124,6 +114,7 @@ $unittype = $missiles[$key]['type'];
   
     var networth = <?php echo $order['price']*$order['networth']/100;?>;
     document.getElementById('<?php echo $key;?>_nw_total').value = parseInt(no_units)*parseInt(networth);
+    document.getElementById('<?php echo $key;?>_turn_total').value = Math.ceil(no_units/10);
 	}	
 	calculate_<?php echo $key;?>();
 
@@ -153,6 +144,7 @@ $unittype = $missiles[$key]['type'];
 	jQuery('body').on('blur', '.buyunits', function() {
 	calculate_<?php echo $key;?>();
 	
+	// calculate NW total
     var arr = document.getElementsByClassName('nwtotal');
     var tot=0;
     for(var i=0;i<arr.length;i++){
@@ -167,12 +159,38 @@ $unittype = $missiles[$key]['type'];
     	span.removeChild( span.firstChild );
 	}	
 	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
+	
+	// Calculate turn total
+	
+	var arr = document.getElementsByClassName('turntotal');
+    var tot=0;
+    for(var i=0;i<arr.length;i++){
+        if(parseInt(arr[i].value))
+            tot += parseInt(arr[i].value);
+    }
+    document.getElementById('turn_total').value = tot;
+    
+    var span = document.getElementById('turn_total');
+
+	while( span.firstChild ) {
+    	span.removeChild( span.firstChild );
+	}	
+	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
+	
+	
 	});
 	
 	
 	
 	jQuery("#button<?php echo $key;?>").click(function() {
-	jQuery("#<?php echo $key;?>").val("<?php echo (min($max_money,$max_turns,$max_space));?>");
+	
+	jQuery("#<?php echo $key;?>").val("<?php
+		if($key == 'spyplane' || $key == 'thief' || $key == 'sniper'){
+		echo (min($ccspace,$max_money,$max_space));}
+		else{
+		echo (min($max_money,$max_space));
+		}
+		?>");
 		
 
 	calculate_<?php echo $key;?>();
@@ -192,6 +210,23 @@ $unittype = $missiles[$key]['type'];
 	while( span.firstChild ) {
    		span.removeChild( span.firstChild );
 		}
+	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
+	
+	// Calculate turn total
+	
+	var arr = document.getElementsByClassName('turntotal');
+    var tot=0;
+    for(var i=0;i<arr.length;i++){
+        if(parseInt(arr[i].value))
+            tot += parseInt(arr[i].value);
+    }
+    document.getElementById('turn_total').value = tot;
+    
+    var span = document.getElementById('turn_total');
+
+	while( span.firstChild ) {
+    	span.removeChild( span.firstChild );
+	}	
 	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
 	
 	
@@ -231,33 +266,9 @@ $unittype = $missiles[$key]['type'];
 	jQuery("#button").show();
 	jQuery("#message").hide();
 	});
-<?php endif;?>
+
 </script>	
 
+<?php endif;?>
 <?php }?>		
-</div>
-<div class="col-md-12 totalsField">
-				
-		<div class="col-md-4">
-			Number of missiles: <span id="total">0</span>
-		</div>
-		<div class="col-md-4">
-			Total cost: $ <span id="order_total">0</span>
-		</div>
-		<div class="col-md-4">
-			Added networth : $ <span id="networth_total">0</span>
-		</div>
-
-</div>
-					
-					<br/><br/>
-					<input type="submit" value="Place order" class="">
-					<div class="footer_continue">
-					<input type="submit" value="Place order" class="">
-					</div>
-								
-    
-									
-			</form>
-
 </div>

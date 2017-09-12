@@ -28,19 +28,16 @@ if(empty($user_ID)){
 if ( !is_user_logged_in() ) { 
 	wp_redirect(get_permalink(3582)); exit;
 	}
-$totalmoney = get_user_meta($user_ID, 'money');
-$totalmoney = $totalmoney[0];
+$totalmoney = get_user_meta($user_ID, 'money',true);
 
 
 
-$airspace = get_user_meta($user_ID, 'airfield');
-$airspace = $airspace[0]*10;
-$seaspace = get_user_meta($user_ID, 'shipyard');
-$seaspace = $seaspace[0]*5;
-$vehspace = get_user_meta($user_ID, 'warfactory');
-$vehspace = $vehspace[0]*10;
-$infspace = get_user_meta($user_ID, 'baracks');
-$infspace = $infspace[0]*20;
+
+$airspace = get_user_meta($user_ID, 'airfield',true)*10;
+$seaspace = get_user_meta($user_ID, 'shipyard',true)*5;
+$vehspace = get_user_meta($user_ID, 'warfactory',true)*10;
+$infspace = get_user_meta($user_ID, 'baracks',true)*20;
+
 
 $spies = get_user_meta($user_ID, 'spy_owned',true);
 $spies_ordered = get_user_meta($user_ID, 'spy_ordered',true);
@@ -114,15 +111,30 @@ if($key == 'spyplane' || $key == 'spy' || $key == 'thief' || $key == 'sniper'){
 
 $price = $order['price']*2.2*$discount_value;
 $ordered_units = ceil($_POST["$key"]);
-if($_POST["$key"] < 0){$_SESSION['status'] = 'Enter a valid number';wp_redirect($marketRedirectUrl); exit;}
-if(empty($_POST["$key"])){$letter_check = 0;}else{$letter_check = $_POST["$key"];}
-if(!is_numeric($letter_check)){$_SESSION['status'] = 'Enter a valid number';wp_redirect($marketRedirectUrl); exit;}
 
+if($_POST["$key"] < 0){
+	$_SESSION['status'] = 'Enter a valid number';
+	wp_redirect($marketRedirectUrl); exit;
+	}
+	
+if(empty($_POST["$key"])){
+	$letter_check = 0;
+	}else{
+	$letter_check = $_POST["$key"];
+	}
+	
+if(!is_numeric(
+	$letter_check)){
+		$_SESSION['status'] = 'Enter a valid number';
+		wp_redirect($marketRedirectUrl); 
+		exit;
+	}
 
+if($ordered_units > 0){
 $orderamount = $price*$ordered_units;
-
+$endvalue += $orderamount;
 $totalordercost = $totalordercost+$orderamount;
-
+}
 
 }
 
@@ -278,6 +290,7 @@ $total_order_amount = 0;
 			update_field('delivery_time', $timestamp+($hours * 3600)+($delay*60), $new_order_id);
 			update_field('amount_ordered', $ordered_units, $new_order_id);
 			update_field('order_type', 'units', $new_order_id);
+			update_field('order_value', ($price*2.2*$discount_value)*$ordered_units, $new_order_id);
 			
 			$units_ordered = get_user_meta($user_ID, 'units_ordered', true);
 			update_user_meta($user_ID, 'units_ordered', $units_ordered+$ordered_units);
@@ -298,6 +311,6 @@ file_put_contents($file, $current);
 
 
 
-$_SESSION['status'] = $total_units_ordered. ' units ordered for a total price of $ '.number_format($total_order_amount, 0, ',', ' ');
+$_SESSION['status'] = $total_units_ordered. ' units ordered for a total price of $ '.number_format($endvalue, 0, ',', ' ');
 wp_redirect($marketRedirectUrl);exit;
 }			

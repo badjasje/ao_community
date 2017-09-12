@@ -70,417 +70,54 @@ get_header(); ?>
 
 				<div class="tab-content current build_content tabbed-table">
 				<div class="tab-pane <?php echo $activeTab === 'air' ? 'active' : ''; ?>"  id="air" role="tabpanel">
-				<div class="container2">
-				<table class="responsive-table">
-					<thead>
-					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Owned (ordered)</th>
-						<th scope="col">Price</th>
-						<th scope="col">Att/Life</th>
-						<th scope="col">Targets</th>
-						<th scope="col">Max</th>
-						<th scope="col"></th>
-  					</tr>
-  					</thead>
-  					<tbody>
-				<?php // AIR TABLE
-					$totalair = 0;
-					foreach($units as $key => $order){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
-					$units_ordered = get_user_meta($user_ID, $key.'_ordered');
-					$unittype = $units[$key]['type'];
-					?>
-					<?php if($unittype == 'air'):?>
-					<tr>
-					<th scope="row">
-						<?php echo $order['normalname'];?>
-						<?php if($order['description']):?>
-						<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-						<?php endif;?>
-					</th>
 					
-					<td data-title="Owned">
-					<?php echo $units_owned[0]; $totalair+=$units_owned[0]+$units_ordered[0];?> 
-					(<?php echo $units_ordered[0]; ?>)				
-					</td>
+					<?php include 'pages/units/air.php'; ?>
 					
-					<td data-title="Price">
-					<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
-							$ <?php echo $order['price'];?>
-						</span>
-					</td>
-					
-					<td data-title="Att/Life">
-						<?php echo $order['attack'];?>/<?php echo $order['life'];?>
-					</td>
-					
-					
-					<td data-title="Targets">
-					<?php 
-						
-						$i = 0;
-						$len = count($order['attacks']);
-						if(empty($order['attacks'])){echo 'n.a';}
-						foreach($order['attacks'] as $attack){
-						if ($i == $len - 1) {
-						echo $attack;	
-    					}else{echo $attack.', ';}
-								
-						$i++;
-						;
-						
-						
-						}?>
-					</td>
-					
-					
-					
-					<td data-title="Max">
-						<?php 	$max_money = floor($totalmoney[0]/($order['price']));
-								$max_turns = floor($totalturns[0]*10);
-								$max_space = ($airspace[0]*10)-count_airspace($user_ID);
-								
-							
-						?>
-						<?php if($key == 'spyplane'):?>
-						<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($ccspace,$max_money,$max_turns,$max_space));?></span>
-						<?php else:?>
-						<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($max_money,$max_turns,$max_space));?></span>
-						<?php endif;?>
-					</td>
-					
-					<th colspan='2'data-title="">
-					<input class="small_input" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
-					</th>
-					</tr>
-					<script type="text/javascript">
-						jQuery("#button<?php echo $key;?>").click(function() {
-						jQuery("#<?php echo $key;?>").val("<?php 
-							if($key == 'spyplane'){
-							echo (min($ccspace,$max_money,$max_turns,$max_space));}
-							else{
-							echo (min($max_money,$max_turns,$max_space));	
-							}
-							
-							
-							?>");
-						jQuery("#button").show();
-						jQuery("#message").hide();
-						});
-					
-					</script>
-					<?php endif;?><?php }?>
-				</tbody>
-				</table>
 				</div>
-					<div class="space_desc padded">Your empty airfields allow you to build a maximum of <strong><?php echo $max_space;?></strong> air units.
-				</div></div>
 
 				<div class="tab-pane <?php echo $activeTab === 'sea' ? 'active' : ''; ?>"  id="sea" role="tabpanel">
-				<div class="container2">
-				<table class="responsive-table">
-					<thead>
-					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Owned (ordered)</th>
-						<th scope="col">Price</th>
-						<th scope="col">Att/Life</th>
-						<th scope="col">Targets</th>
-						<th scope="col">Max</th>
-						<th scope="col"></th>
-  					</tr>
-  					</thead>
-  					<tbody>
-				<?php // SEA TABLE
-					$totalsea = 0;
-					foreach($units as $key => $order){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
-					$units_ordered = get_user_meta($user_ID, $key.'_ordered');
-					$unittype = $units[$key]['type'];
-					?>
-					<?php if($unittype == 'sea'):?>
-					<tr>
-					<th scope="row">
-						<?php echo $order['normalname'];?>
-						<?php if($order['description']):?>
-						<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-						<?php endif;?>
-					</th>
-					
-					<td data-title="Owned">
-					<?php echo $units_owned[0]; $totalsea+=$units_owned[0]+$units_ordered[0];?> 
-					(<?php echo $units_ordered[0]; ?>)				
-					</td>
-					
-					<td data-title="Price">
-					<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
-							$ <?php echo $order['price'];?>
-						</span>
-					</td>
-					
-					<td data-title="Att/Life">
-						<?php echo $order['attack'];?>/<?php echo $order['life'];?>
-					</td>
-					
-					
-					<td data-title="Targets">
-					<?php 
-						
-						$i = 0;
-						$len = count($order['attacks']);
-						if(empty($order['attacks'])){echo 'n.a';}
-						foreach($order['attacks'] as $attack){
-						if ($i == $len - 1) {
-						echo $attack;	
-    					}else{echo $attack.', ';}
-								
-						$i++;
-						;
-						
-						
-						}?>
-					</td>
-					
-					
-					
-					<td data-title="Max">
-						<?php 	$max_money = floor($totalmoney[0]/($order['price']));
-								$max_turns = floor($totalturns[0]*5);
-								$max_space = ($seaspace[0]*5)-count_seaspace($user_ID);
-						
-							
-						?>
-						<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($max_space,$max_money,$max_turns));?></span>
-					</td>
-					
-					<th colspan='2'data-title="">
-					<input class="small_input" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
-					</th>
-					</tr>
-					<script type="text/javascript">
-						jQuery("#button<?php echo $key;?>").click(function() {
-						jQuery("#<?php echo $key;?>").val("<?php echo (min($max_space,$max_money,$max_turns));?>");
-						jQuery("#button").show();
-						jQuery("#message").hide();
-						});
-					
-					</script>
-					<?php endif;?><?php }?>
-  					</tbody>
-				</table>
+				
+					<?php include 'pages/units/sea.php'; ?>
+				
 				</div>
-					<div class="space_desc padded">Your empty shipyards allow you to build a maximum of <strong><?php echo $max_space;?></strong> sea units.
-				</div></div>
 
 
 				<div class="tab-pane <?php echo $activeTab === 'vehicles' ? 'active' : ''; ?>"  id="vehicles" role="tabpanel">
-				<div class="container2">
-				<table class="responsive-table">
-					<thead>
-					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Owned (ordered)</th>
-						<th scope="col">Price</th>
-						<th scope="col">Att/Life</th>
-						<th scope="col">Targets</th>
-						<th scope="col">Max</th>
-						<th scope="col"></th>
-  					</tr>
-  					</thead>
-  					<tbody>
-				<?php // VEH TABLE
-					$totalveh = 0;
-					foreach($units as $key => $order){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
-					$units_ordered = get_user_meta($user_ID, $key.'_ordered');
-					$unittype = $units[$key]['type'];
-					?>
-					<?php if($unittype == 'veh'):?>
-					<tr>
-					<th scope="row">
-						<?php echo $order['normalname'];?>
-						<?php if($order['description']):?>
-						<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-						<?php endif;?>
-					</th>
-					
-					<td data-title="Owned">
-					<?php echo $units_owned[0]; $totalair+=$units_owned[0]+$units_ordered[0];?> 
-					(<?php echo $units_ordered[0]; ?>)				
-					</td>
-					
-					<td data-title="Price">
-					<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
-							$ <?php echo $order['price'];?>
-						</span>
-					</td>
-					
-					<td data-title="Att/Life">
-						<?php echo $order['attack'];?>/<?php echo $order['life'];?>
-					</td>
-					
-					
-					<td data-title="Targets">
-					<?php 
-						
-						$i = 0;
-						$len = count($order['attacks']);
-						if(empty($order['attacks'])){echo 'n.a';}
-						foreach($order['attacks'] as $attack){
-						if ($i == $len - 1) {
-						echo $attack;	
-    					}else{echo $attack.', ';}
-								
-						$i++;
-						;
-						
-						
-						}?>
-					</td>
-					
-					
-					
-					<td data-title="Max">
-						<?php 	$max_money = floor($totalmoney[0]/($order['price']));
-								$max_turns = floor($totalturns[0]*10);
-								$max_space = ($vehspace[0]*10)-count_vehspace($user_ID);
-								
-							
-						?>
-						<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($max_space,$max_money,$max_turns));?></span>
-					</td>
-					
-					<th colspan='2'data-title="">
-					<input class="small_input" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
-					</th>
-					</tr>
-					<script type="text/javascript">
-						jQuery("#button<?php echo $key;?>").click(function() {
-						jQuery("#<?php echo $key;?>").val("<?php echo (min($max_space,$max_money,$max_turns));?>");
-						jQuery("#button").show();
-						jQuery("#message").hide();
-						});
-					
-					</script>
-					<?php endif;?><?php }?>
-				</table>
-				</div>
-					<div class="space_desc padded">Your empty warfactories allow you to build a maximum of <strong><?php echo $max_space;?></strong> vehicles.</div>
+				
+					<?php include 'pages/units/veh.php'; ?>
+				
 				</div>
 
 				<div class="tab-pane <?php echo $activeTab === 'infantry' ? 'active' : ''; ?>"  id="infantry" role="tabpanel">
-				<div class="container2">
-				<table class="responsive-table">
-					<thead>
-					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Owned (ordered)</th>
-						<th scope="col">Price</th>
-						<th scope="col">Att/Life</th>
-						<th scope="col">Targets</th>
-						<th scope="col">Max</th>
-						<th scope="col"></th>
-  					</tr>
-  					</thead>
-  					<tbody>
-				<?php // INF TABLE
-					$totalinf = 0;
-					foreach($units as $key => $order){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
-					$units_ordered = get_user_meta($user_ID, $key.'_ordered');
-					$unittype = $units[$key]['type'];
-					?>
-					<?php if($unittype == 'inf'):?>
-					<tr>
-					<th scope="row">
-						<?php echo $order['normalname'];?>
-						<?php if($order['description']):?>
-						<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="right"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-						<?php endif;?>
-					</th>
-					
-					<td data-title="Owned">
-					<?php echo $units_owned[0]; $totalinf+=$units_owned[0]+$units_ordered[0];?> 
-					(<?php echo $units_ordered[0]; ?>)				
-					</td>
-					
-					<td data-title="Price">
-					<span class="hover-tip"  data-toggle="tooltip" data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. $ <?php echo $order['price']*$order['networth']/100;?> per unit." data-placement="bottom">
-							$ <?php echo $order['price'];?>
-						</span>
-					</td>
-					
-					<td data-title="Att/Life">
-						<?php echo $order['attack'];?>/<?php echo $order['life'];?>
-					</td>
-					
-					
-					<td data-title="Targets">
-					<?php 
-						
-						$i = 0;
-						$len = count($order['attacks']);
-						if(empty($order['attacks'])){echo 'n.a';}
-						foreach($order['attacks'] as $attack){
-						if ($i == $len - 1) {
-						echo $attack;	
-    					}else{echo $attack.', ';}
-								
-						$i++;
-						;
-						
-						
-						}?>
-					</td>
-					
-					
-					
-					<td data-title="Max">
-						<?php 	$max_money = floor($totalmoney[0]/($order['price']));
-								$max_turns = floor($totalturns[0]*20);
-								$max_space = ($infspace[0]*20)-count_infspace($user_ID);
-							
-							
-						?>
-						<?php if($key == 'spy' || $key == 'thief' || $key == 'sniper'):?>
-						<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($ccspace,$max_money,$max_turns,$max_space));?></span>
-						<?php else:?>
-						<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($max_money,$max_turns,$max_space));?></span>
-						<?php endif;?>
-					</td>
-					
-					<th colspan='2'data-title="">
-					<input class="small_input" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/> 
-					</th>
-					</tr>
-					<script type="text/javascript">
-						jQuery("#button<?php echo $key;?>").click(function() {
-						jQuery("#<?php echo $key;?>").val("<?php
-							if($key == 'spy' || $key == 'thief' || $key == 'sniper'){
-							echo (min($ccspace,$max_money,$max_turns,$max_space));}
-							else{
-							echo (min($max_money,$max_turns,$max_space));	
-							}?>");
-						jQuery("#button").show();
-						jQuery("#message").hide();
-						});
-					
-					</script>
-					<?php endif;?><?php }?>
-  					</tbody>
-				</table>
+				
+					<?php include 'pages/units/inf.php'; ?>
+				
 				</div>
-					<div class="space_desc padded">Your empty barracks allow you to build a maximum of <strong><?php echo $max_space;?></strong> infantry.</div>
-				</div>
-					<?php session_unset(); ?>
-
-					<div class="padded" style="padding: 0 15px 15px 15px;">
-						<input type="submit" value="Build" class="">
-						<div class="footer_continue">
-						<input type="submit" value="Build" class="">
+				
+					
+					<div class="col-md-12 totalsField">
+				
+						<div class="col-md-3">
+							Number of units: <span id="total">0</span>
 						</div>
+						<div class="col-md-3">
+							Total cost: $ <span id="order_total">0</span>
+						</div>
+						<div class="col-md-3">
+							Turns required: <span id="turn_total">0</span>
+						</div>
+						<div class="col-md-3">
+							Added networth: $ <span id="networth_total">0</span>
+						</div>
+	
 					</div>
+
+					
+					<input type="submit" value="Turn buy units" class="">
+					<div class="footer_continue">
+						<input type="submit" value="Turn buy units" class="">
+					</div>
+					
 				</div>
            </form>
             </div>
@@ -490,10 +127,34 @@ get_header(); ?>
 </div>
 
 <script type="text/javascript">
+	
+		// Set total number of units value
+	jQuery('body').on('change', '.buyunits', function() {
+		
+    var arr = document.getElementsByClassName('buyunits');
+    var tot=0;
+    for(var i=0;i<arr.length;i++){
+        if(parseInt(arr[i].value))
+            tot += parseInt(arr[i].value);
+    }
+    document.getElementById('total').value = tot;
+    
+    var span = document.getElementById('total');
+
+while( span.firstChild ) {
+    span.removeChild( span.firstChild );
+}
+
+span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
+    
+	});
+	
+	
     jQuery(document).on('shown.bs.tab', function (event) {
         var currentTab = jQuery(event.target).attr('href');
         history.pushState(null, null, currentTab);
         jQuery('#currentTab').val(currentTab);
     });
 </script>
+<?php session_unset(); ?>
 <?php get_footer(); ?>

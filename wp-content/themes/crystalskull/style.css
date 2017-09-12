@@ -930,7 +930,7 @@ table{
 
 
 .build_content{
-	padding-top: 20px;
+	padding-top: 0px;
     background-color: #fff;
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
@@ -1244,10 +1244,14 @@ border_bottom_mobile{
 	margin-right:auto;
 }
 .toplist_block{
-
     padding: 20px;
     background-color: #fff;
     margin-bottom: 20px;
+}
+.market_block{
+    padding: 20px 10px;
+    background-color: #fff;
+    margin-bottom: 0px;
 }
 .commentAvatar{
 	width: 90px;
@@ -1408,7 +1412,7 @@ input:checked + .slider:before {
     margin-top: 10px;
 }
 .tomahawkSpan{
-	padding: 8px 0px;
+	text-align:center;
 	border: 1px solid #ddd;
     background-color: #fff;
 }
@@ -1528,6 +1532,11 @@ input:checked + .slider:before {
 	border:1px solid rgba(222, 222, 222, 0.50)
 }
 @media (max-width: 768px) {
+.market_block{
+    padding: 20px 0px;
+    background-color: #fff;
+    margin-bottom: 0px;
+}
 .memberrowSecond{
 	display: none;
 }
@@ -1721,3 +1730,38 @@ color: #2c90c6 !important;
 .progress{
 	background-color: #989898;
 }
+@media (max-width: 768px) {
+	.marketHeader{
+    background-color: #2d4350;
+    padding: 10px;
+    color: #fff;
+    }
+   }
+.marketInput{
+	text-align:center;
+	font-weight:bold;
+}
+.marketMessage{
+	margin-bottom:20px;
+}
+.spaceNotice{
+	padding: 20px;
+    border: 1px solid #2d4350;
+    text-align: center;
+    background-color:#fff;
+}
+.totalsField{
+	padding: 20px;
+    border: 1px solid #2d4350;
+    margin-bottom: 15px;
+    background-color:#fff;
+}
+.market_column{
+	line-height: 38px;
+	vertical-align: middle;
+}
+@media (max-width: 768px) {
+	.market_column{
+	line-height: 20px;
+	}
+	}
