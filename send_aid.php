@@ -44,9 +44,15 @@ $sender_NW = get_user_meta($user_ID, 'networth',true);
 if($receiver_NW > $sender_NW){
 	wp_redirect(get_permalink(49609)); exit;
 	}
-			
 
+$userLock = get_user_meta($user_ID, 'user_lock', true);
 
+if($userLock == 1){
+	update_user_meta($user_ID, 'user_lock', 0);
+	$_SESSION['status'] = 'Please try again.';
+	wp_redirect(get_permalink(3582));exit;
+}else{
+update_user_meta($user_ID, 'user_lock', 1);
 
 if($aid_sent >= 3){
 	wp_redirect(get_permalink(49609)); exit;
@@ -126,8 +132,8 @@ $current .= "Aid sent: ".$aid."\n\n";
 file_put_contents($file, $current);
 
 
-
+update_user_meta($user_ID, 'user_lock', 0);
 $_SESSION['status'] = '$ '.number_format($aid, 0, ',', ' ').' aid sent';
 wp_redirect(get_permalink(49609)); exit;
 
-}
+}}
