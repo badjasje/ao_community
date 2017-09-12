@@ -637,7 +637,13 @@ input[type="radio"]:checked + label {
 .sortingHeadMob{
 	display:none;
 }
+.sharerow{
+	display: none;
+}
 @media (max-width: 768px) {
+.sharerow{
+	display:block;
+}
 .responsive-table tbody{
 	background-color:#fff !important;
 }

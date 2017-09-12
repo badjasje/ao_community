@@ -114,13 +114,19 @@ get_header('profile'); ?>
 				<div class="col-xs-5">Land</div>
 				<div class="col-xs-7"><?php echo number_format($user_land, 0, ',', ' ')?>m<sup>2</sup></div>
 			</div>
-			<div class="row profile_row_last">
+			<div class="row profile_row">
 				<div class="col-xs-5">Clan</div>
 				<div class="col-xs-7">
 					<?php if($clan_id == 0){
 						echo 'none';}else{
 						echo '<a href="'.get_the_permalink($clan_id).'">'.get_the_title($clan_id).' (#'.$clan_id.')</a>';
 							}?>	
+				</div>
+			</div>
+			<div class="row profile_row_last sharerow">
+				<div class="col-xs-5">Share</div>
+				<div class="col-xs-7">
+					<a href="whatsapp://send" data-text="<?php echo $user->display_name;?> (#<?php echo $user__ID;?>)" data-href="" class="wa_btn wa_btn_s" style="display:none">Share</a>
 				</div>
 			</div>
 		</div>
