@@ -58,6 +58,7 @@ $user = get_userdata($user_ID);
 <script type='text/javascript' src='/wp-content/themes/crystalskull/js/sortingdivs.js'></script>
 <script type='text/javascript' src='/wp-content/themes/crystalskull/js/html2canvas.js'></script>
 <script type='text/javascript' src='/wp-content/themes/crystalskull/js/FileSaver.js'></script>
+<script type='text/javascript' src='/wp-content/themes/crystalskull/js/numberformat.js'></script>
 </head>
 <body <?php body_class(); ?>>
 	<script>
