@@ -29,7 +29,7 @@
 				
 				
 				update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(48 * 3600));}
-				/*
+				/* 
 				if(get_user_meta($user_ID, 'reset_status', true) == 0){
 			
 				update_user_meta($user_ID, 'new_global_events', 0);
@@ -172,8 +172,8 @@
 				update_user_meta($user_ID,'modes_position',0);
 				update_user_meta($user_ID,'modes_prev',0);
 				update_user_meta($user_ID,'modes_next',0);
-
-
+				update_user_meta($user_ID,'modev_position',0);
+				update_user_meta($user_ID,'modev_damage',0);
 				update_user_meta($user_ID, 'reset_status', 1);
 				} 
 				

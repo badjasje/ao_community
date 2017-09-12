@@ -72,14 +72,16 @@ if($discount_level == 2){
 			update_user_meta( $user_ID,$unit_type.'_ordered',$total_units_on_order - $units_in_this_order);
 			
 			
-			$totalmoney = get_user_meta($user_ID, 'money',true);
-			update_user_meta( $user_ID,'money',$totalmoney+$cashback);
+			
 			
 			wp_trash_post($order_ID);
 			if($order_type == 'satellite'){
 				update_user_meta($user_ID, 'sat_in_progress', 0);
 				$cashback = $satellites[$unit_type]['price']*0.75;	
 			}
+			$totalmoney = get_user_meta($user_ID, 'money',true);
+			update_user_meta( $user_ID,'money',$totalmoney+$cashback);
+			
 			update_user_meta($user_ID, 'user_lock', 0);
 			$_SESSION['status'] = 'Order canceled. You received $ '.number_format($cashback, 0, ',', ' ');
 			wp_redirect(get_permalink(3204)); exit;

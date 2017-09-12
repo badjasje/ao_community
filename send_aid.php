@@ -48,7 +48,7 @@ if($receiver_NW > $sender_NW){
 
 
 
-if($aid_sent == 3){
+if($aid_sent >= 3){
 	wp_redirect(get_permalink(49609)); exit;
 }
 $money = get_user_meta($user_ID, 'money',true);

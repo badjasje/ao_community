@@ -22,6 +22,131 @@ add_filter('previous_posts_link_attributes', 'posts_link_attributes');
 function posts_link_attributes() {
     return 'class="btn btn-general"';
 }
+
+
+function do_thief($level, $thieves, $snipers, $defender_money) {
+	
+	//Set thief_multiplier based on number sent. The higher the multiplier, the lower the success chance but higher the money stolen
+	
+	//Sets some variables based on research level 
+	switch ($level) {
+		case 0:
+		  if (!(isset($thief_multiplier))) {
+			  $thief_multiplier=3.8;
+		  }
+		  
+		  $sqrtThieves = sqrt($thieves);
+		  
+		  //Set the number that must be higher than caughtChance in order for thieving to work
+		  $randMax = mt_rand(0,100);
+		  //Sets the damage an individual sniper does to the thieves
+
+		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);
+		  $cashMultiplier = ((mt_rand(1,5)*($sqrtThieves/$thief_multiplier))/100);
+
+		 
+
+		  
+		break;
+		case 1:
+		  if (!(isset($thief_multiplier))) {
+			  $thief_multiplier=3.8;
+		  }
+		  
+		  $sqrtThieves = sqrt($thieves);
+		  
+		  //Set the number that must be higher than caughtChance in order for thieving to work
+		  $randMax = mt_rand(10,100);		
+		  //Sets the damage an individual sniper does to the thieves
+
+		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);		
+		  $cashMultiplier = ((mt_rand(2,7)*($sqrtThieves/$thief_multiplier))/100);  
+
+	
+
+		break;		
+		case 2:
+		  if (!(isset($thief_multiplier))) {
+			  $thief_multiplier=3.5;
+
+		  }
+		  
+		  $sqrtThieves = sqrt($thieves);
+		  
+		  //Set the number that must be higher than caughtChance in order for thieving to work
+		  $randMax = mt_rand(20,100);	
+		  //Sets the damage an individual sniper does to the thieves
+
+		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);		 
+		  $cashMultiplier = ((mt_rand(4,9)*($sqrtThieves/$thief_multiplier))/100);
+
+		  
+
+		break;
+		default:
+		  if (!(isset($thief_multiplier))) {
+			  $thief_multiplier=3;
+		  }
+		  
+		  //MEGA use square root of thieves count. So 10 thieves = 3, 1 tihef = 1
+		  //20170531
+		  
+		  $sqrtThieves = sqrt($thieves);
+		  
+		  //Set the number that must be higher than caughtChance in order for thieving to work
+		  $randMax = mt_rand(40,100);		
+		  //Sets the damage an individual sniper does to the thieves
+
+		  $snipersHit = ($snipers*0.59)*(mt_rand(70,130)/100);	
+		  $cashMultiplier = ((mt_rand(5,9)*($sqrtThieves/$thief_multiplier))/100);	  
+
+		  //Old: 
+		  // 5 * (1/3) =0.33    / 100 = 2%
+		  // 9 * 1/3 =          / 100 = 3%
+		  // 5 * 10/3 =         / 100 = 16%
+		  // 9 * 10/3 =         / 100 = 29% !!! 
+		  
+		  //New:
+		  // 5 * (1/3) = 0.33   / 100 = 2%
+		  //                          =3%
+		  // 9 * 3.122/3 = 1    / 100 = 9%
+		  // 5 * 3.122/3 = 1 = 5/ 100 = 5%
+		  
+		  //.. with max edu. Need to test other values 
+          
+		  
+		break;
+	}
+	
+	if ($thieves == 1) {
+		$dice = 1+$snipersHit;
+	}
+	else {
+		$dice = ($thieves * $thief_multiplier) + $snipersHit;
+	}
+	/* Debug stuff.. uncomment to enable 
+	
+	echo "successNo:".$randMax."<br/>";
+	echo "thieves:".$thieves."<br/>";
+	echo "snipers:".$snipers."<br/>";
+	echo "thief_multipler:".$thief_multiplier."<br/>";
+	echo "snipersHit:".$snipersHit."<br/>";
+	echo "dice:".$dice."<br/>";
+	echo "thiefChance:".(100-$dice)."<br/>";
+	echo "cashMultiplier:".$cashMultiplier."<br/>";
+	*/
+	
+	
+	if ($randMax > $dice) {
+		//Winner
+		return $cashMultiplier;
+	}
+	else {
+		//LOSER
+		return 0;
+	}
+}
+
 function my_login_logo() { ?>
     <style type="text/css">
         #login h1 a, .login h1 a {
