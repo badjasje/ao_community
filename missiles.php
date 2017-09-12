@@ -182,7 +182,7 @@ foreach($missiles as $key => $order){
 
 }}
 $_SESSION['status'] = $total_missiles_ordered.' missiles ordered for '.$totalturncost.' turns and $ '.number_format($totalordercost, 0, ',', ' ');
-wp_redirect(get_permalink(3457));exit;
+wp_redirect(get_permalink(3457).'/?tab=buy');exit;
 
 
 			
