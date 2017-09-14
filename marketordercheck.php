@@ -187,6 +187,7 @@ include 'bonus_array.php';
 	$clan_points	= get_post_meta($clan_ID,'clan_points',true);
 	$bonus_level	= get_post_meta($clan_ID,'bonus_level',true);
 	
+	
 
 	$level = "level_";
 	$level .= $bonus_level;
@@ -197,6 +198,8 @@ include 'bonus_array.php';
 			
 			update_post_meta($clan_ID, 'bonus_level', $bonus_level+1);
 			
+			$bonusMoney = round($bonus[$level]['money']/count($clan_members[0]));
+			$bonusTurns = round($bonus[$level]['turns']/count($clan_members[0]));
 			
 			foreach ($clan_members[0] as $member) {
 				$args = array(	
@@ -208,8 +211,8 @@ include 'bonus_array.php';
 				
 					$new_event_id = wp_insert_post( $args );
 					update_field('attacktype','bonus', $new_event_id);
-					update_field('bonus_money',$bonus[$level]['money'], $new_event_id);
-					update_field('bonus_turns',$bonus[$level]['turns'], $new_event_id);
+					update_field('bonus_money',$bonusMoney, $new_event_id);
+					update_field('bonus_turns',$bonusTurns, $new_event_id);
 					update_field('defender_id',$member, $new_event_id);
 					update_field('time_attacked',$timestamp, $new_event_id);
 					
