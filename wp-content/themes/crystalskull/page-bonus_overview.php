@@ -32,7 +32,7 @@ get_header(); ?>
 								<i class="fa fa-check-circle-o" aria-hidden="true"></i>
 							<?php endif;?> Level <?php echo $count;?> - <?php echo $bon['points'];?>pts
 						</h3>
-				    <span class="rdw-line-2"><span class="rdw-line-2">$<?php echo number_format($bon['money'], 0, ',', ' ');?> and <?php echo $bon['turns'];?> turns divided equally over each clan member.</span>
+				    <span class="rdw-line-2"><span class="rdw-line-2">$<?php echo number_format($bon['money'], 0, ',', ' ');?> and <?php echo $bon['turns'];?> turns divided equally between each clan member.</span>
 				    </div>
 				    <div id="bar" style=" width: 
 					    
