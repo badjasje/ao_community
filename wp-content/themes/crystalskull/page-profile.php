@@ -27,6 +27,11 @@ $last_online = get_user_meta($user__ID, 'last_online',true);
 
 $visiting_user = get_current_user_ID();
 
+$savedUsers = get_user_meta($visiting_user, 'saved_users', true);
+$savedUsers = json_decode($savedUsers);
+
+
+
 $clan_id_user = get_user_meta($visiting_user, 'clan_id_user',true);
 
 $previous_members = get_post_meta($clan_id_user,'previous_members');
@@ -139,20 +144,36 @@ get_header('profile'); ?>
 <!-- Visiting non-clanmember as non CT/CL -->
 <div class="row button_block">
  	
- 	<div class="col-md-4 buttoncol">
+ 	<div class="col-md-3 buttoncol">
 	 	<center><a class="btn btn-attack profilebutton" href="/attack/step-1/?id=<?php echo $user__ID;?>">
 		 	<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack</a></center>
 	</div>
 	
-	<div class="col-md-4 buttoncol">
+	<div class="col-md-3 buttoncol">
 		<center><a class="btn btn-general profilebutton" href="/spy-reports/?id=<?php echo $user__ID;?>">
 			<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports</a></center>
 	</div>
 	
-	<div class="col-md-4 buttoncol">
+	<div class="col-md-3 buttoncol">
 	  <center><a class="btn btn-general profilebutton" href="/send-message/?id=<?php echo $user__ID;?>">
 		  <i class="fa fa-envelope-o" aria-hidden="true"></i> &nbsp;Send message</a></center>
 	</div>
+	
+	<?php if(in_array($user__ID, $savedUsers)):?>
+	
+		<div class="col-md-3 buttoncol">
+			<center><a class="btn profilebutton savedUser" href="/saved-users">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;User saved</a></center>
+		</div>
+		
+	<?php else:?>
+	
+		<div class="col-md-3 buttoncol">
+			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Save user</a></center>
+		</div>
+		
+	<?php endif;?>
   
 </div>
 <?php endif;?>
@@ -167,20 +188,36 @@ get_header('profile'); ?>
 <!-- Visiting non-clanmember as non CT/CL -->
 <div class="row button_block">
  	
- 	<div class="col-md-4 buttoncol">
+ 	<div class="col-md-3 buttoncol">
 	 	<center><a class="btn btn-attack profilebutton" href="/attack/step-1/?id=<?php echo $user__ID;?>">
 		 	<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack</a></center>
 	</div>
 	
-	<div class="col-md-4 buttoncol">
+	<div class="col-md-3 buttoncol">
 		<center><a class="btn btn-general profilebutton" href="/spy-reports/?id=<?php echo $user__ID;?>">
 			<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports</a></center>
 	</div>
 	
-	<div class="col-md-4 buttoncol">
+	<div class="col-md-3 buttoncol">
 	  <center><a class="btn btn-general profilebutton" href="/send-message/?id=<?php echo $user__ID;?>">
 		  <i class="fa fa-envelope-o" aria-hidden="true"></i> &nbsp;Send message</a></center>
 	</div>
+	
+	<?php if(in_array($user__ID, $savedUsers)):?>
+	
+		<div class="col-md-3 buttoncol">
+			<center><a class="btn profilebutton savedUser" href="/saved-users">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;User saved</a></center>
+		</div>
+		
+	<?php else:?>
+	
+		<div class="col-md-3 buttoncol">
+			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Save user</a></center>
+		</div>
+		
+	<?php endif;?>
   
 </div>
 <?php endif;?>
@@ -192,12 +229,12 @@ get_header('profile'); ?>
 <!-- Visiting non-clanmember as CT/CL, members below 7 -->
 <div class="row button_block">
  	
- 	<div class="col-md-3 buttoncol">
+ 	<div class="col-md-2 buttoncol">
 	 	<center><a class="btn btn-attack profilebutton" href="/attack/step-1/?id=<?php echo $user__ID;?>">
 		 	<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack</a></center>
 	</div>
 	
-	<div class="col-md-3 buttoncol">
+	<div class="col-md-2 buttoncol">
 		<center><a class="btn btn-general profilebutton" href="/spy-reports/?id=<?php echo $user__ID;?>">
 			<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports</a></center>
 	</div>
@@ -211,7 +248,21 @@ get_header('profile'); ?>
 	  	<center><a onclick="return confirm('Are you sure you want to invite <?php echo $user->display_name;?> (#<?php echo $user__ID;?>)?')" class="btn btn-general profilebutton" href="/invite.php?invite=<?php echo md5(uniqid(rand(), TRUE)) . "\n";?>&clan=<?php echo $clan_id_user;?>&user=<?php echo $user__ID;?>">
 		  	<i class="fa fa-user-plus" aria-hidden="true"></i> &nbsp;Send clan invite</a></center>
 	</div>
-  
+	<?php if(in_array($user__ID, $savedUsers)):?>
+	
+		<div class="col-md-2 buttoncol">
+			<center><a class="btn profilebutton savedUser" href="/saved-users">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;User saved</a></center>
+		</div>
+		
+	<?php else:?>
+	
+		<div class="col-md-2 buttoncol">
+			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Save user</a></center>
+		</div>
+		
+	<?php endif;?>
 </div>
 <?php endif;?>
 
@@ -220,20 +271,36 @@ get_header('profile'); ?>
 <!-- Visiting non-clanmember as non CT/CL -->
 <div class="row button_block">
  	
- 	<div class="col-md-4 buttoncol">
+ 	<div class="col-md-3 buttoncol">
 	 	<center><a class="btn btn-attack profilebutton" href="/attack/step-1/?id=<?php echo $user__ID;?>">
 		 	<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack</a></center>
 	</div>
 	
-	<div class="col-md-4 buttoncol">
+	<div class="col-md-3 buttoncol">
 		<center><a class="btn btn-general profilebutton" href="/spy-reports/?id=<?php echo $user__ID;?>">
 			<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports</a></center>
 	</div>
 	
-	<div class="col-md-4 buttoncol">
+	<div class="col-md-3 buttoncol">
 	  <center><a class="btn btn-general profilebutton" href="/send-message/?id=<?php echo $user__ID;?>">
 		  <i class="fa fa-envelope-o" aria-hidden="true"></i> &nbsp;Send message</a></center>
 	</div>
+	
+	<?php if(in_array($user__ID, $savedUsers)):?>
+	
+		<div class="col-md-3 buttoncol">
+			<center><a class="btn profilebutton savedUser" href="/saved-users">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;User saved</a></center>
+		</div>
+		
+	<?php else:?>
+	
+		<div class="col-md-3 buttoncol">
+			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Save user</a></center>
+		</div>
+		
+	<?php endif;?>
   
 </div>
 <?php endif;?>
@@ -246,15 +313,31 @@ get_header('profile'); ?>
 
 <div class="row button_block">
  	
- 	<div class="col-md-6 buttoncol">
+ 	<div class="col-md-4 buttoncol">
 	 	<center><a class="btn btn-general profilebutton" href="/military-overview/?id=<?php echo $user__ID;?>">
 		 	<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Military overview</a></center>
 	</div>
 	
-	<div class="col-md-6 buttoncol">
+	<div class="col-md-4 buttoncol">
 	 	<center><a class="btn btn-general profilebutton" href="/send-message/?id=<?php echo $user__ID;?>">
 		  <i class="fa fa-envelope-o" aria-hidden="true"></i> &nbsp;Send message</a></center>
 	</div>
+	
+	<?php if(in_array($user__ID, $savedUsers)):?>
+	
+		<div class="col-md-4 buttoncol">
+			<center><a class="btn profilebutton savedUser" href="/saved-users">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;User saved</a></center>
+		</div>
+		
+	<?php else:?>
+	
+		<div class="col-md-4 buttoncol">
+			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Save user</a></center>
+		</div>
+		
+	<?php endif;?>
 
 </div>
 

@@ -1781,4 +1781,9 @@ color: #2c90c6 !important;
     background-color: #2d4350;
     color: #fff;
 }
+.savedUser{
+	background-color: #dddddd !important;
+	color:#535353 !important;
+	margin-bottom: 3px;
+    text-transform: uppercase;
 }
