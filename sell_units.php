@@ -69,7 +69,6 @@ if($key == 'spy' || $key == 'spyplane' || $key == 'sniper' || $key == 'thief'){
 }
 }}
 
-
 $specials_sold = get_user_meta($user_ID, 'special_sold_today', true);
 
 if(($specials_sold+$special_selling) > 50){

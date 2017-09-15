@@ -43,7 +43,11 @@ if($units_owned[0] != 0){
 	<div class="col-md-2 clan_column">
 		<span class="clan_data_left">Max</span>
 		<span class="clan_data_right">
-			<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned[0];?></span>
+			<?php if($key == 'spyplane'):?>
+				<span class="allbutton" id="button<?php echo $key;?>"><?php echo min($units_owned[0],$specialSold);?></span>
+			<?php else:?>
+				<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned[0];?></span>
+			<?php endif;?>
 	</div>
 	<div class="col-md-4 clan_column border_bottom_mobile">
 		<input class="marketInput sellunits" min="0" type="number" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
@@ -111,9 +115,11 @@ if($units_owned[0] != 0){
 	
 	
 	jQuery("#button<?php echo $key;?>").click(function() {
-	
-	jQuery("#<?php echo $key;?>").val("<?php echo $units_owned[0];?>");
-		
+	<?php if($key == 'spyplane'):?>
+		jQuery("#<?php echo $key;?>").val("<?php echo min($units_owned[0],$specialSold);?>");
+	<?php else:?>
+		jQuery("#<?php echo $key;?>").val("<?php echo $units_owned[0];?>");
+	<?php endif;?>
 
 	calculate_<?php echo $key;?>();
      
