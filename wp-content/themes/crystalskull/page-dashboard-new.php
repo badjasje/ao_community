@@ -6,6 +6,7 @@
 include('startingbonus_array.php');
 
 $user_ID 					= get_current_user_ID();
+$pageID 					= get_the_id();
 $savedUsers 				= get_user_meta($user_ID, 'saved_users', true);
 $savedUsers 				= json_decode($savedUsers);
 update_user_meta($user_ID, 'user_lock', 0);
@@ -1015,6 +1016,8 @@ get_header(); ?>
 					<div class="col-md-12">
 						<a href="<?php echo get_the_permalink($post->ID);?>">
 							<?php echo get_user_name($user);?>
+							<a href="/remove.php/?id=<?php echo $user_ID;?>&return=<?php echo $pageID;?>">
+								<i class="fa fa-trash-o" aria-hidden="true"></i></a>
 						</a>
 					</div>
 				</div>

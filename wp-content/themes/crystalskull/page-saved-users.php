@@ -11,8 +11,20 @@ get_header(); ?>
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	            
+	           
 	            
-	            <div class="storeDetails-heads button_block sortingHeadMob">
+<div class="row">
+	<div class="col-md-12">
+		<?php if(!empty($_SESSION['status'])):?>
+			<?php echo alert_notification($_SESSION['status']); // Display notification messages ?>
+		<?php endif; // End empty status check ?>
+	</div>
+</div>         
+	            
+	            
+	            
+	            
+<div class="storeDetails-heads button_block sortingHeadMob">
 	<center>
 	<strong>Sort:</strong> <a href="" class="sort2" data-sort=".memberField">Name</a> - 
 	<a href="" class="sort2 sort-number" data-sort=".store-pop-span2">Networth</a> -
@@ -93,7 +105,7 @@ get_header(); ?>
 	
 	<div class="col-md-2 clan_column center_clan_col">
 		
-		<center><a class="btn btn-general profilebutton" href="/remove.php/?id=<?php echo $user_ID;?>">
+		<center><a class="btn btn-general profilebutton" href="/remove.php/?id=<?php echo $user_ID;?>&return=<?php echo get_the_id();?>">
 			<i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp;Remove</a>
 		</center>
 	
@@ -112,4 +124,5 @@ get_header(); ?>
         </div>
     </div>
 </div>
+<?php session_unset();?>
 <?php get_footer(); ?>
