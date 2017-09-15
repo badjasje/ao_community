@@ -139,11 +139,9 @@ $user = get_userdata($user_ID);
 					<?php }
 					echo "</div>";
 				}  ?>
-             <h1>Spy reports for <?php if(is_page(47273)):  $user__ID = $_GET['id']; $user = get_userdata($user__ID); $last_online = get_user_meta($user__ID, 'last_online',true);
-				if(!empty($last_online)){ $timestamp = strtotime(date('Y-m-d H:i:s'));
-				$last_seen = $timestamp - $last_online;}?><?php echo $user->display_name;?> (#<?php echo $user__ID;?>) <?php
-						if(!empty($last_online)){
-						if($last_seen < 7200 && !empty($last_online)){echo ' <span style="color:#ff0000">*</span';}}?><?php endif;?>
+             <h1>Spy reports for <?php if(is_page(47273)):  $user__ID = $_GET['id'];?>
+             	<?php echo get_user_name($user__ID);?>	
+             <?php endif;?>
             </h1>
             </div>
             <div class="col-lg-12 breadcrumbs"><strong><?php crystalskull_breadcrumbs(); ?></strong></div>
