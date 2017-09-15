@@ -29,8 +29,8 @@ if(empty($user_ID)){
 if ( !is_user_logged_in() ) { 
 	wp_redirect(get_permalink(3582)); exit;
 	} 
-$totalmoney = get_user_meta($user_ID, 'money');
-$totalmoney = $totalmoney[0];
+$totalmoney = get_user_meta($user_ID, 'money',true);
+
 
 $discount_level = get_user_meta($user_ID, 'level_market_discount',true);
 $discount = 1;
@@ -64,7 +64,7 @@ if(!is_numeric($letter_check)){$_SESSION['status'] = 'Enter a valid number';wp_r
 if($owned_units[0] < $sold_units){
 $sold_units = $owned_units[0];
 }
-if($key == 'spy' || $key == 'spyplane' || $key == 'sniper'){
+if($key == 'spy' || $key == 'spyplane' || $key == 'sniper' || $key == 'thief'){
 	$special_selling+=$_POST["$key"];
 }
 }}
