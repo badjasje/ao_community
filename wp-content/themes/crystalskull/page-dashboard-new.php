@@ -6,6 +6,8 @@
 include('startingbonus_array.php');
 
 $user_ID 					= get_current_user_ID();
+$savedUsers 				= get_user_meta($user_ID, 'saved_users', true);
+$savedUsers 				= json_decode($savedUsers);
 update_user_meta($user_ID, 'user_lock', 0);
 $new_events 				= get_user_meta($user_ID, 'new_events',true);
 $new_messages 				= get_user_meta($user_ID, 'new_messages',true);
@@ -212,7 +214,11 @@ get_header(); ?>
 				</div>
 				
 				<div class="row profile_row">
-					<div class="col-xs-6"><strong>Power usage</strong></div>
+					<div class="col-xs-6">
+						<?php if($PwrUsage > 100):?>
+							<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+						<?php endif;?>
+						<strong>Power usage</strong></div>
 					<div class="col-xs-6"><?php echo number_format($PwrUsage, 0, ',', ' ');?>%</div>
 				</div>
 				
@@ -471,7 +477,11 @@ get_header(); ?>
 				</div>
 				
 				<div class="row profile_row">
-					<div class="col-xs-6"><strong>Power usage</strong></div>
+					<div class="col-xs-6">
+						<?php if($PwrUsage > 100):?>
+							<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+						<?php endif;?>
+						<strong>Power usage</strong></div>
 					<div class="col-xs-6"><?php echo number_format($PwrUsage, 0, ',', ' ');?>%</div>
 				</div>
 				
@@ -578,6 +588,7 @@ get_header(); ?>
 	</div>
 </div>
 
+<?php endif; // End check if game is live ?>
 
 <div classs="row">	
 	<div class="status_block">
@@ -925,7 +936,7 @@ get_header(); ?>
 		</div>
 	</div>
 </div>
-       
+
 <!-- NEWS -->
 
 <div classs="row">	
@@ -973,7 +984,46 @@ get_header(); ?>
 </div>
        
 
-<?php endif; // End check if game is live ?>
+
+
+<!-- SAVED USERS -->
+
+<div classs="row">	
+	<div class="status_block">
+		
+		<div class="col-md-6 secBlock">
+			<div class="status_header status_header_left inbox_header">
+				<div class="row">
+					<div class="col-md-12"><a href="/saved-users/">Saved users</a></div>
+				</div>
+			</div>
+			
+			<div class="status_header status_header_left mobile_dash_header">
+				<div class="row">
+					<center><a href="/saved-users/">Saved users</a></center>
+				</div>
+			</div>
+				
+			<div class="status_column">
+				<?php	
+					
+				
+				foreach ($savedUsers as $user) { ?>
+				
+				
+				<div class="row profile_row">
+					<div class="col-md-12">
+						<a href="<?php echo get_the_permalink($post->ID);?>">
+							<?php echo get_user_name($user);?>
+						</a>
+					</div>
+				</div>
+				<?php }?>
+			</div>
+		</div>
+	</div>
+</div>
+
        
        
 <?php if(current_user_can('activate_plugins')){ ?><br>
