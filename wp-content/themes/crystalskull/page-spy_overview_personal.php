@@ -3,10 +3,14 @@
  * Template Name: Spy Reports
  */
 $target_id = $_GET['id'];
+$activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'buildings';
 $user = get_userdata($target_id);
 $user_ID = get_current_user_id();
 $clan_ID = get_user_meta($user_ID, 'clan_id_user',true);
 $target_clan_ID = get_user_meta($target_id, 'clan_id_user',true);
+
+$savedUsers = get_user_meta($user_ID, 'saved_users', true);
+$savedUsers = json_decode($savedUsers);
 
 $members = get_post_meta($clan_ID,'clan_members',true);
 $members[] = $user_ID;
@@ -26,236 +30,87 @@ get_header('spyrep'); ?>
 	<br/>
 <?php else:?>
 	            
-
-
-<center>
-	<a class="btn btn-general" href="/users/profile/?id=<?php echo $target_id;?>">
-		<i class="fa fa-user-o" aria-hidden="true"></i> Profile
-	</a> 
+	            
+	            
+<div class="row button_block">
+ 	
+ 	<div class="col-md-3 buttoncol">
+	 	<center><a class="btn btn-attack profilebutton" href="/attack/step-1/?id=<?php echo $target_id;?>">
+		 	<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack</a></center>
+	</div>
 	
-	<a class="btn btn-general" href="/attack/step-1/?id=<?php echo $target_id;?>">
-		<i class="fa fa-crosshairs" aria-hidden="true"></i> Attack
-	</a> 
+	<div class="col-md-3 buttoncol">
+		<center><a class="btn btn-general profilebutton" href="/users/profile/?id=<?php echo $target_id;?>">
+			<i class="fa fa-user-o" aria-hidden="true"></i> &nbsp;Profile</a></center>
+	</div>
 	
-	<?php if($target_clan_ID != 0):?>
-		<a class="btn btn-general" href="/spy-report-overview/?id=<?php echo $target_clan_ID;?>">
-			<i class="fa fa-address-card-o" aria-hidden="true"></i> Clan reports
-		</a> 
+	<div class="col-md-3 buttoncol">
+	  <center><a class="btn btn-general profilebutton" href="/spy-report-overview/?id=<?php echo $target_clan_ID;?>">
+		  <i class="fa fa-address-card-o" aria-hidden="true"></i> &nbsp;Clan reports</a></center>
+	</div>
+	
+	<?php if(in_array($target_id, $savedUsers)):?>
+	
+		<div class="col-md-3 buttoncol">
+			<center><a class="btn profilebutton savedUser" href="/saved-users">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;User saved</a></center>
+		</div>
+		
+	<?php else:?>
+	
+		<div class="col-md-3 buttoncol">
+			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $target_id;?>&return=<?php echo get_the_id();?>">
+				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Save user</a></center>
+		</div>
+		
 	<?php endif;?>
-</center>
+  
+</div>
 
 
 
-<center>
-	<ul class="tabs">
-		<li class="tab-link current" data-tab="tab-1">Buildings</li>
-		<li class="tab-link" data-tab="tab-2">Units</li>
-	</ul>
-</center>
+<ul id="explore-tab" class="nav nav-tabs nav-justified" role="tablist">
+	<li class="nav-item <?php echo $activeTab === 'buildings' ? 'active' : ''; ?>">
+		<a class="nav-link" data-toggle="tab" data-target="#buildings" href="?id=<?php echo $target_id;?>&?tab=buildings" role="tab">Buildings</a>
+	</li>
+	<li class="nav-item <?php echo $activeTab === 'units' ? 'active' : ''; ?>">
+		<a class="nav-link" data-toggle="tab" data-target="#units" href="?id=<?php echo $target_id;?>&?tab=units" role="tab">Units</a>
+	</li>
+</ul>
 
 
+<div class="tab-content current build_content tabbed-table">
 
-<div id="tab-1" class="tab-content current">
+	<div class="tab-pane <?php echo $activeTab === 'buildings' ? 'active' : ''; ?>"  id="buildings" role="tabpanel">
+					
+		<?php include 'pages/spyrep/buildings.php'; ?>
 
-<?php
-$args = array(
-'posts_per_page'   => 1,
-'author__in'	=> $members,
-'meta_query'	=> array(
-'relation'		=> 'AND',
-	array(
-		'key'	 	=> 'spied_id',
-		'value'	  	=> $target_id,
-		'compare' 	=> '=',
-		),
-	array(
-		'key'	 	=> 'spy_type',
-		'value'	  	=> 'spyplane',
-		'compare' 	=> '=',
-		),
-		
+	</div>
+
+	<div class="tab-pane <?php echo $activeTab === 'units' ? 'active' : ''; ?>"  id="units" role="tabpanel">
+
+		<?php include 'pages/spyrep/units.php'; ?>
+
+	</div>
 	
-	),
-'post_type'        => 'spy_rep',
-);
-$reports = get_posts( $args ); 
-		
-		
-$count = 0;
-
-foreach ($reports as $report) {
-	$author = $report->post_author;
-	$member_data = get_userdata($author);
-	$spy_array = get_post_meta($report->ID, 'spy_array', true);	
-	$count++;
-	?>
+<form class="form" action="<?php echo home_url() ?>/attack.php" name="" id="attack" method="post">
+	<input style="display:none" type="text" id="target_id"  name="target_id" value="<?php echo $target_id;?>"/>
+	<input style="display:none;" type="radio" name="attacktype" checked id="spy" value="spy">
+	<input type="submit" value="Re-spy" class="">
+</form>
 	
-	
-<div class="notice_message">
-	Last spied by <a href="/users/profile/?id=<?php echo $author;?>">
-		<?php echo $member_data->display_name.' (#'.$author.')';?></a> \ <?php echo $report->post_date;?> 
-		
-	<?php if($spy_array['enhance'] > 0):?>
-		<br/>Enhanced <?php echo $spy_array['enhance'];?> times	
-	<?php endif;?>
-		
-		
-<table style="margin-bottom:0px;"class="responsive-table">
-	<tbody>
-		<tr>
-			<td style="color:#fff">
-				Registered: <strong><?php echo number_format(get_post_meta($report->ID, 'spied_land', true), 0, ',', ' '); ?> m<sup>2</sup></strong><br/>
-				Current: <strong><?php echo number_format(get_user_meta($target_id, 'land', true), 0, ',', ' '); ?> m<sup>2</sup></strong>
-			</td>
-			
-			<td style="color:#fff">
-				Registered: <strong>$ <?php echo number_format(get_post_meta($report->ID, 'spied_nw', true), 0, ',', ' ');?></strong><br/>
-				Current: <strong>$ <?php echo number_format(get_user_meta($target_id, 'networth', true), 0, ',', ' ');?></strong>
-			</td>
-		</tr>
-	</tbody>
-</table>
+</div>
 
-</div> <!-- end notice message -->
 
-<br/>
-			
-			
-			
-			
-<table class="responsive-table">
-	<thead>
-		<th scope="col">Name</th>
-		<th scope="col">Owned</th>
-	</thead>
-	<tbody>
-	
-	<?php foreach ($spy_array as $building => $amount) { ?>
-		
-		<?php if($building != 'enhance'):?>
-			
-			<tr>
-				<td data-title="Name"><?php echo $building;?></td>
-				<td data-title="Owned"><?php echo $amount;?></td>	
-			</tr>
-			
-		<?php endif;?>
-			
-	<?php }?>
-			
-	</tbody>
-</table>
-			
-
-<?php if($count == 0):?>
-	<div class="notice_message">No spy reports for this player.</div><br/>
 <?php endif;?>
 			
-
-			
-<?php }?>
-
-</div> <!-- Close tab-1 -->
-        
-
-
-<div id="tab-2" class="tab-content">
-<?php
-$args = array(
-	'posts_per_page'   => 1,
-	'author__in'	=> $members,
-	'meta_query'	=> array(
-'relation'		=> 'AND',
-	array(
-		'key'	 	=> 'spied_id',
-		'value'	  	=> $target_id,
-		'compare' 	=> '=',
-		),
-	array(
-		'key'	 	=> 'spy_type',
-		'value'	  	=> 'spy',
-		'compare' 	=> '=',
-		),
-		
-	
-	),
-'post_type'        => 'spy_rep',
-);
-$reports = get_posts( $args ); 
-
-
-$count = 0;
-foreach ($reports as $report) {
-$author = $report->post_author;
-$member_data = get_userdata($author);
-$spy_array = get_post_meta($report->ID, 'spy_array', true);
-$count++;
-?>
-
-
-
-<div class="notice_message">
-	Last spied by <a href="/users/profile/?id=<?php echo $author;?>">
-		<?php echo $member_data->display_name.' (#'.$author.')';?></a> \ <?php echo $report->post_date;?> 
-			
-			<?php if($spy_array['enhance'] > 0):?>
-				<br/>Enhanced <?php echo $spy_array['enhance'];?> times
-			<?php endif;?>
-			
-			<table style="margin-bottom:0px;"class="responsive-table">
-				<tbody>
-				
-				<tr>
-					<td style="color:#fff">
-					Registered: <strong><?php echo number_format(get_post_meta($report->ID, 'spied_land', true), 0, ',', ' '); ?> m<sup>2</sup></strong><br/>
-					Current: <strong><?php echo number_format(get_user_meta($target_id, 'land', true), 0, ',', ' '); ?> m<sup>2</sup></strong>
-					</td>
-					<td style="color:#fff">
-					Registered: <strong>$ <?php echo number_format(get_post_meta($report->ID, 'spied_nw', true), 0, ',', ' ');?></strong><br/>
-					Current: <strong>$ <?php echo number_format(get_user_meta($target_id, 'networth', true), 0, ',', ' ');?></strong>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-</div><br/>
-
-
-			<table class="responsive-table">
-				<thead>
-				<th scope="col">Name</th>
-				<th scope="col">Owned</th>
-				</thead>
-				<tbody>
-			<?php 
-			
-				foreach ($spy_array as $unit => $amount) {
-				
-			?>
-			<?php if($unit != 'enhance'):?>
-			<tr>
-				<td data-title="Name"><?php echo $unit;?></td>
-				<td data-title="Owned"><?php echo $amount;?></td>	
-			</tr>
-			<?php endif;?>
-			<?php }?>
-		
-			</tbody>
-			</table>
-			<?php }?>
-			<?php if($count == 0):?>
-			<div class="notice_message">No spy reports for this player.</div><br/>
-            <?php endif;?>
-			
-			
-			
-            
-            </div>
-            <form class="form" action="<?php echo home_url() ?>/attack.php" name="" id="attack" method="post">
-				<input style="display:none" type="text" id="target_id"  name="target_id" value="<?php echo $target_id;?>"/>
-				<input style="display:none;" type="radio" name="attacktype" checked id="spy" value="spy">
-				<input type="submit" value="Re-spy" class="">					<br/><br/>
-			</form>
-			<?php endif;?>
+<script>
+	jQuery(document).on('shown.bs.tab', function (event) {
+        var currentTab = jQuery(event.target).attr('href');
+        history.pushState(null, null, currentTab);
+        jQuery('#currentTab').val(currentTab);
+    });
+</script>
         </div>
     </div>
 </div>

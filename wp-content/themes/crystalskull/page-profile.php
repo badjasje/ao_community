@@ -169,7 +169,7 @@ get_header('profile'); ?>
 	<?php else:?>
 	
 		<div class="col-md-3 buttoncol">
-			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>">
+			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>&return=<?php echo get_the_id();?>">
 				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Save user</a></center>
 		</div>
 		
@@ -213,7 +213,7 @@ get_header('profile'); ?>
 	<?php else:?>
 	
 		<div class="col-md-3 buttoncol">
-			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>">
+			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>&return=<?php echo get_the_id();?>">
 				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Save user</a></center>
 		</div>
 		
@@ -258,7 +258,7 @@ get_header('profile'); ?>
 	<?php else:?>
 	
 		<div class="col-md-2 buttoncol">
-			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>">
+			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>&return=<?php echo get_the_id();?>">
 				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Save user</a></center>
 		</div>
 		
@@ -296,7 +296,7 @@ get_header('profile'); ?>
 	<?php else:?>
 	
 		<div class="col-md-3 buttoncol">
-			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>">
+			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>&return=<?php echo get_the_id();?>">
 				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Save user</a></center>
 		</div>
 		
@@ -333,7 +333,7 @@ get_header('profile'); ?>
 	<?php else:?>
 	
 		<div class="col-md-4 buttoncol">
-			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>">
+			<center><a class="btn btn-general profilebutton" href="/save_user.php/?id=<?php echo $user__ID;?>&return=<?php echo get_the_id();?>">
 				<i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Save user</a></center>
 		</div>
 		
