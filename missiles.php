@@ -175,7 +175,7 @@ foreach($missiles as $key => $order){
 			update_field('delivery_time', $timestamp+(6 * 3600*$shipping_speed), $new_order_id);
 			update_field('amount_ordered', $ordered_missiles, $new_order_id);
 			update_field('order_type', 'missile', $new_order_id);
-		
+			update_field('order_value', $price, $new_order_id);
 		
 		
 

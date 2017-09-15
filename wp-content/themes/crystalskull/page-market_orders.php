@@ -5,6 +5,7 @@
 $user_ID = get_current_user_ID();
 update_user_meta($user_ID, 'user_lock', 0);
 include 'units_array.php';
+include 'missiles_array.php';
 get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">
@@ -71,7 +72,14 @@ get_header(); ?>
 		
 		if($timeleft >= 0){
 		$ordervalue = get_post_meta($order->ID, 'order_value', true);
-		$totalNetworth += $ordervalue*$units[$unit_type]['networth']/100;
+		
+		if($order_type == 'missile'){
+			$totalNetworth += $ordervalue*$missiles[$unit_type]['networth']/100;
+		}
+		
+		if($order_type == 'unit'){
+			$totalNetworth += $ordervalue*$units[$unit_type]['networth']/100;
+		}
 		$timeleft = date('H:i:s', $timeleft);
 		$totalOrder += $units_in_this_order;
 		$totalorderValue += $ordervalue;
@@ -108,7 +116,7 @@ get_header(); ?>
 		</span>
 	</div>
 	<div class="col-md-3 clan_column border_bottom_mobile">
-		<?php if($order_type != 'missile' || $order_type != 'satellite'):?>
+		<?php if($order_type != 'missile'):?>
 			<form class="form" action="<?php echo home_url() ?>/cancel_order.php" name="" id="cancel" method="post">
 			<input style="display:none;"type="text" id="order" name="order" value="<?php echo $order->ID;?>"/>
 			<input onclick="return confirm('Are you sure you want to cancel this order?')" class="btn btn-general submitBtn" type="submit" value="Cancel" class="">
