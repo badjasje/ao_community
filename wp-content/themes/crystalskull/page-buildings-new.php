@@ -4,7 +4,7 @@
 */
 $user_ID   = get_current_user_id();
 $activeTab = sanitize_text_field($_GET['tab']);
-
+$PwrUsage = get_user_meta($user_ID, 'power',true);
 include 'building_array.php';
 include 'units_array.php';
 
@@ -68,27 +68,34 @@ get_header(); ?>
 				<?php else: ?>
 
 
-                    <div class="notice_message"><span
-                                class="rdw-line">
+<div class="notice_message">
+	<span class="rdw-line">
 
-			<?php if ($EElevel == 0 || empty($EElevel)) {
-				$buildings_per_turn = 5 + $extra_divide;
-				echo 'You can currently build <strong>' . $buildings_per_turn . '</strong> buildings per turn.';
-				$turns_multiplier = 5 + $extra_divide;
-			}
+	<?php if ($EElevel == 0 || empty($EElevel)) {
+		$buildings_per_turn = 5 + $extra_divide;
+		echo 'You can currently build <strong>' . $buildings_per_turn . '</strong> buildings per turn.';
+		$turns_multiplier = 5 + $extra_divide;
+	}
 
-			if ($EElevel == 1) {
-				$buildings_per_turn = 10 + $extra_divide;
-				echo 'You can currently build <strong>' . $buildings_per_turn . '</strong> buildings per turn.';
-				$turns_multiplier = 10 + $extra_divide;
-			}
-			if ($EElevel == 2) {
-				$buildings_per_turn = 15 + $extra_divide;
-				echo 'You can currently build <strong>' . $buildings_per_turn . '</strong> buildings per turn.';
-				$turns_multiplier = 15 + $extra_divide;
-			}
+	if ($EElevel == 1) {
+		$buildings_per_turn = 10 + $extra_divide;
+		echo 'You can currently build <strong>' . $buildings_per_turn . '</strong> buildings per turn.';
+		$turns_multiplier = 10 + $extra_divide;
+	}
+	if ($EElevel == 2) {
+		$buildings_per_turn = 15 + $extra_divide;
+		echo 'You can currently build <strong>' . $buildings_per_turn . '</strong> buildings per turn.';
+		$turns_multiplier = 15 + $extra_divide;
+	}
 
-			?></span></div>
+	?></span>
+	<span class="rdw-line">
+		<?php if($PwrUsage > 100):?>
+			<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+		<?php endif;?>
+		Power usage: <?php echo number_format($PwrUsage, 0, ',', ' ');?>% 
+	</span>
+	</div>
 
 
                     <style>
