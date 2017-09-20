@@ -38,10 +38,19 @@ if($startingbonus == 'finance'){
 }
 
 /* Check for nightmode */
-$nightmodeChecked = '';
+
 $nightmode = get_user_meta($user_ID, 'nightmode', true);
-if($nightmode == 'yes'){
-	$nightmodeChecked = 'checked';
+$regular = '';
+if($nightmode == 'regular'){
+	$regular = 'selected';
+}
+$night = '';
+if($nightmode == 'night'){
+	$night = 'selected';
+}
+$nostalgia = '';
+if($nightmode == 'nostalgia'){
+	$nostalgia = 'selected';
 }
 
 
@@ -191,14 +200,19 @@ get_header(); ?>
 				</div>
 				
 				<div class="row profile_row_last">
-					<div class="col-xs-6"><strong>Night mode</strong></div>
+					<div class="col-xs-6"><strong>Color scheme</strong></div>
 					<div class="col-xs-6">
+						<div style="padding-bottom: 4px;">
 						<form class="form"  action="<?php echo home_url() ?>/nightmode.php" name="" id="nightmode" method="post">
-						<label class="switch">
-							<input onChange="this.form.submit()" <?php echo $nightmodeChecked;?>  type="checkbox">
-							<div class="slider round"></div>
-						</label>
+						
+						<select name="mode" onChange="this.form.submit()" >
+							<option name="mode" <?php echo $regular;?> value="regular">Regular</option>
+							<option name="mode" <?php echo $night;?> value="night">Night mode</option>
+							<option name="mode" <?php echo $nostalgia;?> value="nostalgia">Nostalgia</option>
+						</select>	
+						
 						</form>
+						</div>
 					</div>
 				</div>
 
@@ -369,8 +383,8 @@ get_header(); ?>
 <?php if($clan_ID != 0){ // Check if user is part of clan ?>
 	<div classs="row">	
 		<div class="col-md-12">
-			<div class="notice_message">
-				<h2 style="color:#fff;"><i class="fa fa-info-circle" aria-hidden="true"></i> Clan Message</h2>
+			<div class="notice_message nostmessage">
+				<h2 class="cmheader"><i class="fa fa-info-circle" aria-hidden="true"></i> Clan Message</h2>
 				<?php if(!empty(get_post_meta($clan_ID, 'clan_message')[0])){
 					echo get_post_meta($clan_ID, 'clan_message')[0];
 					}?>
@@ -454,14 +468,19 @@ get_header(); ?>
 				</div>
 				
 				<div class="row profile_row_last">
-					<div class="col-xs-6"><strong>Night mode</strong></div>
+					<div class="col-xs-6"><strong>Color scheme</strong></div>
 					<div class="col-xs-6">
+						<div style="padding-bottom: 4px;">
 						<form class="form"  action="<?php echo home_url() ?>/nightmode.php" name="" id="nightmode" method="post">
-						<label class="switch">
-							<input onChange="this.form.submit()" <?php echo $nightmodeChecked;?>  type="checkbox">
-							<div class="slider round"></div>
-						</label>
+						
+						<select name="mode" onChange="this.form.submit()" >
+							<option name="mode" <?php echo $regular;?> value="regular">Regular</option>
+							<option name="mode" <?php echo $night;?> value="night">Night mode</option>
+							<option name="mode" <?php echo $nostalgia;?> value="nostalgia">Nostalgia</option>
+						</select>	
+						
 						</form>
+						</div>
 					</div>
 				</div>
 
@@ -580,7 +599,7 @@ get_header(); ?>
 
 <div classs="row">	
 	<div class="col-md-12">
-		<div class="notice_message">
+		<div class="notice_message nostmessage">
 			Current round date: 26th of August - 26th of September 2017. 
 				<span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on the 26th of September 2017, at a random time." data-placement="right">
 					<i class="fa fa-info-circle" aria-hidden="true"></i>
@@ -995,7 +1014,7 @@ get_header(); ?>
 		<div class="col-md-6 secBlock">
 			<div class="status_header status_header_left inbox_header">
 				<div class="row">
-					<div class="col-md-12"><a href="/saved-users/">Saved users</a></div>
+					<div class="col-md-12"><a class="savedUsers" href="/saved-users/">Saved users</a></div>
 				</div>
 			</div>
 			

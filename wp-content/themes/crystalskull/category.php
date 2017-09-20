@@ -2,8 +2,8 @@
 <!-- Page content
     ================================================== -->
 <!-- Wrap the rest of the page in another container to center all the content. -->
-<div class=" blog">
-	<div class="container">
+<div class="page normal-page">
+	<div class="container containerNZ">
 		<div class="row">
 
 		<?php if(of_get_option('archive_template') == 'full'){ ?>

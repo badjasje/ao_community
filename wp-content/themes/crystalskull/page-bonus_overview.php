@@ -8,10 +8,10 @@ $clan_ID = get_user_meta($user_ID, 'clan_id_user',true);
 $clan_points = get_post_meta($clan_ID,'clan_points',true);
 get_header(); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-	         <center><h1><i class="fa fa-line-chart" aria-hidden="true"></i> <?php echo $clan_points;?>pts</h1></center>
+	         <center><h2><i class="fa fa-line-chart" aria-hidden="true"></i> <?php echo $clan_points;?>pts</h2></center>
 	           <?php 
 		           $count = 0;
 		           $total_pts = 0;

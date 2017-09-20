@@ -11,8 +11,8 @@ if(!in_array($user_ID, $messagearray)){
 	get_header(); ?>
 
 
-<div class="blog blog-ind">
-	<div class="container">
+<div class="page normal-page">
+	<div class="container containerNZ">
 	<div class="row">
 
 		

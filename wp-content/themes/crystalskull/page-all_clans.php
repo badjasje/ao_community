@@ -8,7 +8,7 @@ $user_ID = get_current_user_id();
 $clan_ID = get_user_meta($user_ID, 'clan_id_user');
 get_header(); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
        <?php if($clan_ID == 0):?>	
@@ -60,7 +60,6 @@ get_header(); ?>
 		<?php else:?>
 		
 		
-		<div class="container">
 			<ul id="clans-tab" class="nav nav-tabs nav-justified" role="tablist">
 				<li class="nav-item <?php echo $activeTab === 'all' ? 'active' : ''; ?>">
 					<a class="nav-link" data-toggle="tab" data-target="#all" href="?tab=all" role="tab">All clans</a>
@@ -188,7 +187,7 @@ get_header(); ?>
             
             </div>
         </div>
-    </div>
+    
 </div>
 
 <script type="text/javascript">

@@ -118,10 +118,17 @@ h3.widget-title{
 
 <?php
 if(of_get_option('bg_tint') == 1){
+    $user_ID = get_current_user_id();
+    $backcolor = 'rgba(0,156,255,0.4);';
+   
+    $nightmode = get_user_meta($user_ID, 'nightmode', true);
+		if($nightmode == 'nostalgia'){
+			 $backcolor = 'rgba(245, 255, 222, 0.4);';
+    }
     ?>
-
+	
 	#main_wrapper, .owl-item .car_image:after, .newsb-thumbnail a:after, .ins_widget ul li a:after, .blog-image a:after{
-		background: url(<?php echo get_template_directory_uri(); ?>/img/pattern.png) top left repeat <?php echo esc_attr($rgba); ?>;
+		background: url(<?php echo get_template_directory_uri(); ?>/img/pattern.png) top left repeat <?php echo esc_attr($backcolor); ?>;
 	}
 
 <?php

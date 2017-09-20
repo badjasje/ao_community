@@ -71,8 +71,8 @@ if(in_array($declarer_ID, $dec_clan_members[0])){
 }
 
 get_header(); ?>
-<div class="blog blog-ind">
-	<div class="container ">
+<div class="page normal-page">
+	<div class="container containerNZ">
 	<div class="row">
 		<?php if(!empty($_SESSION['status'])):?>
 					<?php echo alert_notification($_SESSION['status']);?>

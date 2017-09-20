@@ -900,9 +900,6 @@ table{
 	border-top: 1px solid #ededed;
 }}
 
-.multiselect {
-  width: 200px;
-}
 
 .selectBox {
   position: relative;
@@ -1184,7 +1181,13 @@ border_bottom_mobile{
     margin-bottom:10px;
     text-align:center;
 }
-
+.nostAlert{
+	color: #35382f !important;
+    background-color: #c6c4a8 !important;
+    border-color: #747463 !important;
+    margin-bottom: 10px !important;
+    text-align: center !important;
+}
 .status_header{
 	padding: 10px;
     background-color: #ddd;
@@ -1806,4 +1809,24 @@ input[type="submit"] {
 }
 .orderbutton{
 	background-color:#fff;
+}
+.positionNo{
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    line-height: 24px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #233946;
+}
+.eventfilter{
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+.datetime{
+	color:#fff;
+	text-align: center;
+}
+.cmheader{
+	color:#fff;
 }

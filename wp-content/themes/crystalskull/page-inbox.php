@@ -13,43 +13,37 @@ get_header(); ?>
             <div class="col-lg-12 col-md-12">
 		
 			
-			
-			
-		
-		<div class="container">
-			
-			<?php if(!empty($_SESSION['status'])):?>
-					<?php echo alert_notification($_SESSION['status']);?>
-			<?php endif; // End empty status check ?>
-			
-			
-			<ul id="inbox-tab" class="nav nav-tabs nav-justified" role="tablist">
-				<li class="nav-item <?php echo $activeTab === 'inbox' ? 'active' : ''; ?>">
-					<a class="nav-link" data-toggle="tab" data-target="#inbox" href="?tab=inbox" role="tab">Inbox</a>
-				</li>
-				<li class="nav-item <?php echo $activeTab === 'outbox' ? 'active' : ''; ?>">
-					<a class="nav-link" data-toggle="tab" data-target="#outbox" href="?tab=outbox" role="tab">Outbox</a>
-				</li>
-			</ul>
+	<?php if(!empty($_SESSION['status'])):?>
+			<?php echo alert_notification($_SESSION['status']);?>
+	<?php endif; // End empty status check ?>
+	
+	
+	<ul id="inbox-tab" class="nav nav-tabs nav-justified" role="tablist">
+		<li class="nav-item <?php echo $activeTab === 'inbox' ? 'active' : ''; ?>">
+			<a class="nav-link" data-toggle="tab" data-target="#inbox" href="?tab=inbox" role="tab">Inbox</a>
+		</li>
+		<li class="nav-item <?php echo $activeTab === 'outbox' ? 'active' : ''; ?>">
+			<a class="nav-link" data-toggle="tab" data-target="#outbox" href="?tab=outbox" role="tab">Outbox</a>
+		</li>
+	</ul>
 
-			<div class="tab-content current build_content tabbed-table">
-				<div class="tab-pane <?php echo $activeTab === 'inbox' ? 'active' : ''; ?>"  id="inbox" role="tabpanel">
+	<div class="tab-content current build_content tabbed-table">
+		
+		<div class="tab-pane <?php echo $activeTab === 'inbox' ? 'active' : ''; ?>"  id="inbox" role="tabpanel">
+		
 		
 		
 		
 			
-		<div class="container2">
-			<table class="responsive-table">
-			<thead>
-			<tr>
-				<th scope="col">Subject</th>
-				<th scope="col">From</th>
-				<th scope="col">Date</th>
-				<th scope="col"></th>
-			</tr>
-			</thead>
-			<tbody>
-				
+	<div class="row toplist_block">	
+		<div class="row clan_header_row storeDetails-heads">
+			<div class="col-md-1"></div>
+			<div class="col-md-4"><strong>From</strong></div>
+			<div class="col-md-4"><strong>Subject</strong></div>
+			<div class="col-md-2"><strong>Date</strong></div>
+			<div class="col-md-1"></div>
+		</div>
+			
 				
 				
 		<?php 
@@ -92,53 +86,64 @@ get_header(); ?>
 			$sender_id = get_post_meta($message_ID, 'receiver_id',true);		
 			$receiver = get_userdata( $receiver_id );	
 			?>
-			<tr>
-				
-				<th class="inbox_title" scope="row">
-					<a href="<?php echo get_the_permalink($parent_ID);?>"> <?php 
+			
+	<div class="row clan_profile_row2">
+		
+	
+		<div class="col-md-1">
+			<?php echo small_avatar($sender->ID,'');?>
+		</div>
+		
+		
+		<div class="col-md-4 clan_column center_clan_col border_bottom_mobile">
+			<?php echo get_user_name($sender->ID);?>		
+		</div>
+		
+		<div class="col-md-4 clan_column center_clan_col border_bottom_mobile">
+	
+			<a href="<?php echo get_the_permalink($parent_ID);?>"> <?php 
 					
-					if (strlen(get_the_title($parent_ID)) > 55) {
-					echo substr(get_the_title($parent_ID), 0, 55) . '...'; } else {
-					echo get_the_title($parent_ID);
-					}?></a>
-				</th>
-				
-				<td data-title="From">
-					<?php if($sender->ID == $user_ID){echo 'Sent by you';}else{?>
-				
-				<a href="/users/profile/?id=<?php echo $sender->ID;?>"><?php echo $sender->display_name.' (#'.$sender->ID.')';?></a>
-				
-					<?php }?>
-				</td>
-				
-				<td data-title="Date">
-					<?php echo get_the_date('G:i:s | d-m-Y'); ?> 
-				</td>
-				
-				
-				
-				<td data-title="">
-					<strong><?php 
-					
-					if($receiver_id == $user_ID){
+			if (strlen(get_the_title($parent_ID)) > 55) {
+			echo substr(get_the_title($parent_ID), 0, 55) . '...'; } else {
+			echo get_the_title($parent_ID);
+			}?></a>
+
+		</div>
+		
+		
+		<div class="col-md-2 clan_column border_bottom_mobile">
+			<span class="clan_data_left">Date</span>
+			<span class="clan_data_right store-pop-span2">
+				<?php echo get_the_date('G:i | d-m-Y'); ?> 
+			</span>
+		</div>
+		
+		<div class="col-md-1 clan_column border_bottom_mobile">
+			
+			<?php 
+						
+				if($receiver_id == $user_ID){
 					if(!empty(get_post_meta($message_ID, 'receiver_status')[0])){
-					if(get_post_meta($message_ID, 'receiver_status')[0] == 'New'){
-						echo '<span style="color:#ff0000;">'.get_post_meta($message_ID, 'receiver_status')[0].'</span>';
+						if(get_post_meta($message_ID, 'receiver_status')[0] == 'New'){
+							echo '<span style="color:#ff0000;">'.get_post_meta($message_ID, 'receiver_status')[0].'</span>';
 						}else{
 						echo get_post_meta($message_ID, 'receiver_status')[0];	
-						}
-						
-						
-						}}?>
-				</td></strong>
-			</tr>
+					}}}?>
+		</div>
+					
+					
+
 			
-			<?php endwhile;
-						endif; ?>
+		
+	
+
+
+</div> <! // Close profile row -- >
+			
+
+<?php endwhile; endif; ?>
 				
-										
-					</tbody>
-		</table>
+</div>
 			<div class="padded">
 				<?php
 					add_filter('previous_posts_link_attributes', 'previous_post_id');
@@ -154,7 +159,7 @@ get_header(); ?>
 				<center><?php previous_posts_link('Previous') ?>&nbsp;&nbsp;&nbsp;&nbsp;<?php next_posts_link('Next') ?></center>
 			</div>
 
-		</div><!-- end responsive table container -->
+		
 		</div><!-- end tab 1 -->
 				
 				<?php wp_reset_postdata(); // fixes bug where below ACF fields wont display 
@@ -168,17 +173,17 @@ get_header(); ?>
 		<!-- OUTBOX -->
 		<div class="tab-pane <?php echo $activeTab === 'outbox' ? 'active' : ''; ?>"  id="outbox" role="tabpanel">
 		
-		<div class="container2">
-			<table class="responsive-table">
-			<thead>
-			<tr>
-				<th scope="col">Subject</th>
-				<th scope="col">To</th>
-				<th scope="col">Date</th>
 		
-			</tr>
-			</thead>
-			<tbody>
+		
+		<div class="row toplist_block">	
+		<div class="row clan_header_row storeDetails-heads">
+			<div class="col-md-1"></div>
+			<div class="col-md-4"><strong>To</strong></div>
+			<div class="col-md-4"><strong>Subject</strong></div>
+			<div class="col-md-3"><strong>Date</strong></div>
+		</div>
+		
+		
 		<?php $args = array(
 			'posts_per_page'   => -1,
 			'orderby'          => 'date',
@@ -205,37 +210,52 @@ get_header(); ?>
 			$sender_id = get_post_meta($message->ID, 'receiver_id')[0];		
 			$receiver = get_userdata( $receiver_id );	
 			?>
-			<tr>
-				<th class="inbox_title" scope="row">
-					<a class="inbox_title" href="<?php echo get_the_permalink($parent_ID);?>"> <?php 
-					
-					if (strlen(get_the_title($parent_ID)) > 35) {
-					echo substr(get_the_title($parent_ID), 0, 35) . '...'; } else {
-					echo get_the_title($parent_ID);
-					}?></a>
-				</th>
-				
-				<td data-title="To">
-					<?php  if($receiver_id[0] == $user_ID){echo 'You';}else{ ?>
-					
-				<a href="/users/profile/?id=<?php echo $receiver_id;?>"><?php echo $receiver->display_name.' (#'.$receiver_id.')';?></a>
-				<?php }?>
-				</td>
-				
-				<td data-title="Date">
-					<?php echo $message->post_date; ?> 
-				</td>
-				
-				
-			</tr>
 			
-			<?php }?>
-			</tbody>
-		</table>
+			
+			
+			<div class="row clan_profile_row2">
 		
-		</div><!-- close table container -->
-		</div><!-- end tab 2 -->
+	
+		<div class="col-md-1">
+			<?php echo small_avatar($receiver_id,'');?>
 		</div>
+		
+		
+		<div class="col-md-4 clan_column center_clan_col border_bottom_mobile">
+			<?php echo get_user_name($receiver_id);?>		
+		</div>
+		
+		<div class="col-md-4 clan_column center_clan_col border_bottom_mobile">
+	
+			<a href="<?php echo get_the_permalink($parent_ID);?>"> <?php 
+					
+			if (strlen(get_the_title($parent_ID)) > 55) {
+			echo substr(get_the_title($parent_ID), 0, 55) . '...'; } else {
+			echo get_the_title($parent_ID);
+			}?></a>
+
+		</div>
+		
+		
+		<div class="col-md-3 clan_column border_bottom_mobile">
+			<span class="clan_data_left">Date</span>
+			<span class="clan_data_right store-pop-span2">
+				<?php echo get_the_date('G:i | d-m-Y'); ?> 
+			</span>
+		</div>
+		
+
+
+</div> <! // Close profile row -- >
+			
+			
+	<?php }?>
+			</div>
+	
+		
+
+		</div><!-- end tab 2 -->
+	
 		
 		</div><!-- end tab container -->
 		

@@ -12,7 +12,7 @@ $aid_sent = get_user_meta($user_ID, 'aid_sent_today', true);
 $maxAmount = round(min(250000,$money));
 get_header(); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	            

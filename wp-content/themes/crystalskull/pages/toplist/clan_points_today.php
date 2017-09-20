@@ -1,10 +1,15 @@
 <div class="tab-pane <?php echo $activeTab === 'clanpointstoday' ? 'active' : ''; ?>" id="clanpointstoday" role="tabpanel">
-	<table class="responsive-table">
-		<tr><td>Position</td>
-			<td></td>
-			<td>Name</td>
-			<td>Clan points</td>
-		</tr>
+
+
+<div class="row toplist_block">	
+	<div class="row clan_header_row storeDetails-heads">
+		<div class="col-md-1"></div>
+		<div class="col-md-1"></div>
+		<div class="col-md-6"><strong>Name</strong></div>
+		<div class="col-md-4"><strong>Clan points</strong></div>
+
+	</div>
+	
 
 		<?php
 
@@ -22,22 +27,39 @@
 
 
 			?>
-			<tr>
-				<td><?php echo $position+=1;?></td>
-				<td>
-					<?php if(!empty(get_post_meta($clan->ID, 'clan_image', true))):?>
+			
+	<div class="row clan_profile_row2">
+		
+	<div class="col-md-1">
+		<div class="positionNo">
+			<?php echo $position+=1;?>
+		</div>
+	</div>
+	
+	
+	<div class="col-md-1">
+		<?php echo clan_avatar($clan->ID,'');?>
+	</div>
+	
+	
+	<div class="col-md-6 clan_column center_clan_col border_bottom_mobile">
+		<a href="<?php echo get_permalink($clan); ?>"><?php echo $clan->post_title.' (#'.$clan->ID.')';?></a>		
+	</div>
+	
+	
 
-						<div style='border-radius: 100%;height:40px;width:40px;background: url("<?php echo get_post_meta($clan->ID, 'clan_image', true);?>");background-size: cover;'></div>
-					<?php else:?>
-						<div style='border-radius: 100%;height:40px;width:40px;background: url("/wp-content/uploads/2016/11/no_clan_image.jpg");background-size: cover;'></div>
+	
+	<div class="col-md-4 clan_column">
+		
+		<span class="clan_data_left">Clan points</span>
+		<span class="clan_data_right store-pop-span2">
+			<?php echo ceil(get_post_meta($clan->ID, '24h_pts',true));?>
+		</span>
+	
+	</div>
+</div> <! // Close profile row -- >
+			
 
-					<?php endif;?>
-				</td>
-				<td><a href="<?php echo get_permalink($clan); ?>"><?php echo $clan->post_title.' (#'.$clan->ID.')';?></a></td>
-				<td><?php echo ceil(get_post_meta($clan->ID, '24h_pts')[0]);?></td>
-
-
-			</tr>
 		<?php }?>
-	</table>
+	</div>
 </div>

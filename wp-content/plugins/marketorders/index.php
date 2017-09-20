@@ -296,7 +296,7 @@ $user_ID = get_current_user_id();
 	
 $nightmode = get_user_meta($user_ID, 'nightmode', true);
 
-if($nightmode == 'yes'){
+if($nightmode == 'night'){
     ?>
         <style>
 	        
@@ -390,6 +390,7 @@ a.list-group-item:focus, a.list-group-item:hover{
 .toplist_block,.market_column,.market_block,.spaceNotice,.totalsField{
 	background-color: #8a8a8a;
 }
+
 .toplist_block a,.spaceNotice,.totalsField{
 	color:#fff;
 }
@@ -472,17 +473,24 @@ add_action('wp_head', 'hook_css');
 
 
 
-/*   NZ color scheme 
+/*   NZ color scheme */
 function hook_NZ_css() {
 $user_ID = get_current_user_id();
 	
 $nightmode = get_user_meta($user_ID, 'nightmode', true);
-
+if($nightmode == 'nostalgia'){
 
     ?>
         <style>
           .logo img{
 	filter: invert(100%);
+}
+.eventsButtons {
+    border: 1px solid #d8d4b6;
+    background-color: #747463;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #d8d4b6;
 }
 body .navbar-inverse,body .blog{
 	background-color:#35382f;
@@ -505,6 +513,52 @@ body .navbar-inverse,body .blog{
 	color:#d8d4b6;
 	border:0px;
 }
+.list-group-item:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-top: 0px;
+}
+#progress {
+    width: 100%;
+    padding-top: 20px;
+    color: #747463;
+    background-color: #c6c4a8;
+    text-align: center;
+    margin-bottom: 10px;
+    border: 4px solid #747463;
+}
+#bar {
+    padding-top: 5px;
+    font-weight: bold;
+    background-color: #747463;
+    color: #d8d4b6;
+}
+.startinghead,.cmheader{
+    color: #747463;
+}
+.savedUsers{
+	color:#d8d4b6;
+}
+.edit_clan_first {
+    background-color: #c6c4a8;
+    margin-bottom: 30px;
+    padding: 30px 15px;
+    border: 1px solid #747463;
+}
+.nostitem{
+	background-color:#c6c4a8;
+}
+a.list-group-item {
+    color: #555;
+    border-top: 1px dashed #747463;
+}
+.nostitem:hover{
+	background-color:#747463 !important;
+}
+.clan_buttons {
+    text-align: center;
+    border: 1px solid #747463;
+}
 body .normal-page{
 	background-color:#78806b;
 	padding-top: 0px;
@@ -526,6 +580,27 @@ body .normal-page{
     color: #fff;
     border: 1px solid #747463;
 }
+.attackField input {
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+    background-color:rgb(255, 254, 245);
+    margin-bottom: 20px !important;
+    border: 1px solid #747463;
+}
+input[type="radio"]:checked + label {
+    background-color: rgb(64, 64, 54);
+}
+.btn-attack {
+    color: #fff;
+    background-color: #747463;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+}
+.respybutton{
+	background-color: #747463 !important;
+	color: #d8d4b6 !important;
+}
 .nav-tabs.nav-justified>li>a{
 	background-color: #747463 !important;
 	color:#fff;
@@ -540,14 +615,114 @@ body .normal-page{
 	background-color: #747463;
 	color:#fff;
 }
+.responsive-table thead th {
+    background-color: #747463;
+    border: 1px solid #747463;
+    color:#d8d4b6 !important;
+    font-weight: normal;
+    text-align: center;
+    color: white;
+}
+.report_header {
+    background-color: #747463 !important;
+    color: #d8d4b6 !important;
+}
+.tomahawkNotification {
+    background-color: #c6c4a8;
+    padding: 10px;
+    border: 1px solid #747463;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+#attackCanvas {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #d8d4b6;
+}
+
+@media (max-width: 768px){
+.responsive-table tbody {
+    background-color: #c6c4a8 !important;
+}
+}
+table tbody tr:nth-child(even) {
+    background: rgb(234, 232, 196);
+}
+.responsive-table tbody tr {
+    border: 1px solid #747463;
+}
 .event-row{
 	background-color: #c6c4a8;
 }
-.toplist_block{
+.toplist_block,.single_inbox_message,.bankBlock,.target_info{
 	background-color: #c6c4a8;
 }
-.toplist_block a{
-	color:#fff;
+.target_info{
+	border: 1px solid #747463;
+}
+.bankBlock{
+	border: 1px solid #747463;
+}
+input[type=submit]{
+	background-color: #747463;
+    color: #d8d4b6;
+    border:none;
+}
+input[type=submit]:hover{
+	background-color: rgba(115, 115, 98, 0.75);
+    color: #d3cea8 !important;
+    border:none;
+}
+.maxDep {
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #747463;
+    padding: 16px 0px;
+    background-color: #747463;
+    color: #fff;
+}
+.toplist_block a,a{
+	color:#747463;
+}
+.attackSelect select {
+    color: #747463;
+    border: 1px solid #747463;
+    background-color: rgb(255, 254, 245);
+}
+#sform input[type=search], .ubermenu .wpcf7-submit:hover, body .ubermenu-skin-clean-white .ubermenu-item-level-0:hover > .ubermenu-target, body .ubermenu-skin-clean-white .ubermenu-item-level-0.ubermenu-active > .ubermenu-target, body .flex-control-paging li a.flex-active, body .flex-control-paging li a:hover, body .wpb_posts_slider .flex-caption h2 a, .navbar-inverse .nav>li.active>a, .navbar-inverse .nav>li.current-menu-item>a, .navbar-inverse .nav>li>a:hover, .navbar .nav li.current-menu-parent a, .navbar .nav li.current_page_item a, .button-big:hover, .button-medium:hover, .button-small:hover, button[type=submit]:hover, input[type=button]:hover, input[type=submit]:hover, .navbar-nav>li:after, .ticker-title, .after-nav .container:before, div.pagination a:focus, div.pagination a:hover, div.pagination span.current, .page-numbers:focus, .page-numbers:hover, .page-numbers.current, body.woocommerce nav.woocommerce-pagination ul li a:focus, body.woocommerce nav.woocommerce-pagination ul li a:hover, body.woocommerce nav.woocommerce-pagination ul li span.current, .widget .clanwar-list .tabs li:hover a, .widget .clanwar-list .tabs li.selected a, .bgpattern, .post-review, .widget_shopping_cart, .woocommerce .cart-notification, .cart-notification, .splitter li[class*="selected"] > a, .splitter li a:hover, .ls-wp-container .ls-nav-prev, .ls-wp-container .ls-nav-next, a.ui-accordion-header-active, .accordion-heading:hover, .block_accordion_wrapper .ui-state-hover, .cart-wrap, .clanwar-list li ul.tabs li:hover, .clanwar-list li ul.tabs li.selected a:hover, .clanwar-list li ul.tabs li.selected a, .dropdown .caret, .tagcloud a:hover, .progress-striped .bar, .bgpattern:hover > .icon, .progress-striped .bar, .member:hover > .bline, .blog-date span.date, .pbg, .pbg:hover, .pimage:hover > .pbg, ul.social-media li a:hover, .navigation a, .pagination ul > .active > a, .pagination ul > .active > span, .list_carousel a.prev:hover, .list_carousel a.next:hover, .pricetable .pricetable-col.featured .pt-price, .block_toggle .open, .pricetable .pricetable-featured .pt-price, .isotopeMenu, .bbp-topic-title h3, .modal-body .reg-btn, #LoginWithAjax_SubmitButton .reg-btn, .footer_widget h3, buddypress div.item-list-tabs ul li.selected a, .results-main-bg, .blog-date-noimg, .blog-date, .ticker-wrapper.has-js, .ticker-swipe {
+    background-color: #747463;
+}
+.maxExplore {
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #747463;
+    padding: 0px 0px;
+    background-color: #747463;
+    color: #fff;
+}
+.positionNo {
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    line-height: 24px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #35382f;
+}
+.depField input {
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    margin-bottom: 20px !important;
+    border: 1px solid #747463;
+    background-color: rgb(255, 254, 245);
 }
 .button_block,.textNotify,.profile_block {
     border: 1px solid #747463;
@@ -584,13 +759,43 @@ body .normal-page{
 .status_column a{
 	color: #747463;
 }
-
-
+.market_block{
+    padding: 10px 5px 8px 5px;
+    background-color: #c6c4a8;
+}
+.spaceNotice,.totalsField{
+	border: 1px solid #747463 !important;
+	background-color: #c6c4a8;
+	border:none;
+}
+h1{
+	color: #d8d4b6;
+}
+h1 a,.title_wrapper .col-lg-12 h1{
+	color: #d8d4b6;
+}
+.current_but {
+    background-color: #35382f !important;
+}
+.title_wrapper .breadcrumbs {
+    text-align: right;
+    color: #d8d4b6;
+    margin-top: 27px;
+    float: none;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 12px;
+    text-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+}
+.nostmessage{
+	margin-bottom:20px;
+}
 .containerNZ{
 	background-color: #d8d4b6;
 	border-left: 5px solid #272922;
     border-right: 5px solid #272922;
     padding: 20px 15px;
+    min-height: 500px;
 }
 .status_header{
 	margin-top:0px;
@@ -656,12 +861,7 @@ table tbody tr td,.responsive-table tbody th[scope="row"],.responsive-table tbod
 	background-color:#2f2f2f;
 	color:#d8d4b6;
 }
-.blue_alert{
-	margin-top:20px;
-	background-color:#747463;
-	color:#d8d4b6;
-	border-color:#d8d4b6;
-}
+
 
 
 ::-webkit-input-placeholder { 
@@ -677,14 +877,14 @@ table tbody tr td,.responsive-table tbody th[scope="row"],.responsive-table tbod
     color:    #fff;
 }
 #main_wrapper, .owl-item .car_image:after, .newsb-thumbnail a:after, .ins_widget ul li a:after, .blog-image a:after{
-		background: url(<?php echo get_template_directory_uri(); ?>/img/pattern.png) top left repeat rgba(216, 212, 182, 0.4);
+		background: url(<?php echo get_template_directory_uri(); ?>/img/pattern.png) top left repeat rgba(246, 255, 197, 0.4) !important;
 	}
 </style>
     <?php
-}
+}}
 add_action('wp_head', 'hook_NZ_css');
 
-*/
+
 
 
 function small_avatar($user_ID,$type){
@@ -803,17 +1003,141 @@ function small_avatar($user_ID,$type){
 		
 		}
 	
+}
+
+
+function clan_avatar($clan_ID,$type){
+	
+	$addClass = '';
+	if(!empty($type)){
+		$addClass = $type;
+	}
+	
+	if($clan_ID != 0){
+	$avatar = get_post_meta($clan_ID, 'clan_image', true);
+	
+	if(!empty($avatar)){
+		
+		$avatar = str_replace("http://", "https://", $avatar);
                     
-	
-	
-	
+		return "<a href='".get_the_permalink($clan_ID)."'><div class='setAvatar clan_avatar $addClass' style='background: url(".$avatar.");'></div></a>";
+		
+		}
+		
+		else {
+			
+
+		$userName = get_the_title($clan_ID);
+		$frstLetter = strtoupper (substr($userName,0,1));
+		$color = '#2D434E';  // Basic color 
+		if(in_array($frstLetter, array('A'))){
+			$color = '#2D434E';
+		}
+		if(in_array($frstLetter, array('B'))){
+			$color = '#607782';
+		}
+		if(in_array($frstLetter, array('C'))){
+			$color = '#425D69';
+		}
+		if(in_array($frstLetter, array('D'))){
+			$color = '#1B3642';
+		}
+		if(in_array($frstLetter, array('E'))){
+			$color = '#0D2632';
+		}
+		if(in_array($frstLetter, array('F'))){
+			$color = '#343855';
+		}
+		if(in_array($frstLetter, array('G'))){
+			$color = '#6C708E';
+		}
+		if(in_array($frstLetter, array('H'))){
+			$color = '#4C5173';
+		}
+		if(in_array($frstLetter, array('I'))){
+			$color = '#212648';
+		}
+		if(in_array($frstLetter, array('J'))){
+			$color = '#121636';
+		}
+		if(in_array($frstLetter, array('K'))){
+			$color = '#315842';
+		}
+		if(in_array($frstLetter, array('L'))){
+			$color = '#6A937C';
+		}
+		if(in_array($frstLetter, array('M'))){
+			$color = '#49775D';
+		}
+		if(in_array($frstLetter, array('N'))){
+			$color = '#1C4B31';
+		}
+		if(in_array($frstLetter, array('O'))){
+			$color = '#0D3820';
+		}
+		if(in_array($frstLetter, array('P'))){
+			$color = '#7B6C44';
+		}
+		if(in_array($frstLetter, array('Q'))){
+			$color = '#CEBE95';
+		}
+		if(in_array($frstLetter, array('R'))){
+			$color = '#CEBE95';
+		}
+		if(in_array($frstLetter, array('S'))){
+			$color = '#A79566';
+		}
+		if(in_array($frstLetter, array('T'))){
+			$color = '#695728';
+		}
+		if(in_array($frstLetter, array('U'))){
+			$color = '#4F3E12';
+		}
+		if(in_array($frstLetter, array('V'))){
+			$color = '#7B5044';
+		}
+		if(in_array($frstLetter, array('W'))){
+			$color = '#CEA195';
+		}
+		if(in_array($frstLetter, array('X'))){
+			$color = '#A77366';
+		}
+		if(in_array($frstLetter, array('Y'))){
+			$color = '#693528';
+		}
+		if(in_array($frstLetter, array('Z'))){
+			$color = '#4F1F12';
+		}
+		
+		}
+		
+		return "<a href='".get_the_permalink($clan_ID)."'><div class='clan_avatar smallAvatar $addClass' style='background-color:$color;'>$frstLetter</div></a>";
+						
+			
+		
+		}              
+
 	
 }
+
 function alert_notification($message){
 	
-	return '<div class="alert alert-warning alert-dismissible blue_alert" role="alert">
+	$user_ID = get_current_user_id();
+	$nightmode = get_user_meta($user_ID, 'nightmode', true);
+	
+	$class = 'blue_alert';
+	$iconcol = '#425c6b';
+	if($nightmode == 'nostalgia'){
+		$class = 'nostAlert';
+		$iconcol = '#35382f';
+	}
+	if($nightmode == 'night'){
+		$iconcol = '#fff';
+	}
+	
+	return '<div class="alert alert-warning alert-dismissible  '.$class.'" role="alert">
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<i style="color:#425c6b" class="fa fa-info-circle" aria-hidden="true"></i> '.$message.'.
+				<i style="color:'.$iconcol.'" class="fa fa-info-circle" aria-hidden="true"></i> '.$message.'.
 			</div>';
 	
 }
