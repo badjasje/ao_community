@@ -1008,20 +1008,27 @@ get_header(); ?>
 			<div class="status_column">
 				<?php	
 					
-				
-				foreach ($savedUsers as $user) { ?>
+				$usercount = count($savedUsers);
+				foreach ($savedUsers as $key => $user) { ?>
 				
 				
 				<div class="row profile_row">
 					<div class="col-md-12">
 						<a href="<?php echo get_the_permalink($post->ID);?>">
 							<?php echo get_user_name($user);?>
-							<a href="/remove.php/?id=<?php echo $user_ID;?>&return=<?php echo $pageID;?>">
+							<a href="/remove.php/?id=<?php echo $user;?>&return=<?php echo $pageID;?>">
 								<i class="fa fa-trash-o" aria-hidden="true"></i></a>
 						</a>
 					</div>
 				</div>
 				<?php }?>
+				<?php if($usercount == 0):?>
+					<div class="row profile_row">
+						<div class="col-md-12">
+							No saved users
+						</div>
+					</div>
+				<?php endif;?>
 			</div>
 		</div>
 	</div>
