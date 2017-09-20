@@ -43,8 +43,14 @@ if($discount_level == 1){
 if($discount_level == 2){
 	$discount = 0.70;
 }
+$userLock = get_user_meta($user_ID, 'user_lock', true);
 
-
+if($userLock == 1){
+	update_user_meta($user_ID, 'user_lock', 0);
+	$_SESSION['status'] = 'Please try again.';
+	wp_redirect(get_permalink(3582));exit;
+}else{
+update_user_meta($user_ID, 'user_lock', 1);
 include 'units_array.php';
 
 $startingbonus = get_user_meta($user_ID, 'starting_bonus',true);
@@ -115,7 +121,8 @@ file_put_contents($file, $current);
 update_user_meta($user_ID,'money',$totalmoney+$total_selling);
 
 }}
-
+update_user_meta($user_ID, 'user_lock', 0);
 count_all_stats($user_ID);
 $_SESSION['status'] = $sold_units.' units sold for a price of $ '. number_format($soldamount, 0, ',', ' ');wp_redirect($marketRedirectUrl);	//result 
 exit;
+}

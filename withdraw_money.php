@@ -40,6 +40,14 @@ if($user_ID != $author){
 	wp_redirect(get_permalink(3953)); exit;
 }
 
+$userLock = get_user_meta($user_ID, 'user_lock', true);
+
+if($userLock == 1){
+	update_user_meta($user_ID, 'user_lock', 0);
+	$_SESSION['status'] = 'Please try again.';
+	wp_redirect(get_permalink(3582));exit;
+}else{
+update_user_meta($user_ID, 'user_lock', 1);
 
 $money = get_user_meta($user_ID,'money',true);
 
@@ -102,12 +110,12 @@ $amount = get_post_meta($deposit,'amount',true)*$early_penalty;
 	wp_trash_post($deposit);
 	
 	$_SESSION['status'] = 'You canceled your deposit. '.number_format($amount, 0, ',', ' ').' withdrawn';
-
+	update_user_meta($user_ID, 'user_lock', 0);
 	wp_redirect(get_permalink(3953));
 	exit;	
 	
 	
 	
-}
+}}
 
 
