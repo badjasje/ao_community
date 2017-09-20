@@ -39,68 +39,76 @@ get_header(); ?>
             <div class="col-lg-12 col-md-12">
 	            
 	            
-	            
-<div class="row">
-  <div class="col-md-3">
 
 
-
-<form action="" method="get">
-  <div class="multiselect">
-    <div class="selectBox" onclick="showCheckboxes()">
-      <select>
-        <option>Filter events</option>
-      </select>
-      <div class="overSelect"></div>
-    </div>
-    <div id="checkboxes">
-	    
-<?php 
-	$count = 0;
-	$array_for_filter = array();
-	foreach ($filter_array as $item){ 
-		$end_par = $count++;
-		$checked = '';
-		if(!empty($_GET['filter_'.$end_par])){
-			$array_for_filter[] = $_GET['filter_'.$end_par];
-			$checked = 'checked';
-		}
+<div class="row button_block">
+	<div class="col-md-4">
 		
-		;?>
-      <label for="<?php echo $item;?>">
-        <input <?php echo $checked;?> name="filter_<?php echo $end_par;?>" value="<?php echo $item;?>"type="checkbox" id="<?php echo $item;?>" /><?php echo $item;?></label>
-<?php 
+		<form class="eventfilter" action="" method="get">
+			<div class="multiselect">
+				<div class="selectBox" onclick="showCheckboxes()">
+				
+					<select>
+						<option>Filter events</option>
+	      			</select>
+		  			<div class="overSelect"></div>
+		  		</div>
+			</div>
+		<div id="checkboxes">
+	    
+			<?php 
+				$count = 0;
+				$array_for_filter = array();
+				
+				foreach ($filter_array as $item){ 
+					$end_par = $count++;
+					$checked = '';
+					
+				if(!empty($_GET['filter_'.$end_par])){
+					$array_for_filter[] = $_GET['filter_'.$end_par];
+					$checked = 'checked';
+				};?>
 	
-	
-	}?>
-    </div>
-  </div>
-  <button class="btn btn-filter" type="submit" value="FILTER">Filter</button><a class="btn btn-filter" href="http://assault.online/events/incoming">RESET</a>
+			<label for="<?php echo $item;?>">
+	        	<input <?php echo $checked;?> name="filter_<?php echo $end_par;?>" 
+	        	value="<?php echo $item;?>" type="checkbox" id="<?php echo $item;?>" />
+	        		<?php echo $item;?>
+	        </label>
+			
+			<?php }?>
+    	</div>
+  	</div>
+  
+  	<div class="col-md-4">
+  		<button style="margin-top:0px;"class="btn respybutton" type="submit" value="FILTER">Filter</button>
+  	</div>
+  
+  	<div class="col-md-4">
+  		<a class="btn btn-general profilebutton" href="/events/incoming/">RESET</a>
+  	</div>
 </form>
 
-<br/>	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-  </div>
- <div class="col-md-6">
-	 <center>
-	 <a class="btn btn-general current_but eventbutton" href="/events/incoming/"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i> Incoming</a>
-	 <a class="btn btn-general eventbutton" href="/events/outgoing/"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Outgoing</a>
-	 <a class="btn btn-general eventbutton" href="/events/global/"><i class="fa fa-globe" aria-hidden="true"></i> Global</a></div>
-	 </center>
-	 <br/>
 </div>
 
 
+<div class="row button_block">
+	
+	<div class="col-md-4 buttoncol">
+	 	<center><a class="btn btn-general current_but profilebutton" href="/events/incoming/">
+		 	<i class="fa fa-arrow-circle-down" aria-hidden="true"></i> &nbsp;Incoming</a></center>
+	</div>
+ 	
+ 	<div class="col-md-4 buttoncol">
+	 	<center><a class="btn btn-general profilebutton" href="/events/outgoing/">
+		 	<i class="fa fa-arrow-circle-down" aria-hidden="true"></i> &nbsp;Outgoing</a></center>
+	</div>
+	
+	<div class="col-md-4 buttoncol">
+	 	<center><a class="btn btn-general profilebutton" href="/events/global/">
+		 	<i class="fa fa-globe" aria-hidden="true"></i> &nbsp;Global</a></center>
+	</div>
 
+</div>
 
 
 

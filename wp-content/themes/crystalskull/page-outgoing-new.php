@@ -48,12 +48,24 @@ get_header(); ?>
             <div class="col-lg-12 col-md-12">
        
             
-<center>
-	<a class="btn btn-general" href="/events/incoming/"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i> Incoming</a> 
-	<a class="btn btn-general current_but" href="/events/outgoing/"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Outgoing</a> 
-	<a class="btn btn-general" href="/events/global/"><i class="fa fa-globe" aria-hidden="true"></i> Global</a>
-</center>
-<br/>     
+<div class="row button_block">
+	
+	<div class="col-md-4 buttoncol">
+	 	<center><a class="btn btn-general profilebutton" href="/events/incoming/">
+		 	<i class="fa fa-arrow-circle-down" aria-hidden="true"></i> &nbsp;Incoming</a></center>
+	</div>
+ 	
+ 	<div class="col-md-4 buttoncol">
+	 	<center><a class="btn btn-general current_but profilebutton" href="/events/outgoing/">
+		 	<i class="fa fa-arrow-circle-down" aria-hidden="true"></i> &nbsp;Outgoing</a></center>
+	</div>
+	
+	<div class="col-md-4 buttoncol">
+	 	<center><a class="btn btn-general profilebutton" href="/events/global/">
+		 	<i class="fa fa-globe" aria-hidden="true"></i> &nbsp;Global</a></center>
+	</div>
+
+</div> 
 
 
 <?php 
