@@ -104,6 +104,14 @@ foreach ($clan_members[0] as $member) {
 	$globals = get_user_meta($member, 'new_global_events', true);
 	update_user_meta($member, 'new_global_events', $globals+1);
 }}
+// Resetting some stats
+update_user_meta($user_ID, 'attacks_rec_current',0);
+update_user_meta($user_ID, 'attacks_made_current',0);
+
+update_user_meta($user_ID, 'total_aid_sent', 0);	
+update_user_meta($user_ID, 'number_of_aids', 0);
+update_user_meta($user_ID, 'aid_received',0);
+	
 
 
 $_SESSION['status'] = 'You left your clan. '.get_the_title($clan).' (#'.$clan.') lost '.$cp_lost.' clan points';

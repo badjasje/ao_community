@@ -118,6 +118,14 @@ update_user_meta($user, 'current_clan_points', 0);
 update_post_meta($clan, 'clan_points', $new_clanpoints);
 update_field('clan_points',$cp_lost, $new_event_id);
 
+// Resetting some stats
+update_user_meta($user, 'attacks_rec_current',0);
+update_user_meta($user, 'attacks_made_current',0);
+
+update_user_meta($user, 'total_aid_sent', 0);	
+update_user_meta($user, 'number_of_aids', 0);
+update_user_meta($user, 'aid_received',0);
+
 $_SESSION['status'] = 'Clan member kicked. '.$cp_lost.' clan points lost';
 wp_redirect(get_permalink($clan));
 }

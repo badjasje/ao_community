@@ -2,6 +2,8 @@
 	
 	require_once("wp-load.php");
 	
+	update_post_meta(88241, 'clan_points', 2100);
+	
 	/*
 	$users = get_users();
 	foreach ($users as $user) {

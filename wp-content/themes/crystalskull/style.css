@@ -1766,7 +1766,21 @@ color: #2c90c6 !important;
 	line-height: 38px;
 	vertical-align: middle;
 }
+.satDesc{
+	text-align: left;
+	}
+.satbutton{
+	margin-top:10px;
+	width:100%;
+}
 @media (max-width: 768px) {
+	.satbutton{
+		background-color:#ddd;
+		color:#696969;
+	}
+	.satDesc{
+	text-align: center;
+	}
 	.market_column{
 	line-height: 20px;
 	}
@@ -1789,4 +1803,7 @@ color: #2c90c6 !important;
 }
 input[type="submit"] {
     color: #696969;
+}
+.orderbutton{
+	background-color:#fff;
 }

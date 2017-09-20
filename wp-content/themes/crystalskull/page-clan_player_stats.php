@@ -61,6 +61,13 @@ get_header(); ?>
 		$last_online = get_user_meta($member, 'last_online', true);
 		$power = get_user_meta($member, 'power', true);
 		
+		$totAidSent = get_user_meta($member, 'total_aid_sent', true);
+		$noAids = get_user_meta($member, 'number_of_aids', true);
+		$aidRec = get_user_meta($member, 'aid_received', true);
+		
+		$attMade = get_user_meta($member, 'attacks_made_current',true);
+		$attRec = get_user_meta($member, 'attacks_rec_current',true);
+		
 		$highest_networth = number_format(get_user_meta($member, 'highest_networth', true), 0, ',', ' ');
 		$freeLand = number_format(get_user_meta($member, 'land', true)-get_user_meta($member, 'builtland', true), 0, ',', ' ');
 		
@@ -203,8 +210,8 @@ get_header(); ?>
 	<div class="col-md-4"></div>
 	<div class="col-md-2"><strong>Unit types</strong></div>
 	<div class="col-md-2"><strong>Can attack</strong></div>
-	<div class="col-md-2"><strong>Power usage</strong></div>
-	<div class="col-md-2"></div>
+	<div class="col-md-2"><strong>Attacks made</strong></div>
+	<div class="col-md-2"><strong>Attacks received</strong></div>
 	</div>
 	
 	<div class="row">
@@ -226,6 +233,54 @@ get_header(); ?>
 		<span class="clan_data_right">
 		<?php  echo rtrim(can_attack($member),", ");?>
 		</span>
+	</div>
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Attacks made</span>
+		<span class="clan_data_right">
+			<?php echo $attMade;?>
+		</span>
+		
+		
+	</div>
+	<div class="col-md-2 clan_column">
+		<span class="clan_data_left">Attacks received</span>
+		<span class="clan_data_right">
+			<?php echo $attRec;?>
+		</span>
+	</div>
+	</div>
+		
+	</div> <!-- End second member row -->
+	
+	
+	
+	
+	
+	
+	<div class="row lastmemberrow"> <!-- Start third member row -->
+	
+	<div class="row memberrowSecond">
+	<div class="col-md-4"></div>
+	<div class="col-md-2"><strong>Aid sent</strong></div>
+	<div class="col-md-2"><strong>Aid received</strong></div>
+	<div class="col-md-2"><strong>Power usage</strong></div>
+	<div class="col-md-2"></div>
+	</div>
+	
+	<div class="row">
+	<div class="col-md-4 clan_column"></div>
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Aid sent</span>
+		<span class="clan_data_right">
+		<span class="hover-tip"  data-toggle="tooltip" data-html="true"  data-original-title="Aided in <?php echo $noAids;?> times." data-placement="bottom">
+			$ <?php echo number_format($totAidSent, 0, ',', ' ');?></span>
+			</span>
+		
+	</div>
+	<div class="col-md-2 clan_column border_bottom_mobile">
+		<span class="clan_data_left">Aid received</span>
+		<span class="clan_data_right">
+			$ <?php echo number_format($aidRec, 0, ',', ' ');?></span>
 	</div>
 	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Power usage</span>

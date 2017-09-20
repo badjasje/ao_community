@@ -19,7 +19,7 @@ if(get_field('game_status','option') == 'Live'){
 $user_ID = get_current_user_id(); 
 $clan_ID = get_user_meta($user_ID, 'clan_id_user',true);
 $clanmembers = get_post_meta($clan_ID,'clan_members',true);
-
+$receiver = $_POST['receiver'];
 
 
 
@@ -30,8 +30,7 @@ if(empty($user_ID)){
 if ( !is_user_logged_in() ) { 
 	wp_redirect(get_permalink(49609)); exit;
 	}
-$receiver = $_POST['receiver'];
-$aid_sent = get_user_meta($user_ID, 'aid_sent_today', true);
+
 
 
 if (!in_array($receiver, $clanmembers)){
@@ -51,7 +50,10 @@ if($userLock == 1){
 	update_user_meta($user_ID, 'user_lock', 0);
 	$_SESSION['status'] = 'Please try again.';
 	wp_redirect(get_permalink(3582));exit;
-}else{
+}
+	
+
+$aid_sent = get_user_meta($user_ID, 'aid_sent_today', true);
 update_user_meta($user_ID, 'user_lock', 1);
 
 if($aid_sent >= 3){
@@ -73,7 +75,8 @@ if(empty($_POST['amount'])){
 		$letter_check = $_POST['amount'];
 	}
 
-if(!is_numeric($letter_check)){$_SESSION['status'] = 'Enter a valid number';
+if(!is_numeric($letter_check)){
+	$_SESSION['status'] = 'Enter a valid number';
 	wp_redirect(get_permalink(49609)); exit;
 	}
 
@@ -120,7 +123,14 @@ foreach ($clan_members_att[0] as $member_att) {
 	update_user_meta($member_att, 'new_global_events', $globals+1);
 }}
 
+$totAidSent = get_user_meta($user_ID, 'total_aid_sent', true);
+update_user_meta($user_ID, 'total_aid_sent', $totAidSent+$aid);
 
+$noAids = get_user_meta($user_ID, 'number_of_aids', true);
+update_user_meta($user_ID, 'number_of_aids', $noAids+1);
+
+$aidRec = get_user_meta($receiver, 'aid_received', true);
+update_user_meta($receiver, 'aid_received', $aidRec+$aid);
 
 $file = 'aidlog.txt';
 // Open the file to get existing content
@@ -136,4 +146,4 @@ update_user_meta($user_ID, 'user_lock', 0);
 $_SESSION['status'] = '$ '.number_format($aid, 0, ',', ' ').' aid sent';
 wp_redirect(get_permalink(49609)); exit;
 
-}}
+}

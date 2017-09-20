@@ -1224,6 +1224,12 @@ $clan = get_user_meta($target_id, 'clan_id_user', true);
 $clan_members = get_post_meta($clan,'clan_members');
 
 if(!empty($clan) || $clan != 0){
+	
+// Update attacks for current clan
+$attRec = get_user_meta($target_id, 'attacks_rec_current',true);
+update_user_meta($target_id, 'attacks_rec_current', $attRec+1);	
+
+
 foreach ($clan_members[0] as $member) {
 	$globals = get_user_meta($member, 'new_global_events', true);
 	update_user_meta($member, 'new_global_events', $globals+1);
@@ -1235,6 +1241,11 @@ $clan_att = get_user_meta($user_id, 'clan_id_user', true);
 $clan_members_att = get_post_meta($clan_att,'clan_members');
 
 if(!empty($clan_att) || $clan_att != 0){
+
+// Update attacks for current clan
+$attMade = get_user_meta($user_id, 'attacks_made_current',true);
+update_user_meta($user_id, 'attacks_made_current', $attMade+1);	
+
 foreach ($clan_members_att[0] as $member_att) {
 	$globals = get_user_meta($member_att, 'new_global_events', true);
 	update_user_meta($member_att, 'new_global_events', $globals+1);
@@ -1262,6 +1273,7 @@ update_user_meta($user_id,'user_clan_points',$user_pts+$clan_points);
 // Update attacker points for current clan
 $userAttPts = get_user_meta($user_id, 'current_clan_points',true);
 update_user_meta($user_id, 'current_clan_points', $userAttPts+$clan_points);
+
 
 $last_ids = get_user_meta($user_id, 'last_attacked', true);
 update_user_meta($user_id, 'last_attacked', $target_id.','.$last_ids);

@@ -9,7 +9,7 @@ $user_NW = get_user_meta($user_ID, 'networth',true);
 $money = get_user_meta($user_ID, 'money',true);
 $aid_sent = get_user_meta($user_ID, 'aid_sent_today', true);
 
-$maxAmount = min(250000,$money);
+$maxAmount = round(min(250000,$money));
 get_header(); ?>
 <div class="page normal-page">
      <div class="container">
