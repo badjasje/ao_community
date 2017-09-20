@@ -13,6 +13,13 @@ if(get_field('game_status','option') == 'Live'){
 	include 'satellite_array.php';
 	$order_ID = $_POST['order'];
 	
+	$orderstatus = get_post_status( $order_ID );
+	
+	if($orderstatus == 'trash'){
+		$_SESSION['status'] = 'nope';
+		wp_redirect(get_permalink(3582)); exit;
+	}else{
+	
 	$user_ID = get_current_user_id(); 
 	
 $userLock = get_user_meta($user_ID, 'user_lock', true);
@@ -85,4 +92,4 @@ if($discount_level == 2){
 			update_user_meta($user_ID, 'user_lock', 0);
 			$_SESSION['status'] = 'Order canceled. You received $ '.number_format($cashback, 0, ',', ' ');
 			wp_redirect(get_permalink(3204)); exit;
-}
+}}
