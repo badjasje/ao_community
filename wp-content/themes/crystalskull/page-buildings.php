@@ -2,10 +2,10 @@
  /*
  * Template Name: Buildings
  */
- $user_ID = get_current_user_id(); 
+$user_ID = get_current_user_id(); 
 include 'building_array.php';
 include 'units_array.php';
-$newToken = generateFormToken('form1'); 
+$PwrUsage = get_user_meta($user_ID, 'power',true); 
   
 $land = get_user_meta($user_ID, 'land');
 $builtland = get_user_meta($user_ID, 'builtland');
