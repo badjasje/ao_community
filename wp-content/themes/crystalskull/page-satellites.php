@@ -42,16 +42,12 @@ get_header(); ?>
 			
 <?php if($sat_progress != '0'):?>
 			
-	<table class="responsive-table">
-		<thead>
-			<tr>
-				<th scope="col">Name</th>
-				<th scope="col">Amount</th>
-				<th scope="col">Time left</th>
-  			</tr>
-		</thead>
-		
-		<tbody>
+	<div class="row market_block">	
+			<div class="row clan_header_row storeDetails-heads">
+				<div class="col-md-4"><strong>Name</strong></div>
+				<div class="col-md-4"><strong>Time left</strong></div>
+				<div class="col-md-4"></div>
+			</div>
 			
 			
 <?php 	
@@ -95,35 +91,35 @@ $timestamp = current_time('timestamp');
 		$timeleft = date('H:i:s', $timeleft);
 		
 		?>
-		<tr>
-		<td data-title="Name" >
-			<label><strong><?php echo get_the_title($order->ID);?></strong></label>
-		</td>
-		<td data-title="Amount">
-			<label><?php echo $units_in_this_order;?></label>
-		</td>
-		<td data-title="Time left">
-			<label><?php echo $timeleft;?></label>
-		</td>
-		</tr>
+		<div class="row clan_profile_row2">
 		
-		
-		
-		<script type="text/javascript">
+				<div class="col-md-4 center_clan_col market_column marketHeader">
+					<?php echo get_the_title($order->ID);?>
+				</div>
 			
-		jQuery(document).ready(function(){
-		jQuery('#cancel<?php echo $order->ID;?>').click(function(){
-        jQuery.post("<?php get_site_url(); ?>/cancel_order.php?id=<?php echo $order->ID;?>&user=<?php echo $user_ID;?>",{ajax: true},
-        function(data, status){
-           location.reload();
-         });
-    });
-});
-</script>
-		<?php }}
+				<div class="col-md-4 clan_column border_bottom_mobile">
+					<span class="clan_data_left">Time left</span>
+					<span class="clan_data_right">
+						<?php echo $timeleft;?>
+					</span>
+				</div>
+			
+				<div class="col-md-4 clan_column">
+					<form class="form" action="<?php echo home_url() ?>/cancel_order.php" name="" id="cancel" method="post">
+			<input style="display:none;"type="text" id="order" name="order" value="<?php echo $order->ID;?>"/>
+			<input onclick="return confirm('Are you sure you want to cancel this order?')" class="btn btn-general submitBtn" type="submit" value="Cancel" class="">
+			</form>			
+				</div>
+		</div>
+
+	
 		
-		?></tbody>
-		</table>
+		
+		
+		
+		<?php }} ?>
+		
+	</div>
 
 			<?php endif;?>
 			
@@ -131,46 +127,66 @@ $timestamp = current_time('timestamp');
 
 			
 			<?php if($sat_level != '0' && $sat_owned == '0' && $sat_progress == '0'):?>
-			<div class="notice_message"><span class="rdw-line">Building a satellite requires 25 turns</span></div><br/>
-			<form class="form" action="<?php echo home_url() ?>/satellite.php" name="" id="satellite" method="post">
+		
+			<form class="form" action="<?php echo home_url() ?>/satellite.php" name="satellite" id="satellite" method="post">
 				
+			
+		<div class="spaceNotice">
+			Building a satellite requires 25 turns
+		</div>
+		
+		<div class="row market_block">	
+			<div class="row clan_header_row storeDetails-heads">
+				<div class="col-md-3"><strong>Name</strong></div>
+				<div class="col-md-5"><strong>Effect</strong></div>
+				<div class="col-md-2"><strong>Price</strong></div>
+				<div class="col-md-2"></div>
+			</div>
 				
-			<div class="container2">
-				<table class="responsive-table">
-					<thead>
-						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Effect</th>
-							<th scope="col">Price</th>
-							<th scope="col">Pick satellite</th>
-						</tr>
-					</thead>
-				<tbody>
-			<?php foreach ($satellites as $key => $satellite) {
-			?>
-			<tr>
-				<th scope="row">
+			
+	<?php foreach ($satellites as $key => $satellite) {?>
+			
+			<div class="row clan_profile_row2">
+		
+				<div class="col-md-3 center_clan_col market_column marketHeader">
 					<?php echo $satellite['name'];?>
-				</th>
-				<td data-title="Effect">
-					<?php echo $satellite['desc']; ?>
-				</td>
-				<td data-title="Price">
-					$ <?php echo $satellite['price'];?>
-				</td>
+				</div>
 			
-				<td data-title="Pick satellite">
-					<input type='radio' name='satellite' value='<?php echo $key;?>' checked>
-				</td>
-			</tr>
+				<div class="col-md-5 clan_column border_bottom_mobile">
+						<div class="satDesc"><?php echo $satellite['desc']; ?></div>
+				</div>
 			
+				<div class="col-md-2 clan_column">
+					<span class="clan_data_left">Price</span>
+					<span class="clan_data_right">
+						<span 	class="hover-tip"  
+								data-toggle="tooltip" 
+								data-original-title="The <?php echo $satellite['name'];?> adds <?php echo $satellite['networth'];?>% networth. 
+								$ <?php echo $satellite['price']*$satellite['networth']/100;?> per satellite." 
+								data-placement="bottom">
+									$ <?php echo number_format($satellite['price'], 0, ',', ' '); ?>
+						</span>	
+					</span>
+			
+				</div>
+				
+				<div class="col-md-2 clan_column">
+				<input style="display:none;" type='radio' name='satellite' id="<?php echo $key;?>_satellite_construct" required value="<?php echo $key;?>" >
+				<label class="satbutton btn btn-general" for="<?php echo $key;?>_satellite_construct">Select</label>
+					
+				</div>
+
+			
+			</div>
+		
 			
 			<?php }?>
-				</tbody>
-		</table>
-		
-		<input type="submit" value="Order" class="">
-		</div><!-- end container div -->
+			
+		</div>
+		<div class="orderbutton">
+			<input type="submit" value="Order satellite" class="">
+		</div>
+	
 		
 		
 		
