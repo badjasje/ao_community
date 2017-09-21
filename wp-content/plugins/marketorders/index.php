@@ -492,6 +492,62 @@ if($nightmode == 'nostalgia'){
     font-weight: bold;
     color: #d8d4b6;
 }
+.blog-content {
+    padding: 20px 25px 15px;
+    line-height: 24px;
+    background-color: #c6c4a8;
+    border: 1px solid #747463;
+    font-size: 14px;
+}
+.blog-ind .blog-info {
+    border: 1px solid #747463;
+    position: relative;
+    border-bottom: 0px;
+    background-color: #c6c4a8;
+}
+.wcontainer {
+    padding: 20px;
+    background-color: #c6c4a8;
+    border: 1px solid #747463;
+}
+h3.widget-title{
+	background-color: #c6c4a8;
+}
+.title-wrapper {
+    z-index: 1;
+    position: relative;
+    border: 1px solid #747463;
+    margin-bottom: 5px;
+    background: none;
+    background-color: #c6c4a8;
+}
+.blog-ind .blog-content {
+    padding-bottom: 25px;
+    background-color: #c6c4a8;
+    border: 1px solid #747463;
+    font-size: 14px;
+}
+.title-wrapper:after {
+    background: #c6c4a8;
+}
+.widget ul {
+    margin: 0;
+    padding: 0;
+    background-color: #c6c4a8;
+    border: 1px solid #747463;
+}
+.blog-image {
+    border: none;
+}
+.bgpattern, .cart-notification, .clan-members-mi, .match-page .mmaps ul li:nth-child(even), .nextmatch_wrap .clan12w, .nm-clans, .post-review, .widget ul li:nth-child(even), .widget.clanwarlist-page ul.clanwar-list li.clanwar-item, .widget_shopping_cart, .woocommerce .cart-notification, ul.about-profile li:nth-child(even) {
+    background: #d8d4b6;
+    border-top: 1px solid #747463;
+    }
+.post-pinfo a {
+    font-size: 12px;
+    font-weight: normal;
+    color: #35382f;
+}
 body .navbar-inverse,body .blog{
 	background-color:#35382f;
 }
