@@ -80,7 +80,7 @@ get_header(); ?>
   	</div>
   
   	<div class="col-md-4">
-  		<button style="margin-top:0px;"class="btn respybutton" type="submit" value="FILTER">Filter</button>
+  		<button style="margin-top:0px;" class="btn respybutton" type="submit" value="FILTER">Filter</button>
   	</div>
   
   	<div class="col-md-4">

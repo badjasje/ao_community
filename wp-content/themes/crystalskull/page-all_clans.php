@@ -71,14 +71,19 @@ get_header(); ?>
 
 		<div class="tab-content current build_content tabbed-table">
 			<div class="tab-pane <?php echo $activeTab === 'all' ? 'active' : ''; ?>"  id="all" role="tabpanel">
+				
+				
+			<div class="row toplist_block">	
+				
+				<div class="row clan_header_row storeDetails-heads">
 
-			<table>
-				<tr>
-					<td>Clan
-					</td>
-					<td>Total networth
-					</td>
-				</tr>
+				<div class="col-md-1"></div>
+				<div class="col-md-6"><strong>Name</strong></div>
+				<div class="col-md-4"><strong>Clan networth</strong></div>
+				<div class="col-md-1"><strong>Members</strong></div>
+			</div>
+
+		
 			<?php $args = array(
 				'posts_per_page'   => -1,
 				'orderby'          => 'date',
@@ -87,28 +92,52 @@ get_header(); ?>
 				);
 				$clans = get_posts($args);
 				foreach ($clans as $clan) {
-
+					$clan_members = get_post_meta($clan->ID,'clan_members');
+					
 				?>
-				<tr>
-					<td><a href="<?php echo get_the_permalink($clan->ID);?>"><?php echo get_the_title($clan->ID). ' (#'.$clan->ID;?>)</a>
-					</td>
-					<td>$
-					<?php $clan_members = get_post_meta($clan->ID,'clan_members');
-
-						$tot_networth = 0;
-						foreach ($clan_members[0] as $member) {
-						$networth = get_user_meta($member, 'networth');
-						$tot_networth+=$networth[0];}
-						update_post_meta($clan->ID,'clan_networth',$tot_networth);
-						echo number_format($tot_networth, 0, ',', ' ');
-
-					?>
-					</td>
-				</tr>
+				
+				<div class="row clan_profile_row2">
+			
+					<div class="col-md-1">
+						<?php echo clan_avatar($clan->ID,'');?>
+					</div>
+					
+					
+					<div class="col-md-6 clan_column center_clan_col border_bottom_mobile">
+						<a href="<?php echo get_permalink($clan); ?>"><?php echo $clan->post_title.' (#'.$clan->ID.')';?></a>		
+					</div>
+					
+				
+					
+					<div class="col-md-4 clan_column border_bottom_mobile">
+						
+						<span class="clan_data_left">Clan networth</span>
+						<span class="clan_data_right store-pop-span2">
+							$ <?php echo number_format(get_post_meta($clan->ID, 'clan_networth',true), 0, ',', ' ')?>
+						</span>
+					
+					</div>
+					
+					
+					<div class="col-md-1 clan_column">
+						
+						<span class="clan_data_left">Members</span>
+						<span class="clan_data_right store-pop-span2">
+							<?php echo count($clan_members);?>
+						</span>
+					
+					</div>
+				</div> <! // Close profile row -- >
+				
+				
+				
+				
+				
+				
 
 				<?php }?>
-			</table>
-			</div> <!-- CLOSE TAB 1 -->
+			</div>
+		</div> <!-- CLOSE TAB 1 -->
 
 
 
@@ -117,14 +146,15 @@ get_header(); ?>
 			<div class="tab-pane <?php echo $activeTab === 'in-range' ? 'active' : ''; ?>"  id="in-range" role="tabpanel">
 
 
+			<div class="row toplist_block">	
+				
+				<div class="row clan_header_row storeDetails-heads">
 
-				<table>
-				<tr>
-					<td>Clan
-					</td>
-					<td>Total networth
-					</td>
-				</tr>
+				<div class="col-md-1"></div>
+				<div class="col-md-6"><strong>Name</strong></div>
+				<div class="col-md-4"><strong>Clan networth</strong></div>
+				<div class="col-md-1"><strong>Members</strong></div>
+			</div>
 			<?php $args = array(
 				'posts_per_page'   => -1,
 				'orderby'          => 'date',
@@ -160,18 +190,41 @@ get_header(); ?>
 
 				?>
 				<?php if (($tot_networth > $dec_tot_networth/1.4 && $tot_networth < $dec_tot_networth*1.4)){	?>
-				<tr>
-					<td><a href="<?php echo get_the_permalink($clan->ID);?>"><?php echo get_the_title($clan->ID). ' (#'.$clan->ID;?>)</a>
-					</td>
-					<td>$
-					<?php echo number_format($tot_networth, 0, ',', ' ');
-
-					?>
-					</td>
-				</tr>
+				<div class="row clan_profile_row2">
+			
+					<div class="col-md-1">
+						<?php echo clan_avatar($clan->ID,'');?>
+					</div>
+					
+					
+					<div class="col-md-6 clan_column center_clan_col border_bottom_mobile">
+						<a href="<?php echo get_permalink($clan); ?>"><?php echo $clan->post_title.' (#'.$clan->ID.')';?></a>		
+					</div>
+					
+				
+					
+					<div class="col-md-4 clan_column border_bottom_mobile">
+						
+						<span class="clan_data_left">Clan networth</span>
+						<span class="clan_data_right store-pop-span2">
+							$ <?php echo number_format(get_post_meta($clan->ID, 'clan_networth',true), 0, ',', ' ')?>
+						</span>
+					
+					</div>
+					
+					
+					<div class="col-md-1 clan_column">
+						
+						<span class="clan_data_left">Members</span>
+						<span class="clan_data_right store-pop-span2">
+							<?php echo count($clan_members);?>
+						</span>
+					
+					</div>
+				</div> <! // Close profile row -- >
 
 				<?php }?><?php }?>
-			</table>
+			</div>
 
 
 
