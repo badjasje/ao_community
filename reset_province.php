@@ -5,7 +5,7 @@
  *
  * @package WordPress
  */
-require( dirname(__FILE__) . '/wp-load.php' );
+require(dirname(__FILE__) . '/wp-load.php');
 
 $userId = get_current_user_ID();
 $clanId = get_user_meta($userId, 'clan_id_user');
@@ -17,8 +17,9 @@ $incomingWars = get_posts(array(
     'meta_value' => $clanId[0]
         ));
 
-if (!defined('ABSPATH'))
+if (!defined('ABSPATH')) {
     exit;
+}
 if (empty($user_ID)) {
     wp_redirect(get_permalink(3582));
     exit;
@@ -40,6 +41,3 @@ if (count($incomingWars) < 1) {
     wp_redirect(get_permalink(3486));
     exit;
 }
-    
-
-

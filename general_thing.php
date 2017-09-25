@@ -1,10 +1,10 @@
 <?php
-	
-	require_once("wp-load.php");
-	
-	update_post_meta(88241, 'clan_points', 2100);
-	
-	/*
+    
+    require_once("wp-load.php");
+    
+    update_post_meta(88241, 'clan_points', 2100);
+    
+    /*
 	$users = get_users();
 	foreach ($users as $user) {
 		$user_ID = $user->data->ID;

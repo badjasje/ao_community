@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class LinkUtil
+ */
 class LinkUtil {
 
 	/**
