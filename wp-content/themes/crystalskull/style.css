@@ -1830,3 +1830,6 @@ input[type="submit"] {
 .cmheader{
 	color:#fff;
 }
+.smallAvatar:hover{
+	opacity: 0.9;
+}

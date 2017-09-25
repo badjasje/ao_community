@@ -542,7 +542,25 @@ h3.widget-title{
 .bgpattern, .cart-notification, .clan-members-mi, .match-page .mmaps ul li:nth-child(even), .nextmatch_wrap .clan12w, .nm-clans, .post-review, .widget ul li:nth-child(even), .widget.clanwarlist-page ul.clanwar-list li.clanwar-item, .widget_shopping_cart, .woocommerce .cart-notification, ul.about-profile li:nth-child(even) {
     background: #d8d4b6;
     border-top: 1px solid #747463;
-    }
+}
+@media (min-width: 991px){
+.nav-tabs.nav-justified>.active>a, .nav-tabs.nav-justified>.active>a:focus, .nav-tabs.nav-justified>.active>a:hover {
+    border-bottom-color: rgba(221, 221, 221, 0);
+}
+.nav-tabs.nav-justified>li>a {
+    border-bottom: 1px solid #d8d4b6;
+    border-radius: 4px 4px 0 0;
+}
+}
+
+input[type=number]{
+	background-color: #d8d4b6;
+	border: 1px solid #747463;
+	color: #35382f !important;
+}
+.profile_row,.clan_profile_row,.clan_profile_row2 {
+    border-bottom: 1px solid #d8d4b6;
+}
 .post-pinfo a {
     font-size: 12px;
     font-weight: normal;

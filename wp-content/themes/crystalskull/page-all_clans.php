@@ -123,7 +123,7 @@ get_header(); ?>
 						
 						<span class="clan_data_left">Members</span>
 						<span class="clan_data_right store-pop-span2">
-							<?php echo count($clan_members);?>
+							<?php echo count($clan_members[0]);?>
 						</span>
 					
 					</div>
@@ -217,7 +217,7 @@ get_header(); ?>
 						
 						<span class="clan_data_left">Members</span>
 						<span class="clan_data_right store-pop-span2">
-							<?php echo count($clan_members);?>
+							<?php echo count($clan_members[0]);?>
 						</span>
 					
 					</div>
