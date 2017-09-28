@@ -206,6 +206,11 @@
 		array(
 			'key'		=> 'war_status',
 			'compare'	=> '=',
+			'value'		=> 'mutual',
+		),
+		array(
+			'key'		=> 'war_status',
+			'compare'	=> '=',
 			'value'		=> 'outgoing',
 		)),
 	
