@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class GameUtil
+ */
 class GameUtil {
 
 	/**
