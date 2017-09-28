@@ -13,7 +13,7 @@ if ( 'GET' != $_SERVER['REQUEST_METHOD'] ) {
 }
 
 require( dirname(__FILE__) . '/wp-load.php' );
-if(get_field('game_status','option') == 'Live'){
+
 $user_ID = get_current_user_id(); 
 
 if ( ! defined( 'ABSPATH' ) ) exit; 
@@ -28,7 +28,7 @@ $clan = $_GET['clan'];
 $clan_members = get_post_meta($_GET['clan'],'clan_members');
 $clan_leader = get_post_meta($clan,'clan_leader',true);
 $timestamp = current_time('timestamp');
-if(count($members[0]) >= 7){ 
+if(count($members[0]) >= 5){ 
 						wp_redirect(get_permalink(3601)); exit;
 					}
 
@@ -96,6 +96,3 @@ if($clan_ID[0] == 0){
 else {
 	wp_redirect(get_permalink(3601));
 }
-}
-	
-
