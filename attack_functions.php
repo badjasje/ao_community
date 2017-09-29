@@ -48,7 +48,7 @@ function calculate_pts ($unit_damage, $bld_damage, $aggressive_multi) {
 
     $pts_gained =  ((((sqrt($damage)*log($damage))/100)*$multiplier)*$random_factor);
     if ($aggressive_multi > 1) {
-        $pts_gained = $pts_gained+1;
+        $pts_gained = $pts_gained *1.2;
     }
     $pts = ceil ($pts_gained);	 //Round to higher number
 
@@ -786,6 +786,12 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
 
             /* reduce damage by factor determined in constants */
             $effective_atk_power = $distributed_power / $dmg_reduction;
+
+            /* MEGA fix effective attack power for aggro so it ACTUALLY does something haha 20170929 */
+            if ($_SESSION['attackmode'] == 'aggressive') {
+                $effective_atk_power = $effective_atk_power*1.2;
+            }
+
 
             /* calculate kills as power/life */
             $units_killed = round($effective_atk_power / $unit_life);
