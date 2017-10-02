@@ -769,12 +769,12 @@ if($result == 'success'){
 
 	$startingbonus = get_user_meta($user_id, 'starting_bonus', true);
 	if($startingbonus == 'offensive'){
-	$land_stolen   = max(ceil($freeland * ($STOLEN_LAND_RATIO*2*$resourceMulti*$aggressive_multi*$extraLandKill) * resource_dice_roll()), 0);
-	$money_stolen  = max(ceil($money * ($STOLEN_MONEY_RATIO*2*$resourceMulti*$aggressive_multi*$extraLandKill) * resource_dice_roll()), 0);
+	    $land_stolen   = max(ceil($freeland * ($STOLEN_LAND_RATIO*2*$resourceMulti*$aggressive_multi*$extraLandKill) * resource_dice_roll()), 0);
+	    $money_stolen  = max(ceil($money * ($STOLEN_MONEY_RATIO*2*$resourceMulti*$extraLandKill) * resource_dice_roll()*$aggressive_multi), 0);
 	}
 	else{
-	$land_stolen   = max(ceil($freeland * $STOLEN_LAND_RATIO * $resourceMulti * $aggressive_multi * $extraLandKill * resource_dice_roll()), 0);
-	$money_stolen  = max(ceil($money * $STOLEN_MONEY_RATIO * $resourceMulti * $aggressive_multi * $extraLandKill * resource_dice_roll()), 0);
+	    $land_stolen   = max(ceil($freeland * $STOLEN_LAND_RATIO * $resourceMulti * $aggressive_multi * $extraLandKill * resource_dice_roll()), 0);
+	    $money_stolen  = max(ceil($money * ($STOLEN_MONEY_RATIO * $resourceMulti*$extraLandKill) * resource_dice_roll()*$aggressive_multi), 0);
 	}
 
 	$attackermoney = get_user_meta($user_id, 'money')[0];
@@ -837,54 +837,7 @@ if($war_type != 'none' && $result == 'success') {
 
 	$defender_networth = get_user_meta($target_id, 'networth')[0];
 	if ($killed != true) {
-		
-		/*
-		
-		$building_CP = 0;
-		$unit_CP = 0;
-		
-		// Check if building damage is done
-		if($defender_building_NW_lost > 0){
-                  if($defender_building_NW_lost < 1500) {
 
-			$building_CP = 5 * log($defender_building_NW_lost / 2.2 / 470)*$aggressive_multi; 
-                  }
-                  else {
-			$building_CP = 5 * log($defender_building_NW_lost / 2.2 / 500)*$aggressive_multi; 
-	          }
-          	}
-		
-		// Check if unit damage is done
-		if($defender_unit_NW_lost > 0){
-			$unit_CP = 3.5 * log($defender_unit_NW_lost / 2.2 / 200)*$aggressive_multi; 
-		}
-
-
-                if (($defender_building_NW_lost + $defender_unit_NW_lost) < 3500) {
-                  //echo "NewLogic";
-                  $clan_points = ceil(log(($defender_building_NW_lost + $defender_unit_NW_lost)/1.6))-2;
-                  //echo log(($defender_building_NW_lost + $defender_unit_NW_lost)/1.4);
-                  if (($defender_building_NW_list + $defender_unit_NW_lost) < 2000) {
-                    $clan_points = ceil($clan_points/2);
-                  }
-                }
-                else if (ceil(log($defender_building_NW_lost + $defender_unit_NW_lost)-1) > $building_CP+$unit_CP) {
-	          //echo "Here";
-                  $clan_points = $building_CP+$unit_CP;
-                }
-                else {
-                  //echo "Else";
-	          $clan_points = $building_CP+$unit_CP;
-                }
-		
-		if($clan_points < 1){
-			$clan_points = 1;
-		}
-		
-		$clan_points = ceil($clan_points);
-		 points cap */
-		
-		//Call MEGAs new function 2017-07-18
 		$clan_points = calculate_pts($defender_building_NW_lost,$defender_unit_NW_lost,$aggressive_multi);
 		
 
