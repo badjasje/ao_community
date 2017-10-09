@@ -23,8 +23,8 @@ if (get_field('game_status', 'option') == 'Live') {
     $_SESSION['attack_array'] = $_POST;
 
     $user_id = get_current_user_ID();
-    $attack_nw = get_user_meta($user_ID, 'networth')[0];
-    $attack_clan_id = get_user_meta($user_ID, 'clan_id_user')[0];
+    $attack_nw = get_user_meta($userId, 'networth')[0];
+    $attack_clan_id = get_user_meta($userId, 'clan_id_user')[0];
 
     $target_id = $_SESSION['target_id'];
     $defend_nw = get_user_meta($target_id, 'networth')[0];

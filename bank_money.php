@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles market orders
+ * Handles bank deposits
  *
  * @package WordPress
  */
@@ -16,7 +16,6 @@ require(dirname(__FILE__) . '/wp-load.php');
 if (get_field('game_status', 'option') == 'Live') {
     nocache_headers();
 
-
     if (!is_numeric($_POST['amount'])) {
         $_SESSION['status'] = 'Enter a valid number';
         wp_redirect(get_permalink(3953));
@@ -30,8 +29,7 @@ if (get_field('game_status', 'option') == 'Live') {
         exit;
     }
 
-
-/* Get some important variables */
+    /* Get some important variables */
     $user_ID = get_current_user_id();
 
     $userLock = get_user_meta($user_ID, 'user_lock', true);
@@ -87,31 +85,28 @@ if (get_field('game_status', 'option') == 'Live') {
         }
         
         /* Get banking level and max values */
-        $banklevel = get_user_meta($user_ID, 'level_bank_management')[0];
-        $startingbonus = get_user_meta($user_ID, 'starting_bonus', true);
+        $bankLevel = get_user_meta($user_ID, 'level_bank_management')[0];
+        $startingBonus = get_user_meta($user_ID, 'starting_bonus', true);
         $finance_multi = 1;
-        if ($startingbonus == 'finance') {
+        if ($startingBonus == 'finance') {
             $finance_multi = 1.5;
         }
 
-        if ($banklevel == 0) {
+        if ($bankLevel == 1) {
+
+        } elseif ($bankLevel == 1) {
+            $max_dep = 350000*$finance_multi;
+            $max_tot = 3500000;
+        } elseif ($bankLevel == 2) {
+            $max_dep = 450000*$finance_multi;
+            $max_tot = 4500000;
+        } elseif ($bankLevel == 3) {
+            $max_dep = 500000*$finance_multi;
+            $max_tot = 5000000*$finance_multi;
+        } else { // BankLevel == null/empty
             $max_dep = 250000*$finance_multi;
             $max_tot = 2500000*$finance_multi;
         }
-        if ($banklevel == 1) {
-            $max_dep = 350000*$finance_multi;
-            $max_tot = 3500000;
-        }
-        if ($banklevel == 2) {
-            $max_dep = 450000*$finance_multi;
-            $max_tot = 4500000;
-        }
-        if ($banklevel == 3) {
-            $max_dep = 500000*$finance_multi;
-            $max_tot = 5000000*$finance_multi;
-        }
-
-
 
         /* check for minimum value */
         if ($_POST['amount'] < 5000) {
@@ -143,7 +138,7 @@ if (get_field('game_status', 'option') == 'Live') {
             wp_redirect(get_permalink(3953));
             exit;
         } else {
-        /* Create the actual deposit */
+            /* Create the actual deposit */
             $timestamp = current_time('timestamp');
             $RELEASE_DATE = $timestamp+($_POST['days']*86400);
     

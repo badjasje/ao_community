@@ -2,14 +2,12 @@
  /*
  * Template Name: Users
  */
-$activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'all';
-
-$user_ID = get_current_user_id();
-
+$activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'all';
+$userId = get_current_user_id();
 
 $allUsers = get_users();
 
-$networth_you = get_user_meta($user_ID, 'networth',true);
+$networth_you = get_user_meta($userId, 'networth',true);
 include 'constants.php';
 
 
@@ -37,15 +35,15 @@ jQuery(document).ready(function() {
 
 
 	<?php foreach ($allUsers as $user) {
-		$user_ID = $user->ID;
-		$member_data = get_userdata($user_ID);
+		$userId = $user->ID;
+		$member_data = get_userdata($userId);
 
 		?>
 
   
-		<option name="clan" value="/users/profile/?id=<?php echo $user_ID;?>">
-			<a class="<?php echo get_user_meta($user_ID,'status',true);?>" href="/users/profile/?id=<?php echo $user_ID;?>">
-			<?php echo $member_data->display_name.' (#'.$user_ID.')';?></a></option>
+		<option name="clan" value="/users/profile/?id=<?php echo $userId;?>">
+			<a class="<?php echo get_user_meta($userId,'status',true);?>" href="/users/profile/?id=<?php echo $userId;?>">
+			<?php echo $member_data->display_name.' (#'.$userId.')';?></a></option>
 		<?php }?>
 	</select>
 </form>

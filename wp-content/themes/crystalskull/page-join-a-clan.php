@@ -9,7 +9,7 @@ $clans = get_posts(array(
 	'meta_value'	=> 'yes'
 ));
 
-$clan_ID = get_user_meta($user_ID, 'clan_id_user',true);
+$clan_ID = get_user_meta($userId, 'clan_id_user',true);
 if($clan_ID != 0){
 	$_SESSION['status'] = 'Already part of a clan';
 	wp_redirect(get_permalink(3601)); exit;

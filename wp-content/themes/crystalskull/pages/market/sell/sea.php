@@ -12,8 +12,8 @@
 <?php // sea TABLE
 $totalsea = 0;
 foreach($units as $key => $order){
-$units_owned = get_user_meta($user_ID, $key.'_owned');
-$units_ordered = get_user_meta($user_ID, $key.'_ordered');
+$units_owned = get_user_meta($userID, $key.'_owned');
+$units_ordered = get_user_meta($userID, $key.'_ordered');
 $unittype = $units[$key]['type'];
 if($units_owned[0] != 0){
 ?>

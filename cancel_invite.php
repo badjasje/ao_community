@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles invite cancels
+ * Handles invite cancellations
  *
  * @package WordPress
  */
@@ -14,21 +14,23 @@ if ('GET' != $_SERVER['REQUEST_METHOD']) {
 
 require(dirname(__FILE__) . '/wp-load.php');
 
-$user_ID = get_current_user_ID();
-$invitekey = $_GET['invite'];
-$clan = $_GET['clan'];
+$userID = get_current_user_ID();
+$inviteKey = isset($_GET['invite']) ? $_GET['invite'] : '';
 
+$clanIds = get_user_meta($userId, 'clan_id_user');
+$clanId = array_shift($clanIds);
 
+$openInvites = get_post_meta($clanId, 'open_invites');
 
+if (!is_array($openInvites)) {
+    exit();
+}
 
-$open_invites = get_post_meta($clan, 'open_invites');
-foreach ($open_invites[0] as $key => $invite) {
-    if ($invite['invite'] == $invitekey) {
-        if ($invite['clan'] == $clan) {
-            unset($open_invites[0][$key]);
-            update_post_meta($clan, 'open_invites', $open_invites[0]);
-            wp_redirect(get_permalink(3801));
-            wp_delete_post($invite['invite_id']);
-        }
+foreach ($openInvites[0] as $key => $invite) {
+    if ($invite['invite'] == $inviteKey && $invite['clan'] == $clan) {
+        unset($openInvites[0][$key]);
+        update_post_meta($clan, 'open_invites', $openInvites[0]);
+        wp_redirect(get_permalink(3801));
+        wp_delete_post($invite['invite_id']);
     }
 }

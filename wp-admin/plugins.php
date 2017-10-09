@@ -353,7 +353,7 @@ if ( $action ) {
 
 			$delete_result = delete_plugins( $plugins );
 
-			set_transient('plugins_delete_result_' . $user_ID, $delete_result); //Store the result in a cache rather than a URL param due to object type & length
+			set_transient('plugins_delete_result_' . $userId, $delete_result); //Store the result in a cache rather than a URL param due to object type & length
 			wp_redirect( self_admin_url("plugins.php?deleted=$plugins_to_delete&plugin_status=$status&paged=$page&s=$s") );
 			exit;
 
@@ -467,9 +467,9 @@ if ( ! empty( $invalid ) ) {
 	?>
 	</div>
 <?php elseif ( isset($_GET['deleted']) ) :
-		$delete_result = get_transient( 'plugins_delete_result_' . $user_ID );
+		$delete_result = get_transient( 'plugins_delete_result_' . $userId );
 		// Delete it once we're done.
-		delete_transient( 'plugins_delete_result_' . $user_ID );
+		delete_transient( 'plugins_delete_result_' . $userId );
 
 		if ( is_wp_error($delete_result) ) : ?>
 		<div id="message" class="error notice is-dismissible"><p><?php printf( __('Plugin could not be deleted due to an error: %s'), $delete_result->get_error_message() ); ?></p></div>

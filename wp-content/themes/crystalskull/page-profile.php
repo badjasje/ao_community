@@ -29,8 +29,7 @@ $visiting_user = get_current_user_ID();
 
 $savedUsers = get_user_meta($visiting_user, 'saved_users', true);
 $savedUsers = json_decode($savedUsers);
-
-
+$savedUsers = is_array($savedUsers) ? $savedUsers : [];
 
 $clan_id_user = get_user_meta($visiting_user, 'clan_id_user',true);
 

@@ -1,24 +1,19 @@
 <?php
     
-        require(dirname(__FILE__) . '/wp-load.php');
+require(dirname(__FILE__) . '/wp-load.php');
         
 if (get_field('game_status', 'option') == 'Live') {
     $timestamp = current_time('timestamp');
 
-    $args = array(
-    'posts_per_page'   => -1,
-    'post_status'      => 'publish',
-    'post_type'        => 'market_order',
-    );
+    $args = [
+        'posts_per_page'   => -1,
+        'post_status'      => 'publish',
+        'post_type'        => 'market_order',
+    ];
 
-    $orders = get_posts($args);
-
-
-
-// The Query
+    //$orders = get_posts($args); This variable is not used.
     $the_query = new WP_Query($args);
 
-// The Loop
     if ($the_query->have_posts()) {
         while ($the_query->have_posts()) {
             $the_query->the_post();
@@ -27,26 +22,26 @@ if (get_field('game_status', 'option') == 'Live') {
             $user_ID = get_field('user_placed_id', $orderID);
             $delivery_time = get_field('delivery_time', $orderID);
     
-            $timeleft = $delivery_time-$timestamp;
-            if ($timeleft <= 0) {
-                $unit_type = get_field('unit_type', $orderID);
+            $timeLeft = $delivery_time-$timestamp;
+            if ($timeLeft <= 0) {
+                $unitType = get_field('unit_type', $orderID);
         
                 /* check if order is satellite */
                 $sats = array('laser','comsat','stealths','spysat','spysat','amssat','empsat');
     
-                if (!in_array($unit_type, $sats)) {
-                    $units_in_this_order = get_field('amount_ordered', $orderID);
+                if (!in_array($unitType, $sats)) {
+                    $unitsInThisOrder = get_field('amount_ordered', $orderID);
         
-                    $ownedunits = get_user_meta($user_ID, $unit_type.'_owned', true);
-                    $total_units_on_order = get_user_meta($user_ID, $unit_type.'_ordered', true);
+                    $ownedUnits = get_user_meta($user_ID, $unitType.'_owned', true);
+                    $totalUnitsOnOrder = get_user_meta($user_ID, $unitType.'_ordered', true);
     
-                    update_user_meta($user_ID, $unit_type.'_ordered', $total_units_on_order - $units_in_this_order);
-                    update_user_meta($user_ID, $unit_type.'_owned', $units_in_this_order+$ownedunits);
+                    update_user_meta($user_ID, $unitType.'_ordered', $totalUnitsOnOrder - $unitsInThisOrder);
+                    update_user_meta($user_ID, $unitType.'_owned', $unitsInThisOrder+$ownedUnits);
                     wp_trash_post($order->ID);
                 }
             
                 if (get_field('order_type', $orderID) == 'satellite') {
-                    update_user_meta($user_ID, 'sat_owned', $unit_type);
+                    update_user_meta($user_ID, 'sat_owned', $unitType);
                     update_user_meta($user_ID, 'sat_in_progress', 0);
                     update_user_meta($user_ID, 'sat_endlife', $timestamp+(10*86400));
                     wp_trash_post($order->ID);
@@ -61,12 +56,8 @@ if (get_field('game_status', 'option') == 'Live') {
 
         /* Restore original Post Data */
         wp_reset_postdata();
-    } else {
-        // no posts found
     }
-
 /*
-
 foreach ($orders as $order) {
 	$user_ID = get_post_meta($order->ID,'user_placed_id',true);
 	$delivery_time = get_post_meta($order->ID,'delivery_time',true);
@@ -105,23 +96,23 @@ foreach ($orders as $order) {
 	
 	}
 */
-    $empargs = array(
-    'posts_per_page'   => -1,
-    'post_status'      => 'publish',
-    'post_type'        => 'emp',
-    );
+    $empArgs = [
+        'posts_per_page'   => -1,
+        'post_status'      => 'publish',
+        'post_type'        => 'emp',
+    ];
 
-    $emps = get_posts($empargs);
+    $emps = get_posts($empArgs);
 
     foreach ($emps as $emp) {
-        $end_time = get_post_meta($emp->ID, 'timestamp_emp', true);
-        $user_emp = get_post_meta($emp->ID, 'defender_emp', true);
+        $endTime = get_post_meta($emp->ID, 'timestamp_emp', true);
+        $userEMP = get_post_meta($emp->ID, 'defender_emp', true);
 
-        $timeleft = $end_time-$timestamp;
+        $timeLeft = $endTime-$timestamp;
 
-        if ($timeleft <= 0) {
+        if ($timeLeft <= 0) {
             wp_trash_post($emp->ID);
-            count_all_stats($user_emp);
+            count_all_stats($userEMP);
         }
     }
 } /* end game live

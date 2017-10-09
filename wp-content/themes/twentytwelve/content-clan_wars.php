@@ -68,7 +68,7 @@ $wars_by = get_posts(array(
 					<td><?php echo human_time_diff( get_the_title($war->ID), $timestamp );?>
 					</td>
 					<td><?php if($timestamp-get_the_title($war->ID) > 86400){?>
-					<?php if($clan_leader[0] == $user_ID || $user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4):?>
+					<?php if($clan_leader[0] == $userID || $userID == $ct_1 || $userID == $ct_2 || $userID == $ct_3 || $userID == $ct_4):?>
 					<a href="/declare_peace.php/?war=<?php echo $war->ID;?>">DECLARE PEACE</a>
 					<?php endif;?>
 					<?php }?>

@@ -1,5 +1,5 @@
 <div class="spaceNotice">
-	Your empty shipyards allow you to build a maximum of <strong><?php echo ($seaspace[0]*5)-count_seaspace($user_ID);?></strong> sea units.
+	Your empty shipyards allow you to build a maximum of <strong><?php echo ($seaspace[0]*5)-count_seaspace($userID);?></strong> sea units.
 </div>
 <?php if($startingbonus == 'shipping'):?>
 <div class="row market_block">	
@@ -16,8 +16,8 @@
 <?php // SEA TABLE
 $totalsea = 0;
 foreach($units as $key => $order){
-$units_owned = get_user_meta($user_ID, $key.'_owned');
-$units_ordered = get_user_meta($user_ID, $key.'_ordered');
+$units_owned = get_user_meta($userID, $key.'_owned');
+$units_ordered = get_user_meta($userID, $key.'_ordered');
 $unittype = $units[$key]['type'];
 ?>
 <?php if($unittype == 'sea'):?>
@@ -90,7 +90,7 @@ $unittype = $units[$key]['type'];
 		<span class="clan_data_left">Max</span>
 		<span class="clan_data_right">
 			<?php $max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount_value)));
-				  $max_space = ($seaspace[0]*5)-count_seaspace($user_ID);?>
+				  $max_space = ($seaspace[0]*5)-count_seaspace($userID);?>
 				
 				<?php if($key == 'spyplane'):?>
 					<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($ccspace,$max_money,$max_space));?></span>
@@ -254,8 +254,8 @@ $unittype = $units[$key]['type'];
 <?php // SEA TABLE
 $totalsea = 0;
 foreach($units as $key => $order){
-$units_owned = get_user_meta($user_ID, $key.'_owned');
-$units_ordered = get_user_meta($user_ID, $key.'_ordered');
+$units_owned = get_user_meta($userID, $key.'_owned');
+$units_ordered = get_user_meta($userID, $key.'_ordered');
 $unittype = $units[$key]['type'];
 ?>
 <?php if($unittype == 'sea'):?>
@@ -322,7 +322,7 @@ $unittype = $units[$key]['type'];
 		<span class="clan_data_left">Max</span>
 		<span class="clan_data_right">
 			<?php $max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount_value)));
-				  $max_space = ($seaspace[0]*5)-count_seaspace($user_ID);?>
+				  $max_space = ($seaspace[0]*5)-count_seaspace($userID);?>
 				
 			
 					<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($max_money,$max_space));?></span>

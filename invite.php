@@ -1,10 +1,9 @@
 <?php
 /**
- * Handles clan creation
+ * Handles clan invite creation
  *
  * @package WordPress
  */
-
 if ('GET' != $_SERVER['REQUEST_METHOD']) {
     header('Allow: POST');
     header('HTTP/1.1 405 Method Not Allowed');
@@ -13,66 +12,69 @@ if ('GET' != $_SERVER['REQUEST_METHOD']) {
 }
 
 require(dirname(__FILE__) . '/wp-load.php');
+
 if (!is_user_logged_in()) {
     wp_redirect(get_permalink(3491));
     exit;
 }
-$user_ID = get_current_user_ID();
 
-$invitekey = $_GET['invite'];
-$user = $_GET['user'];
-$clan = $_GET['clan'];
+$userId = get_current_user_ID();
 
+$invitee = $_GET['user'];
+$clanId = array_shift(get_user_meta($userId, 'clan_id_user'));
 
+$openInvites = array_shift(get_post_meta($clanId, 'open_invites'));
 
-
-
-$open_invites = get_post_meta($_GET['clan'], 'open_invites');
-if ($open_invites == 0 || empty($open_invites)) {
-    $open_invites = array();
+foreach($openInvites as $key => $openInvite) {
+    if (!is_array($openInvite)) {
+       unset($openInvites[$key]);
+    }
 }
-//$open_invites = array_shift($open_invites);
 
+if ($openInvites == 0 || empty($openInvites)) {
+    $openInvites = [];
+}
 
+// Generate a random invite code...
+$inviteKey = strtoupper(substr(md5(microtime()),rand(0,26),10));
 
-    $args = array(
-                'post_title'    => 'Clan Invite for: '.get_the_title($clan).' (#'.$clan.')',
-                'post_content'  => $_GET['invite'],
-                'post_status'   => 'publish',
-                'post_type'     => 'user_message',
-                'post_author'   => $user_ID
-                );
+$args = [
+    'post_title'    => sprintf('Clan Invite for: %s (#%d)', get_the_title($clan), $clanId),
+    'post_content'  => $inviteKey,
+    'post_status'   => 'publish',
+    'post_type'     => 'user_message',
+    'post_author'   => $userId
+];
             
+$newOrderId = wp_insert_post($args);
+update_field('invite_hash', $inviteKey, $newOrderId);
+update_field('clan_id_invited', $clanId, $newOrderId);
+update_field('receiver_id', $_GET['user'], $newOrderId);
             
-            $new_order_id = wp_insert_post($args);
-            update_field('invite_hash', $_GET['invite'], $new_order_id);
-            update_field('clan_id_invited', $_GET['clan'], $new_order_id);
-            update_field('receiver_id', $_GET['user'], $new_order_id);
-            
-    $subargs = array(
-                'post_title'    => 'subm Clan Invite for: '.get_the_title($clan).' (#'.$clan.')',
-                'post_content'  => $_GET['invite'],
-                'post_status'   => 'publish',
-                'post_type'     => 'sub_user_message',
-                'post_author'   => $user_ID
-                );
-            
-            
-            $new_sub_id = wp_insert_post($subargs);
-            update_field('parent_message_id', $new_order_id, $new_sub_id);
-            update_field('invite_hash', $_GET['invite'], $new_sub_id);
-            update_field('clan_id_invited', $_GET['clan'], $new_sub_id);
-            update_field('receiver_id', $_GET['user'], $new_sub_id);
-            
-            
-    
-            
-            $open_invites[] = array('user'=> $user, 'clan'=>$clan, 'invite'=>$invitekey, 'invite_id'=>$new_order_id);
+$subArgs = [
+    'post_title'    => sprintf('Clan Invite for: %s (#%d)', get_the_title($clan), $clanId),
+    'post_content'  => $inviteKey,
+    'post_status'   => 'publish',
+    'post_type'     => 'sub_user_message',
+    'post_author'   => $userId
+];
 
-
-            update_post_meta($_GET['clan'], 'open_invites', $open_invites);
-            update_user_meta($user, 'new_messages', 1);
+$newSubId = wp_insert_post($subArgs);
+update_field('parent_message_id', $newOrderId, $newSubId);
+update_field('invite_hash', $inviteKey, $newSubId);
+update_field('clan_id_invited', $_GET['clan'], $newSubId);
+update_field('receiver_id', $_GET['user'], $newSubId);
             
-            $_SESSION['status'] = 'Invite sent';
-            wp_redirect(get_permalink(3520).'?id='.$_GET['user']);
-    exit;
+$openInvites[] = [
+    'user' => $invitee,
+    'clan' => $clanId,
+    'invite' => $inviteKey,
+    'invite_id' => $newOrderId
+];
+
+update_post_meta($_GET['clan'], 'open_invites', $openInvites);
+update_user_meta($invitee, 'new_messages', 1);
+            
+$_SESSION['status'] = 'Invite sent';
+wp_redirect(get_permalink(3520).'?id='.$invitee);
+exit;

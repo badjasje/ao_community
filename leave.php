@@ -14,20 +14,15 @@ if ('GET' != $_SERVER['REQUEST_METHOD']) {
 
 require(dirname(__FILE__) . '/wp-load.php');
 
-$user_ID = get_current_user_id();
+$userID = get_current_user_id();
 
 if (! defined('ABSPATH')) {
     exit;
 }
-if (empty($user_ID)) {
+if (empty($userID) || !is_user_logged_in()) {
     wp_redirect(get_permalink(3582));
     exit;
 }
-if (!is_user_logged_in()) {
-    wp_redirect(get_permalink(3582));
-    exit;
-}
-
 
 $user = $_GET['user'];
 $clan = get_user_meta($user, 'clan_id_user', true);
@@ -37,14 +32,13 @@ $ct_2 = get_post_meta($clan, 'ct_2', true);
 $ct_3 = get_post_meta($clan, 'ct_3', true);
 $ct_4 = get_post_meta($clan, 'ct_4', true);
 
-$previous_members = get_post_meta($clan, 'previous_members');
-$previous_members = array_shift($previous_members);
-$previous_members[] = $user;
+$previousMembers = get_post_meta($clan, 'previous_members');
+$previousMembers = array_shift($previousMembers);
+$previousMembers[] = $user;
 
-update_post_meta($clan, 'previous_members', $previous_members);
+update_post_meta($clan, 'previous_members', $previousMembers);
 
-
-if ($user == $user_ID) {
+if ($user == $userID) {
     $clan_members = get_post_meta($clan, 'clan_members');
     $clan_leader = get_post_meta($clan, 'clan_leader', true);
 
@@ -74,33 +68,33 @@ if ($user == $user_ID) {
     $timestamp = current_time('timestamp');
     update_user_meta($user, 'new_clan_timestamp', $timestamp+86400);
 
-    $cp_lost = round(get_user_meta($user, 'current_clan_points', true)*0.25);
-    $clan_points = get_post_meta($clan, 'clan_points', true);
-    $new_clanpoints = $clan_points-$cp_lost;
-    if ($new_clanpoints < 0) {
-        $new_clanpoints = 0;
+    $cpLost = round(get_user_meta($user, 'current_clan_points', true)*0.25);
+    $clanPoints = get_post_meta($clan, 'clan_points', true);
+
+    $newClanPoints = $clanPoints-$cpLost;
+    if ($newClanPoints < 0) {
+        $newClanPoints = 0;
     }
+
     update_user_meta($user, 'current_clan_points', 0);
-    update_post_meta($clan, 'clan_points', $new_clanpoints);
+    update_post_meta($clan, 'clan_points', $newClanPoints);
 
+    $args = [
+        'post_title'    => 'Clan member left a clan: '.$user,
+        'post_status'   => 'publish',
+        'post_type'     => 'event_local',
+        'post_author'   => $clan_leader
+    ];
 
-
-    $args = array(
-    'post_title'    => 'Clan member left a clan: '.$user,
-    'post_status'   => 'publish',
-    'post_type'     => 'event_local',
-    'post_author'   => $clan_leader
-    );
     $new_event_id = wp_insert_post($args);
     update_field('attacktype', 'user_change', $new_event_id);
     update_field('outcome', 'left', $new_event_id);
 
-
     update_field('attacker_id', $clan_leader, $new_event_id);
-    update_field('defender_id', $user_ID, $new_event_id);
+    update_field('defender_id', $userID, $new_event_id);
     update_field('attacker_clan_id', $clan, $new_event_id);
     update_field('time_attacked', $timestamp, $new_event_id);
-    update_field('clan_points', $cp_lost, $new_event_id);
+    update_field('clan_points', $cpLost, $new_event_id);
 
     if (!empty($clan) || $clan != 0) {
         foreach ($clan_members[0] as $member) {
@@ -108,16 +102,15 @@ if ($user == $user_ID) {
             update_user_meta($member, 'new_global_events', $globals+1);
         }
     }
-// Resetting some stats
-    update_user_meta($user_ID, 'attacks_rec_current', 0);
-    update_user_meta($user_ID, 'attacks_made_current', 0);
 
-    update_user_meta($user_ID, 'total_aid_sent', 0);
-    update_user_meta($user_ID, 'number_of_aids', 0);
-    update_user_meta($user_ID, 'aid_received', 0);
-    
+    // Resetting some stats
+    update_user_meta($userID, 'attacks_rec_current', 0);
+    update_user_meta($userID, 'attacks_made_current', 0);
 
+    update_user_meta($userID, 'total_aid_sent', 0);
+    update_user_meta($userID, 'number_of_aids', 0);
+    update_user_meta($userID, 'aid_received', 0);
 
-    $_SESSION['status'] = 'You left your clan. '.get_the_title($clan).' (#'.$clan.') lost '.$cp_lost.' clan points';
+    $_SESSION['status'] = 'You left your clan. '.get_the_title($clan).' (#'.$clan.') lost '.$cpLost.' clan points';
     wp_redirect(get_permalink(3601));
 }

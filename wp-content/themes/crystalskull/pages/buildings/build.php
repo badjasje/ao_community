@@ -22,7 +22,7 @@
 <?php // Buildings TABLE
 $totalbuildings = 0;
 foreach ($buildings as $key => $order) {
-$units_owned = get_user_meta($user_ID, $key);
+$units_owned = get_user_meta($userID, $key);
 ?>
 			
 	<div class="row clan_profile_row2">

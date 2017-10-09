@@ -1,5 +1,5 @@
 <div class="spaceNotice">
-	Your empty warfactories allow you to build a maximum of <strong><?php echo $vehspace[0]*10-count_vehspace($user_ID);?></strong> vehicles.
+	Your empty warfactories allow you to build a maximum of <strong><?php echo $vehspace[0]*10-count_vehspace($userID);?></strong> vehicles.
 </div>
 <?php if($startingbonus == 'shipping'):?>
 <div class="row market_block">	
@@ -16,8 +16,8 @@
 <?php // VEH TABLE
 $totalveh = 0;
 foreach($units as $key => $order){
-$units_owned = get_user_meta($user_ID, $key.'_owned');
-$units_ordered = get_user_meta($user_ID, $key.'_ordered');
+$units_owned = get_user_meta($userID, $key.'_owned');
+$units_ordered = get_user_meta($userID, $key.'_ordered');
 $unittype = $units[$key]['type'];
 ?>
 <?php if($unittype == 'veh'):?>
@@ -90,7 +90,7 @@ $unittype = $units[$key]['type'];
 		<span class="clan_data_left">Max</span>
 		<span class="clan_data_right">
 			<?php $max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount_value)));
-				  $max_space = ($vehspace[0]*10)-count_vehspace($user_ID);?>
+				  $max_space = ($vehspace[0]*10)-count_vehspace($userID);?>
 				
 			
 					<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($max_money,$max_space));?></span>
@@ -252,8 +252,8 @@ $unittype = $units[$key]['type'];
 <?php // VEH TABLE
 $totalveh = 0;
 foreach($units as $key => $order){
-$units_owned = get_user_meta($user_ID, $key.'_owned');
-$units_ordered = get_user_meta($user_ID, $key.'_ordered');
+$units_owned = get_user_meta($userID, $key.'_owned');
+$units_ordered = get_user_meta($userID, $key.'_ordered');
 $unittype = $units[$key]['type'];
 ?>
 <?php if($unittype == 'veh'):?>
@@ -320,7 +320,7 @@ $unittype = $units[$key]['type'];
 		<span class="clan_data_left">Max</span>
 		<span class="clan_data_right">
 			<?php $max_money = floor($totalmoney[0]/ceil(($order['price']*2.2*$discount_value)));
-				  $max_space = ($vehspace[0]*10)-count_vehspace($user_ID);?>
+				  $max_space = ($vehspace[0]*10)-count_vehspace($userID);?>
 				
 			
 					<span class="allbutton" id="button<?php echo $key;?>"><?php echo (min($max_money,$max_space));?></span>

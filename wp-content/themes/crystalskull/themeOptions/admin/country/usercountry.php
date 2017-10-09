@@ -752,9 +752,9 @@ function usercountries_form($cid) {
 	// display country flag in case a country is selected for this user
 	}
 function usercountry_field() {
-	global $user_ID;
+	global $userID;
 	if ( preg_match('&profile.php&', $_SERVER['REQUEST_URI'])) {
-		$id = $user_ID;
+		$id = $userID;
 	} elseif($_REQUEST['user_id']) {
 		$id = $_REQUEST['user_id'];
 	}
@@ -778,9 +778,9 @@ function usercountry_field() {
 <?php
 } // End country field
 function save_usercountry_field() {
-	global $user_ID;
+	global $userID;
 	if (preg_match('&profile.php&', $_SERVER['REQUEST_URI'])) {
-		$id = $user_ID;
+		$id = $userID;
 	} elseif($_REQUEST['user_id']) {
 		$id = $_REQUEST['user_id'];
 	}
