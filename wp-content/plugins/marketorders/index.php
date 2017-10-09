@@ -485,6 +485,12 @@ if($nightmode == 'nostalgia'){
           .logo img{
 	filter: invert(100%);
 }
+.single_inbox_message {
+    border: 1px solid #747463;
+}
+.toplist_block a, .statitem a{
+    color: #d8d4b5;
+}
 .eventsButtons {
     border: 1px solid #d8d4b6;
     background-color: #747463;

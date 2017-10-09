@@ -31190,3 +31190,4407 @@ Units ordered: spyplane 3
 ID: 316
 Units ordered: spy 5
 
+12:47:16 | 02-10-2017
+ID: 1619
+Units ordered: grenade 10
+
+12:47:16 | 02-10-2017
+ID: 1619
+Units ordered: navy 10
+
+12:47:16 | 02-10-2017
+ID: 1619
+Units ordered: rifle 10
+
+12:47:16 | 02-10-2017
+ID: 1619
+Units ordered: rocket 10
+
+12:47:16 | 02-10-2017
+ID: 1619
+Units ordered: armoured 10
+
+12:47:16 | 02-10-2017
+ID: 1619
+Units ordered: flamethrower 10
+
+13:15:26 | 02-10-2017
+ID: 1620
+Units ordered: jsf 50
+
+13:15:26 | 02-10-2017
+ID: 1620
+Units ordered: typhoon 50
+
+13:25:11 | 02-10-2017
+ID: 1631
+Units ordered: rah66_commanches 100
+
+13:25:39 | 02-10-2017
+ID: 1631
+Units ordered: destroyer 50
+
+13:26:35 | 02-10-2017
+ID: 1631
+Units ordered: m70mlrs 50
+
+13:43:59 | 02-10-2017
+ID: 1086
+Units ordered: rah66_commanches 30
+
+13:44:30 | 02-10-2017
+ID: 1620
+Units ordered: jsf 50
+
+13:44:30 | 02-10-2017
+ID: 1620
+Units ordered: typhoon 50
+
+13:53:15 | 02-10-2017
+ID: 1316
+Units ordered: abraham 50
+
+13:53:15 | 02-10-2017
+ID: 1316
+Units ordered: artillery 50
+
+16:07:04 | 02-10-2017
+ID: 1620
+Units ordered: b2_bomber 10
+
+16:17:20 | 02-10-2017
+ID: 487
+Units ordered: spyplane 10
+
+16:19:45 | 02-10-2017
+ID: 487
+Units ordered: spyplane 10
+
+16:20:15 | 02-10-2017
+ID: 487
+Units ordered: spyplane 10
+
+16:20:33 | 02-10-2017
+ID: 487
+Units ordered: spyplane 10
+
+16:20:51 | 02-10-2017
+ID: 487
+Units ordered: spyplane 10
+
+18:05:14 | 02-10-2017
+ID: 1513
+Units ordered: spyplane 11
+
+18:05:14 | 02-10-2017
+ID: 1513
+Units ordered: dragon 11
+
+18:05:14 | 02-10-2017
+ID: 1513
+Units ordered: f22_raptors 11
+
+18:05:14 | 02-10-2017
+ID: 1513
+Units ordered: rah66_commanches 11
+
+18:05:14 | 02-10-2017
+ID: 1513
+Units ordered: b2_bomber 11
+
+18:05:14 | 02-10-2017
+ID: 1513
+Units ordered: jsf 11
+
+18:05:14 | 02-10-2017
+ID: 1513
+Units ordered: typhoon 11
+
+18:05:15 | 02-10-2017
+ID: 1513
+Units ordered: seahawk 11
+
+18:06:18 | 02-10-2017
+ID: 1513
+Units ordered: sniper 14
+
+18:06:18 | 02-10-2017
+ID: 1513
+Units ordered: rifle 14
+
+18:07:12 | 02-10-2017
+ID: 1513
+Units ordered: flamethrower 5
+
+20:41:03 | 02-10-2017
+ID: 1125
+Units ordered: spyplane 30
+
+20:41:15 | 02-10-2017
+ID: 1086
+Units ordered: carrier 10
+
+20:43:01 | 02-10-2017
+ID: 1125
+Units ordered: spyplane 20
+
+22:12:23 | 02-10-2017
+ID: 1298
+Units ordered: paratrooper 100
+
+23:34:28 | 02-10-2017
+ID: 1621
+Units ordered: armoured 50
+
+23:34:34 | 02-10-2017
+ID: 1621
+Units ordered: rifle 50
+
+23:35:05 | 02-10-2017
+ID: 1621
+Units ordered: seahawk 42
+
+23:35:20 | 02-10-2017
+ID: 1621
+Units ordered: typhoon 100
+
+23:35:29 | 02-10-2017
+ID: 1621
+Units ordered: jsf 20
+
+23:42:54 | 02-10-2017
+ID: 1621
+Units ordered: jsf 20
+
+23:42:54 | 02-10-2017
+ID: 1621
+Units ordered: seahawk 8
+
+23:43:54 | 02-10-2017
+ID: 1621
+Units ordered: flamethrower 100
+
+23:46:04 | 02-10-2017
+ID: 1621
+Units ordered: rah66_commanches 20
+
+23:46:04 | 02-10-2017
+ID: 1621
+Units ordered: jsf 60
+
+23:46:32 | 02-10-2017
+ID: 1621
+Units ordered: armoured 50
+
+23:46:32 | 02-10-2017
+ID: 1621
+Units ordered: flamethrower 100
+
+23:46:50 | 02-10-2017
+ID: 1621
+Units ordered: grenade 50
+
+0:25:48 | 03-10-2017
+ID: 1125
+Units ordered: spyplane 50
+
+5:45:53 | 03-10-2017
+ID: 487
+Units ordered: spyplane 10
+
+10:22:59 | 03-10-2017
+ID: 1637
+Units ordered: thief 10
+
+10:22:59 | 03-10-2017
+ID: 1637
+Units ordered: paratrooper 50
+
+10:22:59 | 03-10-2017
+ID: 1637
+Units ordered: navy 50
+
+10:23:11 | 03-10-2017
+ID: 1637
+Units ordered: rifle 12
+
+11:09:09 | 03-10-2017
+ID: 1637
+Units ordered: jsf 3
+
+11:09:09 | 03-10-2017
+ID: 1637
+Units ordered: typhoon 3
+
+12:36:22 | 03-10-2017
+ID: 1637
+Units ordered: sniper 1
+
+13:03:17 | 03-10-2017
+ID: 1637
+Units ordered: cruiser 5
+
+13:03:17 | 03-10-2017
+ID: 1637
+Units ordered: destroyer 5
+
+14:01:37 | 03-10-2017
+ID: 1637
+Units ordered: cruiser 10
+
+14:02:50 | 03-10-2017
+ID: 1637
+Units ordered: sparrow 2
+
+15:05:17 | 03-10-2017
+ID: 1637
+Units ordered: rah66_commanches 10
+
+20:21:43 | 03-10-2017
+ID: 18
+Units ordered: spyplane 2
+
+20:21:57 | 03-10-2017
+ID: 18
+Units ordered: spy 5
+
+0:10:49 | 04-10-2017
+ID: 1125
+Units ordered: spyplane 50
+
+6:32:15 | 04-10-2017
+ID: 464
+Units ordered: thief 20
+
+6:52:05 | 04-10-2017
+ID: 1637
+Units ordered: sniper 5
+
+6:52:40 | 04-10-2017
+ID: 1637
+Units ordered: destroyer 15
+
+6:52:53 | 04-10-2017
+ID: 1637
+Units ordered: sparrow 10
+
+6:54:13 | 04-10-2017
+ID: 1637
+Units ordered: b2_bomber 40
+
+6:54:13 | 04-10-2017
+ID: 1637
+Units ordered: jsf 10
+
+6:54:13 | 04-10-2017
+ID: 1637
+Units ordered: typhoon 10
+
+6:58:22 | 04-10-2017
+ID: 1637
+Units ordered: flamethrower 7
+
+7:31:25 | 04-10-2017
+ID: 1637
+Units ordered: rah66_commanches 20
+
+9:12:27 | 04-10-2017
+ID: 1596
+Units ordered: thief 10
+
+9:27:50 | 04-10-2017
+ID: 1637
+Units ordered: seahawk 4
+
+9:28:27 | 04-10-2017
+ID: 1637
+Units ordered: cruiser 3
+
+9:29:04 | 04-10-2017
+ID: 1637
+Units ordered: artillery 20
+
+9:29:28 | 04-10-2017
+ID: 1637
+Units ordered: abraham 10
+
+9:29:28 | 04-10-2017
+ID: 1637
+Units ordered: m70mlrs 20
+
+10:39:35 | 04-10-2017
+ID: 1637
+Units ordered: abraham 20
+
+11:15:55 | 04-10-2017
+ID: 475
+Units ordered: spyplane 50
+
+11:18:54 | 04-10-2017
+ID: 313
+Units ordered: artillery 50
+
+11:23:41 | 04-10-2017
+ID: 316
+Units ordered: artillery 50
+
+11:32:39 | 04-10-2017
+ID: 1201
+Units ordered: spyplane 2
+
+11:32:39 | 04-10-2017
+ID: 1201
+Units ordered: spy 5
+
+11:50:39 | 04-10-2017
+ID: 1125
+Units ordered: spyplane 3
+
+11:51:21 | 04-10-2017
+ID: 1125
+Units ordered: carrier 15
+
+12:07:35 | 04-10-2017
+ID: 1205
+Units ordered: thief 5
+
+12:08:52 | 04-10-2017
+ID: 1205
+Units ordered: sniper 40
+
+12:10:22 | 04-10-2017
+ID: 1205
+Units ordered: spyplane 5
+
+12:15:00 | 04-10-2017
+ID: 130
+Units ordered: spy 20
+
+12:15:47 | 04-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+12:25:43 | 04-10-2017
+ID: 1422
+Units ordered: grenade 200
+
+12:25:43 | 04-10-2017
+ID: 1422
+Units ordered: navy 200
+
+12:25:43 | 04-10-2017
+ID: 1422
+Units ordered: flamethrower 200
+
+12:27:18 | 04-10-2017
+ID: 57
+Units ordered: paratrooper 20
+
+12:32:47 | 04-10-2017
+ID: 312
+Units ordered: artillery 50
+
+12:37:21 | 04-10-2017
+ID: 1637
+Units ordered: flamethrower 20
+
+12:48:56 | 04-10-2017
+ID: 406
+Units ordered: artillery 49
+
+13:03:28 | 04-10-2017
+ID: 60
+Units ordered: spyplane 3
+
+13:03:38 | 04-10-2017
+ID: 60
+Units ordered: spy 5
+
+13:07:06 | 04-10-2017
+ID: 1086
+Units ordered: spyplane 2
+
+13:07:06 | 04-10-2017
+ID: 1086
+Units ordered: rah66_commanches 8
+
+13:08:51 | 04-10-2017
+ID: 1086
+Units ordered: sniper 4
+
+13:08:51 | 04-10-2017
+ID: 1086
+Units ordered: spy 4
+
+13:10:47 | 04-10-2017
+ID: 1086
+Units ordered: spyplane 1
+
+13:10:47 | 04-10-2017
+ID: 1086
+Units ordered: rah66_commanches 9
+
+13:11:13 | 04-10-2017
+ID: 60
+Units ordered: typhoon 490
+
+13:11:57 | 04-10-2017
+ID: 60
+Units ordered: typhoon 200
+
+13:13:05 | 04-10-2017
+ID: 1201
+Units ordered: sniper 10
+
+13:15:05 | 04-10-2017
+ID: 1316
+Units ordered: thief 10
+
+13:16:11 | 04-10-2017
+ID: 60
+Units ordered: typhoon 60
+
+13:16:40 | 04-10-2017
+ID: 60
+Units ordered: b2_bomber 50
+
+13:18:54 | 04-10-2017
+ID: 1125
+Units ordered: cruiser 135
+
+13:20:39 | 04-10-2017
+ID: 1125
+Units ordered: cruiser 50
+
+13:21:35 | 04-10-2017
+ID: 615
+Units ordered: spy 5
+
+13:24:12 | 04-10-2017
+ID: 60
+Units ordered: flamethrower 200
+
+13:25:08 | 04-10-2017
+ID: 60
+Units ordered: flamethrower 160
+
+13:29:21 | 04-10-2017
+ID: 433
+Units ordered: submarine 20
+
+13:31:19 | 04-10-2017
+ID: 308
+Units ordered: spy 20
+
+13:38:46 | 04-10-2017
+ID: 1620
+Units ordered: thief 5
+
+13:38:46 | 04-10-2017
+ID: 1620
+Units ordered: sniper 10
+
+13:38:46 | 04-10-2017
+ID: 1620
+Units ordered: spy 5
+
+13:56:27 | 04-10-2017
+ID: 25
+Units ordered: spyplane 1
+
+13:56:40 | 04-10-2017
+ID: 25
+Units ordered: spy 1
+
+13:59:01 | 04-10-2017
+ID: 1095
+Units ordered: artillery 500
+
+14:00:30 | 04-10-2017
+ID: 1638
+Units ordered: spyplane 1
+
+14:00:30 | 04-10-2017
+ID: 1638
+Units ordered: dragon 9
+
+14:03:10 | 04-10-2017
+ID: 60
+Units ordered: flamethrower 60
+
+14:04:27 | 04-10-2017
+ID: 1620
+Units ordered: spyplane 1
+
+14:04:35 | 04-10-2017
+ID: 235
+Units ordered: rifle 200
+
+14:07:37 | 04-10-2017
+ID: 25
+Units ordered: spy 1
+
+14:12:57 | 04-10-2017
+ID: 614
+Units ordered: flamethrower 300
+
+14:28:58 | 04-10-2017
+ID: 1337
+Units ordered: spyplane 2
+
+14:28:59 | 04-10-2017
+ID: 1337
+Units ordered: b2_bomber 68
+
+14:56:47 | 04-10-2017
+ID: 1002
+Units ordered: spyplane 3
+
+14:56:47 | 04-10-2017
+ID: 1002
+Units ordered: rah66_commanches 7
+
+15:00:45 | 04-10-2017
+ID: 1637
+Units ordered: navy 20
+
+15:00:45 | 04-10-2017
+ID: 1637
+Units ordered: armoured 20
+
+15:02:25 | 04-10-2017
+ID: 1637
+Units ordered: abraham 25
+
+15:02:25 | 04-10-2017
+ID: 1637
+Units ordered: artillery 10
+
+15:02:25 | 04-10-2017
+ID: 1637
+Units ordered: m70mlrs 20
+
+15:16:31 | 04-10-2017
+ID: 312
+Units ordered: artillery 10
+
+15:17:00 | 04-10-2017
+ID: 1319
+Units ordered: spyplane 3
+
+15:17:10 | 04-10-2017
+ID: 1319
+Units ordered: spy 3
+
+15:21:07 | 04-10-2017
+ID: 29
+Units ordered: thief 10
+
+15:23:43 | 04-10-2017
+ID: 504
+Units ordered: spyplane 3
+
+15:36:39 | 04-10-2017
+ID: 1190
+Units ordered: b2_bomber 10
+
+15:37:39 | 04-10-2017
+ID: 313
+Units ordered: artillery 15
+
+15:39:00 | 04-10-2017
+ID: 1596
+Units ordered: thief 5
+
+16:11:09 | 04-10-2017
+ID: 1302
+Units ordered: paratrooper 20
+
+16:32:30 | 04-10-2017
+ID: 235
+Units ordered: rifle 200
+
+16:33:05 | 04-10-2017
+ID: 235
+Units ordered: paratrooper 200
+
+16:36:13 | 04-10-2017
+ID: 1203
+Units ordered: spy 3
+
+16:48:19 | 04-10-2017
+ID: 213
+Units ordered: thief 10
+
+16:50:02 | 04-10-2017
+ID: 1577
+Units ordered: destroyer 125
+
+16:57:09 | 04-10-2017
+ID: 1319
+Units ordered: thief 9
+
+17:03:05 | 04-10-2017
+ID: 363
+Units ordered: thief 10
+
+17:05:49 | 04-10-2017
+ID: 1379
+Units ordered: rah66_commanches 700
+
+17:12:46 | 04-10-2017
+ID: 1379
+Units ordered: rah66_commanches 70
+
+18:01:00 | 04-10-2017
+ID: 308
+Units ordered: typhoon 50
+
+18:01:33 | 04-10-2017
+ID: 487
+Units ordered: spy 5
+
+18:12:04 | 04-10-2017
+ID: 615
+Units ordered: sam 106
+
+18:16:17 | 04-10-2017
+ID: 1190
+Units ordered: b2_bomber 20
+
+18:17:47 | 04-10-2017
+ID: 1302
+Units ordered: b2_bomber 30
+
+18:36:23 | 04-10-2017
+ID: 1224
+Units ordered: b2_bomber 30
+
+18:57:36 | 04-10-2017
+ID: 1621
+Units ordered: grenade 10
+
+18:57:36 | 04-10-2017
+ID: 1621
+Units ordered: rifle 30
+
+18:57:53 | 04-10-2017
+ID: 1421
+Units ordered: b2_bomber 30
+
+19:13:04 | 04-10-2017
+ID: 235
+Units ordered: spy 3
+
+19:13:04 | 04-10-2017
+ID: 235
+Units ordered: rifle 15
+
+19:14:19 | 04-10-2017
+ID: 235
+Units ordered: humvee 140
+
+19:16:47 | 04-10-2017
+ID: 235
+Units ordered: humvee 100
+
+19:20:33 | 04-10-2017
+ID: 57
+Units ordered: b2_bomber 30
+
+19:27:37 | 04-10-2017
+ID: 1637
+Units ordered: sam 20
+
+19:27:37 | 04-10-2017
+ID: 1637
+Units ordered: artillery 10
+
+19:27:37 | 04-10-2017
+ID: 1637
+Units ordered: m70mlrs 10
+
+19:27:37 | 04-10-2017
+ID: 1637
+Units ordered: m270_rocket 30
+
+19:34:20 | 04-10-2017
+ID: 317
+Units ordered: artillery 200
+
+19:57:13 | 04-10-2017
+ID: 60
+Units ordered: typhoon 70
+
+20:04:57 | 04-10-2017
+ID: 60
+Units ordered: typhoon 30
+
+20:06:33 | 04-10-2017
+ID: 614
+Units ordered: typhoon 200
+
+20:14:29 | 04-10-2017
+ID: 1086
+Units ordered: thief 2
+
+20:14:29 | 04-10-2017
+ID: 1086
+Units ordered: flamethrower 18
+
+20:16:21 | 04-10-2017
+ID: 475
+Units ordered: spyplane 50
+
+20:50:25 | 04-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+20:51:13 | 04-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+20:51:25 | 04-10-2017
+ID: 433
+Units ordered: cruiser 100
+
+20:51:31 | 04-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+20:51:49 | 04-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+20:52:57 | 04-10-2017
+ID: 433
+Units ordered: cruiser 60
+
+21:00:49 | 04-10-2017
+ID: 60
+Units ordered: typhoon 40
+
+21:06:40 | 04-10-2017
+ID: 1029
+Units ordered: thief 10
+
+21:06:40 | 04-10-2017
+ID: 1029
+Units ordered: spy 10
+
+21:12:12 | 04-10-2017
+ID: 1383
+Units ordered: spy 3
+
+21:25:11 | 04-10-2017
+ID: 575
+Units ordered: b2_bomber 110
+
+21:25:30 | 04-10-2017
+ID: 1652
+Units ordered: thief 15
+
+21:25:47 | 04-10-2017
+ID: 1652
+Units ordered: sniper 10
+
+21:26:17 | 04-10-2017
+ID: 1652
+Units ordered: submarine 30
+
+21:26:50 | 04-10-2017
+ID: 575
+Units ordered: spy 1
+
+21:33:28 | 04-10-2017
+ID: 1002
+Units ordered: spyplane 3
+
+21:40:07 | 04-10-2017
+ID: 1302
+Units ordered: spyplane 5
+
+21:40:15 | 04-10-2017
+ID: 1302
+Units ordered: spy 5
+
+21:50:38 | 04-10-2017
+ID: 1379
+Units ordered: rah66_commanches 150
+
+21:52:49 | 04-10-2017
+ID: 1379
+Units ordered: typhoon 200
+
+22:00:37 | 04-10-2017
+ID: 1319
+Units ordered: m70mlrs 200
+
+22:08:50 | 04-10-2017
+ID: 1621
+Units ordered: grenade 9
+
+22:08:50 | 04-10-2017
+ID: 1621
+Units ordered: rifle 5
+
+22:08:50 | 04-10-2017
+ID: 1621
+Units ordered: armoured 9
+
+22:08:50 | 04-10-2017
+ID: 1621
+Units ordered: flamethrower 18
+
+22:09:09 | 04-10-2017
+ID: 1621
+Units ordered: sam 7
+
+22:09:10 | 04-10-2017
+ID: 1621
+Units ordered: abraham 9
+
+22:09:10 | 04-10-2017
+ID: 1621
+Units ordered: m70mlrs 6
+
+22:22:37 | 04-10-2017
+ID: 1086
+Units ordered: b2_bomber 50
+
+22:27:43 | 04-10-2017
+ID: 1385
+Units ordered: spyplane 5
+
+22:27:52 | 04-10-2017
+ID: 1385
+Units ordered: spy 5
+
+22:41:44 | 04-10-2017
+ID: 1383
+Units ordered: thief 2
+
+22:50:31 | 04-10-2017
+ID: 1616
+Units ordered: spy 2
+
+22:50:31 | 04-10-2017
+ID: 1616
+Units ordered: navy 18
+
+22:56:40 | 04-10-2017
+ID: 235
+Units ordered: rocket 180
+
+22:58:20 | 04-10-2017
+ID: 235
+Units ordered: rocket 200
+
+23:02:44 | 04-10-2017
+ID: 487
+Units ordered: spyplane 5
+
+23:15:48 | 04-10-2017
+ID: 402
+Units ordered: thief 14
+
+23:18:59 | 04-10-2017
+ID: 1204
+Units ordered: spyplane 2
+
+23:19:16 | 04-10-2017
+ID: 1204
+Units ordered: sniper 16
+
+23:19:16 | 04-10-2017
+ID: 1204
+Units ordered: spy 4
+
+23:33:08 | 04-10-2017
+ID: 522
+Units ordered: thief 20
+
+23:41:57 | 04-10-2017
+ID: 1203
+Units ordered: spyplane 2
+
+0:26:04 | 05-10-2017
+ID: 1652
+Units ordered: submarine 10
+
+0:27:18 | 05-10-2017
+ID: 1652
+Units ordered: navy 50
+
+0:27:18 | 05-10-2017
+ID: 1652
+Units ordered: armoured 50
+
+1:32:01 | 05-10-2017
+ID: 312
+Units ordered: artillery 10
+
+2:19:45 | 05-10-2017
+ID: 1125
+Units ordered: battleship 13
+
+3:06:12 | 05-10-2017
+ID: 220
+Units ordered: spyplane 3
+
+3:06:27 | 05-10-2017
+ID: 220
+Units ordered: spy 4
+
+3:57:44 | 05-10-2017
+ID: 1421
+Units ordered: spy 1
+
+4:02:16 | 05-10-2017
+ID: 368
+Units ordered: thief 20
+
+5:37:13 | 05-10-2017
+ID: 313
+Units ordered: artillery 9
+
+6:16:06 | 05-10-2017
+ID: 1052
+Units ordered: thief 5
+
+6:55:31 | 05-10-2017
+ID: 1238
+Units ordered: spy 5
+
+7:05:58 | 05-10-2017
+ID: 614
+Units ordered: typhoon 38
+
+7:15:09 | 05-10-2017
+ID: 749
+Units ordered: submarine 4
+
+7:27:16 | 05-10-2017
+ID: 1621
+Units ordered: sniper 5
+
+7:27:16 | 05-10-2017
+ID: 1621
+Units ordered: spy 5
+
+7:27:16 | 05-10-2017
+ID: 1621
+Units ordered: grenade 10
+
+7:27:16 | 05-10-2017
+ID: 1621
+Units ordered: sniper 5
+
+7:27:16 | 05-10-2017
+ID: 1621
+Units ordered: spy 5
+
+7:27:16 | 05-10-2017
+ID: 1621
+Units ordered: grenade 10
+
+7:32:58 | 05-10-2017
+ID: 1203
+Units ordered: spy 3
+
+7:47:19 | 05-10-2017
+ID: 487
+Units ordered: jsf 50
+
+7:54:31 | 05-10-2017
+ID: 16
+Units ordered: spy 6
+
+7:58:21 | 05-10-2017
+ID: 1052
+Units ordered: grenade 100
+
+7:58:26 | 05-10-2017
+ID: 1052
+Units ordered: grenade 120
+
+8:06:59 | 05-10-2017
+ID: 1616
+Units ordered: spyplane 1
+
+8:07:35 | 05-10-2017
+ID: 1616
+Units ordered: spy 2
+
+8:07:35 | 05-10-2017
+ID: 1616
+Units ordered: navy 18
+
+8:07:37 | 05-10-2017
+ID: 1383
+Units ordered: battleship 15
+
+8:10:44 | 05-10-2017
+ID: 615
+Units ordered: paratrooper 133
+
+8:14:23 | 05-10-2017
+ID: 1657
+Units ordered: spyplane 2
+
+8:14:23 | 05-10-2017
+ID: 1657
+Units ordered: dragon 2
+
+8:14:23 | 05-10-2017
+ID: 1657
+Units ordered: f22_raptors 5
+
+8:14:23 | 05-10-2017
+ID: 1657
+Units ordered: rah66_commanches 7
+
+8:14:23 | 05-10-2017
+ID: 1657
+Units ordered: b2_bomber 3
+
+8:14:23 | 05-10-2017
+ID: 57
+Units ordered: spyplane 2
+
+8:14:23 | 05-10-2017
+ID: 1657
+Units ordered: jsf 5
+
+8:14:23 | 05-10-2017
+ID: 1657
+Units ordered: typhoon 4
+
+8:14:23 | 05-10-2017
+ID: 1657
+Units ordered: seahawk 6
+
+8:15:17 | 05-10-2017
+ID: 1657
+Units ordered: battleship 1
+
+8:15:17 | 05-10-2017
+ID: 1657
+Units ordered: frigate 1
+
+8:15:17 | 05-10-2017
+ID: 1657
+Units ordered: carrier 1
+
+8:15:17 | 05-10-2017
+ID: 1657
+Units ordered: submarine 2
+
+8:15:17 | 05-10-2017
+ID: 1657
+Units ordered: cruiser 2
+
+8:15:17 | 05-10-2017
+ID: 1657
+Units ordered: destroyer 2
+
+8:15:17 | 05-10-2017
+ID: 1657
+Units ordered: sparrow 2
+
+8:15:42 | 05-10-2017
+ID: 475
+Units ordered: spyplane 50
+
+8:16:04 | 05-10-2017
+ID: 1657
+Units ordered: apc 1
+
+8:16:04 | 05-10-2017
+ID: 1657
+Units ordered: humvee 3
+
+8:16:04 | 05-10-2017
+ID: 1657
+Units ordered: sam 3
+
+8:16:04 | 05-10-2017
+ID: 1657
+Units ordered: abraham 2
+
+8:16:04 | 05-10-2017
+ID: 1657
+Units ordered: artillery 1
+
+8:16:04 | 05-10-2017
+ID: 1657
+Units ordered: m70mlrs 3
+
+8:16:04 | 05-10-2017
+ID: 1657
+Units ordered: m270_rocket 4
+
+8:16:44 | 05-10-2017
+ID: 1203
+Units ordered: seahawk 150
+
+8:16:52 | 05-10-2017
+ID: 1657
+Units ordered: thief 1
+
+8:16:52 | 05-10-2017
+ID: 1657
+Units ordered: sniper 1
+
+8:16:52 | 05-10-2017
+ID: 1657
+Units ordered: spy 1
+
+8:16:52 | 05-10-2017
+ID: 1657
+Units ordered: paratrooper 1
+
+8:16:52 | 05-10-2017
+ID: 1657
+Units ordered: grenade 2
+
+8:16:52 | 05-10-2017
+ID: 1657
+Units ordered: navy 1
+
+8:16:52 | 05-10-2017
+ID: 1657
+Units ordered: rifle 1
+
+8:16:52 | 05-10-2017
+ID: 1657
+Units ordered: rocket 1
+
+8:16:52 | 05-10-2017
+ID: 1657
+Units ordered: armoured 1
+
+8:16:52 | 05-10-2017
+ID: 1657
+Units ordered: flamethrower 1
+
+8:21:03 | 05-10-2017
+ID: 1385
+Units ordered: submarine 45
+
+8:25:12 | 05-10-2017
+ID: 1319
+Units ordered: rah66_commanches 800
+
+8:29:14 | 05-10-2017
+ID: 1633
+Units ordered: armoured 10
+
+8:29:15 | 05-10-2017
+ID: 344
+Units ordered: thief 20
+
+8:31:17 | 05-10-2017
+ID: 402
+Units ordered: sniper 10
+
+8:35:38 | 05-10-2017
+ID: 1637
+Units ordered: rah66_commanches 20
+
+8:35:38 | 05-10-2017
+ID: 1637
+Units ordered: jsf 20
+
+8:35:38 | 05-10-2017
+ID: 1637
+Units ordered: typhoon 20
+
+8:35:38 | 05-10-2017
+ID: 1637
+Units ordered: seahawk 20
+
+8:36:28 | 05-10-2017
+ID: 1637
+Units ordered: carrier 5
+
+8:36:28 | 05-10-2017
+ID: 1637
+Units ordered: cruiser 10
+
+8:36:28 | 05-10-2017
+ID: 1637
+Units ordered: destroyer 10
+
+8:36:28 | 05-10-2017
+ID: 1637
+Units ordered: sparrow 10
+
+8:36:45 | 05-10-2017
+ID: 1637
+Units ordered: dragon 5
+
+8:37:21 | 05-10-2017
+ID: 1637
+Units ordered: rifle 5
+
+8:38:55 | 05-10-2017
+ID: 29
+Units ordered: spy 5
+
+8:39:01 | 05-10-2017
+ID: 29
+Units ordered: spyplane 5
+
+9:05:35 | 05-10-2017
+ID: 1052
+Units ordered: spy 5
+
+9:16:38 | 05-10-2017
+ID: 312
+Units ordered: artillery 10
+
+9:49:30 | 05-10-2017
+ID: 1238
+Units ordered: sparrow 65
+
+10:01:51 | 05-10-2017
+ID: 1637
+Units ordered: sniper 5
+
+10:34:50 | 05-10-2017
+ID: 615
+Units ordered: paratrooper 69
+
+11:31:38 | 05-10-2017
+ID: 614
+Units ordered: rah66_commanches 200
+
+11:42:03 | 05-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+11:42:21 | 05-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+11:42:37 | 05-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+11:42:53 | 05-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+11:43:08 | 05-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+11:44:26 | 05-10-2017
+ID: 301
+Units ordered: spyplane 2
+
+11:44:38 | 05-10-2017
+ID: 301
+Units ordered: spy 5
+
+11:57:00 | 05-10-2017
+ID: 235
+Units ordered: rocket 100
+
+11:58:40 | 05-10-2017
+ID: 34
+Units ordered: grenade 420
+
+11:59:58 | 05-10-2017
+ID: 308
+Units ordered: paratrooper 95
+
+12:03:00 | 05-10-2017
+ID: 433
+Units ordered: rah66_commanches 500
+
+12:09:54 | 05-10-2017
+ID: 1125
+Units ordered: battleship 30
+
+12:11:06 | 05-10-2017
+ID: 1125
+Units ordered: battleship 55
+
+12:18:06 | 05-10-2017
+ID: 1125
+Units ordered: spyplane 15
+
+12:19:01 | 05-10-2017
+ID: 1125
+Units ordered: spyplane 15
+
+12:19:46 | 05-10-2017
+ID: 220
+Units ordered: spy 5
+
+12:19:49 | 05-10-2017
+ID: 1125
+Units ordered: spyplane 15
+
+12:20:59 | 05-10-2017
+ID: 641
+Units ordered: spyplane 2
+
+12:20:59 | 05-10-2017
+ID: 641
+Units ordered: jsf 8
+
+12:23:16 | 05-10-2017
+ID: 1661
+Units ordered: thief 3
+
+12:23:30 | 05-10-2017
+ID: 1661
+Units ordered: spyplane 2
+
+12:23:45 | 05-10-2017
+ID: 1661
+Units ordered: paratrooper 6
+
+12:51:04 | 05-10-2017
+ID: 109
+Units ordered: spyplane 10
+
+12:53:44 | 05-10-2017
+ID: 1086
+Units ordered: b2_bomber 50
+
+12:53:58 | 05-10-2017
+ID: 1086
+Units ordered: artillery 50
+
+12:54:02 | 05-10-2017
+ID: 109
+Units ordered: spyplane 10
+
+12:54:17 | 05-10-2017
+ID: 109
+Units ordered: spyplane 10
+
+12:54:40 | 05-10-2017
+ID: 109
+Units ordered: spyplane 10
+
+12:54:55 | 05-10-2017
+ID: 60
+Units ordered: spy 5
+
+12:54:56 | 05-10-2017
+ID: 109
+Units ordered: spyplane 10
+
+13:20:54 | 05-10-2017
+ID: 433
+Units ordered: seahawk 150
+
+13:27:42 | 05-10-2017
+ID: 1637
+Units ordered: apc 5
+
+13:28:11 | 05-10-2017
+ID: 1637
+Units ordered: armoured 20
+
+13:31:59 | 05-10-2017
+ID: 464
+Units ordered: spy 2
+
+13:31:59 | 05-10-2017
+ID: 464
+Units ordered: paratrooper 18
+
+13:32:09 | 05-10-2017
+ID: 1002
+Units ordered: spyplane 3
+
+13:43:19 | 05-10-2017
+ID: 1125
+Units ordered: spyplane 4
+
+13:48:02 | 05-10-2017
+ID: 60
+Units ordered: grenade 160
+
+13:50:07 | 05-10-2017
+ID: 25
+Units ordered: spy 1
+
+13:54:38 | 05-10-2017
+ID: 749
+Units ordered: spyplane 5
+
+13:54:38 | 05-10-2017
+ID: 749
+Units ordered: b2_bomber 25
+
+13:55:35 | 05-10-2017
+ID: 749
+Units ordered: spy 5
+
+13:57:45 | 05-10-2017
+ID: 749
+Units ordered: thief 1
+
+13:58:24 | 05-10-2017
+ID: 749
+Units ordered: submarine 2
+
+13:59:31 | 05-10-2017
+ID: 1052
+Units ordered: grenade 160
+
+14:01:22 | 05-10-2017
+ID: 749
+Units ordered: b2_bomber 20
+
+14:01:33 | 05-10-2017
+ID: 1052
+Units ordered: grenade 60
+
+14:01:57 | 05-10-2017
+ID: 749
+Units ordered: submarine 14
+
+14:02:23 | 05-10-2017
+ID: 1052
+Units ordered: grenade 220
+
+14:02:29 | 05-10-2017
+ID: 749
+Units ordered: battleship 20
+
+14:02:51 | 05-10-2017
+ID: 749
+Units ordered: carrier 4
+
+14:06:42 | 05-10-2017
+ID: 749
+Units ordered: battleship 5
+
+14:07:12 | 05-10-2017
+ID: 749
+Units ordered: cruiser 1
+
+14:07:29 | 05-10-2017
+ID: 1316
+Units ordered: sam 140
+
+14:10:20 | 05-10-2017
+ID: 464
+Units ordered: spyplane 4
+
+14:10:20 | 05-10-2017
+ID: 464
+Units ordered: b2_bomber 6
+
+14:19:45 | 05-10-2017
+ID: 363
+Units ordered: thief 5
+
+14:19:45 | 05-10-2017
+ID: 363
+Units ordered: rifle 15
+
+14:19:58 | 05-10-2017
+ID: 60
+Units ordered: grenade 40
+
+14:22:04 | 05-10-2017
+ID: 25
+Units ordered: spyplane 1
+
+14:23:35 | 05-10-2017
+ID: 25
+Units ordered: spyplane 1
+
+14:25:39 | 05-10-2017
+ID: 29
+Units ordered: seahawk 250
+
+14:32:15 | 05-10-2017
+ID: 1203
+Units ordered: spy 2
+
+14:34:36 | 05-10-2017
+ID: 1029
+Units ordered: spyplane 10
+
+14:38:56 | 05-10-2017
+ID: 1029
+Units ordered: paratrooper 300
+
+14:41:40 | 05-10-2017
+ID: 60
+Units ordered: rifle 40
+
+14:43:12 | 05-10-2017
+ID: 1616
+Units ordered: paratrooper 240
+
+14:45:23 | 05-10-2017
+ID: 1020
+Units ordered: grenade 320
+
+14:46:24 | 05-10-2017
+ID: 1020
+Units ordered: grenade 260
+
+14:53:13 | 05-10-2017
+ID: 614
+Units ordered: paratrooper 260
+
+14:55:59 | 05-10-2017
+ID: 1616
+Units ordered: rocket 200
+
+14:57:19 | 05-10-2017
+ID: 1616
+Units ordered: paratrooper 100
+
+15:05:13 | 05-10-2017
+ID: 60
+Units ordered: rifle 20
+
+15:08:23 | 05-10-2017
+ID: 131
+Units ordered: spyplane 25
+
+15:10:03 | 05-10-2017
+ID: 131
+Units ordered: spyplane 25
+
+15:11:38 | 05-10-2017
+ID: 252
+Units ordered: artillery 60
+
+15:31:07 | 05-10-2017
+ID: 749
+Units ordered: thief 4
+
+15:31:07 | 05-10-2017
+ID: 749
+Units ordered: sniper 3
+
+15:36:45 | 05-10-2017
+ID: 575
+Units ordered: b2_bomber 50
+
+15:55:15 | 05-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+15:55:27 | 05-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+15:55:43 | 05-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+15:55:58 | 05-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+16:05:04 | 05-10-2017
+ID: 60
+Units ordered: rifle 100
+
+16:08:49 | 05-10-2017
+ID: 1052
+Units ordered: grenade 140
+
+16:14:00 | 05-10-2017
+ID: 1052
+Units ordered: paratrooper 100
+
+16:15:38 | 05-10-2017
+ID: 316
+Units ordered: artillery 10
+
+16:50:04 | 05-10-2017
+ID: 1642
+Units ordered: thief 2
+
+16:50:05 | 05-10-2017
+ID: 1642
+Units ordered: spy 3
+
+16:52:24 | 05-10-2017
+ID: 1201
+Units ordered: spyplane 2
+
+16:53:45 | 05-10-2017
+ID: 1642
+Units ordered: sam 150
+
+16:57:12 | 05-10-2017
+ID: 1642
+Units ordered: flamethrower 200
+
+16:57:16 | 05-10-2017
+ID: 235
+Units ordered: paratrooper 200
+
+16:57:26 | 05-10-2017
+ID: 1052
+Units ordered: spyplane 1
+
+16:57:41 | 05-10-2017
+ID: 1642
+Units ordered: rifle 100
+
+16:58:04 | 05-10-2017
+ID: 25
+Units ordered: spy 1
+
+16:59:19 | 05-10-2017
+ID: 60
+Units ordered: rifle 100
+
+17:07:00 | 05-10-2017
+ID: 1201
+Units ordered: thief 8
+
+17:13:35 | 05-10-2017
+ID: 363
+Units ordered: sniper 5
+
+17:13:35 | 05-10-2017
+ID: 363
+Units ordered: spy 5
+
+17:13:35 | 05-10-2017
+ID: 363
+Units ordered: flamethrower 10
+
+17:29:25 | 05-10-2017
+ID: 1596
+Units ordered: spy 5
+
+17:29:25 | 05-10-2017
+ID: 1596
+Units ordered: flamethrower 95
+
+17:32:43 | 05-10-2017
+ID: 615
+Units ordered: paratrooper 574
+
+17:38:06 | 05-10-2017
+ID: 1596
+Units ordered: flamethrower 20
+
+17:41:05 | 05-10-2017
+ID: 1596
+Units ordered: paratrooper 300
+
+17:42:08 | 05-10-2017
+ID: 1596
+Units ordered: apc 10
+
+17:45:04 | 05-10-2017
+ID: 487
+Units ordered: b2_bomber 50
+
+17:56:50 | 05-10-2017
+ID: 1201
+Units ordered: b2_bomber 80
+
+18:12:03 | 05-10-2017
+ID: 1125
+Units ordered: artillery 30
+
+18:15:23 | 05-10-2017
+ID: 504
+Units ordered: spyplane 3
+
+18:15:28 | 05-10-2017
+ID: 1203
+Units ordered: rifle 460
+
+18:16:36 | 05-10-2017
+ID: 1203
+Units ordered: rifle 110
+
+18:25:51 | 05-10-2017
+ID: 60
+Units ordered: rah66_commanches 20
+
+18:26:27 | 05-10-2017
+ID: 60
+Units ordered: rah66_commanches 30
+
+18:27:34 | 05-10-2017
+ID: 1319
+Units ordered: rah66_commanches 100
+
+18:28:36 | 05-10-2017
+ID: 1238
+Units ordered: rifle 399
+
+18:53:45 | 05-10-2017
+ID: 1086
+Units ordered: artillery 70
+
+18:54:20 | 05-10-2017
+ID: 308
+Units ordered: paratrooper 429
+
+19:07:33 | 05-10-2017
+ID: 1205
+Units ordered: sniper 45
+
+19:07:33 | 05-10-2017
+ID: 1205
+Units ordered: spy 5
+
+19:16:29 | 05-10-2017
+ID: 1238
+Units ordered: rifle 26
+
+19:28:42 | 05-10-2017
+ID: 1383
+Units ordered: spy 5
+
+19:29:21 | 05-10-2017
+ID: 57
+Units ordered: spyplane 3
+
+19:30:15 | 05-10-2017
+ID: 1383
+Units ordered: artillery 80
+
+19:31:09 | 05-10-2017
+ID: 1383
+Units ordered: artillery 30
+
+19:32:26 | 05-10-2017
+ID: 615
+Units ordered: paratrooper 48
+
+19:37:11 | 05-10-2017
+ID: 613
+Units ordered: spy 2
+
+19:55:27 | 05-10-2017
+ID: 235
+Units ordered: paratrooper 200
+
+19:59:51 | 05-10-2017
+ID: 1251
+Units ordered: spy 10
+
+20:12:19 | 05-10-2017
+ID: 1226
+Units ordered: spy 5
+
+20:16:52 | 05-10-2017
+ID: 16
+Units ordered: frigate 110
+
+20:21:56 | 05-10-2017
+ID: 487
+Units ordered: b2_bomber 50
+
+20:31:10 | 05-10-2017
+ID: 1226
+Units ordered: b2_bomber 200
+
+20:33:28 | 05-10-2017
+ID: 1226
+Units ordered: spyplane 5
+
+20:35:37 | 05-10-2017
+ID: 613
+Units ordered: spyplane 1
+
+20:39:14 | 05-10-2017
+ID: 1086
+Units ordered: artillery 10
+
+20:42:50 | 05-10-2017
+ID: 313
+Units ordered: artillery 8
+
+20:48:35 | 05-10-2017
+ID: 433
+Units ordered: b2_bomber 100
+
+20:49:30 | 05-10-2017
+ID: 433
+Units ordered: b2_bomber 30
+
+20:56:52 | 05-10-2017
+ID: 25
+Units ordered: cruiser 70
+
+21:01:08 | 05-10-2017
+ID: 1251
+Units ordered: grenade 100
+
+21:04:12 | 05-10-2017
+ID: 301
+Units ordered: spyplane 2
+
+21:06:37 | 05-10-2017
+ID: 60
+Units ordered: flamethrower 40
+
+21:13:23 | 05-10-2017
+ID: 1385
+Units ordered: frigate 90
+
+21:14:45 | 05-10-2017
+ID: 1385
+Units ordered: spy 2
+
+21:17:56 | 05-10-2017
+ID: 1383
+Units ordered: thief 8
+
+21:20:22 | 05-10-2017
+ID: 1238
+Units ordered: rifle 40
+
+21:26:26 | 05-10-2017
+ID: 614
+Units ordered: flamethrower 120
+
+21:41:49 | 05-10-2017
+ID: 749
+Units ordered: b2_bomber 7
+
+21:54:23 | 05-10-2017
+ID: 1379
+Units ordered: rah66_commanches 60
+
+21:55:24 | 05-10-2017
+ID: 1379
+Units ordered: jsf 10
+
+21:57:43 | 05-10-2017
+ID: 131
+Units ordered: spyplane 4
+
+22:04:57 | 05-10-2017
+ID: 301
+Units ordered: submarine 100
+
+22:11:19 | 05-10-2017
+ID: 60
+Units ordered: flamethrower 60
+
+22:11:46 | 05-10-2017
+ID: 1125
+Units ordered: artillery 50
+
+22:39:45 | 05-10-2017
+ID: 1383
+Units ordered: sam 2
+
+22:39:45 | 05-10-2017
+ID: 1383
+Units ordered: artillery 78
+
+22:50:45 | 05-10-2017
+ID: 1203
+Units ordered: spy 3
+
+22:54:34 | 05-10-2017
+ID: 1379
+Units ordered: b2_bomber 10
+
+22:56:03 | 05-10-2017
+ID: 1379
+Units ordered: b2_bomber 100
+
+23:03:43 | 05-10-2017
+ID: 1238
+Units ordered: spy 5
+
+23:03:48 | 05-10-2017
+ID: 60
+Units ordered: flamethrower 40
+
+23:33:21 | 05-10-2017
+ID: 764
+Units ordered: sniper 20
+
+0:06:55 | 06-10-2017
+ID: 60
+Units ordered: flamethrower 80
+
+0:18:58 | 06-10-2017
+ID: 1443
+Units ordered: spyplane 2
+
+0:32:36 | 06-10-2017
+ID: 1125
+Units ordered: artillery 80
+
+0:34:28 | 06-10-2017
+ID: 1125
+Units ordered: b2_bomber 18
+
+0:39:38 | 06-10-2017
+ID: 522
+Units ordered: spy 3
+
+0:39:38 | 06-10-2017
+ID: 522
+Units ordered: rifle 17
+
+0:43:03 | 06-10-2017
+ID: 522
+Units ordered: spyplane 2
+
+0:43:03 | 06-10-2017
+ID: 522
+Units ordered: jsf 8
+
+0:48:52 | 06-10-2017
+ID: 1204
+Units ordered: sniper 20
+
+1:00:04 | 06-10-2017
+ID: 1524
+Units ordered: spyplane 2
+
+1:00:04 | 06-10-2017
+ID: 1524
+Units ordered: spy 2
+
+1:04:53 | 06-10-2017
+ID: 522
+Units ordered: spy 4
+
+1:17:40 | 06-10-2017
+ID: 25
+Units ordered: spyplane 1
+
+1:17:40 | 06-10-2017
+ID: 25
+Units ordered: spy 1
+
+1:53:03 | 06-10-2017
+ID: 60
+Units ordered: flamethrower 20
+
+2:20:29 | 06-10-2017
+ID: 25
+Units ordered: spyplane 1
+
+2:20:45 | 06-10-2017
+ID: 686
+Units ordered: spyplane 20
+
+2:21:15 | 06-10-2017
+ID: 25
+Units ordered: spyplane 1
+
+2:28:23 | 06-10-2017
+ID: 406
+Units ordered: artillery 20
+
+3:51:35 | 06-10-2017
+ID: 131
+Units ordered: b2_bomber 40
+
+4:04:23 | 06-10-2017
+ID: 1379
+Units ordered: b2_bomber 120
+
+4:36:31 | 06-10-2017
+ID: 313
+Units ordered: artillery 80
+
+4:53:30 | 06-10-2017
+ID: 749
+Units ordered: spyplane 5
+
+4:53:30 | 06-10-2017
+ID: 749
+Units ordered: b2_bomber 5
+
+4:54:04 | 06-10-2017
+ID: 749
+Units ordered: submarine 5
+
+4:54:22 | 06-10-2017
+ID: 749
+Units ordered: carrier 1
+
+5:07:07 | 06-10-2017
+ID: 1379
+Units ordered: b2_bomber 10
+
+5:22:07 | 06-10-2017
+ID: 433
+Units ordered: submarine 100
+
+5:23:22 | 06-10-2017
+ID: 1385
+Units ordered: spy 10
+
+6:13:50 | 06-10-2017
+ID: 165
+Units ordered: sniper 50
+
+6:26:55 | 06-10-2017
+ID: 313
+Units ordered: artillery 8
+
+6:28:00 | 06-10-2017
+ID: 1476
+Units ordered: thief 10
+
+6:49:37 | 06-10-2017
+ID: 213
+Units ordered: spy 3
+
+6:49:37 | 06-10-2017
+ID: 213
+Units ordered: armoured 17
+
+6:49:49 | 06-10-2017
+ID: 213
+Units ordered: spyplane 2
+
+7:16:19 | 06-10-2017
+ID: 1203
+Units ordered: spy 1
+
+7:17:18 | 06-10-2017
+ID: 614
+Units ordered: flamethrower 320
+
+7:21:31 | 06-10-2017
+ID: 1203
+Units ordered: spy 5
+
+7:34:44 | 06-10-2017
+ID: 1319
+Units ordered: rah66_commanches 130
+
+7:35:55 | 06-10-2017
+ID: 1319
+Units ordered: rah66_commanches 200
+
+7:44:10 | 06-10-2017
+ID: 475
+Units ordered: spyplane 50
+
+8:01:41 | 06-10-2017
+ID: 235
+Units ordered: paratrooper 100
+
+8:07:27 | 06-10-2017
+ID: 433
+Units ordered: seahawk 100
+
+8:22:49 | 06-10-2017
+ID: 1637
+Units ordered: rah66_commanches 30
+
+8:22:49 | 06-10-2017
+ID: 1637
+Units ordered: jsf 20
+
+8:22:49 | 06-10-2017
+ID: 1637
+Units ordered: typhoon 20
+
+8:22:49 | 06-10-2017
+ID: 1637
+Units ordered: seahawk 20
+
+8:23:58 | 06-10-2017
+ID: 1637
+Units ordered: rah66_commanches 10
+
+8:23:58 | 06-10-2017
+ID: 1637
+Units ordered: jsf 10
+
+8:23:58 | 06-10-2017
+ID: 1637
+Units ordered: typhoon 10
+
+8:23:58 | 06-10-2017
+ID: 1637
+Units ordered: seahawk 10
+
+8:24:36 | 06-10-2017
+ID: 1029
+Units ordered: artillery 50
+
+8:24:50 | 06-10-2017
+ID: 1637
+Units ordered: submarine 30
+
+8:24:50 | 06-10-2017
+ID: 1637
+Units ordered: cruiser 20
+
+8:24:50 | 06-10-2017
+ID: 1637
+Units ordered: destroyer 20
+
+8:24:50 | 06-10-2017
+ID: 1637
+Units ordered: sparrow 20
+
+8:25:37 | 06-10-2017
+ID: 1637
+Units ordered: abraham 30
+
+8:25:37 | 06-10-2017
+ID: 1637
+Units ordered: artillery 30
+
+8:25:37 | 06-10-2017
+ID: 1637
+Units ordered: m70mlrs 30
+
+8:25:37 | 06-10-2017
+ID: 1637
+Units ordered: m270_rocket 30
+
+8:26:06 | 06-10-2017
+ID: 1637
+Units ordered: rifle 20
+
+8:29:54 | 06-10-2017
+ID: 1029
+Units ordered: artillery 200
+
+8:29:58 | 06-10-2017
+ID: 1052
+Units ordered: paratrooper 140
+
+8:30:13 | 06-10-2017
+ID: 1383
+Units ordered: artillery 30
+
+8:31:10 | 06-10-2017
+ID: 1052
+Units ordered: paratrooper 100
+
+8:31:21 | 06-10-2017
+ID: 1383
+Units ordered: artillery 220
+
+8:32:11 | 06-10-2017
+ID: 1052
+Units ordered: paratrooper 200
+
+8:32:17 | 06-10-2017
+ID: 1052
+Units ordered: paratrooper 20
+
+8:32:37 | 06-10-2017
+ID: 308
+Units ordered: f22_raptors 30
+
+8:32:49 | 06-10-2017
+ID: 220
+Units ordered: spyplane 4
+
+8:34:11 | 06-10-2017
+ID: 615
+Units ordered: paratrooper 458
+
+8:53:19 | 06-10-2017
+ID: 1086
+Units ordered: grenade 200
+
+9:02:24 | 06-10-2017
+ID: 29
+Units ordered: spy 5
+
+9:05:50 | 06-10-2017
+ID: 29
+Units ordered: b2_bomber 50
+
+9:06:31 | 06-10-2017
+ID: 1319
+Units ordered: spy 3
+
+9:08:41 | 06-10-2017
+ID: 1616
+Units ordered: paratrooper 150
+
+9:08:41 | 06-10-2017
+ID: 1616
+Units ordered: navy 250
+
+9:26:33 | 06-10-2017
+ID: 1616
+Units ordered: paratrooper 100
+
+9:33:33 | 06-10-2017
+ID: 1020
+Units ordered: grenade 200
+
+9:38:51 | 06-10-2017
+ID: 522
+Units ordered: cruiser 15
+
+9:58:33 | 06-10-2017
+ID: 614
+Units ordered: spy 2
+
+10:00:57 | 06-10-2017
+ID: 614
+Units ordered: typhoon 330
+
+10:24:53 | 06-10-2017
+ID: 433
+Units ordered: b2_bomber 240
+
+10:26:34 | 06-10-2017
+ID: 57
+Units ordered: spyplane 2
+
+10:27:32 | 06-10-2017
+ID: 1637
+Units ordered: rifle 20
+
+10:27:32 | 06-10-2017
+ID: 1637
+Units ordered: flamethrower 40
+
+10:27:39 | 06-10-2017
+ID: 57
+Units ordered: spy 3
+
+10:30:28 | 06-10-2017
+ID: 57
+Units ordered: b2_bomber 20
+
+10:35:53 | 06-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+10:36:14 | 06-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+10:36:30 | 06-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+10:36:48 | 06-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+10:37:03 | 06-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+10:37:45 | 06-10-2017
+ID: 1616
+Units ordered: paratrooper 200
+
+10:38:03 | 06-10-2017
+ID: 1616
+Units ordered: paratrooper 60
+
+10:43:56 | 06-10-2017
+ID: 130
+Units ordered: paratrooper 100
+
+10:44:24 | 06-10-2017
+ID: 130
+Units ordered: paratrooper 60
+
+10:44:46 | 06-10-2017
+ID: 130
+Units ordered: paratrooper 20
+
+10:45:31 | 06-10-2017
+ID: 1637
+Units ordered: armoured 20
+
+10:46:16 | 06-10-2017
+ID: 1029
+Units ordered: spyplane 10
+
+10:47:19 | 06-10-2017
+ID: 1238
+Units ordered: armoured 600
+
+10:47:33 | 06-10-2017
+ID: 1238
+Units ordered: armoured 300
+
+10:49:00 | 06-10-2017
+ID: 1238
+Units ordered: armoured 200
+
+10:51:29 | 06-10-2017
+ID: 1385
+Units ordered: cruiser 60
+
+10:52:17 | 06-10-2017
+ID: 60
+Units ordered: b2_bomber 50
+
+11:02:54 | 06-10-2017
+ID: 1190
+Units ordered: spyplane 1
+
+11:07:24 | 06-10-2017
+ID: 1596
+Units ordered: spyplane 3
+
+11:07:38 | 06-10-2017
+ID: 1596
+Units ordered: spy 2
+
+11:22:39 | 06-10-2017
+ID: 1637
+Units ordered: rocket 20
+
+11:22:58 | 06-10-2017
+ID: 1637
+Units ordered: flamethrower 20
+
+11:25:32 | 06-10-2017
+ID: 1052
+Units ordered: spyplane 3
+
+11:25:38 | 06-10-2017
+ID: 235
+Units ordered: rifle 400
+
+11:27:22 | 06-10-2017
+ID: 60
+Units ordered: b2_bomber 20
+
+11:41:03 | 06-10-2017
+ID: 1238
+Units ordered: armoured 300
+
+12:13:05 | 06-10-2017
+ID: 16
+Units ordered: spyplane 4
+
+12:51:55 | 06-10-2017
+ID: 1337
+Units ordered: spyplane 9
+
+12:52:12 | 06-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+12:52:25 | 06-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+12:52:41 | 06-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+12:52:55 | 06-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+13:05:20 | 06-10-2017
+ID: 614
+Units ordered: flamethrower 20
+
+13:05:29 | 06-10-2017
+ID: 614
+Units ordered: flamethrower 755
+
+13:10:01 | 06-10-2017
+ID: 131
+Units ordered: spy 10
+
+13:22:43 | 06-10-2017
+ID: 131
+Units ordered: spyplane 10
+
+13:23:19 | 06-10-2017
+ID: 131
+Units ordered: spyplane 10
+
+13:25:45 | 06-10-2017
+ID: 1616
+Units ordered: spyplane 2
+
+13:29:30 | 06-10-2017
+ID: 131
+Units ordered: spyplane 15
+
+13:32:06 | 06-10-2017
+ID: 1238
+Units ordered: rifle 600
+
+13:32:23 | 06-10-2017
+ID: 1238
+Units ordered: rifle 100
+
+14:50:20 | 06-10-2017
+ID: 487
+Units ordered: spyplane 5
+
+14:59:00 | 06-10-2017
+ID: 1421
+Units ordered: spy 2
+
+15:00:39 | 06-10-2017
+ID: 1421
+Units ordered: spyplane 1
+
+15:26:02 | 06-10-2017
+ID: 60
+Units ordered: destroyer 35
+
+15:32:22 | 06-10-2017
+ID: 1637
+Units ordered: rifle 20
+
+15:32:22 | 06-10-2017
+ID: 1637
+Units ordered: rocket 20
+
+15:32:22 | 06-10-2017
+ID: 1637
+Units ordered: armoured 20
+
+15:33:02 | 06-10-2017
+ID: 1637
+Units ordered: m70mlrs 10
+
+15:45:15 | 06-10-2017
+ID: 1020
+Units ordered: spyplane 3
+
+15:50:43 | 06-10-2017
+ID: 749
+Units ordered: battleship 7
+
+16:04:23 | 06-10-2017
+ID: 57
+Units ordered: spyplane 3
+
+16:09:23 | 06-10-2017
+ID: 1224
+Units ordered: spy 5
+
+16:09:32 | 06-10-2017
+ID: 1224
+Units ordered: spyplane 5
+
+16:15:53 | 06-10-2017
+ID: 487
+Units ordered: spy 5
+
+16:23:02 | 06-10-2017
+ID: 213
+Units ordered: spyplane 2
+
+16:23:13 | 06-10-2017
+ID: 213
+Units ordered: spy 2
+
+16:23:13 | 06-10-2017
+ID: 213
+Units ordered: armoured 10
+
+16:28:54 | 06-10-2017
+ID: 57
+Units ordered: spyplane 3
+
+16:31:33 | 06-10-2017
+ID: 1385
+Units ordered: spyplane 2
+
+16:43:12 | 06-10-2017
+ID: 575
+Units ordered: spyplane 2
+
+16:46:49 | 06-10-2017
+ID: 1379
+Units ordered: rah66_commanches 400
+
+16:49:31 | 06-10-2017
+ID: 575
+Units ordered: b2_bomber 90
+
+16:50:45 | 06-10-2017
+ID: 1379
+Units ordered: b2_bomber 100
+
+17:20:08 | 06-10-2017
+ID: 301
+Units ordered: destroyer 100
+
+17:29:25 | 06-10-2017
+ID: 344
+Units ordered: thief 10
+
+17:29:25 | 06-10-2017
+ID: 344
+Units ordered: spy 5
+
+18:02:12 | 06-10-2017
+ID: 614
+Units ordered: rocket 140
+
+18:15:02 | 06-10-2017
+ID: 257
+Units ordered: artillery 200
+
+18:15:45 | 06-10-2017
+ID: 257
+Units ordered: artillery 110
+
+18:17:39 | 06-10-2017
+ID: 522
+Units ordered: m270_rocket 150
+
+18:17:56 | 06-10-2017
+ID: 316
+Units ordered: artillery 30
+
+18:19:59 | 06-10-2017
+ID: 1190
+Units ordered: spyplane 5
+
+18:30:59 | 06-10-2017
+ID: 613
+Units ordered: spy 5
+
+18:45:57 | 06-10-2017
+ID: 1383
+Units ordered: m70mlrs 70
+
+18:46:07 | 06-10-2017
+ID: 1052
+Units ordered: seahawk 70
+
+18:59:54 | 06-10-2017
+ID: 301
+Units ordered: destroyer 15
+
+19:11:13 | 06-10-2017
+ID: 464
+Units ordered: spy 1
+
+19:11:13 | 06-10-2017
+ID: 464
+Units ordered: rifle 19
+
+19:24:22 | 06-10-2017
+ID: 235
+Units ordered: paratrooper 200
+
+19:24:35 | 06-10-2017
+ID: 235
+Units ordered: paratrooper 60
+
+19:26:45 | 06-10-2017
+ID: 368
+Units ordered: thief 20
+
+19:34:45 | 06-10-2017
+ID: 16
+Units ordered: m270_rocket 150
+
+19:49:44 | 06-10-2017
+ID: 1190
+Units ordered: spy 10
+
+19:50:56 | 06-10-2017
+ID: 1190
+Units ordered: paratrooper 60
+
+19:58:38 | 06-10-2017
+ID: 1203
+Units ordered: spyplane 2
+
+20:16:35 | 06-10-2017
+ID: 60
+Units ordered: grenade 60
+
+20:17:10 | 06-10-2017
+ID: 60
+Units ordered: grenade 80
+
+20:23:05 | 06-10-2017
+ID: 590
+Units ordered: spyplane 3
+
+20:23:28 | 06-10-2017
+ID: 686
+Units ordered: b2_bomber 200
+
+20:24:28 | 06-10-2017
+ID: 1086
+Units ordered: navy 80
+
+20:24:42 | 06-10-2017
+ID: 1086
+Units ordered: navy 20
+
+20:26:25 | 06-10-2017
+ID: 1073
+Units ordered: grenade 250
+
+20:26:25 | 06-10-2017
+ID: 1073
+Units ordered: navy 250
+
+20:29:05 | 06-10-2017
+ID: 1073
+Units ordered: spy 50
+
+20:29:30 | 06-10-2017
+ID: 1073
+Units ordered: armoured 248
+
+20:29:39 | 06-10-2017
+ID: 1073
+Units ordered: armoured 2
+
+20:29:59 | 06-10-2017
+ID: 1073
+Units ordered: grenade 50
+
+20:29:59 | 06-10-2017
+ID: 1073
+Units ordered: navy 50
+
+20:30:14 | 06-10-2017
+ID: 1073
+Units ordered: paratrooper 40
+
+20:30:27 | 06-10-2017
+ID: 686
+Units ordered: spyplane 20
+
+20:31:08 | 06-10-2017
+ID: 686
+Units ordered: spyplane 10
+
+20:35:27 | 06-10-2017
+ID: 614
+Units ordered: f22_raptors 70
+
+20:52:29 | 06-10-2017
+ID: 1203
+Units ordered: m70mlrs 100
+
+21:10:06 | 06-10-2017
+ID: 60
+Units ordered: grenade 60
+
+21:14:08 | 06-10-2017
+ID: 1319
+Units ordered: rah66_commanches 80
+
+21:16:03 | 06-10-2017
+ID: 1086
+Units ordered: navy 40
+
+21:20:24 | 06-10-2017
+ID: 1238
+Units ordered: rifle 700
+
+21:23:42 | 06-10-2017
+ID: 60
+Units ordered: rah66_commanches 360
+
+21:25:48 | 06-10-2017
+ID: 1383
+Units ordered: artillery 100
+
+21:38:31 | 06-10-2017
+ID: 252
+Units ordered: thief 5
+
+21:52:44 | 06-10-2017
+ID: 235
+Units ordered: paratrooper 100
+
+21:53:14 | 06-10-2017
+ID: 235
+Units ordered: paratrooper 60
+
+22:05:09 | 06-10-2017
+ID: 1616
+Units ordered: spy 2
+
+22:05:09 | 06-10-2017
+ID: 1616
+Units ordered: navy 18
+
+22:42:23 | 06-10-2017
+ID: 590
+Units ordered: spy 3
+
+23:01:19 | 06-10-2017
+ID: 1203
+Units ordered: m70mlrs 70
+
+23:08:35 | 06-10-2017
+ID: 522
+Units ordered: sam 50
+
+23:23:56 | 06-10-2017
+ID: 1616
+Units ordered: paratrooper 150
+
+23:30:06 | 06-10-2017
+ID: 1238
+Units ordered: flamethrower 1060
+
+23:31:14 | 06-10-2017
+ID: 1238
+Units ordered: flamethrower 200
+
+23:31:25 | 06-10-2017
+ID: 1238
+Units ordered: flamethrower 200
+
+23:32:58 | 06-10-2017
+ID: 1238
+Units ordered: flamethrower 160
+
+23:42:30 | 06-10-2017
+ID: 686
+Units ordered: spyplane 20
+
+0:02:47 | 07-10-2017
+ID: 1652
+Units ordered: submarine 60
+
+0:03:56 | 07-10-2017
+ID: 504
+Units ordered: spy 3
+
+0:04:02 | 07-10-2017
+ID: 1652
+Units ordered: navy 150
+
+0:04:02 | 07-10-2017
+ID: 1652
+Units ordered: armoured 125
+
+0:17:48 | 07-10-2017
+ID: 25
+Units ordered: spy 1
+
+0:19:58 | 07-10-2017
+ID: 60
+Units ordered: submarine 10
+
+0:30:15 | 07-10-2017
+ID: 1621
+Units ordered: cruiser 2
+
+0:30:15 | 07-10-2017
+ID: 1621
+Units ordered: destroyer 9
+
+0:42:35 | 07-10-2017
+ID: 1524
+Units ordered: thief 4
+
+0:59:50 | 07-10-2017
+ID: 368
+Units ordered: thief 10
+
+0:59:50 | 07-10-2017
+ID: 368
+Units ordered: spy 10
+
+1:01:05 | 07-10-2017
+ID: 368
+Units ordered: frigate 300
+
+1:02:01 | 07-10-2017
+ID: 368
+Units ordered: frigate 150
+
+1:03:42 | 07-10-2017
+ID: 1524
+Units ordered: thief 4
+
+1:04:43 | 07-10-2017
+ID: 487
+Units ordered: b2_bomber 20
+
+1:11:19 | 07-10-2017
+ID: 1524
+Units ordered: thief 10
+
+1:34:12 | 07-10-2017
+ID: 522
+Units ordered: sam 10
+
+1:44:14 | 07-10-2017
+ID: 29
+Units ordered: jsf 500
+
+3:04:27 | 07-10-2017
+ID: 1125
+Units ordered: artillery 50
+
+3:11:27 | 07-10-2017
+ID: 686
+Units ordered: spyplane 20
+
+3:11:55 | 07-10-2017
+ID: 686
+Units ordered: spyplane 10
+
+3:14:10 | 07-10-2017
+ID: 686
+Units ordered: spyplane 10
+
+4:06:52 | 07-10-2017
+ID: 1125
+Units ordered: artillery 40
+
+4:08:58 | 07-10-2017
+ID: 1125
+Units ordered: artillery 30
+
+4:39:46 | 07-10-2017
+ID: 1379
+Units ordered: artillery 110
+
+5:01:20 | 07-10-2017
+ID: 1671
+Units ordered: spyplane 2
+
+5:01:20 | 07-10-2017
+ID: 1671
+Units ordered: dragon 10
+
+5:01:20 | 07-10-2017
+ID: 1671
+Units ordered: rah66_commanches 50
+
+5:01:20 | 07-10-2017
+ID: 1671
+Units ordered: typhoon 20
+
+5:01:20 | 07-10-2017
+ID: 1671
+Units ordered: seahawk 18
+
+5:02:03 | 07-10-2017
+ID: 1671
+Units ordered: humvee 10
+
+5:02:03 | 07-10-2017
+ID: 1671
+Units ordered: abraham 40
+
+5:02:03 | 07-10-2017
+ID: 1671
+Units ordered: artillery 10
+
+5:02:03 | 07-10-2017
+ID: 1671
+Units ordered: m70mlrs 40
+
+5:16:53 | 07-10-2017
+ID: 487
+Units ordered: f22_raptors 300
+
+5:56:08 | 07-10-2017
+ID: 131
+Units ordered: paratrooper 95
+
+6:11:28 | 07-10-2017
+ID: 590
+Units ordered: thief 5
+
+7:01:11 | 07-10-2017
+ID: 1652
+Units ordered: submarine 5
+
+7:22:48 | 07-10-2017
+ID: 1476
+Units ordered: spy 3
+
+8:13:46 | 07-10-2017
+ID: 433
+Units ordered: battleship 90
+
+8:58:29 | 07-10-2017
+ID: 235
+Units ordered: paratrooper 200
+
+8:59:11 | 07-10-2017
+ID: 235
+Units ordered: paratrooper 80
+
+9:10:17 | 07-10-2017
+ID: 1637
+Units ordered: rifle 20
+
+9:10:17 | 07-10-2017
+ID: 1637
+Units ordered: rocket 40
+
+9:10:56 | 07-10-2017
+ID: 1637
+Units ordered: artillery 20
+
+9:19:54 | 07-10-2017
+ID: 367
+Units ordered: thief 20
+
+9:35:06 | 07-10-2017
+ID: 1203
+Units ordered: m70mlrs 160
+
+10:05:32 | 07-10-2017
+ID: 57
+Units ordered: spyplane 2
+
+10:05:51 | 07-10-2017
+ID: 57
+Units ordered: b2_bomber 48
+
+10:07:05 | 07-10-2017
+ID: 57
+Units ordered: b2_bomber 30
+
+10:43:51 | 07-10-2017
+ID: 1319
+Units ordered: artillery 80
+
+10:50:10 | 07-10-2017
+ID: 308
+Units ordered: spyplane 5
+
+11:08:11 | 07-10-2017
+ID: 16
+Units ordered: cruiser 100
+
+11:32:45 | 07-10-2017
+ID: 57
+Units ordered: spy 5
+
+11:34:32 | 07-10-2017
+ID: 57
+Units ordered: paratrooper 16
+
+13:10:04 | 07-10-2017
+ID: 686
+Units ordered: spyplane 10
+
+13:14:05 | 07-10-2017
+ID: 1190
+Units ordered: spyplane 5
+
+13:14:17 | 07-10-2017
+ID: 1596
+Units ordered: paratrooper 100
+
+13:33:05 | 07-10-2017
+ID: 1073
+Units ordered: paratrooper 60
+
+13:33:28 | 07-10-2017
+ID: 1073
+Units ordered: navy 100
+
+13:33:49 | 07-10-2017
+ID: 1073
+Units ordered: grenade 150
+
+13:55:18 | 07-10-2017
+ID: 1652
+Units ordered: submarine 7
+
+13:55:18 | 07-10-2017
+ID: 1652
+Units ordered: destroyer 10
+
+13:56:29 | 07-10-2017
+ID: 575
+Units ordered: spyplane 2
+
+13:59:28 | 07-10-2017
+ID: 522
+Units ordered: spyplane 3
+
+14:00:03 | 07-10-2017
+ID: 1652
+Units ordered: sniper 5
+
+14:00:25 | 07-10-2017
+ID: 29
+Units ordered: spy 5
+
+14:00:57 | 07-10-2017
+ID: 614
+Units ordered: grenade 300
+
+14:00:57 | 07-10-2017
+ID: 614
+Units ordered: navy 300
+
+14:01:12 | 07-10-2017
+ID: 1652
+Units ordered: flamethrower 60
+
+14:06:12 | 07-10-2017
+ID: 764
+Units ordered: thief 20
+
+14:11:16 | 07-10-2017
+ID: 29
+Units ordered: seahawk 600
+
+14:12:47 | 07-10-2017
+ID: 29
+Units ordered: b2_bomber 100
+
+14:12:53 | 07-10-2017
+ID: 29
+Units ordered: seahawk 99
+
+14:14:38 | 07-10-2017
+ID: 1524
+Units ordered: thief 7
+
+14:14:55 | 07-10-2017
+ID: 575
+Units ordered: spyplane 2
+
+14:21:13 | 07-10-2017
+ID: 1029
+Units ordered: battleship 100
+
+14:22:40 | 07-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+14:22:58 | 07-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+14:23:13 | 07-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+14:23:26 | 07-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+14:23:43 | 07-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+14:24:46 | 07-10-2017
+ID: 1524
+Units ordered: thief 10
+
+14:41:33 | 07-10-2017
+ID: 131
+Units ordered: spyplane 10
+
+14:47:17 | 07-10-2017
+ID: 257
+Units ordered: thief 5
+
+14:48:07 | 07-10-2017
+ID: 220
+Units ordered: spyplane 3
+
+14:53:24 | 07-10-2017
+ID: 220
+Units ordered: spy 4
+
+15:01:00 | 07-10-2017
+ID: 1383
+Units ordered: artillery 260
+
+15:01:52 | 07-10-2017
+ID: 1383
+Units ordered: artillery 40
+
+15:02:25 | 07-10-2017
+ID: 1205
+Units ordered: sniper 20
+
+15:02:30 | 07-10-2017
+ID: 1383
+Units ordered: artillery 30
+
+15:04:29 | 07-10-2017
+ID: 1052
+Units ordered: typhoon 100
+
+15:11:25 | 07-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+15:11:35 | 07-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+15:11:47 | 07-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+15:11:59 | 07-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+15:12:09 | 07-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+15:13:35 | 07-10-2017
+ID: 475
+Units ordered: spyplane 50
+
+15:15:23 | 07-10-2017
+ID: 1224
+Units ordered: spyplane 3
+
+15:15:30 | 07-10-2017
+ID: 1224
+Units ordered: spy 2
+
+15:20:24 | 07-10-2017
+ID: 1671
+Units ordered: rah66_commanches 20
+
+15:20:24 | 07-10-2017
+ID: 1671
+Units ordered: typhoon 20
+
+15:20:38 | 07-10-2017
+ID: 1671
+Units ordered: seahawk 4
+
+15:51:11 | 07-10-2017
+ID: 575
+Units ordered: b2_bomber 30
+
+15:52:07 | 07-10-2017
+ID: 575
+Units ordered: carrier 4
+
+16:01:28 | 07-10-2017
+ID: 1378
+Units ordered: sam 300
+
+16:05:17 | 07-10-2017
+ID: 1378
+Units ordered: sam 300
+
+16:21:57 | 07-10-2017
+ID: 402
+Units ordered: spy 5
+
+16:34:20 | 07-10-2017
+ID: 1422
+Units ordered: paratrooper 20
+
+16:41:06 | 07-10-2017
+ID: 1596
+Units ordered: paratrooper 150
+
+16:45:00 | 07-10-2017
+ID: 1596
+Units ordered: paratrooper 200
+
+16:45:57 | 07-10-2017
+ID: 1378
+Units ordered: spyplane 2
+
+16:45:57 | 07-10-2017
+ID: 1378
+Units ordered: spy 2
+
+16:47:22 | 07-10-2017
+ID: 615
+Units ordered: spyplane 2
+
+16:47:55 | 07-10-2017
+ID: 131
+Units ordered: spyplane 30
+
+16:48:28 | 07-10-2017
+ID: 131
+Units ordered: spyplane 10
+
+16:52:36 | 07-10-2017
+ID: 1125
+Units ordered: artillery 220
+
+16:53:34 | 07-10-2017
+ID: 1125
+Units ordered: artillery 200
+
+16:56:35 | 07-10-2017
+ID: 235
+Units ordered: rocket 100
+
+16:56:51 | 07-10-2017
+ID: 235
+Units ordered: rocket 100
+
+17:07:58 | 07-10-2017
+ID: 433
+Units ordered: spy 3
+
+17:07:58 | 07-10-2017
+ID: 433
+Units ordered: rifle 17
+
+17:12:06 | 07-10-2017
+ID: 433
+Units ordered: m70mlrs 300
+
+17:18:10 | 07-10-2017
+ID: 16
+Units ordered: cruiser 25
+
+17:19:30 | 07-10-2017
+ID: 1203
+Units ordered: m70mlrs 220
+
+17:19:53 | 07-10-2017
+ID: 1319
+Units ordered: m70mlrs 160
+
+17:55:51 | 07-10-2017
+ID: 764
+Units ordered: sniper 30
+
+17:56:04 | 07-10-2017
+ID: 764
+Units ordered: spy 20
+
+17:58:00 | 07-10-2017
+ID: 1385
+Units ordered: cruiser 50
+
+18:03:37 | 07-10-2017
+ID: 1383
+Units ordered: spy 5
+
+18:18:52 | 07-10-2017
+ID: 575
+Units ordered: b2_bomber 50
+
+18:20:39 | 07-10-2017
+ID: 16
+Units ordered: cruiser 100
+
+18:20:49 | 07-10-2017
+ID: 16
+Units ordered: cruiser 80
+
+18:23:39 | 07-10-2017
+ID: 1205
+Units ordered: sniper 20
+
+18:24:38 | 07-10-2017
+ID: 1524
+Units ordered: artillery 100
+
+18:29:50 | 07-10-2017
+ID: 1383
+Units ordered: artillery 80
+
+18:46:33 | 07-10-2017
+ID: 252
+Units ordered: spy 1
+
+18:46:39 | 07-10-2017
+ID: 252
+Units ordered: spyplane 1
+
+18:47:39 | 07-10-2017
+ID: 252
+Units ordered: spy 2
+
+19:58:21 | 07-10-2017
+ID: 1319
+Units ordered: m70mlrs 100
+
+20:11:03 | 07-10-2017
+ID: 686
+Units ordered: spy 20
+
+20:14:01 | 07-10-2017
+ID: 1086
+Units ordered: m270_rocket 100
+
+20:18:37 | 07-10-2017
+ID: 1086
+Units ordered: submarine 50
+
+20:20:06 | 07-10-2017
+ID: 1086
+Units ordered: frigate 50
+
+20:49:40 | 07-10-2017
+ID: 1190
+Units ordered: paratrooper 100
+
+20:58:40 | 07-10-2017
+ID: 487
+Units ordered: b2_bomber 40
+
+21:01:47 | 07-10-2017
+ID: 433
+Units ordered: sam 130
+
+21:04:14 | 07-10-2017
+ID: 1378
+Units ordered: sam 268
+
+21:04:28 | 07-10-2017
+ID: 575
+Units ordered: f22_raptors 340
+
+21:08:36 | 07-10-2017
+ID: 1378
+Units ordered: sam 100
+
+21:18:09 | 07-10-2017
+ID: 1385
+Units ordered: spy 5
+
+21:25:21 | 07-10-2017
+ID: 1524
+Units ordered: spyplane 2
+
+21:37:01 | 07-10-2017
+ID: 1125
+Units ordered: artillery 50
+
+21:56:07 | 07-10-2017
+ID: 1052
+Units ordered: spy 5
+
+22:04:38 | 07-10-2017
+ID: 433
+Units ordered: spyplane 1
+
+22:24:31 | 07-10-2017
+ID: 235
+Units ordered: spyplane 2
+
+22:30:49 | 07-10-2017
+ID: 235
+Units ordered: paratrooper 400
+
+22:33:04 | 07-10-2017
+ID: 235
+Units ordered: paratrooper 100
+
+22:42:17 | 07-10-2017
+ID: 1202
+Units ordered: thief 10
+
+22:52:14 | 07-10-2017
+ID: 464
+Units ordered: thief 20
+
+23:03:11 | 07-10-2017
+ID: 1476
+Units ordered: seahawk 266
+
+23:06:52 | 07-10-2017
+ID: 686
+Units ordered: spyplane 30
+
+23:35:22 | 07-10-2017
+ID: 1652
+Units ordered: sniper 20
+
+23:36:12 | 07-10-2017
+ID: 1652
+Units ordered: navy 50
+
+23:36:12 | 07-10-2017
+ID: 1652
+Units ordered: armoured 50
+
+23:52:58 | 07-10-2017
+ID: 1575
+Units ordered: sniper 12
+
+23:52:58 | 07-10-2017
+ID: 1575
+Units ordered: spy 8
+
+0:08:17 | 08-10-2017
+ID: 1073
+Units ordered: grenade 100
+
+0:08:17 | 08-10-2017
+ID: 1073
+Units ordered: navy 50
+
+0:09:22 | 08-10-2017
+ID: 1073
+Units ordered: flamethrower 135
+
+0:09:29 | 08-10-2017
+ID: 344
+Units ordered: cruiser 20
+
+0:24:06 | 08-10-2017
+ID: 464
+Units ordered: spyplane 5
+
+0:24:06 | 08-10-2017
+ID: 464
+Units ordered: b2_bomber 5
+
+1:07:33 | 08-10-2017
+ID: 1125
+Units ordered: abraham 160
+
+1:36:41 | 08-10-2017
+ID: 686
+Units ordered: b2_bomber 200
+
+2:12:44 | 08-10-2017
+ID: 487
+Units ordered: f22_raptors 10
+
+3:49:03 | 08-10-2017
+ID: 475
+Units ordered: spyplane 50
+
+4:56:53 | 08-10-2017
+ID: 1671
+Units ordered: abraham 10
+
+4:56:53 | 08-10-2017
+ID: 1671
+Units ordered: m70mlrs 10
+
+5:11:29 | 08-10-2017
+ID: 1052
+Units ordered: typhoon 400
+
+5:16:29 | 08-10-2017
+ID: 1052
+Units ordered: typhoon 200
+
+6:52:19 | 08-10-2017
+ID: 235
+Units ordered: artillery 100
+
+7:10:04 | 08-10-2017
+ID: 18
+Units ordered: paratrooper 100
+
+7:16:12 | 08-10-2017
+ID: 1575
+Units ordered: spyplane 10
+
+7:22:22 | 08-10-2017
+ID: 1383
+Units ordered: artillery 300
+
+7:22:40 | 08-10-2017
+ID: 1383
+Units ordered: artillery 49
+
+7:28:45 | 08-10-2017
+ID: 749
+Units ordered: b2_bomber 10
+
+8:04:11 | 08-10-2017
+ID: 464
+Units ordered: thief 16
+
+8:04:11 | 08-10-2017
+ID: 464
+Units ordered: spy 4
+
+8:15:07 | 08-10-2017
+ID: 464
+Units ordered: sniper 15
+
+8:15:07 | 08-10-2017
+ID: 464
+Units ordered: paratrooper 1
+
+8:18:03 | 08-10-2017
+ID: 464
+Units ordered: sniper 16
+
+8:18:03 | 08-10-2017
+ID: 464
+Units ordered: paratrooper 4
+
+8:24:03 | 08-10-2017
+ID: 1052
+Units ordered: b2_bomber 30
+
+8:24:45 | 08-10-2017
+ID: 1052
+Units ordered: b2_bomber 20
+
+8:35:58 | 08-10-2017
+ID: 1671
+Units ordered: rah66_commanches 30
+
+8:35:58 | 08-10-2017
+ID: 1671
+Units ordered: typhoon 60
+
+8:36:08 | 08-10-2017
+ID: 1671
+Units ordered: seahawk 66
+
+8:36:32 | 08-10-2017
+ID: 1671
+Units ordered: humvee 30
+
+8:36:32 | 08-10-2017
+ID: 1671
+Units ordered: abraham 30
+
+8:36:32 | 08-10-2017
+ID: 1671
+Units ordered: artillery 30
+
+8:36:32 | 08-10-2017
+ID: 1671
+Units ordered: m70mlrs 30
+
+8:38:08 | 08-10-2017
+ID: 1671
+Units ordered: abraham 20
+
+8:38:08 | 08-10-2017
+ID: 1671
+Units ordered: artillery 10
+
+8:38:14 | 08-10-2017
+ID: 1671
+Units ordered: m70mlrs 15
+
+8:42:44 | 08-10-2017
+ID: 487
+Units ordered: spy 5
+
+8:59:49 | 08-10-2017
+ID: 1190
+Units ordered: spyplane 5
+
+9:01:16 | 08-10-2017
+ID: 1190
+Units ordered: sniper 5
+
+9:01:16 | 08-10-2017
+ID: 1190
+Units ordered: grenade 35
+
+9:02:32 | 08-10-2017
+ID: 1190
+Units ordered: spy 5
+
+9:04:11 | 08-10-2017
+ID: 1190
+Units ordered: paratrooper 20
+
+9:22:49 | 08-10-2017
+ID: 1443
+Units ordered: spyplane 2
+
+9:22:49 | 08-10-2017
+ID: 1443
+Units ordered: typhoon 8
+
+9:40:26 | 08-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+9:40:43 | 08-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+9:40:55 | 08-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+9:41:08 | 08-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+9:41:24 | 08-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+9:47:58 | 08-10-2017
+ID: 1029
+Units ordered: cruiser 100
+
+10:16:45 | 08-10-2017
+ID: 764
+Units ordered: spyplane 5
+
+10:16:45 | 08-10-2017
+ID: 764
+Units ordered: dragon 5
+
+10:22:42 | 08-10-2017
+ID: 344
+Units ordered: spy 5
+
+10:30:56 | 08-10-2017
+ID: 1073
+Units ordered: flamethrower 65
+
+10:31:17 | 08-10-2017
+ID: 1073
+Units ordered: navy 100
+
+10:31:46 | 08-10-2017
+ID: 1073
+Units ordered: grenade 35
+
+10:38:50 | 08-10-2017
+ID: 1073
+Units ordered: paratrooper 4
+
+10:38:50 | 08-10-2017
+ID: 1073
+Units ordered: grenade 1
+
+10:38:50 | 08-10-2017
+ID: 1073
+Units ordered: navy 6
+
+10:38:50 | 08-10-2017
+ID: 1073
+Units ordered: flamethrower 6
+
+10:39:19 | 08-10-2017
+ID: 1073
+Units ordered: grenade 30
+
+10:39:19 | 08-10-2017
+ID: 1073
+Units ordered: navy 20
+
+10:58:56 | 08-10-2017
+ID: 235
+Units ordered: sniper 7
+
+10:58:56 | 08-10-2017
+ID: 235
+Units ordered: paratrooper 13
+
+11:13:34 | 08-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+11:13:45 | 08-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+11:13:53 | 08-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+11:14:02 | 08-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+11:14:17 | 08-10-2017
+ID: 130
+Units ordered: spyplane 10
+
+11:49:58 | 08-10-2017
+ID: 1596
+Units ordered: spyplane 1
+
+11:49:58 | 08-10-2017
+ID: 1596
+Units ordered: b2_bomber 9
+
+12:04:30 | 08-10-2017
+ID: 433
+Units ordered: sam 260
+
+12:12:47 | 08-10-2017
+ID: 1205
+Units ordered: sniper 20
+
+12:37:39 | 08-10-2017
+ID: 402
+Units ordered: spyplane 5
+
+12:52:55 | 08-10-2017
+ID: 312
+Units ordered: spyplane 2
+
+12:52:55 | 08-10-2017
+ID: 312
+Units ordered: b2_bomber 8
+
+12:53:22 | 08-10-2017
+ID: 312
+Units ordered: spy 3
+
+12:59:19 | 08-10-2017
+ID: 445
+Units ordered: sniper 50
+
+13:04:25 | 08-10-2017
+ID: 1616
+Units ordered: paratrooper 59
+
+13:07:13 | 08-10-2017
+ID: 575
+Units ordered: spyplane 2
+
+13:11:52 | 08-10-2017
+ID: 1616
+Units ordered: paratrooper 135
+
+13:14:34 | 08-10-2017
+ID: 575
+Units ordered: spy 2
+
+13:21:34 | 08-10-2017
+ID: 29
+Units ordered: b2_bomber 260
+
+13:22:48 | 08-10-2017
+ID: 29
+Units ordered: spyplane 3
+
+13:37:17 | 08-10-2017
+ID: 1052
+Units ordered: spyplane 5
+
+13:37:17 | 08-10-2017
+ID: 1052
+Units ordered: f22_raptors 5
+
+14:28:39 | 08-10-2017
+ID: 614
+Units ordered: spy 5
+
+14:28:39 | 08-10-2017
+ID: 614
+Units ordered: grenade 15
+
+14:28:59 | 08-10-2017
+ID: 614
+Units ordered: grenade 400
+
+15:15:44 | 08-10-2017
+ID: 1029
+Units ordered: cruiser 100
+
+15:21:10 | 08-10-2017
+ID: 1228
+Units ordered: spyplane 50
+
+15:21:44 | 08-10-2017
+ID: 1228
+Units ordered: spyplane 50
+
+15:34:42 | 08-10-2017
+ID: 1616
+Units ordered: paratrooper 394
+
+15:40:56 | 08-10-2017
+ID: 34
+Units ordered: paratrooper 180
+
+16:59:12 | 08-10-2017
+ID: 1302
+Units ordered: spyplane 5
+
+17:23:53 | 08-10-2017
+ID: 749
+Units ordered: spyplane 5
+
+17:23:53 | 08-10-2017
+ID: 749
+Units ordered: b2_bomber 15
+
+17:24:09 | 08-10-2017
+ID: 433
+Units ordered: spyplane 3
+
+17:24:41 | 08-10-2017
+ID: 749
+Units ordered: battleship 10
+
+17:24:41 | 08-10-2017
+ID: 749
+Units ordered: carrier 5
+
+17:24:41 | 08-10-2017
+ID: 749
+Units ordered: submarine 10
+
+17:55:16 | 08-10-2017
+ID: 487
+Units ordered: b2_bomber 400
+
+18:01:49 | 08-10-2017
+ID: 235
+Units ordered: artillery 570
+
+18:03:09 | 08-10-2017
+ID: 575
+Units ordered: carrier 45
+
+18:07:51 | 08-10-2017
+ID: 457
+Units ordered: thief 20
+
+18:07:58 | 08-10-2017
+ID: 575
+Units ordered: b2_bomber 100
+
+18:30:07 | 08-10-2017
+ID: 1383
+Units ordered: destroyer 20
+
+18:30:46 | 08-10-2017
+ID: 1383
+Units ordered: destroyer 55
+
+18:33:32 | 08-10-2017
+ID: 234
+Units ordered: sniper 100
+
+18:34:29 | 08-10-2017
+ID: 1383
+Units ordered: destroyer 30
+
+18:34:36 | 08-10-2017
+ID: 234
+Units ordered: sniper 90
+
+18:48:40 | 08-10-2017
+ID: 575
+Units ordered: carrier 5
+
+19:00:21 | 08-10-2017
+ID: 1226
+Units ordered: spy 5
+
+19:01:37 | 08-10-2017
+ID: 522
+Units ordered: b2_bomber 10
+
+19:13:05 | 08-10-2017
+ID: 1073
+Units ordered: paratrooper 9
+
+19:13:05 | 08-10-2017
+ID: 1073
+Units ordered: grenade 4
+
+19:13:05 | 08-10-2017
+ID: 1073
+Units ordered: navy 2
+
+19:13:05 | 08-10-2017
+ID: 1073
+Units ordered: flamethrower 235
+
+19:19:23 | 08-10-2017
+ID: 1205
+Units ordered: spyplane 6
+
+19:51:44 | 08-10-2017
+ID: 575
+Units ordered: b2_bomber 30
+
+20:06:23 | 08-10-2017
+ID: 1319
+Units ordered: thief 10
+
+20:18:07 | 08-10-2017
+ID: 522
+Units ordered: b2_bomber 120
+
+20:18:30 | 08-10-2017
+ID: 522
+Units ordered: b2_bomber 50
+
+20:19:51 | 08-10-2017
+ID: 522
+Units ordered: b2_bomber 79
+
+20:23:59 | 08-10-2017
+ID: 1148
+Units ordered: armoured 100
+
+20:23:59 | 08-10-2017
+ID: 1148
+Units ordered: flamethrower 100
+
+20:24:11 | 08-10-2017
+ID: 1148
+Units ordered: sniper 20
+
+20:39:47 | 08-10-2017
+ID: 522
+Units ordered: b2_bomber 20
+
+20:51:44 | 08-10-2017
+ID: 402
+Units ordered: typhoon 20
+
+20:53:18 | 08-10-2017
+ID: 504
+Units ordered: spyplane 2
+
+20:54:22 | 08-10-2017
+ID: 522
+Units ordered: b2_bomber 60
+
+21:01:09 | 08-10-2017
+ID: 1052
+Units ordered: paratrooper 20
+
+21:01:21 | 08-10-2017
+ID: 1052
+Units ordered: grenade 20
+
+21:01:21 | 08-10-2017
+ID: 749
+Units ordered: submarine 10
+
+21:03:28 | 08-10-2017
+ID: 402
+Units ordered: artillery 10
+
+21:03:34 | 08-10-2017
+ID: 57
+Units ordered: spyplane 5
+
+21:08:14 | 08-10-2017
+ID: 1125
+Units ordered: artillery 150
+
+21:25:49 | 08-10-2017
+ID: 165
+Units ordered: sniper 50
+
+21:37:45 | 08-10-2017
+ID: 686
+Units ordered: spyplane 20
+
+21:49:21 | 08-10-2017
+ID: 1616
+Units ordered: paratrooper 80
+
+21:50:19 | 08-10-2017
+ID: 235
+Units ordered: rocket 400
+
+21:50:37 | 08-10-2017
+ID: 235
+Units ordered: rocket 40
+
+21:53:35 | 08-10-2017
+ID: 29
+Units ordered: b2_bomber 300
+
+22:10:25 | 08-10-2017
+ID: 1652
+Units ordered: submarine 40
+
+22:51:58 | 08-10-2017
+ID: 60
+Units ordered: spyplane 2
+
+22:52:16 | 08-10-2017
+ID: 60
+Units ordered: navy 700
+
+22:52:16 | 08-10-2017
+ID: 316
+Units ordered: spyplane 3
+
+22:52:16 | 08-10-2017
+ID: 316
+Units ordered: typhoon 7
+
+22:52:35 | 08-10-2017
+ID: 316
+Units ordered: spy 2
+
+22:53:41 | 08-10-2017
+ID: 60
+Units ordered: navy 80
+
+22:54:22 | 08-10-2017
+ID: 60
+Units ordered: navy 80
+
+22:56:52 | 08-10-2017
+ID: 1379
+Units ordered: artillery 220
+
+22:58:52 | 08-10-2017
+ID: 1379
+Units ordered: artillery 130
+
+23:28:52 | 08-10-2017
+ID: 1052
+Units ordered: paratrooper 20
+
+23:30:18 | 08-10-2017
+ID: 60
+Units ordered: navy 20
+
+23:40:09 | 08-10-2017
+ID: 1052
+Units ordered: rocket 40
+
+23:40:17 | 08-10-2017
+ID: 1052
+Units ordered: grenade 20
+
+23:57:45 | 08-10-2017
+ID: 615
+Units ordered: b2_bomber 72
+
+23:58:13 | 08-10-2017
+ID: 1052
+Units ordered: paratrooper 20
+
+0:04:13 | 09-10-2017
+ID: 475
+Units ordered: spyplane 50
+
+0:07:25 | 09-10-2017
+ID: 367
+Units ordered: sniper 50
+
+0:21:12 | 09-10-2017
+ID: 60
+Units ordered: navy 120
+
+0:22:14 | 09-10-2017
+ID: 60
+Units ordered: navy 120
+
+0:26:21 | 09-10-2017
+ID: 60
+Units ordered: navy 100
+
+0:32:26 | 09-10-2017
+ID: 686
+Units ordered: spyplane 10
+
+0:40:59 | 09-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+0:41:18 | 09-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+0:41:34 | 09-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+0:41:47 | 09-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+0:42:06 | 09-10-2017
+ID: 1337
+Units ordered: spyplane 10
+
+0:45:35 | 09-10-2017
+ID: 313
+Units ordered: b2_bomber 50
+
+0:52:08 | 09-10-2017
+ID: 60
+Units ordered: spy 3
+
+0:56:37 | 09-10-2017
+ID: 60
+Units ordered: armoured 40
+
+0:57:13 | 09-10-2017
+ID: 1379
+Units ordered: artillery 100
+
+1:00:58 | 09-10-2017
+ID: 60
+Units ordered: armoured 20
+
+1:13:51 | 09-10-2017
+ID: 749
+Units ordered: submarine 5
+
+1:18:57 | 09-10-2017
+ID: 1378
+Units ordered: spyplane 2
+
+2:34:07 | 09-10-2017
+ID: 1201
+Units ordered: sniper 33
+
+2:36:58 | 09-10-2017
+ID: 575
+Units ordered: paratrooper 300
+
+2:37:13 | 09-10-2017
+ID: 575
+Units ordered: paratrooper 100
+
+2:48:44 | 09-10-2017
+ID: 686
+Units ordered: spyplane 20
+
+3:12:12 | 09-10-2017
+ID: 1671
+Units ordered: rah66_commanches 50
+
+3:12:12 | 09-10-2017
+ID: 1671
+Units ordered: typhoon 50
+
+3:12:12 | 09-10-2017
+ID: 1671
+Units ordered: seahawk 50
+
+3:12:31 | 09-10-2017
+ID: 1671
+Units ordered: rah66_commanches 5
+
+3:12:31 | 09-10-2017
+ID: 1671
+Units ordered: typhoon 10
+
+3:12:31 | 09-10-2017
+ID: 1671
+Units ordered: seahawk 5
+
+3:13:07 | 09-10-2017
+ID: 1671
+Units ordered: sam 25
+
+3:13:07 | 09-10-2017
+ID: 1671
+Units ordered: abraham 50
+
+3:13:07 | 09-10-2017
+ID: 1671
+Units ordered: artillery 50
+
+3:13:08 | 09-10-2017
+ID: 1671
+Units ordered: m70mlrs 50
+
+3:13:08 | 09-10-2017
+ID: 1671
+Units ordered: m270_rocket 25
+
+3:50:08 | 09-10-2017
+ID: 1125
+Units ordered: spyplane 3
+
+5:24:27 | 09-10-2017
+ID: 433
+Units ordered: b2_bomber 20
+
+5:28:14 | 09-10-2017
+ID: 363
+Units ordered: thief 1
+
+5:28:15 | 09-10-2017
+ID: 363
+Units ordered: sniper 2
+
+5:28:15 | 09-10-2017
+ID: 363
+Units ordered: spy 2
+
+5:29:57 | 09-10-2017
+ID: 363
+Units ordered: typhoon 250
+
+5:30:48 | 09-10-2017
+ID: 363
+Units ordered: typhoon 300
+
+5:31:27 | 09-10-2017
+ID: 363
+Units ordered: typhoon 150
+
+5:34:56 | 09-10-2017
+ID: 363
+Units ordered: typhoon 40
+
+5:36:02 | 09-10-2017
+ID: 363
+Units ordered: typhoon 28
+
+5:37:26 | 09-10-2017
+ID: 442
+Units ordered: sniper 40
+
+5:38:07 | 09-10-2017
+ID: 34
+Units ordered: grenade 180
+
+5:38:21 | 09-10-2017
+ID: 442
+Units ordered: sniper 55
+
+5:38:21 | 09-10-2017
+ID: 442
+Units ordered: spy 5
+
+5:39:27 | 09-10-2017
+ID: 34
+Units ordered: destroyer 220
+
+5:58:14 | 09-10-2017
+ID: 1652
+Units ordered: cruiser 50
+
+7:04:55 | 09-10-2017
+ID: 1421
+Units ordered: sniper 20
+
+7:12:03 | 09-10-2017
+ID: 313
+Units ordered: b2_bomber 20
+
+7:12:58 | 09-10-2017
+ID: 313
+Units ordered: b2_bomber 10
+
+7:38:09 | 09-10-2017
+ID: 235
+Units ordered: paratrooper 400
+
+7:38:30 | 09-10-2017
+ID: 235
+Units ordered: paratrooper 192
+
+7:39:47 | 09-10-2017
+ID: 749
+Units ordered: submarine 3
+
+7:50:40 | 09-10-2017
+ID: 433
+Units ordered: b2_bomber 50
+
+7:52:02 | 09-10-2017
+ID: 749
+Units ordered: flamethrower 50
+
+7:52:21 | 09-10-2017
+ID: 749
+Units ordered: grenade 50
+
+7:52:35 | 09-10-2017
+ID: 575
+Units ordered: paratrooper 200
+
+7:52:48 | 09-10-2017
+ID: 749
+Units ordered: flamethrower 20
+
+7:53:01 | 09-10-2017
+ID: 749
+Units ordered: grenade 60
+
+8:03:17 | 09-10-2017
+ID: 1205
+Units ordered: sniper 40
+
+8:07:05 | 09-10-2017
+ID: 1190
+Units ordered: b2_bomber 10
+
+8:08:30 | 09-10-2017
+ID: 1190
+Units ordered: artillery 30
+
+8:09:35 | 09-10-2017
+ID: 1616
+Units ordered: paratrooper 120
+
+9:00:42 | 09-10-2017
+ID: 749
+Units ordered: flamethrower 140
+
+9:12:39 | 09-10-2017
+ID: 1029
+Units ordered: thief 10
+
+9:12:39 | 09-10-2017
+ID: 1029
+Units ordered: spy 10
+
+9:19:56 | 09-10-2017
+ID: 1302
+Units ordered: spyplane 5
+
+9:21:07 | 09-10-2017
+ID: 1302
+Units ordered: b2_bomber 20
+
+10:09:12 | 09-10-2017
+ID: 1203
+Units ordered: spyplane 2
+
+10:09:24 | 09-10-2017
+ID: 1203
+Units ordered: spy 5
+
+10:18:38 | 09-10-2017
+ID: 317
+Units ordered: artillery 73
+
+10:29:20 | 09-10-2017
+ID: 433
+Units ordered: seahawk 60
+
+10:32:38 | 09-10-2017
+ID: 433
+Units ordered: seahawk 10
+
+10:44:51 | 09-10-2017
+ID: 220
+Units ordered: spyplane 4
+
+11:05:09 | 09-10-2017
+ID: 16
+Units ordered: spyplane 3
+
+11:05:19 | 09-10-2017
+ID: 16
+Units ordered: spy 5
+

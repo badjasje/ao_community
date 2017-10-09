@@ -1,11 +1,12 @@
 <?php 	$sold_land_today = get_user_meta($user_ID, 'land_sold_today',true);
+		$freeland = get_user_meta($user_ID, 'land', true)-get_user_meta($user_ID, 'builtland', true);
 		$maxSell = 20000-$sold_land_today;
 ?>
 <div class="spaceNotice">
-	1 m<sup>2</sup> has a value of $ 75.
-	<?php if($sold_land_today != 0):?>
+	1 m<sup>2</sup> has a value of $ 75. You have <?php echo $freeland;?> m<sup>2</sup> of free land.
+	
 		You have sold <strong><?php echo $sold_land_today;?> m<sup>2</sup></strong> today. You can sell an additional <strong><?php echo $maxSell;?> m<sup>2</sup></strong>
-	<?php endif;?>
+	
 </div>
 
 <form class="form" action="<?php echo home_url() ?>/sell_land.php" name="" id="explore" method="post">

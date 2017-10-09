@@ -29,7 +29,7 @@
 				
 				
 				update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(48 * 3600));}
-				/* 
+				/*
 				if(get_user_meta($user_ID, 'reset_status', true) == 0){
 			
 				update_user_meta($user_ID, 'new_global_events', 0);
@@ -48,6 +48,13 @@
 				
 				update_user_meta($user_ID, 'new_clan_timestamp', 0);
 				update_user_meta($user_ID, 'aid_sent_today', 0);
+				update_user_meta($user_ID, 'total_aid_sent', 0);
+				update_user_meta($user_ID, 'number_of_aids', 0);
+				update_user_meta($user_ID, 'aid_received', 0);
+				update_user_meta($user_ID, 'attacks_made_current', 0);
+				update_user_meta($user_ID, 'attacks_rec_current', 0);
+				
+			
 				update_user_meta($user_ID, 'status', 'dead');
 				update_user_meta($user_ID,'attacks_made',0);
 				update_user_meta($user_ID,'starting_bonus','');
@@ -180,7 +187,7 @@
 			
 			} 
 
-/*
+/* 
 
 
 // Reset clan points and NW 
@@ -213,7 +220,7 @@ foreach ($clans as $clan) {
 	}
 	
 
-
+*/
 
 	
 	

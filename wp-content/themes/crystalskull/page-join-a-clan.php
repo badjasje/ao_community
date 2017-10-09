@@ -22,7 +22,7 @@ foreach ($clans as $clan) {
 	
 	$members = count(get_post_meta($clan->ID,'clan_members',true));
 	
-	if($members < 7){
+	if($members < 5){
 		$count++;
 	}
 }

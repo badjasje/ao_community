@@ -4,7 +4,7 @@ $player_ID = get_current_user_id();
 $PPE_level = get_user_meta($player_ID, 'level_powerplant_efficiency', true);
 $PPE_multi = 1;
 $pp = "Produces 3000 power.";
-$app = "Produces 3000 power.";
+$app = "Produces 15000 power.";
     
 if ($PPE_level == 1) {
     $PPE_multi = 1.5;

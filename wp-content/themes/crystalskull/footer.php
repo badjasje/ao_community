@@ -21,6 +21,7 @@ var i = setInterval(function() { myFunction(); }, 10000);
 
 })(jQuery);
 </script>
+<center>
 	<div class="container">
 		<div class="datetime">Current date/time is <strong><?php echo date("d-m-Y | G:i", strtotime('+2 hours')); ?></strong>
 		<?php if (is_user_logged_in() ) :?>
@@ -33,6 +34,7 @@ var i = setInterval(function() { myFunction(); }, 10000);
 		</div>
 
 	</div>
+</center>
 </footer>
 
 <div class="copyright">

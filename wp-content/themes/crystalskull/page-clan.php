@@ -8,6 +8,20 @@ $clan_id_user = get_user_meta($user_ID, 'clan_id_user',true);
 $clan_leader = get_post_meta($clan_id_user, 'clan_leader',true);
 $clanCreate = get_user_meta($user_ID,'clan_create_counter', true);
 
+$autojoin = get_post_meta($clan_id_user, 'autojoin_allowed', true);
+$autojoinDesc = get_post_meta($clan_id_user, 'autojoin_description', true);
+$playstyle = get_post_meta($clan_id_user, 'autojoin_playstyle', true);
+
+$autojoinYes = '';
+$autojoinNo = '';
+
+if($autojoin == 'yes'){
+	$autojoinYes = 'selected="selected"';
+}
+if($autojoin == 'no'){
+	$autojoinNo = 'selected="selected"';
+}
+
 $ct_1 = get_post_meta($clan_id_user,'ct_1',true);
 $ct_2 = get_post_meta($clan_id_user,'ct_2',true);
 $ct_3 = get_post_meta($clan_id_user,'ct_3',true);

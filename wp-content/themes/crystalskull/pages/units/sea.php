@@ -114,7 +114,7 @@ $unittype = $units[$key]['type'];
   
     var networth = <?php echo $order['price']*$order['networth']/100;?>;
     document.getElementById('<?php echo $key;?>_nw_total').value = parseInt(no_units)*parseInt(networth);
-    document.getElementById('<?php echo $key;?>_turn_total').value = Math.ceil(no_units/10);
+    document.getElementById('<?php echo $key;?>_turn_total').value = Math.ceil(no_units/5);
 	}	
 	calculate_<?php echo $key;?>();
 
