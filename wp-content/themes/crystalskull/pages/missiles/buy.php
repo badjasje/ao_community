@@ -86,11 +86,11 @@ $unittype = $missiles[$key]['type'];
 		<span class="clan_data_right">
 			<?php 	
 			if($key != 'tomahawk'){
-			$max_money = floor($totalmoney[0]/($order['price']));
+			$max_money = floor($totalMoney[0]/($order['price']));
 			$max_turns = floor($totalturns[0]*5);
 			$max_space = $missilespace[0]-$totalmissiles;
 			}else{
-			$max_money = floor($totalmoney[0]/($order['price']));
+			$max_money = floor($totalMoney[0]/($order['price']));
 			$max_turns = round($totalturns[0]/3);
 			$max_space = $tomahawkspace-get_user_meta($user_ID, 'tomahawk_owned', true)-get_user_meta($user_ID, 'tomahawk_ordered', true);
 				

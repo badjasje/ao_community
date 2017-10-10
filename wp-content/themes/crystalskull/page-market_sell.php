@@ -15,20 +15,8 @@ $infspace = get_user_meta($user_ID, 'baracks');
 $discount_level = get_user_meta($user_ID, 'level_market_discount',true);
 
 $startingbonus = get_user_meta($user_ID, 'starting_bonus',true);
-$shipping_discount = 1;
-if($startingbonus == 'shipping'){
-	$shipping_discount = 0.9;
-}
 
-if($discount_level == 0){
-	$discount = 1;
-}
-if($discount_level == 1){
-	$discount = 0.85;
-}
-if($discount_level == 2){
-	$discount = 0.70;
-}
+$marketSellMultiplier = (2.2 * 0.5);
 
 /** @TODO: This page contains a lot of duplication, while only a few things are different per tab. Should be refactored */
 get_header(); ?>

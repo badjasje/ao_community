@@ -34,9 +34,8 @@ if($units_owned[0] != 0){
 	<div class="col-md-3 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Price</span>
 		<span class="clan_data_right">
-			$ <?php echo ceil($order['price']*2.2*0.65*$discount*$shipping_discount);?>
+			$ <?php echo ceil($order['price'] * $marketSellMultiplier);?>
 		</span>
-
 	</div>
 	
 

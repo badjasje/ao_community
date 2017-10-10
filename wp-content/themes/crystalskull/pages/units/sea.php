@@ -81,7 +81,7 @@ $unittype = $units[$key]['type'];
 	<div class="col-md-1 clan_column">
 		<span class="clan_data_left">Max</span>
 		<span class="clan_data_right">
-				<?php 	$max_money = floor($totalmoney[0]/($order['price']));
+				<?php 	$max_money = floor($totalMoney[0]/($order['price']));
 						$max_turns = floor($totalturns[0]*5);
 						$max_space = ($seaspace[0]*5)-count_seaspace($user_ID);
 								
