@@ -25,7 +25,7 @@
 <?php // Buildings TABLE
 $totalbuildings = 0;
 foreach ($buildings as $key => $order) {
-$units_owned = get_user_meta($user_ID, $key);
+$units_owned = get_user_meta($userId, $key);
 if ($units_owned[0] > 0) {
 ?>
 			

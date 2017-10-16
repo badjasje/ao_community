@@ -32,7 +32,7 @@ $units_attack = $_SESSION['attack_array'];
   					</tr>
 		<?php foreach($units_attack as $key => $order){
 			
-			$units_owned = get_user_meta($user_ID, $key.'_owned');
+			$units_owned = get_user_meta($userId, $key.'_owned');
 			
 			if($order > 0){
 			if($order >= $units_owned[0]){
@@ -79,7 +79,7 @@ $units_attack = $_SESSION['attack_array'];
   					</tr>
   				<?php
 			$key = $_SESSION['attack_array']['missile'];
-			$units_owned = get_user_meta($user_ID, $key.'_owned',true);
+			$units_owned = get_user_meta($userId, $key.'_owned',true);
 			
 			
 			
@@ -112,7 +112,7 @@ $units_attack = $_SESSION['attack_array'];
 			
 			if($_SESSION['attacktype'] == 'satellite'): 
 			include 'satellite_array.php';
-			$sat_owned = get_user_meta($user_ID, 'sat_owned',true);
+			$sat_owned = get_user_meta($userId, 'sat_owned',true);
 			?>
 			
 			
@@ -163,7 +163,7 @@ $units_attack = $_SESSION['attack_array'];
   					</tr>
 		<?php foreach($units_attack as $key => $order){
 			
-			$units_owned = get_user_meta($user_ID, $key.'_owned');
+			$units_owned = get_user_meta($userId, $key.'_owned');
 			
 			if($order > 0){
 			if($order >= $units_owned[0]){
@@ -206,7 +206,7 @@ $units_attack = $_SESSION['attack_array'];
   					</tr>
 		<?php foreach($units_attack as $key => $order){
 			
-			$units_owned = get_user_meta($user_ID, $order.'_owned');
+			$units_owned = get_user_meta($userId, $order.'_owned');
 		
 			
 			?><tr>

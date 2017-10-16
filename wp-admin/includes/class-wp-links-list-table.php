@@ -50,7 +50,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	 * @global string $order
 	 */
 	public function prepare_items() {
-		global $cat_id, $s, $orderby, $order;
+		global $cat_id, $s, $orderby, $unit;
 
 		wp_reset_vars( array( 'action', 'cat_id', 'link_id', 'orderby', 'order', 's' ) );
 
@@ -62,8 +62,8 @@ class WP_Links_List_Table extends WP_List_Table {
 			$args['search'] = $s;
 		if ( !empty( $orderby ) )
 			$args['orderby'] = $orderby;
-		if ( !empty( $order ) )
-			$args['order'] = $order;
+		if ( !empty( $unit ) )
+			$args['order'] = $unit;
 
 		$this->items = get_bookmarks( $args );
 	}

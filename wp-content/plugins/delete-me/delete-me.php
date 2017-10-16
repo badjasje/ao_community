@@ -50,11 +50,11 @@ class plugin_delete_me {
 	// Construct
 	public function __construct() {
 		
-		global $wp_roles, $wp_version, $wpdb, $user_ID, $user_login, $user_email;
+		global $wp_roles, $wp_version, $wpdb, $userId, $user_login, $user_email;
 		$this->wp_roles = &$wp_roles;
 		$this->wp_version = &$wp_version;
 		$this->wpdb = &$wpdb;
-		$this->user_ID = &$user_ID;
+		$this->user_ID = &$userId;
 		$this->user_login = &$user_login;
 		$this->user_email = &$user_email;
 		

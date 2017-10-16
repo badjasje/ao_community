@@ -68,7 +68,7 @@ get_header(); ?>
 			
 	if($key != 'tomahawk'){
 			
-		$units_owned = get_user_meta($user_ID, $key.'_owned');
+		$units_owned = get_user_meta($userId, $key.'_owned');
 			
 		if($order > 0){
 			
@@ -101,7 +101,7 @@ get_header(); ?>
 			</tr>
 		<?php }}} ?>
 		<?php 
-			$tomahawk_owned = get_user_meta($user_ID, 'tomahawk_owned',true);
+			$tomahawk_owned = get_user_meta($userId, 'tomahawk_owned',true);
 		
 			$order = $_SESSION['attack_array']['tomahawk'];
 			
@@ -149,7 +149,7 @@ get_header(); ?>
 			if($_SESSION['attacktype'] == 'missile'): ?>
 			<?php
 			$key = $_SESSION['attack_array']['missile'];
-			$units_owned = get_user_meta($user_ID, $key.'_owned',true);
+			$units_owned = get_user_meta($userId, $key.'_owned',true);
 			
 				$url = '/attack/missile-result/';
 			if($key == 'empmis'){
@@ -198,7 +198,7 @@ get_header(); ?>
 			
 			if($_SESSION['attacktype'] == 'satellite'): 
 			include 'satellite_array.php';
-			$sat_owned = get_user_meta($user_ID, 'sat_owned',true);
+			$sat_owned = get_user_meta($userId, 'sat_owned',true);
 			if($sat_owned == 'laser'){
 			$resultURL = home_url().'/attack/satellite-result/';
 			}
@@ -260,7 +260,7 @@ get_header(); ?>
 			<tbody>
 		<?php foreach($units_attack as $key => $order){
 			
-			$units_owned = get_user_meta($user_ID, $key.'_owned');
+			$units_owned = get_user_meta($userId, $key.'_owned');
 			
 			if($order > 0){
 			if($order >= $units_owned[0]){
@@ -303,7 +303,7 @@ get_header(); ?>
   					</tr>
 		<?php foreach($units_attack as $key => $order){
 			
-			$units_owned = get_user_meta($user_ID, $key.'_owned');
+			$units_owned = get_user_meta($userId, $key.'_owned');
 			
 			if($order > 0){
 			if($order >= $units_owned[0]){
@@ -352,7 +352,7 @@ get_header(); ?>
 			<tbody>
 		<?php foreach($units_attack as $key => $order){
 			
-			$units_owned = get_user_meta($user_ID, $order.'_owned');
+			$units_owned = get_user_meta($userId, $order.'_owned');
 		
 			
 			?><tr>

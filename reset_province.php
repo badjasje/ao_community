@@ -20,7 +20,7 @@ $incomingWars = get_posts(array(
 if (!defined('ABSPATH')) {
     exit;
 }
-if (empty($user_ID)) {
+if (empty($userId)) {
     wp_redirect(get_permalink(3582));
     exit;
 }
@@ -31,7 +31,7 @@ if (!is_user_logged_in()) {
 
 
 if (count($incomingWars) < 1) {
-    update_user_meta($user_ID, 'status', 'dead');
+    update_user_meta($userId, 'status', 'dead');
 
     $_SESSION['status'] = 'Account has been reset.';
     wp_redirect(get_permalink(3486));

@@ -61,7 +61,7 @@ error_log("step 3 target id: ".$target_id);
 
 
 foreach ($attacking_units as $key => $order) {
-    $units_owned = get_user_meta($user_ID, $key.'_owned');
+    $units_owned = get_user_meta($userId, $key.'_owned');
     $units_attacking = $units_owned[0]*$order;
     
     $attackpower = $units[$key]['attack']*$units_attacking;
@@ -132,7 +132,7 @@ $VEH_DEF_life = 0;
         $_total_sea_units_def = 0;
         
 foreach ($units as $key => $order) {
-            $def_units_owned = get_user_meta($user_ID, $key.'_owned');
+            $def_units_owned = get_user_meta($userId, $key.'_owned');
             $units_defending = $def_units_owned[0];
             $defpower = $units[$key]['attack']*$units_defending;
             
@@ -186,25 +186,25 @@ foreach ($units as $key => $order) {
 
 foreach ($buildings as $key => $building) {
     if ($building['attacks'][0] == 'sea') {
-        $def_bld_owned = get_user_meta($user_ID, $key);
+        $def_bld_owned = get_user_meta($userId, $key);
         $def_bld_owned = $def_bld_owned[0];
                     
         $SEA_DEF_ATT_power+= $def_bld_owned*$building['attack']*(rand(70, 110)/100);
     }
     if ($building['attacks'][0] == 'air') {
-        $def_bld_owned = get_user_meta($user_ID, $key);
+        $def_bld_owned = get_user_meta($userId, $key);
         $def_bld_owned = $def_bld_owned[0];
                 
         $AIR_DEF_ATT_power+= $def_bld_owned*$building['attack']*(rand(70, 110)/100);
     }
     if ($building['attacks'][0] == 'inf') {
-        $def_bld_owned = get_user_meta($user_ID, $key);
+        $def_bld_owned = get_user_meta($userId, $key);
         $def_bld_owned = $def_bld_owned[0];
                     
         $INF_DEF_ATT_power+= $def_bld_owned*$building['attack']*(rand(70, 110)/100);
     }
     if ($building['attacks'][0] == 'veh') {
-        $def_bld_owned = get_user_meta($user_ID, $key);
+        $def_bld_owned = get_user_meta($userId, $key);
         $def_bld_owned = $def_bld_owned[0];
                 
         $VEH_DEF_ATT_power+= $def_bld_owned*$building['attack']*(rand(70, 110)/100);
@@ -231,7 +231,7 @@ foreach ($units as $key => $order) {
         
         //AIR
     if ($unittype == 'air') {
-        $def_units_owned = get_user_meta($user_ID, $key.'_owned');
+        $def_units_owned = get_user_meta($userId, $key.'_owned');
         $def_units_owned = $def_units_owned[0];
         if ($def_units_owned > 0) {
             $percentage = $def_units_owned/$_total_air_units_def;
@@ -240,10 +240,10 @@ foreach ($units as $key => $order) {
             $units_lost = round($damage/$units[$key]['life']);
             if ($units_lost > 0) {
                 if ($def_units_owned < $units_lost) {
-                    update_user_meta($user_ID, $key.'_owned', 0);
+                    update_user_meta($userId, $key.'_owned', 0);
                     $defender_lost[] = array('type' => 'unit',$key => $def_units_owned);
                 } else {
-                    update_user_meta($user_ID, $key.'_owned', $def_units_owned-$units_lost);
+                    update_user_meta($userId, $key.'_owned', $def_units_owned-$units_lost);
                     $defender_lost[] = array('type' => 'unit',$key => $units_lost);
                 }
             }
@@ -252,7 +252,7 @@ foreach ($units as $key => $order) {
                     
         //INF
     if ($unittype == 'inf') {
-        $def_units_owned = get_user_meta($user_ID, $key.'_owned');
+        $def_units_owned = get_user_meta($userId, $key.'_owned');
         $def_units_owned = $def_units_owned[0];
         if ($def_units_owned > 0) {
             $percentage = $def_units_owned/$_total_inf_units_def;
@@ -261,10 +261,10 @@ foreach ($units as $key => $order) {
             $units_lost = round($damage/$units[$key]['life']);
             if ($units_lost > 0) {
                 if ($def_units_owned < $units_lost) {
-                    update_user_meta($user_ID, $key.'_owned', 0);
+                    update_user_meta($userId, $key.'_owned', 0);
                     $defender_lost[] = array('type' => 'unit',$key => $def_units_owned);
                 } else {
-                    update_user_meta($user_ID, $key.'_owned', $def_units_owned-$units_lost);
+                    update_user_meta($userId, $key.'_owned', $def_units_owned-$units_lost);
                     $defender_lost[] = array('type' => 'unit',$key => $units_lost);
                 }
             }
@@ -272,7 +272,7 @@ foreach ($units as $key => $order) {
     }
         //VEH
     if ($unittype == 'veh') {
-        $def_units_owned = get_user_meta($user_ID, $key.'_owned');
+        $def_units_owned = get_user_meta($userId, $key.'_owned');
         $def_units_owned = $def_units_owned[0];
         if ($def_units_owned > 0) {
             $percentage = $def_units_owned/$_total_veh_units_def;
@@ -282,10 +282,10 @@ foreach ($units as $key => $order) {
                     
             if ($units_lost > 0) {
                 if ($def_units_owned < $units_lost) {
-                    update_user_meta($user_ID, $key.'_owned', 0);
+                    update_user_meta($userId, $key.'_owned', 0);
                     $defender_lost[] = array('type' => 'unit',$key => $def_units_owned);
                 } else {
-                    update_user_meta($user_ID, $key.'_owned', $def_units_owned-$units_lost);
+                    update_user_meta($userId, $key.'_owned', $def_units_owned-$units_lost);
                     $defender_lost[] = array('type' => 'unit',$key => $units_lost);
                 }
             }
@@ -293,7 +293,7 @@ foreach ($units as $key => $order) {
     }
         //SEA
     if ($unittype == 'sea') {
-        $def_units_owned = get_user_meta($user_ID, $key.'_owned');
+        $def_units_owned = get_user_meta($userId, $key.'_owned');
         $def_units_owned = $def_units_owned[0];
         if ($def_units_owned > 0) {
             $percentage = $def_units_owned/$_total_sea_units_def;
@@ -303,10 +303,10 @@ foreach ($units as $key => $order) {
                     
             if ($units_lost > 0) {
                 if ($def_units_owned < $units_lost) {
-                    update_user_meta($user_ID, $key.'_owned', 0);
+                    update_user_meta($userId, $key.'_owned', 0);
                     $defender_lost[] = array('type' => 'unit',$key => $def_units_owned);
                 } else {
-                    update_user_meta($user_ID, $key.'_owned', $def_units_owned-$units_lost);
+                    update_user_meta($userId, $key.'_owned', $def_units_owned-$units_lost);
                     $defender_lost[] = array('type' => 'unit',$key => $units_lost);
                 }
             }
@@ -318,14 +318,14 @@ foreach ($units as $key => $order) {
 // KILLING BUILDINGS OF DEFENDER //
 $_total_bld_def = 0;
 foreach ($buildings as $key => $building) {
-    $def_bld_owned = get_user_meta($user_ID, $key);
+    $def_bld_owned = get_user_meta($userId, $key);
     $_total_bld_def+= $def_bld_owned[0];
 }
 
 
 foreach ($buildings as $key => $building) {
         //bld
-                    $def_bld_owned = get_user_meta($user_ID, $key);
+                    $def_bld_owned = get_user_meta($userId, $key);
                     $def_bld_owned = $def_bld_owned[0];
                     
     if ($def_bld_owned > 0) {
@@ -337,10 +337,10 @@ foreach ($buildings as $key => $building) {
                     
         if ($buildings_lost > 0) {
             if ($def_bld_owned < $buildings_lost) {
-                update_user_meta($user_ID, $key, 0);
+                update_user_meta($userId, $key, 0);
                 $defender_lost[] = array('type' => 'bld',$key => $def_bld_owned);
             } else {
-                update_user_meta($user_ID, $key, $def_bld_owned-$buildings_lost);
+                update_user_meta($userId, $key, $def_bld_owned-$buildings_lost);
                 $defender_lost[] = array('type' => 'bld',$key => $buildings_lost);
             }
         }
@@ -357,7 +357,7 @@ foreach ($attacking_units as $key => $order) {
         
         //AIR
     if ($unittype == 'air') {
-        $units_owned = get_user_meta($user_ID, $key.'_owned');
+        $units_owned = get_user_meta($userId, $key.'_owned');
         $units_attacking = $units_owned[0]*$order;
                     
         if ($units_attacking > 0) {
@@ -368,11 +368,11 @@ foreach ($attacking_units as $key => $order) {
                     
             if ($units_lost > 0) {
                 if ($units_attacking < $units_lost) {
-                    update_user_meta($user_ID, $key.'_owned', 0);
+                    update_user_meta($userId, $key.'_owned', 0);
                     $attacker_lost[] = array($key => $units_attacking);
                 } else {
-                    $total_units_attacker = get_user_meta($user_ID, $key.'_owned');
-                    update_user_meta($user_ID, $key.'_owned', $total_units_attacker[0]-$units_lost);
+                    $total_units_attacker = get_user_meta($userId, $key.'_owned');
+                    update_user_meta($userId, $key.'_owned', $total_units_attacker[0]-$units_lost);
                     $attacker_lost[] = array($key => $units_lost);
                 }
             }
@@ -381,7 +381,7 @@ foreach ($attacking_units as $key => $order) {
         
         //SEA
     if ($unittype == 'sea') {
-        $units_owned = get_user_meta($user_ID, $key.'_owned');
+        $units_owned = get_user_meta($userId, $key.'_owned');
         $units_attacking = $units_owned[0]*$order;
                     
         if ($units_attacking > 0) {
@@ -392,11 +392,11 @@ foreach ($attacking_units as $key => $order) {
                     
             if ($units_lost > 0) {
                 if ($units_attacking < $units_lost) {
-                    update_user_meta($user_ID, $key.'_owned', 0);
+                    update_user_meta($userId, $key.'_owned', 0);
                     $attacker_lost[] = array($key => $units_attacking);
                 } else {
-                    $total_units_attacker = get_user_meta($user_ID, $key.'_owned');
-                    update_user_meta($user_ID, $key.'_owned', $total_units_attacker[0]-$units_lost);
+                    $total_units_attacker = get_user_meta($userId, $key.'_owned');
+                    update_user_meta($userId, $key.'_owned', $total_units_attacker[0]-$units_lost);
                     $attacker_lost[] = array($key => $units_lost);
                 }
             }
@@ -405,7 +405,7 @@ foreach ($attacking_units as $key => $order) {
         
         //INF
     if ($unittype == 'inf') {
-        $units_owned = get_user_meta($user_ID, $key.'_owned');
+        $units_owned = get_user_meta($userId, $key.'_owned');
         $units_attacking = $units_owned[0]*$order;
                     
         if ($units_attacking > 0) {
@@ -416,11 +416,11 @@ foreach ($attacking_units as $key => $order) {
                     
             if ($units_lost > 0) {
                 if ($units_attacking < $units_lost) {
-                    update_user_meta($user_ID, $key.'_owned', 0);
+                    update_user_meta($userId, $key.'_owned', 0);
                     $attacker_lost[] = array($key => $units_attacking);
                 } else {
-                    $total_units_attacker = get_user_meta($user_ID, $key.'_owned');
-                    update_user_meta($user_ID, $key.'_owned', $total_units_attacker[0]-$units_lost);
+                    $total_units_attacker = get_user_meta($userId, $key.'_owned');
+                    update_user_meta($userId, $key.'_owned', $total_units_attacker[0]-$units_lost);
                     $attacker_lost[] = array($key => $units_lost);
                 }
             }
@@ -429,7 +429,7 @@ foreach ($attacking_units as $key => $order) {
                                                 
         //VEH
     if ($unittype == 'veh') {
-        $units_owned = get_user_meta($user_ID, $key.'_owned');
+        $units_owned = get_user_meta($userId, $key.'_owned');
         $units_attacking = $units_owned[0]*$order;
                     
         if ($units_attacking > 0) {
@@ -440,11 +440,11 @@ foreach ($attacking_units as $key => $order) {
                     
             if ($units_lost > 0) {
                 if ($units_attacking < $units_lost) {
-                    update_user_meta($user_ID, $key.'_owned', 0);
+                    update_user_meta($userId, $key.'_owned', 0);
                     $attacker_lost[] = array($key => $units_attacking);
                 } else {
-                    $total_units_attacker = get_user_meta($user_ID, $key.'_owned');
-                    update_user_meta($user_ID, $key.'_owned', $total_units_attacker[0]-$units_lost);
+                    $total_units_attacker = get_user_meta($userId, $key.'_owned');
+                    update_user_meta($userId, $key.'_owned', $total_units_attacker[0]-$units_lost);
                     $attacker_lost[] = array($key => $units_lost);
                 }
             }
@@ -462,9 +462,9 @@ if ($TOTAL_DEF_DAMAGE>$TOTAL_ATT_DAMAGE) {
 
     $stealing_percentage = ($TOTAL_ATT_DAMAGE-$TOTAL_DEF_DAMAGE)/$TOTAL_DEF_DAMAGE;
 
-    $money = get_user_meta($user_ID, 'money');
-    $land = get_user_meta($user_ID, 'land');
-    $builtland = get_user_meta($user_ID, 'builtland');
+    $money = get_user_meta($userId, 'money');
+    $land = get_user_meta($userId, 'land');
+    $builtland = get_user_meta($userId, 'builtland');
     $freeland = $land[0]-$builtland[0];
 
     $land_stolen = $freeland*0.02*(($stealing_percentage/3)+1);

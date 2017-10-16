@@ -33410,3 +33410,27 @@ Units ordered: 80
 ID: 1205
 Units ordered: 77
 
+14:28:11 | 14-10-2017
+ID: 1020
+Units ordered: 400
+
+14:40:02 | 14-10-2017
+ID: 1020
+Units ordered: 400
+
+14:45:18 | 14-10-2017
+ID: 1020
+Units ordered: 400
+
+14:48:28 | 14-10-2017
+ID: 1020
+Units ordered: 400
+
+14:57:35 | 14-10-2017
+ID: 1020
+Units ordered: 400
+
+21:03:29 | 16-10-2017
+ID: 1020
+Units ordered: 100
+

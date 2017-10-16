@@ -1,5 +1,5 @@
 <div class="spaceNotice">
-	Your empty airfields allow you to build a maximum of <strong><?php echo ($airspace[0]*10)-count_airspace($user_ID);?></strong> air units.
+	Your empty airfields allow you to build a maximum of <strong><?php echo ($airspace[0]*10)-count_airspace($userId);?></strong> air units.
 </div>
 
 
@@ -16,8 +16,8 @@
 <?php // AIR TABLE
 $totalair = 0;
 foreach($units as $key => $order){
-$units_owned = get_user_meta($user_ID, $key.'_owned');
-$units_ordered = get_user_meta($user_ID, $key.'_ordered');
+$units_owned = get_user_meta($userId, $key.'_owned');
+$units_ordered = get_user_meta($userId, $key.'_ordered');
 $unittype = $units[$key]['type'];
 ?>
 <?php if($unittype == 'air'):?>
@@ -83,7 +83,7 @@ $unittype = $units[$key]['type'];
 		<span class="clan_data_right">
 				<?php 	$max_money = floor($totalMoney[0]/($order['price']));
 						$max_turns = floor($totalturns[0]*10);
-						$max_space = ($airspace[0]*10)-count_airspace($user_ID);
+						$max_space = ($airspace[0]*10)-count_airspace($userId);
 								
 							
 						?>

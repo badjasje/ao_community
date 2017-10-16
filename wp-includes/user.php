@@ -942,21 +942,21 @@ function count_users($strategy = 'time') {
  * @param int $for_user_id Optional. User ID to set up global data.
  */
 function setup_userdata($for_user_id = '') {
-	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_identity;
+	global $user_login, $userdata, $user_level, $userId, $user_email, $user_url, $user_identity;
 
 	if ( '' == $for_user_id )
 		$for_user_id = get_current_user_id();
 	$user = get_userdata( $for_user_id );
 
 	if ( ! $user ) {
-		$user_ID = 0;
+		$userId = 0;
 		$user_level = 0;
 		$userdata = null;
 		$user_login = $user_email = $user_url = $user_identity = '';
 		return;
 	}
 
-	$user_ID    = (int) $user->ID;
+	$userId    = (int) $user->ID;
 	$user_level = (int) $user->user_level;
 	$userdata   = $user;
 	$user_login = $user->user_login;

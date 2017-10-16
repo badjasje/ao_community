@@ -48,7 +48,7 @@ include 'DO_NOT_DELETE.php';
 				
 			<?php
 			foreach($units as $key => $unit){
-				$units_owned = get_user_meta($user_ID, $key.'_owned');
+				$units_owned = get_user_meta($userId, $key.'_owned');
 				
 				if($unit['type'] == 'air' || $unit['type'] == 'sea' and $unit['normalname'] != 'SR-71 Spyplane'){
 				
@@ -136,7 +136,7 @@ include 'DO_NOT_DELETE.php';
 				
 				<?php
 				foreach($units as $key => $unit){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
+					$units_owned = get_user_meta($userId, $key.'_owned');
 					
 						
 					if($unit['normalname'] == 'Thief'){
@@ -192,7 +192,7 @@ include 'DO_NOT_DELETE.php';
 				
 				<?php
 				foreach($units as $key => $unit){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
+					$units_owned = get_user_meta($userId, $key.'_owned');
 					
 					if($unit['type'] == 'veh' || $unit['type'] == 'inf' || $unit['type'] == 'air' and $unit['normalname'] != 'Thief' and $unit['normalname'] != 'Spy' and $unit['normalname'] != 'SR-71 Spyplane'){
 					if($units_owned[0]>0){
@@ -278,7 +278,7 @@ include 'DO_NOT_DELETE.php';
 				
 				<?php
 				foreach($units as $key => $unit){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
+					$units_owned = get_user_meta($userId, $key.'_owned');
 					
 					if($unit['type'] == 'veh' || $unit['type'] == 'inf' and $unit['normalname'] != 'Thief' and $unit['normalname'] != 'Spy' and $unit['normalname'] != 'SR-71 Spyplane'){
 					if($units_owned[0]>0){
@@ -363,7 +363,7 @@ include 'DO_NOT_DELETE.php';
   					</tr>
 		<?php foreach($units as $key => $unit){
 			if($unit['normalname'] == 'Spy' || $unit['normalname'] == 'SR-71 Spyplane'){
-					$spies_owned = get_user_meta($user_ID, $key.'_owned');
+					$spies_owned = get_user_meta($userId, $key.'_owned');
 					if($spies_owned[0]>0){
 					?>
 					<tr>
@@ -415,7 +415,7 @@ include 'DO_NOT_DELETE.php';
 						<td><strong>Send</strong></td>
   					</tr>
 		<?php foreach($missiles as $key => $missile){
-					$missiles_owned = get_user_meta($user_ID, $key.'_owned');
+					$missiles_owned = get_user_meta($userId, $key.'_owned');
 					if($missiles_owned[0]>0){
 					?>
 					<tr>

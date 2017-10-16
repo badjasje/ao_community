@@ -73,7 +73,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	 * @global string $s
 	 */
 	public function prepare_items() {
-		global $status, $plugins, $totals, $page, $orderby, $order, $s;
+		global $status, $plugins, $totals, $page, $orderby, $unit, $s;
 
 		wp_reset_vars( array( 'orderby', 'order' ) );
 
@@ -262,7 +262,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$orderby = ucfirst( $orderby );
 		}
 
-		$order = strtoupper( $order );
+		$unit = strtoupper( $unit );
 
 		uasort( $this->items, array( $this, '_order_callback' ) );
 
@@ -305,7 +305,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	 * @return int
 	 */
 	public function _order_callback( $plugin_a, $plugin_b ) {
-		global $orderby, $order;
+		global $orderby, $unit;
 
 		$a = $plugin_a[$orderby];
 		$b = $plugin_b[$orderby];
@@ -313,7 +313,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		if ( $a == $b )
 			return 0;
 
-		if ( 'DESC' === $order ) {
+		if ( 'DESC' === $unit ) {
 			return strcasecmp( $b, $a );
 		} else {
 			return strcasecmp( $a, $b );

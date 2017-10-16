@@ -1380,14 +1380,13 @@ function verifyFormToken($form) {
 }
 
 
- if ( !is_admin()){
-if(is_user_logged_in ()){
-$user_ID = get_current_user_id();
-count_all_stats($user_ID);
-
-}
-$timestamp = current_time('timestamp');
-update_user_meta( $user_ID,'last_online',$timestamp);
+if ( !is_admin()){
+    if(is_user_logged_in ()){
+        $user_ID = get_current_user_id();
+        count_all_stats($user_ID);
+        $timestamp = current_time('timestamp');
+        update_user_meta( $user_ID,'last_online',$timestamp);
+    }
 }
 
 session_start();

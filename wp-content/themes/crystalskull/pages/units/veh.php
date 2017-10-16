@@ -1,5 +1,5 @@
 <div class="spaceNotice">
-	Your empty warfactories allow you to build a maximum of <strong><?php echo ($vehspace[0]*10)-count_vehspace($user_ID);?></strong> vehicles.
+	Your empty warfactories allow you to build a maximum of <strong><?php echo ($vehspace[0]*10)-count_vehspace($userId);?></strong> vehicles.
 </div>
 
 
@@ -16,8 +16,8 @@
 <?php // veh TABLE
 $totalveh = 0;
 foreach($units as $key => $order){
-$units_owned = get_user_meta($user_ID, $key.'_owned');
-$units_ordered = get_user_meta($user_ID, $key.'_ordered');
+$units_owned = get_user_meta($userId, $key.'_owned');
+$units_ordered = get_user_meta($userId, $key.'_ordered');
 $unittype = $units[$key]['type'];
 ?>
 <?php if($unittype == 'veh'):?>
@@ -83,7 +83,7 @@ $unittype = $units[$key]['type'];
 		<span class="clan_data_right">
 				<?php 	$max_money = floor($totalMoney[0]/($order['price']));
 						$max_turns = floor($totalturns[0]*10);
-						$max_space = ($vehspace[0]*10)-count_vehspace($user_ID);
+						$max_space = ($vehspace[0]*10)-count_vehspace($userId);
 								
 							
 						?>

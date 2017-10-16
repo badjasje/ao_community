@@ -429,7 +429,7 @@ function wp_revoke_user($id) {
  * @param false $errors Deprecated.
  */
 function default_password_nag_handler($errors = false) {
-	global $user_ID;
+	global $userId;
 	// Short-circuit it.
 	if ( ! get_user_option('default_password_nag') )
 		return;
@@ -437,7 +437,7 @@ function default_password_nag_handler($errors = false) {
 	// get_user_setting = JS saved UI setting. else no-js-fallback code.
 	if ( 'hide' == get_user_setting('default_password_nag') || isset($_GET['default_password_nag']) && '0' == $_GET['default_password_nag'] ) {
 		delete_user_setting('default_password_nag');
-		update_user_option($user_ID, 'default_password_nag', false, true);
+		update_user_option($userId, 'default_password_nag', false, true);
 	}
 }
 

@@ -82,11 +82,11 @@ get_header(); ?>
 			<?php
 				$sendall = array();
 				$tot_units = 0;
-				$tomahawkspace = get_user_meta($user_ID, 'submarine_owned',true)*2;
-				$maxNetworth = round(get_user_meta($user_ID, 'networth',true)/10000*2);
-				$maxTomahawk = min($tomahawkspace,$maxNetworth,get_user_meta($user_ID, 'tomahawk_owned', true));
+				$tomahawkspace = get_user_meta($userId, 'submarine_owned',true)*2;
+				$maxNetworth = round(get_user_meta($userId, 'networth',true)/10000*2);
+				$maxTomahawk = min($tomahawkspace,$maxNetworth,get_user_meta($userId, 'tomahawk_owned', true));
 			foreach($units as $key => $unit){
-				$units_owned = get_user_meta($user_ID, $key.'_owned');
+				$units_owned = get_user_meta($userId, $key.'_owned');
 				
 				
 				if($unit['type'] == 'air' || $unit['type'] == 'sea' and $unit['normalname'] != 'SR-71 Spyplane'){
@@ -231,7 +231,7 @@ get_header(); ?>
 				
 				if($_SESSION['attacktype'] == 'thief'){
 					
-					$thief_owned = get_user_meta($user_ID, 'thief_owned',true);
+					$thief_owned = get_user_meta($userId, 'thief_owned',true);
 				?>
 				<div class="notice_message"><span class="rdw-line">Thiefs are used to steal money.</span> <span class="rdw-line">Sending more thiefs increases the amount of money stolen but also increases the chance of getting caught.</span></div><br/>
 				<table class="responsive-table">
@@ -246,7 +246,7 @@ get_header(); ?>
 				
 				<?php
 				foreach($units as $key => $unit){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
+					$units_owned = get_user_meta($userId, $key.'_owned');
 					
 					
 					if($unit['normalname'] == 'Thief'){
@@ -305,7 +305,7 @@ get_header(); ?>
 				
 				if($_SESSION['attacktype'] == 'sniper'){
 					
-					$thief_owned = get_user_meta($user_ID, 'sniper_owned',true);
+					$thief_owned = get_user_meta($userId, 'sniper_owned',true);
 				?>
 				<div class="notice_message"><span class="rdw-line">Snipers are used to kill thiefs, spies and other snipers</span> <span class="rdw-line">Sending more snipers increases the amount of thiefs and spies killed but also increases the chance to get caught.</span></div><br/>
 				<table class="responsive-table">
@@ -319,7 +319,7 @@ get_header(); ?>
 				
 				<?php
 				foreach($units as $key => $unit){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
+					$units_owned = get_user_meta($userId, $key.'_owned');
 					
 					
 					if($unit['normalname'] == 'Sniper'){
@@ -388,7 +388,7 @@ get_header(); ?>
 				<?php
 					$units_total = 0;
 				foreach($units as $key => $unit){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
+					$units_owned = get_user_meta($userId, $key.'_owned');
 					
 					if($unit['type'] == 'veh' || $unit['type'] == 'inf' || $unit['type'] == 'air'){
 					if($key != 'sniper' && $key != 'thief' && $key != 'spyplane' && $key != 'spy' ){
@@ -483,7 +483,7 @@ get_header(); ?>
 				<?php
 					$units_total = 0;
 				foreach($units as $key => $unit){
-					$units_owned = get_user_meta($user_ID, $key.'_owned');
+					$units_owned = get_user_meta($userId, $key.'_owned');
 					
 					if($unit['type'] == 'veh' || $unit['type'] == 'inf' and $unit['normalname'] != 'Thief' and $unit['normalname'] != 'Spy' and $unit['normalname'] != 'Sniper' and $unit['normalname'] != 'SR-71 Spyplane'){
 						$units_total+=$units_owned[0];
@@ -576,7 +576,7 @@ get_header(); ?>
 			$units_total = 0;
 			foreach($units as $key => $unit){
 			if($unit['normalname'] == 'Spy' || $unit['normalname'] == 'SR-71 Spyplane'){
-					$spies_owned = get_user_meta($user_ID, $key.'_owned');
+					$spies_owned = get_user_meta($userId, $key.'_owned');
 					$units_total+=$spies_owned[0];
 					if($spies_owned[0]>0){
 					?>
@@ -643,7 +643,7 @@ get_header(); ?>
 			$owned = 0;
 			foreach($missiles as $key => $missile){
 					if($key != 'tomahawk'){
-					$missiles_owned = get_user_meta($user_ID, $key.'_owned');
+					$missiles_owned = get_user_meta($userId, $key.'_owned');
 					$owned+=$missiles_owned[0];
 					if($missiles_owned[0]>0){
 					?>
@@ -699,7 +699,7 @@ if($_SESSION['attacktype'] == 'satellite'):  ?>
 
 <?php 
 	include 'satellite_array.php';
-	$sat_owned = get_user_meta($user_ID, 'sat_owned', true);?>
+	$sat_owned = get_user_meta($userId, 'sat_owned', true);?>
 			
 			
 <form class="form" action="<?php echo home_url() ?>/attack2.php" name="" id="attack2" method="post">

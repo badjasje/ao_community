@@ -17,8 +17,8 @@
 <?php // AIR TABLE
 $totalair = 0;
 foreach($missiles as $key => $order){
-$units_owned = get_user_meta($user_ID, $key.'_owned');
-$units_ordered = get_user_meta($user_ID, $key.'_ordered');
+$units_owned = get_user_meta($userId, $key.'_owned');
+$units_ordered = get_user_meta($userId, $key.'_ordered');
 $unittype = $missiles[$key]['type'];
 ?>
 
@@ -92,7 +92,7 @@ $unittype = $missiles[$key]['type'];
 			}else{
 			$max_money = floor($totalMoney[0]/($order['price']));
 			$max_turns = round($totalturns[0]/3);
-			$max_space = $tomahawkspace-get_user_meta($user_ID, 'tomahawk_owned', true)-get_user_meta($user_ID, 'tomahawk_ordered', true);
+			$max_space = $tomahawkspace-get_user_meta($userId, 'tomahawk_owned', true)-get_user_meta($userId, 'tomahawk_ordered', true);
 				
 			}
 							
