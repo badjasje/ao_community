@@ -77,7 +77,7 @@ if ($totalordercost > $totalmoney) {
     wp_redirect(get_permalink(3457));
     exit;
 }
-if ($turns < $totalturncost) {
+if ($turns <= $totalturncost) {
     $_SESSION['status'] = 'Not enough turns';
     wp_redirect(get_permalink(3457));
     exit;
