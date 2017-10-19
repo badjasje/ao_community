@@ -8,7 +8,8 @@ include('startingbonus_array.php');
 $user_ID 					= get_current_user_ID();
 $pageID 					= get_the_id();
 $savedUsers 				= get_user_meta($user_ID, 'saved_users', true);
-$savedUsers 				= json_decode($savedUsers);
+$decodedSavedUsers          = json_decode($savedUsers);
+$savedUsers 				= is_array($decodedSavedUsers) ? $decodedSavedUsers : [];
 update_user_meta($user_ID, 'user_lock', 0);
 $new_events 				= get_user_meta($user_ID, 'new_events',true);
 $new_messages 				= get_user_meta($user_ID, 'new_messages',true);
@@ -53,59 +54,46 @@ if($nightmode == 'nostalgia'){
 	$nostalgia = 'selected';
 }
 
-
 $shootdown_chance = 0;
 if($AMS > 0){
+    $shootdown_chance = (($AMS*100)/$def_land)*100;
 
-$shootdown_chance = (($AMS*100)/$def_land)*100;
-
-if($shootdown_chance >= 75){
-	$shootdown_chance = 75;
+    if($shootdown_chance >= 75){
+        $shootdown_chance = 75;
+    }
 }
+
+if ($level_money_production == 0){
+    $income = 15000*$finance_multi;
+}elseif($level_money_production == 1){
+    $income = 25000*$finance_multi;
+}elseif($level_money_production == 2){
+    $income = 35000*$finance_multi;
 }
-
-
-if($level_money_production == 0){
-		
-		$income = 15000*$finance_multi;
-	
-	}elseif($level_money_production == 1){
-	
-		$income = 25000*$finance_multi;
-	
-	}elseif($level_money_production == 2){
-		
-		$income = 35000*$finance_multi;
-							 
-	}
-
-
-
 
 if($user_status == 'dead'){
-    
     after_death($user_ID);
 }
 $user = get_userdata($user_ID); 
 
 if($clan_ID == 0){
-$clans = get_posts(array(
-	'numberposts'	=> -1,
-	'post_type'		=> 'clan',
-	'meta_key'		=> 'autojoin_allowed',
-	'meta_value'	=> 'yes'
-));
+    $clans = get_posts(
+        [
+            'numberposts'	=> -1,
+            'post_type'		=> 'clan',
+            'meta_key'		=> 'autojoin_allowed',
+            'meta_value'	=> 'yes'
+        ]
+    );
 
-$clanCount = 0;
+    $clanCount = 0;
 
-foreach ($clans as $clan) { 
-	
-	$members = count(get_post_meta($clan->ID,'clan_members',true));
-	
-	if($members < 7){
-		$clanCount++;
-	}
-}
+    foreach ($clans as $clan) {
+        $members = count(get_post_meta($clan->ID,'clan_members',true));
+        if ($members < 7) {
+            $clanCount++;
+        }
+    }
 }
 
 get_header(); ?>
@@ -1025,11 +1013,9 @@ get_header(); ?>
 			</div>
 				
 			<div class="status_column">
-				<?php	
-					
+				<?php
 				$usercount = count($savedUsers);
 				foreach ($savedUsers as $key => $user) { ?>
-				
 				
 				<div class="row profile_row">
 					<div class="col-md-12">
@@ -1131,23 +1117,11 @@ setInterval(updateETime, 1000 );
 </script>	       
 <?php endif;?>
        
-       
-       
-       
-<?php if(get_user_meta($user_ID, 'first_visit', true) == 0):?>
+    <?php if(get_user_meta($user_ID, 'first_visit', true) == 0):?>
 
-<?php endif;?>
+    <?php endif;?>
 <?php //update_user_meta($user_id, 'first_visit', 1);?>
-       
-       
-       
-       
-       
-       
-       
-       
-       
-            
+
             </div> <!-- // End main col-lg-12 col-md-12 wrapper -->
         </div> <!-- // End main row -->
     </div> <!-- // End main container -->

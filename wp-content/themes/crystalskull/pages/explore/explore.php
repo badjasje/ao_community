@@ -1,11 +1,11 @@
-<?php $maxAmount = floor((20000-get_user_meta($user_ID, 'explored_today')[0])/(200-((ceil($ownedland[0]*0.002))))); ?>
+<?php $maxAmount = floor((20000-get_user_meta($userID, 'explored_today')[0])/(200-((ceil($ownedland[0]*0.002))))); ?>
 
 <div class="spaceNotice">
-	<?php if(empty(get_user_meta($user_ID, 'explored_today')[0]) || get_user_meta($user_ID, 'explored_today')[0] == 0):?>
-		You haven't explored any land today. You can explore <strong><?php echo number_format(20000-get_user_meta($user_ID, 'explored_today')[0], 0, ',', ' '); ?> m<sup>2</sup></strong> <i>(<?php echo $maxAmount;?> turns)</i>
+	<?php if(empty(get_user_meta($userID, 'explored_today')[0]) || get_user_meta($userID, 'explored_today')[0] == 0):?>
+		You haven't explored any land today. You can explore <strong><?php echo number_format(20000-get_user_meta($userID, 'explored_today')[0], 0, ',', ' '); ?> m<sup>2</sup></strong> <i>(<?php echo $maxAmount;?> turns)</i>
 	<?php else:?>
-		You have explored <strong><?php echo number_format(get_user_meta($user_ID, 'explored_today')[0], 0, ',', ' '); ?> m<sup>2</sup></strong> today. 
-		You can explore an additional <strong><?php echo number_format(20000-get_user_meta($user_ID, 'explored_today')[0], 0, ',', ' '); ?> m<sup>2</sup></strong> <i>(<?php echo floor((20000-get_user_meta($user_ID, 'explored_today')[0])/(200-((ceil($ownedland[0]*0.002)))));?> turns)</i>
+		You have explored <strong><?php echo number_format(get_user_meta($userID, 'explored_today')[0], 0, ',', ' '); ?> m<sup>2</sup></strong> today. 
+		You can explore an additional <strong><?php echo number_format(20000-get_user_meta($userID, 'explored_today')[0], 0, ',', ' '); ?> m<sup>2</sup></strong> <i>(<?php echo floor((20000-get_user_meta($userID, 'explored_today')[0])/(200-((ceil($ownedland[0]*0.002)))));?> turns)</i>
 	<?php endif;?>
 </div>
 

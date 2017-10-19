@@ -10,8 +10,8 @@ $defender_ID = $_SESSION['target_id'];
 $succes = (rand(80,100));
 
 
-	$turns = get_user_meta($user_ID, 'turns');
-	update_user_meta($user_ID,'turns',$turns[0]-2);
+	$turns = get_user_meta($userID, 'turns');
+	update_user_meta($userID,'turns',$turns[0]-2);
 ?>
 
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>

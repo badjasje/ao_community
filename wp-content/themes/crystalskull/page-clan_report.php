@@ -241,7 +241,7 @@ if($unitrepStamp > $bldrepStamp){
 		}
 		$member_data = get_userdata($member);
 		$last_online = get_user_meta($member, 'last_online',true);
-		$spiednr = get_user_meta($user_ID, 'spied_current_clan',true);
+		$spiednr = get_user_meta($userId, 'spied_current_clan',true);
 		
 		if(!empty($last_online)){
 		$last_seen = $timestamp - $last_online;

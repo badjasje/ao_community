@@ -1,7 +1,7 @@
 <?php
-
-/* handles morale income */
-
+/**
+ * Handles morale income
+ */
 include('constants.php');
 require_once("wp-load.php");
 
@@ -13,8 +13,8 @@ if (get_field('game_status', 'option') == 'Live') {
     foreach ($users as $user) {
         $userId = $user->data->ID;
         update_user_meta($userId, 'morale_lock', 1);
-            AddSatPower($userId);
-            AddMorale($userId, $moraleIncome);
+        AddSatPower($userId);
+        AddMorale($userId, $moraleIncome);
         update_user_meta($userId, 'morale_lock', 0);
     }
 }
