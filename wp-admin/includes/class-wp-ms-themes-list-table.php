@@ -85,7 +85,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 * @global string $s
 	 */
 	public function prepare_items() {
-		global $status, $totals, $page, $orderby, $unit, $s;
+		global $status, $totals, $page, $orderby, $order, $s;
 
 		wp_reset_vars( array( 'orderby', 'order', 's' ) );
 
@@ -156,10 +156,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		if ( $orderby ) {
 			$orderby = ucfirst( $orderby );
-			$unit = strtoupper( $unit );
+			$order = strtoupper( $order );
 
 			if ( $orderby === 'Name' ) {
-				if ( 'ASC' === $unit ) {
+				if ( 'ASC' === $order ) {
 					$this->items = array_reverse( $this->items );
 				}
 			} else {
@@ -212,7 +212,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 * @return int
 	 */
 	public function _order_callback( $theme_a, $theme_b ) {
-		global $orderby, $unit;
+		global $orderby, $order;
 
 		$a = $theme_a[ $orderby ];
 		$b = $theme_b[ $orderby ];
@@ -220,7 +220,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		if ( $a == $b )
 			return 0;
 
-		if ( 'DESC' === $unit )
+		if ( 'DESC' === $order )
 			return ( $a < $b ) ? 1 : -1;
 		else
 			return ( $a < $b ) ? -1 : 1;
