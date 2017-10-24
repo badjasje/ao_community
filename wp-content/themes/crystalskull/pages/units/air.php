@@ -27,7 +27,7 @@ $unittype = $units[$key]['type'];
 		<div class="col-md-2 center_clan_col market_column  marketHeader">
 			<?php echo $order['normalname'];?>
 				
-			<?php if($order['description']):?>
+			<?php if (isset($order['description'])) : ?>
 				<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="bottom">
 				<i class="fa fa-info-circle" aria-hidden="true"></i>
 				</span>

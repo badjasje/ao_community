@@ -20,6 +20,8 @@
 		<div class="col-md-2"></div>
 	</div>
 <?php // Buildings TABLE
+
+$userId = get_current_user_id();
 $totalbuildings = 0;
 $totalMoney = get_user_meta($userId, 'money', true);
 
