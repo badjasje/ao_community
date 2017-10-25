@@ -13,117 +13,115 @@ if ('GET' != $_SERVER['REQUEST_METHOD']) {
 }
 
 require(dirname(__FILE__) . '/wp-load.php');
-$user_ID = get_current_user_id();
+
+$userID = get_current_user_id();
 
 if (! defined('ABSPATH')) {
     exit;
 }
-if (empty($user_ID)) {
+
+if (empty($userID) || !is_user_logged_in()) {
     wp_redirect(get_permalink(3582));
     exit;
 }
-if (!is_user_logged_in()) {
-    wp_redirect(get_permalink(3582));
-    exit;
-}
-
-
-
 
 $user = $_GET['id'];
 $clan = $_GET['clan'];
 
- $ct_1 = get_post_meta($clan, 'ct_1', true);
- $ct_2 = get_post_meta($clan, 'ct_2', true);
- $ct_3 = get_post_meta($clan, 'ct_3', true);
- $ct_4 = get_post_meta($clan, 'ct_4', true);
+$ct1 = get_post_meta($clan, 'ct_1', true);
+$ct2 = get_post_meta($clan, 'ct_2', true);
+$ct3 = get_post_meta($clan, 'ct_3', true);
+$ct4 = get_post_meta($clan, 'ct_4', true);
 
 
-$clanleader = get_post_meta($clan, 'clan_leader', true);
-$allowed_to_kick = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
+$clanLeader = get_post_meta($clan, 'clan_leader', true);
+$allowedToKick = array($ct1,$ct2,$ct3,$ct4,$clanLeader);
 
-if (!in_array($user_ID, $allowed_to_kick)) {
+if (!in_array($userID, $allowedToKick)) {
     wp_redirect(get_permalink($clan));
 }
 
-if (in_array($user_ID, $allowed_to_kick)) {
-    $clan_members = get_post_meta($clan, 'clan_members');
-    $clan_members = array_shift($clan_members);
+if (in_array($userID, $allowedToKick)) {
+    $clanMembers = get_post_meta($clan, 'clan_members');
+    $clanMembers = array_shift($clanMembers);
 
-    foreach ($clan_members as $key => $member) {
+    foreach ($clanMembers as $key => $member) {
         if ($member == $user) {
-            unset($clan_members[$key]);
+            unset($clanMembers[$key]);
         }
     }
 
-    if ($user == $ct_1) {
+    if ($user == $ct1) {
         update_post_meta($clan, 'ct_1', 0);
     }
-    if ($user == $ct_2) {
+    if ($user == $ct2) {
         update_post_meta($clan, 'ct_2', 0);
     }
-    if ($user == $ct_3) {
+    if ($user == $ct3) {
         update_post_meta($clan, 'ct_3', 0);
     }
-    if ($user == $ct_4) {
+    if ($user == $ct4) {
         update_post_meta($clan, 'ct_4', 0);
     }
-    update_post_meta($clan, 'clan_members', $clan_members);
+
+    update_post_meta($clan, 'clan_members', $clanMembers);
     update_user_meta($user, 'clan_id_user', 0);
     $timestamp = current_time('timestamp');
     update_user_meta($user, 'new_clan_timestamp', $timestamp+86400);
 
-    $previous_members = get_post_meta($clan, 'previous_members');
-    $previous_members = array_shift($previous_members);
-    $previous_members[] = $user;
+    $previousMembers = get_post_meta($clan, 'previous_members');
+    $previousMembers = array_shift($previousMembers);
+    $previousMembers[] = $user;
 
-    update_post_meta($clan, 'previous_members', $previous_members);
+    update_post_meta($clan, 'previous_members', $previousMembers);
 
-/* user kicked event */
+    /* user kicked event */
     $timestamp = current_time('timestamp');
 
-    $args = array(
-    'post_title'    => 'Clan member kicked: '.$user,
-    'post_status'   => 'publish',
-    'post_type'     => 'event_local',
-    'post_author'   => $user_ID
-    );
-    $new_event_id = wp_insert_post($args);
-    update_field('attacktype', 'user_change', $new_event_id);
-    update_field('outcome', 'kicked', $new_event_id);
+    $args = [
+        'post_title'    => 'Clan member kicked: '.$user,
+        'post_status'   => 'publish',
+        'post_type'     => 'event_local',
+        'post_author'   => $userID
+    ];
+
+    $newEventId = wp_insert_post($args);
+    update_field('attacktype', 'user_change', $newEventId);
+    update_field('outcome', 'kicked', $newEventId);
 
 
-    update_field('attacker_id', $user_ID, $new_event_id);
-    update_field('defender_id', $user, $new_event_id);
-    update_field('leaving_user', $user, $new_event_id);
-    update_field('attacker_clan_id', $clan, $new_event_id);
-    update_field('time_attacked', $timestamp, $new_event_id);
+    update_field('attacker_id', $userID, $newEventId);
+    update_field('defender_id', $user, $newEventId);
+    update_field('leaving_user', $user, $newEventId);
+    update_field('attacker_clan_id', $clan, $newEventId);
+    update_field('time_attacked', $timestamp, $newEventId);
 
-/* update event count */
-    $event_count = get_user_meta($user, 'new_events', true);
-    update_user_meta($user, 'new_events', $event_count + 1);
+    /* update event count */
+    $eventCount = get_user_meta($user, 'new_events', true);
+    update_user_meta($user, 'new_events', $eventCount + 1);
 
-
-    $clan_members = get_post_meta($clan, 'clan_members');
+    $clanMembers = get_post_meta($clan, 'clan_members');
 
     if (!empty($clan) || $clan != 0) {
-        foreach ($clan_members[0] as $member) {
+        foreach ($clanMembers[0] as $member) {
             $globals = get_user_meta($member, 'new_global_events', true);
             update_user_meta($member, 'new_global_events', $globals+1);
         }
     }
 
-    $cp_lost = round(get_user_meta($user, 'current_clan_points', true)*0.25);
-    $clan_points = get_post_meta($clan, 'clan_points', true);
-    $new_clanpoints = $clan_points-$cp_lost;
-    if ($new_clanpoints < 0) {
-        $new_clanpoints = 0;
-    }
-    update_user_meta($user, 'current_clan_points', 0);
-    update_post_meta($clan, 'clan_points', $new_clanpoints);
-    update_field('clan_points', $cp_lost, $new_event_id);
+    $cpLost = round(get_user_meta($user, 'current_clan_points', true)*0.25);
+    $clanPoints = get_post_meta($clan, 'clan_points', true);
+    $newClanPoints = $clanPoints-$cpLost;
 
-// Resetting some stats
+    if ($newClanPoints < 0) {
+        $newClanPoints = 0;
+    }
+
+    update_user_meta($user, 'current_clan_points', 0);
+    update_post_meta($clan, 'clan_points', $newClanPoints);
+    update_field('clan_points', $cpLost, $newEventId);
+
+    // Resetting some stats
     update_user_meta($user, 'attacks_rec_current', 0);
     update_user_meta($user, 'attacks_made_current', 0);
 
@@ -131,6 +129,6 @@ if (in_array($user_ID, $allowed_to_kick)) {
     update_user_meta($user, 'number_of_aids', 0);
     update_user_meta($user, 'aid_received', 0);
 
-    $_SESSION['status'] = 'Clan member kicked. '.$cp_lost.' clan points lost';
+    $_SESSION['status'] = 'Clan member kicked. '.$cpLost.' clan points lost';
     wp_redirect(get_permalink($clan));
 }

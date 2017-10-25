@@ -86,5 +86,8 @@ foreach ($emps as $emp) {
     if ($timeLeft <= 0) {
         wp_trash_post($emp->ID);
         count_all_stats($userEmp);
+
+        /* Restore original Post Data */
+        wp_reset_postdata();
     }
 }

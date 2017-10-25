@@ -18,6 +18,8 @@ if($attack_type == 'thief'){ $attack_name = 'Thieving'; }
 if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
 if($attack_type == 'sniper'){ $attack_name = 'Sending sniper'; }
 
+$userId = get_current_user_id();
+
 get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">

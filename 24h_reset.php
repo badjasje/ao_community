@@ -1,22 +1,24 @@
 <?php
-/* handles resetting of daily limits */
+/**
+ * Handles resetting of daily limits
+ */
 require_once("wp-load.php");
+
 if (get_field('game_status', 'option') == 'Live') {
     $users = get_users();
     foreach ($users as $user) {
-        $user_ID = $user->data->ID;
-        update_user_meta($user_ID, 'explored_today', 0);
-        update_user_meta($user_ID, 'land_sold_today', 0);
-        update_user_meta($user_ID, 'aid_sent_today', 0);
-        update_user_meta($user_ID, 'special_sold_today', 0);
-        update_user_meta($user_ID, 'low_power_notified', 'no');
-        update_user_meta($user_ID, 'low_buildings_notified', 'no');
+        $userID = $user->data->ID;
+        update_user_meta($userID, 'explored_today', 0);
+        update_user_meta($userID, 'land_sold_today', 0);
+        update_user_meta($userID, 'aid_sent_today', 0);
+        update_user_meta($userID, 'special_sold_today', 0);
+        update_user_meta($userID, 'low_power_notified', 'no');
+        update_user_meta($userID, 'low_buildings_notified', 'no');
     }
-    $args = array(
-        
-        'post_type'     =>  'clan',
-        'posts_per_page' => -1,
-        );
+    $args = [
+        'post_type' => 'clan',
+        'posts_per_page' => -1
+    ];
     
     $clans = get_posts($args);
     foreach ($clans as $clan) {

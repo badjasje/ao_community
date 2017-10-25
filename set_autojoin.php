@@ -24,7 +24,7 @@ $ct_3 = get_post_meta($clan_ID, 'ct_3', true);
 $ct_4 = get_post_meta($clan_ID, 'ct_4', true);
 
 
-$allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
+$allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanLeader);
 
 
 if (!in_array($user_ID, $allowed)) {

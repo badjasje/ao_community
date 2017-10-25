@@ -64,16 +64,16 @@ if (is_user_logged_in() ) {
 	}}
 
 if (is_user_logged_in() ) {
-$user_ID = get_current_user_id();
+$userId = get_current_user_id();
 
 /*update user status from death to NP */
-$user_status = get_user_meta($user_ID, 'status');
+$user_status = get_user_meta($userId, 'status');
 if($user_status[0] == 'dead'){
 	
-	after_death($user_ID);
-	update_user_meta($user_ID, 'status', 'nukeprotection');
+	after_death($userId);
+	update_user_meta($userId, 'status', 'nukeprotection');
 	$timestamp = current_time('timestamp');
-	update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
+	update_user_meta($userId, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
 }}
 
 
@@ -1380,12 +1380,13 @@ function verifyFormToken($form) {
 }
 
 
-if ( !is_admin()){
-    if(is_user_logged_in ()){
-        $user_ID = get_current_user_id();
-        count_all_stats($user_ID);
+if (!is_admin()){
+    if (is_user_logged_in()){
+        $userId = get_current_user_id();
+        count_all_stats($userId);
+
         $timestamp = current_time('timestamp');
-        update_user_meta( $user_ID,'last_online',$timestamp);
+        update_user_meta( $userId,'last_online', $timestamp);
     }
 }
 

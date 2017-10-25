@@ -18,6 +18,9 @@ if($attack_type == 'thief'){ $attack_name = 'Thieving'; }
 if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
 if($attack_type == 'sniper'){ $attack_name = 'Sending sniper'; }	
 $attackUserId = $_SESSION['target_id'];
+
+$userId = get_current_user_id();
+
 count_all_stats($attackUserId);
 get_header(); ?>
 <div class="page normal-page">

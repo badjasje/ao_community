@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Handles reset province
  *
@@ -10,21 +9,20 @@ require(dirname(__FILE__) . '/wp-load.php');
 $userId = get_current_user_ID();
 $clanId = get_user_meta($userId, 'clan_id_user');
 
-$incomingWars = get_posts(array(
-    'numberposts' => -1,
-    'post_type' => 'wars',
-    'meta_key' => 'declared_on',
-    'meta_value' => $clanId[0]
-        ));
+$incomingWars = get_posts(
+    [
+        'numberposts' => -1,
+        'post_type' => 'wars',
+        'meta_key' => 'declared_on',
+        'meta_value' => $clanId[0]
+    ]
+);
 
 if (!defined('ABSPATH')) {
     exit;
 }
-if (empty($userId)) {
-    wp_redirect(get_permalink(3582));
-    exit;
-}
-if (!is_user_logged_in()) {
+
+if (empty($userId) || !is_user_logged_in()) {
     wp_redirect(get_permalink(3582));
     exit;
 }
