@@ -104,7 +104,7 @@ get_header(); ?>
 				</td>
 				<td><strong>Networth</strong>
 				</td>
-				<?php if (in_array($userID, $clan_members[0])): $_member = true;?>
+				<?php if (in_array($userId, $clan_members[0])): $_member = true;?>
 				<td><strong>Points</strong>
 				</td>
 				<?php endif;?>
@@ -150,11 +150,11 @@ get_header(); ?>
 			<?php endif;?>
 			<td sorttable_customkey="<?php echo $land[0];?>"><?php echo number_format($land[0], 0, ',', ' '); ?> m<sup>2</sup>
 			</td>
-			<td><?php if($userID == $clanleader[0] && $member != $userID){?>
+			<td><?php if($userId == $clanleader[0] && $member != $userId){?>
 			<a href="/kick.php/?id=<?php echo $member;?>&clan=<?php echo $clan_id;?>">Kick</a>
 			<?php } ?>
-			<?php if($member != $userID && $member != $clanleader[0] && $member != $ct_1 && $member != $ct_2 && $member != $ct_3 && $member != $ct_4){?>
-			<?php if($userID == $ct_1 || $userID == $ct_2 || $userID == $ct_3 || $userID == $ct_4){?>
+			<?php if($member != $userId && $member != $clanleader[0] && $member != $ct_1 && $member != $ct_2 && $member != $ct_3 && $member != $ct_4){?>
+			<?php if($userId == $ct_1 || $userId == $ct_2 || $userId == $ct_3 || $userId == $ct_4){?>
 			<a href="/kick.php/?id=<?php echo $member;?>&clan=<?php echo $clan_id;?>">Kick</a>
 			<?php }} ?>
 			

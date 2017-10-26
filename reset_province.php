@@ -4,7 +4,6 @@
  *
  * @package WordPress
  */
-
 require(dirname(__FILE__) . '/wp-load.php');
 
 $userId = get_current_user_ID();

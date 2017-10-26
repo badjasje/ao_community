@@ -25,7 +25,7 @@
 <?php // Buildings TABLE
 $totalbuildings = 0;
 foreach ($buildings as $key => $order) {
-$units_owned = get_user_meta($userID, $key);
+$units_owned = get_user_meta($userId, $key);
 if ($units_owned[0] > 0) {
 ?>
 			
@@ -58,7 +58,7 @@ if ($units_owned[0] > 0) {
 	<div class="col-md-2 clan_column">
 		<span class="clan_data_left">Max</span>
 		<span class="clan_data_right">
-			<?php $max_demo_money = floor($totalmoney[0] / ($order['price'] * 0.15));
+			<?php $max_demo_money = floor($totalMoney[0] / ($order['price'] * 0.15));
 				$max_owned            = $units_owned[0];
 
 				if ($order['normalname'] == 'Airfield') {

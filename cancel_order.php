@@ -7,96 +7,75 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
     exit;
 }
     
-    require(dirname(__FILE__) . '/wp-load.php');
-if (get_field('game_status', 'option') == 'Live') {
-    include 'units_array.php';
-    include 'satellite_array.php';
-    $order_ID = $_POST['order'];
-    
-    $orderstatus = get_post_status($order_ID);
-    
-    if ($orderstatus == 'trash') {
-        $_SESSION['status'] = 'nope';
-        wp_redirect(get_permalink(3582));
-        exit;
-    } else {
-        $user_ID = get_current_user_id();
-    
-        $userLock = get_user_meta($user_ID, 'user_lock', true);
-
-        if ($userLock == 1) {
-            exit;
-        }
-        update_user_meta($user_ID, 'user_lock', 1);
-        if (! defined('ABSPATH')) {
-            exit;
-        }
-        if (empty($user_ID)) {
-            wp_redirect(get_permalink(3582));
-            exit;
-        }
-        if (!is_user_logged_in()) {
-            wp_redirect(get_permalink(3582));
-            exit;
-        }
-        $placed_ID = get_post_meta($order_ID, 'user_placed_id', true);
-
-        if ($user_ID != $placed_ID) {
-            wp_redirect(get_permalink(3204));
-            exit;
-        }
-    
-
-        $unit_type = get_post_meta($order_ID, 'unit_type', true);
-        $order_type = get_post_meta($order_ID, 'order_type', true);
-    
-        $discount_level = get_user_meta($user_ID, 'level_market_discount', true);
-
-        $discount = 1;
-        if ($discount_level == 0) {
-            $discount = 1;
-        }
-        if ($discount_level == 1) {
-            $discount = 0.85;
-        }
-        if ($discount_level == 2) {
-            $discount = 0.70;
-        }
-
-    
-        
-        $units_in_this_order = get_post_meta($order_ID, 'amount_ordered', true);
-        
-            
-        $ownedunits = get_user_meta($user_ID, $unit_type.'_owned', true);
-        
-        
-        $total_units_on_order = get_user_meta($user_ID, $unit_type.'_ordered', true);
-
-    
-        
-            $unitprice = $units[$unit_type]['price']*2.2*$discount;
-            $cashback = $unitprice*$units_in_this_order*0.75;
-            
-
-            $owned_meta_key = $unit_type.'_owned';
-            
-            update_user_meta($user_ID, $unit_type.'_ordered', $total_units_on_order - $units_in_this_order);
-            
-            
-            
-            
-            wp_trash_post($order_ID);
-        if ($order_type == 'satellite') {
-            update_user_meta($user_ID, 'sat_in_progress', 0);
-            $cashback = $satellites[$unit_type]['price']*0.75;
-        }
-            $totalmoney = get_user_meta($user_ID, 'money', true);
-            update_user_meta($user_ID, 'money', $totalmoney+$cashback);
-            
-            update_user_meta($user_ID, 'user_lock', 0);
-            $_SESSION['status'] = 'Order canceled. You received $ '.number_format($cashback, 0, ',', ' ');
-            wp_redirect(get_permalink(3204));
-        exit;
-    }
+require(dirname(__FILE__) . '/wp-load.php');
+if (get_field('game_status', 'option') != 'Live') {
+    exit();
 }
+
+include 'units_array.php';
+include 'satellite_array.php';
+$orderId = $_POST['order'];
+
+$orderStatus = get_post_status($orderId);
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+if (empty($userId) || !is_user_logged_in()) {
+    wp_redirect(get_permalink(3582));
+    exit;
+}
+
+
+if ($orderStatus == 'trash') {
+    $_SESSION['status'] = 'nope';
+    wp_redirect(get_permalink(3582));
+    exit;
+}
+
+// Cancel the order.
+$userId = get_current_user_id();
+
+$userLock = get_user_meta($userId, 'user_lock', true);
+
+if ($userLock == 1) {
+    exit;
+}
+update_user_meta($userId, 'user_lock', 1);
+
+
+$userPlacedId = get_post_meta($orderId, 'user_placed_id', true);
+if ($userId != $userPlacedId) {
+    wp_redirect(get_permalink(3204));
+    exit;
+}
+
+$unitType = get_post_meta($orderId, 'unit_type', true);
+$orderType = get_post_meta($orderId, 'order_type', true);
+
+$unitsOrdered = get_post_meta($orderId, 'amount_ordered', true);
+$ownedUnits = get_user_meta($userId, $unitType.'_owned', true);
+
+$totalUnitsOnOrder = get_user_meta($userId, $unitType.'_ordered', true);
+$unitPrice = $units[$unitType]['price']*2.2*$discount;
+
+$orderValue = get_post_meta($orderId, 'order_value', true);
+
+
+$cashback = $orderValue * 0.75;
+$unitOwnerMetaKey = $unitType.'_owned';
+update_user_meta($userId, $unitType.'_ordered', $totalUnitsOnOrder - $unitsOrdered);
+wp_trash_post($orderId);
+
+if ($orderType == 'satellite') {
+    update_user_meta($userId, 'sat_in_progress', 0);
+    $cashback = $satellites[$unitType]['price']*0.75;
+}
+    $totalmoney = get_user_meta($userId, 'money', true);
+    update_user_meta($userId, 'money', $totalmoney+$cashback);
+
+    update_user_meta($userId, 'user_lock', 0);
+    $_SESSION['status'] = 'Order canceled. You received $ '.number_format($cashback, 0, ',', ' ');
+    wp_redirect(get_permalink(3204));
+exit;

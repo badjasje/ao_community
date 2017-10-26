@@ -20,9 +20,13 @@
 		<div class="col-md-2"></div>
 	</div>
 <?php // Buildings TABLE
+
+$userId = get_current_user_id();
 $totalbuildings = 0;
+$totalMoney = get_user_meta($userId, 'money', true);
+
 foreach ($buildings as $key => $order) {
-$units_owned = get_user_meta($userID, $key);
+$units_owned = get_user_meta($userId, $key);
 ?>
 			
 	<div class="row clan_profile_row2">
@@ -94,7 +98,7 @@ $units_owned = get_user_meta($userID, $key);
 	<div class="col-md-1 clan_column">
 		<span class="clan_data_left">Max</span>
 		<span class="clan_data_right">
-			<?php 	$max_money = floor($totalmoney[0] / $order['price']);
+			<?php 	$max_money = floor($totalMoney / $order['price']);
 					$max_turns       = floor($totalturns[0] * $turns_multiplier);
 					$max_land        = floor(($land[0] - $builtland[0]) / 20);
 				?>

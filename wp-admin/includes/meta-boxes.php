@@ -768,14 +768,14 @@ $editable_slug = apply_filters( 'editable_slug', $post->post_name, $post );
  * @param object $post
  */
 function post_author_meta_box($post) {
-	global $userID;
+	global $user_ID;
 ?>
 <label class="screen-reader-text" for="post_author_override"><?php _e('Author'); ?></label>
 <?php
 	wp_dropdown_users( array(
 		'who' => 'authors',
 		'name' => 'post_author_override',
-		'selected' => empty($post->ID) ? $userID : $post->post_author,
+		'selected' => empty($post->ID) ? $user_ID : $post->post_author,
 		'include_selected' => true,
 		'show' => 'display_name_with_login',
 	) );
