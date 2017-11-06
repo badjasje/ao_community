@@ -12,19 +12,14 @@ $declarer_clanleader = get_post_meta($declarer_clan_ID,'clan_leader',true);
     //Enemy clan avg nw is:
     $averageNw = get_post_meta(get_the_ID(), 'clan_networth', true) / $membersCount;
 
-echo "Avg NW of this clan is ".$averageNw;
-
     //Count the members in YOUR clan
     $declaringClanMembers = get_post_meta($declarer_clan_ID, 'clan_members', true);
     $declaringMembersCount = count($declaringClanMembers);
     $declarerAverageNw = get_post_meta($declarer_clan_ID, 'clan_networth', true) / $declaringMembersCount;
-
-echo "Avg NW of enemy clan is ".$declarerAverageNw;
 $average_OK = "false";
 if ($declarerAverageNw*$AVERAGE_DECLARE_NW_ALLOWED > $averageNw) {
   $average_OK = "true";
 }
-echo $average_OK;
 $cooldownlist = get_post_meta($declarer_clan_ID, 'cooldown_list',true);
 
 $decct_1 = get_post_meta($declarer_clan_ID,'ct_1',true);
@@ -360,7 +355,7 @@ get_header(); ?>
 		 	<i class="fa fa-fire" aria-hidden="true"></i> &nbsp;You are at war with this clan</span></center>
 		 <?php else:?>
 		 <center>
-                   <?php if ($average_OK == "false") {
+                   <?php if ($average_OK == "false" && $warcount != 1) {
                      ?>
                     <span class="btn btn-disabled profilebutton">
                         <i class="fa fa-fire" aria-hidden="true"></i> &nbsp;Your average NW is too low to declare on this clan</span> 
