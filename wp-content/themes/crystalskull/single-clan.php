@@ -1,10 +1,30 @@
-<?php 
+<?php
+include('constants.php'); 
 $declarer_ID = get_current_user_ID();
 update_user_meta($declarer_ID, 'user_lock', 0);
 $nw_att = get_user_meta($declarer_ID, 'networth',true);
 $declarer_clan_ID = get_user_meta($declarer_ID, 'clan_id_user',true);
 $declarer_clanleader = get_post_meta($declarer_clan_ID,'clan_leader',true);
 
+
+    $clanMembers = get_post_meta(get_the_ID(), 'clan_members', true);
+    $membersCount = count($clanMembers);
+    //Enemy clan avg nw is:
+    $averageNw = get_post_meta(get_the_ID(), 'clan_networth', true) / $membersCount;
+
+echo "Avg NW of this clan is ".$averageNw;
+
+    //Count the members in YOUR clan
+    $declaringClanMembers = get_post_meta($declarer_clan_ID, 'clan_members', true);
+    $declaringMembersCount = count($declaringClanMembers);
+    $declarerAverageNw = get_post_meta($declarer_clan_ID, 'clan_networth', true) / $declaringMembersCount;
+
+echo "Avg NW of enemy clan is ".$declarerAverageNw;
+$average_OK = "false";
+if ($declarerAverageNw*$AVERAGE_DECLARE_NW_ALLOWED > $averageNw) {
+  $average_OK = "true";
+}
+echo $average_OK;
 $cooldownlist = get_post_meta($declarer_clan_ID, 'cooldown_list',true);
 
 $decct_1 = get_post_meta($declarer_clan_ID,'ct_1',true);
@@ -164,6 +184,10 @@ get_header(); ?>
 					<div class="col-xs-7">$ <?php echo number_format($tot_networth, 0, ',', ' ');?></div>
 				</div>
 				
+				<div class="row profile_row">
+					<div class="col-xs-5">Average networth</div>
+					<div class="col-xs-7">$ <?php echo number_format($averageNw, 0, ',', ' ');?></div>
+				</div>
 				<div class="row profile_row">
 					<div class="col-xs-5">Points</div>
 					<div class="col-xs-7">
@@ -335,8 +359,19 @@ get_header(); ?>
 	 	<center><span class="btn btn-disabled profilebutton">
 		 	<i class="fa fa-fire" aria-hidden="true"></i> &nbsp;You are at war with this clan</span></center>
 		 <?php else:?>
-		 <center><a class="btn btn-general profilebutton declarewar" onclick="return confirm('Are you sure you want to declare <?php echo $warText;?>?')" href="/declare_war.php?clan=<?php echo $clan_id;?>">
-		 	<i class="fa fa-fire" aria-hidden="true"></i> &nbsp;Declare <?php echo $warText;?></a></center>
+		 <center>
+                   <?php if ($average_OK == "false") {
+                     ?>
+                    <span class="btn btn-disabled profilebutton">
+                        <i class="fa fa-fire" aria-hidden="true"></i> &nbsp;Your average NW is too low to declare on this clan</span> 
+                     <?php 
+                   }
+                   else { ?>
+                     <a class="btn btn-general profilebutton declarewar" onclick="return confirm('Are you sure you want to declare <?php echo $warText;?>?')" href="/declare_war.php?clan=<?php echo $clan_id;?>">
+		 	<i class="fa fa-fire" aria-hidden="true"></i> &nbsp;Declare <?php echo $warText;?>
+                     </a>
+                   <?php } ?>
+                 </center>
 		 <?php endif;?>
 	</div>
 	
@@ -379,7 +414,7 @@ get_header(); ?>
 
 
 
-<?php if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists(get_the_id(), $cooldownlist) && $inRange == 'no' && $canPeace == false):?>
+<?php if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists(get_the_id(), $cooldownlist) &&  $inRange == 'no' && $canPeace == false):?>
 
 <div class="row button_block">
  	
