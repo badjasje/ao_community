@@ -3,7 +3,6 @@
 /* 
 	constants for use throughout 
 /*
-
 /* default income */
 $INCOME_TURNS = 1;
 $INCOME_MONEY = 15000;
@@ -11,6 +10,7 @@ $INCOME_MORALE = 5;
 
 /* attack range multiplier */
 $ATTACK_RANGE_MULT = 1.4;
+$AVERAGE_DECLARE_NW_ALLOWED = 1.6;
 
 /* morale costs */
 $MORALE_MISSILE_TGT_BELOW = 35;
