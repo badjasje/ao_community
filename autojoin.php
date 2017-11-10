@@ -30,7 +30,7 @@ $clan = $_GET['clan'];
 $clan_members = get_post_meta($clan,'clan_members');
 $clan_leader = get_post_meta($clan,'clan_leader',true);
 
-if(count($members[0]) >= 5){ 
+if(count($members[0]) >= 6){ 
 	$_SESSION['status'] = 'Clan is full';
 	wp_redirect(get_permalink(3601)); exit;
 }

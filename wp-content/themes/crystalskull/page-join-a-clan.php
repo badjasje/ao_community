@@ -22,7 +22,7 @@ foreach ($clans as $clan) {
 	
 	$members = count(get_post_meta($clan->ID,'clan_members',true));
 	
-	if($members < 5){
+	if($members < 6){
 		$count++;
 	}
 }
@@ -64,7 +64,7 @@ get_header(); ?>
 	$autojoinDesc = get_post_meta($clan_ID, 'autojoin_description', true);
 	$playstyle = get_post_meta($clan_ID, 'autojoin_playstyle', true);
 	
-	if($members < 7){
+	if($members < 6){
 
 ?>
 

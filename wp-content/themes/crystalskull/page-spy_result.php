@@ -8,7 +8,7 @@ $sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
 if($sat_status == 'active'){
 	$success = 100;
 }
-
+$user_ID = get_current_user_id();
 $clan_defender_id = get_user_meta($defender_ID, 'clan_id_user', true);
 $clan_ID = get_user_meta($user_ID, 'clan_id_user', true);
 $timestamp = current_time('timestamp');

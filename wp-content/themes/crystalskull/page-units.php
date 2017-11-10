@@ -6,7 +6,7 @@
 $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'air';
 
 
-$userId = get_current_user_id();
+$user_ID = get_current_user_id();
 include 'units_array.php';
 include 'count_functions.php';
 $airspace = get_user_meta($user_ID, 'airfield');
@@ -28,7 +28,7 @@ $sniper_ordered = get_user_meta($user_ID, 'sniper_ordered',true);
 $commandcenter = get_user_meta($user_ID, 'command_centre',true);
 $ccspace = ($commandcenter*5)-$spies-$thiefs-$planes-$spies_ordered-$thiefs_ordered-$planes_ordered-$sniper-$sniper_ordered;
 
-$totalMoney = get_user_meta($userId, 'money');
+$totalMoney = get_user_meta($user_ID, 'money');
 get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">

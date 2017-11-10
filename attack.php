@@ -113,11 +113,7 @@ if (get_field('game_status', 'option') == 'Live') {
     $networth_att = $user_data['networth'][0];
     $networth_def = get_user_meta($target_id, 'networth')[0];
 
-    if ($networth_def < 3500) {
-        $_SESSION['status'] = 'Out of networth range';
-        wp_redirect(get_permalink(3360).'?id='.$target_id);
-        exit;
-    }
+  
 
 /* determine if target is in range */
 

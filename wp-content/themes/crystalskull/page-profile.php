@@ -223,7 +223,7 @@ get_header('profile'); ?>
 
 
 
-<?php if($visiting_user != $user__ID && $clan_id != $clan_id_user && $clan_id == 0 && in_array($visiting_user, $CT_CL_array) && count($members) < 7):?>
+<?php if($visiting_user != $user__ID && $clan_id != $clan_id_user && $clan_id == 0 && in_array($visiting_user, $CT_CL_array) && count($members) < 6):?>
 <?php $count = 1;?>
 <!-- Visiting non-clanmember as CT/CL, members below 7 -->
 <div class="row button_block">

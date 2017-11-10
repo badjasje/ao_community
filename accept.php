@@ -32,7 +32,7 @@ $clanLeader = get_post_meta($clan,'clan_leader',true);
 $timestamp = current_time('timestamp');
 
 // Todo: The number '5' should be contained inside a configuration file / constant.
-if(count($members[0]) >= 5){
+if(count($members[0]) >= 6){
     wp_redirect(get_permalink(3601)); exit;
 }
 

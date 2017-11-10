@@ -8,11 +8,11 @@
 	include('building_array.php');
 	include('missiles_array.php');
 	
-
+			$timestamp = current_time('timestamp');
 			$args = array(
 
 				'offset'       => 0,
-				'number'       => 1500,
+				'number'       => 2000,
 
 			 ); 
 				
@@ -26,9 +26,11 @@
 				//update_user_meta($user_ID, 'reset_status', 0);}
 				
 				
+				update_user_meta($user_ID, 'land_sold_today', 0);
 				
 				
-				update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(48 * 3600));}
+				//update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
+				}
 				/*
 				if(get_user_meta($user_ID, 'reset_status', true) == 0){
 			
@@ -128,7 +130,7 @@
 
 				// SET STATS after death
 				update_user_meta($user_ID, 'money', 450000);
-				update_user_meta($user_ID, 'sold_land_today', 0);
+				update_user_meta($user_ID, 'land_sold_today', 0);
 				update_user_meta($user_ID, 'explored_today', 0);
 				update_user_meta($user_ID, 'turns', 200);
 				update_user_meta($user_ID, 'networth', 0);
@@ -187,8 +189,8 @@
 			
 			} 
 
-/* 
-
+*/
+/*
 
 // Reset clan points and NW 
 $args = array(
@@ -220,8 +222,8 @@ foreach ($clans as $clan) {
 	}
 	
 
-*/
 
+*/
 	
 	
 	

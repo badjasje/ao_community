@@ -64,9 +64,7 @@ get_header(); ?>
 			<?php 
 				$low_range = $networth/$ATTACK_RANGE_MULT;
 				
-				if($low_range < 3500){
-					$low_range = 3500;
-				}
+				
 					
 				echo '$ '.number_format($low_range, 0, ',', ' ');?> 
 				and 

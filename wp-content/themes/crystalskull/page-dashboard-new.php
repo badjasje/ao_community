@@ -588,8 +588,8 @@ get_header(); ?>
 <div classs="row">	
 	<div class="col-md-12">
 		<div class="notice_message nostmessage">
-			Current round date: 2nd of October - 2nd of November 2017. 
-				<span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on the 2nd of November 2017, at a random time." data-placement="right">
+			Current round date: 7th of November - 7th of December 2017. 
+				<span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on the 7th of December 2017, at a random time." data-placement="right">
 					<i class="fa fa-info-circle" aria-hidden="true"></i>
 				</span>
 		</div>

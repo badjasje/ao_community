@@ -15,7 +15,7 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 require(dirname(__FILE__) . '/wp-load.php');
 
 $userId = get_current_user_id();
-
+$user_ID = get_current_user_id();
 if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     exit;
 }

@@ -45,10 +45,12 @@ $canAttack = is_array($unit['attacks']) && !empty($unit['attacks']) ? implode(',
         </span>
     </div>
     <div class="col-md-1 clan_column border_bottom_mobile">
+	    <?php if($startingBonus == 'shipping'):?>
         <span class="clan_data_left">Delay</span>
         <span class="clan_data_right">
                 <input class="marketInput" type="number" min="0" id="delay<?php echo $unitKey;?>" name="delay<?php echo $unitKey;?>" placeholder="Delay in min."/>
             </span>
+         <?php endif;?>
     </div>
     <div class="col-md-1 clan_column">
         <span class="clan_data_left">Max</span>
