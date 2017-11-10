@@ -29,9 +29,9 @@ $networthPerUnit = $unit['price'] * $unit['networth'] / 100;
         <span class="clan_data_left">Max</span>
         <span class="clan_data_right">
 			<?php if (in_array($unitKey, $specialUnitsArray)) : ?>
-                <span class="allbutton" id="button<?php echo $unitKey;?>"><?php echo min($unitsOwned[0],$specialSold);?></span>
+                <span class="allbutton" id="button<?php echo $unitKey;?>"><?php echo min($unitsOwned,$specialSold);?></span>
             <?php else:?>
-                <span class="allbutton" id="button<?php echo $unitKey;?>"><?php echo $unitsOwned[0];?></span>
+                <span class="allbutton" id="button<?php echo $unitKey;?>"><?php echo $unitsOwned; ?></span>
             <?php endif;?>
         </span>
     </div>
@@ -101,9 +101,9 @@ $networthPerUnit = $unit['price'] * $unit['networth'] / 100;
 
     jQuery("#button<?php echo $unitKey;?>").click(function() {
         <?php if($unitKey == 'spyplane'):?>
-        jQuery("#<?php echo $unitKey;?>").val("<?php echo min($unitsOwned[0],$specialSold);?>");
+        jQuery("#<?php echo $unitKey;?>").val("<?php echo min($unitsOwned,$specialSold);?>");
         <?php else:?>
-        jQuery("#<?php echo $unitKey;?>").val("<?php echo $unitsOwned[0];?>");
+        jQuery("#<?php echo $unitKey;?>").val("<?php echo $unitsOwned;?>");
         <?php endif;?>
 
         calculate_<?php echo $unitKey;?>();

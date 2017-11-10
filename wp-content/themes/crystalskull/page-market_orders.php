@@ -63,17 +63,15 @@ get_header(); ?>
 
                         $timeLeft = $delivery_time-$timestamp;
 
-                        $totalOrderValue = 0.0;
                         if($timeLeft >= 0) {
                             $orderValue = get_post_meta($order->ID, 'order_value', true);
 
-                            $totalNetworth = 0;
                             if($order_type == 'missile'){
                                 $totalNetworth += $orderValue*$missiles[$unit_type]['networth']/100;
                             }
 
-                            if($order_type == 'unit'){
-                                $totalNetworth += $orderValue*$units[$unit_type]['networth']/100;
+                            if($order_type == 'units'){
+                                $totalNetworth += (($units[$unit_type]['price'] *$units[$unit_type]['networth']) / 100) * $units_in_this_order;
                             }
                             $timeLeft = date('H:i:s', $timeLeft);
                             $totalOrder += $units_in_this_order;
@@ -109,7 +107,7 @@ get_header(); ?>
                                 <?php if($order_type != 'missile'):?>
                                     <form class="form" action="<?php echo home_url() ?>/cancel_order.php" name="" id="cancel" method="post">
                                     <input style="display:none;"type="text" id="order" name="order" value="<?php echo $order->ID;?>"/>
-                                    <input onclick="return confirm('Are you sure you want to cancel this order?')" class="btn btn-general submitBtn" type="submit" value="Cancel" class="">
+                                    <input onclick="return confirm('Are you sure you want to cancel this order?')" class="btn btn-general submitBtn" type="submit" value="Cancel">
                                     </form>
                                 <?php endif;?>
                             </div>

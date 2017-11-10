@@ -19,9 +19,6 @@
 				<div class="col-xs-10">
 					<input pattern="[0-9]" min="0" type="number" class="marketInput" type="text" id="turns" name="turns" value=""/>
 				</div>
-				<div id="maxexp" class="col-xs-2 maxExplore">
-					MAX
-				</div>
 			</div>
 			<div class="col-md-3"></div>
 		</div>
