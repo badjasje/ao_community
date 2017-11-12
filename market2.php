@@ -171,6 +171,7 @@ foreach($totals as $type => $total) {
 }
 
 // Order the actual units
+$totalOrderCost = 0;
 foreach ($units as $key => $order) {
     $delay = ($startingBonus == 'shipping') ? (int)$_POST['delay' . $key] : 0;
     $delay = $delay > 360 ? 360 : $delay;
@@ -181,13 +182,13 @@ foreach ($units as $key => $order) {
     $orderedUnits = ceil($_POST[$key]);
     $price = $order['price'] * 2.2 * $discount;
     $orderCost = $price * $orderedUnits;
+    $totalOrderCost += $orderCost;
 
     if (!$orderedUnits > 0) {
         continue;
     }
 
     $unitsOnOrder = get_user_meta($userId, $unitName, true);
-    update_user_meta($userId, 'money', $totalMoney - $orderCost);
 
     $args = [
         'post_title' => $normalName,
@@ -224,6 +225,8 @@ foreach ($units as $key => $order) {
     $current .= "Units ordered: ".$orderedUnits."\n\n";
     file_put_contents($file, $current);
 }
+
+update_user_meta($userId, 'money', $totalMoney - $totalOrderCost);
 
 $_SESSION['status'] = $totalUnitsOrdered. ' units ordered for a total price of $ '.number_format($totalOrderAmount, 0, ',', ' ');
 wp_redirect($marketRedirectUrl);
