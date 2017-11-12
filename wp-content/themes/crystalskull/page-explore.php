@@ -6,7 +6,7 @@ $user_ID = get_current_user_ID();
 $ownedland = get_user_meta($user_ID, 'land');
 $freeland = $ownedland[0]-get_user_meta($user_ID, 'builtland')[0];
 
-$activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'explore';
+$activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'explore';
 
 get_header(); ?>
 <div class="page normal-page">
