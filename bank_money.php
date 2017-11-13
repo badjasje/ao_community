@@ -93,8 +93,6 @@ if (get_field('game_status', 'option') == 'Live') {
         }
 
         if ($bankLevel == 1) {
-
-        } elseif ($bankLevel == 1) {
             $max_dep = 350000*$finance_multi;
             $max_tot = 3500000;
         } elseif ($bankLevel == 2) {
