@@ -15,6 +15,7 @@ if($attack_type == 'regular'){ $attack_name = 'Regular attack'; }
 if($attack_type == 'missile'){ $attack_name = 'Launching missile'; }
 if($attack_type == 'spy'){ $attack_name = 'Spying'; }
 if($attack_type == 'thief'){ $attack_name = 'Thieving'; }
+if($attack_type == 'saboteur'){ $attack_name = 'Sending saboteur'; }
 if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
 if($attack_type == 'sniper'){ $attack_name = 'Sending sniper'; }
 
@@ -53,7 +54,7 @@ get_header(); ?>
 		<?php  //// UNIT ATTACK, A&S, REG & GROUND
 			
 			
-			if($_SESSION['attacktype'] != 'missile' && $_SESSION['attacktype'] != 'thief' && $_SESSION['attacktype'] != 'satellite' && $_SESSION['attacktype'] != 'spy' && $_SESSION['attacktype'] != 'sniper'):?>
+			if($_SESSION['attacktype'] != 'missile' && $_SESSION['attacktype'] != 'saboteur' && $_SESSION['attacktype'] != 'thief' && $_SESSION['attacktype'] != 'satellite' && $_SESSION['attacktype'] != 'spy' && $_SESSION['attacktype'] != 'sniper'):?>
 		<form class="form" action="<?php echo home_url() ?>/attack/result/" name="" id="attack" method="post">	
 		
 		<table class="responsive-table">
@@ -290,6 +291,53 @@ get_header(); ?>
 		<input class="submitBtn" style="width:100%" type="submit" value="SEND" class="">
 		</form>
 		<?php endif;?>
+		
+		
+		
+		
+		
+		
+		<?php ////// Sending Saboteur
+			
+			
+			if($_SESSION['attacktype'] == 'saboteur'):?>
+		<form class="form" action="<?php echo home_url() ?>/attack/saboteur-result/" name="" id="attack" method="post">	
+		
+		<table class="responsive-table">
+			<thead>
+					<tr>
+						<th scope="col"><strong>Name</strong></th>
+						<th scope="col"><strong>Sending to battle</strong></th>
+				
+  					</tr>
+			</thead>
+			<tbody>
+		<?php
+			
+			foreach($units_attack as $key => $order){
+			
+			$units_owned = get_user_meta($userId, $key.'_owned');?>
+			
+				<tr>
+					<td  data-title="Name">
+						<?php echo $units[$key]['normalname'];?>
+					</td>
+					<td  data-title="Sending">
+						1
+					</td>
+				</tr>
+				
+		<?php } ?>
+			</tbody>
+		</table>
+		<input class="submitBtn" style="width:100%" type="submit" value="SEND" class="">
+		</form>
+		<?php endif;?>
+		
+		
+		
+		
+		
 		
 		<?php ////// SNIPING
 			

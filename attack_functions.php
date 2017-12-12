@@ -229,6 +229,9 @@ function get_attack_cost_morale($attack_type, $attack_nw, $defend_nw) {
         case 'thief':
             return $MORALE_THIEF;
             break;
+        case 'saboteur':
+            return $MORALE_SABOTEUR;
+            break;
         case 'spy':
             return $MORALE_SPY;
             break;
@@ -254,6 +257,8 @@ function get_attack_cost_turns($attack_type) {
     global $TURNS_MISSILE, $TURNS_SPY, $TURNS_THIEF, $TURNS_ATTACK;
     if (strtolower($attack_type) == 'thief')
         return $TURNS_THIEF;
+    if (strtolower($attack_type) == 'saboteur')
+        return 2;
     if (strtolower($attack_type) == 'spy')
         return $TURNS_SPY;
     if (strtolower($attack_type) == 'missile')

@@ -276,6 +276,26 @@ get_header(); ?>
 		</div> <!-- // End col-md-6 -->
 	</div> <!-- // End row -->
 	
+	
+	<div class="row">
+		
+		<div class="col-md-6">
+			<div class="row">
+				<input style="display:none;" type="radio" name="attacktype" id="saboteur" value="saboteur">
+				<label class="btn btn-general attackButton" for="saboteur">Send saboteur</label>
+			</div>
+			
+			<div class="row" id="saboteur_desc">
+				<div class="attackDescription">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack type saboteurs can be sent.<br/>
+					Saboteurs are used to disable missile silos. You currently own <?php echo count_unit($user_ID,'saboteur');?> saboteur<?php echo plural_func(count_unit($user_ID,'saboteur'));?>
+				</div>
+			</div>
+		</div> <!-- // End col-md-6 -->
+			
+		</div> <!-- // End col-md-6 -->
+	</div> <!-- // End row -->
+	
 
 
 <div class="row">
@@ -325,7 +345,7 @@ get_header(); ?>
 		jQuery('#thief_desc').hide();
 		jQuery('#sniper_desc').hide();
 		jQuery('#satellite_desc').hide();
-
+		jQuery('#saboteur_desc').hide();
    jQuery('input[type="radio"]').click(function() {
        if(jQuery(this).attr('id') == 'air_sea') {
             jQuery('#air_sea_desc').show(750);           
@@ -383,6 +403,13 @@ get_header(); ?>
 
        else {
             jQuery('#satellite_desc').hide(750);   
+       }
+       if(jQuery(this).attr('id') == 'saboteur') {
+            jQuery('#saboteur_desc').show(750);           
+       }
+
+       else {
+            jQuery('#saboteur_desc').hide(750);   
        }
        
    });

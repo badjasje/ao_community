@@ -67,12 +67,13 @@ $planes = get_user_meta($user_ID, 'spyplane_owned', true);
 $planes_ordered = get_user_meta($user_ID, 'spyplane_ordered', true);
 $sniper = get_user_meta($user_ID, 'sniper_owned', true);
 $sniper_ordered = get_user_meta($user_ID, 'sniper_ordered', true);
-
+$saboteur = get_user_meta($user_ID, 'saboteur_owned', true);
+$saboteur_ordered = get_user_meta($user_ID, 'saboteur_ordered', true);
 
 $commandcenter = get_user_meta($user_ID, 'command_centre', true);
-$ccspace = ($commandcenter*5)-$spies-$thiefs-$planes-$spies_ordered-$thiefs_ordered-$planes_ordered-$sniper-$sniper_ordered;
+$ccspace = ($commandcenter*5)-$saboteur--$saboteur_ordered$spies-$thiefs-$planes-$spies_ordered-$thiefs_ordered-$planes_ordered-$sniper-$sniper_ordered;
 
-$total_special = $spies+$thiefs+$planes+$spies_ordered+$thiefs_ordered+$planes_ordered+$sniper+$sniper_ordered;
+$total_special = $saboteur+$spies+$thiefs+$planes+$spies_ordered+$thiefs_ordered+$planes_ordered+$sniper+$sniper_ordered+$saboteur_ordered;
 
 $air = 0;
 $veh = 0;
@@ -259,6 +260,16 @@ foreach ($units as $key => $order) {
         }
             
         if ($key == 'sniper' && $_POST["$key"] > 0) {
+            $total_special+=$_POST["$key"];
+            $total_spec_count+=$_POST["$key"];
+            if (ceil($_POST["$key"]) > $ccspace) {
+                $_SESSION['status'] = 'Not enough command centres';
+                wp_redirect($unitsRedirectUrl);
+                exit;
+            }
+        }
+        
+        if ($key == 'saboteur' && $_POST["$key"] > 0) {
             $total_special+=$_POST["$key"];
             $total_spec_count+=$_POST["$key"];
             if (ceil($_POST["$key"]) > $ccspace) {

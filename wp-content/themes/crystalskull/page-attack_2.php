@@ -14,6 +14,7 @@ if($attack_type == 'air_sea'){ $attack_name = 'Air & Sea attack'; }
 if($attack_type == 'regular'){ $attack_name = 'Regular attack'; }
 if($attack_type == 'missile'){ $attack_name = 'Launching missile'; }
 if($attack_type == 'spy'){ $attack_name = 'Spying'; }
+if($attack_type == 'saboteur'){ $attack_name = 'Sending saboteur'; }
 if($attack_type == 'thief'){ $attack_name = 'Thieving'; }
 if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
 if($attack_type == 'sniper'){ $attack_name = 'Sending sniper'; }	
@@ -617,6 +618,75 @@ get_header(); ?>
 		<?php endif;?>
 		</form>
 		<?php endif;?>
+		
+		
+		
+		
+		
+		
+		
+			<?php  ////// SEND SABOTEUR
+					
+					
+					if($_SESSION['attacktype'] == 'saboteur'):?>
+		<div class="notice_message">You can only send 1 saboteur per attack.</div><br/>
+		<form class="form" action="<?php echo home_url() ?>/attack2.php" name="" id="attack2" method="post">
+			
+		<table class="responsive-table">
+			<thead>
+					<tr>
+						<th scope="col"><strong>Name</strong></th>
+						<th scope="col"><strong>Targets</strong></th>
+						<th scope="col"><strong>Att/Life</strong></th>
+						<th scope="col"><strong>Owned</strong></th>
+						<th scope="col"><strong>Send</strong></th>
+  					</tr>
+			</thead>
+			<tbody>
+		<?php 
+			$units_total = 0;
+			foreach($units as $key => $unit){
+			if($unit['normalname'] == 'Saboteur'){
+					$saboteursOwned = get_user_meta($userId, $key.'_owned',true);
+					$units_total+=$saboteursOwned;
+					if($saboteursOwned>0){
+					?>
+					<tr>
+						<td data-title="Name">
+							<strong><?php echo $unit['normalname'];?></strong>
+						</td>
+						<td data-title="Targets">
+							Missile silos
+						</td>
+						<td data-title="Attack/Life">
+							n.a / <?php echo $unit['life'];?>		
+						</td>
+						<td data-title="Send">
+							<?php echo $saboteursOwned;?>		
+						</td>
+						<td>
+						<?php /*?><input name="sendspy" type="radio" name="<?php echo $key;?>" name="<?php echo $key;?>" value="<?php echo $key;?>"><?php */?>
+<input style="display:none;" type="radio" name="saboteur" id="send_saboteur_<?php echo $key;?>" required value="<?php echo $key;?>"><label class="btn btn-general" for="send_saboteur_<?php echo $key;?>">Select</label>
+							
+							
+							
+						
+						</td>
+					</tr>
+					
+					
+					
+					
+				<?php }}}?>
+			</tbody>
+		</table><br/>
+		<?php if($units_total >0):?>
+		<input type="submit" value="Next step" class="spy">
+		<?php endif;?>
+		</form>
+		<?php endif;?>
+		
+		
 		
 		
 		

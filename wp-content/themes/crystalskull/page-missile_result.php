@@ -7,6 +7,14 @@ include 'DO_NOT_DELETE.php';
 
 $user_ID = get_current_user_id();
 
+$silos = get_user_meta($user_ID, 'silo', true);
+
+if($silos <= 0){
+	$_SESSION['status'] = 'Not enough missile silos.';
+	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
+	exit;
+}
+
 
 $attacking_units 	= 		$_POST;
 $defender_ID     	= 		$_SESSION['target_id'];
@@ -189,7 +197,7 @@ $result = 'failure';
 }
 }
 
-if($missile_research == 2){
+if($missile_research >= 2){
 $missile_hit = rand(1,100);
 if($missile_hit > 5){
 $result = 'success';
@@ -276,6 +284,16 @@ update_user_meta($user_ID, 'morale', $oldmorale - $moralecost);
 
 /* update attacker missile */
 update_user_meta($user_ID,$key.'_owned',$owned_miss-1);
+
+$silo1Status = get_user_meta($user_ID, 'silo_disable_1', true);
+$silo2Status = get_user_meta($user_ID, 'silo_disable_2', true);
+$disabled = false;
+
+if($silo1Status == 'active' || $silo2Status == 'active'){
+	$shotdown = false;
+	$result = 'failure';
+	$disabled = true;
+}
 
 /* calculate attack power and divide power */
 $attackpower   = $missiles[$key]['attack']*0.87;
@@ -849,7 +867,7 @@ if($clan_points < 1){
 	<?php }?>		
 					
 					
-<?php if($result == 'failure' && $shotdown != true){ ?>
+<?php if($result == 'failure' && $shotdown != true && $disabled != true){ ?>
 					<center><h2>F A I L U R E</h2>
 					<p>Your missile missed the base of <a href="/users/profile/?id=<?php
     echo $defender_ID;
@@ -861,7 +879,7 @@ if($clan_points < 1){
 ?></strong></a></p></center>
 			<?php }?>	
 			
-<?php if($result == 'failure' && $shotdown == true){ ?>
+<?php if($result == 'failure' && $shotdown == true && $disabled != true){ ?>
 					<center><h2>F A I L U R E</h2>
 					<p>Your missile was shot down by <a href="/users/profile/?id=<?php
     echo $defender_ID;
@@ -872,7 +890,23 @@ if($clan_points < 1){
     echo ' (#' . $_SESSION['target_id'] . ')';
 ?></strong></a></p></center>
 			<?php }?>	
-			
+
+<?php if($result == 'failure' && $shotdown == false && $disabled == true){ ?>
+	<center>
+		<h2>F A I L U R E</h2>
+		<p>Your missile silo was sabotaged. You lost your missile and your missile silo.</p>
+	</center>
+<?php 
+	
+	update_user_meta($user_ID, 'silo', $silos-1);
+	
+	if($silo1Status == 'active'){
+		update_user_meta($user_ID, 'silo_disable_1', 'inactive');
+	}else{
+		update_user_meta($user_ID, 'silo_disable_2', 'inactive');
+	}
+	
+	}?>	
 				
 
 
@@ -909,8 +943,9 @@ $args = array(
 			update_field('def_total_units_lost',$def_lostunits_tot, $new_event_id);
 			update_field('clan_points', $clan_points, $new_event_id);
 			}
-
-			update_field('defender_id',$defender_ID, $new_event_id);
+			if($disabled == false){
+				update_field('defender_id',$defender_ID, $new_event_id);
+			}
 			update_field('winner_id',$winner_ID, $new_event_id);
 			update_field('attacker_id',$user_ID, $new_event_id);
 			update_field('attacktype',$_SESSION['attacktype'], $new_event_id);

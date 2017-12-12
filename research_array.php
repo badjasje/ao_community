@@ -15,7 +15,8 @@
             'name'                  => 'Missile accuracy',
             'level1'                => '50% chance to hit target',
             'level2'                => '95% chance to hit target',
-            'maxlevel'              => 2,
+            'level3'                => 'Only 1 missile silo can be sabotaged by a saboteur. Decreases the chance of sabotaging your missile silo by 10%.',
+            'maxlevel'              => 3,
             'description'           => 'Increases missile accuracy',
             'duration'              =>  '10'),
     'satellite_construction'    => array(
