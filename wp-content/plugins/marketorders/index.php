@@ -1307,9 +1307,27 @@ function multi_register( $login ) {
 	$ip_address = $_SERVER["HTTP_CF_CONNECTING_IP"];
 	if(empty($ip_array[$ip_address])){
 	$ip_array[$ip_address] = array();}
+	$hostaddress = gethostbyaddr($ip_address);
 	
 	
-	$ip_array[$ip_address][$user_ID] = array(date('Y-m-d H:i:s'),$useragent);
+	    $ch = curl_init(); 
+
+        // set url 
+        curl_setopt($ch, CURLOPT_URL, "https://tools.keycdn.com/geo.json?host=$ip_address"); 
+
+        //return the transfer as a string 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+
+        // $output contains the output string 
+        $output = curl_exec($ch); 
+
+        // close curl resource to free up system resources 
+        curl_close($ch);      
+		var_dump($output);
+
+	
+	
+	$ip_array[$ip_address][$user_ID] = array(date('Y-m-d H:i:s'),$useragent,$hostaddress,$output);
 
 
 	update_field('login_array_general',$ip_array,139664);

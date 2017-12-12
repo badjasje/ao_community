@@ -9,3 +9,8 @@ RewriteRule . /index.php [L]
 </IfModule>
 
 # END WordPress
+
+<Files “xmlrpc.php”>
+Order Allow,Deny
+deny from all
+</Files>

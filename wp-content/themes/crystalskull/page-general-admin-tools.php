@@ -75,6 +75,7 @@ jQuery(function(){
 	foreach ($users as $user => $stuff) {
 	$member_data = get_userdata($user);
 	$count++;
+	$locData = json_decode($stuff[3]);
 	
 ?>
 
@@ -82,7 +83,12 @@ jQuery(function(){
 
 <?php echo $stuff[0];?><br/>
 
-<?php echo $stuff[1];?><br/><br/>
+<?php echo $stuff[1];?><br/>
+<?php echo $stuff[2];?><br/>
+<?php echo '<pre>';
+print_r($locData->data);
+echo '</pre>'; ?><br/>
+<br/>
 
 <?php if($count >= 2){?>
 <h1 style="color:#ff0000;">MULTI</h1>
