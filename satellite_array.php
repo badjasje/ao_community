@@ -32,6 +32,7 @@
 			'price'			=>	'500000',
 			'networth'		=>	14,
 			'name'			=>	'Anti-missile satellite',
+			'shortname'     =>  'AMS',
 			'desc'			=>	'An anti-missile satellite grants 100% protection against missiles.',
 			'attack'		=>	0),
     'empsat'        => array(
