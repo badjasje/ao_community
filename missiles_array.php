@@ -3,8 +3,8 @@
     $missiles = array(
     /// AIR UNITS ///
     'nuke'      => array(
-            'price'         =>  '100000',
-            'networth'      =>  7,
+            'price'         =>  '125000',
+            'networth'      =>  9,
             'normalname'    =>  'Nuclear Missile',
             'shortname'     =>  'Nuke',
             'shortatt'      =>  array('s','a','i','b','v'),
@@ -14,8 +14,8 @@
             'type'          =>  'mis',
             'life'          =>  0),
     'chemical'      => array(
-            'price'         =>  '50000',
-            'networth'      =>  7,
+            'price'         =>  '62500',
+            'networth'      =>  9,
             'normalname'    =>  'Chemical Missile',
             'shortname'     =>  'Chem',
             'shortatt'      =>  array('s','a','v'),
@@ -25,8 +25,8 @@
             'type'          =>  'mis',
             'life'          =>  0),
     'bio'       => array(
-            'price'         =>  '35000',
-            'networth'      =>  7,
+            'price'         =>  '43750',
+            'networth'      =>  9,
             'normalname'    =>  'Biochemical Missile',
             'shortname'     =>  'Bio',
             'shortatt'      =>  array('i'),
@@ -36,8 +36,8 @@
             'type'          =>  'mis',
             'life'          =>  0),
     'moab'      => array(
-            'price'         =>  '45000',
-            'networth'      =>  7,
+            'price'         =>  '57000',
+            'networth'      =>  9,
             'normalname'    =>  'MOAB',
             'shortname'     =>  'MOAB',
             'shortatt'      =>  array('b'),
@@ -48,7 +48,7 @@
             'life'          =>  0),
     'empmis'    => array(
             'price'         =>  '65000',
-            'networth'      =>  7,
+            'networth'      =>  9,
             'normalname'    =>  'EMP Missile',
             'shortname'     =>  'EMP Missile',
             'shortatt'      =>  array('b'),
