@@ -71,7 +71,7 @@ $saboteur = get_user_meta($user_ID, 'saboteur_owned', true);
 $saboteur_ordered = get_user_meta($user_ID, 'saboteur_ordered', true);
 
 $commandcenter = get_user_meta($user_ID, 'command_centre', true);
-$ccspace = ($commandcenter*5)-$saboteur--$saboteur_ordered$spies-$thiefs-$planes-$spies_ordered-$thiefs_ordered-$planes_ordered-$sniper-$sniper_ordered;
+$ccspace = ($commandcenter*5)-$saboteur-$saboteur_ordered-$spies-$thiefs-$planes-$spies_ordered-$thiefs_ordered-$planes_ordered-$sniper-$sniper_ordered;
 
 $total_special = $saboteur+$spies+$thiefs+$planes+$spies_ordered+$thiefs_ordered+$planes_ordered+$sniper+$sniper_ordered+$saboteur_ordered;
 
