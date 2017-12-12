@@ -118,7 +118,7 @@ get_header(); ?>
 		        ?>
             </div>
         <div class="col-md-12 totalsField">
-            <div class="""col-md-4">
+            <div class="col-md-4">
                 Units on order: <?php echo $totalOrder;?>
             </div>
             <div class="col-md-4">
