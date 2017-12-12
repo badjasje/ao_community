@@ -20,7 +20,7 @@
             'networth'      =>  14,
             'name'          =>  'Stealth satellite',
             'shortname'     =>  'STE',
-            'desc'          =>  'When activated, the Stealth Satellite will hide your base from enemy spies, thieves, snipers, laser beam satellites and EMP satellites.  It hides your base for 3.5 hours.'),/*
+            'desc'          =>  'When activated, the Stealth Satellite will hide your base from enemy spies, thieves, saboteurs, snipers, laser beam satellites and EMP satellites.  It hides your base for 3.5 hours.'),/*
 			'attack'		=>	0),
 	'spysat' 		=> array(
 			'price'			=>	'500000',
