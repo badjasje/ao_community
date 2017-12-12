@@ -33,7 +33,6 @@ get_header(); ?>
     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-			    <div class="container">
                     <?php if (!empty($_SESSION['status'])) : ?>
                         <?php echo alert_notification($_SESSION['status']);?>
                     <?php endif; ?>
