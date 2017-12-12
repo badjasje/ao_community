@@ -57,6 +57,18 @@ if($power > 100){
 	$shotdown = false;
 }
 
+/* AMS-Satellite */
+
+$defSat = get_user_meta($defender_ID, 'sat_owned', true);
+$satMorale = get_user_meta($defender_ID, 'sat_morale', true);
+
+if($satMorale >= 20 && $power < 100){
+	if($defSat == 'amssat'){
+		$shotdown = true;
+		update_user_meta($defender_ID, 'sat_morale', $satMorale-20);
+	}
+}
+
 $SEA_ATT_power   = 0;
 $AIR_ATT_power   = 0;
 $INF_ATT_power   = 0;

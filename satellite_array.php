@@ -27,13 +27,13 @@
 			'networth'		=>	14,
 			'name'			=>	'Spy satellite',
 			'desc'			=>	'A spy satellite allows you to spy buildings, units and power usage of a player.',
-			'attack'		=>	0),
+			'attack'		=>	0),*/
 	'amssat' 		=> array(
 			'price'			=>	'500000',
 			'networth'		=>	14,
 			'name'			=>	'Anti-missile satellite',
 			'desc'			=>	'An anti-missile satellite grants 100% protection against missiles.',
-			'attack'		=>	0),*/
+			'attack'		=>	0),
     'empsat'        => array(
             'price'         =>  '500000',
             'networth'      =>  14,
