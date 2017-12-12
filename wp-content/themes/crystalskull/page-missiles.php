@@ -3,11 +3,12 @@
  * Template Name: Missiles
  */
 $user_ID = get_current_user_id(); 
+$userId = get_current_user_id(); 
 $activeTab = sanitize_text_field($_GET['tab']);
 include 'DO_NOT_DELETE.php';
 include 'count_functions.php';
 $missilespace = get_user_meta($user_ID, 'silo');
-$totalmoney = get_user_meta($user_ID, 'money');
+$totalMoney = get_user_meta($user_ID, 'money');
 $totalturns = get_user_meta($user_ID, 'turns');
 $totalmissiles = count_missilespace($user_ID);
 $tomahawkspace = get_user_meta($user_ID, 'submarine_owned',true)*2;
