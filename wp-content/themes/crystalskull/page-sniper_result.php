@@ -132,7 +132,7 @@ get_header(); ?>
    
 <center>
 	<h2><?php echo $attackResult;?></h2>
-	<p>Your sniper<?php if($no_snipers != 1 || 0){echo 's';}?> entered the base of 
+	<p class="battleMessage">Your sniper<?php if($no_snipers != 1 || 0){echo 's';}?> entered the base of 
 		<strong>
 			<a href="/users/profile/?id=<?php echo $defender_ID; ?>">
 			<?php $playername = get_userdata($defender_ID); 

@@ -116,7 +116,7 @@ get_header(); ?>
 <center>
 	<h2>S U C C E S S</h2>
 		
-		<p>Your EMP satellite hit the base of 
+		<p class="battleMessage">Your EMP satellite hit the base of 
 		<strong>
 		<a href="/users/profile/?id=<?php echo $defender_ID;?>"><?php $playername = get_userdata($defender_ID);
 			echo $playername->display_name;
@@ -162,7 +162,7 @@ update_field('deduction_emp',20, $new_emp_id);
 <?php if($result == 'failure'){ ?>
 <center>
 					<h2>F A I L U R E</h2>
-					<p>Your satellite missed the base of <a href="/users/profile/?id=<?php
+					<p class="battleMessage">Your satellite missed the base of <a href="/users/profile/?id=<?php
     echo $defender_ID;
 	 $winner_ID = $defender_ID;
 ?>"><strong><?php

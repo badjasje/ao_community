@@ -979,7 +979,7 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 	?>
 
 	<h2>S U C C E S S</h2>
-	<p>You won the battle against <strong>
+	<p class="battleMessage">You won the battle against <strong>
 	<a href="/users/profile/?id=<?php echo $target_id;?>">
 		<?php
 			$playername = get_userdata($target_id);
@@ -995,7 +995,7 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 </strong></p>
 <?php else:	?>
 	<h2>F A I L U R E</h2>
-	<p>You lost the battle against <a href="/users/profile/?id=<?php
+	<p class="battleMessage">You lost the battle against <a href="/users/profile/?id=<?php
 	echo $target_id;
 ?>">
 <strong>

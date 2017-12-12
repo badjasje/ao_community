@@ -433,7 +433,7 @@ update_field('spied_nw', $networth_def, $new_event_id);
 			<?php else:?>
 			<?php $winner_id = $defender_ID;?>
 			<center><h2>F A I L U R E</h2>
-			<p>Your spyplane was shot down by <a href="/users/profile/?id=<?php
+			<p class="battleMessage">Your spyplane was shot down by <a href="/users/profile/?id=<?php
 echo $defender_ID;
 ?>"><strong><?php $playername = get_userdata($defender_ID); echo $playername->display_name; echo ' (#' . $_SESSION['target_id'] . ')</a>';
 ?> <strong>

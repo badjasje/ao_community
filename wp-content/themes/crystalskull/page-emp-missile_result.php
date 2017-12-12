@@ -305,7 +305,7 @@ if($result == 'success'){
 <center>
 	<h2>S U C C E S S</h2>
 		
-		<p>Your EMP missile hit the base of 
+		<p class="battleMessage">Your EMP missile hit the base of 
 		<strong>
 		<a href="/users/profile/?id=<?php echo $defender_ID;?>"><?php $playername = get_userdata($defender_ID);
 			echo $playername->display_name;
@@ -351,7 +351,7 @@ update_field('deduction_emp',15, $new_emp_id);
 					
 <?php if($result == 'failure' && $shotdown != true){ ?>
 					<center><h2>F A I L U R E</h2>
-					<p>Your missile missed the base of <a href="/users/profile/?id=<?php
+					<p class="battleMessage">Your missile missed the base of <a href="/users/profile/?id=<?php
     echo $defender_ID;
 	 $winner_ID = $defender_ID;
 ?>"><strong><?php
@@ -363,7 +363,7 @@ update_field('deduction_emp',15, $new_emp_id);
 			
 <?php if($result == 'failure' && $shotdown == true){ ?>
 					<center><h2>F A I L U R E</h2>
-					<p>Your missile was shot down by <a href="/users/profile/?id=<?php
+					<p class="battleMessage">Your missile was shot down by <a href="/users/profile/?id=<?php
     echo $defender_ID;
 	 $winner_ID = $defender_ID;
 ?>"><strong><?php

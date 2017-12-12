@@ -125,6 +125,9 @@ if(of_get_option('bg_tint') == 1){
 		if($nightmode == 'nostalgia'){
 			 $backcolor = 'rgba(245, 255, 222, 0.4);';
     }
+    if($nightmode == 'blackwhite'){
+			 $backcolor = '#0000005e';
+    }
     ?>
 	
 	#main_wrapper, .owl-item .car_image:after, .newsb-thumbnail a:after, .ins_widget ul li a:after, .blog-image a:after{

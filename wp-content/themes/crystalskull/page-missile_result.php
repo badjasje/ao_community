@@ -779,7 +779,7 @@ if($clan_points < 1){
 	
 	<center>
 		<h2>S U C C E S S</h2>
-			<p>Your missile hit the base of <strong>
+			<p class="battleMessage">Your missile hit the base of <strong>
 			<a href="/users/profile/?id=<?php echo $defender_ID;?>">
 				<?php $playername = get_userdata($defender_ID);
 					echo $playername->display_name;
@@ -869,7 +869,7 @@ if($clan_points < 1){
 					
 <?php if($result == 'failure' && $shotdown != true && $disabled != true){ ?>
 					<center><h2>F A I L U R E</h2>
-					<p>Your missile missed the base of <a href="/users/profile/?id=<?php
+					<p class="battleMessage">Your missile missed the base of <a href="/users/profile/?id=<?php
     echo $defender_ID;
 	 $winner_ID = $defender_ID;
 ?>"><strong><?php
@@ -881,7 +881,7 @@ if($clan_points < 1){
 			
 <?php if($result == 'failure' && $shotdown == true && $disabled != true){ ?>
 					<center><h2>F A I L U R E</h2>
-					<p>Your missile was shot down by <a href="/users/profile/?id=<?php
+					<p class="battleMessage">Your missile was shot down by <a href="/users/profile/?id=<?php
     echo $defender_ID;
 	 $winner_ID = $defender_ID;
 ?>"><strong><?php
@@ -894,7 +894,7 @@ if($clan_points < 1){
 <?php if($result == 'failure' && $shotdown == false && $disabled == true){ ?>
 	<center>
 		<h2>F A I L U R E</h2>
-		<p>Your missile silo was sabotaged. You lost your missile and your missile silo.</p>
+		<p class="battleMessage">Your missile silo was sabotaged. You lost your missile and your missile silo.</p>
 	</center>
 <?php 
 	

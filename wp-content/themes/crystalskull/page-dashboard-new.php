@@ -53,6 +53,15 @@ $nostalgia = '';
 if($nightmode == 'nostalgia'){
 	$nostalgia = 'selected';
 }
+$blackwhite = '';
+if($nightmode == 'blackwhite'){
+	$blackwhite = 'selected';
+}
+$grayscale = '';
+if($nightmode == 'grayscale'){
+	$grayscale = 'selected';
+}
+
 
 $shootdown_chance = 0;
 if($AMS > 0){
@@ -197,6 +206,8 @@ get_header(); ?>
 							<option name="mode" <?php echo $regular;?> value="regular">Regular</option>
 							<option name="mode" <?php echo $night;?> value="night">Night mode</option>
 							<option name="mode" <?php echo $nostalgia;?> value="nostalgia">Nostalgia</option>
+							<option name="mode" <?php echo $grayscale;?> value="grayscale">Grayscale</option>
+							<option name="mode" <?php echo $blackwhite;?> value="blackwhite">Black & White</option>
 						</select>	
 						
 						</form>
@@ -465,6 +476,8 @@ get_header(); ?>
 							<option name="mode" <?php echo $regular;?> value="regular">Regular</option>
 							<option name="mode" <?php echo $night;?> value="night">Night mode</option>
 							<option name="mode" <?php echo $nostalgia;?> value="nostalgia">Nostalgia</option>
+							<option name="mode" <?php echo $grayscale;?> value="grayscale">Grayscale</option>
+							<option name="mode" <?php echo $blackwhite;?> value="blackwhite">Black & White</option>
 						</select>	
 						
 						</form>
