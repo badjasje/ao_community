@@ -21,6 +21,18 @@ body {
 	word-wrap: break-word; /* Old syntax */
 }
 
+/* Changed in 4.6.0, see https://core.trac.wordpress.org/ticket/40743 */
+.mce-content-body p,
+.mce-content-body div,
+.mce-content-body h1,
+.mce-content-body h2,
+.mce-content-body h3,
+.mce-content-body h4,
+.mce-content-body h5,
+.mce-content-body h6 {
+    line-height: inherit;
+}
+
 body.rtl {
 	font-family: Tahoma, "Times New Roman", "Bitstream Charter", Times, serif;
 }
@@ -89,9 +101,8 @@ img {
 	width: auto !important;
 }
 
-dl.wp-caption dt.wp-caption-dt img {
-	display: inline-block;
-	margin-bottom: -1ex;
+.wp-caption img {
+	display: block;
 }
 
 div.mceTemp {
@@ -167,14 +178,6 @@ img[data-mce-selected]::selection {
 	border-radius: 2px;
 	box-shadow: 0 0 0 1px #bfe6ff;
 	background: #bfe6ff;
-}
-
-.mce-content-body .wp-caption-dt a[data-mce-selected] {
-	outline: none;
-	padding: 0;
-	margin: 0;
-	box-shadow: none;
-	background: transparent;
 }
 
 .mce-content-body code {

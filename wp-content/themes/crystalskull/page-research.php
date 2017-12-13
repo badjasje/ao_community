@@ -165,7 +165,7 @@ get_header(); ?>
 			?>
 		
 		<div class="col-md-2">
-			<?php if($research_queued == '0' && $researchCount == 0):?>
+			<?php if($research_queued == '0' || $researchCount == 0):?>
 				<?php if($research['maxlevel'] > $current+$researchCount):?>
 					<input style="display:none;" type="radio" name="research" id="<?php echo $key;?>" value="<?php echo $key;?>" required >
 					<label class="btn btn-general selectResearch" for="<?php echo $key;?>"><?php echo $selectText;?></label>
@@ -209,7 +209,7 @@ get_header(); ?>
 	<?php endif;?>
 </div>
 <?php }?>
-<?php if($research_queued == '0' && $researchCount == 0):?>
+<?php if($research_queued == '0' || $researchCount == 0):?>
 <input type="submit" value="<?php echo $btnText;?>" class="submitBtn">
 		<div class="footer_continue">
 		<input type="submit" value="<?php echo $btnText;?>" class="submitBtn">
