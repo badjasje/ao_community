@@ -52970,3 +52970,203 @@ Units ordered: b2_bomber 160
 ID: 433
 Units ordered: b2_bomber 50
 
+15:21:07 | 13-12-2017
+ID: 1906
+Units ordered: destroyer 100
+
+17:39:50 | 13-12-2017
+ID: 1831
+Units ordered: rah66_commanches 400
+
+17:57:38 | 13-12-2017
+ID: 1921
+Units ordered: paratrooper 345
+
+19:07:40 | 13-12-2017
+ID: 1759
+Units ordered: thief 5
+
+0:10:08 | 14-12-2017
+ID: 1891
+Units ordered: b2_bomber 250
+
+1:41:28 | 14-12-2017
+ID: 1923
+Units ordered: spyplane 5
+
+1:41:54 | 14-12-2017
+ID: 1923
+Units ordered: spy 5
+
+1:42:12 | 14-12-2017
+ID: 1923
+Units ordered: b2_bomber 256
+
+1:46:51 | 14-12-2017
+ID: 1923
+Units ordered: b2_bomber 92
+
+5:02:14 | 14-12-2017
+ID: 1780
+Units ordered: b2_bomber 60
+
+5:02:54 | 14-12-2017
+ID: 1780
+Units ordered: abraham 40
+
+5:02:54 | 14-12-2017
+ID: 1780
+Units ordered: m70mlrs 75
+
+5:02:54 | 14-12-2017
+ID: 1780
+Units ordered: m270_rocket 40
+
+5:03:53 | 14-12-2017
+ID: 1780
+Units ordered: b2_bomber 40
+
+5:08:18 | 14-12-2017
+ID: 1780
+Units ordered: sniper 10
+
+5:09:00 | 14-12-2017
+ID: 1780
+Units ordered: abraham 10
+
+5:09:00 | 14-12-2017
+ID: 1780
+Units ordered: m70mlrs 35
+
+5:09:00 | 14-12-2017
+ID: 1780
+Units ordered: m270_rocket 10
+
+6:06:51 | 14-12-2017
+ID: 1927
+Units ordered: sniper 5
+
+7:51:39 | 14-12-2017
+ID: 1921
+Units ordered: paratrooper 164
+
+7:51:39 | 14-12-2017
+ID: 1921
+Units ordered: paratrooper 164
+
+7:51:39 | 14-12-2017
+ID: 1921
+Units ordered: paratrooper 164
+
+9:09:57 | 14-12-2017
+ID: 102
+Units ordered: spyplane 20
+
+9:10:43 | 14-12-2017
+ID: 102
+Units ordered: spyplane 20
+
+9:11:08 | 14-12-2017
+ID: 102
+Units ordered: spyplane 10
+
+9:49:19 | 14-12-2017
+ID: 1596
+Units ordered: thief 20
+
+15:47:47 | 14-12-2017
+ID: 1891
+Units ordered: b2_bomber 100
+
+18:52:59 | 14-12-2017
+ID: 575
+Units ordered: spy 3
+
+18:52:59 | 14-12-2017
+ID: 575
+Units ordered: paratrooper 17
+
+18:53:07 | 14-12-2017
+ID: 575
+Units ordered: paratrooper 40
+
+18:54:54 | 14-12-2017
+ID: 575
+Units ordered: paratrooper 160
+
+18:55:36 | 14-12-2017
+ID: 575
+Units ordered: paratrooper 14
+
+18:57:07 | 14-12-2017
+ID: 575
+Units ordered: paratrooper 60
+
+23:21:16 | 14-12-2017
+ID: 686
+Units ordered: thief 20
+
+23:50:29 | 14-12-2017
+ID: 1780
+Units ordered: b2_bomber 20
+
+23:50:58 | 14-12-2017
+ID: 1780
+Units ordered: m270_rocket 30
+
+0:57:26 | 15-12-2017
+ID: 1780
+Units ordered: abraham 20
+
+1:30:43 | 15-12-2017
+ID: 1858
+Units ordered: spyplane 1
+
+1:30:43 | 15-12-2017
+ID: 1858
+Units ordered: b2_bomber 9
+
+3:06:02 | 15-12-2017
+ID: 1858
+Units ordered: rah66_commanches 30
+
+5:38:58 | 15-12-2017
+ID: 1923
+Units ordered: b2_bomber 146
+
+6:00:17 | 15-12-2017
+ID: 1725
+Units ordered: spyplane 2
+
+6:00:32 | 15-12-2017
+ID: 1725
+Units ordered: spy 3
+
+6:57:14 | 15-12-2017
+ID: 1858
+Units ordered: seahawk 10
+
+6:57:30 | 15-12-2017
+ID: 1858
+Units ordered: rah66_commanches 10
+
+8:38:44 | 15-12-2017
+ID: 1062
+Units ordered: thief 20
+
+9:18:25 | 15-12-2017
+ID: 1201
+Units ordered: thief 10
+
+9:58:40 | 15-12-2017
+ID: 464
+Units ordered: thief 20
+
+10:28:00 | 15-12-2017
+ID: 1906
+Units ordered: cruiser 200
+
+10:28:00 | 15-12-2017
+ID: 1906
+Units ordered: destroyer 200
+

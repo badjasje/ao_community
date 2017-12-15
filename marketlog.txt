@@ -53902,3 +53902,59 @@ Units ordered: 860
 ID: 1616
 Units ordered: 1762
 
+14:29:41 | 13-12-2017
+ID: 1927
+Units ordered: 5
+
+14:29:42 | 13-12-2017
+ID: 1927
+Units ordered: 5
+
+14:30:48 | 13-12-2017
+ID: 1927
+Units ordered: 5
+
+14:31:40 | 13-12-2017
+ID: 1927
+Units ordered: 10
+
+14:32:13 | 13-12-2017
+ID: 1927
+Units ordered: 10
+
+14:32:42 | 13-12-2017
+ID: 1927
+Units ordered: 9
+
+0:55:33 | 15-12-2017
+ID: 312
+Units ordered: 2
+
+0:56:47 | 15-12-2017
+ID: 312
+Units ordered: 1
+
+5:36:35 | 15-12-2017
+ID: 1927
+Units ordered: 15
+
+5:37:00 | 15-12-2017
+ID: 1927
+Units ordered: 10
+
+6:01:04 | 15-12-2017
+ID: 1725
+Units ordered: 140
+
+7:51:47 | 15-12-2017
+ID: 1775
+Units ordered: 935
+
+8:50:43 | 15-12-2017
+ID: 1616
+Units ordered: 120
+
+8:54:57 | 15-12-2017
+ID: 475
+Units ordered: 1179
+

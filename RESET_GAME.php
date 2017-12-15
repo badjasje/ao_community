@@ -26,11 +26,10 @@
 				//update_user_meta($user_ID, 'reset_status', 0);}
 				
 				
-				update_user_meta($user_ID, 'land_sold_today', 0);
 				
 				
-				//update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
-				}
+				update_user_meta($user_ID, 'nuke_protection_timestamp', $timestamp+(48 * 3600));}
+				
 				/*
 				if(get_user_meta($user_ID, 'reset_status', true) == 0){
 			
@@ -189,7 +188,7 @@
 			
 			} 
 
-*/
+
 /*
 
 // Reset clan points and NW 
@@ -222,8 +221,8 @@ foreach ($clans as $clan) {
 	}
 	
 
-
 */
+
 	
 	
 	
