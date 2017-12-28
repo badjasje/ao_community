@@ -42,7 +42,7 @@
  
 get_header(); ?>
 <div class="page normal-page">
-     <div class="container">
+     <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
 	            
@@ -59,7 +59,8 @@ get_header(); ?>
 		<?php if(!empty(get_user_meta($user_ID, 'avatar_user', true))):?>
 			<div style='border-radius:100%;margin-bottom:20px;height:120px;width:120px;background: url("<?php echo get_user_meta($user_ID, 'avatar_user', true);?>");background-size: cover;'></div><?php endif;?>
 			<form action="<?php echo home_url() ?>/update_profile.php" method="post" enctype="multipart/form-data">
-    <sup>Select image to upload. Recommended: 120x120.</sup>
+    <sup>Select image to upload. Recommended: 120x120.</sup><br/>
+    <sup>Max 120kb.</sup>
     <input type="file" name="file" id="file">
     
 

@@ -53958,3 +53958,6939 @@ Units ordered: 120
 ID: 475
 Units ordered: 1179
 
+14:04:44 | 15-12-2017
+ID: 1725
+Units ordered: 59
+
+14:12:41 | 15-12-2017
+ID: 1744
+Units ordered: 1000
+
+14:17:45 | 15-12-2017
+ID: 1744
+Units ordered: 400
+
+14:30:48 | 15-12-2017
+ID: 487
+Units ordered: 1554
+
+15:51:51 | 15-12-2017
+ID: 475
+Units ordered: 54
+
+16:58:24 | 15-12-2017
+ID: 1062
+Units ordered: 200
+
+17:32:34 | 15-12-2017
+ID: 252
+Units ordered: 20
+
+17:32:34 | 15-12-2017
+ID: 252
+Units ordered: 30
+
+17:45:21 | 15-12-2017
+ID: 1725
+Units ordered: 22
+
+18:05:41 | 15-12-2017
+ID: 475
+Units ordered: 82
+
+18:45:18 | 15-12-2017
+ID: 487
+Units ordered: 97
+
+19:25:46 | 15-12-2017
+ID: 1759
+Units ordered: 10
+
+20:48:25 | 15-12-2017
+ID: 1725
+Units ordered: 22
+
+22:23:05 | 15-12-2017
+ID: 1616
+Units ordered: 405
+
+23:24:49 | 15-12-2017
+ID: 1418
+Units ordered: 200
+
+23:52:40 | 15-12-2017
+ID: 1062
+Units ordered: 500
+
+0:30:53 | 16-12-2017
+ID: 590
+Units ordered: 100
+
+3:34:25 | 16-12-2017
+ID: 1923
+Units ordered: 6
+
+5:11:48 | 16-12-2017
+ID: 1759
+Units ordered: 30
+
+7:26:03 | 16-12-2017
+ID: 1927
+Units ordered: 5
+
+8:39:14 | 16-12-2017
+ID: 1725
+Units ordered: 36
+
+10:22:25 | 16-12-2017
+ID: 1062
+Units ordered: 200
+
+10:22:44 | 16-12-2017
+ID: 1062
+Units ordered: 200
+
+10:22:59 | 16-12-2017
+ID: 1062
+Units ordered: 190
+
+10:25:29 | 16-12-2017
+ID: 1062
+Units ordered: 200
+
+11:11:14 | 16-12-2017
+ID: 1616
+Units ordered: 71
+
+12:51:34 | 16-12-2017
+ID: 590
+Units ordered: 140
+
+13:10:23 | 16-12-2017
+ID: 1744
+Units ordered: 555
+
+15:13:56 | 16-12-2017
+ID: 1725
+Units ordered: 40
+
+15:16:13 | 16-12-2017
+ID: 1906
+Units ordered: 262
+
+15:54:40 | 16-12-2017
+ID: 1616
+Units ordered: 263
+
+19:03:21 | 16-12-2017
+ID: 1744
+Units ordered: 278
+
+19:04:18 | 16-12-2017
+ID: 1744
+Units ordered: 32
+
+20:20:44 | 16-12-2017
+ID: 1418
+Units ordered: 200
+
+20:39:12 | 16-12-2017
+ID: 1775
+Units ordered: 482
+
+20:45:57 | 16-12-2017
+ID: 1725
+Units ordered: 40
+
+20:48:54 | 16-12-2017
+ID: 1775
+Units ordered: 12
+
+21:04:44 | 16-12-2017
+ID: 1938
+Units ordered: 2
+
+21:04:45 | 16-12-2017
+ID: 1938
+Units ordered: 20
+
+21:04:45 | 16-12-2017
+ID: 1938
+Units ordered: 60
+
+21:04:45 | 16-12-2017
+ID: 1938
+Units ordered: 18
+
+21:06:21 | 16-12-2017
+ID: 1938
+Units ordered: 10
+
+21:06:21 | 16-12-2017
+ID: 1938
+Units ordered: 20
+
+21:06:21 | 16-12-2017
+ID: 1938
+Units ordered: 15
+
+21:06:22 | 16-12-2017
+ID: 1938
+Units ordered: 5
+
+21:30:45 | 16-12-2017
+ID: 1418
+Units ordered: 60
+
+21:40:32 | 16-12-2017
+ID: 1759
+Units ordered: 14
+
+21:50:36 | 16-12-2017
+ID: 1616
+Units ordered: 598
+
+21:51:16 | 16-12-2017
+ID: 1616
+Units ordered: 318
+
+21:56:40 | 16-12-2017
+ID: 1744
+Units ordered: 127
+
+22:20:40 | 16-12-2017
+ID: 1744
+Units ordered: 1
+
+22:20:41 | 16-12-2017
+ID: 1744
+Units ordered: 2
+
+22:21:09 | 16-12-2017
+ID: 1744
+Units ordered: 43
+
+22:44:21 | 16-12-2017
+ID: 1062
+Units ordered: 200
+
+22:44:37 | 16-12-2017
+ID: 1062
+Units ordered: 200
+
+22:45:32 | 16-12-2017
+ID: 1062
+Units ordered: 190
+
+22:49:49 | 16-12-2017
+ID: 1775
+Units ordered: 68
+
+22:59:01 | 16-12-2017
+ID: 1062
+Units ordered: 300
+
+22:59:13 | 16-12-2017
+ID: 1062
+Units ordered: 440
+
+23:04:29 | 16-12-2017
+ID: 1418
+Units ordered: 30
+
+0:54:11 | 17-12-2017
+ID: 1759
+Units ordered: 7
+
+1:27:18 | 17-12-2017
+ID: 1927
+Units ordered: 20
+
+3:39:59 | 17-12-2017
+ID: 749
+Units ordered: 28
+
+5:19:47 | 17-12-2017
+ID: 749
+Units ordered: 2
+
+5:20:33 | 17-12-2017
+ID: 749
+Units ordered: 1
+
+5:21:23 | 17-12-2017
+ID: 749
+Units ordered: 1
+
+8:54:21 | 17-12-2017
+ID: 1062
+Units ordered: 30
+
+8:54:32 | 17-12-2017
+ID: 1062
+Units ordered: 20
+
+8:55:58 | 17-12-2017
+ID: 1062
+Units ordered: 740
+
+8:57:11 | 17-12-2017
+ID: 1062
+Units ordered: 740
+
+8:57:58 | 17-12-2017
+ID: 1062
+Units ordered: 718
+
+9:04:39 | 17-12-2017
+ID: 1725
+Units ordered: 96
+
+9:22:11 | 17-12-2017
+ID: 1775
+Units ordered: 175
+
+10:09:55 | 17-12-2017
+ID: 1062
+Units ordered: 740
+
+10:15:19 | 17-12-2017
+ID: 575
+Units ordered: 1246
+
+10:49:25 | 17-12-2017
+ID: 575
+Units ordered: 172
+
+12:07:52 | 17-12-2017
+ID: 1811
+Units ordered: 29
+
+13:32:35 | 17-12-2017
+ID: 1616
+Units ordered: 2128
+
+15:17:51 | 17-12-2017
+ID: 1775
+Units ordered: 690
+
+15:20:14 | 17-12-2017
+ID: 1775
+Units ordered: 41
+
+16:02:55 | 17-12-2017
+ID: 575
+Units ordered: 211
+
+16:31:13 | 17-12-2017
+ID: 433
+Units ordered: 300
+
+16:54:15 | 17-12-2017
+ID: 1918
+Units ordered: 79
+
+17:03:53 | 17-12-2017
+ID: 179
+Units ordered: 170
+
+17:07:39 | 17-12-2017
+ID: 1744
+Units ordered: 575
+
+17:08:26 | 17-12-2017
+ID: 1744
+Units ordered: 151
+
+17:17:21 | 17-12-2017
+ID: 1744
+Units ordered: 140
+
+17:25:19 | 17-12-2017
+ID: 1918
+Units ordered: 65
+
+17:41:48 | 17-12-2017
+ID: 641
+Units ordered: 66
+
+18:09:22 | 17-12-2017
+ID: 1775
+Units ordered: 52
+
+18:13:52 | 17-12-2017
+ID: 1775
+Units ordered: 10
+
+18:18:00 | 17-12-2017
+ID: 1861
+Units ordered: 38
+
+18:43:47 | 17-12-2017
+ID: 1759
+Units ordered: 10
+
+18:44:11 | 17-12-2017
+ID: 1759
+Units ordered: 20
+
+19:01:31 | 17-12-2017
+ID: 1775
+Units ordered: 13
+
+19:22:13 | 17-12-2017
+ID: 1418
+Units ordered: 82
+
+19:23:37 | 17-12-2017
+ID: 1418
+Units ordered: 190
+
+19:24:59 | 17-12-2017
+ID: 1418
+Units ordered: 36
+
+19:47:01 | 17-12-2017
+ID: 475
+Units ordered: 215
+
+20:00:20 | 17-12-2017
+ID: 1744
+Units ordered: 192
+
+20:00:53 | 17-12-2017
+ID: 1418
+Units ordered: 87
+
+20:16:24 | 17-12-2017
+ID: 1385
+Units ordered: 312
+
+20:26:51 | 17-12-2017
+ID: 1383
+Units ordered: 345
+
+20:28:51 | 17-12-2017
+ID: 1383
+Units ordered: 183
+
+20:35:18 | 17-12-2017
+ID: 1383
+Units ordered: 8
+
+20:50:15 | 17-12-2017
+ID: 1201
+Units ordered: 453
+
+20:50:24 | 17-12-2017
+ID: 1942
+Units ordered: 20
+
+20:51:22 | 17-12-2017
+ID: 1942
+Units ordered: 1
+
+20:52:29 | 17-12-2017
+ID: 1942
+Units ordered: 1
+
+20:54:49 | 17-12-2017
+ID: 1201
+Units ordered: 363
+
+20:54:49 | 17-12-2017
+ID: 1383
+Units ordered: 433
+
+20:59:58 | 17-12-2017
+ID: 1203
+Units ordered: 498
+
+21:01:01 | 17-12-2017
+ID: 1203
+Units ordered: 504
+
+21:03:48 | 17-12-2017
+ID: 686
+Units ordered: 651
+
+21:10:53 | 17-12-2017
+ID: 1725
+Units ordered: 200
+
+21:16:19 | 17-12-2017
+ID: 1319
+Units ordered: 745
+
+21:22:28 | 17-12-2017
+ID: 1319
+Units ordered: 65
+
+21:41:45 | 17-12-2017
+ID: 1744
+Units ordered: 21
+
+21:59:04 | 17-12-2017
+ID: 1942
+Units ordered: 4
+
+22:00:30 | 17-12-2017
+ID: 1942
+Units ordered: 10
+
+22:01:09 | 17-12-2017
+ID: 1942
+Units ordered: 2
+
+22:01:51 | 17-12-2017
+ID: 1942
+Units ordered: 6
+
+22:02:15 | 17-12-2017
+ID: 1942
+Units ordered: 1
+
+22:06:15 | 17-12-2017
+ID: 1861
+Units ordered: 42
+
+22:08:36 | 17-12-2017
+ID: 1062
+Units ordered: 20
+
+22:21:03 | 17-12-2017
+ID: 1062
+Units ordered: 300
+
+22:21:25 | 17-12-2017
+ID: 1062
+Units ordered: 250
+
+22:36:43 | 17-12-2017
+ID: 1910
+Units ordered: 14
+
+23:51:06 | 17-12-2017
+ID: 1811
+Units ordered: 18
+
+1:17:20 | 18-12-2017
+ID: 1744
+Units ordered: 196
+
+2:00:17 | 18-12-2017
+ID: 487
+Units ordered: 322
+
+2:31:03 | 18-12-2017
+ID: 686
+Units ordered: 49
+
+2:32:12 | 18-12-2017
+ID: 686
+Units ordered: 36
+
+2:52:06 | 18-12-2017
+ID: 1939
+Units ordered: 10
+
+2:52:16 | 18-12-2017
+ID: 1938
+Units ordered: 46
+
+2:56:47 | 18-12-2017
+ID: 1939
+Units ordered: 15
+
+2:58:07 | 18-12-2017
+ID: 1939
+Units ordered: 4
+
+3:01:15 | 18-12-2017
+ID: 1939
+Units ordered: 28
+
+3:11:59 | 18-12-2017
+ID: 1939
+Units ordered: 17
+
+4:18:24 | 18-12-2017
+ID: 1939
+Units ordered: 12
+
+5:26:59 | 18-12-2017
+ID: 1383
+Units ordered: 114
+
+6:13:44 | 18-12-2017
+ID: 1725
+Units ordered: 2
+
+6:14:00 | 18-12-2017
+ID: 1725
+Units ordered: 38
+
+7:19:06 | 18-12-2017
+ID: 1918
+Units ordered: 141
+
+7:32:19 | 18-12-2017
+ID: 1759
+Units ordered: 40
+
+7:34:32 | 18-12-2017
+ID: 1759
+Units ordered: 35
+
+7:54:21 | 18-12-2017
+ID: 1906
+Units ordered: 337
+
+8:08:12 | 18-12-2017
+ID: 590
+Units ordered: 729
+
+8:21:41 | 18-12-2017
+ID: 1775
+Units ordered: 760
+
+8:23:50 | 18-12-2017
+ID: 1775
+Units ordered: 181
+
+8:33:36 | 18-12-2017
+ID: 1385
+Units ordered: 221
+
+8:41:42 | 18-12-2017
+ID: 1385
+Units ordered: 467
+
+9:11:02 | 18-12-2017
+ID: 433
+Units ordered: 80
+
+9:14:33 | 18-12-2017
+ID: 1062
+Units ordered: 760
+
+9:15:05 | 18-12-2017
+ID: 1062
+Units ordered: 760
+
+9:27:39 | 18-12-2017
+ID: 1616
+Units ordered: 3653
+
+9:40:04 | 18-12-2017
+ID: 1062
+Units ordered: 760
+
+9:40:57 | 18-12-2017
+ID: 1062
+Units ordered: 760
+
+9:49:18 | 18-12-2017
+ID: 1062
+Units ordered: 150
+
+10:14:20 | 18-12-2017
+ID: 1383
+Units ordered: 187
+
+11:11:05 | 18-12-2017
+ID: 1203
+Units ordered: 196
+
+11:13:15 | 18-12-2017
+ID: 475
+Units ordered: 451
+
+11:40:40 | 18-12-2017
+ID: 1190
+Units ordered: 27
+
+12:16:09 | 18-12-2017
+ID: 575
+Units ordered: 734
+
+13:02:21 | 18-12-2017
+ID: 686
+Units ordered: 161
+
+13:13:55 | 18-12-2017
+ID: 1203
+Units ordered: 100
+
+13:51:55 | 18-12-2017
+ID: 1918
+Units ordered: 93
+
+13:52:23 | 18-12-2017
+ID: 1843
+Units ordered: 65
+
+14:03:13 | 18-12-2017
+ID: 1910
+Units ordered: 21
+
+14:23:57 | 18-12-2017
+ID: 1841
+Units ordered: 200
+
+14:35:13 | 18-12-2017
+ID: 475
+Units ordered: 153
+
+15:19:00 | 18-12-2017
+ID: 487
+Units ordered: 138
+
+15:29:44 | 18-12-2017
+ID: 102
+Units ordered: 250
+
+15:29:53 | 18-12-2017
+ID: 102
+Units ordered: 50
+
+15:33:34 | 18-12-2017
+ID: 1939
+Units ordered: 2
+
+15:33:34 | 18-12-2017
+ID: 1939
+Units ordered: 8
+
+15:34:32 | 18-12-2017
+ID: 1939
+Units ordered: 10
+
+15:34:32 | 18-12-2017
+ID: 1939
+Units ordered: 23
+
+15:34:33 | 18-12-2017
+ID: 1939
+Units ordered: 21
+
+15:34:33 | 18-12-2017
+ID: 1939
+Units ordered: 4
+
+15:40:10 | 18-12-2017
+ID: 1939
+Units ordered: 1
+
+15:46:24 | 18-12-2017
+ID: 1383
+Units ordered: 30
+
+15:46:45 | 18-12-2017
+ID: 1383
+Units ordered: 48
+
+15:47:29 | 18-12-2017
+ID: 1910
+Units ordered: 12
+
+15:51:22 | 18-12-2017
+ID: 43
+Units ordered: 50
+
+16:00:25 | 18-12-2017
+ID: 1383
+Units ordered: 22
+
+16:16:26 | 18-12-2017
+ID: 1319
+Units ordered: 100
+
+16:21:22 | 18-12-2017
+ID: 1775
+Units ordered: 500
+
+16:21:48 | 18-12-2017
+ID: 1775
+Units ordered: 150
+
+16:22:36 | 18-12-2017
+ID: 1775
+Units ordered: 150
+
+16:23:02 | 18-12-2017
+ID: 1775
+Units ordered: 92
+
+16:55:06 | 18-12-2017
+ID: 1786
+Units ordered: 100
+
+16:55:44 | 18-12-2017
+ID: 1939
+Units ordered: 2
+
+16:55:44 | 18-12-2017
+ID: 1939
+Units ordered: 14
+
+16:59:21 | 18-12-2017
+ID: 1841
+Units ordered: 200
+
+17:30:11 | 18-12-2017
+ID: 1939
+Units ordered: 18
+
+17:33:03 | 18-12-2017
+ID: 1383
+Units ordered: 49
+
+17:33:22 | 18-12-2017
+ID: 1383
+Units ordered: 82
+
+17:36:00 | 18-12-2017
+ID: 1759
+Units ordered: 50
+
+17:39:20 | 18-12-2017
+ID: 1759
+Units ordered: 241
+
+17:40:15 | 18-12-2017
+ID: 131
+Units ordered: 15
+
+18:09:06 | 18-12-2017
+ID: 1383
+Units ordered: 12
+
+18:20:21 | 18-12-2017
+ID: 1203
+Units ordered: 242
+
+18:41:39 | 18-12-2017
+ID: 1843
+Units ordered: 90
+
+19:26:50 | 18-12-2017
+ID: 487
+Units ordered: 192
+
+19:30:47 | 18-12-2017
+ID: 1383
+Units ordered: 44
+
+20:36:22 | 18-12-2017
+ID: 1383
+Units ordered: 17
+
+21:33:58 | 18-12-2017
+ID: 1062
+Units ordered: 500
+
+21:34:16 | 18-12-2017
+ID: 1062
+Units ordered: 470
+
+21:34:47 | 18-12-2017
+ID: 1062
+Units ordered: 500
+
+21:37:57 | 18-12-2017
+ID: 575
+Units ordered: 500
+
+21:38:08 | 18-12-2017
+ID: 575
+Units ordered: 200
+
+22:10:47 | 18-12-2017
+ID: 1918
+Units ordered: 572
+
+22:18:04 | 18-12-2017
+ID: 1201
+Units ordered: 300
+
+22:22:46 | 18-12-2017
+ID: 1843
+Units ordered: 103
+
+22:28:27 | 18-12-2017
+ID: 1029
+Units ordered: 198
+
+22:41:06 | 18-12-2017
+ID: 1418
+Units ordered: 250
+
+22:41:16 | 18-12-2017
+ID: 1418
+Units ordered: 250
+
+23:01:47 | 18-12-2017
+ID: 1858
+Units ordered: 20
+
+23:03:02 | 18-12-2017
+ID: 1786
+Units ordered: 74
+
+23:14:50 | 18-12-2017
+ID: 1203
+Units ordered: 250
+
+0:05:50 | 19-12-2017
+ID: 1843
+Units ordered: 50
+
+0:10:16 | 19-12-2017
+ID: 487
+Units ordered: 170
+
+0:25:22 | 19-12-2017
+ID: 1744
+Units ordered: 3
+
+0:37:24 | 19-12-2017
+ID: 686
+Units ordered: 747
+
+1:01:53 | 19-12-2017
+ID: 312
+Units ordered: 1
+
+1:02:26 | 19-12-2017
+ID: 312
+Units ordered: 2
+
+1:02:36 | 19-12-2017
+ID: 312
+Units ordered: 1
+
+1:10:59 | 19-12-2017
+ID: 1385
+Units ordered: 103
+
+1:59:36 | 19-12-2017
+ID: 1918
+Units ordered: 30
+
+2:41:11 | 19-12-2017
+ID: 1385
+Units ordered: 72
+
+2:50:00 | 19-12-2017
+ID: 1759
+Units ordered: 161
+
+2:53:27 | 19-12-2017
+ID: 1775
+Units ordered: 951
+
+3:05:50 | 19-12-2017
+ID: 1775
+Units ordered: 96
+
+5:18:41 | 19-12-2017
+ID: 1383
+Units ordered: 58
+
+5:19:13 | 19-12-2017
+ID: 1383
+Units ordered: 64
+
+5:19:17 | 19-12-2017
+ID: 1383
+Units ordered: 2
+
+5:22:27 | 19-12-2017
+ID: 433
+Units ordered: 100
+
+6:01:03 | 19-12-2017
+ID: 1725
+Units ordered: 52
+
+6:39:34 | 19-12-2017
+ID: 252
+Units ordered: 373
+
+7:56:08 | 19-12-2017
+ID: 1906
+Units ordered: 393
+
+8:54:56 | 19-12-2017
+ID: 433
+Units ordered: 100
+
+9:23:36 | 19-12-2017
+ID: 1383
+Units ordered: 271
+
+10:05:02 | 19-12-2017
+ID: 1383
+Units ordered: 22
+
+10:16:07 | 19-12-2017
+ID: 1062
+Units ordered: 420
+
+10:58:23 | 19-12-2017
+ID: 1775
+Units ordered: 165
+
+11:06:31 | 19-12-2017
+ID: 1843
+Units ordered: 75
+
+11:14:26 | 19-12-2017
+ID: 1843
+Units ordered: 52
+
+11:18:25 | 19-12-2017
+ID: 575
+Units ordered: 153
+
+11:19:55 | 19-12-2017
+ID: 1786
+Units ordered: 20
+
+11:22:23 | 19-12-2017
+ID: 1775
+Units ordered: 368
+
+11:27:55 | 19-12-2017
+ID: 1062
+Units ordered: 550
+
+11:37:42 | 19-12-2017
+ID: 1799
+Units ordered: 500
+
+11:37:43 | 19-12-2017
+ID: 1799
+Units ordered: 500
+
+11:38:08 | 19-12-2017
+ID: 102
+Units ordered: 150
+
+12:58:44 | 19-12-2017
+ID: 1725
+Units ordered: 30
+
+13:09:28 | 19-12-2017
+ID: 1319
+Units ordered: 153
+
+13:20:25 | 19-12-2017
+ID: 1201
+Units ordered: 514
+
+13:24:17 | 19-12-2017
+ID: 1203
+Units ordered: 177
+
+13:28:15 | 19-12-2017
+ID: 1843
+Units ordered: 53
+
+13:44:44 | 19-12-2017
+ID: 131
+Units ordered: 38
+
+14:15:00 | 19-12-2017
+ID: 1918
+Units ordered: 24
+
+14:23:52 | 19-12-2017
+ID: 1918
+Units ordered: 26
+
+14:25:52 | 19-12-2017
+ID: 1918
+Units ordered: 25
+
+14:40:24 | 19-12-2017
+ID: 1952
+Units ordered: 150
+
+15:16:11 | 19-12-2017
+ID: 1918
+Units ordered: 25
+
+15:16:19 | 19-12-2017
+ID: 1918
+Units ordered: 47
+
+15:16:54 | 19-12-2017
+ID: 1343
+Units ordered: 4695
+
+15:17:32 | 19-12-2017
+ID: 1343
+Units ordered: 605
+
+15:18:18 | 19-12-2017
+ID: 1343
+Units ordered: 400
+
+15:19:20 | 19-12-2017
+ID: 1343
+Units ordered: 300
+
+15:20:10 | 19-12-2017
+ID: 1343
+Units ordered: 605
+
+15:25:04 | 19-12-2017
+ID: 1225
+Units ordered: 10955
+
+15:52:19 | 19-12-2017
+ID: 1219
+Units ordered: 8000
+
+15:53:49 | 19-12-2017
+ID: 1219
+Units ordered: 2000
+
+15:58:09 | 19-12-2017
+ID: 1314
+Units ordered: 9700
+
+15:59:30 | 19-12-2017
+ID: 1314
+Units ordered: 1854
+
+16:04:15 | 19-12-2017
+ID: 1786
+Units ordered: 90
+
+16:05:54 | 19-12-2017
+ID: 475
+Units ordered: 591
+
+16:41:20 | 19-12-2017
+ID: 130
+Units ordered: 30
+
+16:42:26 | 19-12-2017
+ID: 1203
+Units ordered: 68
+
+17:29:49 | 19-12-2017
+ID: 1775
+Units ordered: 74
+
+17:37:25 | 19-12-2017
+ID: 1843
+Units ordered: 80
+
+18:00:00 | 19-12-2017
+ID: 1383
+Units ordered: 162
+
+18:01:52 | 19-12-2017
+ID: 1799
+Units ordered: 169
+
+18:02:54 | 19-12-2017
+ID: 1383
+Units ordered: 22
+
+18:09:26 | 19-12-2017
+ID: 1891
+Units ordered: 36
+
+18:59:35 | 19-12-2017
+ID: 1910
+Units ordered: 12
+
+19:05:58 | 19-12-2017
+ID: 1418
+Units ordered: 200
+
+19:06:06 | 19-12-2017
+ID: 1418
+Units ordered: 110
+
+19:08:33 | 19-12-2017
+ID: 1383
+Units ordered: 151
+
+19:18:52 | 19-12-2017
+ID: 1385
+Units ordered: 561
+
+19:19:16 | 19-12-2017
+ID: 575
+Units ordered: 269
+
+19:32:21 | 19-12-2017
+ID: 1799
+Units ordered: 7
+
+19:36:52 | 19-12-2017
+ID: 252
+Units ordered: 127
+
+19:45:47 | 19-12-2017
+ID: 1744
+Units ordered: 146
+
+20:08:58 | 19-12-2017
+ID: 1918
+Units ordered: 46
+
+20:18:23 | 19-12-2017
+ID: 1383
+Units ordered: 202
+
+20:32:47 | 19-12-2017
+ID: 1910
+Units ordered: 58
+
+20:40:12 | 19-12-2017
+ID: 1616
+Units ordered: 2800
+
+20:40:13 | 19-12-2017
+ID: 1616
+Units ordered: 1000
+
+20:50:24 | 19-12-2017
+ID: 1203
+Units ordered: 258
+
+20:51:15 | 19-12-2017
+ID: 686
+Units ordered: 77
+
+21:51:03 | 19-12-2017
+ID: 1780
+Units ordered: 60
+
+21:53:52 | 19-12-2017
+ID: 1759
+Units ordered: 109
+
+22:06:23 | 19-12-2017
+ID: 1725
+Units ordered: 50
+
+22:23:40 | 19-12-2017
+ID: 1775
+Units ordered: 68
+
+22:48:14 | 19-12-2017
+ID: 475
+Units ordered: 161
+
+22:58:48 | 19-12-2017
+ID: 1062
+Units ordered: 400
+
+22:59:03 | 19-12-2017
+ID: 1062
+Units ordered: 300
+
+22:59:24 | 19-12-2017
+ID: 1062
+Units ordered: 10
+
+23:24:07 | 19-12-2017
+ID: 1910
+Units ordered: 26
+
+23:25:56 | 19-12-2017
+ID: 1910
+Units ordered: 13
+
+23:41:59 | 19-12-2017
+ID: 1843
+Units ordered: 50
+
+23:42:31 | 19-12-2017
+ID: 402
+Units ordered: 117
+
+0:06:04 | 20-12-2017
+ID: 130
+Units ordered: 20
+
+0:08:54 | 20-12-2017
+ID: 130
+Units ordered: 5
+
+0:09:09 | 20-12-2017
+ID: 130
+Units ordered: 5
+
+0:34:57 | 20-12-2017
+ID: 1962
+Units ordered: 10
+
+0:34:57 | 20-12-2017
+ID: 1962
+Units ordered: 40
+
+0:34:58 | 20-12-2017
+ID: 1962
+Units ordered: 40
+
+0:35:32 | 20-12-2017
+ID: 1939
+Units ordered: 2
+
+0:35:33 | 20-12-2017
+ID: 1939
+Units ordered: 10
+
+0:35:33 | 20-12-2017
+ID: 1939
+Units ordered: 70
+
+1:17:25 | 20-12-2017
+ID: 1811
+Units ordered: 4
+
+1:17:50 | 20-12-2017
+ID: 1811
+Units ordered: 200
+
+1:18:18 | 20-12-2017
+ID: 1811
+Units ordered: 200
+
+1:18:51 | 20-12-2017
+ID: 1811
+Units ordered: 15
+
+1:19:58 | 20-12-2017
+ID: 1811
+Units ordered: 579
+
+1:52:59 | 20-12-2017
+ID: 475
+Units ordered: 182
+
+2:13:26 | 20-12-2017
+ID: 1843
+Units ordered: 52
+
+2:23:45 | 20-12-2017
+ID: 1799
+Units ordered: 160
+
+2:25:30 | 20-12-2017
+ID: 1939
+Units ordered: 6
+
+2:35:07 | 20-12-2017
+ID: 1786
+Units ordered: 284
+
+2:39:40 | 20-12-2017
+ID: 686
+Units ordered: 122
+
+3:36:23 | 20-12-2017
+ID: 252
+Units ordered: 573
+
+3:50:46 | 20-12-2017
+ID: 1843
+Units ordered: 63
+
+4:03:01 | 20-12-2017
+ID: 1786
+Units ordered: 11
+
+5:32:00 | 20-12-2017
+ID: 1383
+Units ordered: 195
+
+5:33:54 | 20-12-2017
+ID: 433
+Units ordered: 490
+
+6:00:41 | 20-12-2017
+ID: 1918
+Units ordered: 71
+
+6:15:36 | 20-12-2017
+ID: 1725
+Units ordered: 25
+
+6:15:37 | 20-12-2017
+ID: 1725
+Units ordered: 25
+
+6:39:55 | 20-12-2017
+ID: 481
+Units ordered: 100
+
+6:43:05 | 20-12-2017
+ID: 1203
+Units ordered: 471
+
+7:16:46 | 20-12-2017
+ID: 1799
+Units ordered: 90
+
+7:43:02 | 20-12-2017
+ID: 1906
+Units ordered: 524
+
+7:49:33 | 20-12-2017
+ID: 475
+Units ordered: 179
+
+8:08:32 | 20-12-2017
+ID: 1775
+Units ordered: 96
+
+8:21:40 | 20-12-2017
+ID: 1062
+Units ordered: 760
+
+8:22:24 | 20-12-2017
+ID: 1062
+Units ordered: 760
+
+8:23:27 | 20-12-2017
+ID: 1062
+Units ordered: 760
+
+8:24:15 | 20-12-2017
+ID: 1062
+Units ordered: 160
+
+8:25:12 | 20-12-2017
+ID: 1062
+Units ordered: 760
+
+9:11:20 | 20-12-2017
+ID: 1811
+Units ordered: 424
+
+9:56:09 | 20-12-2017
+ID: 1744
+Units ordered: 355
+
+10:33:56 | 20-12-2017
+ID: 1799
+Units ordered: 32
+
+10:42:40 | 20-12-2017
+ID: 1400
+Units ordered: 10
+
+10:42:40 | 20-12-2017
+ID: 1400
+Units ordered: 20
+
+11:00:23 | 20-12-2017
+ID: 1775
+Units ordered: 195
+
+11:07:27 | 20-12-2017
+ID: 1918
+Units ordered: 94
+
+11:08:26 | 20-12-2017
+ID: 1786
+Units ordered: 313
+
+11:36:12 | 20-12-2017
+ID: 1786
+Units ordered: 54
+
+11:58:07 | 20-12-2017
+ID: 1891
+Units ordered: 60
+
+11:58:36 | 20-12-2017
+ID: 130
+Units ordered: 30
+
+12:09:54 | 20-12-2017
+ID: 1786
+Units ordered: 8
+
+12:28:41 | 20-12-2017
+ID: 475
+Units ordered: 406
+
+12:29:01 | 20-12-2017
+ID: 1799
+Units ordered: 92
+
+12:49:44 | 20-12-2017
+ID: 1383
+Units ordered: 131
+
+12:59:02 | 20-12-2017
+ID: 1383
+Units ordered: 28
+
+13:02:04 | 20-12-2017
+ID: 1383
+Units ordered: 139
+
+13:05:03 | 20-12-2017
+ID: 1203
+Units ordered: 218
+
+13:05:26 | 20-12-2017
+ID: 1383
+Units ordered: 130
+
+13:05:57 | 20-12-2017
+ID: 686
+Units ordered: 168
+
+13:06:21 | 20-12-2017
+ID: 686
+Units ordered: 194
+
+13:07:58 | 20-12-2017
+ID: 475
+Units ordered: 286
+
+13:12:32 | 20-12-2017
+ID: 1918
+Units ordered: 265
+
+13:16:40 | 20-12-2017
+ID: 1224
+Units ordered: 20
+
+13:16:52 | 20-12-2017
+ID: 1224
+Units ordered: 15
+
+13:18:17 | 20-12-2017
+ID: 1811
+Units ordered: 5
+
+13:18:55 | 20-12-2017
+ID: 1811
+Units ordered: 38
+
+13:36:35 | 20-12-2017
+ID: 312
+Units ordered: 2
+
+13:36:58 | 20-12-2017
+ID: 312
+Units ordered: 1
+
+14:10:22 | 20-12-2017
+ID: 1725
+Units ordered: 40
+
+14:10:22 | 20-12-2017
+ID: 1725
+Units ordered: 40
+
+14:29:43 | 20-12-2017
+ID: 1939
+Units ordered: 60
+
+14:29:54 | 20-12-2017
+ID: 1939
+Units ordered: 10
+
+15:23:52 | 20-12-2017
+ID: 1383
+Units ordered: 114
+
+15:25:57 | 20-12-2017
+ID: 1775
+Units ordered: 175
+
+15:37:19 | 20-12-2017
+ID: 1780
+Units ordered: 50
+
+15:48:34 | 20-12-2017
+ID: 1962
+Units ordered: 10
+
+15:48:35 | 20-12-2017
+ID: 1962
+Units ordered: 10
+
+15:48:35 | 20-12-2017
+ID: 1962
+Units ordered: 10
+
+15:48:35 | 20-12-2017
+ID: 1962
+Units ordered: 20
+
+15:48:35 | 20-12-2017
+ID: 1962
+Units ordered: 20
+
+15:49:04 | 20-12-2017
+ID: 1224
+Units ordered: 85
+
+15:49:24 | 20-12-2017
+ID: 1224
+Units ordered: 63
+
+15:55:00 | 20-12-2017
+ID: 252
+Units ordered: 247
+
+16:00:20 | 20-12-2017
+ID: 252
+Units ordered: 418
+
+16:09:05 | 20-12-2017
+ID: 43
+Units ordered: 402
+
+17:27:08 | 20-12-2017
+ID: 1799
+Units ordered: 23
+
+17:41:45 | 20-12-2017
+ID: 1918
+Units ordered: 92
+
+17:52:16 | 20-12-2017
+ID: 43
+Units ordered: 15
+
+18:29:59 | 20-12-2017
+ID: 1383
+Units ordered: 49
+
+18:33:27 | 20-12-2017
+ID: 1385
+Units ordered: 508
+
+18:35:47 | 20-12-2017
+ID: 1383
+Units ordered: 1
+
+18:44:16 | 20-12-2017
+ID: 60
+Units ordered: 283
+
+18:46:38 | 20-12-2017
+ID: 1843
+Units ordered: 50
+
+18:46:54 | 20-12-2017
+ID: 1843
+Units ordered: 50
+
+18:47:03 | 20-12-2017
+ID: 1843
+Units ordered: 50
+
+18:47:17 | 20-12-2017
+ID: 1843
+Units ordered: 50
+
+18:47:27 | 20-12-2017
+ID: 1843
+Units ordered: 50
+
+18:47:40 | 20-12-2017
+ID: 1843
+Units ordered: 50
+
+18:47:54 | 20-12-2017
+ID: 1843
+Units ordered: 47
+
+19:05:29 | 20-12-2017
+ID: 1799
+Units ordered: 60
+
+19:12:48 | 20-12-2017
+ID: 1744
+Units ordered: 289
+
+19:36:11 | 20-12-2017
+ID: 1616
+Units ordered: 3814
+
+19:41:02 | 20-12-2017
+ID: 590
+Units ordered: 902
+
+19:48:29 | 20-12-2017
+ID: 1400
+Units ordered: 30
+
+20:04:38 | 20-12-2017
+ID: 1224
+Units ordered: 214
+
+20:04:53 | 20-12-2017
+ID: 1224
+Units ordered: 161
+
+20:05:32 | 20-12-2017
+ID: 1224
+Units ordered: 120
+
+20:06:31 | 20-12-2017
+ID: 1224
+Units ordered: 112
+
+20:25:13 | 20-12-2017
+ID: 1383
+Units ordered: 76
+
+20:29:24 | 20-12-2017
+ID: 43
+Units ordered: 43
+
+20:42:30 | 20-12-2017
+ID: 433
+Units ordered: 200
+
+20:55:13 | 20-12-2017
+ID: 1062
+Units ordered: 170
+
+20:59:23 | 20-12-2017
+ID: 1203
+Units ordered: 249
+
+20:59:53 | 20-12-2017
+ID: 1383
+Units ordered: 19
+
+21:05:46 | 20-12-2017
+ID: 575
+Units ordered: 250
+
+21:23:36 | 20-12-2017
+ID: 686
+Units ordered: 167
+
+21:26:48 | 20-12-2017
+ID: 1201
+Units ordered: 300
+
+21:26:48 | 20-12-2017
+ID: 1201
+Units ordered: 80
+
+21:41:28 | 20-12-2017
+ID: 1939
+Units ordered: 24
+
+21:41:50 | 20-12-2017
+ID: 1204
+Units ordered: 300
+
+21:41:52 | 20-12-2017
+ID: 1939
+Units ordered: 28
+
+22:01:36 | 20-12-2017
+ID: 43
+Units ordered: 29
+
+22:06:59 | 20-12-2017
+ID: 1383
+Units ordered: 17
+
+22:07:04 | 20-12-2017
+ID: 1383
+Units ordered: 2
+
+22:14:37 | 20-12-2017
+ID: 102
+Units ordered: 614
+
+22:14:59 | 20-12-2017
+ID: 475
+Units ordered: 3740
+
+22:15:15 | 20-12-2017
+ID: 475
+Units ordered: 590
+
+22:17:50 | 20-12-2017
+ID: 102
+Units ordered: 184
+
+22:35:04 | 20-12-2017
+ID: 1744
+Units ordered: 191
+
+23:15:21 | 20-12-2017
+ID: 1062
+Units ordered: 200
+
+23:18:15 | 20-12-2017
+ID: 1319
+Units ordered: 400
+
+23:39:15 | 20-12-2017
+ID: 1062
+Units ordered: 190
+
+23:44:06 | 20-12-2017
+ID: 43
+Units ordered: 14
+
+0:12:29 | 21-12-2017
+ID: 1939
+Units ordered: 30
+
+0:20:52 | 21-12-2017
+ID: 60
+Units ordered: 556
+
+0:21:25 | 21-12-2017
+ID: 60
+Units ordered: 46
+
+0:41:25 | 21-12-2017
+ID: 1786
+Units ordered: 910
+
+0:45:36 | 21-12-2017
+ID: 1952
+Units ordered: 400
+
+1:23:24 | 21-12-2017
+ID: 1385
+Units ordered: 1975
+
+1:25:24 | 21-12-2017
+ID: 1385
+Units ordered: 1000
+
+1:27:50 | 21-12-2017
+ID: 1385
+Units ordered: 500
+
+1:30:43 | 21-12-2017
+ID: 686
+Units ordered: 250
+
+1:31:35 | 21-12-2017
+ID: 686
+Units ordered: 450
+
+1:32:58 | 21-12-2017
+ID: 686
+Units ordered: 350
+
+1:35:19 | 21-12-2017
+ID: 686
+Units ordered: 250
+
+1:36:24 | 21-12-2017
+ID: 686
+Units ordered: 95
+
+1:36:45 | 21-12-2017
+ID: 1383
+Units ordered: 313
+
+1:37:04 | 21-12-2017
+ID: 686
+Units ordered: 155
+
+1:38:14 | 21-12-2017
+ID: 686
+Units ordered: 200
+
+1:40:36 | 21-12-2017
+ID: 686
+Units ordered: 85
+
+1:41:20 | 21-12-2017
+ID: 686
+Units ordered: 250
+
+1:42:17 | 21-12-2017
+ID: 1383
+Units ordered: 113
+
+1:43:45 | 21-12-2017
+ID: 686
+Units ordered: 45
+
+1:44:44 | 21-12-2017
+ID: 1383
+Units ordered: 172
+
+1:45:00 | 21-12-2017
+ID: 686
+Units ordered: 130
+
+1:45:16 | 21-12-2017
+ID: 686
+Units ordered: 172
+
+1:45:49 | 21-12-2017
+ID: 686
+Units ordered: 98
+
+1:47:11 | 21-12-2017
+ID: 686
+Units ordered: 70
+
+1:47:40 | 21-12-2017
+ID: 1383
+Units ordered: 43
+
+2:05:53 | 21-12-2017
+ID: 1939
+Units ordered: 10
+
+3:13:37 | 21-12-2017
+ID: 1780
+Units ordered: 100
+
+4:29:02 | 21-12-2017
+ID: 1775
+Units ordered: 83
+
+4:35:08 | 21-12-2017
+ID: 1811
+Units ordered: 349
+
+4:52:15 | 21-12-2017
+ID: 1939
+Units ordered: 32
+
+5:31:18 | 21-12-2017
+ID: 433
+Units ordered: 150
+
+6:31:23 | 21-12-2017
+ID: 252
+Units ordered: 461
+
+7:19:28 | 21-12-2017
+ID: 1224
+Units ordered: 275
+
+7:19:42 | 21-12-2017
+ID: 1224
+Units ordered: 258
+
+7:19:56 | 21-12-2017
+ID: 1224
+Units ordered: 194
+
+7:20:10 | 21-12-2017
+ID: 1224
+Units ordered: 145
+
+7:20:22 | 21-12-2017
+ID: 1224
+Units ordered: 109
+
+7:20:36 | 21-12-2017
+ID: 1224
+Units ordered: 82
+
+8:06:07 | 21-12-2017
+ID: 1385
+Units ordered: 60
+
+8:42:32 | 21-12-2017
+ID: 33
+Units ordered: 180
+
+9:25:24 | 21-12-2017
+ID: 1775
+Units ordered: 147
+
+9:29:32 | 21-12-2017
+ID: 1744
+Units ordered: 307
+
+9:54:40 | 21-12-2017
+ID: 1224
+Units ordered: 20
+
+9:58:53 | 21-12-2017
+ID: 1400
+Units ordered: 20
+
+10:11:21 | 21-12-2017
+ID: 1385
+Units ordered: 13
+
+10:32:26 | 21-12-2017
+ID: 1841
+Units ordered: 40
+
+11:19:32 | 21-12-2017
+ID: 1224
+Units ordered: 223
+
+11:19:47 | 21-12-2017
+ID: 1224
+Units ordered: 168
+
+11:19:59 | 21-12-2017
+ID: 1224
+Units ordered: 126
+
+11:20:12 | 21-12-2017
+ID: 1224
+Units ordered: 94
+
+11:28:55 | 21-12-2017
+ID: 1953
+Units ordered: 5
+
+11:35:10 | 21-12-2017
+ID: 1953
+Units ordered: 100
+
+11:37:48 | 21-12-2017
+ID: 1953
+Units ordered: 20
+
+11:38:21 | 21-12-2017
+ID: 1953
+Units ordered: 20
+
+13:14:13 | 21-12-2017
+ID: 1224
+Units ordered: 67
+
+13:14:33 | 21-12-2017
+ID: 1224
+Units ordered: 134
+
+13:14:50 | 21-12-2017
+ID: 1224
+Units ordered: 151
+
+13:15:04 | 21-12-2017
+ID: 1224
+Units ordered: 113
+
+13:15:19 | 21-12-2017
+ID: 1224
+Units ordered: 85
+
+13:15:33 | 21-12-2017
+ID: 1224
+Units ordered: 64
+
+13:51:32 | 21-12-2017
+ID: 1780
+Units ordered: 90
+
+14:01:02 | 21-12-2017
+ID: 1906
+Units ordered: 231
+
+14:09:34 | 21-12-2017
+ID: 1744
+Units ordered: 316
+
+14:42:24 | 21-12-2017
+ID: 1062
+Units ordered: 200
+
+14:42:49 | 21-12-2017
+ID: 1939
+Units ordered: 30
+
+14:42:57 | 21-12-2017
+ID: 1939
+Units ordered: 10
+
+14:43:21 | 21-12-2017
+ID: 1939
+Units ordered: 26
+
+14:53:51 | 21-12-2017
+ID: 1062
+Units ordered: 20
+
+15:18:50 | 21-12-2017
+ID: 1775
+Units ordered: 104
+
+15:49:18 | 21-12-2017
+ID: 590
+Units ordered: 1408
+
+16:10:59 | 21-12-2017
+ID: 1418
+Units ordered: 200
+
+16:11:12 | 21-12-2017
+ID: 1418
+Units ordered: 140
+
+16:33:47 | 21-12-2017
+ID: 433
+Units ordered: 300
+
+16:44:16 | 21-12-2017
+ID: 34
+Units ordered: 740
+
+16:44:46 | 21-12-2017
+ID: 34
+Units ordered: 200
+
+17:06:38 | 21-12-2017
+ID: 1939
+Units ordered: 56
+
+17:09:06 | 21-12-2017
+ID: 1910
+Units ordered: 37
+
+17:40:58 | 21-12-2017
+ID: 1910
+Units ordered: 85
+
+17:56:19 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+17:56:42 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+17:57:01 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+17:57:23 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+17:57:44 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+17:58:03 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+17:58:21 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+17:58:40 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+17:58:59 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+17:59:16 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+17:59:41 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+18:00:15 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+18:00:46 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+18:01:09 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+18:01:31 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+18:01:50 | 21-12-2017
+ID: 1759
+Units ordered: 33
+
+18:02:11 | 21-12-2017
+ID: 1759
+Units ordered: 25
+
+18:02:39 | 21-12-2017
+ID: 1759
+Units ordered: 10
+
+18:02:58 | 21-12-2017
+ID: 1759
+Units ordered: 5
+
+18:39:55 | 21-12-2017
+ID: 1939
+Units ordered: 19
+
+19:10:07 | 21-12-2017
+ID: 317
+Units ordered: 829
+
+20:15:27 | 21-12-2017
+ID: 1965
+Units ordered: 268
+
+20:33:58 | 21-12-2017
+ID: 1759
+Units ordered: 4
+
+20:36:19 | 21-12-2017
+ID: 1616
+Units ordered: 1046
+
+21:09:46 | 21-12-2017
+ID: 1923
+Units ordered: 127
+
+21:21:36 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+21:21:50 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+21:22:04 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+21:22:20 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+21:22:36 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+21:22:52 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+21:23:11 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+21:23:25 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+21:23:42 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+21:23:55 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+21:24:16 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+21:24:44 | 21-12-2017
+ID: 1759
+Units ordered: 40
+
+21:25:03 | 21-12-2017
+ID: 1759
+Units ordered: 10
+
+21:25:08 | 21-12-2017
+ID: 1759
+Units ordered: 30
+
+22:30:47 | 21-12-2017
+ID: 252
+Units ordered: 692
+
+22:34:26 | 21-12-2017
+ID: 1780
+Units ordered: 1
+
+22:35:00 | 21-12-2017
+ID: 1780
+Units ordered: 20
+
+22:47:55 | 21-12-2017
+ID: 1910
+Units ordered: 38
+
+23:12:31 | 21-12-2017
+ID: 1029
+Units ordered: 246
+
+23:12:59 | 21-12-2017
+ID: 1779
+Units ordered: 840
+
+23:30:28 | 21-12-2017
+ID: 1939
+Units ordered: 20
+
+23:30:41 | 21-12-2017
+ID: 1939
+Units ordered: 10
+
+23:30:57 | 21-12-2017
+ID: 1939
+Units ordered: 38
+
+23:35:30 | 21-12-2017
+ID: 1400
+Units ordered: 20
+
+23:40:27 | 21-12-2017
+ID: 1952
+Units ordered: 100
+
+23:40:27 | 21-12-2017
+ID: 1952
+Units ordered: 100
+
+1:03:26 | 22-12-2017
+ID: 1939
+Units ordered: 49
+
+1:07:35 | 22-12-2017
+ID: 1891
+Units ordered: 35
+
+1:23:05 | 22-12-2017
+ID: 1744
+Units ordered: 3
+
+1:23:39 | 22-12-2017
+ID: 1744
+Units ordered: 542
+
+2:14:28 | 22-12-2017
+ID: 1939
+Units ordered: 3
+
+3:21:45 | 22-12-2017
+ID: 1775
+Units ordered: 100
+
+3:22:25 | 22-12-2017
+ID: 1811
+Units ordered: 900
+
+3:51:05 | 22-12-2017
+ID: 1799
+Units ordered: 148
+
+4:14:58 | 22-12-2017
+ID: 1939
+Units ordered: 20
+
+4:15:14 | 22-12-2017
+ID: 1939
+Units ordered: 20
+
+5:16:52 | 22-12-2017
+ID: 252
+Units ordered: 400
+
+5:17:00 | 22-12-2017
+ID: 252
+Units ordered: 291
+
+5:23:40 | 22-12-2017
+ID: 433
+Units ordered: 300
+
+6:33:32 | 22-12-2017
+ID: 317
+Units ordered: 350
+
+7:14:47 | 22-12-2017
+ID: 1224
+Units ordered: 183
+
+7:15:06 | 22-12-2017
+ID: 1224
+Units ordered: 138
+
+7:15:24 | 22-12-2017
+ID: 1224
+Units ordered: 100
+
+7:15:41 | 22-12-2017
+ID: 1224
+Units ordered: 78
+
+7:57:36 | 22-12-2017
+ID: 1953
+Units ordered: 20
+
+7:58:08 | 22-12-2017
+ID: 1953
+Units ordered: 40
+
+7:58:08 | 22-12-2017
+ID: 1953
+Units ordered: 40
+
+8:47:23 | 22-12-2017
+ID: 1799
+Units ordered: 6
+
+9:52:11 | 22-12-2017
+ID: 1383
+Units ordered: 500
+
+9:52:49 | 22-12-2017
+ID: 1383
+Units ordered: 35
+
+9:53:09 | 22-12-2017
+ID: 1383
+Units ordered: 150
+
+10:27:36 | 22-12-2017
+ID: 1811
+Units ordered: 270
+
+10:28:02 | 22-12-2017
+ID: 1811
+Units ordered: 43
+
+10:36:54 | 22-12-2017
+ID: 252
+Units ordered: 565
+
+10:38:36 | 22-12-2017
+ID: 157
+Units ordered: 85
+
+11:18:09 | 22-12-2017
+ID: 1238
+Units ordered: 600
+
+13:02:28 | 22-12-2017
+ID: 179
+Units ordered: 250
+
+13:47:13 | 22-12-2017
+ID: 1910
+Units ordered: 31
+
+15:00:33 | 22-12-2017
+ID: 1775
+Units ordered: 159
+
+15:04:33 | 22-12-2017
+ID: 1383
+Units ordered: 15
+
+15:06:04 | 22-12-2017
+ID: 1952
+Units ordered: 70
+
+15:09:52 | 22-12-2017
+ID: 1952
+Units ordered: 80
+
+15:34:31 | 22-12-2017
+ID: 433
+Units ordered: 200
+
+15:38:14 | 22-12-2017
+ID: 252
+Units ordered: 617
+
+15:58:48 | 22-12-2017
+ID: 1939
+Units ordered: 20
+
+15:59:02 | 22-12-2017
+ID: 1939
+Units ordered: 90
+
+15:59:20 | 22-12-2017
+ID: 1939
+Units ordered: 7
+
+16:10:15 | 22-12-2017
+ID: 1029
+Units ordered: 186
+
+16:15:15 | 22-12-2017
+ID: 1616
+Units ordered: 540
+
+16:17:45 | 22-12-2017
+ID: 1029
+Units ordered: 27
+
+16:33:46 | 22-12-2017
+ID: 34
+Units ordered: 525
+
+16:34:07 | 22-12-2017
+ID: 34
+Units ordered: 525
+
+16:37:40 | 22-12-2017
+ID: 1799
+Units ordered: 66
+
+16:58:12 | 22-12-2017
+ID: 179
+Units ordered: 400
+
+17:47:30 | 22-12-2017
+ID: 1891
+Units ordered: 210
+
+18:35:54 | 22-12-2017
+ID: 1775
+Units ordered: 60
+
+18:47:32 | 22-12-2017
+ID: 1378
+Units ordered: 500
+
+18:47:33 | 22-12-2017
+ID: 1378
+Units ordered: 500
+
+18:54:30 | 22-12-2017
+ID: 1524
+Units ordered: 458
+
+18:54:52 | 22-12-2017
+ID: 1524
+Units ordered: 450
+
+19:40:43 | 22-12-2017
+ID: 130
+Units ordered: 55
+
+19:45:30 | 22-12-2017
+ID: 1086
+Units ordered: 250
+
+19:45:31 | 22-12-2017
+ID: 1086
+Units ordered: 250
+
+19:50:19 | 22-12-2017
+ID: 1775
+Units ordered: 584
+
+19:50:54 | 22-12-2017
+ID: 1086
+Units ordered: 150
+
+19:50:54 | 22-12-2017
+ID: 1086
+Units ordered: 150
+
+19:51:15 | 22-12-2017
+ID: 1086
+Units ordered: 50
+
+19:51:15 | 22-12-2017
+ID: 1086
+Units ordered: 50
+
+19:52:11 | 22-12-2017
+ID: 1775
+Units ordered: 236
+
+19:52:29 | 22-12-2017
+ID: 131
+Units ordered: 10
+
+19:52:47 | 22-12-2017
+ID: 131
+Units ordered: 10
+
+19:52:55 | 22-12-2017
+ID: 131
+Units ordered: 10
+
+19:53:53 | 22-12-2017
+ID: 131
+Units ordered: 40
+
+19:54:18 | 22-12-2017
+ID: 131
+Units ordered: 15
+
+19:54:39 | 22-12-2017
+ID: 1775
+Units ordered: 153
+
+19:57:43 | 22-12-2017
+ID: 1775
+Units ordered: 67
+
+19:58:11 | 22-12-2017
+ID: 1086
+Units ordered: 50
+
+19:58:11 | 22-12-2017
+ID: 1086
+Units ordered: 50
+
+19:58:34 | 22-12-2017
+ID: 1086
+Units ordered: 35
+
+19:58:35 | 22-12-2017
+ID: 1086
+Units ordered: 35
+
+19:58:49 | 22-12-2017
+ID: 1086
+Units ordered: 5
+
+19:58:50 | 22-12-2017
+ID: 1086
+Units ordered: 5
+
+20:05:56 | 22-12-2017
+ID: 1086
+Units ordered: 5
+
+20:05:56 | 22-12-2017
+ID: 1086
+Units ordered: 5
+
+20:06:33 | 22-12-2017
+ID: 1086
+Units ordered: 25
+
+20:06:34 | 22-12-2017
+ID: 1086
+Units ordered: 25
+
+20:28:56 | 22-12-2017
+ID: 1939
+Units ordered: 6
+
+20:53:37 | 22-12-2017
+ID: 1861
+Units ordered: 44
+
+21:07:27 | 22-12-2017
+ID: 433
+Units ordered: 200
+
+21:07:58 | 22-12-2017
+ID: 1203
+Units ordered: 750
+
+21:08:35 | 22-12-2017
+ID: 1203
+Units ordered: 200
+
+21:09:10 | 22-12-2017
+ID: 1203
+Units ordered: 100
+
+21:09:33 | 22-12-2017
+ID: 157
+Units ordered: 104
+
+21:15:33 | 22-12-2017
+ID: 1201
+Units ordered: 690
+
+21:25:15 | 22-12-2017
+ID: 1201
+Units ordered: 258
+
+21:25:53 | 22-12-2017
+ID: 1201
+Units ordered: 110
+
+21:37:47 | 22-12-2017
+ID: 252
+Units ordered: 500
+
+21:43:09 | 22-12-2017
+ID: 1086
+Units ordered: 15
+
+21:43:09 | 22-12-2017
+ID: 1086
+Units ordered: 15
+
+21:43:22 | 22-12-2017
+ID: 1201
+Units ordered: 59
+
+22:01:36 | 22-12-2017
+ID: 1319
+Units ordered: 876
+
+22:02:39 | 22-12-2017
+ID: 1319
+Units ordered: 124
+
+22:18:30 | 22-12-2017
+ID: 1383
+Units ordered: 200
+
+22:29:31 | 22-12-2017
+ID: 1780
+Units ordered: 30
+
+22:29:32 | 22-12-2017
+ID: 1780
+Units ordered: 30
+
+22:52:20 | 22-12-2017
+ID: 1882
+Units ordered: 300
+
+22:52:29 | 22-12-2017
+ID: 1882
+Units ordered: 281
+
+23:36:10 | 22-12-2017
+ID: 1086
+Units ordered: 10
+
+23:36:10 | 22-12-2017
+ID: 1086
+Units ordered: 10
+
+23:59:19 | 22-12-2017
+ID: 1780
+Units ordered: 50
+
+0:32:16 | 23-12-2017
+ID: 315
+Units ordered: 114
+
+0:35:55 | 23-12-2017
+ID: 1910
+Units ordered: 15
+
+1:02:02 | 23-12-2017
+ID: 252
+Units ordered: 524
+
+1:25:33 | 23-12-2017
+ID: 1939
+Units ordered: 10
+
+1:32:29 | 23-12-2017
+ID: 367
+Units ordered: 657
+
+1:38:51 | 23-12-2017
+ID: 315
+Units ordered: 24
+
+2:29:47 | 23-12-2017
+ID: 1786
+Units ordered: 147
+
+2:34:45 | 23-12-2017
+ID: 1939
+Units ordered: 33
+
+2:50:59 | 23-12-2017
+ID: 1775
+Units ordered: 800
+
+2:51:24 | 23-12-2017
+ID: 1775
+Units ordered: 363
+
+3:02:04 | 23-12-2017
+ID: 1939
+Units ordered: 2
+
+3:12:03 | 23-12-2017
+ID: 1967
+Units ordered: 5
+
+3:20:11 | 23-12-2017
+ID: 1967
+Units ordered: 100
+
+3:20:12 | 23-12-2017
+ID: 1967
+Units ordered: 100
+
+3:21:02 | 23-12-2017
+ID: 1967
+Units ordered: 3
+
+3:28:35 | 23-12-2017
+ID: 1939
+Units ordered: 26
+
+3:29:27 | 23-12-2017
+ID: 1939
+Units ordered: 13
+
+3:38:31 | 23-12-2017
+ID: 1811
+Units ordered: 325
+
+3:39:07 | 23-12-2017
+ID: 1811
+Units ordered: 226
+
+3:58:28 | 23-12-2017
+ID: 1910
+Units ordered: 25
+
+4:08:07 | 23-12-2017
+ID: 1939
+Units ordered: 29
+
+4:35:24 | 23-12-2017
+ID: 1939
+Units ordered: 7
+
+5:44:20 | 23-12-2017
+ID: 1910
+Units ordered: 29
+
+7:44:24 | 23-12-2017
+ID: 1861
+Units ordered: 219
+
+8:18:26 | 23-12-2017
+ID: 252
+Units ordered: 500
+
+8:18:44 | 23-12-2017
+ID: 252
+Units ordered: 200
+
+8:18:50 | 23-12-2017
+ID: 252
+Units ordered: 100
+
+8:18:54 | 23-12-2017
+ID: 252
+Units ordered: 100
+
+8:54:53 | 23-12-2017
+ID: 179
+Units ordered: 200
+
+8:55:23 | 23-12-2017
+ID: 1400
+Units ordered: 230
+
+10:11:26 | 23-12-2017
+ID: 1201
+Units ordered: 50
+
+10:11:34 | 23-12-2017
+ID: 1201
+Units ordered: 84
+
+10:12:29 | 23-12-2017
+ID: 1201
+Units ordered: 300
+
+10:13:48 | 23-12-2017
+ID: 179
+Units ordered: 200
+
+10:17:07 | 23-12-2017
+ID: 1383
+Units ordered: 127
+
+10:17:33 | 23-12-2017
+ID: 1383
+Units ordered: 114
+
+10:29:47 | 23-12-2017
+ID: 1385
+Units ordered: 210
+
+10:50:08 | 23-12-2017
+ID: 1964
+Units ordered: 1540
+
+10:54:04 | 23-12-2017
+ID: 1843
+Units ordered: 120
+
+10:54:48 | 23-12-2017
+ID: 433
+Units ordered: 160
+
+11:00:51 | 23-12-2017
+ID: 1942
+Units ordered: 312
+
+11:43:57 | 23-12-2017
+ID: 1400
+Units ordered: 230
+
+12:53:07 | 23-12-2017
+ID: 1843
+Units ordered: 111
+
+13:23:01 | 23-12-2017
+ID: 1775
+Units ordered: 744
+
+13:24:56 | 23-12-2017
+ID: 1775
+Units ordered: 408
+
+13:25:52 | 23-12-2017
+ID: 1891
+Units ordered: 139
+
+13:32:14 | 23-12-2017
+ID: 1383
+Units ordered: 48
+
+13:33:34 | 23-12-2017
+ID: 1939
+Units ordered: 158
+
+13:54:20 | 23-12-2017
+ID: 1927
+Units ordered: 200
+
+13:56:06 | 23-12-2017
+ID: 1927
+Units ordered: 200
+
+14:19:25 | 23-12-2017
+ID: 313
+Units ordered: 357
+
+14:44:29 | 23-12-2017
+ID: 1725
+Units ordered: 120
+
+14:53:37 | 23-12-2017
+ID: 1744
+Units ordered: 1261
+
+14:55:51 | 23-12-2017
+ID: 1744
+Units ordered: 345
+
+15:01:44 | 23-12-2017
+ID: 257
+Units ordered: 569
+
+15:04:54 | 23-12-2017
+ID: 1811
+Units ordered: 249
+
+15:10:39 | 23-12-2017
+ID: 1086
+Units ordered: 50
+
+15:10:40 | 23-12-2017
+ID: 1086
+Units ordered: 30
+
+15:12:10 | 23-12-2017
+ID: 1086
+Units ordered: 100
+
+15:12:10 | 23-12-2017
+ID: 1086
+Units ordered: 100
+
+15:12:31 | 23-12-2017
+ID: 1086
+Units ordered: 60
+
+15:13:01 | 23-12-2017
+ID: 1086
+Units ordered: 50
+
+15:13:01 | 23-12-2017
+ID: 1086
+Units ordered: 50
+
+15:18:09 | 23-12-2017
+ID: 590
+Units ordered: 902
+
+15:18:47 | 23-12-2017
+ID: 575
+Units ordered: 1104
+
+15:19:43 | 23-12-2017
+ID: 575
+Units ordered: 535
+
+15:20:08 | 23-12-2017
+ID: 1400
+Units ordered: 20
+
+15:20:09 | 23-12-2017
+ID: 1400
+Units ordered: 70
+
+15:20:38 | 23-12-2017
+ID: 575
+Units ordered: 520
+
+15:22:05 | 23-12-2017
+ID: 575
+Units ordered: 300
+
+15:24:53 | 23-12-2017
+ID: 1939
+Units ordered: 3
+
+15:24:56 | 23-12-2017
+ID: 1939
+Units ordered: 3
+
+15:25:11 | 23-12-2017
+ID: 1939
+Units ordered: 39
+
+15:25:23 | 23-12-2017
+ID: 1086
+Units ordered: 65
+
+15:25:23 | 23-12-2017
+ID: 1086
+Units ordered: 65
+
+15:26:28 | 23-12-2017
+ID: 1086
+Units ordered: 65
+
+15:26:28 | 23-12-2017
+ID: 1086
+Units ordered: 65
+
+15:26:50 | 23-12-2017
+ID: 1086
+Units ordered: 200
+
+15:54:07 | 23-12-2017
+ID: 34
+Units ordered: 609
+
+15:54:27 | 23-12-2017
+ID: 1201
+Units ordered: 794
+
+16:02:11 | 23-12-2017
+ID: 1939
+Units ordered: 23
+
+16:06:53 | 23-12-2017
+ID: 1224
+Units ordered: 150
+
+16:07:07 | 23-12-2017
+ID: 1224
+Units ordered: 112
+
+16:07:23 | 23-12-2017
+ID: 1224
+Units ordered: 84
+
+16:07:34 | 23-12-2017
+ID: 1224
+Units ordered: 63
+
+16:10:46 | 23-12-2017
+ID: 257
+Units ordered: 33
+
+16:22:07 | 23-12-2017
+ID: 1383
+Units ordered: 231
+
+16:23:58 | 23-12-2017
+ID: 1725
+Units ordered: 20
+
+16:54:39 | 23-12-2017
+ID: 1225
+Units ordered: 2811
+
+16:56:41 | 23-12-2017
+ID: 1225
+Units ordered: 8189
+
+16:58:15 | 23-12-2017
+ID: 1225
+Units ordered: 2164
+
+17:02:53 | 23-12-2017
+ID: 1942
+Units ordered: 29
+
+17:11:03 | 23-12-2017
+ID: 1383
+Units ordered: 473
+
+17:23:45 | 23-12-2017
+ID: 1086
+Units ordered: 50
+
+17:24:25 | 23-12-2017
+ID: 1939
+Units ordered: 12
+
+17:50:58 | 23-12-2017
+ID: 1224
+Units ordered: 101
+
+17:51:16 | 23-12-2017
+ID: 1224
+Units ordered: 76
+
+17:54:08 | 23-12-2017
+ID: 1965
+Units ordered: 175
+
+18:21:47 | 23-12-2017
+ID: 1882
+Units ordered: 200
+
+18:22:04 | 23-12-2017
+ID: 1882
+Units ordered: 219
+
+18:36:57 | 23-12-2017
+ID: 43
+Units ordered: 8
+
+18:42:59 | 23-12-2017
+ID: 1965
+Units ordered: 31
+
+18:44:49 | 23-12-2017
+ID: 1725
+Units ordered: 25
+
+19:20:44 | 23-12-2017
+ID: 1418
+Units ordered: 300
+
+19:20:54 | 23-12-2017
+ID: 1418
+Units ordered: 420
+
+19:30:33 | 23-12-2017
+ID: 1964
+Units ordered: 500
+
+19:34:56 | 23-12-2017
+ID: 1964
+Units ordered: 500
+
+19:35:09 | 23-12-2017
+ID: 1964
+Units ordered: 420
+
+19:35:12 | 23-12-2017
+ID: 1775
+Units ordered: 63
+
+19:43:08 | 23-12-2017
+ID: 313
+Units ordered: 188
+
+19:49:49 | 23-12-2017
+ID: 1418
+Units ordered: 100
+
+20:01:29 | 23-12-2017
+ID: 1967
+Units ordered: 100
+
+20:03:31 | 23-12-2017
+ID: 575
+Units ordered: 300
+
+20:18:34 | 23-12-2017
+ID: 1203
+Units ordered: 184
+
+20:25:16 | 23-12-2017
+ID: 1343
+Units ordered: 1378
+
+20:35:14 | 23-12-2017
+ID: 43
+Units ordered: 35
+
+20:42:40 | 23-12-2017
+ID: 1385
+Units ordered: 223
+
+20:45:29 | 23-12-2017
+ID: 313
+Units ordered: 48
+
+20:58:37 | 23-12-2017
+ID: 252
+Units ordered: 118
+
+21:03:55 | 23-12-2017
+ID: 575
+Units ordered: 1000
+
+21:04:11 | 23-12-2017
+ID: 575
+Units ordered: 500
+
+21:05:31 | 23-12-2017
+ID: 1923
+Units ordered: 336
+
+21:08:35 | 23-12-2017
+ID: 433
+Units ordered: 60
+
+21:12:52 | 23-12-2017
+ID: 575
+Units ordered: 500
+
+21:13:04 | 23-12-2017
+ID: 575
+Units ordered: 150
+
+21:24:30 | 23-12-2017
+ID: 1062
+Units ordered: 100
+
+21:26:45 | 23-12-2017
+ID: 1964
+Units ordered: 155
+
+21:27:24 | 23-12-2017
+ID: 1062
+Units ordered: 20
+
+21:36:42 | 23-12-2017
+ID: 1759
+Units ordered: 11
+
+21:50:46 | 23-12-2017
+ID: 1418
+Units ordered: 100
+
+22:16:00 | 23-12-2017
+ID: 1725
+Units ordered: 2
+
+22:19:16 | 23-12-2017
+ID: 1029
+Units ordered: 413
+
+22:23:03 | 23-12-2017
+ID: 1910
+Units ordered: 91
+
+22:32:30 | 23-12-2017
+ID: 1383
+Units ordered: 4
+
+22:35:50 | 23-12-2017
+ID: 1383
+Units ordered: 3
+
+22:36:15 | 23-12-2017
+ID: 43
+Units ordered: 48
+
+22:40:47 | 23-12-2017
+ID: 1385
+Units ordered: 207
+
+22:41:22 | 23-12-2017
+ID: 1383
+Units ordered: 12
+
+23:01:49 | 23-12-2017
+ID: 1062
+Units ordered: 40
+
+23:18:01 | 23-12-2017
+ID: 1383
+Units ordered: 21
+
+23:27:44 | 23-12-2017
+ID: 313
+Units ordered: 567
+
+23:29:21 | 23-12-2017
+ID: 1343
+Units ordered: 4032
+
+23:30:32 | 23-12-2017
+ID: 1343
+Units ordered: 1050
+
+23:31:38 | 23-12-2017
+ID: 1343
+Units ordered: 150
+
+23:31:53 | 23-12-2017
+ID: 313
+Units ordered: 155
+
+23:48:37 | 23-12-2017
+ID: 1786
+Units ordered: 61
+
+23:51:42 | 23-12-2017
+ID: 1843
+Units ordered: 112
+
+0:00:42 | 24-12-2017
+ID: 1319
+Units ordered: 200
+
+0:02:10 | 24-12-2017
+ID: 1314
+Units ordered: 12235
+
+0:05:04 | 24-12-2017
+ID: 1385
+Units ordered: 243
+
+0:09:47 | 24-12-2017
+ID: 1322
+Units ordered: 1200
+
+0:10:03 | 24-12-2017
+ID: 1967
+Units ordered: 2
+
+0:11:27 | 24-12-2017
+ID: 1967
+Units ordered: 17
+
+0:11:27 | 24-12-2017
+ID: 1967
+Units ordered: 27
+
+0:11:28 | 24-12-2017
+ID: 1967
+Units ordered: 150
+
+0:11:28 | 24-12-2017
+ID: 1967
+Units ordered: 50
+
+0:12:37 | 24-12-2017
+ID: 1967
+Units ordered: 29
+
+0:18:39 | 24-12-2017
+ID: 43
+Units ordered: 16
+
+0:26:37 | 24-12-2017
+ID: 1400
+Units ordered: 50
+
+0:26:38 | 24-12-2017
+ID: 1400
+Units ordered: 50
+
+1:11:59 | 24-12-2017
+ID: 1967
+Units ordered: 11
+
+1:16:53 | 24-12-2017
+ID: 1319
+Units ordered: 1856
+
+1:24:30 | 24-12-2017
+ID: 179
+Units ordered: 286
+
+1:35:48 | 24-12-2017
+ID: 1203
+Units ordered: 1116
+
+1:36:41 | 24-12-2017
+ID: 1203
+Units ordered: 559
+
+1:38:08 | 24-12-2017
+ID: 1203
+Units ordered: 800
+
+1:39:07 | 24-12-2017
+ID: 1203
+Units ordered: 200
+
+1:39:34 | 24-12-2017
+ID: 1203
+Units ordered: 184
+
+1:40:22 | 24-12-2017
+ID: 1786
+Units ordered: 140
+
+1:50:51 | 24-12-2017
+ID: 1385
+Units ordered: 247
+
+1:53:28 | 24-12-2017
+ID: 1843
+Units ordered: 111
+
+1:53:36 | 24-12-2017
+ID: 1385
+Units ordered: 300
+
+2:02:26 | 24-12-2017
+ID: 1967
+Units ordered: 56
+
+2:05:58 | 24-12-2017
+ID: 1891
+Units ordered: 409
+
+2:06:29 | 24-12-2017
+ID: 1967
+Units ordered: 1
+
+3:08:04 | 24-12-2017
+ID: 1942
+Units ordered: 51
+
+3:34:27 | 24-12-2017
+ID: 1780
+Units ordered: 120
+
+3:34:27 | 24-12-2017
+ID: 1780
+Units ordered: 80
+
+3:44:01 | 24-12-2017
+ID: 1780
+Units ordered: 75
+
+4:07:57 | 24-12-2017
+ID: 344
+Units ordered: 1260
+
+6:41:15 | 24-12-2017
+ID: 481
+Units ordered: 3600
+
+6:42:09 | 24-12-2017
+ID: 481
+Units ordered: 1979
+
+7:14:12 | 24-12-2017
+ID: 1969
+Units ordered: 20
+
+7:14:25 | 24-12-2017
+ID: 1029
+Units ordered: 170
+
+8:21:18 | 24-12-2017
+ID: 1831
+Units ordered: 15
+
+8:35:23 | 24-12-2017
+ID: 1786
+Units ordered: 115
+
+8:52:28 | 24-12-2017
+ID: 43
+Units ordered: 192
+
+9:01:33 | 24-12-2017
+ID: 313
+Units ordered: 210
+
+9:02:28 | 24-12-2017
+ID: 313
+Units ordered: 17
+
+9:16:14 | 24-12-2017
+ID: 1343
+Units ordered: 140
+
+9:42:39 | 24-12-2017
+ID: 313
+Units ordered: 44
+
+9:49:02 | 24-12-2017
+ID: 1953
+Units ordered: 50
+
+9:49:36 | 24-12-2017
+ID: 1953
+Units ordered: 50
+
+9:54:05 | 24-12-2017
+ID: 1343
+Units ordered: 656
+
+10:00:50 | 24-12-2017
+ID: 43
+Units ordered: 49
+
+10:14:36 | 24-12-2017
+ID: 1942
+Units ordered: 24
+
+10:21:44 | 24-12-2017
+ID: 1616
+Units ordered: 2000
+
+10:22:01 | 24-12-2017
+ID: 1616
+Units ordered: 1000
+
+10:22:12 | 24-12-2017
+ID: 1616
+Units ordered: 1998
+
+10:26:53 | 24-12-2017
+ID: 1969
+Units ordered: 3
+
+10:26:59 | 24-12-2017
+ID: 1969
+Units ordered: 8
+
+10:39:46 | 24-12-2017
+ID: 1973
+Units ordered: 10
+
+10:42:52 | 24-12-2017
+ID: 57
+Units ordered: 2365
+
+10:43:40 | 24-12-2017
+ID: 57
+Units ordered: 1250
+
+10:44:01 | 24-12-2017
+ID: 1086
+Units ordered: 10
+
+10:44:01 | 24-12-2017
+ID: 1086
+Units ordered: 10
+
+10:44:01 | 24-12-2017
+ID: 1086
+Units ordered: 10
+
+10:44:18 | 24-12-2017
+ID: 57
+Units ordered: 275
+
+10:44:19 | 24-12-2017
+ID: 1086
+Units ordered: 20
+
+10:44:47 | 24-12-2017
+ID: 1086
+Units ordered: 70
+
+10:44:47 | 24-12-2017
+ID: 1086
+Units ordered: 80
+
+11:06:45 | 24-12-2017
+ID: 590
+Units ordered: 588
+
+11:22:47 | 24-12-2017
+ID: 1029
+Units ordered: 467
+
+11:32:50 | 24-12-2017
+ID: 313
+Units ordered: 140
+
+11:43:17 | 24-12-2017
+ID: 43
+Units ordered: 24
+
+12:08:53 | 24-12-2017
+ID: 1759
+Units ordered: 50
+
+12:09:33 | 24-12-2017
+ID: 1759
+Units ordered: 146
+
+12:21:20 | 24-12-2017
+ID: 1953
+Units ordered: 5
+
+12:21:21 | 24-12-2017
+ID: 1953
+Units ordered: 5
+
+12:21:58 | 24-12-2017
+ID: 1219
+Units ordered: 8000
+
+12:23:18 | 24-12-2017
+ID: 1219
+Units ordered: 2000
+
+12:23:38 | 24-12-2017
+ID: 1219
+Units ordered: 1500
+
+12:24:47 | 24-12-2017
+ID: 1219
+Units ordered: 180
+
+12:28:34 | 24-12-2017
+ID: 1775
+Units ordered: 1140
+
+12:34:04 | 24-12-2017
+ID: 1953
+Units ordered: 5
+
+12:34:05 | 24-12-2017
+ID: 1953
+Units ordered: 5
+
+12:47:44 | 24-12-2017
+ID: 1224
+Units ordered: 227
+
+12:47:53 | 24-12-2017
+ID: 1224
+Units ordered: 227
+
+12:48:03 | 24-12-2017
+ID: 1224
+Units ordered: 208
+
+12:48:14 | 24-12-2017
+ID: 1224
+Units ordered: 156
+
+12:48:25 | 24-12-2017
+ID: 1224
+Units ordered: 117
+
+12:48:36 | 24-12-2017
+ID: 1224
+Units ordered: 87
+
+12:48:46 | 24-12-2017
+ID: 1224
+Units ordered: 66
+
+12:49:21 | 24-12-2017
+ID: 1967
+Units ordered: 19
+
+12:49:53 | 24-12-2017
+ID: 1062
+Units ordered: 500
+
+12:50:15 | 24-12-2017
+ID: 1910
+Units ordered: 74
+
+12:51:51 | 24-12-2017
+ID: 1967
+Units ordered: 20
+
+13:00:47 | 24-12-2017
+ID: 475
+Units ordered: 1000
+
+13:00:47 | 24-12-2017
+ID: 475
+Units ordered: 1000
+
+13:00:57 | 24-12-2017
+ID: 475
+Units ordered: 663
+
+13:06:49 | 24-12-2017
+ID: 1967
+Units ordered: 3
+
+13:06:49 | 24-12-2017
+ID: 1967
+Units ordered: 20
+
+13:11:56 | 24-12-2017
+ID: 1967
+Units ordered: 15
+
+13:17:08 | 24-12-2017
+ID: 1314
+Units ordered: 120
+
+13:20:14 | 24-12-2017
+ID: 313
+Units ordered: 74
+
+13:22:43 | 24-12-2017
+ID: 1918
+Units ordered: 134
+
+13:24:52 | 24-12-2017
+ID: 433
+Units ordered: 500
+
+13:44:21 | 24-12-2017
+ID: 1385
+Units ordered: 275
+
+13:57:07 | 24-12-2017
+ID: 1062
+Units ordered: 200
+
+13:57:19 | 24-12-2017
+ID: 1062
+Units ordered: 500
+
+14:11:44 | 24-12-2017
+ID: 575
+Units ordered: 800
+
+14:11:52 | 24-12-2017
+ID: 575
+Units ordered: 400
+
+14:39:37 | 24-12-2017
+ID: 590
+Units ordered: 469
+
+14:45:56 | 24-12-2017
+ID: 1786
+Units ordered: 60
+
+15:12:27 | 24-12-2017
+ID: 1201
+Units ordered: 319
+
+15:18:07 | 24-12-2017
+ID: 464
+Units ordered: 200
+
+15:26:03 | 24-12-2017
+ID: 1891
+Units ordered: 81
+
+15:34:45 | 24-12-2017
+ID: 1744
+Units ordered: 664
+
+15:49:29 | 24-12-2017
+ID: 1780
+Units ordered: 145
+
+15:49:48 | 24-12-2017
+ID: 1780
+Units ordered: 53
+
+16:02:10 | 24-12-2017
+ID: 1910
+Units ordered: 81
+
+16:31:11 | 24-12-2017
+ID: 313
+Units ordered: 43
+
+17:15:42 | 24-12-2017
+ID: 1744
+Units ordered: 133
+
+17:17:37 | 24-12-2017
+ID: 1201
+Units ordered: 383
+
+17:18:17 | 24-12-2017
+ID: 1201
+Units ordered: 341
+
+17:18:40 | 24-12-2017
+ID: 1201
+Units ordered: 439
+
+17:25:14 | 24-12-2017
+ID: 1744
+Units ordered: 155
+
+18:29:38 | 24-12-2017
+ID: 1400
+Units ordered: 100
+
+18:29:39 | 24-12-2017
+ID: 1400
+Units ordered: 100
+
+18:31:28 | 24-12-2017
+ID: 1910
+Units ordered: 50
+
+18:35:45 | 24-12-2017
+ID: 1775
+Units ordered: 160
+
+18:45:05 | 24-12-2017
+ID: 368
+Units ordered: 818
+
+19:01:21 | 24-12-2017
+ID: 57
+Units ordered: 3890
+
+19:02:22 | 24-12-2017
+ID: 57
+Units ordered: 100
+
+19:02:22 | 24-12-2017
+ID: 57
+Units ordered: 200
+
+19:13:53 | 24-12-2017
+ID: 313
+Units ordered: 63
+
+19:52:58 | 24-12-2017
+ID: 1086
+Units ordered: 50
+
+19:57:30 | 24-12-2017
+ID: 1831
+Units ordered: 142
+
+20:05:16 | 24-12-2017
+ID: 313
+Units ordered: 71
+
+20:05:54 | 24-12-2017
+ID: 1858
+Units ordered: 40
+
+20:25:14 | 24-12-2017
+ID: 1029
+Units ordered: 162
+
+20:34:16 | 24-12-2017
+ID: 1910
+Units ordered: 40
+
+20:41:19 | 24-12-2017
+ID: 179
+Units ordered: 200
+
+20:43:07 | 24-12-2017
+ID: 1969
+Units ordered: 721
+
+20:47:34 | 24-12-2017
+ID: 1383
+Units ordered: 51
+
+20:47:49 | 24-12-2017
+ID: 1383
+Units ordered: 70
+
+20:49:11 | 24-12-2017
+ID: 252
+Units ordered: 55
+
+20:49:11 | 24-12-2017
+ID: 252
+Units ordered: 55
+
+20:52:40 | 24-12-2017
+ID: 1841
+Units ordered: 150
+
+20:54:05 | 24-12-2017
+ID: 1918
+Units ordered: 60
+
+21:00:38 | 24-12-2017
+ID: 1843
+Units ordered: 128
+
+21:01:04 | 24-12-2017
+ID: 1843
+Units ordered: 50
+
+21:08:40 | 24-12-2017
+ID: 1775
+Units ordered: 80
+
+21:20:08 | 24-12-2017
+ID: 1969
+Units ordered: 176
+
+21:29:40 | 24-12-2017
+ID: 344
+Units ordered: 1160
+
+21:34:01 | 24-12-2017
+ID: 1759
+Units ordered: 54
+
+22:07:05 | 24-12-2017
+ID: 1969
+Units ordered: 244
+
+22:14:48 | 24-12-2017
+ID: 43
+Units ordered: 56
+
+22:37:48 | 24-12-2017
+ID: 575
+Units ordered: 1000
+
+22:54:03 | 24-12-2017
+ID: 1891
+Units ordered: 97
+
+22:54:40 | 24-12-2017
+ID: 1383
+Units ordered: 358
+
+22:55:02 | 24-12-2017
+ID: 1383
+Units ordered: 209
+
+23:00:35 | 24-12-2017
+ID: 1831
+Units ordered: 53
+
+23:22:56 | 24-12-2017
+ID: 1383
+Units ordered: 22
+
+0:06:11 | 25-12-2017
+ID: 1969
+Units ordered: 35
+
+0:21:15 | 25-12-2017
+ID: 1378
+Units ordered: 600
+
+0:21:16 | 25-12-2017
+ID: 1378
+Units ordered: 700
+
+0:21:51 | 25-12-2017
+ID: 1029
+Units ordered: 500
+
+0:41:39 | 25-12-2017
+ID: 1744
+Units ordered: 461
+
+1:06:55 | 25-12-2017
+ID: 1775
+Units ordered: 150
+
+1:10:10 | 25-12-2017
+ID: 1052
+Units ordered: 1200
+
+1:18:37 | 25-12-2017
+ID: 1843
+Units ordered: 185
+
+1:32:16 | 25-12-2017
+ID: 1524
+Units ordered: 300
+
+1:32:36 | 25-12-2017
+ID: 1524
+Units ordered: 300
+
+1:33:36 | 25-12-2017
+ID: 1524
+Units ordered: 300
+
+1:33:49 | 25-12-2017
+ID: 1524
+Units ordered: 150
+
+1:35:48 | 25-12-2017
+ID: 1524
+Units ordered: 250
+
+1:36:02 | 25-12-2017
+ID: 1524
+Units ordered: 350
+
+1:38:11 | 25-12-2017
+ID: 1062
+Units ordered: 500
+
+1:38:22 | 25-12-2017
+ID: 1062
+Units ordered: 600
+
+1:38:35 | 25-12-2017
+ID: 1062
+Units ordered: 400
+
+1:46:14 | 25-12-2017
+ID: 1831
+Units ordered: 25
+
+2:11:02 | 25-12-2017
+ID: 313
+Units ordered: 57
+
+2:17:38 | 25-12-2017
+ID: 475
+Units ordered: 337
+
+2:18:00 | 25-12-2017
+ID: 475
+Units ordered: 60
+
+2:18:00 | 25-12-2017
+ID: 475
+Units ordered: 60
+
+2:23:06 | 25-12-2017
+ID: 1759
+Units ordered: 100
+
+2:23:38 | 25-12-2017
+ID: 1759
+Units ordered: 100
+
+2:37:28 | 25-12-2017
+ID: 1744
+Units ordered: 172
+
+3:13:20 | 25-12-2017
+ID: 464
+Units ordered: 1193
+
+3:48:35 | 25-12-2017
+ID: 1969
+Units ordered: 158
+
+4:07:05 | 25-12-2017
+ID: 1967
+Units ordered: 33
+
+4:15:43 | 25-12-2017
+ID: 1780
+Units ordered: 158
+
+4:15:44 | 25-12-2017
+ID: 1780
+Units ordered: 156
+
+4:23:47 | 25-12-2017
+ID: 1780
+Units ordered: 70
+
+4:23:47 | 25-12-2017
+ID: 1780
+Units ordered: 70
+
+6:30:23 | 25-12-2017
+ID: 1947
+Units ordered: 78
+
+6:31:23 | 25-12-2017
+ID: 749
+Units ordered: 49
+
+7:12:07 | 25-12-2017
+ID: 313
+Units ordered: 214
+
+7:25:14 | 25-12-2017
+ID: 1775
+Units ordered: 170
+
+7:30:09 | 25-12-2017
+ID: 1400
+Units ordered: 710
+
+7:31:39 | 25-12-2017
+ID: 1400
+Units ordered: 170
+
+7:59:59 | 25-12-2017
+ID: 1843
+Units ordered: 82
+
+8:12:34 | 25-12-2017
+ID: 575
+Units ordered: 1075
+
+8:17:05 | 25-12-2017
+ID: 1383
+Units ordered: 275
+
+8:17:10 | 25-12-2017
+ID: 1385
+Units ordered: 346
+
+8:18:07 | 25-12-2017
+ID: 1201
+Units ordered: 258
+
+8:34:52 | 25-12-2017
+ID: 1203
+Units ordered: 208
+
+8:38:40 | 25-12-2017
+ID: 1616
+Units ordered: 29
+
+8:38:41 | 25-12-2017
+ID: 1616
+Units ordered: 5
+
+8:38:41 | 25-12-2017
+ID: 1616
+Units ordered: 20
+
+8:38:51 | 25-12-2017
+ID: 1616
+Units ordered: 153
+
+8:39:39 | 25-12-2017
+ID: 1383
+Units ordered: 1
+
+8:40:19 | 25-12-2017
+ID: 1383
+Units ordered: 32
+
+8:43:49 | 25-12-2017
+ID: 1383
+Units ordered: 300
+
+9:04:11 | 25-12-2017
+ID: 1383
+Units ordered: 12
+
+9:06:12 | 25-12-2017
+ID: 57
+Units ordered: 777
+
+9:06:59 | 25-12-2017
+ID: 1616
+Units ordered: 2000
+
+9:07:14 | 25-12-2017
+ID: 1616
+Units ordered: 2000
+
+9:07:30 | 25-12-2017
+ID: 1616
+Units ordered: 499
+
+9:08:29 | 25-12-2017
+ID: 1616
+Units ordered: 1000
+
+9:08:29 | 25-12-2017
+ID: 1616
+Units ordered: 1000
+
+9:08:39 | 25-12-2017
+ID: 1616
+Units ordered: 691
+
+9:24:08 | 25-12-2017
+ID: 686
+Units ordered: 690
+
+9:26:19 | 25-12-2017
+ID: 686
+Units ordered: 900
+
+9:28:14 | 25-12-2017
+ID: 686
+Units ordered: 428
+
+10:02:20 | 25-12-2017
+ID: 1062
+Units ordered: 5
+
+10:16:23 | 25-12-2017
+ID: 1759
+Units ordered: 97
+
+10:17:21 | 25-12-2017
+ID: 1385
+Units ordered: 148
+
+10:18:52 | 25-12-2017
+ID: 1759
+Units ordered: 50
+
+10:31:46 | 25-12-2017
+ID: 1343
+Units ordered: 522
+
+11:06:03 | 25-12-2017
+ID: 1385
+Units ordered: 424
+
+11:17:47 | 25-12-2017
+ID: 1967
+Units ordered: 100
+
+11:18:01 | 25-12-2017
+ID: 1967
+Units ordered: 75
+
+11:22:03 | 25-12-2017
+ID: 1744
+Units ordered: 179
+
+11:28:06 | 25-12-2017
+ID: 1383
+Units ordered: 65
+
+11:34:12 | 25-12-2017
+ID: 1203
+Units ordered: 372
+
+11:45:03 | 25-12-2017
+ID: 1882
+Units ordered: 250
+
+11:45:11 | 25-12-2017
+ID: 1882
+Units ordered: 101
+
+11:45:57 | 25-12-2017
+ID: 313
+Units ordered: 170
+
+11:54:25 | 25-12-2017
+ID: 1775
+Units ordered: 150
+
+12:04:52 | 25-12-2017
+ID: 1725
+Units ordered: 2
+
+12:05:04 | 25-12-2017
+ID: 1725
+Units ordered: 3
+
+12:06:56 | 25-12-2017
+ID: 1385
+Units ordered: 63
+
+12:09:55 | 25-12-2017
+ID: 1201
+Units ordered: 113
+
+12:14:15 | 25-12-2017
+ID: 1967
+Units ordered: 5
+
+12:14:34 | 25-12-2017
+ID: 43
+Units ordered: 96
+
+12:17:52 | 25-12-2017
+ID: 575
+Units ordered: 690
+
+12:19:34 | 25-12-2017
+ID: 1775
+Units ordered: 50
+
+12:22:44 | 25-12-2017
+ID: 1969
+Units ordered: 20
+
+12:23:44 | 25-12-2017
+ID: 1969
+Units ordered: 230
+
+12:26:19 | 25-12-2017
+ID: 1939
+Units ordered: 2
+
+12:27:20 | 25-12-2017
+ID: 1939
+Units ordered: 10
+
+12:27:51 | 25-12-2017
+ID: 1939
+Units ordered: 100
+
+12:28:24 | 25-12-2017
+ID: 1939
+Units ordered: 70
+
+12:29:16 | 25-12-2017
+ID: 1939
+Units ordered: 5
+
+12:29:16 | 25-12-2017
+ID: 1939
+Units ordered: 16
+
+12:29:16 | 25-12-2017
+ID: 1939
+Units ordered: 30
+
+12:29:28 | 25-12-2017
+ID: 1939
+Units ordered: 16
+
+12:41:56 | 25-12-2017
+ID: 1062
+Units ordered: 1000
+
+12:42:12 | 25-12-2017
+ID: 1062
+Units ordered: 300
+
+13:03:36 | 25-12-2017
+ID: 179
+Units ordered: 250
+
+13:04:11 | 25-12-2017
+ID: 179
+Units ordered: 100
+
+13:14:31 | 25-12-2017
+ID: 1775
+Units ordered: 60
+
+13:40:20 | 25-12-2017
+ID: 1967
+Units ordered: 21
+
+13:48:26 | 25-12-2017
+ID: 73
+Units ordered: 599
+
+14:03:28 | 25-12-2017
+ID: 1843
+Units ordered: 62
+
+14:09:03 | 25-12-2017
+ID: 313
+Units ordered: 15
+
+14:46:36 | 25-12-2017
+ID: 1383
+Units ordered: 185
+
+14:48:15 | 25-12-2017
+ID: 1725
+Units ordered: 11
+
+14:48:55 | 25-12-2017
+ID: 590
+Units ordered: 100
+
+14:49:20 | 25-12-2017
+ID: 590
+Units ordered: 50
+
+15:00:45 | 25-12-2017
+ID: 1910
+Units ordered: 73
+
+15:06:36 | 25-12-2017
+ID: 1939
+Units ordered: 23
+
+15:08:34 | 25-12-2017
+ID: 1224
+Units ordered: 125
+
+15:09:11 | 25-12-2017
+ID: 1224
+Units ordered: 94
+
+15:09:38 | 25-12-2017
+ID: 1224
+Units ordered: 70
+
+15:11:15 | 25-12-2017
+ID: 1967
+Units ordered: 35
+
+15:18:28 | 25-12-2017
+ID: 368
+Units ordered: 352
+
+15:21:45 | 25-12-2017
+ID: 1322
+Units ordered: 200
+
+15:26:16 | 25-12-2017
+ID: 1969
+Units ordered: 150
+
+15:33:43 | 25-12-2017
+ID: 1744
+Units ordered: 123
+
+15:47:48 | 25-12-2017
+ID: 102
+Units ordered: 199
+
+15:56:33 | 25-12-2017
+ID: 1203
+Units ordered: 136
+
+15:58:24 | 25-12-2017
+ID: 1400
+Units ordered: 230
+
+16:16:15 | 25-12-2017
+ID: 1383
+Units ordered: 100
+
+16:18:40 | 25-12-2017
+ID: 1201
+Units ordered: 162
+
+16:38:05 | 25-12-2017
+ID: 1744
+Units ordered: 181
+
+17:00:39 | 25-12-2017
+ID: 1786
+Units ordered: 200
+
+17:00:50 | 25-12-2017
+ID: 1786
+Units ordered: 200
+
+17:01:00 | 25-12-2017
+ID: 1786
+Units ordered: 150
+
+17:01:12 | 25-12-2017
+ID: 1786
+Units ordered: 150
+
+17:01:21 | 25-12-2017
+ID: 1786
+Units ordered: 170
+
+17:03:35 | 25-12-2017
+ID: 1029
+Units ordered: 1020
+
+17:17:04 | 25-12-2017
+ID: 433
+Units ordered: 294
+
+17:31:04 | 25-12-2017
+ID: 1780
+Units ordered: 100
+
+17:31:05 | 25-12-2017
+ID: 1780
+Units ordered: 118
+
+17:39:42 | 25-12-2017
+ID: 1967
+Units ordered: 8
+
+17:52:22 | 25-12-2017
+ID: 1831
+Units ordered: 180
+
+17:56:56 | 25-12-2017
+ID: 1969
+Units ordered: 45
+
+17:57:29 | 25-12-2017
+ID: 575
+Units ordered: 483
+
+18:10:55 | 25-12-2017
+ID: 1744
+Units ordered: 3
+
+18:22:47 | 25-12-2017
+ID: 575
+Units ordered: 179
+
+18:23:20 | 25-12-2017
+ID: 1843
+Units ordered: 131
+
+18:24:13 | 25-12-2017
+ID: 686
+Units ordered: 139
+
+18:30:31 | 25-12-2017
+ID: 1786
+Units ordered: 250
+
+18:35:06 | 25-12-2017
+ID: 1968
+Units ordered: 34
+
+18:35:47 | 25-12-2017
+ID: 1968
+Units ordered: 5
+
+18:42:54 | 25-12-2017
+ID: 1918
+Units ordered: 40
+
+18:43:21 | 25-12-2017
+ID: 1918
+Units ordered: 51
+
+18:48:58 | 25-12-2017
+ID: 1786
+Units ordered: 353
+
+18:59:59 | 25-12-2017
+ID: 1725
+Units ordered: 50
+
+19:22:48 | 25-12-2017
+ID: 1843
+Units ordered: 161
+
+19:25:48 | 25-12-2017
+ID: 1062
+Units ordered: 400
+
+19:27:17 | 25-12-2017
+ID: 43
+Units ordered: 14
+
+19:32:00 | 25-12-2017
+ID: 1939
+Units ordered: 44
+
+19:33:52 | 25-12-2017
+ID: 1967
+Units ordered: 25
+
+19:42:50 | 25-12-2017
+ID: 1319
+Units ordered: 1000
+
+19:45:08 | 25-12-2017
+ID: 1319
+Units ordered: 250
+
+19:46:09 | 25-12-2017
+ID: 1319
+Units ordered: 291
+
+19:46:54 | 25-12-2017
+ID: 1319
+Units ordered: 84
+
+19:47:17 | 25-12-2017
+ID: 1319
+Units ordered: 75
+
+19:54:11 | 25-12-2017
+ID: 1383
+Units ordered: 73
+
+20:01:36 | 25-12-2017
+ID: 1967
+Units ordered: 25
+
+20:05:34 | 25-12-2017
+ID: 1910
+Units ordered: 61
+
+20:07:04 | 25-12-2017
+ID: 1939
+Units ordered: 3
+
+20:19:38 | 25-12-2017
+ID: 1969
+Units ordered: 431
+
+20:20:43 | 25-12-2017
+ID: 344
+Units ordered: 1000
+
+20:32:54 | 25-12-2017
+ID: 433
+Units ordered: 362
+
+20:35:45 | 25-12-2017
+ID: 615
+Units ordered: 300
+
+20:43:42 | 25-12-2017
+ID: 1219
+Units ordered: 1480
+
+20:44:58 | 25-12-2017
+ID: 1219
+Units ordered: 600
+
+20:52:15 | 25-12-2017
+ID: 1219
+Units ordered: 600
+
+21:03:38 | 25-12-2017
+ID: 1969
+Units ordered: 159
+
+21:12:46 | 25-12-2017
+ID: 1383
+Units ordered: 55
+
+21:20:02 | 25-12-2017
+ID: 1910
+Units ordered: 24
+
+21:26:28 | 25-12-2017
+ID: 1918
+Units ordered: 169
+
+21:50:58 | 25-12-2017
+ID: 1967
+Units ordered: 177
+
+22:03:07 | 25-12-2017
+ID: 1967
+Units ordered: 3
+
+22:03:34 | 25-12-2017
+ID: 575
+Units ordered: 69
+
+22:03:45 | 25-12-2017
+ID: 1967
+Units ordered: 1
+
+22:04:28 | 25-12-2017
+ID: 575
+Units ordered: 200
+
+22:04:37 | 25-12-2017
+ID: 575
+Units ordered: 1076
+
+22:08:18 | 25-12-2017
+ID: 1967
+Units ordered: 1
+
+22:09:04 | 25-12-2017
+ID: 1910
+Units ordered: 12
+
+22:09:23 | 25-12-2017
+ID: 686
+Units ordered: 630
+
+22:10:27 | 25-12-2017
+ID: 1939
+Units ordered: 3
+
+22:19:13 | 25-12-2017
+ID: 368
+Units ordered: 227
+
+22:19:59 | 25-12-2017
+ID: 368
+Units ordered: 654
+
+22:23:00 | 25-12-2017
+ID: 1942
+Units ordered: 19
+
+22:29:00 | 25-12-2017
+ID: 1524
+Units ordered: 176
+
+22:30:21 | 25-12-2017
+ID: 1524
+Units ordered: 200
+
+22:33:36 | 25-12-2017
+ID: 1524
+Units ordered: 100
+
+22:35:34 | 25-12-2017
+ID: 43
+Units ordered: 73
+
+22:38:55 | 25-12-2017
+ID: 1969
+Units ordered: 251
+
+22:44:26 | 25-12-2017
+ID: 1759
+Units ordered: 151
+
+22:44:44 | 25-12-2017
+ID: 1759
+Units ordered: 151
+
+22:45:02 | 25-12-2017
+ID: 1759
+Units ordered: 151
+
+22:45:18 | 25-12-2017
+ID: 1759
+Units ordered: 151
+
+22:45:38 | 25-12-2017
+ID: 1759
+Units ordered: 151
+
+22:53:11 | 25-12-2017
+ID: 1967
+Units ordered: 45
+
+22:54:41 | 25-12-2017
+ID: 1967
+Units ordered: 34
+
+22:55:08 | 25-12-2017
+ID: 1203
+Units ordered: 187
+
+22:55:09 | 25-12-2017
+ID: 1967
+Units ordered: 63
+
+22:55:43 | 25-12-2017
+ID: 402
+Units ordered: 3000
+
+22:57:14 | 25-12-2017
+ID: 1052
+Units ordered: 1662
+
+22:57:36 | 25-12-2017
+ID: 464
+Units ordered: 1610
+
+22:59:54 | 25-12-2017
+ID: 1616
+Units ordered: 268
+
+23:02:15 | 25-12-2017
+ID: 522
+Units ordered: 800
+
+23:04:11 | 25-12-2017
+ID: 1967
+Units ordered: 50
+
+23:04:21 | 25-12-2017
+ID: 1062
+Units ordered: 1000
+
+23:05:20 | 25-12-2017
+ID: 1967
+Units ordered: 1
+
+23:19:38 | 25-12-2017
+ID: 1201
+Units ordered: 167
+
+23:21:53 | 25-12-2017
+ID: 1939
+Units ordered: 89
+
+23:32:10 | 25-12-2017
+ID: 1786
+Units ordered: 150
+
+23:35:03 | 25-12-2017
+ID: 1786
+Units ordered: 205
+
+23:36:01 | 25-12-2017
+ID: 1786
+Units ordered: 146
+
+23:39:50 | 25-12-2017
+ID: 1923
+Units ordered: 258
+
+23:40:59 | 25-12-2017
+ID: 1831
+Units ordered: 78
+
+23:54:08 | 25-12-2017
+ID: 1203
+Units ordered: 57
+
+23:56:37 | 25-12-2017
+ID: 641
+Units ordered: 212
+
+0:03:11 | 26-12-2017
+ID: 1891
+Units ordered: 155
+
+0:10:45 | 26-12-2017
+ID: 1910
+Units ordered: 24
+
+0:18:08 | 26-12-2017
+ID: 1314
+Units ordered: 230
+
+0:33:26 | 26-12-2017
+ID: 1964
+Units ordered: 200
+
+0:33:42 | 26-12-2017
+ID: 1964
+Units ordered: 171
+
+0:33:42 | 26-12-2017
+ID: 1964
+Units ordered: 171
+
+0:36:56 | 26-12-2017
+ID: 1967
+Units ordered: 4
+
+0:37:01 | 26-12-2017
+ID: 1967
+Units ordered: 5
+
+0:47:00 | 26-12-2017
+ID: 1981
+Units ordered: 140
+
+1:02:05 | 26-12-2017
+ID: 1385
+Units ordered: 112
+
+1:03:00 | 26-12-2017
+ID: 1385
+Units ordered: 398
+
+1:11:39 | 26-12-2017
+ID: 1744
+Units ordered: 578
+
+1:50:53 | 26-12-2017
+ID: 1319
+Units ordered: 295
+
+1:51:22 | 26-12-2017
+ID: 1319
+Units ordered: 174
+
+4:16:50 | 26-12-2017
+ID: 1967
+Units ordered: 50
+
+4:17:00 | 26-12-2017
+ID: 1967
+Units ordered: 16
+
+4:17:54 | 26-12-2017
+ID: 1319
+Units ordered: 143
+
+4:18:18 | 26-12-2017
+ID: 1319
+Units ordered: 54
+
+4:18:30 | 26-12-2017
+ID: 1843
+Units ordered: 513
+
+4:27:02 | 26-12-2017
+ID: 1967
+Units ordered: 2
+
+4:35:54 | 26-12-2017
+ID: 1322
+Units ordered: 233
+
+4:35:55 | 26-12-2017
+ID: 1322
+Units ordered: 29
+
+4:36:58 | 26-12-2017
+ID: 1322
+Units ordered: 500
+
+4:36:58 | 26-12-2017
+ID: 1322
+Units ordered: 100
+
+4:47:10 | 26-12-2017
+ID: 1843
+Units ordered: 198
+
+5:23:13 | 26-12-2017
+ID: 1524
+Units ordered: 297
+
+5:24:30 | 26-12-2017
+ID: 1383
+Units ordered: 110
+
+5:24:35 | 26-12-2017
+ID: 1383
+Units ordered: 1
+
+5:27:39 | 26-12-2017
+ID: 1378
+Units ordered: 1000
+
+5:27:39 | 26-12-2017
+ID: 1378
+Units ordered: 600
+
+6:05:24 | 26-12-2017
+ID: 1219
+Units ordered: 227
+
+8:02:31 | 26-12-2017
+ID: 317
+Units ordered: 1124
+
+8:04:32 | 26-12-2017
+ID: 1385
+Units ordered: 324
+
+8:04:43 | 26-12-2017
+ID: 1725
+Units ordered: 26
+
+8:14:58 | 26-12-2017
+ID: 313
+Units ordered: 107
+
+8:28:14 | 26-12-2017
+ID: 402
+Units ordered: 740
+
+8:35:40 | 26-12-2017
+ID: 1524
+Units ordered: 96
+
+8:37:20 | 26-12-2017
+ID: 1062
+Units ordered: 500
+
+8:39:19 | 26-12-2017
+ID: 1201
+Units ordered: 500
+
+8:39:26 | 26-12-2017
+ID: 1201
+Units ordered: 93
+
+8:41:50 | 26-12-2017
+ID: 402
+Units ordered: 500
+
+8:43:07 | 26-12-2017
+ID: 433
+Units ordered: 345
+
+9:09:09 | 26-12-2017
+ID: 1219
+Units ordered: 1670
+
+9:19:12 | 26-12-2017
+ID: 1314
+Units ordered: 377
+
+9:28:50 | 26-12-2017
+ID: 43
+Units ordered: 265
+
+9:33:26 | 26-12-2017
+ID: 1831
+Units ordered: 130
+
+9:37:27 | 26-12-2017
+ID: 1086
+Units ordered: 42
+
+9:39:07 | 26-12-2017
+ID: 1203
+Units ordered: 339
+
+9:54:04 | 26-12-2017
+ID: 433
+Units ordered: 210
+
+10:11:33 | 26-12-2017
+ID: 1225
+Units ordered: 669
+
+10:30:22 | 26-12-2017
+ID: 1322
+Units ordered: 163
+
+10:30:22 | 26-12-2017
+ID: 1322
+Units ordered: 9
+
+10:31:45 | 26-12-2017
+ID: 1322
+Units ordered: 500
+
+10:42:15 | 26-12-2017
+ID: 686
+Units ordered: 154
+
+10:52:14 | 26-12-2017
+ID: 1062
+Units ordered: 1000
+
+11:08:58 | 26-12-2017
+ID: 1969
+Units ordered: 20
+
+11:09:02 | 26-12-2017
+ID: 1969
+Units ordered: 211
+
+11:13:42 | 26-12-2017
+ID: 1725
+Units ordered: 105
+
+11:24:58 | 26-12-2017
+ID: 433
+Units ordered: 340
+
+11:37:42 | 26-12-2017
+ID: 1224
+Units ordered: 68
+
+11:38:53 | 26-12-2017
+ID: 1786
+Units ordered: 77
+
+11:47:03 | 26-12-2017
+ID: 1967
+Units ordered: 15
+
+11:47:20 | 26-12-2017
+ID: 1967
+Units ordered: 7
+
+11:47:38 | 26-12-2017
+ID: 1967
+Units ordered: 31
+
+11:48:01 | 26-12-2017
+ID: 1967
+Units ordered: 10
+
+11:48:02 | 26-12-2017
+ID: 575
+Units ordered: 224
+
+11:50:05 | 26-12-2017
+ID: 1967
+Units ordered: 7
+
+12:03:27 | 26-12-2017
+ID: 1203
+Units ordered: 143
+
+12:14:37 | 26-12-2017
+ID: 1969
+Units ordered: 323
+
+12:16:58 | 26-12-2017
+ID: 686
+Units ordered: 281
+
+12:18:01 | 26-12-2017
+ID: 686
+Units ordered: 369
+
+12:30:17 | 26-12-2017
+ID: 313
+Units ordered: 86
+
+12:37:10 | 26-12-2017
+ID: 575
+Units ordered: 366
+
+12:51:22 | 26-12-2017
+ID: 1524
+Units ordered: 400
+
+13:03:36 | 26-12-2017
+ID: 1616
+Units ordered: 4440
+
+13:05:29 | 26-12-2017
+ID: 1524
+Units ordered: 224
+
+13:11:06 | 26-12-2017
+ID: 1786
+Units ordered: 50
+
+13:19:16 | 26-12-2017
+ID: 313
+Units ordered: 743
+
+13:19:42 | 26-12-2017
+ID: 313
+Units ordered: 328
+
+13:24:01 | 26-12-2017
+ID: 590
+Units ordered: 1058
+
+13:25:51 | 26-12-2017
+ID: 590
+Units ordered: 517
+
+13:26:11 | 26-12-2017
+ID: 686
+Units ordered: 131
+
+13:26:49 | 26-12-2017
+ID: 686
+Units ordered: 199
+
+13:29:13 | 26-12-2017
+ID: 686
+Units ordered: 100
+
+13:31:05 | 26-12-2017
+ID: 73
+Units ordered: 700
+
+13:31:39 | 26-12-2017
+ID: 1400
+Units ordered: 270
+
+13:32:04 | 26-12-2017
+ID: 1910
+Units ordered: 136
+
+13:32:22 | 26-12-2017
+ID: 1343
+Units ordered: 2036
+
+13:36:34 | 26-12-2017
+ID: 257
+Units ordered: 4993
+
+13:38:06 | 26-12-2017
+ID: 257
+Units ordered: 2405
+
+13:39:08 | 26-12-2017
+ID: 257
+Units ordered: 617
+
+13:39:45 | 26-12-2017
+ID: 257
+Units ordered: 433
+
+13:51:22 | 26-12-2017
+ID: 1918
+Units ordered: 198
+
+13:52:51 | 26-12-2017
+ID: 179
+Units ordered: 250
+
+14:03:09 | 26-12-2017
+ID: 1969
+Units ordered: 129
+
+14:09:16 | 26-12-2017
+ID: 1910
+Units ordered: 12
+
+14:09:33 | 26-12-2017
+ID: 1910
+Units ordered: 110
+
+14:12:55 | 26-12-2017
+ID: 1968
+Units ordered: 30
+
+14:19:28 | 26-12-2017
+ID: 1385
+Units ordered: 361
+
+14:22:50 | 26-12-2017
+ID: 1385
+Units ordered: 200
+
+14:22:54 | 26-12-2017
+ID: 1385
+Units ordered: 302
+
+14:29:20 | 26-12-2017
+ID: 235
+Units ordered: 136
+
+14:33:30 | 26-12-2017
+ID: 686
+Units ordered: 101
+
+14:34:28 | 26-12-2017
+ID: 1858
+Units ordered: 326
+
+14:35:23 | 26-12-2017
+ID: 686
+Units ordered: 100
+
+14:36:17 | 26-12-2017
+ID: 1831
+Units ordered: 23
+
+14:39:34 | 26-12-2017
+ID: 1725
+Units ordered: 3
+
+14:47:21 | 26-12-2017
+ID: 1964
+Units ordered: 482
+
+14:47:28 | 26-12-2017
+ID: 1400
+Units ordered: 270
+
+14:51:21 | 26-12-2017
+ID: 1201
+Units ordered: 298
+
+15:02:33 | 26-12-2017
+ID: 1910
+Units ordered: 14
+
+15:17:30 | 26-12-2017
+ID: 575
+Units ordered: 103
+
+15:26:12 | 26-12-2017
+ID: 1224
+Units ordered: 34
+
+15:33:31 | 26-12-2017
+ID: 1203
+Units ordered: 240
+
+15:36:40 | 26-12-2017
+ID: 1378
+Units ordered: 500
+
+15:36:58 | 26-12-2017
+ID: 1378
+Units ordered: 200
+
+15:37:23 | 26-12-2017
+ID: 1378
+Units ordered: 100
+
+15:37:33 | 26-12-2017
+ID: 1378
+Units ordered: 100
+
+15:37:52 | 26-12-2017
+ID: 1964
+Units ordered: 86
+
+15:38:41 | 26-12-2017
+ID: 1378
+Units ordered: 50
+
+15:38:50 | 26-12-2017
+ID: 1378
+Units ordered: 50
+
+15:53:14 | 26-12-2017
+ID: 1383
+Units ordered: 103
+
+15:57:44 | 26-12-2017
+ID: 1969
+Units ordered: 89
+
+16:11:46 | 26-12-2017
+ID: 1725
+Units ordered: 3
+
+16:11:46 | 26-12-2017
+ID: 1725
+Units ordered: 3
+
+16:31:51 | 26-12-2017
+ID: 1910
+Units ordered: 13
+
+16:38:10 | 26-12-2017
+ID: 1086
+Units ordered: 400
+
+16:45:46 | 26-12-2017
+ID: 1343
+Units ordered: 117
+
+16:46:25 | 26-12-2017
+ID: 1314
+Units ordered: 297
+
+17:02:17 | 26-12-2017
+ID: 1969
+Units ordered: 45
+
+17:11:38 | 26-12-2017
+ID: 1775
+Units ordered: 150
+
+17:24:16 | 26-12-2017
+ID: 313
+Units ordered: 114
+
+17:42:29 | 26-12-2017
+ID: 1086
+Units ordered: 25
+
+17:42:29 | 26-12-2017
+ID: 1086
+Units ordered: 25
+
+17:44:20 | 26-12-2017
+ID: 1858
+Units ordered: 50
+
+17:52:56 | 26-12-2017
+ID: 464
+Units ordered: 700
+
+18:06:22 | 26-12-2017
+ID: 614
+Units ordered: 500
+
+18:06:31 | 26-12-2017
+ID: 614
+Units ordered: 500
+
+18:08:00 | 26-12-2017
+ID: 368
+Units ordered: 831
+
+18:20:39 | 26-12-2017
+ID: 1383
+Units ordered: 96
+
+18:27:37 | 26-12-2017
+ID: 1219
+Units ordered: 300
+
+18:34:41 | 26-12-2017
+ID: 1910
+Units ordered: 26
+
+18:40:32 | 26-12-2017
+ID: 1201
+Units ordered: 100
+
+18:40:39 | 26-12-2017
+ID: 1201
+Units ordered: 40
+
+19:02:09 | 26-12-2017
+ID: 1910
+Units ordered: 13
+
+19:16:01 | 26-12-2017
+ID: 1964
+Units ordered: 135
+
+19:19:51 | 26-12-2017
+ID: 1383
+Units ordered: 88
+
+19:20:34 | 26-12-2017
+ID: 1203
+Units ordered: 145
+
+19:28:36 | 26-12-2017
+ID: 1725
+Units ordered: 90
+
+20:00:45 | 26-12-2017
+ID: 179
+Units ordered: 150
+
+20:18:45 | 26-12-2017
+ID: 1400
+Units ordered: 1112
+
+20:19:45 | 26-12-2017
+ID: 1910
+Units ordered: 12
+
+20:26:31 | 26-12-2017
+ID: 1219
+Units ordered: 400
+
+20:31:06 | 26-12-2017
+ID: 1378
+Units ordered: 2048
+
+20:32:17 | 26-12-2017
+ID: 43
+Units ordered: 100
+
+20:32:47 | 26-12-2017
+ID: 1524
+Units ordered: 2706
+
+20:38:41 | 26-12-2017
+ID: 1969
+Units ordered: 69
+
+20:56:52 | 26-12-2017
+ID: 1086
+Units ordered: 1000
+
+21:00:01 | 26-12-2017
+ID: 1086
+Units ordered: 50
+
+21:04:05 | 26-12-2017
+ID: 1219
+Units ordered: 80
+
+21:05:06 | 26-12-2017
+ID: 1219
+Units ordered: 220
+
+21:09:35 | 26-12-2017
+ID: 1086
+Units ordered: 1000
+
+21:22:17 | 26-12-2017
+ID: 1831
+Units ordered: 36
+
+21:23:01 | 26-12-2017
+ID: 1086
+Units ordered: 30
+
+21:23:01 | 26-12-2017
+ID: 1086
+Units ordered: 30
+
+21:24:55 | 26-12-2017
+ID: 433
+Units ordered: 338
+
+21:33:12 | 26-12-2017
+ID: 1967
+Units ordered: 20
+
+21:33:46 | 26-12-2017
+ID: 1967
+Units ordered: 99
+
+21:35:38 | 26-12-2017
+ID: 1969
+Units ordered: 22
+
+21:36:37 | 26-12-2017
+ID: 1383
+Units ordered: 129
+
+21:37:11 | 26-12-2017
+ID: 1939
+Units ordered: 99
+
+21:37:32 | 26-12-2017
+ID: 1939
+Units ordered: 26
+
+21:39:39 | 26-12-2017
+ID: 1939
+Units ordered: 33
+
+21:45:56 | 26-12-2017
+ID: 1891
+Units ordered: 100
+
+21:46:07 | 26-12-2017
+ID: 1891
+Units ordered: 20
+
+21:52:19 | 26-12-2017
+ID: 1062
+Units ordered: 1285
+
+21:53:35 | 26-12-2017
+ID: 1062
+Units ordered: 300
+
+21:53:36 | 26-12-2017
+ID: 1062
+Units ordered: 500
+
+21:58:32 | 26-12-2017
+ID: 1062
+Units ordered: 200
+
+21:58:32 | 26-12-2017
+ID: 1062
+Units ordered: 200
+
+22:09:16 | 26-12-2017
+ID: 1383
+Units ordered: 49
+
+22:12:11 | 26-12-2017
+ID: 1086
+Units ordered: 30
+
+22:12:11 | 26-12-2017
+ID: 1086
+Units ordered: 30
+
+22:14:21 | 26-12-2017
+ID: 1201
+Units ordered: 292
+
+22:31:50 | 26-12-2017
+ID: 1385
+Units ordered: 900
+
+22:32:17 | 26-12-2017
+ID: 1343
+Units ordered: 400
+
+22:32:50 | 26-12-2017
+ID: 1225
+Units ordered: 222
+
+22:37:56 | 26-12-2017
+ID: 686
+Units ordered: 117
+
+22:46:01 | 26-12-2017
+ID: 1775
+Units ordered: 60
+
+22:46:08 | 26-12-2017
+ID: 1385
+Units ordered: 91
+
+22:56:20 | 26-12-2017
+ID: 1322
+Units ordered: 551
+
+22:56:51 | 26-12-2017
+ID: 1322
+Units ordered: 5
+
+22:57:32 | 26-12-2017
+ID: 1322
+Units ordered: 500
+
+23:04:03 | 26-12-2017
+ID: 1219
+Units ordered: 850
+
+23:09:07 | 26-12-2017
+ID: 1910
+Units ordered: 34
+
+23:37:40 | 26-12-2017
+ID: 1385
+Units ordered: 1342
+
+23:40:30 | 26-12-2017
+ID: 1385
+Units ordered: 1263
+
+23:56:34 | 26-12-2017
+ID: 1224
+Units ordered: 186
+
+23:56:59 | 26-12-2017
+ID: 1224
+Units ordered: 139
+
+23:57:52 | 26-12-2017
+ID: 1224
+Units ordered: 104
+
+0:05:28 | 27-12-2017
+ID: 1029
+Units ordered: 337
+
+0:08:00 | 27-12-2017
+ID: 1086
+Units ordered: 90
+
+0:16:25 | 27-12-2017
+ID: 1967
+Units ordered: 47
+
+0:17:46 | 27-12-2017
+ID: 1939
+Units ordered: 16
+
+0:18:00 | 27-12-2017
+ID: 1939
+Units ordered: 1
+
+0:30:53 | 27-12-2017
+ID: 1775
+Units ordered: 18
+
+0:32:31 | 27-12-2017
+ID: 1400
+Units ordered: 10
+
+0:33:39 | 27-12-2017
+ID: 102
+Units ordered: 253
+
+0:33:49 | 27-12-2017
+ID: 1086
+Units ordered: 100
+
+0:33:49 | 27-12-2017
+ID: 1086
+Units ordered: 1000
+
+0:34:22 | 27-12-2017
+ID: 102
+Units ordered: 49
+
+0:36:05 | 27-12-2017
+ID: 1086
+Units ordered: 100
+
+0:54:17 | 27-12-2017
+ID: 1843
+Units ordered: 126
+
+1:02:56 | 27-12-2017
+ID: 1969
+Units ordered: 55
+
+1:03:38 | 27-12-2017
+ID: 1841
+Units ordered: 100
+
+1:09:40 | 27-12-2017
+ID: 1831
+Units ordered: 6
+
+1:10:50 | 27-12-2017
+ID: 179
+Units ordered: 221
+
+1:28:32 | 27-12-2017
+ID: 1843
+Units ordered: 219
+
+1:29:43 | 27-12-2017
+ID: 1843
+Units ordered: 159
+
+1:31:44 | 27-12-2017
+ID: 1843
+Units ordered: 479
+
+1:32:34 | 27-12-2017
+ID: 1910
+Units ordered: 24
+
+1:35:19 | 27-12-2017
+ID: 1891
+Units ordered: 70
+
+1:54:14 | 27-12-2017
+ID: 686
+Units ordered: 196
+
+3:11:37 | 27-12-2017
+ID: 315
+Units ordered: 109
+
+3:18:14 | 27-12-2017
+ID: 1969
+Units ordered: 36
+
+3:22:15 | 27-12-2017
+ID: 1967
+Units ordered: 29
+
+3:22:49 | 27-12-2017
+ID: 1939
+Units ordered: 46
+
+4:02:47 | 27-12-2017
+ID: 1969
+Units ordered: 23
+
+4:07:15 | 27-12-2017
+ID: 1969
+Units ordered: 178
+
+4:35:28 | 27-12-2017
+ID: 315
+Units ordered: 8
+
+5:04:38 | 27-12-2017
+ID: 1383
+Units ordered: 151
+
+5:09:24 | 27-12-2017
+ID: 1969
+Units ordered: 39
+
+5:16:34 | 27-12-2017
+ID: 1939
+Units ordered: 11
+
+5:17:50 | 27-12-2017
+ID: 1967
+Units ordered: 47
+
+5:20:22 | 27-12-2017
+ID: 1967
+Units ordered: 14
+
+5:23:38 | 27-12-2017
+ID: 433
+Units ordered: 284
+
+5:59:13 | 27-12-2017
+ID: 457
+Units ordered: 276
+
+6:01:22 | 27-12-2017
+ID: 464
+Units ordered: 750
+
+6:05:49 | 27-12-2017
+ID: 252
+Units ordered: 3191
+
+6:06:11 | 27-12-2017
+ID: 252
+Units ordered: 866
+
+6:06:35 | 27-12-2017
+ID: 252
+Units ordered: 866
+
+6:08:07 | 27-12-2017
+ID: 464
+Units ordered: 700
+
+6:14:16 | 27-12-2017
+ID: 315
+Units ordered: 14
+
+7:06:18 | 27-12-2017
+ID: 344
+Units ordered: 2151
+
+7:29:30 | 27-12-2017
+ID: 1775
+Units ordered: 149
+
+7:50:55 | 27-12-2017
+ID: 575
+Units ordered: 2100
+
+8:48:36 | 27-12-2017
+ID: 1725
+Units ordered: 40
+
+9:12:41 | 27-12-2017
+ID: 1224
+Units ordered: 87
+
+9:13:08 | 27-12-2017
+ID: 1224
+Units ordered: 65
+
+9:18:58 | 27-12-2017
+ID: 1086
+Units ordered: 600
+
+9:19:24 | 27-12-2017
+ID: 1086
+Units ordered: 400
+
+9:36:49 | 27-12-2017
+ID: 252
+Units ordered: 33
+
+9:45:02 | 27-12-2017
+ID: 1225
+Units ordered: 530
+
+9:48:30 | 27-12-2017
+ID: 1952
+Units ordered: 112
+
+9:48:51 | 27-12-2017
+ID: 252
+Units ordered: 3464
+
+9:52:57 | 27-12-2017
+ID: 344
+Units ordered: 846
+
+10:01:45 | 27-12-2017
+ID: 686
+Units ordered: 304
+
+10:03:47 | 27-12-2017
+ID: 1786
+Units ordered: 35
+
+10:06:38 | 27-12-2017
+ID: 344
+Units ordered: 119
+
+10:07:55 | 27-12-2017
+ID: 1062
+Units ordered: 100
+
+10:15:55 | 27-12-2017
+ID: 235
+Units ordered: 223
+
+10:16:02 | 27-12-2017
+ID: 1725
+Units ordered: 25
+
+10:17:15 | 27-12-2017
+ID: 1964
+Units ordered: 921
+
+10:20:28 | 27-12-2017
+ID: 1964
+Units ordered: 208
+
+10:26:13 | 27-12-2017
+ID: 1843
+Units ordered: 120
+
+10:36:35 | 27-12-2017
+ID: 575
+Units ordered: 697
+
+10:44:57 | 27-12-2017
+ID: 1322
+Units ordered: 4800
+
+10:49:18 | 27-12-2017
+ID: 1322
+Units ordered: 3600
+
+10:50:23 | 27-12-2017
+ID: 1225
+Units ordered: 3318
+
+10:51:04 | 27-12-2017
+ID: 1225
+Units ordered: 827
+
+10:51:48 | 27-12-2017
+ID: 1219
+Units ordered: 6650
+
+10:54:23 | 27-12-2017
+ID: 1322
+Units ordered: 1500
+
+10:54:24 | 27-12-2017
+ID: 1314
+Units ordered: 4863
+
+10:55:02 | 27-12-2017
+ID: 1343
+Units ordered: 2000
+
+10:55:17 | 27-12-2017
+ID: 1343
+Units ordered: 783
+
+10:56:35 | 27-12-2017
+ID: 590
+Units ordered: 1075
+
+11:01:18 | 27-12-2017
+ID: 1775
+Units ordered: 215
+
+11:05:45 | 27-12-2017
+ID: 1062
+Units ordered: 1120
+
+11:06:15 | 27-12-2017
+ID: 1383
+Units ordered: 44
+
+11:06:19 | 27-12-2017
+ID: 1383
+Units ordered: 1
+
+11:08:23 | 27-12-2017
+ID: 686
+Units ordered: 418
+
+11:13:20 | 27-12-2017
+ID: 1964
+Units ordered: 307
+
+11:13:34 | 27-12-2017
+ID: 1385
+Units ordered: 319
+
+11:14:43 | 27-12-2017
+ID: 1385
+Units ordered: 244
+
+11:19:08 | 27-12-2017
+ID: 1843
+Units ordered: 1080
+
+11:22:01 | 27-12-2017
+ID: 1918
+Units ordered: 880
+
+11:23:12 | 27-12-2017
+ID: 1918
+Units ordered: 101
+
+11:29:39 | 27-12-2017
+ID: 1891
+Units ordered: 100
+
+11:49:28 | 27-12-2017
+ID: 344
+Units ordered: 931
+
+12:04:05 | 27-12-2017
+ID: 481
+Units ordered: 4496
+
+12:05:26 | 27-12-2017
+ID: 481
+Units ordered: 2500
+
+12:06:03 | 27-12-2017
+ID: 1910
+Units ordered: 142
+
+12:06:21 | 27-12-2017
+ID: 481
+Units ordered: 510
+
+12:13:38 | 27-12-2017
+ID: 1981
+Units ordered: 316
+
+12:38:28 | 27-12-2017
+ID: 475
+Units ordered: 600
+
+12:42:23 | 27-12-2017
+ID: 43
+Units ordered: 7
+
+13:33:53 | 27-12-2017
+ID: 1400
+Units ordered: 240
+
+13:41:37 | 27-12-2017
+ID: 1843
+Units ordered: 867
+
+13:43:03 | 27-12-2017
+ID: 1843
+Units ordered: 136
+
+14:12:46 | 27-12-2017
+ID: 575
+Units ordered: 22
+
+14:25:46 | 27-12-2017
+ID: 315
+Units ordered: 62
+
+14:38:51 | 27-12-2017
+ID: 344
+Units ordered: 450
+
+14:48:09 | 27-12-2017
+ID: 1383
+Units ordered: 92
+
+14:56:46 | 27-12-2017
+ID: 73
+Units ordered: 209
+
+15:01:11 | 27-12-2017
+ID: 1314
+Units ordered: 2653
+
+15:03:34 | 27-12-2017
+ID: 1343
+Units ordered: 1744
+
+15:04:58 | 27-12-2017
+ID: 1225
+Units ordered: 436
+
+15:05:22 | 27-12-2017
+ID: 1219
+Units ordered: 6500
+
+15:10:05 | 27-12-2017
+ID: 1322
+Units ordered: 4510
+
+15:46:58 | 27-12-2017
+ID: 433
+Units ordered: 89
+
+15:50:20 | 27-12-2017
+ID: 1910
+Units ordered: 79
+
+16:02:47 | 27-12-2017
+ID: 464
+Units ordered: 500
+
+16:05:31 | 27-12-2017
+ID: 1759
+Units ordered: 10
+
+16:05:47 | 27-12-2017
+ID: 1759
+Units ordered: 10
+
+16:06:04 | 27-12-2017
+ID: 1759
+Units ordered: 10
+
+16:06:21 | 27-12-2017
+ID: 1759
+Units ordered: 10
+
+16:06:50 | 27-12-2017
+ID: 1759
+Units ordered: 20
+
+16:07:06 | 27-12-2017
+ID: 1759
+Units ordered: 20
+
+16:07:22 | 27-12-2017
+ID: 1759
+Units ordered: 20
+
+16:07:47 | 27-12-2017
+ID: 1759
+Units ordered: 20
+
+16:07:59 | 27-12-2017
+ID: 1378
+Units ordered: 1005
+
+16:08:07 | 27-12-2017
+ID: 1759
+Units ordered: 20
+
+16:08:35 | 27-12-2017
+ID: 1759
+Units ordered: 20
+
+16:09:02 | 27-12-2017
+ID: 1759
+Units ordered: 20
+
+16:09:24 | 27-12-2017
+ID: 1759
+Units ordered: 20
+
+16:09:46 | 27-12-2017
+ID: 1759
+Units ordered: 20
+
+16:10:01 | 27-12-2017
+ID: 1759
+Units ordered: 20
+
+16:10:21 | 27-12-2017
+ID: 1759
+Units ordered: 20
+
+16:35:13 | 27-12-2017
+ID: 1910
+Units ordered: 11
+
+16:44:46 | 27-12-2017
+ID: 1383
+Units ordered: 62
+
+16:45:40 | 27-12-2017
+ID: 1775
+Units ordered: 230
+
+16:45:50 | 27-12-2017
+ID: 1383
+Units ordered: 64
+
+16:46:59 | 27-12-2017
+ID: 1843
+Units ordered: 64
+
+17:04:53 | 27-12-2017
+ID: 1775
+Units ordered: 100
+
+17:12:34 | 27-12-2017
+ID: 1383
+Units ordered: 23
+
+17:18:46 | 27-12-2017
+ID: 1319
+Units ordered: 1636
+
+17:19:32 | 27-12-2017
+ID: 1319
+Units ordered: 764
+
+17:21:42 | 27-12-2017
+ID: 1319
+Units ordered: 350
+
+17:22:58 | 27-12-2017
+ID: 1383
+Units ordered: 7
+
+17:24:16 | 27-12-2017
+ID: 1383
+Units ordered: 63
+
+17:24:36 | 27-12-2017
+ID: 1383
+Units ordered: 86
+
+17:32:08 | 27-12-2017
+ID: 1383
+Units ordered: 100
+
+17:37:42 | 27-12-2017
+ID: 686
+Units ordered: 810
+
+17:38:03 | 27-12-2017
+ID: 1775
+Units ordered: 220
+
+17:42:48 | 27-12-2017
+ID: 1923
+Units ordered: 96
+
+18:06:00 | 27-12-2017
+ID: 43
+Units ordered: 41
+
+18:18:30 | 27-12-2017
+ID: 1775
+Units ordered: 63
+
+18:25:37 | 27-12-2017
+ID: 1775
+Units ordered: 46
+
+18:36:46 | 27-12-2017
+ID: 1385
+Units ordered: 202
+
+18:45:25 | 27-12-2017
+ID: 402
+Units ordered: 1350
+
+18:47:20 | 27-12-2017
+ID: 1086
+Units ordered: 250
+
+18:47:33 | 27-12-2017
+ID: 1086
+Units ordered: 100
+
+18:53:55 | 27-12-2017
+ID: 1891
+Units ordered: 80
+
+18:58:13 | 27-12-2017
+ID: 1843
+Units ordered: 58
+
+19:06:51 | 27-12-2017
+ID: 43
+Units ordered: 24
+
+19:17:14 | 27-12-2017
+ID: 317
+Units ordered: 348
+
+19:32:12 | 27-12-2017
+ID: 1383
+Units ordered: 75
+
+19:34:03 | 27-12-2017
+ID: 1052
+Units ordered: 927
+
+19:38:18 | 27-12-2017
+ID: 1400
+Units ordered: 120
+
+20:11:07 | 27-12-2017
+ID: 1759
+Units ordered: 197
+
+20:11:21 | 27-12-2017
+ID: 1759
+Units ordered: 148
+
+20:11:37 | 27-12-2017
+ID: 1759
+Units ordered: 111
+
+20:11:52 | 27-12-2017
+ID: 1759
+Units ordered: 83
+
+20:12:08 | 27-12-2017
+ID: 1759
+Units ordered: 62
+
+20:12:23 | 27-12-2017
+ID: 1759
+Units ordered: 47
+
+20:14:08 | 27-12-2017
+ID: 1969
+Units ordered: 93
+
+20:17:32 | 27-12-2017
+ID: 1224
+Units ordered: 20
+
+20:17:32 | 27-12-2017
+ID: 1224
+Units ordered: 90
+
+20:22:16 | 27-12-2017
+ID: 1224
+Units ordered: 15
+
+20:41:27 | 27-12-2017
+ID: 1383
+Units ordered: 50
+
+20:41:45 | 27-12-2017
+ID: 1383
+Units ordered: 115
+
+20:52:00 | 27-12-2017
+ID: 252
+Units ordered: 385
+
+20:54:07 | 27-12-2017
+ID: 1383
+Units ordered: 1
+
+21:04:17 | 27-12-2017
+ID: 1086
+Units ordered: 50
+
+21:04:17 | 27-12-2017
+ID: 1086
+Units ordered: 50
+
+21:04:18 | 27-12-2017
+ID: 1086
+Units ordered: 50
+
+21:04:18 | 27-12-2017
+ID: 1086
+Units ordered: 100
+
+21:11:55 | 27-12-2017
+ID: 433
+Units ordered: 100
+
+21:24:32 | 27-12-2017
+ID: 1799
+Units ordered: 40
+
+21:45:44 | 27-12-2017
+ID: 43
+Units ordered: 48
+
+21:56:48 | 27-12-2017
+ID: 1759
+Units ordered: 33
+
+21:56:52 | 27-12-2017
+ID: 1383
+Units ordered: 165
+
+21:59:58 | 27-12-2017
+ID: 1759
+Units ordered: 56
+
+22:07:49 | 27-12-2017
+ID: 1203
+Units ordered: 1074
+
+22:08:12 | 27-12-2017
+ID: 1385
+Units ordered: 294
+
+22:14:35 | 27-12-2017
+ID: 1616
+Units ordered: 500
+
+22:14:48 | 27-12-2017
+ID: 1616
+Units ordered: 500
+
+22:15:48 | 27-12-2017
+ID: 1952
+Units ordered: 80
+
+22:15:49 | 27-12-2017
+ID: 1952
+Units ordered: 80
+
+22:16:35 | 27-12-2017
+ID: 433
+Units ordered: 160
+
+22:37:53 | 27-12-2017
+ID: 1219
+Units ordered: 5000
+
+22:41:44 | 27-12-2017
+ID: 1219
+Units ordered: 500
+
+22:43:48 | 27-12-2017
+ID: 1967
+Units ordered: 2
+
+22:43:48 | 27-12-2017
+ID: 1967
+Units ordered: 10
+
+22:43:49 | 27-12-2017
+ID: 1967
+Units ordered: 200
+
+22:43:49 | 27-12-2017
+ID: 1967
+Units ordered: 200
+
+22:46:37 | 27-12-2017
+ID: 1939
+Units ordered: 24
+
+22:47:16 | 27-12-2017
+ID: 1383
+Units ordered: 40
+
+22:50:28 | 27-12-2017
+ID: 1775
+Units ordered: 36
+
+22:51:05 | 27-12-2017
+ID: 1939
+Units ordered: 127
+
+22:58:36 | 27-12-2017
+ID: 1910
+Units ordered: 61
+
+23:03:44 | 27-12-2017
+ID: 1799
+Units ordered: 109
+
+23:05:48 | 27-12-2017
+ID: 1799
+Units ordered: 768
+
+23:05:58 | 27-12-2017
+ID: 1322
+Units ordered: 3959
+
+23:14:46 | 27-12-2017
+ID: 43
+Units ordered: 48
+
+23:33:29 | 27-12-2017
+ID: 252
+Units ordered: 985
+
+23:33:55 | 27-12-2017
+ID: 1775
+Units ordered: 378
+
+23:39:53 | 27-12-2017
+ID: 179
+Units ordered: 291
+
+23:40:35 | 27-12-2017
+ID: 179
+Units ordered: 400
+
+23:46:41 | 27-12-2017
+ID: 1201
+Units ordered: 208
+
+0:07:32 | 28-12-2017
+ID: 1918
+Units ordered: 581
+
+0:12:20 | 28-12-2017
+ID: 1841
+Units ordered: 300
+
+0:17:35 | 28-12-2017
+ID: 1967
+Units ordered: 52
+
+0:18:34 | 28-12-2017
+ID: 1969
+Units ordered: 95
+
+0:42:44 | 28-12-2017
+ID: 1744
+Units ordered: 1000
+
+0:42:44 | 28-12-2017
+ID: 1744
+Units ordered: 1000
+
+0:56:06 | 28-12-2017
+ID: 402
+Units ordered: 1000
+
+1:09:38 | 28-12-2017
+ID: 1858
+Units ordered: 49
+
+1:25:24 | 28-12-2017
+ID: 1910
+Units ordered: 36
+
+1:52:19 | 28-12-2017
+ID: 1843
+Units ordered: 235
+
+2:18:28 | 28-12-2017
+ID: 1858
+Units ordered: 42
+
+2:20:26 | 28-12-2017
+ID: 1759
+Units ordered: 65
+
+2:23:53 | 28-12-2017
+ID: 1759
+Units ordered: 105
+
+2:24:18 | 28-12-2017
+ID: 1759
+Units ordered: 79
+
+2:24:39 | 28-12-2017
+ID: 1759
+Units ordered: 59
+
+2:35:11 | 28-12-2017
+ID: 1969
+Units ordered: 72
+
+2:35:13 | 28-12-2017
+ID: 1882
+Units ordered: 600
+
+2:35:27 | 28-12-2017
+ID: 1882
+Units ordered: 770
+
+2:51:06 | 28-12-2017
+ID: 686
+Units ordered: 362
+
+2:51:38 | 28-12-2017
+ID: 686
+Units ordered: 129
+
+3:29:03 | 28-12-2017
+ID: 1385
+Units ordered: 539
+
+3:39:25 | 28-12-2017
+ID: 1858
+Units ordered: 18
+
+3:46:30 | 28-12-2017
+ID: 1744
+Units ordered: 341
+
+3:46:48 | 28-12-2017
+ID: 1319
+Units ordered: 587
+
+4:09:21 | 28-12-2017
+ID: 1224
+Units ordered: 85
+
+4:09:57 | 28-12-2017
+ID: 1224
+Units ordered: 85
+
+4:10:34 | 28-12-2017
+ID: 1224
+Units ordered: 85
+
+4:11:21 | 28-12-2017
+ID: 1224
+Units ordered: 100
+
+4:11:56 | 28-12-2017
+ID: 1224
+Units ordered: 185
+
+4:12:24 | 28-12-2017
+ID: 1224
+Units ordered: 174
+
+4:12:55 | 28-12-2017
+ID: 1224
+Units ordered: 131
+
+4:13:25 | 28-12-2017
+ID: 1224
+Units ordered: 98
+
+5:30:38 | 28-12-2017
+ID: 1385
+Units ordered: 966
+
+5:32:40 | 28-12-2017
+ID: 464
+Units ordered: 1372
+
+5:34:48 | 28-12-2017
+ID: 1385
+Units ordered: 196
+
+5:47:30 | 28-12-2017
+ID: 1858
+Units ordered: 40
+
+5:47:48 | 28-12-2017
+ID: 1858
+Units ordered: 13
+
+5:50:43 | 28-12-2017
+ID: 1780
+Units ordered: 249
+
+5:57:25 | 28-12-2017
+ID: 1383
+Units ordered: 847
+
+5:57:56 | 28-12-2017
+ID: 1383
+Units ordered: 104
+
+6:03:38 | 28-12-2017
+ID: 1858
+Units ordered: 17
+
+6:03:39 | 28-12-2017
+ID: 43
+Units ordered: 19
+
+6:05:16 | 28-12-2017
+ID: 1383
+Units ordered: 27
+
+6:08:06 | 28-12-2017
+ID: 1383
+Units ordered: 222
+
+6:08:48 | 28-12-2017
+ID: 1383
+Units ordered: 100
+
+6:26:42 | 28-12-2017
+ID: 1939
+Units ordered: 6
+
+6:26:42 | 28-12-2017
+ID: 1939
+Units ordered: 50
+
+6:32:50 | 28-12-2017
+ID: 1219
+Units ordered: 5000
+
+6:33:29 | 28-12-2017
+ID: 1219
+Units ordered: 700
+
+6:40:13 | 28-12-2017
+ID: 1400
+Units ordered: 160
+
+6:41:18 | 28-12-2017
+ID: 252
+Units ordered: 598
+
+6:42:02 | 28-12-2017
+ID: 252
+Units ordered: 200
+
+6:43:01 | 28-12-2017
+ID: 252
+Units ordered: 332
+
+6:47:14 | 28-12-2017
+ID: 481
+Units ordered: 1700
+
+6:52:40 | 28-12-2017
+ID: 1378
+Units ordered: 529
+
+6:59:34 | 28-12-2017
+ID: 317
+Units ordered: 229
+
+7:40:49 | 28-12-2017
+ID: 1775
+Units ordered: 50
+
+7:44:06 | 28-12-2017
+ID: 1201
+Units ordered: 391
+
+7:46:42 | 28-12-2017
+ID: 1383
+Units ordered: 82
+
+7:50:56 | 28-12-2017
+ID: 1343
+Units ordered: 1500
+
+7:50:56 | 28-12-2017
+ID: 1343
+Units ordered: 1500
+
+7:52:23 | 28-12-2017
+ID: 1343
+Units ordered: 300
+
+7:52:23 | 28-12-2017
+ID: 1343
+Units ordered: 300
+
+7:52:23 | 28-12-2017
+ID: 1343
+Units ordered: 200
+
+7:54:15 | 28-12-2017
+ID: 1343
+Units ordered: 200
+
+7:54:15 | 28-12-2017
+ID: 1343
+Units ordered: 300
+
+7:54:34 | 28-12-2017
+ID: 1343
+Units ordered: 194
+
+7:58:16 | 28-12-2017
+ID: 575
+Units ordered: 626
+
+8:03:45 | 28-12-2017
+ID: 1314
+Units ordered: 6080
+
+8:04:48 | 28-12-2017
+ID: 1314
+Units ordered: 1134
+
+8:14:32 | 28-12-2017
+ID: 1062
+Units ordered: 533
+
+8:19:01 | 28-12-2017
+ID: 433
+Units ordered: 250
+
+8:21:01 | 28-12-2017
+ID: 1224
+Units ordered: 68
+
+8:22:11 | 28-12-2017
+ID: 1224
+Units ordered: 51
+
+8:24:22 | 28-12-2017
+ID: 1775
+Units ordered: 56
+
+8:26:36 | 28-12-2017
+ID: 1725
+Units ordered: 300
+
+8:30:37 | 28-12-2017
+ID: 1759
+Units ordered: 30
+
+8:30:45 | 28-12-2017
+ID: 1759
+Units ordered: 74
+
+8:31:01 | 28-12-2017
+ID: 252
+Units ordered: 120
+
+8:35:25 | 28-12-2017
+ID: 1086
+Units ordered: 100
+
+8:35:50 | 28-12-2017
+ID: 1224
+Units ordered: 82
+
+8:36:03 | 28-12-2017
+ID: 1224
+Units ordered: 62
+
+8:36:24 | 28-12-2017
+ID: 1086
+Units ordered: 200
+
+8:37:30 | 28-12-2017
+ID: 1086
+Units ordered: 100
+
+8:39:46 | 28-12-2017
+ID: 1224
+Units ordered: 105
+
+8:40:00 | 28-12-2017
+ID: 1224
+Units ordered: 79
+
+8:40:12 | 28-12-2017
+ID: 1224
+Units ordered: 59
+
+8:41:53 | 28-12-2017
+ID: 1964
+Units ordered: 101
+
+8:43:57 | 28-12-2017
+ID: 1910
+Units ordered: 83
+
+8:45:59 | 28-12-2017
+ID: 252
+Units ordered: 61
+
+8:48:27 | 28-12-2017
+ID: 1225
+Units ordered: 4398
+
+8:55:58 | 28-12-2017
+ID: 1062
+Units ordered: 400
+
+10:01:09 | 28-12-2017
+ID: 1400
+Units ordered: 50
+
+10:01:14 | 28-12-2017
+ID: 1400
+Units ordered: 50
+
+10:03:24 | 28-12-2017
+ID: 433
+Units ordered: 100
+
+10:25:40 | 28-12-2017
+ID: 1799
+Units ordered: 146
+
+10:27:47 | 28-12-2017
+ID: 1201
+Units ordered: 100
+
+10:28:01 | 28-12-2017
+ID: 1201
+Units ordered: 88
+
+10:31:19 | 28-12-2017
+ID: 1052
+Units ordered: 133
+
+11:24:12 | 28-12-2017
+ID: 590
+Units ordered: 919
+
+12:02:17 | 28-12-2017
+ID: 1343
+Units ordered: 100
+
+12:02:17 | 28-12-2017
+ID: 1343
+Units ordered: 100
+
+12:05:41 | 28-12-2017
+ID: 1343
+Units ordered: 100
+
+12:05:42 | 28-12-2017
+ID: 1343
+Units ordered: 300
+
+12:05:42 | 28-12-2017
+ID: 1343
+Units ordered: 300
+
+12:12:45 | 28-12-2017
+ID: 1383
+Units ordered: 78
+
+12:24:10 | 28-12-2017
+ID: 1964
+Units ordered: 401
+
+12:26:41 | 28-12-2017
+ID: 1219
+Units ordered: 5500
+
+12:28:53 | 28-12-2017
+ID: 1843
+Units ordered: 210
+
+12:30:01 | 28-12-2017
+ID: 1203
+Units ordered: 153
+
+12:30:28 | 28-12-2017
+ID: 43
+Units ordered: 55
+
+12:31:30 | 28-12-2017
+ID: 1843
+Units ordered: 351
+
+12:32:22 | 28-12-2017
+ID: 1981
+Units ordered: 253
+
+12:40:58 | 28-12-2017
+ID: 1948
+Units ordered: 150
+
+12:44:01 | 28-12-2017
+ID: 1400
+Units ordered: 65
+
+12:44:51 | 28-12-2017
+ID: 368
+Units ordered: 112
+
+13:27:21 | 28-12-2017
+ID: 1383
+Units ordered: 37
+
+13:41:41 | 28-12-2017
+ID: 1062
+Units ordered: 100
+
+13:41:54 | 28-12-2017
+ID: 1062
+Units ordered: 50
+
+13:44:45 | 28-12-2017
+ID: 1062
+Units ordered: 50
+
+14:02:00 | 28-12-2017
+ID: 1775
+Units ordered: 213
+

@@ -20,6 +20,15 @@ $user_ID = get_current_user_id();
 
 $uploadedfile = $_FILES['file'];
 
+if(isset($_FILES['file'])) {
+    if($_FILES['file']['size'] > 150000) { //200 KB (size is also in bytes)
+	    
+	    $_SESSION['status'] = 'Maximum file size is 150KB';
+	    wp_redirect(get_permalink(6570));
+	    exit;
+
+    }}
+
 $upload_overrides = array( 'test_form' => false );
 
 $movefile = wp_handle_upload($uploadedfile, $upload_overrides);

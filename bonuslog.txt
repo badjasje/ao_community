@@ -3906,3 +3906,455 @@ New Money: 2103333 Old turns: 243 | New Turns: 331
 User ID: 522 Event ID: 644807
 New Money: 2686666 Old turns: 331 | New Turns: 419
 
+11:04:50 | 17-12-2017
+User ID: 1443 Event ID: 653033
+New Money: 533039 Old turns: 29 | New Turns: 117
+
+11:33:12 | 17-12-2017
+User ID: 1439 Event ID: 653034
+New Money: 454149.5 Old turns: 33 | New Turns: 121
+
+14:04:00 | 17-12-2017
+User ID: 1841 Event ID: 652336
+New Money: 354754 Old turns: 154 | New Turns: 212
+
+14:05:54 | 17-12-2017
+User ID: 1029 Event ID: 652333
+New Money: 299627 Old turns: 165 | New Turns: 223
+
+21:09:29 | 17-12-2017
+User ID: 1725 Event ID: 653035
+New Money: 628525 Old turns: 97 | New Turns: 185
+
+22:09:12 | 17-12-2017
+User ID: 1843 Event ID: 652335
+New Money: 332888 Old turns: 38 | New Turns: 96
+
+22:36:42 | 17-12-2017
+User ID: 1786 Event ID: 652334
+New Money: 514214 Old turns: 63 | New Turns: 121
+
+1:53:32 | 18-12-2017
+User ID: 641 Event ID: 653032
+New Money: 446118.25 Old turns: 194 | New Turns: 282
+
+20:15:58 | 18-12-2017
+User ID: 1616 Event ID: 655833
+New Money: 1026743.55 Old turns: 13 | New Turns: 130
+
+20:16:41 | 18-12-2017
+User ID: 575 Event ID: 655831
+New Money: 659046 Old turns: 6 | New Turns: 123
+
+21:06:51 | 18-12-2017
+User ID: 590 Event ID: 655832
+New Money: 905063 Old turns: 1 | New Turns: 118
+
+23:59:38 | 18-12-2017
+User ID: 1841 Event ID: 653470
+New Money: 828769.5 Old turns: 164 | New Turns: 252
+
+0:04:37 | 19-12-2017
+User ID: 1843 Event ID: 653469
+New Money: 731906 Old turns: 4 | New Turns: 92
+
+0:35:45 | 19-12-2017
+User ID: 686 Event ID: 656173
+New Money: 980781 Old turns: 0 | New Turns: 58
+
+6:48:05 | 19-12-2017
+User ID: 1319 Event ID: 656168
+New Money: 651935 Old turns: 38 | New Turns: 96
+
+7:58:51 | 19-12-2017
+User ID: 1383 Event ID: 656172
+New Money: 297747 Old turns: 79 | New Turns: 137
+
+8:12:28 | 19-12-2017
+User ID: 1385 Event ID: 656169
+New Money: 436649 Old turns: 95 | New Turns: 153
+
+8:13:02 | 19-12-2017
+User ID: 1203 Event ID: 656170
+New Money: 457616 Old turns: 46 | New Turns: 104
+
+8:15:35 | 19-12-2017
+User ID: 1201 Event ID: 656171
+New Money: 686364 Old turns: 5 | New Turns: 63
+
+12:14:16 | 19-12-2017
+User ID: 1923 Event ID: 655943
+New Money: 2099321 Old turns: 112 | New Turns: 287
+
+14:22:55 | 19-12-2017
+User ID: 1918 Event ID: 653471
+New Money: 587916 Old turns: 116 | New Turns: 204
+
+18:07:29 | 19-12-2017
+User ID: 1891 Event ID: 655942
+New Money: 1007350 Old turns: 115 | New Turns: 290
+
+18:42:03 | 19-12-2017
+User ID: 1319 Event ID: 657344
+New Money: 701892 Old turns: 4 | New Turns: 92
+
+21:13:13 | 19-12-2017
+User ID: 60 Event ID: 657655
+New Money: 547099 Old turns: 1 | New Turns: 89
+
+23:29:35 | 19-12-2017
+User ID: 1379 Event ID: 657658
+New Money: 825915 Old turns: 161 | New Turns: 249
+
+2:27:09 | 20-12-2017
+User ID: 1786 Event ID: 656592
+New Money: 1133393 Old turns: 45 | New Turns: 133
+
+9:38:00 | 20-12-2017
+User ID: 1443 Event ID: 658325
+New Money: 887252 Old turns: 72 | New Turns: 203
+
+13:05:37 | 20-12-2017
+User ID: 686 Event ID: 657349
+New Money: 1055864 Old turns: 4 | New Turns: 92
+
+14:15:35 | 20-12-2017
+User ID: 1439 Event ID: 658326
+New Money: 1018974 Old turns: 0 | New Turns: 131
+
+18:26:40 | 20-12-2017
+User ID: 1843 Event ID: 656593
+New Money: 2232213 Old turns: 31 | New Turns: 119
+
+1:33:06 | 21-12-2017
+User ID: 1383 Event ID: 657348
+New Money: 592524 Old turns: 78 | New Turns: 166
+
+1:49:40 | 21-12-2017
+User ID: 1029 Event ID: 656591
+New Money: 3395070 Old turns: 107 | New Turns: 195
+
+1:56:36 | 21-12-2017
+User ID: 1918 Event ID: 656595
+New Money: 620714 Old turns: 136 | New Turns: 224
+
+1:57:22 | 21-12-2017
+User ID: 1841 Event ID: 656594
+New Money: 1186229.5 Old turns: 143 | New Turns: 231
+
+2:05:19 | 21-12-2017
+User ID: 1385 Event ID: 657345
+New Money: 1705698 Old turns: 23 | New Turns: 111
+
+6:51:20 | 21-12-2017
+User ID: 504 Event ID: 657657
+New Money: 1182500 Old turns: 203 | New Turns: 291
+
+9:47:03 | 21-12-2017
+User ID: 615 Event ID: 656590
+New Money: 2633333 Old turns: 242 | New Turns: 330
+
+9:49:32 | 21-12-2017
+User ID: 1029 Event ID: 660430
+New Money: 1155587 Old turns: 9 | New Turns: 97
+
+12:35:36 | 21-12-2017
+User ID: 1841 Event ID: 660433
+New Money: 663269.5 Old turns: 81 | New Turns: 169
+
+15:51:01 | 21-12-2017
+User ID: 234 Event ID: 660965
+New Money: 350492 Old turns: 13 | New Turns: 83
+
+19:04:19 | 21-12-2017
+User ID: 487 Event ID: 660968
+New Money: 500000 Old turns: 101 | New Turns: 171
+
+21:05:32 | 21-12-2017
+User ID: 1923 Event ID: 661176
+New Money: 1750112 Old turns: 20 | New Turns: 283
+
+23:17:00 | 21-12-2017
+User ID: 615 Event ID: 660429
+New Money: 628003 Old turns: 46 | New Turns: 134
+
+11:47:26 | 22-12-2017
+User ID: 575 Event ID: 661799
+New Money: 1815257 Old turns: 35 | New Turns: 210
+
+13:25:29 | 22-12-2017
+User ID: 590 Event ID: 661800
+New Money: 1342397.5 Old turns: 25 | New Turns: 200
+
+15:51:16 | 22-12-2017
+User ID: 1843 Event ID: 660432
+New Money: 607813 Old turns: 133 | New Turns: 221
+
+16:45:34 | 22-12-2017
+User ID: 1616 Event ID: 661801
+New Money: 1771506.55 Old turns: 6 | New Turns: 181
+
+18:36:28 | 22-12-2017
+User ID: 315 Event ID: 661350
+New Money: 984088 Old turns: 37 | New Turns: 212
+
+19:10:22 | 22-12-2017
+User ID: 102 Event ID: 660966
+New Money: 417717 Old turns: 66 | New Turns: 136
+
+0:43:49 | 23-12-2017
+User ID: 235 Event ID: 661351
+New Money: 1080206 Old turns: 56 | New Turns: 231
+
+2:27:49 | 23-12-2017
+User ID: 1786 Event ID: 660431
+New Money: 656052 Old turns: 130 | New Turns: 218
+
+8:16:35 | 23-12-2017
+User ID: 1918 Event ID: 660434
+New Money: 583587 Old turns: 89 | New Turns: 177
+
+10:10:17 | 23-12-2017
+User ID: 1201 Event ID: 663853
+New Money: 865624.1 Old turns: 22 | New Turns: 110
+
+10:18:53 | 23-12-2017
+User ID: 1385 Event ID: 663851
+New Money: 667333.5 Old turns: 1 | New Turns: 89
+
+14:54:42 | 23-12-2017
+User ID: 1744 Event ID: 663450
+New Money: 875626 Old turns: 98 | New Turns: 273
+
+21:48:41 | 23-12-2017
+User ID: 1379 Event ID: 664774
+New Money: 2863665 Old turns: 227 | New Turns: 358
+
+22:12:25 | 23-12-2017
+User ID: 686 Event ID: 663855
+New Money: 597022 Old turns: 118 | New Turns: 206
+
+22:25:36 | 23-12-2017
+User ID: 1203 Event ID: 663852
+New Money: 583822.6 Old turns: 35 | New Turns: 123
+
+22:46:43 | 23-12-2017
+User ID: 1319 Event ID: 663850
+New Money: 596375 Old turns: 17 | New Turns: 105
+
+7:12:26 | 24-12-2017
+User ID: 1029 Event ID: 663887
+New Money: 749787.75 Old turns: 1 | New Turns: 89
+
+12:27:16 | 24-12-2017
+User ID: 1775 Event ID: 663452
+New Money: 1744729.45 Old turns: 68 | New Turns: 243
+
+16:53:35 | 24-12-2017
+User ID: 1843 Event ID: 663889
+New Money: 1044613 Old turns: 23 | New Turns: 111
+
+17:16:12 | 24-12-2017
+User ID: 1201 Event ID: 666490
+New Money: 617291.3 Old turns: 10 | New Turns: 98
+
+17:40:08 | 24-12-2017
+User ID: 315 Event ID: 665308
+New Money: 1862839 Old turns: 87 | New Turns: 350
+
+17:42:49 | 24-12-2017
+User ID: 235 Event ID: 665309
+New Money: 2047369 Old turns: 108 | New Turns: 371
+
+18:21:26 | 24-12-2017
+User ID: 686 Event ID: 666492
+New Money: 1039781 Old turns: 73 | New Turns: 161
+
+20:21:33 | 24-12-2017
+User ID: 1219 Event ID: 666291
+New Money: 358819 Old turns: 143 | New Turns: 201
+
+21:49:18 | 24-12-2017
+User ID: 1385 Event ID: 666488
+New Money: 908119.75 Old turns: 38 | New Turns: 126
+
+8:38:53 | 25-12-2017
+User ID: 1383 Event ID: 663854
+New Money: 583826.5 Old turns: 17 | New Turns: 105
+
+9:04:00 | 25-12-2017
+User ID: 60 Event ID: 664771
+New Money: 1370000 Old turns: 208 | New Turns: 339
+
+10:08:44 | 25-12-2017
+User ID: 1343 Event ID: 666289
+New Money: 466102.75 Old turns: 92 | New Turns: 150
+
+10:08:48 | 25-12-2017
+User ID: 1343 Event ID: 667429
+New Money: 1049435.75 Old turns: 150 | New Turns: 238
+
+10:30:53 | 25-12-2017
+User ID: 1314 Event ID: 666288
+New Money: 347569 Old turns: 238 | New Turns: 296
+
+10:32:24 | 25-12-2017
+User ID: 1314 Event ID: 667428
+New Money: 598252 Old turns: 242 | New Turns: 330
+
+11:25:05 | 25-12-2017
+User ID: 481 Event ID: 666292
+New Money: 678421.75 Old turns: 178 | New Turns: 236
+
+11:25:09 | 25-12-2017
+User ID: 481 Event ID: 667432
+New Money: 1261754.75 Old turns: 236 | New Turns: 324
+
+11:30:21 | 25-12-2017
+User ID: 1203 Event ID: 666489
+New Money: 671454.8 Old turns: 4 | New Turns: 92
+
+14:13:08 | 25-12-2017
+User ID: 1225 Event ID: 666287
+New Money: 777663.5 Old turns: 139 | New Turns: 197
+
+14:29:13 | 25-12-2017
+User ID: 1319 Event ID: 666487
+New Money: 832106 Old turns: 8 | New Turns: 96
+
+18:31:41 | 25-12-2017
+User ID: 1843 Event ID: 668002
+New Money: 586041.5 Old turns: 53 | New Turns: 141
+
+20:34:51 | 25-12-2017
+User ID: 615 Event ID: 667999
+New Money: 3158971 Old turns: 34 | New Turns: 122
+
+22:09:09 | 25-12-2017
+User ID: 686 Event ID: 668748
+New Money: 694988.6 Old turns: 69 | New Turns: 157
+
+5:57:49 | 26-12-2017
+User ID: 1219 Event ID: 667431
+New Money: 685536 Old turns: 206 | New Turns: 294
+
+8:32:33 | 26-12-2017
+User ID: 1201 Event ID: 668746
+New Money: 849364.3 Old turns: 22 | New Turns: 110
+
+10:21:34 | 26-12-2017
+User ID: 1319 Event ID: 668743
+New Money: 610924.5 Old turns: 11 | New Turns: 99
+
+11:55:54 | 26-12-2017
+User ID: 1203 Event ID: 668745
+New Money: 613792.2 Old turns: 53 | New Turns: 141
+
+14:22:33 | 26-12-2017
+User ID: 1385 Event ID: 668744
+New Money: 584110.95 Old turns: 61 | New Turns: 149
+
+14:27:51 | 26-12-2017
+User ID: 1439 Event ID: 669537
+New Money: 918000 Old turns: 14 | New Turns: 145
+
+17:10:11 | 26-12-2017
+User ID: 1383 Event ID: 666491
+New Money: 633162.5 Old turns: 63 | New Turns: 151
+
+19:26:46 | 26-12-2017
+User ID: 1725 Event ID: 669538
+New Money: 1003998 Old turns: 57 | New Turns: 188
+
+20:14:00 | 26-12-2017
+User ID: 686 Event ID: 670793
+New Money: 777802.6 Old turns: 85 | New Turns: 173
+
+5:41:52 | 27-12-2017
+User ID: 1443 Event ID: 669536
+New Money: 1262697 Old turns: 32 | New Turns: 163
+
+7:21:08 | 27-12-2017
+User ID: 1029 Event ID: 668000
+New Money: 627011.75 Old turns: 36 | New Turns: 124
+
+8:28:49 | 27-12-2017
+User ID: 1918 Event ID: 668004
+New Money: 700422 Old turns: 10 | New Turns: 98
+
+8:53:12 | 27-12-2017
+User ID: 1201 Event ID: 670791
+New Money: 1106220.7 Old turns: 12 | New Turns: 100
+
+8:54:09 | 27-12-2017
+User ID: 641 Event ID: 669535
+New Money: 890644 Old turns: 127 | New Turns: 258
+
+10:22:13 | 27-12-2017
+User ID: 1843 Event ID: 672185
+New Money: 680193.5 Old turns: 24 | New Turns: 112
+
+11:08:56 | 27-12-2017
+User ID: 1786 Event ID: 672184
+New Money: 1033333 Old turns: 175 | New Turns: 263
+
+11:17:14 | 27-12-2017
+User ID: 344 Event ID: 672394
+New Money: 326843 Old turns: 3 | New Turns: 61
+
+12:16:07 | 27-12-2017
+User ID: 1841 Event ID: 668003
+New Money: 2739812.5 Old turns: 117 | New Turns: 205
+
+12:40:57 | 27-12-2017
+User ID: 464 Event ID: 672398
+New Money: 753223 Old turns: 33 | New Turns: 91
+
+15:09:25 | 27-12-2017
+User ID: 368 Event ID: 672395
+New Money: 327517 Old turns: 181 | New Turns: 239
+
+16:43:20 | 27-12-2017
+User ID: 1383 Event ID: 668747
+New Money: 760697.4 Old turns: 0 | New Turns: 88
+
+17:33:13 | 27-12-2017
+User ID: 1319 Event ID: 670788
+New Money: 1407808.5 Old turns: 1 | New Turns: 89
+
+21:18:20 | 27-12-2017
+User ID: 235 Event ID: 673536
+New Money: 1788198 Old turns: 0 | New Turns: 263
+
+21:30:34 | 27-12-2017
+User ID: 315 Event ID: 673535
+New Money: 2510728 Old turns: 27 | New Turns: 290
+
+0:41:36 | 28-12-2017
+User ID: 1744 Event ID: 672320
+New Money: 2142158.5 Old turns: 9 | New Turns: 272
+
+2:10:21 | 28-12-2017
+User ID: 1918 Event ID: 672187
+New Money: 614807 Old turns: 46 | New Turns: 134
+
+5:30:23 | 28-12-2017
+User ID: 1385 Event ID: 670789
+New Money: 1211885.55 Old turns: 15 | New Turns: 103
+
+6:07:27 | 28-12-2017
+User ID: 1383 Event ID: 670792
+New Money: 583767.2 Old turns: 50 | New Turns: 138
+
+8:32:47 | 28-12-2017
+User ID: 1029 Event ID: 672183
+New Money: 1084059.25 Old turns: 5 | New Turns: 93
+
+10:15:10 | 28-12-2017
+User ID: 1201 Event ID: 673956
+New Money: 699859.7 Old turns: 19 | New Turns: 107
+
+12:37:49 | 28-12-2017
+User ID: 433 Event ID: 674969
+New Money: 369998 Old turns: 38 | New Turns: 108
+

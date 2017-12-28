@@ -14,3 +14,6 @@ RewriteRule . /index.php [L]
 Order Allow,Deny
 deny from all
 </Files>
+# BEGIN WP-HUMMINGBIRD-CACHING
+
+# END WP-HUMMINGBIRD-CACHING

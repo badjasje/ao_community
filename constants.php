@@ -59,7 +59,7 @@ $RESOURCE_DICEROLL_MAX = 140;
 $DEFENSIVE_BUILDINGS = array('torpedolauncher', 'samsite', 'missileturret', 'machinegunturret');
 $ALL_TYPES = array('sea', 'air', 'veh', 'inf', 'bld');
 $UNIT_TYPES = array('sea', 'air', 'veh', 'inf');
-$SPECIAL_UNITS = array('spyplane', 'thief', 'spy','sniper');
+$SPECIAL_UNITS = array('spyplane', 'thief', 'spy','sniper','saboteur');
 
 /* damage reduction factor */
 $DAMAGE_REDUCTION_FACTOR_UNIT = 25;

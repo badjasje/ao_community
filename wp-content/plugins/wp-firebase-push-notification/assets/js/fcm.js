@@ -1,1 +1,0 @@
-$j = jQuery.noConflict();//check box at post page$j('document').ready(function(){});

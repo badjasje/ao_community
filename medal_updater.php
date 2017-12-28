@@ -91,7 +91,7 @@
     }
         
     $args = array(
-    'meta_key'     => 'attacks_made',
+    'meta_key'     => 'in_war_attacks',
     'orderby'      => 'meta_value_num',
     'order'        => 'DESC',);
     
