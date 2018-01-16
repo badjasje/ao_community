@@ -63,11 +63,7 @@ if (!is_user_logged_in() ) {
 }
 if (is_user_logged_in() ) {
 	
-$ip_address = $_SERVER["HTTP_CF_CONNECTING_IP"];
-if($ip_address == '' || empty($ip_address)){
-	echo 'Network not allowed';
-	die;
-}
+
 
 	
 	if ( in_array( $_SERVER['REQUEST_URI'], array( '/home','/home/','','/' ) ) ){
