@@ -12,6 +12,13 @@ if (get_field('game_status', 'option') == 'Live') {
     $users = get_users();
     foreach ($users as $user) {
         $userId = $user->data->ID;
+        
+        $status = get_user_meta($userId,'status',true);
+       
+		 if($status == 'banned' ){
+        	continue;
+        }
+        
         update_user_meta($userId, 'morale_lock', 1);
         AddSatPower($userId);
         AddMorale($userId, $moraleIncome);

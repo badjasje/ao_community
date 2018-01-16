@@ -19,10 +19,14 @@ remove_action( 'admin_print_styles', 'print_emoji_styles' );
 add_filter('next_posts_link_attributes', 'posts_link_attributes');
 add_filter('previous_posts_link_attributes', 'posts_link_attributes');
 
-function posts_link_attributes() {
-    return 'class="btn btn-general"';
+function ban_redirect($userId){
+	
+	$status = get_user_meta($userId,'status',true);
+	if($status == 'banned'){
+		wp_redirect(get_permalink(702260));
+	    exit;
+    }
 }
-
 
 function do_thief($level, $thieves, $snipers, $defender_money) {
 	
@@ -237,15 +241,21 @@ function get_user_name($user_ID){
 		
 		}
 	$extraStyle = '';
-	
-	if($status == 'dead' ){
+	$banned = '';
+	if($status == 'dead' || $status == 'banned' ){
 		$extraStyle = 'style="color:#ff0000"';
+		}
+	if($status == 'banned' ){
+		$banned = '<strong>banned</strong>';
 		}
 	if($status == 'nukeprotection' ){
 		$extraStyle = 'style="color:#009eff"';
 		}
-
-return "<a class='memberField' $extraStyle href='/users/profile/?id=$user_ID'>$displayName (#$user_ID)</a> $onlineStar";
+if($status == 'banned' ){
+	return "<strike><a class='memberField' $extraStyle href='/users/profile/?id=$user_ID'>$displayName (#$user_ID)</a></strike> $onlineStar $banned";
+}else{
+	return "<a class='memberField' $extraStyle href='/users/profile/?id=$user_ID'>$displayName (#$user_ID)</a> $onlineStar $banned";
+}
 	
 }
 
@@ -1323,8 +1333,8 @@ function multi_register( $login ) {
 
         // close curl resource to free up system resources 
         curl_close($ch);      
-		var_dump($output);
-
+		
+		
 	
 	
 	$ip_array[$ip_address][$user_ID] = array(date('Y-m-d H:i:s'),$useragent,$hostaddress,$output);
@@ -1691,8 +1701,10 @@ update_user_meta($user_id, $key.'_ordered', 0);
 
 
 function count_all_stats($user_ID){
+$status = get_user_meta($user_ID,'status',true);
+       
 
-if(!empty($user_ID)){
+if(!empty($user_ID) && $status != 'banned'){
 	
 	
 include('units_array.php');

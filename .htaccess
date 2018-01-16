@@ -17,3 +17,16 @@ deny from all
 # BEGIN WP-HUMMINGBIRD-CACHING
 
 # END WP-HUMMINGBIRD-CACHING
+
+# Emil Johansson (#1148)
+Deny from 84.219.210.125
+Deny from 2a00:801:20c:9f89:0:0:0:1
+Deny from 2a00:801:20c:ac8a:0:0:0:1
+Deny from 2a00:801:21a:719a:0:0:0:1
+Deny from 2a00:801:301:750:0:0:0:1
+Deny from 2a00:801:250:cd06:0:0:0:1
+Deny from 2a00:801:251:b06f:0:0:0:1
+Deny from 84.219.211.41
+Deny from 2a00:801:2c0:db2c:0:0:0:1
+Deny from 2a00:801:300:9303:0:0:0:1
+Deny from 2a00:801:251:b2b1:0:0:0:1

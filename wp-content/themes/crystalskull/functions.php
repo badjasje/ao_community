@@ -26,6 +26,9 @@ if( function_exists('acf_add_options_page') ) {
 }
 
 
+
+
+
 function users_last_login() {
 	$timestamp = current_time('timestamp');
     
@@ -59,6 +62,14 @@ if (!is_user_logged_in() ) {
    
 }
 if (is_user_logged_in() ) {
+	
+$ip_address = $_SERVER["HTTP_CF_CONNECTING_IP"];
+if($ip_address == '' || empty($ip_address)){
+	echo 'Network not allowed';
+	die;
+}
+
+	
 	if ( in_array( $_SERVER['REQUEST_URI'], array( '/home','/home/','','/' ) ) ){
 	wp_redirect(get_the_permalink(3486));
 	}}

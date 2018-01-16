@@ -125,7 +125,7 @@ get_header(); ?>
 <?php if(get_field('game_status','option') == 'Pause' && $user_ID != 1): // Check if game is live or not ?>
 			
 	<div class="notice_message">
-		<span class="rdw-line">The round has ended! Expect a new round on the 13th of december.</span>
+		<span class="rdw-line">The round has ended! Expect a new round on the 18th of january.</span>
 	</div>
 	
 	

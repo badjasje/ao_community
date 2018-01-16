@@ -309,13 +309,7 @@ get_header(); ?>
 				echo '<strong>CT</strong>';
 			} ?>
 			</div>
-		<a class="memberField <?php echo get_user_meta($member,'status',true);?>" href="/users/profile/?id=<?php echo $member;?>">
-			<?php echo $member_data->display_name.' (#'.$member.')';?></a> 
-			<?php if(!empty($last_online)){
-					if($last_seen < 7200 && !empty($last_online[0])){
-						echo ' <span style="color:#ff0000">*</span>';
-						}
-					}?>
+		<?php echo get_user_name($member);?>
 					
 			
 			

@@ -12,6 +12,7 @@ if ( $user === false ) {
 }
 count_all_stats($user__ID);
 $user_NW = get_user_meta($user__ID, 'networth',true);
+$status = get_user_meta($user__ID, 'status',true);
 $user_land = get_user_meta($user__ID, 'land',true);
 $clan_id = get_user_meta($user__ID, 'clan_id_user',true);
 $timestamp = current_time('timestamp');
@@ -89,21 +90,25 @@ get_header('profile'); ?>
 			<div class="row profile_row">
 				<div class="col-xs-5">Medals</div>
 				<div class="col-xs-7">
-					<?php 
-				
-						$aw_args = array(
-						'post_type'		=>	'medal',
-						'numberposts' => -1,
-						'meta_key' 		=> 'winning_user',
-						'meta_value'     	 => $user__ID);
+					<?php if($status != 'banned'):?>
+						<?php 
 					
-					$medals = get_posts($aw_args);
-					if(count($medals) == 0){echo 'none';}
-					foreach ($medals as $medal){
-				
-						$round = get_post_meta($medal->ID, 'medal_round', true); ?>
-					<i class="fa fa-star fa-lg" aria-hidden="true"></i> &nbsp;<?php echo $round;?>: <strong><?php echo $medal->post_title;?></strong><br/>
-						<?php } ?>
+							$aw_args = array(
+							'post_type'		=>	'medal',
+							'numberposts' => -1,
+							'meta_key' 		=> 'winning_user',
+							'meta_value'     	 => $user__ID);
+						
+						$medals = get_posts($aw_args);
+						if(count($medals) == 0){echo 'none';}
+						foreach ($medals as $medal){
+					
+							$round = get_post_meta($medal->ID, 'medal_round', true); ?>
+						<i class="fa fa-star fa-lg" aria-hidden="true"></i> &nbsp;<?php echo $round;?>: <strong><?php echo $medal->post_title;?></strong><br/>
+							<?php } ?>
+						<?php else:?>
+						n.a
+						<?php endif;?>
 				</div>
 			</div>
 			<div class="row profile_row">

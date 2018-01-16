@@ -6,6 +6,7 @@
 	<?php
 		$user_ID = get_current_user_ID();
 		echo desktop_view($user_ID);
+		ban_redirect($user_ID);
 		?>
     <?php //globals
 	    

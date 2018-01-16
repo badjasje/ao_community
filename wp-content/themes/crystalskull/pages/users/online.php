@@ -37,12 +37,12 @@
 			
 		}
 	
-		
+		$status = get_user_meta($user_ID,'status',true);
 		if(!empty($last_online)){
 		$last_seen = $timestamp - $last_online;
 		}
 	
-		if($last_seen < 7200 && !empty($last_online)) {
+		if($status != 'banned' && $last_seen < 7200 && !empty($last_online)) {
 			?>
 			
 	<div class="row clan_profile_row4">

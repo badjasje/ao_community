@@ -10,36 +10,41 @@ if (get_field('game_status', 'option') == 'Live') {
     $users = get_users();
     foreach ($users as $user) {
         $userId = $user->data->ID;
+		$status = get_user_meta($userId,'status',true);
+       
+        if($status == 'banned' ){
+        	continue;
+        }
+	        $money_production_level = get_user_meta($userId, 'level_money_production')[0];
+	        $money = get_user_meta($userId, 'money')[0];
+    
+	        $startingBonus = get_user_meta($userId, 'starting_bonus', true);
+	        $finance_multi = 1;
+	        if ($startingBonus == 'finance') {
+	            $finance_multi = 1.1;
+	        }
+    
+	        if ($money_production_level == 0 || empty($money_production_level)) {
+	            $moneyIncome = 15000*$finance_multi;
+	        }
+	        if ($money_production_level == 1) {
+	            $moneyIncome = 25000*$finance_multi;
+	        }
+	        if ($money_production_level == 2) {
+	            $moneyIncome = 35000*$finance_multi;
+	        }
+    
+			$moneyNew = $money + $moneyIncome;
 
-        $money_production_level = get_user_meta($userId, 'level_money_production')[0];
-        $money = get_user_meta($userId, 'money')[0];
-    
-        $startingBonus = get_user_meta($userId, 'starting_bonus', true);
-        $finance_multi = 1;
-        if ($startingBonus == 'finance') {
-            $finance_multi = 1.1;
-        }
-    
-        if ($money_production_level == 0 || empty($money_production_level)) {
-            $moneyIncome = 15000*$finance_multi;
-        }
-        if ($money_production_level == 1) {
-            $moneyIncome = 25000*$finance_multi;
-        }
-        if ($money_production_level == 2) {
-            $moneyIncome = 35000*$finance_multi;
-        }
-    
-        $moneyNew = $money + $moneyIncome;
-
-        $timestamp = current_time('timestamp');
-        $lastOnline = (int)get_user_meta($userId, 'last_online', true);
-        $difference = $timestamp - $lastOnline;
-        if ($difference < 259200) {
-            update_user_meta($userId, 'money', $moneyNew);
-        }
+	        $timestamp = current_time('timestamp');
+	        $lastOnline = (int)get_user_meta($userId, 'last_online', true);
+	        $difference = $timestamp - $lastOnline;
+	        if ($difference < 259200) {
+	            update_user_meta($userId, 'money', $moneyNew);
+	        }
+	    }
     }
-}
+
 /* Updating nw position */
 $args = [
     'meta_key' => 'networth',

@@ -11,6 +11,12 @@ if (get_field('game_status', 'option') == 'Live') {
 
     foreach ($users as $user) {
         $userID = $user->data->ID;
+        $status = get_user_meta($userID,'status',true);
+       
+        if($status == 'banned' ){
+        	continue;
+        }
+    
         $turnLock = get_user_meta($userID, 'turn_lock', true);
 
         update_user_meta($userID, 'turn_lock', 1);

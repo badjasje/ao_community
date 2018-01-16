@@ -14,6 +14,8 @@
     if(!is_user_logged_in()){
 	    wp_redirect(get_permalink(3491));
     }
+    
+    ban_redirect($user_ID);
 
 
 $new_events 				= 	get_user_meta($user_ID, 'new_events',true);
