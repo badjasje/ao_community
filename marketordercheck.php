@@ -5,14 +5,20 @@
     
 if (get_field('game_status', 'option') == 'Live') {
     $timestamp = current_time('timestamp');
-    
+    $args = array(
+
+		'meta_key'     	=> 'sat_owned',
+		'meta_value'	=> '0',
+		'meta_compare'	=> '!=',
+
+	 ); 
     $users = get_users();
     foreach ($users as $user) {
         $user_ID = $user->ID;
-    
+		$userData = get_user_meta($user_ID);
         /* sat crash */
-        $sat_owned = get_user_meta($user_ID, 'sat_owned', true);
-        $sat_endlife = get_user_meta($user_ID, 'sat_endlife', true);
+        $sat_owned = $userData['sat_owned'][0];
+        $sat_endlife = $userData['sat_endlife'][0];
         $timeleft = $sat_endlife-$timestamp;
         
         if ($timeleft <= 0 && $sat_owned != '0') {
@@ -36,13 +42,13 @@ if (get_field('game_status', 'option') == 'Live') {
             update_field('time_attacked', $timestamp, $new_event_id);
 
             /* update event count */
-            $event_count = get_user_meta($user_ID, 'new_events', true);
+            $event_count = $userData['new_events'][0];
             update_user_meta($user_ID, 'new_events', $event_count + 1);
         } // End sat crash
         
         
         /* deactivate stealth sat */
-        $stealth_sat_time = get_user_meta($user_ID, 'stealth_sat_time', true);
+        $stealth_sat_time = $userData['stealth_sat_time'][0];
         $timeleft = $stealth_sat_time-$timestamp;
         if ($timeleft <= 0) {
             update_user_meta($user_ID, 'stealth_sat_status', 'inactive');
@@ -151,8 +157,6 @@ if (get_field('game_status', 'option') == 'Live') {
 
 
     include 'bonus_array.php';
-    
-    $timestamp = current_time('timestamp');
     $args = array(
         
         'post_type'     =>  'clan',
@@ -162,8 +166,8 @@ if (get_field('game_status', 'option') == 'Live') {
     $clans = get_posts($args);
     foreach ($clans as $clan) {
         $clan_ID = $clan->ID;
-        
-        $cooldownlist = get_post_meta($clan_ID, 'cooldown_list', true);
+        $clanData = get_post_meta($clan_ID);
+        $cooldownlist = $clanData['cooldown_list'][0];
      
         foreach ($cooldownlist as $key => $unset_time) {
             if ($unset_time < $timestamp) {
@@ -179,8 +183,8 @@ if (get_field('game_status', 'option') == 'Live') {
     
     
         $clan_members   = get_post_meta($clan_ID, 'clan_members');
-        $clan_points    = get_post_meta($clan_ID, 'clan_points', true);
-        $bonus_level    = get_post_meta($clan_ID, 'bonus_level', true);
+        $clan_points    = $clanData['clan_points'][0];
+        $bonus_level    = $clanData['bonus_level'][0];
     
     
 
