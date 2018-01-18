@@ -1,8 +1,0 @@
-<form method="post">
-<input type="hidden" name="v_post_action" value="vitor_captcha">
-<strong><?php _e('Solve the CAPTCHA below to view the site content.', 'vigilantor'); ?></strong>
-<?php echo siwp_captcha_html(); ?>
-<?php if (!empty($captcha_error)): ?>
-<div class="error"><?php echo $captcha_error; ?></div>
-<?php endif; ?>
-</form>
