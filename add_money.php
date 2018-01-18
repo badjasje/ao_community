@@ -27,57 +27,41 @@ if (get_field('game_status', 'option') == 'Live') {
         if($status == 'banned' ){
         	continue;
         }
-	        $money_production_level = $userData['level_money_production'][0];
-	        $money = $userData['money'][0];
+		
+		AddMoney($userId);
+		       
+	}
     
-	        $startingBonus = $userData['starting_bonus'][0];
-	        $finance_multi = 1;
-	        if ($startingBonus == 'finance') {
-	            $finance_multi = 1.1;
-	        }
+} // End live check
+
+
+function AddMoney($userId){	
+	$userData = get_user_meta($userId);
+   
+	$money_production_level = $userData['level_money_production'][0];
+	$money = $userData['money'][0];
     
-	        if ($money_production_level == 0 || empty($money_production_level)) {
-	            $moneyIncome = 15000*$finance_multi;
-	        }
-	        if ($money_production_level == 1) {
-	            $moneyIncome = 25000*$finance_multi;
-	        }
-	        if ($money_production_level == 2) {
-	            $moneyIncome = 35000*$finance_multi;
-	        }
+    $startingBonus = $userData['starting_bonus'][0];
+    $finance_multi = 1;
     
-			$moneyNew = $money + $moneyIncome;
-	        update_user_meta($userId, 'money', $moneyNew);
-	    }
-    }
+    	if ($startingBonus == 'finance') {
+        	$finance_multi = 1.1;
+    	}
 
-/* Updating nw position */
-$args = [
-    'meta_key' => 'networth',
-    'orderby' => 'meta_value_num',
-    'order' => 'DESC',
-    'cache_results' => false
-];
+		if ($money_production_level == 0 || empty($money_production_level)) {
+        	$moneyIncome = 15000*$finance_multi;
+    	}
+		
+		if ($money_production_level == 1) {
+        	$moneyIncome = 25000*$finance_multi;
+    	}
+    
+		if ($money_production_level == 2) {
+        	$moneyIncome = 35000*$finance_multi;
+    	}
 
-$user_query = new WP_User_Query($args);
-$position = 0;
+		$moneyNew = $money + $moneyIncome;
+		update_user_meta($userId, 'money', $moneyNew);
 
-foreach ($user_query->results as $user) {
-    //$user_NW = get_user_meta($user->ID, 'networth');
-    update_user_meta($user->ID, 'networth_position', $position+=1);
-    //count_all_stats($user->ID);
 }
 
-/* Updating pts position */
-$position = 0;
-$args = [
-    'orderby' => 'meta_value_num',
-    'meta_key' => 'user_clan_points',
-    'order' => 'DESC'
-];
-$users = get_users($args);
-
-foreach ($users as $user) {
-    //$user_NW = get_user_meta($user->ID, 'user_clan_points'); This value is unused...
-    update_user_meta($user->ID, 'points_position', $position+=1);
-}
