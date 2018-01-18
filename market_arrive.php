@@ -1,18 +1,18 @@
 <?php
-    
-        require(dirname(__FILE__) . '/wp-load.php');
+require(dirname(__FILE__) . '/wp-load.php');
         
 if (get_field('game_status', 'option') == 'Live') {
     $timestamp = current_time('timestamp');
-
     $args = array(
-    'posts_per_page'   => -1,
-    'post_status'      => 'publish',
-    'post_type'        => 'market_order',
+    'posts_per_page'   	=> -1,
+    'post_status'      	=> 'publish',
+    'meta_key'     		=> 'delivery_time',
+    'meta_value'		=> $timestamp,
+	'meta_compare'		=> '<',
+    'post_type'        	=> 'market_order',
     );
 
     $orders = get_posts($args);
-
 
 
 // The Query
@@ -23,23 +23,28 @@ if (get_field('game_status', 'option') == 'Live') {
         while ($the_query->have_posts()) {
             $the_query->the_post();
             $orderID = get_the_id();
-            $user_ID = get_field('user_placed_id', $orderID);
-            $delivery_time = get_field('delivery_time', $orderID);
+            
+            $orderData = get_post_meta($orderID);
+            $user_ID = $orderData['user_placed_id'][0];
+            $userData = get_user_meta($user_ID);
+            
+            $delivery_time = $orderData['delivery_time'][0];
+            
             $moraleLock = get_user_meta($user_ID, 'morale_lock', true);
             $turnLock = get_user_meta($user_ID, 'turn_lock', true);
 
             $timeleft = $delivery_time-$timestamp;
             if ($timeleft <= 0 && $moraleLock == 0 && $turnLock == 0) {
-                $unit_type = get_field('unit_type', $orderID);
+                $unit_type = $orderData['unit_type'][0];
         
                 /* check if order is satellite */
                 $sats = array('laser','comsat','stealths','spysat','spysat','amssat','empsat');
     
                 if (!in_array($unit_type, $sats)) {
-                    $units_in_this_order = get_field('amount_ordered', $orderID);
-        
-                    $ownedunits = get_user_meta($user_ID, $unit_type.'_owned', true);
-                    $total_units_on_order = get_user_meta($user_ID, $unit_type.'_ordered', true);
+                   
+                    $units_in_this_order = $orderData['amount_ordered'][0];
+                    $ownedunits = $userData[$unit_type.'_owned'][0];
+                    $total_units_on_order = $userData[$unit_type.'_ordered'][0];
     
                     update_field($unit_type.'_ordered', $total_units_on_order - $units_in_this_order, 'user_'.$user_ID);
                     update_field($unit_type.'_owned', $units_in_this_order+$ownedunits, 'user_'.$user_ID);
@@ -48,7 +53,7 @@ if (get_field('game_status', 'option') == 'Live') {
                 }
             
                 if (get_field('order_type', $orderID) == 'satellite') {
-                    $sat_level = get_user_meta($user_ID, 'level_satellite_construction', true);
+                    $sat_level = $userData['level_satellite_construction'][0];
                     $days = 10;
                     if ($sat_level >= 1) {
                         $days = 15;
