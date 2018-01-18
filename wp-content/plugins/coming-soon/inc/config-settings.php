@@ -184,7 +184,17 @@ function seed_csp4_get_options(){
     $seed_csp4_options[ ] = array(
         "type" => "upload",
         "id" => "bg_image",
-        "desc" => "<a href='http://demo.seedprod.com/coming-soon-pro/?utm_source=coming-soon-plugin&utm_medium=link&utm_campaign=Free%20Backgrounds' target='_blank'>Looking for FREE backgrounds?</a> Make sure to select the full size image to prevent a blurry or pixelated image.",
+        "desc" => '
+        Looking for free background images? Confirm that\'s your email and click the button below.<br>
+        <div id="seed-bg-images-form"><input type="email" id="seed-bg-images-email"  value="'.get_option('admin_email').'" /><button id="seed-bg-images-btn" class="button-primary">Send Me FREE Background Images</button></div>
+        <script>
+        jQuery( "#seed-bg-images-btn" ).click(function(e) {
+            e.preventDefault();
+            jQuery("#drip-email").val(jQuery("#seed-bg-images-email").val());
+            jQuery("#drip-submit").click();
+        });
+        </script>
+        ',
         "label" => __( "Background Image", 'coming-soon' ),
     );
 
@@ -413,7 +423,7 @@ function seed_csp4_get_options(){
         "type" => "textarea",
         "id" => "html",
         "label" => __( "Custom HTML", 'coming-soon' ),
-        "desc" => __("The will replace the plugin's entire template with your custom html. Make sure to include the html, head and body tags when replacing the html.", 'coming-soon'),
+        "desc" => __("This will replace the plugin's entire template with your custom html. Make sure to include the html, head and body tags when replacing the html.", 'coming-soon'),
         "class" => "large-text"
     );
 
@@ -421,7 +431,7 @@ function seed_csp4_get_options(){
         "type" => "textarea",
         "id" => "append_html",
         "label" => __( "Append HTML", 'coming-soon' ),
-        "desc" => __("The will append html to the bottom of the template using the current styles.", 'coming-soon'),
+        "desc" => __("This will append html to the bottom of the template using the current styles.", 'coming-soon'),
         "class" => "large-text"
     );
 
