@@ -1,46 +1,37 @@
 <?php
+
 /**
  * Handles turn income
  */
 require_once("wp-load.php");
 include('constants.php');
 
+
 if (get_field('game_status', 'option') == 'Live') {
-	$timestamp = current_time('timestamp');
-    $turnsIncome = $INCOME_TURNS;
-    $args = array(
 
-		'meta_key'     	=> 'last_online',
-		'orderby'      	=> 'meta_value_num',
-		'meta_value'	=> $timestamp-362880,
-		'meta_compare'	=> '>',
+    // note: increments are by one. $INCOME_TURNS is assumed to be 1
+    // 1) increase all turns_lost for users having > 300 turns at hand
 
-	 ); 
+    $wpdb->query("
 
+        UPDATE `${table_prefix}usermeta` t1 
+    INNER JOIN `${table_prefix}usermeta` t2
+            ON t1.user_id    = t2.user_id
+           SET t1.meta_value = t1.meta_value + 1
+         WHERE t1.meta_key   = 'turns_lost'
+           AND t2.meta_key   = 'turns'
+           AND t2.meta_value >= 300
 
- $users = get_users($args);
-    foreach ($users as $user) {
-        $userId = $user->data->ID;
-        $userData = get_user_meta($userId);
+    ");
+
+    // 2) increase turns for users having < 300 turns at hand
+
+    $wpdb->query("
         
-        $status = $userData['status'][0];
-       
-		 if($status == 'banned' ){
-        	continue;
-        }
-        
-        update_user_meta($userId, 'turn_lock', 1);
-        AddTurns($userId);
-        update_user_meta($userId, 'turn_lock', 0);
-    }
-}
-
-function AddTurns($userId)
-{	
-	$userData = get_user_meta($userId);
-    $currentTurns = $userData['turns'][0];
-
-    if ($currentTurns < 300) {
-        update_user_meta($userId, 'turns', $currentTurns + 1);
-    }
+        UPDATE `${table_prefix}usermeta`
+           SET meta_value=meta_value+1
+         WHERE meta_key   = 'turns'
+           AND meta_value < 300;
+           
+    ");
 }
