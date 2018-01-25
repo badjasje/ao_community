@@ -118,10 +118,10 @@ foreach ($units as $key => $order) {
         $totals[$type]['order'] += $orderedUnits;
     }
 
-    $ordered = get_user_meta($userId, $key.'_ordered');
-    $ordered = array_shift($ordered);
+    $ordered = $userData[$key.'_ordered'][0];
+
     $totals[$type]['already_ordered'] += is_numeric($ordered) ? $ordered : 0;
-    $totals[$type]['owned'] = $orderedUnits;
+    $totals[$type]['owned'] = $userData[$key.'_owned'][0];
     if (in_array($key, $specialUnitsArray)) {
         $totals['special']['already_ordered'] += is_numeric($ordered) ? $ordered : 0;
         $totals['special']['owned'] = $orderedUnits;
