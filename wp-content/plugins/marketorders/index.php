@@ -1701,7 +1701,10 @@ update_user_meta($user_id, $key.'_ordered', 0);
 
 
 function count_all_stats($user_ID){
-$status = get_user_meta($user_ID,'status',true);
+
+$userData = get_user_meta($user_ID);
+
+$status = $userData['status'][0];
        
 
 if(!empty($user_ID) && $status != 'banned'){
@@ -1717,7 +1720,7 @@ include('satellite_array.php');
 /* calculate unit NW */
 $unit_networth = 0;
 foreach($units as $key => $unit){
-	$units_owned = get_user_meta($user_ID, $key.'_owned',true);
+	$units_owned = $userData[$key.'_owned'][0];
 	
 		if($units_owned > 0){
 			$unit_networth+= $units_owned*$unit['price']*($unit['networth']/100);
@@ -1727,7 +1730,7 @@ foreach($units as $key => $unit){
 /* calculate missile NW */
 $missile_networth = 0;
 foreach($missiles as $key => $missile){
-	$missiles_owned = get_user_meta($user_ID, $key.'_owned');
+	$missiles_owned = $userData[$key.'_owned'][0];
 	
 		if($missiles_owned > 0){
 			$missile_networth+= $missiles_owned[0]*$missile['price']*($missile['networth']/100);
@@ -1739,7 +1742,7 @@ $totalbuildings 	= 0;
 $used_power 		= 0;
 $power_production 	= 0;
 
-$PPE_level = get_user_meta($user_ID, 'level_powerplant_efficiency',true);
+$PPE_level = $userData['level_powerplant_efficiency'][0];
 $PPE_multi = 1;
 	
 	if($PPE_level == 1){
@@ -1748,7 +1751,7 @@ $PPE_multi = 1;
 
 /* calculate building NW */
 foreach($buildings as $key => $building){
-	$buildings_owned = get_user_meta($user_ID, $key,true);
+	$buildings_owned = $userData[$key][0];
 	
 		if($buildings_owned > 0){
 			$totalbuildings+=$buildings_owned;
@@ -1762,13 +1765,13 @@ foreach($buildings as $key => $building){
 
 $research_NW = 0;
 foreach($researches as $key => $research){
-	$level = get_user_meta($user_ID, 'level_'.$key,true);
+	$level = $userData['level_'.$key][0];
 	if($level > 0){
 	$research_NW+= $research['duration']*$RESEARCH_NW_PER_HOUR*$level;
 	}
 }
 
-$sat_owned = get_user_meta($user_ID, 'sat_owned', true);
+$sat_owned = $userData['sat_owned'][0];
 
 $sat_NW = 0;
 
@@ -1777,7 +1780,7 @@ $sat_NW = $satellites[$sat_owned]['price']*0.06;
 }
 
 
-$land = get_user_meta($user_ID, 'land',true);
+$land = $userData['land'][0];
 $land_networth = round($land*0.85);
 
 $totalNW = round($sat_NW+$research_NW+$building_networth+$unit_networth+$land_networth+$missile_networth);
@@ -1793,12 +1796,12 @@ update_user_meta( $user_ID,'missile_nw',round($missile_networth));
 
 update_user_meta( $user_ID,'builtland',$totalbuildings*20);
 
-$highestNW = get_user_meta($user_ID, 'highest_networth', true);
+$highestNW = $userData['highest_networth'][0];
 if($totalNW > $highestNW){
 	update_user_meta($user_ID, 'highest_networth', $totalNW);
 }
 
-$highestLand = get_user_meta($user_ID, 'highest_land', true);
+$highestLand = $userData['highest_land'][0];
 if($land > $highestLand){
 	update_user_meta($user_ID, 'highest_land', $land);
 }
@@ -1817,8 +1820,6 @@ $emps = get_posts(array(
 $empReduction = 0;
 foreach ($emps as $emp) {
 	$empReduction += get_post_meta($emp->ID, 'deduction_emp', true);
-	
-	
 }
 
 
@@ -1831,25 +1832,20 @@ if($power_production > 0){
 	}
 
 
-$power = get_user_meta($user_ID, 'power', true);
+$power = $userData['power'][0];
 update_user_meta($user_ID,'power',$power+$empReduction);
-
-
-
-
-$status = get_user_meta($user_ID, 'status', true);
 
 if($status == 'online'){
 
 	if($totalbuildings < 50){
-		$low_buildings = get_user_meta($user_ID, 'low_buildings', true);
+		$low_buildings = $userData['low_buildings'][0];
 		if($low_buildings == 'on'){
 		notify_user($user_ID,'buildings');
 		}
 		}
 
 	if($power+$empReduction > 100){
-		$low_power = get_user_meta($user_ID, 'low_power', true);
+		$low_power = $userData['low_power'][0];
 		if($low_power == 'on'){
 		notify_user($user_ID,'power');
 		}
