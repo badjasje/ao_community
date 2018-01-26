@@ -2,30 +2,37 @@
 include('constants.php'); 
 $declarer_ID = get_current_user_ID();
 update_user_meta($declarer_ID, 'user_lock', 0);
-$nw_att = get_user_meta($declarer_ID, 'networth',true);
-$declarer_clan_ID = get_user_meta($declarer_ID, 'clan_id_user',true);
-$declarer_clanleader = get_post_meta($declarer_clan_ID,'clan_leader',true);
+$userData = get_user_meta($declarer_ID);
+$nw_att = $userData['networth'][0];
+$declarer_clan_ID = $userData['clan_id_user'][0];
+$clan_id = get_the_ID();
 
 
-    $clanMembers = get_post_meta(get_the_ID(), 'clan_members', true);
+$declarerClanData = get_post_meta($declarer_clan_ID); // Get all postmeta linked to declarer clan ID
+
+$declarer_clanleader = $declarerClanData['clan_leader'][0];
+
+	$clanData = get_post_meta($clan_id);
+    $clanMembers = maybe_unserialize($clanData['clan_members'][0]);
     $membersCount = count($clanMembers);
     //Enemy clan avg nw is:
-    $averageNw = get_post_meta(get_the_ID(), 'clan_networth', true) / $membersCount;
+    $averageNw = $clanData['clan_networth'][0] / $membersCount;
 
     //Count the members in YOUR clan
-    $declaringClanMembers = get_post_meta($declarer_clan_ID, 'clan_members', true);
+    $declaringClanMembers = maybe_unserialize($declarerClanData['clan_members'][0]);
     $declaringMembersCount = count($declaringClanMembers);
-    $declarerAverageNw = get_post_meta($declarer_clan_ID, 'clan_networth', true) / $declaringMembersCount;
+    $declarerAverageNw = $declarerClanData['clan_networth'][0] / $declaringMembersCount;
+       
 $average_OK = "false";
 if ($declarerAverageNw*$AVERAGE_DECLARE_NW_ALLOWED > $averageNw) {
   $average_OK = "true";
 }
-$cooldownlist = get_post_meta($declarer_clan_ID, 'cooldown_list',true);
+$cooldownlist = maybe_unserialize($declarerClanData['cooldown_list'][0]);
 
-$decct_1 = get_post_meta($declarer_clan_ID,'ct_1',true);
-$decct_2 = get_post_meta($declarer_clan_ID,'ct_2',true);
-$decct_3 = get_post_meta($declarer_clan_ID,'ct_3',true);
-$decct_4 = get_post_meta($declarer_clan_ID,'ct_4',true);
+$decct_1 = $declarerClanData['ct_1'][0];
+$decct_2 = $declarerClanData['ct_2'][0];
+$decct_3 = $declarerClanData['ct_3'][0];
+$decct_4 = $declarerClanData['ct_4'][0];
 
 $allowed_to_declare = array($declarer_clanleader,$decct_1,$decct_2,$decct_3,$decct_4);
 				
@@ -36,7 +43,7 @@ $warcount = get_posts(array(
 	'meta_query'	=> array( 'relation' => 'AND',
 			array(
                  'key' => 'declared_by',
-                 'value' => get_the_ID()
+                 'value' => $clan_id
                ),
             array(
                  'key' => 'declared_on',
@@ -50,14 +57,16 @@ $warcount = count($warcount);
 
 $timestamp = current_time('timestamp');
 
+// calculating total NW for declaring clan. Not sure if still needed.
 if($declarer_clan_ID != 0){
-	$dec_clan_members = get_post_meta($declarer_clan_ID,'clan_members');
 
 	$dec_tot_networth = 0;
-					foreach ($dec_clan_members[0] as $dec_member) {
-					$dec_networth = get_user_meta($dec_member, 'networth',true);
-					$dec_tot_networth+=$dec_networth;}
-}
+		
+		foreach ($declaringClanMembers as $dec_member) {
+			$dec_networth = get_user_meta($dec_member, 'networth',true);
+			$dec_tot_networth+=$dec_networth;
+		}
+	}
 
  $wars_on = get_posts(array(
 	'numberposts'	=> -1,
@@ -73,14 +82,14 @@ foreach ($wars_on as $war) {
 	$att_ClanID = get_post_meta($war->ID,'declared_by',true);
 	
 	
-	if($defClanID == get_the_id()){
+	if($defClanID == $clan_id){
 		$peaceID = $war->ID;
 	}
 	$declared_on[] = $defClanID;
 	}
 $_member = false;
 
-if(in_array($declarer_ID, $dec_clan_members[0])){
+if(in_array($declarer_ID, $declaringClanMembers)){
 	$_member = true;
 	
 }
@@ -90,29 +99,28 @@ get_header(); ?>
 	<div class="container containerNZ">
 	<div class="row">
 		<?php if(!empty($_SESSION['status'])):?>
-					<?php echo alert_notification($_SESSION['status']);?>
-				<?php endif; // End empty status check ?>
+				<?php echo alert_notification($_SESSION['status']);?>
+		<?php endif; // End empty status check ?>
 		
 	<?php 
+
 		
-		$clan_id = get_the_ID();
-		$clan_members = get_post_meta($clan_id,'clan_members');
 				
-		$ct_1 = get_post_meta($clan_id,'ct_1',true);
-		$ct_2 = get_post_meta($clan_id,'ct_2',true);
-		$ct_3 = get_post_meta($clan_id,'ct_3',true);
-		$ct_4 = get_post_meta($clan_id,'ct_4',true);
+		$ct_1 = $clanData['ct_1'][0];
+		$ct_2 = $clanData['ct_2'][0];
+		$ct_3 = $clanData['ct_3'][0];
+		$ct_4 = $clanData['ct_4'][0];
 				
-		$clanleader = get_post_meta($clan_id,'clan_leader',true);
-		$clan_points = get_post_meta($clan_id,'clan_points',true);
-		$clantag = get_post_meta($clan_id,'clan_tag',true);
+		$clanleader = $clanData['clan_leader'][0];
+		$clan_points = $clanData['clan_points'][0];
+		$clantag = $clanData['clan_tag'][0];
 		
 		$tot_networth = 0;
-		foreach ($clan_members[0] as $member) {
+		foreach ($clanMembers as $member) {
 					
-		count_all_stats($member);
-		$networth = get_user_meta($member, 'networth',true);
-		$tot_networth+=$networth;
+			count_all_stats($member);
+			$networth = get_user_meta($member, 'networth',true);
+			$tot_networth+=$networth;
 		
 		}
 			
@@ -120,11 +128,11 @@ get_header(); ?>
 			
 				
 		while ( have_posts() ) : the_post(); ?>
-		<?php if(!empty(get_post_meta($clan_id, 'clan_image', true))):?>
+		<?php if(!empty($clanData['clan_image'][0])):?>
 		<div class="row profile_block">	
 		
 			<center>
-			<div style="width:100%; height:300px;background: url('<?php echo get_post_meta($clan_id, 'clan_image', true); ?>') center center;background-repeat: no-repeat;">
+			<div style="width:100%; height:300px;background: url('<?php echo $clanData['clan_image'][0]; ?>') center center;background-repeat: no-repeat;">
 			</center>
 		
 		</div>
@@ -140,7 +148,7 @@ get_header(); ?>
 				
 				<div class="row profile_row">
 					<div class="col-xs-5">Members</div>
-					<div class="col-xs-7"><?php echo count($clan_members[0]);?></div>
+					<div class="col-xs-7"><?php echo count($clanMembers);?></div>
 				</div>
 				
 				<div class="row profile_row">
@@ -190,7 +198,7 @@ get_header(); ?>
 							echo number_format($clan_points, 0, ',', ' ');
 							}
 							else{
-								echo '0';}?>pts <sup><?php echo get_post_meta($clan_id, '24h_pts', true);?>pts today</sup>
+								echo '0';}?>pts <sup><?php echo $clanData['24h_pts'][0];?>pts today</sup>
 					</div>
 				</div>
 				
@@ -253,7 +261,7 @@ get_header(); ?>
 		
 
 		
-<?php if(!in_array($declarer_ID, $clan_members[0])):?>
+<?php if(!in_array($declarer_ID, $clanMembers)):?>
 
 
 
@@ -276,9 +284,9 @@ get_header(); ?>
 </div>
 <div id="values">
 <?php 
-	$NRmembers = count($clan_members[0]);
+	$NRmembers = count($clanMembers);
 	$counter = 0;
-	foreach ($clan_members[0] as $key => $member) {
+	foreach ($clanMembers as $key => $member) {
 		$extraClass = '';
 		$counter++;
 		if($counter == $NRmembers){
@@ -286,9 +294,10 @@ get_header(); ?>
 			
 		}
 		$member_data = get_userdata($member);
-		$networth = get_user_meta($member, 'networth',true);
-		$land = get_user_meta($member, 'land',true);
-		$last_online = get_user_meta($member, 'last_online',true);
+		$memberMetaData = get_user_meta($member);
+		$networth = $memberMetaData['networth'][0];
+		$land = $memberMetaData['land'][0];
+		$last_online = $memberMetaData['last_online'][0];
 		if(!empty($last_online)){
 		$last_seen = $timestamp - $last_online;
 		}
@@ -339,12 +348,12 @@ get_header(); ?>
 <div id="result"></div>
 </div>
 
-<?php if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists(get_the_id(), $cooldownlist) && $inRange == 'yes' && $canPeace == false):?>
+<?php if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $cooldownlist) && $inRange == 'yes' && $canPeace == false):?>
 
 <div class="row button_block">
  	
  	<div class="col-md-6 buttoncol">
-	 	<?php if (in_array(get_the_ID(), $declared_on)):?>
+	 	<?php if (in_array($clan_id, $declared_on)):?>
 	 	<center><span class="btn btn-disabled profilebutton">
 		 	<i class="fa fa-fire" aria-hidden="true"></i> &nbsp;You are at war with this clan</span></center>
 		 <?php else:?>
@@ -403,7 +412,7 @@ get_header(); ?>
 
 
 
-<?php if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists(get_the_id(), $cooldownlist) &&  $inRange == 'no' && $canPeace == false):?>
+<?php if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $cooldownlist) &&  $inRange == 'no' && $canPeace == false):?>
 
 <div class="row button_block">
  	
@@ -421,7 +430,7 @@ get_header(); ?>
 <?php endif;?>
 
 
-<?php if(!in_array($declarer_ID, $allowed_to_declare) || array_key_exists(get_the_id(), $cooldownlist)):?>
+<?php if(!in_array($declarer_ID, $allowed_to_declare) || array_key_exists($clan_id, $cooldownlist)):?>
 
 <div class="row button_block">
 	<div class="col-md-3 buttoncol">
@@ -452,7 +461,7 @@ get_header(); ?>
 
 
 
-<?php if(in_array($declarer_ID, $clan_members[0])):?>
+<?php if(in_array($declarer_ID, $clanMembers)):?>
 <div class="storeDetails-heads button_block sortingHeadMob">
 	<center>
 	<strong>Sort:</strong> <a href="" class="sort" data-sort=".memberField">Name</a> - 
@@ -476,9 +485,9 @@ get_header(); ?>
 </div>
 <div id="values">
 <?php 
-	$NRmembers = count($clan_members[0]);
+	$NRmembers = count($clanMembers);
 	$counter = 0;
-	foreach ($clan_members[0] as $key => $member) {
+	foreach ($clanMembers as $key => $member) {
 		$extraClass = '';
 		$counter++;
 		if($counter == $NRmembers){
@@ -590,14 +599,14 @@ get_header(); ?>
 		<?php else:?>
 
 	
-		<?php if(array_key_exists(get_the_id(), $cooldownlist)):?>
+		<?php if(array_key_exists($clan_id, $cooldownlist)):?>
 
 		<div class="notice_message"><span class="rdw-line">
 			<?php 
 				$timeleft = $cooldownlist[$clan_id]-$timestamp;
 				echo human_time_diff( $cooldownlist[$clan_id],$timestamp);?> left before you can declare a new war on this clan</span>
 				<?php if($warcount == 1 && in_array($declarer_ID, $allowed_to_declare)):?>
-				<a href="/resumewar.php/?declaredon=<?php echo get_the_id();?>&declaredby=<?php echo $declarer_clan_ID;?>">
+				<a href="/resumewar.php/?declaredon=<?php echo $clan_id;?>&declaredby=<?php echo $declarer_clan_ID;?>">
 					<div style="margin-top:10px;padding:10px;background-color:#fff;color:#5f5d5d;">
 						However, you can still choose to resume your previous war
 					</div>
@@ -609,7 +618,7 @@ get_header(); ?>
 		
 
 
-<?php if (in_array(get_the_ID(), $declared_on)){ ?>
+<?php if (in_array($clan_id, $declared_on)){ ?>
 	<div class="notice_message"><span class="rdw-line">You are at war with this clan</span></div>
 <?php }?><br/>
 		<?php endif;?>

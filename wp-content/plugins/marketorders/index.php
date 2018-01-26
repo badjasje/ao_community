@@ -166,9 +166,10 @@ add_action( 'login_enqueue_scripts', 'my_login_logo' );
 
 function unit_types($user_ID){
 	include('units_array.php');
+	$userData = get_user_meta($user_ID);
 	$type_array = array();
 	foreach ($units as $key => $unit) {
-		$units = get_user_meta($user_ID, $key.'_owned', true);
+		$units = $userData[$key.'_owned'][0];
 			
 			if($units > 0){
 			$type_array[$unit['type']] += $units;
@@ -181,9 +182,10 @@ function unit_types($user_ID){
 
 function can_attack($user_ID){
 	include('units_array.php');
+	$userData = get_user_meta($user_ID);
 	$attack_array = '';
 	foreach ($units as $key => $unit) {
-		$units = get_user_meta($user_ID, $key.'_owned', true);
+		$units = $userData[$key.'_owned'][0];
 			
 			if($units > 0){
 			$attacks = $unit['attacks'];
@@ -223,9 +225,10 @@ function networth_range($user_ID){
 
 
 function get_user_name($user_ID){
+	$userData = get_user_meta($user_ID);
 	$timestamp = current_time('timestamp');
-	$status = get_user_meta($user_ID,'status',true);
-	$last_online = get_user_meta($user_ID, 'last_online',true);
+	$status = $userData['status'][0];
+	$last_online = $userData['last_online'][0];
 	$member_data = get_userdata($user_ID);
 	$displayName = $member_data->display_name;
 	
@@ -271,9 +274,9 @@ function count_unit($user_ID,$unit_type){
 }
 
 function header_events($user_ID){
-
-$new_events = get_user_meta($user_ID, 'new_events',true);
-$new_global_events = get_user_meta($user_ID, 'new_global_events',true);
+$userData = get_user_meta($user_ID);
+$new_events = $userData['new_events'][0];
+$new_global_events = $userData['new_global_events'][0];
 
 $redClass = "";
 $globalClass = "";
@@ -1245,8 +1248,10 @@ function desktop_view($user_ID){
 }
 
 function notify_user($user_ID,$type){
+	
+$userData = get_user_meta($user_ID);
 
-$phonenumber = get_user_meta($user_ID, 'phone_number', true);
+$phonenumber = $userData['phone_number'][0];
 if(!empty(is_numeric($phonenumber))){
 	
 $remove = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U","+");
@@ -1254,8 +1259,8 @@ $phonenumber = str_replace($remove, "", $phonenumber);
 	
 $message = '';
 	
-$LP_notified = get_user_meta($user_ID, 'low_power_notified', true);
-$LB_notified = get_user_meta($user_ID, 'low_buildings_notified', true);
+$LP_notified = $userData['low_power_notified'][0];
+$LB_notified = $userData['low_buildings_notified'][0];
 
 
 if($LP_notified == 'no' && $type == 'power'){
@@ -1359,16 +1364,17 @@ function count_deposits($user_ID){
 }
 
 function clan_tag($user_ID){
+
+$clanId = get_user_meta($user_ID, 'clan_id_user', true);
 	
-if(get_user_meta($user_ID, 'clan_id_user', true) != 0){
-	$clan_ID = get_user_meta($user_ID, 'clan_id_user', true);
-	$clantag = get_post_meta($clan_ID, 'clan_tag', true);
-	$chars = array("[", "]");
-	$clantag = str_replace($chars, "", $clantag);
-	return '<strong>['.$clantag.']</strong>';	
+	if($clanId != 0){
+		$clantag = get_post_meta($clanId, 'clan_tag', true);
+		$chars = array("[", "]");
+		$clantag = str_replace($chars, "", $clantag);
+	
+		return '<strong>['.$clantag.']</strong>';	
 			
-			}
-	
+		}
 }
 
 function wpse66094_no_admin_access() {
@@ -2197,15 +2203,16 @@ add_filter( 'manage_users_columns', 'new_modify_user_table' );
 function new_modify_user_table_row( $val, $column_name, $user_id ) {
 	
 	$member_data = get_userdata($user_id);
-	$lastseen = date('G:i:s | d-m-Y', get_user_meta($user_id, 'last_online', true));
-	$clan_id = get_user_meta($user_id, 'clan_id_user',true);
+	$userData = get_user_meta($user_id);
+	$lastseen = date('G:i:s | d-m-Y', $userData['last_online'][0]);
+	$clan_id = $userData['clan_id_user'][0];
    
     switch ($column_name) {
         case 'networth' :
-            return '$ '.number_format(get_user_meta($user_id, 'networth', true), 0, ',', ' ');
+            return '$ '.number_format($userData['networth'][0], 0, ',', ' ');
             break;
         case 'land' :
-            return number_format(get_user_meta($user_id, 'land', true), 0, ',', ' ').' m<sup>2</sup>';
+            return number_format($userData['land'][0], 0, ',', ' ').' m<sup>2</sup>';
             break;
         case 'playername' :
             return '<a target="_blank" href="/users/profile/?id='.$user_id.'">'.$member_data->display_name.' (#'.$user_id.')</a>';
