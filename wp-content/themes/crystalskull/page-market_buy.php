@@ -6,28 +6,29 @@
 $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'air';
 
 $userId = get_current_user_id();
+$userData = get_user_meta($userId);
 include 'units_array.php';
 include 'count_functions.php';
 
-$totalMoney = get_user_meta($userId, 'money');
+$totalMoney = $userData['money'][0];
 
 // Calculate space for special units.
-$spies = get_user_meta($userId, 'spy_owned',true);
-$spiesOrdered = get_user_meta($userId, 'spy_ordered',true);
-$thieves = get_user_meta($userId, 'thief_owned',true);
-$thievesOrdered = get_user_meta($userId, 'thief_ordered',true);
-$planes = get_user_meta($userId, 'spyplane_owned',true);
-$planesOrdered = get_user_meta($userId, 'spyplane_ordered',true);
-$sniper = get_user_meta($userId, 'sniper_owned',true);
-$snipersOrdered = get_user_meta($userId, 'sniper_ordered',true);
+$spies = $userData['spy_owned'][0];
+$spiesOrdered = $userData['spy_ordered'][0];
+$thieves = $userData['thief_owned'][0];
+$thievesOrdered = $userData['thief_ordered'][0];
+$planes = $userData['spyplane_owned'][0];
+$planesOrdered = $userData['spyplane_ordered'][0];
+$sniper = $userData['sniper_owned'][0];
+$snipersOrdered = $userData['sniper_ordered'][0];
 
 
-$commandCenters = get_user_meta($userId, 'command_centre',true);
+$commandCenters = $userData['command_centre'][0];
 $space = [
-    'air' => get_user_meta($userId, 'airfield', true) * 10,
-    'sea' => get_user_meta($userId, 'shipyard', true) * 5,
-    'veh' => get_user_meta($userId, 'warfactory', true) * 10,
-    'inf' => get_user_meta($userId, 'baracks', true) * 20,
+    'air' => $userData['airfield'][0] * 10,
+    'sea' => $userData['shipyard'][0] * 5,
+    'veh' => $userData['warfactory'][0] * 10,
+    'inf' => $userData['baracks'][0] * 20,
     'special' => ($commandCenters * 5) - $spies - $thieves - $planes - $spiesOrdered - $thievesOrdered - $planesOrdered - $sniper - $snipersOrdered
 ];
 
@@ -38,7 +39,7 @@ $usedSpace = [
     'inf' => count_infspace($userId),
 ];
 
-$discountLevel = get_user_meta($userId, 'level_market_discount')[0];
+$discountLevel = $userData['level_market_discount'][0];
 
 $discount = 1.0;
 
@@ -47,7 +48,7 @@ if($discountLevel == 1){
 } elseif($discountLevel >= 2){
 	$discount = $discount - 0.4;
 }
-$startingBonus = get_user_meta($userId, 'starting_bonus',true);
+$startingBonus = $userData['starting_bonus'][0];
 if($startingBonus == 'shipping'){
     $discount = $discount - 0.1;
 }
@@ -87,7 +88,7 @@ get_header(); ?>
 			<?php else:?>
                 <div class="marketMessage notice_message">
                     <span class="rdw-line">The market enables you to buy units without using turns.</span>
-                    <?php $marketShippingLevel = get_user_meta($userId, 'level_shipping_time')[0];
+                    <?php $marketShippingLevel = $userData['level_shipping_time'][0];
                         if($marketShippingLevel == 1){
                             $hours = 6;
                         } elseif($marketShippingLevel == 2){

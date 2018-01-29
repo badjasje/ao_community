@@ -1,6 +1,6 @@
 <?php
-$unitsOwned = get_user_meta($userId, $unitKey.'_owned');
-$unitsOrdered = get_user_meta($userId, $unitKey.'_ordered');
+$unitsOwned = $userData[$unitKey.'_owned'][0];
+$unitsOrdered = $userData[$unitKey.'_ordered'][0];
 $networthPerUnit = $unit['price']*$unit['networth']/100;
 $buyPrice =  ceil(($unit['price'] * 2.2) * $discount);
 $canAttack = is_array($unit['attacks']) && !empty($unit['attacks']) ? implode(', ', $unit['attacks']) : 'N/A';
@@ -18,7 +18,7 @@ $canAttack = is_array($unit['attacks']) && !empty($unit['attacks']) ? implode(',
     <div class="col-md-2 clan_column border_bottom_mobile">
         <span class="clan_data_left">Owned (ordered)</span>
         <span class="clan_data_right">
-            <?php echo $unitsOwned[0]; ?> (<?php echo $unitsOrdered[0]; ?>)
+            <?php echo $unitsOwned; ?> (<?php echo $unitsOrdered; ?>)
         </span>
     </div>
     <div class="col-md-1 clan_column border_bottom_mobile">
@@ -56,7 +56,7 @@ $canAttack = is_array($unit['attacks']) && !empty($unit['attacks']) ? implode(',
         <span class="clan_data_left">Max</span>
         <span class="clan_data_right">
             <?php
-            $maxMoney = floor($totalMoney[0] / $buyPrice);
+            $maxMoney = floor($totalMoney / $buyPrice);
             $maxSpace = $space[$unitTypeKey] - $usedSpace[$unitTypeKey];
             ?>
 

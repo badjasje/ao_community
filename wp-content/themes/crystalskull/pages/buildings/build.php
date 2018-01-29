@@ -5,7 +5,7 @@
 	    
 	    
 <div class="spaceNotice">
-	Your free land allows you to build <strong><?php echo floor(($land[0] - $builtland[0]) / 20); ?></strong> buildings.
+	Your free land allows you to build <strong><?php echo floor(($land - $builtland) / 20); ?></strong> buildings.
 </div>
 
 <div class="row market_block">	
@@ -21,12 +21,11 @@
 	</div>
 <?php // Buildings TABLE
 
-$userId = get_current_user_id();
+
 $totalbuildings = 0;
-$totalMoney = get_user_meta($userId, 'money', true);
 
 foreach ($buildings as $key => $order) {
-$units_owned = get_user_meta($userId, $key);
+$units_owned = $userData[$key][0];
 ?>
 			
 	<div class="row clan_profile_row2">
@@ -43,7 +42,7 @@ $units_owned = get_user_meta($userId, $key);
 	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Owned</span>
 		<span class="clan_data_right">
-			<?php echo $units_owned[0]; ?>
+			<?php echo $units_owned; ?>
 		</span>
 
 	</div>
@@ -99,8 +98,8 @@ $units_owned = get_user_meta($userId, $key);
 		<span class="clan_data_left">Max</span>
 		<span class="clan_data_right">
 			<?php 	$max_money = floor($totalMoney / $order['price']);
-					$max_turns       = floor($totalturns[0] * $turns_multiplier);
-					$max_land        = floor(($land[0] - $builtland[0]) / 20);
+					$max_turns       = floor($totalturns * $turns_multiplier);
+					$max_land        = floor(($land - $builtland) / 20);
 				?>
 
 				<span class="allbutton" id="button<?php echo $key; ?>">
