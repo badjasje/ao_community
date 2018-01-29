@@ -6,38 +6,29 @@
 	<?php
 		$user_ID = get_current_user_ID();
 		echo desktop_view($user_ID);
-		?>
-    <?php //globals
-		
-    global $post, $page, $paged, $woocommerce;
+
     
-    if(!is_user_logged_in()){
-	    wp_redirect(get_permalink(3491));
-    }
+		if(!is_user_logged_in()){
+	    	wp_redirect(get_permalink(3491));
+    	}
     
     ban_redirect($user_ID);
 
+$userData = get_user_meta($user_ID);
+$new_events 				= 	$userData['new_events'][0];
+$new_global_events 			= 	$userData['new_global_events'][0];
+$new_messages 				= 	$userData['new_messages'][0];
+$user_status 				= 	$userData['status'][0];
+$clan_ID 					= 	$userData['clan_id_user'][0];
 
-$new_events 				= 	get_user_meta($user_ID, 'new_events',true);
-$new_global_events 			= 	get_user_meta($user_ID, 'new_global_events',true);
-$new_messages 				= 	get_user_meta($user_ID, 'new_messages',true);
-$user_status 				= 	get_user_meta($user_ID, 'status',true);
-$nuke_protection_timestamp 	= 	get_user_meta($user_ID,'nuke_protection_timestamp',true);
-$clan_ID 					= 	get_user_meta($user_ID, 'clan_id_user',true);
+$sat_morale					= 	$userData['sat_morale'][0];
 
-$level_money_production 	= 	get_user_meta($user_ID, 'level_money_production',true);
-$sat_level 					= 	get_user_meta($user_ID, 'level_satellite_construction',true);
-$sat_morale					= 	get_user_meta($user_ID, 'sat_morale',true);
-
-$morale 					= 	get_user_meta($user_ID, 'morale',true);
-$moralepool 				= 	get_user_meta($user_ID, 'morale_pool',true);
-$totalmoney 				= 	get_user_meta($user_ID, 'money',true);
-$networth 					= 	get_user_meta($user_ID, 'networth',true);
-$turns 						= 	get_user_meta($user_ID, 'turns',true);
-$morale 					= 	get_user_meta($user_ID, 'morale',true);
-$moralepool 				= 	get_user_meta($user_ID, 'morale_pool',true);
-$land 						= 	get_user_meta($user_ID, 'land',true);
-$builtland 					= 	get_user_meta($user_ID, 'builtland',true);
+$morale 					= 	$userData['morale'][0];
+$moralepool 				= 	$userData['morale_pool'][0];
+$totalmoney 				= 	$userData['money'][0];
+$networth 					= 	$userData['networth'][0];
+$turns 						= 	$userData['turns'][0];
+$land 						= 	$userData['land'][0];
 
 
 if($user_status == 'dead'){
@@ -158,7 +149,7 @@ $user = get_userdata($user_ID);
 
 					<?php if (is_page(3520)): $user__ID = $_GET['id'];
 						$user = get_userdata($user__ID);
-						$last_online = get_user_meta($user__ID, 'last_online',true);
+						$last_online = $userData['last_online'][0];
 						if (!empty($last_online)) {
 							$timestamp = current_time('timestamp');
 							$last_seen = $timestamp - $last_online;
