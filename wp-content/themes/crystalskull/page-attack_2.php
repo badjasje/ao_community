@@ -21,6 +21,7 @@ if($attack_type == 'sniper'){ $attack_name = 'Sending sniper'; }
 $attackUserId = $_SESSION['target_id'];
 
 $userId = get_current_user_id();
+$userData = get_user_meta($userId);
 
 count_all_stats($attackUserId);
 get_header(); ?>
@@ -86,17 +87,17 @@ get_header(); ?>
 			<?php
 				$sendall = array();
 				$tot_units = 0;
-				$tomahawkspace = get_user_meta($userId, 'submarine_owned',true)*2;
-				$maxNetworth = round(get_user_meta($userId, 'networth',true)/10000*2);
-				$maxTomahawk = min($tomahawkspace,$maxNetworth,get_user_meta($userId, 'tomahawk_owned', true));
+				$tomahawkspace = $userData['submarine_owned'][0]*2;
+				$maxNetworth = round($userData['networth'][0]/10000*2);
+				$maxTomahawk = min($tomahawkspace,$maxNetworth,$userData['tomahawk_owned'][0]);
 			foreach($units as $key => $unit){
-				$units_owned = get_user_meta($userId, $key.'_owned');
+				$units_owned = $userData[$key.'_owned'][0];
 				
 				
 				if($unit['type'] == 'air' || $unit['type'] == 'sea' and $unit['normalname'] != 'SR-71 Spyplane'){
-				$tot_units+=$units_owned[0];
-				if($units_owned[0]>0){
-					$sendall[] = $units_owned[0];
+				$tot_units+=$units_owned;
+				if($units_owned > 0){
+					$sendall[] = $units_owned;
 					?>
 					
 			<tr>
@@ -125,15 +126,15 @@ get_header(); ?>
 				</td>
 					
 				<td data-title="Owned">
-					<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned[0];$units_total+=$units_owned[0];?></span>				</td>
+					<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned;$units_total+=$units_owned;?></span>				</td>
 				<td>
-					<input class="unit_input" placeholder="Enter amount to send, or click unit amount" type="number" min="0" max="<?php echo $units_owned[0];?>" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
+					<input class="unit_input" placeholder="Enter amount to send, or click unit amount" type="number" min="0" max="<?php echo $units_owned;?>" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
 				</td>
 					
 			</tr>
 					<script type="text/javascript">
 						jQuery("#button<?php echo $key;?>").click(function() {
-						jQuery("#<?php echo $key;?>").val("<?php echo $units_owned[0];?>");
+						jQuery("#<?php echo $key;?>").val("<?php echo $units_owned;?>");
 						jQuery("#button").show();
 						jQuery("#message").hide();
 						});
@@ -235,7 +236,7 @@ get_header(); ?>
 				
 				if($_SESSION['attacktype'] == 'thief'){
 					
-					$thief_owned = get_user_meta($userId, 'thief_owned',true);
+					$thief_owned = $userData['thief_owned'][0];
 				?>
 				<div class="notice_message"><span class="rdw-line">Thiefs are used to steal money.</span> <span class="rdw-line">Sending more thiefs increases the amount of money stolen but also increases the chance of getting caught.</span></div><br/>
 				<table class="responsive-table">
@@ -250,11 +251,11 @@ get_header(); ?>
 				
 				<?php
 				foreach($units as $key => $unit){
-					$units_owned = get_user_meta($userId, $key.'_owned');
+					$units_owned = $userData[$key.'_owned'][0];
 					
 					
 					if($unit['normalname'] == 'Thief'){
-					if($units_owned[0]>0){
+					if($units_owned > 0){
 					?>
 					<tr>
 					<td data-title="Name">
@@ -263,14 +264,14 @@ get_header(); ?>
 					
 			
 					<td data-title="Owned">
-					<span><?php echo $units_owned[0];$units_total+=$units_owned[0];?></span>
+					<span><?php echo $units_owned;$units_total+=$units_owned;?></span>
 					</td>
 					<td>
 					<select id="<?php echo $key;?>" name="<?php echo $key;?>">
 						
 						<?php 
 							$count = 1;
-							foreach(range(1,min(10,$units_owned[0])) as $index) {?>
+							foreach(range(1,min(10,$units_owned)) as $index) {?>
 						<option name="<?php echo $key;?>" value="<?php echo $count;?>"><?php echo $count;?></option>
 						<?php 
 							$count++;
@@ -280,7 +281,7 @@ get_header(); ?>
 					</tr>
 					<script type="text/javascript">
 						jQuery("#button<?php echo $key;?>").click(function() {
-						jQuery("#<?php echo $key;?>").val("<?php echo $units_owned[0];?>");
+						jQuery("#<?php echo $key;?>").val("<?php echo $units_owned;?>");
 						jQuery("#button").show();
 						jQuery("#message").hide();
 						});
@@ -309,7 +310,7 @@ get_header(); ?>
 				
 				if($_SESSION['attacktype'] == 'sniper'){
 					
-					$thief_owned = get_user_meta($userId, 'sniper_owned',true);
+					$thief_owned = $userData['sniper_owned'][0];
 				?>
 				<div class="notice_message"><span class="rdw-line">Snipers are used to kill thiefs, spies and other snipers</span> <span class="rdw-line">Sending more snipers increases the amount of thiefs and spies killed but also increases the chance to get caught.</span></div><br/>
 				<table class="responsive-table">
@@ -323,11 +324,11 @@ get_header(); ?>
 				
 				<?php
 				foreach($units as $key => $unit){
-					$units_owned = get_user_meta($userId, $key.'_owned');
+					$units_owned = $userData[$key.'_owned'][0];
 					
 					
 					if($unit['normalname'] == 'Sniper'){
-					if($units_owned[0]>0){
+					if($units_owned > 0){
 					?>
 					<tr>
 					<td>
@@ -336,7 +337,7 @@ get_header(); ?>
 					
 			
 					<td>
-					<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned[0];$units_total+=$units_owned[0];?></span>
+					<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned;$units_total+=$units_owned;?></span>
 					</td>
 					<td>
 					<input class="small_input" placeholder="Enter how many units you want to send to battle" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
@@ -344,7 +345,7 @@ get_header(); ?>
 					</tr>
 					<script type="text/javascript">
 						jQuery("#button<?php echo $key;?>").click(function() {
-						jQuery("#<?php echo $key;?>").val("<?php echo $units_owned[0];?>");
+						jQuery("#<?php echo $key;?>").val("<?php echo $units_owned;?>");
 						jQuery("#button").show();
 						jQuery("#message").hide();
 						});
@@ -392,13 +393,13 @@ get_header(); ?>
 				<?php
 					$units_total = 0;
 				foreach($units as $key => $unit){
-					$units_owned = get_user_meta($userId, $key.'_owned');
+					$units_owned = $userData[$key.'_owned'][0];
 					
 					if($unit['type'] == 'veh' || $unit['type'] == 'inf' || $unit['type'] == 'air'){
 					if($key != 'sniper' && $key != 'thief' && $key != 'spyplane' && $key != 'spy' ){
-						$units_total+=$units_owned[0];
-					if($units_owned[0]>0){
-						$sendall[] = $units_owned[0];
+						$units_total+=$units_owned;
+					if($units_owned>0){
+						$sendall[] = $units_owned;
 					?>
 					<tr>
 					<td data-title="Name"><strong><?php echo $unit['normalname'];?></strong></td>
@@ -420,7 +421,7 @@ get_header(); ?>
 				
 					</td>
 					<td data-title="Owned">
-					<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned[0];$units_total+=$units_owned[0];?></span>		
+					<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned;$units_total+=$units_owned;?></span>		
 					</td>
 					<td>
 					<input class="unit_input" placeholder="Enter how many units you want to send to battle" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
@@ -428,7 +429,7 @@ get_header(); ?>
 					</tr>
 					<script type="text/javascript">
 						jQuery("#button<?php echo $key;?>").click(function() {
-						jQuery("#<?php echo $key;?>").val("<?php echo $units_owned[0];?>");
+						jQuery("#<?php echo $key;?>").val("<?php echo $units_owned;?>");
 						jQuery("#button").show();
 						jQuery("#message").hide();
 						});
@@ -487,12 +488,12 @@ get_header(); ?>
 				<?php
 					$units_total = 0;
 				foreach($units as $key => $unit){
-					$units_owned = get_user_meta($userId, $key.'_owned');
+					$units_owned = $userData[$key.'_owned'][0];
 					
 					if($unit['type'] == 'veh' || $unit['type'] == 'inf' and $unit['normalname'] != 'Thief' and $unit['normalname'] != 'Spy' and $unit['normalname'] != 'Sniper' and $unit['normalname'] != 'SR-71 Spyplane'){
-						$units_total+=$units_owned[0];
-					if($units_owned[0]>0){
-						$sendall[] = $units_owned[0];
+						$units_total+=$units_owned;
+					if($units_owned>0){
+						$sendall[] = $units_owned;
 					?>
 					<tr>
 					<td data-title="Name"><strong><?php echo $unit['normalname'];?></strong></td>
@@ -514,7 +515,7 @@ get_header(); ?>
 					
 					</td>
 					<td data-title="Owned">
-					<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned[0];$units_total+=$units_owned[0];?></span>		
+					<span class="allbutton" id="button<?php echo $key;?>"><?php echo $units_owned;$units_total+=$units_owned;?></span>		
 					</td>
 					<td>
 					<input min="0" class="unit_input" placeholder="Enter how many units you want to send to battle" type="text" id="<?php echo $key;?>" name="<?php echo $key;?>"/>
@@ -522,7 +523,7 @@ get_header(); ?>
 					</tr>
 					<script type="text/javascript">
 						jQuery("#button<?php echo $key;?>").click(function() {
-						jQuery("#<?php echo $key;?>").val("<?php echo $units_owned[0];?>");
+						jQuery("#<?php echo $key;?>").val("<?php echo $units_owned;?>");
 						
 						});
 					
@@ -580,9 +581,9 @@ get_header(); ?>
 			$units_total = 0;
 			foreach($units as $key => $unit){
 			if($unit['normalname'] == 'Spy' || $unit['normalname'] == 'SR-71 Spyplane'){
-					$spies_owned = get_user_meta($userId, $key.'_owned');
-					$units_total+=$spies_owned[0];
-					if($spies_owned[0]>0){
+					$spies_owned = $userData[$key.'_owned'][0];
+					$units_total+=$spies_owned;
+					if($spies_owned > 0){
 					?>
 					<tr>
 						<td data-title="Name">
@@ -595,7 +596,7 @@ get_header(); ?>
 							n.a / <?php echo $unit['life'];?>		
 						</td>
 						<td data-title="Send">
-							<?php echo $spies_owned[0];?>		
+							<?php echo $spies_owned;?>		
 						</td>
 						<td>
 						<?php /*?><input name="sendspy" type="radio" name="<?php echo $key;?>" name="<?php echo $key;?>" value="<?php echo $key;?>"><?php */?>
@@ -647,7 +648,7 @@ get_header(); ?>
 			$units_total = 0;
 			foreach($units as $key => $unit){
 			if($unit['normalname'] == 'Saboteur'){
-					$saboteursOwned = get_user_meta($userId, $key.'_owned',true);
+					$saboteursOwned = $userData[$key.'_owned'][0];
 					$units_total+=$saboteursOwned;
 					if($saboteursOwned>0){
 					?>
@@ -680,7 +681,7 @@ get_header(); ?>
 				<?php }}}?>
 			</tbody>
 		</table><br/>
-		<?php if($units_total >0):?>
+		<?php if($units_total > 0):?>
 		<input type="submit" value="Next step" class="spy">
 		<?php endif;?>
 		</form>
@@ -716,9 +717,9 @@ get_header(); ?>
 			$owned = 0;
 			foreach($missiles as $key => $missile){
 					if($key != 'tomahawk'){
-					$missiles_owned = get_user_meta($userId, $key.'_owned');
-					$owned+=$missiles_owned[0];
-					if($missiles_owned[0]>0){
+					$missiles_owned = $userData[$key.'_owned'][0];
+					$owned+=$missiles_owned;
+					if($missiles_owned>0){
 					?>
 					<tr>
 						<td data-title="Name">
@@ -744,7 +745,7 @@ get_header(); ?>
 				
 						</td>
 						<td data-title="Owned">
-							<?php echo $missiles_owned[0];?>		
+							<?php echo $missiles_owned;?>		
 						</td>
 						<td>
 							
@@ -772,7 +773,7 @@ if($_SESSION['attacktype'] == 'satellite'):  ?>
 
 <?php 
 	include 'satellite_array.php';
-	$sat_owned = get_user_meta($userId, 'sat_owned', true);?>
+	$sat_owned = $userData['sat_owned'][0];?>
 			
 			
 <form class="form" action="<?php echo home_url() ?>/attack2.php" name="" id="attack2" method="post">

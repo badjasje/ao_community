@@ -19,12 +19,12 @@ if (get_field('game_status', 'option') == 'Live') {
     nocache_headers();
 
 /* initialize core variables */
-    $user_ID = get_current_user_id();
-    update_user_meta($user_ID, 'user_lock', 0);
+    $userId = get_current_user_id();
+    update_user_meta($userId, 'user_lock', 0);
     if (! defined('ABSPATH')) {
         exit;
     }
-    if (empty($user_ID)) {
+    if (empty($userId)) {
         wp_redirect(get_permalink(3582));
         exit;
     }
@@ -32,14 +32,14 @@ if (get_field('game_status', 'option') == 'Live') {
         wp_redirect(get_permalink(3582));
         exit;
     }
-    $user_data = get_user_meta($user_ID);
-    $clan_id = $user_data['clan_id_user'][0];
-    $turns = $user_data['turns'][0];
-    $morale = $user_data['morale'][0];
+    $userData = get_user_meta($userId);
+    $clan_id = $userData['clan_id_user'][0];
+    $turns = $userData['turns'][0];
+    $morale = $userData['morale'][0];
     $maintarget = $_POST['maintarget'];
 
 
-    $sat_morale = get_user_meta($user_ID, 'sat_morale', true);
+    $sat_morale = $userData['sat_morale'][0];
 
     $target_id = $_POST['target_id'];
     count_all_stats($target_id);
@@ -65,7 +65,7 @@ if (get_field('game_status', 'option') == 'Live') {
     }
 
 /* target cannot be yourself */
-    if ($target_id == $user_ID) {
+    if ($target_id == $userId) {
         $_SESSION['status'] = 'You cannot target yourself';
         wp_redirect(get_permalink(3360).'?id='.$target_id);
         exit;
@@ -102,7 +102,7 @@ if (get_field('game_status', 'option') == 'Live') {
     }
 
 /* determine war type and war points multiplier */
-    $attacker_clan_ID = $user_data['clan_id_user'][0];
+    $attacker_clan_ID = $userData['clan_id_user'][0];
     $defender_clan_ID = get_user_meta($target_id, 'clan_id_user')[0];
 
     $war_type = get_war_type($attacker_clan_ID, $defender_clan_ID);
@@ -110,7 +110,7 @@ if (get_field('game_status', 'option') == 'Live') {
 
 /* determine if target is in range */
     $attacktype = $_POST['attacktype'];
-    $networth_att = $user_data['networth'][0];
+    $networth_att = $userData['networth'][0];
     $networth_def = get_user_meta($target_id, 'networth')[0];
 
   
@@ -125,7 +125,7 @@ if (get_field('game_status', 'option') == 'Live') {
     }
 
 // Check if user is member of clan for 24h, if not, cannot attack out of range in mutual
-    $join_timestamp = get_user_meta($user_ID, 'clan_join_stamp', true);
+    $join_timestamp = $userData['clan_join_stamp'][0];
     $timestamp = current_time('timestamp');
     $in_range = target_in_range($attack_type, $networth_att, $networth_def, 'none');
 
@@ -161,7 +161,7 @@ if (get_field('game_status', 'option') == 'Live') {
     }
 
 /* check power */
-    $user_power = $user_data['power'][0];
+    $user_power = $userData['power'][0];
     if ($user_power > 100) {
         $_SESSION['status'] = 'You cannot attack with power offline';
         wp_redirect(get_permalink(3360).'?id='.$target_id);
