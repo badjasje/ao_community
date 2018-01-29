@@ -2,9 +2,11 @@
  /*
  * Template Name: Explore
  */
-$user_ID = get_current_user_ID();
-$ownedland = get_user_meta($user_ID, 'land');
-$freeland = $ownedland[0]-get_user_meta($user_ID, 'builtland')[0];
+$userId = get_current_user_ID();
+$userData = get_user_meta($userId);
+$ownedland = $userData['land'][0];
+$builtLand = $userData['builtland'][0];
+$freeland = $ownedland-$builtLand;
 
 $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'explore';
 
@@ -30,7 +32,7 @@ get_header(); ?>
 			<div class="notice_message">
 				<span class="rdw-line">You can currently explore <?php
 				
-				if(200-((ceil($ownedland[0]*0.002))) < 25){echo '25';}else{echo 200-((ceil($ownedland[0]*0.002)));} ?>
+				if(200-((ceil($ownedland*0.002))) < 25){echo '25';}else{echo 200-((ceil($ownedland*0.002)));} ?>
 				
 				m<sup>2</sup> per turn.</span>
 			</div>

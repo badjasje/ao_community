@@ -1,5 +1,5 @@
 <div class="spaceNotice">
-	Your empty warfactories allow you to build a maximum of <strong><?php echo ($vehspace[0]*10)-count_vehspace($userId);?></strong> vehicles.
+	Your empty warfactories allow you to build a maximum of <strong><?php echo ($vehspace*10)-count_vehspace($userId);?></strong> vehicles.
 </div>
 
 
@@ -16,8 +16,8 @@
 <?php // veh TABLE
 $totalveh = 0;
 foreach($units as $key => $order){
-$units_owned = get_user_meta($userId, $key.'_owned');
-$units_ordered = get_user_meta($userId, $key.'_ordered');
+$units_owned = $userData[$key.'_owned'][0];
+$units_ordered = $userData[$key.'_ordered'][0];
 $unittype = $units[$key]['type'];
 ?>
 <?php if($unittype == 'veh'):?>
@@ -37,8 +37,8 @@ $unittype = $units[$key]['type'];
 	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Owned (ordered)</span>
 		<span class="clan_data_right">
-			<?php echo $units_owned[0]; ?>
-			(<?php echo $units_ordered[0]; ?>)
+			<?php echo $units_owned; ?>
+			(<?php echo $units_ordered; ?>)
 		</span>
 
 	</div>
@@ -81,9 +81,9 @@ $unittype = $units[$key]['type'];
 	<div class="col-md-1 clan_column">
 		<span class="clan_data_left">Max</span>
 		<span class="clan_data_right">
-				<?php 	$max_money = floor($totalMoney[0]/($order['price']));
-						$max_turns = floor($totalturns[0]*10);
-						$max_space = ($vehspace[0]*10)-count_vehspace($userId);
+				<?php 	$max_money = floor($totalMoney/($order['price']));
+						$max_turns = floor($totalturns*10);
+						$max_space = ($vehspace*10)-count_vehspace($userId);
 								
 							
 						?>

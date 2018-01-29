@@ -6,29 +6,30 @@
 $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'air';
 
 
-$user_ID = get_current_user_id();
+$userId = get_current_user_id();
+$userData = get_user_meta($userId);
 include 'units_array.php';
 include 'count_functions.php';
-$airspace = get_user_meta($user_ID, 'airfield');
-$seaspace = get_user_meta($user_ID, 'shipyard');
-$vehspace = get_user_meta($user_ID, 'warfactory');
-$infspace = get_user_meta($user_ID, 'baracks');
-$totalmoney = get_user_meta($user_ID, 'money');
-$totalturns = get_user_meta($user_ID, 'turns');
+$airspace = $userData['airfield'][0];
+$seaspace = $userData['shipyard'][0];
+$vehspace = $userData['warfactory'][0];
+$infspace = $userData['baracks'][0];
+$totalmoney = $userData['money'][0];
+$totalturns = $userData['turns'][0];
 
-$spies = get_user_meta($user_ID, 'spy_owned',true);
-$spies_ordered = get_user_meta($user_ID, 'spy_ordered',true);
-$thiefs = get_user_meta($user_ID, 'thief_owned',true);
-$thiefs_ordered = get_user_meta($user_ID, 'thief_ordered',true);
-$planes = get_user_meta($user_ID, 'spyplane_owned',true);
-$planes_ordered = get_user_meta($user_ID, 'spyplane_ordered',true);
-$sniper = get_user_meta($user_ID, 'sniper_owned',true);
-$sniper_ordered = get_user_meta($user_ID, 'sniper_ordered',true);
+$spies = $userData['spy_owned'][0];
+$spies_ordered = $userData['spy_ordered'][0];
+$thiefs = $userData['thief_owned'][0];
+$thiefs_ordered = $userData['thief_ordered'][0];
+$planes = $userData['spyplane_owned'][0];
+$planes_ordered = $userData['spyplane_ordered'][0];
+$sniper = $userData['sniper_owned'][0];
+$sniper_ordered = $userData['sniper_ordered'][0];
 
-$commandcenter = get_user_meta($user_ID, 'command_centre',true);
+$commandcenter = $userData['command_centre'][0];
 $ccspace = ($commandcenter*5)-$spies-$thiefs-$planes-$spies_ordered-$thiefs_ordered-$planes_ordered-$sniper-$sniper_ordered;
 
-$totalMoney = get_user_meta($user_ID, 'money');
+$totalMoney = $userData['money'][0];
 get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">
