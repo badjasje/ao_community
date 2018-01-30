@@ -1211,10 +1211,11 @@ update_field('clan_points', $clan_points, $new_event_id);
 
 
 if($killed == true){
-			update_post_meta($new_event_id, 'status_defender', 'death');
-			update_user_meta($target_id,'status','dead');
-			after_death($target_id);
-			}
+	kill_event($user_id,$target_id,$result,$defend_clan_id,$attack_clan_id);
+	update_post_meta($new_event_id, 'status_defender', 'death');
+	update_user_meta($target_id,'status','dead');
+	after_death($target_id);
+}
 
 /* update defender land and trigger event */
 $event_count = $defenderData['new_events'][0];

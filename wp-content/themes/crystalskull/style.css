@@ -865,6 +865,7 @@ table{
 .attack-image{
 	width: 30px;
     display: inline-block;
+    filter:brightness(100);
 }
 .attack-type-image{
 	text-align:center;

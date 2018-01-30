@@ -468,6 +468,7 @@ $args = array(
 			update_field('attacktype',$_SESSION['attacktype'], $new_event_id);
 			update_field('outcome',$result, $new_event_id);
 			if($killed == true){
+			kill_event($user_ID,$defender_ID,$result,$defender_clan_ID,$attacker_clan_ID);
 			update_field('status_defender','death', $new_event_id);
 			update_field('attacktype','death', $new_event_id);
 			}

@@ -16,6 +16,7 @@ $filter_array = array(	'empsat',
 						'user_kicked',
 						'sat_crash',
 						'sniper',
+						'killed',
 						'spy');
 
 
@@ -977,6 +978,55 @@ $avatar = get_user_meta($userId, 'avatar_user', true);
 	</div>
 
 <?php endif; // End NP removal ?>
+
+
+
+
+
+
+
+<?php if($attack_type == 'killed'): ?>
+
+
+<!-- Event header -->
+<div style="background-color:#ad4236" class="row battlereport-header">
+	<div class="col-md-12">
+		<img class="attack-image" src="http://assault.online/wp-content/uploads/2016/03/death.png"> 
+		You were killed
+	</div>
+</div>
+<!-- Event header -->
+
+
+<div style="border-color:#ad4236;" class="row event-row">
+	
+<!-- Attacker image -->	
+	<div class="col-md-2">
+		<div class="row">
+			<div class="col-md-12">
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
+				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
+			</div>
+		</div>
+	</div>
+<!-- Attacker image -->		
+	
+	
+	<div class="col-md-10">
+			<div class="row">
+				<div class="col-md-12 event-message">
+				
+				You were killed by <?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>"><?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a>
+				
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
+
+<?php endif; // End NP removal ?>
+
 
 
 

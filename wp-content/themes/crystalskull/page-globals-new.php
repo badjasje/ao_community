@@ -55,6 +55,7 @@ $args = array(
            		'missile',
            		'war_declared',
            		'peace_declared',
+           		'killed',
            		'user_change'
            		),
            'compare' => 'IN'
@@ -1094,7 +1095,78 @@ $attack_type = $eventData['attacktype'][0];
 		</div>
 	</div>
 
-<?php endif; // End Declaration Event ?>
+<?php endif; // End user change Event ?>
+
+
+
+<?php if($attack_type == 'killed'): ?>
+<?php 	
+	$member_data = get_userdata($attacker_id);
+	$defender_data = get_userdata($defender_id);
+?>
+
+<!-- Event header -->
+<div style="background-color:#ad4236" class="row battlereport-header">
+	<div class="col-md-12">
+		<img class="attack-image" src="http://assault.online/wp-content/uploads/2016/03/death.png"> 
+			Player Killed
+	</div>
+</div>
+<!-- Event header -->
+
+
+<div style="border-color:#ad4236;" class="row event-row">
+	
+<!-- Attacker image -->	
+	<div class="col-md-2">
+		<div class="row">
+			<div class="col-md-12">
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
+				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
+			</div>
+		</div>
+	</div>
+<!-- Attacker image -->		
+	
+	
+	<div class="col-md-10">
+			<div class="row">
+				<div class="col-md-12 event-message">
+					
+					<?php if(in_array($attacker_id, $members[0])): // killed by clanmember ?>
+						
+						<!-- attacker -->
+						<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
+						<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> killed
+						
+						<!-- defender -->	
+						<?php echo clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
+						<?php echo $defender_data->display_name.' (#'.$defender_id.')';?></a> 
+	
+					<?php endif;?>
+					
+					
+					<?php if(in_array($defender_id, $members[0])): // clan member killed ?>
+						
+						
+						<?php echo clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
+						<?php echo $defender_data->display_name.' (#'.$defender_id.')';?></a> was killed by
+										
+										
+						<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
+						<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> 
+						
+					<?php endif;?>
+
+			
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
+
+<?php endif; // End kill Event ?>
 
                
 	            
