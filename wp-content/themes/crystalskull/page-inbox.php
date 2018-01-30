@@ -4,8 +4,8 @@
  */
 $activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'inbox';
 
-$user_ID = get_current_user_ID();
-update_user_meta($user_ID,'new_messages',0);
+$userId = get_current_user_ID();
+update_user_meta($userId,'new_messages',0);
 get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">
@@ -59,7 +59,7 @@ get_header(); ?>
 				'relation'		=> 'OR',
 					array(
 						'key'	 	=> 'receiver_id',
-						'value'	  	=> $user_ID,
+						'value'	  	=> $userId,
 						'compare' 	=> '=',
 						),
 					
@@ -80,10 +80,12 @@ get_header(); ?>
 						while ( $custom_query->have_posts() ) :
 						$custom_query->the_post();
 			$message_ID = get_the_id();
-			$parent_ID = get_post_meta($message_ID, 'parent_message_id',true);
 			$sender = get_userdata( get_the_author_meta('ID') );
-			$receiver_id = get_post_meta($message_ID, 'receiver_id',true);
-			$sender_id = get_post_meta($message_ID, 'receiver_id',true);		
+			
+			$messageData = get_post_meta($message_ID);
+			$parent_ID = $messageData['parent_message_id'][0];
+			
+			$receiver_id = $messageData['receiver_id'][0];	
 			$receiver = get_userdata( $receiver_id );	
 			?>
 			
@@ -122,7 +124,7 @@ get_header(); ?>
 			
 			<?php 
 						
-				if($receiver_id == $user_ID){
+				if($receiver_id == $userId){
 					if(!empty(get_post_meta($message_ID, 'receiver_status')[0])){
 						if(get_post_meta($message_ID, 'receiver_status')[0] == 'New'){
 							echo '<span style="color:#ff0000;">'.get_post_meta($message_ID, 'receiver_status')[0].'</span>';
@@ -194,7 +196,7 @@ get_header(); ?>
 				
 					array(
 						'key'	  	=> 'sender_id',
-						'value'	  	=> $user_ID,
+						'value'	  	=> $userId,
 						'compare' 	=> '=',
 						),
 						
