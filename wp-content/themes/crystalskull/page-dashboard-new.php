@@ -5,31 +5,37 @@
 
 include('startingbonus_array.php');
 
-$user_ID 					= get_current_user_ID();
-$pageID 					= get_the_id();
-$savedUsers 				= get_user_meta($user_ID, 'saved_users', true);
+$startingDate = get_field('starting_date','options');
+$endDate = get_field('end_date','options');
+
+
+$userId 					= get_current_user_ID();
+$pageId 					= get_the_id();
+$userData					= get_user_meta($userId);
+
+$savedUsers 				= $userData['saved_users'][0];
 $decodedSavedUsers          = json_decode($savedUsers);
 $savedUsers 				= is_array($decodedSavedUsers) ? $decodedSavedUsers : [];
-update_user_meta($user_ID, 'user_lock', 0);
-$new_events 				= get_user_meta($user_ID, 'new_events',true);
-$new_messages 				= get_user_meta($user_ID, 'new_messages',true);
-$user_status 				= get_user_meta($user_ID, 'status',true);
-$nuke_protection_timestamp 	= get_user_meta($user_ID,'nuke_protection_timestamp',true);
-$clan_ID 					= get_user_meta($user_ID, 'clan_id_user',true);
-$PtsRank 					= get_user_meta($user_ID, 'moh_position',true);
-$NwRank 					= get_user_meta($user_ID, 'mog_position',true);
-$PwrUsage 					= get_user_meta($user_ID, 'power',true);
-$AMS 						= get_user_meta($user_ID, 'antimissile', true);
-$def_land 					= get_user_meta($user_ID, 'builtland', true);
+update_user_meta($userId, 'user_lock', 0);
+$new_events 				= $userData['new_events'][0];
+$new_messages 				= $userData['new_messages'][0];
+$user_status 				= $userData['status'][0];
+$nuke_protection_timestamp 	= $userData['nuke_protection_timestamp'][0];
+$clan_ID 					= $userData['clan_id_user'][0];
+$PtsRank 					= $userData['moh_position'][0];
+$NwRank 					= $userData['mog_position'][0];
+$PwrUsage 					= $userData['power'][0];
+$AMS 						= $userData['antimissile'][0];
+$def_land 					= $userData['builtland'][0];
 
-$level_money_production 	= get_user_meta($user_ID, 'level_money_production',true);
-$sat_level 					= get_user_meta($user_ID, 'level_satellite_construction',true);
-$sat_morale 				= get_user_meta($user_ID, 'sat_morale',true);
+$level_money_production 	= $userData['level_money_production'][0];
+$sat_level 					= $userData['level_satellite_construction'][0];
+$sat_morale 				= $userData['sat_morale'][0];
 
-$morale 					= get_user_meta($user_ID, 'morale',true);
-$moralepool 				= get_user_meta($user_ID, 'morale_pool',true);
+$morale 					= $userData['morale'][0];
+$moralepool 				= $userData['morale_pool'][0];
 
-$startingbonus 				= get_user_meta($user_ID, 'starting_bonus',true);
+$startingbonus 				= $userData['starting_bonus'][0];
 $boni 						= array('offensive','defensive','finance','shipping');
 
 $finance_multi = 1;
@@ -40,7 +46,7 @@ if($startingbonus == 'finance'){
 
 /* Check for nightmode */
 
-$nightmode = get_user_meta($user_ID, 'nightmode', true);
+$nightmode = $userData['nightmode'][0];
 $regular = '';
 if($nightmode == 'regular'){
 	$regular = 'selected';
@@ -81,9 +87,9 @@ if ($level_money_production == 0){
 }
 
 if($user_status == 'dead'){
-    after_death($user_ID);
+    after_death($userId);
 }
-$user = get_userdata($user_ID); 
+$user = get_userdata($userId); 
 
 if($clan_ID == 0){
     $clans = get_posts(
@@ -104,7 +110,6 @@ if($clan_ID == 0){
         }
     }
 }
-
 get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">
@@ -122,7 +127,7 @@ get_header(); ?>
 
 
 
-<?php if(get_field('game_status','option') == 'Pause' && $user_ID != 1): // Check if game is live or not ?>
+<?php if(get_field('game_status','option') == 'Pause' && $userId != 1): // Check if game is live or not ?>
 			
 	<div class="notice_message">
 		<span class="rdw-line">The round has ended! Expect a new round on the 18th of january.</span>
@@ -141,7 +146,7 @@ get_header(); ?>
 				$timer_left = $nuke_protection_timestamp-$timestamp;								                                                                                                                        
 									                                                                                                                                
 				if($timeleft < 0){
-					update_user_meta($user_ID, 'status', 'online');
+					update_user_meta($userId, 'status', 'online');
 									}
 					$timeleft = date('H:i:s', $timeleft); ?>
 						
@@ -335,7 +340,7 @@ get_header(); ?>
        
 
 <?php $args = array(  
-		'author'        =>  $user_ID, 
+		'author'        =>  $userId, 
 		'numberposts'	=> -1,
 		'orderby'       =>  'post_date',
 		'post_type'		=>	'event_local',		
@@ -406,13 +411,13 @@ get_header(); ?>
 				$timer_left = $nuke_protection_timestamp-$timestamp;								                                                                                                                        
 									                                                                                                                                
 				if($timeleft < 0){
-					update_user_meta($user_ID, 'status', 'online');
+					update_user_meta($userId, 'status', 'online');
 									}
 					$timeleft = date('H:i:s', $timeleft); ?>
 						
 					Protection time left: <span id="countdown_time"></span>
 					<?php if($timer_left < 86400){?>
-						<a onclick="return confirm('Are you sure you want to remove protection?')" class="btn btn-danger" href="/remove_np.php/?user=<?php echo $user_ID;?>">
+						<a onclick="return confirm('Are you sure you want to remove protection?')" class="btn btn-danger" href="/remove_np.php/?user=<?php echo $userId;?>">
 						<i class="fa fa-trash-o fa-lg"></i> Remove Protection</a>
 					<?php }?>
 					
@@ -550,7 +555,7 @@ get_header(); ?>
 		<div class="row button_block">
 		
 			<div class="col-md-4 buttoncol">
-				<center><a class="btn btn-general profilebutton" href="/military-overview/?id=<?php echo $user_ID;?>">
+				<center><a class="btn btn-general profilebutton" href="/military-overview/?id=<?php echo $userId;?>">
 				<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Military overview</a></center>
 			</div>
 	
@@ -601,8 +606,8 @@ get_header(); ?>
 <div classs="row">	
 	<div class="col-md-12">
 		<div class="notice_message nostmessage">
-			Current round date: 13th of December - 13th of January 2018. 
-				<span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on the 13th of January 2018, at a random time." data-placement="right">
+			Current round date: <?php echo $startingDate;?> - <?php echo $endDate;?>
+				<span class="hover-tip"  data-toggle="tooltip" data-original-title="The round will end on <?php echo $endDate;?>, at a random time." data-placement="right">
 					<i class="fa fa-info-circle" aria-hidden="true"></i>
 				</span>
 		</div>
@@ -634,7 +639,7 @@ get_header(); ?>
 		 $args = array(
 			    'posts_per_page'   => 5,
 			    'meta_key'      => 'user_placed_id',
-			    'meta_value'    => $user_ID,
+			    'meta_value'    => $userId,
 			    'post_type'        => 'market_order',
 			    );
 				
@@ -653,7 +658,7 @@ get_header(); ?>
 			        $units_in_this_order = get_post_meta($order->ID,'amount_ordered',true);
 			        $order_type = get_post_meta($order->ID,'order_type',true);
 
-			        $user_ID = $order->post_author;
+			        $userId = $order->post_author;
 			        $delivery_time = get_post_meta($order->ID,'delivery_time',true);
 			        
 			    
@@ -728,7 +733,7 @@ get_header(); ?>
                     'relation'      => 'OR',
                         array(
                             'key'       => 'receiver_id',
-                            'value'     => $user_ID,
+                            'value'     => $userId,
                             'compare'   => '=',
                             ),
 						                                                                                                                        
@@ -782,7 +787,7 @@ get_header(); ?>
 					<div class="col-md-4">
 						<span class="clan_data_left">From</span>
 						<span class="clan_data_right ellipsedColumn">
-						<?php if($sender->ID == $user_ID){
+						<?php if($sender->ID == $userId){
 							echo 'Sent by you';}else{?>
 							<a href="/users/profile/?id=<?php echo $sender->ID;?>">
 								<?php echo $sender->display_name.' (#'.$sender->ID.')';?>
@@ -828,11 +833,11 @@ get_header(); ?>
 				
 				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moe_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moe_position'][0];?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moe_next', true);?> m<sup>2</sup></div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moe_next'][0];?> m<sup>2</sup></div>
 			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moe_prev', true);?> m<sup>2</sup></div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moe_prev'][0];?> m<sup>2</sup></div>
 		</div>
 	</div>
 	
@@ -845,11 +850,11 @@ get_header(); ?>
 				
 				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moh_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moh_position'][0];?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moh_next', true);?> pts</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moh_next'][0];?> pts</div>
 			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moh_prev', true);?> pts</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moh_prev'][0];?> pts</div>
 		</div>
 	</div>
 	
@@ -862,11 +867,11 @@ get_header(); ?>
 					
 				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'mog_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['mog_position'][0];?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
-			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'mog_next', true), 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($userData['mog_next'][0], 0, ',', ' ');?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
-			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'mog_prev', true), 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($userData['mog_prev'][0], 0, ',', ' ');?></div>
 		</div>
 	</div>
 </div>
@@ -882,11 +887,11 @@ get_header(); ?>
 					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
 				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moc_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moc_position'][0];?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moc_next', true);?> attacks</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moc_next'][0];?> attacks</div>
 			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'moc_prev', true);?> attacks</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moc_prev'][0];?> attacks</div>
 		</div>
 	</div>
 	
@@ -898,11 +903,11 @@ get_header(); ?>
 				<i class="fa fa-info-circle" aria-hidden="true"></i></span>
 				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'mod_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['mod_position'][0];?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'mod_next', true);?> kills</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['mod_next'][0];?> kills</div>
 			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'mod_prev', true);?> kills</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['mod_prev'][0];?> kills</div>
 		</div>
 	</div>
 	
@@ -914,11 +919,11 @@ get_header(); ?>
 					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
 				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'mot_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['mot_position'][0];?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
-			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'mot_next', true), 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($userData['mot_next'][0], 0, ',', ' ');?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
-			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'mot_prev', true), 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($userData['mot_prev'][0], 0, ',', ' ');?></div>
 		</div>
 	</div>
 </div>
@@ -933,11 +938,11 @@ get_header(); ?>
 					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
 				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'modes_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['modes_position'][0];?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
-			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'modes_next', true), 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($userData['modes_next'][0], 0, ',', ' ');?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
-			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'modes_prev', true), 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($userData['modes_prev'][0], 0, ',', ' ');?></div>
 		</div>
 	</div>
 
@@ -949,9 +954,9 @@ get_header(); ?>
 					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
 				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo get_user_meta($user_ID, 'modev_position', true);?></div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['modev_position'][0];?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Networth damage:</div>
-			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format(get_user_meta($user_ID, 'modev_damage', true), 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($userData['modev_damage'][0],0, ',', ' ');?></div>
 			<div class="col-md-6 col-xs-6 medal_row"></div>
 			<div class="col-md-6 col-xs-6 medal_row"></div>
 		</div>
@@ -1034,7 +1039,7 @@ get_header(); ?>
 					<div class="col-md-12">
 						<a href="<?php echo get_the_permalink($post->ID);?>">
 							<?php echo get_user_name($user);?>
-							<a href="/remove.php/?id=<?php echo $user;?>&return=<?php echo $pageID;?>">
+							<a href="/remove.php/?id=<?php echo $user;?>&return=<?php echo $pageId;?>">
 								<i class="fa fa-trash-o" aria-hidden="true"></i></a>
 						</a>
 					</div>
@@ -1130,10 +1135,10 @@ setInterval(updateETime, 1000 );
 </script>	       
 <?php endif;?>
        
-    <?php if(get_user_meta($user_ID, 'first_visit', true) == 0):?>
+    <?php if($userData['first_visit'][0] == 0):?>
 
     <?php endif;?>
-<?php //update_user_meta($user_id, 'first_visit', 1);?>
+<?php //update_user_meta($userId, 'first_visit', 1);?>
 
             </div> <!-- // End main col-lg-12 col-md-12 wrapper -->
         </div> <!-- // End main row -->
