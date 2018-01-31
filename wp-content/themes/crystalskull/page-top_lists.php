@@ -2,7 +2,12 @@
 /*
 * Template Name: Top lists
 */
-get_header();
+	if(!is_user_logged_in()){
+		get_header('loginhome');
+	}else{
+		get_header();
+	}
+	
 
 $activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'provicenw';
 
