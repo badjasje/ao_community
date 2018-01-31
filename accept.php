@@ -34,9 +34,9 @@ $timestamp = current_time('timestamp');
 $endDate = get_field('end_date','option');
 $endStamp = strtotime($endDate);
 $timeLeft = $endStamp-$timestamp;
-$marketClose = $timeLeft - 86400;
-if($timeLeft<86400){
-	$_SESSION['status'] = 'Cannot join a clan the last 24 hours of a round';
+$marketClose = $timeLeft - 172800;
+if($timeLeft<172800){
+	$_SESSION['status'] = 'Cannot join a clan the last 48 hours of a round';
 	wp_redirect(get_permalink(3601)); exit;
 }
 
