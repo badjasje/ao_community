@@ -9,7 +9,9 @@
 
     
 		if(!is_user_logged_in()){
+			$_SESSION['status'] = 'Log in or register to view this page.';
 	    	wp_redirect(get_permalink(3491));
+	    	exit;
     	}
     
     ban_redirect($user_ID);

@@ -7,7 +7,9 @@ get_header('loginhome'); ?>
      <div class="container containerNZ">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-			
+			<?php if(!empty($_SESSION['status'])):?>
+				<?php echo alert_notification($_SESSION['status']);?>
+			<?php endif; // End empty status check ?>
 			
 				<div class="row loginHome">
 					<div class="col-md-4 homeColumn">
@@ -65,4 +67,5 @@ No downloads required
         </div>
     </div>
 </div>
+<?php session_unset(); ?>
 <?php get_footer(); ?>
