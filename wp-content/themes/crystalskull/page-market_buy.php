@@ -46,7 +46,7 @@ $discount = 1.0;
 if($discountLevel == 1){
 	$discount = $discount - 0.15;
 } elseif($discountLevel >= 2){
-	$discount = $discount - 0.4;
+	$discount = $discount - 0.3;
 }
 $startingBonus = $userData['starting_bonus'][0];
 if($startingBonus == 'shipping'){
