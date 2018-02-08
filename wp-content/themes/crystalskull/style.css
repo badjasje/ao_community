@@ -1777,10 +1777,13 @@ color: #2c90c6 !important;
 	margin-top:10px;
 	width:100%;
 }
-@media (max-width: 768px) {
+
+@media (max-width: 990px) {
 	.navbar-collapse{
 		display: none;
 	}
+}
+@media (max-width: 768px) {
 	.satbutton{
 		background-color:#ddd;
 		color:#696969;

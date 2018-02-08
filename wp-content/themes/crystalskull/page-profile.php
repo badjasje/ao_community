@@ -56,7 +56,7 @@ $CT_CL_array = array($ct_1,$ct_2,$ct_3,$ct_4,$cl_1);
 
 
 $members = $visitorClanData['clan_members'][0];
-get_header('profile'); ?>
+get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

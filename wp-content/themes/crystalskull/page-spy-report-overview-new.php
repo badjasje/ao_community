@@ -27,7 +27,7 @@ $clans = get_posts($args);
 include('units_array.php');
 
 
-get_header('spyoverview'); ?>
+get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

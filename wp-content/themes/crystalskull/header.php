@@ -4,9 +4,11 @@
 
     <meta charset="<?php bloginfo( 'charset' ); ?>">
 	<?php
-		$user_ID = get_current_user_ID();
-		ban_redirect($user_ID);
-		echo desktop_view($user_ID);
+		$userId = get_current_user_ID();
+		$pageId = get_the_id();
+
+		ban_redirect($userId);
+		echo desktop_view($userId);
 		
 		if(!is_user_logged_in()){
 			$_SESSION['status'] = 'Log in or register to view this page.';
@@ -14,7 +16,7 @@
 	    	exit;
     	}
 
-$userData = get_user_meta($user_ID);
+$userData = get_user_meta($userId);
 $new_events 				= 	$userData['new_events'][0];
 $new_global_events 			= 	$userData['new_global_events'][0];
 $new_messages 				= 	$userData['new_messages'][0];
@@ -33,9 +35,9 @@ $land 						= 	$userData['land'][0];
 
 if($user_status == 'dead'){
 	
-	after_death($user_ID);
+	after_death($userId);
 }
-$user = get_userdata($user_ID);
+$user = get_userdata($userId);
 	?>
 
     <?php include_once 'css/colours.css.php'; ?>
@@ -79,7 +81,7 @@ $user = get_userdata($user_ID);
 				<a class="brand" href="<?php  echo esc_url(site_url('/dashboard')); ?>"> 
 					<img src="<?php echo esc_url(of_get_option('logo')); ?>" alt="logo"  /> 
 				</a>
-			<?php echo header_events($user_ID);?>
+			<?php echo header_events($userId);?>
 		</div>
 			 
 
@@ -98,45 +100,7 @@ $user = get_userdata($user_ID);
 <div class="title_wrapper container">
 
 	<div class="col-lg-12">
-
-		<?php if (is_single() && (get_post_type($post->ID) == 'post')) {
-				$categories = wp_get_post_categories($post->ID);
-				echo "<div class='cat-single'>";
-			
-				foreach ($categories as $category) { ?>
-					<?php $cat_data = get_option("category_$category"); ?>
-					<a href="<?php echo esc_url(get_category_link($category)); ?>" class="ncategory" style="background-color: <?php echo esc_attr($cat_data['catBG']); ?> !important">
-						<?php echo esc_attr(get_cat_name($category)); ?>
-					</a>
-				<?php } echo "</div>"; } ?>
-				
-				
-				<h1><?php the_title(); ?>
-					<?php if (is_page(3486)): ?>
-						<a href="/users/profile/?id=<?php echo $user->ID; ?>">
-							<?php echo $user->display_name . ' (#' . $user->ID; ?>)
-						</a>
-						
-						<div style='position: relative;vertical-align: middle;display: inline-block;'>
-							<?php echo small_avatar($user->ID,'');?>
-						</div>
-						
-					<?php endif; ?>
-
-					<?php if (is_page(3520)): $user__ID = $_GET['id'];
-						$user = get_userdata($user__ID);
-						$last_online = $userData['last_online'][0];
-						if (!empty($last_online)) {
-							$timestamp = current_time('timestamp');
-							$last_seen = $timestamp - $last_online;
-						} ?><?php echo $user->display_name; ?> (#<?php echo $user__ID; ?>) <?php
-						if (!empty($last_online)) {
-							if ($last_seen < 7200 && !empty($last_online)) {
-								echo ' <span style="color:#ff0000">*</span>';
-							}
-						} ?>
-					<?php endif; ?>
-				</h1>
+		<h1><?php echo do_header_title($pageId,$userId);?></h1>
 	</div>
 	<div class="col-lg-12 breadcrumbs" style="float:left;margin-top: 0;"><strong><?php crystalskull_breadcrumbs(); ?></strong></div>
 	<div class="clear"></div>

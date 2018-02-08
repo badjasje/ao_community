@@ -27,7 +27,32 @@ function ban_redirect($userId){
 	    exit;
     }
 }
-
+function do_header_title($pageId, $userId) {
+	//Check if Dashboard
+	if($pageId == 3486){		
+		return get_the_title().' <a href="/users/profile/?id=<?php echo $user->ID; ?>">'.get_user_name($userId). '
+				<div style="position: relative;vertical-align: middle;display: inline-block;">'.small_avatar($userId,'').'</div>';
+	}
+	//Check if Profile page
+	elseif($pageId == 3520){
+		$userId = $_GET['id'];		
+		return get_the_title().' <a href="/users/profile/?id=<?php echo $user->ID; ?>">'.get_user_name($userId);
+	}
+	//Check if Spy report
+	elseif($pageId == 47273){
+		$userId = $_GET['id'];		
+		return 'Spy reports for <a href="/users/profile/?id=<?php echo $user->ID; ?>">'.get_user_name($userId);
+	}
+	//Check if Spy report overview clan
+	elseif($pageId == 95464){
+		$clanId = $_GET['id']; 
+		return 'Overview '.get_the_title($clanId).' (#'.$clanId.')';
+	}
+	//Return regular page title
+	else{
+		return get_the_title();
+	}
+}
 function do_thief($level, $thieves, $snipers, $defender_money) {
 	
 	//Set thief_multiplier based on number sent. The higher the multiplier, the lower the success chance but higher the money stolen
@@ -1407,6 +1432,9 @@ function create_post_type() {
       ),
       'public' => true,
       'has_archive' => true,
+      'show_in_rest'       => true,
+      'rest_base'          => 'event_local',
+	  'rest_controller_class' => 'WP_REST_Posts_Controller',
       'supports'    => array( 'title', 'editor', 'author', 'excerpt' ),
     ));
     register_post_type( 'clan',array(
@@ -1722,7 +1750,7 @@ include('building_array.php');
 include('research_array.php');
 include('constants.php');
 include('satellite_array.php');
-
+$currentWeather = get_field('weather','options');
 /* calculate unit NW */
 $unit_networth = 0;
 foreach($units as $key => $unit){
@@ -1754,7 +1782,10 @@ $PPE_multi = 1;
 	if($PPE_level == 1){
 		$PPE_multi = 1.5;
 		}
-
+$weatherReduction = 1;
+if($currentWeather == 'thunderstorm'){
+	$weatherReduction = 0.9;
+}
 /* calculate building NW */
 foreach($buildings as $key => $building){
 	$buildings_owned = $userData[$key][0];
@@ -1762,7 +1793,7 @@ foreach($buildings as $key => $building){
 		if($buildings_owned > 0){
 			$totalbuildings+=$buildings_owned;
 			$building_networth+= $buildings_owned*$building['price']*($building['networth']/100);
-			$power_production+=$building['powerprod']*$buildings_owned;
+			$power_production+=$building['powerprod']*$weatherReduction*$buildings_owned;
 			$used_power+=$building['power']*$buildings_owned;
 			}
 	} // End calculate building NW
@@ -1831,15 +1862,15 @@ foreach ($emps as $emp) {
 
 
 if($power_production > 0){
-		update_user_meta( $user_ID,'power',$used_power/($power_production*$PPE_multi)*100);
+		update_user_meta( $user_ID,'power',$used_power/($power_production*$PPE_multi)*100+$empReduction);
 		}
 	else{
-		update_user_meta( $user_ID,'power',$used_power*100);
+		update_user_meta( $user_ID,'power',$used_power*100+$empReduction);
 	}
 
 
 $power = $userData['power'][0];
-update_user_meta($user_ID,'power',$power+$empReduction);
+//update_user_meta($user_ID,'power',$power+$empReduction);
 
 if($status == 'online'){
 

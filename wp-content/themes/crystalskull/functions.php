@@ -11,7 +11,6 @@ require_once (get_template_directory() . '/widgets/latest_comments/latest_commen
 require_once (get_template_directory() . '/addons/smartmetabox/SmartMetaBox.php');
 require_once (get_template_directory() . '/addons/wp-owl-carousel/wp_owl_carousel.php');
 require_once (get_template_directory() . '/post_templates.php');
-require_once (get_template_directory() . '/vc.php');
 require_once (get_template_directory() . '/pluginactivation.php');
 require_once ( ABSPATH . 'wp-admin/includes/plugin.php' );
 if(!is_admin()){
@@ -641,8 +640,26 @@ function crystalskull_fonts() {
 function crystalskull_external_styles(){
   wp_register_style( 'custom-style1',  get_template_directory_uri().'/css/jquery.fancybox.css',  array(), '20150401');
   wp_enqueue_style( 'custom-style1' );
+  
   wp_register_style( 'custom-style2',  get_template_directory_uri().'/css/jquery.bxslider.css',  array(), '20150401');
   wp_enqueue_style( 'custom-style2' );
+  
+  wp_register_style( 'custom-style3',  get_template_directory_uri().'/css/weather-icons-wind.css',  array(), '20150401');
+  wp_enqueue_style( 'custom-style3' );
+  
+  wp_register_style( 'custom-style4',  get_template_directory_uri().'/css/weather-icons-wind.min.css',  array(), '20150401');
+  wp_enqueue_style( 'custom-style4' );
+  
+  wp_register_style( 'custom-style5',  get_template_directory_uri().'/css/weather-icons-wind.min.css',  array(), '20150401');
+  wp_enqueue_style( 'custom-style5' );
+  
+  wp_register_style( 'custom-style6',  get_template_directory_uri().'/css/weather-icons.min.css',  array(), '20150401');
+  wp_enqueue_style( 'custom-style6' );
+  
+  wp_register_style( 'custom-style7',  get_template_directory_uri().'/css/weather-icons.css',  array(), '20150401');
+  wp_enqueue_style( 'custom-style7' );
+  
+  
   wp_register_style( 'animatecss',  get_template_directory_uri().'/css/animate.css',  array(), '20150401');
   wp_enqueue_style( 'animatecss' );
   wp_enqueue_style('owl-style', get_template_directory_uri().'/addons/wp-owl-carousel/owl-carousel/owl.carousel.css');
