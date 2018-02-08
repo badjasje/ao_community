@@ -2,11 +2,11 @@
  /*
  * Template Name: Buildings
  */
+get_header(); 
 $activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'inbox';
-
 $userId = get_current_user_ID();
 update_user_meta($userId,'new_messages',0);
-get_header(); ?>
+?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

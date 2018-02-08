@@ -1,3 +1,8 @@
+<?php
+	if(is_user_logged_in()){
+	    wp_redirect(get_site_url().'/dashboard/');
+	    exit;
+}?>
 <!DOCTYPE html>
 <html  <?php language_attributes(); ?>>
     <head>
@@ -31,7 +36,7 @@
 		
 		<div class="navbar navbar-inverse navbar-static-top container" role="navigation">
        		<div class="logo col-lg-3 col-md-3">
-            		<a class="brand" href="<?php  echo esc_url(site_url('/')); ?>"> 
+            		<a class="brand" href="<?php  echo esc_url(site_url('/home/')); ?>"> 
 	            		<img src="<?php echo esc_url(of_get_option('logo')); ?>" alt="logo"  /> 
 	            	</a>
           	</div>

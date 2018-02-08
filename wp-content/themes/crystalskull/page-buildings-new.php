@@ -2,10 +2,13 @@
 /*
 * Template Name: Buildings NEW DESIGN
 */
+get_header(); 
 $user_ID   = get_current_user_id();
 $userData = get_user_meta($user_ID);
 $activeTab = sanitize_text_field($_GET['tab']);
 $PwrUsage = $userData['power'][0];
+$currentWeather = get_field('weather','options');
+
 include 'building_array.php';
 include 'units_array.php';
 
@@ -52,7 +55,7 @@ foreach ($units as $key => $order) {
 		$totalveh += $units_ordered + $units_owned;
 	}
 }
-get_header(); ?>
+?>
     <div class="page normal-page">
     <div class="container containerNZ">
         <div class="row">
@@ -95,6 +98,7 @@ get_header(); ?>
 			<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 		<?php endif;?>
 		Power usage: <?php echo number_format($PwrUsage, 0, ',', ' ');?>% 
+		<?php if($currentWeather == 'thunderstorm'):?><sup>Power production reduced by weather conditions</sup><?php endif;?>
 	</span>
 	</div>
 

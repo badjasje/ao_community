@@ -2,12 +2,13 @@
  /*
  * Template Name: Dashboard new
  */
-
+get_header(); 
 include('startingbonus_array.php');
+include('weather_array.php');
 
 $startingDate = get_field('starting_date','options');
 $endDate = get_field('end_date','options');
-
+$currentWeather = get_field('weather','options');
 
 $userId 					= get_current_user_ID();
 $pageId 					= get_the_id();
@@ -110,7 +111,7 @@ if($clan_ID == 0){
         }
     }
 }
-get_header(); ?>
+?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">
@@ -200,8 +201,19 @@ get_header(); ?>
 					
 					</div>
 				</div>
-				
-				<div class="row profile_row_last">
+				<div class="row profile_row">
+					<div class="col-xs-6"><strong>Weather</strong></div>
+					<div class="col-xs-6">
+						<span 	class="hover-tip"  
+								data-toggle="tooltip" 
+								data-original-title="<?php echo $weather[$currentWeather]['effect'];?>" 
+								data-placement="right">
+							<i class="fa fa-info-circle" aria-hidden="true"></i>
+						</span>
+						<?php echo $weather[$currentWeather]['name'];?>					
+					</div>
+				</div>
+				<div class="row profile_row">
 					<div class="col-xs-6"><strong>Color scheme</strong></div>
 					<div class="col-xs-6">
 						<div style="padding-bottom: 4px;">
@@ -219,8 +231,6 @@ get_header(); ?>
 						</div>
 					</div>
 				</div>
-
-				
 			</div>
 		</div>
 	
@@ -470,7 +480,18 @@ get_header(); ?>
 					
 					</div>
 				</div>
-				
+				<div class="row profile_row">
+					<div class="col-xs-6"><strong>Weather</strong></div>
+					<div class="col-xs-6">
+						<span 	class="hover-tip"  
+								data-toggle="tooltip" 
+								data-original-title="<?php echo $weather[$currentWeather]['effect'];?>" 
+								data-placement="right">
+							<i class="fa fa-info-circle" aria-hidden="true"></i>
+						</span>
+						<?php echo $weather[$currentWeather]['name'];?>					
+					</div>
+				</div>
 				<div class="row profile_row_last">
 					<div class="col-xs-6"><strong>Color scheme</strong></div>
 					<div class="col-xs-6">
@@ -489,6 +510,7 @@ get_header(); ?>
 						</div>
 					</div>
 				</div>
+			
 
 				
 			</div>

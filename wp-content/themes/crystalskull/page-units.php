@@ -2,7 +2,7 @@
  /*
  * Template Name: Units
  */
-
+get_header(); 
 $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'air';
 
 
@@ -30,7 +30,7 @@ $commandcenter = $userData['command_centre'][0];
 $ccspace = ($commandcenter*5)-$spies-$thiefs-$planes-$spies_ordered-$thiefs_ordered-$planes_ordered-$sniper-$sniper_ordered;
 
 $totalMoney = $userData['money'][0];
-get_header(); ?>
+?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

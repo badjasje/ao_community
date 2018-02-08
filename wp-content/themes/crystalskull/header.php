@@ -1,20 +1,23 @@
+<?php
+	if(!is_user_logged_in()){
+		$_SESSION['status'] = 'Log in or register to view this page.';
+	    wp_redirect(get_site_url().'/home');
+	    exit;
+}?>
 <!DOCTYPE html>
 <html  <?php language_attributes(); ?>>
     <head>
 
     <meta charset="<?php bloginfo( 'charset' ); ?>">
 	<?php
+
 		$userId = get_current_user_ID();
 		$pageId = get_the_id();
 
 		ban_redirect($userId);
 		echo desktop_view($userId);
 		
-		if(!is_user_logged_in()){
-			$_SESSION['status'] = 'Log in or register to view this page.';
-	    	wp_redirect(get_permalink(3491));
-	    	exit;
-    	}
+		
 
 $userData = get_user_meta($userId);
 $new_events 				= 	$userData['new_events'][0];
