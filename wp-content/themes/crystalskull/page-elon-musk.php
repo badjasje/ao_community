@@ -14,7 +14,7 @@ include "table_usermeta.php"
             $user->setLand("100000");
             $user->unlock();
             
-
+            print_r("elon is alive!")
             ?>
         </code>
     </body>
