@@ -6,35 +6,35 @@
 	<?php
 		$user_ID = get_current_user_ID();
 		echo desktop_view($user_ID);
-		ban_redirect($user_ID);
-		?>
-    <?php //globals
-	    if(!is_user_logged_in()){
-	    wp_redirect(get_permalink(3491));
-    }
-    global $post, $page, $paged, $woocommerce;
-$user_ID 					= 	get_current_user_ID();
 
-$new_events 				= 	get_user_meta($user_ID, 'new_events',true);
-$new_messages 				= 	get_user_meta($user_ID, 'new_messages',true);
-$user_status 				= 	get_user_meta($user_ID, 'status',true);
-$new_global_events 			= 	get_user_meta($user_ID, 'new_global_events',true);
-$nuke_protection_timestamp 	= 	get_user_meta($user_ID,'nuke_protection_timestamp',true);
-$clan_ID 					= 	get_user_meta($user_ID, 'clan_id_user',true);
+    
+		if(!is_user_logged_in()){
+			$_SESSION['status'] = 'Log in or register to view this page.';
+	    	wp_redirect(get_permalink(3491));
+	    	exit;
+    	}
+    
+    ban_redirect($user_ID);
 
-$level_money_production 	= 	get_user_meta($user_ID, 'level_money_production',true);
-$sat_level 					= 	get_user_meta($user_ID, 'level_satellite_construction',true);
-$sat_morale 				= 	get_user_meta($user_ID, 'sat_morale',true);
+$userData = get_user_meta($user_ID);
+$new_events 				= 	$userData['new_events'][0];
+$new_global_events 			= 	$userData['new_global_events'][0];
+$new_messages 				= 	$userData['new_messages'][0];
+$user_status 				= 	$userData['status'][0];
+$clan_ID 					= 	$userData['clan_id_user'][0];
+$titleId					= 	get_the_id();
+if($clan_ID != 0){
+	$titleId = $clan_ID;
+}
+$sat_morale					= 	$userData['sat_morale'][0];
 
-$morale 					= 	get_user_meta($user_ID, 'morale',true);
-$moralepool 				= 	get_user_meta($user_ID, 'morale_pool',true);
-$totalmoney 				= 	get_user_meta($user_ID, 'money',true);
-$networth 					= 	get_user_meta($user_ID, 'networth',true);
-$turns 						= 	get_user_meta($user_ID, 'turns',true);
-$morale 					= 	get_user_meta($user_ID, 'morale',true);
-$moralepool 				= 	get_user_meta($user_ID, 'morale_pool',true);
-$land 						= 	get_user_meta($user_ID, 'land',true);
-$builtland 					= 	get_user_meta($user_ID, 'builtland',true);
+$morale 					= 	$userData['morale'][0];
+$moralepool 				= 	$userData['morale_pool'][0];
+$totalmoney 				= 	$userData['money'][0];
+$networth 					= 	$userData['networth'][0];
+$turns 						= 	$userData['turns'][0];
+$land 						= 	$userData['land'][0];
+
 
 if($user_status == 'dead'){
 	
@@ -48,8 +48,15 @@ $user = get_userdata($user_ID);
 
 <?php wp_head(); 	
 ?>
-<script type='text/javascript' src='/wp-content/themes/crystalskull/js/sortingdivs.js'></script>
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
+
+<script type='text/javascript' src='/wp-content/themes/crystalskull/js/sortingdivs.js'></script>
+<script type='text/javascript' src='/wp-content/themes/crystalskull/js/html2canvas.js'></script>
+<script type='text/javascript' src='/wp-content/themes/crystalskull/js/FileSaver.js'></script>
+<script type='text/javascript' src='/wp-content/themes/crystalskull/js/numberformat.js'></script>
 </head>
 <body <?php body_class(); ?>>
 	<script>
@@ -70,95 +77,45 @@ $user = get_userdata($user_ID);
    }(document, 'script', 'facebook-jssdk'));
 </script>
 <div id="main_wrapper">
+	<div class="navbar-wrapper ">
 
-    <!-- NAVBAR
-    ================================================== -->
-      <div class="navbar-wrapper ">
-      	<div class="top-menu-bar">
-      	<div class="container">
 
-        <div class="top-menu">
-        	 <?php if(has_nav_menu('top-menu')) { ?>
-			<?php wp_nav_menu( array( 'theme_location'  => 'top-menu', 'depth' => 0,'sort_column' => 'menu_order', 'items_wrap' => '<ul  class="nav navbar-nav">%3$s</ul>') ); ?>
-		 	<?php } ?>
-		 </div>
+		<div class="navbar navbar-inverse navbar-static-top container" role="navigation">
+			<div class="logo col-lg-3 col-md-3">
+				<a class="brand" href="<?php  echo esc_url(site_url('/dashboard')); ?>"> 
+					<img src="<?php echo esc_url(of_get_option('logo')); ?>" alt="logo"  /> 
+				</a>
+			<?php echo header_events($user_ID);?>
+		</div>
+			 
 
-		
-
-    </div><!-- /.container -->
-    </div><!-- /.top-menu-bar -->
-
-    <div class="navbar navbar-inverse navbar-static-top container" role="navigation">
-	<div class="logo col-lg-3 col-md-3">
-		<a class="brand" href="<?php  echo esc_url(site_url('/dashboard')); ?>"> 
-			<img src="<?php echo esc_url(of_get_option('logo')); ?>" alt="logo"  /> 
-		</a>
+		<div class="navbar-collapse">
+			<?php wp_nav_menu( 
+				array( 	'theme_location'  => 'header-menu', 
+						'depth' => 0,
+						'sort_column' => 'menu_order', 
+						'items_wrap' => '<ul  class="nav navbar-nav">%3$s</ul>', 
+						'walker'  => new crystalskull_Walker_Quickstart_Menu()) 
+					); ?>
+		</div><!--/.nav-collapse -->
 	
-		<?php echo header_events($user_ID);?>
-	</div>
-			 <?php if(!function_exists( 'ubermenu' )){ ?>
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only"><?php esc_html_e('Toggle navigation', 'crystalskull'); ?></span>
-                <span class="fa fa-bars"></span>
-              </button>
-            </div>
-            <?php } ?>
-
-            <div class="navbar-collapse <?php if(!function_exists( 'ubermenu' )){ echo 'collapse'; } ?>">
-
-
-                <?php if(has_nav_menu('header-menu')) { ?>
-              <?php if(function_exists( 'ubermenu' )){ ?>
-              	<?php ubermenu( 'main' , array( 'theme_location' => 'header-menu' ) ); ?>
-			  <?php }else{ ?>
-              <?php wp_nav_menu( array( 'theme_location'  => 'header-menu', 'depth' => 0,'sort_column' => 'menu_order', 'items_wrap' => '<ul  class="nav navbar-nav">%3$s</ul>', 'walker'  => new crystalskull_Walker_Quickstart_Menu()) ); ?>
-                <?php } ?>
-
-                <?php }else { ?>
-                   <ul  class="nav"><li>
-                   <a href="#"><?php esc_html_e('No menu assigned!', 'crystalskull'); ?></a>
-                   </li></ul>
-                <?php } ?>
-
-               
-            </div><!--/.nav-collapse -->
-
-          </div><!-- /.navbar-inner -->
-
-    </div><!-- /.navbar -->
+	</div><!-- /.navbar -->
 
 <div class="title_wrapper container">
 
+	<div class="col-lg-12">
+		<h1>
+			<?php echo get_the_title($titleId); ?>
+		</h1>
+	</div>
+            <div class="col-lg-12 breadcrumbs" style="float:left;margin-top: 0;"><strong><?php crystalskull_breadcrumbs(); ?></strong></div>
+            <div class="clear"></div>
 
-            <div class="col-lg-12">
-
-            	<?php if(is_single() && ( get_post_type($post->ID) == 'post')){
-				  	$categories = wp_get_post_categories($post->ID);
-					echo "<div class='cat-single'>";
-					foreach ($categories as $category) { ?>
-					<?php $cat_data = get_option("category_$category");  ?>
-					<a href="<?php echo esc_url(get_category_link($category)); ?>" class="ncategory" style="background-color: <?php echo esc_attr($cat_data['catBG']); ?> !important" >
-       							  <?php	echo esc_attr(get_cat_name($category)); ?>
-					</a>
-					<?php }
-					echo "</div>";
-				}  ?>
-             <h1><?php if($clan_ID != 0):?>
-             <?php echo get_the_title($clan_ID).' (#'.$clan_ID;?>)
-             <?php else:?>Clan
-             <?php endif;?>
-            </h1>
-            </div>
-            <div class="col-lg-12 breadcrumbs"><strong><?php crystalskull_breadcrumbs(); ?></strong></div>
-
-        <div class="clear"></div>
 </div>
 
 
 
-
-<div class="after-nav ">
+<div class="after-nav">
 
 
 
@@ -273,3 +230,4 @@ $user = get_userdata($user_ID);
 	
 </div>
 	</div>
+

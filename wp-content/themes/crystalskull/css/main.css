@@ -701,7 +701,6 @@ td.avatar .avatar {
 .navbar-wrapper {
     z-index: 9999;
     background:transparent !important;
-    margin-bottom:100px;
 }
 .top-menu-bar{
 	background:#151b21;

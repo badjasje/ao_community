@@ -1778,6 +1778,9 @@ color: #2c90c6 !important;
 	width:100%;
 }
 @media (max-width: 768px) {
+	.navbar-collapse{
+		display: none;
+	}
 	.satbutton{
 		background-color:#ddd;
 		color:#696969;
@@ -1842,4 +1845,7 @@ input[type="submit"] {
 }
 .homeColumn{
 	padding:20px;
+}
+.title_wrapper{
+	margin-top:22px;
 }
