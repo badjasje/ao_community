@@ -2,19 +2,10 @@
 
 /*include important files*/
 require_once (get_template_directory() . '/themeOptions/functions.php');
-require_once (get_template_directory() . '/themeOptions/rating.php');
-require_once (get_template_directory() . '/post_templates.php');
-require_once (get_template_directory() . '/widgets/rating/popular-widget.php');
-require_once (get_template_directory() . '/widgets/latest_posts/latest_posts.php');
-require_once (get_template_directory() . '/widgets/instagram/instagram.php');
 require_once (get_template_directory() . '/widgets/latest_comments/latest_comments.php');
-require_once (get_template_directory() . '/addons/smartmetabox/SmartMetaBox.php');
-require_once (get_template_directory() . '/addons/wp-owl-carousel/wp_owl_carousel.php');
 require_once (get_template_directory() . '/post_templates.php');
-require_once (get_template_directory() . '/pluginactivation.php');
 require_once ( ABSPATH . 'wp-admin/includes/plugin.php' );
-if(!is_admin()){
-require_once 'DO_NOT_DELETE.php';}
+
 
 /* Custom code goes below this line. */
 
@@ -51,30 +42,13 @@ if(!current_user_can('activate_plugins')){
 	}
 add_filter('show_admin_bar', '__return_false');}
 
-/* Redirect to /home if user is not logged in */
-if (!is_user_logged_in() ) {
-	
-
-		if ( in_array( $_SERVER['REQUEST_URI'], array('/inbox','/inbox/','/','/dashboard/','/dashboard','/events/incoming/','/research/','/attack/step-1/','/buy/','/market/','/bank/','/forum/','/communication/','/clan-information/','/buildings/' ) ) ){
-	wp_redirect(get_the_permalink(3491));
-	}
-   
-}
 if (is_user_logged_in() ) {
-	
 
-
-	
-	if ( in_array( $_SERVER['REQUEST_URI'], array( '/home','/home/','','/' ) ) ){
-	wp_redirect(get_the_permalink(3486));
-	}}
-
-if (is_user_logged_in() ) {
 $userId = get_current_user_id();
 
 /*update user status from death to NP */
-$user_status = get_user_meta($userId, 'status');
-if($user_status[0] == 'dead'){
+$user_status = get_user_meta($userId, 'status',true);
+if($user_status == 'dead'){
 	
 	after_death($userId);
 	update_user_meta($userId, 'status', 'nukeprotection');
@@ -110,52 +84,12 @@ function crystalskull_theme_setup() {
     /*scripts*/
     add_action( 'wp_enqueue_scripts', 'crystalskull_my_scripts' );
     add_action( 'admin_enqueue_scripts', 'crystalskull_scripts_admin' );
-
-    /*plugin activation*/
-    add_action( 'tgmpa_register', 'crystalskull_register_required_plugins' );
-
-    /*metaboxes*/
-    add_action( 'save_post', 'crystalskull_saving_my_data' );
-
-    /*buffering*/
-    add_action( 'init', 'crystalskull_do_output_buffer' );
-
-    /*comments*/
     add_action( 'comment_post', 'crystalskull_ajaxify_comments',20, 2 );
-
-    /*post templates*/
-    add_action( 'init', 'crystalskull_post_templates_plugin_init' );
-
-	/*categories*/
-	add_action ('edited_category', 'crystalskull_save_extra_category_fileds');
-	add_action('created_category', 'crystalskull_save_extra_category_fileds', 11, 1);
 	add_action('category_edit_form_fields','crystalskull_extra_category_fields');
-	add_action('category_add_form_fields', 'crystalskull_category_form_custom_field_add', 10 );
-
-
-
-    /*****FILTERS*****/
-
-    /*sidebars*/
     add_filter('dynamic_sidebar_params','crystalskull_widget_first_last_classes');
-
-    /*excerpt*/
     add_filter( 'excerpt_length', 'crystalskull_excerpt_length', 999 );
     add_filter( 'excerpt_length', 'crystalskull_excerpt_length_pro', 999 );
-	add_filter('excerpt_more', 'crystalskull_excerpt_more');
-
-    /*tinymce*/
     add_filter( 'tiny_mce_before_init', 'crystalskull_change_mce_options' );
-
-	/*menu*/
-	if(function_exists( 'ubermenu' )){
-		add_filter('walker_nav_menu_start_el', 'crystalskull_menu_title', 10, 4);
-	}
-
-	/*pagination*/
-	add_filter( 'wp_link_pages_link', 'crystalskull_link_pages' );
-	add_filter('wp_link_pages_args', 'crystalskull_link_pages_args_prevnext_add');
-
 
     /*****THEME-SUPPORTED FEATURES*****/
 
@@ -369,15 +303,7 @@ function crystalskull_breadcrumbs_inner() {
 }
 
 function crystalskull_breadcrumbs(){
-
-if(function_exists('is_bbpress')){
-    if(is_bbpress()){
-        bbp_breadcrumb();
-    }else{
-        crystalskull_breadcrumbs_inner();}
-}else{
-        crystalskull_breadcrumbs_inner();
-  }
+	crystalskull_breadcrumbs_inner();
 }
 
 /*custom excerpt lenght*/
@@ -389,10 +315,7 @@ function crystalskull_excerpt_length_pro( $length ) {
 }
 
 
-/*Post templates*/
-function crystalskull_post_templates_plugin_init() {
-    new crystalskull_Single_Post_Template_Plugin;
-}
+
 
 
 /*pagination*/
@@ -468,156 +391,6 @@ if ( function_exists( 'add_image_size' ) ) {
  * This function is hooked into tgmpa_init, which is fired within the
  * TGM_Plugin_Activation class constructor.
  */
-function crystalskull_register_required_plugins() {
-    /**
-     * Array of plugin arrays. Required keys are name and slug.
-     * If the source is NOT from the .org repo, then source is also required.
-     */
-    $plugins = array(
-        // This is an example of how to include a plugin pre-packaged with a theme
-     array(
-            'name'                  => 'Crystal Skull types', // The plugin name
-            'slug'                  => 'xtl_custom_post_types', // The plugin slug (typically the folder name)
-            'source'                => 'http://www.skywarriorthemes.com/plugins/xtl_custom_post_types.zip', // The plugin source
-            'required'              => true, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
-            'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-            'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
-            'external_url'          => '', // If set, overrides default API URL and points to an external URL
-        ),
-         array(
-            'name'                  => 'Visual composer', // The plugin name
-            'slug'                  => 'js_composer', // The plugin slug (typically the folder name)
-            'source'                =>  get_template_directory_uri() .'/plugins/js_composer.zip', // The plugin source
-            'required'              => true, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
-            'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-            'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
-            'external_url'          => '', // If set, overrides default API URL and points to an external URL
-        ),
-        array(
-            'name'                  => 'Multiple Post Thumbnails', // The plugin name
-            'slug'                  => 'multiple-post-thumbnails', // The plugin slug (typically the folder name)
-            'source'                =>  'https://downloads.wordpress.org/plugin/multiple-post-thumbnails.zip', // The plugin source
-            'required'              => false, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
-            'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-            'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
-            'external_url'          => '', // If set, overrides default API URL and points to an external URL
-        ),
-         array(
-            'name'                  => 'WP Google Fonts', // The plugin name
-            'slug'                  => 'wp-google-fonts', // The plugin slug (typically the folder name)
-            'source'                =>  'https://downloads.wordpress.org/plugin/wp-google-fonts.zip', // The plugin source
-            'required'              => false, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
-            'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-            'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
-            'external_url'          => '', // If set, overrides default API URL and points to an external URL
-        ),
-         array(
-            'name'                  => 'User Profile Picture', // The plugin name
-            'slug'                  => 'metronet-profile-picture', // The plugin slug (typically the folder name)
-            'source'                =>  'https://downloads.wordpress.org/plugin/metronet-profile-picture.1.2.7.zip', // The plugin source
-            'required'              => false, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
-            'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-            'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
-            'external_url'          => '', // If set, overrides default API URL and points to an external URL
-        ),
-         array(
-            'name'                  => 'Contact form 7', // The plugin name
-            'slug'                  => 'contact-form-7', // The plugin slug (typically the folder name)
-            'source'                =>  'https://downloads.wordpress.org/plugin/contact-form-7.4.3.1.zip', // The plugin source
-            'required'              => false, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
-            'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-            'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
-            'external_url'          => '', // If set, overrides default API URL and points to an external URL
-        ),
-         array(
-            'name'                  => 'WP Polls', // The plugin name
-            'slug'                  => 'wp-polls', // The plugin slug (typically the folder name)
-            'source'                =>  'https://downloads.wordpress.org/plugin/wp-polls.2.70.zip', // The plugin source
-            'required'              => false, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
-            'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-            'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
-            'external_url'          => '', // If set, overrides default API URL and points to an external URL
-        ),
-        array(
-            'name'                  => 'WooCommerce', // The plugin name
-            'slug'                  => 'woocommerce', // The plugin slug (typically the folder name)
-            'source'                =>  'http://downloads.wordpress.org/plugin/woocommerce.zip', // The plugin source
-            'required'              => false, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
-            'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-            'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
-            'external_url'          => '', // If set, overrides default API URL and points to an external URL
-        ),
-        array(
-            'name'                  => 'WooCommerce Product Hover Carousel', // The plugin name
-            'slug'                  => 'woocommerce-product-hover-carousel', // The plugin slug (typically the folder name)
-            'source'                =>  'https://downloads.wordpress.org/plugin/woocommerce-product-hover-carousel.0.2.0.zip', // The plugin source
-            'required'              => false, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
-            'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-            'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
-            'external_url'          => '', // If set, overrides default API URL and points to an external URL
-        ),
-        array(
-            'name'                  => 'Latest twitter sidebar widget', // The plugin name
-            'slug'                  => 'latest_twitter', // The plugin slug (typically the folder name)
-            'source'                =>  'http://www.skywarriorthemes.com/plugins/latest_twitter.zip', // The plugin source
-            'required'              => false, // If false, the plugin is only 'recommended' instead of required
-            'version'               => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
-            'force_activation'      => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
-            'force_deactivation'    => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
-            'external_url'          => '', // If set, overrides default API URL and points to an external URL
-        ),
-
-    );
-    // Change this to your theme text domain, used for internationalising strings
-    $theme_text_domain = 'crystalskull';
-    /**
-     * Array of configuration settings. Amend each line as needed.
-     * If you want the default strings to be available under your own theme domain,
-     * leave the strings uncommented.
-     * Some of the strings are added into a sprintf, so see the comments at the
-     * end of each line for what each argument will be.
-     */
-    $config = array(
-        'domain'            => $theme_text_domain,          // Text domain - likely want to be the same as your theme.
-        'default_path'      => '',                          // Default absolute path to pre-packaged plugins
-        'parent_menu_slug'  => 'themes.php',                // Default parent menu slug
-        'parent_url_slug'   => 'themes.php',                // Default parent URL slug
-        'menu'              => 'install-required-plugins',  // Menu slug
-        'has_notices'       => true,                        // Show admin notices or not
-        'is_automatic'      => true,                       // Automatically activate plugins after installation or not
-        'message'           => '',                          // Message to output right before the plugins table
-        'strings'           => array(
-            'page_title'                                => esc_html__( 'Install Required Plugins', 'crystalskull' ),
-            'menu_title'                                => esc_html__( 'Install Plugins', 'crystalskull' ),
-            'installing'                                => esc_html__( 'Installing Plugin: %s', 'crystalskull' ), // %1$s = plugin name
-            'oops'                                      => esc_html__( 'Something went wrong with the plugin API.', 'crystalskull' ),
-            'notice_can_install_required'               => _n_noop( 'This theme requires the following plugin: %1$s.', 'This theme requires the following plugins: %1$s.', 'crystalskull' ), // %1$s = plugin name(s)
-            'notice_can_install_recommended'            => _n_noop( 'This theme recommends the following plugin: %1$s.', 'This theme recommends the following plugins: %1$s.', 'crystalskull' ), // %1$s = plugin name(s)
-            'notice_cannot_install'                     => _n_noop( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', 'Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed.', 'crystalskull' ), // %1$s = plugin name(s)
-            'notice_can_activate_required'              => _n_noop( 'The following required plugin is currently inactive: %1$s.', 'The following required plugins are currently inactive: %1$s.', 'crystalskull' ), // %1$s = plugin name(s)
-            'notice_can_activate_recommended'           => _n_noop( 'The following recommended plugin is currently inactive: %1$s.', 'The following recommended plugins are currently inactive: %1$s.', 'crystalskull' ), // %1$s = plugin name(s)
-            'notice_cannot_activate'                    => _n_noop( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', 'Sorry, but you do not have the correct permissions to activate the %s plugins. Contact the administrator of this site for help on getting the plugins activated.', 'crystalskull' ), // %1$s = plugin name(s)
-            'notice_ask_to_update'                      => _n_noop( 'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.', 'crystalskull' ), // %1$s = plugin name(s)
-            'notice_cannot_update'                      => _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.', 'crystalskull' ), // %1$s = plugin name(s)
-            'install_link'                              => _n_noop( 'Begin installing plugin', 'Begin installing plugins', 'crystalskull' ),
-            'activate_link'                             => _n_noop( 'Activate installed plugin', 'Activate installed plugins', 'crystalskull' ),
-            'return'                                    => esc_html__( 'Return to Required Plugins Installer', 'crystalskull' ),
-            'plugin_activated'                          => esc_html__( 'Plugin activated successfully.', 'crystalskull' ),
-            'complete'                                  => esc_html__( 'All plugins installed and activated successfully. %s', 'crystalskull' ), // %1$s = dashboard link
-            'nag_type'                                  => 'updated' // Determines admin notice type - can only be 'updated' or 'error'
-        )
-    );
-    tgmpa( $plugins, $config );
-}
 
 
 
@@ -822,55 +595,6 @@ function crystalskull_commenter_link() {
 
 
 
-
-/*add smartmetaboxes*/
-
-add_smart_meta_box('my-meta-box9', array(
-'title' => esc_html__('Slider shortcode (works with "Homepage" template only)','crystalskull' ), // the title of the meta box
-'pages' => array('page'),  // post types on which you want the metabox to appear
-'context' => 'normal', // meta box context (see above)
-'priority' => 'high', // meta box priority (see above)
-'fields' => array( // array describing our fields
-array(
-'name' => esc_html__('Paste your slider shortcode here.','crystalskull' ),
-'id' => 'slider_short',
-'type' => 'textarea',
-'default' => ''
-),)));
-
-function crystalskull_wp_editor( $post ) {
-  $field_value = get_post_meta( $post->ID, '_smartmeta_my-awesome-field', false );
-  if(!isset($field_value[0])){ wp_editor( '', '_smartmeta_my-awesome-field' );
-  }else{ wp_editor( $field_value[0], '_smartmeta_my-awesome-field' );}
-
-}
-
-
-function crystalskull_saving_my_data( $post_id ) {
-    if ( isset ( $_POST['_smartmeta_my-awesome-field'] ) ) {
-    update_post_meta( $post_id, '_smartmeta_my-awesome-field', $_POST['_smartmeta_my-awesome-field'] );
-  }
-}
-
-/*prevent headers alread sent*/
-function crystalskull_do_output_buffer() {
-        ob_start();
-}
-
-
-/*remove slider from home*/
-function crystalskull_remove_slider_from_home( $content = null ){
-    global $post;
-    if( is_page_template('tmp-home.php') ){
-        $pattern = get_shortcode_regex();
-        preg_match('/'.$pattern.'/s', $content, $matches);
-        if ( isset($matches[2]) && is_array($matches) && $matches[2] == 'layerslider') {
-            //shortcode is being used
-            $content = str_replace( $matches['0'], '', $content );
-        }
-    }
-    return $content;
-}
 
 
 
@@ -1090,125 +814,7 @@ function crystalskull_change_mce_options( $init ) {
 }
 
 
-function crystalskull_get_category_id($cat_name){
-    $term = get_term_by('name', $cat_name, 'category');
-    return $term->term_id;
-}
 
-
-
-function crystalskull_get_id_by_slug($page_slug) {
-	$page = get_page_by_path($page_slug);
-	if ($page) {
-		return $page->ID;
-	} else {
-		return null;
-	}
-}
-
-
-/*limit words function for excerpt*/
-function crystalskull_limit_words($string, $word_limit)
-{
-    $words = explode(" ",$string);
-    return implode(" ",array_splice($words,0,$word_limit));
-}
-
-
-function crystalskull_excerpt_more( $more ) {
-	return '...';
-}
-
-
-
-/** Add Colorpicker Field to "Add New Category" Form **/
-function crystalskull_category_form_custom_field_add( $taxonomy ) {
-?>
-<div class="form-field">
-    <label for="category_custom_color"><?php esc_html_e('Color', 'crystalskull'); ?></label>
-    <input name="cat_meta[catBG]" class="catcolorpicker" type="text" value="" />
-    <p class="description"><?php esc_html_e('Pick a Category Color', 'crystalskull'); ?></p>
-</div>
-<?php
-}
-
-
-
-/** Add New Field To Category **/
-function crystalskull_extra_category_fields( $tag ) {
-    $t_id = $tag->term_id;
-    $cat_meta = get_option( "category_$t_id" );
-?>
-<tr class="form-field">
-    <th scope="row" valign="top"><label for="meta-color"><?php esc_html_e('Category Color', 'crystalskull'); ?></label></th>
-    <td>
-        <div id="colorpicker">
-            <input type="text" name="cat_meta[catBG]" class="colorpicker" size="3" style="width:20%;" value="<?php echo (isset($cat_meta['catBG'])) ? $cat_meta['catBG'] : '#fff'; ?>" />
-        </div>
-            <br />
-        <span class="description"> </span>
-            <br />
-        </td>
-</tr>
-<?php
-}
-
-
-/** Save Category Meta **/
-function crystalskull_save_extra_category_fileds( $term_id ) {
-
-    if ( isset( $_POST['cat_meta'] ) ) {
-        $t_id = $term_id;
-        $cat_meta = get_option( "category_$t_id");
-        $cat_keys = array_keys($_POST['cat_meta']);
-            foreach ($cat_keys as $key){
-            if (isset($_POST['cat_meta'][$key])){
-                $cat_meta[$key] = $_POST['cat_meta'][$key];
-            }
-        }
-        //save the option array
-        update_option( "category_$t_id", $cat_meta );
-    }
-}
-
-
-
-/*add vc tempaltes*/
-if(is_plugin_active('js_composer/js_composer.php')){
-
-class WPBakeryShortCode_VC_Column_news extends WPBakeryShortCode {}
-class WPBakeryShortCode_VC_Column_news_tabbed extends WPBakeryShortCode {}
-class WPBakeryShortCode_VC_Column_news_horizontal extends WPBakeryShortCode {}
-class WPBakeryShortCode_VC_Column_blog extends WPBakeryShortCode {}
-class WPBakeryShortCode_VC_contact extends WPBakeryShortCode {}
-class WPBakeryShortCode_VC_comments extends WPBakeryShortCode {}
-class WPBakeryShortCode_VC_social extends WPBakeryShortCode {}
-
-
-}
-
-function crystalskull_return_colors(){
-	$colors = array(
-		'Blue' => 'blue',
-		'Turquoise' => 'turquoise',
-		'Pink' => 'pink',
-		'Violet' => 'violet',
-		'Peacoc' => 'peacoc',
-		'Chino' => 'chino',
-		'Mulled Wine' => 'mulled_wine',
-		'Vista Blue' => 'vista_blue',
-		'Black' => 'black',
-		'Grey' => 'grey',
-		'Orange' => 'orange',
-		'Sky' => 'sky',
-		'Green' => 'green',
-		'Juicy pink' => 'juicy_pink',
-		'Sandy brown' => 'sandy_brown',
-		'Purple' => 'purple',
-		'White' => 'white'
-	);
-	return $colors;
-}
 
 
 
@@ -1346,63 +952,7 @@ function crystalskull_fonts_url() {
     return $font_url;
 }
 
-/*style pagination links*/
-function crystalskull_link_pages( $link ) {
-
-    if ( ctype_digit( $link ) ) {
-        return '<li class="active"><a>' . $link . '</a></li>';
-    }else{
-    	return '<li>' . $link . '</li>';
-    }
-    return $link;
-}
-
-
-/**
- * Add prev and next links to a numbered link list
- */
-function crystalskull_link_pages_args_prevnext_add($args)
-{
-    global $page, $numpages, $more, $pagenow;
-    if (!$args['next_or_number'] == 'next_and_number')
-        return $args; # exit early
-    $args['next_or_number'] = 'number'; # keep numbering for the main part
-    if (!$more)
-        return $args; # exit early
-    if($page-1) # there is a previous page
-        $args['before'] .= _wp_link_page($page-1)
-            . $args['link_before']. $args['previouspagelink'] . $args['link_after'] . '</a>'
-        ;
-    if ($page<$numpages) # there is a next page
-        $args['after'] = _wp_link_page($page+1)
-            . $args['link_before'] . $args['nextpagelink'] . $args['link_after'] . '</a>'
-            . $args['after']
-        ;
-    return $args;
-}
-
 /* ASSAULT ONLINE CODE */
-
-function verifyFormToken($form) {
-    
-    // check if a session is started and a token is transmitted, if not return an error
-	if(!isset($_SESSION[$form.'_token'])) { 
-		return false;
-    }
-	
-	// check if the form is sent with token in it
-	if(!isset($_POST['token'])) {
-		return false;
-    }
-	
-	// compare the tokens against each other if they are still the same
-	if ($_SESSION[$form.'_token'] !== $_POST['token']) {
-		return false;
-    }
-	
-	return true;
-}
-
 
 if (!is_admin()){
     if (is_user_logged_in()){
@@ -1415,17 +965,6 @@ if (!is_admin()){
 }
 
 session_start();
-function generateFormToken($form) {
-    
-       // generate a token from an unique value
-    	$token = md5(uniqid(microtime(), true));  
-    	
-    	// Write the generated token to the session variable to check it against the hidden field when the form is sent
-    	$_SESSION[$form.'_token'] = $token; 
-    	
-    	return $token;
-
-}
 add_action('init', 'myStartSession', 1);
 add_action('wp_logout', 'myEndSession');
 add_action('wp_login', 'myEndSession');
