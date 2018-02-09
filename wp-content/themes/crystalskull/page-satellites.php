@@ -2,20 +2,18 @@
  /*
  * Template Name: Satellites
  */
+get_header();
 include 'satellite_array.php';
-$user_ID = get_current_user_id();
-$sat_level = get_user_meta($user_ID, 'level_satellite_construction',true);
-$sat_owned = get_user_meta($user_ID, 'sat_owned',true);
-$sat_progress = get_user_meta($user_ID, 'sat_in_progress',true);
-$sat_endlife = get_user_meta($user_ID, 'sat_endlife',true);
-$sat_status = get_user_meta($user_ID, 'stealth_sat_status',true);
-$stealth_sat_time = get_user_meta($user_ID, 'stealth_sat_time',true);
+$userId = get_current_user_id();
+$userData = get_user_meta($userId);
+$sat_level = $userData['level_satellite_construction'][0];
+$sat_owned = $userData['sat_owned'][0];
+$sat_progress = $userData['sat_in_progress'][0];
+$sat_endlife = $userData['sat_endlife'][0];
+$sat_status = $userData['stealth_sat_status'][0];
+$stealth_sat_time = $userData['stealth_sat_time'][0];
 
-
-
-
-
-get_header(); ?>
+?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">
@@ -36,6 +34,58 @@ get_header(); ?>
 
 
 <?php if($sat_level == '0'):?>
+
+	<div class="spaceNotice">
+			Building a satellite requires 25 turns
+		</div>
+		
+		<div class="row market_block">	
+			<div class="row clan_header_row storeDetails-heads">
+				<div class="col-md-3"><strong>Name</strong></div>
+				<div class="col-md-6"><strong>Effect</strong></div>
+				<div class="col-md-3"><strong>Price</strong></div>
+			</div>
+				
+			
+	<?php foreach ($satellites as $key => $satellite) {?>
+			
+			<div class="row clan_profile_row2">
+		
+				<div class="col-md-3 center_clan_col market_column marketHeader">
+					<?php echo $satellite['name'];?>
+				</div>
+			
+				<div class="col-md-6 clan_column border_bottom_mobile">
+						<div class="satDesc"><?php echo $satellite['desc']; ?></div>
+				</div>
+			
+				<div class="col-md-3 clan_column">
+					<span class="clan_data_left">Price</span>
+					<span class="clan_data_right">
+						<span 	class="hover-tip"  
+								data-toggle="tooltip" 
+								data-original-title="The <?php echo $satellite['name'];?> adds <?php echo $satellite['networth'];?>% networth. 
+								$ <?php echo $satellite['price']*$satellite['networth']/100;?> per satellite." 
+								data-placement="bottom">
+									$ <?php echo number_format($satellite['price'], 0, ',', ' '); ?>
+						</span>	
+					</span>
+			
+				</div>
+				
+				<div class="col-md-2 clan_column">				
+				</div>
+
+			
+			</div>
+		
+			
+			<?php }?>
+			
+		</div>
+
+
+
 	<div class="notice_message"><span class="rdw-line"><a style="color:#fff;"href="/research/">Research satellite construction</a></span></div>
 <?php endif;?>
 			
@@ -80,7 +130,7 @@ $timestamp = current_time('timestamp');
 		$units_in_this_order = get_post_meta($order->ID,'amount_ordered',true);
 		$order_type = get_post_meta($order->ID,'order_type',true);
 
-		$user_ID = $order->post_author;
+		$userId = $order->post_author;
 		$delivery_time = get_post_meta($order->ID,'delivery_time',true);
 		
 	
