@@ -19,32 +19,33 @@ nocache_headers();
 include 'research_array.php';
 
 /* Get necessary vars */
-$user_ID = get_current_user_id();
-
+$userId = get_current_user_id();
+$userData = get_user_meta($userId);
+$userLock = $userData['user_lock'][0];
 if ($userLock == 1) {
     wp_redirect(get_permalink(3360).'?id='.$target_id);
 }
-update_user_meta($user_ID, 'user_lock', 1);
+update_user_meta($userId, 'user_lock', 1);
 
-$current_research = get_user_meta($user_ID, 'research_in_progress', true);
+$current_research = $userData['research_in_progress'][0];
 if ($current_research != 0) {
     wp_redirect(get_permalink(4837));
     exit;
 }
 /* Get research input by user */
 $research = $_POST['research'];
-$totalturns = get_user_meta($user_ID, 'turns', true);
+$totalturns = $userData['turns'][0];
 
 if ($totalturns < 25) {
     $_SESSION['status'] = 'Not enough turns';
     wp_redirect(get_permalink(4837));
     exit;
 }
-update_user_meta($user_ID, 'turns', $totalturns-25);
+update_user_meta($userId, 'turns', $totalturns-25);
 
 $timestamp = current_time('timestamp');
 
-$startingbonus = get_user_meta($user_ID, 'starting_bonus', true);
+$startingbonus = $userData['starting_bonus'][0];
 $research_reduce = 1;
 if ($startingbonus == 'defensive') {
     $research_reduce = 0.9;
@@ -55,19 +56,19 @@ $time = $researches[$research]['duration'];
 
 /* set up arguments for creating research post */
 $args = array(
-                'post_title'    => $timestamp+($time*60*60*$research_reduce),  /* Receive research timestamp */
-                'post_status'   => 'publish',
-                'post_content'  => $research,
-                'post_type'     => 'research',
-                'post_author'   => $user_ID
-                );
-                
-            
-            $new_research_id = wp_insert_post($args);
-            
-            update_user_meta($user_ID, 'research_in_progress', $research);
-            
-            update_user_meta($user_ID, 'user_lock', 0);
-            $_SESSION['status'] = $researches[$research]['name'].' research started';
+'post_title'    => $timestamp+($time*60*60*$research_reduce),  /* Receive research timestamp */
+'post_status'   => 'publish',
+'post_content'  => $research,
+'post_type'     => 'research',
+'post_author'   => $userId
+);
+
+
+$new_research_id = wp_insert_post($args);
+
+update_user_meta($userId, 'research_in_progress', $research);
+
+update_user_meta($userId, 'user_lock', 0);
+$_SESSION['status'] = $researches[$research]['name'].' research started';
 wp_redirect(get_permalink(4837));
 exit;

@@ -3,17 +3,18 @@
  * Template Name: Research
  */
 include 'research_array.php';
-$user_ID = get_current_user_id();
-$research_in_progress = get_user_meta($user_ID, 'research_in_progress',true);
-update_user_meta($user_ID, 'user_lock', 0);
-$research_queued = get_user_meta($user_ID, 'queued_research',true);
+$userId = get_current_user_id();
+$userData = get_user_meta($userId);
+$research_in_progress = $userData['research_in_progress'][0];
+update_user_meta($userId, 'user_lock', 0);
+$research_queued = $userData['queued_research'][0];
 $timestamp = current_time('timestamp');
-$startingbonus = get_user_meta($user_ID, 'starting_bonus',true);
+$startingbonus = $userData['starting_bonus'][0];
 
 
 $args = array(
 	'posts_per_page'   => -1,
-	'author'        	=>  $user_ID,
+	'author'        	=>  $userId,
 	'orderby'          => 'date',
 	'order'            => 'DESC',
 	'post_type'        => 'research'
@@ -84,7 +85,7 @@ get_header(); ?>
 
 <?php foreach ($researches as $key => $research) {
 		$inProgress = 0;
-		$current = get_user_meta($user_ID, 'level_' . $key, true);
+		$current = $userData['level_' . $key][0];
 		if($key == $research_in_progress){
 			$inProgress = 1;
 		}
@@ -181,7 +182,7 @@ get_header(); ?>
 	<?php if($inProgress == 1):?>
 	<?php	$args = array(
 			'posts_per_page'   => 1,
-			'author'	   => $user_ID,
+			'author'	   => $userId,
 			'post_type'        => 'research',
 			);
 		$researches_in_progress = get_posts( $args );
