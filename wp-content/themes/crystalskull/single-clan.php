@@ -146,26 +146,10 @@ get_header(); ?>
 				<div class="row profile_row">
 					<div class="col-xs-5">Awards</div>
 					<div class="col-xs-7">
-						<?php
-
-						$aw_args = array(
-							'post_type'		=>	'award',
-							'numberposts' => -1,
-							'meta_key' 		=> 'winning_clan',
-							'meta_value'     	 => $clan_id);
-						$awards = get_posts($aw_args);
-
-						foreach ($awards as $award){
-							$position = get_post_meta($award->ID, 'position_clan', true);
-							$round = get_post_meta($award->ID, 'round', true);
-						?>
-						<i class="fa fa-trophy fa-lg" aria-hidden="true"></i>
-						&nbsp;<?php echo $round;?>: <?php echo $award->post_title;?> - <strong>
-						<?php echo strtoupper($position);?></strong><br/>
-						<?php } ?>
-
-
-
+                        <div id="awardlist" style="overflow: hidden;">
+                          <?php include 'pages/clan/awardlist.php'; ?>
+						</div>
+                        <a id="awardlistExpandBtn" style="display: none">Show more</a>
 					</div>
 				</div>
 
@@ -207,32 +191,7 @@ get_header(); ?>
 
                         </div>
                         <br />
-                        <a id="clanMessageExpandBtn" style="display: none" onclick="clanMessageToggle();">Show more</a>
-
-                        <script type="text/javascript">
-                          {
-                              var div = document.getElementById("clanMessage");
-
-                              if ((div.scrollHeight / 18) > 3) {
-                                var a = document.getElementById("clanMessageExpandBtn");
-                                a.style.display = "block";
-                                div.style.height = "54px";
-                              }
-                          }
-
-                          function clanMessageToggle() {
-                             var a = document.getElementById("clanMessageExpandBtn");
-                             var div = document.getElementById("clanMessage");
-
-                             if (div.style.height=="54px") {
-                                div.style.height = "100%";
-                                a.text = "Show less";
-                             } else {
-                                div.style.height = "54px";
-                                a.text = "Show more";
-                             }
-                          }
-                        </script>
+                        <a id="clanMessageExpandBtn" style="display: none">Show more</a>
 
 				    </div>
 
@@ -240,9 +199,14 @@ get_header(); ?>
 
 			</div>
 
-
 		</div>
 
+
+<script type="text/javascript" src="/wp-content/themes/crystalskull/js/aoReadMore.js"></script>
+<script type="text/javascript">
+    initReadMore("clanMessage", "clanMessageExpandBtn", 54);
+    initReadMore("awardlist",   "awardlistExpandBtn",   163);
+</script>
 
 
 <?php
