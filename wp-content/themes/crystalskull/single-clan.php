@@ -22,7 +22,7 @@ $declarer_clanleader = $declarerClanData['clan_leader'][0];
     $declaringClanMembers = maybe_unserialize($declarerClanData['clan_members'][0]);
     $declaringMembersCount = count($declaringClanMembers);
     $declarerAverageNw = $declarerClanData['clan_networth'][0] / $declaringMembersCount;
-       
+
 $average_OK = "false";
 if ($declarerAverageNw*$AVERAGE_DECLARE_NW_ALLOWED > $averageNw) {
   $average_OK = "true";
@@ -61,7 +61,7 @@ $timestamp = current_time('timestamp');
 if($declarer_clan_ID != 0){
 
 	$dec_tot_networth = 0;
-		
+
 		foreach ($declaringClanMembers as $dec_member) {
 			$dec_networth = get_user_meta($dec_member, 'networth',true);
 			$dec_tot_networth+=$dec_networth;
@@ -101,23 +101,23 @@ get_header(); ?>
 		<?php if(!empty($_SESSION['status'])):?>
 				<?php echo alert_notification($_SESSION['status']);?>
 		<?php endif; // End empty status check ?>
-		
-	<?php 
 
-		
-				
+	<?php
+
+
+
 		$ct_1 = $clanData['ct_1'][0];
 		$ct_2 = $clanData['ct_2'][0];
 		$ct_3 = $clanData['ct_3'][0];
 		$ct_4 = $clanData['ct_4'][0];
-				
+
 		$clanleader = $clanData['clan_leader'][0];
 		$clan_points = $clanData['clan_points'][0];
 		$clantag = $clanData['clan_tag'][0];
 		
 		$tot_networth = 0;
 		foreach ($clanMembers as $member) {
-					
+
 			count_all_stats($member);
 			$networth = get_user_meta($member, 'networth',true);
 			$tot_networth+=$networth;
@@ -154,26 +154,10 @@ get_header(); ?>
 				<div class="row profile_row">
 					<div class="col-xs-5">Awards</div>
 					<div class="col-xs-7">
-						<?php 
-				
-						$aw_args = array(
-							'post_type'		=>	'award',
-							'numberposts' => -1,
-							'meta_key' 		=> 'winning_clan',
-							'meta_value'     	 => $clan_id);
-						$awards = get_posts($aw_args);
-				
-						foreach ($awards as $award){
-							$position = get_post_meta($award->ID, 'position_clan', true);
-							$round = get_post_meta($award->ID, 'round', true);
-						?>
-						<i class="fa fa-trophy fa-lg" aria-hidden="true"></i> 
-						&nbsp;<?php echo $round;?>: <?php echo $award->post_title;?> - <strong>
-						<?php echo strtoupper($position);?></strong><br/>
-						<?php } ?>
-						
-						
-						
+                        <div id="awardlist" style="overflow: hidden;">
+                          <?php include 'pages/clan/awardlist.php'; ?>
+						</div>
+                        <a id="awardlistExpandBtn" style="display: none">Show more</a>
 					</div>
 				</div>
 				
@@ -205,36 +189,36 @@ get_header(); ?>
 				<div class="row profile_row_last">
 					<div class="col-xs-5">Message</div>
 					<div class="col-xs-7">
-						<?php 
-							$message = str_replace("\r", "<br />", get_the_content($clan_id));
-							$output_1 = substr($message, 0, 350);
-							$output_2 = substr($message, 350);
-							
-							if(strlen($message) > 350):?>
-							<?php echo $output_1;?>
-							<br/><a data-toggle="collapse" href="#clanmessage">Read more</a>
 
-		
-							<div id="clanmessage" class="collapse">
-							<?php echo $output_2;?>
-							</div>
-							<?php else:?>
-								<?php echo $message;?>
-							<?php endif;?>
-							
-							
-							</div>
+                        <div id="clanMessage"
+                          style="line-height: 18px;
+                                      height: 54px;
+                                    overflow: hidden;">
+
+                          <?php echo str_replace("\r", "<br />", get_the_content($clan_id));?>
+
+                        </div>
+                        <br />
+                        <a id="clanMessageExpandBtn" style="display: none">Show more</a>
+
+				    </div>
+
 				</div>
-				
+
 			</div>
-			
-			
+
 		</div>
-		
-		
-		
-<?php 
-	// range checker 
+
+
+<script type="text/javascript" src="/wp-content/themes/crystalskull/js/aoReadMore.js"></script>
+<script type="text/javascript">
+    initReadMore("clanMessage", "clanMessageExpandBtn", 54);
+    initReadMore("awardlist",   "awardlistExpandBtn",   163);
+</script>
+
+
+<?php
+	// range checker
 	$inRange = 'no';
 	$warText = 'war';
 	if($tot_networth > $dec_tot_networth/1.4 && $tot_networth < $dec_tot_networth*1.4){
