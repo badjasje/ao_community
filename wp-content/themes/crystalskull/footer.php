@@ -1,5 +1,15 @@
 <footer>
-	<script>
+	<center>
+	<div class="container">
+        <div class="datetime">Your local date/time is <strong><?php echo '<script type="text/javascript">
+                var x = new Date().toString();
+                y = x.substr(1,4)+"-";
+                document.write(x);
+                </script>';?></strong>.<br/>
+
+            Current server date/time is <strong><?php echo date("d-m-Y | G:i", strtotime('+1 hours')); ?></strong>
+		<?php if (is_user_logged_in() ) :?>
+		<script>
 	(function($) {
 	function myFunction() {
 		$.get('<?php echo get_site_url();?>/checkevents.php', function(data) {
@@ -21,16 +31,7 @@ var i = setInterval(function() { myFunction(); }, 10000);
 
 })(jQuery);
 </script>
-<center>
-	<div class="container">
-        <div class="datetime">Your local date/time is <strong><?php echo '<script type="text/javascript">
-                var x = new Date().toString();
-                y = x.substr(1,4)+"-";
-                document.write(x);
-                </script>';?></strong>.<br/>
 
-            Current server date/time is <strong><?php echo date("d-m-Y | G:i", strtotime('+1 hours')); ?></strong>
-		<?php if (is_user_logged_in() ) :?>
 		<br/><a href="<?php echo wp_logout_url( get_permalink(3491) ); ?>">Logout</a>
 		<?php endif;?>
 		<br/><br/>

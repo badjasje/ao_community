@@ -12,9 +12,6 @@
  * @var bool
  */
 define('WP_USE_THEMES', true);
-
-// Load assault online specific classes
 require_once __DIR__ . '/ao-loader.php';
-
 /** Loads the WordPress Environment and Template */
-require(dirname(__FILE__) . '/wp-blog-header.php');
+require( dirname( __FILE__ ) . '/wp-blog-header.php' );

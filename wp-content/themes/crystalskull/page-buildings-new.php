@@ -2,25 +2,29 @@
 /*
 * Template Name: Buildings NEW DESIGN
 */
+get_header(); 
 $user_ID   = get_current_user_id();
+$userData = get_user_meta($user_ID);
 $activeTab = sanitize_text_field($_GET['tab']);
-$PwrUsage = get_user_meta($user_ID, 'power',true);
+$PwrUsage = $userData['power'][0];
+$currentWeather = get_field('weather','options');
+
 include 'building_array.php';
 include 'units_array.php';
 
-$land       = get_user_meta($user_ID, 'land');
-$builtland  = get_user_meta($user_ID, 'builtland');
-$totalmoney = get_user_meta($user_ID, 'money');
-$totalturns = get_user_meta($user_ID, 'turns');
+$land       = $userData['land'][0];
+$builtland  = $userData['builtland'][0];
+$totalMoney = $userData['money'][0];
+$totalturns = $userData['turns'][0];
 
-$airspace = get_user_meta($user_ID, 'airfield')[0] * 10;
-$seaspace = get_user_meta($user_ID, 'shipyard')[0] * 5;
-$vehspace = get_user_meta($user_ID, 'warfactory')[0] * 10;
-$infspace = get_user_meta($user_ID, 'baracks')[0] * 20;
+$airspace = $userData['airfield'][0] * 10;
+$seaspace = $userData['shipyard'][0] * 5;
+$vehspace = $userData['warfactory'][0] * 10;
+$infspace = $userData['baracks'][0] * 20;
 
-$EElevel = get_user_meta($user_ID, 'level_engineering_effectiveness')[0];
+$EElevel = $userData['level_engineering_effectiveness'][0];
 
-$startingbonus = get_user_meta($user_ID, 'starting_bonus', true);
+$startingbonus = $userData['starting_bonus'][0];
 $extra_divide  = 0;
 if ($startingbonus == 'defensive') {
 	$extra_divide = 5;
@@ -32,8 +36,8 @@ $totalsea = 0;
 $totalveh = 0;
 $totalinf = 0;
 foreach ($units as $key => $order) {
-	$units_owned   = get_user_meta($user_ID, $key . '_owned')[0];
-	$units_ordered = get_user_meta($user_ID, $key . '_ordered')[0];
+	$units_owned   = $userData[$key.'_owned'][0];
+	$units_ordered = $userData[$key.'_ordered'][0];
 	$unittype      = $units[$key]['type'];
 	if ($unittype == 'air') {
 		$totalair += $units_ordered + $units_owned;
@@ -51,7 +55,7 @@ foreach ($units as $key => $order) {
 		$totalveh += $units_ordered + $units_owned;
 	}
 }
-get_header(); ?>
+?>
     <div class="page normal-page">
     <div class="container containerNZ">
         <div class="row">
@@ -94,6 +98,7 @@ get_header(); ?>
 			<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 		<?php endif;?>
 		Power usage: <?php echo number_format($PwrUsage, 0, ',', ' ');?>% 
+		<?php if($currentWeather == 'thunderstorm'):?><sup>Power production reduced by weather conditions</sup><?php endif;?>
 	</span>
 	</div>
 

@@ -1,6 +1,6 @@
 <?php
-$soldLandToday = get_user_meta($userId, 'land_sold_today',true);
-$freeLand = get_user_meta($userId, 'land', true) - get_user_meta($userId, 'builtland', true);
+$soldLandToday = $userData['land_sold_today'][0];
+$freeLand = $ownedland - $builtLand;
 $maxSell = $freeLand < (20000 - $soldLandToday) ? $freeLand : (20000 - $soldLandToday);
 ?>
 <div class="spaceNotice">

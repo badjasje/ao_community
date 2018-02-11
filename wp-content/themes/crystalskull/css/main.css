@@ -682,7 +682,7 @@ td.avatar .avatar {
     position: relative;
     padding:10px;
     font-size:14px;
-    z-index: 1000;
+    z-index: -100;
     width:100%;
     border-bottom:1px solid #ddd;
 }
@@ -701,7 +701,6 @@ td.avatar .avatar {
 .navbar-wrapper {
     z-index: 9999;
     background:transparent !important;
-    margin-bottom:100px;
 }
 .top-menu-bar{
 	background:#151b21;

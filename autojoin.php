@@ -53,6 +53,14 @@ if($clan_ID != 0){
 	
 }
 $timestamp = current_time('timestamp');
+$endDate = get_field('end_date','option');
+$endStamp = strtotime($endDate);
+$timeLeft = $endStamp-$timestamp;
+$marketClose = $timeLeft - 172800;
+if($timeLeft<172800){
+	$_SESSION['status'] = 'Cannot join a clan the last 48 hours of a round';
+	wp_redirect(get_permalink(3601)); exit;
+}
 
 $args = array(	
 	'post_title'    => 'Clan member joined a clan: '.$user,

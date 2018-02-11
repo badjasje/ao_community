@@ -882,3 +882,32 @@ function calculate_losses($damage_array) {
     $losses['buildings'] = $buildings_lost;
     return $losses;
 }
+
+function kill_event($attackerId,$defenderId,$result,$defend_clan_id,$attack_clan_id){
+
+$timestamp = current_time('timestamp');
+
+$args = array(	
+	'post_title'    => 'Kill made by '.$attackerId.' Defender: '.$defenderId,
+	'post_status'   => 'publish',
+	'post_type'		=> 'event_local',
+	'post_author'   => $attackerId
+);
+			
+$new_event_id = wp_insert_post( $args );
+
+update_field('time_attacked',$timestamp, $new_event_id);
+
+update_field('defender_id',$defenderId, $new_event_id);
+update_field('attacker_id',$attackerId, $new_event_id);
+
+update_field('winner_id',$attackerId, $new_event_id);
+update_field('attacktype','killed', $new_event_id);
+update_field('outcome',$result, $new_event_id);
+
+
+update_field('defender_clan_id',$defend_clan_id, $new_event_id);
+update_field('attacker_clan_id',$attack_clan_id, $new_event_id);
+	
+	
+}

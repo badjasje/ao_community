@@ -2,7 +2,7 @@
  /*
  * Template Name: Incoming New
  */
-$user_ID = get_current_user_ID();
+$userId = get_current_user_ID();
 $filter_array = array(	'empsat',
 						'empmissile',
 						'satellite',
@@ -16,6 +16,7 @@ $filter_array = array(	'empsat',
 						'user_kicked',
 						'sat_crash',
 						'sniper',
+						'killed',
 						'spy');
 
 
@@ -25,10 +26,10 @@ include('research_array.php');
 
 
 
-update_user_meta($user_ID,'new_events',0);
-$clan_ID = get_user_meta($user_ID, 'clan_id_user',true);
+update_user_meta($userId,'new_events',0);
+$clan_ID = get_user_meta($userId, 'clan_id_user',true);
 
-if($user_ID != 0){
+if($userId != 0){
 	$members = get_post_meta($clan_ID,'clan_members');
 } 
 
@@ -146,7 +147,7 @@ $args = array(
 					'relation' => 'AND',
 					array(
 						'key'	 	=> 'defender_id',
-						'value'	  	=> $user_ID,
+						'value'	  	=> $userId,
 						'compare' 	=> '=',
 						),
 					array(
@@ -175,19 +176,20 @@ if ( $custom_query->have_posts() ) :
 
 	
 							
-	$event_ID = get_the_id();
-	$defender_id = get_post_meta($event_ID,'defender_id',true);
-	$attacker_id = get_post_meta($event_ID,'attacker_id',true);
+	$eventId = get_the_id();
+	$eventData = get_post_meta($eventId);
+	$defender_id = $eventData['defender_id'][0];
+	$attacker_id = $eventData['attacker_id'][0];
 	
-	$defender_points = get_post_meta($event_ID,'defender_points',true);
+	$defender_points = $eventData['defender_points'][0];
 
 	$member_data = get_userdata($attacker_id);
 	
-	$def_unitslost = get_post_meta($event_ID,'defender_lost');
-	$att_unitslost = get_post_meta($event_ID,'attacker_lost');
+	$def_unitslost = maybe_unserialize($eventData['defender_lost'][0]);
+	$att_unitslost = maybe_unserialize($eventData['attacker_lost'][0]);
 	
-	$def_tot_unitslost = get_post_meta($event_ID,'def_total_units_lost',true);
-	$att_tot_unitslost = get_post_meta($event_ID,'att_total_units_lost',true);
+	$def_tot_unitslost = $eventData['def_total_units_lost'][0];
+	$att_tot_unitslost = $eventData['att_total_units_lost'][0];
 	
 	if(empty($def_tot_unitslost)){
 	$def_tot_unitslost = 0;
@@ -197,23 +199,23 @@ if ( $custom_query->have_posts() ) :
 	}
 	
 	
-	$def_tot_buildingslost = get_post_meta($event_ID,'total_buildings_lost',true);
-	$landlost = get_post_meta($event_ID,'land_lost',true);
-	$moneylost = get_post_meta($event_ID,'money_lost',true);
+	$def_tot_buildingslost = $eventData['total_buildings_lost'][0];
+	$landlost = $eventData['land_lost'][0];
+	$moneylost = $eventData['money_lost'][0];
 	
-	$status_defender = get_post_meta($event_ID,'status_defender',true);
+	$status_defender = $eventData['status_defender'][0];
 	
-	$defender_NW_lost = get_post_meta($event_ID, 'nw_damage_defender', true);
-	$attacker_NW_lost = get_post_meta($event_ID, 'nw_damage_attacker', true);
+	$defender_NW_lost = $eventData['nw_damage_defender'][0];
+	$attacker_NW_lost = $eventData['nw_damage_attacker'][0];
 	
-	$tomahawkHit = get_post_meta($event_ID,'tomahawk_hit',true);
-	$tomahawkDown = get_post_meta($event_ID,'tomahawk_down',true);
+	$tomahawkHit = $eventData['tomahawk_hit'][0];
+	$tomahawkDown = $eventData['tomahawk_down'][0];
 	
 	
-	$timeattacked = get_post_meta($event_ID,'time_attacked',true);
+	$timeattacked = $eventData['time_attacked'][0];
 	$timestamp = current_time('timestamp');
-	$attack_type = get_post_meta($event_ID,'attacktype',true);
-	$winner_id = get_post_meta($event_ID,'winner_id',true);
+	$attack_type = $eventData['attacktype'][0];
+	$winner_id = $eventData['winner_id'][0];
 	
 	/* Determine attack name for header */
 	if($attack_type == 'ground'){ $attack_name = 'Ground'; }
@@ -301,7 +303,7 @@ if ( $custom_query->have_posts() ) :
 				
 				<?php
 				foreach ($units as $key => $order) {
-					foreach ($att_unitslost[0] as $att_unitlost) {
+					foreach ($att_unitslost as $att_unitlost) {
 					if (isset($att_unitlost[$key])) {
 						echo $order['normalname'] . ': ' . $att_unitlost[$key] . ', ';
         			}
@@ -312,7 +314,7 @@ if ( $custom_query->have_posts() ) :
 				<strong>Defender losses: <?php echo $def_tot_unitslost;?> units and <?php echo $def_tot_buildingslost;?> buildings</strong><br/>
 				<?php
 				foreach ($units as $key => $order) {
-					foreach ($def_unitslost[0] as $def_unitlost) {
+					foreach ($def_unitslost as $def_unitlost) {
 					if (isset($def_unitlost[$key])) {
 						echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
         			}
@@ -321,7 +323,7 @@ if ( $custom_query->have_posts() ) :
 				?>
 				<?php
 				foreach ($buildings as $key => $order) {
-					foreach ($def_unitslost[0] as $def_unitlost) {
+					foreach ($def_unitslost as $def_unitlost) {
 					if (isset($def_unitlost[$key])) {
 						echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
         			}
@@ -421,7 +423,7 @@ if ( $custom_query->have_posts() ) :
 				
 				<?php
 				foreach ($units as $key => $order) {
-					foreach ($att_unitslost[0] as $att_unitlost) {
+					foreach ($att_unitslost as $att_unitlost) {
 					if (isset($att_unitlost[$key])) {
 						echo $order['normalname'] . ': ' . $att_unitlost[$key] . ', ';
         			}
@@ -435,7 +437,7 @@ if ( $custom_query->have_posts() ) :
 				<strong>Defender losses: <?php echo $def_tot_unitslost;?> units</strong><br/>
 				<?php
 				foreach ($units as $key => $order) {
-					foreach ($def_unitslost[0] as $def_unitlost) {
+					foreach ($def_unitslost as $def_unitlost) {
 					if (isset($def_unitlost[$key])) {
 						echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
         			}
@@ -462,7 +464,7 @@ if ( $custom_query->have_posts() ) :
 <?php if($attack_type == 'missile'): ?>
 
 <?php
-	$missile_type = get_post_meta($event_ID, 'missile_type', true);
+	$missile_type = $eventData['missile_type'][0];
 	
 	if(empty($missile_type)){
 		$missile_name = 'Missile';
@@ -518,7 +520,7 @@ if ( $custom_query->have_posts() ) :
 				<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> launched a <?php echo $missile_name;?> at your base and 
 					
 				<?php if($winner_id == $defender_id):?>
-				<?php if(get_post_meta($event_ID, 'shotdown', true) == 'shotdown'){?>
+				<?php if($eventData['shotdown'][0] == 'shotdown'){?>
 						you shot down the missile.
 					<?php } else {?>
 					<strong>missed</strong> your base.
@@ -542,7 +544,7 @@ if ( $custom_query->have_posts() ) :
 									
 				<?php
 				foreach ($units as $key => $order) {
-					foreach ($att_unitslost[0] as $att_unitlost) {
+					foreach ($att_unitslost as $att_unitlost) {
 					if (isset($att_unitlost[$key])) {
 						echo $order['normalname'] . ': ' . $att_unitlost[$key] . ', ';
         			}
@@ -553,7 +555,7 @@ if ( $custom_query->have_posts() ) :
 				<strong>Defender losses: <?php echo $def_tot_unitslost;?> units and <?php echo $def_tot_buildingslost;?> buildings</strong><br/>
 				<?php
 				foreach ($units as $key => $order) {
-					foreach ($def_unitslost[0] as $def_unitlost) {
+					foreach ($def_unitslost as $def_unitlost) {
 					if (isset($def_unitlost[$key])) {
 						echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
         			}
@@ -562,7 +564,7 @@ if ( $custom_query->have_posts() ) :
 				?>
 				<?php
 				foreach ($buildings as $key => $order) {
-					foreach ($def_unitslost[0] as $def_unitlost) {
+					foreach ($def_unitslost as $def_unitlost) {
 					if (isset($def_unitlost[$key])) {
 						echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
         			}
@@ -651,7 +653,7 @@ if ( $custom_query->have_posts() ) :
 				<strong>Defender losses: <?php echo $def_tot_buildingslost;?> buildings</strong><br/>
 				<?php
 				foreach ($buildings as $key => $order) {
-					foreach ($def_unitslost[0] as $def_unitlost) {
+					foreach ($def_unitslost as $def_unitlost) {
 					if (isset($def_unitlost[$key])) {
 						echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
         			}
@@ -809,7 +811,7 @@ if ( $custom_query->have_posts() ) :
 <?php if($attack_type == 'thief'): ?>
 
 <?php
-$thiefs_lost = get_post_meta($event_ID, 'thiefs_lost', true);
+$thiefs_lost = $eventData['thiefs_lost'][0];
 
 /* set unknown avatar if attacker wins */
 
@@ -889,7 +891,7 @@ $attacker_id = 0;
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<?php echo small_avatar($user_ID,'attack-profile-image');?>
+				<?php echo small_avatar($userId,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -929,7 +931,7 @@ $attacker_id = 0;
 <?php
 
 /* set avatar */
-$avatar = get_user_meta($user_ID, 'avatar_user', true);
+$avatar = get_user_meta($userId, 'avatar_user', true);
 		if(empty($avatar)){
 			$avatar = '/wp-content/uploads/2016/11/default_large.png';
 		}
@@ -954,7 +956,7 @@ $avatar = get_user_meta($user_ID, 'avatar_user', true);
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<?php echo small_avatar($user_ID,'attack-profile-image');?>
+				<?php echo small_avatar($userId,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -981,9 +983,58 @@ $avatar = get_user_meta($user_ID, 'avatar_user', true);
 
 
 
+
+
+<?php if($attack_type == 'killed'): ?>
+
+
+<!-- Event header -->
+<div style="background-color:#ad4236" class="row battlereport-header">
+	<div class="col-md-12">
+		<img class="attack-image" src="http://assault.online/wp-content/uploads/2016/03/death.png"> 
+		You were killed
+	</div>
+</div>
+<!-- Event header -->
+
+
+<div style="border-color:#ad4236;" class="row event-row">
+	
+<!-- Attacker image -->	
+	<div class="col-md-2">
+		<div class="row">
+			<div class="col-md-12">
+				<?php echo small_avatar($attacker_id,'attack-profile-image');?>
+				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
+			</div>
+		</div>
+	</div>
+<!-- Attacker image -->		
+	
+	
+	<div class="col-md-10">
+			<div class="row">
+				<div class="col-md-12 event-message">
+				
+				You were killed by <?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>"><?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a>
+				
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
+
+<?php endif; // End NP removal ?>
+
+
+
+
+
+
 <?php if($attack_type == 'aid'): ?>
 
-<?php $money = get_post_meta($event_ID, 'money_lost', true);?>
+<?php $money = $eventData['money_lost'][0];?>
 
 <!-- Event header -->
 <div class="row battlereport-header">
@@ -1031,7 +1082,7 @@ $avatar = get_user_meta($user_ID, 'avatar_user', true);
 
 <?php if($attack_type == 'user_kicked'): ?>
 
-<?php $kicked_clan = get_post_meta($event_ID,'attacker_clan_id',true);?>
+<?php $kicked_clan = $eventData['attacker_clan_id'][0];?>
 
 <!-- Event header -->
 <div class="row battlereport-header">
@@ -1105,7 +1156,7 @@ $avatar = get_user_meta($user_ID, 'avatar_user', true);
 	<div class="col-md-2">
 		<div class="row">
 			<div class="col-md-12">
-				<?php echo small_avatar($user_ID,'attack-profile-image');?>
+				<?php echo small_avatar($userId,'attack-profile-image');?>
 				<center><?php echo human_time_diff( $timeattacked, $timestamp );?> ago</center>
 			</div>
 		</div>
@@ -1136,8 +1187,8 @@ $avatar = get_user_meta($user_ID, 'avatar_user', true);
 
 <?php 
 	
-$show = get_post_meta($event_ID, 'show_spy_sender', true);
-$spy_type = get_post_meta($event_ID, 'event_spy_type', true);
+$show = $eventData['show_spy_sender'][0];
+$spy_type = $eventData['event_spy_type'][0];
 $sender = '<a href="/users/profile/?id='.$attacker_id.'">'.$member_data->display_name.' (#'.$attacker_id.')</a>';
 
 if($winner_id == $attacker_id){

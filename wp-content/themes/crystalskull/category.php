@@ -1,4 +1,10 @@
-<?php get_header();?>
+<?php 
+	if(!is_user_logged_in()){
+		get_header('loginhome');
+	}else{
+		get_header();
+	}
+	?>
 <!-- Page content
     ================================================== -->
 <!-- Wrap the rest of the page in another container to center all the content. -->

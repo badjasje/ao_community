@@ -960,6 +960,7 @@ $args = array(
 			update_field('attacker_clan_id',$attacker_clan_ID, $new_event_id);
 			
 			if($killed == true){
+			kill_event($user_ID,$defender_ID,$result,$defender_clan_ID,$attacker_clan_ID);
 			update_field('status_defender','death', $new_event_id);
 			update_field('attacktype','missile', $new_event_id);
 			

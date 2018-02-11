@@ -4,18 +4,15 @@
  *
  * @package WordPress
  */
-
 if ('POST' != $_SERVER['REQUEST_METHOD']) {
     header('Allow: POST');
     header('HTTP/1.1 405 Method Not Allowed');
     header('Content-Type: text/plain');
     exit;
 }
-
 require(dirname(__FILE__) . '/wp-load.php');
-
 $userId = get_current_user_id();
-$user_ID = get_current_user_id();
+
 if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     exit;
 }
@@ -30,23 +27,25 @@ $marketRedirectUrl = get_permalink(3179) . $activeTab;
 
 nocache_headers();
 
-$totalMoney = get_user_meta($userId, 'money', true);
+$userData = get_user_meta($userId);
 
-$spies = get_user_meta($userId, 'spy_owned', true);
-$spiesOrdered = get_user_meta($userId, 'spy_ordered', true);
-$thieves = get_user_meta($userId, 'thief_owned', true);
-$thievesOrdered = get_user_meta($userId, 'thief_ordered', true);
-$planes = get_user_meta($userId, 'spyplane_owned', true);
-$planesOrdered = get_user_meta($userId, 'spyplane_ordered', true);
-$snipers = get_user_meta($userId, 'sniper_owned', true);
-$snipersOrdered = get_user_meta($userId, 'sniper_ordered', true);
+$totalMoney = $userData['money'][0];
+
+$spies = $userData['spy_owned'][0];
+$spiesOrdered = $userData['spy_ordered'][0];
+$thieves = $userData['thief_owned'][0];
+$thievesOrdered = $userData['thief_ordered'][0];
+$planes = $userData['spyplane_owned'][0];
+$planesOrdered = $userData['spyplane_ordered'][0];
+$snipers = $userData['sniper_owned'][0];
+$snipersOrdered = $userData['sniper_ordered'][0];
 
 $space = [
-    'air' => get_user_meta($userId, 'airfield', true) * 10,
-    'sea' => get_user_meta($userId, 'shipyard', true) * 5,
-    'inf' => get_user_meta($userId, 'baracks', true) * 20,
-    'veh' => get_user_meta($userId, 'warfactory', true) * 10,
-    'special' => get_user_meta($userId, 'command_centre', true) * 5
+    'air' => $userData['airfield'][0] * 10,
+    'sea' => $userData['shipyard'][0] * 5,
+    'inf' => $userData['baracks'][0] * 20,
+    'veh' => $userData['warfactory'][0] * 10,
+    'special' => $userData['command_centre'][0] * 5
 ];
 
 $totalSpecial = $spies + $thieves + $planes + $spiesOrdered + $thievesOrdered + $planesOrdered + $snipers + $snipersOrdered;
@@ -63,21 +62,21 @@ $specialUnitsArray = [
 ];
 
 // Determine market discount multiplier
-$marketDiscountLevel = get_user_meta($userId, 'level_market_discount', true);
+$marketDiscountLevel = $userData['level_market_discount'][0];
 $discount = 1.0;
 if($marketDiscountLevel == 1){
     $discount = $discount - 0.15;
 } elseif($marketDiscountLevel >= 2){
-    $discount = $discount - 0.4;
+    $discount = $discount - 0.3;
 }
 
-$startingBonus = get_user_meta($userId, 'starting_bonus',true);
+$startingBonus = $userData['starting_bonus'][0];
 if($startingBonus == 'shipping'){
     $discount = $discount - 0.1;
 }
 
 // Determine shipping time
-$marketShippingLevel = get_user_meta($userId, 'level_shipping_time')[0];
+$marketShippingLevel = $userData['level_shipping_time'][0];
 if ($marketShippingLevel == 1) {
     $hours = 6;
 } elseif ($marketShippingLevel == 2) {
@@ -119,10 +118,10 @@ foreach ($units as $key => $order) {
         $totals[$type]['order'] += $orderedUnits;
     }
 
-    $ordered = get_user_meta($userId, $key.'_ordered');
-    $ordered = array_shift($ordered);
+    $ordered = $userData[$key.'_ordered'][0];
+
     $totals[$type]['already_ordered'] += is_numeric($ordered) ? $ordered : 0;
-    $totals[$type]['owned'] = $orderedUnits;
+    $totals[$type]['owned'] = $userData[$key.'_owned'][0];
     if (in_array($key, $specialUnitsArray)) {
         $totals['special']['already_ordered'] += is_numeric($ordered) ? $ordered : 0;
         $totals['special']['owned'] = $orderedUnits;
@@ -188,7 +187,7 @@ foreach ($units as $key => $order) {
         continue;
     }
 
-    $unitsOnOrder = get_user_meta($userId, $unitName, true);
+    $unitsOnOrder = $userData[$unitName][0];
 
     $args = [
         'post_title' => $normalName,
@@ -207,11 +206,11 @@ foreach ($units as $key => $order) {
     update_field('order_type', 'units', $newOrderId);
     update_field('order_value', $orderCost, $newOrderId);
 
-    $unitsOrderedByUser = get_user_meta($userId, 'units_ordered', true);
+    $unitsOrderedByUser = $userData['units_ordered'][0];
     update_user_meta($userId, 'units_ordered', $unitsOrderedByUser + $orderedUnits);
 
     // Update ordered Units:
-    $ordered = get_user_meta($userId, $key.'_ordered', true);
+    $ordered = $userData[$key.'_ordered'][0];
     $ordered += $orderedUnits;
     update_user_meta($userId, $key . '_ordered', $ordered);
 

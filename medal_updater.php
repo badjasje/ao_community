@@ -1,6 +1,6 @@
 <?php
     require_once("wp-load.php");
-    
+if (get_field('game_status', 'option') == 'Live') {
     $args = array(
     'meta_key'     => 'land',
     'orderby'      => 'meta_value_num',
@@ -105,9 +105,9 @@
         $next_ID = $users[$key-1]->ID;
         $prev_ID = $users[$key+1]->ID;
         
-        $attacks = get_user_meta($user_ID, 'attacks_made', true);
-        $next_attacks = get_user_meta($next_ID, 'attacks_made', true);
-        $prev_attacks = get_user_meta($prev_ID, 'attacks_made', true);
+        $attacks = get_user_meta($user_ID, 'in_war_attacks', true);
+        $next_attacks = get_user_meta($next_ID, 'in_war_attacks', true);
+        $prev_attacks = get_user_meta($prev_ID, 'in_war_attacks', true);
         
         update_user_meta($user_ID, 'moc_position', $position);
         update_user_meta($user_ID, 'moc_prev', $attacks-$prev_attacks);
@@ -253,3 +253,4 @@
                 }
             }
         }
+	}

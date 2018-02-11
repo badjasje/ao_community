@@ -1,6 +1,15 @@
 <?php
 require_once("wp-load.php");
-$users = get_users();
+$timestamp = current_time('timestamp');
+	$args = array(
+
+		'meta_key'     	=> 'last_online',
+		'orderby'      	=> 'meta_value_num',
+		'meta_value'	=> $timestamp-259200,
+		'meta_compare'	=> '>',
+
+	 ); 
+$users = get_users($args);
 foreach ($users as $user) {
     $user_ID = $user->data->ID;
     count_all_stats($user_ID);

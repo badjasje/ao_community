@@ -11,45 +11,52 @@ if ( $user === false ) {
 	wp_redirect(get_permalink(3486));
 }
 count_all_stats($user__ID);
-$user_NW = get_user_meta($user__ID, 'networth',true);
-$user_land = get_user_meta($user__ID, 'land',true);
-$clan_id = get_user_meta($user__ID, 'clan_id_user',true);
+$userData = get_user_meta($user__ID);
+$user_NW = $userData['networth'][0];
+$status = $userData['status'][0];
+$user_land = $userData['land'][0];
+$clan_id = $userData['clan_id_user'][0];
 $timestamp = current_time('timestamp');
-$clan_timestamp = get_user_meta($user__ID, 'new_clan_timestamp', true);
+$clan_timestamp = $userData['new_clan_timestamp'][0];
 
 
 include('country_array.php');
-$user_country_code = get_user_meta($user__ID, 'user_country',true);
+$user_country_code = $userData['user_country'][0];
 
-$last_online = get_user_meta($user__ID, 'last_online',true);
-				if(!empty($last_online)){
-				$last_seen = $timestamp - $last_online;}
+$last_online = $userData['last_online'][0];
+	if(!empty($last_online)){
+		$last_seen = $timestamp - $last_online;
+	}
 
 $visiting_user = get_current_user_ID();
 
-$savedUsers = get_user_meta($visiting_user, 'saved_users', true);
+$visitorData = get_user_meta($visiting_user);
+
+$savedUsers = $visitorData['saved_users'][0];
 $savedUsers = json_decode($savedUsers);
 $savedUsers = is_array($savedUsers) ? $savedUsers : [];
 
-$clan_id_user = get_user_meta($visiting_user, 'clan_id_user',true);
+$clan_id_user = $visitorData['clan_id_user'][0];
 
-$previous_members = get_post_meta($clan_id_user,'previous_members');
+$visitorClanData = get_post_meta($clan_id_user);
+
+$previous_members = $visitorClanData['previous_members'];
 
 
 
 
-$ct_1 = get_post_meta($clan_id_user,'ct_1',true);
-$ct_2 = get_post_meta($clan_id_user,'ct_2',true);
-$ct_3 = get_post_meta($clan_id_user,'ct_3',true);
-$ct_4 = get_post_meta($clan_id_user,'ct_4',true);
-$cl_1 = get_post_meta($clan_id_user,'clan_leader',true);	
+$ct_1 = $visitorClanData['ct_1'][0];
+$ct_2 = $visitorClanData['ct_2'][0];
+$ct_3 = $visitorClanData['ct_3'][0];
+$ct_4 = $visitorClanData['ct_4'][0];
+$cl_1 = $visitorClanData['clan_leader'][0];
 
 $CT_CL_array = array($ct_1,$ct_2,$ct_3,$ct_4,$cl_1);
 
 
 
-$members = get_post_meta($clan_id_user,'clan_members',true);
-get_header('profile'); ?>
+$members = $visitorClanData['clan_members'][0];
+get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">
@@ -89,21 +96,25 @@ get_header('profile'); ?>
 			<div class="row profile_row">
 				<div class="col-xs-5">Medals</div>
 				<div class="col-xs-7">
-					<?php 
-				
-						$aw_args = array(
-						'post_type'		=>	'medal',
-						'numberposts' => -1,
-						'meta_key' 		=> 'winning_user',
-						'meta_value'     	 => $user__ID);
+					<?php if($status != 'banned'):?>
+						<?php 
 					
-					$medals = get_posts($aw_args);
-					if(count($medals) == 0){echo 'none';}
-					foreach ($medals as $medal){
-				
-						$round = get_post_meta($medal->ID, 'medal_round', true); ?>
-					<i class="fa fa-star fa-lg" aria-hidden="true"></i> &nbsp;<?php echo $round;?>: <strong><?php echo $medal->post_title;?></strong><br/>
-						<?php } ?>
+							$aw_args = array(
+							'post_type'		=>	'medal',
+							'numberposts' => -1,
+							'meta_key' 		=> 'winning_user',
+							'meta_value'     	 => $user__ID);
+						
+						$medals = get_posts($aw_args);
+						if(count($medals) == 0){echo 'none';}
+						foreach ($medals as $medal){
+					
+							$round = get_post_meta($medal->ID, 'medal_round', true); ?>
+						<i class="fa fa-star fa-lg" aria-hidden="true"></i> &nbsp;<?php echo $round;?>: <strong><?php echo $medal->post_title;?></strong><br/>
+							<?php } ?>
+						<?php else:?>
+						n.a
+						<?php endif;?>
 				</div>
 			</div>
 			<div class="row profile_row">

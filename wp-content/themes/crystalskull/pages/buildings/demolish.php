@@ -11,7 +11,7 @@
 	    
 	    
 <div class="spaceNotice">
-	Your free land allows you to build <strong><?php echo floor(($land[0] - $builtland[0]) / 20); ?></strong> buildings.
+	Your free land allows you to build <strong><?php echo floor(($land - $builtland) / 20); ?></strong> buildings.
 </div>
 
 <div class="row market_block">	
@@ -25,8 +25,8 @@
 <?php // Buildings TABLE
 $totalbuildings = 0;
 foreach ($buildings as $key => $order) {
-$units_owned = get_user_meta($userId, $key);
-if ($units_owned[0] > 0) {
+$units_owned = $userData[$key][0];
+if ($units_owned > 0) {
 ?>
 			
 	<div class="row clan_profile_row2">
@@ -43,7 +43,7 @@ if ($units_owned[0] > 0) {
 	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Owned</span>
 		<span class="clan_data_right">
-			<?php echo $units_owned[0]; ?>
+			<?php echo $units_owned; ?>
 		</span>
 
 	</div>
@@ -58,8 +58,8 @@ if ($units_owned[0] > 0) {
 	<div class="col-md-2 clan_column">
 		<span class="clan_data_left">Max</span>
 		<span class="clan_data_right">
-			<?php $max_demo_money = floor($totalMoney[0] / ($order['price'] * 0.15));
-				$max_owned            = $units_owned[0];
+			<?php $max_demo_money = floor($totalMoney / ($order['price'] * 0.15));
+				$max_owned            = $units_owned;
 
 				if ($order['normalname'] == 'Airfield') {
 

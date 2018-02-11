@@ -14,7 +14,7 @@ $savedUsers = json_decode($savedUsers);
 
 $members = get_post_meta($clan_ID,'clan_members',true);
 $members[] = $user_ID;
-get_header('spyrep'); ?>
+get_header(); ?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

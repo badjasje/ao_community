@@ -865,6 +865,7 @@ table{
 .attack-image{
 	width: 30px;
     display: inline-block;
+    filter:brightness(100);
 }
 .attack-type-image{
 	text-align:center;
@@ -1776,6 +1777,12 @@ color: #2c90c6 !important;
 	margin-top:10px;
 	width:100%;
 }
+
+@media (max-width: 990px) {
+	.navbar-collapse{
+		display: none;
+	}
+}
 @media (max-width: 768px) {
 	.satbutton{
 		background-color:#ddd;
@@ -1832,4 +1839,16 @@ input[type="submit"] {
 }
 .smallAvatar:hover{
 	opacity: 0.9;
+}
+.loginHome{
+	border:1px solid #ddd;
+	padding:25px;
+	background-color:#fff;
+	margin-bottom:10px;
+}
+.homeColumn{
+	padding:20px;
+}
+.title_wrapper{
+	margin-top:22px;
 }

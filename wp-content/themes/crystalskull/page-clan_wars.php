@@ -5,20 +5,22 @@
 include('constants.php');
 
 $declarer_ID = get_current_user_ID();
-$declarer_clan_ID = get_user_meta($declarer_ID, 'clan_id_user',true);
-$clan_leader = get_post_meta($declarer_clan_ID, 'clan_leader',true);
+$userData = get_user_meta($declarer_ID);
+$declarer_clan_ID = $userData['clan_id_user'][0];
+$clanData = get_post_meta($declarer_clan_ID);
+$clan_leader = $clanData['clan_leader'][0];
 $timestamp = current_time('timestamp');
-$war_array = get_post_meta($declarer_clan_ID, 'war_array', true);
+$war_array = maybe_unserialize($clanData['war_array'][0]);
 
- $ct_1 = get_post_meta($declarer_clan_ID,'ct_1',true);
- $ct_2 = get_post_meta($declarer_clan_ID,'ct_2',true);
- $ct_3 = get_post_meta($declarer_clan_ID,'ct_3',true);
- $ct_4 = get_post_meta($declarer_clan_ID,'ct_4',true);
+ $ct_1 = $clanData['ct_1'][0];
+ $ct_2 = $clanData['ct_2'][0];
+ $ct_3 = $clanData['ct_3'][0];
+ $ct_4 = $clanData['ct_4'][0];
 
-$clan_networth = get_post_meta($declarer_clan_ID, 'clan_networth', true);
+$clan_networth = $clanData['clan_networth'][0];
 
  //MEGA 20171106 Count the members in YOUR clan
- $declaringClanMembers = get_post_meta($declarer_clan_ID, 'clan_members', true);
+ $declaringClanMembers = maybe_unserialize($clanData['clan_members'][0]);
  $declaringMembersCount = count($declaringClanMembers);
  $declarerAverageNw = $clan_networth / $declaringMembersCount;
 
@@ -161,9 +163,9 @@ get_header(); ?>
 
 </div>
 
-<?php foreach ($war_array as $key => $war) {
+<?php 
+	foreach ($war_array as $key => $war) {
 	$warred_clan =  array_shift(array_diff(array($war['declarer_id'],$war['receiver_id']), array($declarer_clan_ID)));
-	
 ?>
 <div class="row clan_profile_row">
 	<div class="col-md-2 border_bottom_mobile clan_column">
@@ -200,11 +202,7 @@ get_header(); ?>
 
 </div>
 <?php }?>
-            
-            
-            
-            
-            
+                    
             </div>
         </div>
     </div>

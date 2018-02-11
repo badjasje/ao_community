@@ -2,14 +2,16 @@
  /*
  * Template Name: Attack 1
  */
-
-$user_ID = get_current_user_id();
-update_user_meta($user_ID, 'user_lock', 0);
-update_user_meta($userId, 'morale_lock', 0);
-$networth = get_user_meta($user_ID, 'networth',true);
-$status = get_user_meta($user_ID, 'status',true);
 include 'constants.php';
-$sat_owned = get_user_meta($user_ID, 'sat_owned',true);
+
+$userId = get_current_user_id();
+$userData = get_user_meta($userId);
+update_user_meta($userId, 'user_lock', 0);
+update_user_meta($userId, 'morale_lock', 0);
+
+$networth = $userData['networth'][0];
+$status = $userData['status'][0];
+$satOwned = $userData['sat_owned'][0];
 
 $attackUserId = sanitize_text_field($_GET['id']);
 
@@ -20,16 +22,16 @@ if ( ! empty($attackUserId)) {
 $attackUserData = get_userdata($attackUserId);
 
 
-$sat_morale = get_user_meta($user_ID, 'sat_morale',true);
-$last_attacked = rtrim(get_user_meta($user_ID, 'last_attacked',true), ',');
+$sat_morale = $userData['sat_morale'][0];
+$last_attacked = rtrim($userData['last_attacked'][0], ',');
 $last_attacked = explode(',',$last_attacked);
 
-$morale = get_user_meta($user_ID, 'morale',true);
-$moralepool = get_user_meta($user_ID, 'morale_pool',true);
+$morale = $userData['morale'][0];
+$moralepool = $userData['morale_pool'][0];
 
 $satDisabled = 'disabled';
 $satDisabledClass = 'btn-disabled';
-if($sat_owned != 0 || !empty($sat_owned) && $sat_owned != 'stealths'){
+if($satOwned != 0 || !empty($satOwned) && $satOwned != 'stealths'){
 	$satDisabled = '';
 	$satDisabledClass = 'btn-general';
 }
@@ -76,7 +78,7 @@ get_header(); ?>
 	</span>
 	<span class="rdw-line">
 		Your morale is currently at <?php echo $morale;?>%. 
-		<?php if(!empty($sat_owned)){ echo 'Satellite power is currently at '. $sat_morale.'%';}?>
+		<?php if(!empty($satOwned)){ echo 'Satellite power is currently at '. $sat_morale.'%';}?>
 	</span>
 </div>
 
@@ -202,7 +204,7 @@ get_header(); ?>
 			<div class="row" id="missile_desc">
 				<div class="attackDescription">
 					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack type missiles can be launched.<br/>
-					You currently own <?php echo count_missiles($user_ID);?> missile<?php echo plural_func(count_missiles($user_ID));?>
+					You currently own <?php echo count_missiles($userId);?> missile<?php echo plural_func(count_missiles($userId));?>
 				</div>
 			</div>
 		</div> <!-- // End col-md-6 -->
@@ -236,7 +238,7 @@ get_header(); ?>
 			<div class="row" id="thief_desc">
 				<div class="attackDescription">
 					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack type thiefs can be sent.<br/>
-					Thiefs are used to steal money. You currently own <?php echo count_unit($user_ID,'thief');?> thief<?php echo plural_func(count_unit($user_ID,'thief'));?>
+					Thiefs are used to steal money. You currently own <?php echo count_unit($userId,'thief');?> thief<?php echo plural_func(count_unit($userId,'thief'));?>
 				</div>
 			</div>
 			
@@ -255,7 +257,7 @@ get_header(); ?>
 			<div class="row" id="sniper_desc">
 				<div class="attackDescription">
 					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack type snipers can be sent.<br/>
-					Snipers are used to kill thiefs, spies and other snipers. You currently own <?php echo count_unit($user_ID,'sniper');?> sniper<?php echo plural_func(count_unit($user_ID,'sniper'));?>
+					Snipers are used to kill thiefs, spies and other snipers. You currently own <?php echo count_unit($userId,'sniper');?> sniper<?php echo plural_func(count_unit($userId,'sniper'));?>
 				</div>
 			</div>
 		</div> <!-- // End col-md-6 -->
@@ -288,7 +290,7 @@ get_header(); ?>
 			<div class="row" id="saboteur_desc">
 				<div class="attackDescription">
 					<i class="fa fa-info-circle" aria-hidden="true"></i> In this attack type saboteurs can be sent.<br/>
-					Saboteurs are used to disable missile silos. You currently own <?php echo count_unit($user_ID,'saboteur');?> saboteur<?php echo plural_func(count_unit($user_ID,'saboteur'));?>
+					Saboteurs are used to disable missile silos. You currently own <?php echo count_unit($userId,'saboteur');?> saboteur<?php echo plural_func(count_unit($userId,'saboteur'));?>
 				</div>
 			</div>
 		</div> <!-- // End col-md-6 -->

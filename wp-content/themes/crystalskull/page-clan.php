@@ -2,15 +2,18 @@
  /*
  * Template Name: Clan
  */
-$user_ID = get_current_user_ID();
+$userId = get_current_user_ID();
+$userData = get_user_meta($userId);
+$clan_id_user = $userData['clan_id_user'][0];
+$clanCreate = $userData['clan_create_counter'][0];
 
-$clan_id_user = get_user_meta($user_ID, 'clan_id_user',true);
-$clan_leader = get_post_meta($clan_id_user, 'clan_leader',true);
-$clanCreate = get_user_meta($user_ID,'clan_create_counter', true);
 
-$autojoin = get_post_meta($clan_id_user, 'autojoin_allowed', true);
-$autojoinDesc = get_post_meta($clan_id_user, 'autojoin_description', true);
-$playstyle = get_post_meta($clan_id_user, 'autojoin_playstyle', true);
+$clanData = get_post_meta($clan_id_user);
+
+$clan_leader = $clanData['clan_leader'][0];
+$autojoin = $clanData['autojoin_allowed'][0];
+$autojoinDesc = $clanData['autojoin_description'][0];
+$playstyle = $clanData['autojoin_playstyle'][0];
 
 $autojoinYes = '';
 $autojoinNo = '';
@@ -22,10 +25,10 @@ if($autojoin == 'no'){
 	$autojoinNo = 'selected="selected"';
 }
 
-$ct_1 = get_post_meta($clan_id_user,'ct_1',true);
-$ct_2 = get_post_meta($clan_id_user,'ct_2',true);
-$ct_3 = get_post_meta($clan_id_user,'ct_3',true);
-$ct_4 = get_post_meta($clan_id_user,'ct_4',true);
+$ct_1 = $clanData['ct_1'][0];
+$ct_2 = $clanData['ct_2'][0];
+$ct_3 = $clanData['ct_3'][0];
+$ct_4 = $clanData['ct_4'][0];
  
 $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clan_leader);
 
@@ -119,7 +122,7 @@ get_header('clan'); ?>
 			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-info-circle clanpageitem" aria-hidden="true"></i> Clan information</h4>
   			</a>
 			
-  			<?php if(in_array($user_ID, $allowed)):?>
+  			<?php if(in_array($userId, $allowed)):?>
   			<a href="/edit-clan" class="list-group-item nostitem">
 			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-wrench clanpageitem" aria-hidden="true"></i> Edit clan</h4>
   			</a>
@@ -144,15 +147,15 @@ get_header('clan'); ?>
 			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-usd clanpageitem" aria-hidden="true"></i> Send aid</h4>
   			</a>
   			
-  			<?php if($clan_leader != $user_ID):?>
+  			<?php if($clan_leader != $userId):?>
   			
-  			<a onclick="return confirm('Are you sure you want to leave your clan? Your clan will lose 25% of your total clan points.')" href="/leave.php/?user=<?php echo $user_ID;?>" class="list-group-item nostitem">
+  			<a onclick="return confirm('Are you sure you want to leave your clan? Your clan will lose 25% of your total clan points.')" href="/leave.php/?user=<?php echo $userId;?>" class="list-group-item nostitem">
 			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-arrow-circle-o-down clanpageitem" aria-hidden="true"></i> Leave clan</h4>
   			</a>
   			
   			<?php endif;?>
   			
-  			<?php if($clan_leader == $user_ID):?>
+  			<?php if($clan_leader == $userId):?>
   			
   			<a onclick="return confirm('Are you sure you want to delete your clan?')" href="/delete.php/?clan=<?php echo $clan_id_user;?>" class="list-group-item nostitem">
 			<h4 class="list-group-item-heading clanpageitem"><i class="fa fa-trash-o clanpageitem" aria-hidden="true"></i> Delete clan</h4>
@@ -165,7 +168,7 @@ get_header('clan'); ?>
 		
 		<?php endif;?>
 		
-<?php if(in_array($user_ID, $allowed)):?>
+<?php if(in_array($userId, $allowed)):?>
 <div class="row edit_clan_first">
 	
 	<div class="col-md-6 edit_clan_box">

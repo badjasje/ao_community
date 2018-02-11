@@ -26,8 +26,10 @@ if (empty($userId) || !is_user_logged_in()) {
 $activeTab = $_POST['currentTab'] ? sanitize_text_field($_POST['currentTab']) : 'air';
 $marketRedirectUrl = get_permalink(3938) . $activeTab;
 $userId = get_current_user_id();
-$totalMoney = get_user_meta($userId, 'money', true);
-$userLock = get_user_meta($userId, 'user_lock', true);
+$userData = get_user_meta($userId);
+
+$totalMoney = $userData['money'][0];
+$userLock = $userData['user_lock'][0];
 $marketSellMultiplier = (2.2 * 0.5);
 
 $specialUnitsArray = [
@@ -50,7 +52,7 @@ if ($userLock == 1) {
     $specialSelling = 0;
     foreach ($units as $key => $order) {
         if (!empty($_POST["$key"])) {
-            $ownedUnits = get_user_meta($userId, $key.'_owned');
+            $ownedUnits = $userData[$key.'_owned'][0];
             $soldUnits = ceil($_POST["$key"]);
 
             if ($_POST[$key] < 0) {
@@ -75,7 +77,7 @@ if ($userLock == 1) {
         }
     }
 
-    $specials_sold = get_user_meta($userId, 'special_sold_today', true);
+    $specials_sold = $userData['special_sold_today'][0];
 
     if (($specials_sold+$specialSelling) > 50) {
         $_SESSION['status'] = 'Cannot sell more than 50 special units per day';
@@ -90,7 +92,7 @@ if ($userLock == 1) {
 
     foreach ($units as $key => $order) {
         if (!empty($_POST["$key"])) {
-            $ownedUnits = get_user_meta($userId, $key.'_owned');
+            $ownedUnits = $userData[$key.'_owned'][0];
             $soldUnits = ceil($_POST["$key"]);
             if ($_POST["$key"] < 0) {
                 $_SESSION['status'] = 'Enter a valid number';
@@ -120,7 +122,7 @@ if ($userLock == 1) {
             $totalSelling += $soldAmount;
             update_user_meta($userId, $key.'_owned', $ownedUnits[0] - $soldUnits);
 
-            $unitsSold = get_user_meta($userId, 'units_sold', true);
+            $unitsSold = $userData['units_sold'][0];
             update_user_meta($userId, 'units_sold', $unitsSold+$soldUnits);
 
             // Add log entry

@@ -29,9 +29,10 @@
 
 			foreach ($user_query->results as $user) :
 				$user_ID = $user->ID;
-				$user_NW = get_user_meta($user_ID, 'networth',true);
-				$user_land = get_user_meta($user_ID, 'land',true); 
-				$clan_id = get_user_meta($user->ID, 'clan_id_user',true);?>
+				$userData = get_user_meta($user_ID);
+				$user_NW = $userData['networth'][0];
+				$user_land = $userData['land'][0];
+				$clan_id = $userData['clan_id_user'][0];?>
 
 
 <div class="row clan_profile_row2">

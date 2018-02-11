@@ -19,11 +19,40 @@ remove_action( 'admin_print_styles', 'print_emoji_styles' );
 add_filter('next_posts_link_attributes', 'posts_link_attributes');
 add_filter('previous_posts_link_attributes', 'posts_link_attributes');
 
-function posts_link_attributes() {
-    return 'class="btn btn-general"';
+function ban_redirect($userId){
+	
+	$status = get_user_meta($userId,'status',true);
+	if($status == 'banned'){
+		wp_redirect(get_permalink(702260));
+	    exit;
+    }
 }
-
-
+function do_header_title($pageId, $userId) {
+	//Check if Dashboard
+	if($pageId == 3486){		
+		return get_the_title().' <a href="/users/profile/?id=<?php echo $user->ID; ?>">'.get_user_name($userId). '
+				<div style="position: relative;vertical-align: middle;display: inline-block;">'.small_avatar($userId,'').'</div>';
+	}
+	//Check if Profile page
+	elseif($pageId == 3520){
+		$userId = $_GET['id'];		
+		return get_the_title().' <a href="/users/profile/?id=<?php echo $user->ID; ?>">'.get_user_name($userId);
+	}
+	//Check if Spy report
+	elseif($pageId == 47273){
+		$userId = $_GET['id'];		
+		return 'Spy reports for <a href="/users/profile/?id=<?php echo $user->ID; ?>">'.get_user_name($userId);
+	}
+	//Check if Spy report overview clan
+	elseif($pageId == 95464){
+		$clanId = $_GET['id']; 
+		return 'Overview '.get_the_title($clanId).' (#'.$clanId.')';
+	}
+	//Return regular page title
+	else{
+		return get_the_title();
+	}
+}
 function do_thief($level, $thieves, $snipers, $defender_money) {
 	
 	//Set thief_multiplier based on number sent. The higher the multiplier, the lower the success chance but higher the money stolen
@@ -162,9 +191,10 @@ add_action( 'login_enqueue_scripts', 'my_login_logo' );
 
 function unit_types($user_ID){
 	include('units_array.php');
+	$userData = get_user_meta($user_ID);
 	$type_array = array();
 	foreach ($units as $key => $unit) {
-		$units = get_user_meta($user_ID, $key.'_owned', true);
+		$units = $userData[$key.'_owned'][0];
 			
 			if($units > 0){
 			$type_array[$unit['type']] += $units;
@@ -177,9 +207,10 @@ function unit_types($user_ID){
 
 function can_attack($user_ID){
 	include('units_array.php');
+	$userData = get_user_meta($user_ID);
 	$attack_array = '';
 	foreach ($units as $key => $unit) {
-		$units = get_user_meta($user_ID, $key.'_owned', true);
+		$units = $userData[$key.'_owned'][0];
 			
 			if($units > 0){
 			$attacks = $unit['attacks'];
@@ -219,9 +250,10 @@ function networth_range($user_ID){
 
 
 function get_user_name($user_ID){
+	$userData = get_user_meta($user_ID);
 	$timestamp = current_time('timestamp');
-	$status = get_user_meta($user_ID,'status',true);
-	$last_online = get_user_meta($user_ID, 'last_online',true);
+	$status = $userData['status'][0];
+	$last_online = $userData['last_online'][0];
 	$member_data = get_userdata($user_ID);
 	$displayName = $member_data->display_name;
 	
@@ -237,15 +269,21 @@ function get_user_name($user_ID){
 		
 		}
 	$extraStyle = '';
-	
-	if($status == 'dead' ){
+	$banned = '';
+	if($status == 'dead' || $status == 'banned' ){
 		$extraStyle = 'style="color:#ff0000"';
+		}
+	if($status == 'banned' ){
+		$banned = '<strong>banned</strong>';
 		}
 	if($status == 'nukeprotection' ){
 		$extraStyle = 'style="color:#009eff"';
 		}
-
-return "<a class='memberField' $extraStyle href='/users/profile/?id=$user_ID'>$displayName (#$user_ID)</a> $onlineStar";
+if($status == 'banned' ){
+	return "<strike><a class='memberField' $extraStyle href='/users/profile/?id=$user_ID'>$displayName (#$user_ID)</a></strike> $onlineStar $banned";
+}else{
+	return "<a class='memberField' $extraStyle href='/users/profile/?id=$user_ID'>$displayName (#$user_ID)</a> $onlineStar $banned";
+}
 	
 }
 
@@ -261,9 +299,9 @@ function count_unit($user_ID,$unit_type){
 }
 
 function header_events($user_ID){
-
-$new_events = get_user_meta($user_ID, 'new_events',true);
-$new_global_events = get_user_meta($user_ID, 'new_global_events',true);
+$userData = get_user_meta($user_ID);
+$new_events = $userData['new_events'][0];
+$new_global_events = $userData['new_global_events'][0];
 
 $redClass = "";
 $globalClass = "";
@@ -1235,8 +1273,10 @@ function desktop_view($user_ID){
 }
 
 function notify_user($user_ID,$type){
+	
+$userData = get_user_meta($user_ID);
 
-$phonenumber = get_user_meta($user_ID, 'phone_number', true);
+$phonenumber = $userData['phone_number'][0];
 if(!empty(is_numeric($phonenumber))){
 	
 $remove = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U","+");
@@ -1244,8 +1284,8 @@ $phonenumber = str_replace($remove, "", $phonenumber);
 	
 $message = '';
 	
-$LP_notified = get_user_meta($user_ID, 'low_power_notified', true);
-$LB_notified = get_user_meta($user_ID, 'low_buildings_notified', true);
+$LP_notified = $userData['low_power_notified'][0];
+$LB_notified = $userData['low_buildings_notified'][0];
 
 
 if($LP_notified == 'no' && $type == 'power'){
@@ -1323,8 +1363,8 @@ function multi_register( $login ) {
 
         // close curl resource to free up system resources 
         curl_close($ch);      
-		var_dump($output);
-
+		
+		
 	
 	
 	$ip_array[$ip_address][$user_ID] = array(date('Y-m-d H:i:s'),$useragent,$hostaddress,$output);
@@ -1349,16 +1389,17 @@ function count_deposits($user_ID){
 }
 
 function clan_tag($user_ID){
+
+$clanId = get_user_meta($user_ID, 'clan_id_user', true);
 	
-if(get_user_meta($user_ID, 'clan_id_user', true) != 0){
-	$clan_ID = get_user_meta($user_ID, 'clan_id_user', true);
-	$clantag = get_post_meta($clan_ID, 'clan_tag', true);
-	$chars = array("[", "]");
-	$clantag = str_replace($chars, "", $clantag);
-	return '<strong>['.$clantag.']</strong>';	
+	if($clanId != 0){
+		$clantag = get_post_meta($clanId, 'clan_tag', true);
+		$chars = array("[", "]");
+		$clantag = str_replace($chars, "", $clantag);
+	
+		return '<strong>['.$clantag.']</strong>';	
 			
-			}
-	
+		}
 }
 
 function wpse66094_no_admin_access() {
@@ -1391,6 +1432,9 @@ function create_post_type() {
       ),
       'public' => true,
       'has_archive' => true,
+      'show_in_rest'       => true,
+      'rest_base'          => 'event_local',
+	  'rest_controller_class' => 'WP_REST_Posts_Controller',
       'supports'    => array( 'title', 'editor', 'author', 'excerpt' ),
     ));
     register_post_type( 'clan',array(
@@ -1692,7 +1736,12 @@ update_user_meta($user_id, $key.'_ordered', 0);
 
 function count_all_stats($user_ID){
 
-if(!empty($user_ID)){
+$userData = get_user_meta($user_ID);
+
+$status = $userData['status'][0];
+       
+
+if(!empty($user_ID) && $status != 'banned'){
 	
 	
 include('units_array.php');
@@ -1701,11 +1750,11 @@ include('building_array.php');
 include('research_array.php');
 include('constants.php');
 include('satellite_array.php');
-
+$currentWeather = get_field('weather','options');
 /* calculate unit NW */
 $unit_networth = 0;
 foreach($units as $key => $unit){
-	$units_owned = get_user_meta($user_ID, $key.'_owned',true);
+	$units_owned = $userData[$key.'_owned'][0];
 	
 		if($units_owned > 0){
 			$unit_networth+= $units_owned*$unit['price']*($unit['networth']/100);
@@ -1715,7 +1764,7 @@ foreach($units as $key => $unit){
 /* calculate missile NW */
 $missile_networth = 0;
 foreach($missiles as $key => $missile){
-	$missiles_owned = get_user_meta($user_ID, $key.'_owned');
+	$missiles_owned = $userData[$key.'_owned'][0];
 	
 		if($missiles_owned > 0){
 			$missile_networth+= $missiles_owned[0]*$missile['price']*($missile['networth']/100);
@@ -1727,21 +1776,24 @@ $totalbuildings 	= 0;
 $used_power 		= 0;
 $power_production 	= 0;
 
-$PPE_level = get_user_meta($user_ID, 'level_powerplant_efficiency',true);
+$PPE_level = $userData['level_powerplant_efficiency'][0];
 $PPE_multi = 1;
 	
 	if($PPE_level == 1){
 		$PPE_multi = 1.5;
 		}
-
+$weatherReduction = 1;
+if($currentWeather == 'thunderstorm'){
+	$weatherReduction = 0.9;
+}
 /* calculate building NW */
 foreach($buildings as $key => $building){
-	$buildings_owned = get_user_meta($user_ID, $key,true);
+	$buildings_owned = $userData[$key][0];
 	
 		if($buildings_owned > 0){
 			$totalbuildings+=$buildings_owned;
 			$building_networth+= $buildings_owned*$building['price']*($building['networth']/100);
-			$power_production+=$building['powerprod']*$buildings_owned;
+			$power_production+=$building['powerprod']*$weatherReduction*$buildings_owned;
 			$used_power+=$building['power']*$buildings_owned;
 			}
 	} // End calculate building NW
@@ -1750,13 +1802,13 @@ foreach($buildings as $key => $building){
 
 $research_NW = 0;
 foreach($researches as $key => $research){
-	$level = get_user_meta($user_ID, 'level_'.$key,true);
+	$level = $userData['level_'.$key][0];
 	if($level > 0){
 	$research_NW+= $research['duration']*$RESEARCH_NW_PER_HOUR*$level;
 	}
 }
 
-$sat_owned = get_user_meta($user_ID, 'sat_owned', true);
+$sat_owned = $userData['sat_owned'][0];
 
 $sat_NW = 0;
 
@@ -1765,7 +1817,7 @@ $sat_NW = $satellites[$sat_owned]['price']*0.06;
 }
 
 
-$land = get_user_meta($user_ID, 'land',true);
+$land = $userData['land'][0];
 $land_networth = round($land*0.85);
 
 $totalNW = round($sat_NW+$research_NW+$building_networth+$unit_networth+$land_networth+$missile_networth);
@@ -1781,12 +1833,12 @@ update_user_meta( $user_ID,'missile_nw',round($missile_networth));
 
 update_user_meta( $user_ID,'builtland',$totalbuildings*20);
 
-$highestNW = get_user_meta($user_ID, 'highest_networth', true);
+$highestNW = $userData['highest_networth'][0];
 if($totalNW > $highestNW){
 	update_user_meta($user_ID, 'highest_networth', $totalNW);
 }
 
-$highestLand = get_user_meta($user_ID, 'highest_land', true);
+$highestLand = $userData['highest_land'][0];
 if($land > $highestLand){
 	update_user_meta($user_ID, 'highest_land', $land);
 }
@@ -1805,39 +1857,32 @@ $emps = get_posts(array(
 $empReduction = 0;
 foreach ($emps as $emp) {
 	$empReduction += get_post_meta($emp->ID, 'deduction_emp', true);
-	
-	
 }
 
 
 
 if($power_production > 0){
-		update_user_meta( $user_ID,'power',$used_power/($power_production*$PPE_multi)*100);
+		update_user_meta( $user_ID,'power',$used_power/($power_production*$PPE_multi)*100+$empReduction);
 		}
 	else{
-		update_user_meta( $user_ID,'power',$used_power*100);
+		update_user_meta( $user_ID,'power',$used_power*100+$empReduction);
 	}
 
 
-$power = get_user_meta($user_ID, 'power', true);
-update_user_meta($user_ID,'power',$power+$empReduction);
-
-
-
-
-$status = get_user_meta($user_ID, 'status', true);
+$power = $userData['power'][0];
+//update_user_meta($user_ID,'power',$power+$empReduction);
 
 if($status == 'online'){
 
 	if($totalbuildings < 50){
-		$low_buildings = get_user_meta($user_ID, 'low_buildings', true);
+		$low_buildings = $userData['low_buildings'][0];
 		if($low_buildings == 'on'){
 		notify_user($user_ID,'buildings');
 		}
 		}
 
 	if($power+$empReduction > 100){
-		$low_power = get_user_meta($user_ID, 'low_power', true);
+		$low_power = $userData['low_power'][0];
 		if($low_power == 'on'){
 		notify_user($user_ID,'power');
 		}
@@ -2189,15 +2234,16 @@ add_filter( 'manage_users_columns', 'new_modify_user_table' );
 function new_modify_user_table_row( $val, $column_name, $user_id ) {
 	
 	$member_data = get_userdata($user_id);
-	$lastseen = date('G:i:s | d-m-Y', get_user_meta($user_id, 'last_online', true));
-	$clan_id = get_user_meta($user_id, 'clan_id_user',true);
+	$userData = get_user_meta($user_id);
+	$lastseen = date('G:i:s | d-m-Y', $userData['last_online'][0]);
+	$clan_id = $userData['clan_id_user'][0];
    
     switch ($column_name) {
         case 'networth' :
-            return '$ '.number_format(get_user_meta($user_id, 'networth', true), 0, ',', ' ');
+            return '$ '.number_format($userData['networth'][0], 0, ',', ' ');
             break;
         case 'land' :
-            return number_format(get_user_meta($user_id, 'land', true), 0, ',', ' ').' m<sup>2</sup>';
+            return number_format($userData['land'][0], 0, ',', ' ').' m<sup>2</sup>';
             break;
         case 'playername' :
             return '<a target="_blank" href="/users/profile/?id='.$user_id.'">'.$member_data->display_name.' (#'.$user_id.')</a>';

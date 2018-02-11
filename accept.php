@@ -31,6 +31,15 @@ $clanMembers = get_post_meta($_GET['clan'],'clan_members');
 $clanLeader = get_post_meta($clan,'clan_leader',true);
 $timestamp = current_time('timestamp');
 
+$endDate = get_field('end_date','option');
+$endStamp = strtotime($endDate);
+$timeLeft = $endStamp-$timestamp;
+$marketClose = $timeLeft - 172800;
+if($timeLeft<172800){
+	$_SESSION['status'] = 'Cannot join a clan the last 48 hours of a round';
+	wp_redirect(get_permalink(3601)); exit;
+}
+
 // Todo: The number '5' should be contained inside a configuration file / constant.
 if(count($members[0]) >= 6){
     wp_redirect(get_permalink(3601)); exit;

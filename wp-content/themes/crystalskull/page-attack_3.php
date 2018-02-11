@@ -20,6 +20,7 @@ if($attack_type == 'satellite'){ $attack_name = 'Using satellite'; }
 if($attack_type == 'sniper'){ $attack_name = 'Sending sniper'; }
 
 $userId = get_current_user_id();
+$userData = get_user_meta($userId);
 
 get_header(); ?>
 <div class="page normal-page">
@@ -71,17 +72,17 @@ get_header(); ?>
 			
 	if($key != 'tomahawk'){
 			
-		$units_owned = get_user_meta($userId, $key.'_owned');
+		$units_owned = $userData[$key.'_owned'][0];
 			
 		if($order > 0){
 			
-			if($order >= $units_owned[0]){
+			if($order >= $units_owned){
 				
 				$percentage = 1;
 				
 				}else{
 				
-				$percentage = $order/$units_owned[0];
+				$percentage = $order/$units_owned;
 				
 				}
 			?><tr>
@@ -89,7 +90,7 @@ get_header(); ?>
 				<?php echo $units[$key]['normalname'];?>
 			</td>
 			<td data-title="Sending to battle">
-				<?php echo $units_owned[0]*$percentage;?>
+				<?php echo $units_owned*$percentage;?>
 			</td>
 			<td data-title="Percentage">
 				<input type="hidden" name="<?php echo $key;?>" value="<?php echo $percentage;?>">
@@ -104,7 +105,7 @@ get_header(); ?>
 			</tr>
 		<?php }}} ?>
 		<?php 
-			$tomahawk_owned = get_user_meta($userId, 'tomahawk_owned',true);
+			$tomahawk_owned = $userData['tomahawk_owned'][0];
 		
 			$order = $_SESSION['attack_array']['tomahawk'];
 			
@@ -152,7 +153,7 @@ get_header(); ?>
 			if($_SESSION['attacktype'] == 'missile'): ?>
 			<?php
 			$key = $_SESSION['attack_array']['missile'];
-			$units_owned = get_user_meta($userId, $key.'_owned',true);
+			$units_owned = $userData[$key.'_owned'][0];
 			
 				$url = '/attack/missile-result/';
 			if($key == 'empmis'){
@@ -201,7 +202,7 @@ get_header(); ?>
 			
 			if($_SESSION['attacktype'] == 'satellite'): 
 			include 'satellite_array.php';
-			$sat_owned = get_user_meta($userId, 'sat_owned',true);
+			$sat_owned = $userData['sat_owned'][0];
 			if($sat_owned == 'laser'){
 			$resultURL = home_url().'/attack/satellite-result/';
 			}
@@ -263,20 +264,20 @@ get_header(); ?>
 			<tbody>
 		<?php foreach($units_attack as $key => $order){
 			
-			$units_owned = get_user_meta($userId, $key.'_owned');
+			$units_owned = $userData[$key.'_owned'][0];
 			
 			if($order > 0){
-			if($order >= $units_owned[0]){
+			if($order >= $units_owned){
 				$percentage = 1;
 			}else{
-				$percentage = $order/$units_owned[0];
+				$percentage = $order/$units_owned;
 			}
 			?><tr>
 			<td  data-title="Name">
 				<?php echo $units[$key]['normalname'];?>
 			</td>
 			<td  data-title="Sending">
-				<?php echo $units_owned[0]*$percentage;?>
+				<?php echo $units_owned*$percentage;?>
 			</td>
 			
 			
@@ -316,7 +317,7 @@ get_header(); ?>
 			
 			foreach($units_attack as $key => $order){
 			
-			$units_owned = get_user_meta($userId, $key.'_owned');?>
+			$units_owned = $userData[$key.'_owned'][0];?>
 			
 				<tr>
 					<td  data-title="Name">
@@ -353,20 +354,20 @@ get_header(); ?>
   					</tr>
 		<?php foreach($units_attack as $key => $order){
 			
-			$units_owned = get_user_meta($userId, $key.'_owned');
+			$units_owned = $userData[$key.'_owned'][0];
 			
 			if($order > 0){
-			if($order >= $units_owned[0]){
+			if($order >= $units_owned){
 				$percentage = 1;
 			}else{
-				$percentage = $order/$units_owned[0];
+				$percentage = $order/$units_owned;
 			}
 			?><tr>
 			<td>
 				<?php echo $units[$key]['normalname'];?>
 			</td>
 			<td>
-				<?php echo $units_owned[0]*$percentage;?>
+				<?php echo $units_owned*$percentage;?>
 			</td>
 			
 			<td data-title="Percentage">
@@ -402,7 +403,7 @@ get_header(); ?>
 			<tbody>
 		<?php foreach($units_attack as $key => $order){
 			
-			$units_owned = get_user_meta($userId, $order.'_owned');
+			$units_owned = $userData[$order.'_owned'][0];
 		
 			
 			?><tr>
