@@ -13,15 +13,8 @@
 <?php
 
 	$position = 0;
-	$args = array(
-		'orderby'    	=> 'meta_value_num',
-		'posts_per_page' => -1,
-		'post_type'		=>	'clan',
-		'meta_key' 		=> 'clan_points',
-		'order'     	 => 'DESC');
-	$clans = get_posts($args);
 
-	foreach ($clans as $clan) { ?>
+	foreach ($toplistArray['clanpoints'] as $clan) { ?>
 	
 	
 	<div class="row clan_profile_row2">
@@ -34,12 +27,12 @@
 	
 	
 	<div class="col-md-1">
-		<?php echo clan_avatar($clan->ID,'');?>
+		<?php echo clan_avatar($clan,'');?>
 	</div>
 	
 	
 	<div class="col-md-6 clan_column center_clan_col border_bottom_mobile">
-		<a href="<?php echo get_permalink($clan); ?>"><?php echo $clan->post_title.' (#'.$clan->ID.')';?></a>		
+		<a href="<?php echo get_permalink($clan); ?>"><?php echo get_the_title($clan).' (#'.$clan.')';?></a>		
 	</div>
 	
 	
@@ -49,7 +42,7 @@
 		
 		<span class="clan_data_left">Clan points</span>
 		<span class="clan_data_right store-pop-span2">
-			<?php echo ceil(get_post_meta($clan->ID, 'clan_points',true));?>
+			<?php echo ceil(get_post_meta($clan, 'clan_points',true));?>
 		</span>
 	
 	</div>

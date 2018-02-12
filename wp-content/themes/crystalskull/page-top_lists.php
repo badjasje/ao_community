@@ -2,13 +2,13 @@
 /*
 * Template Name: Top lists
 */
-	if(!is_user_logged_in()){
-		get_header('loginhome');
-	}else{
-		get_header();
-	}
+if(!is_user_logged_in()){
+	get_header('loginhome');
+}else{
+	get_header();
+}
 	
-
+$toplistArray = maybe_unserialize(get_field('toplistarray','option'));
 $activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'provicenw';
 
 ?>
