@@ -71,5 +71,5 @@
             'level3'                => 'Bank stores up to $ 5 000 000 and bank interest increased by 1,0% + the 25% fee for early withdrawals is removed',
             'maxlevel'              => 3,
             'description'           => 'Increases the amount of money you can bank',
-            'duration'              =>  '5'),
+            'duration'              =>  '10'),
     );
