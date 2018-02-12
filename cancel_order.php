@@ -44,6 +44,16 @@ if ($userLock == 1) {
 }
 update_user_meta($userId, 'user_lock', 1);
 
+// Determine market discount multiplier
+$marketDiscountLevel = get_user_meta($userId, 'level_market_discount', true);
+$discount = 1.0;
+if($marketDiscountLevel == 1){
+    $discount = $discount - 0.15;
+} elseif($marketDiscountLevel >= 2){
+    $discount = $discount - 0.3;
+}
+
+
 
 $userPlacedId = get_post_meta($orderId, 'user_placed_id', true);
 if ($userId != $userPlacedId) {
