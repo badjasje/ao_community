@@ -148,9 +148,11 @@ update_user_meta($user_id, 'morale', $attack_new_morale);
 
 /* Calculate dragon extra attack power */
 
-$dragons = $_SESSION['attack_array']['dragon']*25;
-if(empty($dragons)){
-	$dragons = 0;
+$dragons = 25 * intval($attack_array['dragon']); // each carriers 25 vehs
+if($dragons < 0) {
+    $_SESSION['status'] = "How to train your dragon ... NOT!";
+    wp_redirect(get_permalink(3360).'?id='.$target_id);
+    exit;
 }
 
 $veh_att_power = 0;
@@ -175,9 +177,11 @@ foreach ($attack_array as $key => $count) {
 
 /* Calculate dragon extra attack power */
 
-$apcs = $_SESSION['attack_array']['apc']*50;
-if(empty($apcs)){
-	$apcs = 0;
+$apcs = 50 * intval($attack_array['apc']); // each carriers 50 infs
+if($apcs < 0) {
+    $_SESSION['status'] = "Don't talk so negative about those APCs!";
+    wp_redirect(get_permalink(3360).'?id='.$target_id);
+    exit;
 }
 
 $inf_att_power = 0;
@@ -203,9 +207,11 @@ foreach ($attack_array as $key => $count) {
 	
 /* Calculate carrier extra attack power */
 
-$carriers = $_SESSION['attack_array']['carrier']*25;
-if(empty($carriers)){
-	$carriers = 0;
+$carriers = 25 * intval($attack_array['carrier']);
+if($carriers < 0) {
+    $_SESSION['status'] = 'Did you just got carried away?';
+    wp_redirect(get_permalink(3360).'?id='.$target_id);
+    exit;
 }
 
 $air_att_power = 0;
