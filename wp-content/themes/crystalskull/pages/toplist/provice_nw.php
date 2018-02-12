@@ -10,25 +10,11 @@
 	</div>
 			<?php
 
-			$no = 15;// total no of author to display
 
-			$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-
-			$offset = $paged == 1 ? 0 : ($paged - 1) * $no;
-
-			$args = array(
-				'meta_key' => 'networth',
-				'orderby'  => 'meta_value_num',
-				'order'    => 'DESC',
-				'number'   => $no,
-				'offset'   => $offset
-			);
-
-			$user_query = new WP_User_Query($args);
 			$position   = 0;
 
-			foreach ($user_query->results as $user) :
-				$user_ID = $user->ID;
+			foreach ($toplistArray['provnw'] as $user) :
+				$user_ID = $user;
 				$userData = get_user_meta($user_ID);
 				$user_NW = $userData['networth'][0];
 				$user_land = $userData['land'][0];
@@ -39,7 +25,7 @@
 		
 	<div class="col-md-1">
 		<div class="positionNo">
-			<?php echo $offset + $position += 1; ?>
+			<?php echo $position += 1; ?>
 		</div>
 	</div>
 	
@@ -73,29 +59,8 @@
 	</div>
 </div> <! // Close profile row -- >
 
-
-				
-				
-				
-				
-			
-			<?php endforeach; ?>
+<?php endforeach; ?>
 </div>
 
-<div class="pagination-bar">
-	<?php
-	$total_user  = $user_query->total_users;
-	$total_pages = ceil($total_user / $no);
 
-	echo paginate_links(array(
-		'base'      => get_pagenum_link(1) . '%_%',
-		'format'    => '/page/%#%',
-		'current'   => $paged,
-		'total'     => $total_pages,
-		'prev_text' => 'Previous',
-		'next_text' => 'Next',
-
-	));
-	?>
-</div>
 </div> <!-- Close tab pane 1 -->
