@@ -1,9 +1,9 @@
 <?php
 
 $aw_args = array(
-    'post_type'	  => 'award',
+    'post_type'   => 'award',
     'numberposts' => -1,
-    'meta_key' 	  => 'winning_clan',
+    'meta_key'    => 'winning_clan',
     'meta_value'  => $clan_id);
 $awards = get_posts($aw_args);
 
@@ -16,11 +16,10 @@ $colorMap = [
 ];
 
 $awardTypeMap = [
-    "Points Champion"   => "Pts",
-    "Points champion"   => "Pts",
-    "United Arms"       => "UA",
-    "Networth Champion" => "NW",
-    "United Boundaries" => "UB"
+    "Pts" => "points champion",
+    "UA"  => "united arms",
+    "NW"  => "networth champion",
+    "UB"  => "united boundaries"
 ];
 
 $otherAwards = [];
@@ -32,9 +31,9 @@ foreach ($awards as $award){
 
     $roundNr   = filter_var($round, FILTER_SANITIZE_NUMBER_INT);
     $color     = $colorMap[$position];
-    $awardType = $awardTypeMap[$award->post_title];
+    $awardType = array_search(strtolower($award->post_title), $awardTypeMap);
 
-    if (!isset($color) || !isset($awardType)) {
+    if (!isset($color) || $awardType==false) {
         array_push($otherAwards, [
             "round" => $round,
             "color" => $color,
@@ -49,20 +48,17 @@ foreach ($awards as $award){
         $awardsPerRound[$roundNr][$awardType]=$color;
     }
 }
-ksort($awardsPerRound);
-$awardsPerRound = array_reverse($awardsPerRound, true);
+krsort($awardsPerRound);
 
 if (!empty($awardsPerRound)) { ?>
 
 <div class="row profile_row">
-  <div class="col-xs-2">Round</div>
+  <div data-toggle="tooltip" title="Round" class="col-xs-2">Rnd</div>
 
-  <?php foreach ($awardTypeMap as $name => $awardType){ ?>
+  <?php foreach ($awardTypeMap as $awardType => $name){ ?>
 
-  <div class="col-xs-1">
-    <div data-toggle="tooltip" title='<?php echo "$name" ?>'>
-      <?php echo "$awardType" ?></div>
-  </div>
+  <div data-toggle="tooltip" title='<?php echo "$name" ?>' class="col-xs-2">
+    <?php echo "$awardType" ?></div>
 
   <?php } ?>
 
@@ -75,17 +71,16 @@ foreach ($awardsPerRound as $roundNr => $awards){ ?>
 <div class="row profile_row">
   <div class="col-xs-2"><?php echo "$roundNr" ?></div>
   <?php
-  foreach ($awardTypeMap as $name => $awardType){
-    $color = $awards[$awardType]
-  ?>
-    <?php if (isset($color)) { ?>
-    <div class="col-xs-1">
+  foreach ($awardTypeMap as $awardType => $name){
+    $color = array_key_exists($awardType, $awards) ? $awards[$awardType] : false;
+    if ($color) { ?>
+    <div class="col-xs-2">
       <i class="fa fa-trophy fa-lg"
          style="color:<?php echo $color;?>"
          aria-hidden="true"></i>
     </div>
     <?php } else { ?>
-    <div class="col-xs-1">-</div>
+    <div class="col-xs-2">-</div>
     <?php } ?>
   <?php } ?>
 </div>
