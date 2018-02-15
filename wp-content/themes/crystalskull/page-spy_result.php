@@ -3,20 +3,27 @@
  * Template Name: Spy Result
  */
 $defender_ID = $_SESSION['target_id'];
+$userId = get_current_user_id();
+
 $success = (rand(30,100));
-$sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
+
+$userData = get_user_meta($userId);
+$defenderData = get_user_meta($defender_ID);
+
+$sat_status = $defenderData['stealth_sat_status'][0];
+
 if($sat_status == 'active'){
 	$success = 100;
 }
-$user_ID = get_current_user_id();
-$clan_defender_id = get_user_meta($defender_ID, 'clan_id_user', true);
-$clan_ID = get_user_meta($user_ID, 'clan_id_user', true);
+
+$clan_defender_id = $defenderData['clan_id_user'][0];
+$clan_ID = $userData['clan_id_user'][0];
 $timestamp = current_time('timestamp');
 
 $spytype = $_SESSION['attack_array']['sendspy'];
-$turns = get_user_meta($user_ID, 'turns',true);
-$spies = get_user_meta($user_ID, 'spy_owned',true);
-$spyplanes = get_user_meta($user_ID, 'spyplane_owned',true);
+$turns = $userData['turns'][0];
+$spies = $userData['spy_owned'][0];
+$spyplanes = $userData['spyplane_owned'][0];
 
 
 
@@ -45,11 +52,12 @@ if($turns < 1){
 	exit;
 	}	
 
-	update_user_meta($user_ID,'turns',$turns-1);
+	update_user_meta($userId,'turns',$turns-1);
 	
-$sat_status = get_user_meta($defender_ID, 'stealth_sat_status',true);
 
-$snipers = get_user_meta($defender_ID, 'snipers_owned', true);
+$snipers = $defenderData['snipers_owned'][0];
+$land_def = $defenderData['land'][0];
+$networth_def = $defenderData['networth'][0];
 
 $success = $success+$snipers*0.25;
 
@@ -163,7 +171,7 @@ get_header(); ?>
 <?php if($_SESSION['attack_array']['sendspy'] == 'spy'):?>
 	<?php if($success <= 90):
 		include('units_array.php');?>
-		<?php $winner_id = $user_ID;?>
+		<?php $winner_id = $userId;?>
 			<center><h2>S U C C E S S</h2></center>
 			<div class="notice_message">
 			<span class="rdw-line">Your spy entered the base of 
@@ -192,7 +200,7 @@ get_header(); ?>
 			$amountArray = array();	
 			$spy_array = array();
 			foreach ($units as $key => $unit) {
-			$owned_units = get_user_meta($defender_ID, $key.'_owned');
+			$owned_units = $defenderData[$key.'_owned'][0];
 			$amountArray[$unit['normalname']] = $owned_units[0];}
 			?>
 			<table class="responsive-table">
@@ -258,10 +266,10 @@ get_header(); ?>
 		
 			
 			<?php $args = array(	
-				'post_title'    => 'Spy report by '.$user_ID.' Defender: '.$defender_ID.' '.$spytype,
+				'post_title'    => 'Spy report by '.$userId.' Defender: '.$defender_ID.' '.$spytype,
 				'post_status'   => 'publish',
 				'post_type'		=> 'spy_rep',
-				'post_author'   => $user_ID
+				'post_author'   => $userId
 				);
 				
 			
@@ -272,8 +280,7 @@ get_header(); ?>
 			update_field('spy_type', 'spy', $new_event_id);
 			update_field('spy_array', $spy_array, $new_event_id);
 			
-			$land_def = get_user_meta($defender_ID, 'land', true);
-			$networth_def = get_user_meta($defender_ID, 'networth', true);
+			
 			update_field('spied_land', $land_def, $new_event_id);
 			update_field('spied_nw', $networth_def, $new_event_id);
 			
@@ -288,8 +295,8 @@ echo $defender_ID;
 ?> <strong>
 			</div><br/>
 			<?php /* update spies defender */
-			$spies = get_user_meta($user_ID, 'spy_owned', true);
-			update_user_meta($user_ID, 'spy_owned', $spies-1);
+			$spies = $userData['spy_owned'][0];
+			update_user_meta($userId, 'spy_owned', $spies-1);
 			?>
 				
 			<?php endif;?><?php endif;?>
@@ -302,7 +309,7 @@ echo $defender_ID;
 			
 			<?php if($_SESSION['attack_array']['sendspy'] == 'spyplane'):?>
 			<?php if($success <= 90): include('building_array.php');?>
-			<?php $winner_id = $user_ID;?>
+			<?php $winner_id = $userId;?>
 			<center><h2>S U C C E S S</h2>
 			<div class="notice_message">
 			Your spyplane flew over the base of <a href="/users/profile/?id=<?php
@@ -332,8 +339,8 @@ echo $defender_ID;
 			$amountArray = array();	
 			$spy_array = array();
 			foreach ($buildings as $key => $unit) {
-			$owned_units = get_user_meta($defender_ID, $key);
-			$amountArray[$unit['normalname']] = $owned_units[0];}
+			$owned_units = $defenderData[$key][0];
+			$amountArray[$unit['normalname']] = $owned_units;}
 			?>
 			<table class="responsive-table">
 				<thead>
@@ -409,21 +416,19 @@ echo $defender_ID;
 	
 /* Create spy report */	
 $args = array(	
-	'post_title'    => 'Spy report by '.$user_ID.' Defender: '.$defender_ID.' '.$spytype,
+	'post_title'    => 'Spy report by '.$userId.' Defender: '.$defender_ID.' '.$spytype,
 	'post_status'   => 'publish',
 	'post_type'		=> 'spy_rep',
-	'post_author'   => $user_ID
+	'post_author'   => $userId
 );
 
 
 $new_event_id = wp_insert_post( $args );
-$clan_ID = get_user_meta($user_ID, 'clan_id_user', true);
+
 update_field('spied_id', $defender_ID, $new_event_id);
 update_field('clan_id_report', $clan_ID, $new_event_id);
 update_field('spy_type', 'spyplane', $new_event_id);
 update_field('spy_array', $spy_array, $new_event_id);
-$land_def = get_user_meta($defender_ID, 'land', true);
-$networth_def = get_user_meta($defender_ID, 'networth', true);
 update_field('spied_land', $land_def, $new_event_id);
 update_field('spied_nw', $networth_def, $new_event_id);
 
@@ -439,8 +444,8 @@ echo $defender_ID;
 ?> <strong>
 			</center><br/>
 			<?php /* update spies defender */
-			$spyplane = get_user_meta($user_ID, 'spyplane_owned', true);
-			update_user_meta($user_ID, 'spyplane_owned', $spyplane-1);
+			$spyplane = $userData['spyplane_owned'][0];
+			update_user_meta($userId, 'spyplane_owned', $spyplane-1);
 			?>
 			<?php endif;?><?php endif;?>
        
@@ -449,10 +454,10 @@ echo $defender_ID;
 /* Create Spy event post */
 
 $args = array(	
-	'post_title'    => 'Spy attempt by '.$user_ID.' Defender: '.$defender_ID.' '.$spytype,
+	'post_title'    => 'Spy attempt by '.$userId.' Defender: '.$defender_ID.' '.$spytype,
 	'post_status'   => 'publish',
 	'post_type'		=> 'event_local',
-	'post_author'   => $user_ID
+	'post_author'   => $userId
 );
 			
 $new_event_id = wp_insert_post( $args );
@@ -462,7 +467,7 @@ update_field('time_attacked',$timestamp, $new_event_id);
 
 
 update_field('defender_id',$defender_ID, $new_event_id);
-update_field('attacker_id',$user_ID, $new_event_id);
+update_field('attacker_id',$userId, $new_event_id);
 
 update_field('event_spy_type',$spytype, $new_event_id);
 
@@ -479,33 +484,14 @@ if($sender_show > 80){
 }
 update_field('show_spy_sender',$show, $new_event_id);
 
-$event_count = get_user_meta($defender_ID, 'new_events',true);
+$event_count = $defenderData['new_events'][0];
 update_user_meta($defender_ID, 'new_events', $event_count + 1);
 
-$spied = get_user_meta($user_ID, 'spied_current_clan', true);
-update_user_meta($user_ID, 'spied_current_clan', $spied+1);
+$spied = $defenderData['spied_current_clan'][0];
+update_user_meta($userId, 'spied_current_clan', $spied+1);
 
 
-?>
-
-
-
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
+?>       
             </div>
         </div>
     </div>
