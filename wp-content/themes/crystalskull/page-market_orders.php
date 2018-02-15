@@ -54,17 +54,20 @@ get_header(); ?>
                     $totalOrderValue = 0;
 
                     foreach ($orders as $order) {
-                        $units_in_this_order = get_post_meta($order->ID,'amount_ordered',true);
+	                    $orderId = $order->ID;
+	                    $orderData = get_post_meta($orderId);
+	                    
+                        $units_in_this_order = $orderData['amount_ordered'][0];
 
-                        $order_type = get_post_meta($order->ID,'order_type',true);
-                        $unit_type = get_post_meta($order->ID,'unit_type',true);
+                        $order_type = $orderData['order_type'][0];
+                        $unit_type = $orderData['unit_type'][0];
                         $userId = $order->post_author;
-                        $delivery_time = get_post_meta($order->ID,'delivery_time',true);
+                        $delivery_time = $orderData['delivery_time'][0];
 
                         $timeLeft = $delivery_time-$timestamp;
 
                         if($timeLeft >= 0) {
-                            $orderValue = get_post_meta($order->ID, 'order_value', true);
+                            $orderValue = $orderData['order_value'][0];
 
                             if($order_type == 'missile'){
                                 $totalNetworth += $orderValue*$missiles[$unit_type]['networth']/100;

@@ -43,7 +43,7 @@
 	$resetArray[] = "'attacks_rec_current'";
 	$resetArray[] = "'attacks_made'";
 	$resetArray[] = "'starting_bonus'";
-	
+	$resetArray[] = "'explored_today'";
 	
 	$resetArray[] = "'succesful_attacks'";
 	$resetArray[] = "'money'";

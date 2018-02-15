@@ -12,8 +12,8 @@ $user = get_userdata($user__ID);
 if ( $user === false ) {
 	wp_redirect(get_permalink(3486));
 }
-
-$clan_id = get_user_meta($user__ID, 'clan_id_user',true);
+$userData = get_user_meta($user__ID);
+$clan_id = $userData['clan_id_user'][0];
 
 $clanmembers = get_post_meta($clan_id,'clan_members',true);
 
@@ -41,8 +41,8 @@ $timestamp = current_time('timestamp');
 
 
 
-$banklevel = get_user_meta($user__ID, 'level_bank_management')[0];
-$startingbonus = get_user_meta($user__ID, 'starting_bonus',true);
+$banklevel = $userData['level_bank_management'][0];
+$startingbonus = $userData['starting_bonus'][0];
 	$finance_multi = 1;
 	if($startingbonus == 'finance'){
 		$finance_multi = 1.5;
@@ -108,8 +108,8 @@ get_header(); ?>
 	
 	
 <?php foreach ($units as $key => $unit) {
-		$owned = get_user_meta($user__ID, $key.'_owned', true);
-		$ordered = get_user_meta($user__ID, $key.'_ordered', true);
+		$owned = $userData[$key.'_owned'][0];
+		$ordered = $userData[$key.'_ordered'][0];
 		if($owned > 0 || $ordered > 0){
 ?>	
 	<div class="row clan_profile_row">
@@ -151,11 +151,12 @@ get_header(); ?>
 	
 	
 <?php foreach ($orders as $key => $order) {
-		$units_in_this_order = get_post_meta($order->ID,'amount_ordered',true);
-		$order_type = get_post_meta($order->ID,'order_type',true);
+		$orderData = get_post_meta($order->ID);
+		$units_in_this_order = $orderData['amount_ordered'][0];
+		$order_type = $orderData['order_type'][0];
 
 		$user_ID = $order->post_author;
-		$delivery_time = get_post_meta($order->ID,'delivery_time',true);
+		$delivery_time = $orderData['delivery_time'][0];
 		
 	
 		$timeleft = $delivery_time-$timestamp;
@@ -199,8 +200,8 @@ get_header(); ?>
 	
 	
 <?php foreach ($missiles as $key => $missile) {
-		$owned = get_user_meta($user__ID, $key.'_owned', true);
-		$ordered = get_user_meta($user__ID, $key.'_ordered', true);
+		$owned = $userData[$key.'_owned'][0];
+		$ordered = $userData[$key.'_ordered'][0];
 		if($owned > 0 || $ordered > 0){
 ?>	
 	<div class="row clan_profile_row">
@@ -242,7 +243,7 @@ get_header(); ?>
 	
 	
 <?php foreach ($buildings as $key => $building) {
-		$owned = get_user_meta($user__ID, $key, true);
+		$owned = $userData[$key][0];
 		if($owned > 0){
 ?>	
 	<div class="row clan_profile_row">
@@ -295,13 +296,16 @@ get_header(); ?>
 	$deposits = get_posts( $args ); 
 	
 	foreach ($deposits as $deposit) {
-		$days = get_post_meta($deposit->ID,'days',true);
-		$deposited = get_post_meta($deposit->ID,'amount',true);
+		$depositId = $deposit->ID;
+		$bankData = get_post_meta($depositId);
+		
+		$days = $bankData['days'][0];
+		$deposited = $bankData['amount'][0];
 		$total_deposited+=$deposited;
-		$amount = get_post_meta($deposit->ID,'amount')[0];
+		$amount = $bankData['amount'][0];
 		$incl_interest = $amount*pow($rates[$days]['interest']+($extra_interest/100),$days);
 		$total_final+=$incl_interest;
-		$release_stamp = get_post_meta($deposit->ID,'release_date',true);
+		$release_stamp = $bankData['release_date'][0];
 	?>
 	
 	<div class="row clan_profile_row">
@@ -353,7 +357,7 @@ get_header(); ?>
 	
 	
 <?php foreach ($researches as $key => $research) {
-		$level = get_user_meta($user__ID, 'level_'.$key,true);
+		$level = $userData['level_'.$key][0];
 
 ?>	
 	<div class="row clan_profile_row">
@@ -383,49 +387,45 @@ get_header(); ?>
 </div>
 <script>
        
-            // pie chart data
-            var pieData = [
-                {	label: 'Satellite networth',
-                    value: <?php echo get_user_meta($user__ID, 'sat_nw', true);?>,
-                    color:"#2D434E"
-                },
-                {	label: 'Research networth',
-                    value : <?php echo get_user_meta($user__ID, 'research_nw', true);?>,
-                    color : "#1B3642"
-                },
-                {	label: 'Building networth',
-                    value : <?php echo get_user_meta($user__ID, 'building_nw', true);?>,
-                    color : "#6C708E"
-                },
-                {	label: 'Unit networth',
-                    value : <?php echo get_user_meta($user__ID, 'unit_nw', true);?>,
-                    color : "#121636"
-                },
-                {	label: 'Land networth',
-                    value : <?php echo get_user_meta($user__ID, 'land_nw', true);?>,
-                    color : "#49775D"
-                },
-                {	label: 'Missile networth',
-                    value : <?php echo get_user_meta($user__ID, 'missile_nw', true);?>,
-                    color : "#7B6C44"
-                }
-            ];
-            // pie chart options
-            var pieOptions = {
-                 segmentShowStroke : true,
-                 animateScale : true
-            }
-            // get pie chart canvas
-            var countries= document.getElementById("nwbreakdown").getContext("2d");
-            // draw pie chart
-            new Chart(countries).Pie(pieData, pieOptions);
-         
-        </script>
-	          
-	  
-	            
-       
-            
+// pie chart data
+var pieData = [
+{	label: 'Satellite networth',
+    value: <?php echo $userData['sat_nw'][0];?>,
+    color:"#2D434E"
+},
+{	label: 'Research networth',
+    value : <?php echo $userData['research_nw'][0];?>,
+    color : "#1B3642"
+},
+{	label: 'Building networth',
+    value : <?php echo $userData['building_nw'][0];?>,
+    color : "#6C708E"
+},
+{	label: 'Unit networth',
+    value : <?php echo $userData['unit_nw'][0];?>,
+    color : "#121636"
+},
+{	label: 'Land networth',
+    value : <?php echo $userData['land_nw'][0];?>,
+    color : "#49775D"
+},
+{	label: 'Missile networth',
+    value : <?php echo $userData['missile_nw'][0];?>,
+    color : "#7B6C44"
+}
+];
+// pie chart options
+var pieOptions = {
+ segmentShowStroke : true,
+ animateScale : true
+}
+// get pie chart canvas
+var countries= document.getElementById("nwbreakdown").getContext("2d");
+// draw pie chart
+new Chart(countries).Pie(pieData, pieOptions);
+
+</script>
+          
             </div>
         </div>
     </div>

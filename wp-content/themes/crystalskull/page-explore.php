@@ -2,15 +2,14 @@
  /*
  * Template Name: Explore
  */
+get_header();
 $userId = get_current_user_ID();
 $userData = get_user_meta($userId);
 $ownedland = $userData['land'][0];
 $builtLand = $userData['builtland'][0];
 $freeland = $ownedland-$builtLand;
-
 $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'explore';
-
-get_header(); ?>
+?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

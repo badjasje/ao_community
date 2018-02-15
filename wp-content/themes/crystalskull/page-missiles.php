@@ -2,18 +2,19 @@
  /*
  * Template Name: Missiles
  */
-$user_ID = get_current_user_id(); 
+get_header(); 
 $userId = get_current_user_id(); 
+$userData = get_user_meta($userId);
 $activeTab = sanitize_text_field($_GET['tab']);
 include 'DO_NOT_DELETE.php';
 include 'count_functions.php';
-$missilespace = get_user_meta($user_ID, 'silo');
-$totalMoney = get_user_meta($user_ID, 'money');
-$totalturns = get_user_meta($user_ID, 'turns');
-$totalmissiles = count_missilespace($user_ID);
-$tomahawkspace = get_user_meta($user_ID, 'submarine_owned',true)*2;
-$missileAccLevel = get_user_meta($user_ID, 'level_missile_accuracy',true);
-get_header(); ?>
+$missilespace = $userData['silo'][0];
+$totalMoney = $userData['money'][0];
+$totalturns = $userData['turns'][0];
+$totalmissiles = count_missilespace($userId);
+$tomahawkspace = $userData['submarine_owned'][0]*2;
+$missileAccLevel = $userData['level_missile_accuracy'][0];
+?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">
