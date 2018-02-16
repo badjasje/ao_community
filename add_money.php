@@ -1,68 +1,65 @@
 <?php
-    
+/**
+ * Handles hourly monetary income
+ */
+include('constants.php');
+require_once("wp-load.php");
 
-    require_once("wp-load.php");
-    if (get_field('game_status', 'option') == 'Live') {
-	global $wpdb;
-	$timestamp = current_time('timestamp')-259200;
+if (get_field('game_status', 'option') == 'Live') {
+	$timestamp = current_time('timestamp');
+	$args = array(
+
+		'meta_key'     	=> 'last_online',
+		'orderby'      	=> 'meta_value_num',
+		'meta_value'	=> $timestamp-259200,
+		'meta_compare'	=> '>',
+
+	 ); 
 	
-	// Money Production research = 0, Starting bonus != finance
-	$wpdb->query(
-    "UPDATE `${table_prefix}usermeta` as t1 
-            INNER JOIN `${table_prefix}usermeta` as t2 ON t2.user_id = t1.user_id AND t2.meta_key = 'level_money_production' 
-            INNER JOIN `${table_prefix}usermeta` as t3 ON t3.user_id = t1.user_id AND t3.meta_key = 'starting_bonus'
-            INNER JOIN `${table_prefix}usermeta` as t4 ON t4.user_id = t1.user_id AND t4.meta_key = 'last_online'
-        SET t1.meta_value = t1.meta_value + 15000
-        WHERE t1.meta_key = 'money' AND t2.meta_value = 0 AND t3.meta_value != 'finance' AND t4.meta_value > $timestamp "
-		);
+    $users = get_users($args);
+    foreach ($users as $user) {
+        $userId = $user->data->ID;
+        $userData = get_user_meta($userId);
+        
+		$status = $userData['status'][0];
+       
+        if($status == 'banned' ){
+        	continue;
+        }
 		
-	// Money Production research = 1, Starting bonus != finance
-	$wpdb->query(
-    "UPDATE `${table_prefix}usermeta` as t1 
-            INNER JOIN `${table_prefix}usermeta` as t2 ON t2.user_id = t1.user_id AND t2.meta_key = 'level_money_production' 
-            INNER JOIN `${table_prefix}usermeta` as t3 ON t3.user_id = t1.user_id AND t3.meta_key = 'starting_bonus'
-            INNER JOIN `${table_prefix}usermeta` as t4 ON t4.user_id = t1.user_id AND t4.meta_key = 'last_online'
-        SET t1.meta_value = t1.meta_value + 25000
-        WHERE t1.meta_key = 'money' AND t2.meta_value = 1 AND t3.meta_value != 'finance' AND t4.meta_value > $timestamp "
-		);
-	// Money Production research = 2, Starting bonus != finance
-	$wpdb->query(
-    "UPDATE `${table_prefix}usermeta` as t1 
-            INNER JOIN `${table_prefix}usermeta` as t2 ON t2.user_id = t1.user_id AND t2.meta_key = 'level_money_production' 
-            INNER JOIN `${table_prefix}usermeta` as t3 ON t3.user_id = t1.user_id AND t3.meta_key = 'starting_bonus'
-            INNER JOIN `${table_prefix}usermeta` as t4 ON t4.user_id = t1.user_id AND t4.meta_key = 'last_online'
-        SET t1.meta_value = t1.meta_value + 35000
-        WHERE t1.meta_key = 'money' AND t2.meta_value = 2 AND t3.meta_value != 'finance' AND t4.meta_value > $timestamp "
-		);
-		
-		
-	// With Finance Bonus
-	// Money Production research = 0, Starting bonus = finance
-	$wpdb->query(
-    "UPDATE `${table_prefix}usermeta` as t1 
-            INNER JOIN `${table_prefix}usermeta` as t2 ON t2.user_id = t1.user_id AND t2.meta_key = 'level_money_production' 
-            INNER JOIN `${table_prefix}usermeta` as t3 ON t3.user_id = t1.user_id AND t3.meta_key = 'starting_bonus'
-            INNER JOIN `${table_prefix}usermeta` as t4 ON t4.user_id = t1.user_id AND t4.meta_key = 'last_online'
-        SET t1.meta_value = t1.meta_value + 16500
-        WHERE t1.meta_key = 'money' AND t2.meta_value = 0 AND t3.meta_value = 'finance' AND t4.meta_value > $timestamp "
-		);
-		
-	// Money Production research = 1, Starting bonus = finance
-	$wpdb->query(
-    "UPDATE `${table_prefix}usermeta` as t1 
-            INNER JOIN `${table_prefix}usermeta` as t2 ON t2.user_id = t1.user_id AND t2.meta_key = 'level_money_production' 
-            INNER JOIN `${table_prefix}usermeta` as t3 ON t3.user_id = t1.user_id AND t3.meta_key = 'starting_bonus'
-            INNER JOIN `${table_prefix}usermeta` as t4 ON t4.user_id = t1.user_id AND t4.meta_key = 'last_online'
-        SET t1.meta_value = t1.meta_value + 27500
-        WHERE t1.meta_key = 'money' AND t2.meta_value = 1 AND t3.meta_value = 'finance' AND t4.meta_value > $timestamp "
-		);
-	// Money Production research = 2, Starting bonus = finance
-	$wpdb->query(
-    "UPDATE `${table_prefix}usermeta` as t1 
-            INNER JOIN `${table_prefix}usermeta` as t2 ON t2.user_id = t1.user_id AND t2.meta_key = 'level_money_production' 
-            INNER JOIN `${table_prefix}usermeta` as t3 ON t3.user_id = t1.user_id AND t3.meta_key = 'starting_bonus'
-            INNER JOIN `${table_prefix}usermeta` as t4 ON t4.user_id = t1.user_id AND t4.meta_key = 'last_online'
-        SET t1.meta_value = t1.meta_value + 38500
-        WHERE t1.meta_key = 'money' AND t2.meta_value = 2 AND t3.meta_value = 'finance' AND t4.meta_value > $timestamp "
-		);
+		AddMoney($userId);
+		       
 	}
+    
+} // End live check
+
+
+function AddMoney($userId){	
+	$userData = get_user_meta($userId);
+   
+	$money_production_level = $userData['level_money_production'][0];
+	$money = $userData['money'][0];
+    
+    $startingBonus = $userData['starting_bonus'][0];
+    $finance_multi = 1;
+    
+    	if ($startingBonus == 'finance') {
+        	$finance_multi = 1.1;
+    	}
+
+		if ($money_production_level == 0 || empty($money_production_level)) {
+        	$moneyIncome = 15000*$finance_multi;
+    	}
+		
+		if ($money_production_level == 1) {
+        	$moneyIncome = 25000*$finance_multi;
+    	}
+    
+		if ($money_production_level == 2) {
+        	$moneyIncome = 35000*$finance_multi;
+    	}
+
+		$moneyNew = $money + $moneyIncome;
+		update_user_meta($userId, 'money', $moneyNew);
+
+}
