@@ -78,11 +78,12 @@ if (count($warcheck) == 0) {
     $declarerAverageNw = $decNW / $declaringMembersCount;
 
     //If enemy average is more than 1.6x your average, you cannot declare!
+    /*
     if ($declarerAverageNw*$AVERAGE_DECLARE_NW_ALLOWED < $averageNw) {
       $_SESSION['status'] = "DECLARING CLAN Average Networth is not in range! Are you trying to drop boost some n00bs? Shame!";
       wp_redirect(get_permalink($_GET['clan']));
       exit;
-    }
+    } */
     //END dropBoost fix!
  
     //$_SESSION['status'] = 'DAVEi'.count($clanMembers).".Avg:".$averageNw."DeclAvg:".$declarerAverageNw;

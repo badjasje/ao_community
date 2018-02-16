@@ -342,17 +342,17 @@ get_header(); ?>
 		 	<i class="fa fa-fire" aria-hidden="true"></i> &nbsp;You are at war with this clan</span></center>
 		 <?php else:?>
 		 <center>
-                   <?php if ($average_OK == "false" && $warcount != 1) {
+                   <?php /*if ($average_OK == "false" && $warcount != 1) {
                      ?>
                     <span class="btn btn-disabled profilebutton">
                         <i class="fa fa-fire" aria-hidden="true"></i> &nbsp;Your average NW is too low to declare on this clan</span>
                      <?php
                    }
-                   else { ?>
+                   else { */?>
                      <a class="btn btn-general profilebutton declarewar" onclick="return confirm('Are you sure you want to declare <?php echo $warText;?>?')" href="/declare_war.php?clan=<?php echo $clan_id;?>">
 		 	<i class="fa fa-fire" aria-hidden="true"></i> &nbsp;Declare <?php echo $warText;?>
                      </a>
-                   <?php } ?>
+                   <?php //} ?>
                  </center>
 		 <?php endif;?>
 	</div>

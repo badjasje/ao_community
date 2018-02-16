@@ -58,8 +58,15 @@ function AddMoney($userId){
 		if ($money_production_level == 2) {
         	$moneyIncome = 35000*$finance_multi;
     	}
-
+        $currentNW = $userData['Networth'][0];
 		$moneyNew = $money + $moneyIncome;
-		update_user_meta($userId, 'money', $moneyNew);
+
+        if ($currentNW < 3500) {
+            //DO NOT ADD MONEYS
+        }
+        else {
+            update_user_meta($userId, 'money', $moneyNew);
+
+        }
 
 }

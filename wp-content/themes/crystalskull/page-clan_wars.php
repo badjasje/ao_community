@@ -21,7 +21,7 @@ $clan_networth = $clanData['clan_networth'][0];
 
  //MEGA 20171106 Count the members in YOUR clan
  $declaringClanMembers = maybe_unserialize($clanData['clan_members'][0]);
- $declaringMembersCount = count($declaringClanMembers);
+ $declaringMembAersCount = count($declaringClanMembers);
  $declarerAverageNw = $clan_networth / $declaringMembersCount;
 
  $wars_on = get_posts(array(
@@ -55,7 +55,7 @@ get_header(); ?>
 	           <span class="rdw-line">After 24 hours you are able to declare peace with a clan. A war will auto peace after 72 hours.</span>
 	           <span class="rdw-line">You can target clans with a networth between <?php echo GameUtil::format_networth($clan_networth/1.4); ?> and <?php echo GameUtil::format_networth($clan_networth*1.4);?></span>
 	           <br/>
-                   <span class="rdw-line">Additionally, based on your clanmember AVERAGE Networth, you can declare clans with an average clanmember Networth  between <?php echo GameUtil::format_networth($declarerAverageNw/$AVERAGE_DECLARE_NW_ALLOWED); ?> and <?php echo GameUtil::format_networth($declarerAverageNw*$AVERAGE_DECLARE_NW_ALLOWED);?></span>
+                   <!--span class="rdw-line">Additionally, based on your clanmember AVERAGE Networth, you can declare clans with an average clanmember Networth  between <?php echo GameUtil::format_networth($declarerAverageNw/$AVERAGE_DECLARE_NW_ALLOWED); ?> and <?php echo GameUtil::format_networth($declarerAverageNw*$AVERAGE_DECLARE_NW_ALLOWED);?></span-->
            </div><br/>
 
 

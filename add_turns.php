@@ -20,7 +20,8 @@ if (get_field('game_status', 'option') == 'Live') {
            SET t1.meta_value = t1.meta_value + 1
          WHERE t1.meta_key   = 'turns_lost'
            AND t2.meta_key   = 'turns'
-           AND t2.meta_value >= 300
+           AND t2.meta_value >= 300;
+        
 
     ");
 
@@ -28,10 +29,14 @@ if (get_field('game_status', 'option') == 'Live') {
 
     $wpdb->query("
         
-        UPDATE `${table_prefix}usermeta`
-           SET meta_value=meta_value+1
-         WHERE meta_key   = 'turns'
-           AND meta_value < 300;
+        UPDATE     `${table_prefix}usermeta` t1
+        INNER JOIN `${table_prefix}usermeta` t2
+            ON     t1.user_id    = t2.user_id
+           SET     t1.meta_value=t1.meta_value+1
+         WHERE     t1.meta_key   = 'turns'
+           AND     t1.meta_value < 300;
+           AND     t2.meta_key = 'Networth'
+           AND     t2.meta_value < 3500;
            
     ");
 }

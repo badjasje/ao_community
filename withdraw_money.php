@@ -77,11 +77,11 @@ if ($userLock == 1) {
     }
     if ($banklevel == 2) {
         $extra_interest = 0.75;
-        $early_penalty = 0.75;
+        $early_penalty = 0.5;
     }
     if ($banklevel == 3) {
         $extra_interest = 1;
-        $early_penalty = 1;
+        $early_penalty = 0.75;
     }
 
 
