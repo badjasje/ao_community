@@ -22,9 +22,7 @@ Text Domain: crystalskull
 @import url('css/tooltip.css');
 @import url('css/vcfixes.css');
 
-body {
-    background: url('https://assault.online/wp-content/uploads/2016/12/nz_header_back_opt.png') no-repeat center top !important;
-}
+
 
 table{
 	-webkit-border-radius: 0px; 
@@ -641,6 +639,10 @@ input[type="radio"]:checked + label {
 	display: none;
 }
 @media (max-width: 768px) {
+#main_wrapper {
+    background-size: initial; 
+    background-position-y: 75px;
+}
 .sharerow{
 	display:block;
 }
@@ -1562,10 +1564,6 @@ input:checked + .slider:before {
     
 }
 }
-body{
-background-image: url('https://subtlepatterns.com/patterns/squairy_light.png')
-}
-
 .containersplash {
 z-index: 999999;
   position: fixed;

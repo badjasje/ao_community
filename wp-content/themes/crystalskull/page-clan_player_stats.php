@@ -2,25 +2,26 @@
  /*
  * Template Name: Clan player statistics
  */
-$user_ID = get_current_user_id();
-$clan_ID = get_user_meta($user_ID, 'clan_id_user',true);
+get_header();
+$userId = get_current_user_id();
+$userData = get_user_meta($userId);
+$clan_ID = $userData['clan_id_user'][0];
+$clanData = get_post_meta($clan_ID);
 
-$list_pts_24h = get_post_meta($clan_ID, '24h_pts_list', true);
-$list_nw_24h = get_post_meta($clan_ID, '24h_nw_list', true);
 
-$clan_members = get_post_meta($clan_ID,'clan_members');
+$list_pts_24h = maybe_unserialize($clanData['24h_pts_list'][0]);
+$list_nw_24h = maybe_unserialize($clanData['24h_nw_list'][0]);
 
-$clanleader = get_post_meta($clan_ID, 'clan_leader', true);
+$clan_members = maybe_unserialize($clanData['clan_members'][0]);
+$clanleader = $clanData['clan_leader'][0];
 
-$ct_1 = get_post_meta($clan_ID,'ct_1',true);
-$ct_2 = get_post_meta($clan_ID,'ct_2',true);
-$ct_3 = get_post_meta($clan_ID,'ct_3',true);
-$ct_4 = get_post_meta($clan_ID,'ct_4',true);
+$ct_1 = $clanData['ct_1'][0];
+$ct_2 = $clanData['ct_2'][0];
+$ct_3 = $clanData['ct_3'][0];
+$ct_4 = $clanData['ct_4'][0];
 include('count_functions.php');
 include('research_array.php');
-
-
-get_header(); ?>
+ ?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">
@@ -45,31 +46,32 @@ get_header(); ?>
 
 <div id="values">
 <?php 
-	$NRmembers = count($clan_members[0]);
+	$NRmembers = count($clan_members);
 	$counter = 0;
-	foreach ($clan_members[0] as $key => $member) {
+	foreach ($clan_members as $key => $member) {
 		$timestamp = current_time('timestamp');
-		$attacksMade = get_user_meta($member, 'in_war_attacks', true);
-		$pts = get_user_meta($member, 'user_clan_points',true);
+		$memberData = get_user_meta($member);
+		$attacksMade = $memberData['in_war_attacks'][0];
+		$pts = $memberData['user_clan_points'][0];
 		$PPA = round($pts / $attacksMade,1);
-		$networth = get_user_meta($member, 'networth', true);
-		$land = get_user_meta($member, 'land', true);
-		$turns = get_user_meta($member, 'turns', true);
-		$money = get_user_meta($member, 'money', true);
-		$morale = get_user_meta($member, 'morale', true);
-		$pool = get_user_meta($member, 'morale_pool', true);
-		$last_online = get_user_meta($member, 'last_online', true);
-		$power = get_user_meta($member, 'power', true);
+		$networth = $memberData['networth'][0];
+		$land = $memberData['land'][0];
+		$turns = $memberData['turns'][0];
+		$money = $memberData['money'][0];
+		$morale = $memberData['morale'][0];
+		$pool = $memberData['morale_pool'][0];
+		$last_online = $memberData['last_online'][0];
+		$power = $memberData['power'][0];
 		
-		$totAidSent = get_user_meta($member, 'total_aid_sent', true);
-		$noAids = get_user_meta($member, 'number_of_aids', true);
-		$aidRec = get_user_meta($member, 'aid_received', true);
+		$totAidSent = $memberData['total_aid_sent'][0];
+		$noAids = $memberData['number_of_aids'][0];
+		$aidRec = $memberData['aid_received'][0];
 		
-		$attMade = get_user_meta($member, 'attacks_made_current',true);
-		$attRec = get_user_meta($member, 'attacks_rec_current',true);
+		$attMade = $memberData['attacks_made_current'][0];
+		$attRec = $memberData['attacks_rec_current'][0];
 		
-		$highest_networth = number_format(get_user_meta($member, 'highest_networth', true), 0, ',', ' ');
-		$freeLand = number_format(get_user_meta($member, 'land', true)-get_user_meta($member, 'builtland', true), 0, ',', ' ');
+		$highest_networth = number_format($memberData['highest_networth'][0], 0, ',', ' ');
+		$freeLand = number_format($memberData['land'][0]-$memberData['builtland'][0], 0, ',', ' ');
 		
 		$extraClass = '';
 		$counter++;
@@ -78,8 +80,8 @@ get_header(); ?>
 			
 		}
 		$member_data = get_userdata($member);
-		$last_online = get_user_meta($member, 'last_online',true);
-		$spiednr = get_user_meta($member, 'spied_current_clan',true);
+		$last_online = $memberData['last_online'][0];
+		$spiednr = $memberData['spied_current_clan'][0];
 		
 		if(!empty($last_online)){
 		$last_seen = $timestamp - $last_online;
@@ -105,14 +107,8 @@ get_header(); ?>
 				echo '<strong>CT</strong>';
 			} ?>
 			</div>
-		<a class="memberField <?php echo get_user_meta($member,'status',true);?>" href="/users/profile/?id=<?php echo $member;?>">
-			
-			<?php echo $member_data->display_name.' (#'.$member.')';?></a> 
-			<?php if(!empty($last_online)){
-					if($last_seen < 7200 && !empty($last_online[0])){
-						echo ' <span style="color:#ff0000">*</span>';
-						}
-					}?><a href="/military-overview/?id=<?php echo $member;?>"><i class="fa fa-search" aria-hidden="true"></i></a>
+			<?php echo get_user_name($member);?>
+			<a href="/military-overview/?id=<?php echo $member;?>"><i class="fa fa-search" aria-hidden="true"></i></a>
 					
 		
 			
@@ -310,9 +306,9 @@ get_header(); ?>
 		
 		<div id="research_<?php echo $member;?>" class="collapse collapsebox">
 				<?php 
-					$inprogress = get_user_meta($member, 'research_in_progress',true);
+					$inprogress = $memberData['research_in_progress'][0];
 					foreach ($researches as $key => $research) {
-					$level = get_user_meta($member, 'level_'.$key,true);
+					$level = $memberData['level_'.$key][0];
 					 ?>	
 		
 				<span style="float:left;"><?php echo $research['name'];?></span> 
@@ -335,8 +331,8 @@ get_header(); ?>
 		
 		<div id="units_<?php echo $member;?>" class="collapse collapsebox">
 				<?php foreach($units as $key => $order){
-						$units_owned = get_user_meta($member, $key.'_owned',true);
-						$units_ordered = get_user_meta($member, $key.'_ordered',true);
+						$units_owned = $memberData[$key.'_owned'][0];
+						$units_ordered = $memberData[$key.'_ordered'][0];
 						if($units_owned > 0 || $units_ordered > 0){
 				?>
 				<span style="float:left;"><?php echo $order['normalname'];?></span> 
@@ -355,8 +351,7 @@ get_header(); ?>
 		 	<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Buildings <?php echo count_tot_buildings($member);?></a>
 		<div id="buildings_<?php echo $member;?>" class="collapse collapsebox">
 			<?php foreach($buildings as $key => $order){
-						$units_owned = get_user_meta($member, $key,true);
-						$units_ordered = get_user_meta($member, $key,true);
+						$units_owned = $memberData[$key][0];
 						if($units_owned > 0 || $units_ordered > 0){
 				?>
 				<span style="float:left;"><?php echo $order['normalname'];?></span> 

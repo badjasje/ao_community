@@ -15,8 +15,8 @@
 <?php // AIR TABLE
 $totalair = 0;
 foreach($missiles as $key => $order){
-$missiles_owned = get_user_meta($userId, $key.'_owned',true);
-$units_ordered = get_user_meta($userId, $key.'_ordered');
+$missiles_owned = $userData[$key.'_owned'][0];
+$units_ordered = $userData[$key.'_ordered'][0];
 $unittype = $units[$key]['type'];
 if($missiles_owned > 0){
 ?>

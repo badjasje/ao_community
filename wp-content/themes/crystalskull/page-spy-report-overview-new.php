@@ -3,13 +3,14 @@
  * Template Name: Clan spy report overview
  */
 $clan_ID = $_GET['id'];
-$clan_members = get_post_meta($clan_ID,'clan_members');
+$clanData = get_post_meta($clan_ID);
+$clan_members = $clanData['clan_members'][0];
 $visiting_user = get_current_user_id();
-$clanleader = get_post_meta($clan_ID, 'clan_leader', true);
-$ct_1 = get_post_meta($clan_ID,'ct_1',true);
-$ct_2 = get_post_meta($clan_ID,'ct_2',true);
-$ct_3 = get_post_meta($clan_ID,'ct_3',true);
-$ct_4 = get_post_meta($clan_ID,'ct_4',true);
+$clanleader = $clanData['clan_leader'][0];
+$ct_1 = $clanData['ct_1'][0];
+$ct_2 = $clanData['ct_2'][0];
+$ct_3 = $clanData['ct_3'][0];
+$ct_4 = $clanData['ct_4'][0];
 
 $visiting_clan = get_user_meta($visiting_user, 'clan_id_user', true);
 if($visiting_clan != 0){
@@ -100,9 +101,9 @@ get_header(); ?>
 
 <div id="values">
 <?php 
-	$NRmembers = count($clan_members[0]);
+	$NRmembers = count($clan_members);
 	$counter = 0;
-	foreach ($clan_members[0] as $key => $member) {
+	foreach ($clan_members as $key => $member) {
 		
 		
 		

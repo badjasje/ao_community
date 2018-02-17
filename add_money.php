@@ -1,6 +1,8 @@
 <?php
-
-
+/**
+ * Handles hourly monetary income
+ */
+include('constants.php');
 require_once("wp-load.php");
 if (get_field('game_status', 'option') == 'Live') {
     global $wpdb;

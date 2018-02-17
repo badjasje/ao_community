@@ -2,7 +2,7 @@
 
 <form class="form" action="<?php echo home_url() ?>/missiles.php" name="" id="market" method="post">
 <div class="spaceNotice">
-	Your empty missile silo's allow you to build a maximum of <strong><?php echo $missilespace[0]-$totalmissiles;?></strong> missiles
+	Your empty missile silo's allow you to build a maximum of <strong><?php echo $missilespace-$totalmissiles;?></strong> missiles
 </div>
 <div class="row market_block">	
 	<div class="row clan_header_row storeDetails-heads">
@@ -17,8 +17,8 @@
 <?php // AIR TABLE
 $totalair = 0;
 foreach($missiles as $key => $order){
-$units_owned = get_user_meta($userId, $key.'_owned');
-$units_ordered = get_user_meta($userId, $key.'_ordered');
+$units_owned = $userData[$key.'_owned'][0];
+$units_ordered = $userData[$key.'_ordered'][0];
 $unittype = $missiles[$key]['type'];
 ?>
 
@@ -38,8 +38,8 @@ $unittype = $missiles[$key]['type'];
 	<div class="col-md-2 clan_column border_bottom_mobile">
 		<span class="clan_data_left">Owned (ordered)</span>
 		<span class="clan_data_right">
-			<?php echo $units_owned[0]; ?>
-			(<?php echo $units_ordered[0]; ?>)
+			<?php echo $units_owned; ?>
+			(<?php echo $units_ordered; ?>)
 		</span>
 
 	</div>
@@ -86,13 +86,13 @@ $unittype = $missiles[$key]['type'];
 		<span class="clan_data_right">
 			<?php 	
 			if($key != 'tomahawk'){
-			$max_money = floor($totalMoney[0]/($order['price']));
-			$max_turns = floor($totalturns[0]*5);
-			$max_space = $missilespace[0]-$totalmissiles;
+			$max_money = floor($totalMoney/($order['price']));
+			$max_turns = floor($totalturns*5);
+			$max_space = $missilespace-$totalmissiles;
 			}else{
-			$max_money = floor($totalMoney[0]/($order['price']));
-			$max_turns = round($totalturns[0]/3);
-			$max_space = $tomahawkspace-get_user_meta($userId, 'tomahawk_owned', true)-get_user_meta($userId, 'tomahawk_ordered', true);
+			$max_money = floor($totalMoney/($order['price']));
+			$max_turns = round($totalturns/3);
+			$max_space = $tomahawkspace-$userData['tomahawk_owned'][0]-$userData['tomahawk_ordered'][0];
 				
 			}
 							

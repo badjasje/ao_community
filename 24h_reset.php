@@ -5,16 +5,26 @@
 require_once("wp-load.php");
 
 if (get_field('game_status', 'option') == 'Live') {
-    $users = get_users();
-    foreach ($users as $user) {
-        $userID = $user->data->ID;
-        update_user_meta($userID, 'explored_today', 0);
-        update_user_meta($userID, 'land_sold_today', 0);
-        update_user_meta($userID, 'aid_sent_today', 0);
-        update_user_meta($userID, 'special_sold_today', 0);
-        update_user_meta($userID, 'low_power_notified', 'no');
-        update_user_meta($userID, 'low_buildings_notified', 'no');
-    }
+
+    $resetArray = array();
+    $resetArray[] = "'explored_today'";
+    $resetArray[] = "'land_sold_today'";
+    $resetArray[] = "'aid_sent_today'";
+    $resetArray[] = "'special_sold_today'";
+    
+    
+    $wpdb->query("
+			UPDATE ${table_prefix}usermeta
+			SET meta_value = 0
+			WHERE meta_key IN($resetArray)
+            ");
+	$wpdb->query("
+			UPDATE ${table_prefix}usermeta
+			SET meta_value = 'no'
+			WHERE meta_key IN('low_power_notified','low_buildings_notified')
+            ");
+    
+    
     $args = [
         'post_type' => 'clan',
         'posts_per_page' => -1

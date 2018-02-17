@@ -42,9 +42,6 @@ $visitorClanData = get_post_meta($clan_id_user);
 
 $previous_members = $visitorClanData['previous_members'];
 
-
-
-
 $ct_1 = $visitorClanData['ct_1'][0];
 $ct_2 = $visitorClanData['ct_2'][0];
 $ct_3 = $visitorClanData['ct_3'][0];
@@ -52,9 +49,6 @@ $ct_4 = $visitorClanData['ct_4'][0];
 $cl_1 = $visitorClanData['clan_leader'][0];
 
 $CT_CL_array = array($ct_1,$ct_2,$ct_3,$ct_4,$cl_1);
-
-
-
 $members = $visitorClanData['clan_members'][0];
 get_header(); ?>
 <div class="page normal-page">

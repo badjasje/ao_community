@@ -116,27 +116,6 @@ h3.widget-title{
 
 /* Background Tint */
 
-<?php
-if(of_get_option('bg_tint') == 1){
-    $user_ID = get_current_user_id();
-    $backcolor = 'rgba(0,156,255,0.4);';
-   
-    $nightmode = get_user_meta($user_ID, 'nightmode', true);
-		if($nightmode == 'nostalgia'){
-			 $backcolor = 'rgba(245, 255, 222, 0.4);';
-    }
-    if($nightmode == 'blackwhite'){
-			 $backcolor = '#0000005e';
-    }
-    ?>
-	
-	#main_wrapper, .owl-item .car_image:after, .newsb-thumbnail a:after, .ins_widget ul li a:after, .blog-image a:after{
-		background: url(<?php echo get_template_directory_uri(); ?>/img/pattern.png) top left repeat <?php echo esc_attr($backcolor); ?>;
-	}
-
-<?php
-}
-?>
 
 /* Secondary Color */
 
@@ -211,17 +190,10 @@ if(of_get_option('background_fix') != 1){
 ?>
 	background-color:<?php echo of_get_option('bg_color'); ?>;
 }
-body{
-<?php
-if(of_get_option('background_fix') == 1){
+#main_wrapper{
 
-    ?>
-        background-attachment: fixed !important;
-<?php
-
-}
-?>
-	background:url(<?php echo of_get_option('header_bg'); ?>) no-repeat center top;
-}
+	background:url(/wp-content/uploads/2016/12/nz_header_back_opt.png) no-repeat center top;
+	background-size:contain;
+	}
 
 </style>

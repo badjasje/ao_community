@@ -2,11 +2,14 @@
  /*
  * Template Name: Bank
  */
+get_header();
 include 'interest_array.php';
-$user_ID = get_current_user_id();
-update_user_meta($user_ID, 'user_lock', 0);
-$banklevel = get_user_meta($user_ID, 'level_bank_management',true);
-$money = get_user_meta($user_ID, 'money',true);
+$userId = get_current_user_id();
+$userData = get_user_meta($userId);
+
+update_user_meta($userId, 'user_lock', 0);
+$banklevel = $userData['level_bank_management'][0];
+$money = $userData['money'][0];
 $timestamp = current_time('timestamp');
 $total_deposited = 0;
 $total_final = 0;
@@ -27,7 +30,7 @@ if($daysleft < 3){
 }
 
 	
-get_header(); ?>
+ ?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">
@@ -47,8 +50,8 @@ get_header(); ?>
 					
 				<?php
 					
-					$banklevel = get_user_meta($user_ID, 'level_bank_management')[0];
-					$startingbonus = get_user_meta($user_ID, 'starting_bonus',true);
+					$banklevel = $userData['level_bank_management'][0];
+					$startingbonus = $userData['starting_bonus'][0];
 						$finance_multi = 1;
 						if($startingbonus == 'finance'){
 							$finance_multi = 1.5;
@@ -80,7 +83,7 @@ get_header(); ?>
 				Your current research allows you to deposit a total of $ <?php echo number_format($max_tot, 0, ',', ' '); ?>. $ <?php echo number_format($max_dep, 0, ',', ' '); ?> maximum per deposit.</span>
 				
 <span class="rdw-line">
-	The minimum required to deposit is $ 5 000. You currently have <?php echo count_deposits($user_ID);?> deposits.
+	The minimum required to deposit is $ 5 000. You currently have <?php echo count_deposits($userId);?> deposits.
 </span></div><br/>
 				
 <?php $maxDepositAmount = min($max_dep,$money);?>
@@ -174,13 +177,16 @@ get_header(); ?>
 	$deposits = get_posts( $args ); 
 	
 	foreach ($deposits as $deposit) {
-		$days = get_post_meta($deposit->ID,'days',true);
-		$deposited = get_post_meta($deposit->ID,'amount',true);
+		$depositId = $deposit->ID;
+		$depositData = get_post_meta($depositId);
+		
+		$days = $depositData['days'][0];
+		$deposited = $depositData['amount'][0];
 		$total_deposited+=$deposited;
-		$amount = get_post_meta($deposit->ID,'amount')[0];
+		$amount = $depositData['amount'][0];
 		$incl_interest = $amount*pow($rates[$days]['interest']+($extra_interest/100),$days);
 		$total_final+=$incl_interest;
-		$release_stamp = get_post_meta($deposit->ID,'release_date',true);
+		$release_stamp = $depositData['release_date'][0];
 	?>
 	
 	<div class="row clan_profile_row">
@@ -206,7 +212,7 @@ get_header(); ?>
 			
 			
 <?php 
-	$time_left = get_post_meta($deposit->ID,'release_date')[0]-$timestamp;
+	$time_left = $release_stamp-$timestamp;
 		
 		if($banklevel == 0 || $banklevel == 1):?>
 			
@@ -224,7 +230,7 @@ get_header(); ?>
 			<?php elseif($banklevel >= 2):?>
 				
 				<?php 
-					$dep_placed = get_post_meta($deposit->ID,'deposit_placed')[0];
+					$dep_placed = $depositData['deposit_placed'][0];
 					if($time_left < 0){
 						$unlocked+=$incl_interest;
 						 ?>
@@ -252,7 +258,7 @@ get_header(); ?>
 	<div class="row">
 		<div class="col-md-12">
 		<div class="depTotals">	
-			<strong>Total deposited:</strong> $ <?php echo number_format($total_deposited, 0, ',', ' '); ?> (<?php echo count_deposits($user_ID);?> deposits)<br/>
+			<strong>Total deposited:</strong> $ <?php echo number_format($total_deposited, 0, ',', ' '); ?> (<?php echo count_deposits($userId);?> deposits)<br/>
 			<strong>Total final:</strong> $ <?php echo number_format($total_final, 0, ',', ' '); ?><br/>
 			<strong>Total Available (unlocked):</strong> $ <?php echo number_format($unlocked, 0, ',', ' '); ?><br/><br/>
 		</div>
