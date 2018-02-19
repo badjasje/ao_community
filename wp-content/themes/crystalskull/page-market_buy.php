@@ -90,9 +90,9 @@ get_header(); ?>
                     <span class="rdw-line">The market enables you to buy units without using turns.</span>
                     <?php $marketShippingLevel = $userData['level_shipping_time'][0];
                         if($marketShippingLevel == 1){
-                            $hours = 6;
+                            $hours = 9;
                         } elseif($marketShippingLevel == 2){
-                            $hours = 3;
+                            $hours = 6;
                         } else {
                             $hours = 12;
                         }

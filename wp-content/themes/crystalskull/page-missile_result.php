@@ -707,23 +707,9 @@ if($calculate_points == 1 && $result == 'success'){
 if ($killed != true) {
 
 
-    // MEGA logic to reduce points 20180216
+    // MEGA logic to make nuke NW account also for province NW, reducing it's reward at very low Networth.
+    $clan_points = ceil(25*(((log(sqrt($def_NW_lost)/1.2)) * (sqrt($defender_Networth[0])/3.1))/1024));
 
-    $clan_points = round(9 * log($def_NW_lost/2.3 / 400));
-
-    $subFactor = 100*(18/sqrt($defender_Networth));
-    $ptsEarn = log($userNW)*(log($userNW)/8.7)-$subFactor;
-
-    if ($clan_points < $ptsEarn) {
-        //If the value in old system is LOWER, use the old value
-    }
-
-    else {
-        //Set clan points to the new system
-        $clan_points = $ptsEarn;
-    }
-
-    // End reduce low nw pts logic
 
     if($clan_points > 25){
 		$clan_points = 25;

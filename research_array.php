@@ -29,8 +29,8 @@
             'duration'              =>  '10'),
     'shipping_time'             => array(
             'name'                  => 'Market shipping time',
-            'level1'                => 'Shipping time reduced to 6 hours',
-            'level2'                => 'Shipping time reduced to 3 hours',
+            'level1'                => 'Shipping time reduced to 9 hours',
+            'level2'                => 'Shipping time reduced to 6 hours',
             'maxlevel'              => 2,
             'description'           => 'Decreases shipping time from the market',
             'duration'              =>  '5'),

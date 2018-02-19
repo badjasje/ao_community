@@ -28,6 +28,21 @@ function calculate_pts ($unit_damage, $bld_damage, $aggressive_multi) {
     }
 
     //Because log(10)+log(10) is more than log(20), we need to merge the damage from uk and bk at the outset!
+
+    $damage = $bld_damage + $unit_damage;
+
+    //MEGA reduce bld damage multiplier for damage attacks 20180219
+    if ($damage < 3000) {
+        $bld_damage = $bld_damage * 0.9;
+        $unit_damage = $unit_damage * 1.1;
+    }
+    else if ($damage < 5000) {
+        $bld_damage = $bld_damage * 0.95;
+        $unit_damage = $unit_damage * 1.05;
+
+    }
+    //End MEGA
+
     $damage = $bld_damage + $unit_damage;
 
     if ($damage < 1101) {
@@ -35,16 +50,16 @@ function calculate_pts ($unit_damage, $bld_damage, $aggressive_multi) {
         // To award 1 pt, not 2, for very low attacks. Slowly tiers up to when the normal numbers take over.
     }
     elseif ($damage < 1501) {
-        $multiplier = 0.55;
+        $multiplier = 0.58;
     }
     elseif ($damage < 1901) {
-        $multiplier = 0.76;
+        $multiplier = 0.78;
     }
     else {
-        $multiplier = 1.15;
+        $multiplier = 1.17;
     }
 
-    $random_factor = (mt_rand(94,106)/100); //Set randomness
+    $random_factor = (mt_rand(96,108)/100); //Set randomness
 
     $pts_gained =  ((((sqrt($damage)*log($damage))/100)*$multiplier)*$random_factor);
     if ($aggressive_multi > 1) {
@@ -289,6 +304,8 @@ function create_defender_array($target_id, $type_array) {
 
     $target_data = get_user_meta($target_id);
 
+
+
     $stat_array = array();
     $total_life = 0;
     $total_count = 0;
@@ -408,7 +425,12 @@ function create_attacker_array($attack_array) {
 	Return:
 		$defense_array : array of defensive power by type
 */
+
+$overall_bld_total = 0;
+
 function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) {
+
+    global $overall_bld_total;
     include('units_array.php');
     include('building_array.php');
     include('constants.php');
@@ -429,6 +451,8 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
         'veh' => 0,
         'inf' => 0
     );
+
+
 
     /* get values for buildings */
     foreach($buildings as $key => $data) {
@@ -456,7 +480,11 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
         $bld_life_total = $bld_life * $bld_count;
         $life_array['bld'] += $bld_life_total;
 
+        //Store the value of this building count to overall total
+         $overall_bld_total +=$bld_count;
     }
+
+
 
     /* get defense from units */
     foreach($units as $key => $data) {
@@ -504,6 +532,11 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
     return $defense_array;
 }
 
+function return_overall_blds_for_defender ()
+{
+    global $overall_bld_total;
+    return $overall_bld_total;
+}
 
 
 function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray) {
@@ -529,6 +562,8 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
     );
 
     /* get values for buildings */
+
+
     foreach($buildings as $key => $data) {
         $bld_count = get_user_meta($target_id, $key)[0];
 
@@ -783,6 +818,10 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
 
                 $unit_life = $buildings[$unit_key]['life']*$PPE_multi;
                 $dmg_reduction = $DAMAGE_REDUCTION_FACTOR_BLD;
+                //MEGA 20180219 make buildings harder to kill if less than 500 remain
+                if (return_overall_blds_for_defender() < 500) {
+                    $dmg_reduction = $DAMAGE_REDUCTION_FACTOR_BLD*1.2;
+                }
             }
             else {
                 $unit_life = $units[$unit_key]['life'];
