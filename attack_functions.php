@@ -818,8 +818,8 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
 
                 $unit_life = $buildings[$unit_key]['life']*$PPE_multi;
                 $dmg_reduction = $DAMAGE_REDUCTION_FACTOR_BLD;
-                //MEGA 20180219 make buildings harder to kill if less than 500 remain
-                if (return_overall_blds_for_defender() < 500) {
+                //MEGA 20180219 make buildings harder to kill if less than 300 remain
+                if (return_overall_blds_for_defender() < 300) {
                     $dmg_reduction = $DAMAGE_REDUCTION_FACTOR_BLD*1.2;
                 }
             }
