@@ -67,8 +67,8 @@
     'bank_management'           => array(
             'name'                  => 'Bank management',
             'level1'                => 'Bank stores up to $ 3 500 000 and bank interest increased by 0,5%',
-            'level2'                => 'Bank stores up to $ 4 500 000 and bank interest increased by 0,75% + option to withdraw money after 12 hours with no interest but with a 25% fee',
-            'level3'                => 'Bank stores up to $ 5 000 000 and bank interest increased by 1,0% + the 25% fee for early withdrawals is removed',
+            'level2'                => 'Bank stores up to $ 4 500 000 and bank interest increased by 0,75% + option to withdraw money after 12 hours with no interest but with a 50% fee',
+            'level3'                => 'Bank stores up to $ 5 000 000 and bank interest increased by 1,0% + the fee for early withdrawals is now 25%',
             'maxlevel'              => 3,
             'description'           => 'Increases the amount of money you can bank',
             'duration'              =>  '10'),

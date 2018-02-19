@@ -705,22 +705,43 @@ if($calculate_points == 1 && $result == 'success'){
 			
 				
 if ($killed != true) {
-	$clan_points = round(9 * log($def_NW_lost/2.3 / 400)); 
 
 
-	if($clan_points > 25){	
+    // MEGA logic to reduce points 20180216
+
+    $clan_points = round(9 * log($def_NW_lost/2.3 / 400));
+
+    $subFactor = 100*(18/sqrt($defender_Networth));
+    $ptsEarn = log($userNW)*(log($userNW)/8.7)-$subFactor;
+
+    if ($clan_points < $ptsEarn) {
+        //If the value in old system is LOWER, use the old value
+    }
+
+    else {
+        //Set clan points to the new system
+        $clan_points = $ptsEarn;
+    }
+
+    // End reduce low nw pts logic
+
+    if($clan_points > 25){
 		$clan_points = 25;
 	}
 }
-			
+
+//MEGA changed block to stop 1-sided also awarding 50p 20180215 -->
 if ($killed == true) { 
-	$clan_points = 50;
+
+    if ($one_sided == 1) {
+        $clan_points = 25;
+    }
+    else {
+        $clan_points = 50;
+    }
+
 }	
-				
-		
-if($one_sided == 1 ){
-	$clan_points = ceil($clan_points/2);
-	}	
+// End MEGA 20180215
 			
 if($clan_points < 1){
 	$clan_points = 1;
@@ -742,11 +763,12 @@ if($clan_points < 1){
 				
 				
 				/* killed in mutual? */
-				if($mutual == 2){
+				if($mutual == 2) {
 					$clan_points = 50;
 				}
 				if($one_sided == 1){
 				/* one sided kill? */
+				echo "DAVE";
 					$clan_points = 25;	
 				}
 			}
@@ -932,6 +954,8 @@ $args = array(
 			
 
 
+
+
 			update_field('time_attacked',$timestamp, $new_event_id);
 			
 			update_field('nw_damage_defender',$def_NW_lost, $new_event_id);
@@ -950,7 +974,7 @@ $args = array(
 			update_field('attacker_id',$user_ID, $new_event_id);
 			update_field('attacktype',$_SESSION['attacktype'], $new_event_id);
 			update_field('outcome',$result, $new_event_id);
-			
+
 			if($shotdown == true){
 			update_field('shotdown','shotdown', $new_event_id);
 			}
