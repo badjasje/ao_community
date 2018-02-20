@@ -29,6 +29,12 @@ if (get_field('game_status', 'option') == 'Live') {
     $attack_clan_id = $userData['clan_id_user'][0];
 
     $target_id = $_SESSION['target_id'];
+    if($target_id <= 10){
+	    $_SESSION['status'] = 'Cannot attack an administrator.';
+        wp_redirect(get_permalink(3360).'?id='.$target_id);
+        exit;
+	    
+    }
     $defend_nw = get_user_meta($target_id, 'networth')[0];
     $defend_clan_id = get_user_meta($target_id, 'clan_id_user')[0];
 

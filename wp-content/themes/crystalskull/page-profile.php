@@ -60,10 +60,8 @@ get_header(); ?>
 					<?php echo alert_notification($_SESSION['status']);?>
 				<?php endif; // End empty status check ?>
        
-       			<div class="container2">
-				
-				
-				
+       	
+<?php if($user__ID > 10):?>		
 				
 <div class="row profile_block">
 	<div class="col-md-2">
@@ -376,7 +374,71 @@ get_header(); ?>
 <?php endif;?>
 
 
+<?php else:?>
 
+<div class="row profile_block">
+	<div class="col-md-2">
+		<center>
+		
+			<div style='border-radius:100%;margin-bottom:20px;height:120px;width:120px;'>
+				<?php echo small_avatar($user__ID,'largeAvatar');?>
+			</div>	
+		
+		</center>
+		
+		
+	</div>
+	<div class="col-md-10">
+		<div class="row">
+			<div class="row profile_row">
+				<div class="col-xs-5">Player ID</div>
+				<div class="col-xs-7">#<?php echo $user__ID;?></div>
+			</div>
+			<div class="row profile_row">
+				<div class="col-xs-5">Player name</div>
+				<div class="col-xs-7"><?php echo $user->display_name;?></div>
+			</div>
+			<div class="row profile_row">
+				<div class="col-xs-5">Role</div>
+				<div class="col-xs-7">Administrator</div>
+			</div>
+			<div class="row profile_row">
+				<div class="col-xs-5">Registered</div>
+				<div class="col-xs-7"><?php echo $user->user_registered;?></div>
+			</div>
+			<div class="row profile_row">
+				<div class="col-xs-5">Networth</div>
+				<div class="col-xs-7">n.a.</div>
+			</div>
+			<div class="row profile_row">
+				<div class="col-xs-5">Land</div>
+				<div class="col-xs-7">n.a.</div>
+			</div>
+			<div class="row profile_row">
+				<div class="col-xs-5">Clan</div>
+				<div class="col-xs-7">n.a.</div>
+			</div>
+			<div class="row profile_row_last sharerow">
+				<div class="col-xs-5">Share</div>
+				<div class="col-xs-7">
+					<a href="whatsapp://send" data-text="<?php echo $user->display_name;?> (#<?php echo $user__ID;?>)" data-href="" class="wa_btn wa_btn_s" style="display:none">Share</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>		
+
+
+<div class="row button_block">
+
+	<div class="col-md-12 buttoncol">
+	 	<center><a class="btn btn-general profilebutton" href="/send-message/?id=<?php echo $user__ID;?>">
+		  <i class="fa fa-envelope-o" aria-hidden="true"></i> &nbsp;Send message</a></center>
+	</div>
+
+</div>
+
+<?php endif;?>
 
 
 			

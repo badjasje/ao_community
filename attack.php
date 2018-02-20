@@ -42,6 +42,12 @@ if (get_field('game_status', 'option') == 'Live') {
     $sat_morale = $userData['sat_morale'][0];
 
     $target_id = $_POST['target_id'];
+    if($target_id <= 10){
+	    $_SESSION['status'] = 'Cannot attack an administrator.';
+        wp_redirect(get_permalink(3360).'?id='.$target_id);
+        exit;
+	    
+    }
     count_all_stats($target_id);
 
     $attackmode = $_POST['attackmode'];
