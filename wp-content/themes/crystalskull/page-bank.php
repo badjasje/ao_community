@@ -16,6 +16,7 @@ $total_final = 0;
 $unlocked = 0;
 
 
+
 $enddate = get_field('end_date','option');
 $endstamp = strtotime($enddate);
 $daysleft = $endstamp-$timestamp;
@@ -67,12 +68,12 @@ if($daysleft < 3){
 						$max_tot = 3500000;
 					}
 					if($banklevel == 2){
-						$extra_interest = 0.75;
+						$extra_interest = 0.5;
 						$max_dep = 450000*$finance_multi;
 						$max_tot = 4500000;
 					}
 					if($banklevel == 3){
-						$extra_interest = 1;
+						$extra_interest = 0.75;
 						$max_dep = 500000*$finance_multi;
 						$max_tot = 5000000*$finance_multi;
 				}?>
