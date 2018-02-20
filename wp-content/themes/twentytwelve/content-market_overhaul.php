@@ -48,10 +48,10 @@ if($discount_level == 2){
 						}
 					
 					if($MSlevel == 1){
-						$hours = 6;	
+						$hours = 9;
 						}
 					if($MSlevel == 2){
-						$hours = 3;	
+						$hours = 6;
 						}?>
 				
 				There is a waiting time of <?php echo $hours;?> hours based on your completed research.</p></center>
