@@ -707,8 +707,11 @@ if($calculate_points == 1 && $result == 'success'){
 if ($killed != true) {
 
 
-    // MEGA logic to make nuke NW account also for province NW, reducing it's reward at very low Networth.
-    $clan_points = ceil(25*(((log(sqrt($def_NW_lost)/1.2)) * (sqrt($defender_Networth[0])/3.1))/1024));
+    /* MEGA logic to make nuke NW account also for province NW, reducing it's reward at very low Networth.
+        The division on NW lost will increase the difference between low and high nw done in terms of pts. HIGHER division = more range
+        The division on the defender NW will decrease the overall points which nukes offer. HIGHER division = less pts */
+
+    $clan_points = ceil(25*(((log(sqrt($def_NW_lost)/1.8)) * (sqrt($defender_Networth[0])/3.1))/1024));
 
 
     if($clan_points > 25){

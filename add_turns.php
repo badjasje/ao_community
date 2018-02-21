@@ -34,7 +34,7 @@ if (get_field('game_status', 'option') == 'Live') {
             ON     t1.user_id    = t2.user_id
            SET     t1.meta_value=t1.meta_value+1
          WHERE     t1.meta_key   = 'turns'
-           AND     t1.meta_value < 300;
+           AND     t1.meta_value < 300
            AND     t2.meta_key = 'Networth'
            AND     t2.meta_value < 3500;
            

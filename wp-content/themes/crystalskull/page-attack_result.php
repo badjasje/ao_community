@@ -1076,6 +1076,7 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 		<td class="report_content"><strong>Units Lost: 
 			<?php
 				echo $attacker_units_lost;
+
 			?></strong><br/>
 			<?php
 			foreach ($units as $key => $order) {
@@ -1115,7 +1116,7 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 		<td class="report_content"><strong>Buildings destroyed: 
 			<?php
 				echo $defender_buildings_lost;
-				echo return_overall_blds_for_defender();
+
 			?></strong><br/>
 			<?php
 			foreach ($buildings as $key => $order) {
