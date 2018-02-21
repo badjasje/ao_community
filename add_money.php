@@ -25,6 +25,7 @@ if (get_field('game_status', 'option') == 'Live') {
             INNER JOIN `${table_prefix}usermeta` as t2 ON t2.user_id = t1.user_id AND t2.meta_key = 'level_money_production' 
             INNER JOIN `${table_prefix}usermeta` as t3 ON t3.user_id = t1.user_id AND t3.meta_key = 'starting_bonus'
             INNER JOIN `${table_prefix}usermeta` as t4 ON t4.user_id = t1.user_id AND t4.meta_key = 'last_online'
+            INNER JOIN `${table_prefix}usermeta` as t5 ON t5.user_id = t1.user_id AND t5.meta_key = 'Networth'
         SET t1.meta_value = t1.meta_value + 25000
         WHERE t1.meta_key = 'money' AND t2.meta_value = 1 AND t3.meta_value != 'finance' AND t4.meta_value > $timestamp AND t5.meta_value > 3499"
     );
@@ -34,6 +35,7 @@ if (get_field('game_status', 'option') == 'Live') {
             INNER JOIN `${table_prefix}usermeta` as t2 ON t2.user_id = t1.user_id AND t2.meta_key = 'level_money_production' 
             INNER JOIN `${table_prefix}usermeta` as t3 ON t3.user_id = t1.user_id AND t3.meta_key = 'starting_bonus'
             INNER JOIN `${table_prefix}usermeta` as t4 ON t4.user_id = t1.user_id AND t4.meta_key = 'last_online'
+            INNER JOIN `${table_prefix}usermeta` as t5 ON t5.user_id = t1.user_id AND t5.meta_key = 'Networth'
         SET t1.meta_value = t1.meta_value + 35000
         WHERE t1.meta_key = 'money' AND t2.meta_value = 2 AND t3.meta_value != 'finance' AND t4.meta_value > $timestamp AND t5.meta_value > 3499"
     );
