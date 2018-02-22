@@ -24,7 +24,7 @@
 			'attack'		=>	0,
 			'type'			=>	'air',
 			'sectype'		=>	'special',
-			'life'			=>	85),
+			'life'			=>	105),
     'f22_raptors' 		=> array(
 			'price'			=>	'830',
 			'networth'		=>	10,
@@ -34,7 +34,7 @@
 			'attack'		=>	55,
 			'type'			=>	'air',
 			'sectype'		=>	'normal',
-			'life'			=>	35),
+			'life'			=>	45),
     'rah66_commanches' 	=> array(
 			'price'			=>	'875',
 			'networth'		=>	10,
@@ -44,7 +44,7 @@
 			'attack'		=>	60,
 			'type'			=>	'air',
 			'sectype'		=>	'normal',
-			'life'			=>	40),
+			'life'			=>	50),
 	'b2_bomber' 	=> array(
 			'price'			=>	'2200',
 			'networth'		=>	13,
@@ -55,7 +55,7 @@
 
 			'type'			=>	'air',
 			'sectype'		=>	'bk',
-			'life'			=>	80),
+			'life'			=>	95),
 	'jsf' 		=> array(
 			'price'			=>	'640',
 			'networth'		=>	10,
@@ -65,7 +65,7 @@
 			'attack'		=>	35,
 			'type'			=>	'air',
 			'sectype'		=>	'normal',
-			'life'			=>	35),
+			'life'			=>	45),
 	'typhoon' 			=> array(
 			'price'			=>	'690',
 			'networth'		=>	10,
@@ -75,7 +75,7 @@
 			'attack'		=>	40,
 			'type'			=>	'air',
 			'sectype'		=>	'normal',
-			'life'			=>	35),
+			'life'			=>	45),
 	'seahawk' 		=> array(
 			'price'			=>	'830',
 			'networth'		=>	10,
@@ -85,7 +85,7 @@
 			'attack'		=>	65,
 			'type'			=>	'air',
 			'sectype'		=>	'normal',
-			'life'			=>	40),
+			'life'			=>	50),
 	/// VEHICLES ///
 	'apc' 		=> array(
 			'price'			=>	'1500',
@@ -97,7 +97,7 @@
 			'attack'		=>	0,
 			'type'			=>	'veh',
 			'sectype'		=>	'special',
-			'life'			=>	85),
+			'life'			=>	105),
 	'humvee' 		=> array(
 			'price'			=>	'500',
 			'networth'		=>	10,
@@ -106,7 +106,7 @@
 			'defends'		=>  array('air'),
 			'attack'		=>	45,
 			'type'			=>	'veh',
-			'life'			=>	20),
+			'life'			=>	25),
 	'sam' 		=> array(
 			'price'			=>	'950',
 			'networth'		=>	10,
@@ -116,7 +116,7 @@
 			'attack'		=>	65,
 			'type'			=>	'veh',
 			'sectype'		=>	'normal',
-			'life'			=>	40),
+			'life'			=>	50),
 	'abraham' 		=> array(
 			'price'			=>	'730',
 			'networth'		=>	10,
@@ -126,7 +126,7 @@
 			'attack'		=>	50,
 			'type'			=>	'veh',
 			'sectype'		=>	'normal',
-			'life'			=>	30),
+			'life'			=>	35),
 	'artillery' 		=> array(
 			'price'			=>	'1275',
 			'networth'		=>	13,
@@ -136,7 +136,7 @@
 			'attack'		=>	75,
 			'type'			=>	'veh',
 			'sectype'		=>	'bk',
-			'life'			=>	45),
+			'life'			=>	55),
 	'm70mlrs' 			=> array(
 			'price'			=>	'835',
 			'networth'		=>	10,
@@ -146,7 +146,7 @@
 			'attack'		=>	70,
 			'type'			=>	'veh',
 			'sectype'		=>	'normal',
-			'life'			=>	45),
+			'life'			=>	55),
 	'm270_rocket' 		=> array(
 			'price'			=>	'540',
 			'networth'		=>	10,
@@ -156,7 +156,7 @@
 			'attack'		=>	40,
 			'type'			=>	'veh',
 			'sectype'		=>	'normal',
-			'life'			=>	30),
+			'life'			=>	40),
 	/// INFANTRY ///
 	'thief' 		=> array(
 			'price'			=>	'5000',
@@ -211,7 +211,7 @@
 			'attack'		=>	60,
 			'type'			=>	'inf',
 			'sectype'		=>	'bk',
-			'life'			=>	30),
+			'life'			=>	35),
 	'grenade' 		=> array(
 			'price'			=>	'445',
 			'networth'		=>	10,
@@ -221,7 +221,7 @@
 			'attack'		=>	30,
 			'type'			=>	'inf',
 			'sectype'		=>	'normal',
-			'life'			=>	15),
+			'life'			=>	20),
 	'navy' 			=> array(
 			'price'			=>	'825',
 			'networth'		=>	10,
@@ -231,7 +231,7 @@
 			'attack'		=>	45,
 			'type'			=>	'inf',
 			'sectype'		=>	'normal',
-			'life'			=>	35),
+			'life'			=>	40),
 	'rifle' 		=> array(
 			'price'			=>	'765',
 			'networth'		=>	10,
@@ -241,7 +241,7 @@
 			'attack'		=>	50,
 			'type'			=>	'inf',
 			'sectype'		=>	'normal',
-			'life'			=>	35),
+			'life'			=>	40),
 	'rocket' 		=> array(
 			'price'			=>	'850',
 			'networth'		=>	10,
@@ -251,7 +251,7 @@
 			'attack'		=>	40,
 			'type'			=>	'inf',
 			'sectype'		=>	'normal',
-			'life'			=>	55),
+			'life'			=>	65),
 	'armoured' 		=> array(
 			'price'			=>	'540',
 			'networth'		=>	10,
@@ -261,7 +261,7 @@
 			'attack'		=>	35,
 			'type'			=>	'inf',
 			'sectype'		=>	'normal',
-			'life'			=>	20),
+			'life'			=>	25),
 	'flamethrower' 	=> array(
 			'price'			=>	'500',
 			'networth'		=>	10,
@@ -271,7 +271,7 @@
 			'attack'		=>	35,
 			'type'			=>	'inf',
 			'sectype'		=>	'normal',
-			'life'			=>	20),
+			'life'			=>	25),
 	
 	
 	/// SEA ///
@@ -284,7 +284,7 @@
 			'attack'		=>	110,
 			'type'			=>	'sea',
 			'sectype'		=>	'bk',
-			'life'			=>	90),
+			'life'			=>	110),
 	'frigate' 		=> array(
 			'price'			=>	'875',
 			'networth'		=>	10,
@@ -294,7 +294,7 @@
 			'attack'		=>	65,
 			'type'			=>	'sea',
 			'sectype'		=>	'normal',
-			'life'			=>	40),
+			'life'			=>	50),
 	'carrier' 		=> array(
 			'price'			=>	'2250',
 			'networth'		=>	14,
@@ -305,7 +305,7 @@
 			'attack'		=>	0,
 			'type'			=>	'sea',
 			'sectype'		=>	'normal',
-			'life'			=>	175),
+			'life'			=>	210),
 	/*'stealth' 			=> array(
 			'price'			=>	'900',
 			'networth'		=>	10,
@@ -324,7 +324,7 @@
 			'attack'		=>	60,
 			'type'			=>	'sea',
 			'sectype'		=>	'normal',
-			'life'			=>	50),
+			'life'			=>	65),
 	'cruiser' 			=> array(
 			'price'			=>	'1300',
 			'networth'		=>	10,
@@ -334,7 +334,7 @@
 			'attack'		=>	90,
 			'type'			=>	'sea',
 			'sectype'		=>	'normal',
-			'life'			=>	70),
+			'life'			=>	85),
 	'destroyer' 		=> array(
 			'price'			=>	'1125',
 			'networth'		=>	10,
@@ -344,7 +344,7 @@
 			'attack'		=>	75,
 			'type'			=>	'sea',
 			'sectype'		=>	'normal',
-			'life'			=>	50),
+			'life'			=>	60),
 	'sparrow'	 		=> array(
 			'price'			=>	'1025',
 			'networth'		=>	10,
@@ -354,5 +354,5 @@
 			'attack'		=>	75,
 			'type'			=>	'sea',
 			'sectype'		=>	'normal',
-			'life'			=>	60),
+			'life'			=>	70),
 );

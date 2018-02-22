@@ -28,7 +28,7 @@ function calculate_pts ($unit_damage, $bld_damage, $aggressive_multi) {
     }
 
     //Because log(10)+log(10) is more than log(20), we need to merge the damage from uk and bk at the outset!
-
+	$unit_damage = $unit_damage*1.2; // Increase unit damage by 20% to even out the 20% increase in life
     $damage = $bld_damage + $unit_damage;
 
     //MEGA reduce bld damage multiplier for damage attacks 20180219
