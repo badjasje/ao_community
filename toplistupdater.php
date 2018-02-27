@@ -19,7 +19,7 @@ foreach ($clans as $clan) {
 $tot_networth = 0;
 $tot_land = 0;
 foreach ($clan_members[0] as $member) {
-	$tot_networth += get_user_meta($member, 'networth')[0];
+	$tot_networth += get_user_meta($member, 'networth',true);
 	$tot_land     += get_user_meta($member, 'land', true);
 }
 update_post_meta($clan->ID,'clan_networth',ceil($tot_networth));

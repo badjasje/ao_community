@@ -2,6 +2,7 @@
  /*
  * Template Name: Attack step 2
  */
+get_header(); 
 include 'DO_NOT_DELETE.php';
 if(empty($_SESSION['attacktype'])){
 wp_redirect(get_permalink(3360).'?fail=4');
@@ -24,7 +25,7 @@ $userId = get_current_user_id();
 $userData = get_user_meta($userId);
 
 count_all_stats($attackUserId);
-get_header(); ?>
+?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

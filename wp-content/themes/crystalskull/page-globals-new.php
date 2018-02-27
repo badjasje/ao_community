@@ -2,6 +2,7 @@
  /*
  * Template Name: Globals New
  */
+get_header(); 
 $user_ID = get_current_user_ID();
 include('units_array.php');
 include('building_array.php');
@@ -13,7 +14,7 @@ if($user_ID != 0){
 	$members = get_post_meta($clan_ID,'clan_members');
 }
 
-get_header(); ?>
+?>
 
 
 <?php 

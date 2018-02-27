@@ -1,20 +1,18 @@
 <?php
-
-/*include important files*/
 require_once (get_template_directory() . '/themeOptions/functions.php');
+require_once (get_template_directory() . '/widgets/latest_posts/latest_posts.php');
 require_once (get_template_directory() . '/widgets/latest_comments/latest_comments.php');
+require_once (get_template_directory() . '/addons/smartmetabox/SmartMetaBox.php');
+require_once (get_template_directory() . '/addons/wp-owl-carousel/wp_owl_carousel.php');
 require_once (get_template_directory() . '/post_templates.php');
+require_once (get_template_directory() . '/pluginactivation.php');
 require_once ( ABSPATH . 'wp-admin/includes/plugin.php' );
-
-
-/* Custom code goes below this line. */
 
 if( function_exists('acf_add_options_page') ) {
 	
 	acf_add_options_page();
 	
 }
-
 
 
 
@@ -45,6 +43,7 @@ add_filter('show_admin_bar', '__return_false');}
 if (is_user_logged_in() ) {
 
 $userId = get_current_user_id();
+ban_redirect($userId);
 
 /*update user status from death to NP */
 $user_status = get_user_meta($userId, 'status',true);
@@ -580,9 +579,7 @@ function crystalskull_custom_pings($comment, $args, $depth) {
 
 /*Produces an avatar image with the hCard-compliant photo class*/
 function crystalskull_commenter_link() {
-	echo '<pre>';
-	print_r($commenter);
-	echo '</pre>';
+
    $commenter = get_comment_author_link();
     if ( preg_match( '/<a[^>]* class=[^>]+>/', $commenter ) ) {
         $commenter = preg_replace( '/(<a[^>]* class=[\'"]?)/', '\\1url ' , $commenter );
@@ -964,7 +961,7 @@ if (!is_admin()){
     }
 }
 
-session_start();
+
 add_action('init', 'myStartSession', 1);
 add_action('wp_logout', 'myEndSession');
 add_action('wp_login', 'myEndSession');
@@ -976,7 +973,5 @@ function myStartSession() {
 }
 
 function myEndSession() {
-    session_destroy ();
-}
-/* Custom code goes above this line. */
-?>
+    session_destroy();
+}?>

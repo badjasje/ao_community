@@ -1,19 +1,17 @@
-<?php
-	if(is_user_logged_in()){
-	    wp_redirect(get_site_url().'/dashboard/');
-	    exit;
-}?>
 <!DOCTYPE html>
 <html  <?php language_attributes(); ?>>
     <head>
 
 	    <meta charset="<?php bloginfo( 'charset' ); ?>">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-	    <?php include_once 'css/colours.css.php'; ?>
+	    
 		<?php wp_head(); ?>
+	
+		<?php include_once 'css/colours.css.php'; ?>
 	</head>
 	
 <body <?php body_class(); ?>>
+	
 	<script>
   window.fbAsyncInit = function() {
     FB.init({

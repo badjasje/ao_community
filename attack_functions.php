@@ -1,5 +1,4 @@
 <?php
-
 /* utility functions for attack engine reuse */
 
 /* 
@@ -947,6 +946,4 @@ update_field('outcome',$result, $new_event_id);
 
 update_field('defender_clan_id',$defend_clan_id, $new_event_id);
 update_field('attacker_clan_id',$attack_clan_id, $new_event_id);
-	
-	
 }

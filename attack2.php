@@ -13,12 +13,13 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 }
 
 require(dirname(__FILE__) . '/wp-load.php');
+nocache_headers();
 if (get_field('game_status', 'option') == 'Live') {
     if (! defined('ABSPATH')) {
         exit;
     }
     include('attack_functions.php');
-    nocache_headers();
+
 
     $_SESSION['attack_array'] = $_POST;
 
@@ -29,7 +30,7 @@ if (get_field('game_status', 'option') == 'Live') {
     $attack_clan_id = $userData['clan_id_user'][0];
 
     $target_id = $_SESSION['target_id'];
-    if($target_id <= 10){
+    if(intval($target_id) <= 10){
 	    $_SESSION['status'] = 'Cannot attack an administrator.';
         wp_redirect(get_permalink(3360).'?id='.$target_id);
         exit;

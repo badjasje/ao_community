@@ -2,6 +2,7 @@
  /*
  * Template Name: Missile Result
  */
+get_header();
 include 'DO_NOT_DELETE.php';
 
 
@@ -111,7 +112,7 @@ $missile_research = get_user_meta($user_ID, 'level_missile_accuracy', true);
 $calculate_points = 0;
 
 
-get_header(); ?>
+ ?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

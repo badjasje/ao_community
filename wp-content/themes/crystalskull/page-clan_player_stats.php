@@ -21,6 +21,8 @@ $ct_3 = $clanData['ct_3'][0];
 $ct_4 = $clanData['ct_4'][0];
 include('count_functions.php');
 include('research_array.php');
+include('units_array.php');
+include('building_array.php');
  ?>
 <div class="page normal-page">
      <div class="container containerNZ">
@@ -53,7 +55,10 @@ include('research_array.php');
 		$memberData = get_user_meta($member);
 		$attacksMade = $memberData['in_war_attacks'][0];
 		$pts = $memberData['user_clan_points'][0];
+		$PPA = 0;
+		if($pts > 0){
 		$PPA = round($pts / $attacksMade,1);
+		}
 		$networth = $memberData['networth'][0];
 		$land = $memberData['land'][0];
 		$turns = $memberData['turns'][0];

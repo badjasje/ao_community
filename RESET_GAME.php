@@ -44,7 +44,10 @@
 	$resetArray[] = "'attacks_made'";
 	$resetArray[] = "'starting_bonus'";
 	$resetArray[] = "'explored_today'";
-	
+	$resetArray[] = "'empmis_ordered'";
+	$resetArray[] = "'empmis_owned'";
+	$resetArray[] = "'tomahawk_ordered'";
+	$resetArray[] = "'tomahawk_owned'";
 	$resetArray[] = "'succesful_attacks'";
 	$resetArray[] = "'money'";
 	$resetArray[] = "'turns'";
@@ -152,12 +155,7 @@
 	$emptyArray = array();
 	$wpdb->query("
 			UPDATE `${table_prefix}postmeta`
-			SET meta_value = ''
-			WHERE meta_key IN('cooldown_list','previous_members','24h_pts_list','open_invites','24h_nw_list','war_array')
-            ");
-	$wpdb->query("
-			UPDATE `${table_prefix}postmeta`
-			SET meta_value = $emptyArray
+			SET meta_value = maybe_serialize($emptyArray)
 			WHERE meta_key IN('cooldown_list','previous_members','24h_pts_list','open_invites','24h_nw_list','war_array')
             ");
 	

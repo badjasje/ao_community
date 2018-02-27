@@ -68,8 +68,8 @@ if ($userLock == 1) {
                 exit;
             }
 
-            if ($ownedUnits[0] < $soldUnits) {
-                $soldUnits = $ownedUnits[0];
+            if ($ownedUnits < $soldUnits) {
+                $soldUnits = $ownedUnits;
             }
             if (in_array($key, $specialUnitsArray)) {
                 $specialSelling += $_POST[$key];
@@ -110,8 +110,8 @@ if ($userLock == 1) {
                 exit;
             }
 
-            if ($ownedUnits[0] < $soldUnits) {
-                $soldUnits = $ownedUnits[0];
+            if ($ownedUnits < $soldUnits) {
+                $soldUnits = $ownedUnits;
             }
             if ($key == 'spy' || $key == 'spyplane' || $key == 'sniper') {
                 $specialSelling+=$_POST["$key"];
@@ -120,7 +120,7 @@ if ($userLock == 1) {
 
             $soldAmount = $price * $soldUnits;
             $totalSelling += $soldAmount;
-            update_user_meta($userId, $key.'_owned', $ownedUnits[0] - $soldUnits);
+            update_user_meta($userId, $key.'_owned', $ownedUnits - $soldUnits);
 
             $unitsSold = $userData['units_sold'][0];
             update_user_meta($userId, 'units_sold', $unitsSold+$soldUnits);

@@ -55,10 +55,10 @@ function AddMorale($userId, $moraleIncome)
     $moraleToAdd = $takeFromPool ? $moraleIncome + 5 : $moraleIncome;
 
     $currentNW = $userData['networth'][0];
-    if ($currentNW < 3500) {
-        exit();
-        //Do not give more morale. Good bye.
-    }
+    if ($currentNW > 3499) {
+      
+     
+    
 
 
     if ($currentMorale < 100) {
@@ -75,5 +75,6 @@ function AddMorale($userId, $moraleIncome)
     if ($currentMorale == 100 && $moralePool == 100) {
         $morale_lost = $userData['morale_lost'][0];
         update_user_meta($userId, 'morale_lost', $morale_lost + 5);
+    }
     }
 }

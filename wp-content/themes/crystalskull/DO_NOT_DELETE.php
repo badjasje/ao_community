@@ -1,5 +1,4 @@
 <?php
-
 include 'units_array.php';
 include 'research_array.php';
 include 'building_array.php';

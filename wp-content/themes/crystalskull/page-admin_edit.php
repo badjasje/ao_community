@@ -2,6 +2,7 @@
  /*
  * Template Name: Admin Edit
  */
+get_header(); 
 $user_ID = $_GET['user_id'];
  $totalmoney = get_user_meta($user_ID, 'money')[0];
  $turns = get_user_meta($user_ID, 'turns')[0];
@@ -10,7 +11,7 @@ $user_ID = $_GET['user_id'];
  $explored = get_user_meta($user_ID, 'explored_today')[0];
  $sold = get_user_meta($user_ID, 'land_sold_today')[0];
  $user = get_userdata($user_ID);
-get_header(); ?>
+?>
 <div class="page normal-page">
      <div class="container">
         <div class="row">

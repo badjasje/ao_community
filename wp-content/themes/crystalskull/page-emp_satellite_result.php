@@ -2,6 +2,7 @@
  /*
  * Template Name: EMP result
  */
+get_header(); 
 include 'DO_NOT_DELETE.php';
 include('attack_functions.php');
 include 'units_array.php';
@@ -101,7 +102,7 @@ if($sat_status == 'active'){
 
 include('units_array.php');
 include('building_array.php');
-get_header(); ?>
+?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

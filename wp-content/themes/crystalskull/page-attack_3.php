@@ -2,6 +2,7 @@
  /*
  * Template Name: Attack step 3
  */
+get_header(); 
 include 'DO_NOT_DELETE.php';
 $units_attack = $_SESSION['attack_array'];
 
@@ -22,7 +23,7 @@ if($attack_type == 'sniper'){ $attack_name = 'Sending sniper'; }
 $userId = get_current_user_id();
 $userData = get_user_meta($userId);
 
-get_header(); ?>
+?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

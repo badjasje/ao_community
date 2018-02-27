@@ -2,6 +2,7 @@
  /*
  * Template Name: Spy Result
  */
+get_header();
 $defender_ID = $_SESSION['target_id'];
 $userId = get_current_user_id();
 
@@ -162,7 +163,7 @@ $members = get_post_meta($clan_ID,'clan_members',true);
 			
 			
 	
-get_header(); ?>
+ ?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">
@@ -201,7 +202,7 @@ get_header(); ?>
 			$spy_array = array();
 			foreach ($units as $key => $unit) {
 			$owned_units = $defenderData[$key.'_owned'][0];
-			$amountArray[$unit['normalname']] = $owned_units[0];}
+			$amountArray[$unit['normalname']] = $owned_units;}
 			?>
 			<table class="responsive-table">
 				<thead>

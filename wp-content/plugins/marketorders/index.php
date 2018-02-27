@@ -1323,7 +1323,7 @@ try {
 
 } catch (\MessageBird\Exceptions\BalanceException $e) {
     // That means that you are out of credits, so do something about it.
-    echo 'no balance';
+   // echo 'no balance';
 
 } catch (\Exception $e) {
     echo $e->getMessage();
@@ -1338,7 +1338,7 @@ function wpse_76815_remove_publish_box() {
 }
 add_action( 'admin_menu', 'wpse_76815_remove_publish_box' );
 
-function multi_register( $login ) {
+/*function multi_register( $login ) {
     $user = get_user_by('login',$login);
     $user_ID = $user->ID;
     $ip_array = get_field('login_array_general',139664);
@@ -1374,7 +1374,7 @@ function multi_register( $login ) {
 
 
 }
-add_action( 'wp_login', 'multi_register');
+add_action( 'wp_login', 'multi_register');*/
 
 
 function count_deposits($user_ID){
@@ -1750,7 +1750,7 @@ include('building_array.php');
 include('research_array.php');
 include('constants.php');
 include('satellite_array.php');
-$currentWeather = get_field('weather','options');
+
 /* calculate unit NW */
 $unit_networth = 0;
 foreach($units as $key => $unit){
@@ -1764,10 +1764,10 @@ foreach($units as $key => $unit){
 /* calculate missile NW */
 $missile_networth = 0;
 foreach($missiles as $key => $missile){
-	$missiles_owned = $userData[$key.'_owned'][0];
+	$missiles_owned = intval($userData[$key.'_owned'][0]);
 	
 		if($missiles_owned > 0){
-			$missile_networth+= $missiles_owned[0]*$missile['price']*($missile['networth']/100);
+			$missile_networth+= $missiles_owned*$missile['price']*($missile['networth']/100);
 			}
 	} // End calculate missile NW
 
@@ -1782,10 +1782,7 @@ $PPE_multi = 1;
 	if($PPE_level == 1){
 		$PPE_multi = 1.5;
 		}
-$weatherReduction = 1;
-if($currentWeather == 'thunderstorm'){
-	$weatherReduction = 0.9;
-}
+
 /* calculate building NW */
 foreach($buildings as $key => $building){
 	$buildings_owned = $userData[$key][0];
@@ -1793,7 +1790,7 @@ foreach($buildings as $key => $building){
 		if($buildings_owned > 0){
 			$totalbuildings+=$buildings_owned;
 			$building_networth+= $buildings_owned*$building['price']*($building['networth']/100);
-			$power_production+=$building['powerprod']*$weatherReduction*$buildings_owned;
+			$power_production+=$building['powerprod']*$buildings_owned;
 			$used_power+=$building['power']*$buildings_owned;
 			}
 	} // End calculate building NW
@@ -1872,22 +1869,7 @@ if($power_production > 0){
 $power = $userData['power'][0];
 //update_user_meta($user_ID,'power',$power+$empReduction);
 
-if($status == 'online'){
 
-	if($totalbuildings < 50){
-		$low_buildings = $userData['low_buildings'][0];
-		if($low_buildings == 'on'){
-		notify_user($user_ID,'buildings');
-		}
-		}
-
-	if($power+$empReduction > 100){
-		$low_power = $userData['low_power'][0];
-		if($low_power == 'on'){
-		notify_user($user_ID,'power');
-		}
-		}
-	}
 	
 } // end empty user ID check
 
@@ -1921,7 +1903,7 @@ function count_missiles($user_ID){
 	$totalmissiles = 0;
 	foreach($missiles as $key => $missile){
 		if($key != 'tomahawk'){
-			$missiles_owned = get_user_meta($user_ID, $key.'_owned',true);
+			$missiles_owned = intval(get_user_meta($user_ID, $key.'_owned',true)); 
 			$totalmissiles+=$missiles_owned;
 		}
 }
@@ -2380,9 +2362,4 @@ function display_all_units(){
 	$allunits.= "<div class='col-md-6 querymanualunits'><strong>$name</strong><br/>$desc Price: $$price<br/>Attacks: $attacks<br/>Attack: $attack / Life: $life<br/>Type: $type</div>";
 	}
 	$allunits.= '</div>';
-    return $allunits;
-} 
-
-
-
-
+    return $allunits;}

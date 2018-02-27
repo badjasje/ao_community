@@ -2,6 +2,7 @@
  /*
  * Template Name: Aid
  */
+get_header(); 
 $user_ID = get_current_user_id();
 $clan_ID = get_user_meta($user_ID, 'clan_id_user',true);
 $clanmembers = get_post_meta($clan_ID,'clan_members');
@@ -10,7 +11,7 @@ $money = get_user_meta($user_ID, 'money',true);
 $aid_sent = get_user_meta($user_ID, 'aid_sent_today', true);
 
 $maxAmount = round(min(250000,$money));
-get_header(); ?>
+?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

@@ -4,11 +4,11 @@
  */
 get_header(); 
 include('startingbonus_array.php');
-include('weather_array.php');
+
 
 $startingDate = get_field('starting_date','options');
 $endDate = get_field('end_date','options');
-$currentWeather = get_field('weather','options');
+
 
 $userId 					= get_current_user_ID();
 $pageId 					= get_the_id();
@@ -201,18 +201,7 @@ if($clan_ID == 0){
 					
 					</div>
 				</div>
-				<div class="row profile_row">
-					<div class="col-xs-6"><strong>Weather</strong></div>
-					<div class="col-xs-6">
-						<span 	class="hover-tip"  
-								data-toggle="tooltip" 
-								data-original-title="<?php echo $weather[$currentWeather]['effect'];?>" 
-								data-placement="right">
-							<i class="fa fa-info-circle" aria-hidden="true"></i>
-						</span>
-						<?php echo $weather[$currentWeather]['name'];?>					
-					</div>
-				</div>
+				
 				<div class="row profile_row">
 					<div class="col-xs-6"><strong>Color scheme</strong></div>
 					<div class="col-xs-6">
@@ -480,18 +469,7 @@ if($clan_ID == 0){
 					
 					</div>
 				</div>
-				<div class="row profile_row">
-					<div class="col-xs-6"><strong>Weather</strong></div>
-					<div class="col-xs-6">
-						<span 	class="hover-tip"  
-								data-toggle="tooltip" 
-								data-original-title="<?php echo $weather[$currentWeather]['effect'];?>" 
-								data-placement="right">
-							<i class="fa fa-info-circle" aria-hidden="true"></i>
-						</span>
-						<?php echo $weather[$currentWeather]['name'];?>					
-					</div>
-				</div>
+		
 				<div class="row profile_row_last">
 					<div class="col-xs-6"><strong>Color scheme</strong></div>
 					<div class="col-xs-6">
@@ -1156,11 +1134,6 @@ diff -= 1000;
 setInterval(updateETime, 1000 );
 </script>	       
 <?php endif;?>
-       
-    <?php if($userData['first_visit'][0] == 0):?>
-
-    <?php endif;?>
-<?php //update_user_meta($userId, 'first_visit', 1);?>
 
             </div> <!-- // End main col-lg-12 col-md-12 wrapper -->
         </div> <!-- // End main row -->

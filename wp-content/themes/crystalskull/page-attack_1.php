@@ -2,6 +2,7 @@
  /*
  * Template Name: Attack 1
  */
+get_header();
 include 'constants.php';
 
 $userId = get_current_user_id();
@@ -36,7 +37,7 @@ if($satOwned != 0 || !empty($satOwned) && $satOwned != 'stealths'){
 	$satDisabledClass = 'btn-general';
 }
 
-get_header(); ?>
+ ?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

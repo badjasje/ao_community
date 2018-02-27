@@ -1,24 +1,13 @@
-<?php
-	if(!is_user_logged_in()){
-		$_SESSION['status'] = 'Log in or register to view this page.';
-	    wp_redirect(get_site_url().'/home');
-	    exit;
-}?>
 <!DOCTYPE html>
-<html  <?php language_attributes(); ?>>
-    <head>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<?php wp_head();?>
 
-    <meta charset="<?php bloginfo( 'charset' ); ?>">
-	<?php
-
-		$userId = get_current_user_ID();
-		$pageId = get_the_id();
-
-		ban_redirect($userId);
-		echo desktop_view($userId);
-		
-		
-
+<?php global $post, $page, $paged, $woocommerce;
+$userId = get_current_user_ID();
+$pageId = get_the_id();
 $userData = get_user_meta($userId);
 $new_events 				= 	$userData['new_events'][0];
 $new_global_events 			= 	$userData['new_global_events'][0];
@@ -35,19 +24,9 @@ $networth 					= 	$userData['networth'][0];
 $turns 						= 	$userData['turns'][0];
 $land 						= 	$userData['land'][0];
 
+$user = get_userdata($userId);?>
 
-if($user_status == 'dead'){
-	
-	after_death($userId);
-}
-$user = get_userdata($userId);
-	?>
-
-    <?php include_once 'css/colours.css.php'; ?>
-
-
-<?php wp_head();?>
-
+<?php include_once 'css/colours.css.php';?>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
@@ -56,8 +35,17 @@ $user = get_userdata($userId);
 <script type='text/javascript' src='/wp-content/themes/crystalskull/js/html2canvas.js'></script>
 <script type='text/javascript' src='/wp-content/themes/crystalskull/js/FileSaver.js'></script>
 <script type='text/javascript' src='/wp-content/themes/crystalskull/js/numberformat.js'></script>
+<script type='text/javascript' src='/wp-content/themes/crystalskull/js/tabbed.js'></script>
 </head>
-<body <?php body_class(); ?>>
+
+<body <?php body_class();?>>
+	<?php if(!is_user_logged_in()):?>
+	 
+	<script type="text/javascript">
+	window.location.href = 'https://assault.online/home';
+	</script>
+
+<?php exit; endif;?>
 	<script>
   window.fbAsyncInit = function() {
     FB.init({

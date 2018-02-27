@@ -18,7 +18,7 @@ if (get_field('game_status', 'option') == 'Live') {
 		$userData = get_user_meta($user_ID);
         /* sat crash */
         $sat_owned = $userData['sat_owned'][0];
-        $sat_endlife = $userData['sat_endlife'][0];
+        $sat_endlife = intval($userData['sat_endlife'][0]);
         $timeleft = $sat_endlife-$timestamp;
         
         if ($timeleft <= 0 && $sat_owned != '0') {
@@ -48,7 +48,7 @@ if (get_field('game_status', 'option') == 'Live') {
         
         
         /* deactivate stealth sat */
-        $stealth_sat_time = $userData['stealth_sat_time'][0];
+        $stealth_sat_time = intval($userData['stealth_sat_time'][0]);
         $timeleft = $stealth_sat_time-$timestamp;
         if ($timeleft <= 0) {
             update_user_meta($user_ID, 'stealth_sat_status', 'inactive');
@@ -167,14 +167,14 @@ if (get_field('game_status', 'option') == 'Live') {
     foreach ($clans as $clan) {
         $clan_ID = $clan->ID;
         $clanData = get_post_meta($clan_ID);
-        $cooldownlist = $clanData['cooldown_list'][0];
+        $cooldownlist = maybe_unserialize($clanData['cooldown_list'][0]);
      
         foreach ($cooldownlist as $key => $unset_time) {
             if ($unset_time < $timestamp) {
                 unset($cooldownlist[$key]);
             }
     
-            update_post_meta($clan_ID, 'cooldown_list', $cooldownlist);
+            update_post_meta($clan_ID, 'cooldown_list', maybe_serialize($cooldownlist));
         }
     
         if (empty($clan_points)) {

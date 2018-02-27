@@ -3,9 +3,12 @@
  * Template Name: Attack Results
  */
 /* imports */
+get_header(); 
 include('attack_functions.php');
-include 'units_array.php';
-include 'constants.php';
+include ('units_array.php');
+include ('building_array.php');
+include ('constants.php');
+include ('DO_NOT_DELETE.php');
 
 
 $attacking_units = $_POST;
@@ -16,7 +19,7 @@ $target_id = $_SESSION['target_id'];
 $attackerData = get_user_meta($user_id);
 $defenderData = get_user_meta($target_id);
 
-$userLock = $attackerData['user_lock'][0];
+$userLock = get_user_meta($user_id,'user_lock', true);
 $moraleLock = $attackerData['morale_lock'][0];
 
 if($moraleLock == 1){
@@ -745,13 +748,13 @@ foreach($attacker_unit_losses as $unit_type => $breakdown) {
 /* recalculate built land */
 $builtland = 0;
 foreach ($buildings as $key => $building) {
-	$ownedbuildings = get_user_meta($target_id, $key)[0];
+	$ownedbuildings = get_user_meta($target_id, $key,true);
 	if ($ownedbuildings > 0) {
 		$builtland += $ownedbuildings * $LAND_PER_BUILDING;
 	}
 }
 update_user_meta($target_id, 'builtland', ceil($builtland));
-get_header(); ?>
+?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">
@@ -1138,11 +1141,11 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 <center>
 <a class="btn btn-general" href="/attack/result/"><i class="fa fa-refresh" aria-hidden="true"></i> STRIKE AGAIN</a>
 </center>
-<input type="submit" id="btnSave" class="submitBtn" value="Save attack as PNG"/>
+
 
 <?php 
 
-
+update_user_meta($user_id, 'user_lock', 0);
 
 /* create event post */
 
@@ -1242,7 +1245,7 @@ update_user_meta($user_id, 'current_clan_points', $userAttPts+$clan_points);
 $last_ids = $attackerData['last_attacked'][0];
 update_user_meta($user_id, 'last_attacked', $target_id.','.$last_ids);
 
-
+/*
 
 $war_array_def = get_post_meta($defend_clan_id, 'war_array', true);
 $war_array_def[$warstatID]['attacks_received'] += 1;
@@ -1294,36 +1297,14 @@ if($killed == true){
 }
 
 update_post_meta($attack_clan_id, 'war_array', $war_array_att);
-
+*/
 count_all_stats($target_id);
 count_all_stats($user_id);
-update_user_meta($user_id, 'user_lock', 0);
+
 }
 ?>
 
-<script> 
-  jQuery("a").click(function (event) {
-    if (jQuery(this).hasClass("disabled")) {
-        event.preventDefault();
-    }
-    jQuery(this).addClass("disabled");
-});
 
-jQuery(function() { 
-    jQuery("#btnSave").click(function() { 
-        html2canvas(jQuery("#attackCanvas"), {
-            onrendered: function(canvas) {
-                theCanvas = canvas;
-                document.body.appendChild(canvas);
-
-                canvas.toBlob(function(blob) {
-					saveAs(blob, "<?php echo $new_event_id;?>.png"); 
-				});
-            }
-        });
-    });
-}); 
-</script>
             </div>
         </div>
     </div>

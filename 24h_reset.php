@@ -6,17 +6,10 @@ require_once("wp-load.php");
 
 if (get_field('game_status', 'option') == 'Live') {
 
-    $resetArray = array();
-    $resetArray[] = "'explored_today'";
-    $resetArray[] = "'land_sold_today'";
-    $resetArray[] = "'aid_sent_today'";
-    $resetArray[] = "'special_sold_today'";
-    
-    
     $wpdb->query("
 			UPDATE ${table_prefix}usermeta
 			SET meta_value = 0
-			WHERE meta_key IN($resetArray)
+			WHERE meta_key IN('explored_today', 'land_sold_today','aid_sent_today','special_sold_today')
             ");
 	$wpdb->query("
 			UPDATE ${table_prefix}usermeta

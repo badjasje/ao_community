@@ -301,9 +301,7 @@ if ($inf>0) {
 
 
 if ($total_spec_count>0) {
-    echo $total_special.' total special<br/>';
-    echo $ccspace.' cc space<br/>';
-    echo $total_spec_count.' tot spec count';
+
 
     if ($total_special>500 || $total_spec_count > $ccspace) {
         $_SESSION['status'] = 'Cannot build more than 500 special units';
@@ -385,5 +383,4 @@ update_user_meta($user_ID, 'turns', $totalturns-$turns_needed);
 
 $_SESSION['status'] = $total_units_ordered.' units built, for the total price of $ '. number_format($totalordercost, 0, ',', ' ').' and '.$turns_needed.' turns';
 wp_redirect($unitsRedirectUrl);
-  
-  exit;
+exit;

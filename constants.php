@@ -1,5 +1,4 @@
 <?php
-
 /* 
 	constants for use throughout 
 /*
