@@ -249,7 +249,7 @@ return get_permalink($page_id);
 function crystalskull_breadcrumbs_inner() {
     if (!is_home()) {
         echo '<a href="';
-        echo esc_url(home_url('/'));
+        echo esc_url(home_url('/dashboard'));
         echo '">';
         esc_html_e('Home', 'crystalskull ');
         echo "</a> / ";

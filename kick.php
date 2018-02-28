@@ -69,11 +69,15 @@ if (in_array($userID, $allowedToKick)) {
     $timestamp = current_time('timestamp');
     update_user_meta($user, 'new_clan_timestamp', $timestamp+86400);
 
-    $previousMembers = get_post_meta($clan, 'previous_members');
-    $previousMembers = array_shift($previousMembers);
+    $previousMembers = maybe_unserialize(get_post_meta($clan, 'previous_members',true));
+    
+    if(!is_array($previousMembers)){
+		 	$previousMembers = array();
+		}
+   
     $previousMembers[] = $user;
 
-    update_post_meta($clan, 'previous_members', $previousMembers);
+    update_post_meta($clan, 'previous_members', maybe_serialize($previousMembers));
 
     /* user kicked event */
     $timestamp = current_time('timestamp');

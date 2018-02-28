@@ -1764,7 +1764,10 @@ foreach($units as $key => $unit){
 /* calculate missile NW */
 $missile_networth = 0;
 foreach($missiles as $key => $missile){
-	$missiles_owned = intval($userData[$key.'_owned'][0]);
+
+	$missiles_owned = 0; 
+	$missiles_owned = isset($userData[$key.'_owned'][0]) ?  $userData[$key.'_owned'][0] : 0;
+	$missiles_owned = !empty($userData[$key.'_owned'][0]) ?  $userData[$key.'_owned'][0] : 0;
 	
 		if($missiles_owned > 0){
 			$missile_networth+= $missiles_owned*$missile['price']*($missile['networth']/100);

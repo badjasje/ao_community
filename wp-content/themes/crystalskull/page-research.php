@@ -153,7 +153,7 @@ get_header(); ?>
 			<?php if($research['maxlevel'] != $current):?>
 			<span class="hover-tip"  data-toggle="tooltip" data-original-title="$ <?php echo number_format($research['duration']*950, 0, ',', ' ');?> networth added when completing this research" data-placement="bottom">
 				<span class="mobileSpan">Time: </span>
-				<?php echo $research['duration']*$research_reduce;?> hours <i class="fa fa-info-circle" aria-hidden="true"></i>
+				<?php echo $research['duration']*$research_reduce/2;?> hours <i class="fa fa-info-circle" aria-hidden="true"></i>
 			</span>
 			<?php endif;?>
 		</div>
@@ -189,7 +189,7 @@ get_header(); ?>
 		$completionTime = $researches_in_progress[0]->post_title;
 		$researchID = $researches_in_progress[0]->ID;
 		$timeLeft = $completionTime-$timestamp;
-		$totaltime = $research['duration']*60*60*$research_reduce;
+		$totaltime = $research['duration']*60*60*$research_reduce/2;
 		$percentage = round((1-($timeLeft/$totaltime))*100);
 		$timeLeft = date('H:i:s', $timeLeft);
 		?>

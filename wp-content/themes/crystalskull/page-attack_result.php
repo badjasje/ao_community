@@ -1245,9 +1245,14 @@ update_user_meta($user_id, 'current_clan_points', $userAttPts+$clan_points);
 $last_ids = $attackerData['last_attacked'][0];
 update_user_meta($user_id, 'last_attacked', $target_id.','.$last_ids);
 
-/*
 
-$war_array_def = get_post_meta($defend_clan_id, 'war_array', true);
+
+$war_array_def = maybe_unserialize(get_post_meta($defend_clan_id, 'war_array', true));
+
+if(!is_array($war_array_def)){
+	$war_array_def = array();
+}
+
 $war_array_def[$warstatID]['attacks_received'] += 1;
 $war_array_def[$warstatID]['nw_dmg_rec'] += $defender_networth_lost;
 $war_array_def[$warstatID]['bds_lost'] += $defender_buildings_lost;
@@ -1264,7 +1269,7 @@ if($result == 'failure'){
 	$war_array_def[$warstatID]['successfull_def'] += 1;
 }
 
-update_post_meta($defend_clan_id, 'war_array', $war_array_def);
+update_post_meta($defend_clan_id, 'war_array', maybe_serialize($war_array_def));
 
 
 
@@ -1273,7 +1278,13 @@ update_post_meta($defend_clan_id, 'war_array', $war_array_def);
 
 
 // Updating stats for war
-$war_array_att = get_post_meta($attack_clan_id, 'war_array', true);
+$war_array_att = maybe_unserialize(get_post_meta($attack_clan_id, 'war_array', true));
+
+if(!is_array($war_array_att)){
+	$war_array_att = array();
+}
+
+
 $war_array_att[$warstatID]['attacks_made'] += 1;
 if($result == 'success'){
 	$war_array_att[$warstatID]['successfull_att'] += 1;
@@ -1297,7 +1308,7 @@ if($killed == true){
 }
 
 update_post_meta($attack_clan_id, 'war_array', $war_array_att);
-*/
+
 count_all_stats($target_id);
 count_all_stats($user_id);
 

@@ -56,7 +56,7 @@ $time = $researches[$research]['duration'];
 
 /* set up arguments for creating research post */
 $args = array(
-'post_title'    => $timestamp+($time*60*60*$research_reduce),  /* Receive research timestamp */
+'post_title'    => $timestamp+($time*60*60*$research_reduce/2),  /* Receive research timestamp */
 'post_status'   => 'publish',
 'post_content'  => $research,
 'post_type'     => 'research',

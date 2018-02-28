@@ -20,7 +20,7 @@ if (get_field('game_status', 'option') == 'Live') {
            SET t1.meta_value = t1.meta_value + 1
          WHERE t1.meta_key   = 'turns_lost'
            AND t2.meta_key   = 'turns'
-           AND t2.meta_value >= 300;
+           AND t2.meta_value >= 300
         
 
     ");
@@ -36,7 +36,7 @@ if (get_field('game_status', 'option') == 'Live') {
          WHERE     t1.meta_key   = 'turns'
            AND     t1.meta_value < 300
            AND     t2.meta_key = 'networth'
-           AND     t2.meta_value > 3500;
+           AND     t2.meta_value > 3499
            
     ");
 }

@@ -41,16 +41,21 @@ if($timeLeft<172800){
 }
 
 // Todo: The number '5' should be contained inside a configuration file / constant.
-if(count($members[0]) >= 6){
+if(count($clanMembers[0]) >= 6){
     wp_redirect(get_permalink(3601)); exit;
 }
 
-$open_invites = get_post_meta($_GET['clan'],'open_invites');
-$clanIds = get_user_meta($userId, 'clan_id_user');
-$clanId = array_shift($clanIds);
+$open_invites = maybe_unserialize(get_post_meta($_GET['clan'],'open_invites',true));
+
+if(!is_array($open_invites)){
+	$open_invites = array();
+}
+
+$clanId = get_user_meta($userId, 'clan_id_user',true);
+
 
 if($clanId == 0){
-    foreach ($open_invites[0] as $key => $invite) {
+    foreach ($open_invites as $key => $invite) {
         if($invite['invite'] == $inviteKey && $invite['clan'] == $clan) {
             if($invite['user'] != $userId) {
                 wp_redirect(get_permalink(3601));
@@ -70,7 +75,7 @@ if($clanId == 0){
                 update_user_meta($userId, 'clan_join_stamp', $timestamp+86400);
 
                 $args = [
-                    'post_title'    => 'Clan member joined a clan: '.$user,
+                    'post_title'    => 'Clan member joined a clan: '.$userId,
                     'post_status'   => 'publish',
                     'post_type'		=> 'event_local',
                     'post_author'   => $clanLeader
@@ -85,7 +90,8 @@ if($clanId == 0){
                 update_field('time_attacked',$timestamp, $newEventId);
 
                 if (!empty($clan) || $clan != 0) {
-                    foreach ($clanMembers[0] as $member) {
+	                $clanMembers = get_post_meta($_GET['clan'],'clan_members');
+                    foreach ($clanMembers as $member) {
                         $globals = get_user_meta($member, 'new_global_events', true);
                         update_user_meta($member, 'new_global_events', $globals + 1);
                     }

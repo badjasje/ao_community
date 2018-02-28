@@ -2,10 +2,11 @@
  /*
  * Template Name: Saved Users
  */
+get_header();
 $user_ID = get_current_user_ID();
 $savedUsers = get_user_meta($user_ID, 'saved_users', true);
 $savedUsers = json_decode($savedUsers);
-get_header(); ?>
+ ?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

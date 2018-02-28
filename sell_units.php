@@ -127,12 +127,12 @@ if ($userLock == 1) {
 
             // Add log entry
             // Todo: Replace this with a standardized logger (E.g. Monolog)
-            $file = 'marketselllog.txt';
+           /* $file = 'marketselllog.txt';
             $current = file_get_contents($file);
             $current .= "ID: ".$userId."\n";
             $current .= "Units sold: ".$soldUnits."\nType: ".$key."\n\n";
             file_put_contents($file, $current);
-
+			*/
             update_user_meta($userId, 'money', $totalMoney+$totalSelling);
         }
     }

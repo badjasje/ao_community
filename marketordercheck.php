@@ -1,8 +1,5 @@
 <?php
-    
-    
-    require(dirname(__FILE__) . '/wp-load.php');
-    
+require(dirname(__FILE__) . '/wp-load.php');
 if (get_field('game_status', 'option') == 'Live') {
     $timestamp = current_time('timestamp');
     $args = array(
@@ -18,9 +15,13 @@ if (get_field('game_status', 'option') == 'Live') {
 		$userData = get_user_meta($user_ID);
         /* sat crash */
         $sat_owned = $userData['sat_owned'][0];
-        $sat_endlife = intval($userData['sat_endlife'][0]);
-        $timeleft = $sat_endlife-$timestamp;
         
+        $sat_endlife = 0; 
+		$sat_endlife = isset($userData['sat_endlife'][0]) ?  $userData['sat_endlife'][0] : 0;
+		$sat_endlife = !empty( $userData['sat_endlife'][0]) ?  $userData['sat_endlife'][0] : 0;
+        
+        $timeleft = $sat_endlife-$timestamp;
+
         if ($timeleft <= 0 && $sat_owned != '0') {
             update_user_meta($user_ID, 'sat_owned', 0);
             update_user_meta($user_ID, 'sat_endlife', 0);
@@ -167,8 +168,13 @@ if (get_field('game_status', 'option') == 'Live') {
     foreach ($clans as $clan) {
         $clan_ID = $clan->ID;
         $clanData = get_post_meta($clan_ID);
-        $cooldownlist = maybe_unserialize($clanData['cooldown_list'][0]);
-     
+        $cooldownlist = maybe_unserialize(maybe_unserialize($clanData['cooldown_list'][0]));
+
+         
+        if(!is_array($cooldownlist)){
+		 	$cooldownlist = array();
+		}
+           
         foreach ($cooldownlist as $key => $unset_time) {
             if ($unset_time < $timestamp) {
                 unset($cooldownlist[$key]);

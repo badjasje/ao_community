@@ -18,12 +18,19 @@ if (!is_user_logged_in()) {
     exit;
 }
 
-$userId = get_current_user_ID();
+$userId = get_current_user_id();
 
 $invitee = $_GET['user'];
-$clanId = array_shift(get_user_meta($userId, 'clan_id_user'));
+$clanId = get_user_meta($userId, 'clan_id_user',true);
 
-$openInvites = array_shift(get_post_meta($clanId, 'open_invites'));
+$openInvites = maybe_unserialize(get_post_meta($clanId, 'open_invites',true));
+
+
+if(!is_array($openInvites)){
+	$openInvites = array();
+}
+
+
 
 foreach($openInvites as $key => $openInvite) {
     if (!is_array($openInvite)) {
@@ -39,7 +46,7 @@ if ($openInvites == 0 || empty($openInvites)) {
 $inviteKey = strtoupper(substr(md5(microtime()),rand(0,26),10));
 
 $args = [
-    'post_title'    => sprintf('Clan Invite for: %s (#%d)', get_the_title($clan), $clanId),
+    'post_title'    => sprintf('Clan Invite for: %s (#%d)', get_the_title($clanId), $clanId),
     'post_content'  => $inviteKey,
     'post_status'   => 'publish',
     'post_type'     => 'user_message',
@@ -52,7 +59,7 @@ update_field('clan_id_invited', $clanId, $newOrderId);
 update_field('receiver_id', $_GET['user'], $newOrderId);
             
 $subArgs = [
-    'post_title'    => sprintf('Clan Invite for: %s (#%d)', get_the_title($clan), $clanId),
+    'post_title'    => sprintf('Clan Invite for: %s (#%d)', get_the_title($clanId), $clanId),
     'post_content'  => $inviteKey,
     'post_status'   => 'publish',
     'post_type'     => 'sub_user_message',
@@ -72,7 +79,7 @@ $openInvites[] = [
     'invite_id' => $newOrderId
 ];
 
-update_post_meta($_GET['clan'], 'open_invites', $openInvites);
+update_post_meta($_GET['clan'], 'open_invites', maybe_serialize($openInvites));
 update_user_meta($invitee, 'new_messages', 1);
             
 $_SESSION['status'] = 'Invite sent';

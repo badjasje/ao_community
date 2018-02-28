@@ -40,7 +40,8 @@ $clan_id_user = $visitorData['clan_id_user'][0];
 
 $visitorClanData = get_post_meta($clan_id_user);
 
-$previous_members = $visitorClanData['previous_members'];
+$previous_members = maybe_unserialize(get_post_meta($clan_id_user, 'previous_members', true));
+
 
 $ct_1 = $visitorClanData['ct_1'][0];
 $ct_2 = $visitorClanData['ct_2'][0];
@@ -247,8 +248,15 @@ get_header(); ?>
 	</div>
 	
 	<div class="col-md-3 buttoncol">
+		<?php if(in_array($user__ID, $previous_members)):?>
+		
+			<center><a class="btn profilebutton savedUser" href="#">
+				<i class="fa fa-user-plus" aria-hidden="true"></i> &nbsp;Cannot invite</a></center>
+		
+		<?php else:?>
 	  	<center><a onclick="return confirm('Are you sure you want to invite <?php echo $user->display_name;?> (#<?php echo $user__ID;?>)?')" class="btn btn-general profilebutton" href="/invite.php?invite=<?php echo md5(uniqid(rand(), TRUE)) . "\n";?>&clan=<?php echo $clan_id_user;?>&user=<?php echo $user__ID;?>">
 		  	<i class="fa fa-user-plus" aria-hidden="true"></i> &nbsp;Send clan invite</a></center>
+		 <?php endif;?>
 	</div>
 	<?php if(in_array($user__ID, $savedUsers)):?>
 	

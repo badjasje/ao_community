@@ -25,6 +25,9 @@
 	$resetArray[] = "'networth'";
 	$resetArray[] = "'land'";
 	$resetArray[] = "'sat_owned'";
+	$resetArray[] = "'research_in_progress'";
+	
+	
 	$resetArray[] = "'new_global_events'";
 	$resetArray[] = "'new_events'";
 	$resetArray[] = "'land_gained_combat'";
@@ -93,6 +96,9 @@
 	$resetArray[] = "'new_clan_timestamp'";
 	$resetArray[] = "'in_war_attacks'";
 	$resetArray[] = "'last_attacked'";
+	$resetArray[] = "'sat_endlife'";
+	
+	
 	
 	
 	$resetArray[] = "'moe_position'";
@@ -118,6 +124,11 @@
 	$resetArray[] = "'modes_next'";
 	$resetArray[] = "'modev_position'";
 	$resetArray[] = "'modev_damage'";
+	$resetArray[] = "'modev_prev'";
+	$resetArray[] = "'modev_next'";
+	
+	
+	
 	
 	
 	$resetArray = implode(',',$resetArray);
@@ -152,10 +163,10 @@
 			WHERE meta_key IN('clan_points','clan_networth','clan_name_change','ua_total','ub_total','24h_pts')
             ");
 	// Setting variables to empty array
-	$emptyArray = array();
+	$emptyArray = maybe_serialize(array());
 	$wpdb->query("
 			UPDATE `${table_prefix}postmeta`
-			SET meta_value = maybe_serialize($emptyArray)
+			SET meta_value = ''
 			WHERE meta_key IN('cooldown_list','previous_members','24h_pts_list','open_invites','24h_nw_list','war_array')
             ");
 	
@@ -258,6 +269,7 @@
 				update_user_meta($user_ID,'highest_networth',0);
 				update_user_meta($user_ID, 'stealth_sat_status', 'inactive'); <-
 				update_user_meta($user_ID, 'stealth_sat_time', 0);
+				update_user_meta($user_ID, 'sat_endlife', 0);
 				update_user_meta($user_ID, 'sat_morale', 0);
 				update_user_meta($user_ID, 'spied_current_clan', 0);
 				update_user_meta($user_ID, 'current_clan_points', 0);

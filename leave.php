@@ -11,8 +11,8 @@ if ('GET' != $_SERVER['REQUEST_METHOD']) {
     header('Content-Type: text/plain');
     exit;
 }
-
 require(dirname(__FILE__) . '/wp-load.php');
+nocache_headers();
 
 $userID = get_current_user_id();
 
@@ -32,17 +32,20 @@ $ct_2 = get_post_meta($clan, 'ct_2', true);
 $ct_3 = get_post_meta($clan, 'ct_3', true);
 $ct_4 = get_post_meta($clan, 'ct_4', true);
 
-$previousMembers = get_post_meta($clan, 'previous_members');
-$previousMembers = array_shift($previousMembers);
+$previousMembers = maybe_unserialize(get_post_meta($clan, 'previous_members',true));
+
+if(!is_array($previousMembers)){
+	$previousMembers = array();
+}
+
 $previousMembers[] = $user;
 
-update_post_meta($clan, 'previous_members', $previousMembers);
+update_post_meta($clan, 'previous_members', maybe_serialize($previousMembers));
 
 if ($user == $userID) {
-    $clan_members = get_post_meta($clan, 'clan_members');
+    $clan_members = maybe_unserialize(get_post_meta($clan, 'clan_members',true));
     $clan_leader = get_post_meta($clan, 'clan_leader', true);
 
-    $clan_members = array_shift($clan_members);
 
     foreach ($clan_members as $key => $member) {
         if ($member == $user) {
@@ -97,7 +100,8 @@ if ($user == $userID) {
     update_field('clan_points', $cpLost, $new_event_id);
 
     if (!empty($clan) || $clan != 0) {
-        foreach ($clan_members[0] as $member) {
+	    $clanMembers = get_post_meta($clan,'clan_members');
+        foreach ($clanMembers[0] as $member) {
             $globals = get_user_meta($member, 'new_global_events', true);
             update_user_meta($member, 'new_global_events', $globals+1);
         }

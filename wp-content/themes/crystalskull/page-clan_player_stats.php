@@ -10,7 +10,9 @@ $clanData = get_post_meta($clan_ID);
 
 
 $list_pts_24h = maybe_unserialize($clanData['24h_pts_list'][0]);
+$list_pts_24h = maybe_unserialize($list_pts_24h);
 $list_nw_24h = maybe_unserialize($clanData['24h_nw_list'][0]);
+$list_nw_24h = maybe_unserialize($list_nw_24h);
 
 $clan_members = maybe_unserialize($clanData['clan_members'][0]);
 $clanleader = $clanData['clan_leader'][0];

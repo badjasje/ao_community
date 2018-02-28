@@ -5,7 +5,9 @@
 get_header();
 include 'DO_NOT_DELETE.php';
 
-
+$attacking_units 	= 		$_POST;
+$defender_ID     	= 		$_SESSION['target_id'];
+$target_id 			= 		$_SESSION['target_id'];
 $user_ID = get_current_user_id();
 
 $silos = get_user_meta($user_ID, 'silo', true);
@@ -17,9 +19,7 @@ if($silos <= 0){
 }
 
 
-$attacking_units 	= 		$_POST;
-$defender_ID     	= 		$_SESSION['target_id'];
-$target_id 			= 		$_SESSION['target_id'];
+
 
 $userLock = get_user_meta($user_ID, 'user_lock', true);
 
@@ -721,13 +721,14 @@ if ($killed != true) {
 }
 
 //MEGA changed block to stop 1-sided also awarding 50p 20180215 -->
+//KEVIN changed 50p awarding. What were you thinking :p
 if ($killed == true) { 
 
     if ($one_sided == 1) {
         $clan_points = 25;
     }
     else {
-        $clan_points = 50;
+        $clan_points = 25;
     }
 
 }	
@@ -754,7 +755,7 @@ if($clan_points < 1){
 				
 				/* killed in mutual? */
 				if($mutual == 2) {
-					$clan_points = 50;
+					$clan_points = 25;
 				}
 				if($one_sided == 1){
 				/* one sided kill? */
@@ -1039,7 +1040,12 @@ $warstatID = get_post_meta($warcheck[0]->ID, 'war_array_id', true);
 
 
 // Update war stats array for defender clan
-$war_array_def = get_post_meta($defender_clan_ID, 'war_array', true);
+$war_array_def = maybe_unserialize(get_post_meta($defender_clan_ID, 'war_array', true));
+
+if(!is_array($war_array_def)){
+	$war_array_def = array();
+}
+
 $war_array_def[$warstatID]['nw_dmg_rec'] += $def_NW_lost;
 $war_array_def[$warstatID]['missiles_received'] += 1;
 if($result == 'success'){
@@ -1053,12 +1059,17 @@ if($killed == true){
 $war_array_def[$warstatID]['bds_lost'] += $def_lostbuildings_tot;
 $war_array_def[$warstatID]['units_lost'] += $def_lostunits_tot;
 
-update_post_meta($defender_clan_ID, 'war_array', $war_array_def);
+update_post_meta($defender_clan_ID, 'war_array', maybe_serialize($war_array_def));
 
 
 
 // Update war stats array for attacker clan
-$war_array_att = get_post_meta($attacker_clan_ID, 'war_array', true);
+$war_array_att = maybe_unserialize(get_post_meta($attacker_clan_ID, 'war_array', true));
+
+if(!is_array($war_array_att)){
+	$war_array_att = array();
+}
+
 $war_array_att[$warstatID]['nw_dmg_done'] += $def_NW_lost;
 $war_array_att[$warstatID]['clan_points'] += $clan_points;
 $war_array_att[$warstatID]['missiles_sent'] += 1;
@@ -1072,7 +1083,7 @@ if($killed == true){
 	$war_array_def[$warstatID]['kills'] += 1;
 }
 
-update_post_meta($attacker_clan_ID, 'war_array', $war_array_att);
+update_post_meta($attacker_clan_ID, 'war_array', maybe_serialize($war_array_att));
 
 
 

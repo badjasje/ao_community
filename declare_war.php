@@ -11,7 +11,7 @@ if ('GET' != $_SERVER['REQUEST_METHOD']) {
     header('Content-Type: text/plain');
     exit;
 }
-include(constants.php);
+include('constants.php');
 require(dirname(__FILE__) . '/wp-load.php');
 
 $declarer_ID = get_current_user_id();
@@ -159,7 +159,11 @@ foreach ($clan_members2[0] as $member2) {
 
 if (count($warcheck) == 0) {
 // Set an array for tracking statistics - Declaring clan
-    $war_array = get_post_meta($declarer_clan_ID, 'war_array', true);
+    $war_array = maybe_unserialize(get_post_meta($declarer_clan_ID, 'war_array', true));
+    
+    if(!is_array($war_array)){
+		$war_array = array();
+	}
 
     $war = array(
     'date'              =>  $timestamp,
@@ -193,11 +197,16 @@ if (count($warcheck) == 0) {
     );
     $war_array[$war_ID] = $war;
 
-    update_post_meta($declarer_clan_ID, 'war_array', $war_array);
+    update_post_meta($declarer_clan_ID, 'war_array', maybe_serialize($war_array));
 
 
 // Set an array for tracking statistics - Declared clan
-    $war_array_def = get_post_meta($_GET['clan'], 'war_array', true);
+    $war_array_def = maybe_unserialize(get_post_meta($_GET['clan'], 'war_array', true));
+    
+    if(!is_array($war_array_def)){
+		$war_array_def = array();
+	}
+
 
     $war = array(
     'date'              =>  $timestamp,
@@ -232,20 +241,23 @@ if (count($warcheck) == 0) {
     );
     $war_array_def[$war_ID] = $war;
 
-    update_post_meta($_GET['clan'], 'war_array', $war_array_def);
+    update_post_meta($_GET['clan'], 'war_array', maybe_serialize($war_array_def));
 }
 
 // If war already exists, update war array
 if (count($warcheck) > 0) {
-    $war_array = get_post_meta($declarer_clan_ID, 'war_array', true);
+    $war_array = maybe_unserialize(get_post_meta($declarer_clan_ID, 'war_array', true));
+    
+    
+    
     $war_array[$war_ID]['id_outgoing'] = $new_war_id;
     $war_array[$war_ID]['mutual_date'] = $timestamp;
-    update_post_meta($declarer_clan_ID, 'war_array', $war_array);
+    update_post_meta($declarer_clan_ID, 'war_array', maybe_serialize($war_array));
     
-    $war_array_def = get_post_meta($_GET['clan'], 'war_array', true);
+    $war_array_def = maybe_unserialize(maybe_unserialize(get_post_meta($_GET['clan'], 'war_array', true)));
     $war_array_def[$war_ID]['id_incoming'] = $new_war_id;
     $war_array_def[$war_ID]['mutual_date'] = $timestamp;
-    update_post_meta($_GET['clan'], 'war_array', $war_array_def);
+    update_post_meta($_GET['clan'], 'war_array', maybe_serialize($war_array_def));
 }
 
 

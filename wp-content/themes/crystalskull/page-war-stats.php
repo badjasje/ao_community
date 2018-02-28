@@ -2,14 +2,14 @@
  /*
  * Template Name: War statistics
  */
- 
+get_header();
 $user_ID = get_current_user_ID();
 $clan_ID = get_user_meta($user_ID, 'clan_id_user',true);
 $members = get_post_meta($clan_ID,'clan_members');
 
-$war_array = get_post_meta($clan_ID, 'war_array', true);
-$war_array = $war_array[$_GET['id']];
-get_header(); ?>
+$war_array = maybe_unserialize(get_post_meta($clan_ID, 'war_array', true));
+$war_array = maybe_unserialize($war_array[$_GET['id']]);
+ ?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">

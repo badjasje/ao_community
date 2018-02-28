@@ -8,9 +8,7 @@
     
     $savedUsers = json_decode($savedUsers, true);
     
-    echo '<pre>';
-    print_r($savedUsers);
-    echo '</pre>';
+
     
 if (($key = array_search($toRemove, $savedUsers)) !== false) {
     unset($savedUsers[$key]);

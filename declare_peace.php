@@ -56,12 +56,17 @@ if ($declarer_ID == $clan_leader || $ct_1 || $ct_2 || $ct_3 || $ct_4) {
     update_field('time_attacked', $timestamp, $new_event_id);
 
 /* add clan to cooldown list */
-    $cooldownlist = get_post_meta($declarer_clan_ID, 'cooldown_list', true);
+    $cooldownlist = maybe_unserialize(get_post_meta($declarer_clan_ID, 'cooldown_list', true));
+    
+    if(!is_array($cooldownlist)){
+		$cooldownlist = array();
+	}
+		
 
     $clan_ID = $declared_on;
 
     $cooldownlist[$clan_ID] = $timestamp+(48 * 3600);
-    update_post_meta($declarer_clan_ID, 'cooldown_list', $cooldownlist);
+    update_post_meta($declarer_clan_ID, 'cooldown_list', maybe_serialize($cooldownlist));
 
 
 /* update events */

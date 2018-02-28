@@ -41,9 +41,9 @@ if ('GET' != $_SERVER['REQUEST_METHOD']) {
 // Update the post into the database
     wp_update_post($my_post);
 
-    $list = get_post_meta($declaredbyID, 'cooldown_list', true);
+    $list = maybe_unserialize(get_post_meta($declaredbyID, 'cooldown_list', true));
     unset($list[$declaredonID]);
-    update_post_meta($declaredbyID, 'cooldown_list', $list);
+    update_post_meta($declaredbyID, 'cooldown_list', maybe_serialize($list));
 
 
     $_SESSION['status'] = 'War resumed against '.get_the_title($declaredonID).'(#'.$declaredonID.')';

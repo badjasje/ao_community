@@ -28,6 +28,14 @@ if ($declarerAverageNw*$AVERAGE_DECLARE_NW_ALLOWED > $averageNw) {
   $average_OK = "true";
 }
 $cooldownlist = maybe_unserialize($declarerClanData['cooldown_list'][0]);
+$cooldownlist = maybe_unserialize($cooldownlist);
+
+if(!is_array($cooldownlist)){
+		$cooldownlist = array();
+}
+
+
+
 
 $decct_1 = $declarerClanData['ct_1'][0];
 $decct_2 = $declarerClanData['ct_2'][0];
