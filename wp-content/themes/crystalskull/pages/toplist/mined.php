@@ -40,7 +40,20 @@ foreach ($users->users as $user) :
 
 	$user_ID = $user->name;
 	$userData = get_user_meta($user_ID);
-	$mined = $user->total;
+	$mined = $user->balance;
+	
+	if ($mined < 1000000) {
+    // Anything less than a million
+    $mined_format = number_format($mined, 0, ',', ' ');
+	} else if ($mined < 1000000000) {
+    // Anything less than a billion
+    $mined_format = number_format($mined / 1000000, 2, '.', ' ') . ' M';
+	} else {
+    // At least a billion
+    $mined_format = number_format($mined / 1000000000, 2, '.', ' ') . ' B';
+	}
+	
+	
 	$clan_id = $userData['clan_id_user'][0];
 ?>
 
@@ -65,9 +78,9 @@ foreach ($users->users as $user) :
 	
 	
 	<div class="col-md-2 clan_column border_bottom_mobile">
-		<span class="clan_data_left">Networth</span>
+		<span class="clan_data_left">Mined</span>
 		<span class="clan_data_right store-pop-span2">
-			<?php echo $mined;?>
+			<?php echo $mined_format;?>
 		</span>
 	</div>
 	

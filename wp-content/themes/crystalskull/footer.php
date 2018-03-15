@@ -56,7 +56,7 @@ var i = setInterval(function() { myFunction(); }, 10000);
 </div> <!-- End of container -->
 <?php 
 	$userId = get_current_user_id();
-	$gameStatus = get_field('game_status', 'option'):
+	$gameStatus = get_field('game_status', 'option');
 	$new_events = get_user_meta($userId, 'new_events',true);
 	$mining = get_user_meta($userId, 'mining', true);
 	$new_messages = get_user_meta($userId, 'new_messages',true);
