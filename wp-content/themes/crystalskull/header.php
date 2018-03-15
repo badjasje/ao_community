@@ -69,8 +69,8 @@ $user = get_userdata($userId);?>
 
 		<div class="navbar navbar-inverse navbar-static-top container" role="navigation">
 			<div class="logo col-lg-3 col-md-3">
-				<a class="brand" href="<?php  echo esc_url(site_url('/dashboard')); ?>"> 
-					<img src="<?php echo esc_url(of_get_option('logo')); ?>" alt="logo"  /> 
+				<a class="brand" href="<?php  echo esc_url(site_url('/dashboard/')); ?>"> 
+	            		<img class="svg svgLogo" src="<?php echo get_template_directory_uri() ?>/img/AO-logo.svg"/>
 				</a>
 			<?php echo header_events($userId);?>
 		</div>

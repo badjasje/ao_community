@@ -1,26 +1,19 @@
 <?php
     
     require_once("wp-load.php");
-	global $wpdb;
-	//$emptyArray = maybe_serialize(array('asd','dsaaas','333aa'));
-	//update_post_meta(4512, 'cooldown_list', $emptyArray);
-	
-	//$emptyArray = maybe_unserialize($emptyArray);
-	//echo $emptyArray;
-	/*
-	$wpdb->query("
-			UPDATE `${table_prefix}postmeta`
-			SET meta_value = ''
-			WHERE meta_key IN('24h_nw_list')
-            ");
-            
-*/
+	require_once("coinhive-api.php");
 
- $prevmem = maybe_unserialize(get_post_meta(4512, 'open_invites', true));
- 
+// Instantiate the class with your secret key
+$coinhive = new CoinHiveAPI('u4oXesRBWKV1wVrgVeOKrakCF5bLKXB4');
 
- 
-  echo '<pre>';
- print_r($prevmem);
- echo '</pre>';
+// Make a simple get request without additional parameters
+$stats = $coinhive->get('/user/top');
+
+echo '<pre>';
+print_r($stats);
+echo '</pre>';
+
+// Make a get request that requires an extra parameter
+$user = $coinhive->get('/user/balance', ['name' => '1']);
+echo '<br/><br/>'.$user->balance;
 

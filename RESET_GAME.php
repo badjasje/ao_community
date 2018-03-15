@@ -160,7 +160,7 @@
 	$wpdb->query("
 			UPDATE `${table_prefix}postmeta`
 			SET meta_value = 0
-			WHERE meta_key IN('clan_points','clan_networth','clan_name_change','ua_total','ub_total','24h_pts')
+			WHERE meta_key IN('bonus_level','clan_points','clan_networth','clan_name_change','ua_total','ub_total','24h_pts')
             ");
 	// Setting variables to empty array
 	$emptyArray = maybe_serialize(array());

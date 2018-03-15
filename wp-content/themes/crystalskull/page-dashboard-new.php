@@ -125,12 +125,7 @@ if($clan_ID == 0){
 		<?php endif; // End empty status check ?>
 	</div>
 </div>
-<div class="row">
-	<div class="col-md-12">
-<div class="notice_message">
-		<h2 class="cmheader"><i class="fa fa-info-circle" aria-hidden="true"></i> The round has been reset</h2>
-		<span class="rdw-line">Because of the numerous bugs, the round has been reset. Research will take just half as long for the first two days of the round, so you can get back on track as soon as possible.</span>
-</div></div></div><br/><br/>
+
 
 <?php if(get_field('game_status','option') == 'Pause' && $userId != 1): // Check if game is live or not ?>
 			

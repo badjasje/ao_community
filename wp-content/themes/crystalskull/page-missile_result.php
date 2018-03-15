@@ -721,14 +721,14 @@ if ($killed != true) {
 }
 
 //MEGA changed block to stop 1-sided also awarding 50p 20180215 -->
-//KEVIN changed 50p awarding. What were you thinking :p
+
 if ($killed == true) { 
 
     if ($one_sided == 1) {
         $clan_points = 25;
     }
     else {
-        $clan_points = 25;
+        $clan_points = 50;
     }
 
 }	
@@ -755,7 +755,7 @@ if($clan_points < 1){
 				
 				/* killed in mutual? */
 				if($mutual == 2) {
-					$clan_points = 25;
+					$clan_points = 50;
 				}
 				if($one_sided == 1){
 				/* one sided kill? */
