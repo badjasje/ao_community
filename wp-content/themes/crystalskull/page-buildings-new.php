@@ -98,7 +98,6 @@ foreach ($units as $key => $order) {
 			<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 		<?php endif;?>
 		Power usage: <?php echo number_format($PwrUsage, 0, ',', ' ');?>% 
-		<?php if($currentWeather == 'thunderstorm'):?><sup>Power production reduced by weather conditions</sup><?php endif;?>
 	</span>
 	</div>
 

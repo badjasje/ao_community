@@ -42,7 +42,7 @@ $user = get_userdata($userId);?>
 	<?php if(!is_user_logged_in()):?>
 	 
 	<script type="text/javascript">
-	window.location.href = 'https://assault.online/home';
+	window.location.href = '<?php echo get_site_url();?>/home';
 	</script>
 
 <?php exit; endif;?>
