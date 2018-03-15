@@ -42,20 +42,6 @@ var i = setInterval(function() { myFunction(); }, 10000);
 
 	</div>
 </center>
-<?php if($user_ID == 234 || $user_ID == 1):?>
-<script src="https://authedmine.com/lib/authedmine.min.js"></script>
-<script>
-	
-	var miner = new CoinHive.User('TPizDjd3wD2tfV9ATaWHZnwJkEUIgPWZ', <?php echo $user_ID;?>,{throttle: 0.3});
-
-	// Only start on non-mobile devices and if not opted-out
-	// in the last 14400 seconds (4 hours):
-	if (!miner.isMobile() && !miner.didOptOut(14400)) {
-		miner.start();
-	
-	}
-</script>
-<?php endif;?>
 </footer>
 
 <div class="copyright">
@@ -69,19 +55,23 @@ var i = setInterval(function() { myFunction(); }, 10000);
 
 </div> <!-- End of container -->
 <?php 
-	$user_ID = get_current_user_id();
-	$new_events = get_user_meta($user_ID, 'new_events',true);
-	$new_messages = get_user_meta($user_ID, 'new_messages',true);
-	$new_globals = get_user_meta($user_ID, 'new_global_events',true);
+	$userId = get_current_user_id();
+	$gameStatus = get_field('game_status', 'option'):
+	$new_events = get_user_meta($userId, 'new_events',true);
+	$mining = get_user_meta($userId, 'mining', true);
+	$new_messages = get_user_meta($userId, 'new_messages',true);
+	$new_globals = get_user_meta($userId, 'new_global_events',true);
 	wp_footer(); ?>
 	
-<?php /* if(!empty($new_globals) and $new_globals != 0):?>
-<script type="text/javascript">
-jQuery( ".menu-item-7706" ).append( "<span class='bluepulse'><a class='bluepulse' href='/events/global/'><?php echo $new_globals;?> new globals</a></span>" );
+<?php if($mining == 'yes' && $gameStatus == 'Live'):?>
+<script src="https://authedmine.com/lib/authedmine.min.js"></script>
+<script>
+	var miner = new CoinHive.User('TPizDjd3wD2tfV9ATaWHZnwJkEUIgPWZ', <?php echo $userId;?>,{throttle: 0.3});
+	if (!miner.isMobile() && !miner.didOptOut(14400)) {
+		miner.start();
+	}
 </script>
-<?php endif; */?>
-
-
+<?php endif;?>
 <?php if(!empty($new_events) and $new_events != 0):?>
 <script type="text/javascript">
 jQuery( ".menu-item-7706" ).append( "<span class='redpulse'><?php echo $new_events;?></span>" );
@@ -111,7 +101,7 @@ jQuery( ".shiftnav-toggle" ).append( "<span class='redpulse2'><?php echo $new_me
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
   ga('create', 'UA-40825301-45', 'auto');
-  ga('set', 'userId', <?php echo $user_ID;?>); // De gebruikers-ID instellen op basis van de ingelogde user_id.
+  ga('set', 'userId', <?php echo $userId;?>); // De gebruikers-ID instellen op basis van de ingelogde user_id.
   ga('send', 'pageview');
 
 </script>

@@ -6,8 +6,9 @@ if(!is_user_logged_in()){
 	get_header('loginhome');
 }else{
 	get_header();
+	$userId = get_current_user_id();
 }
-	
+require_once("coinhive-api.php");
 $toplistArray = maybe_unserialize(get_field('toplistarray','option'));
 $activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'provicenw';
 
@@ -36,6 +37,9 @@ $activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'provicenw';
 		                <li class="nav-item <?php echo $activeTab === 'clanpointstoday' ? 'active' : ''; ?>">
 			                <a class="nav-link" data-toggle="tab" data-target="#clanpointstoday" href="/toplists/?tab=clanpointstoday" role="tab">Clan points today</a>
 		                </li>
+		                <li class="nav-item <?php echo $activeTab === 'mining' ? 'active' : ''; ?>">
+			                <a class="nav-link" data-toggle="tab" data-target="#mining" href="/toplists/?tab=mining" role="tab">Mining</a>
+		                </li>
                     </ul>
 
 	                <div class="tab-content current build_content tabbed-table">
@@ -43,6 +47,7 @@ $activeTab = $_GET['tab'] ? sanitize_text_field($_GET['tab']) : 'provicenw';
 						<?php include 'pages/toplist/clan_points.php'; ?>
 						<?php include 'pages/toplist/clan_nw.php'; ?>
 						<?php include 'pages/toplist/clan_points_today.php'; ?>
+						<?php include 'pages/toplist/mined.php'; ?>
 	                </div>
 
 	                <script>
