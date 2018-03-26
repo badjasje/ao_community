@@ -2,7 +2,9 @@
  /*
  * Template Name: Trophies
  */
-get_header(); ?>
+get_header();
+include 'trophiesArray.php';
+ ?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">
@@ -11,190 +13,39 @@ get_header(); ?>
 	            
 	            
 <div class="row">
-	<div class="col-md-4 medal_col">
-		<div class="row medal_box">
-			<div class="col-md-12 trophy_header">
-			
-				<div class="col-xs-3">
-					<img height="50" style="vertical-align:middle" src="/wp-content/uploads/2017/12/ultimate-rick.png">
-				</div>
-				<div class="col-xs-9">
-					<span class="trophyName"><strong>Ultimate Rick</strong></span>
-				</div>
-				  
-			</div>
-			<div class="col-md-12 trophyDescr">
-				Complete every research available in a single round.
-			</div>
-			<div class="col-md-6 col-xs-6 medal_row">Status:</div>
-			<div class="col-md-6 col-xs-6 medal_row">Completed</div>
-		</div>
-	</div>
 	
-	<div class="col-md-4 medal_col">
-		<div class="row medal_box">
-			<div class="col-md-12 trophy_header">
-				<div class="col-xs-3">
-					<img height="50" style="vertical-align:middle" src="/wp-content/uploads/2017/12/building-trophy.png">
+	<?php foreach ($trophies as $key => $trophy) {
+		$trophyName = $trophy['name'];
+		$trophyDesc = $trophy['description'];
+		$numberStars = $trophy['stars'];
+		$trophyType = $trophy['type'];
+	?>
+		<div class="col-md-3 medal_col">
+			<div class="row medal_box">
+				<div class="col-md-12 trophy_header">
+					<center>
+						<h2>
+							<?php echo str_repeat('<i class="fa fa-star"></i>', $numberStars);?>
+							<?php echo str_repeat('<i class="fa fa-star-o"></i>', 5-$numberStars);?>
+						<br/>
+						<span class="trophyName"><strong><?php echo $trophyName;?></strong></span>
+						</h2>
+					</center>
+					  
 				</div>
-				<div class="col-xs-9">
-					<span class="trophyName"><strong>Bob the Builder</strong></span>
+				<div class="col-md-12 trophyDescr">
+					<?php echo $trophyDesc;?>
 				</div>
+				<div class="col-md-6 col-xs-6 medal_row statusTrophy">Status</div>
+				<div class="col-md-6 col-xs-6 medal_row statusTrophy"><strong>Completed</strong></div>
 			</div>
-			<div class="col-md-12 trophyDescr">
-				Build 1000 buildings during a single round
-			</div>
-			<div class="col-md-6 col-xs-6 medal_row">Status:</div>
-			<div class="col-md-6 col-xs-6 medal_row">Completed</div>
 		</div>
-	</div>
-	
-	<div class="col-md-4 medal_col">
-		<div class="row medal_box">
-			<div class="col-md-12 trophy_header">
-				<div class="col-xs-3">
-					<img height="50" style="vertical-align:middle" src="/wp-content/uploads/2017/12/attacker-trophy.png">
-				</div>
-				<div class="col-xs-9">
-					<span class="trophyName"><strong>Warlord</strong></span>
-				</div>
-			</div>
-			<div class="col-md-12 trophyDescr">
-				Make 100 attacks during a single round.
-			</div>
-			<div class="col-md-6 col-xs-6 medal_row">Status:</div>
-			<div class="col-md-6 col-xs-6 medal_row">Completed</div>
 
-		</div>
-	</div>
-</div>
-	            
+	<?php }?>
+</div>        
 	            
 	            
 
-
-<div class="row">
-	<div class="col-md-4 medal_col">
-		<div class="row medal_box">
-			<div class="col-md-12 trophy_header">
-			
-				<div class="col-xs-3">
-					<img height="50" style="vertical-align:middle" src="/wp-content/uploads/2017/12/deathbringer-trophy.png">
-				</div>
-				<div class="col-xs-9">
-					<span class="trophyName"><strong>Deathbringer</strong></span>
-				</div>
-				  
-			</div>
-			<div class="col-md-12 trophyDescr">
-				Make 10 kills during a single round.
-			</div>
-			<div class="col-md-6 col-xs-6 medal_row">Status:</div>
-			<div class="col-md-6 col-xs-6 medal_row">Completed</div>
-		</div>
-	</div>
-	
-	<div class="col-md-4 medal_col">
-		<div class="row medal_box">
-			<div class="col-md-12 trophy_header">
-				<div class="col-xs-3">
-					<img height="50" style="vertical-align:middle" src="/wp-content/uploads/2017/12/constructor-trophy.png">
-				</div>
-				<div class="col-xs-9">
-					<span class="trophyName"><strong>Constructor</strong></span>
-				</div>
-			</div>
-			<div class="col-md-12 trophyDescr">
-				Build 2500 buildings during a single round
-			</div>
-			<div class="col-md-6 col-xs-6 medal_row">Status:</div>
-			<div class="col-md-6 col-xs-6 medal_row">Completed</div>
-		</div>
-	</div>
-	
-	<div class="col-md-4 medal_col">
-		<div class="row medal_box">
-			<div class="col-md-12 trophy_header">
-				<div class="col-xs-3">
-					<img height="50" style="vertical-align:middle" src="/wp-content/uploads/2017/12/veteran-trophy.png">
-				</div>
-				<div class="col-xs-9">
-					<span class="trophyName"><strong>Veteran</strong></span>
-				</div>
-			</div>
-			<div class="col-md-12 trophyDescr">
-				Make 250 attacks during a single round
-			</div>
-			<div class="col-md-6 col-xs-6 medal_row">Status:</div>
-			<div class="col-md-6 col-xs-6 medal_row">Completed</div>
-
-		</div>
-	</div>
-</div>           
-	            
-	            
-	            
-	            
-
-<div class="row">
-	<div class="col-md-4 medal_col">
-		<div class="row medal_box">
-			<div class="col-md-12 trophy_header">
-			
-				<div class="col-xs-3">
-					<img height="50" style="vertical-align:middle" src="/wp-content/uploads/2017/12/tag-em-trophy.png">
-				</div>
-				<div class="col-xs-9">
-					<span class="trophyName"><strong>Tag 'em bag 'em</strong></span>
-				</div>
-				  
-			</div>
-			<div class="col-md-12 trophyDescr">
-				Make 15 kills during a single round.
-			</div>
-			<div class="col-md-6 col-xs-6 medal_row">Status:</div>
-			<div class="col-md-6 col-xs-6 medal_row">Completed</div>
-		</div>
-	</div>
-	
-	<div class="col-md-4 medal_col">
-		<div class="row medal_box">
-			<div class="col-md-12 trophy_header">
-				<div class="col-xs-3">
-					<img height="50" style="vertical-align:middle" src="/wp-content/uploads/2017/12/constructor-trophy.png">
-				</div>
-				<div class="col-xs-9">
-					<span class="trophyName"><strong>Constructor</strong></span>
-				</div>
-			</div>
-			<div class="col-md-12 trophyDescr">
-				Build 2500 buildings during a single round
-			</div>
-			<div class="col-md-6 col-xs-6 medal_row">Status:</div>
-			<div class="col-md-6 col-xs-6 medal_row">Completed</div>
-		</div>
-	</div>
-	
-	<div class="col-md-4 medal_col">
-		<div class="row medal_box">
-			<div class="col-md-12 trophy_header">
-				<div class="col-xs-3">
-					<img height="50" style="vertical-align:middle" src="/wp-content/uploads/2017/12/veteran-trophy.png">
-				</div>
-				<div class="col-xs-9">
-					<span class="trophyName"><strong>Veteran</strong></span>
-				</div>
-			</div>
-			<div class="col-md-12 trophyDescr">
-				Make 250 attacks during a single round
-			</div>
-			<div class="col-md-6 col-xs-6 medal_row">Status:</div>
-			<div class="col-md-6 col-xs-6 medal_row">Completed</div>
-
-		</div>
-	</div>
-</div>               
-	            
 	            
 	            
        

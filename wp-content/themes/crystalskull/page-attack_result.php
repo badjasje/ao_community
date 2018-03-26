@@ -19,8 +19,8 @@ $target_id = $_SESSION['target_id'];
 $attackerData = get_user_meta($user_id);
 $defenderData = get_user_meta($target_id);
 
-$userLock = get_user_meta($user_id,'user_lock', true);
-$moraleLock = $attackerData['morale_lock'][0];
+$userLock = intval(get_user_meta($user_id,'user_lock', true));
+$moraleLock = intval($attackerData['morale_lock'][0]);
 
 if($moraleLock == 1){
 	$_SESSION['status'] = 'Morale updating, please try again in a few seconds.';
@@ -446,14 +446,16 @@ $tomahawksSent = floor($tomahawks*$tomahawkPerc);
 
 $samSites = $defenderData['samsite'][0];
 $ams = $defenderData['antimissile'][0];
-
+$defPower = $defenderData['power'][0];
 $shotdown = ceil(($samSites*(mt_rand(120,135)/1000))+($ams*(mt_rand(190,250)/1000)));
 
 if($shotdown > $tomahawksSent){
 	$shotdown = ceil($tomahawksSent*0.75);
 	
 }
-
+if($defPower > 100){
+	$shotdown = 0;
+}
 if($tomahawksSent > 0){
 	
 	$tomahawkDamage = ($tomahawksSent-$shotdown)*1850*(mt_rand(90,110)/100);
@@ -1145,7 +1147,7 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 
 <?php 
 
-update_user_meta($user_id, 'user_lock', 0);
+
 
 /* create event post */
 
@@ -1311,7 +1313,7 @@ update_post_meta($attack_clan_id, 'war_array', $war_array_att);
 
 count_all_stats($target_id);
 count_all_stats($user_id);
-
+update_user_meta($user_id, 'user_lock', 0);
 }
 ?>
 
