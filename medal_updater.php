@@ -1,74 +1,212 @@
 <?php
     require_once("wp-load.php");
 if (get_field('game_status', 'option') == 'Live') {
+    $args = array(
+    'meta_key'     => 'land',
+    'orderby'      => 'meta_value_num',
+    'order'        => 'DESC',);
     
-function update_medal($medalType,$toQuery){
-	global $wpdb;
-	$users = $wpdb->get_results("
-		SELECT * FROM `23zx_usermeta` WHERE `meta_key` = '$toQuery' ORDER BY `23zx_usermeta`.`meta_value` DESC
-	");
-	
+    $users = get_users($args);
+
     $position = 0;
     foreach ($users as $key => $user) {
         $position += 1;
-        $user_ID = $user->user_id;     
+        $user_ID = $user->ID;
         
-        $userValue = $user->meta_value;
-        $valueAbove = $users[$key-1]->meta_value;
-        $valueBelow = $users[$key+1]->meta_value;
+        $next_ID = $users[$key-1]->ID;
+        $prev_ID = $users[$key+1]->ID;
         
-        $medalPos = $medalType.'_position';
-        $next = $medalType.'_next';
-        $prev = $medalType.'_prev';
+        $land = get_user_meta($user_ID, 'land', true);
+        $next_land = get_user_meta($next_ID, 'land', true);
+        $prev_land = get_user_meta($prev_ID, 'land', true);
         
-        $wpdb->query("
-	        UPDATE `23zx_usermeta` 
-	        SET `meta_value` = $position 
-	        WHERE `23zx_usermeta`.`meta_key` = '$medalPos'
-	        AND `23zx_usermeta`.`user_id` = $user_ID;
-        ");
-        
-        $prevValue = round($userValue-$valueBelow);
-        $wpdb->query("
-	        UPDATE `23zx_usermeta` 
-	        SET `meta_value` = $prevValue 
-	        WHERE `23zx_usermeta`.`meta_key` = '$prev'
-	        AND `23zx_usermeta`.`user_id` = $user_ID;
-        ");
-       
+        update_user_meta($user_ID, 'moe_position', $position);
+        update_user_meta($user_ID, 'moe_prev', round($land-$prev_land));
         
         if ($position == 1) {
-             $wpdb->query("
-		        UPDATE `23zx_usermeta` 
-		        SET `meta_value` = 0 
-		        WHERE `23zx_usermeta`.`meta_key` = '$next'
-		        AND `23zx_usermeta`.`user_id` = $user_ID;
-			");
+            update_user_meta($user_ID, 'moe_next', 0);
         } else {
-	        $nextValue = round($valueAbove-$userValue);
-	        $wpdb->query("
-		        UPDATE `23zx_usermeta` 
-		        SET `meta_value` = $nextValue
-		        WHERE `23zx_usermeta`.`meta_key` = '$next'
-		        AND `23zx_usermeta`.`user_id` = $user_ID;
-			");
+            update_user_meta($user_ID, 'moe_next', round($next_land-$land));
         }
     }
-	
-	
-}        
         
         
+    $args = array(
+    'meta_key'     => 'user_clan_points',
+    'orderby'      => 'meta_value_num',
+    'order'        => 'DESC',);
+    
+    $users = get_users($args);
+
+    $position = 0;
+    foreach ($users as $key => $user) {
+        $position += 1;
+        $user_ID = $user->ID;
         
-update_medal('moe','land');   
-update_medal('moh','user_clan_points');   
-update_medal('mog','networth');         
-update_medal('moc','in_war_attacks');
-update_medal('mod','kills_made');
-update_medal('mot','money_gained_thieving');  
-update_medal('modes','nw_damage_missiles');    
-      
-  
+        $next_ID = $users[$key-1]->ID;
+        $prev_ID = $users[$key+1]->ID;
+        
+        $points = get_user_meta($user_ID, 'user_clan_points', true);
+        $next_points = get_user_meta($next_ID, 'user_clan_points', true);
+        $prev_points = get_user_meta($prev_ID, 'user_clan_points', true);
+        
+        update_user_meta($user_ID, 'moh_position', $position);
+        update_user_meta($user_ID, 'moh_prev', $points-$prev_points);
+        
+        if ($position == 1) {
+            update_user_meta($user_ID, 'moh_next', 0);
+        } else {
+            update_user_meta($user_ID, 'moh_next', $next_points-$points);
+        }
+    }
+
+
+    $args = array(
+    'meta_key'     => 'networth',
+    'orderby'      => 'meta_value_num',
+    'order'        => 'DESC',);
+    
+    $users = get_users($args);
+
+    $position = 0;
+    foreach ($users as $key => $user) {
+        $position += 1;
+        $user_ID = $user->ID;
+        
+        $next_ID = $users[$key-1]->ID;
+        $prev_ID = $users[$key+1]->ID;
+        
+        $networth = get_user_meta($user_ID, 'networth', true);
+        $next_networth = get_user_meta($next_ID, 'networth', true);
+        $prev_networth = get_user_meta($prev_ID, 'networth', true);
+        
+        update_user_meta($user_ID, 'mog_position', $position);
+        update_user_meta($user_ID, 'mog_prev', $networth-$prev_networth);
+        
+        if ($position == 1) {
+            update_user_meta($user_ID, 'mog_next', 0);
+        } else {
+            update_user_meta($user_ID, 'mog_next', $next_networth-$networth);
+        }
+    }
+        
+    $args = array(
+    'meta_key'     => 'in_war_attacks',
+    'orderby'      => 'meta_value_num',
+    'order'        => 'DESC',);
+    
+    $users = get_users($args);
+
+    $position = 0;
+    foreach ($users as $key => $user) {
+        $position += 1;
+        $user_ID = $user->ID;
+        
+        $next_ID = $users[$key-1]->ID;
+        $prev_ID = $users[$key+1]->ID;
+        
+        $attacks = get_user_meta($user_ID, 'in_war_attacks', true);
+        $next_attacks = get_user_meta($next_ID, 'in_war_attacks', true);
+        $prev_attacks = get_user_meta($prev_ID, 'in_war_attacks', true);
+        
+        update_user_meta($user_ID, 'moc_position', $position);
+        update_user_meta($user_ID, 'moc_prev', $attacks-$prev_attacks);
+        
+        if ($position == 1) {
+            update_user_meta($user_ID, 'moc_next', 0);
+        } else {
+            update_user_meta($user_ID, 'moc_next', $next_attacks-$attacks);
+        }
+    }
+
+    $args = array(
+    'meta_key'     => 'kills_made',
+    'orderby'      => 'meta_value_num',
+    'order'        => 'DESC',);
+    
+    $users = get_users($args);
+
+    $position = 0;
+    foreach ($users as $key => $user) {
+        $position += 1;
+        $user_ID = $user->ID;
+        
+        $next_ID = $users[$key-1]->ID;
+        $prev_ID = $users[$key+1]->ID;
+        
+        $kills = get_user_meta($user_ID, 'kills_made', true);
+        $next_kills = get_user_meta($next_ID, 'kills_made', true);
+        $prev_kills = get_user_meta($prev_ID, 'kills_made', true);
+        
+        update_user_meta($user_ID, 'mod_position', $position);
+        update_user_meta($user_ID, 'mod_prev', $kills-$prev_kills);
+        
+        if ($position == 1) {
+            update_user_meta($user_ID, 'mod_next', 0);
+        } else {
+            update_user_meta($user_ID, 'mod_next', $next_kills-$kills);
+        }
+    }
+        
+    $args = array(
+    'meta_key'     => 'money_gained_thieving',
+    'orderby'      => 'meta_value_num',
+    'order'        => 'DESC',);
+    
+    $users = get_users($args);
+
+    $position = 0;
+    foreach ($users as $key => $user) {
+        $position += 1;
+        $user_ID = $user->ID;
+        
+        $next_ID = $users[$key-1]->ID;
+        $prev_ID = $users[$key+1]->ID;
+        
+        $thiefed = get_user_meta($user_ID, 'money_gained_thieving', true);
+        $next_thiefed = get_user_meta($next_ID, 'money_gained_thieving', true);
+        $prev_thiefed = get_user_meta($prev_ID, 'money_gained_thieving', true);
+        
+        update_user_meta($user_ID, 'mot_position', $position);
+        update_user_meta($user_ID, 'mot_prev', $thiefed-$prev_thiefed);
+        
+        if ($position == 1) {
+            update_user_meta($user_ID, 'mot_next', 0);
+        } else {
+            update_user_meta($user_ID, 'mot_next', $next_thiefed-$thiefed);
+        }
+    }
+        
+    $args = array(
+    'meta_key'     => 'nw_damage_missiles',
+    'orderby'      => 'meta_value_num',
+    'order'        => 'DESC',);
+    
+    $users = get_users($args);
+
+    $position = 0;
+    foreach ($users as $key => $user) {
+        $position += 1;
+        $user_ID = $user->ID;
+        
+        $next_ID = $users[$key-1]->ID;
+        $prev_ID = $users[$key+1]->ID;
+        
+        $damage = get_user_meta($user_ID, 'nw_damage_missiles', true);
+        $next_damage = get_user_meta($next_ID, 'nw_damage_missiles', true);
+        $prev_damge = get_user_meta($prev_ID, 'nw_damage_missiles', true);
+        
+        update_user_meta($user_ID, 'modes_position', $position);
+        update_user_meta($user_ID, 'modes_prev', $damage-$prev_damge);
+        
+        if ($position == 1) {
+            update_user_meta($user_ID, 'modes_next', 0);
+        } else {
+            update_user_meta($user_ID, 'modes_next', $next_damage-$damage);
+        }
+    }
+        
+    
         $args = array(
     'meta_key'     => 'nw_damage_defender',
     'posts_per_page'    => 300,
