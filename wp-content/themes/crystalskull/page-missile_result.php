@@ -5,6 +5,7 @@
 get_header();
 include 'DO_NOT_DELETE.php';
 
+
 $attacking_units 	= 		$_POST;
 $defender_ID     	= 		$_SESSION['target_id'];
 $target_id 			= 		$_SESSION['target_id'];
@@ -712,11 +713,12 @@ if ($killed != true) {
         The division on NW lost will increase the difference between low and high nw done in terms of pts. HIGHER division = more range
         The division on the defender NW will decrease the overall points which nukes offer. HIGHER division = less pts */
 
-    $clan_points = ceil(25*(((log(sqrt($def_NW_lost)/1.8)) * (sqrt($defender_Networth[0])/3.1))/1024));
+     /* New function MEGA should award reasonable points */
+    $clan_points = ($i/1200)+((sqrt($def_NW_lost)/$MISSILE_MAX_POINTS) * ((sqrt($defender_Networth[0]*1.7)/8.1)/100));
+    $clan_points = ceil($clan_points);
 
-
-    if($clan_points > 25){
-		$clan_points = 25;
+    if($clan_points > $MISSILE_MAX_POINTS){
+		$clan_points = $MISSILE_MAX_POINTS;
 	}
 }
 
@@ -725,10 +727,10 @@ if ($killed != true) {
 if ($killed == true) { 
 
     if ($one_sided == 1) {
-        $clan_points = 25;
+        $clan_points = $MISSILE_1SIDE_KILL_POINTS;
     }
     else {
-        $clan_points = 50;
+        $clan_points = $MISSILE_2SIDE_KILL_POINTS;
     }
 
 }	
@@ -755,12 +757,12 @@ if($clan_points < 1){
 				
 				/* killed in mutual? */
 				if($mutual == 2) {
-					$clan_points = 50;
+					$clan_points = $MISSILE_2SIDE_KILL_POINTS;
 				}
 				if($one_sided == 1){
 				/* one sided kill? */
-				echo "DAVE";
-					$clan_points = 25;	
+
+					$clan_points = $MISSILE_1SIDE_KILL_POINTS;
 				}
 			}
 			if($def_NW_lost == 0){ $clan_points == 0;}
