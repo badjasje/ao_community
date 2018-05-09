@@ -155,4 +155,34 @@ $bonus = array(
             'range'     =>  '29001',
             'money'     =>  3500000,
             'turns'     =>  525),
+        'level_31'  => array(
+            'points'    =>  '31000',
+            'range'     =>  '30001',
+            'money'     =>  3500000,
+            'turns'     =>  525),
+
+    'level_32'  => array(
+            'points'    =>  '32000',
+            'range'     =>  '31001',
+            'money'     =>  3500000,
+            'turns'     =>  525),
+
+    'level_33'  => array(
+            'points'    =>  '33000',
+            'range'     =>  '32001',
+            'money'     =>  3500000,
+            'turns'     =>  525),
+
+    'level_34'  => array(
+            'points'    =>  '34000',
+            'range'     =>  '33001',
+            'money'     =>  3500000,
+            'turns'     =>  525),
+    'level_35'  => array(
+            'points'    =>  '35000',
+            'range'     =>  '34001',
+            'money'     =>  3500000,
+            'turns'     =>  525),
+
             );
+
