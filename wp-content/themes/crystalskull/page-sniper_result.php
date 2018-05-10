@@ -51,6 +51,17 @@ if($no_snipers > $ownedSnipers){
 	exit;
 }
 
+
+/* Stop the user from sending more than 10 snipers */
+$ownedSnipers = get_user_meta($user_ID, 'sniper_owned', true);
+if($no_snipers > 10){
+
+    $_SESSION['status'] = 'You can only send a maximum of 10 snipers';
+    wp_redirect(get_permalink(3360).'?id='.$target_id);
+    exit;
+}
+
+
 /* Check if target is in range */
 $networth_att = get_user_meta($user_ID, 'networth',true);
 $networth_def = get_user_meta($defender_ID, 'networth',true);
