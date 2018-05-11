@@ -1,14 +1,14 @@
 <?php
- /*
+/*
  * Template Name: Missile Result
  */
 get_header();
 include 'DO_NOT_DELETE.php';
+include 'attack_functions.php';
 
-
-$attacking_units 	= 		$_POST;
-$defender_ID     	= 		$_SESSION['target_id'];
-$target_id 			= 		$_SESSION['target_id'];
+$attacking_units  =   $_POST;
+$defender_ID      =   $_SESSION['target_id'];
+$target_id    =   $_SESSION['target_id'];
 $user_ID = get_current_user_id();
 
 $silos = get_user_meta($user_ID, 'silo', true);
@@ -29,9 +29,9 @@ if($userLock == 1){
 }
 update_user_meta($user_ID, 'user_lock', 1);
 
-$shotdown	= 	false;
-$AMS 		= 	get_user_meta($defender_ID, 'antimissile', true);
-$def_land 	= 	get_user_meta($defender_ID, 'builtland', true);
+$shotdown =  false;
+$AMS   =  get_user_meta($defender_ID, 'antimissile', true);
+$def_land  =  get_user_meta($defender_ID, 'builtland', true);
 
 
 /* check if target isn't dead, else redirect */
@@ -110,10 +110,10 @@ $defender_clan_ID = get_user_meta($defender_ID, 'clan_id_user',true);
 $attacker_clan_ID = get_user_meta($user_ID, 'clan_id_user',true);
 $missile_research = get_user_meta($user_ID, 'level_missile_accuracy', true);
 
-$calculate_points = 0;
 
 
- ?>
+
+?>
 <div class="page normal-page">
      <div class="container containerNZ">
         <div class="row">
@@ -121,91 +121,31 @@ $calculate_points = 0;
        <?php
 
 
-$mutual = 0;
-if($defender_clan_ID != 0 && $attacker_clan_ID != 0){
-
-
-$one_sided = 0;
-$wars = get_posts(array(
-	'numberposts'	=> -1,
-	'post_type'		=> 'wars',
-	'meta_query'	=> array(
-				'relation'		=> 'AND',
-					array(
-						'key'	 	=> 'declared_on',
-						'value'	  	=> $defender_clan_ID,
-						'compare' 	=> '=',
-						),
-					array(
-						'key'	 	=> 'declared_by',
-						'value'	  	=> $attacker_clan_ID,
-						'compare' 	=> '=',
-						),
-),));
-
-if(count($wars) != 0){
-	$calculate_points = count($wars);
-	$mutual = $mutual+1;
-}
-
-}
-
-
-
-
-
-
-/* check for onesided war */
-$wars = get_posts(array(
-	'numberposts'	=> -1,
-	'post_type'		=> 'wars',
-	'meta_query'	=> array(
-				'relation'		=> 'AND',
-					array(
-						'key'	 	=> 'declared_on',
-						'value'	  	=> $attacker_clan_ID,
-						'compare' 	=> '=',
-						),
-					array(
-						'key'	 	=> 'declared_by',
-						'value'	  	=> $defender_clan_ID,
-						'compare' 	=> '=',
-						),
-),));
-
-
-$onesided = count($wars);
-
-if($onesided == 1){
-	$mutual = $mutual+1;
-	$calculate_points = 1;
-	$one_sided = 1;
-}
-
+$war_type = get_war_type($attacker_clan_ID,$defender_clan_ID);
 $missile_hit = rand(1,100);
 
 if($missile_hit >= 90){
-$result = 'success';
+	$result = 'success';
 }else{
-$result = 'failure';
+	$result = 'failure';
 }
 
 if($missile_research == 1){
-$missile_hit = rand(1,100);
-if($missile_hit >= 50){
-$result = 'success';
-}else{
-$result = 'failure';
-}
+	$missile_hit = rand(1,100);
+	if($missile_hit >= 50){
+		$result = 'success';
+	}else{
+		$result = 'failure';
+	}
 }
 
 if($missile_research >= 2){
-$missile_hit = rand(1,100);
-if($missile_hit > 5){
-$result = 'success';
-}else{
-$result = 'failure';
-}
+	$missile_hit = rand(1,100);
+	if($missile_hit > 5){
+		$result = 'success';
+	}else{
+		$result = 'failure';
+	}
 }
 
 if($shotdown == true){
@@ -217,39 +157,23 @@ if($mutual == 2){
 }
 
 
-// NW Check between attacker & Defender
 
-if($mutual != 2){
-	
-	if (($networth_def > $networth_att/1.4 && $networth_def < $networth_att*1.4)){
-	
-	}else{
-	
+$in_range = target_in_range('missile', $networth_att, $networth_def, $war_type);
+
+/* validate target in range */
+if (!$in_range) {
 	$_SESSION['status'] = 'Out of networth range';
-	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
+	wp_redirect(get_permalink(3360).'?id='.$target_id);
 	exit;
-
-	}
-	
 }
 
-/* determine morale cost */
-if ($networth_att > $networth_def) {
+$moralecost = get_attack_cost_morale('missile', $networth_att, $networth_def);
 
-	$moralecost = 35;
-    
-    } else {
-	
-	$moralecost = 30;
-}
-    
-
-
-/* check if attacker has enough morale */    
+/* check if attacker has enough morale */
 $oldmorale = get_user_meta($user_ID, 'morale', true);
- 
+
 if ($oldmorale < $moralecost) {
-	    	    
+
 	$_SESSION['status'] = 'Insufficient morale';
 	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
 	exit;
@@ -257,29 +181,29 @@ if ($oldmorale < $moralecost) {
 }
 
 
-    
- 
+
+
 $key = $_SESSION['attack_array']['missile'];
 $missile_type = $_SESSION['attack_array']['missile'];
 $owned_miss = get_user_meta($user_ID, $key.'_owned',true);
-     	
+
 /* Check if attacker has enough missiles */
 
 if($owned_miss <= 0 ){
-	     	
+
 	$_SESSION['status'] = 'Not enough missiles of this type';
 	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
-	exit; 	
-	
+	exit;
+
 }
 
 /* check if user has enough turns */
-if($turns < 3){ 
-	
+if($turns < 3){
+
 	$_SESSION['status'] = 'Not enough turns';
 	wp_redirect(get_permalink(3360).'?id='.$defender_ID);
 	exit;
-	}
+}
 
 /* update morale */
 update_user_meta($user_ID, 'morale', $oldmorale - $moralecost);
@@ -300,268 +224,239 @@ if($silo1Status == 'active' || $silo2Status == 'active'){
 /* calculate attack power and divide power */
 $attackpower   = $missiles[$key]['attack']*0.87;
 $divided_power = $attackpower / count($missiles[$key]['attacks']);
-        
-        
-        $attacks = $missiles[$key]['attacks'];
-        foreach ($attacks as $attack) {
-            if ($attack == 'sea') {
-                $SEA_ATT_power += $divided_power * (rand(9, 11) / 10);
-            }
-            if ($attack == 'air') {
-                $AIR_ATT_power += $divided_power * (rand(9, 11) / 10);
-            }
-            if ($attack == 'inf') {
-                $INF_ATT_power += $divided_power * (rand(9, 11) / 10);
-            }
-            if ($attack == 'veh') {
-                $VEH_ATT_power += $divided_power * (rand(9, 11) / 10);
-            }
-            if ($attack == 'bld') {
-                $BLD_ATT_power += $divided_power * (rand(9, 11) / 10);
-            }
-        }
-        
-    
-    
-    
-    $airdamage = $AIR_ATT_power;
-    $infdamage = $INF_ATT_power;
-    $vehdamage = $VEH_ATT_power;
-    $seadamage = $SEA_ATT_power;
-    $blddamage = $BLD_ATT_power;
-    // DEFENDING //
-    $_total_air_units_def = 0;
-    $_total_inf_units_def = 0;
-    $_total_veh_units_def = 0;
-    $_total_sea_units_def = 0;
-    
-   
-	
-    if($result == 'success'){
-    foreach ($units as $key => $order) {
-        
-        $units_defending = get_user_meta($defender_ID, $key . '_owned',true);
-    
- 
-        
-        $unittype = $units[$key]['type'];
-        if ($unittype == 'sea') {
-            
-            $_total_sea_units_def += $units_defending;
-        }
-        if ($unittype == 'air') {
-            
-            $_total_air_units_def += $units_defending;
-        }
-        if ($unittype == 'inf') {
-            
-            $_total_inf_units_def += $units_defending;
-        }
-        if ($unittype == 'veh') {
-            
-            $_total_veh_units_def += $units_defending;
-        }}
 
-    /// MISSILES KILLING DEFENDER UNITS ///
-    $TOTAL_ATT_DAMAGE = 0;
-    $defender_lost    = array();
-    foreach ($units as $key => $order) {
-        
-        
-        $unittype = $units[$key]['type'];
-        
-        //AIR
-        if ($unittype == 'air') {
-            $def_units_owned = get_user_meta($defender_ID, $key . '_owned',true);
- 
-            if ($def_units_owned > 0) {
-                $percentage = $def_units_owned / $_total_air_units_def;
-                $damage     = $airdamage * $percentage;
-                $TOTAL_ATT_DAMAGE += $damage;
-                $units_lost = round($damage / $units[$key]['life']);
-                if ($units_lost > 0) {
-                    if ($def_units_owned < $units_lost) {
-                        update_user_meta($defender_ID, $key . '_owned', 0);
-                        $defender_lost[] = array(
-                            'type' => 'unit',
-                            $key => $def_units_owned
-                        );
-                    } else {
-                        update_user_meta($defender_ID, $key . '_owned', $def_units_owned - $units_lost);
-                        $defender_lost[] = array(
-                            'type' => 'unit',
-                            $key => $units_lost
-                        );
-                    }
-                }
-            }
-        }
-        
-        //INF
-        if ($unittype == 'inf') {
-            $def_units_owned = get_user_meta($defender_ID, $key . '_owned',true);
-        
-            if ($def_units_owned > 0) {
-                $percentage = $def_units_owned / $_total_inf_units_def;
-                $damage     = $infdamage * $percentage;
-                $TOTAL_ATT_DAMAGE += $damage;
-                $units_lost = round($damage / $units[$key]['life']);
-                if ($units_lost > 0) {
-                    if ($def_units_owned < $units_lost) {
-                        update_user_meta($defender_ID, $key . '_owned', 0);
-                        $defender_lost[] = array(
-                            'type' => 'unit',
-                            $key => $def_units_owned
-                        );
-                    } else {
-                        update_user_meta($defender_ID, $key . '_owned', $def_units_owned - $units_lost);
-                        $defender_lost[] = array(
-                            'type' => 'unit',
-                            $key => $units_lost
-                        );
-                    }
-                }
-            }
-        }
-        //VEH
-        if ($unittype == 'veh') {
-            $def_units_owned = get_user_meta($defender_ID, $key . '_owned',true);
-           
-            if ($def_units_owned > 0) {
-                $percentage = $def_units_owned / $_total_veh_units_def;
-                $damage     = $vehdamage * $percentage;
-                $TOTAL_ATT_DAMAGE += $damage;
-                $units_lost = round($damage / $units[$key]['life']);
-                
-                if ($units_lost > 0) {
-                    if ($def_units_owned < $units_lost) {
-                        update_user_meta($defender_ID, $key . '_owned', 0);
-                        $defender_lost[] = array(
-                            'type' => 'unit',
-                            $key => $def_units_owned
-                        );
-                    } else {
-                        update_user_meta($defender_ID, $key . '_owned', $def_units_owned - $units_lost);
-                        $defender_lost[] = array(
-                            'type' => 'unit',
-                            $key => $units_lost
-                        );
-                    }
-                }
-            }
-        }
-        //SEA
-        if ($unittype == 'sea') {
-            $def_units_owned = get_user_meta($defender_ID, $key . '_owned',true);
-           
-            if ($def_units_owned > 0) {
-                $percentage = $def_units_owned / $_total_sea_units_def;
-                $damage     = $seadamage * $percentage;
-                $TOTAL_ATT_DAMAGE += $damage;
-                $units_lost = round($damage / $units[$key]['life']);
-                
-                if ($units_lost > 0) {
-                    if ($def_units_owned < $units_lost) {
-                        update_user_meta($defender_ID, $key . '_owned', 0);
-                        $defender_lost[] = array(
-                            'type' => 'unit',
-                            $key => $def_units_owned
-                        );
-                    } else {
-                        update_user_meta($defender_ID, $key . '_owned', $def_units_owned - $units_lost);
-                        $defender_lost[] = array(
-                            'type' => 'unit',
-                            $key => $units_lost
-                        );
-                    }
-                }
-            }
-        }
-    }
-    
-    
-// KILLING BUILDINGS OF DEFENDER //
-    
-/* calculate total number of buildings by defender */
-$_total_bld_def = 0;
 
-foreach ($buildings as $key => $building) {
+$attacks = $missiles[$key]['attacks'];
+foreach ($attacks as $attack) {
+	if ($attack == 'sea') {
+		$SEA_ATT_power += $divided_power * (rand(9, 11) / 10);
+	}
+	if ($attack == 'air') {
+		$AIR_ATT_power += $divided_power * (rand(9, 11) / 10);
+	}
+	if ($attack == 'inf') {
+		$INF_ATT_power += $divided_power * (rand(9, 11) / 10);
+	}
+	if ($attack == 'veh') {
+		$VEH_ATT_power += $divided_power * (rand(9, 11) / 10);
+	}
+	if ($attack == 'bld') {
+		$BLD_ATT_power += $divided_power * (rand(9, 11) / 10);
+	}
+}
 
-	$def_bld_owned = get_user_meta($defender_ID, $key,true);
-	$_total_bld_def += $def_bld_owned;
+
+
+
+$airdamage = $AIR_ATT_power;
+$infdamage = $INF_ATT_power;
+$vehdamage = $VEH_ATT_power;
+$seadamage = $SEA_ATT_power;
+$blddamage = $BLD_ATT_power;
+// DEFENDING //
+$_total_air_units_def = 0;
+$_total_inf_units_def = 0;
+$_total_veh_units_def = 0;
+$_total_sea_units_def = 0;
+
+
+
+if($result == 'success'){
+	foreach ($units as $key => $order) {
+
+		$units_defending = get_user_meta($defender_ID, $key . '_owned',true);
+
+
+
+		$unittype = $units[$key]['type'];
+		if ($unittype == 'sea') {
+
+			$_total_sea_units_def += $units_defending;
+		}
+		if ($unittype == 'air') {
+
+			$_total_air_units_def += $units_defending;
+		}
+		if ($unittype == 'inf') {
+
+			$_total_inf_units_def += $units_defending;
+		}
+		if ($unittype == 'veh') {
+
+			$_total_veh_units_def += $units_defending;
+		}}
+
+	/// MISSILES KILLING DEFENDER UNITS ///
+	$TOTAL_ATT_DAMAGE = 0;
+	$defender_lost    = array();
+	foreach ($units as $key => $order) {
+
+
+		$unittype = $units[$key]['type'];
+
+		//AIR
+		if ($unittype == 'air') {
+			$def_units_owned = get_user_meta($defender_ID, $key . '_owned',true);
+
+			if ($def_units_owned > 0) {
+				$percentage = $def_units_owned / $_total_air_units_def;
+				$damage     = $airdamage * $percentage;
+				$TOTAL_ATT_DAMAGE += $damage;
+				$units_lost = round($damage / $units[$key]['life']);
+				if ($units_lost > 0) {
+					if ($def_units_owned < $units_lost) {
+						update_user_meta($defender_ID, $key . '_owned', 0);
+						$defender_lost[] = array(
+							'type' => 'unit',
+							$key => $def_units_owned
+						);
+					} else {
+						update_user_meta($defender_ID, $key . '_owned', $def_units_owned - $units_lost);
+						$defender_lost[] = array(
+							'type' => 'unit',
+							$key => $units_lost
+						);
+					}
+				}
+			}
+		}
+
+		//INF
+		if ($unittype == 'inf') {
+			$def_units_owned = get_user_meta($defender_ID, $key . '_owned',true);
+
+			if ($def_units_owned > 0) {
+				$percentage = $def_units_owned / $_total_inf_units_def;
+				$damage     = $infdamage * $percentage;
+				$TOTAL_ATT_DAMAGE += $damage;
+				$units_lost = round($damage / $units[$key]['life']);
+				if ($units_lost > 0) {
+					if ($def_units_owned < $units_lost) {
+						update_user_meta($defender_ID, $key . '_owned', 0);
+						$defender_lost[] = array(
+							'type' => 'unit',
+							$key => $def_units_owned
+						);
+					} else {
+						update_user_meta($defender_ID, $key . '_owned', $def_units_owned - $units_lost);
+						$defender_lost[] = array(
+							'type' => 'unit',
+							$key => $units_lost
+						);
+					}
+				}
+			}
+		}
+		//VEH
+		if ($unittype == 'veh') {
+			$def_units_owned = get_user_meta($defender_ID, $key . '_owned',true);
+
+			if ($def_units_owned > 0) {
+				$percentage = $def_units_owned / $_total_veh_units_def;
+				$damage     = $vehdamage * $percentage;
+				$TOTAL_ATT_DAMAGE += $damage;
+				$units_lost = round($damage / $units[$key]['life']);
+
+				if ($units_lost > 0) {
+					if ($def_units_owned < $units_lost) {
+						update_user_meta($defender_ID, $key . '_owned', 0);
+						$defender_lost[] = array(
+							'type' => 'unit',
+							$key => $def_units_owned
+						);
+					} else {
+						update_user_meta($defender_ID, $key . '_owned', $def_units_owned - $units_lost);
+						$defender_lost[] = array(
+							'type' => 'unit',
+							$key => $units_lost
+						);
+					}
+				}
+			}
+		}
+		//SEA
+		if ($unittype == 'sea') {
+			$def_units_owned = get_user_meta($defender_ID, $key . '_owned',true);
+
+			if ($def_units_owned > 0) {
+				$percentage = $def_units_owned / $_total_sea_units_def;
+				$damage     = $seadamage * $percentage;
+				$TOTAL_ATT_DAMAGE += $damage;
+				$units_lost = round($damage / $units[$key]['life']);
+
+				if ($units_lost > 0) {
+					if ($def_units_owned < $units_lost) {
+						update_user_meta($defender_ID, $key . '_owned', 0);
+						$defender_lost[] = array(
+							'type' => 'unit',
+							$key => $def_units_owned
+						);
+					} else {
+						update_user_meta($defender_ID, $key . '_owned', $def_units_owned - $units_lost);
+						$defender_lost[] = array(
+							'type' => 'unit',
+							$key => $units_lost
+						);
+					}
+				}
+			}
+		}
+	}
+
+
+	// KILLING BUILDINGS OF DEFENDER //
+
+	/* calculate total number of buildings by defender */
+	$_total_bld_def = 0;
+
+	foreach ($buildings as $key => $building) {
+
+		$def_bld_owned = get_user_meta($defender_ID, $key,true);
+		$_total_bld_def += $def_bld_owned;
+
+	}
+
+
+	foreach ($buildings as $key => $building) {
+
+		/* get building by type */
+		$def_bld_owned = get_user_meta($defender_ID, $key,true);
+
+		/* check if defender owns building */
+		if ($def_bld_owned > 0) {
+
+			$percentage = $def_bld_owned / $_total_bld_def;
+
+			$damage = $blddamage * $percentage;
+			$TOTAL_ATT_DAMAGE += $damage;
+
+			$buildings_lost = round($damage / $building['life']);
+
+			if ($buildings_lost > 0) {
+				if ($def_bld_owned < $buildings_lost) {
+					update_user_meta($defender_ID, $key, 0);
+					$defender_lost[] = array(
+						'type' => 'bld',
+						$key => $def_bld_owned
+					);
+				} else {
+					update_user_meta($defender_ID, $key, $def_bld_owned - $buildings_lost);
+					$defender_lost[] = array(
+						'type' => 'bld',
+						$key => $buildings_lost
+					);
+				}
+			}
+		}
+
+
+	}
 
 }
-    
-    
-foreach ($buildings as $key => $building) {
-	
-	/* get building by type */
-	$def_bld_owned = get_user_meta($defender_ID, $key,true);
-     
-    /* check if defender owns building */  
-    if ($def_bld_owned > 0) {
-    	
-    	$percentage = $def_bld_owned / $_total_bld_def;
-            
-        $damage = $blddamage * $percentage;
-        $TOTAL_ATT_DAMAGE += $damage;
-        
-        $buildings_lost = round($damage / $building['life']);
-            
-            if ($buildings_lost > 0) {
-                if ($def_bld_owned < $buildings_lost) {
-                    update_user_meta($defender_ID, $key, 0);
-                    $defender_lost[] = array(
-                        'type' => 'bld',
-                        $key => $def_bld_owned
-                    );
-                } else {
-                    update_user_meta($defender_ID, $key, $def_bld_owned - $buildings_lost);
-                    $defender_lost[] = array(
-                        'type' => 'bld',
-                        $key => $buildings_lost
-                    );
-                }
-            }
-        }
-        
-        
-        }
-        
-    }
-    // WRAPPING MISSILE UP //
-    $land_stolen = 0;
-    $money_stolen = 0;
-    $attacker_lost = 0;
-   
-   
-
-    
-    // CHECK IF PLAYER IS DEAD
-    /*
-    if($result == 'success'){
-    if ($_total_bld_def <= 0) {
-        update_user_meta($defender_ID, 'status', 'dead');
-        update_user_meta($defender_ID, 'networth', 0);
-        echo '<script type="text/javascript">
-			
-		
-		window.location.href = "/attack/step-1/?fail=8";
-	
-		</script>';
-        exit;
-    }}
-	*/
-    
-  
-  
-    
-
-   
-
-
-
-
+// WRAPPING MISSILE UP //
+$land_stolen = 0;
+$money_stolen = 0;
+$attacker_lost = 0;
 
 
 
@@ -659,8 +554,8 @@ foreach ($buildings as $buildingkey => $order) {
  		
  		
  		
- 		$land_stolen  = 0;
-        $money_stolen = 0;
+$land_stolen  = 0;
+$money_stolen = 0;
 
 
 
@@ -690,55 +585,56 @@ $att_clan_ID = get_user_meta($user_ID, 'clan_id_user');
 $old_CP = get_post_meta($att_clan_ID[0],'clan_points');
 
 
-
-
-if($calculate_points == 1 && $result == 'success'){
+if($war_type != 'none' && $result == 'success'){
 			
 	$def_total_units = $_total_air_units_def+$_total_inf_units_def+$_total_veh_units_def+$_total_sea_units_def;
 			
+	if($def_total_units != 0 && $def_lostunits_tot != 0){
+		$unit_points = $def_lostunits_tot/$def_total_units;
+	}
 			
-		if($def_total_units != 0 && $def_lostunits_tot != 0){
-			$unit_points = $def_lostunits_tot/$def_total_units;
-			}
-			
-		$defender_Networth = get_user_meta($defender_ID, 'networth');
+	$defender_Networth = get_user_meta($defender_ID, 'networth');
 	
 			
 			
 				
-if ($killed != true) {
-
-
-    /* MEGA logic to make nuke NW account also for province NW, reducing it's reward at very low Networth.
-        The division on NW lost will increase the difference between low and high nw done in terms of pts. HIGHER division = more range
-        The division on the defender NW will decrease the overall points which nukes offer. HIGHER division = less pts */
-
-     /* New function MEGA should award reasonable points */
-    $clan_points = ($i/1200)+((sqrt($def_NW_lost)/$MISSILE_MAX_POINTS) * ((sqrt($defender_Networth[0]*1.7)/8.1)/100));
-    $clan_points = ceil($clan_points);
-
-    if($clan_points > $MISSILE_MAX_POINTS){
-		$clan_points = $MISSILE_MAX_POINTS;
+	if ($killed != true) {
+	
+	
+	    /* MEGA logic to make nuke NW account also for province NW, reducing it's reward at very low Networth.
+	        The division on NW lost will increase the difference between low and high nw done in terms of pts. HIGHER division = more range
+	        The division on the defender NW will decrease the overall points which nukes offer. HIGHER division = less pts */
+	
+	     /* New function MEGA should award reasonable points */
+	    $clan_points = ($i/1200)+((sqrt($def_NW_lost)/25) * ((sqrt($defender_Networth[0]*1.7)/8.1)/100));
+	    $clan_points = ceil($clan_points);
+	
+	    if($clan_points > 25){
+			$clan_points = 25;
+		}
 	}
-}
+	if($war_type == 'incoming'){
+		$clan_points = round($clan_points/2);
+		}
+	//MEGA changed block to stop 1-sided also awarding 50p 20180215 -->
 
-//MEGA changed block to stop 1-sided also awarding 50p 20180215 -->
-
-if ($killed == true) { 
-
-    if ($one_sided == 1) {
-        $clan_points = $MISSILE_1SIDE_KILL_POINTS;
-    }
-    else {
-        $clan_points = $MISSILE_2SIDE_KILL_POINTS;
-    }
-
-}	
-// End MEGA 20180215
+	if ($killed == true) { 
+		$clan_points = 25;
+		
+		if($war_type == 'mutual'){
+			$clan_points = 50;
+		}
+	}
+	
+	}	
+	// End MEGA 20180215
 			
 if($clan_points < 1){
 	$clan_points = 1;
 }		
+if($def_NW_lost == 0){ 
+	$clan_points == 0;
+}
 
 			/* check if defender is killed */
 			if ($killed == true) { 
@@ -755,17 +651,9 @@ if($clan_points < 1){
 				
 				
 				
-				/* killed in mutual? */
-				if($mutual == 2) {
-					$clan_points = $MISSILE_2SIDE_KILL_POINTS;
-				}
-				if($one_sided == 1){
-				/* one sided kill? */
-
-					$clan_points = $MISSILE_1SIDE_KILL_POINTS;
-				}
+			
 			}
-			if($def_NW_lost == 0){ $clan_points == 0;}
+			
 			update_post_meta($att_clan_ID[0],'clan_points',$old_CP[0]+$clan_points);
 		
 			/* 24H pts update */
