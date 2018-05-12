@@ -57,7 +57,7 @@ $endDate = get_field('end_date','option');
 $endStamp = strtotime($endDate);
 $timestamp = current_time('timestamp');
 $timeLeft = $endStamp-$timestamp;
-$marketClose = $timeLeft - 86400;
+$marketClose = $timeLeft + 86400;
 
 $specialUnits = [
     'spy',
@@ -97,7 +97,7 @@ get_header(); ?>
                             $hours = 12;
                         }
                     ?>
-            <?php if($timeLeft<86400):?>
+            <?php if($timeLeft<1):?>
                 <span class="rdw-line">You cannot order units during the last 24 hours of the round.</span</div></div>
             <?php else:?>
                 <span class="rdw-line">There is a waiting time of <?php echo $hours;?> hours based on your completed research.</span>
@@ -186,7 +186,7 @@ get_header(); ?>
     });
 
     <?php if($timeLeft < 172800+86400):?>
-        var diff = <?php echo $marketClose*1000;?>;
+        var diff = <?php echo ($marketClose-86400)*1000;?>;
 
         function updateETime() {
             function pad(num) {
