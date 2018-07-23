@@ -1,24 +1,34 @@
 <?php
-/**
- * Handles clan wars
- *
- * @package WordPress
- */
-
+if ('POST' != $_SERVER['REQUEST_METHOD']) {
+    header('Allow: POST');
+    header('HTTP/1.1 405 Method Not Allowed');
+    header('Content-Type: text/plain');
+    exit;
+}
 
 require(dirname(__FILE__) . '/wp-load.php');
 
 $declarer_ID = get_current_user_id();
 
 if (! defined('ABSPATH')) {
+    $array['status'] = 'You must be logged in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
+    update_user_meta($declarer_ID, 'user_lock', 0);
     exit;
 }
 if (empty($declarer_ID)) {
-    wp_redirect(get_permalink(3582));
+    $array['status'] = 'You must be logged in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
+    update_user_meta($declarer_ID, 'user_lock', 0);
     exit;
 }
 if (!is_user_logged_in()) {
-    wp_redirect(get_permalink(3582));
+    $array['status'] = 'You must be logged in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
+    update_user_meta($declarer_ID, 'user_lock', 0);
     exit;
 }
     
@@ -32,7 +42,7 @@ $clan_leader = get_post_meta($declarer_clan_ID, 'clan_leader', true);
  $ct_4 = get_post_meta($declarer_clan_ID, 'ct_4', true);
 
 if ($declarer_ID == $clan_leader || $ct_1 || $ct_2 || $ct_3 || $ct_4) {
-    $declared_on = get_post_meta($_GET['war'], 'declared_on', true);
+    $declared_on = get_post_meta($_POST['war'], 'declared_on', true);
     $def_clan_leader = get_post_meta($declared_on, 'clan_leader', true);
 
     $timestamp = current_time('timestamp');
@@ -52,7 +62,7 @@ if ($declarer_ID == $clan_leader || $ct_1 || $ct_2 || $ct_3 || $ct_4) {
 
     update_field('attacker_id', $declarer_ID, $new_event_id);
     update_field('defender_id', $def_clan_leader, $new_event_id);
-
+	update_field('dec_message', $_POST['dec_msg'], $new_event_id);
     update_field('time_attacked', $timestamp, $new_event_id);
 
 /* add clan to cooldown list */
@@ -88,10 +98,11 @@ if ($declarer_ID == $clan_leader || $ct_1 || $ct_2 || $ct_3 || $ct_4) {
     
     
     
-    wp_trash_post($_GET['war']);
-    $_SESSION['status'] = 'Peace declared';
-    wp_redirect(get_permalink(3842));
-    exit;
-} else {
-    echo 'nope';
-}
+    wp_trash_post($_POST['war']);
+    
+    $array['status'] = 'Peace declared on '.get_the_title($_POST['clan']);;
+	$array['next'] = true;
+	echo json_encode($array);
+	update_user_meta($declarer_ID, 'user_lock', 0);
+	exit;
+} 

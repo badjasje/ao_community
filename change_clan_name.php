@@ -6,7 +6,12 @@
  */
 
 require(dirname(__FILE__) . '/wp-load.php');
-
+if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
+    $array['status'] = 'The round has ended';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
 $user_ID = get_current_user_id();
 $clan_ID = get_user_meta($user_ID, 'clan_id_user', true);
 $clanleader = get_post_meta($clan_ID, 'clan_leader', true);

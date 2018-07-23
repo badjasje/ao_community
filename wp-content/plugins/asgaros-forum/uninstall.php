@@ -1,5 +1,5 @@
 <?php
-// If uninstall is not called from WordPress, exit
+
 if (!defined('WP_UNINSTALL_PLUGIN')) {
     exit();
 }
@@ -27,7 +27,7 @@ function recursiveDelete($str) {
     } else if (is_dir($str)) {
         $scan = glob(rtrim($str, '/').'/*');
 
-        foreach($scan as $path) {
+        foreach ($scan as $path) {
             recursiveDelete($path);
         }
 
@@ -39,33 +39,48 @@ function deleteData() {
     global $wpdb;
 
     delete_option('asgarosforum_options');
+    delete_option('asgarosforum_appearance');
     delete_option('asgarosforum_db_version');
 
     // For site options in multisite
     delete_site_option('asgarosforum_options');
+    delete_site_option('asgarosforum_appearance');
     delete_site_option('asgarosforum_db_version');
 
     // Delete user meta data
     delete_metadata('user', 0, 'asgarosforum_moderator', '', true);
     delete_metadata('user', 0, 'asgarosforum_banned', '', true);
     delete_metadata('user', 0, 'asgarosforum_signature', '', true);
+    delete_metadata('user', 0, 'asgarosforum_mention_notify', '', true);
     delete_metadata('user', 0, 'asgarosforum_subscription_topic', '', true);
     delete_metadata('user', 0, 'asgarosforum_subscription_forum', '', true);
+    delete_metadata('user', 0, 'asgarosforum_subscription_global_posts', '', true);
     delete_metadata('user', 0, 'asgarosforum_subscription_global_topics', '', true);
     delete_metadata('user', 0, 'asgarosforum_unread_cleared', '', true);
     delete_metadata('user', 0, 'asgarosforum_unread_exclude', '', true);
+    delete_metadata('user', 0, 'asgarosforum_online', '', true);
+    delete_metadata('user', 0, 'asgarosforum_online_timestamp', '', true);
 
-    // Delete terms
+    // Delete category terms.
     $terms = $wpdb->get_col('SELECT t.term_id FROM '.$wpdb->terms.' AS t INNER JOIN '.$wpdb->term_taxonomy.' AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = "asgarosforum-category";');
 
     foreach ($terms as $term) {
         wp_delete_term($term, 'asgarosforum-category');
     }
 
+    // Delete usergroup terms.
+    $terms = $wpdb->get_col('SELECT t.term_id FROM '.$wpdb->terms.' AS t INNER JOIN '.$wpdb->term_taxonomy.' AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = "asgarosforum-usergroup";');
+
+    foreach ($terms as $term) {
+        wp_delete_term($term, 'asgarosforum-usergroup');
+    }
+
     // Drop custom tables
     $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}forum_forums;");
-    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}forum_threads;");
+    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}forum_topics;");
     $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}forum_posts;");
+    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}forum_reports;");
+    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}forum_reactions;");
 
     // Delete uploaded files
     $upload_dir = wp_upload_dir();
@@ -78,6 +93,5 @@ function deleteData() {
 
     // Delete data which has been used in old versions of the plugin.
     delete_metadata('user', 0, 'asgarosforum_lastvisit', '', true);
+    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}forum_threads;");
 }
-
-?>

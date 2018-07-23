@@ -1,6 +1,6 @@
 <?php
 require(dirname(__FILE__) . '/wp-load.php');
-if (get_field('game_status', 'option') == 'Live') {
+if (get_field('game_status', 'option') != 'Live') { exit; }
     $timestamp = current_time('timestamp');
     $args = array(
 
@@ -88,7 +88,9 @@ if (get_field('game_status', 'option') == 'Live') {
                 
                 
                         $new_event_id = wp_insert_post($args);
-                        update_field('attacktype', $research_in_progress, $new_event_id);
+                        update_field('outcome', $research_in_progress, $new_event_id);
+                        update_field('attacktype', 'research_ready', $new_event_id);
+                        
                         update_user_meta($user_ID, 'new_events', get_user_meta($user_ID, 'new_events')[0]+1);
                         update_field('defender_id', $user_ID, $new_event_id);
                         update_field('attacker_id', $user_ID, $new_event_id);
@@ -190,8 +192,14 @@ if (get_field('game_status', 'option') == 'Live') {
     
         $clan_members   = get_post_meta($clan_ID, 'clan_members');
         $clan_points    = $clanData['clan_points'][0];
+        if($clan_points == 'NAN'){
+	        $clan_points = 0;
+        }
         $bonus_level    = $clanData['bonus_level'][0];
-    
+		
+		if($bonus_level == 'NAN'){
+	        $bonus_level = 0;
+        }
     
 
         $level = "level_";
@@ -337,4 +345,3 @@ if (get_field('game_status', 'option') == 'Live') {
             wp_trash_post($war->ID);
         }
     }
-} // Closure Pause/Live statement

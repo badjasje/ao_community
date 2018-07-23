@@ -18,10 +18,16 @@ $userId = get_current_user_id();
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 if(empty($userId)){
-    wp_redirect(get_permalink(3582)); exit;
+    $array['status'] = 'You must log in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
 }
 if ( !is_user_logged_in() ) {
-    wp_redirect(get_permalink(3582)); exit;
+    $array['status'] = 'You must log in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
 }
 
 $inviteKey = $_GET['invite'];
@@ -36,13 +42,18 @@ $endStamp = strtotime($endDate);
 $timeLeft = $endStamp-$timestamp;
 $marketClose = $timeLeft - 172800;
 if($timeLeft<172800){
-	$_SESSION['status'] = 'Cannot join a clan the last 48 hours of a round';
-	wp_redirect(get_permalink(3601)); exit;
+	$array['status'] = 'Cannot join a clan the last 48 hours of a round';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
 }
 
 // Todo: The number '5' should be contained inside a configuration file / constant.
 if(count($clanMembers[0]) >= 6){
-    wp_redirect(get_permalink(3601)); exit;
+    $array['status'] = 'Maximum number of clan members reached';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
 }
 
 $open_invites = maybe_unserialize(get_post_meta($_GET['clan'],'open_invites',true));
@@ -58,7 +69,10 @@ if($clanId == 0){
     foreach ($open_invites as $key => $invite) {
         if($invite['invite'] == $inviteKey && $invite['clan'] == $clan) {
             if($invite['user'] != $userId) {
-                wp_redirect(get_permalink(3601));
+                $array['status'] = "This is not the invite you're looking for";
+				$array['next'] = false;
+				echo json_encode($array);
+				exit;
             }
             
             if($invite['user'] == $userId) {
@@ -97,11 +111,11 @@ if($clanId == 0){
                     }
                 }
 
-                wp_redirect(get_permalink($clan));
+                $array['status'] = "You are now part of ".get_the_title($clan);;
+				$array['next'] = false;
+				echo json_encode($array);
+				exit;
             }
         }
     }
-}
-else {
-    wp_redirect(get_permalink(3601));
 }

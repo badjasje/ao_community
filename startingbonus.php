@@ -22,9 +22,10 @@ $user_ID = get_current_user_id();
 $userLock = get_user_meta($user_ID, 'user_lock', true);
 
 if ($userLock == 1) {
-    update_user_meta($user_ID, 'user_lock', 0);
-    $_SESSION['status'] = 'Please try again.';
-    wp_redirect(get_permalink(3582));
+    $array['status'] = 'Please reload the page and try again';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
 }
 update_user_meta($user_ID, 'user_lock', 1);
 
@@ -32,11 +33,15 @@ if (! defined('ABSPATH')) {
     exit;
 }
 if (empty($user_ID)) {
-    wp_redirect(get_permalink(3582));
+    $array['status'] = 'You must log in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 if (!is_user_logged_in()) {
-    wp_redirect(get_permalink(3582));
+    $array['status'] = 'You must log in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 $user_data = get_user_meta($user_ID);
@@ -79,9 +84,13 @@ if ($bonustype == 'shipping') {
     update_user_meta($user_ID, 'starting_bonus', 'shipping');
 }
 
-
+$userData = get_user_meta($user_ID);
 
 update_user_meta($user_ID, 'user_lock', 0);
-$_SESSION['status'] = 'Starting bonus picked';
-wp_redirect(get_permalink(3486));
+$array['status'] = 'Starting bonus picked';
+$array['money'] = $userData['money'][0];
+$array['turns'] = $userData['turns'][0];
+$array['networth'] = $userData['networth'][0];
+$array['next'] = true;
+echo json_encode($array);
 exit;

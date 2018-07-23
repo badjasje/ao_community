@@ -4,7 +4,7 @@
  */
 require_once("wp-load.php");
 
-if (get_field('game_status', 'option') == 'Live') {
+if (get_field('game_status', 'option') != 'Live') { exit; }
 
     $wpdb->query("
 			UPDATE ${table_prefix}usermeta
@@ -49,4 +49,3 @@ if (get_field('game_status', 'option') == 'Live') {
         
         update_post_meta($clan->ID, '24h_pts', 0);
     }
-}

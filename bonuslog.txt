@@ -5986,3 +5986,1343 @@ New Money: 674240 Old turns: 188 | New Turns: 276
 User ID: 2046 Event ID: 806138
 New Money: 990966.5 Old turns: 29 | New Turns: 117
 
+19:49:28 | 24-06-2018
+User ID: 1 Event ID: 961920
+New Money: 718905 Old turns: 300 | New Turns: 300
+
+19:52:02 | 24-06-2018
+User ID: 1 Event ID: 961920
+New Money: 718905 Old turns: 300 | New Turns: 300
+
+20:07:16 | 24-06-2018
+User ID: 2340 Event ID: 961960
+New Money: 377500 Old turns: 171 | New Turns: 241
+
+20:19:52 | 24-06-2018
+User ID: 2337 Event ID: 961958
+New Money: 361803 Old turns: 26 | New Turns: 96
+
+20:34:45 | 24-06-2018
+User ID: 2339 Event ID: 961959
+New Money: 375000.125 Old turns: 45 | New Turns: 115
+
+20:48:01 | 24-06-2018
+User ID: 2440 Event ID: 961961
+New Money: 358955 Old turns: 8 | New Turns: 78
+
+21:37:34 | 24-06-2018
+User ID: 2259 Event ID: 962116
+New Money: 355956 Old turns: 150 | New Turns: 208
+
+7:09:22 | 25-06-2018
+User ID: 2338 Event ID: 961962
+New Money: 482168.5 Old turns: 61 | New Turns: 131
+
+8:47:22 | 25-06-2018
+User ID: 2228 Event ID: 962770
+New Money: 551615.6 Old turns: 2 | New Turns: 90
+
+12:47:08 | 25-06-2018
+User ID: 2337 Event ID: 963043
+New Money: 727652 Old turns: 1 | New Turns: 106
+
+13:00:01 | 25-06-2018
+User ID: 2339 Event ID: 963044
+New Money: 728284.375 Old turns: 18 | New Turns: 123
+
+13:34:59 | 25-06-2018
+User ID: 464 Event ID: 963082
+New Money: 653096 Old turns: 92 | New Turns: 150
+
+16:34:26 | 25-06-2018
+User ID: 402 Event ID: 963081
+New Money: 408216 Old turns: 9 | New Turns: 67
+
+18:19:56 | 25-06-2018
+User ID: 2340 Event ID: 963045
+New Money: 700538 Old turns: 141 | New Turns: 246
+
+19:54:28 | 25-06-2018
+User ID: 2440 Event ID: 963046
+New Money: 701020 Old turns: 4 | New Turns: 109
+
+20:26:37 | 25-06-2018
+User ID: 2243 Event ID: 962771
+New Money: 822548 Old turns: 16 | New Turns: 104
+
+20:35:02 | 25-06-2018
+User ID: 2226 Event ID: 962773
+New Money: 1447298.25 Old turns: 50 | New Turns: 138
+
+22:56:30 | 25-06-2018
+User ID: 29 Event ID: 963084
+New Money: 302649.05 Old turns: 17 | New Turns: 75
+
+23:01:51 | 25-06-2018
+User ID: 2046 Event ID: 963085
+New Money: 292316.5 Old turns: 30 | New Turns: 88
+
+1:21:20 | 26-06-2018
+User ID: 2224 Event ID: 962772
+New Money: 542500 Old turns: 168 | New Turns: 256
+
+7:04:53 | 26-06-2018
+User ID: 1052 Event ID: 963083
+New Money: 291802 Old turns: 64 | New Turns: 122
+
+7:18:36 | 26-06-2018
+User ID: 2338 Event ID: 963047
+New Money: 1456780.5 Old turns: 79 | New Turns: 184
+
+8:58:04 | 26-06-2018
+User ID: 464 Event ID: 964152
+New Money: 772752 Old turns: 100 | New Turns: 188
+
+9:14:41 | 26-06-2018
+User ID: 29 Event ID: 964154
+New Money: 602988.05 Old turns: 11 | New Turns: 99
+
+9:18:54 | 26-06-2018
+User ID: 402 Event ID: 964151
+New Money: 606021 Old turns: 15 | New Turns: 103
+
+9:20:35 | 26-06-2018
+User ID: 522 Event ID: 963080
+New Money: 316438.5 Old turns: 165 | New Turns: 223
+
+9:21:08 | 26-06-2018
+User ID: 522 Event ID: 964150
+New Money: 899771.5 Old turns: 203 | New Turns: 291
+
+9:38:25 | 26-06-2018
+User ID: 1052 Event ID: 964153
+New Money: 584717.5 Old turns: 65 | New Turns: 153
+
+21:24:57 | 26-06-2018
+User ID: 2355 Event ID: 962114
+New Money: 820266 Old turns: 115 | New Turns: 173
+
+23:12:12 | 26-06-2018
+User ID: 2259 Event ID: 963523
+New Money: 1018565 Old turns: 145 | New Turns: 233
+
+0:34:10 | 27-06-2018
+User ID: 2243 Event ID: 965514
+New Money: 1050117.5 Old turns: 54 | New Turns: 185
+
+1:08:44 | 27-06-2018
+User ID: 2228 Event ID: 965513
+New Money: 942818.6 Old turns: 5 | New Turns: 136
+
+7:08:28 | 27-06-2018
+User ID: 2046 Event ID: 964155
+New Money: 608926.5 Old turns: 55 | New Turns: 143
+
+7:08:33 | 27-06-2018
+User ID: 2046 Event ID: 965557
+New Money: 1192259.5 Old turns: 143 | New Turns: 231
+
+12:07:29 | 27-06-2018
+User ID: 2226 Event ID: 965516
+New Money: 906598.25 Old turns: 52 | New Turns: 183
+
+14:19:19 | 27-06-2018
+User ID: 29 Event ID: 965556
+New Money: 847367.05 Old turns: 47 | New Turns: 135
+
+15:27:31 | 27-06-2018
+User ID: 2045 Event ID: 963519
+New Money: 874790.5 Old turns: 18 | New Turns: 106
+
+15:31:51 | 27-06-2018
+User ID: 433 Event ID: 963522
+New Money: 992382 Old turns: 51 | New Turns: 139
+
+15:33:30 | 27-06-2018
+User ID: 2311 Event ID: 963520
+New Money: 589037 Old turns: 152 | New Turns: 240
+
+15:59:01 | 27-06-2018
+User ID: 2355 Event ID: 963521
+New Money: 628902 Old turns: 96 | New Turns: 184
+
+16:01:23 | 27-06-2018
+User ID: 522 Event ID: 965552
+New Money: 713107.7 Old turns: 132 | New Turns: 220
+
+16:04:51 | 27-06-2018
+User ID: 1052 Event ID: 965555
+New Money: 670293.5 Old turns: 57 | New Turns: 145
+
+16:21:04 | 27-06-2018
+User ID: 402 Event ID: 965553
+New Money: 1718287.75 Old turns: 54 | New Turns: 142
+
+18:45:04 | 27-06-2018
+User ID: 464 Event ID: 965554
+New Money: 739282 Old turns: 109 | New Turns: 197
+
+19:24:03 | 27-06-2018
+User ID: 2045 Event ID: 966548
+New Money: 847255.1 Old turns: 0 | New Turns: 88
+
+20:23:46 | 27-06-2018
+User ID: 433 Event ID: 966551
+New Money: 714306 Old turns: 11 | New Turns: 99
+
+20:33:58 | 27-06-2018
+User ID: 2355 Event ID: 966550
+New Money: 600209 Old turns: 136 | New Turns: 224
+
+22:32:39 | 27-06-2018
+User ID: 2311 Event ID: 966549
+New Money: 584005 Old turns: 70 | New Turns: 158
+
+0:36:27 | 28-06-2018
+User ID: 1799 Event ID: 967052
+New Money: 957887 Old turns: 5 | New Turns: 180
+
+4:28:05 | 28-06-2018
+User ID: 2046 Event ID: 967138
+New Money: 1834772.5 Old turns: 20 | New Turns: 108
+
+6:24:31 | 28-06-2018
+User ID: 2259 Event ID: 966552
+New Money: 686220 Old turns: 17 | New Turns: 105
+
+8:08:45 | 28-06-2018
+User ID: 29 Event ID: 967137
+New Money: 719112.85 Old turns: 31 | New Turns: 119
+
+12:37:46 | 28-06-2018
+User ID: 464 Event ID: 967135
+New Money: 597418 Old turns: 85 | New Turns: 173
+
+3:06:58 | 29-06-2018
+User ID: 1421 Event ID: 966553
+New Money: 587694.75 Old turns: 2 | New Turns: 90
+
+3:16:46 | 29-06-2018
+User ID: 2311 Event ID: 968470
+New Money: 586550 Old turns: 60 | New Turns: 148
+
+9:47:59 | 29-06-2018
+User ID: 2355 Event ID: 968471
+New Money: 598309.5 Old turns: 139 | New Turns: 227
+
+10:50:50 | 29-06-2018
+User ID: 2078 Event ID: 967051
+New Money: 1230718.5 Old turns: 29 | New Turns: 204
+
+14:39:18 | 29-06-2018
+User ID: 1443 Event ID: 968859
+New Money: 793953.2 Old turns: 20 | New Turns: 137
+
+15:59:05 | 29-06-2018
+User ID: 2259 Event ID: 968473
+New Money: 629415.75 Old turns: 79 | New Turns: 167
+
+16:19:54 | 29-06-2018
+User ID: 402 Event ID: 967134
+New Money: 2553613.05 Old turns: 8 | New Turns: 96
+
+11:28:52 | 30-06-2018
+User ID: 1799 Event ID: 970287
+New Money: 1751749.5 Old turns: 30 | New Turns: 293
+
+12:00:43 | 30-06-2018
+User ID: 464 Event ID: 970328
+New Money: 1467372 Old turns: 2 | New Turns: 90
+
+13:46:58 | 30-06-2018
+User ID: 1952 Event ID: 970089
+New Money: 384485.75 Old turns: 116 | New Turns: 174
+
+14:20:06 | 30-06-2018
+User ID: 1421 Event ID: 968474
+New Money: 992741.75 Old turns: 5 | New Turns: 93
+
+14:40:41 | 30-06-2018
+User ID: 2045 Event ID: 968469
+New Money: 629695.6 Old turns: 30 | New Turns: 118
+
+18:40:39 | 30-06-2018
+User ID: 2355 Event ID: 970777
+New Money: 589673.35 Old turns: 80 | New Turns: 168
+
+19:20:22 | 30-06-2018
+User ID: 433 Event ID: 968472
+New Money: 675730 Old turns: 97 | New Turns: 185
+
+20:42:30 | 30-06-2018
+User ID: 2024 Event ID: 970090
+New Money: 327150.35 Old turns: 271 | New Turns: 329
+
+20:51:38 | 30-06-2018
+User ID: 2311 Event ID: 970776
+New Money: 1187165.5 Old turns: 96 | New Turns: 184
+
+22:22:25 | 30-06-2018
+User ID: 29 Event ID: 970330
+New Money: 869114.1 Old turns: 53 | New Turns: 141
+
+22:30:25 | 30-06-2018
+User ID: 2339 Event ID: 971004
+New Money: 732316.875 Old turns: 51 | New Turns: 156
+
+22:34:20 | 30-06-2018
+User ID: 2338 Event ID: 971007
+New Money: 833610 Old turns: 29 | New Turns: 134
+
+22:43:38 | 30-06-2018
+User ID: 2337 Event ID: 971003
+New Money: 748622.5 Old turns: 75 | New Turns: 180
+
+23:50:41 | 30-06-2018
+User ID: 2309 Event ID: 970092
+New Money: 508522 Old turns: 86 | New Turns: 144
+
+23:50:45 | 30-06-2018
+User ID: 2309 Event ID: 970940
+New Money: 1091855 Old turns: 144 | New Turns: 232
+
+0:41:28 | 01-07-2018
+User ID: 2440 Event ID: 971006
+New Money: 736844.5 Old turns: 122 | New Turns: 227
+
+1:19:26 | 01-07-2018
+User ID: 1953 Event ID: 970088
+New Money: 373803.25 Old turns: 188 | New Turns: 246
+
+1:25:31 | 01-07-2018
+User ID: 1952 Event ID: 970937
+New Money: 848889.75 Old turns: 170 | New Turns: 258
+
+2:04:32 | 01-07-2018
+User ID: 60 Event ID: 970792
+New Money: 577527 Old turns: 63 | New Turns: 151
+
+4:58:30 | 01-07-2018
+User ID: 2230 Event ID: 970093
+New Money: 292027.175 Old turns: 56 | New Turns: 114
+
+8:21:08 | 01-07-2018
+User ID: 2340 Event ID: 971005
+New Money: 1085260 Old turns: 56 | New Turns: 161
+
+8:56:36 | 01-07-2018
+User ID: 1953 Event ID: 970936
+New Money: 586246.25 Old turns: 128 | New Turns: 216
+
+9:16:36 | 01-07-2018
+User ID: 2200 Event ID: 970091
+New Money: 301771 Old turns: 186 | New Turns: 244
+
+11:28:12 | 01-07-2018
+User ID: 2078 Event ID: 970286
+New Money: 1826821 Old turns: 0 | New Turns: 263
+
+12:03:07 | 01-07-2018
+User ID: 2200 Event ID: 970939
+New Money: 584151 Old turns: 174 | New Turns: 262
+
+13:50:56 | 01-07-2018
+User ID: 1125 Event ID: 970794
+New Money: 454888 Old turns: 68 | New Turns: 156
+
+15:22:28 | 01-07-2018
+User ID: 2046 Event ID: 970331
+New Money: 2095968.5 Old turns: 39 | New Turns: 127
+
+15:59:26 | 01-07-2018
+User ID: 522 Event ID: 971400
+New Money: 908718 Old turns: 115 | New Turns: 203
+
+20:09:55 | 01-07-2018
+User ID: 2045 Event ID: 970775
+New Money: 1138464.85 Old turns: 8 | New Turns: 96
+
+23:16:01 | 01-07-2018
+User ID: 1052 Event ID: 970329
+New Money: 615573 Old turns: 38 | New Turns: 126
+
+23:40:25 | 01-07-2018
+User ID: 2259 Event ID: 970779
+New Money: 628432.25 Old turns: 29 | New Turns: 117
+
+4:00:53 | 02-07-2018
+User ID: 1421 Event ID: 970780
+New Money: 697070.75 Old turns: 0 | New Turns: 88
+
+9:50:10 | 02-07-2018
+User ID: 29 Event ID: 971404
+New Money: 770327.1 Old turns: 139 | New Turns: 227
+
+9:58:16 | 02-07-2018
+User ID: 1086 Event ID: 970795
+New Money: 1057609 Old turns: 141 | New Turns: 229
+
+10:25:28 | 02-07-2018
+User ID: 522 Event ID: 970326
+New Money: 759461 Old turns: 142 | New Turns: 230
+
+10:50:07 | 02-07-2018
+User ID: 2045 Event ID: 972074
+New Money: 1126044.85 Old turns: 0 | New Turns: 88
+
+23:49:00 | 02-07-2018
+User ID: 2259 Event ID: 972078
+New Money: 804670.25 Old turns: 58 | New Turns: 146
+
+0:08:46 | 03-07-2018
+User ID: 29 Event ID: 973959
+New Money: 1161545.1 Old turns: 165 | New Turns: 253
+
+0:17:13 | 03-07-2018
+User ID: 2311 Event ID: 972075
+New Money: 1351780 Old turns: 2 | New Turns: 90
+
+1:56:24 | 03-07-2018
+User ID: 464 Event ID: 971402
+New Money: 1173093 Old turns: 3 | New Turns: 91
+
+6:02:32 | 03-07-2018
+User ID: 1052 Event ID: 971403
+New Money: 674234.5 Old turns: 39 | New Turns: 127
+
+10:18:41 | 03-07-2018
+User ID: 1421 Event ID: 972079
+New Money: 1127553.75 Old turns: 8 | New Turns: 96
+
+10:58:14 | 03-07-2018
+User ID: 433 Event ID: 972077
+New Money: 592991 Old turns: 196 | New Turns: 284
+
+16:13:59 | 03-07-2018
+User ID: 2355 Event ID: 972076
+New Money: 793704.7 Old turns: 74 | New Turns: 162
+
+0:23:15 | 04-07-2018
+User ID: 29 Event ID: 975717
+New Money: 687467.1 Old turns: 134 | New Turns: 222
+
+0:25:47 | 04-07-2018
+User ID: 1052 Event ID: 973958
+New Money: 630967.5 Old turns: 39 | New Turns: 127
+
+14:04:52 | 04-07-2018
+User ID: 1799 Event ID: 976454
+New Money: 1799239 Old turns: 7 | New Turns: 270
+
+14:05:07 | 04-07-2018
+User ID: 2046 Event ID: 973960
+New Money: 1372404 Old turns: 27 | New Turns: 115
+
+14:51:34 | 04-07-2018
+User ID: 464 Event ID: 973957
+New Money: 3871871 Old turns: 0 | New Turns: 88
+
+14:55:30 | 04-07-2018
+User ID: 2046 Event ID: 975718
+New Money: 1182641.8 Old turns: 83 | New Turns: 171
+
+15:04:01 | 04-07-2018
+User ID: 522 Event ID: 973955
+New Money: 2313663.5 Old turns: 64 | New Turns: 152
+
+16:31:03 | 04-07-2018
+User ID: 2311 Event ID: 976159
+New Money: 604415.4 Old turns: 14 | New Turns: 102
+
+16:53:37 | 04-07-2018
+User ID: 1439 Event ID: 974244
+New Money: 1753247 Old turns: 0 | New Turns: 175
+
+17:59:25 | 04-07-2018
+User ID: 2045 Event ID: 976158
+New Money: 660008.1 Old turns: 2 | New Turns: 90
+
+18:32:52 | 04-07-2018
+User ID: 2259 Event ID: 976162
+New Money: 720874.75 Old turns: 85 | New Turns: 173
+
+18:54:03 | 04-07-2018
+User ID: 202 Event ID: 975496
+New Money: 570283 Old turns: 7 | New Turns: 65
+
+18:58:41 | 04-07-2018
+User ID: 433 Event ID: 976161
+New Money: 903320.5 Old turns: 170 | New Turns: 258
+
+21:14:02 | 04-07-2018
+User ID: 1385 Event ID: 975493
+New Money: 1094018.2 Old turns: 0 | New Turns: 58
+
+21:21:46 | 04-07-2018
+User ID: 402 Event ID: 973956
+New Money: 617573.55 Old turns: 76 | New Turns: 164
+
+21:55:40 | 04-07-2018
+User ID: 202 Event ID: 976531
+New Money: 803694 Old turns: 32 | New Turns: 120
+
+23:49:40 | 04-07-2018
+User ID: 1378 Event ID: 975497
+New Money: 388239.75 Old turns: 29 | New Turns: 87
+
+23:49:49 | 04-07-2018
+User ID: 2078 Event ID: 976453
+New Money: 2459013 Old turns: 0 | New Turns: 263
+
+23:56:21 | 04-07-2018
+User ID: 60 Event ID: 977443
+New Money: 932867 Old turns: 1 | New Turns: 132
+
+0:36:48 | 05-07-2018
+User ID: 1443 Event ID: 974243
+New Money: 1171078.45 Old turns: 121 | New Turns: 296
+
+4:37:31 | 05-07-2018
+User ID: 464 Event ID: 975715
+New Money: 583898 Old turns: 48 | New Turns: 136
+
+6:03:27 | 05-07-2018
+User ID: 464 Event ID: 977691
+New Money: 616767 Old turns: 127 | New Turns: 215
+
+6:06:17 | 05-07-2018
+User ID: 2046 Event ID: 977694
+New Money: 625876.3 Old turns: 114 | New Turns: 202
+
+6:30:32 | 05-07-2018
+User ID: 402 Event ID: 975714
+New Money: 675178.55 Old turns: 72 | New Turns: 160
+
+7:45:56 | 05-07-2018
+User ID: 1052 Event ID: 975716
+New Money: 664349.1 Old turns: 0 | New Turns: 88
+
+8:37:20 | 05-07-2018
+User ID: 2339 Event ID: 977552
+New Money: 583914.125 Old turns: 17 | New Turns: 105
+
+8:54:39 | 05-07-2018
+User ID: 2440 Event ID: 977554
+New Money: 584266 Old turns: 100 | New Turns: 188
+
+9:00:03 | 05-07-2018
+User ID: 1201 Event ID: 975495
+New Money: 1016252.6 Old turns: 85 | New Turns: 143
+
+9:04:10 | 05-07-2018
+User ID: 2338 Event ID: 977555
+New Money: 678949.75 Old turns: 6 | New Turns: 94
+
+9:21:37 | 05-07-2018
+User ID: 2337 Event ID: 977551
+New Money: 909177.15 Old turns: 20 | New Turns: 108
+
+9:55:52 | 05-07-2018
+User ID: 2340 Event ID: 977553
+New Money: 606721.5 Old turns: 47 | New Turns: 135
+
+11:22:49 | 05-07-2018
+User ID: 1421 Event ID: 976163
+New Money: 1393187 Old turns: 0 | New Turns: 88
+
+12:06:25 | 05-07-2018
+User ID: 1086 Event ID: 977446
+New Money: 924618 Old turns: 58 | New Turns: 189
+
+13:25:45 | 05-07-2018
+User ID: 1203 Event ID: 976529
+New Money: 1134321.3 Old turns: 66 | New Turns: 154
+
+15:12:30 | 05-07-2018
+User ID: 2355 Event ID: 976160
+New Money: 631699.7 Old turns: 103 | New Turns: 191
+
+19:01:56 | 05-07-2018
+User ID: 29 Event ID: 977693
+New Money: 771609.1 Old turns: 60 | New Turns: 148
+
+19:29:20 | 05-07-2018
+User ID: 1385 Event ID: 976528
+New Money: 655110.7 Old turns: 95 | New Turns: 183
+
+0:00:20 | 06-07-2018
+User ID: 1378 Event ID: 976532
+New Money: 775855.75 Old turns: 96 | New Turns: 184
+
+0:09:37 | 06-07-2018
+User ID: 2228 Event ID: 979203
+New Money: 879236.8 Old turns: 19 | New Turns: 150
+
+0:18:16 | 06-07-2018
+User ID: 2243 Event ID: 979204
+New Money: 912610 Old turns: 46 | New Turns: 177
+
+7:41:46 | 06-07-2018
+User ID: 2226 Event ID: 979206
+New Money: 1155532.75 Old turns: 30 | New Turns: 161
+
+8:12:21 | 06-07-2018
+User ID: 2468 Event ID: 977556
+New Money: 1026345 Old turns: 97 | New Turns: 185
+
+8:31:13 | 06-07-2018
+User ID: 1052 Event ID: 977692
+New Money: 1079695.1 Old turns: 0 | New Turns: 88
+
+10:37:38 | 06-07-2018
+User ID: 1378 Event ID: 977470
+New Money: 1227648.05 Old turns: 168 | New Turns: 256
+
+10:42:11 | 06-07-2018
+User ID: 1385 Event ID: 977466
+New Money: 583378.5 Old turns: 149 | New Turns: 237
+
+12:15:33 | 06-07-2018
+User ID: 464 Event ID: 979970
+New Money: 584683.5 Old turns: 74 | New Turns: 162
+
+12:40:16 | 06-07-2018
+User ID: 402 Event ID: 977690
+New Money: 768795.05 Old turns: 1 | New Turns: 89
+
+16:57:59 | 06-07-2018
+User ID: 2046 Event ID: 979973
+New Money: 762953.3 Old turns: 4 | New Turns: 92
+
+19:29:19 | 06-07-2018
+User ID: 402 Event ID: 979969
+New Money: 629935.85 Old turns: 29 | New Turns: 117
+
+21:59:23 | 06-07-2018
+User ID: 29 Event ID: 979972
+New Money: 598495.85 Old turns: 80 | New Turns: 168
+
+1:41:23 | 07-07-2018
+User ID: 522 Event ID: 977689
+New Money: 630038.5 Old turns: 102 | New Turns: 190
+
+6:49:34 | 07-07-2018
+User ID: 2045 Event ID: 981072
+New Money: 985186.125 Old turns: 17 | New Turns: 105
+
+12:29:16 | 07-07-2018
+User ID: 2046 Event ID: 981292
+New Money: 1166318.8 Old turns: 9 | New Turns: 97
+
+14:25:29 | 07-07-2018
+User ID: 464 Event ID: 981289
+New Money: 718680.5 Old turns: 36 | New Turns: 124
+
+14:32:25 | 07-07-2018
+User ID: 2311 Event ID: 981073
+New Money: 729374.6 Old turns: 0 | New Turns: 88
+
+15:40:00 | 07-07-2018
+User ID: 2309 Event ID: 981688
+New Money: 804729 Old turns: 114 | New Turns: 202
+
+17:59:00 | 07-07-2018
+User ID: 2339 Event ID: 981699
+New Money: 1348333 Old turns: 194 | New Turns: 282
+
+18:56:25 | 07-07-2018
+User ID: 2259 Event ID: 981076
+New Money: 1520252.5 Old turns: 129 | New Turns: 217
+
+21:37:36 | 07-07-2018
+User ID: 29 Event ID: 981291
+New Money: 613348.85 Old turns: 50 | New Turns: 138
+
+1:21:40 | 08-07-2018
+User ID: 2005 Event ID: 981646
+New Money: 1947493 Old turns: 193 | New Turns: 368
+
+2:13:44 | 08-07-2018
+User ID: 1421 Event ID: 981077
+New Money: 583791 Old turns: 0 | New Turns: 88
+
+2:17:25 | 08-07-2018
+User ID: 522 Event ID: 979968
+New Money: 3328376.5 Old turns: 139 | New Turns: 227
+
+2:42:36 | 08-07-2018
+User ID: 1952 Event ID: 981685
+New Money: 584109.75 Old turns: 179 | New Turns: 267
+
+4:27:07 | 08-07-2018
+User ID: 2440 Event ID: 981701
+New Money: 623539.6 Old turns: 14 | New Turns: 102
+
+4:40:01 | 08-07-2018
+User ID: 2468 Event ID: 981703
+New Money: 1248033 Old turns: 149 | New Turns: 237
+
+4:58:55 | 08-07-2018
+User ID: 2024 Event ID: 981686
+New Money: 584903.1 Old turns: 198 | New Turns: 286
+
+7:05:58 | 08-07-2018
+User ID: 1052 Event ID: 979971
+New Money: 694824.6 Old turns: 14 | New Turns: 102
+
+8:16:29 | 08-07-2018
+User ID: 2230 Event ID: 981689
+New Money: 587182.175 Old turns: 5 | New Turns: 93
+
+9:13:21 | 08-07-2018
+User ID: 2200 Event ID: 981687
+New Money: 585084.5 Old turns: 191 | New Turns: 279
+
+10:20:10 | 08-07-2018
+User ID: 2340 Event ID: 981700
+New Money: 1346633 Old turns: 156 | New Turns: 244
+
+11:13:02 | 08-07-2018
+User ID: 464 Event ID: 982988
+New Money: 662338.5 Old turns: 63 | New Turns: 151
+
+11:14:27 | 08-07-2018
+User ID: 2046 Event ID: 982991
+New Money: 633703.8 Old turns: 4 | New Turns: 92
+
+12:15:32 | 08-07-2018
+User ID: 2004 Event ID: 981645
+New Money: 3555183.45 Old turns: 114 | New Turns: 289
+
+15:57:15 | 08-07-2018
+User ID: 402 Event ID: 981288
+New Money: 806744.35 Old turns: 21 | New Turns: 109
+
+17:37:53 | 08-07-2018
+User ID: 2337 Event ID: 981698
+New Money: 1055503 Old turns: 161 | New Turns: 249
+
+19:08:36 | 08-07-2018
+User ID: 29 Event ID: 982990
+New Money: 1112010.85 Old turns: 101 | New Turns: 189
+
+9:51:01 | 09-07-2018
+User ID: 2338 Event ID: 981702
+New Money: 1020858 Old turns: 142 | New Turns: 230
+
+13:02:38 | 09-07-2018
+User ID: 2046 Event ID: 984754
+New Money: 847380.8 Old turns: 8 | New Turns: 96
+
+13:17:43 | 09-07-2018
+User ID: 1953 Event ID: 981684
+New Money: 701408.25 Old turns: 11 | New Turns: 99
+
+13:33:11 | 09-07-2018
+User ID: 2230 Event ID: 984666
+New Money: 1122757.175 Old turns: 17 | New Turns: 105
+
+14:38:11 | 09-07-2018
+User ID: 2024 Event ID: 984663
+New Money: 614731.6 Old turns: 217 | New Turns: 305
+
+15:17:42 | 09-07-2018
+User ID: 2259 Event ID: 984431
+New Money: 673145.1 Old turns: 67 | New Turns: 155
+
+15:27:24 | 09-07-2018
+User ID: 464 Event ID: 984751
+New Money: 1577853.5 Old turns: 28 | New Turns: 116
+
+18:52:40 | 09-07-2018
+User ID: 2311 Event ID: 984428
+New Money: 630073.2 Old turns: 5 | New Turns: 93
+
+19:46:02 | 09-07-2018
+User ID: 2309 Event ID: 984665
+New Money: 618629 Old turns: 100 | New Turns: 188
+
+19:47:52 | 09-07-2018
+User ID: 2200 Event ID: 984664
+New Money: 584240.75 Old turns: 227 | New Turns: 315
+
+20:58:16 | 09-07-2018
+User ID: 1439 Event ID: 984918
+New Money: 1286827 Old turns: 18 | New Turns: 193
+
+22:58:12 | 09-07-2018
+User ID: 29 Event ID: 984753
+New Money: 787285.85 Old turns: 96 | New Turns: 184
+
+0:27:17 | 10-07-2018
+User ID: 2045 Event ID: 984427
+New Money: 2285532.725 Old turns: 4 | New Turns: 92
+
+0:28:13 | 10-07-2018
+User ID: 1953 Event ID: 984661
+New Money: 594758.25 Old turns: 11 | New Turns: 99
+
+4:13:16 | 10-07-2018
+User ID: 1780 Event ID: 985730
+New Money: 1915959.25 Old turns: 13 | New Turns: 363
+
+6:30:10 | 10-07-2018
+User ID: 402 Event ID: 982987
+New Money: 1472215.85 Old turns: 0 | New Turns: 88
+
+8:55:35 | 10-07-2018
+User ID: 1052 Event ID: 982989
+New Money: 586685.65 Old turns: 31 | New Turns: 119
+
+9:07:31 | 10-07-2018
+User ID: 433 Event ID: 984430
+New Money: 1308855 Old turns: 42 | New Turns: 130
+
+9:38:21 | 10-07-2018
+User ID: 1421 Event ID: 984432
+New Money: 1412565.8 Old turns: 7 | New Turns: 95
+
+14:45:43 | 10-07-2018
+User ID: 29 Event ID: 986372
+New Money: 649728.85 Old turns: 72 | New Turns: 160
+
+14:46:39 | 10-07-2018
+User ID: 464 Event ID: 986370
+New Money: 690195.5 Old turns: 84 | New Turns: 172
+
+17:50:05 | 10-07-2018
+User ID: 2046 Event ID: 986373
+New Money: 710547.8 Old turns: 1 | New Turns: 89
+
+21:19:05 | 10-07-2018
+User ID: 2362 Event ID: 986093
+New Money: 2750818.75 Old turns: 90 | New Turns: 440
+
+23:38:58 | 10-07-2018
+User ID: 2355 Event ID: 984429
+New Money: 830284.2 Old turns: 176 | New Turns: 264
+
+23:46:04 | 10-07-2018
+User ID: 522 Event ID: 984749
+New Money: 907941 Old turns: 62 | New Turns: 150
+
+0:16:09 | 11-07-2018
+User ID: 2259 Event ID: 987337
+New Money: 646543.35 Old turns: 60 | New Turns: 148
+
+0:52:35 | 11-07-2018
+User ID: 2311 Event ID: 987334
+New Money: 777111.9 Old turns: 0 | New Turns: 88
+
+5:19:41 | 11-07-2018
+User ID: 433 Event ID: 987336
+New Money: 850806.7 Old turns: 54 | New Turns: 142
+
+8:13:16 | 11-07-2018
+User ID: 402 Event ID: 984750
+New Money: 614054.65 Old turns: 7 | New Turns: 95
+
+8:50:40 | 11-07-2018
+User ID: 2045 Event ID: 987333
+New Money: 1100529.525 Old turns: 0 | New Turns: 88
+
+10:33:55 | 11-07-2018
+User ID: 2046 Event ID: 987846
+New Money: 602383.8 Old turns: 39 | New Turns: 127
+
+12:30:11 | 11-07-2018
+User ID: 1052 Event ID: 984752
+New Money: 583923.65 Old turns: 27 | New Turns: 115
+
+12:59:37 | 11-07-2018
+User ID: 522 Event ID: 987841
+New Money: 737035 Old turns: 133 | New Turns: 221
+
+14:02:12 | 11-07-2018
+User ID: 402 Event ID: 986369
+New Money: 643619.65 Old turns: 61 | New Turns: 149
+
+14:29:01 | 11-07-2018
+User ID: 29 Event ID: 987845
+New Money: 583494.55 Old turns: 48 | New Turns: 136
+
+16:30:21 | 11-07-2018
+User ID: 464 Event ID: 987843
+New Money: 584591.5 Old turns: 108 | New Turns: 196
+
+2:31:50 | 12-07-2018
+User ID: 1421 Event ID: 987338
+New Money: 647207.4 Old turns: 4 | New Turns: 92
+
+11:32:12 | 12-07-2018
+User ID: 2046 Event ID: 989622
+New Money: 808522.3 Old turns: 1 | New Turns: 89
+
+11:34:03 | 12-07-2018
+User ID: 464 Event ID: 989619
+New Money: 739971.5 Old turns: 78 | New Turns: 166
+
+12:09:13 | 12-07-2018
+User ID: 2243 Event ID: 989657
+New Money: 1264185 Old turns: 58 | New Turns: 189
+
+12:42:27 | 12-07-2018
+User ID: 2228 Event ID: 989656
+New Money: 886063.3 Old turns: 9 | New Turns: 140
+
+16:48:39 | 12-07-2018
+User ID: 2355 Event ID: 987335
+New Money: 966392.7 Old turns: 204 | New Turns: 292
+
+17:04:04 | 12-07-2018
+User ID: 2440 Event ID: 990028
+New Money: 1039273.3 Old turns: 104 | New Turns: 192
+
+17:16:58 | 12-07-2018
+User ID: 2339 Event ID: 990026
+New Money: 819436.775 Old turns: 7 | New Turns: 95
+
+18:38:14 | 12-07-2018
+User ID: 2005 Event ID: 990203
+New Money: 2051492 Old turns: 3 | New Turns: 266
+
+19:39:29 | 12-07-2018
+User ID: 1443 Event ID: 990343
+New Money: 1212910.95 Old turns: 1 | New Turns: 176
+
+20:19:46 | 12-07-2018
+User ID: 1439 Event ID: 990344
+New Money: 1414870 Old turns: 5 | New Turns: 180
+
+21:33:36 | 12-07-2018
+User ID: 2337 Event ID: 990025
+New Money: 727660.5 Old turns: 76 | New Turns: 164
+
+22:24:41 | 12-07-2018
+User ID: 2226 Event ID: 989659
+New Money: 1160984 Old turns: 14 | New Turns: 145
+
+22:55:08 | 12-07-2018
+User ID: 29 Event ID: 989621
+New Money: 811176.45 Old turns: 34 | New Turns: 122
+
+22:55:33 | 12-07-2018
+User ID: 2338 Event ID: 990029
+New Money: 703746 Old turns: 146 | New Turns: 234
+
+23:06:09 | 12-07-2018
+User ID: 2259 Event ID: 990635
+New Money: 691116.15 Old turns: 40 | New Turns: 128
+
+7:16:08 | 13-07-2018
+User ID: 2045 Event ID: 990631
+New Money: 1458542.65 Old turns: 1 | New Turns: 89
+
+7:36:57 | 13-07-2018
+User ID: 2468 Event ID: 990030
+New Money: 879774.3 Old turns: 24 | New Turns: 112
+
+8:39:41 | 13-07-2018
+User ID: 402 Event ID: 987842
+New Money: 746060.85 Old turns: 22 | New Turns: 110
+
+8:39:44 | 13-07-2018
+User ID: 402 Event ID: 989618
+New Money: 1329393.85 Old turns: 110 | New Turns: 198
+
+9:10:47 | 13-07-2018
+User ID: 433 Event ID: 990634
+New Money: 628840.3 Old turns: 35 | New Turns: 123
+
+9:47:09 | 13-07-2018
+User ID: 2046 Event ID: 991190
+New Money: 803653.05 Old turns: 13 | New Turns: 101
+
+10:25:44 | 13-07-2018
+User ID: 522 Event ID: 989617
+New Money: 3489562.5 Old turns: 104 | New Turns: 192
+
+14:22:29 | 13-07-2018
+User ID: 464 Event ID: 991187
+New Money: 1896617.5 Old turns: 54 | New Turns: 142
+
+16:58:09 | 13-07-2018
+User ID: 2224 Event ID: 989658
+New Money: 985468 Old turns: 71 | New Turns: 202
+
+22:42:00 | 13-07-2018
+User ID: 2311 Event ID: 990632
+New Money: 725716.1 Old turns: 2 | New Turns: 90
+
+23:22:54 | 13-07-2018
+User ID: 2340 Event ID: 990027
+New Money: 976017 Old turns: 1 | New Turns: 89
+
+2:08:47 | 14-07-2018
+User ID: 29 Event ID: 991189
+New Money: 1137390.35 Old turns: 12 | New Turns: 100
+
+5:28:38 | 14-07-2018
+User ID: 641 Event ID: 990342
+New Money: 1416830.5 Old turns: 139 | New Turns: 314
+
+12:39:56 | 14-07-2018
+User ID: 2259 Event ID: 993184
+New Money: 630629.35 Old turns: 3 | New Turns: 91
+
+13:54:13 | 14-07-2018
+User ID: 2045 Event ID: 993180
+New Money: 1308839.65 Old turns: 6 | New Turns: 94
+
+14:07:57 | 14-07-2018
+User ID: 2362 Event ID: 993222
+New Money: 4472729 Old turns: 1 | New Turns: 526
+
+15:08:53 | 14-07-2018
+User ID: 2004 Event ID: 990202
+New Money: 2398130.95 Old turns: 150 | New Turns: 413
+
+16:54:19 | 14-07-2018
+User ID: 1421 Event ID: 990636
+New Money: 1016176.4 Old turns: 2 | New Turns: 90
+
+17:46:40 | 14-07-2018
+User ID: 2311 Event ID: 993181
+New Money: 591742.1 Old turns: 56 | New Turns: 144
+
+18:03:13 | 14-07-2018
+User ID: 2046 Event ID: 993115
+New Money: 1486280.05 Old turns: 10 | New Turns: 98
+
+18:51:21 | 14-07-2018
+User ID: 29 Event ID: 993114
+New Money: 706262.55 Old turns: 25 | New Turns: 113
+
+19:25:30 | 14-07-2018
+User ID: 1799 Event ID: 993635
+New Money: 3061109.75 Old turns: 7 | New Turns: 270
+
+3:40:08 | 15-07-2018
+User ID: 522 Event ID: 991185
+New Money: 1886050.7 Old turns: 101 | New Turns: 189
+
+6:23:14 | 15-07-2018
+User ID: 1439 Event ID: 994284
+New Money: 1328660 Old turns: 2 | New Turns: 177
+
+13:30:08 | 15-07-2018
+User ID: 2309 Event ID: 994718
+New Money: 618356 Old turns: 141 | New Turns: 229
+
+14:34:37 | 15-07-2018
+User ID: 2228 Event ID: 994318
+New Money: 1024632.4 Old turns: 14 | New Turns: 145
+
+15:21:27 | 15-07-2018
+User ID: 2226 Event ID: 994321
+New Money: 1145734.5 Old turns: 3 | New Turns: 134
+
+16:03:15 | 15-07-2018
+User ID: 2046 Event ID: 994538
+New Money: 795210.05 Old turns: 6 | New Turns: 94
+
+16:10:18 | 15-07-2018
+User ID: 2078 Event ID: 993634
+New Money: 1914981.75 Old turns: 6 | New Turns: 269
+
+16:39:40 | 15-07-2018
+User ID: 1443 Event ID: 994283
+New Money: 1501667.95 Old turns: 42 | New Turns: 217
+
+18:17:42 | 15-07-2018
+User ID: 1421 Event ID: 993185
+New Money: 794442.4 Old turns: 2 | New Turns: 90
+
+19:05:12 | 15-07-2018
+User ID: 2243 Event ID: 994319
+New Money: 2246934.25 Old turns: 52 | New Turns: 183
+
+20:24:14 | 15-07-2018
+User ID: 464 Event ID: 994535
+New Money: 4051387 Old turns: 43 | New Turns: 131
+
+20:28:27 | 15-07-2018
+User ID: 2355 Event ID: 993182
+New Money: 694839.7 Old turns: 108 | New Turns: 196
+
+23:50:08 | 15-07-2018
+User ID: 2053 Event ID: 995736
+New Money: 1021091.3 Old turns: 59 | New Turns: 164
+
+1:37:30 | 16-07-2018
+User ID: 2024 Event ID: 994716
+New Money: 1098985.1 Old turns: 284 | New Turns: 372
+
+1:38:29 | 16-07-2018
+User ID: 1952 Event ID: 994715
+New Money: 1214955.5 Old turns: 109 | New Turns: 197
+
+4:30:38 | 16-07-2018
+User ID: 60 Event ID: 995993
+New Money: 890106 Old turns: 8 | New Turns: 139
+
+5:21:02 | 16-07-2018
+User ID: 2200 Event ID: 994717
+New Money: 590624.25 Old turns: 148 | New Turns: 236
+
+8:17:33 | 16-07-2018
+User ID: 1953 Event ID: 994714
+New Money: 797849.25 Old turns: 2 | New Turns: 90
+
+8:25:38 | 16-07-2018
+User ID: 29 Event ID: 994537
+New Money: 2013233 Old turns: 170 | New Turns: 258
+
+8:58:00 | 16-07-2018
+User ID: 433 Event ID: 993183
+New Money: 594966.3 Old turns: 3 | New Turns: 91
+
+9:04:28 | 16-07-2018
+User ID: 2071 Event ID: 995737
+New Money: 1075618.75 Old turns: 51 | New Turns: 156
+
+9:14:48 | 16-07-2018
+User ID: 1224 Event ID: 995734
+New Money: 1110582.5 Old turns: 75 | New Turns: 180
+
+9:22:58 | 16-07-2018
+User ID: 2440 Event ID: 996311
+New Money: 1118960.6 Old turns: 10 | New Turns: 98
+
+9:35:50 | 16-07-2018
+User ID: 1052 Event ID: 993113
+New Money: 585062.65 Old turns: 171 | New Turns: 259
+
+9:52:03 | 16-07-2018
+User ID: 522 Event ID: 993110
+New Money: 587542.7 Old turns: 157 | New Turns: 245
+
+10:03:42 | 16-07-2018
+User ID: 2340 Event ID: 996310
+New Money: 905174 Old turns: 40 | New Turns: 128
+
+12:12:09 | 16-07-2018
+User ID: 2338 Event ID: 996312
+New Money: 620213.75 Old turns: 29 | New Turns: 117
+
+16:22:27 | 16-07-2018
+User ID: 1953 Event ID: 996934
+New Money: 784313.25 Old turns: 1 | New Turns: 89
+
+16:22:37 | 16-07-2018
+User ID: 1952 Event ID: 996935
+New Money: 609583.5 Old turns: 91 | New Turns: 179
+
+16:23:33 | 16-07-2018
+User ID: 2024 Event ID: 996936
+New Money: 614590.35 Old turns: 62 | New Turns: 150
+
+17:38:53 | 16-07-2018
+User ID: 2339 Event ID: 996309
+New Money: 1711239 Old turns: 203 | New Turns: 291
+
+17:42:07 | 16-07-2018
+User ID: 2309 Event ID: 996938
+New Money: 616820 Old turns: 52 | New Turns: 140
+
+17:53:40 | 16-07-2018
+User ID: 2337 Event ID: 996308
+New Money: 1433333 Old turns: 281 | New Turns: 369
+
+20:32:41 | 16-07-2018
+User ID: 1086 Event ID: 995996
+New Money: 875181.2 Old turns: 87 | New Turns: 218
+
+23:13:53 | 16-07-2018
+User ID: 2224 Event ID: 994320
+New Money: 875200 Old turns: 47 | New Turns: 178
+
+23:43:13 | 16-07-2018
+User ID: 1443 Event ID: 997414
+New Money: 1272150.95 Old turns: 13 | New Turns: 188
+
+23:53:18 | 16-07-2018
+User ID: 1439 Event ID: 997415
+New Money: 1594680 Old turns: 15 | New Turns: 190
+
+8:24:50 | 17-07-2018
+User ID: 2259 Event ID: 997098
+New Money: 584626.05 Old turns: 111 | New Turns: 199
+
+12:14:26 | 17-07-2018
+User ID: 2230 Event ID: 994719
+New Money: 816833 Old turns: 76 | New Turns: 164
+
+12:15:24 | 17-07-2018
+User ID: 2230 Event ID: 996939
+New Money: 612666 Old turns: 24 | New Turns: 112
+
+12:58:30 | 17-07-2018
+User ID: 2046 Event ID: 998566
+New Money: 895295.05 Old turns: 11 | New Turns: 99
+
+15:19:15 | 17-07-2018
+User ID: 2355 Event ID: 997096
+New Money: 646663.7 Old turns: 112 | New Turns: 200
+
+15:30:03 | 17-07-2018
+User ID: 2468 Event ID: 996313
+New Money: 586333 Old turns: 122 | New Turns: 210
+
+22:44:34 | 17-07-2018
+User ID: 2311 Event ID: 997095
+New Money: 745925.1 Old turns: 17 | New Turns: 105
+
+22:46:20 | 17-07-2018
+User ID: 2339 Event ID: 999400
+New Money: 599952 Old turns: 58 | New Turns: 146
+
+22:53:04 | 17-07-2018
+User ID: 2340 Event ID: 999401
+New Money: 1259133 Old turns: 39 | New Turns: 127
+
+22:54:19 | 17-07-2018
+User ID: 2440 Event ID: 999402
+New Money: 804115.1 Old turns: 30 | New Turns: 118
+
+23:55:34 | 17-07-2018
+User ID: 2468 Event ID: 999404
+New Money: 590333 Old turns: 154 | New Turns: 242
+
+0:01:56 | 18-07-2018
+User ID: 2338 Event ID: 999403
+New Money: 917050 Old turns: 53 | New Turns: 141
+
+1:19:07 | 18-07-2018
+User ID: 464 Event ID: 998563
+New Money: 6248691 Old turns: 5 | New Turns: 93
+
+4:34:35 | 18-07-2018
+User ID: 2045 Event ID: 997094
+New Money: 754011.15 Old turns: 2 | New Turns: 90
+
+5:15:10 | 18-07-2018
+User ID: 433 Event ID: 997097
+New Money: 784336.3 Old turns: 87 | New Turns: 175
+
+7:21:35 | 18-07-2018
+User ID: 2259 Event ID: 999826
+New Money: 1009063.85 Old turns: 53 | New Turns: 141
+
+7:44:31 | 18-07-2018
+User ID: 2337 Event ID: 999399
+New Money: 910683 Old turns: 7 | New Turns: 95
+
+9:55:13 | 18-07-2018
+User ID: 2355 Event ID: 999824
+New Money: 615856.4 Old turns: 124 | New Turns: 212
+
+10:36:12 | 18-07-2018
+User ID: 433 Event ID: 999825
+New Money: 670595.3 Old turns: 85 | New Turns: 173
+
+11:10:22 | 18-07-2018
+User ID: 29 Event ID: 998565
+New Money: 7066697.5 Old turns: 129 | New Turns: 217
+
+12:32:43 | 18-07-2018
+User ID: 1421 Event ID: 997099
+New Money: 744810.35 Old turns: 15 | New Turns: 103
+
+13:17:31 | 18-07-2018
+User ID: 2311 Event ID: 999823
+New Money: 620915.6 Old turns: 0 | New Turns: 88
+
+15:48:50 | 18-07-2018
+User ID: 1443 Event ID: 1000623
+New Money: 1223022.45 Old turns: 26 | New Turns: 201
+
+16:33:09 | 18-07-2018
+User ID: 2233 Event ID: 1000609
+New Money: 481029.4 Old turns: 117 | New Turns: 205
+
+20:18:31 | 18-07-2018
+User ID: 313 Event ID: 997926
+New Money: 815576.5 Old turns: 53 | New Turns: 170
+
+22:48:38 | 18-07-2018
+User ID: 402 Event ID: 998562
+New Money: 3257173.85 Old turns: 0 | New Turns: 88
+
+0:58:00 | 19-07-2018
+User ID: 457 Event ID: 1000607
+New Money: 1705152.9 Old turns: 89 | New Turns: 177
+
+5:06:19 | 19-07-2018
+User ID: 1439 Event ID: 1000624
+New Money: 1360667 Old turns: 47 | New Turns: 222
+
+6:06:21 | 19-07-2018
+User ID: 1421 Event ID: 999827
+New Money: 594180.3 Old turns: 3 | New Turns: 91
+
+11:16:51 | 19-07-2018
+User ID: 1052 Event ID: 998564
+New Money: 600988.65 Old turns: 42 | New Turns: 130
+
+19:19:04 | 19-07-2018
+User ID: 488 Event ID: 1000608
+New Money: 1707867 Old turns: 261 | New Turns: 349
+
+20:15:48 | 19-07-2018
+User ID: 1439 Event ID: 1002893
+New Money: 1171715 Old turns: 60 | New Turns: 235
+
+22:07:51 | 19-07-2018
+User ID: 1400 Event ID: 1002558
+New Money: 2018225 Old turns: 116 | New Turns: 466
+
+22:43:47 | 19-07-2018
+User ID: 1443 Event ID: 1002892
+New Money: 1260146.7 Old turns: 18 | New Turns: 193
+
+0:52:56 | 20-07-2018
+User ID: 2311 Event ID: 1003560
+New Money: 781396.6 Old turns: 2 | New Turns: 90
+
+2:19:09 | 20-07-2018
+User ID: 2309 Event ID: 1003666
+New Money: 677431 Old turns: 23 | New Turns: 111
+
+3:37:03 | 20-07-2018
+User ID: 2024 Event ID: 1003664
+New Money: 815466.1 Old turns: 132 | New Turns: 220
+
+4:33:47 | 20-07-2018
+User ID: 641 Event ID: 1000622
+New Money: 1196033.5 Old turns: 212 | New Turns: 387
+
+5:24:37 | 20-07-2018
+User ID: 2045 Event ID: 999822
+New Money: 639503.15 Old turns: 0 | New Turns: 88
+
+5:53:33 | 20-07-2018
+User ID: 433 Event ID: 1003562
+New Money: 591477.3 Old turns: 92 | New Turns: 180
+
+6:48:21 | 20-07-2018
+User ID: 2259 Event ID: 1003563
+New Money: 1993226.85 Old turns: 97 | New Turns: 185
+
+8:43:57 | 20-07-2018
+User ID: 1952 Event ID: 1003663
+New Money: 586414.5 Old turns: 16 | New Turns: 104
+
+9:08:54 | 20-07-2018
+User ID: 1953 Event ID: 1003662
+New Money: 680322.25 Old turns: 1 | New Turns: 89
+
+9:12:55 | 20-07-2018
+User ID: 2355 Event ID: 1003561
+New Money: 819808.9 Old turns: 39 | New Turns: 127
+

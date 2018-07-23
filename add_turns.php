@@ -7,7 +7,7 @@ require_once("wp-load.php");
 include('constants.php');
 
 
-if (get_field('game_status', 'option') == 'Live') {
+if (get_field('game_status', 'option') != 'Live') { exit; }
 
     // note: increments are by one. $INCOME_TURNS is assumed to be 1
     // 1) increase all turns_lost for users having > 300 turns at hand
@@ -39,4 +39,3 @@ if (get_field('game_status', 'option') == 'Live') {
            AND     t2.meta_value > 3499
            
     ");
-}

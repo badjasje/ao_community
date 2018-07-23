@@ -2,24 +2,16 @@
 
 if (!defined('ABSPATH')) exit;
 
-echo '<h1 class="main-title">'.esc_html(stripslashes($this->get_name($this->current_forum, $this->tables->forums))).'</h1>';
-
-$user_ID = get_current_user_ID();
-$clan_id_user = get_user_meta($user_ID, 'clan_id_user',true);
-$clan_forum_id = get_post_meta($clan_id_user, 'clan_forum_id', true);
-$current_cat = $this->current_category;
-if($clan_forum_id != $current_cat && $current_cat != 252){
-	wp_redirect(get_permalink(3486)); exit;
-}
+$this->editor->showEditor('addtopic', true);
 
 ?>
 
-<div>
+<div class="pages-and-menu">
     <?php
-    $pageing = ($counter_normal > 0) ? $this->pageing($this->tables->topics) : '';
-    echo $pageing;
+    $paginationRendering = ($counter_normal > 0) ? $this->pagination->renderPagination($this->tables->topics, $this->current_forum) : '';
+    echo $paginationRendering;
+    echo $this->showForumMenu();
     ?>
-    <div class="forum-menu"><?php echo $this->forum_menu('forum'); ?></div>
     <div class="clear"></div>
 </div>
 
@@ -29,14 +21,10 @@ $subforums = $this->get_forums($this->current_category, $this->current_forum);
 if (count($subforums) > 0) {
     echo '<div class="title-element">';
         echo __('Subforums', 'asgaros-forum');
-        echo '<span class="last-post-headline">'.__('Last post:', 'asgaros-forum').'</span>';
+        echo '<span class="last-post-headline">'.__('Last post', 'asgaros-forum').'</span>';
     echo '</div>';
     echo '<div class="content-element">';
-    $elementMarker = '';
-    $forumsCounter = 0;
     foreach ($subforums as $forum) {
-        $forumsCounter++;
-        $elementMarker = ($forumsCounter & 1) ? 'odd' : 'even';
         require('forum-element.php');
     }
     echo '</div>';
@@ -45,46 +33,39 @@ if (count($subforums) > 0) {
 if ($counter_total > 0) {
     echo '<div class="title-element">';
         echo __('Topics', 'asgaros-forum');
-        echo '<span class="last-post-headline">'.__('Last post:', 'asgaros-forum').'</span>';
+        echo '<span class="last-post-headline">'.__('Last post', 'asgaros-forum').'</span>';
     echo '</div>';
     echo '<div class="content-element">';
-        // Sticky threads
-        if ($sticky_threads && !$this->current_page) { ?>
-            <?php
-            $elementMarker = '';
-            $elementsCounter = 0;
-            foreach ($sticky_threads as $thread) {
-                $elementsCounter++;
-                $elementMarker = ($elementsCounter & 1) ? 'odd' : 'even';
-                require('thread-element.php');
+        // Sticky topics
+        if ($sticky_topics && !$this->current_page) {
+            foreach ($sticky_topics as $topic) {
+                $this->render_topic_element($topic, 'topic-sticky');
             }
         }
 
-        if ($counter_normal > 0 && (($sticky_threads && !$this->current_page))) {
+        if ($counter_normal > 0 && (($sticky_topics && !$this->current_page))) {
             echo '<div class="sticky-bottom"></div>';
         }
 
-        $elementMarker = '';
-        $elementsCounter = 0;
-        foreach ($threads as $thread) {
-            $elementsCounter++;
-            $elementMarker = ($elementsCounter & 1) ? 'odd' : 'even';
-            require('thread-element.php');
+        foreach ($topics as $topic) {
+            $this->render_topic_element($topic);
         } ?>
     </div>
 
-    <div>
-        <?php echo $pageing; ?>
-        <div class="forum-menu"><?php echo $this->forum_menu('forum'); ?></div>
+    <div class="pages-and-menu">
+        <?php
+        echo $paginationRendering;
+        echo $this->showForumMenu();
+        ?>
         <div class="clear"></div>
     </div>
 <?php } else {
-    echo '<div class="title-element">'.esc_html(stripslashes($this->get_name($this->current_forum, $this->tables->forums))).'</div>';
+    echo '<div class="title-element">'.esc_html(stripslashes($this->current_forum_name)).'</div>';
     echo '<div class="content-element">';
     echo '<div class="notice">'.__('There are no topics yet!', 'asgaros-forum').'</div>';
     echo '</div>';
 }
 
-AsgarosForumNotifications::showForumSubscriptionLink();
+$this->notifications->show_forum_subscription_link($this->current_forum);
 
 ?>

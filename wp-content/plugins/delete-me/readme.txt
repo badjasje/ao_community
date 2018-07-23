@@ -1,10 +1,11 @@
 === Delete Me ===
 Contributors: cmc3215
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=L5VY6QDSAAZUL
-Tags: delete, unsubscribe, user management, multisite
-Requires at least: 3.4
-Tested up to: 4.7
-Stable tag: 2.0
+Tags: delete, unsubscribe, user management, gdpr, multisite
+Requires at least: 3.7
+Tested up to: 4.9
+Stable tag: 2.6
+Requires PHP: 5.2.4
 License: GPL2 http://www.gnu.org/licenses/gpl-2.0.html
 
 Allow users with specific WordPress roles to delete themselves from the Your Profile page or anywhere Shortcodes can be used.
@@ -26,6 +27,8 @@ Settings for this plugin are found on the **Settings -> Delete Me** subpanel. Mu
 
 **Settings available:**
 
+* Enable or disable Network Wide, which applies a single page of settings across all Multisite network Sites.
+
 * Select specific WordPress roles (e.g. Subscriber) you want to allow to delete themselves using Delete Me.
 
 * `class` and `style` attributes of the delete link.
@@ -34,7 +37,7 @@ Settings for this plugin are found on the **Settings -> Delete Me** subpanel. Mu
 
 * Landing page URL.
 
-* **Your Profile** confirmation page Heading, Warning, Button.
+* **Your Profile** confirmation page Heading, Warning, Password (optionally require password), Button.
 
 * Enable or disable delete link on the **Your Profile** page.
 
@@ -42,13 +45,17 @@ Settings for this plugin are found on the **Settings -> Delete Me** subpanel. Mu
 
 * Enable or disable Javascript confirm for Shortcode.
 
-* Multisite: Delete user from Network if they no longer belong to any other Network Sites after deletion from current Site.
+* Enable or disable using a form (require password) instead of a link for Shortcode.
+
+* Multisite: Delete user from entire Network or current Site only.
 
 * Delete comments.
 
 * E-mail notification when a user deletes themselves.
 
 == Installation ==
+
+**Basic**
 
 1. Install automatically in WordPress on the **Plugins -> Add New** subpanel or upload the **delete-me** folder to the **/wp-content/plugins/** directory.
 
@@ -67,6 +74,21 @@ Settings for this plugin are found on the **Settings -> Delete Me** subpanel. Mu
 * **Text Widget** - To use the Shortcode in a Text Widget, make sure the line `add_filter( 'widget_text', 'do_shortcode' );` appears in your Theme Functions (functions.php) file.
 * **Attributes** - The attributes `class, style, html, js_confirm_warning, landing_url` may be used to override settings, but are not required. They provide site owners the ability to use multiple languages and/or multiple links within the same site or even the same page each configured differently.
 
+**Advanced: Translation**
+
+*Note: Languages directory for plugins: **/wp-content/languages/plugins***
+
+1. Choose a translation method:
+**A)** Get or provide [translations of this plugin on WordPress.org](https://translate.wordpress.org/projects/wp-plugins/delete-me). Alternatively, some language plugins (e.g. [Polylang](https://wordpress.org/plugins/polylang/)) can download and install the publicly available language files for plugins.
+**B)** Create your own translations using the included **delete-me.pot** template file found in this plugin's languages directory and the free tool [Poedit](https://poedit.net).
+1. Once you have finished your translations, export and save them as a .mo file.
+1. Name the .mo file delete-me-{locale}.mo (e.g. delete-me-en_US.mo)
+1. Place the .mo file into the languages directory for plugins.
+
+*If you're using Poedit, it will create a .po file too. You should keep the .po file in order to open and save changes to your translations or to update the .po file with source text changes when an updated delete-me.pot file is released. Just be aware that the actual translations used by the plugin are inside the .mo file.*
+
+***Warning: If you place your translation files into this plugin's languages directory instead of the directory shown above, they will be deleted or replaced with any the author might include when updating the plugin.***
+
 == Frequently Asked Questions ==
 
 = What happens to Posts, Links, and (optionally) Comments belonging to a deleted user? =
@@ -77,38 +99,87 @@ Most Post types and Comments are moved to Trash. Links are always deleted perman
 
 Yes, Network Activation and single Site activation are both supported. Users and their content will only be deleted from the Site they delete themselves from, other Network Sites will be unaffected.
 
-= When using Multisite is a user deleted from the Network or only the Site deletion originated from? =
+= When using Multisite, are users deleted from the Network or only the Site deletion originated from? =
 
-If the user is registered to more than one Site on the Network they're only deleted from the single Site, their user remains on the Network registered to any of their remaining Sites. However, if the option "Delete From Network" is checked and they belong to only one Site then their user will be deleted from the Network because they no longer belong to any Network Sites.
+By default, users registered to multiple Sites on the Network are only deleted from the current Site and will remain registered to their remaining Sites. However, if the setting "Delete From Network" is checked, users will be deleted from the entire Network.
 
 = Is it possible for a user to delete anyone but themselves? =
 
 No, the user deleted is the currently logged in user, period.
 
-= What does the Shortcode display when the user is not logged in or their role is not allowed to delete themselves? =
+= What does the Shortcode display when users are not logged in or their role is not allowed to delete themselves? =
 
-Nothing when using the self-closing Shortcode tag (i.e. `[plugin_delete_me /]`). However, when the opening and closing Shortcode tags are used (i.e. `[plugin_delete_me]`Content`[/plugin_delete_me]`) the content inside the tags will appear instead of the delete link.
+Nothing, when using the self-closing Shortcode tag (i.e. `[plugin_delete_me /]`). However, when the opening and closing Shortcode tags are used (i.e. `[plugin_delete_me]`Content`[/plugin_delete_me]`), the content inside the tags will appear instead of the delete link.
 
-= Where is a user sent after deleting themselves? =
+= Where are users sent after deleting themselves? =
 
-The **Settings -> Delete Me** subpanel lets you enter any URL you'd like to redirect deleted users to, set to homepage by default. You can leave "Landing URL" blank to remain at the same URL after deletion.
+The **Settings -> Delete Me** subpanel lets you enter any URL you'd like to redirect deleted users to, set to homepage by default. You can leave "Landing URL" blank to have users remain at the same URL after deletion.
 
 = Is there a confirmation before the user deletes themselves? =
 
-Yes, the delete link on the **Your Profile** page leads to a confirmation page. The Shortcode delete link provides a Javascript confirm dialog [OK] [Cancel] by default, but may be disabled to make using a custom confirmation page easier.
+Yes, the delete link on the **Your Profile** page leads to a pre-built confirmation page. You can optionally require users to confirm their password on this page before deletion. The Shortcode delete Link provides a Javascript confirm dialog [OK] [Cancel] by default, but may be disabled if preferred. Additionally, the Shortcode has a setting that provides a Form instead of the Link, which requires users to confirm their password.
 
 = May I be notified of users who delete themselves and what was deleted? =
 
 Yes. The **Settings -> Delete Me** subpanel has a setting called "E-mail Notification", just check the box and save changes.
 
+= Does this plugin store any personal information about users? =
+
+No, the only data stored is related to the plugin's settings which are located on the **Settings -> Delete Me** subpanel.
+
 == Screenshots ==
 
 1. **Your Profile** page.
-2. **Your Profile** confirmation page.
-3. Post or Page using the Shortcode. You can disable the Javascript confirm and use the Shortcode on a custom confirmation page.
-4. **Settings -> Delete Me** subpanel.
+2. **Your Profile** confirmation page. (This page is included out of the box)
+3. Example of Shortcode Link. (Enable or disable the Javascript confirm dialog)
+4. Example of Shortcode Form. (Create a page like this and send users to it for delete confirmation)
+5. **Network Admin -> Settings -> Delete Me** subpanel. (Multisite installations only)
+6. **Settings -> Delete Me** subpanel.
 
 == Changelog ==
+
+= 2.6 =
+
+* Release date: 05/25/2018
+* Fixed 2 PHP parse errors affecting those using a PHP version less than 5.4.
+* Added message for Administrators, in place of delete link (or form), to remind them the delete option configured is not visible to Administrators.
+
+= 2.5 =
+
+* Release date: 03/01/2018
+* Multisite setting "Delete From Network" has been changed to be more intuitive. Users are now deleted from the entire Network regardless of the number of Sites to which they belong.
+* Multisite setting "Delete From Network" is now unchecked by default.
+* Multisite e-mail notifications now include the total number (if more than one) of Network Sites from which a user has been deleted whenever "Delete From Network" is checked.
+
+= 2.4 =
+
+* Release date: 02/16/2018
+* Bug fixed: Added missing text domain to two translations.
+* Removed invalid Plugin URI to comply with WordPress plugin Header Requirements
+	
+= 2.3 =
+
+* Release date: 02/06/2018
+* Added support for translation; a languages folder now contains a .POT file containing the English strings for translation.
+* Removed wpml-config.xml to prevent conflicts and confusion between the database option and the newly added standard translation calls.
+* Replaced donation link on Plugins page with link to Changelog.
+* From this version forward, downgrading the plugin to a previous version will work but automatically resets settings to defaults.
+* WordPress minimum required version changed from 3.4 to 3.7.
+
+= 2.2 =
+
+* Release date: 01/27/2018
+* Bug fixed: Multisite installations with Network Wide enabled would not get selected role updates for roles of newly added Sites.
+* Bug fixed: Error on user delete for WordPress versions less than 4.4.
+
+= 2.1 =
+
+* Release date: 01/26/2018
+* Added Network Wide settings for Multisite installations that apply a single page of settings across all network Sites.
+* Added a setting that requires users to confirm their password on the **Your Profile** confirmation page.
+* Added a setting that allows inserting a form when using the shortcode instead of a link. This setting will also require users to confirm their password before deletion.
+* Added "user_registered" (e.g. 2018-01-25 01:30:15) user data to the deleted user email notification.
+* %sitename% can now be used for text replacement in the warning messages. The default warning messages have also been updated to include its use.
 
 = 2.0 =
 
@@ -186,6 +257,8 @@ Yes. The **Settings -> Delete Me** subpanel has a setting called "E-mail Notific
 
 == Upgrade Notice ==
 
-= 2.0 =
+= 2.6 =
 
-See Changelog - https://wordpress.org/plugins/delete-me/changelog/
+* Fixed 2 PHP parse errors affecting those using a PHP version less than 5.4.
+* Added message for Administrators, in place of delete link (or form), to remind them the delete option configured is not visible to Administrators.
+See [Changelog](https://wordpress.org/plugins/delete-me/#developers)

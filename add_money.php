@@ -2,9 +2,10 @@
 /**
  * Handles hourly monetary income
  */
-include('constants.php');
 require_once("wp-load.php");
-if (get_field('game_status', 'option') == 'Live') {
+
+if (get_field('game_status', 'option') != 'Live') { exit;}
+	include('constants.php');
     global $wpdb;
     $timestamp = current_time('timestamp')-259200;
 
@@ -73,4 +74,3 @@ if (get_field('game_status', 'option') == 'Live') {
         SET t1.meta_value = t1.meta_value + 38500
         WHERE t1.meta_key = 'money' AND t2.meta_value >= 2 AND t3.meta_value = 'finance' AND t4.meta_value > $timestamp AND t5.meta_value > 3499"
     );
-}

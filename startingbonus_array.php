@@ -8,11 +8,11 @@
         'description'           => 'Gain twice the land and money during attacks, plus 75 turns.'),
     'defensive'             => array(
         'name'                  => 'Defensive',
-        'icon'                  => 'fa-shield',
+        'icon'                  => 'fa-shield-alt',
         'description'           => 'Constructing 10 buildings per turn by default (to a maximum of 20 with full research), plus 20% extra defense for all defending units, plus 10% time deduction when researching, plus 3 500 m2 of land.'),
     'finance'               => array(
         'name'                  => 'Finance',
-        'icon'                  => 'fa-usd',
+        'icon'                  => 'fa-dollar-sign',
         'description'           => 'Hourly income increased by 10%, bank capacity is raised by 50% and $400 000 money.'),
     'shipping'              => array(
         'name'                  => 'Shipping',

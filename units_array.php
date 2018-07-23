@@ -13,17 +13,19 @@
 			'attack'		=>	0,
 			'type'			=>	'air',
 			'sectype'		=>	'special',
+			'attacktype'	=>	array('spy'),
 			'life'			=>	200),
 	'dragon' 		=> array(
 			'price'			=>	'1500',
 			'networth'		=>	14,
 			'normalname'	=>	'U-2 Dragon Lady',
 			'description'	=>	'The U-2 Dragon Lady is a support unit. Each U-2 Dragon Lady sent into battle supports up to 25 vehicles, providing a 15% attack boost.',
-			'attacks'		=>  array('n.a'),
+			'attacks'		=>  array(),
 			'defends'		=>  array(),
 			'attack'		=>	0,
 			'type'			=>	'air',
 			'sectype'		=>	'special',
+			'attacktype'	=>	array('air_sea','regular'),
 			'life'			=>	105),
     'f22_raptors' 		=> array(
 			'price'			=>	'830',
@@ -34,6 +36,7 @@
 			'attack'		=>	55,
 			'type'			=>	'air',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('air_sea','regular'),
 			'life'			=>	45),
     'rah66_commanches' 	=> array(
 			'price'			=>	'875',
@@ -44,6 +47,7 @@
 			'attack'		=>	60,
 			'type'			=>	'air',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('air_sea','regular'),
 			'life'			=>	50),
 	'b2_bomber' 	=> array(
 			'price'			=>	'2200',
@@ -52,9 +56,9 @@
 			'attacks'		=>  array('bld'),
 			'defends'		=>  array(),
 			'attack'		=>	120,
-
 			'type'			=>	'air',
 			'sectype'		=>	'bk',
+			'attacktype'	=>	array('air_sea','regular'),
 			'life'			=>	95),
 	'jsf' 		=> array(
 			'price'			=>	'640',
@@ -65,6 +69,7 @@
 			'attack'		=>	35,
 			'type'			=>	'air',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('air_sea','regular'),
 			'life'			=>	45),
 	'typhoon' 			=> array(
 			'price'			=>	'690',
@@ -75,6 +80,7 @@
 			'attack'		=>	40,
 			'type'			=>	'air',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('air_sea','regular'),
 			'life'			=>	45),
 	'seahawk' 		=> array(
 			'price'			=>	'830',
@@ -85,6 +91,7 @@
 			'attack'		=>	65,
 			'type'			=>	'air',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('air_sea','regular'),
 			'life'			=>	50),
 	/// VEHICLES ///
 	'apc' 		=> array(
@@ -92,11 +99,12 @@
 			'networth'		=>	14,
 			'normalname'	=>	'Battle Fortress',
 			'description'	=>	'The Battle Fortress is a support unit. Each Battle Fortress sent into battle supports up to 50 infantry, providing a 15% attack boost.',
-			'attacks'		=>  array('n.a'),
+			'attacks'		=>  array(),
 			'defends'		=>  array(),
 			'attack'		=>	0,
 			'type'			=>	'veh',
 			'sectype'		=>	'special',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	105),
 	'humvee' 		=> array(
 			'price'			=>	'500',
@@ -106,6 +114,8 @@
 			'defends'		=>  array('air'),
 			'attack'		=>	45,
 			'type'			=>	'veh',
+			'sectype'		=>	'normal',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	25),
 	'sam' 		=> array(
 			'price'			=>	'950',
@@ -116,6 +126,7 @@
 			'attack'		=>	65,
 			'type'			=>	'veh',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	50),
 	'abraham' 		=> array(
 			'price'			=>	'730',
@@ -126,6 +137,7 @@
 			'attack'		=>	50,
 			'type'			=>	'veh',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	35),
 	'artillery' 		=> array(
 			'price'			=>	'1275',
@@ -136,6 +148,7 @@
 			'attack'		=>	75,
 			'type'			=>	'veh',
 			'sectype'		=>	'bk',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	55),
 	'm70mlrs' 			=> array(
 			'price'			=>	'835',
@@ -146,6 +159,7 @@
 			'attack'		=>	70,
 			'type'			=>	'veh',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	55),
 	'm270_rocket' 		=> array(
 			'price'			=>	'540',
@@ -156,6 +170,7 @@
 			'attack'		=>	40,
 			'type'			=>	'veh',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	40),
 	/// INFANTRY ///
 	'thief' 		=> array(
@@ -168,6 +183,7 @@
 			'attack'		=>	0,
 			'type'			=>	'inf',
 			'sectype'		=>	'special',
+			'attacktype'	=>	array('spy'),
 			'life'			=>	60),
 	'saboteur' 		=> array(
 			'price'			=>	'6000',
@@ -179,6 +195,7 @@
 			'attack'		=>	0,
 			'type'			=>	'inf',
 			'sectype'		=>	'special',
+			'attacktype'	=>	array('saboteur'),
 			'life'			=>	75),
 	'sniper' 		=> array(
 			'price'			=>	'5000',
@@ -190,6 +207,7 @@
 			'attack'		=>	140,
 			'type'			=>	'inf',
 			'sectype'		=>	'special',
+			'attacktype'	=>	array('sniper'),
 			'life'			=>	200),
 	'spy' 		=> array(
 			'price'			=>	'4000',
@@ -201,6 +219,7 @@
 			'attack'		=>	0,
 			'type'			=>	'inf',
 			'sectype'		=>	'special',
+			'attacktype'	=>	array('spy'),
 			'life'			=>	250),
 	'paratrooper' 		=> array(
 			'price'			=>	'1100',
@@ -211,6 +230,7 @@
 			'attack'		=>	60,
 			'type'			=>	'inf',
 			'sectype'		=>	'bk',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	35),
 	'grenade' 		=> array(
 			'price'			=>	'445',
@@ -221,6 +241,7 @@
 			'attack'		=>	30,
 			'type'			=>	'inf',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	20),
 	'navy' 			=> array(
 			'price'			=>	'825',
@@ -231,6 +252,7 @@
 			'attack'		=>	45,
 			'type'			=>	'inf',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	40),
 	'rifle' 		=> array(
 			'price'			=>	'765',
@@ -241,6 +263,7 @@
 			'attack'		=>	50,
 			'type'			=>	'inf',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	40),
 	'rocket' 		=> array(
 			'price'			=>	'850',
@@ -251,6 +274,7 @@
 			'attack'		=>	40,
 			'type'			=>	'inf',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	65),
 	'armoured' 		=> array(
 			'price'			=>	'540',
@@ -261,6 +285,7 @@
 			'attack'		=>	35,
 			'type'			=>	'inf',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	25),
 	'flamethrower' 	=> array(
 			'price'			=>	'500',
@@ -271,6 +296,7 @@
 			'attack'		=>	35,
 			'type'			=>	'inf',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('ground','regular'),
 			'life'			=>	25),
 	
 	
@@ -284,6 +310,7 @@
 			'attack'		=>	110,
 			'type'			=>	'sea',
 			'sectype'		=>	'bk',
+			'attacktype'	=>	array('air_sea'),
 			'life'			=>	110),
 	'frigate' 		=> array(
 			'price'			=>	'875',
@@ -294,17 +321,19 @@
 			'attack'		=>	65,
 			'type'			=>	'sea',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('air_sea'),
 			'life'			=>	50),
 	'carrier' 		=> array(
 			'price'			=>	'2250',
 			'networth'		=>	14,
 			'normalname'	=>	'Aircraft carrier',
 			'description'	=>	'The Aircraft carrier is a support unit. Each Aircraft carrier sent into battle supports up to 25 air units, providing a 15% attack boost.',
-			'attacks'		=>  array('n.a'),
+			'attacks'		=>  array(),
 			'defends'		=>  array(''),
 			'attack'		=>	0,
 			'type'			=>	'sea',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('air_sea'),
 			'life'			=>	210),
 	/*'stealth' 			=> array(
 			'price'			=>	'900',
@@ -324,6 +353,7 @@
 			'attack'		=>	60,
 			'type'			=>	'sea',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('air_sea'),
 			'life'			=>	65),
 	'cruiser' 			=> array(
 			'price'			=>	'1300',
@@ -334,6 +364,7 @@
 			'attack'		=>	90,
 			'type'			=>	'sea',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('air_sea'),
 			'life'			=>	85),
 	'destroyer' 		=> array(
 			'price'			=>	'1125',
@@ -344,6 +375,7 @@
 			'attack'		=>	75,
 			'type'			=>	'sea',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('air_sea'),
 			'life'			=>	60),
 	'sparrow'	 		=> array(
 			'price'			=>	'1025',
@@ -354,5 +386,6 @@
 			'attack'		=>	75,
 			'type'			=>	'sea',
 			'sectype'		=>	'normal',
+			'attacktype'	=>	array('air_sea'),
 			'life'			=>	70),
 );

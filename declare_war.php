@@ -5,7 +5,7 @@
  * @package WordPress
  */
 
-if ('GET' != $_SERVER['REQUEST_METHOD']) {
+if ('POST' != $_SERVER['REQUEST_METHOD']) {
     header('Allow: POST');
     header('HTTP/1.1 405 Method Not Allowed');
     header('Content-Type: text/plain');
@@ -14,10 +14,22 @@ if ('GET' != $_SERVER['REQUEST_METHOD']) {
 include('constants.php');
 require(dirname(__FILE__) . '/wp-load.php');
 
+if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
+    $array['status'] = 'The round has ended';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
+
 $declarer_ID = get_current_user_id();
+
 
 $userLock = get_user_meta($declarer_ID, 'user_lock', true);
 if ($userLock == 1) {
+    $array['status'] = 'Please refresh the page, and try again';
+    $array['next'] = false;
+    echo json_encode($array);
+    update_user_meta($declarer_ID, 'user_lock', 0);
     exit;
 }
 update_user_meta($declarer_ID, 'user_lock', 1);
@@ -26,18 +38,24 @@ if (! defined('ABSPATH')) {
     exit;
 }
 if (empty($declarer_ID)) {
-    wp_redirect(get_permalink(3582));
+    $array['status'] = 'You must be logged in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
+    update_user_meta($declarer_ID, 'user_lock', 0);
     exit;
 }
 if (!is_user_logged_in()) {
-    wp_redirect(get_permalink(3582));
+    $array['status'] = 'You must be logged in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
+    update_user_meta($declarer_ID, 'user_lock', 0);
     exit;
 }
 
 
 $declarer_clan_ID = get_user_meta($declarer_ID, 'clan_id_user', true);
 $timestamp = current_time('timestamp');
-$def_clan_leader = get_post_meta($_GET['clan'], 'clan_leader', true);
+$def_clan_leader = get_post_meta($_POST['clan'], 'clan_leader', true);
 
 $war_ID = md5(uniqid(rand(), true));
 
@@ -54,7 +72,7 @@ $warcheck = get_posts(
                 ),
                 array(
                     'key'       => 'declared_by',
-                    'value'     => $_GET['clan'],
+                    'value'     => $_POST['clan'],
                     'compare'   => '=',
                 ),
             ),
@@ -63,11 +81,11 @@ $warcheck = get_posts(
 
 if (count($warcheck) == 0) {
     $decNW = get_post_meta($declarer_clan_ID, 'clan_networth', true);
-    $recWN = get_post_meta($_GET['clan'], 'clan_networth', true);
+    $recWN = get_post_meta($_POST['clan'], 'clan_networth', true);
     
     //MEGA dropboost fix 20171106
     //Count the members in the clan
-    $clanMembers = get_post_meta($_GET['clan'], 'clan_members', true);
+    $clanMembers = get_post_meta($_POST['clan'], 'clan_members', true);
     $membersCount = count($clanMembers);
     //Enemy clan avg nw is:
     $averageNw = $recWN / $membersCount;
@@ -91,9 +109,11 @@ if (count($warcheck) == 0) {
     //exit; 
     if ($recWN > $decNW/1.4 && $recWN < $decNW*1.4) {
     } else {
-        $_SESSION['status'] = 'You cannot do that.';
-        wp_redirect(get_permalink($_GET['clan']));
-        exit;
+        $array['status'] = 'You can not do that';
+		$array['next'] = false;
+		echo json_encode($array);
+		update_user_meta($declarer_ID, 'user_lock', 0);
+		exit;
     }
 }
 
@@ -113,7 +133,7 @@ $args = array(
 
 $new_war_id = wp_insert_post($args);
 update_post_meta($new_war_id, 'declared_by', $declarer_clan_ID);
-update_post_meta($new_war_id, 'declared_on', $_GET['clan']);
+update_post_meta($new_war_id, 'declared_on', $_POST['clan']);
 update_post_meta($new_war_id, 'war_array_id', $war_ID);
             
             
@@ -132,17 +152,18 @@ $new_event_id = wp_insert_post($args);
 update_field('attacktype', 'war_declared', $new_event_id);
 
 update_field('attacker_clan_id', $declarer_clan_ID, $new_event_id);
-update_field('defender_clan_id', $_GET['clan'], $new_event_id);
+update_field('defender_clan_id', $_POST['clan'], $new_event_id);
 
 update_field('attacker_id', $declarer_ID, $new_event_id);
 update_field('defender_id', $def_clan_leader, $new_event_id);
+update_field('dec_message', $_POST['dec_msg'], $new_event_id);
 
 update_field('time_attacked', $timestamp, $new_event_id);
 
 
 
 
-$clan_members = get_post_meta($_GET['clan'], 'clan_members');
+$clan_members = get_post_meta($_POST['clan'], 'clan_members');
 
 foreach ($clan_members[0] as $member) {
     $globals = get_user_meta($member, 'new_global_events', true);
@@ -169,7 +190,7 @@ if (count($warcheck) == 0) {
     'date'              =>  $timestamp,
     'mutual_date'       =>  0,
     'declarer_id'       =>  $declarer_clan_ID,
-    'receiver_id'       =>  $_GET['clan'],
+    'receiver_id'       =>  $_POST['clan'],
     'id_outgoing'       =>  $new_war_id,
     'id_incoming'       =>  0,
     'attacks_received'  =>  0,
@@ -201,7 +222,7 @@ if (count($warcheck) == 0) {
 
 
 // Set an array for tracking statistics - Declared clan
-    $war_array_def = maybe_unserialize(get_post_meta($_GET['clan'], 'war_array', true));
+    $war_array_def = maybe_unserialize(get_post_meta($_POST['clan'], 'war_array', true));
     
     if(!is_array($war_array_def)){
 		$war_array_def = array();
@@ -212,7 +233,7 @@ if (count($warcheck) == 0) {
     'date'              =>  $timestamp,
     'mutual_date'       =>  0,
     'declarer_id'       =>  $declarer_clan_ID,
-    'receiver_id'       =>  $_GET['clan'],
+    'receiver_id'       =>  $_POST['clan'],
     'id_outgoing'       =>  0,
     'id_incoming'       =>  $new_war_id,
     'attacks_received'  =>  0,
@@ -241,7 +262,7 @@ if (count($warcheck) == 0) {
     );
     $war_array_def[$war_ID] = $war;
 
-    update_post_meta($_GET['clan'], 'war_array', maybe_serialize($war_array_def));
+    update_post_meta($_POST['clan'], 'war_array', maybe_serialize($war_array_def));
 }
 
 // If war already exists, update war array
@@ -254,13 +275,14 @@ if (count($warcheck) > 0) {
     $war_array[$war_ID]['mutual_date'] = $timestamp;
     update_post_meta($declarer_clan_ID, 'war_array', maybe_serialize($war_array));
     
-    $war_array_def = maybe_unserialize(maybe_unserialize(get_post_meta($_GET['clan'], 'war_array', true)));
+    $war_array_def = maybe_unserialize(maybe_unserialize(get_post_meta($_POST['clan'], 'war_array', true)));
     $war_array_def[$war_ID]['id_incoming'] = $new_war_id;
     $war_array_def[$war_ID]['mutual_date'] = $timestamp;
-    update_post_meta($_GET['clan'], 'war_array', maybe_serialize($war_array_def));
+    update_post_meta($_POST['clan'], 'war_array', maybe_serialize($war_array_def));
 }
 
-
+$array['status'] = 'War declared on '.get_the_title($_POST['clan']);;
+$array['next'] = true;
+echo json_encode($array);
 update_user_meta($declarer_ID, 'user_lock', 0);
-wp_redirect(get_permalink($_GET['clan']));
 exit;

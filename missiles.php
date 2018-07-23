@@ -16,33 +16,39 @@ require(dirname(__FILE__) . '/wp-load.php');
 
 nocache_headers();
 
-
-$user_ID = get_current_user_id();
-
-if (! defined('ABSPATH')) {
+if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
+    $array['status'] = 'The round has ended';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
-if (empty($user_ID)) {
-    wp_redirect(get_permalink(3582));
+
+$userId = get_current_user_id();
+
+if (empty($userId) || !is_user_logged_in()) {
+    $array['status'] = 'You must log in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
-if (!is_user_logged_in()) {
-    wp_redirect(get_permalink(3582));
+if (strlen(implode("",$_POST)) <= 0) {
+    $array['status'] = 'Select 1 or more missiles to buy';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
-$totalmoney = get_user_meta($user_ID, 'money', true);
 
-$turns = get_user_meta($user_ID, 'turns', true);
+$totalmoney = get_user_meta($userId, 'money', true);
+
+$turns = get_user_meta($userId, 'turns', true);
 
 
-$missilespace = get_user_meta($user_ID, 'silo', true);
-$tomahawkspace = get_user_meta($user_ID, 'submarine_owned', true)*2;
+$missilespace = get_user_meta($userId, 'silo', true);
+$tomahawkspace = get_user_meta($userId, 'submarine_owned', true)*2;
 
 
 include 'missiles_array.php';
-
-
-
+include 'count_functions.php';
 
 $totalordercost = 0;
 $totalturncost = 0;
@@ -56,9 +62,10 @@ foreach ($missiles as $key => $order) {
         $letter_check = $_POST["$key"];
     }
     if (!is_numeric($letter_check)) {
-        $_SESSION['status'] = 'Enter a valid number';
-        wp_redirect(get_permalink(3457));
-        exit;
+        $array['status'] = 'Enter a valid number';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
     if ($key != 'tomahawk') {
@@ -73,13 +80,15 @@ foreach ($missiles as $key => $order) {
     }
 }
 if ($totalordercost > $totalmoney) {
-    $_SESSION['status'] = 'Insufficient funds';
-    wp_redirect(get_permalink(3457));
+    $array['status'] = 'Insufficient funds';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 if ($turns <= $totalturncost) {
-    $_SESSION['status'] = 'Not enough turns';
-    wp_redirect(get_permalink(3457));
+    $array['status'] = 'Not enough turns';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 
@@ -89,7 +98,7 @@ $mis = 0;
 $total_missile_ordered = 0;
 
 
-$startingbonus = get_user_meta($user_ID, 'starting_bonus', true);
+$startingbonus = get_user_meta($userId, 'starting_bonus', true);
 $shipping_speed = 1;
 if ($startingbonus == 'shipping') {
     $shipping_speed = 0.5;
@@ -106,24 +115,25 @@ foreach ($missiles as $key => $order) {
         $ordered_missiles = ceil($_POST["$key"]);
         $mis+=$ordered_missiles;
                 
-        $owned_missiles = get_user_meta($user_ID, $key.'_owned', true);
-        $missiles_already_on_order = get_user_meta($user_ID, $key.'_ordered', true);
+        $owned_missiles = get_user_meta($userId, $key.'_owned', true);
+        $missiles_already_on_order = get_user_meta($userId, $key.'_ordered', true);
                 
         $total_missile_ordered+=$ordered_missiles+$owned_missiles+$missiles_already_on_order;
     }
                 
     if ($mis>0) {
         if ($total_missile_ordered > $missilespace) {
-            $_SESSION['status'] = 'Build more missile silos';
-            wp_redirect(get_permalink(3457));
-            exit;
+            $array['status'] = 'Build more missile silos';
+			$array['next'] = false;
+			echo json_encode($array);
+			exit;
         }
     }
             
             
     if ($key == 'tomahawk') {
-        $owned_tomahawks = get_user_meta($user_ID, $key.'_owned', true);
-        $tomahawks_already_on_order = get_user_meta($user_ID, $key.'_ordered', true);
+        $owned_tomahawks = get_user_meta($userId, $key.'_owned', true);
+        $tomahawks_already_on_order = get_user_meta($userId, $key.'_ordered', true);
                 
         $ordered_tomahawks = ceil($_POST["$key"]);
                 
@@ -131,9 +141,10 @@ foreach ($missiles as $key => $order) {
                 
         if ($ordered_tomahawks > 0) {
             if ($total_tomahawks_ordered > $tomahawkspace) {
-                $_SESSION['status'] = 'Build more submarines';
-                wp_redirect(get_permalink(3457));
-                exit;
+                $array['status'] = 'You need more submarines to house the ordered amount of tomahawk missiles';
+				$array['next'] = false;
+				echo json_encode($array);
+				exit;
             }
         }
     }
@@ -150,28 +161,28 @@ foreach ($missiles as $key => $order) {
             $total_missiles_ordered+=$ordered_missiles;
     
     if ($ordered_missiles > 0) {
-        $missiles_on_order = get_user_meta($user_ID, $missile_name);
+        $missiles_on_order = get_user_meta($userId, $missile_name);
         $missiles_on_order = $missiles_on_order[0];
 
         
-        update_user_meta($user_ID, 'money', $totalmoney-$totalordercost);
-        update_user_meta($user_ID, 'turns', $turns-$totalturncost);
+        update_user_meta($userId, 'money', $totalmoney-$totalordercost);
+        update_user_meta($userId, 'turns', $turns-$totalturncost);
         
             
             
-        update_user_meta($user_ID, $missile_name, $missiles_on_order+$ordered_missiles);
+        update_user_meta($userId, $missile_name, $missiles_on_order+$ordered_missiles);
             
         $args = array(
         'post_title'    => $order['normalname'],
         'post_status'   => 'publish',
         'post_type'     => 'market_order',
-        'post_author'   => $user_ID
+        'post_author'   => $userId
         );
         $timestamp = current_time('timestamp');
             
         $new_order_id = wp_insert_post($args);
         update_field('unit_type', $key, $new_order_id);
-        update_field('user_placed_id', $user_ID, $new_order_id);
+        update_field('user_placed_id', $userId, $new_order_id);
         update_field('time_placed', $timestamp, $new_order_id);
         update_field('delivery_time', $timestamp+(6 * 3600*$shipping_speed), $new_order_id);
         update_field('amount_ordered', $ordered_missiles, $new_order_id);
@@ -179,6 +190,47 @@ foreach ($missiles as $key => $order) {
         update_field('order_value', $price, $new_order_id);
     }
 }
-$_SESSION['status'] = $total_missiles_ordered.' missiles ordered for '.$totalturncost.' turns and $ '.number_format($totalordercost, 0, ',', ' ');
-wp_redirect(get_permalink(3457).'/?tab=buy');
+
+$userData = get_user_meta($userId);
+
+$allOrdered = array();
+$newMax = array();
+
+$missilespace = $userData['silo'][0];
+$totalMoney = $userData['money'][0];
+$totalturns = $userData['turns'][0];
+$tomahawkspace = $userData['submarine_owned'][0]*2;
+$missileAccLevel = $userData['level_missile_accuracy'][0];
+
+$totalmissiles = count_missilespace($userId);
+
+foreach ($missiles as $key => $missile) {
+
+	if($key != 'tomahawk'){
+		$max_money = floor($totalMoney/($missile['price']));
+		$max_turns = floor($totalturns*5);
+		$max_space = $missilespace-$totalmissiles;
+	}else{
+		$max_money = floor($totalMoney/($missile['price']));
+		$max_turns = round($totalturns/3);
+		$max_space = $tomahawkspace-$userData['tomahawk_owned'][0]-$userData['tomahawk_ordered'][0];
+	}
+	
+    $ordered = $userData[$key.'_ordered'][0];
+
+    if($ordered > 0) {
+        $allOrdered[$key] = $ordered;
+    }
+    
+	$newMax[$key] = min($max_money, $max_turns, $max_space);
+   
+}
+
+$array['status'] = $total_missiles_ordered.' missile'.plural_func($total_missiles_ordered).' ordered for '.$totalturncost.' turn'.plural_func($totalturncost).' and $ '.number_format($totalordercost, 0, ',', ' ');
+$array['next'] = true;
+$array['turns'] = $turns-$totalturncost;
+$array['money'] = $totalmoney-$totalordercost;
+$array['allordered'] = $allOrdered;
+$array['newmax'] = $newMax;
+echo json_encode($array);
 exit;

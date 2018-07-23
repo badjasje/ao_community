@@ -14,18 +14,24 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 
 require(dirname(__FILE__) . '/wp-load.php');
 
-
 $user_ID = get_current_user_id();
-
+$array = array();
 if (! defined('ABSPATH')) {
+    $array['status'] = 'You must log in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 if (empty($user_ID)) {
-    wp_redirect(get_permalink(3582));
+    $array['status'] = 'You must log in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 if (!is_user_logged_in()) {
-    wp_redirect(get_permalink(3582));
+    $array['status'] = 'You must log in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 $clan_ID = get_user_meta($user_ID, 'clan_id_user')[0];
@@ -41,8 +47,15 @@ $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
 
 
 if (in_array($user_ID, $allowed)) {
-    update_post_meta($clan_ID, 'clan_message', $_POST['clanmessage']);
-    wp_redirect(get_permalink(4506));
+    update_post_meta($clan_ID, 'clan_message', $_POST['new_message']);
+    $array['status'] = 'Clan message updated';
+    $array['clanmessage'] = $_POST['new_message'];
+    $array['next'] = true;
+    echo json_encode($array);
+    exit;
 } else {
-    wp_redirect(get_permalink(4506));
+    $array['status'] = 'Not allowed';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
 }

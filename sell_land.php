@@ -16,61 +16,63 @@ require(dirname(__FILE__) . '/wp-load.php');
 
 nocache_headers();
 
-$user_ID = get_current_user_id();
+$userId = get_current_user_id();
+$array = array();
 
-$exploreUrl = get_permalink(3582);
+if (!defined('ABSPATH') || empty($userId) || !is_user_logged_in()) {
+    $array['status'] = 'You must log in to perform this action';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
+}
 
-if (! defined('ABSPATH')) {
-    exit;
-}
-if (empty($user_ID)) {
-    wp_redirect($exploreUrl);
-    exit;
-}
-if (!is_user_logged_in()) {
-    wp_redirect($exploreUrl);
-    exit;
-}
-$ownedland = get_user_meta($user_ID, 'land');
-$money = get_user_meta($user_ID, 'money');
-$sold_land_today = get_user_meta($user_ID, 'land_sold_today');
-$freeland = $ownedland[0]-get_user_meta($user_ID, 'builtland')[0];
 
-$freeland = get_user_meta($user_ID, 'land')[0]-get_user_meta($user_ID, 'builtland')[0];
+$ownedland = get_user_meta($userId, 'land', true);
+$money = get_user_meta($userId, 'money', true);
+$sold_land_today = get_user_meta($userId, 'land_sold_today', true);
+$builtLand = get_user_meta($userId, 'builtland', true);
+$freeland = $ownedland-$builtLand;
+
 if ($freeland < 0) {
-    $_SESSION['status'] = 'Cannot sell! Not enough free land';
-    wp_redirect($exploreUrl);
-    exit;
+    $array['status'] = 'Cannot sell! Not enough free land';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
 }
-if ($_POST['land'] < 0) {
-    $_SESSION['status'] = 'Enter a valid number';
-    wp_redirect($exploreUrl);
-    exit;
-}
-if (!is_numeric($_POST['land'])) {
-    $_SESSION['status'] = 'Enter a valid number';
-    wp_redirect($exploreUrl);
-    exit;
+if ($_POST['land'] < 0 || !is_numeric($_POST['land']) || $_POST['land'] > $freeland){
+    $array['status'] = 'Enter a valid number';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
 }
 
-if ($_POST['land'] > $freeland) {
-    $_SESSION['status'] = 'Enter a valid number';
-    wp_redirect($exploreUrl);
-    exit;
-}
-if ((20000-$sold_land_today[0]) >= $_POST['land']) {
-    update_user_meta($user_ID, 'land', $ownedland[0]-$_POST['land']);
-    update_user_meta($user_ID, 'land_sold_today', $sold_land_today[0]+($_POST['land']));
-    update_user_meta($user_ID, 'money', $money[0]+($_POST['land']*75));
+if ((20000-$sold_land_today) >= $_POST['land']) {
+	
+    update_user_meta($userId, 'land', $ownedland-$_POST['land']);
+    update_user_meta($userId, 'land_sold_today', $sold_land_today+($_POST['land']));
+    update_user_meta($userId, 'money', $money+($_POST['land']*75));
 
-    $_SESSION['status'] = 'You sold '.number_format($_POST['land'], 0, ',', ' ').' m<sup>2</sup>';
-    count_all_stats($user_ID);
-    wp_redirect($exploreUrl.'?tab=sell');
-    exit;
+	$soldLandToday = $sold_land_today+($_POST['land']);
+	$freeLand = ($ownedland-$_POST['land']) - $builtLand;
+	$maxSell = $freeLand < (20000 - $soldLandToday) ? $freeLand : (20000 - $soldLandToday);
+
+    count_all_stats($userId);
+    $array['status'] = 'You sold '.number_format($_POST['land'], 0, ',', ' ').' m<sup>2</sup> for a total sum of $ '.number_format($money+($_POST['land']*75), 0, ',', ' ');
+	$array['next'] = true;
+	$array['networth'] = get_user_meta($userId,'networth',true);
+	$array['land'] = $ownedland-$_POST['land'];
+	$array['money'] = $money+($_POST['land']*75);
+	$array['soldtoday'] = "1 m<sup>2</sup> has a value of $ 75. You have $freeLand m<sup>2</sup> of free land.
+    You have sold <strong> $soldLandToday m<sup>2</sup></strong> today. You can sell an additional <strong> $maxSell m<sup>2</sup></strong>";
+  
+	echo json_encode($array);
+	exit;
+    
 }
 
-if ((20000-$sold_land_today[0]) < $_POST['land']) {
-    $_SESSION['status'] = 'Cannot sell any more land';
-    wp_redirect($exploreUrl);
-    exit;
+if ((20000-$sold_land_today) < $_POST['land']) {
+    $array['status'] = 'Cannot sell any more land';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
 }

@@ -16,6 +16,7 @@ require(dirname(__FILE__) . '/wp-load.php');
 
 nocache_headers();
 if (get_field('game_status', 'option') == 'Live') {
+	$array = array();
     $user_ID = get_current_user_id();
     $clan_ID = get_user_meta($user_ID, 'clan_id_user', true);
     $clanmembers = get_post_meta($clan_ID, 'clan_members', true);
@@ -24,39 +25,51 @@ if (get_field('game_status', 'option') == 'Live') {
 
 
     if (! defined('ABSPATH')) {
-        exit;
+		$array['status'] = 'You must log in to perform this action';
+	    $array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
     if (empty($user_ID)) {
-        wp_redirect(get_permalink(49609));
-        exit;
+        $array['status'] = 'You must log in to perform this action';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
     if (!is_user_logged_in()) {
-        wp_redirect(get_permalink(49609));
-        exit;
+        $array['status'] = 'You must log in to perform this action';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
 
 
     if (!in_array($receiver, $clanmembers)) {
-        wp_redirect(get_permalink(49609));
-        exit;
+        $array['status'] = 'Not a clan member';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
     $receiver_NW = get_user_meta($receiver, 'networth', true);
     $sender_NW = get_user_meta($user_ID, 'networth', true);
 
     if ($receiver_NW > $sender_NW) {
-        wp_redirect(get_permalink(49609));
-        exit;
+        $array['status'] = 'You cannot aid a member larger in networth';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
     $userLock = get_user_meta($user_ID, 'user_lock', true);
 
     if ($userLock == 1) {
-        update_user_meta($user_ID, 'user_lock', 0);
-        $_SESSION['status'] = 'Please try again.';
-        wp_redirect(get_permalink(3582));
-        exit;
+        $array['status'] = 'Try again';
+		$array['next'] = false;
+	    echo json_encode($array);
+	    update_user_meta($user_ID, 'user_lock', 0);
+		exit;
     }
     
 
@@ -64,21 +77,25 @@ if (get_field('game_status', 'option') == 'Live') {
     update_user_meta($user_ID, 'user_lock', 1);
 
     if ($aid_sent >= 3) {
-        wp_redirect(get_permalink(49609));
-        exit;
+        $array['status'] = 'You already sent aid 3 times today';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
     $money = get_user_meta($user_ID, 'money', true);
     $aid = $_POST['amount'];
 
     if ($aid > $money) {
-        $_SESSION['status'] = 'Insufficient funds';
-        wp_redirect(get_permalink(49609));
-        exit;
+        $array['status'] = 'Insufficient funds';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
     if ($_POST['amount'] < 0) {
-        $_SESSION['status'] = 'Enter a valid number';
-        wp_redirect(get_permalink(49609));
-        exit;
+        $array['status'] = 'Enter a valid number';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
     if (empty($_POST['amount'])) {
@@ -88,9 +105,10 @@ if (get_field('game_status', 'option') == 'Live') {
     }
 
     if (!is_numeric($letter_check)) {
-        $_SESSION['status'] = 'Enter a valid number';
-        wp_redirect(get_permalink(49609));
-        exit;
+        $array['status'] = 'Enter a valid number';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
 
@@ -128,14 +146,13 @@ if (get_field('game_status', 'option') == 'Live') {
     update_field('attacker_clan_id', $clan_ID, $new_event_id);
 
     $clan_att = get_user_meta($user_ID, 'clan_id_user', true);
-    $clan_members_att = get_post_meta($clan_att, 'clan_members');
+    $clan_members_att = maybe_unserialize(get_post_meta($clan_att, 'clan_members',true));
 
-    if (!empty($clan_att) || $clan_att != 0) {
-        foreach ($clan_members_att[0] as $member_att) {
+        foreach ($clan_members_att as $member_att) {
             $globals = get_user_meta($member_att, 'new_global_events', true);
             update_user_meta($member_att, 'new_global_events', $globals+1);
         }
-    }
+   
 
     $totAidSent = get_user_meta($user_ID, 'total_aid_sent', true);
     update_user_meta($user_ID, 'total_aid_sent', $totAidSent+$aid);
@@ -155,9 +172,12 @@ if (get_field('game_status', 'option') == 'Live') {
 // Write the contents back to the file
     file_put_contents($file, $current);
 
-
+	$member_data = get_userdata($receiver);
     update_user_meta($user_ID, 'user_lock', 0);
-    $_SESSION['status'] = '$ '.number_format($aid, 0, ',', ' ').' aid sent';
-    wp_redirect(get_permalink(49609));
-    exit;
+    $array['status'] = '$ '.number_format($aid, 0, ',', ' ').' aid sent to '.$member_data->display_name.' (#'.$receiver.')';
+	$array['money'] = $money-$aid;
+	$array['noaids'] = $noAids+1;
+	$array['next'] = true;
+	echo json_encode($array);
+	exit;
 }

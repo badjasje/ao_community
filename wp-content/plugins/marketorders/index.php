@@ -9,6 +9,19 @@ Author URI:
 License: GPL
 Copyright: Kevin Bogaard
 */
+
+// define the get_avatar_url callback 
+function filter_get_avatar_url( $url, $userId, $args ) { 
+    // make filter magic happen here... 
+    $avatar = get_user_meta($userId, 'avatar_user', true);
+    return $avatar; 
+}; 
+         
+// add the filter 
+add_filter( 'get_avatar_url', 'filter_get_avatar_url', 10, 3 ); 
+
+
+
 // REMOVE WP EMOJI
 remove_action('wp_head', 'print_emoji_detection_script', 7);
 remove_action('wp_print_styles', 'print_emoji_styles');
@@ -18,6 +31,31 @@ remove_action( 'admin_print_styles', 'print_emoji_styles' );
 
 add_filter('next_posts_link_attributes', 'posts_link_attributes');
 add_filter('previous_posts_link_attributes', 'posts_link_attributes');
+
+
+
+add_filter( 'manage_pages_columns', 'page_column_views' );
+add_action( 'manage_pages_custom_column', 'page_custom_column_views', 5, 2 );
+function page_column_views( $defaults )
+{
+   $defaults['page-layout'] = __('Template');
+   return $defaults;
+}
+function page_custom_column_views( $column_name, $id )
+{
+   if ( $column_name === 'page-layout' ) {
+       $set_template = get_post_meta( get_the_ID(), '_wp_page_template', true );
+       if ( $set_template == 'default' ) {
+           echo 'Default';
+       }
+       $templates = get_page_templates();
+       ksort( $templates );
+       foreach ( array_keys( $templates ) as $template ) :
+           if ( $set_template == $templates[$template] ) echo $template;
+       endforeach;
+   }
+}
+
 
 function ban_redirect($userId){
 	
@@ -175,7 +213,7 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 		return 0;
 	}
 }
-
+/*
 function my_login_logo() { ?>
     <style type="text/css">
         #login h1 a, .login h1 a {
@@ -188,17 +226,16 @@ function my_login_logo() { ?>
     </style>
 <?php }
 add_action( 'login_enqueue_scripts', 'my_login_logo' );
-
+*/
 function unit_types($user_ID){
 	include('units_array.php');
 	$userData = get_user_meta($user_ID);
 	$type_array = array();
 	foreach ($units as $key => $unit) {
 		$units = $userData[$key.'_owned'][0];
-			
-			if($units > 0){
+		if($units > 0 && $unit['sectype'] != 'special'){
 			$type_array[$unit['type']] += $units;
-			}
+		}
 
 	}
 	return $type_array;
@@ -208,19 +245,18 @@ function unit_types($user_ID){
 function can_attack($user_ID){
 	include('units_array.php');
 	$userData = get_user_meta($user_ID);
-	$attack_array = '';
+	$attack_array = array();
 	foreach ($units as $key => $unit) {
 		$units = $userData[$key.'_owned'][0];
 			
-			if($units > 0){
+		if($units > 0){
 			$attacks = $unit['attacks'];
-			if(!empty($attacks)){
-			$attack_array .= implode(", ", $attacks);
-			$attack_array .= ', ';
-			}}
+			$attack_array = array_merge($attack_array,$attacks);
+		}
 
 	}
 	
+	$attack_array = array_unique($attack_array);
 	return $attack_array;
 	
 }
@@ -235,16 +271,30 @@ function networth_range($user_ID){
 	
 	if(($viewerNetworth/1.4 <= $networth) && ($networth <= $viewerNetworth*1.4)){
 		
-	return '<span class="hover-tip"  data-toggle="tooltip" data-original-title="This user is in your networth range" data-placement="bottom">
-				<span class="inRange">$ '.number_format($networth, 0, ',', ' ').'</span>
-			</span>';
+	return '<strong>$ '.number_format($networth, 0, ',', ' ').' <span class="hover-tip"  data-toggle="tooltip" data-original-title="This user is in your networth range" data-placement="bottom"><i class="far fa-check-circle"></i></span></strong>';
 	}else{
 		return '<span>$ '.number_format($networth, 0, ',', ' ').'</span>';
+	}					
+}
+
+function clan_avg_networth_range($clanId){
+	
+	
+	$viewerId = get_current_user_id();
+	$viewerClanId = get_post_meta( $viewerId, 'clan_id_user', true);
+	
+	$clanMembers = count(get_post_meta($clanId, 'clan_members', true));
+	$decClanMembers = count(get_post_meta($viewerClanId, 'clan_members', true));
+	
+	$clanNetworth = get_post_meta($clanId, 'clan_networth', true)/$clanMembers;
+	$decClanNetworth = get_post_meta($viewerClanId, 'clan_networth', true)/$decClanMembers; 
+	
+	if(($decClanNetworth/1.4 <= $clanNetworth) && ($clanNetworth <= $decClanNetworth*1.4)){
+		return '<span>$ '.number_format($clanNetworth, 0, ',', ' ').'</span>';
+	}else{
+		return '<strong>$ '.number_format($clanNetworth, 0, ',', ' ').' <span class="hover-tip"  data-toggle="tooltip" data-original-title="This clan is in your networth range" data-placement="bottom"><i class="far fa-check-circle"></i></span></strong>';
 	}
-	
-	
-	
-						
+		
 }
 
 
@@ -271,18 +321,20 @@ function get_user_name($user_ID){
 	$extraStyle = '';
 	$banned = '';
 	if($status == 'dead' || $status == 'banned' ){
-		$extraStyle = 'style="color:#ff0000"';
+		//$extraStyle = 'style="color:#ff0000"';
+		$icon = '<span class="hover-tip"  data-toggle="tooltip" data-original-title="This user is dead" data-placement="bottom"><i class="fas fa-skull"></i></span>';
 		}
 	if($status == 'banned' ){
 		$banned = '<strong>banned</strong>';
 		}
 	if($status == 'nukeprotection' ){
-		$extraStyle = 'style="color:#009eff"';
+		//$extraStyle = 'style="color:#009eff"';
+		$icon = '<span class="hover-tip"  data-toggle="tooltip" data-original-title="This user is under protection" data-placement="bottom"><i class="fas fa-umbrella"></i></span>';
 		}
 if($status == 'banned' ){
 	return "<strike><a class='memberField' $extraStyle href='/users/profile/?id=$user_ID'>$displayName (#$user_ID)</a></strike> $onlineStar $banned";
 }else{
-	return "<a class='memberField' $extraStyle href='/users/profile/?id=$user_ID'>$displayName (#$user_ID)</a> $onlineStar $banned";
+	return "<a class='memberField' $extraStyle href='/users/profile/?id=$user_ID'>$displayName (#$user_ID) $icon </a> $onlineStar $banned";
 }
 	
 }
@@ -334,7 +386,7 @@ $user_ID = get_current_user_id();
 	
 $nightmode = get_user_meta($user_ID, 'nightmode', true);
 
-if($nightmode == 'night'){
+if($nightmode == 'nigweweweht'){
     ?>
         <style>
 	        
@@ -516,7 +568,7 @@ function hook_NZ_css() {
 $user_ID = get_current_user_id();
 	
 $nightmode = get_user_meta($user_ID, 'nightmode', true);
-if($nightmode == 'nostalgia'){
+if($nightmode == 'nostalgweewewia'){
 
     ?>
         <style>
@@ -1017,7 +1069,7 @@ function small_avatar($user_ID,$type){
 	
 	if(!empty($avatar)){
 		
-		$avatar = str_replace("http://", "https://", $avatar);
+		$avatar = str_replace("http://", "//", $avatar);
                     
 		return "<a href='/users/profile/?id=$user_ID'><div class='setAvatar clan_avatar $addClass' style='background: url(".$avatar.");'></div></a>";
 		
@@ -1136,7 +1188,7 @@ function clan_avatar($clan_ID,$type){
 	
 	if(!empty($avatar)){
 		
-		$avatar = str_replace("http://", "https://", $avatar);
+		//$avatar = str_replace("http://", "https://", $avatar);
                     
 		return "<a href='".get_the_permalink($clan_ID)."'><div class='setAvatar clan_avatar $addClass' style='background: url(".$avatar.");'></div></a>";
 		
@@ -1240,25 +1292,35 @@ function clan_avatar($clan_ID,$type){
 
 function alert_notification($message){
 	
-	$user_ID = get_current_user_id();
-	$nightmode = get_user_meta($user_ID, 'nightmode', true);
+	ob_start(); ?>
+<script>
+	(function($) {
 	
-	$class = 'blue_alert';
-	$iconcol = '#425c6b';
-	if($nightmode == 'nostalgia'){
-		$class = 'nostAlert';
-		$iconcol = '#35382f';
-	}
-	if($nightmode == 'night'){
-		$iconcol = '#fff';
-	}
+		$( document ).ready(function() {
+		$.notify({
+	message: '<?php echo $message;?>'
+},{
+	type: 'minimalist',
+	delay: 5000,
+	template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+		'<i class="fa fa-info-circle"></i> ' +
+		'' +
+		'<span data-notify="message">{2}</span>' +
+	'</div>'
+});	
+			
+			
+			})
+
+})(jQuery);
+</script>
 	
-	return '<div class="alert alert-warning alert-dismissible  '.$class.'" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<i style="color:'.$iconcol.'" class="fa fa-info-circle" aria-hidden="true"></i> '.$message.'.
-			</div>';
+	<?php
+	
+		return ob_get_clean();
 	
 }
+
 
 function desktop_view($user_ID){
 	$desktop = get_user_meta($user_ID, 'desktop_view', true);
@@ -1655,6 +1717,7 @@ function after_death( $user_id ) {
 
 		// SET STATS after death
 		update_user_meta($user_id, 'money', 450000);
+		
 		update_user_meta($user_id, 'sold_land_today', 0);
 		update_user_meta($user_id, 'explored_today', 0);
 		update_user_meta($user_id, 'turns', 200);
@@ -1663,6 +1726,7 @@ function after_death( $user_id ) {
 		update_user_meta($user_id, 'power', 0);
 		update_user_meta($user_id, 'builtland', 1000);
 		update_user_meta($user_id, 'morale', 0);
+		update_user_meta($user_id, 'morale_pool', 0);
 		update_user_meta($user_id, 'total_deposits', 0);
 
 
@@ -1743,18 +1807,24 @@ $status = $userData['status'][0];
 
 if(!empty($user_ID) && $status != 'banned'){
 	
-	
-include('units_array.php');
-include('missiles_array.php');
-include('building_array.php');
-include('research_array.php');
-include('constants.php');
-include('satellite_array.php');
+include( ABSPATH . 'units_array.php' );
+include( ABSPATH . 'missiles_array.php' );
+include( ABSPATH . 'building_array.php' );
+include( ABSPATH . 'research_array.php' );
+include( ABSPATH . 'constants.php' );
+include( ABSPATH . 'satellite_array.php' );
+
 
 /* calculate unit NW */
 $unit_networth = 0;
-foreach($units as $key => $unit){
-	$units_owned = $userData[$key.'_owned'][0];
+foreach($units as $key => $unit){	
+	$units_owned = 0; 
+	$units_owned = isset($userData[$key.'_owned'][0]) ?  $userData[$key.'_owned'][0] : 0;
+	$units_owned = !empty($userData[$key.'_owned'][0]) ?  $userData[$key.'_owned'][0] : 0;
+	
+	
+	
+	
 	
 		if($units_owned > 0){
 			$unit_networth+= $units_owned*$unit['price']*($unit['networth']/100);
@@ -1802,7 +1872,13 @@ foreach($buildings as $key => $building){
 
 $research_NW = 0;
 foreach($researches as $key => $research){
-	$level = $userData['level_'.$key][0];
+
+	$level = 0; 
+	$level = isset($userData['level_'.$key][0]) ?  $userData['level_'.$key][0] : 0;
+	$level = !empty($userData['level_'.$key][0]) ?  $userData['level_'.$key][0] : 0;
+	
+	
+	
 	if($level > 0){
 	$research_NW+= $research['duration']*$RESEARCH_NW_PER_HOUR*$level;
 	}

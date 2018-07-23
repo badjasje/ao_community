@@ -1,0 +1,44 @@
+<?php
+ /*
+ * Template Name: All Clans
+*/
+get_header(); 
+
+
+global $userData;
+global $userId;
+
+$user_ID = $userId;
+$clan_ID = $userData['clan_id_user'][0];
+$backColor = "45, 67, 81";
+
+$args = array(
+	'posts_per_page'   => -1,
+	'orderby'          => 'date',
+	'order'            => 'DESC',
+	'post_type'        => 'clan'
+	);
+$clans = get_posts($args);
+?>
+
+<div class="row pageRow">	
+	
+<div class="fw-row">
+	<nav id="allthetabs" class="nav nav-pills nav-fill flex-column flex-sm-row">
+		<a class="nav-item nav-link navItem active" data-toggle="tab" data-target="#all" href="?tab=all">All</a>
+		<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#in-range" href="?tab=in-range">In range</a>
+		<a class="nav-item nav-link navItem" href="/users" style="background-color: rgba(70, 118, 94, 0.8);">All users</a>
+	</nav>
+</div>
+	
+<div class="tab-content current tabbed-table">
+	<?php include 'pages/all-clans/all.php'; ?>
+	<?php include 'pages/all-clans/in-range.php'; ?>
+</div>
+	
+	
+	
+</div> <!-- end .pageRow -->
+
+<?php
+get_footer();

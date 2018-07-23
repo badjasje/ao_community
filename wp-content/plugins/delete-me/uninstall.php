@@ -7,6 +7,8 @@ global $wpdb, $wp_roles;
 // Remove capability and delete option
 if ( is_multisite() ) {
 	
+	delete_site_option( $plugin_option );
+	
 	$blog_ids = $wpdb->get_col( "SELECT `blog_id` FROM " . $wpdb->blogs );
 	
 	foreach ( $blog_ids as $blog_id ) {

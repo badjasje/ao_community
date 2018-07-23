@@ -1,8 +1,7 @@
 <?php
-    /*
+	/*
+    
     require_once("wp-load.php");
-	require_once("coinhive-api.php");
-	$coinhive->post('/user/reset-all');
     include('units_array.php');
 	include('building_array.php');
 	include('missiles_array.php');
@@ -139,6 +138,11 @@
 			UPDATE ${table_prefix}usermeta
 			SET meta_value = 0
 			WHERE meta_key IN($resetArray)
+            ");
+	$wpdb->query("
+			UPDATE ${table_prefix}usermeta
+			SET meta_value = 0
+			WHERE meta_key = 'networth'
             ");
 	$wpdb->query("
 			UPDATE ${table_prefix}usermeta

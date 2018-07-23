@@ -2,11 +2,11 @@
 
 /*
   Plugin Name: Asgaros Forum
-  Plugin URI: https://asgaros.de
+  Plugin URI: https://www.asgaros.de
   Description: Asgaros Forum is the best forum solution for WordPress! It comes with dozens of features in a beautiful design and stays slight, simple and fast.
-  Version: 1.3.6
+  Version: 1.9.3
   Author: Thomas Belser
-  Author URI: https://asgaros.de
+  Author URI: https://www.asgaros.de
   License: GPL2
   License URI: https://www.gnu.org/licenses/gpl-2.0.html
   Text Domain: asgaros-forum
@@ -28,27 +28,46 @@
 
 if (!defined('ABSPATH')) exit;
 
+// Include Asgaros Forum core files.
 require('includes/forum.php');
 require('includes/forum-database.php');
-require('includes/forum-taxonomies.php');
+require('includes/forum-compatibility.php');
 require('includes/forum-rewrite.php');
 require('includes/forum-permissions.php');
-require('includes/forum-insert.php');
+require('includes/forum-content.php');
 require('includes/forum-notifications.php');
-require('includes/forum-widgets.php');
-require('includes/forum-thememanager.php');
+require('includes/forum-appearance.php');
 require('includes/forum-unread.php');
 require('includes/forum-uploads.php');
 require('includes/forum-search.php');
 require('includes/forum-statistics.php');
+require('includes/forum-breadcrumbs.php');
 require('includes/forum-editor.php');
-require('admin/admin.php');
+require('includes/forum-shortcodes.php');
+require('includes/forum-pagination.php');
+require('includes/forum-online.php');
+require('includes/forum-usergroups.php');
+require('includes/forum-profile.php');
+require('includes/forum-memberslist.php');
+require('includes/forum-reports.php');
+require('includes/forum-reactions.php');
+require('includes/forum-mentioning.php');
+require('includes/forum-activity.php');
 
-AsgarosForumDatabase::createInstance();
+// Include widget files.
+require('includes/forum-widgets.php');
+require('widgets/widget-recent-posts.php');
+require('widgets/widget-recent-topics.php');
+require('widgets/widget-search.php');
+
+// Include admin files.
+require('admin/admin.php');
+require('admin/tables/admin-structure-table.php');
+require('admin/tables/admin-usergroups-table.php');
+require('admin/tables/admin-reports-table.php');
+
 $asgarosforum = new AsgarosForum();
 
 if (is_admin()) {
-    $asgarosforum_admin = new asgarosforum_admin();
+    $asgarosforum_admin = new AsgarosForumAdmin($asgarosforum);
 }
-
-?>

@@ -1,7 +1,7 @@
 <?php
 require(dirname(__FILE__) . '/wp-load.php');
         
-if (get_field('game_status', 'option') == 'Live') {
+if (get_field('game_status', 'option') != 'Live') { exit; }
     $timestamp = current_time('timestamp');
     $args = array(
     'posts_per_page'   	=> -1,
@@ -136,4 +136,3 @@ foreach ($orders as $order) {
             count_all_stats($user_emp);
         }
     }
-} /* end game live

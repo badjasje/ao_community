@@ -8,14 +8,17 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 }
     
 require(dirname(__FILE__) . '/wp-load.php');
-if (get_field('game_status', 'option') != 'Live') {
-    exit();
+if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
+    $array['status'] = 'The round has ended';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
 }
 
 include 'units_array.php';
 include 'satellite_array.php';
 $orderId = $_POST['order'];
-
+$array = array();
 $orderStatus = get_post_status($orderId);
 
 if (!defined('ABSPATH')) {
@@ -23,14 +26,17 @@ if (!defined('ABSPATH')) {
 }
 
 if (empty($userId) || !is_user_logged_in()) {
-    wp_redirect(get_permalink(3582));
+    $array['status'] = 'You must log in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 
 
 if ($orderStatus == 'trash') {
-    $_SESSION['status'] = 'nope';
-    wp_redirect(get_permalink(3582));
+   	$array['status'] = 'NEIN NEIN NEIN';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 
@@ -57,7 +63,9 @@ if($marketDiscountLevel == 1){
 
 $userPlacedId = get_post_meta($orderId, 'user_placed_id', true);
 if ($userId != $userPlacedId) {
-    wp_redirect(get_permalink(3204));
+    $array['status'] = "These are not the orders you're looking for";
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 
@@ -86,6 +94,9 @@ if ($orderType == 'satellite') {
     update_user_meta($userId, 'money', $totalmoney+$cashback);
 
     update_user_meta($userId, 'user_lock', 0);
-    $_SESSION['status'] = 'Order canceled. You received $ '.number_format($cashback, 0, ',', ' ');
-    wp_redirect(get_permalink(3204));
-exit;
+    $array['status'] = 'Order canceled. You received $ '.number_format($cashback, 0, ',', ' ');
+    $array['remove'] = $orderId;
+    $array['money'] = $totalmoney+$cashback;
+    echo json_encode($array);
+    exit;
+

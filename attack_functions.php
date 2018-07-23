@@ -12,7 +12,7 @@
 include('constants.php');
 
 
-function calculate_pts ($unit_damage, $bld_damage, $aggressive_multi) {
+function calculate_pts($unit_damage, $bld_damage, $aggressive_multi) {
 
     //MEGA 2017-07-18
 
@@ -231,7 +231,7 @@ function target_in_range($attack_type, $attack_nw, $defend_nw, $war_type) {
 
 // Function for calculating morale cost of the attack.
 function get_attack_cost_morale($attack_type, $attack_nw, $defend_nw) {
-    global $MORALE_ATTACK_TGT_ABOVE, $MORALE_ATTACK_TGT_BELOW, $MORALE_MISSILE_TGT_ABOVE, $MORALE_MISSILE_TGT_BELOW,
+    global $MORALE_SABOTEUR, $MORALE_ATTACK_TGT_ABOVE, $MORALE_ATTACK_TGT_BELOW, $MORALE_MISSILE_TGT_ABOVE, $MORALE_MISSILE_TGT_BELOW,
            $MORALE_THIEF, $MORALE_SPY;
 
     $targetIsBigger = $attack_nw < $defend_nw;
@@ -393,15 +393,18 @@ function create_attacker_array($attack_array) {
         'inf' => 0
     );
     foreach($attack_array as $key => $unit_count) {
-        $unit_type = $units[$key]['type'];
-        if ($unit_count > 0) {
-            $unit_life = $units[$key]['life'];
-            $unit_sum_life = $unit_life * $unit_count;
-            $stat_array[$unit_type][$key]['life'] = $unit_sum_life;
-            $stat_array[$unit_type][$key]['count'] = $unit_count;
+	    if($key != 'tomahawk'){
+       		$unit_type = $units[$key]['type'];
+	   		
+	   		if ($unit_count > 0) {
+            	$unit_life = $units[$key]['life'];
+				$unit_sum_life = $unit_life * $unit_count;
+				$stat_array[$unit_type][$key]['life'] = $unit_sum_life;
+				$stat_array[$unit_type][$key]['count'] = $unit_count;
 
-            $total_unit_life[$unit_type] += $unit_sum_life;
-            $total_unit_count[$unit_type] += $unit_count;
+				$total_unit_life[$unit_type] += $unit_sum_life;
+				$total_unit_count[$unit_type] += $unit_count;
+			}
         }
     }
 
@@ -752,7 +755,7 @@ function resource_dice_roll() {
 	Return:
 		$damage_array['total_damage',$type][$key] = value
 */
-function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$target_id) {
+function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$target_id,$life_deduct) {
 
     include('units_array.php');
     include('building_array.php');
@@ -831,7 +834,7 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
             $effective_atk_power = $distributed_power / $dmg_reduction;
 
             /* MEGA fix effective attack power for aggro so it ACTUALLY does something haha 20170929 */
-            if ($_SESSION['attackmode'] == 'aggressive') {
+            if ($_POST['attackmode'] == 'aggressive') {
                 $effective_atk_power = $effective_atk_power*1.2;
             }
 

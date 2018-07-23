@@ -7,35 +7,42 @@
 require(dirname(__FILE__) . '/wp-load.php');
 
 $userId = get_current_user_ID();
-$clanId = get_user_meta($userId, 'clan_id_user');
+$clanId = get_user_meta($userId, 'clan_id_user',true);
 
 $incomingWars = get_posts(
     [
         'numberposts' => -1,
         'post_type' => 'wars',
         'meta_key' => 'declared_on',
-        'meta_value' => $clanId[0]
+        'meta_value' => $clanId
     ]
 );
 
 if (!defined('ABSPATH')) {
+    $array['status'] = 'No can do';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 
 if (empty($userId) || !is_user_logged_in()) {
-    wp_redirect(get_permalink(3582));
+    $array['status'] = 'You must be logged in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 
 
 if (count($incomingWars) < 1) {
     update_user_meta($userId, 'status', 'dead');
+    $array['status'] = 'Account has been reset';
+	$array['next'] = true;
+	echo json_encode($array);
+	exit;
 
-    $_SESSION['status'] = 'Account has been reset.';
-    wp_redirect(get_permalink(3486));
-    exit;
 } else {
-    $_SESSION['status'] = 'You cannot reset your account while having incoming clan wars';
-    wp_redirect(get_permalink(3486));
-    exit;
+    $array['status'] = 'You cannot reset your account while having incoming clan wars';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
 }

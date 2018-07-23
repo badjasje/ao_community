@@ -13,53 +13,72 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 }
 
 require(dirname(__FILE__) . '/wp-load.php');
-
+if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
+    $array['status'] = 'The round has ended';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
+$array = array();
 nocache_headers();
 include 'interest_array.php';
 
 /* get some essential variables */
 
-$user_ID = get_current_user_id();
+$userId = get_current_user_id();
 
 if (! defined('ABSPATH')) {
-    exit;
+    $array['status'] = 'Nope';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
 }
-if (empty($user_ID)) {
-    wp_redirect(get_permalink(3953));
-    exit;
+if (empty($userId)) {
+    $array['status'] = 'Please log in.';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
 }
 if (!is_user_logged_in()) {
-    wp_redirect(get_permalink(3953));
-    exit;
+    $array['status'] = 'Please log in.';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
 }
+
 $deposit = $_POST['deposit'];
 
 if (get_post_status($deposit) == 'trash') {
-    wp_redirect(get_permalink(3953));
-    exit;
+    $array['status'] = 'Already withdrawn.';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
 }
 
 $author = get_post_field('post_author', $deposit);
 
-if ($user_ID != $author) {
-    wp_redirect(get_permalink(3953));
-    exit;
+if ($userId != $author) {
+    $array['status'] = "These are not the deposits you're looking for.";
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
 }
 
-$userLock = get_user_meta($user_ID, 'user_lock', true);
+$userLock = get_user_meta($userId, 'user_lock', true);
 
 if ($userLock == 1) {
-    update_user_meta($user_ID, 'user_lock', 0);
-    $_SESSION['status'] = 'Please try again.';
-    wp_redirect(get_permalink(3582));
-    exit;
+    update_user_meta($userId, 'user_lock', 0);
+	$array['status'] = "Please try again.";
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
 } else {
-    update_user_meta($user_ID, 'user_lock', 1);
+    update_user_meta($userId, 'user_lock', 1);
 
-    $money = get_user_meta($user_ID, 'money', true);
+    $money = get_user_meta($userId, 'money', true);
 
 
-    $deposits = get_user_meta($user_ID, 'total_deposits', true);
+    $deposits = get_user_meta($userId, 'total_deposits', true);
     $timestamp = current_time('timestamp');
 
 
@@ -67,7 +86,7 @@ if ($userLock == 1) {
 
 
     $time_left = get_post_meta($deposit, 'release_date', true)-$timestamp;
-    $banklevel = get_user_meta($user_ID, 'level_bank_management', true);
+    $banklevel = get_user_meta($userId, 'level_bank_management', true);
 
     if ($banklevel == 0) {
         $extra_interest = 0;
@@ -93,28 +112,38 @@ if ($userLock == 1) {
         $days = get_post_meta($deposit, 'days', true);
         $total_incl_interest = ceil($amount*pow($rates[$days]['interest']+($extra_interest/100), $days));
     
+        update_user_meta($userId, 'money', $money+$total_incl_interest);
+        update_user_meta($userId, 'total_deposits', $deposits-1);
+        wp_trash_post($deposit);
+   
+        $array['status'] = '$ '.number_format($total_incl_interest, 0, ',', ' ').' withdrawn';
+        $array['money'] = number_format($money+$total_incl_interest, 0, ',', ' ');
+        $array['deposits'] = count_deposits($userId); 
+        $array['removeid'] = $deposit;
+		$array['next'] = true;
+		echo json_encode($array);
+		update_user_meta($userId, 'user_lock', 0);
+		exit;
 
-    
-
-            update_user_meta($user_ID, 'money', $money+$total_incl_interest);
-            update_user_meta($user_ID, 'total_deposits', $deposits-1);
-            wp_trash_post($deposit);
-        $_SESSION['status'] = '$ '.number_format($total_incl_interest, 0, ',', ' ').' withdrawn';
-
-        wp_redirect(get_permalink(3953));
-        exit;
+  
     } /* else, someone with a bankmanagement research of 2 and over canceled it's bank deposit */
     else {
         $amount = get_post_meta($deposit, 'amount', true)*$early_penalty;
 
 
-        update_user_meta($user_ID, 'money', $money+$amount);
-        update_user_meta($user_ID, 'total_deposits', $deposits-1);
+        update_user_meta($userId, 'money', $money+$amount);
+        update_user_meta($userId, 'total_deposits', $deposits-1);
         wp_trash_post($deposit);
     
-        $_SESSION['status'] = 'You canceled your deposit. '.number_format($amount, 0, ',', ' ').' withdrawn';
-        update_user_meta($user_ID, 'user_lock', 0);
-        wp_redirect(get_permalink(3953));
-        exit;
+    
+        $array['status'] = 'You canceled your deposit. '.number_format($amount, 0, ',', ' ').' withdrawn';
+        $array['money'] = number_format($money+$amount, 0, ',', ' ');
+        $array['deposits'] = count_deposits($userId); 
+        $array['removeid'] = $deposit;
+		$array['next'] = true;
+		echo json_encode($array);
+		update_user_meta($userId, 'user_lock', 0);
+		exit;
+		
     }
 }

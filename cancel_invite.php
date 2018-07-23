@@ -14,22 +14,22 @@ if ('GET' != $_SERVER['REQUEST_METHOD']) {
 
 require(dirname(__FILE__) . '/wp-load.php');
 
-$userID = get_current_user_ID();
+$userId = get_current_user_ID();
 $inviteKey = isset($_GET['invite']) ? $_GET['invite'] : '';
 
-$clanIds = get_user_meta($userId, 'clan_id_user');
-$clanId = array_shift($clanIds);
+$clanId = get_user_meta($userId, 'clan_id_user',true);
 
-$openInvites = get_post_meta($clanId, 'open_invites');
+
+$openInvites = maybe_unserialize(get_post_meta($clanId, 'open_invites',true));
 
 if (!is_array($openInvites)) {
     exit();
 }
 
-foreach ($openInvites[0] as $key => $invite) {
-    if ($invite['invite'] == $inviteKey && $invite['clan'] == $clan) {
-        unset($openInvites[0][$key]);
-        update_post_meta($clan, 'open_invites', $openInvites[0]);
+foreach ($openInvites as $key => $invite) {
+    if ($invite['invite'] == $inviteKey && $invite['clan'] == $clanId) {
+        unset($openInvites[$key]);
+        update_post_meta($clanId, 'open_invites', maybe_serialize($openInvites));
         wp_redirect(get_permalink(3801));
         wp_delete_post($invite['invite_id']);
     }

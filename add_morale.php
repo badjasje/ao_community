@@ -8,7 +8,7 @@ require_once("wp-load.php");
 // Global.
 $moraleIncome = $INCOME_MORALE;
 
-if (get_field('game_status', 'option') == 'Live') {
+if (get_field('game_status', 'option') != 'Live') { exit; }
 	$timestamp = current_time('timestamp');
 	$args = array(
 
@@ -34,7 +34,7 @@ if (get_field('game_status', 'option') == 'Live') {
         AddMorale($userId, $moraleIncome);
         update_user_meta($userId, 'morale_lock', 0);
     }
-}
+
 
 function AddSatPower($userId)
 {	

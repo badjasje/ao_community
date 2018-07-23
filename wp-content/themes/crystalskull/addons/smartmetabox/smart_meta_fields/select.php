@@ -1,1 +1,0 @@
-<select name="<?php echo esc_attr($id); ?>" id="<?php echo esc_attr($id); ?>">	<?php foreach ($options as $opt_name): ?>		<option <?php selected($value, $opt_name)?> value="<?php echo esc_attr($opt_name); ?>"><?php echo esc_attr($opt_name); ?></option>	<?php endforeach ?></select>

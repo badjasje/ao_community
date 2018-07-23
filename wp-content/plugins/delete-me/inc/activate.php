@@ -7,8 +7,9 @@ if ( $network_wide ) {
 	
 	// Network activation
 	// Add option defaults if not found
+	// Network Wide option added in main plugin file during init if missing
 	$blog_ids = $this->wpdb->get_col( "SELECT `blog_id` FROM " . $this->wpdb->blogs );
-		
+	
 	foreach ( $blog_ids as $blog_id ) {		
 		
 		switch_to_blog( $blog_id );		

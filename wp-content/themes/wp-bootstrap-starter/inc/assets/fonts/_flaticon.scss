@@ -1,0 +1,139 @@
+    /*
+    Flaticon icon font: Flaticon
+    Creation date: 22/06/2016 15:26
+    */
+
+    @font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+    .fi:before{
+        display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+    }
+
+    .flaticon-badge:before { content: "\f100"; }
+.flaticon-bag:before { content: "\f101"; }
+.flaticon-binoculars:before { content: "\f102"; }
+.flaticon-bomb:before { content: "\f103"; }
+.flaticon-bomb-1:before { content: "\f104"; }
+.flaticon-bombs:before { content: "\f105"; }
+.flaticon-boots:before { content: "\f106"; }
+.flaticon-bullet:before { content: "\f107"; }
+.flaticon-bullet-1:before { content: "\f108"; }
+.flaticon-cannon:before { content: "\f109"; }
+.flaticon-captain:before { content: "\f10a"; }
+.flaticon-chevrons:before { content: "\f10b"; }
+.flaticon-compass:before { content: "\f10c"; }
+.flaticon-dynamite:before { content: "\f10d"; }
+.flaticon-fighter-plane:before { content: "\f10e"; }
+.flaticon-fighter-plane-1:before { content: "\f10f"; }
+.flaticon-first-aid-kit:before { content: "\f110"; }
+.flaticon-flag:before { content: "\f111"; }
+.flaticon-gas-mask:before { content: "\f112"; }
+.flaticon-grenade:before { content: "\f113"; }
+.flaticon-helicopter:before { content: "\f114"; }
+.flaticon-helmet:before { content: "\f115"; }
+.flaticon-insignia:before { content: "\f116"; }
+.flaticon-insignia-1:before { content: "\f117"; }
+.flaticon-insignia-2:before { content: "\f118"; }
+.flaticon-knife:before { content: "\f119"; }
+.flaticon-lieutenant:before { content: "\f11a"; }
+.flaticon-machine-gun:before { content: "\f11b"; }
+.flaticon-map:before { content: "\f11c"; }
+.flaticon-medical-truck:before { content: "\f11d"; }
+.flaticon-objective:before { content: "\f11e"; }
+.flaticon-objective-1:before { content: "\f11f"; }
+.flaticon-parachute:before { content: "\f120"; }
+.flaticon-pilot:before { content: "\f121"; }
+.flaticon-pistol:before { content: "\f122"; }
+.flaticon-placeholder:before { content: "\f123"; }
+.flaticon-radar:before { content: "\f124"; }
+.flaticon-radioactive:before { content: "\f125"; }
+.flaticon-rank:before { content: "\f126"; }
+.flaticon-rudder:before { content: "\f127"; }
+.flaticon-secret-agent:before { content: "\f128"; }
+.flaticon-ship:before { content: "\f129"; }
+.flaticon-soldier:before { content: "\f12a"; }
+.flaticon-star:before { content: "\f12b"; }
+.flaticon-submarine:before { content: "\f12c"; }
+.flaticon-supplies:before { content: "\f12d"; }
+.flaticon-tank:before { content: "\f12e"; }
+.flaticon-tent:before { content: "\f12f"; }
+.flaticon-transport-truck:before { content: "\f130"; }
+.flaticon-walkie-talkie:before { content: "\f131"; }
+    
+    $font-Flaticon-badge: "\f100";
+    $font-Flaticon-bag: "\f101";
+    $font-Flaticon-binoculars: "\f102";
+    $font-Flaticon-bomb: "\f103";
+    $font-Flaticon-bomb-1: "\f104";
+    $font-Flaticon-bombs: "\f105";
+    $font-Flaticon-boots: "\f106";
+    $font-Flaticon-bullet: "\f107";
+    $font-Flaticon-bullet-1: "\f108";
+    $font-Flaticon-cannon: "\f109";
+    $font-Flaticon-captain: "\f10a";
+    $font-Flaticon-chevrons: "\f10b";
+    $font-Flaticon-compass: "\f10c";
+    $font-Flaticon-dynamite: "\f10d";
+    $font-Flaticon-fighter-plane: "\f10e";
+    $font-Flaticon-fighter-plane-1: "\f10f";
+    $font-Flaticon-first-aid-kit: "\f110";
+    $font-Flaticon-flag: "\f111";
+    $font-Flaticon-gas-mask: "\f112";
+    $font-Flaticon-grenade: "\f113";
+    $font-Flaticon-helicopter: "\f114";
+    $font-Flaticon-helmet: "\f115";
+    $font-Flaticon-insignia: "\f116";
+    $font-Flaticon-insignia-1: "\f117";
+    $font-Flaticon-insignia-2: "\f118";
+    $font-Flaticon-knife: "\f119";
+    $font-Flaticon-lieutenant: "\f11a";
+    $font-Flaticon-machine-gun: "\f11b";
+    $font-Flaticon-map: "\f11c";
+    $font-Flaticon-medical-truck: "\f11d";
+    $font-Flaticon-objective: "\f11e";
+    $font-Flaticon-objective-1: "\f11f";
+    $font-Flaticon-parachute: "\f120";
+    $font-Flaticon-pilot: "\f121";
+    $font-Flaticon-pistol: "\f122";
+    $font-Flaticon-placeholder: "\f123";
+    $font-Flaticon-radar: "\f124";
+    $font-Flaticon-radioactive: "\f125";
+    $font-Flaticon-rank: "\f126";
+    $font-Flaticon-rudder: "\f127";
+    $font-Flaticon-secret-agent: "\f128";
+    $font-Flaticon-ship: "\f129";
+    $font-Flaticon-soldier: "\f12a";
+    $font-Flaticon-star: "\f12b";
+    $font-Flaticon-submarine: "\f12c";
+    $font-Flaticon-supplies: "\f12d";
+    $font-Flaticon-tank: "\f12e";
+    $font-Flaticon-tent: "\f12f";
+    $font-Flaticon-transport-truck: "\f130";
+    $font-Flaticon-walkie-talkie: "\f131";

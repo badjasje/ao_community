@@ -23,9 +23,10 @@ $userId = get_current_user_id();
 $userData = get_user_meta($userId);
 $research_queued = $userData['queued_research'][0];
 if($research_queued != '0'){
-	$_SESSION['status'] = 'Cannot queue another research. '.$researches[$research_queued]['name'].' already queued.';
-	wp_redirect(get_permalink(4837));
-	exit;
+	$array['status'] = 'Cannot queue another research. '.$researches[$research_queued]['name'].' already queued.';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
 }
 
 /* Get research input by user */
@@ -33,8 +34,9 @@ $research = $_POST['research'];
 $totalturns = $userData['turns'][0];
 
 if ($totalturns < 30) {
-    $_SESSION['status'] = 'Not enough turns';
-    wp_redirect(get_permalink(4837));
+    $array['status'] = 'Not enough turns';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 
@@ -45,6 +47,10 @@ if ($totalturns < 30) {
 update_user_meta($userId, 'queued_research', $research);
 update_user_meta($userId, 'turns', $totalturns-30);
 
-$_SESSION['status'] = $researches[$research]['name'].' research queued';
-wp_redirect(get_permalink(4837));
+
+ 	$array['status'] = $researches[$research]['name'].' research queued';
+    $array['next'] = false;
+    $array['turns'] = $totalturns-30;
+    echo json_encode($array);
+    exit;
 exit;

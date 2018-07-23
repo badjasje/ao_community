@@ -3,7 +3,7 @@
     $missiles = array(
     /// AIR UNITS ///
     'nuke'      => array(
-            'price'         =>  '135000',
+            'price'         =>  '125000',
             'networth'      =>  9,
             'normalname'    =>  'Nuclear Missile',
             'shortname'     =>  'Nuke',
@@ -14,7 +14,7 @@
             'type'          =>  'mis',
             'life'          =>  0),
     'chemical'      => array(
-            'price'         =>  '65000',
+            'price'         =>  '62500',
             'networth'      =>  9,
             'normalname'    =>  'Chemical Missile',
             'shortname'     =>  'Chem',
@@ -25,7 +25,7 @@
             'type'          =>  'mis',
             'life'          =>  0),
     'bio'       => array(
-            'price'         =>  '45000',
+            'price'         =>  '43750',
             'networth'      =>  9,
             'normalname'    =>  'Biochemical Missile',
             'shortname'     =>  'Bio',
@@ -36,7 +36,7 @@
             'type'          =>  'mis',
             'life'          =>  0),
     'moab'      => array(
-            'price'         =>  '65000',
+            'price'         =>  '57000',
             'networth'      =>  9,
             'normalname'    =>  'MOAB',
             'shortname'     =>  'MOAB',
@@ -47,19 +47,19 @@
             'type'          =>  'mis',
             'life'          =>  0),
     'empmis'    => array(
-            'price'         =>  '60000',
+            'price'         =>  '65000',
             'networth'      =>  9,
             'normalname'    =>  'EMP Missile',
             'shortname'     =>  'EMP Missile',
             'shortatt'      =>  array('b'),
-            'attacks'       =>  array(''),
+            'attacks'       =>  array('N/A'),
             'defends'       =>  array(''),
             'attack'        =>  0,
             'type'          =>  'mis',
             'life'          =>  0),
             
     'tomahawk'      => array(
-            'price'         =>  '1250',
+            'price'         =>  '1500',
             'networth'      =>  10,
             'normalname'    =>  'Tomahawk',
             'shortname'     =>  'TOM',

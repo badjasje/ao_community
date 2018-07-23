@@ -1,0 +1,11 @@
+#pluginlogo32 { 
+	background-image: url("../../assets/images/pluginlogo32x32.png");
+	background-repeat: no-repeat;
+}
+.headerlogo32 {
+	display: inline-block;
+	vertical-align: middle;
+	float: left;
+	height: 32px;
+	width: 32px;
+}

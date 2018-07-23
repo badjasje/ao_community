@@ -13,7 +13,12 @@ if ( 'GET' != $_SERVER['REQUEST_METHOD'] ) {
 }
 
 require( dirname(__FILE__) . '/wp-load.php' );
-if(get_field('game_status','option') == 'Live'){
+if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
+    $array['status'] = 'The round has ended';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
 $user_ID = get_current_user_id(); 
 
 if ( ! defined( 'ABSPATH' ) ) exit; 
@@ -99,5 +104,3 @@ $clan_members = array_shift($clan_members);
 	$_SESSION['status'] = 'Successfully joined this clan';
 	wp_redirect(get_permalink($clan));exit;
 			
-
-}

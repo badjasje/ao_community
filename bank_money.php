@@ -11,22 +11,29 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
     header('Content-Type: text/plain');
     exit;
 }
-
+include 'interest_array.php';
 require(dirname(__FILE__) . '/wp-load.php');
-if (get_field('game_status', 'option') == 'Live') {
+if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
+    $array['status'] = 'The round has ended';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
     nocache_headers();
 
     if (!is_numeric($_POST['amount'])) {
-        $_SESSION['status'] = 'Enter a valid number';
-        wp_redirect(get_permalink(3953));
-        exit;
+        $array['status'] = 'Enter a valid number';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
 
     if ($_POST['amount'] <= 0) {
-        $_SESSION['status'] = 'Enter a valid number';
-        wp_redirect(get_permalink(3953));
-        exit;
+       $array['status'] = 'Enter a valid number';
+	   $array['next'] = false;
+	   echo json_encode($array);
+	   exit;
     }
 
     /* Get some important variables */
@@ -36,9 +43,10 @@ if (get_field('game_status', 'option') == 'Live') {
 
     if ($userLock == 1) {
         update_user_meta($user_ID, 'user_lock', 0);
-        $_SESSION['status'] = 'Please try again.';
-        wp_redirect(get_permalink(3582));
-        exit;
+        $array['status'] = 'Please try again';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     } else {
         update_user_meta($user_ID, 'user_lock', 1);
 
@@ -46,8 +54,10 @@ if (get_field('game_status', 'option') == 'Live') {
             exit;
         }
         if (empty($user_ID)) {
-            wp_redirect(get_permalink(3582));
-            exit;
+           $array['status'] = 'No user ID set. WHO ARE YOU!?';
+		   $array['next'] = false;
+		   echo json_encode($array);
+		   exit;
         }
         if (!is_user_logged_in()) {
             wp_redirect(get_permalink(3582));
@@ -59,9 +69,10 @@ if (get_field('game_status', 'option') == 'Live') {
 
         /* check if user actually has enough cash */
         if ($money[0] < $_POST['amount']) {
-            $_SESSION['status'] = 'Insufficient funds';
-            wp_redirect(get_permalink(3953));
-            exit;
+            $array['status'] = 'Insufficient funds';
+			$array['next'] = false;
+			echo json_encode($array);
+			exit;
         }
 
 
@@ -88,53 +99,62 @@ if (get_field('game_status', 'option') == 'Live') {
         $bankLevel = get_user_meta($user_ID, 'level_bank_management')[0];
         $startingBonus = get_user_meta($user_ID, 'starting_bonus', true);
         $finance_multi = 1;
+        $extra_interest = 0;
         if ($startingBonus == 'finance') {
             $finance_multi = 1.5;
         }
 
         if ($bankLevel == 1) {
+	        $extra_interest = 0.5;
             $max_dep = 350000*$finance_multi;
             $max_tot = 3500000;
         } elseif ($bankLevel == 2) {
+	        $extra_interest = 0.5;
             $max_dep = 450000*$finance_multi;
             $max_tot = 4500000;
         } elseif ($bankLevel == 3) {
+	        $extra_interest = 0.75;
             $max_dep = 500000*$finance_multi;
             $max_tot = 5000000*$finance_multi;
         } else { // BankLevel == null/empty
+	        $extra_interest = 0;
             $max_dep = 250000*$finance_multi;
             $max_tot = 2500000*$finance_multi;
         }
 
         /* check for minimum value */
         if ($_POST['amount'] < 5000) {
-            $_SESSION['status'] = 'Deposit at least $ 5 000';
-            wp_redirect(get_permalink(3953));
-            exit;
+            $array['status'] = 'Deposit at least $ 5000';
+			$array['next'] = false;
+			echo json_encode($array);
+			exit;
         }
     
 
         /* check amount of deposits made, max 10 */
         if ($deposits[0] >= 10) {
-            $_SESSION['status'] = 'You already made 10 deposits';
-            wp_redirect(get_permalink(3953));
-            exit;
+            $array['status'] = 'You already made 10 deposits';
+			$array['next'] = false;
+			echo json_encode($array);
+			exit;
         }
 
 
         /* check if the sum of the amount + the amount already deposited doesn't exceed the max set by research */
         if ($tot_deposited+$_POST['amount'] > $max_tot) {
-            $_SESSION['status'] = 'The total sum exceeds the amount of deposited money you can have at this time';
-            wp_redirect(get_permalink(3953));
-            exit;
+            $array['status'] = 'The total sum exceeds the amount of deposited money you can have at this time';
+			$array['next'] = false;
+			echo json_encode($array);
+			exit;
         }
 
 
         /* check if deposit doesn't exceed the max deposit based on research */
         if ($_POST['amount'] > $max_dep) {
-            $_SESSION['status'] = "Your research doesn't allow you to deposit this much";
-            wp_redirect(get_permalink(3953));
-            exit;
+            $array['status'] = "Your research doesn't allow you to deposit this much";
+			$array['next'] = false;
+			echo json_encode($array);
+			exit;
         } else {
             /* Create the actual deposit */
             $timestamp = current_time('timestamp');
@@ -158,9 +178,15 @@ if (get_field('game_status', 'option') == 'Live') {
     
             /* return to banking page succesful */
             update_user_meta($user_ID, 'user_lock', 0);
-            $_SESSION['status'] = 'Deposit placed';
-            wp_redirect(get_permalink(3953));
-            exit;
+            $array['status'] = '$ '.$_POST['amount'].' deposited for '.$_POST['days'].' days';
+			$array['next'] = true;
+			$array['money'] = number_format($money[0]-$_POST['amount'], 0, ',', ' ');
+			$array['depid'] = $new_order_id;
+			$array['deposited'] = number_format($_POST['amount'], 0, ',', ' ');
+			$array['releasedate'] = date('H:i | d-m-Y', $RELEASE_DATE);
+			$array['inclinterest'] = number_format($_POST['amount']*pow($rates[$_POST['days']]['interest']+($extra_interest/100),$_POST['days']), 0, ',', ' ');
+			$array['deposits'] = count_deposits($userId); 
+			echo json_encode($array);
+			exit;
         }
     }
-}

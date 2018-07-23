@@ -17,25 +17,39 @@ include 'satellite_array.php';
 nocache_headers();
 
 
-$user_ID = get_current_user_id();
+$userId = get_current_user_id();
 
 if (! defined('ABSPATH')) {
+    $array['status'] = 'You must log in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
-if (empty($user_ID)) {
-    wp_redirect(get_permalink(3582));
+if (empty($userId)) {
+    $array['status'] = 'You must log in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 if (!is_user_logged_in()) {
-    wp_redirect(get_permalink(3582));
+	$array['status'] = 'You must log in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
-$totalmoney = get_user_meta($user_ID, 'money', true);
-$totalturns = get_user_meta($user_ID, 'turns', true);
-$sat_level = get_user_meta($user_ID, 'level_satellite_construction', true);
+
+$userData = get_user_meta($userId);
+
+$totalmoney = $userData['money'][0];
+$totalturns = $userData['turns'][0];
+$satInProgress = (string)$userData['sat_in_progress'][0];
+$sat_level = $userData['level_satellite_construction'][0];
+
+
 if ($sat_level == 0) {
-    $_SESSION['status'] = 'Research satellite construction you tool. And stop abusing. Found a bug? REPORT IT.';
-    wp_redirect(get_permalink(8578));
+	$array['status'] = 'Research satellite construction you tool. And stop abusing. Found a bug? REPORT IT.';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 $satdeduct = 1;
@@ -51,13 +65,22 @@ $satcost = $satellites[$ordered]['price']*$satdeduct;
 
 /* Check if user has enough cash */
 if ($totalmoney < $satcost) {
-    $_SESSION['status'] = 'Insufficient funds';
-    wp_redirect(get_permalink(8578));
+    $array['status'] = 'Insufficient funds';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
+if($satInProgress != '0'){
+	$array['status'] = $satellites[$satInProgress]['name'].' already on order';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+	
+}
 if ($totalturns < 25) {
-    $_SESSION['status'] = 'Not enough turns';
-    wp_redirect(get_permalink(8578));
+    $array['status'] = 'Not enough turns';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 
@@ -65,23 +88,27 @@ $args = array(
                 'post_title'    => $satellites[$ordered]['name'],
                 'post_status'   => 'publish',
                 'post_type'     => 'market_order',
-                'post_author'   => $user_ID
+                'post_author'   => $userId
                 );
                 $timestamp = current_time('timestamp');
             
             $new_order_id = wp_insert_post($args);
             update_field('unit_type', $ordered, $new_order_id);
-            update_field('user_placed_id', $user_ID, $new_order_id);
+            update_field('user_placed_id', $userId, $new_order_id);
             update_field('time_placed', $timestamp, $new_order_id);
             update_field('delivery_time', $timestamp+(12 * 3600), $new_order_id);
             update_field('amount_ordered', 1, $new_order_id);
-            
+            update_field('order_value', $satcost, $new_order_id);
             update_field('order_type', 'satellite', $new_order_id);
 
 
-            update_user_meta($user_ID, 'sat_in_progress', $ordered);
-            update_user_meta($user_ID, 'money', $totalmoney-$satcost);
-            update_user_meta($user_ID, 'turns', $totalturns-25);
-$_SESSION['status'] = 'Satellite ordered';
-wp_redirect(get_permalink(8578));
+            update_user_meta($userId, 'sat_in_progress', $ordered);
+            update_user_meta($userId, 'money', $totalmoney-$satcost);
+            update_user_meta($userId, 'turns', $totalturns-25);
+            
+$array['status'] = $satellites[$ordered]['name'].' ordered';
+$array['money'] = $totalmoney-$satcost;
+$array['turns'] = $totalturns-25;
+$array['next'] = true;
+echo json_encode($array);
 exit;

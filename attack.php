@@ -11,12 +11,22 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
     header('Content-Type: text/plain');
     exit;
 }
-
 require(dirname(__FILE__) . '/wp-load.php');
+
+if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
+    $array['status'] = 'The round has ended';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
+
 nocache_headers();
-if (get_field('game_status', 'option') == 'Live') {
+
     include('units_array.php');
     include('attack_functions.php');
+    
+$array = array();
+
 
 
 /* initialize core variables */
@@ -26,32 +36,42 @@ if (get_field('game_status', 'option') == 'Live') {
         exit;
     }
     if (empty($userId)) {
-        wp_redirect(get_permalink(3582));
-        exit;
+        $array['status'] = 'You must log in to perform this action';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
     if (!is_user_logged_in()) {
-        wp_redirect(get_permalink(3582));
-        exit;
+        $array['status'] = 'You must log in to perform this action';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
     $userData = get_user_meta($userId);
     $clan_id = $userData['clan_id_user'][0];
     $turns = $userData['turns'][0];
     $morale = $userData['morale'][0];
-    $maintarget = $_POST['maintarget'];
+	$maintarget = $_POST['maintarget'];
 
-
+	if($userData['status'][0] == 'dead' || $userData['status'][0] == 'nukeprotection'){
+		$array['status'] = 'You cannot attack while dead or under protection';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
+	}
     $sat_morale = $userData['sat_morale'][0];
 
     $target_id = $_POST['target_id'];
-    if(intval($target_id) <= 10){
-	    $_SESSION['status'] = 'Cannot attack an administrator.';
-        wp_redirect(get_permalink(3360).'?id='.$target_id);
-        exit;
+   /* if(intval($target_id) <= 10){
+        $array['status'] = 'Cannot attack an administrator';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
 	    
-    }
-    count_all_stats($target_id);
+    }*/
+    //count_all_stats($target_id);
 
-    $attackmode = $_POST['attackmode'];
+	$attackmode = $_POST['attackmode'];
     $attack_type = $_POST['attacktype'];
     $extra_morale_cost = 0;
     if ($attackmode == 'aggressive') {
@@ -60,52 +80,59 @@ if (get_field('game_status', 'option') == 'Live') {
 /* == validate the attack == */
 /* target id cannot be blank */
     if ($target_id == '') {
-        $_SESSION['status'] = 'Choose a player ID to attack';
-        wp_redirect(get_permalink(3360));
-        exit;
+        $array['status'] = 'Choose a player ID to attack';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
 /* validate target id must be numeric */
     if (!is_numeric($target_id)) {
-        $_SESSION['status'] = 'Enter a valid number';
-        wp_redirect(get_permalink(3360).'?id='.$target_id);
-        exit;
+        $array['status'] = 'Enter a valid number';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
 /* target cannot be yourself */
     if ($target_id == $userId) {
-        $_SESSION['status'] = 'You cannot target yourself';
-        wp_redirect(get_permalink(3360).'?id='.$target_id);
-        exit;
+        $array['status'] = 'You cannot target yourself';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
 /* target must be a real user */
     if (get_userdata($target_id) == false) {
-        $_SESSION['status'] = 'Player ID not found';
-        wp_redirect(get_permalink(3360).'?id='.$target_id);
-        exit;
+        $array['status'] = 'Player ID does not exist';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
 /* target cannot be dead or in protection */
     $status = get_user_meta($target_id, 'status')[0];
     if ($status == 'dead') {
-        $_SESSION['status'] = 'This player is dead';
-        wp_redirect(get_permalink(3360).'?id='.$target_id);
-        exit;
+        $array['status'] = 'This player is dead';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
     if ($status == 'nukeprotection') {
-        $_SESSION['status'] = 'You cannot attack someone who is under Assault Protection';
-        wp_redirect(get_permalink(3360).'?id='.$target_id);
-        exit;
+        $array['status'] = 'You cannot attack someone who is under Assault Protection';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
 /* check if target is in own clan */
     if ($clan_id != 0) {
         $members = get_post_meta($clan_id, 'clan_members')[0];
         if (in_array($target_id, $members)) {
-            $_SESSION['status'] = 'You cannot attack your own clan members';
-            wp_redirect(get_permalink(3360).'?id='.$target_id);
-            exit;
+            $array['status'] = 'You can not attack members of your own clan.';
+			$array['next'] = false;
+			echo json_encode($array);
+			exit;
         }
     }
 
@@ -127,9 +154,10 @@ if (get_field('game_status', 'option') == 'Live') {
 
     $in_range = target_in_range($attacktype, $networth_att, $networth_def, $war_type);
     if (!$in_range) {
-        $_SESSION['status'] = 'Out of networth range';
-        wp_redirect(get_permalink(3360).'?id='.$target_id);
-        exit;
+		$array['status'] = 'Out of networth range';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
 // Check if user is member of clan for 24h, if not, cannot attack out of range in mutual
@@ -138,9 +166,10 @@ if (get_field('game_status', 'option') == 'Live') {
     $in_range = target_in_range($attack_type, $networth_att, $networth_def, 'none');
 
     if ($war_type == 'mutual' && $timestamp < $join_timestamp && $in_range != true) {
-        $_SESSION['status'] = 'Cannot attack out of networth range in mutual war the first 24 hours after joining a clan';
-        wp_redirect(get_permalink(3360).'?id='.$target_id);
-        exit;
+        $array['status'] = 'Cannot attack out of networth range in mutual war the first 24 hours after joining a clan';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
 /* determine if attacker has required resourced */
@@ -148,39 +177,49 @@ if (get_field('game_status', 'option') == 'Live') {
     $moraleCost = get_attack_cost_morale($attacktype, $networth_att, $networth_def);
 /* check morale */
     if ($moraleCost+$extra_morale_cost > $morale) {
-        $_SESSION['status'] = 'Insufficient morale';
-        wp_redirect(get_permalink(3360).'?id='.$target_id);
-        exit;
+        $array['status'] = 'Insufficient morale';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
+        
     }
+
 /* check satellite morale */
     if ($attacktype == 'satellite') {
         if (100 > $sat_morale) {
-            $_SESSION['status'] = 'Not enough satellite power';
-            wp_redirect(get_permalink(3360).'?id='.$target_id);
-            exit;
+            $array['status'] = 'Not enough satellite power';
+			$array['next'] = false;
+			echo json_encode($array);
+			exit;
+           
         }
     }
 
 /* check turns */
     if ($turnCost > $turns) {
-        $_SESSION['status'] = 'Not enough turns';
-        wp_redirect(get_permalink(3360).'?id='.$target_id);
-        exit;
+        $array['status'] = 'Not enough turns';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
 /* check power */
     $user_power = $userData['power'][0];
     if ($user_power > 100) {
-        $_SESSION['status'] = 'You cannot attack with power offline';
-        wp_redirect(get_permalink(3360).'?id='.$target_id);
-        exit;
+        $array['status'] = 'You cannot attack while your power is offline';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
+       
     }
 
 /* validations passed - advance to step 2 */
-    $_SESSION['attacktype'] = $attacktype;
-    $_SESSION['target_id'] = $target_id;
-    $_SESSION['attackmode'] = $attackmode;
-    $_SESSION['maintarget'] = $maintarget;
-    wp_redirect(get_permalink(3363));   //stap 2
-    exit;
-}
+
+    
+    $array['next'] = true;
+    $array['attacktype'] = $attacktype;
+    $array['target_id'] = $target_id;
+    $array['attackmode'] = $attackmode;
+    $array['maintarget'] = $maintarget;
+	echo json_encode($array);
+	exit;

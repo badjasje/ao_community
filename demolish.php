@@ -1,10 +1,4 @@
 <?php
-/**
- * Handles market orders
- *
- * @package WordPress
- */
-
 if ('POST' != $_SERVER['REQUEST_METHOD']) {
     header('Allow: POST');
     header('HTTP/1.1 405 Method Not Allowed');
@@ -13,7 +7,12 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 }
 
 require(dirname(__FILE__) . '/wp-load.php');
-
+if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
+    $array['status'] = 'The round has ended';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
 nocache_headers();
 include 'building_array.php';
 include 'units_array.php';
@@ -21,10 +20,10 @@ include 'missiles_array.php';
 
 /* initialize some necessary vars */
 $logPrefix = "demolish.php - ";
-$user_ID = get_current_user_id();
+$userId = get_current_user_id();
 
 /* pull full userdata object - better to reduce DB hits */
-$user_data = get_user_meta($user_ID);
+$user_data = get_user_meta($userId);
 $totalmoney = $user_data['money'][0];
 
 /* calculate total unit amounts by type */
@@ -89,9 +88,10 @@ foreach ($buildings as $key => $order) {
 
     /* validate $sold_buildings is a positive integer */
     if (!is_numeric($sold_buildings) || $sold_buildings < 0) {
-        $_SESSION['status'] = 'Enter a valid number';
-        wp_redirect(get_permalink(3386));
-        exit;
+        $array['status'] = 'Enter a valid number';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
     /* cannot sell more than you own */
     if ($sold_buildings > $owned_buildings) {
@@ -100,10 +100,10 @@ foreach ($buildings as $key => $order) {
                         
     /* validate no demolishing filled buildings */
     if (array_key_exists($key, $max_sell) && $sold_buildings > $max_sell[$key]) {
-        $_SESSION['status'] = 'You must sell units occupying the buildings before you can
-                            demolish them';
-        wp_redirect(get_permalink(3386));
-        exit;
+        $array['status'] = 'You must sell units occupying the buildings before you can demolish them';
+		$array['next'] = false;
+		echo json_encode($array);
+		exit;
     }
 
     /* all validations passed - add to array for selling */
@@ -113,30 +113,88 @@ foreach ($buildings as $key => $order) {
     $total_selling+=($order['price']*0.15*$sold_buildings);
     $total_buildings+=$sold_buildings;
 }
-$tot_buildings_owned = count_buildings($user_ID);
+$tot_buildings_owned = count_buildings($userId);
 
 if ($total_buildings == $tot_buildings_owned) {
-    $_SESSION['status'] = 'Cannot demolish all your buildings';
-    wp_redirect(get_permalink(3386));
-    exit;
+    $array['status'] = 'Cannot demolish all your buildings';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
 }
 
 
 /* validate you have enough money to sell these */
 if ($totalmoney < $total_selling) {
-    $_SESSION['status'] = 'Insufficient funds';
-    wp_redirect(get_permalink(3386));
-    exit;
+    $array['status'] = 'Insufficient funds';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
 }
 
 
 /* update user to remove buildings */
 foreach ($toSell as $key => $count) {
     $new_count = $user_data[$key][0] - $count;
-    update_user_meta($user_ID, $key, $new_count);
+    update_user_meta($userId, $key, $new_count);
 }
 /* now update to remove the cash */
-update_user_meta($user_ID, 'money', $totalmoney-$total_selling);
-$_SESSION['status'] = 'Buildings demolished';
-wp_redirect(get_permalink(3386).'/?tab=demolish');
+update_user_meta($userId, 'money', $totalmoney-$total_selling);
+
+count_all_stats($userId); 
+
+$newMax = array();
+$userData = get_user_meta($userId);
+$builtland = $userData['builtland'][0];
+$totalmoney = $userData['money'][0];
+
+$totalair = 0;
+$totalsea = 0;
+$totalveh = 0;
+$totalinf = 0;
+foreach ($units as $key => $order) {
+	$units_owned   = $userData[$key.'_owned'][0];
+	$units_ordered = $userData[$key.'_ordered'][0];
+	$unittype      = $units[$key]['type'];
+	if ($unittype == 'air') {
+		$totalair += $units_ordered + $units_owned;
+	}
+
+	if ($unittype == 'sea') {
+		$totalsea += $units_ordered + $units_owned;
+	}
+
+	if ($unittype == 'inf') {
+		$totalinf += $units_ordered + $units_owned;
+	}
+
+	if ($unittype == 'veh') {
+		$totalveh += $units_ordered + $units_owned;
+	}
+}
+
+foreach ($buildings as $key => $building) {
+
+
+		$newMax[$key] = floor($userData[$key][0]);
+		if ($key == 'airfield') {
+			$newMax[$key] = max(0,floor($userData[$key][0] - ($totalair/10)));
+		}
+		elseif ($key == 'shipyard') {
+			$newMax[$key] = max(0,floor($userData[$key][0] - ($totalsea/5)));
+		}
+		elseif ($key == 'warfactory') {
+			$newMax[$key] = max(0,floor($userData[$key][0] - ($totalveh/10)));
+		}
+		elseif ($key == 'baracks') {
+			$newMax[$key] = max(0,floor($userData[$key][0] - ($totalinf/20)));
+		}
+	
+}
+
+      
+$array['status'] = 'Buildings demolished';
+$array['money'] = $totalmoney;
+$array['newmax'] = $newMax;
+$array['next'] = true;
+echo json_encode($array);
 exit;

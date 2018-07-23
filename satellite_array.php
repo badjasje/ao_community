@@ -7,7 +7,7 @@
             'targets'       => 'Buildings',
             'name'          =>  'Laser Beam Satellite',
             'shortname'     =>  'LBS',
-            'desc'          =>  'Gain the ability to fire an orbital laser cannon every 5 hours.',
+            'desc'          =>  'Fire an orbital laser cannon every 5 hours.',
             'attack'        =>  25000),/*
     'comsat' 		=> array(
 			'price'			=>	'500000',
