@@ -26,7 +26,36 @@ include 'attack_functions.php';
 
 <div class="row pageRow">	
 	
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		jQuery(".searchusers").select2({
+			placeholder: "Start typing to find a player"
+		});
+	});
+</script>
+
+
+	     
+	     
+<form class="fw-row">
+	<select id="clan" name="clan" class="searchusers" onchange="if (this.value) window.location.href=this.value">
+
+	<option></option>
+	<?php foreach ($allUsers as $user) {
+		$userId = $user->ID;
+		$member_data = get_userdata($userId);
+
+		?>
+
+  
+		<option name="clan" value="/users/profile/?id=<?php echo $userId;?>">
+			<a class="<?php echo get_user_meta($userId,'status',true);?>" href="/users/profile/?id=<?php echo $userId;?>">
+			<?php echo $member_data->display_name.' (#'.$userId.')';?></a></option>
+		<?php }?>
+	</select>
+</form>
 	
+<div class="pageSpacer"></div>
 <div class="fw-row">
 	<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
 		<a class="nav-item nav-link navItem active" data-toggle="tab" data-target="#all" href="?tab=all">All</a>

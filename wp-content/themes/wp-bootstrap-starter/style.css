@@ -1506,7 +1506,9 @@ input[type="radio"]:checked + label {
 .dashMobile{
 display: none;
 }
-
+.sortMobile{
+	display: none;
+}
 @media only screen and (max-width: 1000px) {
 	.startingbonus {
     	font-size:85%;
@@ -1516,6 +1518,18 @@ display: none;
 	}
 	}
 @media only screen and (max-width: 768px) {
+	.sortMobile{
+		display: block;
+		padding: 10px 10px 10px 15px;
+		text-transform: uppercase;
+		background-color: #545454;
+		color: #fff;
+		margin: 10px 0px;
+		border: 1px solid #fff;
+	}
+	.sortMobile a{
+		color:#fff;
+	}
 	.dashMobile{
 		display: block;
 		}
@@ -2149,6 +2163,28 @@ cursor:default;
 }
 .medal_row{
 	padding:10px 10px 10px 15px;
+}
+.select2-container{
+	width:100% !important;
+}
+.select2-container .select2-selection--single .select2-selection__rendered{
+	padding-left:25px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+	line-height: 41px !important;
+}
+.select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 1px solid #aaa;
+    border-radius: 0px !important;
+    height: 41px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 41px !important;
+    position: absolute;
+    top: 0px !important;
+    right: 10px !important;
+    width: 20px;
 }
 /*--------------------------------------------------------------
 ## Netbook

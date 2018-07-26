@@ -19,10 +19,39 @@ $args = array(
 	'post_type'        => 'clan'
 	);
 $clans = get_posts($args);
+
 ?>
 
 <div class="row pageRow">	
 	
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		jQuery(".searchclans").select2({
+			placeholder: "Start typing to find a clan"
+		});
+	});
+</script>
+
+
+	     
+	     
+<form class="fw-row">
+	<select id="clan" name="clan" class="searchclans" onchange="if (this.value) window.location.href=this.value">
+
+	<option></option>
+	<?php foreach ($clans as $clan) {
+		$clanId = $clan->ID;
+
+		?>
+
+  
+		<option name="clan" value="<?php echo get_the_permalink( $clanId );?>">
+			<a href="<?php echo get_the_permalink( $clanId );?>">
+			<?php echo get_the_title($clanId);?> (#<?php echo $clanId;?>)	</a></option>
+		<?php }?>
+	</select>
+</form>
+<div class="pageSpacer"></div>
 <div class="fw-row">
 	<nav id="allthetabs" class="nav nav-pills nav-fill flex-column flex-sm-row">
 		<a class="nav-item nav-link navItem active" data-toggle="tab" data-target="#all" href="?tab=all">All</a>

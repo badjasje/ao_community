@@ -1,12 +1,10 @@
-<?php /*
-<div class="storeDetails-heads button_block sortingHeadMob">
+<div class="sortMobile">
 	<center>
-	<strong>Sort:</strong> <a href="" class="sort2" data-sort=".memberField">Name</a> - 
-	<a href="" class="sort2 sort-number" data-sort=".store-pop-span2">Networth</a> -
-	<a href="" class="sort2 sort-number" data-sort=".land">Land</a>
+	<strong>Sort by:</strong> <a href="" class="sort3" data-sort=".name-sort-3">Name</a> - 
+	<a href="" class="sort3 sort-number" data-sort=".nw-sort-3">Networth</a> -
+	<a href="" class="sort3 sort-number" data-sort=".land-sort-3">Land</a>
 	</center>
 </div>
-*/ ?>
 
 <div class="row headerRow row-no-padding" style="border-bottom:1px solid #fff;background-color: rgba(<?php echo $backColor;?>, 0.75);border-top:1px solid #fff;">
 	<div class="col-md-1 celBlock"></div>
@@ -90,7 +88,7 @@
 							}?>	
 	
 	</div>
-</div> <! // Close profile row -->
+</div>
 
 <?php  }}?>
 </div>

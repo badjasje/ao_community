@@ -289,14 +289,29 @@ function clan_avg_networth_range($clanId){
 	$clanNetworth = get_post_meta($clanId, 'clan_networth', true)/$clanMembers;
 	$decClanNetworth = get_post_meta($viewerClanId, 'clan_networth', true)/$decClanMembers; 
 	
+	return '<span>$ '.number_format($clanNetworth, 0, ',', ' ').'</span>';
+			
+}
+
+function clan_networth_range($clanId){
+	
+	
+	$viewerId = get_current_user_id();
+	$viewerClanId = get_user_meta( $viewerId, 'clan_id_user', true);
+
+	
+	$clanNetworth = get_post_meta($clanId, 'clan_networth', true);
+	$decClanNetworth = get_post_meta($viewerClanId, 'clan_networth', true); 
+	
 	if(($decClanNetworth/1.4 <= $clanNetworth) && ($clanNetworth <= $decClanNetworth*1.4)){
-		return '<span>$ '.number_format($clanNetworth, 0, ',', ' ').'</span>';
+		return '<strong>$ '.number_format($clanNetworth, 0, ',', ' ').' <span class="hover-tip"  data-toggle="tooltip" data-original-title="This clan is in your networth range" data-placement="bottom"><i class="fas fa-check-circle"></i></span></strong>';
 	}else{
-		return '<strong>$ '.number_format($clanNetworth, 0, ',', ' ').' <span class="hover-tip"  data-toggle="tooltip" data-original-title="This clan is in your networth range" data-placement="bottom"><i class="far fa-check-circle"></i></span></strong>';
+		
+		return '<span>$ '.number_format($clanNetworth, 0, ',', ' ').'</span>';
+		
 	}
 		
 }
-
 
 
 function get_user_name($user_ID){
