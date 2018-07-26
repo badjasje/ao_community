@@ -158,6 +158,7 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
 count_all_stats($user_ID); 
 
 $newMax = array();
+$newOwned = array();
 $userData = get_user_meta($user_ID);
 $builtland = $userData['builtland'][0];
 $totalmoney = $userData['money'][0];
@@ -170,6 +171,7 @@ foreach ($buildings as $key => $building) {
 	$maxSpace = floor(($land - $builtland) / 20);
 	
 	$newMax[$key] = min($maxMoney,$maxTurns,$maxSpace);
+	$newOwned[$key] = $userData[$key][0];
 }
 
       
@@ -178,8 +180,10 @@ foreach ($buildings as $key => $building) {
 	$array['allordered'] = $totalbuildings;
 	$array['turns'] = $totalturns;
 	$array['newmax'] = $newMax;
+	$array['newowned'] = $newOwned;
 	$array['networth'] = $userData['networth'][0];
 	$array['newpower'] = number_format($userData['power'][0], 0, ',', ' ');
+	$array['landspace'] = floor(($userData['land'][0] - $userData['builtland'][0]) / 20);
 	$array['next'] = true;
 	echo json_encode($array);
 	exit;
