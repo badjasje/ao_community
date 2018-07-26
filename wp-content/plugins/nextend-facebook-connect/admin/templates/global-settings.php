@@ -11,7 +11,8 @@ $allowedSubviews = array(
     'comment',
     'buddypress',
     'memberpress',
-    'userpro'
+    'userpro',
+    'ultimate-member'
 );
 
 $subview = (!empty($_GET['subview']) && in_array($_GET['subview'], $allowedSubviews)) ? $_GET['subview'] : 'general';
@@ -42,6 +43,8 @@ if (!NextendSocialLoginAdmin::isPro()) {
            class="nsl-admin-nav-tab<?php if ($subview === 'memberpress'): ?> nsl-admin-nav-tab-active<?php endif; ?>">MemberPress<?php echo $proBadge; ?></a>
         <a href="<?php echo NextendSocialLoginAdmin::getAdminSettingsUrl('userpro'); ?>"
            class="nsl-admin-nav-tab<?php if ($subview === 'userpro'): ?> nsl-admin-nav-tab-active<?php endif; ?>">UserPro<?php echo $proBadge; ?></a>
+        <a href="<?php echo NextendSocialLoginAdmin::getAdminSettingsUrl('ultimate-member'); ?>"
+           class="nsl-admin-nav-tab<?php if ($subview === 'ultimate-member'): ?> nsl-admin-nav-tab-active<?php endif; ?>">Ultimate Member<?php echo $proBadge; ?></a>
     </div>
     <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" novalidate="novalidate">
 

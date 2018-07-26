@@ -103,7 +103,6 @@ class Notices {
 
         if (!empty($html)) {
             ?>
-            asd
             <div id="nsl-notices-fallback" onclick="this.parentNode.removeChild(this);">
                 <?php echo $html; ?>
                 <style>

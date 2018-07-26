@@ -4,7 +4,7 @@ class NextendSocialUpgrader {
 
     public static function init() {
 
-        add_filter('plugins_api', 'NextendSocialUpgrader::plugins_api', 10, 3);
+        add_filter('plugins_api', 'NextendSocialUpgrader::plugins_api', 20, 3); // WooCommerce use priority 20, so better to follow
 
         add_filter('upgrader_pre_download', 'NextendSocialUpgrader::upgrader_pre_download', 10, 3);
 

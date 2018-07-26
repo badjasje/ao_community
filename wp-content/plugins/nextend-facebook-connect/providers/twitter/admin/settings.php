@@ -49,7 +49,33 @@ $settings = $provider->settings;
 
         <?php
         $this->renderOtherSettings();
+        ?>
 
+        <table class="form-table">
+            <tbody>
+                <tr>
+                    <th scope="row"><?php _e('Profile image size', 'nextend-facebook-connect'); ?></th>
+                    <td>
+                        <fieldset>
+                            <label><input type="radio" name="profile_image_size"
+                                          value="mini" <?php if ($settings->get('profile_image_size') == 'mini') : ?> checked="checked" <?php endif; ?>>
+                                <span>24x24</span></label><br>
+                            <label><input type="radio" name="profile_image_size"
+                                          value="normal" <?php if ($settings->get('profile_image_size') == 'normal') : ?> checked="checked" <?php endif; ?>>
+                                <span>48x48</span></label><br>
+                            <label><input type="radio" name="profile_image_size"
+                                          value="bigger" <?php if ($settings->get('profile_image_size') == 'bigger') : ?> checked="checked" <?php endif; ?>>
+                                <span>73x73</span></label><br>
+                            <label><input type="radio" name="profile_image_size"
+                                          value="original" <?php if ($settings->get('profile_image_size') == 'original') : ?> checked="checked" <?php endif; ?>>
+                                    <span><?php _e('Original', 'nextend-facebook-connect'); ?></span></label><br>
+                        </fieldset>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <?php
         $this->renderProSettings();
         ?>
     </form>

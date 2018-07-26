@@ -21,6 +21,11 @@ if (isset($_GET['provider'])) {
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
             curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
+            $cacert = ABSPATH . WPINC . '/certificates/ca-bundle.crt';
+            if (file_exists($cacert)) {
+                curl_setopt($ch, CURLOPT_CAINFO, $cacert);
+            }
+
             $file            = tempnam(sys_get_temp_dir(), 'nsl-test');
             $temporaryHandle = fopen($file, 'w+');
             curl_setopt($ch, CURLOPT_STDERR, $temporaryHandle);

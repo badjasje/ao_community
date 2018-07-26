@@ -16,9 +16,9 @@ require_once(NSL_PATH . '/compat.php');
 
 class NextendSocialLogin {
 
-    public static $version = '3.0.11';
+    public static $version = '3.0.12';
 
-    public static $nslPROMinVersion = '3.0.11';
+    public static $nslPROMinVersion = '3.0.12';
 
     public static $proxyPage = false;
 
@@ -162,6 +162,7 @@ class NextendSocialLogin {
             'redirect_reg'                     => '',
             'default_redirect'                 => '',
             'default_redirect_reg'             => '',
+            'blacklisted_urls'                 => '',
             'target'                           => 'prefer-popup',
             'allow_register'                   => 1,
             'show_login_form'                  => 'show',
@@ -184,13 +185,16 @@ class NextendSocialLogin {
             'woocoommerce_form_button_style'   => 'default',
             'woocommerce_account_details'      => 'before',
 
-            'memberpress_login_form_button_style' => 'default',
-            'memberpress_login_form_layout'       => 'below-separator',
-            'memberpress_account_details'         => 'after',
-            'registration_notification_notify'    => '0',
-            'debug'                               => '0',
-            'review_state'                        => -1,
-            'woocommerce_dismissed'               => 0,
+            'memberpress_login_form_button_style'  => 'default',
+            'memberpress_login_form_layout'        => 'below-separator',
+            'memberpress_signup'                   => 'before',
+            'memberpress_signup_form_button_style' => 'default',
+            'memberpress_signup_form_layout'       => 'below-separator',
+            'memberpress_account_details'          => 'after',
+            'registration_notification_notify'     => '0',
+            'debug'                                => '0',
+            'review_state'                         => -1,
+            'woocommerce_dismissed'                => 0,
 
             'userpro_show_login_form'            => 'show',
             'userpro_show_register_form'         => 'show',
@@ -198,6 +202,14 @@ class NextendSocialLogin {
             'userpro_register_form_button_style' => 'default',
             'userpro_login_form_layout'          => 'below',
             'userpro_register_form_layout'       => 'below',
+
+            'ultimatemember_login'                      => 'after',
+            'ultimatemember_login_form_button_style'    => 'default',
+            'ultimatemember_login_form_layout'          => 'below-separator',
+            'ultimatemember_register'                   => 'after',
+            'ultimatemember_register_form_button_style' => 'default',
+            'ultimatemember_register_form_layout'       => 'below-separator',
+            'ultimatemember_account_details'            => 'after',
 
             'authorized_domain' => '',
         ));
@@ -340,12 +352,12 @@ class NextendSocialLogin {
 
             // Fix for all-in-one-wp-security-and-firewall
             if (empty($_GET['action'])) {
-                $_GET['action'] = 'login';
+                $_GET['action'] = 'nsl-login';
             }
 
             // Fix for wps-hide-login
             if (empty($_REQUEST['action'])) {
-                $_REQUEST['action'] = 'login';
+                $_REQUEST['action'] = 'nsl-login';
             }
 
             // Fix for Social Rabbit as it catch our code response from Facebook
@@ -949,6 +961,19 @@ class NextendSocialLogin {
         if (strpos($url, $registerUrl) === 0) {
             return false;
         }
+
+        $blacklistedUrls = NextendSocialLogin::$settings->get('blacklisted_urls');
+        if (!empty($blacklistedUrls)) {
+            $blackListedUrlArray = preg_split('/\r\n|\r|\n/', $blacklistedUrls);
+            // If the currentUrl is blacklisted, then we should not return it for redirects
+            foreach ($blackListedUrlArray as $blackListedUrl) {
+                //If the url contains the blackListedUrl returns false
+                if (strpos($url, $blackListedUrl) !== false) {
+                    return false;
+                }
+            }
+        }
+
 
         return true;
     }

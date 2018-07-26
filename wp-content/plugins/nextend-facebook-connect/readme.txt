@@ -4,7 +4,7 @@ Tags: social login, facebook, google, twitter, linkedin, register, login, social
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 3.0.11
+Stable tag: 3.0.12
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -113,6 +113,20 @@ Unfortunately, currently there are no BuddyPress specific settings. However your
 2. Nextend Social Login and Register in the profile page for account linking
 
 == Changelog ==
+
+= 3.0.12 =
+* Fix: Further changes to prevent some issues with Theme My Login.
+* Fix: 'profile_update' WordPress hook won't be triggered anymore upon a registration process.
+* Fix: Chrome and Android Facebook login issue via Facebook App.
+* Feature: Debug menu and option to test the connection of each provider.
+* Feature: Twitter - Selecting profile image size is an option now.
+* Feature: Blacklisted redirects
+* Feature: Nextend Social Login newsletters subscription!
+
+* PRO: Fix: Google Sync data - Error message for Google+ API when it is not enabled.
+* PRO: Feature: PayPal provider and PayPal Sync data!
+* PRO: Feature: Social Buttons for MemberPress - Memberships form.
+* PRO: Feature: Social Buttons for Ultimate Member forms.
 
 = 3.0.11 =
 * Fix: Twitter - 32bit and Windows servers are lost the id precision

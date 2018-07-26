@@ -227,8 +227,9 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
      */
     protected abstract function getClient();
 
-    public  function getTestUrl(){
-        return $this->getClient()->getTestUrl();
+    public function getTestUrl() {
+        return $this->getClient()
+                    ->getTestUrl();
     }
 
     /**

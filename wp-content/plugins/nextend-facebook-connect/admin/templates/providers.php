@@ -111,6 +111,30 @@ wp_enqueue_script('jquery-ui-sortable');
                 <div class="nsl-dashboard-provider-sortable-handle"></div>
             </div>
         <?php endforeach; ?>
+
+        <?php
+        $user_info          = wp_get_current_user();
+        $already_subscribed = get_user_meta($user_info->ID, 'nsl_newsletter_subscription', true);
+        if (!$already_subscribed):
+            ?>
+
+            <div class="nsl-dashboard-newsletter" style="background-color: #fff; border: 2px solid #0073aa">
+                <div class="nsl-dashboard-newsletter-content">
+
+                    <h2><?php _e('Stay Updated', 'nextend-facebook-connect'); ?></h2>
+                    <p><?php _e('Receive info on the latest plugin updates and social provider related changes.', 'nextend-facebook-connect'); ?></p>
+                    <input type="text" name="newsletter_subscription" id="newsletter_subscription" placeholder="<?php _e('Enter your email address', 'nextend-facebook-connect'); ?>"
+                           value="<?php if (!empty($user_info->user_email)) : echo $user_info->user_email; endif; ?>" size="25">
+
+                    <a onclick="nslNewsletter()" class="button button-primary">
+                        <?php _e('Subscribe', 'nextend-facebook-connect'); ?>
+                    </a>
+
+                </div>
+            </div>
+
+        <?php endif; ?>
+
     </div>
     <div class="nsl-clear"></div>
 </div>
@@ -167,6 +191,42 @@ wp_enqueue_script('jquery-ui-sortable');
                     });
                 }
             });
+
+            <?php if (!$already_subscribed): ?>
+            window.nslNewsletter = function () {
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    url: 'https://api.nextendweb.com/v2/nextend-api/v2/product/nsl/subscribe',
+                    data: {
+                        'email': $('#newsletter_subscription').val()
+                    },
+                    success: function () {
+
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'json',
+                            url: ajaxurl,
+                            data: {
+                                '_ajax_nonce': _ajax_nonce,
+                                'action': 'nextend-social-login',
+                                'view': 'newsletterSubscribe'
+                            },
+                            success: function () {
+
+                                $('.nsl-dashboard-newsletter-content').html("<h2><?php _e('Successfully subscribed!', 'nextend-facebook-connect'); ?></h2><p><?php _e('We\'ll be bringing you all the latest news and updates about Social Login - right to your inbox.', 'nextend-facebook-connect'); ?></p>");
+                            }
+                        });
+                    },
+                    error: function (error) {
+                        //NOTICE FOR ERROR:
+                        if ($('.nsl-newsletter-notice>.error').length === 0) {
+                            $('.nsl-dashboard-providers-container').prepend('<div class="nsl-newsletter-notice"><div class="error"><p><?php _e('The entered email address is invalid!', 'nextend-facebook-connect'); ?><p></div></div>');
+                        }
+                    }
+                });
+            };
+            <?php endif; ?>
         });
     })(jQuery);
 </script>

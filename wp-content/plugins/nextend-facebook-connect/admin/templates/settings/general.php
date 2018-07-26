@@ -168,6 +168,17 @@
                    class="regular-text"<?php if (!$useCustom): ?> style="display:none;"<?php endif; ?>>
         </td>
     </tr>
+
+     <tr>
+        <th scope="row"><?php _e('Blacklisted redirects', 'nextend-facebook-connect'); ?></th>
+         <td>
+            <?php
+            $blacklistedUrls = $settings->get('blacklisted_urls');
+            ?>
+             <textarea rows="4" cols="53" name="blacklisted_urls" id="blacklisted_urls"><?php echo esc_textarea($blacklistedUrls); ?></textarea>
+             <p class="description"><?php _e('If you want to blacklist redirect url params. One pattern per line.', 'nextend-facebook-connect'); ?></p>
+        </td>
+    </tr>
     </tbody>
 </table>
 

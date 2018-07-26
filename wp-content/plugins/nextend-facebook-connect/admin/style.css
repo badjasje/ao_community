@@ -164,6 +164,41 @@
     padding: 15px;
 }
 
+.nsl-dashboard-providers .nsl-dashboard-newsletter {
+    position: relative;
+    float: left;
+    width: 340px;
+    height: 220px;
+    margin: 15px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    flex-flow: column;
+}
+
+.nsl-dashboard-providers .nsl-dashboard-newsletter-content {
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.nsl-dashboard-providers .nsl-dashboard-newsletter-content h2 {
+    color: #000000;
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 0;
+    font-weight: 600;
+}
+
+.nsl-dashboard-providers .nsl-dashboard-newsletter-content input[type="text"] {
+    margin: 0 0 13px 0;
+    text-align: center;
+}
+
 .nsl-dashboard-providers .nsl-dashboard-provider {
     position: relative;
     float: left;

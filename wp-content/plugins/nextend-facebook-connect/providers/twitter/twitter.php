@@ -54,12 +54,13 @@ class NextendSocialProviderTwitter extends NextendSocialProvider {
         );
 
         parent::__construct(array(
-            'consumer_key'    => '',
-            'consumer_secret' => '',
-            'login_label'     => 'Continue with <b>Twitter</b>',
-            'link_label'      => 'Link account with <b>Twitter</b>',
-            'unlink_label'    => 'Unlink account from <b>Twitter</b>',
-            'legacy'          => 0
+            'consumer_key'       => '',
+            'consumer_secret'    => '',
+            'login_label'        => 'Continue with <b>Twitter</b>',
+            'link_label'         => 'Link account with <b>Twitter</b>',
+            'unlink_label'       => 'Unlink account from <b>Twitter</b>',
+            'profile_image_size' => 'normal',
+            'legacy'             => 0
         ));
 
         if ($this->settings->get('legacy') == 1) {
@@ -103,6 +104,9 @@ class NextendSocialProviderTwitter extends NextendSocialProvider {
                     if (empty($newData[$key])) {
                         \NSL\Notices::addError(sprintf(__('The %1$s entered did not appear to be a valid. Please enter a valid %2$s.', 'nextend-facebook-connect'), $this->requiredFields[$key], $this->requiredFields[$key]));
                     }
+                    break;
+                case 'profile_image_size':
+                    $newData[$key] = trim(sanitize_text_field($value));
                     break;
             }
         }
@@ -182,7 +186,23 @@ class NextendSocialProviderTwitter extends NextendSocialProvider {
     public function syncProfile($user_id, $provider, $access_token) {
 
         if ($this->needUpdateAvatar($user_id)) {
-            $this->updateAvatar($user_id, $this->authUserData['profile_image_url_https']);
+            $profile_image_size = $this->settings->get('profile_image_size');
+            $profile_image       = $this->authUserData['profile_image_url_https'];
+            if (!empty($profile_image)) {
+                switch ($profile_image_size) {
+                    case 'mini':
+                        $profile_image = str_replace('_normal.', '_' . $profile_image_size . '.', $profile_image);
+                        break;
+                    case 'bigger':
+                        $profile_image = str_replace('_normal.', '_' . $profile_image_size . '.', $profile_image);
+                        break;
+                    case 'original':
+                        $profile_image = str_replace('_normal.', '.', $profile_image);
+                        break;
+
+                }
+            }
+            $this->updateAvatar($user_id, $profile_image);
         }
 
         $this->storeAccessToken($user_id, $access_token);

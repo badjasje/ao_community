@@ -5,6 +5,7 @@ class NextendSocialProviderFacebookClient extends NextendSocialOauth2 {
 
     const DEFAULT_GRAPH_VERSION = 'v2.12';
 
+    private $isTest = false;
 
     protected $access_token_data = array(
         'access_token' => '',
@@ -18,14 +19,27 @@ class NextendSocialProviderFacebookClient extends NextendSocialOauth2 {
     );
 
     public function __construct($providerID, $isTest) {
+        $this->isTest = $isTest;
         parent::__construct($providerID);
-
-        $this->endpointAuthorization = 'https://www.facebook.com/' . self::DEFAULT_GRAPH_VERSION . '/dialog/oauth';
-        if ((isset($_GET['display']) && $_GET['display'] == 'popup') || $isTest) {
-            $this->endpointAuthorization .= '?display=popup';
-        }
         $this->endpointAccessToken = 'https://graph.facebook.com/' . self::DEFAULT_GRAPH_VERSION . '/oauth/access_token';
         $this->endpointRestAPI     = 'https://graph.facebook.com/' . self::DEFAULT_GRAPH_VERSION . '/';
+    }
+
+    public function getEndpointAuthorization() {
+
+        if (preg_match('/Android|iPhone|iP[ao]d|Mobile/', $_SERVER['HTTP_USER_AGENT'])) {
+            $endpointAuthorization = 'https://m.facebook.com/';
+        } else {
+            $endpointAuthorization = 'https://www.facebook.com/';
+        }
+
+        $endpointAuthorization .= self::DEFAULT_GRAPH_VERSION . '/dialog/oauth';
+
+        if ((isset($_GET['display']) && $_GET['display'] == 'popup') || $this->isTest) {
+            $endpointAuthorization .= '?display=popup';
+        }
+
+        return $endpointAuthorization;
     }
 
     protected function formatScopes($scopes) {

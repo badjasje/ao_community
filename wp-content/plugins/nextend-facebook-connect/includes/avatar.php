@@ -10,7 +10,8 @@ class NextendSocialLoginAvatar {
             ), 10, 3);
 
             // WP User Avatar https://wordpress.org/plugins/wp-user-avatar/
-            if (!defined('WPUA_VERSION')) {
+            // Ultimate member
+            if (!defined('WPUA_VERSION') && !class_exists('UM', false)) {
                 add_filter('get_avatar', array(
                     $this,
                     'renderAvatar'
@@ -80,6 +81,31 @@ class NextendSocialLoginAvatar {
     public function updateAvatar($provider, $user_id, $avatarUrl) {
         global $blog_id, $wpdb;
         if (!empty($avatarUrl)) {
+
+            if (class_exists('UM', false)) {
+                require_once(ABSPATH . '/wp-admin/includes/file.php');
+                $profile_photo = get_user_meta($user_id, 'profile_photo', true);
+                if (empty($profile_photo)) {
+                    $extension = 'jpg';
+                    if (preg_match('/\.(jpg|jpeg|gif|png)/', $avatarUrl, $match)) {
+                        $extension = $match[1];
+                    }
+                    $avatarTempPath = download_url($avatarUrl);
+                    if (!is_wp_error($avatarTempPath)) {
+                        $filename     = pathinfo($avatarTempPath, PATHINFO_FILENAME);
+                        $UMUploadTemp = UM()->files()->upload_temp . $filename . '/';
+                        if (wp_mkdir_p($UMUploadTemp)) {
+                            if (rename($avatarTempPath, $UMUploadTemp . $filename . '.' . $extension)) {
+                                UM()
+                                    ->files()
+                                    ->new_user_upload($user_id, $UMUploadTemp . $filename . '.' . $extension, 'profile_photo');
+                            }
+                        }
+                    }
+                };
+
+                return;
+            }
 
             /**
              * $original_attachment_id is false, if the user has had avatar set but the path is not found.

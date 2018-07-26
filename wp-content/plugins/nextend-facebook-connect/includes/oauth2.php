@@ -58,6 +58,10 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
         $this->redirect_uri = $redirect_uri;
     }
 
+    public function getEndpointAuthorization() {
+        return $this->endpointAuthorization;
+    }
+
     /*
      * Adds response_type, client_id, redirect_uri and state as query parameter in the Authorization Url.
      * client_id can be found in the App when you create one
@@ -78,7 +82,7 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
             $args['scope'] = urlencode($this->formatScopes($scopes));
         }
 
-        return add_query_arg($args, $this->endpointAuthorization);
+        return add_query_arg($args, $this->getEndpointAuthorization());
     }
 
     /**

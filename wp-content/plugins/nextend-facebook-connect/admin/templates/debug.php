@@ -38,14 +38,28 @@
     echo "<p><b>Fix Reg Redirect URL</b> : " . $fixRedirectReg . "</p><br>";
 
     echo '<h1>' . __('Test network connection with providers', 'nextend-facebook-connect') . '</h1>';
-    foreach (NextendSocialLogin::$allowedProviders AS $provider) {
+
+    if (!function_exists('curl_init')) {
         ?>
-        <p>
+
+        <div class="error">
+            <p>
+                <?php _e('You don\'t have cURL support, please enable it in php.ini!', 'nextend-facebook-connect'); ?>
+            </p>
+        </div>
+
+        <?php
+    } else {
+        foreach (NextendSocialLogin::$allowedProviders AS $provider) {
+            ?>
+            <p>
             <a target="_blank" href="<?php echo add_query_arg('provider', $provider->getId(), NextendSocialLoginAdmin::getAdminUrl('test-connection')); ?>" class="button button-primary">
                 <?php printf(__('Test %1$s connection', 'nextend-facebook-connect'), $provider->getLabel()); ?>
             </a>
         </p>
-        <?php
+            <?php
+        }
     }
+
     ?>
 </div>

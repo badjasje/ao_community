@@ -247,7 +247,31 @@ class NextendSocialUser {
 
         $this->userExtraData = $userData;
 
-        $ret = wp_create_user($userData['username'], $userData['password'], $userData['email']);
+        $user_data = array(
+            'user_login' => wp_slash($userData['username']),
+            'user_email' => wp_slash($userData['email']),
+            'user_pass'  => $userData['password']
+        );
+
+        if (NextendSocialLogin::$settings->get('store_name') == 1) {
+            $name = $this->getAuthUserData('name');
+            if (!empty($name)) {
+                $user_data['display_name'] = $name;
+            }
+
+            $first_name = $this->getAuthUserData('first_name');
+            if (!empty($first_name)) {
+                $user_data['first_name'] = $first_name;
+            }
+
+            $last_name = $this->getAuthUserData('last_name');
+            if (!empty($last_name)) {
+                $user_data['last_name'] = $last_name;
+            }
+        }
+
+        $ret = wp_insert_user($user_data);
+
         if (is_wp_error($ret) || $ret === 0) {
             $this->registerError();
             exit;
@@ -282,33 +306,18 @@ class NextendSocialUser {
             return false;
         }
 
-        if (NextendSocialLogin::$settings->get('store_name') == 1) {
-            $user_data = array();
-            $name      = $this->getAuthUserData('name');
-            if (!empty($name)) {
-                $user_data['display_name'] = $name;
-            }
-
-            $first_name = $this->getAuthUserData('first_name');
-            if (!empty($first_name)) {
-                $user_data['first_name'] = $first_name;
-                if (class_exists('WooCommerce', false)) {
+        if (class_exists('WooCommerce', false)) {
+            if (NextendSocialLogin::$settings->get('store_name') == 1) {
+                $first_name = $this->getAuthUserData('first_name');
+                if (!empty($first_name)) {
                     add_user_meta($user_id, 'billing_first_name', $first_name);
                 }
-            }
 
-            $last_name = $this->getAuthUserData('last_name');
-            if (!empty($last_name)) {
-                $user_data['last_name'] = $last_name;
-                if (class_exists('WooCommerce', false)) {
+                $last_name = $this->getAuthUserData('last_name');
+                if (!empty($last_name)) {
                     add_user_meta($user_id, 'billing_last_name', $last_name);
                 }
             }
-        }
-
-        if (!empty($user_data)) {
-            $user_data['ID'] = $user_id;
-            wp_update_user($user_data);
         }
 
         update_user_option($user_id, 'default_password_nag', true, true);

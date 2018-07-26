@@ -290,12 +290,18 @@ class NextendSocialLoginAdmin {
         check_ajax_referer('nextend-social-login');
         if (current_user_can('manage_options')) {
             $view = !empty($_POST['view']) ? $_POST['view'] : '';
-            if ($view === 'orderProviders') {
-                if (!empty($_POST['ordering'])) {
-                    NextendSocialLogin::$settings->update(array(
-                        'ordering' => $_POST['ordering']
-                    ));
-                }
+            switch ($view) {
+                case 'orderProviders':
+                    if (!empty($_POST['ordering'])) {
+                        NextendSocialLogin::$settings->update(array(
+                            'ordering' => $_POST['ordering']
+                        ));
+                    }
+                    break;
+                case 'newsletterSubscribe':
+                    $user_info = wp_get_current_user();
+                    update_user_meta($user_info->ID, 'nsl_newsletter_subscription', 1);
+                    break;
             }
         }
     }
@@ -351,6 +357,9 @@ class NextendSocialLoginAdmin {
                     break;
                 case 'terms':
                     $newData[$key] = wp_kses_post($value);
+                    break;
+                case 'blacklisted_urls':
+                    $newData[$key] = sanitize_textarea_field($postedData[$key]);
                     break;
                 case 'show_login_form':
                 case 'show_registration_form':
