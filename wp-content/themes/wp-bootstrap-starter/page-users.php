@@ -30,8 +30,8 @@ include 'attack_functions.php';
 <div class="fw-row">
 	<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
 		<a class="nav-item nav-link navItem active" data-toggle="tab" data-target="#all" href="?tab=all">All</a>
-		<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#in-range" href="?tab=in-range">In range</a>
-		<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#online" href="?tab=online">Online</a>
+		<a class="nav-item nav-link navItem sort2" data-toggle="tab" data-target="#in-range" href="?tab=in-range">In range</a>
+		<a class="nav-item nav-link navItem sort3" data-toggle="tab" data-target="#online" href="?tab=online">Online</a>
 		<a class="nav-item nav-link navItem" href="/all-clans" style="background-color: rgba(70, 118, 94, 0.8);">All clans</a>
 	</nav>
 </div>
