@@ -2,7 +2,7 @@
 <form class="form" name="build" id="buildbuildings" method="post">
 
 	<div class="blockHeader spaceNotice">
-		Your free land allows you to build <strong><?php echo floor(($land - $builtland) / 20); ?></strong> buildings.
+		Your free land allows you to build <span id="landspace"><strong><?php echo floor(($land - $builtland) / 20); ?></strong></span> buildings.
 		<?php if ($EElevel == 0 || empty($EElevel)) {
 		$buildingsPerTurn = 5 + $extra_divide;
 		echo 'You can currently build <strong>' . $buildingsPerTurn . '</strong> buildings per turn.';
@@ -75,7 +75,7 @@
 <form class="form" id="demobuildings">
 <input type="hidden" name="currentTab" id="currentTab" value="?tab=<?php echo $activeTab; ?>" />
 	<div class="blockHeader spaceNotice">
-		Your free land allows you to build <strong><?php echo floor(($land - $builtland) / 20); ?></strong> buildings.
+		Your free land allows you to build <span id="demolandspace"><strong><?php echo floor(($land - $builtland) / 20); ?></strong></span> buildings.
 		<?php if ($EElevel == 0 || empty($EElevel)) {
 		$buildingsPerTurn = 5 + $extra_divide;
 		echo 'You can currently build <strong>' . $buildingsPerTurn . '</strong> buildings per turn.';

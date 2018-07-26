@@ -9,7 +9,7 @@ $backColor = "127, 82, 67"
 ?>
 
 <?php if($buildingsOwned > 0):?>
-<div class="row unitRow" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
+<div id="<?php echo $buildingKey;?>_row" class="row unitRow" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
     <div class="col-md-2 celBlock nameBlock demolish_heading">
         <?php echo $building['normalname'];?>
 
@@ -21,7 +21,7 @@ $backColor = "127, 82, 67"
     </div>
     <div class="col-md-2 celBlock">
 		<span class="columnDataLeft">Owned</span>
-		<span class="columnDataRight"><?php echo $buildingsOwned; ?></span>
+		<span id="<?php echo $buildingKey;?>_demo_owned" class="columnDataRight"><?php echo $buildingsOwned; ?></span>
     </div>
     <div class="col-md-2 celBlock">
 	    <span class="columnDataLeft">Price</span>
@@ -104,7 +104,7 @@ $backColor = "127, 82, 67"
             
             ?>
             
-            <span class="allbutton" id="demobutton<?php echo $buildingKey; ?>">
+            <span class="sellall" id="demobutton_<?php echo $buildingKey; ?>" data-key="<?php echo $buildingKey;?>" data-amount="<?php echo min($maxMoney, $maxOwned); ?>">
     			<?php echo min($maxMoney, $maxOwned); ?>
 			</span>
 
@@ -112,130 +112,7 @@ $backColor = "127, 82, 67"
 	    </span>
     </div>
     <div class="col-md-2 celBlock" style="padding:0px;">
-        <input class="unitInput demobds" min="0" type="number" id="demo<?php echo $buildingKey;?>" name="<?php echo $buildingKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
-        <input type="number" id="demo_<?php echo $buildingKey;?>_total" class="demoordertotal" hidden />
-		<input type="number" id="demo_<?php echo $buildingKey;?>_nw_total" class="demonwtotal" hidden />
+        <input class="unitInput demobds sellInput" data-nw="<?php echo $building['networth'];?>" data-key="<?php echo $buildingKey;?>" data-price="<?php echo $building['price']*0.15;?>" min="0" type="number" id="demo_<?php echo $buildingKey;?>" name="<?php echo $buildingKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
     </div>
 </div> <! // Close Unit row -->
-<script type="text/javascript">
-	
-	demo_calculate_<?php echo $buildingKey;?> = function(){
-	// Caculate order total in hidden field
-    var no_units = document.getElementById('demo<?php echo $buildingKey;?>').value;
-    var price = <?php echo ceil($building['price']*0.15);?>;
-    document.getElementById('demo_<?php echo $buildingKey;?>_total').value = parseInt(no_units)*parseInt(price);
-    
-  
-    var networth = <?php echo $building['price']*$building['networth']/100;?>;
-    document.getElementById('demo_<?php echo $buildingKey;?>_nw_total').value = parseInt(no_units)*parseInt(networth);
-	}	
-
-
-	
-	// Set total order value
-	jQuery('body').on('blur', '.demobds', function() {
-	demo_calculate_<?php echo $buildingKey;?>();
-	
-    var arr = document.getElementsByClassName('demoordertotal');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('demoorder_total').value = tot;
-    
-    var span = document.getElementById('demoorder_total');
-
-	while( span.firstChild ) {
-    	span.removeChild( span.firstChild );
-	}	
-	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	});
-	
-	// Do NW calculations
-	jQuery('body').on('blur', '.demobds', function() {
-	calculate_<?php echo $buildingKey;?>();
-	
-    var arr = document.getElementsByClassName('demonwtotal');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('demonetworth_total').value = tot;
-    
-    var span = document.getElementById('demonetworth_total');
-
-	while( span.firstChild ) {
-    	span.removeChild( span.firstChild );
-	}	
-	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	});
-	
-	
-	
-	jQuery("#demobutton<?php echo $buildingKey;?>").click(function () {
-	jQuery("#demo<?php echo $buildingKey;?>").val("<?php echo min($maxMoney, $maxOwned);?>");
-
-                    
-
-
-	demo_calculate_<?php echo $buildingKey;?>();
-     
-   
-	// Set total number of units value
-    var arr = document.getElementsByClassName('demobds');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('demototal').value = tot;
-    
-    var span = document.getElementById('demototal');
-
-	while( span.firstChild ) {
-   		span.removeChild( span.firstChild );
-		}
-	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	
-	
-	// Set total value of order
-    var arr = document.getElementsByClassName('demoordertotal');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('demoorder_total').value = tot;
-    
-    var span = document.getElementById('demoorder_total');
-
-	while( span.firstChild ) {
-   		span.removeChild( span.firstChild );
-		}
-	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	
-	// Set NW of the order
-	var arr = document.getElementsByClassName('demonwtotal');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('demonetworth_total').value = tot;
-    
-    var span = document.getElementById('demonetworth_total');
-
-	while( span.firstChild ) {
-    	span.removeChild( span.firstChild );
-	}	
-	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	
-	
-	jQuery("#button").show();
-	jQuery("#message").hide();
-	});
-
-</script>	
 <?php endif;?>

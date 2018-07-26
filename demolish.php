@@ -143,6 +143,7 @@ update_user_meta($userId, 'money', $totalmoney-$total_selling);
 count_all_stats($userId); 
 
 $newMax = array();
+$newOwned = array();
 $userData = get_user_meta($userId);
 $builtland = $userData['builtland'][0];
 $totalmoney = $userData['money'][0];
@@ -173,7 +174,8 @@ foreach ($units as $key => $order) {
 }
 
 foreach ($buildings as $key => $building) {
-
+		
+		$newOwned[$key] = $userData[$key][0];
 
 		$newMax[$key] = floor($userData[$key][0]);
 		if ($key == 'airfield') {
@@ -195,6 +197,10 @@ foreach ($buildings as $key => $building) {
 $array['status'] = 'Buildings demolished';
 $array['money'] = $totalmoney;
 $array['newmax'] = $newMax;
+$array['newowned'] = $newOwned;
+$array['newpower'] = number_format($userData['power'][0], 0, ',', ' ');
+$array['landspace'] = floor(($userData['land'][0] - $userData['builtland'][0]) / 20);
+$array['networth'] = $userData['networth'][0];
 $array['next'] = true;
 echo json_encode($array);
 exit;

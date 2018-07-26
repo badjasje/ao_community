@@ -20,7 +20,7 @@ $backColor = "45, 67, 81"
     </div>
     <div class="col-md-2 celBlock">
 		<span class="columnDataLeft">Owned</span>
-		<span class="columnDataRight"><?php echo $buildingsOwned; ?></span>
+		<span id="<?php echo $buildingKey;?>_owned" class="columnDataRight"><?php echo $buildingsOwned; ?></span>
     </div>
     <div class="col-md-2 celBlock">
 	    <span class="columnDataLeft">Price</span>
@@ -53,180 +53,12 @@ $backColor = "45, 67, 81"
             
             ?>
 
-                <span class="allbutton" id="button<?php echo $buildingKey;?>"><?php echo (min($maxMoney, $maxSpace, $maxTurns)); ?></span>
+			<span class="allbutton" data-amount="<?php echo (min($maxMoney, $maxSpace, $maxTurns)); ?>" data-nw="<?php echo $building['networth'];?>" data-price="<?php echo $order['price'];?>" data-key="<?php echo $buildingKey;?>" id="button<?php echo $buildingKey;?>"><?php echo (min($maxMoney, $maxSpace, $maxTurns)); ?></span>
 
 	    </span>
     </div>
     <div class="col-md-2 celBlock inputBlock">
-        <input class="unitInput" min="0" type="number" id="<?php echo $buildingKey;?>" name="<?php echo $buildingKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
-        <input type="number" id="<?php echo $buildingKey;?>_total" class="ordertotal" hidden />
-        <input type="number" id="<?php echo $buildingKey;?>_nw_total" class="nwtotal" hidden />
-        <input type="number" id="<?php echo $buildingKey;?>_turn_total" class="turntotal" hidden  />
+        <input class="unitInput buyInput buy_<?php echo $buildingKey;?>" data-nw="<?php echo $building['networth'];?>" data-price="<?php echo $order['price'];?>" data-key="<?php echo $buildingKey;?>" min="0" type="number" id="<?php echo $buildingKey;?>" name="<?php echo $buildingKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
+ 
     </div>
 </div> <! // Close Unit row -->
-
-<script type="text/javascript">
-	
-	calculate_<?php echo $buildingKey;?> = function()
-	{
-	// Caculate order total in hidden field
-    var no_units = document.getElementById('<?php echo $buildingKey;?>').value;
-    var price = <?php echo ceil($buyPrice);?>;
-    document.getElementById('<?php echo $buildingKey;?>_total').value = parseInt(no_units)*parseInt(price);
-    
-  
-    var networth = <?php echo $buyPrice*$building['networth']/100;?>;
-    document.getElementById('<?php echo $buildingKey;?>_nw_total').value = parseInt(no_units)*parseInt(networth);
-    document.getElementById('<?php echo $buildingKey;?>_turn_total').value = Math.ceil(no_units/<?php echo $buildingsPerTurn;?>);
-	}	
-	calculate_<?php echo $buildingKey;?>();
-
-	
-	// Set total order value
-	jQuery('body').on('blur', '.unitInput', function() {
-	calculate_<?php echo $buildingKey;?>();
-	
-    var arr = document.getElementsByClassName('ordertotal');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('order_total').value = tot;
-    
-    var span = document.getElementById('order_total');
-
-	while( span.firstChild ) {
-    	span.removeChild( span.firstChild );
-	}	
-	
-	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	});
-	
-	// Do NW calculations
-	jQuery('body').on('blur', '.unitInput', function() {
-	calculate_<?php echo $buildingKey;?>();
-	
-	// calculate NW total
-    var arr = document.getElementsByClassName('nwtotal');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('networth_total').value = tot;
-    
-    var span = document.getElementById('networth_total');
-
-	while( span.firstChild ) {
-    	span.removeChild( span.firstChild );
-	}	
-	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	
-	// Calculate turn total
-	
-	var arr = document.getElementsByClassName('turntotal');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('turn_total').value = tot;
-    
-    var span = document.getElementById('turn_total');
-
-	while( span.firstChild ) {
-    	span.removeChild( span.firstChild );
-	}	
-	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	
-	
-	});
-	
-	
-	
-	jQuery("#button<?php echo $buildingKey;?>").click(function() {
-	
-	jQuery("#<?php echo $buildingKey;?>").val("<?php
-	
-		
-			echo (min($maxMoney,$maxSpace,$maxTurns));
-		
-		?>");
-		
-
-	calculate_<?php echo $buildingKey;?>();
-     
-   
-	// Set total number of units value
-    var arr = document.getElementsByClassName('unitInput');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('total').value = tot;
-    
-    var span = document.getElementById('total');
-
-	while( span.firstChild ) {
-   		span.removeChild( span.firstChild );
-		}
-	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	
-	// Calculate turn total
-	
-	var arr = document.getElementsByClassName('turntotal');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('turn_total').value = tot;
-    
-    var span = document.getElementById('turn_total');
-
-	while( span.firstChild ) {
-    	span.removeChild( span.firstChild );
-	}	
-	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	
-	
-	// Set total value of order
-    var arr = document.getElementsByClassName('ordertotal');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('order_total').value = tot;
-    
-    var span = document.getElementById('order_total');
-
-	while( span.firstChild ) {
-   		span.removeChild( span.firstChild );
-		}
-	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	
-	// Set NW of the order
-	var arr = document.getElementsByClassName('nwtotal');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('networth_total').value = tot;
-    
-    var span = document.getElementById('networth_total');
-
-	while( span.firstChild ) {
-    	span.removeChild( span.firstChild );
-	}	
-	span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	
-	
-	jQuery("#button").show();
-	jQuery("#message").hide();
-	});
-
-</script>

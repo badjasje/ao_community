@@ -56,7 +56,23 @@ foreach ($units as $key => $order) {
 		$totalveh += $units_ordered + $units_owned;
 	}
 }
+if ($EElevel == 0 || empty($EElevel)) {
+		$buildingsPerTurn = 5 + $extra_divide;
+
+
+	if ($EElevel == 1) {
+		$buildingsPerTurn = 10 + $extra_divide;
+
+	}
+	if ($EElevel >= 2) {
+		$buildingsPerTurn = 15 + $extra_divide;
+
+	}
+}
+
 ?>
+
+
 
 <div class="row pageRow">	
 	<div class="fw-row">
@@ -107,9 +123,9 @@ $("#buildbuildings").submit(function(event){
     });
 
     request.done(function (response, textStatus, jqXHR){
-	    console.log(response);
+	    //console.log(response);
         var array = JSON.parse(response);
-
+		console.log(array);
 				
 				$.notify({
 					message: array.status,
@@ -125,11 +141,15 @@ $("#buildbuildings").submit(function(event){
 			$.each( array.newmax, function( key, value ) {
 					$('#button'+key).html(value);
 				});
+			$.each( array.newowned, function( key, value ) {
+					$('#'+key+'_owned').html(value);
+				});
 			$('#order_total').html('0');
 			$('#total').html('0');
 			$('#turns').html(number_format(array.turns, 0, ',', ' '));
 			$('#networth_total').html('0');
 			$('#turn_total').html('0');
+			$('#landspace').html(array.landspace);
 			$('#power').html(number_format(array.newpower, 0, ',', ' '));
 			$('#networth').html(number_format(array.networth, 0, ',', ' '));
 			$('#money').html(number_format(array.money, 0, ',', ' '));
@@ -161,7 +181,7 @@ $("#demobuildings").submit(function(demolishevent){
     demolish.done(function (response, textStatus, jqXHR){
 	    console.log(response);
         var array = JSON.parse(response);
-		console.log(array.newmax);
+		
 				
 				$.notify({
 					message: array.status,
@@ -174,19 +194,130 @@ $("#demobuildings").submit(function(demolishevent){
 								'<span data-notify="message">{2}</span>' +
 								'</div>'
 						});	
-			$.each( array.newmax, function( key, value ) {
-					$('#demobutton'+key).html(value);
+			if(array.next == true){
+				$.each( array.newmax, function( key, value ) {
+						$('#demobutton'+key).html(value);
+					});
+				$.each( array.newowned, function( key, value ) {
+					$('#'+key+'_demo_owned').html(value);
 				});
-			$('#demototal').html('0');
-			$('#demoorder_total').html('0');
-			$('#demonetworth_total').html('0');
-
-			$('#money').html(number_format(array.money, 0, ',', ' '));
-			$('#power').html(number_format(array.newpower, 0, ',', ' '));
-			
+				$('#demototal').html('0');
+				$('#demoorder_total').html('0');
+				$('#demonetworth_total').html('0');
+	
+				$('#money').html(number_format(array.money, 0, ',', ' '));
+				$('#power').html(number_format(array.newpower, 0, ',', ' '));
+				$('#networth').html(number_format(array.networth, 0, ',', ' '));
+				$('#demolandspace').html(array.landspace);
+			}
 			$('#demobuildings').trigger("reset");
-});	});	
+	});	
+});	
 
+
+
+$(document).on("blur", ".buyInput", function() {
+    var sum = 0;
+    var orderval = 0;
+    var addednw = 0;
+    var turntot = 0;
+    $(".buyInput").each(function(){
+	    var inputval = $(this).val();
+        sum += +$(this).val();
+        if(inputval > 0){
+        	orderval += +$(this).attr( "data-price" )*inputval;
+        	addednw += +$(this).attr( "data-nw" )/100*orderval;
+        	var inputkey = $(this).attr( "data-key" );
+        	turntot += Math.ceil(inputval/<?php echo $buildingsPerTurn;?>);
+        	
+        }
+    });
+   
+	$("#turn_total").html(turntot);
+	
+    $("#total").html(sum);
+    $("#order_total").html(number_format(orderval, 0, ',', ' '));
+    $("#networth_total").html(number_format(addednw, 0, ',', ' '));
+    
+    
+});
+$(document).on("click", ".allbutton", function() {
+	var sum = 0;
+	var inputkey = $(this).attr( "data-key" );
+	var inputamount = $(this).attr( "data-amount" );
+
+	$(".buy_"+inputkey).val(inputamount);
+	
+	var orderval = 0
+	var addednw = 0;
+	var turntot = 0;
+	
+	$(".buyInput").each(function(){
+        var inputval = $(this).val();
+        sum += +$(this).val();
+        if(inputval > 0){
+        	orderval += +$(this).attr( "data-price" )*inputval;
+        	addednw += +$(this).attr( "data-nw" )/100*orderval;
+        	var inputkey = $(this).attr( "data-key" );
+        	turntot += Math.ceil(inputval/<?php echo $buildingsPerTurn;?>);
+		
+        }
+    });
+
+   
+	$("#total").html(sum);
+	$("#turn_total").html(turntot);
+    $("#order_total").html(number_format(orderval, 0, ',', ' '));
+    $("#networth_total").html(number_format(addednw, 0, ',', ' '));
+});
+
+// Demo bds total fields fuckery
+
+$(document).on("blur", ".sellInput", function() {
+	
+    var sum = 0;
+    var orderval = 0;
+    var lostnw = 0;
+
+    $(".sellInput").each(function(){
+	    var inputval = $(this).val();
+        sum += +$(this).val();
+        if(inputval > 0){
+        	orderval += +$(this).attr( "data-price" )*inputval;
+        	lostnw += +$(this).attr( "data-nw" )/100*orderval;
+        	
+        }
+    });
+   
+    $("#demototal").html(sum);
+    $("#demoorder_total").html(number_format(orderval, 0, ',', ' '));
+    $("#demonetworth_total").html(number_format(lostnw, 0, ',', ' '));
+    
+});
+
+$(document).on('click', '.sellall', function() {
+	var sum = 0;
+	var inputkey = $(this).attr( "data-key" );
+	var inputamount = $(this).attr( "data-amount" );
+	$("#demo_"+inputkey).val(inputamount);
+	
+	var orderval = 0
+	var addednw = 0;
+
+	$(".sellInput").each(function(){
+        var inputval = $(this).val();
+        sum += +$(this).val();
+        if(inputval > 0){
+        	orderval += +$(this).attr( "data-price" )*inputval;
+        	addednw += +$(this).attr( "data-nw" )/100*orderval;
+		}
+    });
+
+   
+    $("#demototal").html(sum);
+    $("#demoorder_total").html(number_format(orderval, 0, ',', ' '));
+    $("#demonetworth_total").html(number_format(addednw, 0, ',', ' '));
+});
 
 
 
@@ -194,57 +325,5 @@ $("#demobuildings").submit(function(demolishevent){
 
 })(jQuery);
 </script>
-
-<script type="text/javascript">
-	
-	// Set total number of units value
-	jQuery('body').on('change', '.unitInput', function() {
-		
-        var arr = document.getElementsByClassName('unitInput');
-        var tot=0;
-        for(var i=0;i<arr.length;i++){
-            if(parseInt(arr[i].value))
-                tot += parseInt(arr[i].value);
-        }
-        document.getElementById('total').value = tot;
-    
-        var span = document.getElementById('total');
-
-        while( span.firstChild ) {
-            span.removeChild( span.firstChild );
-        }
-
-        span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	});
-	
-	
-	jQuery('body').on('change', '.demobds', function() {
-		
-    var arr = document.getElementsByClassName('demobds');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('demototal').value = tot;
-    
-    var span = document.getElementById('demototal');
-
-while( span.firstChild ) {
-    span.removeChild( span.firstChild );
-}
-span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-
-
-	});
-
-	
-	
-    jQuery(document).on('shown.bs.tab', function (event) {
-        var currentTab = jQuery(event.target).attr('href');
-        history.pushState(null, null, currentTab);
-        jQuery('#currentTab').val(currentTab);
-    });
-</script>	 
 <?php
 get_footer();
