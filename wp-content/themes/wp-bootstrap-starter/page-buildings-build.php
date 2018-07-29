@@ -228,12 +228,11 @@ $(document).on("blur", ".buyInput", function() {
         	orderval += +$(this).attr( "data-price" )*inputval;
         	addednw += +$(this).attr( "data-nw" )/100*orderval;
         	var inputkey = $(this).attr( "data-key" );
-        	turntot += Math.ceil(inputval/<?php echo $buildingsPerTurn;?>);
-        	
+        	        	
         }
     });
    
-	$("#turn_total").html(turntot);
+	$("#turn_total").html(Math.ceil(sum/<?php echo $buildingsPerTurn;?>));
 	
     $("#total").html(sum);
     $("#order_total").html(number_format(orderval, 0, ',', ' '));
@@ -259,14 +258,14 @@ $(document).on("click", ".allbutton", function() {
         	orderval += +$(this).attr( "data-price" )*inputval;
         	addednw += +$(this).attr( "data-nw" )/100*orderval;
         	var inputkey = $(this).attr( "data-key" );
-        	turntot += Math.ceil(inputval/<?php echo $buildingsPerTurn;?>);
+        
 		
         }
     });
 
    
 	$("#total").html(sum);
-	$("#turn_total").html(turntot);
+	$("#turn_total").html(Math.ceil(sum/<?php echo $buildingsPerTurn;?>));
     $("#order_total").html(number_format(orderval, 0, ',', ' '));
     $("#networth_total").html(number_format(addednw, 0, ',', ' '));
 });
