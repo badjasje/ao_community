@@ -37,23 +37,23 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     }
 
     /* Get some important variables */
-    $user_ID = get_current_user_id();
+    $userId = get_current_user_id();
 
-    $userLock = get_user_meta($user_ID, 'user_lock', true);
+    $userLock = get_user_meta($userId, 'user_lock', true);
 
     if ($userLock == 1) {
-        update_user_meta($user_ID, 'user_lock', 0);
+        update_user_meta($userId, 'user_lock', 0);
         $array['status'] = 'Please try again';
 		$array['next'] = false;
 		echo json_encode($array);
 		exit;
     } else {
-        update_user_meta($user_ID, 'user_lock', 1);
+        update_user_meta($userId, 'user_lock', 1);
 
         if (! defined('ABSPATH')) {
             exit;
         }
-        if (empty($user_ID)) {
+        if (empty($userId)) {
            $array['status'] = 'No user ID set. WHO ARE YOU!?';
 		   $array['next'] = false;
 		   echo json_encode($array);
@@ -64,7 +64,7 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
             exit;
         }
     
-        $money = get_user_meta($user_ID, 'money');
+        $money = get_user_meta($userId, 'money');
 
 
         /* check if user actually has enough cash */
@@ -76,14 +76,14 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
         }
 
 
-        $deposits = get_user_meta($user_ID, 'total_deposits');
+        $deposits = get_user_meta($userId, 'total_deposits');
         if (empty($deposits)) {
             $deposits = 0;
         }
 
         $args = array(
         'posts_per_page'   => -1,
-        'author'       => $user_ID,
+        'author'       => $userId,
         'post_type'        => 'deposit'
         );
         $_deposits = get_posts($args);
@@ -96,8 +96,8 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
         }
         
         /* Get banking level and max values */
-        $bankLevel = get_user_meta($user_ID, 'level_bank_management')[0];
-        $startingBonus = get_user_meta($user_ID, 'starting_bonus', true);
+        $bankLevel = get_user_meta($userId, 'level_bank_management')[0];
+        $startingBonus = get_user_meta($userId, 'starting_bonus', true);
         $finance_multi = 1;
         $extra_interest = 0;
         if ($startingBonus == 'finance') {
@@ -164,7 +164,7 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
             'post_title'    => $RELEASE_DATE,
             'post_status'   => 'publish',
             'post_type'     => 'deposit',
-            'post_author'   => $user_ID
+            'post_author'   => $userId
             );
             
             
@@ -173,14 +173,53 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
             update_post_meta($new_order_id, 'deposit_placed', $timestamp);
             update_post_meta($new_order_id, 'days', $_POST['days']);
             update_post_meta($new_order_id, 'amount', $_POST['amount']);
-            update_user_meta($user_ID, 'money', $money[0]-$_POST['amount']);
-            update_user_meta($user_ID, 'total_deposits', $deposits[0]+1);
+            update_user_meta($userId, 'money', $money[0]-$_POST['amount']);
+            update_user_meta($userId, 'total_deposits', $deposits[0]+1);
     
             /* return to banking page succesful */
-            update_user_meta($user_ID, 'user_lock', 0);
+            update_user_meta($userId, 'user_lock', 0);
+            
+            
+            $userData = get_user_meta($userId);
+            
+            $banklevel = $userData['level_bank_management'][0];
+            $money = $userData['money'][0];
+			$startingbonus = $userData['starting_bonus'][0];
+				$finance_multi = 1;
+				if($startingbonus == 'finance'){
+					$finance_multi = 1.5;
+				}
+			
+			if($banklevel == 0){
+				$extra_interest = 0;
+				$max_dep = 250000*$finance_multi;
+				$max_tot = 2500000*$finance_multi;
+			}
+			if($banklevel == 1){
+				$extra_interest = 0.5;
+				$max_dep = 350000*$finance_multi;
+				$max_tot = 3500000;
+			}
+			if($banklevel == 2){
+				$extra_interest = 0.5;
+				$max_dep = 450000*$finance_multi;
+				$max_tot = 4500000;
+			}
+			if($banklevel == 3){
+				$extra_interest = 0.75;
+				$max_dep = 500000*$finance_multi;
+				$max_tot = 5000000*$finance_multi;
+			}
+			$maxDepositAmount = floor(min($max_dep,$money));
+            
+            
+            
+            
+            
             $array['status'] = '$ '.$_POST['amount'].' deposited for '.$_POST['days'].' days';
+            $array['newmaxdep'] = $maxDepositAmount;
 			$array['next'] = true;
-			$array['money'] = number_format($money[0]-$_POST['amount'], 0, ',', ' ');
+			$array['money'] = number_format($money, 0, ',', ' ');
 			$array['depid'] = $new_order_id;
 			$array['deposited'] = number_format($_POST['amount'], 0, ',', ' ');
 			$array['releasedate'] = date('H:i | d-m-Y', $RELEASE_DATE);

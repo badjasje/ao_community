@@ -115,7 +115,7 @@ $maxDepositAmount = floor(min($max_dep,$money));
 		<div class="col-sm-6 bankCol">
 		 	<input class="unitInput" min="0" max="<?php echo $maxDepositAmount;?>" placeholder="Enter amount"type="number" id="amount" name="amount" style="border: none;"/>
 		</div>
-		<div id="maxdep" class="col-sm-6 bankCol mainSubmit" style="border-top:0px;background-color:rgba(70, 118, 94, 0.8);">
+		<div id="maxdep" data-max="<?php echo $maxDepositAmount;?>" class="col-sm-6 bankCol mainSubmit" style="border-top:0px;background-color:rgba(70, 118, 94, 0.8);">
 			MAX
 		</div>
 		</div>
@@ -205,7 +205,7 @@ $maxDepositAmount = floor(min($max_dep,$money));
 		
 		<?php $unlocked+=$incl_interest;?>
 		
-		<button id="withdraw" data-deposit="<?php echo $depositId;?>" class="cancelButton hoverEffect" onclick="return confirm('Are you sure you want to withdraw $ <?php echo number_format(ceil($incl_interest), 0, ',', ' '); ?>?')" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);" type="submit" value="<?php echo $depositId;?>">Withdraw</button>
+		<button id="withdraw" data-dep-value="<?php echo number_format(ceil($incl_interest), 0, ',', ' '); ?>" data-deposit="<?php echo $depositId;?>" class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);" type="submit" value="<?php echo $depositId;?>">Withdraw</button>
 		 
 	<?php endif;?>
 			
@@ -213,7 +213,7 @@ $maxDepositAmount = floor(min($max_dep,$money));
 				
 	<?php if($placedStamp+43200 <= $timestamp && $time_left > 0){  $unlocked+=$incl_interest; ?>
 		
-		<button id="withdraw" data-deposit="<?php echo $depositId;?>" onclick="return confirm('Cancelling this deposit returns $ <?php echo number_format(ceil($deposited*$extra_interest), 0, ',', ' '); ?>. Are you sure?')" class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);"type="submit" >Cancel</button>
+		<button id="withdraw" data-dep-value="<?php echo number_format(ceil($deposited*$extra_interest), 0, ',', ' '); ?>" data-deposit="<?php echo $depositId;?>" class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);"type="submit" >Cancel</button>
 					
 				<?php }?>
 <?php endif;?>
@@ -240,6 +240,9 @@ $maxDepositAmount = floor(min($max_dep,$money));
 $( ".cancelButton" ).click(function() {
 	$('.pageLoader, #page-cover').show();
 	$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
+	var bankvalue = $(this).attr( "data-dep-value" );
+	if(confirm("Are you sure? This deposit will return $ "+bankvalue)){
+
 	
 	var withdrawid = $(this).attr( "data-deposit" );
 	var withdraw;
@@ -251,9 +254,9 @@ $( ".cancelButton" ).click(function() {
     });
     
 	withdraw.done(function (response, textStatus, jqXHR){ 
-		
+		console.log(response);
 		var array = JSON.parse(response);
-		
+		console.log(array);
 		$.notify({
 			message: array.status,
 			},{
@@ -270,12 +273,20 @@ $( ".cancelButton" ).click(function() {
 			$('#money').html(number_format(array.money, 0, ',', ' '));
 			$('#nrdeposits').html(array.deposits);
 			$('.deposit_'+array.removeid).remove();
+			$("#amount").attr({
+				"max" : array.newmaxdep,
+				"min" : 0
+			});
+			$("#maxdep").attr({
+				"data-max" : array.newmaxdep,
+				"min" : 0
+			});
 			
 			
 		}
 		
 	});
-    
+} // End cancel if statement
 });
 
 // Variable to hold request
@@ -333,6 +344,14 @@ $('form').submit(function( event ) {
 			
 			
 			if(array.next == true){
+				$("#amount").attr({
+					"max" : array.newmaxdep,
+					"min" : 0
+				});
+				$("#maxdep").attr({
+					"data-max" : array.newmaxdep,
+					"min" : 0
+				});
 				$('#money').html(number_format(array.money, 0, ',', ' '));
 				$('#nrdeposits').html(array.deposits);
 				
@@ -353,7 +372,9 @@ $('form').submit(function( event ) {
 <?php if($daysleft >= 3):?>	
 <script type="text/javascript">
 	jQuery("#maxdep").click(function() {
-	jQuery("#amount").val("<?php echo $maxDepositAmount;?>");
+	var maxdep = jQuery(this).attr( "data-max" );
+		jQuery("#amount").val(maxdep);
+
 	});
 
 </script>
