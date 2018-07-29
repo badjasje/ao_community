@@ -57,11 +57,12 @@ if ((20000-$sold_land_today) >= $_POST['land']) {
 	$maxSell = $freeLand < (20000 - $soldLandToday) ? $freeLand : (20000 - $soldLandToday);
 
     count_all_stats($userId);
+    $userData = get_user_meta($userId);
     $array['status'] = 'You sold '.number_format($_POST['land'], 0, ',', ' ').' m<sup>2</sup> for a total sum of $ '.number_format($money+($_POST['land']*75), 0, ',', ' ');
 	$array['next'] = true;
-	$array['networth'] = get_user_meta($userId,'networth',true);
-	$array['land'] = $ownedland-$_POST['land'];
-	$array['money'] = $money+($_POST['land']*75);
+	$array['networth'] = $userData['networth'][0];
+	$array['land'] = $userData['land'][0];
+	$array['money'] = $userData['money'][0];
 	$array['soldtoday'] = "1 m<sup>2</sup> has a value of $ 75. You have $freeLand m<sup>2</sup> of free land.
     You have sold <strong> $soldLandToday m<sup>2</sup></strong> today. You can sell an additional <strong> $maxSell m<sup>2</sup></strong>";
   

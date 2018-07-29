@@ -247,7 +247,7 @@ foreach ($units as $key => $order) {
 }
 
 update_user_meta($userId, 'money', $totalMoney - $totalOrderCost);
-
+count_all_stats($userId);
 $userData = get_user_meta($userId);
 $totalMoney = $userData['money'][0];
 $allOrdered = array();
@@ -306,10 +306,10 @@ foreach ($units as $key => $unit) {
 
 
 $array['status'] = $totalUnitsOrdered. ' units ordered for a total price of $ '.number_format($totalOrderAmount, 0, ',', ' ');
-$array['money'] = $totalMoney - $totalOrderCost;
+$array['money'] = $totalMoney;
 $array['allordered'] = $allOrdered;
 $array['newmax'] = $newMax;
 $array['usedspace'] = $availableSpace;
-$array['next'] = false;
+$array['next'] = true;
 echo json_encode($array);
 exit;
