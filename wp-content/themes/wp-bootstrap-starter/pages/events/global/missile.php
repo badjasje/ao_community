@@ -23,22 +23,14 @@
 			<?php if($eventData['shotdown'][0] == 'shotdown'){?>
 			
 			
-			<?php echo clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
-			<?php echo $defender_data->display_name.' (#'.$defender_id.')';?></a> shot down the <?php echo $missile_name;?> of
-			
-			
-			<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
-			<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a>
+			<?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?> shot down the <?php echo $missile_name;?> of
+			<?php echo clan_tag($attacker_id);?> <?php echo get_user_name($attacker_id);?>
 			
 			
 			<?php }else {?>
 						
-			<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
-			<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> launched a <?php echo $missile_name;?> at
-						
-						
-			<?php echo clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
-			<?php echo $defender_data->display_name.' (#'.$defender_id.')';?></a> and 
+			<?php echo clan_tag($attacker_id);?> <?php echo get_user_name($attacker_id);?> launched a <?php echo $missile_name;?> at
+			<?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?> and 
 						
 			
 			<?php if($winner_id == $attacker_id){?>
@@ -63,24 +55,15 @@
 			<?php if($eventData['shotdown'][0] == 'shotdown'){?>
 			
 			
-			<?php echo clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
-			<?php echo $defender_data->display_name.' (#'.$defender_id.')';?></a> shot down the <?php echo $missile_name;?> of
-			
-			
-			<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
-			<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a>
+			<?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?> shot down the <?php echo $missile_name;?> of
+			<?php echo clan_tag($attacker_id);?> <?php echo get_user_name($attacker_id);?>
 			
 			
 			<?php }else {?>
 			
-			<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
-			<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> launched a <?php echo $missile_name;?> at 
-				
-			<?php echo clan_tag($defender_id);?> <a href="/users/profile/?id=<?php echo $defender_id;?>">
-			<?php echo $defender_data->display_name.' (#'.$defender_id.')';?></a>
+			<?php echo clan_tag($attacker_id);?> <?php echo get_user_name($attacker_id);?> launched a <?php echo $missile_name;?> at 
+			<?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?>
 						
-						
-			
 						
 			
 			<?php if($winner_id == $attacker_id){?>
