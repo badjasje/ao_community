@@ -79,13 +79,28 @@ if ($turns < $postedTurns) {
     update_user_meta($userId, 'explored_today', ($perturnm2*$postedTurns)+$explored_today);
 	$exploredToday = ($perturnm2*$postedTurns)+$explored_today;
 	count_all_stats($userId);
+	
+	$userData = get_user_meta($userId);
+	
+	$perturnm2 = 200-((ceil($userData['land'][0]*0.002)));
+	
+	if (($perturnm2 < 50) && ($perturnm2 > 25)) {
+		$perturnm2 = 50;
+	} elseif ($perturnm2 < 25) {
+		$perturnm2 = 25;
+	}
+	
+	$exploredToday = $userData['explored_today'][0];
+	$maxAmount = floor((20000-$exploredToday)/$perturnm2);
+	
 	$array['status'] = number_format($perturnm2*$postedTurns, 0, ',', ' ').' m<sup>2</sup> explored';
 	$array['next'] = true;
-	$array['networth'] = get_user_meta($userId,'networth',true);
+	$array['networth'] = $userData['networth'][0];
 	$array['turns'] = $turns-$postedTurns;
 	$array['land'] = $ownedland+($perturnm2*$postedTurns);
 	$array['exploredtoday'] = "You have explored <strong>".number_format($exploredToday, 0, ',', ' ')."m<sup>2</sup></strong> today.
-		You can explore an additional <strong>".number_format(20000-$exploredToday, 0, ',', ' ')."m<sup>2</sup></strong> <i>(".floor((20000-$exploredToday)/(200-((ceil($ownedland*0.002)))))." turns)</i>";
+		You can explore an additional <strong>".number_format(20000-$exploredToday, 0, ',', ' ')."m<sup>2</sup></strong> <i>(".$maxAmount." turns)</i>";
+	$array['maxturns'] = $maxAmount;
 	echo json_encode($array);
 	exit;
 }

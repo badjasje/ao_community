@@ -46,7 +46,8 @@ $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'explore'
 (function($) {
 	
 	$("#maxexp").click(function() {
-	$("#turnsinput").val("<?php echo $maxAmount;?>");
+		var maxexp = $(this).attr( "data-max" );
+	$("#turnsinput").val(maxexp);
 });
 	$("#maxsell").click(function() {
 	$("#landinput").val("<?php echo $maxSell;?>");
@@ -82,7 +83,7 @@ $('#exploreform').submit(function( event ) {
     request.done(function (response, textStatus, jqXHR){
         // Log a message to the console
         var array = JSON.parse(response);
-        
+        console.log(array);
         	
 				$.notify({
 					message: array.status,
@@ -104,7 +105,14 @@ $('#exploreform').submit(function( event ) {
 				$( ".explNotice" ).empty();
 				$( ".explNotice" ).append(array.exploredtoday);
 			
-				
+				$("#turnsinput").attr({
+					"max" : array.maxturns,
+					"min" : 0
+				});
+				$("#maxexp").attr({
+					"data-max" : array.maxturns,
+					"min" : 0
+				});
 				
 				
 				
@@ -166,7 +174,7 @@ $('#sellform').submit(function( event ) {
 				$('#networth').html(number_format(array.networth, 0, ',', ' '));
 				$( ".sellNotice" ).empty();
 				$( ".sellNotice" ).append(array.soldtoday);
-			
+				
 				
 				
 				
