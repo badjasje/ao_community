@@ -62,132 +62,17 @@ $count++;
 		<?php if(in_array($unitKey, $specialUnits)) : 
 			$maxInput = (min($space['special'], $maxMoney, $maxSpace));	
 		?>
-			<span class="allbutton" id="button<?php echo $unitKey;?>"><?php echo $maxInput;?></span>
+			<span class="allbutton" id="button<?php echo $unitKey;?>" data-key="<?php echo $unitKey;?>" data-amount="<?php echo $maxInput;?>"><?php echo $maxInput;?></span>
 		<?php else : 
 			$maxInput = (min($maxMoney, $maxSpace));
 			
 		?>
-                <span class="allbutton" id="button<?php echo $unitKey;?>"><?php echo $maxInput;?></span>
+                <span class="allbutton" id="button<?php echo $unitKey;?>" data-key="<?php echo $unitKey;?>" data-amount="<?php echo $maxInput;?>"><?php echo $maxInput;?></span>
 		<?php endif;?>
 	    </span>
     </div>
     <div class="col-md-2 celBlock inputBlock">
 	    <?php if($maxInput < 0){ $maxInput = 0;}?>
-        <input class="unitInput" min="0" max="<?php echo $maxInput;?>" type="number" id="<?php echo $unitKey;?>" name="<?php echo $unitKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
-        <input type="number" id="<?php echo $unitKey;?>_total" class="ordertotal" hidden />
-        <input type="number" id="<?php echo $unitKey;?>_nw_total" class="nwtotal" hidden />
+        <input class="unitInput buyInput buy_<?php echo $unitKey;?>" min="0" max="<?php echo $maxInput;?>" data-key="<?php echo $unitKey;?>" data-nw="<?php echo $networthPerUnit; ?>" data-price="<?php echo $buyPrice;?>" type="number" id="<?php echo $unitKey;?>" name="<?php echo $unitKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
     </div>
 </div> <! // Close Unit row -->
-
-<script type="text/javascript">
-    calculate_<?php echo $unitKey;?> = function()
-    {
-        // Caculate order total in hidden field
-        var no_units = document.getElementById('<?php echo $unitKey;?>').value;
-        var price = <?php echo $buyPrice; ?>;
-        document.getElementById('<?php echo $unitKey;?>_total').value = parseInt(no_units)*parseInt(price);
-        var networth = <?php echo $networthPerUnit;?>;
-        document.getElementById('<?php echo $unitKey;?>_nw_total').value = parseInt(no_units)*parseInt(networth);
-    }
-    calculate_<?php echo $unitKey;?>();
-
-
-    // Set total order value
-    jQuery('body').on('blur', '.unitInput', function() {
-        calculate_<?php echo $unitKey;?>();
-
-        var arr = document.getElementsByClassName('ordertotal');
-        var tot=0;
-        for(var i=0;i<arr.length;i++){
-            if(parseInt(arr[i].value))
-                tot += parseInt(arr[i].value);
-        }
-        document.getElementById('order_total').value = tot;
-
-        var span = document.getElementById('order_total');
-
-        while( span.firstChild ) {
-            span.removeChild( span.firstChild );
-        }
-        span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-    });
-
-    // Do NW calculations
-    jQuery('body').on('blur', '.unitInput', function() {
-        calculate_<?php echo $unitKey;?>();
-
-        var arr = document.getElementsByClassName('nwtotal');
-        var tot=0;
-        for(var i=0;i<arr.length;i++){
-            if(parseInt(arr[i].value))
-                tot += parseInt(arr[i].value);
-        }
-        document.getElementById('networth_total').value = tot;
-
-        var span = document.getElementById('networth_total');
-
-        while( span.firstChild ) {
-            span.removeChild( span.firstChild );
-        }
-        span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-    });
-
-
-
-    jQuery("#button<?php echo $unitKey;?>").click(function() {
-        jQuery("#<?php echo $unitKey;?>").val(jQuery(this).text());
-        calculate_<?php echo $unitKey;?>();
-
-        // Set total number of units value
-        var arr = document.getElementsByClassName('unitInput');
-        var tot=0;
-        for(var i=0;i<arr.length;i++){
-            if(parseInt(arr[i].value))
-                tot += parseInt(arr[i].value);
-        }
-        document.getElementById('total').value = tot;
-
-        var span = document.getElementById('total');
-
-        while( span.firstChild ) {
-            span.removeChild( span.firstChild );
-        }
-        span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-
-
-        // Set total value of order
-        var arr = document.getElementsByClassName('ordertotal');
-        var tot=0;
-        for(var i=0;i<arr.length;i++){
-            if(parseInt(arr[i].value))
-                tot += parseInt(arr[i].value);
-        }
-        document.getElementById('order_total').value = tot;
-
-        var span = document.getElementById('order_total');
-
-        while( span.firstChild ) {
-            span.removeChild( span.firstChild );
-        }
-        span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-
-        // Set NW of the order
-        var arr = document.getElementsByClassName('nwtotal');
-        var tot=0;
-        for(var i=0;i<arr.length;i++){
-            if(parseInt(arr[i].value))
-                tot += parseInt(arr[i].value);
-        }
-        document.getElementById('networth_total').value = tot;
-
-        var span = document.getElementById('networth_total');
-
-        while( span.firstChild ) {
-            span.removeChild( span.firstChild );
-        }
-        span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-
-
-      
-    });
-</script>

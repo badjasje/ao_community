@@ -178,17 +178,7 @@ $("#market").submit(function(event){
         // Log a message to the console
         var array = JSON.parse(response);
         	console.log(array);
-        		$.each( array.allordered, function( key, value ) {
-					$('#'+key+'_ordered').html(value);
-				});
-				
-				$.each( array.newmax, function( key, value ) {
-					$('#button'+key).html(value);
-				});
-				
-				$.each( array.usedspace, function( key, value ) {
-					$('#'+key+'spacecount').html(number_format(value, 0, ',', ' '));
-				});
+        		
 				
 				$.notify({
 					message: array.status,
@@ -204,40 +194,77 @@ $("#market").submit(function(event){
 			$('#order_total').html('0');
 			$('#total').html('0');
 			$('#networth_total').html('0');
-			$('#money').html(number_format(array.money, 0, ',', ' '));
+			
+			if(array.next == true){
+				$('#money').html(number_format(array.money, 0, ',', ' '));
+				
+				$.each( array.allordered, function( key, value ) {
+						$('#'+key+'_ordered').html(value);
+					});
+					
+					$.each( array.newmax, function( key, value ) {
+						$('#button'+key).html(value);
+					});
+					
+					$.each( array.usedspace, function( key, value ) {
+						$('#'+key+'spacecount').html(number_format(value, 0, ',', ' '));
+					});
+			}
 			$('#market').trigger("reset");
 });	});	
-})(jQuery);
-</script>
-<script type="text/javascript">
-	
-	// Set total number of units value
-	jQuery('body').on('change', '.unitInput', function() {
-		
-        var arr = document.getElementsByClassName('unitInput');
-        var tot=0;
-        for(var i=0;i<arr.length;i++){
-            if(parseInt(arr[i].value))
-                tot += parseInt(arr[i].value);
+
+
+$(document).on("blur", ".buyInput", function() {
+    var sum = 0;
+    var orderval = 0;
+    var addednw = 0;
+    $(".buyInput").each(function(){
+	    var inputval = $(this).val();
+        sum += +$(this).val();
+        if(inputval > 0){
+        	orderval += +$(this).attr( "data-price" )*inputval;
+        	addednw += +$(this).attr( "data-nw" )*inputval;
+        	var inputkey = $(this).attr( "data-key" );
         }
-        document.getElementById('total').value = tot;
+    });
+   
+	console.log(sum);
+    $("#total").html(sum);
+    $("#order_total").html(number_format(orderval, 0, ',', ' '));
+    $("#networth_total").html(number_format(addednw, 0, ',', ' '));
     
-        var span = document.getElementById('total');
+    
+});
+$(document).on("click", ".allbutton", function() {
+	var sum = 0;
+	var inputkey = $(this).attr( "data-key" );
+	var inputamount = $(this).attr( "data-amount" );
 
-        while( span.firstChild ) {
-            span.removeChild( span.firstChild );
-        }
-
-        span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	});
+	$(".buy_"+inputkey).val(inputamount);
 	
-    jQuery(document).on('shown.bs.tab', function (event) {
-        var currentTab = jQuery(event.target).attr('href');
-        history.pushState(null, null, currentTab);
-        jQuery('#currentTab').val(currentTab);
+	var orderval = 0
+	var addednw = 0;
+
+	
+	$(".buyInput").each(function(){
+        var inputval = $(this).val();
+        sum += +$(this).val();
+        if(inputval > 0){
+        	orderval += +$(this).attr( "data-price" )*inputval;
+        	addednw += +$(this).attr( "data-nw" )*inputval;
+        	var inputkey = $(this).attr( "data-key");
+        	
+        }
     });
 
+   
+    $("#total").html(sum);
+    $("#order_total").html(number_format(orderval, 0, ',', ' '));
+    $("#networth_total").html(number_format(addednw, 0, ',', ' '));
+});
 
-</script>	 
+
+})(jQuery);
+</script>
 <?php
 get_footer();
