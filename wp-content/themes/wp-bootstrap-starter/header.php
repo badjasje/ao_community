@@ -103,8 +103,13 @@
 
 		<a href="/events/incoming">
 		<button class="menu-item" type="button" >
-			<i class="fas fa-globe"></i> 
+			<i class="fas fa-arrow-circle-down"></i> 
 			<span class="badge badge-pill badge-primary localsBadge"></span>
+		</button>
+		</a>
+		<a href="/events/global">
+		<button class="menu-item" type="button" >
+			<i class="fas fa-globe"></i> 
 			<span class="badge badge-pill badge-danger globalsBadge"></span>
 		</button>
 		</a>

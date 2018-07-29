@@ -1140,7 +1140,7 @@ body:not(.theme-preset-active) footer#colophon {
 	top: 3px;
     position: absolute;
     z-index: 99999;
-    left: 107px;
+    left: 148px;
     display: none;
 	-webkit-animation-name: globalsPulse;
 	-webkit-animation-duration: 2s;
@@ -1655,8 +1655,11 @@ display: none;
     .pageRow {
     	margin: 10px 10px 0px 10px;
 	}
-	.globalsBadge,.localsBadge{
+	.localsBadge{
 		left: 148px;
+	}
+	.globalsBadge{
+		left: 189px;
 	}
 	.inboxBadge{
 		left: 98px;
