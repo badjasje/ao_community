@@ -12,7 +12,7 @@ include('research_array.php');
 
 
 
-update_user_meta($user_ID, 'new_global_events', 0);
+update_user_meta($userId, 'new_global_events', 0);
 $clan_ID = get_user_meta($userId, 'clan_id_user',true);
 
 if($userId != 0){
