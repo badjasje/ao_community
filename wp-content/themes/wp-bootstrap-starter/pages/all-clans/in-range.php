@@ -1,4 +1,4 @@
-<div class="tab-pane" id="in-range" role="tabpanel">
+<div class="tab-pane <?php echo $activeTab === 'in-range' ? 'active' : ''; ?>" id="in-range" role="tabpanel">
 <div class="sortMobile">
 	<center>
 	<strong>Sort by:</strong> <a href="" class="sort5" data-sort=".name-sort-5">Name</a> - 

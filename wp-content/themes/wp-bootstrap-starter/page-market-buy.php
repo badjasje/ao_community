@@ -3,7 +3,7 @@
  * Template Name: Market Buy
 */
 get_header(); 
-
+$activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'air';
 global $userData;
 global $userId;
 
@@ -94,10 +94,10 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 	
 	<div class="fw-row">
 		<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
-			<a class="nav-item nav-link navItem active" data-toggle="tab" data-target="#air" href="?tab=air">Air units</a>
-			<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#sea" href="?tab=sea">Sea units</a>
-			<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#veh" href="?tab=veh">Vehicles</a>
-			<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#inf" href="?tab=inf">Infantry</a>
+			<a class="nav-item nav-link navItem <?php echo $activeTab === 'air' ? 'active' : ''; ?>" data-toggle="tab" data-target="#air" href="?tab=air">Air units</a>
+			<a class="nav-item nav-link navItem <?php echo $activeTab === 'sea' ? 'active' : ''; ?>" data-toggle="tab" data-target="#sea" href="?tab=sea">Sea units</a>
+			<a class="nav-item nav-link navItem <?php echo $activeTab === 'veh' ? 'active' : ''; ?>" data-toggle="tab" data-target="#veh" href="?tab=veh">Vehicles</a>
+			<a class="nav-item nav-link navItem <?php echo $activeTab === 'inf' ? 'active' : ''; ?>" data-toggle="tab" data-target="#inf" href="?tab=inf">Infantry</a>
 			<a class="nav-item nav-link navItem" href="/sell" style="background-color: rgba(70, 118, 94, 0.8);">Sell</a>
 		</nav>
 	</div>
@@ -137,6 +137,10 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 <script>
 (function($) {
 	
+$(document).on('shown.bs.tab', function (event) {
+	var currentTab = $(event.target).attr('href');
+	history.pushState(null, null, currentTab);
+});
 
 // Variable to hold request
 var request;

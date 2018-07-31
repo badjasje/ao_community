@@ -1,7 +1,7 @@
 <div class="tab-pane active" id="all" role="tabpanel">
 <div class="row headerRow row-no-padding" style="border-bottom:1px solid #fff;background-color: rgba(<?php echo $backColorCP;?>, 0.75);border-top:1px solid #fff;">
 	<div class="col-md-1 celBlock"></div>
-	<div class="col-md-4 celBlock">Name</a></strong></div>
+	<div class="col-md-4 celBlock">Name<</strong></div>
 	<div class="col-md-4 celBlock">Clan points</strong></div>
 	<div class="col-md-3 celBlock">Members</div>
 </div>

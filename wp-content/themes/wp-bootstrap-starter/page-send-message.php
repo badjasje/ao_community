@@ -5,7 +5,6 @@
 get_header(); 
 $backColor = "45, 67, 81";
 $receiver_ID = $_GET['id'];
-$user = get_userdata( $receiver_ID );
 ?>
 
 <div class="row pageRow">	

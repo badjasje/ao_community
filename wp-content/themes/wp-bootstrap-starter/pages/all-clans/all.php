@@ -1,4 +1,4 @@
-<div class="tab-pane active" id="all" role="tabpanel">
+<div class="tab-pane <?php echo $activeTab === 'all' ? 'active' : ''; ?>" id="all" role="tabpanel">
 	
 <div class="sortMobile">
 	<center>

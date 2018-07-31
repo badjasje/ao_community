@@ -1,6 +1,6 @@
 <?php 
 	foreach($unitTypes as $unitTypeKey => $unitType) :  ?>
-    <div class="tab-pane <?php if($unitTypeKey == 'air') echo 'active';?>"
+    <div class="tab-pane <?php echo $activeTab === $unitTypeKey ? 'active' : ''; ?>"
          id="<?php echo $unitTypeKey; ?>" role="tabpanel">
         <div class="blockHeader spaceNotice">
             <?php

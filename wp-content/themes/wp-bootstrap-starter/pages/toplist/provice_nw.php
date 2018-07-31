@@ -1,8 +1,8 @@
 <div class="row headerRow row-no-padding" style="border-bottom:1px solid #fff;background-color: rgba(<?php echo $backColorPNW;?>, 0.75);border-top:1px solid #fff;">
 	<div class="col-md-1 celBlock"></div>
-	<div class="col-md-4 celBlock"><strong><a href="" class="sort2" data-sort=".memberField">Name</a></strong></div>
-	<div class="col-md-2 celBlock"><strong><a href="" class="sort2 sort-number" data-sort=".store-pop-span2">Networth</a></strong></div>
-	<div class="col-md-2 celBlock"><strong><a href="" class="sort2 sort-number" data-sort=".land">Land</a></strong></div>
+	<div class="col-md-4 celBlock"><strong>Name</strong></div>
+	<div class="col-md-2 celBlock"><strong>Networth</strong></div>
+	<div class="col-md-2 celBlock"><strong>Land</strong></div>
 	<div class="col-md-3 celBlock"><strong>Clan</strong></div>
 </div>
 	

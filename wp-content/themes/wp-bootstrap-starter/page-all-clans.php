@@ -1,9 +1,9 @@
-<?php
+c<?php
  /*
  * Template Name: All Clans
 */
 get_header(); 
-
+$activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'all';
 
 global $userData;
 global $userId;
@@ -54,8 +54,8 @@ $clans = get_posts($args);
 <div class="pageSpacer"></div>
 <div class="fw-row">
 	<nav id="allthetabs" class="nav nav-pills nav-fill flex-column flex-sm-row">
-		<a class="nav-item nav-link navItem active" data-toggle="tab" data-target="#all" href="?tab=all">All</a>
-		<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#in-range" href="?tab=in-range">In range</a>
+		<a class="nav-item nav-link navItem <?php echo $activeTab === 'all' ? 'active' : ''; ?>" data-toggle="tab" data-target="#all" href="?tab=all">All</a>
+		<a class="nav-item nav-link navItem <?php echo $activeTab === 'in-range' ? 'active' : ''; ?>" data-toggle="tab" data-target="#in-range" href="?tab=in-range">In range</a>
 		<a class="nav-item nav-link navItem" href="/users" style="background-color: rgba(70, 118, 94, 0.8);">All users</a>
 	</nav>
 </div>
@@ -68,6 +68,11 @@ $clans = get_posts($args);
 	
 	
 </div> <!-- end .pageRow -->
-
+<script type="text/javascript">
+    jQuery(document).on('shown.bs.tab', function (event) {
+        var currentTab = jQuery(event.target).attr('href');
+        history.pushState(null, null, currentTab);
+    });
+</script>
 <?php
 get_footer();
