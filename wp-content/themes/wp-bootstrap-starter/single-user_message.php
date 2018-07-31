@@ -10,49 +10,40 @@ $invite_hash = get_post_meta($mainmessage_ID,'invite_hash',true);
 $receiver_main 	= get_post_meta($mainmessage_ID, 'receiver_id', true);
 $sender_main	= get_post_meta($mainmessage_ID, 'sender_id', true);
 $messagearray = array($receiver_main,$sender_main,1);
-if(!in_array($user_ID, $messagearray)){
+if(!in_array($userId, $messagearray)){
 	wp_redirect(get_permalink(3656));exit;
 }
 ?>
 
 <div class="row pageRow">	
-	
-<?php while ( have_posts() ) : the_post(); ?>
 
 <?php if(empty($invite_hash)):
 
-	update_post_meta($mainmessage_ID, 'general_status', 'Read');
-				
-	$args = array(
-		'posts_per_page'   => -1,
-		'orderby'          => 'date',
-		'order'            => 'DESC',
-		'post_type'        => 'sub_user_message',
-		'meta_key'		=> 'parent_message_id',
-		'meta_value'	=> $mainmessage_ID
-	);
-			
 	
-	$messages = get_posts($args);
-		
-		foreach ($messages as $message) {
-			$sender_ID = get_post_meta($message->ID, 'sender_id');
-			$sender = get_userdata( $sender_ID[0] );
-			
-			$receiver_id = get_post_meta($message->ID, 'receiver_id')[0];
-		
-			if($receiver_id == $user_ID){
-				update_post_meta($message->ID, 'receiver_status', 'Read');
-			}
-			
-			if($sender_ID != $user_ID){
-				$sender_ID = $sender->ID;
-			}
+	$repeater = get_field('sub_messages_rep',$mainmessage_ID);
+	$noRows = count($repeater);
+	$last_row = end($repeater);		
+	if($last_row['sender_id_rep'] != $userId){
+		update_post_meta($mainmessage_ID, 'general_status', 'Read');
+	}
 	
-	?>
+	$firstRow = $repeater[0];
+
+	if($firstRow['sender_id_rep'] != $userId){
+		$receiver_id = $firstRow['sender_id_rep'];
+	}
+	$count = 0;
+    while ( have_rows('sub_messages_rep') ) : the_row();
+    $sender_ID = get_sub_field('sender_id_rep');
+	$count++;
+	$idAdd = '';
+	if($count == $noRows){
+		$idAdd = 'id="lastrow"';
+	}
+    ?>
 		
 		
-<div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.75-(1/100);?>);">
+<div <?php echo $idAdd;?> class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.75-(1/100);?>);">
 		<div class="col-md-1 col-no-padding sea_heading allUsersAvatarCol">
 			<?php echo small_avatar($sender_ID,'allUsersAvatar');?><span class="mobileUserName"><?php echo get_user_name($sender_ID);?></span>
 		</div>
@@ -64,13 +55,13 @@ if(!in_array($user_ID, $messagearray)){
 <div class="row fw-row row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-(1/40);?>);">
 	
 		<div class="col-md-12 celBlock">
-			<?php echo str_replace("\r", "<br />", $message->post_content);?>
+			<?php echo str_replace("\r", "<br />", get_sub_field('message_rep'));?>
 		</div>
 </div>
 <div class="pageSpacer"></div>	
 	
 			
-<?php }?>
+<?php endwhile;?>
 
 
 <form class="form fw-row" id="message" method="post">
@@ -118,7 +109,8 @@ $("#message").submit(function(event){
 							'</div>'
 					});	
 			if(array.next == true){
-				location.reload();
+				
+				$(".form").prepend(array.newmsg);
 			}
 			$('#message').trigger("reset");
 			
@@ -206,9 +198,7 @@ $("#message").submit(function(event){
 <?php endif;?>
 
 		
-		
-<?php endwhile; // end of the loop. ?>
-	
+
 	
 	
 	

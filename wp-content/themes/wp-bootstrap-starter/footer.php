@@ -32,7 +32,7 @@ $(document).ready(function() {
 	})
 	
 	$.getJSON('<?php echo get_site_url();?>/checkevents.php', function(data) {
-
+	
 			var globals = data.globals; 
 			var locals = data.locals; 
 			var messages = data.messages; 
@@ -65,7 +65,7 @@ $(document).ready(function() {
 
 	function myFunction() {
 		$.getJSON('<?php echo get_site_url();?>/checkevents.php', function(data) {
-
+		
 			var globals = data.globals; 
 			var locals = data.locals; 
 			var messages = data.messages; 

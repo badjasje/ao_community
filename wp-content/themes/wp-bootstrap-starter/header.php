@@ -94,7 +94,7 @@
 		<div class="">
 		<?php echo small_avatar($userId,'menuAvatar');?>
 		</div>
-		<a href="/inbox">
+		<a href="/conversations">
 		<button class="menu-item inboxButton" type="button" >
 			<i class="fas fa-envelope"></i> 
 			<span class="badge badge-pill badge-info inboxBadge"></span>
