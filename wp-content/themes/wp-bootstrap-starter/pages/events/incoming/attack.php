@@ -51,8 +51,8 @@
 				?>
 				</p>
 				<p>Defender losses: <?php echo $def_tot_unitslost;?> units and <?php echo $def_tot_buildingslost;?> buildings
-				<?php
-				foreach ($units as $key => $order) { if($def_tot_unitslost > 0){echo '<br/>';}
+				<?php if($def_tot_unitslost > 0){echo '<br/>';}
+				foreach ($units as $key => $order) { 
 					foreach ($def_unitslost as $def_unitlost) {
 					if (isset($def_unitlost[$key])) {
 						echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
