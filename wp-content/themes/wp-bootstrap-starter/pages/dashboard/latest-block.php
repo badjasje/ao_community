@@ -22,21 +22,29 @@
 	global $wpdb;
 	$topics = $wpdb->get_results("SELECT * FROM 23zx_forum_topics ORDER BY 23zx_forum_topics.id DESC LIMIT 5");
 	
-	$args = array(
-        'posts_per_page'   => 5,
-        'orderby'          => 'date',
-        'order'            => 'DESC',
-        'post_type'        => 'sub_user_message',
-        'meta_query'    => array(
-            'relation'      => 'OR',
-                array(
-                    'key'       => 'receiver_id',
-                    'value'     => $userId,
-                    'compare'   => '=',
-                    ),                                                                                                                        
-				)
-			);
-	$messages = get_posts( $args ); 
+	$inboxargs = array(
+	'posts_per_page'   => 5,
+	'post_type'		=> 'user_message',
+	'meta_key' => 'last_update_stamp',
+	'orderby' => 'meta_value',
+	'order' => 'DESC',
+		'meta_query'	=> array(
+			'relation'		=> 'OR',
+			array(
+				'key'	 	=> 'receiver_id',
+				'value'	  	=> $userId,
+				'compare' 	=> '=',
+			),
+			array(
+				'key'	 	=> 'sender_id',
+				'value'	  	=> $userId,
+				'compare' 	=> '=',
+			),
+		),
+	);
+		
+	$messages = get_posts( $inboxargs ); 
+	
     ?>
    
 <div class="statusBlock">
@@ -113,24 +121,18 @@
 		
 		
 		<div class="col-md-6 col-lg-3 statusRow statCol-1">
-			<div class="blockHeader">Latest inbox messages</div>
+			<div class="blockHeader">Recent conversations</div>
 				
 			<?php foreach ($messages as $message):
 				  $messageId = $message->ID;
-				  $messageData = get_post_meta($messageId);
-				  $parent_ID = $messageData['parent_message_id'][0];
-				  $sender = $messageData['sender_id'][0];
-				  $receiver_id = $messageData['receiver_id'][0];
-				  $sender_id = $messageData['sender_id'][0];    
-
-				
+				 				
 			?>
 			<div class="row unitRow">
 				<div class="col-md-12 celBlock">
-					<a href="<?php echo get_the_permalink($parent_ID);?>/#lastrow">
-						<?php if (strlen(get_the_title($parent_ID)) > 55) {
-	                        echo substr(get_the_title($parent_ID), 0, 55) . '...'; } else {
-	                        echo get_the_title($parent_ID);
+					<a href="<?php echo get_the_permalink($messageId);?>/#lastrow">
+						<?php if (strlen(get_the_title($messageId)) > 55) {
+	                        echo substr(get_the_title($messageId), 0, 55) . '...'; } else {
+	                        echo get_the_title($messageId);
 						}?>
 					</a>
 				</div>
