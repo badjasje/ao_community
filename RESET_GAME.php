@@ -84,6 +84,7 @@
 	$resetArray[] = "'units_built_turns'";
 	$resetArray[] = "'units_ordered'";
 	$resetArray[] = "'units_sold'";
+	$resetArray[] = "'land_sold_today'";
 	$resetArray[] = "'morale_lost'";
 	$resetArray[] = "'morale_pool'";
 	$resetArray[] = "'morale_used'";
