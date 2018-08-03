@@ -191,7 +191,15 @@ foreach ($orders as $order){
 
 
 
-<?php elseif($sat_owned != '0'):?>
+<?php elseif($sat_owned != '0'):
+$timestamp = current_time('timestamp');
+			
+$timeleft = $sat_endlife-$timestamp;
+$timeleft2 = date('H:i:s', $timeleft);
+	
+	
+?>
+<div class="blockHeader spaceNotice"><?php echo date('d', $timeleft);?> days</strong> and <strong><?php echo $timeleft2;?></strong> before your satellite re-enters the atmosphere.</div>
 <div class="fw-row satblock">
 <div class="row unitRow headerRow fw-row" style="border-bottom:1px solid #fff;background-color: rgba(<?php echo $backColor;?>, 0.75);">
 	<div class="col-md-4 celBlock nameBlock">
@@ -203,7 +211,7 @@ foreach ($orders as $order){
     <div class="col-md-4 celBlock"></div>
 </div> <! // Close Unit row -->
 	
-<form class="form" name="" id="satbuild" method="post">
+
 <?php 
 	$count = 0;
 	foreach ($satellites as $key => $satellite): $count++; 
@@ -211,7 +219,7 @@ foreach ($orders as $order){
 	?>
 
 
-<div class="row unitRow fw-row" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
+<div class="satrow row unitRow fw-row" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
     <div class="col-md-4 celBlock nameBlock sea_heading">
         <?php echo $satellite['name'];?>
     </div>
@@ -223,12 +231,68 @@ foreach ($orders as $order){
 	    
     </div>
 </div> <! // Close Unit row -->
+<?php if($sat_owned == 'stealths'):?>
+	<?php if($sat_status == 'active'):?>
+		<div class="blockHeader">Stealth satellite active. <?php echo human_time_diff( $stealth_sat_time,$timestamp);?> before you need to reactivate.</div>
+	<?php else:?>
+		<a class="mainSubmit profileButton activateSatellite" href="#">
+			<i class="fa fa-power-off" aria-hidden="true"></i> Activate stealth satellite
+		</a>
+				
+			<?php endif;?>
+
+<?php endif;?>
+
+
+
 <?php endforeach;?>
 <?php endif; //End check if no sat owned or in progress ?>
 
 
 <script>
 (function($) {
+	
+
+
+$( ".activateSatellite" ).click(function() {
+	$('.pageLoader, #page-cover').show();
+	$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
+	
+	if(confirm("Are you sure you want to activate your stealth satellite?")){
+
+  	activate = $.ajax({
+        url: '/activate_stealthsat.php',
+        type: 'get'
+    });
+    
+    activate.done(function (response, textStatus, jqXHR){ 
+		
+		var array = JSON.parse(response);
+
+		$.notify({
+			message: array.status,
+			},{
+			type: 'info',
+			delay: 5000,
+			template: 	'<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+						'<i class="fa fa-info-circle"></i> ' +
+						'' +
+						'<span data-notify="message">{2}</span>' +
+						'</div>'
+				});	
+		if(array.next == true){
+			
+			
+			$('.activateSatellite').remove();
+			$(".satrow").append('<div class="blockHeader">Stealth satellite active. 3.5 hours before you need to reactivate.</div>');
+			$('.titleBackWrapper').addClass('stealthsatactive');
+		}
+	
+	});
+	
+	
+}
+});
 	
 var cancel;
 $( "body" ).on('submit','#cancelsat',function(cancelevent) {
