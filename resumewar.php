@@ -2,15 +2,20 @@
     
     require_once("wp-load.php");
     
-if ('GET' != $_SERVER['REQUEST_METHOD']) {
+if ('POST' != $_SERVER['REQUEST_METHOD']) {
     header('Allow: POST');
     header('HTTP/1.1 405 Method Not Allowed');
     header('Content-Type: text/plain');
     exit;
 }
+    global $userId;
+    global $userData;
     
-    $declaredonID = $_GET['declaredon'];
-    $declaredbyID = $_GET['declaredby'];
+    
+    $declaredonID = $_POST['declaredon'];
+    $declaredbyID = $userData['clan_id_user'][0];
+    
+    $def_clan_leader = get_post_meta($declaredonID, 'clan_leader', true);
     
     $posts = get_posts(array(
     'numberposts'   => 1,
@@ -38,14 +43,55 @@ if ('GET' != $_SERVER['REQUEST_METHOD']) {
 
     );
 
-// Update the post into the database
+	// Update the post into the database
     wp_update_post($my_post);
 
     $list = maybe_unserialize(get_post_meta($declaredbyID, 'cooldown_list', true));
     unset($list[$declaredonID]);
     update_post_meta($declaredbyID, 'cooldown_list', maybe_serialize($list));
+    
+    $args = array(
+	    'post_title'    => 'WAR RESUMED',
+	    'post_status'   => 'publish',
+	    'post_type'     => 'event_local',
+	    'post_author'   => 1
+	);
+	$new_event_id = wp_insert_post($args);
+	update_field('attacktype', 'war_declared', $new_event_id);
+	
+	update_field('attacker_clan_id', $declaredbyID, $new_event_id);
+	update_field('defender_clan_id', $declaredonID, $new_event_id);
+	
+	update_field('attacker_id', $userId, $new_event_id);
+	update_field('defender_id', $def_clan_leader, $new_event_id);
+	update_field('dec_message', $_POST['resume_msg'], $new_event_id);
+	update_field('outcome', 'resume', $new_event_id);
+	update_field('time_attacked', $timestamp, $new_event_id);
+	
+	
+	
+	$clan_members = get_post_meta($declaredonID, 'clan_members');
+	foreach ($clan_members[0] as $member) {
+	    $globals = get_user_meta($member, 'new_global_events', true);
+	    update_user_meta($member, 'new_global_events', $globals+1);
+	}
+	
+	
+	$clan_members = get_post_meta($declaredbyID, 'clan_members');
+	foreach ($clan_members2 as $member) {
+	    $globals = get_user_meta($member, 'new_global_events', true);
+	    update_user_meta($member2, 'new_global_events', $globals+1);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 
-    $_SESSION['status'] = 'War resumed against '.get_the_title($declaredonID).'(#'.$declaredonID.')';
-    wp_redirect(get_permalink($declaredonID));
-    exit;
+	$array['status'] = 'War resumed against '.get_the_title($declaredonID).'(#'.$declaredonID.')';
+	$array['next'] = true;
+	echo json_encode($array);

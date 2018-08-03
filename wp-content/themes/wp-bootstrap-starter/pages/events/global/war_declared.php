@@ -1,6 +1,15 @@
 <?php 	
 	$declaring_clan = $eventData['attacker_clan_id'][0];
-	$declared_clan = $eventData['defender_clan_id'][0];?>
+	$declared_clan = $eventData['defender_clan_id'][0];
+	
+	if($outcome == 'resume'){
+		$warText = 'Resumed war against';
+		$decText = 'resumed war against your clan';
+	}else{
+		$warText = 'Declared war on';
+		$decText = 'declared war against your clan.';
+	}
+	?>
 <div class="fw-row row row-no-padding">
 <div class="col-xs-2 col-no-padding eventImageCol">
 	<?php echo small_avatar($attacker_id,'eventAvatar');?>
@@ -11,14 +20,14 @@
 	<div class="eventMainMessage">
 		<?php if($clan_ID == $declaring_clan):?>
 				
-				Declared war on <a href="<?php echo get_the_permalink($declared_clan);?>">
+				<?php echo $warText;?> <a href="<?php echo get_the_permalink($declared_clan);?>">
 				<?php echo get_the_title($declared_clan);?> (#<?php echo $declared_clan;?>)</a>
 				
 				<?php elseif($clan_ID == $declared_clan):?>
 				
 				<a href="<?php echo get_the_permalink($declaring_clan);?>">
 				<?php echo get_the_title($declaring_clan);?> (#<?php echo $declaring_clan;?>)</a> 
-				declared war against your clan.
+				<?php echo $decText;?>
 				
 		<?php endif;?>
 	</div>

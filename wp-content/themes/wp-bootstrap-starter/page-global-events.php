@@ -171,7 +171,13 @@ if ( $custom_query->have_posts() ) :
 		}
 		if($attack_type == 'war_declared'){
 			$icon = 'flaticon-star';
-			$reportHeader = 'War declared';
+			$outcome = $eventData['outcome'][0];
+			
+			if($outcome == 'resume'){
+				$reportHeader = 'War resumed';
+			}else{
+				$reportHeader = 'War declared';
+			}
 		}
 		if($attack_type == 'peace_declared'){
 			$icon = 'flaticon-star';
