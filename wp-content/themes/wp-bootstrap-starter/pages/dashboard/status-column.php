@@ -90,10 +90,10 @@
 			
 		
 				<div class="statusInsideCol">
-					<strong>Inbox</strong>
+					<strong>Conversations</strong>
 				</div>
 				<div class="statusInsideCol">
-					<a href="/inbox/">
+					<a href="/conversations/">
 						<?php echo $new_messages;?> new message<?php echo plural_func($new_messages);?>
 					</a>
 				</div>

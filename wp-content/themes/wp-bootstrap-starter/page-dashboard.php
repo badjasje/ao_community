@@ -210,6 +210,8 @@ if($clanId == 0){
 	<div class="pageSpacer"></div>
 	<?php include('pages/dashboard/status-column.php'); ?>
 	<div class="pageSpacer"></div>
+	<?php include('pages/dashboard/latest-block.php'); ?>
+	<div class="pageSpacer"></div>
 	<?php include('pages/dashboard/round-date.php'); ?>
 	<div class="pageSpacer"></div>
 	<?php include('pages/dashboard/medalpositions.php'); ?>
