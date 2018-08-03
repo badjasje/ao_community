@@ -31,7 +31,7 @@ include('building_array.php');
 
 
 update_user_meta($userId,'new_events',0);
-$clan_ID = get_user_meta($userId, 'clan_id_user',true);
+$clan_ID = $userData['clan_id_user'][0];
 
 if($userId != 0){
 	$members = get_post_meta($clan_ID,'clan_members');
@@ -95,9 +95,7 @@ $wp_query   = $custom_query;
 if ( $custom_query->have_posts() ) :
 	while ( $custom_query->have_posts() ) :
 	$custom_query->the_post();
-
-	
-							
+		
 	$eventId = get_the_id();
 	$eventData = get_post_meta($eventId);
 	$defender_id = $eventData['defender_id'][0];

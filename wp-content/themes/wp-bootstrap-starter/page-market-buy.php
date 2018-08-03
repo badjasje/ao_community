@@ -246,7 +246,7 @@ $(document).on("click", ".allbutton", function() {
 
 	$(".buy_"+inputkey).val(inputamount);
 	
-	var orderval = 0
+	var orderval = 0;
 	var addednw = 0;
 
 	

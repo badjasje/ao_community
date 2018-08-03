@@ -25,7 +25,7 @@
 
 <?php wp_footer(); ?>
 <script>
-	(function($) {
+(function($) {		
 $(document).ready(function() {
 	$(function () {
 		$('[data-toggle="tooltip"]').tooltip()

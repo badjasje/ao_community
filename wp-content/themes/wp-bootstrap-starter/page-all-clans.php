@@ -1,4 +1,4 @@
-c<?php
+<?php
  /*
  * Template Name: All Clans
 */
