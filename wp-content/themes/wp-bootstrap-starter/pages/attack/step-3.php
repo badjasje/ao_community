@@ -7,7 +7,7 @@
 	
 	$attackType = $_POST['attacktype'];
 	
-	$userId = get_current_user_id();
+	global $userId;
 	$userData = get_user_meta($userId);
 	$tomahawkOwned = $userData['tomahawk_owned'][0];
 	$typeArray = array('air_sea','ground','regular');
@@ -76,7 +76,7 @@
 					
 					<div class="col-md-2 celBlock">
 						<span class="columnDataLeft">Sending to battle</span>
-						<span class="columnDataRight"><?php echo $unitsOwned*$unit;?> <sup><?php echo ceil($unit*100); ?>%</sup></span>
+						<span class="columnDataRight"><?php echo $unitsOwned*$unit;?> <sup><?php echo round(ceil($unit*100)); ?>%</sup></span>
 				    </div>
 				</div> <! // Close Unit row -->
 				
@@ -477,22 +477,10 @@
 <?php endif;?>
 
 <div class="row statusBlockButtons">
-	<div id="cancelstep3" class="col-md-4 totalsField statCol-1">
-		Cancel
+	<div id="stepback" class="col-md-4 totalsField statCol-1">
+		Back
 	</div>
 	<div id="nextstep3" class="col-md-8 attackStep-2-submit" style="padding:0px;">
 		<button class="mainSubmit" id="attack3" style="border-top:0px;">Attack</button>
 	</div>
 </div>	
-
-<script>
-(function($) {
-jQuery( "#cancelstep3" ).click(function() {
-	if(confirm("Are you sure you want to cancel and restart this attack?")){
-		jQuery( "#step-2" ).empty();
-		jQuery( "#step-3" ).empty();
-		jQuery( "#step-1" ).show();
-	}
-});
-})(jQuery);
-</script>

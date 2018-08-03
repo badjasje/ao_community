@@ -6,7 +6,7 @@
 	include("../../../../../satellite_array.php");
 	
 	$attackType = $_POST['attacktype'];
-	$userId = get_current_user_id();
+	global $userId;
 	$userData = get_user_meta($userId);
 	
 	$typeArray = array('air_sea','ground','regular');
@@ -145,7 +145,7 @@
 							});
 						
 						jQuery(document).ready(function(){
-							jQuery("#submarine").bind("change paste keyup propertychange click", function() {
+							jQuery("#submarine").bind("change paste propertychange click", function() {
 								var maxtomahawk = Math.min(jQuery('#submarine').val() * 2,<?php echo $maxTomahawk;?>);
 						        jQuery('#button_tomahawk').text(maxtomahawk);
 						        jQuery("#tomahawk").attr({
@@ -162,8 +162,8 @@
 	
 <?php }?>
 <div class="row statusBlockButtons">
-	<div id="cancelstep" class="col-md-4 totalsField statCol-1">
-		Cancel
+	<div id="stepback" class="col-md-4 totalsField statCol-1">
+		Back
 	</div>
 	<div id="sendAll" class="col-md-4 totalsField statCol-2" data-val="<?php echo implode('|',$sendall);?>">
 		Send all available units
@@ -249,8 +249,8 @@
 			<?php }}?>
 			
 			<div class="row statusBlockButtons">
-	<div id="cancelstep" class="col-md-6 totalsField statCol-1">
-		Cancel
+	<div id="stepback" class="col-md-6 totalsField statCol-1">
+		Back
 	</div>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
 		<input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
@@ -330,8 +330,8 @@
 			<?php }}?>
 			
 			<div class="row statusBlockButtons">
-	<div id="cancelstep" class="col-md-6 totalsField statCol-1">
-		Cancel
+	<div id="stepback" class="col-md-6 totalsField statCol-1">
+		Back
 	</div>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
 		<input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
@@ -420,8 +420,8 @@
 			<?php }}?>
 			
 			<div class="row statusBlockButtons">
-	<div id="cancelstep" class="col-md-6 totalsField statCol-1">
-		Cancel
+	<div id="stepback" class="col-md-6 totalsField statCol-1">
+		Back
 	</div>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
 		<input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
@@ -496,8 +496,8 @@
 			<?php }}?>
 			
 			<div class="row statusBlockButtons">
-	<div id="cancelstep" class="col-md-6 totalsField statCol-1">
-		Cancel
+	<div id="stepback" class="col-md-6 totalsField statCol-1">
+		Back
 	</div>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit">
 		<input type="submit" value="Next Step">
@@ -584,8 +584,8 @@
 			<?php }}?>
 			
 			<div class="row statusBlockButtons">
-	<div id="cancelstep" class="col-md-6 totalsField statCol-1">
-		Cancel
+	<div id="stepback" class="col-md-6 totalsField statCol-1">
+		Back
 	</div>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit">
 		<input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
@@ -640,8 +640,8 @@
 <?php }?>
 			
 			<div class="row statusBlockButtons">
-	<div id="cancelstep" class="col-md-6 totalsField statCol-1">
-		Cancel
+	<div id="stepback" class="col-md-6 totalsField statCol-1">
+		Back
 	</div>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
 		<input class="mainSubmit" type="submit" value="Next Step" style="border-top:0px;">
@@ -652,13 +652,6 @@
 </form>
 <script>
 (function($) {
-jQuery( "#cancelstep" ).click(function() {
-	if(confirm("Are you sure you want to cancel and restart this attack?")){
-		jQuery( "#step-2" ).empty();
-		jQuery( "#step-1" ).show()
-	}
-});
-
 jQuery("#sendAll").on("click", function() {
     var val = jQuery(this).data("val").toString().split("|");
     jQuery(".unitInput").val(function(i) {

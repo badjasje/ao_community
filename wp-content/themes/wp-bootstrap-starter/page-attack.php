@@ -67,7 +67,7 @@ $attackUserNW = get_user_meta($attackUserId, 'networth',true);
 	</div>
 	
 	
-	
+<div id="attackstep" stepcount="1"></div>
 <div id="step-1">	
 	<?php include('pages/attack/step-1.php'); ?>
 </div>
@@ -81,6 +81,51 @@ $attackUserNW = get_user_meta($attackUserId, 'networth',true);
 	
 <script>
 (function($) {
+	
+
+$('html').keyup(function(e){
+	
+	if(e.keyCode == 8 || 46){
+		var stepnumber = $('#attackstep').attr( "stepcount");
+		e.preventDefault();
+		if(stepnumber == 2){
+			$('#attackstep').attr( "stepcount",1 );
+		 	jQuery( "#step-2").empty();
+			jQuery( "#step-1").show();
+			jQuery('.pageTitle').html('Attack: Step '+stepnumber-1);
+			
+		}
+		if(stepnumber >= 3){
+			$('#attackstep').attr( "stepcount",2 );
+		 	jQuery( "#step-3").empty();
+		 	jQuery( "#attack-result").empty();
+		 	jQuery( "#step-1").hide();
+			jQuery( "#step-2").show();
+			jQuery('.pageTitle').html('Attack: Step '+stepnumber-1);
+			
+		}
+	 }
+});
+$(document).on('click','#stepback',function(event){
+	var stepnumber = $('#attackstep').attr( "stepcount");
+	
+		if(stepnumber == 2){
+			$('#attackstep').attr( "stepcount",1 );
+		 	jQuery( "#step-2").empty();
+			jQuery( "#step-1").show();
+			jQuery('.pageTitle').html('Attack: Step '+stepnumber-1);
+			
+		}
+		if(stepnumber >= 3){
+			$('#attackstep').attr( "stepcount",2 );
+		 	jQuery( "#step-3").empty();
+		 	jQuery( "#step-1").hide();
+			jQuery( "#step-2").show();
+			jQuery('.pageTitle').html('Attack: Step '+stepnumber-1);
+			
+		}
+});
+
 	
 
 // Variable to hold request
@@ -144,7 +189,8 @@ $("#attack").submit(function(event){
 			if(array.next == true){
 				var request2;
 				$( "#step-1" ).hide();
-				jQuery('.pageTitle').html('Attack: Step 2');
+				$('.pageTitle').html('Attack: Step 2');
+				$('#attackstep').attr( "stepcount",2 );
 				$( "#step-2" ).show();
 				
 				request2 = $.ajax({
@@ -158,7 +204,7 @@ $("#attack").submit(function(event){
 				
 				 
 		
-				 $( "#step-2" ).empty().append( response2 );
+				 $( "#step-2" ).append( response2 );
 				
 				 var request3;
 
@@ -195,8 +241,9 @@ $("#attack2").submit(function(event){
 		
 				
 				$( "#step-2" ).hide();
-				$( "#step-3" ).show();
+				
 				jQuery('.pageTitle').html('Attack: Step 3');
+				$('#attackstep').attr( "stepcount",3 );
 				var request4;
 				var finalarray = JSON.parse(response)
 				request4 = $.ajax({
@@ -208,8 +255,8 @@ $("#attack2").submit(function(event){
 					// Callback handler that will be called on success
 				request4.done(function (response4, textStatus, jqXHR){
 		
-					$( "#step-3" ).empty().append( response4 );
-					
+					$( "#step-3" ).append( response4 );
+					$( "#step-3" ).show();
 					
 					var attackresult;
 					

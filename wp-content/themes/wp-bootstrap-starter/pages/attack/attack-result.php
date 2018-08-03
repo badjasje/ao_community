@@ -8,9 +8,9 @@ $backColor = "45, 67, 81";
 $attack_type = $_POST['attacktype'];
 
 $target_id = $_POST['target_id'];
-$userId = get_current_user_ID();
-
-$attackerData = get_user_meta($userId);
+global $userId;
+global $userData;
+$attackerData = $userData;
 $defenderData = get_user_meta($target_id);
 
 
@@ -137,7 +137,33 @@ if($attack_type == 'satellite'){
 if($attack_type == 'saboteur'){
 	include("saboteur-result.php");
 }
+if($result == 'success'):?>
 
+<script>
+	jQuery(document).ready(function() {
+		jQuery( ".splashmessage" ).html('S U C C E S S');
+		jQuery( "#splashback" ).addClass( "successsplash" );
+		jQuery( "#splashback,.splashmessage" ).show();
+		jQuery( "#splashback,.splashmessage" ).delay(750).fadeOut( "slow")
+		jQuery('.pageTitle').html('S U C C E S S');
+	});
+</script>
+
+<?php else:?>
+<script>
+	jQuery(document).ready(function() {
+		jQuery( ".splashmessage" ).html('F A I L U R E');
+		jQuery( "#splashback" ).addClass( "failsplash" );
+		jQuery( "#splashback,.splashmessage" ).show();
+		jQuery( "#splashback,.splashmessage" ).delay(750).fadeOut( "slow")
+		jQuery('.pageTitle').html('F A I L U R E');
+	});
+</script>
+<?php endif;?>
+
+
+
+<?php
 update_user_meta($userId, 'user_lock', 0);
 count_all_stats($target_id);
 count_all_stats($userId);
