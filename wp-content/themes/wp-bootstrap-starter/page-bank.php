@@ -185,7 +185,7 @@ $maxDepositAmount = floor(min($max_dep,$money));
 <div class="row unitRow fw-row deposit_<?php echo $depositId;?>" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
 	<div class="col-md-3 celBlock">
 	    <span class="columnDataLeft">Deposited</span>
-	    <span class="columnDataRight">$ <?php echo number_format($deposited, 0, ',', ' '); ?></span>
+	    <span class="columnDataRight depositedspan" inclinterest="<?php echo $incl_interest;?>" depositamount="<?php echo $deposited;?>">$ <?php echo number_format($deposited, 0, ',', ' '); ?></span>
 	</div>
 	
 	<div class="col-md-3 celBlock">
@@ -205,7 +205,7 @@ $maxDepositAmount = floor(min($max_dep,$money));
 		
 		<?php $unlocked+=$incl_interest;?>
 		
-		<button id="withdraw" data-dep-value="<?php echo number_format(ceil($incl_interest), 0, ',', ' '); ?>" data-deposit="<?php echo $depositId;?>" class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);" type="submit" value="<?php echo $depositId;?>">Withdraw</button>
+		<button id="withdraw" unlocked="<?php echo $unlocked;?>" data-dep-value="<?php echo number_format(ceil($incl_interest), 0, ',', ' '); ?>" data-deposit="<?php echo $depositId;?>" class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);" type="submit" value="<?php echo $depositId;?>">Withdraw</button>
 		 
 	<?php endif;?>
 			
@@ -213,7 +213,7 @@ $maxDepositAmount = floor(min($max_dep,$money));
 				
 	<?php if($placedStamp+43200 <= $timestamp && $time_left > 0){  $unlocked+=$incl_interest; ?>
 		
-		<button id="withdraw" data-dep-value="<?php echo number_format(ceil($deposited*$extra_interest), 0, ',', ' '); ?>" data-deposit="<?php echo $depositId;?>" class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);"type="submit" >Cancel</button>
+		<button id="withdraw" unlocked="<?php echo $unlocked;?>" data-dep-value="<?php echo number_format(ceil($deposited*$extra_interest), 0, ',', ' '); ?>" data-deposit="<?php echo $depositId;?>" class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);" type="submit" >Cancel</button>
 					
 				<?php }?>
 <?php endif;?>
@@ -227,8 +227,10 @@ $maxDepositAmount = floor(min($max_dep,$money));
 
 <?php endforeach;?>
 
-
-
+<div class="pageSpacer"></div>
+<div class="statCol-1 blockHeader bankFoot">Total deposited: $ <span id="depositedvalue"><?php echo number_format($total_deposited, 0, ',', ' '); ?></span> (<span class="totaldeposits"><?php echo count_deposits($userId);?></span> deposits)</div>
+<div class="statCol-2 blockHeader bankFoot">Total final: $ <span id="inclinterest"><?php echo number_format($total_final, 0, ',', ' '); ?></span></div>
+<div class="statCol-3 blockHeader bankFoot">Total Available (unlocked): $ <span id="unlockedvalue"><?php echo number_format($unlocked, 0, ',', ' '); ?></span></div>
 
 
 
@@ -271,7 +273,7 @@ $( ".cancelButton" ).click(function() {
 		$('#withdraw').trigger("reset");
 		if(array.next == true){
 			$('#money').html(number_format(array.money, 0, ',', ' '));
-			$('#nrdeposits').html(array.deposits);
+			$('#nrdeposits,.totaldeposits').html(array.deposits);
 			$('.deposit_'+array.removeid).remove();
 			$("#amount").attr({
 				"max" : array.newmaxdep,
@@ -281,7 +283,20 @@ $( ".cancelButton" ).click(function() {
 				"data-max" : array.newmaxdep,
 				"min" : 0
 			});
-			
+			var depval = 0;
+			var inclinterest = 0;
+			var unlocked = 0;
+			$(".depositedspan").each(function() {
+				depval += +$(this).attr( "depositamount" );
+				inclinterest += +$(this).attr( "inclinterest" );
+    		});
+    		$(".cancelButton").each(function() {
+				unlocked += +$(this).attr( "unlocked" );
+    		});
+    		
+			$('#depositedvalue').html(number_format(depval, 0, ',', ' '));
+			$('#inclinterest').html(number_format(inclinterest, 0, ',', ' '));
+			$('#unlockedvalue').html(number_format(unlocked, 0, ',', ' '))
 			
 		}
 		
@@ -353,7 +368,7 @@ $('form').submit(function( event ) {
 					"min" : 0
 				});
 				$('#money').html(number_format(array.money, 0, ',', ' '));
-				$('#nrdeposits').html(array.deposits);
+				$('#nrdeposits,.totaldeposits').html(array.deposits);
 				
 				$( "<div class='row unitRow fw-row' style='background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>)'><div class='col-md-3 celBlock'><span class='columnDataLeft'>Deposited</span><span class='columnDataRight'>$ "+array.deposited+"</span></div><div class='col-md-3 celBlock'><span class='columnDataLeft'>Including interest</span><span class='columnDataRight'>$ "+array.inclinterest+"</span></div><div class='col-md-3 celBlock'><span class='columnDataLeft'>Release date</span><span class='columnDataRight'>"+array.releasedate+"</span></div><div class='col-md-3 celBlock' style='padding:0px;'></div></div>").insertAfter( ".bankHeader");
 				

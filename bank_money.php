@@ -37,7 +37,8 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     }
 
     /* Get some important variables */
-    $userId = get_current_user_id();
+    global $userId;
+    global $userData;
 
     $userLock = get_user_meta($userId, 'user_lock', true);
 
@@ -64,11 +65,11 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
             exit;
         }
     
-        $money = get_user_meta($userId, 'money');
+        $money = $userData['money'][0];
 
 
         /* check if user actually has enough cash */
-        if ($money[0] < $_POST['amount']) {
+        if ($money < $_POST['amount']) {
             $array['status'] = 'Insufficient funds';
 			$array['next'] = false;
 			echo json_encode($array);
@@ -76,7 +77,7 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
         }
 
 
-        $deposits = get_user_meta($userId, 'total_deposits');
+        $deposits = $userData['total_deposits'][0];
         if (empty($deposits)) {
             $deposits = 0;
         }
@@ -96,8 +97,8 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
         }
         
         /* Get banking level and max values */
-        $bankLevel = get_user_meta($userId, 'level_bank_management')[0];
-        $startingBonus = get_user_meta($userId, 'starting_bonus', true);
+        $bankLevel = $userData['level_bank_management'][0];
+        $startingBonus = $userData['starting_bonus'][0];
         $finance_multi = 1;
         $extra_interest = 0;
         if ($startingBonus == 'finance') {
@@ -132,7 +133,7 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     
 
         /* check amount of deposits made, max 10 */
-        if ($deposits[0] >= 10) {
+        if ($deposits >= 10) {
             $array['status'] = 'You already made 10 deposits';
 			$array['next'] = false;
 			echo json_encode($array);
