@@ -34,10 +34,7 @@
 		$status = get_user_meta($user_ID,'status',true);
 		if($status == 'banned' ){ continue; }
 		
-
-		
-		$war_type = get_war_type($userData['clan_id_user'][0],$clan_id);
-		$in_range = target_in_range($attack_type, $networth_you, $networth, $war_type);
+		$in_range = target_in_range('', $networth_you, $networth, '');
 		
 		if (!$in_range) {
 			continue;
