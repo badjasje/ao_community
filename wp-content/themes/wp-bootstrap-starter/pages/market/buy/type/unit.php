@@ -47,7 +47,7 @@ $count++;
 	    <span class="columnDataLeft">Delay</span>
 	    <span class="columnDataRight">
 	    <?php if($startingBonus == 'shipping'):?>
-			<input class="unitInput" type="number" min="0" id="delay<?php echo $unitKey;?>" name="delay<?php echo $unitKey;?>" placeholder="Delay in min."/>
+			<input class="unitInput" type="number" min="0" id="delay<?php echo $unitKey;?>" style="padding-left:5px;border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 0px 5px 0px;" name="delay<?php echo $unitKey;?>" placeholder="Delay in min."/>
          <?php endif;?>
 	    </span>
     </div>
