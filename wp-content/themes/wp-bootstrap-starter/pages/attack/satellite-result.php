@@ -248,14 +248,6 @@ if($war_type != 'none' && $result == 'success') {
 				
 
 <?php if($result == 'success'){ ?>
-					
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#successsplash" ).show();
-		jQuery( "#successsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('S U C C E S S');
-	});
-</script>
 
 <div class="blockHeader">Your satellite hit the base of <?php echo get_user_name($target_id);?>
 	<?php if ($killed == true):?>
@@ -337,13 +329,7 @@ if($war_type != 'none' && $result == 'success') {
 					
 					
 <?php if($result == 'failure'){ $winner_ID == $target_id; ?>
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#failsplash" ).show();
-		jQuery( "#failsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('F A I L U R E');
-	});
-</script>
+
 
 <div class="blockHeader">Your satellite missed the base of <?php echo get_user_name($target_id);?></div>
 
@@ -398,21 +384,6 @@ if($war_type != 'none' && $result == 'success') {
 
 
 
-
-
-<script>
-(function($) {
-	$(document).ready(function() {
-		<?php $userDataSecondary = get_user_meta($userId);?>
-		// Dynamic update of header statistics
-		jQuery('#morale').html('<?php echo $userDataSecondary['morale'][0];?>');
-		jQuery('#turns').html('<?php echo $userDataSecondary['turns'][0];?>');
-		jQuery('#land').html('<?php echo $userDataSecondary['land'][0];?>');
-		jQuery('#money').html('<?php echo $userDataSecondary['money'][0];?>');
-		jQuery('#networth').html('<?php echo $userDataSecondary['networth'][0];?>');
-	});
-})(jQuery);
-</script>
 <?php }?>	
 			
 

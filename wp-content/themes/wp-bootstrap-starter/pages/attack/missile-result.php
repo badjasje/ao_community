@@ -528,7 +528,7 @@ if($war_type != 'none' && $result == 'success'){
 if($clan_points < 1){
 	$clan_points = 1;
 }		
-if($def_NW_lost == 0){ 
+if($def_NW_lost <= 1){ 
 	$clan_points == 0;
 }
 
@@ -549,7 +549,7 @@ update_user_meta($target_id, 'times_killed', $times_killed+1);
 }
 			
 
-update_post_meta($attacker_clan_ID,'clan_points',$old_CP+$clan_points);
+
 		
 /* 24H pts update */
 $_pts = get_post_meta($attacker_clan_ID, '24h_pts', true);
@@ -568,13 +568,6 @@ update_user_meta($userId, 'nw_damage_missiles', $nw_damage_missiles+$def_NW_lost
 $nw_damage_missiles_rec = $defenderData['nw_damage_missiles_rec'][0];
 update_user_meta($target_id, 'nw_damage_missiles_rec', $nw_damage_missiles_rec+$def_NW_lost); ?>
 
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#successsplash" ).show();
-		jQuery( "#successsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('S U C C E S S');
-	});
-</script>
 
 <div class="blockHeader">Your missile hit the base of <?php echo get_user_name($target_id);?>
 	<?php if ($killed == true):?>
@@ -587,13 +580,6 @@ update_user_meta($target_id, 'nw_damage_missiles_rec', $nw_damage_missiles_rec+$
 	$clan_points = 0;
 	$winner_ID = $target_id;
 ?>
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#failsplash" ).show();
-		jQuery( "#failsplash" ).delay(750).fadeOut( "slow")
-		jQuery('.pageTitle').html('F A I L U R E');
-	});
-</script>
 
 <?php if($result == 'failure' && $shotdown != true && $disabled != true): ?>
 	<div class="blockHeader">Your missile missed the base of <?php echo get_user_name($target_id);?></div>
@@ -746,6 +732,8 @@ $args = array(
 			
 			$user_pts = $attackerData['user_clan_points'][0];
 			update_user_meta($userId,'user_clan_points',$user_pts+$clan_points);
+			
+			update_post_meta($attacker_clan_ID,'clan_points',$old_CP+$clan_points);
 			
 			// Update attacker points for current clan
 			$userAttPts = $attackerData['current_clan_points'][0];

@@ -78,14 +78,6 @@ if($silos >= 1){
 $winner_id = $userId; ?>
 
 
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#successsplash" ).show();
-		jQuery( "#successsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('S U C C E S S');
-	});
-</script>
-
 <div class="blockHeader">Your saboteur entered the base of <?php echo get_user_name($target_id);?></div>
 <div class="blockHeader spaceNotice">
 <?php if($silos > 0){
@@ -107,13 +99,7 @@ $winner_id = $userId; ?>
 	$saboteurs = $attackerData['saboteur_owned'][0];
 	update_user_meta($userId,'saboteur_owned',$saboteurs-1);
 	?>
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#failsplash" ).show();
-		jQuery( "#failsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('F A I L U R E');
-	});
-</script>
+
 <div class="blockHeader">Your saboteur was killed in action</div>
 <div class="blockHeader spaceNotice">
 No missile silos disabled

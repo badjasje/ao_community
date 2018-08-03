@@ -112,14 +112,6 @@ $missiles_hit_rec = $defenderData['missiles_hit_rec'][0];
 update_user_meta($target_id, 'missiles_hit_rec', $missiles_hit_rec+1);
 	
 $winner_ID = $userId;?>
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#successsplash" ).show();
-		jQuery( "#successsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('S U C C E S S');
-	});
-</script>
-
 
 <div class="blockHeader">Your EMP satellite hit the base of <?php echo get_user_name($target_id);?></div>
 
@@ -160,13 +152,7 @@ update_field('deduction_emp',15, $new_emp_id);
 	
 					
 <?php if($result == 'failure' && $shotdown != true){ $winner_ID = $target_id; ?>
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#failsplash" ).show();
-		jQuery( "#failsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('F A I L U R E');
-	});
-</script>
+
 
 
 <div class="blockHeader">Your EMP missile missed the base of <?php echo get_user_name($target_id);?></div>
@@ -174,13 +160,7 @@ update_field('deduction_emp',15, $new_emp_id);
 <?php }?>	
 
 <?php if($result == 'failure' && $shotdown == true){ $winner_ID = $target_id; ?>
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#failsplash" ).show();
-		jQuery( "#failsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('F A I L U R E');
-	});
-</script>
+
 
 
 <div class="blockHeader">Your EMP missile was shot down by <?php echo get_user_name($target_id);?></div>

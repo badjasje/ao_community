@@ -22,14 +22,6 @@ if($sat_status == 'active'){
 
 if($result == 'success'){ ?>
 
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#successsplash" ).show();
-		jQuery( "#successsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('S U C C E S S');
-	});
-</script>
-
 
 <div class="blockHeader">Your EMP satellite hit the base of <?php echo get_user_name($target_id);?></div>
 
@@ -69,14 +61,6 @@ update_field('deduction_emp',20, $new_emp_id);
 					
 					
 <?php if($result == 'failure'){ $winner_ID = $target_id;?>
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#failsplash" ).show();
-		jQuery( "#failsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('F A I L U R E');
-	});
-</script>
-
 
 <div class="blockHeader">Your EMP satellite missed the base of <?php echo get_user_name($target_id);?></div>
 <div class="blockHeader spaceNotice">Power of target not affected</div>

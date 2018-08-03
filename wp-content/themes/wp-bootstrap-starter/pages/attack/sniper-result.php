@@ -93,24 +93,12 @@ $defNWlost = ($snipers_lost*$units['sniper']['price']*0.06)+($thiefs_lost*$units
 	Your sniper<?php echo plural_func($no_snipers);?> were killed in action
 </div>
 
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#failsplash" ).show();
-		jQuery( "#failsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('F A I L U R E');
-	});
-</script>
+
 <?php else:?>
 <div class="blockHeader">
 	Your sniper<?php echo plural_func($no_snipers);?> entered the base of <?php echo get_user_name($target_id);?> <?php if($totalDefLost == 0){ echo ' but there were no units to kill.';}?>
 </div>
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#successsplash" ).show();
-		jQuery( "#successsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('S U C C E S S');
-	});
-</script>
+
 <?php endif;?>
 
 <div class="battleReportInfo statCol-1">Sniper report</div>

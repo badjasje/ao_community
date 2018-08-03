@@ -860,9 +860,7 @@ if($war_type != 'none' && $result == 'success') {
 
 
 
-	/* add points */
-	$starting_points = get_post_meta($attack_clan_id,'clan_points',true);
-	update_post_meta($attack_clan_id,'clan_points',$starting_points+$clan_points);
+	
 	/* add attacks for UA */
 	$starting_attacks = get_post_meta($attack_clan_id,'ua_total',true);
 	update_post_meta($attack_clan_id,'ua_total',$starting_attacks+1);
@@ -961,13 +959,7 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 
 	
 	?>
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#successsplash" ).show();
-		jQuery( "#successsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('S U C C E S S');
-	});
-</script>
+
 
 <div class="blockHeader">You won the battle against <?php echo get_user_name($target_id);?>
 	<?php if ($killed == true):?>
@@ -977,13 +969,6 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 
 <?php else:	?>
 
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#failsplash" ).show();
-		jQuery( "#failsplash" ).delay(750).fadeOut( "slow")
-		jQuery('.pageTitle').html('F A I L U R E');
-	});
-</script>
 <div class="blockHeader">You lost the battle against <?php echo get_user_name($target_id);?>
 	<?php if ($killed == true):?>
 		<u>but managed to kill this player</u>
@@ -1174,9 +1159,12 @@ update_user_meta($target_id, 'new_events', $event_count + 1);
 $user_pts = $attackerData['user_clan_points'][0];
 update_user_meta($userId,'user_clan_points',$user_pts+$clan_points);
 
-// Update attacker points for current clan
-$userAttPts = $attackerData['current_clan_points'][0];
-update_user_meta($userId, 'current_clan_points', $userAttPts+$clan_points);
+$current_clan_pts = $attackerData['current_clan_points'][0];
+update_user_meta($userId, 'current_clan_points', $current_clan_pts+$clan_points);
+
+/* add points for attacking clan */
+$starting_points = get_post_meta($attack_clan_id,'clan_points',true);
+update_post_meta($attack_clan_id,'clan_points',$starting_points+$clan_points);
 
 
 $last_ids = $attackerData['last_attacked'][0];
