@@ -335,6 +335,7 @@ function get_user_name($user_ID){
 		}
 	$extraStyle = '';
 	$banned = '';
+	$icon = '';
 	if($status == 'dead' || $status == 'banned' ){
 		//$extraStyle = 'style="color:#ff0000"';
 		$icon = '<span class="hover-tip"  data-toggle="tooltip" data-original-title="This user is dead" data-placement="bottom"><i class="fas fa-skull"></i></span>';
