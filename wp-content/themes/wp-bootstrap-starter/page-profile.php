@@ -3,6 +3,7 @@
  * Template Name: Profile page
 */
 $user__ID = $_GET['id'];
+global $userId;
 if(empty($user__ID)){
 	wp_redirect(get_permalink(3486));
 }
@@ -28,7 +29,7 @@ $last_online = $userData['last_online'][0];
 		$last_seen = $timestamp - $last_online;
 	}
 
-$visiting_user = get_current_user_ID();
+$visiting_user = $userId;
 
 $visitorData = get_user_meta($visiting_user);
 

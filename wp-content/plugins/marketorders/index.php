@@ -10,6 +10,7 @@ License: GPL
 Copyright: Kevin Bogaard
 */
 
+
 // define the get_avatar_url callback 
 function filter_get_avatar_url( $url, $userId, $args ) { 
     // make filter magic happen here... 
@@ -262,11 +263,12 @@ function can_attack($user_ID){
 }
 
 function networth_range($user_ID){
-	
-	$viewerID = get_current_user_id();
+	global $userId;
+	global $userData;
+	$viewerID = $userId;
 	
 	$networth = get_user_meta($user_ID, 'networth', true);
-	$viewerNetworth = get_user_meta($viewerID, 'networth', true);
+	$viewerNetworth = $userData['networth'][0];
 
 	
 	if(($viewerNetworth/1.4 <= $networth) && ($networth <= $viewerNetworth*1.4)){
@@ -279,8 +281,8 @@ function networth_range($user_ID){
 
 function clan_avg_networth_range($clanId){
 	
-	
-	$viewerId = get_current_user_id();
+	global $userId;
+	$viewerId = $userId;
 	$viewerClanId = get_post_meta( $viewerId, 'clan_id_user', true);
 	
 	$clanMembers = count(get_post_meta($clanId, 'clan_members', true));
@@ -295,8 +297,8 @@ function clan_avg_networth_range($clanId){
 
 function clan_networth_range($clanId){
 	
-	
-	$viewerId = get_current_user_id();
+	global $userId;
+	$viewerId = $userId;
 	$viewerClanId = get_user_meta( $viewerId, 'clan_id_user', true);
 
 	
@@ -365,712 +367,6 @@ function count_unit($user_ID,$unit_type){
 	$units = get_user_meta($user_ID, $unit_type.'_owned', true);
 	return $units;
 }
-
-function header_events($user_ID){
-$userData = get_user_meta($user_ID);
-$new_events = $userData['new_events'][0];
-$new_global_events = $userData['new_global_events'][0];
-
-$redClass = "";
-$globalClass = "";
-if($new_events > 0){
-	$redClass = "redNotify";
-}
-if($new_global_events > 0){
-	$globalClass = "redNotify";
-}
-	
-return "
-	<div class='events_head'>
-			<a href='/events/incoming/'>
-				<div class='col-xs-6 eventsButtons'>
-						<span class='$redClass'>$new_events</span> event".plural_func($new_events)."
-				</div>
-			</a>
-			<a href='/events/global/'>
-				<div class='col-xs-6 eventsButtons'>
-						<span class='globalNew $globalClass'>$new_global_events</span> global event".plural_func($new_global_events)."
-				</div>
-			</a>
-		</div>
-	";
-	
-}
-
-function hook_css() {
-$user_ID = get_current_user_id();
-	
-$nightmode = get_user_meta($user_ID, 'nightmode', true);
-
-if($nightmode == 'nigweweweht'){
-    ?>
-        <style>
-	        
-.attackSelect select {
-	color: #fff;
-    border: 1px solid #2d4350;
-}
-.blog-ind .blog-content {
-    padding-bottom: 25px;
-    background-color: #8a8a8a;
-    border: 1px solid #2d4350;
-    font-size: 14px;
-    color: #fff;
-}
-.blog-ind .blog-info {
-    border: 1px solid #2d4350;
-    position: relative;
-    border-bottom: 0px;
-    background-color: #2d4350;
-    color: #fff;
-}
-.manualcontainer {
-    background-color: #6d6d6d;
-}
-.logo img{
-	filter: invert(100%);
-}
-body .navbar-inverse,body .blog{
-	background-color:#5f5d5d;
-}
-.tomahawkSpan{
-	color:#000 !important;
-}
-.navbar-inverse .nav>li>a{
-	color:#fff;
-}
-.navbar-collapse:after{
-	border-color: #5f5d5d transparent transparent transparent;
-}
-.navbar-collapse:before{
-	border-color: transparent #5f5d5d transparent transparent;
-}
-.after-nav{
-	background-color:#5f5d5d;
-	border-bottom:1px solid #2d4350;
-}
-.list-group-item{
-	background-color:#2d4350;
-	color:#fff;
-	border:0px;
-}
-body .normal-page{
-	background-color:#5f5d5d;
-}
-.build_content,.select2-results{
-	background-color:#8a8a8a;
-}
-.clanpageitem, a.list-group-item .list-group-item-heading{
-	color:#fff;
-}
-a.list-group-item:focus, a.list-group-item:hover{
-	background-color:#7a7a7a;
-}
-.status_column {
-    background-color: #8a8a8a;
-    color: #fff;
-    border: 1px solid #2d4350;
-}
-@media (max-width: 768px) {
-.marketHeader{
-	background-color: #2d4350 !important;
-}
-}
-.nav-tabs.nav-justified>li>a{
-	background-color: #2d4350 !important;
-	color:#fff;
-}
-.nav-tabs a{
-	border:0px;
-}
-.status_column a{
-	color: #fff;
-}
-.status_header{
-	background-color: #2d4350;
-	color:#fff;
-}
-.event-row{
-	background-color: #8a8a8a;
-}
-.toplist_block,.market_column,.market_block,.spaceNotice,.totalsField{
-	background-color: #8a8a8a;
-}
-
-.toplist_block a,.spaceNotice,.totalsField{
-	color:#fff;
-}
-.button_block,.textNotify,.profile_block {
-    border: 1px solid #2d4350;
-    padding: 10px 5px 8px 5px;
-    background-color: #8a8a8a;
-}
-.textNotify,.profile_block,body{
-	color:#fff;
-}
-.medal_box {
-    background-color: #8a8a8a;
-    color: #fff;
-}
-
-h2,h4{
-	color:#e4e4e4;
-}
-.responsive-table tbody tr{
-	border: 1px solid #2d4350;
-	background-color:#8a8a8a;
-}
-table tbody tr:nth-child(even){
-	background-color: #8a8a8a;
-}
-.target_info, .single_inbox_message {
-    padding: 20px;
-    background-color: #8a8a8a;
-    border: 1px solid #2d4350;
-    margin-top: 11px;
-}
-.target_info a,.single_inbox_message a{
-	color:#fff;
-}
-table tbody tr td,.responsive-table tbody th[scope="row"],.responsive-table tbody td[data-title]:before{
-	color:#fff;
-}
-.inbox_title a,.responsive-table tbody td a,.h1, h1{
-	color:#fff;
-}
-.clan_column a,.clan_profile_row a,table tbody tr td a,.event-row a,.close{
-	color:#fff;
-}
-.close{
-	opacity: 0.8;
-}
-.wp-editor-container textarea.wp-editor-area, input[type=file], input[type=password], input[type=password]:active, input[type=password]:focus, input[type=password]:hover, input[type=text], input[type=text]:active, input[type=text]:focus, input[type=text]:hover, select, select:active, select:focus, select:hover, textarea, textarea:active, textarea:focus, textarea:hover{
-	background-color:#2f2f2f;
-	color:#fff;
-}
-.blue_alert{
-	background-color:#2d4350;
-	color:#fff;
-}
-
-
-::-webkit-input-placeholder { /* WebKit browsers */
-    color:    #fff;
-}
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color:    #fff;
-}
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color:    #fff;
-}
-:-ms-input-placeholder { /* Internet Explorer 10+ */
-    color:    #fff;
-}
-</style>
-    <?php
-}}
-add_action('wp_head', 'hook_css');
-
-
-
-
-
-
-
-
-
-/*   NZ color scheme */
-function hook_NZ_css() {
-$user_ID = get_current_user_id();
-	
-$nightmode = get_user_meta($user_ID, 'nightmode', true);
-if($nightmode == 'nostalgweewewia'){
-
-    ?>
-        <style>
-          .logo img{
-	filter: invert(100%);
-}
-.single_inbox_message {
-    border: 1px solid #747463;
-}
-.toplist_block a, .statitem a{
-    color: #d8d4b5;
-}
-.eventsButtons {
-    border: 1px solid #d8d4b6;
-    background-color: #747463;
-    text-transform: uppercase;
-    font-weight: bold;
-    color: #d8d4b6;
-}
-.blog-content {
-    padding: 20px 25px 15px;
-    line-height: 24px;
-    background-color: #c6c4a8;
-    border: 1px solid #747463;
-    font-size: 14px;
-}
-.blog-ind .blog-info {
-    border: 1px solid #747463;
-    position: relative;
-    border-bottom: 0px;
-    background-color: #c6c4a8;
-}
-.wcontainer {
-    padding: 20px;
-    background-color: #c6c4a8;
-    border: 1px solid #747463;
-}
-h3.widget-title{
-	background-color: #c6c4a8;
-}
-.title-wrapper {
-    z-index: 1;
-    position: relative;
-    border: 1px solid #747463;
-    margin-bottom: 5px;
-    background: none;
-    background-color: #c6c4a8;
-}
-.blog-ind .blog-content {
-    padding-bottom: 25px;
-    background-color: #c6c4a8;
-    border: 1px solid #747463;
-    font-size: 14px;
-}
-.title-wrapper:after {
-    background: #c6c4a8;
-}
-.widget ul {
-    margin: 0;
-    padding: 0;
-    background-color: #c6c4a8;
-    border: 1px solid #747463;
-}
-.blog-image {
-    border: none;
-}
-.bgpattern, .cart-notification, .clan-members-mi, .match-page .mmaps ul li:nth-child(even), .nextmatch_wrap .clan12w, .nm-clans, .post-review, .widget ul li:nth-child(even), .widget.clanwarlist-page ul.clanwar-list li.clanwar-item, .widget_shopping_cart, .woocommerce .cart-notification, ul.about-profile li:nth-child(even) {
-    background: #d8d4b6;
-    border-top: 1px solid #747463;
-}
-@media (min-width: 991px){
-.nav-tabs.nav-justified>.active>a, .nav-tabs.nav-justified>.active>a:focus, .nav-tabs.nav-justified>.active>a:hover {
-    border-bottom-color: rgba(221, 221, 221, 0);
-}
-.nav-tabs.nav-justified>li>a {
-    border-bottom: 1px solid #d8d4b6;
-    border-radius: 4px 4px 0 0;
-}
-}
-
-input[type=number]{
-	background-color: #d8d4b6;
-	border: 1px solid #747463;
-	color: #35382f !important;
-}
-.profile_row,.clan_profile_row,.clan_profile_row2 {
-    border-bottom: 1px solid #d8d4b6;
-}
-.post-pinfo a {
-    font-size: 12px;
-    font-weight: normal;
-    color: #35382f;
-}
-body .navbar-inverse,body .blog{
-	background-color:#35382f;
-}
-.navbar-inverse .nav>li>a{
-	color:#95947E;
-}
-.navbar-collapse:after{
-	border-color: #35382f transparent transparent transparent;
-}
-.navbar-collapse:before{
-	border-color: transparent #35382f transparent transparent;
-}
-.after-nav{
-	background-color:#35382f;
-	border-bottom:0px solid #747463;
-}
-.list-group-item{
-	background-color:#747463;
-	color:#d8d4b6;
-	border:0px;
-}
-.list-group-item:first-child {
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-top: 0px;
-}
-#progress {
-    width: 100%;
-    padding-top: 20px;
-    color: #747463;
-    background-color: #c6c4a8;
-    text-align: center;
-    margin-bottom: 10px;
-    border: 4px solid #747463;
-}
-#bar {
-    padding-top: 5px;
-    font-weight: bold;
-    background-color: #747463;
-    color: #d8d4b6;
-}
-.startinghead,.cmheader{
-    color: #747463;
-}
-.savedUsers{
-	color:#d8d4b6;
-}
-.edit_clan_first {
-    background-color: #c6c4a8;
-    margin-bottom: 30px;
-    padding: 30px 15px;
-    border: 1px solid #747463;
-}
-.nostitem{
-	background-color:#c6c4a8;
-}
-a.list-group-item {
-    color: #555;
-    border-top: 1px dashed #747463;
-}
-.nostitem:hover{
-	background-color:#747463 !important;
-}
-.clan_buttons {
-    text-align: center;
-    border: 1px solid #747463;
-}
-body .normal-page{
-	background-color:#78806b;
-	padding-top: 0px;
-	padding-bottom: 0px; 
-}
-.build_content,.select2-results{
-	background-color:#c6c4a8;
-}
-.btn-general{
-	background-color:#747463;
-	color: #d8d4b6;
-}
-.btn-general:hover{
-	background-color:rgba(116, 116, 99, 0.5);
-	color: #35382f;
-}
-.status_column {
-    background-color: #c6c4a8;
-    color: #fff;
-    border: 1px solid #747463;
-}
-.attackField input {
-    font-size: 24px;
-    text-align: center;
-    font-weight: bold;
-    background-color:rgb(255, 254, 245);
-    margin-bottom: 20px !important;
-    border: 1px solid #747463;
-}
-input[type="radio"]:checked + label {
-    background-color: rgb(64, 64, 54);
-}
-.btn-attack {
-    color: #fff;
-    background-color: #747463;
-    margin-bottom: 3px;
-    text-transform: uppercase;
-}
-.respybutton{
-	background-color: #747463 !important;
-	color: #d8d4b6 !important;
-}
-.nav-tabs.nav-justified>li>a{
-	background-color: #747463 !important;
-	color:#fff;
-}
-.nav-tabs a{
-	border:0px;
-}
-.status_column a{
-	color: #fff;
-}
-.status_header{
-	background-color: #747463;
-	color:#fff;
-}
-.responsive-table thead th {
-    background-color: #747463;
-    border: 1px solid #747463;
-    color:#d8d4b6 !important;
-    font-weight: normal;
-    text-align: center;
-    color: white;
-}
-.report_header {
-    background-color: #747463 !important;
-    color: #d8d4b6 !important;
-}
-.tomahawkNotification {
-    background-color: #c6c4a8;
-    padding: 10px;
-    border: 1px solid #747463;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-#attackCanvas {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: #d8d4b6;
-}
-
-@media (max-width: 768px){
-.responsive-table tbody {
-    background-color: #c6c4a8 !important;
-}
-}
-table tbody tr:nth-child(even) {
-    background: rgb(234, 232, 196);
-}
-.responsive-table tbody tr {
-    border: 1px solid #747463;
-}
-.event-row{
-	background-color: #c6c4a8;
-}
-.toplist_block,.single_inbox_message,.bankBlock,.target_info{
-	background-color: #c6c4a8;
-}
-.target_info{
-	border: 1px solid #747463;
-}
-.bankBlock{
-	border: 1px solid #747463;
-}
-input[type=submit]{
-	background-color: #747463;
-    color: #d8d4b6;
-    border:none;
-}
-input[type=submit]:hover{
-	background-color: rgba(115, 115, 98, 0.75);
-    color: #d3cea8 !important;
-    border:none;
-}
-.maxDep {
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
-    font-weight: bold;
-    border-bottom: 1px solid #747463;
-    padding: 16px 0px;
-    background-color: #747463;
-    color: #fff;
-}
-.toplist_block a,a{
-	color:#747463;
-}
-.attackSelect select {
-    color: #747463;
-    border: 1px solid #747463;
-    background-color: rgb(255, 254, 245);
-}
-#sform input[type=search], .ubermenu .wpcf7-submit:hover, body .ubermenu-skin-clean-white .ubermenu-item-level-0:hover > .ubermenu-target, body .ubermenu-skin-clean-white .ubermenu-item-level-0.ubermenu-active > .ubermenu-target, body .flex-control-paging li a.flex-active, body .flex-control-paging li a:hover, body .wpb_posts_slider .flex-caption h2 a, .navbar-inverse .nav>li.active>a, .navbar-inverse .nav>li.current-menu-item>a, .navbar-inverse .nav>li>a:hover, .navbar .nav li.current-menu-parent a, .navbar .nav li.current_page_item a, .button-big:hover, .button-medium:hover, .button-small:hover, button[type=submit]:hover, input[type=button]:hover, input[type=submit]:hover, .navbar-nav>li:after, .ticker-title, .after-nav .container:before, div.pagination a:focus, div.pagination a:hover, div.pagination span.current, .page-numbers:focus, .page-numbers:hover, .page-numbers.current, body.woocommerce nav.woocommerce-pagination ul li a:focus, body.woocommerce nav.woocommerce-pagination ul li a:hover, body.woocommerce nav.woocommerce-pagination ul li span.current, .widget .clanwar-list .tabs li:hover a, .widget .clanwar-list .tabs li.selected a, .bgpattern, .post-review, .widget_shopping_cart, .woocommerce .cart-notification, .cart-notification, .splitter li[class*="selected"] > a, .splitter li a:hover, .ls-wp-container .ls-nav-prev, .ls-wp-container .ls-nav-next, a.ui-accordion-header-active, .accordion-heading:hover, .block_accordion_wrapper .ui-state-hover, .cart-wrap, .clanwar-list li ul.tabs li:hover, .clanwar-list li ul.tabs li.selected a:hover, .clanwar-list li ul.tabs li.selected a, .dropdown .caret, .tagcloud a:hover, .progress-striped .bar, .bgpattern:hover > .icon, .progress-striped .bar, .member:hover > .bline, .blog-date span.date, .pbg, .pbg:hover, .pimage:hover > .pbg, ul.social-media li a:hover, .navigation a, .pagination ul > .active > a, .pagination ul > .active > span, .list_carousel a.prev:hover, .list_carousel a.next:hover, .pricetable .pricetable-col.featured .pt-price, .block_toggle .open, .pricetable .pricetable-featured .pt-price, .isotopeMenu, .bbp-topic-title h3, .modal-body .reg-btn, #LoginWithAjax_SubmitButton .reg-btn, .footer_widget h3, buddypress div.item-list-tabs ul li.selected a, .results-main-bg, .blog-date-noimg, .blog-date, .ticker-wrapper.has-js, .ticker-swipe {
-    background-color: #747463;
-}
-.maxExplore {
-    font-size: 14px;
-    cursor: pointer;
-    text-align: center;
-    font-weight: bold;
-    border-bottom: 1px solid #747463;
-    padding: 0px 0px;
-    background-color: #747463;
-    color: #fff;
-}
-.positionNo {
-    height: 25px;
-    width: 25px;
-    text-align: center;
-    line-height: 24px;
-    font-size: 14px;
-    color: #fff;
-    background-color: #35382f;
-}
-.depField input {
-    font-size: 24px;
-    text-align: center;
-    font-weight: bold;
-    padding-right: 0px !important;
-    padding-left: 0px !important;
-    margin-bottom: 20px !important;
-    border: 1px solid #747463;
-    background-color: rgb(255, 254, 245);
-}
-.button_block,.textNotify,.profile_block {
-    border: 1px solid #747463;
-    padding: 10px 5px 8px 5px;
-    background-color: #c6c4a8;
-}
-.textNotify,.profile_block,body{
-	color:#35382f;
-}
-.profile_block{
-	margin-top:20px;
-}
-.notice_message, .bonus_message{
-	background-color: #c6c4a8;
-	color:#35382f;
-	color: #747463;
-    border: 1px solid #747463;
-}
-.status_header{
-	color:#d8d4b6;
-}
-.medal_header{
-	background-color:#747463;
-	color: #d8d4b6;
-}
-.medal_box{
-	background-color: #c6c4a8;
-	color:#747463;
-	border: 1px solid #747463;
-}
-.status_column,.textNotify{
-	color:#747463;
-}
-.status_column a{
-	color: #747463;
-}
-.market_block{
-    padding: 10px 5px 8px 5px;
-    background-color: #c6c4a8;
-}
-.spaceNotice,.totalsField{
-	border: 1px solid #747463 !important;
-	background-color: #c6c4a8;
-	border:none;
-}
-h1{
-	color: #d8d4b6;
-}
-h1 a,.title_wrapper .col-lg-12 h1{
-	color: #d8d4b6;
-}
-.current_but {
-    background-color: #35382f !important;
-}
-.title_wrapper .breadcrumbs {
-    text-align: right;
-    color: #d8d4b6;
-    margin-top: 27px;
-    float: none;
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 12px;
-    text-shadow: 0px 1px 3px rgba(0,0,0,0.5);
-}
-.nostmessage{
-	margin-bottom:20px;
-}
-.containerNZ{
-	background-color: #d8d4b6;
-	border-left: 5px solid #272922;
-    border-right: 5px solid #272922;
-    padding: 20px 15px;
-    min-height: 500px;
-}
-.status_header{
-	margin-top:0px;
-}
-.battlereport-header {
-    background-color: #747463;
-    color: #d8d4b6;
-    }
-.event-row {
-    border-left: 1px solid #747463;
-    border-right: 1px solid #747463;
-    border-bottom: 1px solid #747463;
-.title_wrapper .col-lg-12 h1,.title_wrapper .breadcrumbs,.navbar-inverse .nav>li.active>a, .navbar-inverse .nav>li.current-menu-item>a, .navbar-inverse .nav>li>a:hover, .navbar .nav li.current-menu-parent a, .navbar .nav li.current_page_item a{
-	color:#d8d4b6;
-}
-.current_but {
-    background-color: #35382f !important;
-}
-.eventsButtons {
-    border: 1px solid #d8d4b6;
-    background-color: #747463;
-    text-transform: uppercase;
-    font-weight: bold;
-    color: #d8d4b6;
-}
-
-#sform input[type=search], .ubermenu .wpcf7-submit:hover, body .ubermenu-skin-clean-white .ubermenu-item-level-0:hover > .ubermenu-target, body .ubermenu-skin-clean-white .ubermenu-item-level-0.ubermenu-active > .ubermenu-target, body .flex-control-paging li a.flex-active, body .flex-control-paging li a:hover, body .wpb_posts_slider .flex-caption h2 a, .navbar-inverse .nav>li.active>a, .navbar-inverse .nav>li.current-menu-item>a, .navbar-inverse .nav>li>a:hover, .navbar .nav li.current-menu-parent a, .navbar .nav li.current_page_item a, .button-big:hover, .button-medium:hover, .button-small:hover, button[type=submit]:hover, input[type=button]:hover, input[type=submit]:hover, .navbar-nav>li:after, .ticker-title, .after-nav .container:before, div.pagination a:focus, div.pagination a:hover, div.pagination span.current, .page-numbers:focus, .page-numbers:hover, .page-numbers.current, body.woocommerce nav.woocommerce-pagination ul li a:focus, body.woocommerce nav.woocommerce-pagination ul li a:hover, body.woocommerce nav.woocommerce-pagination ul li span.current, .widget .clanwar-list .tabs li:hover a, .widget .clanwar-list .tabs li.selected a, .bgpattern, .post-review, .widget_shopping_cart, .woocommerce .cart-notification, .cart-notification, .splitter li[class*="selected"] > a, .splitter li a:hover, .ls-wp-container .ls-nav-prev, .ls-wp-container .ls-nav-next, a.ui-accordion-header-active, .accordion-heading:hover, .block_accordion_wrapper .ui-state-hover, .cart-wrap, .clanwar-list li ul.tabs li:hover, .clanwar-list li ul.tabs li.selected a:hover, .clanwar-list li ul.tabs li.selected a, .dropdown .caret, .tagcloud a:hover, .progress-striped .bar, .bgpattern:hover > .icon, .progress-striped .bar, .member:hover > .bline, .blog-date span.date, .pbg, .pbg:hover, .pimage:hover > .pbg, ul.social-media li a:hover, .navigation a, .pagination ul > .active > a, .pagination ul > .active > span, .list_carousel a.prev:hover, .list_carousel a.next:hover, .pricetable .pricetable-col.featured .pt-price, .block_toggle .open, .pricetable .pricetable-featured .pt-price, .isotopeMenu, .bbp-topic-title h3, .modal-body .reg-btn, #LoginWithAjax_SubmitButton .reg-btn, .footer_widget h3, buddypress div.item-list-tabs ul li.selected a, .results-main-bg, .blog-date-noimg, .blog-date, .ticker-wrapper.has-js, .ticker-swipe{
-	background-color: #747463;
-}
-
-h2,h4{
-	color:#e4e4e4;
-}
-.responsive-table tbody tr{
-	border: 1px solid #747463;
-	background-color:#c6c4a8;
-}
-table tbody tr:nth-child(even){
-	background-color: #c6c4a8;
-}
-.target_info, .single_inbox_message {
-    padding: 20px;
-    background-color: #c6c4a8;
-    border: 1px solid #747463;
-    margin-top: 11px;
-}
-.target_info a,.single_inbox_message a{
-	color:#35382f;
-}
-table tbody tr td,.responsive-table tbody th[scope="row"],.responsive-table tbody td[data-title]:before{
-	color:#35382f;
-}
-.inbox_title a,.responsive-table tbody td a,.h1, h1{
-	color:#35382f;
-}
-.clan_column a,.clan_profile_row a,table tbody tr td a,.event-row a,.close{
-	color:#35382f;
-}
-.close{
-	opacity: 0.8;
-}
-.wp-editor-container textarea.wp-editor-area, input[type=file], input[type=password], input[type=password]:active, input[type=password]:focus, input[type=password]:hover, input[type=text], input[type=text]:active, input[type=text]:focus, input[type=text]:hover, select, select:active, select:focus, select:hover, textarea, textarea:active, textarea:focus, textarea:hover{
-	background-color:#2f2f2f;
-	color:#d8d4b6;
-}
-
-
-
-::-webkit-input-placeholder { 
-    color:    #fff;
-}
-:-moz-placeholder { 
-    color:    #fff;
-}
-::-moz-placeholder { 
-    color:    #fff;
-}
-:-ms-input-placeholder {
-    color:    #fff;
-}
-#main_wrapper, .owl-item .car_image:after, .newsb-thumbnail a:after, .ins_widget ul li a:after, .blog-image a:after{
-		background: url(<?php echo get_template_directory_uri(); ?>/img/pattern.png) top left repeat rgba(246, 255, 197, 0.4) !important;
-	}
-</style>
-    <?php
-}}
-add_action('wp_head', 'hook_NZ_css');
-
-
 
 
 function small_avatar($user_ID,$type){
@@ -1975,8 +1271,8 @@ $power = $userData['power'][0];
 add_shortcode( 'current-satellites' , 'display_count_satellites' );
 function display_count_satellites(){
 	include('satellite_array.php');
-	$user_ID = get_current_user_id();
-    $sat = get_user_meta($user_ID, 'sat_owned', true);
+	global $userId;
+    $sat = get_user_meta($userId, 'sat_owned', true);
     $sat_owned = 'none';
     if($sat != '0'){
 	    $sat_owned = $satellites[$sat]['shortname'];
@@ -1986,8 +1282,8 @@ function display_count_satellites(){
 
 add_shortcode( 'current-missiles' , 'display_count_missiles' );
 function display_count_missiles(){
-	$user_ID = get_current_user_id();
-    $missiles = count_missiles($user_ID);
+	global $userId;
+    $missiles = count_missiles($userId);
     return '<span class="count_menu">'.$missiles.'</span>';
 } 
 
@@ -2009,8 +1305,8 @@ return $totalmissiles;
 
 add_shortcode( 'current-buildings' , 'display_count_buildings' );
 function display_count_buildings(){
-	$user_ID = get_current_user_id();
-    $buildings = count_buildings($user_ID);
+	global $userId;
+    $buildings = count_buildings($userId);
     return '<span class="count_menu">'.$buildings.'</span>';
 } 
 
@@ -2030,8 +1326,8 @@ return $totalbuildings;
 
 add_shortcode( 'current-units' , 'display_count_units' );
 function display_count_units(){
-	$user_ID = get_current_user_id();
-    $units = count_units($user_ID);
+	global $userId;
+    $units = count_units($userId);
     return '<span class="count_menu">'.$units.'</span>';
 } 
 
