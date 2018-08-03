@@ -10,7 +10,6 @@ global $userId;
 $clan_id_user = $userData['clan_id_user'][0];
 $clanCreate = $userData['clan_create_counter'][0];
 
-
 $clanData = get_post_meta($clan_id_user);
 
 $clan_leader = $clanData['clan_leader'][0];
@@ -59,6 +58,12 @@ foreach ($clans as $clan) {
 
 <?php if($clan_id_user != 0):?>
 <?php include('pages/view-clan/member.php'); ?>	
+
+<?php if(in_array($userId, $allowed)):?>
+	<div class="pageSpacer"></div>
+	<?php include('pages/view-clan/message-all-members.php'); ?>	
+<?php endif;?>
+
 <?php else:?>
 <?php include('pages/view-clan/nonmember.php'); ?>	
 <?php endif;?>
