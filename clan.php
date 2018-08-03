@@ -14,8 +14,9 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     exit;
 }
 
+global $userId;
+global $userData;
 
-$userId = get_current_user_ID();
 $slug = strtolower($_POST['clanname']);
 
 $args = array(

@@ -12,11 +12,13 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     echo json_encode($array);
     exit;
 }
-$user_ID = get_current_user_id();
-$clan_ID = get_user_meta($user_ID, 'clan_id_user', true);
+global $userId;
+global $userData;
+
+$clan_ID = $userData['clan_id_user'][0];
 $clanleader = get_post_meta($clan_ID, 'clan_leader', true);
 
-if ($user_ID == $clanleader && $clan_ID == $_GET['id']) {
+if ($userId == $clanleader && $clan_ID == $_GET['id']) {
     $my_post = array(
       'ID'           => $clan_ID,
       'post_title'   => $_POST['clanname'],

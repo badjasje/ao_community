@@ -6,8 +6,18 @@
  *
  * @package WP_Bootstrap_Starter
  */
-
+global $userId;
+$userId = get_current_user_id();
+global $userData;
+$userData = get_user_meta($userId);
 $timestamp = current_time('timestamp');
+
+if($userData['status'][0] == 'dead' && $userData['times_killed'][0] == 0):
+	after_death($userId);
+	update_user_meta($userId, 'status', 'nukeprotection');
+	update_user_meta($userId, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
+endif;
+
 if( function_exists('acf_add_options_page') ) {
 	acf_add_options_page();
 }
@@ -244,14 +254,7 @@ require get_template_directory() . '/inc/plugin-compatibility/plugin-compatibili
  */
 
 if (is_user_logged_in() && !is_admin()){
-	$userId = get_current_user_id();
 	count_all_stats($userId);
 	update_user_meta($userId, 'last_online', $timestamp);
 	$userStatus = get_user_meta($userId, 'status',true);
-	
-	if($userStatus == 'dead'){
-		after_death($userId);
-		update_user_meta($userId, 'status', 'nukeprotection');
-		update_user_meta($userId, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
-	}
 }

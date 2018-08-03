@@ -20,7 +20,8 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     exit;
 }
 nocache_headers();
-$userId = get_current_user_id();
+global $userId;
+global $userData;
 
 
 $array = array();
@@ -32,8 +33,8 @@ if (!defined('ABSPATH') || empty($userId) || !is_user_logged_in()) {
 	exit;
 }
 
-$ownedland = get_user_meta($userId, 'land',true);
-$explored_today = get_user_meta($userId, 'explored_today',true);
+$ownedland = $userData['land'][0];
+$explored_today = $userData['explored_today'][0];
 $perturnm2 = 200-((ceil($ownedland*0.002)));
 if (($perturnm2 < 50) && ($perturnm2 > 25)) {
 	$perturnm2 = 50;
@@ -42,7 +43,7 @@ if (($perturnm2 < 50) && ($perturnm2 > 25)) {
 }
 $postedTurns = floor($_POST['turns']);
 
-$freeland = get_user_meta($userId, 'builtland',true)/$ownedland;
+$freeland = $userData['builtland'][0]/$ownedland;
 
 
 if ($postedTurns < 1 || !is_numeric(($postedTurns))) {
@@ -60,9 +61,9 @@ if ($perturnm2 < 0) {
 	exit;
 }
     
-$turns = get_user_meta($userId, 'turns',true);
+$turns = $userData['turns'][0];
 if ((20000-$explored_today) < ($perturnm2*$postedTurns)) {
-    $array['status'] = 'You can only explore '. number_format(20000-get_user_meta($userId, 'explored_today', true), 0, ',', ' ').' m<sup>2</sup></strong> more land.';
+    $array['status'] = 'You can only explore '. number_format(20000-$userData['explored_today'][0], 0, ',', ' ').' m<sup>2</sup></strong> more land.';
 	$array['next'] = false;
 	echo json_encode($array);
 	exit;
@@ -82,21 +83,22 @@ if ($turns < $postedTurns) {
 	
 	$userData = get_user_meta($userId);
 	
-	$perturnm2 = 200-((ceil($userData['land'][0]*0.002)));
+	$newperturnm2 = 200-((ceil($userData['land'][0]*0.002)));
 	
-	if (($perturnm2 < 50) && ($perturnm2 > 25)) {
-		$perturnm2 = 50;
-	} elseif ($perturnm2 < 25) {
-		$perturnm2 = 25;
+	if (($newperturnm2 < 50) && ($newperturnm2 > 25)) {
+		$newperturnm2 = 50;
+	} elseif ($newperturnm2 < 25) {
+		$newperturnm2 = 25;
 	}
 	
 	$exploredToday = $userData['explored_today'][0];
-	$maxAmount = floor((20000-$exploredToday)/$perturnm2);
+	$maxAmount = floor((20000-$exploredToday)/$newperturnm2);
 	
 	$array['status'] = number_format($perturnm2*$postedTurns, 0, ',', ' ').' m<sup>2</sup> explored';
 	$array['next'] = true;
 	$array['networth'] = $userData['networth'][0];
 	$array['turns'] = $turns-$postedTurns;
+	$array['newrate'] = $newperturnm2;
 	$array['land'] = $ownedland+($perturnm2*$postedTurns);
 	$array['exploredtoday'] = "You have explored <strong>".number_format($exploredToday, 0, ',', ' ')."m<sup>2</sup></strong> today.
 		You can explore an additional <strong>".number_format(20000-$exploredToday, 0, ',', ' ')."m<sup>2</sup></strong> <i>(".$maxAmount." turns)</i>";

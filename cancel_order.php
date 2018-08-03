@@ -41,7 +41,8 @@ if ($orderStatus == 'trash') {
 }
 
 // Cancel the order.
-$userId = get_current_user_id();
+global $userId;
+global $userData;
 
 $userLock = get_user_meta($userId, 'user_lock', true);
 
@@ -51,7 +52,7 @@ if ($userLock == 1) {
 update_user_meta($userId, 'user_lock', 1);
 
 // Determine market discount multiplier
-$marketDiscountLevel = get_user_meta($userId, 'level_market_discount', true);
+$marketDiscountLevel = $userData['level_market_discount'][0];
 $discount = 1.0;
 if($marketDiscountLevel == 1){
     $discount = $discount - 0.15;
@@ -73,9 +74,9 @@ $unitType = get_post_meta($orderId, 'unit_type', true);
 $orderType = get_post_meta($orderId, 'order_type', true);
 
 $unitsOrdered = get_post_meta($orderId, 'amount_ordered', true);
-$ownedUnits = get_user_meta($userId, $unitType.'_owned', true);
+$ownedUnits = $userData[$unitType.'_owned'][0];
 
-$totalUnitsOnOrder = get_user_meta($userId, $unitType.'_ordered', true);
+$totalUnitsOnOrder = $userData[$unitType.'_ordered'][0];
 $unitPrice = $units[$unitType]['price']*2.2*$discount;
 
 $orderValue = get_post_meta($orderId, 'order_value', true);
@@ -90,7 +91,7 @@ if ($orderType == 'satellite') {
     update_user_meta($userId, 'sat_in_progress', 0);
     $cashback = $satellites[$unitType]['price']*0.75;
 }
-    $totalmoney = get_user_meta($userId, 'money', true);
+    $totalmoney = $userData['money'][0];
     update_user_meta($userId, 'money', $totalmoney+$cashback);
 
     update_user_meta($userId, 'user_lock', 0);
@@ -99,4 +100,3 @@ if ($orderType == 'satellite') {
     $array['money'] = $totalmoney+$cashback;
     echo json_encode($array);
     exit;
-

@@ -30,7 +30,8 @@ $array = array();
 
 
 /* initialize core variables */
-    $userId = get_current_user_id();
+    global $userId;
+	global $userData;
     update_user_meta($userId, 'user_lock', 0);
     if (! defined('ABSPATH')) {
         exit;
@@ -47,7 +48,7 @@ $array = array();
 		echo json_encode($array);
 		exit;
     }
-    $userData = get_user_meta($userId);
+    
     $clan_id = $userData['clan_id_user'][0];
     $turns = $userData['turns'][0];
     $morale = $userData['morale'][0];

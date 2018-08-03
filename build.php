@@ -23,12 +23,13 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     exit;
 }
 	$array = array();
-    $user_ID = get_current_user_id();
+    global $userId;
+    global $userData;
 
     if (! defined('ABSPATH')) {
         exit;
     }
-    if (empty($user_ID)) {
+    if (empty($userId)) {
         $array['status'] = 'You must log in to perform this action';
 		$array['next'] = false;
 		echo json_encode($array);
@@ -42,14 +43,14 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     }
 
 
-    $totalmoney = get_user_meta($user_ID, 'money',true);
+    $totalmoney = $userData['money'][0];
 
-    $totalturns = get_user_meta($user_ID, 'turns',true);
+    $totalturns = $userData['turns'][0];
 
-    $land = get_user_meta($user_ID, 'land',true);
-    $builtland = get_user_meta($user_ID, 'builtland',true);
-    $EElevel = get_user_meta($user_ID, 'level_engineering_effectiveness',true);
-    $startingbonus = get_user_meta($user_ID, 'starting_bonus', true);
+    $land = $userData['land'][0];
+    $builtland = $userData['builtland'][0];
+    $EElevel = $userData['level_engineering_effectiveness'][0];
+    $startingbonus = $userData['starting_bonus'][0];
     $extra_divide = 0;
     if ($startingbonus == 'defensive') {
         $extra_divide = 5;
@@ -128,11 +129,11 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
 			echo json_encode($array);
 			exit;
         } else {
-            $buildings_built = get_user_meta($user_ID, 'buildings_built', true);
-            update_user_meta($user_ID, 'buildings_built', $buildings_built+$totalbuildings);
+            $buildings_built = $userData['buildings_built'][0];
+            update_user_meta($userId, 'buildings_built', $buildings_built+$totalbuildings);
 
             foreach ($buildings as $key => $order) {
-                $unit_name = $key;
+                $buildingName = $key;
     
                 $normalname = $order['normalname'];
                 $price = $order['price'];
@@ -141,25 +142,25 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
                     $orderamount = $price*$ordered_buildings;
     
         
-                    $units_on_order = get_user_meta($user_ID, $unit_name,true);
+                    $units_on_order = $userData[$buildingName][0];
 
-                    update_user_meta($user_ID, 'money', $totalmoney-$totalordercost);
-                    update_user_meta($user_ID, 'turns', $totalturns-$turns_needed);
-                    update_user_meta($user_ID, $key, $ordered_buildings);
+                    update_user_meta($userId, 'money', $totalmoney-$totalordercost);
+                    update_user_meta($userId, 'turns', $totalturns-$turns_needed);
+                    update_user_meta($userId, $key, $ordered_buildings);
         
             
             
-                    update_user_meta($user_ID, $unit_name, $units_on_order+$ordered_buildings);
+                    update_user_meta($userId, $buildingName, $units_on_order+$ordered_buildings);
                 }
             }
         }
     }
 
-count_all_stats($user_ID); 
+count_all_stats($userId); 
 
 $newMax = array();
 $newOwned = array();
-$userData = get_user_meta($user_ID);
+$userData = get_user_meta($userId);
 $builtland = $userData['builtland'][0];
 $totalmoney = $userData['money'][0];
 $totalturns = $userData['turns'][0];

@@ -20,9 +20,9 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     echo json_encode($array);
     exit;
 }
-
-$declarer_ID = get_current_user_id();
-
+global $userId;
+global $userData;
+$declarer_ID = $userId;
 
 $userLock = get_user_meta($declarer_ID, 'user_lock', true);
 if ($userLock == 1) {
@@ -53,7 +53,7 @@ if (!is_user_logged_in()) {
 }
 
 
-$declarer_clan_ID = get_user_meta($declarer_ID, 'clan_id_user', true);
+$declarer_clan_ID = $userData['clan_id_user'][0];
 $timestamp = current_time('timestamp');
 $def_clan_leader = get_post_meta($_POST['clan'], 'clan_leader', true);
 

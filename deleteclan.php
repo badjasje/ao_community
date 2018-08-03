@@ -21,8 +21,8 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     exit;
 }
 
-$userId = get_current_user_id();
-
+global $userId;
+global $userData;
 
 if (empty($userId)) {
     $array['status'] = 'Log in to perform this action';
@@ -40,7 +40,7 @@ if (!is_user_logged_in()) {
 
 $clan = $_POST['clan'];
 
-$clan_ID_deleter = get_user_meta($userId, 'clan_id_user',true);
+$clan_ID_deleter = $userData['clan_id_user'][0];
 $clan_leader = get_post_meta($clan, 'clan_leader',true);
 
 if ($userId != $clan_leader) {

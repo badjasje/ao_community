@@ -12,7 +12,7 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 }
 require(dirname(__FILE__) . '/wp-load.php');
 
-$userId = get_current_user_id();
+global $userId;
 
 $endDate = get_field('end_date','option');
 $endStamp = strtotime($endDate);
@@ -44,7 +44,7 @@ if ($timeLeft <= 0) {
 
 nocache_headers();
 include 'count_functions.php';
-$userData = get_user_meta($userId);
+global $userData;
 
 $totalMoney = $userData['money'][0];
 

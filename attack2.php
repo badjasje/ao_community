@@ -25,8 +25,8 @@ nocache_headers();
 $array = array();
 include 'units_array.php';
 
-$userId = get_current_user_ID();
-$userData = get_user_meta($userId);
+global $userId;
+global $userData;
 
 $entireArray = $_POST;
 

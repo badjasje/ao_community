@@ -14,7 +14,7 @@ if ( 'GET' != $_SERVER['REQUEST_METHOD'] ) {
 
 require( dirname(__FILE__) . '/wp-load.php' );
 
-$userId = get_current_user_id();
+global $userId;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 if(empty($userId)){

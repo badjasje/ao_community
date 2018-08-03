@@ -1,7 +1,7 @@
 <?php
 require_once("../../../../../wp-load.php");
 include("../../../../../satellite_array.php");
-$userId = get_current_user_id();
+global $userId;
 $userData = get_user_meta($userId);
 
 $sat_level = $userData['level_satellite_construction'][0];

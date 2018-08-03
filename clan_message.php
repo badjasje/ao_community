@@ -13,8 +13,8 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 }
 
 require(dirname(__FILE__) . '/wp-load.php');
-
-$user_ID = get_current_user_id();
+global $userId;
+global $userData;
 $array = array();
 if (! defined('ABSPATH')) {
     $array['status'] = 'You must log in to perform this action';
@@ -22,7 +22,7 @@ if (! defined('ABSPATH')) {
     echo json_encode($array);
     exit;
 }
-if (empty($user_ID)) {
+if (empty($userId)) {
     $array['status'] = 'You must log in to perform this action';
     $array['next'] = false;
     echo json_encode($array);
@@ -34,7 +34,7 @@ if (!is_user_logged_in()) {
     echo json_encode($array);
     exit;
 }
-$clan_ID = get_user_meta($user_ID, 'clan_id_user')[0];
+$clan_ID = $userData['clan_id_user'][0];
 $clanleader = get_post_meta($clan_ID, 'clan_leader')[0];
 
  $ct_1 = get_post_meta($clan_ID, 'ct_1', true);
@@ -46,7 +46,7 @@ $clanleader = get_post_meta($clan_ID, 'clan_leader')[0];
 $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
 
 
-if (in_array($user_ID, $allowed)) {
+if (in_array($userId, $allowed)) {
     update_post_meta($clan_ID, 'clan_message', $_POST['new_message']);
     $array['status'] = 'Clan message updated';
     $array['clanmessage'] = $_POST['new_message'];

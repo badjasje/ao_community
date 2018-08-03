@@ -9,8 +9,9 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
 }
 $data = maybe_unserialize( $_POST );
 $array = array();
-$user_ID = get_current_user_id();
-$clan_ID = get_user_meta($user_ID, 'clan_id_user',true);
+global $userId;
+global $userData;
+$clan_ID = $userData['clan_id_user'][0];
 
 $clanData = get_post_meta($clan_ID);
 
@@ -40,7 +41,7 @@ if(isset($data['newclanimage'])){
 }
 
 
-if (in_array($user_ID, $allowed)) {
+if (in_array($userId, $allowed)) {
       $my_post = array(
       'ID'           => $clan_ID,
       'post_content' => $data['publicmessage'],
@@ -48,19 +49,19 @@ if (in_array($user_ID, $allowed)) {
     wp_update_post($my_post);
 }
 
-if ($user_ID == $clanleader) {
+if ($userId == $clanleader) {
 	update_post_meta($clan_ID, 'clan_leader', $data['new_leader']);
 	if($data['new_leader'] == $ct_1){
-		update_post_meta($clan_ID, 'ct_1', $user_ID);
+		update_post_meta($clan_ID, 'ct_1', $userId);
 	}
 	if($data['new_leader'] == $ct_2){
-		update_post_meta($clan_ID, 'ct_2', $user_ID);
+		update_post_meta($clan_ID, 'ct_2', $userId);
 	}
 	if($data['new_leader'] == $ct_3){
-		update_post_meta($clan_ID, 'ct_3', $user_ID);
+		update_post_meta($clan_ID, 'ct_3', $userId);
 	}
 	if($data['new_leader'] == $ct_4){
-		update_post_meta($clan_ID, 'ct_4', $user_ID);
+		update_post_meta($clan_ID, 'ct_4', $userId);
 	}
 }
 

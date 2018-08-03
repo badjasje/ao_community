@@ -7,8 +7,9 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 }
 
 require(dirname(__FILE__) . '/wp-load.php');
-
-$declarer_ID = get_current_user_id();
+global $userId;
+global $userData;
+$declarer_ID = $userId;
 
 if (! defined('ABSPATH')) {
     $array['status'] = 'You must be logged in to perform this action';
@@ -33,7 +34,7 @@ if (!is_user_logged_in()) {
 }
     
 
-$declarer_clan_ID = get_user_meta($declarer_ID, 'clan_id_user', true);
+$declarer_clan_ID = $userData['clan_id_user'][0];
 $clan_leader = get_post_meta($declarer_clan_ID, 'clan_leader', true);
 
  $ct_1 = get_post_meta($declarer_clan_ID, 'ct_1', true);

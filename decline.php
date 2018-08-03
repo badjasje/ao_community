@@ -13,26 +13,23 @@ if ('GET' != $_SERVER['REQUEST_METHOD']) {
 }
 
 require(dirname(__FILE__) . '/wp-load.php');
+global $userId;
+global $userData;
 
-$user_ID = get_current_user_ID();
 $invitekey = $_GET['invite'];
 $clan = $_GET['clan'];
 
-
-
-
 $open_invites = get_post_meta($_GET['clan'], 'open_invites');
 
-
-$clan_ID = get_user_meta($user_ID, 'clan_id_user');
-if ($clan_ID[0] == 0) {
+$clan_ID = $userData['clan_id_user'][0];
+if ($clan_ID == 0) {
     foreach ($open_invites[0] as $key => $invite) {
         if ($invite['invite'] == $invitekey) {
             if ($invite['clan'] == $clan) {
-                if ($invite['user'] != $user_ID) {
+                if ($invite['user'] != $userId) {
                     wp_redirect(get_permalink(3656));
                 }
-                if ($invite['user'] == $user_ID) {
+                if ($invite['user'] == $userId) {
                     unset($open_invites[0][$key]);
 
                     update_post_meta($_GET['id'], 'invite_status', 'accept');

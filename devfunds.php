@@ -11,8 +11,8 @@
 	    exit;
 	}
 
-	$userId = get_current_user_id();
-	$userData = get_user_meta($userId);
+	global $userId;
+	global $userData;
 	$extraMoney = 250000;
 	$extraTurns = 50;
 

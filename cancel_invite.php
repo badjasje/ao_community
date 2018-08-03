@@ -14,10 +14,11 @@ if ('GET' != $_SERVER['REQUEST_METHOD']) {
 
 require(dirname(__FILE__) . '/wp-load.php');
 
-$userId = get_current_user_ID();
+global $userId;
+global $userData;
 $inviteKey = isset($_GET['invite']) ? $_GET['invite'] : '';
 
-$clanId = get_user_meta($userId, 'clan_id_user',true);
+$clanId = $userData['clan_id_user'][0];
 
 
 $openInvites = maybe_unserialize(get_post_meta($clanId, 'open_invites',true));

@@ -15,7 +15,8 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 require(dirname(__FILE__) . '/wp-load.php');
 nocache_headers();
 
-$userId = get_current_user_id();
+global $userId;
+global $userData;
 
 if (! defined('ABSPATH')) {
     exit;
@@ -27,8 +28,8 @@ if (empty($userId) || !is_user_logged_in()) {
     exit;
 }
 
-$totalmoney = get_user_meta($userId, 'money', true);
-$totalturns = get_user_meta($userId, 'turns', true);
+$totalmoney = $userData['money'][0];
+$totalturns = $userData['turns'][0];
 
 
 include('units_array.php');
@@ -42,28 +43,24 @@ $total_SEA = 0;
 $total_INF = 0;
 $total_VEH = 0;
 
-$airspace = get_user_meta($userId, 'airfield');
-$airspace = $airspace[0]*10;
-$seaspace = get_user_meta($userId, 'shipyard');
-$seaspace = $seaspace[0]*5;
-$vehspace = get_user_meta($userId, 'warfactory');
-$vehspace = $vehspace[0]*10;
-$infspace = get_user_meta($userId, 'baracks');
-$infspace = $infspace[0]*20;
+$airspace = $userData['airfield'][0]*10;
+$seaspace = $userData['shipyard'][0]*5;
+$vehspace = $userData['warfactory'][0]*10;
+$infspace = $userData['baracks'][0]*20;
 
 
-$spies = get_user_meta($userId, 'spy_owned', true);
-$spies_ordered = get_user_meta($userId, 'spy_ordered', true);
-$thiefs = get_user_meta($userId, 'thief_owned', true);
-$thiefs_ordered = get_user_meta($userId, 'thief_ordered', true);
-$planes = get_user_meta($userId, 'spyplane_owned', true);
-$planes_ordered = get_user_meta($userId, 'spyplane_ordered', true);
-$sniper = get_user_meta($userId, 'sniper_owned', true);
-$sniper_ordered = get_user_meta($userId, 'sniper_ordered', true);
-$saboteur = get_user_meta($userId, 'saboteur_owned', true);
-$saboteur_ordered = get_user_meta($userId, 'saboteur_ordered', true);
+$spies = $userData['spy_owned'][0];
+$spies_ordered = $userData['spy_ordered'][0];
+$thiefs = $userData['thief_owned'][0];
+$thiefs_ordered = $userData['thief_ordered'][0];
+$planes = $userData['spyplane_owned'][0];
+$planes_ordered = $userData['spyplane_ordered'][0];
+$sniper = $userData['sniper_owned'][0];
+$sniper_ordered = $userData['sniper_ordered'][0];
+$saboteur = $userData['saboteur_owned'][0];
+$saboteur_ordered = $userData['saboteur_ordered'][0];
 
-$commandcenter = get_user_meta($userId, 'command_centre', true);
+$commandcenter = $userData['command_centre'][0];
 $ccspace = ($commandcenter*5)-$saboteur-$saboteur_ordered-$spies-$thiefs-$planes-$spies_ordered-$thiefs_ordered-$planes_ordered-$sniper-$sniper_ordered;
 
 $total_special = $saboteur+$spies+$thiefs+$planes+$spies_ordered+$thiefs_ordered+$planes_ordered+$sniper+$sniper_ordered+$saboteur_ordered;
@@ -122,9 +119,9 @@ foreach ($units as $key => $order) {
         $price = $order['price'];
         $ordered_units = ceil($_POST["$key"]);
         $air+=$ordered_units;
-        $owned_units = get_user_meta($userId, $key.'_owned');
-        $units_already_on_order = get_user_meta($userId, $key.'_ordered');
-        $total_air_ordered+=$ordered_units+$owned_units[0]+$units_already_on_order[0];
+        $owned_units = $userData[$key.'_owned'][0];
+        $units_already_on_order = $userData[$key.'_ordered'][0];
+        $total_air_ordered+=$ordered_units+$owned_units+$units_already_on_order;
     }
 }
         
@@ -164,9 +161,9 @@ foreach ($units as $key => $order) {
         $price = $order['price'];
         $ordered_units = ceil($_POST["$key"]);
         $veh+=$ordered_units;
-        $owned_units = get_user_meta($userId, $key.'_owned');
-        $units_already_on_order = get_user_meta($userId, $key.'_ordered');
-        $total_veh_ordered+=$ordered_units+$owned_units[0]+$units_already_on_order[0];
+        $owned_units = $userData[$key.'_owned'][0];
+        $units_already_on_order = $userData[$key.'_ordered'][0];
+        $total_veh_ordered+=$ordered_units+$owned_units+$units_already_on_order;
     }
 }
         
@@ -206,8 +203,8 @@ foreach ($units as $key => $order) {
         $price = $order['price'];
         $ordered_units = ceil($_POST["$key"]);
         $sea+=$ordered_units;
-        $owned_units = get_user_meta($userId, $key.'_owned');
-        $units_already_on_order = get_user_meta($userId, $key.'_ordered');
+        $owned_units = $userData[$key.'_owned'][0];
+        $units_already_on_order = $userData[$key.'_ordered'][0];
         $total_sea_ordered+=$ordered_units+$owned_units[0]+$units_already_on_order[0];
     }
 }
@@ -293,9 +290,9 @@ foreach ($units as $key => $order) {
         $price = $order['price'];
         $ordered_units = ceil($_POST["$key"]);
         $inf+=$ordered_units;
-        $owned_units = get_user_meta($userId, $key.'_owned');
-        $units_already_on_order = get_user_meta($userId, $key.'_ordered');
-        $total_inf_ordered+=$ordered_units+$owned_units[0]+$units_already_on_order[0];
+        $owned_units = $userData[$key.'_owned'][0];
+        $units_already_on_order = $userData[$key.'_ordered'][0];
+        $total_inf_ordered+=$ordered_units+$owned_units+$units_already_on_order;
     }
 }
         
@@ -345,7 +342,7 @@ if ($turns_needed > $totalturns) {
 		echo json_encode($array);
 		exit;
     } else {
-        $units_built_turns = get_user_meta($userId, 'units_built_turns', true);
+        $units_built_turns = $userData['units_built_turns'][0];
     
     
         foreach ($units as $key => $order) {
@@ -358,7 +355,7 @@ if ($turns_needed > $totalturns) {
                 $orderamount = $price*$ordered_units;
     
         
-                $units_owned = get_user_meta($userId, $unit_name.'_owned');
+                $units_owned = $userData[$unit_name.'_owned'][0];
                 $total_units_ordered+=$ordered_units;
 
         
@@ -368,7 +365,7 @@ if ($turns_needed > $totalturns) {
             
             
                 update_user_meta($userId, $unit_name.'_owned', $units_owned[0]+$ordered_units);
-                $units_tbuilt = get_user_meta($userId, 'units_built_turns', true);
+                $units_tbuilt = $userData['units_built_turns'][0];
                 update_user_meta($userId, 'units_built_turns', $units_tbuilt+$ordered_units);
            
         
