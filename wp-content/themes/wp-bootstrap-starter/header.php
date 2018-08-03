@@ -20,9 +20,7 @@
 <?php 
 
 	global $userId;
-	$userId = get_current_user_id();
 	global $userData;
-	$userData = get_user_meta($userId);
 	$inProgress = $userData['research_in_progress'][0];
 	include('research_array.php');
 	wp_head(); 
@@ -63,16 +61,9 @@
 
 <body <?php body_class(); ?>>
 
-<div style="display:none;" class="splashHeader" id="successsplash">
-	<div style="margin-top:20%">
-		S U C C E S S
-	</div>
-</div>
-<div style="display:none;" class="splashHeader failSplash" id="failsplash">
-	<div style="margin-top:20%">
-		F A I L U R E
-	</div>
-</div>
+<div id="splashback" class=""></div>
+<div class="splashmessage"></div>
+
 <div id="page-cover"></div>
 <div class="pageLoader"><i class="fa fa-circle-notch fa-spin"></i></div>
 
@@ -384,7 +375,7 @@
 
 <?php if($timeLeft < 172800 + 86400 && $timeLeft > 0):?>
 <div class="permaNotification">
-	<i class="fas fa-info-circle"></i> <span id="countdown_time"></span> left before the market closes
+	<i class="fas fa-info-circle"></i> <span id="market_timer"></span> left before the market closes
 </div>
 <?php endif;?>
 <?php if($timeLeft < 1 && $pageId == 3179):?>
@@ -396,20 +387,40 @@
 	<div id="content" class="site-content">
 		
 		<div class="container mainContainer">
-			<div class="titleBackWrapper">
-				<div class="pageTitle"><?php echo get_the_title();?></div>
+			<div class="titleBackWrapper <?php if($userData['stealth_sat_status'][0] == 'active'):?>stealthsatactive<?php endif;?>">
+				<div class="pageTitle <?php if($userData['status'][0] == 'dead' && $userData['times_killed'][0] > 0):?>deadback<?php endif;?>">
+					<?php if($userData['status'][0] == 'dead' && $userData['times_killed'][0] > 0):?>
+						You died
+					<?php else:?>
+						<?php echo get_the_title();?>
+					<?php endif;?>
+				</div>
 			</div>
 			<div class="row contentRow">
-            
-                
+       
+<?php 	if($userData['status'][0] == 'dead' && $userData['times_killed'][0] > 0):
+			after_death($userId);
+			update_user_meta($userId, 'status', 'nukeprotection');
+			update_user_meta($userId, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
+?>
+  <script>
+	jQuery(document).ready(function() {
+		jQuery( ".splashmessage" ).html('You died');
+		jQuery( "#splashback" ).addClass( "failsplash" );
+		jQuery( "#splashback,.splashmessage" ).show();
+		jQuery( "#splashback,.splashmessage" ).delay(1500).fadeOut( "slow")
+	});
+</script>   
+<?php endif;?>
 <script>
 	
 <?php if($timeLeft < 172800+86400):?>
     var diff = <?php echo ($marketClose-86400)*1000;?>;
 
-    function updateETime() {
+    function updateMarketTime() {
         function pad(num) {
             return num > 9 ? num : '0'+num;
+      
         };
 
         days = Math.floor( diff / (1000*60*60*48) ),
@@ -422,14 +433,19 @@
         mm = mins - hours * 60,
         ss = secs - mins * 60;
 
-        document.getElementById("countdown_time").innerHTML =
+        document.getElementById("market_timer").innerHTML =
             pad(hh) + ':' + //' hours ' +
             pad(mm) + ':' + //' minutes ' +
             pad(ss) ; //+ ' seconds' ;
 
         diff -= 1000;
+        if(diff <= 0){
+			jQuery('.permaNotification').html('<i class="fas fa-info-circle"></i> You cannot order units during the last 24 hours of the round');
+			return false;
+        }
     }
-    setInterval(updateETime, 1000 );
+    
+    setInterval(updateMarketTime, 1000 );
 <?php endif;?>
  
 	
