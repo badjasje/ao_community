@@ -104,7 +104,8 @@ $('#exploreform').submit(function( event ) {
 				$('#networth').html(number_format(array.networth, 0, ',', ' '));
 				$( ".explNotice" ).empty();
 				$( ".explNotice" ).append(array.exploredtoday);
-			
+				$('#exprate').html(array.newrate);
+
 				$("#turnsinput").attr({
 					"max" : array.maxturns,
 					"min" : 0

@@ -11,7 +11,7 @@ if (($perturnm2 < 50) && ($perturnm2 > 25)) {
 $maxAmount = floor((20000-$exploredToday)/$perturnm2);
 ?>
 <div class="blockHeader">
-	Current exploration rate is <?php echo $perturnm2;?> m<sup>2</sup> per turn
+	Current exploration rate is <span id="exprate"><?php echo $perturnm2;?></span> m<sup>2</sup> per turn
 </div>
 <div class="blockHeader spaceNotice explNotice">
 	<?php if(empty($exploredToday) || $exploredToday == 0):?>
