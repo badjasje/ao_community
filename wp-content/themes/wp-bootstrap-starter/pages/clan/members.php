@@ -1,22 +1,21 @@
-<?php /*
-<div class="storeDetails-heads button_block sortingHeadMob">
+<?php if(!in_array($declarer_ID, $clanMembers)):?>
+
+<div class="sortMobile fw-row">
 	<center>
-	<strong>Sort:</strong> <a href="" class="sort2" data-sort=".memberField">Name</a> - 
-	<a href="" class="sort2 sort-number" data-sort=".store-pop-span2">Networth</a> -
-	<a href="" class="sort2 sort-number" data-sort=".land">Land</a>
+	<strong>Sort by:</strong> <a href="" class="sort6" data-sort=".name-sort">Name</a> - 
+	<a href="" class="sort6 sort-number" data-sort=".nw-sort">Networth</a> -
+	<a href="" class="sort6 sort-number" data-sort=".land-sort">Land</a>
 	</center>
 </div>
-*/ ?>
-<?php if(!in_array($declarer_ID, $clanMembers)):?>
+
 <div class="row headerRow fw-row row-no-padding" style="border-bottom:1px solid #fff;background-color: rgba(<?php echo $backColor;?>, 0.75);border-top:1px solid #fff;">
 	<div class="col-md-1 celBlock"></div>
-	<div class="col-md-3 celBlock"><strong><a href="" class="sort2" data-sort=".memberField">Name</a></strong></div>
-	<div class="col-md-4 celBlock"><strong><a href="" class="sort2 sort-number" data-sort=".store-pop-span2">Networth</a></strong></div>
-	<div class="col-md-4 celBlock"><strong><a href="" class="sort2 sort-number" data-sort=".land">Land</a></strong></div>
+	<div class="col-md-3 celBlock"><strong><a href="" class="sort6" data-sort=".name-sort">Name <i class="fas fa-sort"></i></a></strong></div>
+	<div class="col-md-4 celBlock"><strong><a href="" class="sort6 sort-number" data-sort=".nw-sort">Networth <i class="fas fa-sort"></i></a></strong></div>
+	<div class="col-md-4 celBlock"><strong><a href="" class="sort6 sort-number" data-sort=".land-sort">Land <i class="fas fa-sort"></i></a></strong></div>
 </div>
 	
-<div id="values2" style="width:100%">
-	
+<div id="values6" class="fw-row">
 <?php 
 	
 	$count = 0;
@@ -55,7 +54,7 @@
 				
 			?>
 			
-	<div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-($count/70);?>);">
+	<div class="row fw-row userRow userRow6 row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-($count/70);?>);">
 		<div class="col-md-1 col-no-padding sea_heading allUsersAvatarCol">
 			<?php echo small_avatar($userId,'allUsersAvatar');?>
 			<span class="mobileUserName">
@@ -67,7 +66,7 @@
 						echo '<strong>CT</strong>';
 					} ?>
 				</div>
-				<?php echo get_user_name($userId);?>
+				<span class="name-sort"><?php echo get_user_name($userId);?></span>
 			</span>
 		</div>
 	
@@ -80,12 +79,12 @@
 				echo '<strong>CT</strong>';
 			} ?>
 		</div>
-		<?php echo get_user_name($userId);?>		
+		<span class="name-sort"><?php echo get_user_name($userId);?></span>
 
 	</div>
 	<div class="col-md-4 celBlock">
 		<span class="columnDataLeft">Networth</span>
-		<span class="columnDataRight store-pop-span2">
+		<span class="columnDataRight nw-sort">
 		
 			<?php echo networth_range($userId);?>
 					
@@ -94,7 +93,7 @@
 	</div>
 	<div class="col-md-4 celBlock">
 		<span class="columnDataLeft">Land</span>
-		<span class="columnDataRight land">
+		<span class="columnDataRight land-sort">
 		<?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup>
 		</span>
 	</div>
@@ -103,7 +102,7 @@
 
 <?php  }?>
 
-<div id="result"></div>
+
 </div>
 <?php
 	// range checker
@@ -129,28 +128,27 @@
 <?php endif;?>
 
 
+<?php if(in_array($declarer_ID, $clanMembers)):?>
 
-
-<?php /*
-<div class="storeDetails-heads button_block sortingHeadMob">
+<div class="sortMobile fw-row">
 	<center>
-	<strong>Sort:</strong> <a href="" class="sort2" data-sort=".memberField">Name</a> - 
-	<a href="" class="sort2 sort-number" data-sort=".store-pop-span2">Networth</a> -
-	<a href="" class="sort2 sort-number" data-sort=".land">Land</a>
+	<strong>Sort by:</strong> <a href="" class="sort6" data-sort=".name-sort">Name</a> - 
+	<a href="" class="sort6 sort-number" data-sort=".nw-sort">Networth</a> -
+	<a href="" class="sort6 sort-number" data-sort=".land-sort">Land</a> - 
+	<a href="" class="sort6 sort-number" data-sort=".pts-sort">Points</a>
 	</center>
 </div>
-*/ ?>
-<?php if(in_array($declarer_ID, $clanMembers)):?>
+
 <div class="row headerRow fw-row row-no-padding" style="border-bottom:1px solid #fff;background-color: rgba(<?php echo $backColor;?>, 0.75);border-top:1px solid #fff;">
 	<div class="col-md-1 celBlock"></div>
-	<div class="col-md-4 celBlock"><strong><a href="" class="sort2" data-sort=".memberField">Name</a></strong></div>
-	<div class="col-md-3 celBlock"><strong><a href="" class="sort2 sort-number" data-sort=".store-pop-span2">Networth</a></strong></div>
-	<div class="col-md-2 celBlock"><strong><a href="" class="sort2 sort-number" data-sort=".land">Land</a></strong></div>
-	<div class="col-md-1 celBlock"><strong><a href="" class="sort2 sort-number" data-sort=".points">Points</a></strong></div>
+	<div class="col-md-4 celBlock"><strong><a href="" class="sort6" data-sort=".name-sort">Name <i class="fas fa-sort"></i></a></strong></div>
+	<div class="col-md-3 celBlock"><strong><a href="" class="sort6 sort-number" data-sort=".nw-sort">Networth <i class="fas fa-sort"></i></a></strong></div>
+	<div class="col-md-2 celBlock"><strong><a href="" class="sort6 sort-number" data-sort=".land-sort">Land <i class="fas fa-sort"></i></a></strong></div>
+	<div class="col-md-1 celBlock"><strong><a href="" class="sort6 sort-number" data-sort=".pts-sort">Points <i class="fas fa-sort"></i></a></strong></div>
 	<div class="col-md-1 celBlock"></div>
 </div>
 	
-<div id="values2" style="width:100%">
+<div id="values6" class="fw-row">
 	
 <?php 
 	
@@ -193,7 +191,7 @@
 				
 			?>
 			
-	<div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-($count/70);?>);">
+	<div class="row fw-row userRow userRow6 row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-($count/70);?>);">
 		<div class="col-md-1 col-no-padding sea_heading allUsersAvatarCol">
 			<?php echo small_avatar($userId,'allUsersAvatar');?>
 			<span class="mobileUserName">
@@ -205,7 +203,7 @@
 						echo '<strong>CT</strong>';
 					} ?>
 				</div>
-				<?php echo get_user_name($userId);?>
+				<span class="name-sort"><?php echo get_user_name($userId);?></span>
 			</span>
 		</div>
 	
@@ -218,12 +216,12 @@
 				echo '<strong>CT</strong>';
 			} ?>
 			</div>
-		<?php echo get_user_name($userId);?>		
+		<span class="name-sort"><?php echo get_user_name($userId);?></span>	
 
 	</div>
 	<div class="col-md-3 celBlock">
 		<span class="columnDataLeft">Networth</span>
-		<span class="columnDataRight store-pop-span2">
+		<span class="columnDataRight nw-sort">
 		
 			<?php echo networth_range($userId);?>
 					
@@ -232,14 +230,14 @@
 	</div>
 	<div class="col-md-2 celBlock">
 		<span class="columnDataLeft">Land</span>
-		<span class="columnDataRight land">
+		<span class="columnDataRight land-sort">
 		<?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup>
 		</span>
 	</div>
 	
 	<div class="col-md-1 celBlock">
 		<span class="columnDataLeft">Points</span>
-		<span class="columnDataRight land">
+		<span class="columnDataRight pts-sort">
 			<?php echo number_format($pts, 0, ',', ' '); ?> pts
 		</span>
 	</div>
@@ -260,7 +258,5 @@
 </div> <! // Close profile row -->
 
 <?php  }?>
-
-<div id="result"></div>
 </div>
 <?php endif;?>

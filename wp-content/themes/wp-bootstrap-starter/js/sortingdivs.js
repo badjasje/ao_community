@@ -133,4 +133,30 @@ jQuery(document).ready(function(){
 		}).appendTo(jQuery('#values5'));
 	});
 	
+	jQuery('.sort6').click(function(e){
+		e.preventDefault();
+		var el = jQuery(this);
+		var sortSelector = el.data('sort');
+		var sortNumber = el.hasClass('sort-number')?true:false;
+		var sortOrder = el.data('sort-order')=='desc'?'desc':'asc';
+
+		jQuery('.userRow6').sort(function(a,b){
+			var order = sortOrder == 'asc'?1:-1;
+			if (sortOrder == 'asc'){
+				el.data('sort-order', 'desc');
+			}else{
+				el.data('sort-order', 'asc');
+			}
+
+			if (sortNumber){
+				var numA = Number(jQuery(a).find(sortSelector).text().replace(/[^0-9]/g, ''));
+				var numB = Number(jQuery(b).find(sortSelector).text().replace(/[^0-9]/g, ''));
+				return order*((numA < numB) ? -1 : (numA > numB) ? 1 : 0);
+			}else{
+				return order*(jQuery(a).find(sortSelector).text().localeCompare(jQuery(b).find(sortSelector).text()));
+			}
+
+		}).appendTo(jQuery('#values6'));
+	});
+	
 });
