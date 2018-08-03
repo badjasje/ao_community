@@ -92,7 +92,7 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 
 <div class="row pageRow">	
 
-	<?php if(get_field('game_status','option') == 'Live'):?>
+	
 	<div class="fw-row">
 		<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
 			<a class="nav-item nav-link navItem active" data-toggle="tab" data-target="#air" href="?tab=air">Air units</a>
@@ -131,9 +131,6 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
         </div>
     </form>
 	</div>
-    <?php endif;?>
-
-
 	
 </div> <!-- // End pageRow -->
 
@@ -167,17 +164,7 @@ $("#turnbuild").submit(function(event){
         // Log a message to the console
         var array = JSON.parse(response);
         	console.log(array);
-        		$.each( array.allowned, function( key, value ) {
-					$('#'+key+'_owned').html(value);
-				});
-				
-				$.each( array.newmax, function( key, value ) {
-					$('#button'+key).html(value);
-				});
-				
-				$.each( array.usedspace, function( key, value ) {
-					$('#'+key+'spacecount').html(number_format(value, 0, ',', ' '));
-				});
+        		
 				
 				$.notify({
 					message: array.status,
@@ -194,10 +181,22 @@ $("#turnbuild").submit(function(event){
 			$('#total').html('0');
 			$('#networth_total').html('0');
 			$('#turn_total').html('0');
-			
-			$('#money').html(number_format(array.money, 0, ',', ' '));
-			$('#turns').html(number_format(array.turns, 0, ',', ' '));
-			$('#networth').html(number_format(array.networth, 0, ',', ' '));
+			if(array.next == true){
+				$.each( array.allowned, function( key, value ) {
+					$('#'+key+'_owned').html(value);
+				});
+				
+				$.each( array.newmax, function( key, value ) {
+					$('#button'+key).html(value);
+				});
+				
+				$.each( array.usedspace, function( key, value ) {
+					$('#'+key+'spacecount').html(number_format(value, 0, ',', ' '));
+				});
+				$('#money').html(number_format(array.money, 0, ',', ' '));
+				$('#turns').html(number_format(array.turns, 0, ',', ' '));
+				$('#networth').html(number_format(array.networth, 0, ',', ' '));
+			}
 			$('#turnbuild').trigger("reset");
 });	});	
 })(jQuery);
