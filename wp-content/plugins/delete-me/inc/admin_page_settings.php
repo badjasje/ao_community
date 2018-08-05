@@ -420,7 +420,7 @@ function editable_string_color( $unchanged ) {
 			<tr>
 				<th scope="row" style="padding-left: 1em;"><label for="your_profile_landing_url"><?php echo esc_html__( 'Landing URL', 'delete-me' ); ?></label> <a href="#" onclick="return false;" style="text-decoration: none;" title="<?php echo esc_attr__( 'Redirect user here after deletion.', 'delete-me' ); ?>">[?]</a></th>
 				<td>
-					<input type="text" id="your_profile_landing_url" name="your_profile_landing_url" class="code large-text" value="<?php if ( $option['settings']['your_profile_landing_url'] != '' ) echo esc_url( $option['settings']['your_profile_landing_url'] ); ?>" />
+					<input type="text" id="your_profile_landing_url" name="your_profile_landing_url" class="code large-text" value="<?php if ( $option['settings']['your_profile_landing_url'] != '' ) echo esc_attr( $option['settings']['your_profile_landing_url'] ); ?>" />
 					<code><?php echo esc_html__( 'Leave blank to remain at the same URL after deletion.', 'delete-me' ); ?></code>
 				</td>
 			</tr>
@@ -479,7 +479,7 @@ function editable_string_color( $unchanged ) {
 			<tr>
 				<th scope="row" style="padding-left: 1em;"><label for="shortcode_landing_url"><?php echo esc_html__( 'Landing URL', 'delete-me' ); ?></label> <a href="#" onclick="return false;" style="text-decoration: none;" title="<?php echo esc_html__( 'Redirect user here after deletion.', 'delete-me' ); ?>">[?]</a></th>
 				<td>
-					<input type="text" id="shortcode_landing_url" name="shortcode_landing_url" class="code large-text" value="<?php if ( $option['settings']['shortcode_landing_url'] != '' ) echo esc_url( $option['settings']['shortcode_landing_url'] ); ?>" />
+					<input type="text" id="shortcode_landing_url" name="shortcode_landing_url" class="code large-text" value="<?php if ( $option['settings']['shortcode_landing_url'] != '' ) echo esc_attr( $option['settings']['shortcode_landing_url'] ); ?>" />
 					<code><?php echo esc_html__( 'Leave blank to remain at the same URL after deletion.', 'delete-me' ); ?></code>
 				</td>
 			</tr>

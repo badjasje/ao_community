@@ -4,7 +4,6 @@
     
     global $userId;
 
-    $userId = get_current_user_id();
     $globals = get_user_meta($userId, 'new_global_events', true);
     $locals = get_user_meta($userId, 'new_events', true);
     $messages = get_user_meta($userId, 'new_messages', true);

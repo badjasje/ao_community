@@ -1,6 +1,6 @@
 <?php
-	/*
-    
+	
+    /*
     require_once("wp-load.php");
     include('units_array.php');
 	include('building_array.php');
@@ -159,7 +159,7 @@
 	$wpdb->query("
 			DELETE FROM `${table_prefix}posts` 
 			WHERE `post_type` 
-			IN ('event_local','wars','deposit','market_order','research','spy_rep','emp')
+			IN ('event_local','sub_user_message','user_message','wars','deposit','market_order','research','spy_rep','emp')
 			");
 	
 	// Resetting clans
@@ -178,7 +178,5 @@
             ");
 	
 
-	
-	/* OLD STUFF BELOW
-		
-	
+
+	*/

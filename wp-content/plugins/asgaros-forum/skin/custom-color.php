@@ -20,20 +20,37 @@ if (!empty($_GET['color']) && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', '#'.$_GET
 #af-wrapper .post-author-marker,
 #af-wrapper #forum-header,
 #af-wrapper #profile-header .background-avatar,
+#af-wrapper #profile-navigation,
 #af-wrapper #read-unread .unread,
 #af-wrapper input[type="radio"]:checked:before {
     background-color: <?php echo $color; ?> !important;
 }
-#af-wrapper .title-element,
-#af-wrapper .post-author-marker,
-#af-wrapper .forum-menu a,
-#af-wrapper input[type="submit"],
 #af-wrapper #forum-search,
+#af-wrapper input[type="radio"]:focus,
+#af-wrapper input[type="checkbox"]:focus,
+#af-wrapper #profile-header {
+	border-color: <?php echo $color; ?> !important;
+}
+<?php
+}
+
+if (!empty($_GET['accent-color']) && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', '#'.$_GET['accent-color'])) {
+	$color = '#'.$_GET['accent-color'];
+?>
+#af-wrapper input[type="button"],
+#af-wrapper input[type="submit"],
+#af-wrapper .editor-row .cancel,
+#af-wrapper .editor-row .cancel-back,
+#af-wrapper .forum-menu a,
+#af-wrapper .title-element,
 #af-wrapper #forum-header,
 #af-wrapper #forum-navigation a,
-#af-wrapper input[type="radio"]:focus,
-#af-wrapper input[type="checkbox"]:focus {
+#af-wrapper #forum-navigation-mobile a,
+#af-wrapper .post-author-marker {
 	border-color: <?php echo $color; ?> !important;
+}
+#af-wrapper #profile-navigation a.active {
+	background-color: <?php echo $color; ?> !important;
 }
 <?php
 }
@@ -58,7 +75,6 @@ if (!empty($_GET['background-color']) && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/'
 #af-wrapper .content-element .odd,
 #af-wrapper #statistics,
 #af-wrapper #statistics-online-users,
-#af-wrapper #forum-profile,
 #af-wrapper .post-element,
 #af-wrapper .post-message,
 #af-wrapper .topic-sticky,
@@ -83,8 +99,6 @@ if (!empty($_GET['border-color']) && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', '#
 #af-wrapper #statistics-body,
 #af-wrapper #statistics .statistics-element,
 #af-wrapper #statistics-online-users,
-#af-wrapper #forum-profile,
-#af-wrapper #profile-header,
 #af-wrapper .editor-row,
 #af-wrapper .editor-row-subject,
 #af-wrapper .sticky-bottom,
@@ -92,11 +106,15 @@ if (!empty($_GET['border-color']) && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', '#
 #af-wrapper .post-element,
 #af-wrapper .post-message,
 #af-wrapper .forum-subforums,
-#af-wrapper .edit-profile-link,
 #af-wrapper .uploaded-file img,
 #af-wrapper .subscription-option,
 #af-wrapper .topic-sticky,
-#af-wrapper .topic-sticky .topic-poster {
+#af-wrapper .topic-sticky .topic-poster,
+#af-wrapper #profile-layer,
+#af-wrapper #profile-layer .pages-and-menu:first-of-type,
+#af-wrapper #profile-content,
+#af-wrapper #profile-content .profile-row,
+#af-wrapper .history-element {
     border-color: <?php echo $border_color; ?> !important;
 }
 <?php

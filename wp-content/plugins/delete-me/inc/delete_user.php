@@ -137,7 +137,7 @@ wp_logout();
 
 // Redirect to same or landing URL
 $shortcode_landing_url = isset( $this->GET[$this->info['trigger'] . '_landing_url'] ) ? $this->GET[$this->info['trigger'] . '_landing_url'] : $this->option['settings']['shortcode_landing_url'];
-$same_url = remove_query_arg( array( $this->info['trigger'], $this->info['nonce'], $this->info['trigger'] . '_landing_url' ), $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+$same_url = remove_query_arg( array( $this->info['trigger'], $this->info['nonce'], $this->info['trigger'] . '_landing_url' ), $_SERVER['REQUEST_URI'] );
 is_admin() ? wp_redirect( ( $this->option['settings']['your_profile_landing_url'] == '' ) ? $same_url : $this->option['settings']['your_profile_landing_url'] ) : wp_redirect( ( $shortcode_landing_url == '' ) ? $same_url : $shortcode_landing_url );
 
 exit;

@@ -24,7 +24,7 @@ $last_online = $userData['last_online'][0];
 		$last_seen = $timestamp - $last_online;
 	}
 
-$visiting_user = $userId
+$visiting_user = $userId;
 
 $visitorData = get_user_meta($visiting_user);
 

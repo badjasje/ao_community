@@ -266,10 +266,12 @@ function networth_range($user_ID){
 	global $userId;
 	global $userData;
 	$viewerID = $userId;
-	
+	$userStatus = get_user_meta($user_ID, 'status', true);
 	$networth = get_user_meta($user_ID, 'networth', true);
 	$viewerNetworth = $userData['networth'][0];
-
+	if($userStatus == 'dead'){
+		$networth = 0;
+	}
 	
 	if(($viewerNetworth/1.4 <= $networth) && ($networth <= $viewerNetworth*1.4)){
 		
@@ -823,14 +825,6 @@ function create_post_type() {
       'labels' => array(
         'name' => __( 'Messages' ),
         'singular_name' => __( 'Message' )
-      ),
-      'public' => true,
-      'has_archive' => false,
-    ));
-    register_post_type( 'sub_user_message',array(
-      'labels' => array(
-        'name' => __( 'Sub Messages' ),
-        'singular_name' => __( 'Sub Message' )
       ),
       'public' => true,
       'has_archive' => false,

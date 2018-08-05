@@ -34,7 +34,9 @@
 	$timestamp = current_time('timestamp');
 	$timeLeft = $endStamp-$timestamp;
 	$marketClose = $timeLeft + 86400;
-
+	$msgs = $userData['new_messages'][0];
+	$locals = $userData['new_events'][0];
+	$globals = $userData['new_global_events'][0];
 	?>
 <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
@@ -88,20 +90,20 @@
 		<a href="/conversations">
 		<button class="menu-item inboxButton" type="button" >
 			<i class="fas fa-envelope"></i> 
-			<span class="badge badge-pill badge-info inboxBadge"></span>
+			<span class="badge badge-pill badge-info inboxBadge <?php if($msgs > 0):?>activebadge<?php endif;?>"><?php echo $msgs;?></span>
 		</button>
 		</a>
 
 		<a href="/events/incoming">
 		<button class="menu-item" type="button" >
 			<i class="fas fa-arrow-circle-down"></i> 
-			<span class="badge badge-pill badge-primary localsBadge"></span>
+			<span class="badge badge-pill badge-primary localsBadge <?php if($locals > 0):?>activebadge<?php endif;?>"><?php echo $locals;?></span>
 		</button>
 		</a>
 		<a href="/events/global">
 		<button class="menu-item" type="button" >
 			<i class="fas fa-globe"></i> 
-			<span class="badge badge-pill badge-danger globalsBadge"></span>
+			<span class="badge badge-pill badge-danger globalsBadge <?php if($globals > 0):?>activebadge<?php endif;?>"><?php echo $globals;?></span>
 		</button>
 		</a>
 	
@@ -157,7 +159,7 @@
 					<a href="/research">Research 
 						<?php if($inProgress != '0'):?>
 							<span class="badge badge-secondary" data-toggle="tooltip" data-placement="top" title="Research currently in progress: <?php echo $researches[$inProgress]['name'];?>">
-								<i class="fas fa-circle-o-notch fa-spin"></i>
+								<i class="fas fa-circle-notch fa-spin"></i>
 							</span>
 						<?php endif;?>
 					</a>

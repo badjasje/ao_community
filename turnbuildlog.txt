@@ -105622,3 +105622,23 @@ Units ordered: submarine 80
 ID: 433
 Units ordered: paratrooper 200
 
+12:10:23 | 05-08-2018
+ID: 2355
+Units ordered: spyplane 10
+
+12:10:43 | 05-08-2018
+ID: 2355
+Units ordered: spyplane 10
+
+12:11:05 | 05-08-2018
+ID: 2355
+Units ordered: spyplane 10
+
+12:11:19 | 05-08-2018
+ID: 2355
+Units ordered: spyplane 10
+
+12:11:37 | 05-08-2018
+ID: 2355
+Units ordered: spyplane 10
+

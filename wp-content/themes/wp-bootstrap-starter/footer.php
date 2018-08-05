@@ -15,7 +15,9 @@
                 document.write(x);
                 </script>';?></strong>.
                 <br/>Current server date/time is <strong><?php echo date("d-m-Y | G:i", strtotime('+1 hours')); ?></strong><br/>
+                <?php if(is_user_logged_in()):?>
                 <a href="<?php echo wp_logout_url( get_permalink(3491) ); ?>">Logout</a></center>
+                <?php endif;?>
 
             </div><!-- close .site-info -->
 		</div>
@@ -31,41 +33,13 @@ $(document).ready(function() {
 		$('[data-toggle="tooltip"]').tooltip()
 	})
 	
-	$.getJSON('<?php echo get_site_url();?>/checkevents.php', function(data) {
-	
-			var globals = data.globals; 
-			var locals = data.locals; 
-			var messages = data.messages; 
-			
-			
-		    if (globals > 1){ 
-		    	$('.globalsBadge').text(globals);
-				$('.globalsBadge').show(100);
-				$('title').text(globals+' new global events');
-			}
-			if (locals > 1){ 
-		    	$('.localsBadge').text(locals);
-				$('.localsBadge').show(100);
-			}
-			if (messages > 1){ 
-		    	$('.inboxBadge').text(messages);
-				$('.inboxBadge').show(100);
-			}
-
-            
-            
-            });
-
-
-
-
 });		
 		
 		
 
 	function myFunction() {
 		$.getJSON('<?php echo get_site_url();?>/checkevents.php', function(data) {
-		
+	
 			var globals = data.globals; 
 			var locals = data.locals; 
 			var messages = data.messages; 

@@ -120,7 +120,9 @@ if($clanId == 0){
 		
 
 <?php if(get_field('game_status','option') == 'Pause' /*&& $userId != 1*/): // Check if game is live or not ?>
-	<?php include('pages/dashboard/status-column.php'); ?>	
+	<?php include('pages/dashboard/status-column.php'); ?>
+	<div class="pageSpacer"></div>
+	<?php include('pages/dashboard/latest-block.php'); ?>	
 	<div class="pageSpacer"></div>
 	<?php include('pages/dashboard/round-date.php'); ?>
 

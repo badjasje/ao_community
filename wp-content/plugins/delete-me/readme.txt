@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: delete, unsubscribe, user management, gdpr, multisite
 Requires at least: 3.7
 Tested up to: 4.9
-Stable tag: 2.6
+Stable tag: 2.7
 Requires PHP: 5.2.4
 License: GPL2 http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -138,6 +138,12 @@ No, the only data stored is related to the plugin's settings which are located o
 
 == Changelog ==
 
+= 2.7 =
+
+* Release date: 07/29/2018
+* Bug fixed: Using a blank landing URL would cause a failure during redirect on some server configurations.
+* Bug fixed: Landing URLs on the Settings page were incorrectly having http:// added to them when they did not contain a URL scheme.
+
 = 2.6 =
 
 * Release date: 05/25/2018
@@ -257,8 +263,6 @@ No, the only data stored is related to the plugin's settings which are located o
 
 == Upgrade Notice ==
 
-= 2.6 =
+= 2.7 =
 
-* Fixed 2 PHP parse errors affecting those using a PHP version less than 5.4.
-* Added message for Administrators, in place of delete link (or form), to remind them the delete option configured is not visible to Administrators.
-See [Changelog](https://wordpress.org/plugins/delete-me/#developers)
+See [Changelog](https://wordpress.org/plugins/delete-me/#developers) for details.
