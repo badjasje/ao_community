@@ -296,7 +296,7 @@ $( ".cancelButton" ).click(function() {
     		
 			$('#depositedvalue').html(number_format(depval, 0, ',', ' '));
 			$('#inclinterest').html(number_format(inclinterest, 0, ',', ' '));
-			$('#unlockedvalue').html(number_format(unlocked, 0, ',', ' '))
+			$('#unlockedvalue').html(number_format(unlocked, 0, ',', ' '));
 			
 		}
 		
@@ -370,9 +370,22 @@ $('form').submit(function( event ) {
 				$('#money').html(number_format(array.money, 0, ',', ' '));
 				$('#nrdeposits,.totaldeposits').html(array.deposits);
 				
-				$( "<div class='row unitRow fw-row' style='background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>)'><div class='col-md-3 celBlock'><span class='columnDataLeft'>Deposited</span><span class='columnDataRight'>$ "+array.deposited+"</span></div><div class='col-md-3 celBlock'><span class='columnDataLeft'>Including interest</span><span class='columnDataRight'>$ "+array.inclinterest+"</span></div><div class='col-md-3 celBlock'><span class='columnDataLeft'>Release date</span><span class='columnDataRight'>"+array.releasedate+"</span></div><div class='col-md-3 celBlock' style='padding:0px;'></div></div>").insertAfter( ".bankHeader");
+				$(".bankHeader").after("<div class='row unitRow fw-row' style='background-color: rgba(45, 67, 81, 0.56);'><div class='col-md-3 celBlock'><span class='columnDataLeft'>Deposited</span><span class='columnDataRight depositedspan' inclinterest='"+array.inclinterest+"' depositamount='"+array.deposited+"'>$ "+number_format(array.deposited, 0, ',', ' ')+"</span></div><div class='col-md-3 celBlock'><span class='columnDataLeft'>Including interest</span><span class='columnDataRight'>$ "+number_format(array.inclinterest, 0, ',', ' ')+"</span></div><div class='col-md-3 celBlock'><span class='columnDataLeft'>Release date</span><span class='columnDataRight'>"+array.releasedate+"</span></div><div class='col-md-3 celBlock' style='padding:0px;'></div></div>");
 				
-				
+			var depval = 0;
+			var inclinterest = 0;
+			var unlocked = 0;
+			$(".depositedspan").each(function() {
+				depval += +$(this).attr( "depositamount" );
+				inclinterest += +$(this).attr( "inclinterest" );
+    		});
+    		$(".cancelButton").each(function() {
+				unlocked += +$(this).attr( "unlocked" );
+    		});
+    		
+			$('#depositedvalue').html(number_format(depval, 0, ',', ' '));
+			$('#inclinterest').html(number_format(inclinterest, 0, ',', ' '));
+			$('#unlockedvalue').html(number_format(unlocked, 0, ',', ' '));
 				
 				
 				$('form').trigger("reset");

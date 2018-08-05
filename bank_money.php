@@ -174,8 +174,8 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
             update_post_meta($new_order_id, 'deposit_placed', $timestamp);
             update_post_meta($new_order_id, 'days', $_POST['days']);
             update_post_meta($new_order_id, 'amount', $_POST['amount']);
-            update_user_meta($userId, 'money', $money[0]-$_POST['amount']);
-            update_user_meta($userId, 'total_deposits', $deposits[0]+1);
+            update_user_meta($userId, 'money', $money-$_POST['amount']);
+            update_user_meta($userId, 'total_deposits', $deposits+1);
     
             /* return to banking page succesful */
             update_user_meta($userId, 'user_lock', 0);
@@ -222,9 +222,9 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
 			$array['next'] = true;
 			$array['money'] = number_format($money, 0, ',', ' ');
 			$array['depid'] = $new_order_id;
-			$array['deposited'] = number_format($_POST['amount'], 0, ',', ' ');
+			$array['deposited'] = $_POST['amount'];
 			$array['releasedate'] = date('H:i | d-m-Y', $RELEASE_DATE);
-			$array['inclinterest'] = number_format($_POST['amount']*pow($rates[$_POST['days']]['interest']+($extra_interest/100),$_POST['days']), 0, ',', ' ');
+			$array['inclinterest'] = $_POST['amount']*pow($rates[$_POST['days']]['interest']+($extra_interest/100),$_POST['days']);
 			$array['deposits'] = count_deposits($userId); 
 			echo json_encode($array);
 			exit;
