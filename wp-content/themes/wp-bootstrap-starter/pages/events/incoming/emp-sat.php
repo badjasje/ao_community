@@ -29,8 +29,8 @@
 		
 		<div class="row eventResultRow">
 			<div class="col-md-12 col-no-padding">
-				<?php if($winner_id == $attacker_id):?>
-					Power decreased by 20% for 6 hours
+				<?php if($winner_id == $attacker_id): $powerReduction = $eventData['nw_damage_defender'][0]; ?>
+					Power decreased by <?php echo $powerReduction;?>% for 6 hours
 				<?php endif;?>
 			</div>
 		

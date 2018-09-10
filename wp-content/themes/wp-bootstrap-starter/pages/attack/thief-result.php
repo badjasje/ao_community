@@ -82,7 +82,7 @@ if($sat_status == 'active'){
 
 
 
-if ($success > 0) {
+if ($success > 0) { $result = 'success';
 	//Nick money
 	$money_stolen = floor($defender_money*$success);
 	update_user_meta($userId, 'morale', $oldmorale - 5);
@@ -101,13 +101,7 @@ if ($success > 0) {
 	
 
 
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#successsplash" ).show();
-		jQuery( "#successsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('S U C C E S S');
-	});
-</script>
+
 
 <div class="blockHeader">Your thief<?php echo plural_func($no_thiefs);?> entered the base of <?php echo get_user_name($target_id);?></div>
 <div class="blockHeader spaceNotice">
@@ -128,7 +122,7 @@ if ($success > 0) {
 	
 	
 }
-else {
+else { $result = 'failure';
 	//Failure 
 	
 	$money_stolen = 0;
@@ -140,13 +134,6 @@ else {
 	update_user_meta($userId,'thief_owned',$tot_thiefs-$no_thiefs);
 	?>
 
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#failsplash" ).show();
-		jQuery( "#failsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('F A I L U R E');
-	});
-</script>
 
 <div class="blockHeader">Your thief<?php echo plural_func($no_thiefs);?> failed to enter the base of <?php echo get_user_name($target_id);?> and were killed</div>
 

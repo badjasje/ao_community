@@ -10,6 +10,7 @@ global $userId;
 $userId = get_current_user_id();
 global $userData;
 $userData = get_user_meta($userId);
+
 $timestamp = current_time('timestamp');
 
 if($userData['status'][0] == 'dead' && $userData['times_killed'][0] == 0):

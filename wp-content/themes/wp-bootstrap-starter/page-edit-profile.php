@@ -94,7 +94,7 @@ $members = $visitorClanData['clan_members'][0];
 <input type="submit" class="mainSubmit" value="update profile">
 </form>
 <div class="pageSpacer"></div><div class="pageSpacer"></div>
-<button id="resetaccount"style="background-color:#A00000;border:0px;" class="mainSubmit" onclick="return confirm('Are you sure you want to reset your account? You will lose all your units, research and buildings!')">
+<button id="resetaccount"style="background-color:#A00000;border:0px;" class="mainSubmit">
 		<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> &nbsp;RESET ACCOUNT</button>
 		
 </div> <!-- end pageRow --->
@@ -110,7 +110,7 @@ $members = $visitorClanData['clan_members'][0];
 var resetaccount;
 	
 	$(document).on('click','#resetaccount',function(){
-	
+	if(confirm("Are you sure you want to reset your account? You will lose all your units, research and buildings!")){
 	$('.pageLoader, #page-cover').show();
 	$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 	var target = $(this).attr('data-target');
@@ -145,7 +145,8 @@ var resetaccount;
 				$('#power').html(number_format(0, 0, ',', ' '));
 			}
 
-});
+	});
+}
 });
 
 
@@ -206,9 +207,11 @@ $("#editprofile").submit(function(event){
     
       Dropzone.autoDiscover = false;
       
+      
       $("#user_avatar_dz").dropzone({
           url: "<?php echo get_stylesheet_directory_uri();?>/dropzoneUpload.php",
           addRemoveLinks: true,
+          
           
           init: function() {
             $("#user_avatar_dz").addClass('dropzone');

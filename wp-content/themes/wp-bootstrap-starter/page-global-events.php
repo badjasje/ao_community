@@ -2,8 +2,9 @@
  /*
  * Template Name: Global events
 */
-global $userData;
+get_header();
 global $userId;
+global $userData;
 
 
 include('units_array.php');
@@ -19,7 +20,7 @@ if($userId != 0){
 	$members = get_post_meta($clan_ID,'clan_members');
 } 
 
-get_header(); ?>
+ ?>
 
 <div class="row pageRow">
 	

@@ -1,14 +1,15 @@
 <?php 
 	require_once("wp-load.php");
-	if(!current_user_can('administrator')) {
-		wp_redirect(get_permalink(3582)); exit;
+
+	global $userId;
+	if($userId != 1){
+		exit;
 	}
-	
 	$args = array(
-	'meta_key'     => 'land',
-	'number'	=> 10,
-	'orderby'      => 'meta_value_num',
-	'order'        => 'DESC',);
+	'meta_key'     	=> 'land',
+	'number'		=> 10,
+	'orderby'      	=> 'meta_value_num',
+	'order'        	=> 'DESC',);
 	
 	$users = get_users($args); ?>
 	

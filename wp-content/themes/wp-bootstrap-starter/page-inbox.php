@@ -44,9 +44,8 @@ $custom_query_args['paged'] = get_query_var( 'paged' ) ? get_query_var( 'paged' 
 );
 	
 	
-	
-	
-	
+$posts = get_posts($inboxargs);
+
 // Instantiate custom query
 $custom_query = new WP_Query( $inboxargs );
 
@@ -59,7 +58,7 @@ $wp_query   = $custom_query;
 if ( $custom_query->have_posts() ) :
 	while ( $custom_query->have_posts() ) :
 	$custom_query->the_post();
-$messageId = get_the_id();
+$messageId = get_the_id(); 
 $sender = get_userdata( get_the_author_meta('ID') );
 
 $messageData = get_post_meta($messageId);

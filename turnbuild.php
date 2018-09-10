@@ -13,7 +13,6 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 }
 
 require(dirname(__FILE__) . '/wp-load.php');
-nocache_headers();
 
 global $userId;
 global $userData;
@@ -205,7 +204,7 @@ foreach ($units as $key => $order) {
         $sea+=$ordered_units;
         $owned_units = $userData[$key.'_owned'][0];
         $units_already_on_order = $userData[$key.'_ordered'][0];
-        $total_sea_ordered+=$ordered_units+$owned_units[0]+$units_already_on_order[0];
+        $total_sea_ordered+=$ordered_units+$owned_units+$units_already_on_order;
     }
 }
         
@@ -364,7 +363,7 @@ if ($turns_needed > $totalturns) {
         
             
             
-                update_user_meta($userId, $unit_name.'_owned', $units_owned[0]+$ordered_units);
+                update_user_meta($userId, $key.'_owned', $units_owned+$ordered_units);
                 $units_tbuilt = $userData['units_built_turns'][0];
                 update_user_meta($userId, 'units_built_turns', $units_tbuilt+$ordered_units);
            
@@ -385,10 +384,10 @@ if ($turns_needed > $totalturns) {
         }
     }
 }
-count_all_stats($userId);
+
 update_user_meta($userId, 'money', $totalmoney-$totalordercost);
 update_user_meta($userId, 'turns', $totalturns-$turns_needed);
-
+count_all_stats($userId);
 $userData = get_user_meta($userId);
 $totalMoney = $userData['money'][0];
 $allOrdered = array();

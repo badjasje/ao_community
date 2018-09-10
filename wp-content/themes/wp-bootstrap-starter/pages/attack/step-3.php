@@ -477,9 +477,11 @@
 <?php endif;?>
 
 <div class="row statusBlockButtons">
+	<?php /*
 	<div id="stepback" class="col-md-4 totalsField statCol-1">
 		Back
 	</div>
+	<?php */?>
 	<div id="nextstep3" class="col-md-8 attackStep-2-submit" style="padding:0px;">
 		<button class="mainSubmit" id="attack3" style="border-top:0px;">Attack</button>
 	</div>

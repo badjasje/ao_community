@@ -1,7 +1,7 @@
 <?php
     require_once("wp-load.php");
     if (get_field('game_status', 'option') != 'Live') { exit; }
-    
+    nocache_headers();
     global $userId;
 
     $globals = get_user_meta($userId, 'new_global_events', true);

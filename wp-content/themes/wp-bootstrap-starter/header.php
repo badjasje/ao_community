@@ -56,9 +56,6 @@
 
 <?php exit; endif;?>
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
-<script type='text/javascript' src='/wp-content/themes/wp-bootstrap-starter/js/moment.js'></script>
-<script type='text/javascript' src='/wp-content/themes/wp-bootstrap-starter/js/moment-with-locales.js'></script>
-<script type='text/javascript' src='/wp-content/themes/wp-bootstrap-starter/js/moment-timezone-with-data.js'></script>
 </head>
 
 <body <?php body_class(); ?>>
@@ -246,17 +243,17 @@
 			
 			<div class="row menuRow hideMenuItem">
 				<div class="col-md-2 col-xs-2 buttonItem">
-					<a href="/users">
+					<a href="/users/">
 					<button class="menu-item" type="button" >
 						<i class="fas fa-search"></i> 
 					</button>
 					</a>
 				</div>
 				<div class="col-md-10 col-xs-10 menuText">
-					<a href="/users">
+					<a href="/users/">
 						<div class="marketMenu">All users</div>
 					</a>
-					<a href="/all-clans">
+					<a href="/all-clans/">
 						<div class="marketMenu">All clans</div>
 					</a>
 				</div>
@@ -265,20 +262,20 @@
 			<div class="row menuRow hideMenuItem">
 				
 				<div class="col-md-2 col-xs-2 buttonItem">
-					<a href="/buy">
+					<a href="/buy/">
 					<button class="menu-item" type="button" >
 						<i class="fas fa-shopping-cart"></i> 
 					</button>
 					</a>
 				</div>
 				<div class="col-md-10 col-xs-10 menuText">
-					<a href="/buy">
+					<a href="/buy/">
 						<div class="marketMenu">Market</div>
 					</a>
-					<a href="/sell">
+					<a href="/sell/">
 						<div class="marketMenu">Sell</div>
 					</a>
-					<a href="/orders">
+					<a href="/orders/">
 						<div class="marketMenu">Orders</div>
 					</a>
 				</div>

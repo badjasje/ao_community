@@ -1,8 +1,9 @@
 <?php
 
 $winner_ID = $userId;
-$turns = get_user_meta($userId, 'turns',true);
+$turns = $attackerData['turns'][0];
 
+$powerReduction = 0;
 
 $sat_morale = $attackerData['sat_morale'][0];
 if (100 > $sat_morale) {
@@ -35,7 +36,7 @@ if($result == 'success'){ ?>
 	
 	?>
 <?php if(count($emps) < 3){
-	
+$powerReduction = 20;
 $args = array(	
 	'post_title'    => 'EMP '.$target_id,
 	'post_status'   => 'publish',
@@ -47,12 +48,12 @@ $new_emp_id = wp_insert_post( $args );
 
 update_field('defender_emp', $target_id, $new_emp_id);
 update_field('timestamp_emp', $timestamp+3600*6, $new_emp_id);
-update_field('deduction_emp',20, $new_emp_id);
+update_field('deduction_emp',$powerReduction, $new_emp_id);
 ?>
-<div class="blockHeader spaceNotice">Power of target reduced by 20% for the next 6 hours</div>
+<div class="blockHeader spaceNotice">Power of target reduced by <?php echo $powerReduction;?>% for the next 6 hours</div>
 
 <?php } else { ?>
-<div class="blockHeader spaceNotice">Power of target reduced by 0% for the next 6 hours</div>
+<div class="blockHeader spaceNotice">Power of target reduced by <?php echo $powerReduction;?>% for the next 6 hours</div>
 <?php }}?>
 
 
@@ -88,6 +89,10 @@ update_field('deduction_emp',20, $new_emp_id);
 			update_field('attacker_id',$userId, $new_event_id);
 			update_field('attacktype','empsat', $new_event_id);
 			update_field('outcome',$result, $new_event_id);
+			update_field('nw_damage_defender',$powerReduction, $new_event_id); //Used to display power reduction in globals/locals/outgoing
+			
+			
+			
 			
 			update_field('defender_clan_id',$defender_clan_ID, $new_event_id);
 			update_field('attacker_clan_id',$attacker_clan_ID, $new_event_id);

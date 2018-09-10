@@ -82,10 +82,10 @@ $attackUserNW = get_user_meta($attackUserId, 'networth',true);
 <script>
 (function($) {
 	
-
-$('html').keyup(function(e){
+<?php /* ?>
+$('html').keypress(function(e){
 	
-	if(e.keyCode == 8 || 46){
+	if(e.keyCode === 8 || e.keyCode === 46){
 		var stepnumber = $('#attackstep').attr( "stepcount");
 		e.preventDefault();
 		if(stepnumber == 2){
@@ -125,7 +125,7 @@ $(document).on('click','#stepback',function(event){
 			
 		}
 });
-
+<?php */?>
 	
 
 // Variable to hold request

@@ -3,7 +3,7 @@
 if (!defined('ABSPATH')) exit;
 
 class AsgarosForum {
-    var $version = '1.9.5';
+    var $version = '1.9.6';
     var $executePlugin = false;
     var $db = null;
     var $tables = null;
@@ -48,6 +48,8 @@ class AsgarosForum {
         'notification_sender_name'  => '',
         'notification_sender_mail'  => '',
         'allow_signatures'          => false,
+        'signatures_html_allowed'   => false,
+        'signatures_html_tags'      => '<br><a><i><b><u><s><img><strong>',
         'enable_seo_urls'           => true,
         'enable_mentioning'         => true,
         'enable_reactions'          => true,
@@ -55,6 +57,7 @@ class AsgarosForum {
         'enable_profiles'           => true,
         'enable_memberslist'        => true,
         'enable_activity'           => false,
+        'count_topic_views'         => true,
         'reports_enabled'           => true,
         'reports_notifications'     => true,
         'memberslist_loggedin_only' => false,
@@ -578,10 +581,13 @@ class AsgarosForum {
                 // Show topic stats.
                 echo '<small class="topic-stats">';
                     $count_answers_i18n = number_format_i18n($topic_object->answers);
-                    $count_views_i18n = number_format_i18n($topic_object->views);
                     echo sprintf(_n('%s Answer', '%s Answers', $topic_object->answers, 'asgaros-forum'), $count_answers_i18n);
-                    echo '&nbsp;&middot;&nbsp;';
-                    echo sprintf(_n('%s View', '%s Views', $topic_object->views, 'asgaros-forum'), $count_views_i18n);
+
+                    if ($this->options['count_topic_views']) {
+                        $count_views_i18n = number_format_i18n($topic_object->views);
+                        echo '&nbsp;&middot;&nbsp;';
+                        echo sprintf(_n('%s View', '%s Views', $topic_object->views, 'asgaros-forum'), $count_views_i18n);
+                    }
                 echo '</small>';
 
                 // Show lastpost info.
@@ -616,7 +622,9 @@ class AsgarosForum {
     }
 
     public function incrementTopicViews() {
-        $this->db->query($this->db->prepare("UPDATE {$this->tables->topics} SET views = views + 1 WHERE id = %d", $this->current_topic));
+        if ($this->options['count_topic_views']) {
+            $this->db->query($this->db->prepare("UPDATE {$this->tables->topics} SET views = views + 1 WHERE id = %d", $this->current_topic));
+        }
     }
 
     function showLoginMessage() {

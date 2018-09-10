@@ -12,6 +12,12 @@ $user_ID = $userId;
 $clan_ID = $userData['clan_id_user'][0];
 $backColor = "45, 67, 81";
 
+$transient = get_transient( 'allclans_query' );
+
+if( ! empty( $transient ) ) {
+	$clans = $transient;
+} else {
+
 $args = array(
 	'posts_per_page'   => -1,
 	'orderby'          => 'date',
@@ -19,6 +25,8 @@ $args = array(
 	'post_type'        => 'clan'
 	);
 $clans = get_posts($args);
+set_transient( 'allclans_query', $clans, 12 * 60 * 60 );
+}
 
 ?>
 

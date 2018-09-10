@@ -2,6 +2,7 @@
  /*
  * Template Name: Outgoing events
 */
+get_header();
 global $userData;
 global $userId;
 
@@ -29,8 +30,7 @@ $clan_ID = $userData['clan_id_user'][0];
 if($userId != 0){
 	$members = get_post_meta($clan_ID,'clan_members');
 } 
-
-get_header(); ?>
+?>
 
 <div class="row pageRow">
 	
@@ -152,7 +152,7 @@ if ( $custom_query->have_posts() ) :
 		}
 		if($attack_type == 'aid'){
 			$icon = 'flaticon-compass';
-			$reportHeader = 'Aid received';
+			$reportHeader = 'Aid sent';
 		}
 		if($attack_type == 'missile'){
 			$icon = 'flaticon-radioactive';

@@ -14,7 +14,7 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 
 require(dirname(__FILE__) . '/wp-load.php');
 
-nocache_headers();
+
 
 if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     $array['status'] = 'The round has ended';

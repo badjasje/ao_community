@@ -2107,15 +2107,19 @@ text-decoration: none !important;
     filter: grayscale(100%);
 }
 .positionNo {
-    height: 25px;
+	height: 15px;
     position: absolute;
-    width: 25px;
+    width: 15px;
     text-align: center;
-    line-height: 24px;
-    font-size: 14px;
+    line-height: 14px;
+    font-size: 10px;
     color: #fff;
     background-color: #233946;
-    z-index:9999;
+    z-index: 9999;
+    border-radius: 50%;
+    left: 1px;
+    top: 1px;
+    border: 1px solid #fff;
 }
 .dropzone {
     min-height: 50px !important;
@@ -2272,7 +2276,7 @@ footer{
 }
 .iconBlockHeader{
 	font-size:23px;
-	margin-top: 2px;
+	margin-top: 5px;
 }
 
 .clanMessage{

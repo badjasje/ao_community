@@ -11,7 +11,9 @@ $turns = $userData['turns'][0];
 $spies = $userData['spy_owned'][0];
 $spyplanes = $userData['spyplane_owned'][0];
 
-
+if(empty($spytype)){
+	exit;
+}
 
 /* check if user has enough spies or spy planes */
 if($spies <= 0 && $spytype == 'spy'){ 
@@ -143,7 +145,7 @@ $members = get_post_meta($clan_ID,'clan_members',true);
 			
 if($spytype == 'spy'):?>
 	<?php if($success <= 90):?>
-		<?php $winner_id = $userId;?>
+		<?php $winner_id = $userId; $result = 'success';?>
 
 <div class="blockHeader">Your spy entered the base of <?php echo get_user_name($target_id);?></div>
 <div class="blockHeader spaceNotice">
@@ -265,7 +267,7 @@ if($spytype == 'spy'):?>
 <?php else:?>
 	
 <?php $winner_id = $target_id;
-
+$result = 'failure';
 $spies = get_user_meta( $userId, 'spy_owned', true );
 update_user_meta($userId, 'spy_owned', $spies-1);
 	
@@ -302,7 +304,7 @@ update_user_meta($userId, 'spy_owned', $spies-1);
 			
 <?php if($spytype == 'spyplane'):?>
 	<?php if($success <= 90):?>
-		<?php $winner_id = $userId;?>
+		<?php $winner_id = $userId; $result = 'success';?>
 
 
 <div class="blockHeader">Your spyplane flew over the base of <?php echo get_user_name($target_id);?></div>
@@ -425,20 +427,14 @@ update_user_meta($userId, 'spy_owned', $spies-1);
 <?php else:?>
 	
 <?php $winner_id = $target_id;
-
+$result = 'failure';
 $spies = get_user_meta( $userId, 'spyplane_owned', true );
 update_user_meta($userId, 'spyplane_owned', $spies-1);
 	
 	
 ?>
 
-<script>
-	jQuery(document).ready(function() {
-		jQuery( "#failsplash" ).show();
-		jQuery( "#failsplash" ).delay(750).fadeOut( "slow");
-		jQuery('.pageTitle').html('F A I L U R E');
-	});
-</script>
+
 
 <div class="blockHeader">Your spyplane was shot down by <?php echo get_user_name($target_id);?></div>
 <div class="blockHeader spaceNotice"><?php echo $spies-1;?> spyplane<?php echo plural_func($spies);?> remaining</div>

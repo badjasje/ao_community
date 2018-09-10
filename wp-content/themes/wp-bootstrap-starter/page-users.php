@@ -9,29 +9,11 @@ global $userId;
 $backColor = "45, 67, 81";
 $timestamp = current_time('timestamp');
 
-/* // Maybe use at a later stage, not sure if it is faster
-	
-$secondStamp = $timestamp-1728000;
-global $wpdb;
-$results = $wpdb->get_results( "
-
-SELECT 23zx_users.ID
-FROM 23zx_users INNER JOIN 23zx_usermeta 
-ON 23zx_users.ID = 23zx_usermeta.user_id 
-WHERE 23zx_usermeta.meta_key = 'last_online' 
-AND 23zx_usermeta.meta_value BETWEEN '$secondStamp' AND '$timestamp'
-ORDER BY 23zx_users.user_nicename
-");
-
-$args = array(
-	'meta_key'     	=> 'last_online',
-	'orderby'      	=> 'meta_value_num',
-	'meta_value'	=> $timestamp-1728000,
-	'meta_compare'	=> '>',
-
-); 
-$allUsers = $results;
-*/
+$transient = get_transient( 'allusers_query' );
+  
+if( ! empty( $transient ) ) {
+	$allUsers = $transient;
+	} else {
 $args = array(
 	'meta_key'     	=> 'last_online',
 	'orderby'      	=> 'meta_value_num',
@@ -40,7 +22,8 @@ $args = array(
 
 ); 
 $allUsers = get_users($args);
-
+set_transient( 'allusers_query', $allUsers, 12 * 60 * 60 );
+}
 $networth_you = $userData['networth'][0];
 include 'constants.php';
 include 'attack_functions.php';

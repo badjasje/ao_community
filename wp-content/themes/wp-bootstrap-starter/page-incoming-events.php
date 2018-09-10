@@ -2,6 +2,8 @@
  /*
  * Template Name: Local events
 */
+
+get_header();
 global $userData;
 global $userId;
 include('research_array.php');
@@ -37,7 +39,7 @@ if($userId != 0){
 	$members = get_post_meta($clan_ID,'clan_members');
 } 
 
-get_header(); ?>
+ ?>
 
 <div class="row pageRow">
 	

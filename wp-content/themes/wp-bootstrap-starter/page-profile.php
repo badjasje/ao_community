@@ -2,6 +2,7 @@
  /*
  * Template Name: Profile page
 */
+get_header(); 
 $user__ID = $_GET['id'];
 global $userId;
 if(empty($user__ID)){
@@ -52,7 +53,7 @@ $cl_1 = $visitorClanData['clan_leader'][0];
 
 $CT_CL_array = array($ct_1,$ct_2,$ct_3,$ct_4,$cl_1);
 $members = $visitorClanData['clan_members'][0];
-get_header(); ?>
+?>
 
 <div class="row pageRow">	
 	

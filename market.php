@@ -95,12 +95,12 @@ if ($startingBonus == 'shipping') {
 
 // Determine shipping time
 $marketShippingLevel = $userData['level_shipping_time'][0];
+$hours = 12;
 if ($marketShippingLevel == 1) {
     $hours = 9;
-} elseif ($marketShippingLevel == 2) {
+} 
+if ($marketShippingLevel >= 2) {
     $hours = 6;
-} else {
-    $hours = 12;
 }
 
 include 'units_array.php';

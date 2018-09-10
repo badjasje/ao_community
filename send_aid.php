@@ -91,7 +91,7 @@ if (get_field('game_status', 'option') == 'Live') {
 		echo json_encode($array);
 		exit;
     }
-    if ($_POST['amount'] < 0) {
+    if ($_POST['amount'] <= 0) {
         $array['status'] = 'Enter a valid number';
 		$array['next'] = false;
 		echo json_encode($array);

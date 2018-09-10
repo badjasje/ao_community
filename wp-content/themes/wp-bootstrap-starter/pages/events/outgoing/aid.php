@@ -1,14 +1,13 @@
 <?php $money = $eventData['money_lost'][0];?>
 <div class="fw-row row row-no-padding">
 <div class="col-xs-2 col-no-padding eventImageCol">
-	<?php echo small_avatar($attacker_id,'eventAvatar');?>
+	<?php echo small_avatar($defender_id,'eventAvatar');?>
 </div>
 	
 	
 <div class="col-xs-10 col-no-padding" style="flex: 100;">
 	<div class="eventMainMessage">
-		You received <strong>$ <?php echo number_format($money, 0, ',', ' ');?></strong> aid from 
-			<a href="/users/profile/?id=<?php echo $attacker_id;?>"><?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a>
+		You sent <strong>$ <?php echo number_format($money, 0, ',', ' ');?></strong> to <?php echo get_user_name($defender_id);?>
 	</div>
 		
 		<div class="row eventResultRow">

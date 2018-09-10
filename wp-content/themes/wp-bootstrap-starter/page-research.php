@@ -158,7 +158,7 @@ if($researchCount >= 1){
 </div> <! // Close Unit row -->
 <?php if($inProgress == 1):?>
 <div class="blockHeader fw-row">
-<i class="fa fa-circle-notch fa-spin"></i> Time left <div class="timeLeft" id="countdown_time"></div>
+<i class="fa fa-circle-notch fa-spin"></i> Time left:&nbsp; <div class="timeLeft" id="countdown_time"></div>
 <script>
 var
 diff = <?php echo $timeLeftStamp*1000;?>;

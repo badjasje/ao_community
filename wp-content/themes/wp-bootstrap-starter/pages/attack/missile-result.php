@@ -521,13 +521,13 @@ if($war_type != 'none' && $result == 'success'){
 			$clan_points = 50;
 		}
 	}
-	
-	}	
-	// End MEGA 20180215
-			
-if($clan_points < 1){
+	if($clan_points < 1){
 	$clan_points = 1;
 }		
+	}
+	// End MEGA 20180215
+			
+
 if($def_NW_lost <= 1){ 
 	$clan_points == 0;
 }

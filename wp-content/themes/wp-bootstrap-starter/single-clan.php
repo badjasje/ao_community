@@ -129,6 +129,9 @@ if(in_array($declarer_ID, $declaringClanMembers)){
 
 			count_all_stats($member);
 			$networth = get_user_meta($member, 'networth',true);
+			if(get_user_meta($member, 'status',true) == 'dead'){
+				$networth = 0;
+			}
 			$tot_networth+=$networth;
 
 		}

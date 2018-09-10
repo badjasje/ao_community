@@ -1,7 +1,12 @@
 <?php
     
     require_once("wp-load.php");
+    
+$link = 'asdassdas?asdasdasd';
+$link = substr($link, 0, strpos($link, "?"));
+echo $link;
 
+/*
 
 $clan_points = (20000/1100)+((sqrt(20000)/25) * ((sqrt(200000[0]*1.5)/4.1)/100));
  $clan_points = ceil($clan_points);
