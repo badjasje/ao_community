@@ -3,7 +3,7 @@
 if (!defined('ABSPATH')) exit;
 
 class AsgarosForum {
-    var $version = '1.9.6';
+    var $version = '1.10.0';
     var $executePlugin = false;
     var $db = null;
     var $tables = null;
@@ -28,6 +28,7 @@ class AsgarosForum {
     var $parents_set = false;
     var $options = array();
     var $options_default = array(
+        'forum_title'               => '',
         'location'                  => 0,
         'posts_per_page'            => 10,
         'topics_per_page'           => 20,
@@ -57,6 +58,7 @@ class AsgarosForum {
         'enable_profiles'           => true,
         'enable_memberslist'        => true,
         'enable_activity'           => false,
+        'enable_rss'                => false,
         'count_topic_views'         => true,
         'reports_enabled'           => true,
         'reports_notifications'     => true,
@@ -102,6 +104,8 @@ class AsgarosForum {
     var $activity       = null;
     var $memberslist    = null;
     var $pagination     = null;
+    var $unread         = null;
+    var $feed           = null;
 
     function __construct() {
         // Initialize database.
@@ -130,7 +134,6 @@ class AsgarosForum {
 
         new AsgarosForumCompatibility($this);
         new AsgarosForumPermissions($this);
-        new AsgarosForumUnread($this);
         new AsgarosForumStatistics($this);
         new AsgarosForumUserGroups($this);
         new AsgarosForumWidgets($this);
@@ -152,6 +155,8 @@ class AsgarosForum {
         $this->activity         = new AsgarosForumActivity($this);
         $this->memberslist      = new AsgarosForumMembersList($this);
         $this->pagination       = new AsgarosForumPagination($this);
+        $this->unread           = new AsgarosForumUnread($this);
+        $this->feed             = new AsgarosForumFeed($this);
     }
 
     //======================================================================
@@ -161,6 +166,19 @@ class AsgarosForum {
     function loadOptions() {
         $this->options = array_merge($this->options_default, get_option('asgarosforum_options', array()));
         $this->options_editor['teeny'] = $this->options['minimalistic_editor'];
+
+        // Ensure default values if some needed files got deleted.
+        if (empty($this->options['forum_title'])) {
+            $this->options['forum_title'] = __('Forum', 'asgaros-forum');
+        }
+
+        if (empty($this->options['notification_sender_name'])) {
+            $this->options['notification_sender_name'] = get_bloginfo('name');
+        }
+
+        if (empty($this->options['notification_sender_mail'])) {
+            $this->options['notification_sender_mail'] = get_bloginfo('admin_email');
+        }
     }
 
     function saveOptions($options) {
@@ -242,7 +260,7 @@ class AsgarosForum {
         $this->rewrite->parse_url();
 
         // Prepare unread status.
-        AsgarosForumUnread::prepareUnreadStatus();
+        $this->unread->prepareUnreadStatus();
 
         // Update online status.
         $this->online->update_online_status();
@@ -312,7 +330,7 @@ class AsgarosForum {
         if (isset($_POST['submit_action'])) {
             $this->content->do_insertion();
         } else if ($this->current_view === 'markallread') {
-            AsgarosForumUnread::markAllRead();
+            $this->unread->markAllRead();
         } else if (isset($_GET['move_topic'])) {
             $this->moveTopic();
         } else if (isset($_GET['delete_topic'])) {
@@ -348,7 +366,7 @@ class AsgarosForum {
 
         // Mark visited topic as read.
         if ($this->current_view === 'topic' && $this->current_topic) {
-            AsgarosForumUnread::markTopicRead();
+            $this->unread->markTopicRead();
         }
 
         do_action('asgarosforum_prepare_'.$this->current_view);
@@ -406,7 +424,7 @@ class AsgarosForum {
         $mainTitle = false;
 
         if ($setDefaultTitle) {
-            $mainTitle = __('Overview', 'asgaros-forum');
+            $mainTitle = $this->options['forum_title'];
         }
 
         if (!$this->error && $this->current_view) {
@@ -476,7 +494,7 @@ class AsgarosForum {
 
                 switch ($this->current_view) {
                     case 'search':
-                        include('views/search.php');
+                        $this->search->show_search_results();
                     break;
                     case 'subscriptions':
                         $this->notifications->show_subscription_overview();
@@ -511,6 +529,11 @@ class AsgarosForum {
                         $this->overview();
                     break;
                 }
+
+                // Action hook for optional bottom navigation elements.
+                echo '<div id="bottom-navigation">';
+                do_action('asgarosforum_bottom_navigation', $this->current_view);
+                echo '</div>';
             }
         }
 
@@ -526,9 +549,9 @@ class AsgarosForum {
 
         // Show lock symbol for closed topics.
         if ($this->current_view == 'topic' && $this->get_status('closed')) {
-            echo '<h1 class="main-title dashicons-before dashicons-lock">'.$mainTitle.'</h1>';
+            echo '<h1 class="main-title main-title-'.$this->current_view.' dashicons-before dashicons-lock">'.$mainTitle.'</h1>';
         } else {
-            echo '<h1 class="main-title">'.$mainTitle.'</h1>';
+            echo '<h1 class="main-title main-title-'.$this->current_view.'">'.$mainTitle.'</h1>';
         }
 
         if ($this->current_view === 'forum' && $this->options['show_description_in_forum'] && !empty($this->current_description)) {
@@ -563,9 +586,9 @@ class AsgarosForum {
         require('views/forum.php');
     }
 
-    function render_topic_element($topic_object, $topic_type = 'topic-normal') {
+    function render_topic_element($topic_object, $topic_type = 'topic-normal', $show_topic_location = false) {
         $lastpost_data = $this->get_lastpost_in_topic($topic_object->id);
-        $unread_status = AsgarosForumUnread::getStatusTopic($topic_object->id);
+        $unread_status = $this->unread->getStatusTopic($topic_object->id);
         $topic_title = esc_html(stripslashes($topic_object->name));
 
         echo '<div class="topic '.$topic_type.'">';
@@ -574,8 +597,19 @@ class AsgarosForum {
                 echo '<a href="'.$this->get_link('topic', $topic_object->id).'" title="'.$topic_title.'">'.$topic_title.'</a>';
                 echo '<small>';
                 echo __('By', 'asgaros-forum').'&nbsp;'.$this->getUsername($topic_object->author_id);
+
+                // Show the name of the forum in which a topic is located in. This is currently only used for search results.
+                if ($show_topic_location) {
+                    echo '&nbsp;&middot;&nbsp;';
+                    echo __('In', 'asgaros-forum').'&nbsp;';
+                    echo '<a href="'.$this->rewrite->get_link('forum', $topic_object->forum_id).'">';
+                    echo esc_html(stripslashes($topic_object->forum_name));
+                    echo '</a>';
+                }
+
                 $topic_pagination = new AsgarosForumPagination($this);
                 $topic_pagination->renderTopicOverviewPagination($topic_object->id);
+
                 echo '</small>';
 
                 // Show topic stats.
@@ -756,10 +790,26 @@ class AsgarosForum {
 
     function cut_string($string, $length = 33) {
         if (strlen($string) > $length) {
-            return mb_substr($string, 0, $length, 'UTF-8') . ' &hellip;';
+            return mb_substr($string, 0, $length, 'UTF-8') . ' &#8230;';
         }
 
         return $string;
+    }
+
+    // TODO: Clean up the complete username logic ...
+
+    function get_plain_username($user_id) {
+        if ($user_id) {
+            $user = get_userdata($user_id);
+
+            if ($user) {
+                return $user->display_name;
+            } else {
+                return __('Deleted user', 'asgaros-forum');
+            }
+        } else {
+            return __('Guest', 'asgaros-forum');
+        }
     }
 
     /**
@@ -814,7 +864,7 @@ class AsgarosForum {
      */
     function highlight_username($user, $string) {
         if ($this->options['highlight_admin']) {
-            if (is_super_admin($user->ID) || user_can($user->ID, 'administrator')) {
+            if (AsgarosForumPermissions::isAdministrator($user->ID)) {
                 return '<span class="highlight-admin">'.$string.'</span>';
             } else if (AsgarosForumPermissions::isModerator($user->ID)) {
                 return '<span class="highlight-moderator">'.$string.'</span>';

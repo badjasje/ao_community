@@ -5,7 +5,7 @@ Tags: forum, forums, discussion, multisite, community, bulletin, board, asgaros,
 Requires at least: 4.7
 Tested up to: 4.9
 Requires PHP: 5.2
-Stable tag: 1.9.6
+Stable tag: 1.10.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,7 @@ Asgaros Forum is the perfect WordPress plugin if you want to extend your website
 * Reporting & Banning
 * Easy Appearance Customization
 * Widgets
+* RSS Feeds
 * Mobile Theme
 * Theme Manager
 * Multilingualism
@@ -93,6 +94,19 @@ You can find a list of available hooks and filters on this site:
 6. Manage general options.
 
 == Changelog ==
+= 1.10.0 =
+* Added: RSS feeds for topics and forums
+* Added: Option to change main forum title
+* Added: Unread indicator to activity feed
+* Added: Show location of search results
+* Added: asgarosforum_wp_head hook
+* Added: asgarosforum_bottom_navigation hook
+* Added: asgarosforum_filter_editor_buttons filter
+* Fixed: Broken cookies when using SEO-friendly URLs
+* Fixed: Render allowed HTML-tags in signatures inside the profile
+* Fixed: Display issues with some themes
+* Changed: Minor design changes
+* Performance improvements and code optimizations
 = 1.9.6 =
 * Added: Option to disable counting of topic views
 * Added: Option to allow HTML tags in signatures

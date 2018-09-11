@@ -863,6 +863,7 @@
     padding: 15px;
     word-wrap: break-word;
     position: initial; /* comp */
+    float: none; /* comp */
     box-sizing: border-box;
 }
 @media screen and (max-width: 782px) {
@@ -1045,15 +1046,27 @@
     margin-bottom: 10px;
 }
 
-/* SUBSCRIPTIONS */
-#af-wrapper #topic-subscription,
-#af-wrapper #forum-subscription {
+/* BOTTOM NAVIGATION */
+#af-wrapper #bottom-navigation {
     display: block;
+    height: 20px;
+    line-height: 20px;
     color: #2d89cc;
 }
-#af-wrapper #topic-subscription a,
-#af-wrapper #forum-subscription a {
-    margin-left: 5px;
+#af-wrapper #bottom-navigation span {
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    padding-right: 16px;
+}
+#af-wrapper #bottom-navigation span:before {
+    margin-right: 4px;
+    vertical-align: middle;
+}
+#af-wrapper #bottom-navigation a {
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
     font-size: 11px;
     font-style: italic;
 }
@@ -1419,6 +1432,29 @@
     font-family: "Courier New";
 }
 
+/* ACTIVITY */
+#af-wrapper .activity-element {
+    display: block;
+    min-height: 32px;
+    line-height: 32px;
+    padding: 0px 12px;
+    border-bottom: 1px solid #eee;
+}
+#af-wrapper .activity-element:before {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    color: #888;
+    padding-right: 8px;
+}
+#af-wrapper .activity-element:last-child {
+    border: none;
+}
+#af-wrapper .activity-time {
+    color: #888;
+    font-size: smaller;
+}
+
 /* ICONS */
 #af-wrapper .dashicons-normal_open:before {
     content: "\f206";
@@ -1444,26 +1480,4 @@
 }
 #af-wrapper .read:before {
     opacity: 0.5;
-}
-
-/* ACTIVITY */
-#af-wrapper .activity-element {
-    display: block;
-    min-height: 32px;
-    line-height: 32px;
-    padding: 0px 12px;
-    border-bottom: 1px solid #eee;
-}
-#af-wrapper .activity-element:before {
-    height: 32px;
-    line-height: 32px;
-    color: #888;
-    padding-right: 8px;
-}
-#af-wrapper .activity-element:last-child {
-    border: none;
-}
-#af-wrapper .activity-time {
-    color: #888;
-    font-size: smaller;
 }
