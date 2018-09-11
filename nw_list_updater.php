@@ -27,7 +27,12 @@ foreach ($clans as $clan) {
         
     $tot_networth = 0;
     foreach ($clan_members[0] as $member) {
-        $networth = get_user_meta($member, 'networth', true);
+	    $status = get_user_meta($member, 'status', true);
+	    if($status == 'dead'){
+		    $networth = 3500;
+	    }else{
+        	$networth = get_user_meta($member, 'networth', true);
+        }
         $tot_networth+=$networth;
     }
     update_post_meta($clan->ID, 'clan_networth', ceil($tot_networth));

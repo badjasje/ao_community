@@ -5,13 +5,7 @@
 get_header();
 $gameType = get_field('game_type','option');
  ?>
-<?php if(is_user_logged_in()):?>
-	 
-	<script type="text/javascript">
-	window.location.href = '<?php echo get_site_url();?>/dashboard';
-	</script>
 
-<?php exit; endif;?>
 <div class="row pageRow">	
 	<div class="col-md-3" style="padding:0px;">
 	</div>

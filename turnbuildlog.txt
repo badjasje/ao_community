@@ -122714,3 +122714,135 @@ Units ordered: jsf 10
 ID: 1910
 Units ordered: dragon 23
 
+13:48:02 | 10-09-2018
+ID: 1
+Units ordered: rah66_commanches 3
+
+13:49:00 | 10-09-2018
+ID: 1
+Units ordered: dragon 1
+
+13:50:12 | 10-09-2018
+ID: 1
+Units ordered: dragon 3
+
+13:51:06 | 10-09-2018
+ID: 1
+Units ordered: dragon 2
+
+13:52:52 | 10-09-2018
+ID: 1
+Units ordered: dragon 1
+
+13:55:23 | 10-09-2018
+ID: 1
+Units ordered: dragon 2
+
+14:00:09 | 10-09-2018
+ID: 1
+Units ordered: dragon 3
+
+14:04:10 | 10-09-2018
+ID: 1
+Units ordered: dragon 2
+
+14:05:05 | 10-09-2018
+ID: 1
+Units ordered: dragon 1
+
+14:05:22 | 10-09-2018
+ID: 1
+Units ordered: dragon 1
+
+14:05:43 | 10-09-2018
+ID: 1
+Units ordered: dragon 123
+
+14:12:28 | 10-09-2018
+ID: 1
+Units ordered: dragon 3
+
+14:12:41 | 10-09-2018
+ID: 1
+Units ordered: f22_raptors 23
+
+14:13:23 | 10-09-2018
+ID: 1
+Units ordered: f22_raptors 3
+
+14:15:12 | 10-09-2018
+ID: 1
+Units ordered: rah66_commanches 3
+
+14:17:20 | 10-09-2018
+ID: 1
+Units ordered: b2_bomber 2
+
+14:18:10 | 10-09-2018
+ID: 1
+Units ordered: f22_raptors 2
+
+14:18:18 | 10-09-2018
+ID: 1
+Units ordered: dragon 2
+
+14:19:51 | 10-09-2018
+ID: 1
+Units ordered: armoured 600
+
+14:20:19 | 10-09-2018
+ID: 1
+Units ordered: f22_raptors 111
+
+14:28:21 | 10-09-2018
+ID: 1
+Units ordered: carrier 3
+
+14:28:47 | 10-09-2018
+ID: 1
+Units ordered: battleship 47
+
+14:59:07 | 10-09-2018
+ID: 1
+Units ordered: carrier 47
+
+15:06:59 | 10-09-2018
+ID: 1
+Units ordered: humvee 23
+
+15:08:04 | 10-09-2018
+ID: 1
+Units ordered: sam 23
+
+15:08:13 | 10-09-2018
+ID: 1
+Units ordered: sam 23
+
+15:08:17 | 10-09-2018
+ID: 1
+Units ordered: abraham 23
+
+15:08:20 | 10-09-2018
+ID: 1
+Units ordered: sam 23
+
+15:08:42 | 10-09-2018
+ID: 1
+Units ordered: humvee 34
+
+13:03:09 | 11-09-2018
+ID: 1
+Units ordered: jsf 2
+
+13:03:15 | 11-09-2018
+ID: 1
+Units ordered: jsf 2
+
+15:37:02 | 11-09-2018
+ID: 1
+Units ordered: sam 3
+
+15:37:14 | 11-09-2018
+ID: 1
+Units ordered: sam 3
+

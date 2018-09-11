@@ -81,9 +81,9 @@ $('#exploreform').submit(function( event ) {
 
     // Callback handler that will be called on success
     request.done(function (response, textStatus, jqXHR){
-        // Log a message to the console
+        updateHeaderData();
         var array = JSON.parse(response);
-        console.log(array);
+
         	
 				$.notify({
 					message: array.status,
@@ -99,9 +99,7 @@ $('#exploreform').submit(function( event ) {
 			
 			
 			if(array.next == true){
-				$('#land').html(number_format(array.land, 0, ',', ' '));
-				$('#turns').html(array.turns);
-				$('#networth').html(number_format(array.networth, 0, ',', ' '));
+				
 				$( ".explNotice" ).empty();
 				$( ".explNotice" ).append(array.exploredtoday);
 				$('#exprate').html(array.newrate);
@@ -152,7 +150,7 @@ $('#sellform').submit(function( event ) {
 
     // Callback handler that will be called on success
     request.done(function (response, textStatus, jqXHR){
-        // Log a message to the console
+        updateHeaderData();
         var array = JSON.parse(response);
         
         	
@@ -170,9 +168,7 @@ $('#sellform').submit(function( event ) {
 			
 			
 			if(array.next == true){
-				$('#land').html(number_format(array.land, 0, ',', ' '));
-				$('#money').html(number_format(array.money, 0, ',', ' '));
-				$('#networth').html(number_format(array.networth, 0, ',', ' '));
+		
 				$( ".sellNotice" ).empty();
 				$( ".sellNotice" ).append(array.soldtoday);
 				

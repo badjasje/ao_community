@@ -266,7 +266,7 @@ $( ".activateSatellite" ).click(function() {
     });
     
     activate.done(function (response, textStatus, jqXHR){ 
-		
+		updateHeaderData();
 		var array = JSON.parse(response);
 
 		$.notify({
@@ -313,7 +313,7 @@ $( "body" ).on('submit','#cancelsat',function(cancelevent) {
     });
 
     cancel.done(function (response, textStatus, jqXHR){
-
+		updateHeaderData();
         var cancelarray = JSON.parse(response);
         	console.log(cancelarray);
         		$( "#order_"+cancelarray.remove ).empty();
@@ -364,7 +364,7 @@ $(document).on('submit','#satbuild',function(event){
 
 
     request.done(function (orderresponse, textStatus, jqXHR){
-
+		updateHeaderData();
         var array = JSON.parse(orderresponse);
 				$.notify({
 					message: array.status,

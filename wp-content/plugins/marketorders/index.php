@@ -10,10 +10,14 @@ License: GPL
 Copyright: Kevin Bogaard
 */
 
+function my_login_redirect( $redirect_to, $request, $user ) {
+    return get_site_url()."/dashboard/";
+}
+add_filter( 'login_redirect', 'my_login_redirect', 10, 3 );
 
-// define the get_avatar_url callback 
+
+
 function filter_get_avatar_url( $url, $userId, $args ) { 
-    // make filter magic happen here... 
     $avatar = get_user_meta($userId, 'avatar_user', true);
     return $avatar; 
 }; 
@@ -273,12 +277,23 @@ function networth_range($user_ID){
 		$networth = 0;
 	}
 	
+	
+	if (($networth > $viewerNetworth/1.4 && $networth < $viewerNetworth*1.4)){	
+			
+		return '<strong>$ '.number_format($networth, 0, ',', ' ').' <span class="hover-tip"  data-toggle="tooltip" data-original-title="This user is in your networth range" data-placement="bottom"><i class="far fa-check-circle"></i></span></strong>';
+	}
+	else {
+		return '<span>$ '.number_format($networth, 0, ',', ' ').'</span>';
+	}
+	
+	
+	/*
 	if(($viewerNetworth/1.4 <= $networth) && ($networth <= $viewerNetworth*1.4)){
 		
 	return '<strong>$ '.number_format($networth, 0, ',', ' ').' <span class="hover-tip"  data-toggle="tooltip" data-original-title="This user is in your networth range" data-placement="bottom"><i class="far fa-check-circle"></i></span></strong>';
 	}else{
 		return '<span>$ '.number_format($networth, 0, ',', ' ').'</span>';
-	}					
+	}			*/		
 }
 
 function clan_avg_networth_range($clanId){

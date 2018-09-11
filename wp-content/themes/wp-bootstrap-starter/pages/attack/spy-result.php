@@ -47,7 +47,7 @@ $snipers = $defenderData['snipers_owned'][0];
 $land_def = $defenderData['land'][0];
 $networth_def = $defenderData['networth'][0];
 
-$success = $success+$snipers*0.25;
+$success = mt_rand(1,130)+($snipers*0.25);
 
 if($sat_status == 'active'){
 	$success = 100;
@@ -94,7 +94,7 @@ $members = get_post_meta($clan_ID,'clan_members',true);
 				}
 			
 			}
-			if($enhanceSpy > 3){
+			if($enhanceSpy >= 3){
 				$enhanceSpy = 3;
 			}
 			
@@ -139,7 +139,7 @@ $members = get_post_meta($clan_ID,'clan_members',true);
 				}
 			
 			}
-			if($enhancePlane > 3){
+			if($enhancePlane >= 3){
 				$enhancePlane = 3;
 			}
 			
@@ -215,7 +215,7 @@ if($spytype == 'spy'):?>
 				if($enhanceSpy == 2){
 					$displayamount = max(round($amount/(1+(mt_rand(6*$rangeDamp, 12*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(6*$rangeDamp, 12*$rangeDamp)/100)))));
 				}
-				if($enhanceSpy == 3){
+				if($enhanceSpy >= 3){
 					$displayamount = max(round($amount/(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)))));
 				}
 				$spy_array[$unit] = $displayamount;
@@ -375,7 +375,7 @@ update_user_meta($userId, 'spy_owned', $spies-1);
 				if($enhanceSpy == 2){
 					$displayamount = max(round($amount/(1+(mt_rand(6*$rangeDamp, 12*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(6*$rangeDamp, 12*$rangeDamp)/100)))));
 				}
-				if($enhanceSpy == 3){
+				if($enhanceSpy >= 3){
 					$displayamount = max(round($amount/(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)))));
 				}
 				$spy_array[$unit] = $displayamount;

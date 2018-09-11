@@ -32,7 +32,7 @@ $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
 
 $array['imagechanged'] = false;
 
-if(isset($data['newclanimage'])){
+if(!empty($data['newclanimage'])){
 	$wp_upload_dir = wp_upload_dir();
 	$newclanimg = $wp_upload_dir['url'] . '/' . $data['newclanimage'];
 	update_post_meta($clan_ID, 'clan_image', $newclanimg);

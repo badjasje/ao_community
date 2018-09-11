@@ -1,15 +1,11 @@
 <?php
-/**
- * WP Bootstrap Starter functions and definitions
- *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
- *
- * @package WP_Bootstrap_Starter
- */
+
+	
 global $userId;
 $userId = get_current_user_id();
 global $userData;
 $userData = get_user_meta($userId);
+
 
 $timestamp = current_time('timestamp');
 
@@ -259,3 +255,17 @@ if (is_user_logged_in() && !is_admin()){
 	update_user_meta($userId, 'last_online', $timestamp);
 	$userStatus = get_user_meta($userId, 'status',true);
 }
+	$path = $_SERVER['REQUEST_URI'];
+	$pathArray = array('/home','/home/','/wp-login.php','/register','/register/','/manual','/manual/','/');
+	
+	
+	if( !is_user_logged_in() && !in_array($path, $pathArray)){
+		header("Location: ".get_site_url()."/home/");
+		exit();
+	}
+	$pathArray = array('/home','/home/','/register','/dashboard','/');
+	
+	if(is_user_logged_in() && in_array($path, $pathArray)){
+		header("Location: ".get_site_url()."/dashboard/");
+		exit();
+	}

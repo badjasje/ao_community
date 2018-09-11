@@ -30,7 +30,7 @@
 		
 			 and 
 						
-			<?php if($winner_id == $attacker_id){?>
+			<?php if($winner_id == $defender_id){?>
 					missed the base.
 				<?php } else { ?>
 				<strong>hit the base</strong>

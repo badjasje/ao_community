@@ -1,5 +1,7 @@
 <?php
 require_once("../../../../../wp-load.php");
+nocache_headers();
+
 include("../../../../../attack_functions.php");
 include '../../../../../constants.php';
 $timestamp = current_time('timestamp');
@@ -39,7 +41,7 @@ if($moraleLock == 1){
 
 
 // Check if target is alive
-if($defenderData['status'][0] == 'dead'){
+if($defenderData['status'][0] == 'dead' || $defenderData['status'][0] == 'nukeprotection'){
 	$array['status'] = 'This player is dead';
 	$array['next'] = false;
 	echo json_encode($array);
@@ -171,13 +173,7 @@ count_all_stats($userId);
 <script>
 (function($) {
 	$(document).ready(function() {
-		<?php $userDataSecondary = get_user_meta($userId);?>
-		// Dynamic update of header statistics
-		jQuery('#morale').html('<?php echo $userDataSecondary['morale'][0];?>');
-		jQuery('#turns').html('<?php echo $userDataSecondary['turns'][0];?>');
-		jQuery('#land').html('<?php echo number_format($userDataSecondary['land'][0], 0, ',', ' ');?>'); 
-		jQuery('#money').html('<?php echo number_format($userDataSecondary['money'][0], 0, ',', ' ');?>');
-		jQuery('#networth').html('<?php echo number_format($userDataSecondary['networth'][0], 0, ',', ' ');?>');
+		updateHeaderData();
 	});
 })(jQuery);
 </script>

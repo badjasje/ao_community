@@ -11,19 +11,9 @@ $timestamp = current_time('timestamp');
 
 $transient = get_transient( 'allusers_query' );
   
-if( ! empty( $transient ) ) {
-	$allUsers = $transient;
-	} else {
-$args = array(
-	'meta_key'     	=> 'last_online',
-	'orderby'      	=> 'meta_value_num',
-	'meta_value'	=> $timestamp-1728000,
-	'meta_compare'	=> '>',
 
-); 
-$allUsers = get_users($args);
-set_transient( 'allusers_query', $allUsers, 12 * 60 * 60 );
-}
+$allUsers = get_users();
+
 $networth_you = $userData['networth'][0];
 include 'constants.php';
 include 'attack_functions.php';

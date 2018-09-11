@@ -131,52 +131,54 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 <script>
 (function($) {
 	
-	
-$(document).on("blur", ".sellInput", function() {
+$(document).on("keyup paste blur change", ".sellInput", function() {
+
 	
     var sum = 0;
     var orderval = 0;
-    var addednw = 0;
+    var nwlost = 0;
 
     $(".sellInput").each(function(){
 	    var inputval = $(this).val();
-        sum += +$(this).val();
+	    console.log(inputval);
         if(inputval > 0){
+	        sum += +$(this).val();
         	orderval += +$(this).attr( "data-price" )*inputval;
-        	addednw += +$(this).attr( "data-nw" )/100*orderval;
+        	nwlost += +$(this).attr( "data-price" )*inputval*($(this).attr( "data-nw" )/100);
         	
         }
     });
-   console.log(addednw);
+
     $("#totalsell").html(sum);
     $("#return_val").html(number_format(orderval, 0, ',', ' '));
-    $("#nw_lost").html(number_format(addednw, 0, ',', ' '));
+    $("#nw_lost").html(number_format(nwlost, 0, ',', ' '));
     
 });
 
 $(document).on('click', '.sellall', function() {
 	var sum = 0;
 	var inputkey = $(this).attr( "data-key" );
-	var inputamount = $(this).attr( "data-amount" );
-	console.log(inputamount);
+	var inputamount = $(this).html();
+
 	$("#sell_"+inputkey).val(inputamount);
 	
 	var orderval = 0
-	var addednw = 0;
+	var nwlost = 0;
 
 	$(".sellInput").each(function(){
         var inputval = $(this).val();
-        sum += +$(this).val();
+        
         if(inputval > 0){
+	        sum += +$(this).val();
         	orderval += +$(this).attr( "data-price" )*inputval;
-        	addednw += +$(this).attr( "data-nw" )/100*orderval;
+        	nwlost += +$(this).attr( "data-price" )*inputval*($(this).attr( "data-nw" )/100);
 		}
     });
 
    
     $("#totalsell").html(sum);
     $("#return_val").html(number_format(orderval, 0, ',', ' '));
-    $("#nw_lost").html(number_format(addednw, 0, ',', ' '));
+    $("#nw_lost").html(number_format(nwlost, 0, ',', ' '));
 });
 
 
@@ -201,7 +203,7 @@ $("#sellmarket").submit(function(event){
 
 
     request.done(function (response, textStatus, jqXHR){
-
+		updateHeaderData();
         var array = JSON.parse(response);
         	console.log(array);
         		$.each( array.allowned, function( key, value ) {
@@ -226,8 +228,6 @@ $("#sellmarket").submit(function(event){
 			$('#totalsell').html('0');
 			$('#return_val').html('0');
 			$('#nw_lost').html('0');
-			$('#money').html(number_format(array.money, 0, ',', ' '));
-			$('#networth').html(number_format(array.networth, 0, ',', ' '));
 			$('#sellmarket').trigger("reset");
 });	});	
 })(jQuery);

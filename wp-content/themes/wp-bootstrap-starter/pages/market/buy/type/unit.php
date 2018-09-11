@@ -1,7 +1,7 @@
 <?php
 $unitsOwned = $userData[$unitKey.'_owned'][0];
 $unitsOrdered = $userData[$unitKey.'_ordered'][0];
-$networthPerUnit = $unit['price']*$unit['networth']/100;
+$networthPerUnit = $unit['price']*($unit['networth']/100);
 $buyPrice =  ceil(($unit['price'] * 2.2) * $discount);
 $canAttack = is_array($unit['attacks']) && !empty($unit['attacks']) ? implode(', ', $unit['attacks']) : 'N/A';
 $count++;
@@ -62,17 +62,17 @@ $count++;
 		<?php if(in_array($unitKey, $specialUnits)) : 
 			$maxInput = (min($space['special'], $maxMoney, $maxSpace));	
 		?>
-			<span class="allbutton" id="button<?php echo $unitKey;?>" data-key="<?php echo $unitKey;?>" data-amount="<?php echo $maxInput;?>"><?php echo $maxInput;?></span>
+			<span class="allbutton" id="button<?php echo $unitKey;?>" nw-per-unit="<?php echo $networthPerUnit;?>" data-key="<?php echo $unitKey;?>" data-amount="<?php echo $maxInput;?>"><?php echo $maxInput;?></span>
 		<?php else : 
 			$maxInput = (min($maxMoney, $maxSpace));
 			
 		?>
-                <span class="allbutton" id="button<?php echo $unitKey;?>" data-key="<?php echo $unitKey;?>" data-amount="<?php echo $maxInput;?>"><?php echo $maxInput;?></span>
+                <span class="allbutton" id="button<?php echo $unitKey;?>" nw-per-unit="<?php echo $networthPerUnit;?>" data-key="<?php echo $unitKey;?>" data-amount="<?php echo $maxInput;?>"><?php echo $maxInput;?></span>
 		<?php endif;?>
 	    </span>
     </div>
     <div class="col-md-2 celBlock inputBlock">
 	    <?php if($maxInput < 0){ $maxInput = 0;}?>
-        <input class="unitInput buyInput buy_<?php echo $unitKey;?>" min="0" max="<?php echo $maxInput;?>" data-key="<?php echo $unitKey;?>" data-nw="<?php echo $networthPerUnit; ?>" data-price="<?php echo $buyPrice;?>" type="number" id="<?php echo $unitKey;?>" name="<?php echo $unitKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
+        <input class="unitInput buyInput buy_<?php echo $unitKey;?>" min="0" max="<?php echo $maxInput;?>" data-key="<?php echo $unitKey;?>" nw-per-unit="<?php echo $networthPerUnit;?>" data-price="<?php echo $buyPrice;?>" type="number" id="<?php echo $unitKey;?>" name="<?php echo $unitKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
     </div>
 </div> <! // Close Unit row -->

@@ -179,11 +179,9 @@ $("#market").submit(function(event){
 
     // Callback handler that will be called on success
     request.done(function (response, textStatus, jqXHR){
-        // Log a message to the console
+        updateHeaderData();
         var array = JSON.parse(response);
-        	console.log(array);
-        		
-				
+
 				$.notify({
 					message: array.status,
 					},{
@@ -200,8 +198,6 @@ $("#market").submit(function(event){
 			$('#networth_total').html('0');
 			
 			if(array.next == true){
-				$('#money').html(number_format(array.money, 0, ',', ' '));
-				
 				$.each( array.allordered, function( key, value ) {
 						$('#'+key+'_ordered').html(value);
 					});
@@ -217,8 +213,7 @@ $("#market").submit(function(event){
 			$('#market').trigger("reset");
 });	});	
 
-
-$(document).on("blur", ".buyInput", function() {
+$(document).on("keyup paste blur change", ".buyInput", function() {
     var sum = 0;
     var orderval = 0;
     var addednw = 0;
@@ -227,12 +222,11 @@ $(document).on("blur", ".buyInput", function() {
         sum += +$(this).val();
         if(inputval > 0){
         	orderval += +$(this).attr( "data-price" )*inputval;
-        	addednw += +$(this).attr( "data-nw" )*inputval;
-        	var inputkey = $(this).attr( "data-key" );
+        	addednw += +$(this).attr( "nw-per-unit" )*inputval;
         }
     });
    
-	console.log(sum);
+
     $("#total").html(sum);
     $("#order_total").html(number_format(orderval, 0, ',', ' '));
     $("#networth_total").html(number_format(addednw, 0, ',', ' '));
@@ -242,7 +236,7 @@ $(document).on("blur", ".buyInput", function() {
 $(document).on("click", ".allbutton", function() {
 	var sum = 0;
 	var inputkey = $(this).attr( "data-key" );
-	var inputamount = $(this).attr( "data-amount" );
+	var inputamount = $(this).html();
 
 	$(".buy_"+inputkey).val(inputamount);
 	
@@ -255,8 +249,7 @@ $(document).on("click", ".allbutton", function() {
         sum += +$(this).val();
         if(inputval > 0){
         	orderval += +$(this).attr( "data-price" )*inputval;
-        	addednw += +$(this).attr( "data-nw" )*inputval;
-        	var inputkey = $(this).attr( "data-key");
+        	addednw += +$(this).attr( "nw-per-unit" )*inputval;
         	
         }
     });

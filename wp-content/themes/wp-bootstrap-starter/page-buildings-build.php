@@ -123,9 +123,9 @@ $("#buildbuildings").submit(function(event){
     });
 
     request.done(function (response, textStatus, jqXHR){
-	    //console.log(response);
+	    updateHeaderData();
         var array = JSON.parse(response);
-		console.log(array);
+	
 				
 				$.notify({
 					message: array.status,
@@ -146,13 +146,11 @@ $("#buildbuildings").submit(function(event){
 				});
 			$('#order_total').html('0');
 			$('#total').html('0');
-			$('#turns').html(number_format(array.turns, 0, ',', ' '));
+		
 			$('#networth_total').html('0');
 			$('#turn_total').html('0');
 			$('#landspace').html(array.landspace);
-			$('#power').html(number_format(array.newpower, 0, ',', ' '));
-			$('#networth').html(number_format(array.networth, 0, ',', ' '));
-			$('#money').html(number_format(array.money, 0, ',', ' '));
+			
 			$('#buildbuildings').trigger("reset");
 });	});	
 
@@ -179,7 +177,7 @@ $("#demobuildings").submit(function(demolishevent){
     });
 
     demolish.done(function (response, textStatus, jqXHR){
-	    console.log(response);
+	    updateHeaderData();
         var array = JSON.parse(response);
 		
 				
@@ -205,9 +203,7 @@ $("#demobuildings").submit(function(demolishevent){
 				$('#demoorder_total').html('0');
 				$('#demonetworth_total').html('0');
 	
-				$('#money').html(number_format(array.money, 0, ',', ' '));
-				$('#power').html(number_format(array.newpower, 0, ',', ' '));
-				$('#networth').html(number_format(array.networth, 0, ',', ' '));
+				
 				$('#demolandspace').html(array.landspace);
 			}
 			$('#demobuildings').trigger("reset");
@@ -216,7 +212,7 @@ $("#demobuildings").submit(function(demolishevent){
 
 
 
-$(document).on("blur", ".buyInput", function() {
+$(document).on("keyup paste blur change", ".buyInput", function() {
     var sum = 0;
     var orderval = 0;
     var addednw = 0;
@@ -226,7 +222,7 @@ $(document).on("blur", ".buyInput", function() {
         sum += +$(this).val();
         if(inputval > 0){
         	orderval += +$(this).attr( "data-price" )*inputval;
-        	addednw += +$(this).attr( "data-nw" )/100*orderval;
+        	addednw += +($(this).attr( "data-nw" )/100)*orderval;
         	var inputkey = $(this).attr( "data-key" );
         	        	
         }
@@ -243,7 +239,7 @@ $(document).on("blur", ".buyInput", function() {
 $(document).on("click", ".allbutton", function() {
 	var sum = 0;
 	var inputkey = $(this).attr( "data-key" );
-	var inputamount = $(this).attr( "data-amount" );
+	var inputamount = $(this).html();
 
 	$(".buy_"+inputkey).val(inputamount);
 	
@@ -297,7 +293,7 @@ $(document).on("blur", ".sellInput", function() {
 $(document).on('click', '.sellall', function() {
 	var sum = 0;
 	var inputkey = $(this).attr( "data-key" );
-	var inputamount = $(this).attr( "data-amount" );
+	var inputamount = $(this).html();
 	$("#demo_"+inputkey).val(inputamount);
 	
 	var orderval = 0

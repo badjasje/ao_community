@@ -3,6 +3,7 @@
  * Template Name: Attack
 */
 get_header();
+nocache_headers();
 include 'constants.php';
 
 global $userData;
@@ -82,7 +83,7 @@ $attackUserNW = get_user_meta($attackUserId, 'networth',true);
 <script>
 (function($) {
 	
-<?php /* ?>
+<?php /*?>
 $('html').keypress(function(e){
 	
 	if(e.keyCode === 8 || e.keyCode === 46){
@@ -125,7 +126,7 @@ $(document).on('click','#stepback',function(event){
 			
 		}
 });
-<?php */?>
+<?php */ ?>
 	
 
 // Variable to hold request

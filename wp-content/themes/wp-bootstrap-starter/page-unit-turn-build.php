@@ -140,13 +140,13 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 (function($) {
 	
 var request;
-
-$("#turnbuild").submit(function(event){
+$(document).on('submit', '#turnbuild', function(event) {
+	
 	$('.pageLoader, #page-cover').show();
 	$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 
     event.preventDefault();
-
+	
     if (request) { request.abort(); }
 
     var $form = $(this);
@@ -161,6 +161,8 @@ $("#turnbuild").submit(function(event){
 
     // Callback handler that will be called on success
     request.done(function (response, textStatus, jqXHR){
+	    updateHeaderData();
+	   
         // Log a message to the console
         var array = JSON.parse(response);
         	console.log(array);
@@ -193,39 +195,100 @@ $("#turnbuild").submit(function(event){
 				$.each( array.usedspace, function( key, value ) {
 					$('#'+key+'spacecount').html(number_format(value, 0, ',', ' '));
 				});
-				$('#money').html(number_format(array.money, 0, ',', ' '));
-				$('#turns').html(number_format(array.turns, 0, ',', ' '));
-				$('#networth').html(number_format(array.networth, 0, ',', ' '));
+				
 			}
 			$('#turnbuild').trigger("reset");
 });	});	
+
+
+$(document).on("keyup paste blur change", ".buyInput", function() {
+    var sum = 0;
+    var orderval = 0;
+    var addednw = 0;
+    var turntot = 0;
+  
+    $(".buyInput").each(function(){
+	    var inputval = $(this).val();
+        sum += +$(this).val();
+        if(inputval > 0){
+	        
+        	orderval += +$(this).attr( "data-price" )*inputval;
+        	addednw += +$(this).attr( "data-price" )*($(this).attr( "data-nw" )/100)*inputval;
+        	
+        	var inputkey = $(this).attr( "type-key" );
+        	if(inputkey == 'air'){
+				turntot += Math.ceil(inputval/10);
+			}
+			if(inputkey == 'sea'){
+				turntot += Math.ceil(inputval/5);
+			}
+			if(inputkey == 'inf'){
+				turntot += Math.ceil(inputval/20);
+			}
+			if(inputkey == 'veh'){
+				turntot += Math.ceil(inputval/20);
+			}
+        	
+        	
+        }
+    });
+   
+
+    $("#total").html(sum);
+    $("#order_total").html(number_format(orderval, 0, ',', ' '));
+    $("#networth_total").html(number_format(addednw, 0, ',', ' '));
+    $("#turn_total").html(number_format(turntot, 0, ',', ' '));
+    
+});
+$(document).on("click", ".allbutton", function() {
+	var sum = 0;
+	var inputkey = $(this).attr( "data-key" );
+	var inputamount = $(this).html();
+	var turntot = 0;
+
+	$(".buy_"+inputkey).val(inputamount);
+	
+	var orderval = 0;
+	var addednw = 0;
+
+	
+	$(".buyInput").each(function(){
+        var inputval = $(this).val();
+        sum += +$(this).val();
+        if(inputval > 0){
+        	orderval += +$(this).attr( "data-price" )*inputval;
+        	addednw += +$(this).attr( "data-price" )*($(this).attr( "data-nw" )/100)*inputval;
+        	
+        	var typekey = $(this).attr( "type-key" );
+        	if(typekey == 'air'){
+				turntot += Math.ceil(inputval/10);
+			}
+			if(typekey == 'sea'){
+				turntot += Math.ceil(inputval/5);
+			}
+			if(typekey == 'inf'){
+				turntot += Math.ceil(inputval/20);
+			}
+			if(typekey == 'veh'){
+				turntot += Math.ceil(inputval/20);
+			}
+        	
+        }
+    });
+
+   
+    $("#total").html(sum);
+    $("#order_total").html(number_format(orderval, 0, ',', ' '));
+    $("#networth_total").html(number_format(addednw, 0, ',', ' '));
+    $("#turn_total").html(number_format(turntot, 0, ',', ' '));
+});
+
+
+
+
 })(jQuery);
 	
-	// Set total number of units value
-	jQuery('body').on('change', '.unitInput', function() {
-		
-        var arr = document.getElementsByClassName('unitInput');
-        var tot=0;
-        for(var i=0;i<arr.length;i++){
-            if(parseInt(arr[i].value))
-                tot += parseInt(arr[i].value);
-        }
-        document.getElementById('total').value = tot;
-    
-        var span = document.getElementById('total');
 
-        while( span.firstChild ) {
-            span.removeChild( span.firstChild );
-        }
-
-        span.appendChild( document.createTextNode(number_format(tot, 0, ',', ' ')) );
-	});
-	
-    jQuery(document).on('shown.bs.tab', function (event) {
-        var currentTab = jQuery(event.target).attr('href');
-        history.pushState(null, null, currentTab);
-        jQuery('#currentTab').val(currentTab);
-    });
 </script>	 
 <?php
 get_footer();

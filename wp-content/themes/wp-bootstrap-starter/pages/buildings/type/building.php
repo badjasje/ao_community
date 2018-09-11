@@ -58,7 +58,7 @@ $backColor = "45, 67, 81"
 	    </span>
     </div>
     <div class="col-md-2 celBlock inputBlock">
-        <input class="unitInput buyInput buy_<?php echo $buildingKey;?>" data-nw="<?php echo $building['networth'];?>" data-price="<?php echo $order['price'];?>" data-key="<?php echo $buildingKey;?>" min="0" type="number" id="<?php echo $buildingKey;?>" name="<?php echo $buildingKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
+        <input class="unitInput buyInput buy_<?php echo $buildingKey;?>" data-nw="<?php echo $building['networth'];?>" data-price="<?php echo $building['price'];?>" data-key="<?php echo $buildingKey;?>" min="0" type="number" id="<?php echo $buildingKey;?>" name="<?php echo $buildingKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
  
     </div>
 </div> <! // Close Unit row -->

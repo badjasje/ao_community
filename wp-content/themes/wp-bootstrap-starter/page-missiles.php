@@ -72,7 +72,7 @@ $(document).on("blur", ".buyInput", function() {
 $(document).on("click", ".allbutton", function() {
 	var sum = 0;
 	var inputkey = $(this).attr( "data-key" );
-	var inputamount = $(this).attr( "data-amount" );
+	var inputamount = $(this).html();
 
 	$(".buy_"+inputkey).val(inputamount);
 	
@@ -130,7 +130,7 @@ $(document).on("blur", ".sellInput", function() {
 $('body').on('click', '.sellall', function() {
 	var sum = 0;
 	var inputkey = $(this).attr( "data-key" );
-	var inputamount = $(this).attr( "data-amount" );
+	var inputamount = $(this).html();
 	console.log(inputamount);
 	$("#sell_"+inputkey).val(inputamount);
 	
@@ -177,7 +177,7 @@ $("#ordermissiles").submit(function(event){
     });
 
     request.done(function (response, textStatus, jqXHR){
-	    console.log(response);
+	    updateHeaderData();
         // Log a message to the console
         var array = JSON.parse(response);
 
@@ -199,10 +199,10 @@ $("#ordermissiles").submit(function(event){
 	
 				$('#order_total').html('0');
 				$('#total').html('0');
-				$('#turns').html(number_format(array.turns, 0, ',', ' '));
+			
 				$('#networth_total').html('0');
 				$('#turn_total').html('0');
-				$('#money').html(number_format(array.money, 0, ',', ' '));
+			
 				$('#ordermissiles').trigger("reset");
 				
 				$.each( array.newmax, function( key, value ) {

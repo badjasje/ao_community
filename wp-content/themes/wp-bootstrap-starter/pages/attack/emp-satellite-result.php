@@ -21,6 +21,12 @@ if($sat_status == 'active'){
 	$result = 'failure';
 }
 
+$failsat = mt_rand(1,100);
+
+if($failsat > 94){
+	$result = 'failure';
+}
+
 if($result == 'success'){ ?>
 
 

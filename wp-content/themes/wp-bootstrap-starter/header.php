@@ -1,15 +1,4 @@
-<?php
-/**
- * The header for our theme
- *
- * This is the template that displays all of the <head> section and everything up until <div id="content">
- *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
- *
- * @package WP_Bootstrap_Starter
- */
-
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -24,6 +13,7 @@
 	$inProgress = $userData['research_in_progress'][0];
 	include('research_array.php');
 	wp_head(); 
+
 	$hideitems = 'false';
 	if(!is_user_logged_in()){
 		$hideitems = 'true';
@@ -48,13 +38,11 @@
 
 
 <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
-<?php if($hideitems == 'true' && $pageId != 3491 && $pageId != 3484):?>
-	 
-	<script type="text/javascript">
-	window.location.href = '<?php echo get_site_url();?>/home';
-	</script>
-
-<?php exit; endif;?>
+<script>
+	jQuery.ajaxSetup({
+    cache: false
+});
+</script>
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 </head>
 
@@ -75,7 +63,7 @@
 			</span>
 		</button>
 		
-		<a href="/dashboard">
+		<a href="/dashboard/">
 			<button class="menu-item dashMobile" type="button" >
 				<i class="fas fa-tachometer-alt"></i> 
 			</button>
@@ -106,22 +94,22 @@
 	
 	<div class="row topstatheader">
 	 <div class="col-md-2 statitem">
-		        <span class="stattext"><strong>Money:</strong> $ <span id="money"><?php echo number_format($userData['money'][0], 0, ',', ' '); ?></span></span>
+		        <span class="stattext"><strong>Money:</strong> $ <span class="moneyheader"><?php echo number_format($userData['money'][0], 0, ',', ' '); ?></span></span>
 	        </div>
 	        <div class="col-md-2  statitem">
-		        <span class="stattext"><strong>Networth:</strong> $ <span id="networth"><?php echo number_format($userData['networth'][0], 0, ',', ' '); ?></span></span>
+		        <span class="stattext"><strong>Networth:</strong> $ <span class="networthheader"><?php echo number_format($userData['networth'][0], 0, ',', ' '); ?></span></span>
 	        </div>
 	        <div class="col-md-2 statitem">
-		        <span class="stattext"><strong>Turns:</strong> <span id="turns"><?php echo number_format($userData['turns'][0], 0, ',', ' '); ?></span></span>
+		        <span class="stattext"><strong>Turns:</strong> <span class="turnsheader"><?php echo number_format($userData['turns'][0], 0, ',', ' '); ?></span></span>
 	        </div>
 	        <div class="col-md-2 statitem">
-		        <span data-toggle="tooltip" data-placement="bottom" title="Satellite power: <?php echo number_format($userData['sat_morale'][0], 0, ',', ' '); ?>%" class="stattext"><strong>Morale:</strong> <span id="morale"><?php echo number_format($userData['morale'][0], 0, ',', ' '); ?></span>%<sup><span id="poolmorale"><?php echo $userData['morale_pool'][0];?></span>%</sup> <span style="float:right;"><i class="fas fa-caret-down"></i></span></span>
+		        <span data-toggle="tooltip" data-placement="bottom" title="Satellite power: <?php echo number_format($userData['sat_morale'][0], 0, ',', ' '); ?>%" class="stattext"><strong>Morale:</strong> <span class="moraleheader"><?php echo number_format($userData['morale'][0], 0, ',', ' '); ?></span>%<sup><span id="poolmorale"><?php echo $userData['morale_pool'][0];?></span>%</sup> <span style="float:right;"><i class="fas fa-caret-down"></i></span></span>
 	        </div>
 	        <div class="col-md-2 statitem">
-		        <span data-toggle="tooltip" data-placement="bottom" title="Free land: <?php echo number_format($userData['land'][0]-$userData['builtland'][0], 0, ',', ' '); ?>m2" class="stattext"><strong>Land:</strong> <span id="land"><?php echo number_format($userData['land'][0], 0, ',', ' '); ?></span>m<sup>2</sup> <span style="float:right;"><i class="fas fa-caret-down"></i></span></span>
+		        <span data-toggle="tooltip" data-placement="bottom" title="Free land: <?php echo number_format($userData['land'][0]-$userData['builtland'][0], 0, ',', ' '); ?>m2" class="stattext"><strong>Land:</strong> <span class="landheader"><?php echo number_format($userData['land'][0], 0, ',', ' '); ?></span>m<sup>2</sup> <span style="float:right;"><i class="fas fa-caret-down"></i></span></span>
 	        </div>
 	        <div class="col-md-2 statitem">
-		        <span class="stattext"><strong>Power usage:</strong> <span id="power"><?php echo number_format($userData['power'][0], 0, ',', ' '); ?></span>%</span>
+		        <span class="stattext"><strong>Power usage:</strong> <span class="powerheader"><?php echo number_format($userData['power'][0], 0, ',', ' '); ?></span>%</span>
 	        </div>
 	</div>
 	<?php endif;?>
@@ -131,14 +119,14 @@
 			
 			<div class="row menuRow hideMenuItem">
 				<div class="col-md-2 col-xs-2 buttonItem">
-					<a href="/dashboard">
+					<a href="/dashboard/">
 						<button class="menu-item" type="button" >
 							<i class="fas fa-tachometer-alt"></i> 
 						</button>
 					</a>
 				</div>
 				<div class="col-md-10 col-xs-10 menuText">
-					<a href="/dashboard">Dashboard</a>
+					<a href="/dashboard/">Dashboard</a>
 				</div>
 			</div>
 			
@@ -341,22 +329,22 @@
         <div id="page-sub-header">
 	        <div class="row statheader">
 	        <div class="col-6 statitem">
-		        <span class="stattext"><strong>Money:</strong> $ <span id="money"><?php echo number_format($userData['money'][0], 0, ',', ' '); ?></span></span>
+		        <span class="stattext"><strong>Money:</strong> $ <span class="moneyheader"><?php echo number_format($userData['money'][0], 0, ',', ' '); ?></span></span>
 	        </div>
 	        <div class="col-6 statitem">
-		        <span class="stattext"><strong>Net.:</strong> $ <span id="networth"><?php echo number_format($userData['networth'][0], 0, ',', ' '); ?></span></span>
+		        <span class="stattext"><strong>Net.:</strong> $ <span class="networthheader"><?php echo number_format($userData['networth'][0], 0, ',', ' '); ?></span></span>
 	        </div>
 	        <div class="col-6 statitem">
-		        <span class="stattext"><strong>Turns:</strong> <span id="turns"><?php echo number_format($userData['turns'][0], 0, ',', ' '); ?></span></span>
+		        <span class="stattext"><strong>Turns:</strong> <span class="turnsheader"><?php echo number_format($userData['turns'][0], 0, ',', ' '); ?></span></span>
 	        </div>
 	        <div class="col-6 statitem">
-		        <span class="stattext"><strong>Morale:</strong> <span id="morale"><?php echo number_format($userData['morale'][0], 0, ',', ' '); ?></span>%<sup><?php echo number_format($userData['morale_pool'][0], 0, ',', ' '); ?>%</sup></span>
+		        <span class="stattext"><strong>Morale:</strong> <span class="moraleheader"><?php echo number_format($userData['morale'][0], 0, ',', ' '); ?></span>%<sup><?php echo number_format($userData['morale_pool'][0], 0, ',', ' '); ?>%</sup></span>
 	        </div>
 	        <div class="col-6 statitem">
-		        <span class="stattext"><strong>Land:</strong> <span id="land"><?php echo number_format($userData['land'][0], 0, ',', ' '); ?></span>m<sup>2</sup></span>
+		        <span class="stattext"><strong>Land:</strong> <span class="landheader"><?php echo number_format($userData['land'][0], 0, ',', ' '); ?></span>m<sup>2</sup></span>
 	        </div>
 	        <div class="col-6 statitem">
-		        <span class="stattext"><strong>Power usage:</strong> <?php echo number_format($userData['power'][0], 0, ',', ' '); ?>%</span>
+		        <span class="stattext"><strong>Power usage:</strong> <span class="powerheader"><?php echo number_format($userData['power'][0], 0, ',', ' '); ?></span>%</span>
 	        </div>
 	        </div>
 	      	
@@ -465,5 +453,65 @@ jQuery( ".menuRow" ).addClass( "hideMenuItem" );
 jQuery( ".hamburger" ).removeClass( "is-active" );
 
 }); 
+	
+</script>
+<script>
+	
+
+	
+function updateHeaderData() {
+	jQuery.getJSON('<?php echo get_site_url();?>/checkevents.php', function(data) {
 		
+
+	var globals = data.globals; 
+	var locals = data.locals; 
+	var messages = data.messages; 
+			
+	var money = data.money; 
+		jQuery('.moneyheader').text(number_format(money, 0, ',', ' '));
+			
+	var networth = data.networth; 
+		jQuery('.networthheader').text(number_format(networth, 0, ',', ' '));
+			
+	var turns = data.turns; 
+		jQuery('.turnsheader').text(turns);
+			
+	var morale = data.morale; 
+		jQuery('.moraleheader').text(morale);
+			
+	var land = data.land; 
+		jQuery('.landheader').text(number_format(land, 0, ',', ' '));
+			
+	var power = data.power; 
+		jQuery('.powerheader').text(number_format(power, 0, ',', ' '));
+			
+			
+		if (globals > 1){ 
+		    jQuery('.globalsBadge').text(globals);
+			jQuery('.globalsBadge').show(100);
+			jQuery('title').text(globals+' new global events');
+		}
+		if (locals > 1){ 
+		    jQuery('.localsBadge').text(locals);
+			jQuery('.localsBadge').show(100);
+		}
+		if (messages > 1){ 
+		    jQuery('.inboxBadge').text(messages);
+			jQuery('.inboxBadge').show(100);
+		}
+	});
+}
+	
+
+(function($) {		
+$(document).ready(function() {
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	})
+	
+});		
+
+var i = setInterval(function() { updateHeaderData(); }, 10000);
+
+})(jQuery);
 </script>

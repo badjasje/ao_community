@@ -215,7 +215,13 @@ if($result == 'success'){
 
 			if ($def_units_owned > 0) {
 				$percentage = $def_units_owned / $_total_air_units_def;
-				$damage     = $airdamage * $percentage;
+				
+				if($units[$key]['sectype'] == 'bk'){
+					$damage = ($airdamage * $percentage)*0.85;
+				}else{
+					$damage = $airdamage * $percentage;
+				}
+				
 				$TOTAL_ATT_DAMAGE += $damage;
 				$units_lost = round($damage / $units[$key]['life']);
 				if ($units_lost > 0) {
@@ -242,7 +248,15 @@ if($result == 'success'){
 
 			if ($def_units_owned > 0) {
 				$percentage = $def_units_owned / $_total_inf_units_def;
-				$damage     = $infdamage * $percentage;
+		
+				
+				if($units[$key]['sectype'] == 'bk'){
+					$damage = ($infdamage * $percentage)*0.65;
+				}else{
+					$damage = $infdamage * $percentage;
+				}
+				
+				
 				$TOTAL_ATT_DAMAGE += $damage;
 				$units_lost = round($damage / $units[$key]['life']);
 				if ($units_lost > 0) {
@@ -268,7 +282,15 @@ if($result == 'success'){
 
 			if ($def_units_owned > 0) {
 				$percentage = $def_units_owned / $_total_veh_units_def;
-				$damage     = $vehdamage * $percentage;
+
+				
+				if($units[$key]['sectype'] == 'bk'){
+					$damage = ($vehdamage * $percentage)*0.85;
+				}else{
+					$damage = $vehdamage * $percentage;
+				}
+				
+				
 				$TOTAL_ATT_DAMAGE += $damage;
 				$units_lost = round($damage / $units[$key]['life']);
 
@@ -295,7 +317,15 @@ if($result == 'success'){
 
 			if ($def_units_owned > 0) {
 				$percentage = $def_units_owned / $_total_sea_units_def;
-				$damage     = $seadamage * $percentage;
+				
+				
+				if($units[$key]['sectype'] == 'bk'){
+					$damage = ($seadamage * $percentage)*0.85;
+				}else{
+					$damage = $seadamage * $percentage;
+				}
+				
+				
 				$TOTAL_ATT_DAMAGE += $damage;
 				$units_lost = round($damage / $units[$key]['life']);
 

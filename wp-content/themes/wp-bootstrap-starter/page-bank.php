@@ -205,7 +205,7 @@ $maxDepositAmount = floor(min($max_dep,$money));
 		
 		<?php $unlocked+=$incl_interest;?>
 		
-		<button id="withdraw" unlocked="<?php echo $unlocked;?>" data-dep-value="<?php echo number_format(ceil($incl_interest), 0, ',', ' '); ?>" data-deposit="<?php echo $depositId;?>" class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);" type="submit" value="<?php echo $depositId;?>">Withdraw</button>
+		<button id="withdraw" unlocked="<?php echo $incl_interest;?>" data-dep-value="<?php echo number_format(ceil($incl_interest), 0, ',', ' '); ?>" data-deposit="<?php echo $depositId;?>" class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);" type="submit" value="<?php echo $depositId;?>">Withdraw</button>
 		 
 	<?php endif;?>
 			
@@ -213,7 +213,7 @@ $maxDepositAmount = floor(min($max_dep,$money));
 				
 	<?php if($placedStamp+43200 <= $timestamp && $time_left > 0){  $unlocked+=$incl_interest; ?>
 		
-		<button id="withdraw" unlocked="<?php echo $unlocked;?>" data-dep-value="<?php echo number_format(ceil($deposited*$extra_interest), 0, ',', ' '); ?>" data-deposit="<?php echo $depositId;?>" class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);" type="submit" >Cancel</button>
+		<button id="withdraw" unlocked="<?php echo $incl_interest;?>" data-dep-value="<?php echo number_format(ceil($deposited*$extra_interest), 0, ',', ' '); ?>" data-deposit="<?php echo $depositId;?>" class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);" type="submit" >Cancel</button>
 					
 				<?php }?>
 <?php endif;?>
@@ -256,9 +256,9 @@ $( ".cancelButton" ).click(function() {
     });
     
 	withdraw.done(function (response, textStatus, jqXHR){ 
-		console.log(response);
+		updateHeaderData();
 		var array = JSON.parse(response);
-		console.log(array);
+
 		$.notify({
 			message: array.status,
 			},{
@@ -341,7 +341,7 @@ $('form').submit(function( event ) {
 
     // Callback handler that will be called on success
     request.done(function (response, textStatus, jqXHR){
-        // Log a message to the console
+        updateHeaderData();
         var array = JSON.parse(response);
         
         	

@@ -264,9 +264,9 @@ $('form').submit(function( event ) {
 
     // Callback handler that will be called on success
     request.done(function (response, textStatus, jqXHR){
-        // Log a message to the console
+        updateHeaderData();
         var array = JSON.parse(response);
-        	console.log(array);
+      
         
 				$.notify({
 					message: array.status,
@@ -280,7 +280,7 @@ $('form').submit(function( event ) {
 								'</div>'
 						});	
 			
-			$('#turns').html(number_format(array.turns, 0, ',', ' '));
+	
 			$("#researchsubmit").val('Queue research');
 			$( ".researchlabel" ).html( "Queue select" );
 			location.reload();
