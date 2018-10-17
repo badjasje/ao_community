@@ -190,7 +190,9 @@ $args = array(
 			
 			$new_event_id = wp_insert_post( $args );
 			
-
+			
+			
+			update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 
 			update_field('time_attacked',$timestamp, $new_event_id);
 			

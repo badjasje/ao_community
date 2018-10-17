@@ -57,6 +57,7 @@ if ($user_ID == $receiver_ID) {
     $time = current_time('G:i:s | d-m-Y');
     $current .= $time."\n";
     $current .= "User ID: ".$user_ID." Event ID: ".$event_ID."\n";
+	$current .= "IP Address: ". get_user_ip_address()."\n";
     $current .= "New Money: ".$money_new." Old turns: ".$turns." | New Turns: ".$turns_newest."\n\n";
     // Write the contents back to the file
     file_put_contents($file, $current);

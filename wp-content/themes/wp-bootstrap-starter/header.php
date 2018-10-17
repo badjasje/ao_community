@@ -7,7 +7,8 @@
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 <?php 
-
+	
+	
 	global $userId;
 	global $userData;
 	$inProgress = $userData['research_in_progress'][0];
@@ -18,6 +19,7 @@
 	if(!is_user_logged_in()){
 		$hideitems = 'true';
 	}
+	
 	$pageId = get_the_id();
 	$endDate = get_field('end_date','option');
 	$endStamp = strtotime($endDate);
@@ -360,7 +362,7 @@
 <?php endif;?>
 
 
-<?php if($timeLeft < 172800 + 86400 && $timeLeft > 0):?>
+<?php if($timeLeft < 172800 && $timeLeft > 0):?>
 <div class="permaNotification">
 	<i class="fas fa-info-circle"></i> <span id="market_timer"></span> left before the market closes
 </div>

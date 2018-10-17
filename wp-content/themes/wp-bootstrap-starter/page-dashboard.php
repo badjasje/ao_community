@@ -117,7 +117,11 @@ if($clanId == 0){
 
 <div class="row pageRow">		
 	
-		
+<?php if($userData['networth'][0] <= 3499):?>
+<div style="background-color:#A00000" class="blockHeader">WARNING: Your networth is below $3500</div>
+<div class="blockHeader spaceNotice">You will not receive resources when below the $3500 treshold.</div>
+<div class="pageSpacer"></div>
+<?php endif;?>
 
 <?php if(get_field('game_status','option') == 'Pause' /*&& $userId != 1*/): // Check if game is live or not ?>
 	<?php include('pages/dashboard/status-column.php'); ?>
@@ -184,9 +188,7 @@ if($clanId == 0){
 	
 	<?php endif;?>
 
-	<div class="blockHeader">Problems with attacking or other display problems? Clear your browser cache!</div>
-	<div class="blockHeader spaceNotice">Not sure how to do this? Check out <a target="_blank" href="https://refreshyourcache.com/en/home/">refreshyourcache.com</a></div>
-	<div class="pageSpacer"></div>
+
 	<?php include('pages/dashboard/pick-startingbonus.php'); ?>
 	<?php include('pages/dashboard/bonus-receive.php'); ?>
 	<?php if($clanId != 0):?>

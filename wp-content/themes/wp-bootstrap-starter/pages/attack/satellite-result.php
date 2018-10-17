@@ -49,6 +49,13 @@ if ($sat_morale < 100) {
 	exit;
 }
 
+$sat_owned = $attackerData['sat_owned'][0];
+if ($sat_owned != 'laser') {
+	$array['status'] = 'You cannot do that';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
+}
 
 $blddamage = rand(6500,8000);
 update_user_meta($userId,'sat_morale',$sat_morale-100);
@@ -408,6 +415,7 @@ $args = array(
 				
 			
 			$new_event_id = wp_insert_post( $args );
+			update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 			update_field('defender_lost', $def_unitslost, $new_event_id);
 			update_field('attacker_lost', $att_unitslost, $new_event_id);
 			update_field('land_lost', $land_stolen, $new_event_id);

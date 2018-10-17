@@ -1,6 +1,6 @@
 <?php
     require_once("wp-load.php");
-    
+    $winnerArray = array();
     $args = array(
         'post_type'     =>  'clan',
         'posts_per_page' => -1,
@@ -31,7 +31,7 @@
     'post_type'     => 'clan',
     'orderby'      => 'meta_value_num',
     'order'        => 'DESC',);
-    
+    	$count = 0;
         $clans = get_posts($args);
     
     ?>
@@ -39,8 +39,15 @@
     <strong>United Boundaries</strong>
     <table>
     <?php foreach ($clans as $clan) {
+	    
         $clan_ID = $clan->ID;
-        $land = get_post_meta($clan_ID, 'ub_total', true);?>
+        $land = get_post_meta($clan_ID, 'ub_total', true);
+        $count++;
+        if($count < 4){
+        	$winnerArray['United Boundaries'][$count] = array($clan_ID,'Land: '.number_format($land, 0, ',', ' ').'m2');
+        }
+        
+        ?>
         <tr>
             <td><?php echo get_the_title($clan_ID);?> (#<?php echo $clan_ID;?>)
             </td>
@@ -63,14 +70,20 @@
     'order'        => 'DESC',);
     
         $clans = get_posts($args);
-    
+		$count = 0;
     ?>
     
     <strong>United Arms</strong>
     <table>
     <?php foreach ($clans as $clan) {
         $clan_ID = $clan->ID;
-        $attacks = get_post_meta($clan_ID, 'ua_total', true);?>
+        $attacks = get_post_meta($clan_ID, 'ua_total', true);
+        $count++;
+        if($count < 4){
+        	$winnerArray['United Arms'][$count] = array($clan_ID,'Attacks: '.number_format($attacks, 0, ',', ' '));
+        }
+        
+        ?>
         <tr>
             <td><?php echo get_the_title($clan_ID);?> (#<?php echo $clan_ID;?>)
             </td>
@@ -94,14 +107,20 @@
     'order'        => 'DESC',);
     
         $clans = get_posts($args);
-    
+		$count = 0;
     ?>
     
     <strong>Networth</strong>
     <table>
     <?php foreach ($clans as $clan) {
         $clan_ID = $clan->ID;
-        $networth = get_post_meta($clan_ID, 'clan_networth', true);?>
+        $networth = get_post_meta($clan_ID, 'clan_networth', true);
+        $count++;
+        if($count < 4){
+        	$winnerArray['Networth Champion'][$count] = array($clan_ID,'Networth: $ '.number_format($networth, 0, ',', ' '));
+        }
+        
+        ?>
         <tr>
             <td><?php echo get_the_title($clan_ID);?> (#<?php echo $clan_ID;?>)
             </td>
@@ -123,14 +142,19 @@
     'order'        => 'DESC',);
     
         $clans = get_posts($args);
-    
+		$count = 0;
     ?>
     
     <strong>Clan Points</strong>
     <table>
     <?php foreach ($clans as $clan) {
         $clan_ID = $clan->ID;
-        $points = get_post_meta($clan_ID, 'clan_points', true);?>
+        $points = get_post_meta($clan_ID, 'clan_points', true);
+        $count++;
+        if($count < 4){
+        	$winnerArray['Points Champion'][$count] = array($clan_ID,'Points: $ '.number_format($points, 0, ',', ' '));
+        }
+        ?>
         <tr>
             <td><?php echo get_the_title($clan_ID);?> (#<?php echo $clan_ID;?>)
             </td>
@@ -140,5 +164,50 @@
     <?php } ?>
     </table>
     
-    
+    <?php
+	    if($_GET['add'] == 1){
+		    
+		    if(empty($_GET['round']) || !isset($_GET['round'])){
+				die;
+			}
+	   
+	    foreach ($winnerArray as $key => $winners) {
+		    
+		    foreach ($winners as $position => $winner) {
+			
+			    if($position == 1){
+				    $position = 'Gold';
+			    }
+			    if($position == 2){
+				    $position = 'Silver';
+			    }
+			    if($position == 3){
+				    $position = 'Bronze';
+			    }
+			    
+			    $args = [
+					'post_title' => $key,
+					'post_status' => 'publish',
+					'post_type' => 'award',
+					'post_author' => 1
+				];
+
+				$newAwardId = wp_insert_post($args);
+				update_field('round', 'Beta round '.$_GET['round'], $newAwardId);
+				update_field('winning_clan', $winner[0], $newAwardId);	
+			    update_field('position_clan', $position, $newAwardId);	
+			    
+			    
+		    }
+		    
+		    
+		
+				
+				
+			}
+	    
+	    
+	    }
+	    
+	    
     

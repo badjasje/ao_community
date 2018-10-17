@@ -24,7 +24,7 @@ if (empty($userID) || !is_user_logged_in()) {
     exit;
 }
 
-$user = $_GET['user'];
+$user = round($_GET['user']);
 $clan = get_user_meta($user, 'clan_id_user', true);
 
 $ct_1 = get_post_meta($clan, 'ct_1', true);
@@ -92,7 +92,7 @@ if ($user == $userID) {
     $new_event_id = wp_insert_post($args);
     update_field('attacktype', 'user_change', $new_event_id);
     update_field('outcome', 'left', $new_event_id);
-
+	update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
     update_field('attacker_id', $clan_leader, $new_event_id);
     update_field('defender_id', $userID, $new_event_id);
     update_field('attacker_clan_id', $clan, $new_event_id);

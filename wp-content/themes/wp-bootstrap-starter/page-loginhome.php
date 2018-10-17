@@ -46,7 +46,13 @@ $gameType = get_field('game_type','option');
 										value="https://assault.online/dashboard" />
 							</form>
 
-	<a href="<?php echo get_site_url();?>/wp-login.php?loginFacebook=1&redirect=<?php echo get_site_url();?>" onclick="window.location = '<?php echo get_site_url();?>/wp-login.php?loginFacebook=1&redirect='+window.location.href; return false;"><button style="background-color:#4266b2"class="mainSubmit"><i class="fab fa-facebook-square"></i> Login or register with Facebook</button></a>
+<a href="/wp-login.php?loginSocial=facebook" data-plugin="nsl" data-action="connect" data-redirect="current" data-provider="facebook" data-popupwidth="475" data-popupheight="175">
+
+
+		
+<button style="background-color:#4266b2"class="mainSubmit"><i class="fab fa-facebook-square"></i> Login or register with Facebook</button></a>
+
+
 	<a href="<?php echo get_site_url();?>/register"><button style="background-color:#7e7b7b"class="mainSubmit">Register without Facebook</button></a>
 	<div class="hometext">
 	<?php if($gameType == 'Development'):?>

@@ -81,6 +81,18 @@ if ($turns < $postedTurns) {
 	$exploredToday = ($perturnm2*$postedTurns)+$explored_today;
 	count_all_stats($userId);
 	
+	
+	$file = 'explorelog.txt';
+    $current = file_get_contents($file);
+    $time = current_time('G:i:s | d-m-Y');
+    $current .= $time."\n";
+    $current .= "ID: ".$userId."\n";
+    $current .= "Turns used: ".$postedTurns."\n";
+    $current .= "New land: ".$ownedland+($perturnm2*$postedTurns)."\n";
+    $current .= "Explored today: ".$exploredToday."\n\n";
+    file_put_contents($file, $current);
+	
+	
 	$userData = get_user_meta($userId);
 	
 	$newperturnm2 = 200-((ceil($userData['land'][0]*0.002)));

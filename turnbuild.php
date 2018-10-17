@@ -377,6 +377,7 @@ if ($turns_needed > $totalturns) {
                 $time = current_time('G:i:s | d-m-Y');
                 $current .= $time."\n";
                 $current .= "ID: ".$userId."\n";
+                $current .= "Value: ".$totalordercost."\n";
                 $current .= "Units ordered: ".$unit_name." ".$ordered_units."\n\n";
     // Write the contents back to the file
                 file_put_contents($file, $current);

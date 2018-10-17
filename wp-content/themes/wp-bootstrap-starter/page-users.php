@@ -11,12 +11,60 @@ $timestamp = current_time('timestamp');
 
 $transient = get_transient( 'allusers_query' );
   
+if( ! empty( $transient ) ) {
+	$allUsers = $transient;
+	} else {
+$args = array(
+	'meta_key'     	=> 'last_online',
+	'orderby'      	=> 'meta_value_num',
+	'meta_value'	=> $timestamp-1728000,
+	'meta_compare'	=> '>',
 
-$allUsers = get_users();
+); 
+
+
+    $args = array(
+        'meta_query'=>
+
+         array(
+
+            array(
+
+                'relation' => 'AND',
+
+            array(
+                'key' => 'last_online',
+                'value' => $timestamp-1728000,
+                'compare' => ">",
+                'type' => 'numeric'
+            ),
+
+            array(
+                'key' => 'networth',
+                'value' =>  10,
+                'compare' => ">",
+                'type' => 'numeric'
+            ),
+
+
+           
+          )
+       )
+    );
+
+    $users = get_users( $args );
+
+
+
+$allUsers = get_users($args);
+set_transient( 'allusers_query', $allUsers, 12 * 60 * 60 );
+}
+
 
 $networth_you = $userData['networth'][0];
 include 'constants.php';
 include 'attack_functions.php';
+
 
 
 

@@ -252,6 +252,9 @@ function get_attack_cost_morale($attack_type, $attack_nw, $defend_nw) {
         case 'air_sea':
             return $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
             break;
+        case 'sniper':
+            return 10;
+            break;
         case 'regular':
             return $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
             break;

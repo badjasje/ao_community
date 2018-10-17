@@ -49,7 +49,11 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
         
         
         /* deactivate stealth sat */
-        $stealth_sat_time = intval($userData['stealth_sat_time'][0]);
+        
+        $stealth_sat_time = 0; 
+		$stealth_sat_time = isset($userData['stealth_sat_time'][0]) ?  $userData['stealth_sat_time'][0] : 0;
+		$stealth_sat_time = !empty( $userData['stealth_sat_time'][0]) ?  $userData['stealth_sat_time'][0] : 0;
+        
         $timeleft = $stealth_sat_time-$timestamp;
         if ($timeleft <= 0) {
             update_user_meta($user_ID, 'stealth_sat_status', 'inactive');
@@ -170,6 +174,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
     foreach ($clans as $clan) {
         $clan_ID = $clan->ID;
         $clanData = get_post_meta($clan_ID);
+
         $cooldownlist = maybe_unserialize(maybe_unserialize($clanData['cooldown_list'][0]));
 
          

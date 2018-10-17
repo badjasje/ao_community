@@ -55,10 +55,22 @@ if ((20000-$sold_land_today) >= $_POST['land']) {
 	$soldLandToday = $sold_land_today+($_POST['land']);
 	$freeLand = ($ownedland-$_POST['land']) - $builtLand;
 	$maxSell = $freeLand < (20000 - $soldLandToday) ? $freeLand : (20000 - $soldLandToday);
+	
+	
+	$file = 'landselllog.txt';
+    $current = file_get_contents($file);
+    $time = current_time('G:i:s | d-m-Y');
+    $current .= $time."\n";
+    $current .= "ID: ".$userId."\n";
+    $current .= "Sold land: ".$_POST['land']."\n";
+    $current .= "Land sold today: ".$soldLandToday."\n\n";
+    file_put_contents($file, $current);
+	
+	
 
     count_all_stats($userId);
     $userData = get_user_meta($userId);
-    $array['status'] = 'You sold '.number_format($_POST['land'], 0, ',', ' ').' m<sup>2</sup> for a total sum of $ '.number_format($money+($_POST['land']*75), 0, ',', ' ');
+    $array['status'] = 'You sold '.number_format($_POST['land'], 0, ',', ' ').' m<sup>2</sup> for a total sum of $ '.number_format(($_POST['land']*75), 0, ',', ' ');
 	$array['next'] = true;
 	$array['networth'] = $userData['networth'][0];
 	$array['land'] = $userData['land'][0];
