@@ -214,6 +214,7 @@ $args = array(
 	
 	
 	update_user_meta($userId,'turns',$turns-2);
+	turn_spread('sniper',2);
 	update_user_meta($userId, 'morale', $oldmorale - 10);
 	update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events',true)+1);
 	

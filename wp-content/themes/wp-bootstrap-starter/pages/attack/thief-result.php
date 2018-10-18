@@ -177,6 +177,7 @@ update_field('winner_id',$winner_id, $new_event_id);
 
 
 update_user_meta($userId,'turns',$turns-$TURNS_THIEF);
+turn_spread('thieving',$TURNS_THIEF);
 update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events',true)+1);
 
 

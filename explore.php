@@ -110,6 +110,7 @@ if ($turns < $postedTurns) {
 	$array['next'] = true;
 	$array['networth'] = $userData['networth'][0];
 	$array['turns'] = $turns-$postedTurns;
+	turn_spread('exploring',$postedTurns);
 	$array['newrate'] = $newperturnm2;
 	$array['land'] = $ownedland+($perturnm2*$postedTurns);
 	$array['exploredtoday'] = "You have explored <strong>".number_format($exploredToday, 0, ',', ' ')."m<sup>2</sup></strong> today.

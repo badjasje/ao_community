@@ -40,7 +40,7 @@ if($turns < 1){
 }	
 
 update_user_meta($userId,'turns',$turns-1);
-
+turn_spread('spying',3);
 
 $sat_status = $defenderData['stealth_sat_status'][0];
 $snipers = $defenderData['snipers_owned'][0];

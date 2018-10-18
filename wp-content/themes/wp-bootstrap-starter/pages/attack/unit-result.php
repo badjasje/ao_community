@@ -88,6 +88,7 @@ if ($attack_cost_turns > $attack_curr_turns) {
 /* deduct attack cost */
 $attack_new_turns = $attack_curr_turns - $attack_cost_turns;
 update_user_meta($userId, 'turns', $attack_new_turns);
+turn_spread('unit_attack',$attack_cost_turns);
 $attack_new_morale = $attack_curr_morale - $attack_cost_morale;
 update_user_meta($userId, 'morale', $attack_new_morale);
 

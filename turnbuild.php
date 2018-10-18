@@ -464,6 +464,7 @@ foreach ($units as $key => $unit) {
 
 
 $array['status'] = $total_units_ordered.' units built, for the total price of $ '. number_format($totalordercost, 0, ',', ' ').' and '.$turns_needed.' turns';
+turn_spread('unit_turn_build',$turns_needed);
 $array['money'] = $userData['money'][0];
 $array['turns'] = $userData['turns'][0];
 $array['networth'] = $userData['networth'][0];

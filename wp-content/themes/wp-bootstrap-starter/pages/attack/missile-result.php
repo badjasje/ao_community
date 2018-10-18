@@ -761,6 +761,7 @@ $args = array(
 			}
 			
 			update_user_meta($userId,'turns',$turns-3);
+			turn_spread('regular_missile',3);
 			update_user_meta($target_id, 'new_events', $defenderData['new_events'][0]+1);
 			
 			$user_pts = $attackerData['user_clan_points'][0];

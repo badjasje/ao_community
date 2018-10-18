@@ -445,7 +445,7 @@ $args = array(
 			update_field('attacker_clan_id',$attacker_clan_ID, $new_event_id);
 			
 			update_user_meta($userId,'turns',$turns-3);
-			
+			turn_spread('laser_satellite',3);
 			
 			
 			update_user_meta($target_id, 'new_events', $defenderData['new_events'][0]+1);

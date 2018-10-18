@@ -111,7 +111,7 @@ update_field('deduction_emp',$powerReduction, $new_emp_id);
 			update_field('attacker_clan_id',$attacker_clan_ID, $new_event_id);
 			
 			update_user_meta($userId,'turns',$turns-3);
-			
+			turn_spread('emp_satellite',3);
 			update_user_meta($userId,'sat_morale',$sat_morale-100);
 			
 			update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events',true)+1);

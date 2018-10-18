@@ -155,7 +155,7 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
             }
         }
     }
-
+turn_spread('buildings',$turns_needed);
 count_all_stats($userId); 
 
 $newMax = array();
@@ -175,7 +175,7 @@ foreach ($buildings as $key => $building) {
 	$newOwned[$key] = $userData[$key][0];
 }
 
-      
+     
     $array['status'] = $totalbuildings.' buildings built using ' .$turns_needed.' turns';
 	$array['money'] = $totalmoney;
 	$array['allordered'] = $totalbuildings;

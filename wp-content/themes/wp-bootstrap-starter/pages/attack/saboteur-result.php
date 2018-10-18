@@ -132,5 +132,6 @@ update_field('winner_id',$winner_id, $new_event_id);
 
 
 update_user_meta($userId,'turns',$turns-2);
+turn_spread('saboteur',2);
 
 	

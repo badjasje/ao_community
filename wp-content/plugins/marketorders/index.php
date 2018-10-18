@@ -10,6 +10,20 @@ License: GPL
 Copyright: Kevin Bogaard
 */
 
+function turn_spread($turntype,$addedturns){
+	global $userId;
+	
+	$turnSpread = maybe_unserialize(get_user_meta( $userId, 'turn_spread', true ));
+	
+	if(!is_array($turnSpread)){
+		$turnSpread = array();
+	}
+	$turnSpread[$turntype] += $addedturns;
+	
+	update_user_meta( $userId, 'turn_spread', maybe_serialize( $turnSpread ) );
+	
+}
+
 function get_user_ip_address(){
 	$useragent = $_SERVER['HTTP_USER_AGENT'];
 	
