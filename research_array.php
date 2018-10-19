@@ -13,8 +13,8 @@
             'duration'              =>  '15'),
     'missile_accuracy'          => array(
             'name'                  => 'Missile accuracy',
-            'level1'                => '50% chance to hit target',
-            'level2'                => '95% chance to hit target',
+            'level1'                => '45% chance to hit target',
+            'level2'                => '90% chance to hit target',
             'level3'                => 'Only 1 missile silo can be sabotaged by a saboteur. Decreases the chance of sabotaging your missile silo by 10%.',
             'maxlevel'              => 3,
             'description'           => 'Increases missile accuracy',

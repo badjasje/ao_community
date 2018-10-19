@@ -826,7 +826,18 @@ if($war_type != 'none' && $result == 'success') {
 	if ($killed != true) {
 
 		$clan_points = calculate_pts($defender_building_NW_lost,$defender_unit_NW_lost,$aggressive_multi);
-		
+
+
+                 if ($networth_def > 290000) {
+
+                   $reductionFactor =  (sqrt(($networth_def)/1.5/65)/2)-25;
+                   $reductionPc = 1+$reductionFactor/100;
+
+                   $clan_points = $clan_points/$reductionPc;
+
+
+                 }
+
 
 	}
 	

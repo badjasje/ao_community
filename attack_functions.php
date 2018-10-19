@@ -64,6 +64,14 @@ function calculate_pts($unit_damage, $bld_damage, $aggressive_multi) {
     if ($aggressive_multi > 1) {
         $pts_gained = $pts_gained *1.2;
     }
+
+    //MEGA new change - scale damage at high NW down by small amounts
+
+
+
+    //END
+
+
     $pts = ceil ($pts_gained);	 //Round to higher number
 
     if($pts > $POINTS_CAP) {

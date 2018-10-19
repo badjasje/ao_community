@@ -167,7 +167,7 @@ $airdamage = $AIR_ATT_power;
 $infdamage = $INF_ATT_power;
 $vehdamage = $VEH_ATT_power;
 $seadamage = $SEA_ATT_power;
-$blddamage = $BLD_ATT_power;
+$blddamage = $BLD_ATT_power*1.2;
 // DEFENDING //
 $_total_air_units_def = 0;
 $_total_inf_units_def = 0;
@@ -549,7 +549,26 @@ update_user_meta($target_id, 'times_killed', $times_killed+1);
 	
 	     /* New function MEGA should award reasonable points */
             $clan_points = ($def_NW_lost/1100)+((sqrt($def_NW_lost)/25) * ((sqrt($networth_def*1.5)/4.1)/100));
-            $clan_points = ceil($clan_points);
+	    
+
+
+            /* MORE MEGA HAXXX. Reduce pts earned above a certain NW also
+            */
+
+            if ($networth_def > 290000) {
+
+              $reductionFactor =  (sqrt(($networth_def)/1.5/65)/2)-25;
+              $reductionPc = 1+$reductionFactor/100;
+
+              $clan_points = $clan_points/$reductionPc;
+
+
+            }
+            /* HAX END */
+
+	    
+	    
+	    $clan_points = ceil($clan_points);
             if($clan_points > 25){
                         $clan_points = 25;
             }
