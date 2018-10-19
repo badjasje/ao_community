@@ -21,6 +21,12 @@ if($no_thiefs > $tot_thiefs){
 	echo json_encode($array);
 	exit;
 }
+if($tot_thiefs <= 0){
+	$array['status'] = 'Not enough thiefs';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
+}
 
 /* Check if attacker has enough turns */
 if($turns < 2){
@@ -160,7 +166,7 @@ $args = array(
 				
 			
 $new_event_id = wp_insert_post( $args );
-
+update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 
 update_field('money_lost', $money_stolen, $new_event_id);
 update_field('time_attacked',$timestamp, $new_event_id);
@@ -171,6 +177,7 @@ update_field('winner_id',$winner_id, $new_event_id);
 
 
 update_user_meta($userId,'turns',$turns-$TURNS_THIEF);
+turn_spread('thieving',$TURNS_THIEF);
 update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events',true)+1);
 
 

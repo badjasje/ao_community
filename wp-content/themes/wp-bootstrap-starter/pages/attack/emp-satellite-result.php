@@ -13,6 +13,13 @@ if (100 > $sat_morale) {
 	exit;
 }
 
+$sat_owned = $attackerData['sat_owned'][0];
+if ($sat_owned != 'empsat') {
+	$array['status'] = 'You cannot do that';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
+}
 
 $result = 'success';
 
@@ -97,14 +104,14 @@ update_field('deduction_emp',$powerReduction, $new_emp_id);
 			update_field('outcome',$result, $new_event_id);
 			update_field('nw_damage_defender',$powerReduction, $new_event_id); //Used to display power reduction in globals/locals/outgoing
 			
-			
+			update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 			
 			
 			update_field('defender_clan_id',$defender_clan_ID, $new_event_id);
 			update_field('attacker_clan_id',$attacker_clan_ID, $new_event_id);
 			
 			update_user_meta($userId,'turns',$turns-3);
-			
+			turn_spread('emp_satellite',3);
 			update_user_meta($userId,'sat_morale',$sat_morale-100);
 			
 			update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events',true)+1);

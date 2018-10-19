@@ -10,6 +10,101 @@ License: GPL
 Copyright: Kevin Bogaard
 */
 
+function turn_spread($turntype,$addedturns){
+	global $userId;
+	
+	$turnSpread = maybe_unserialize(get_user_meta( $userId, 'turn_spread', true ));
+	
+	if(!is_array($turnSpread)){
+		$turnSpread = array();
+	}
+	$turnSpread[$turntype] += $addedturns;
+	
+	update_user_meta( $userId, 'turn_spread', maybe_serialize( $turnSpread ) );
+	
+}
+
+function get_user_ip_address(){
+	$useragent = $_SERVER['HTTP_USER_AGENT'];
+	
+	
+	 if( array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+        if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',')>0) {
+            $addr = explode(",",$_SERVER['HTTP_X_FORWARDED_FOR']);
+            return trim($addr[0]);
+        } else {
+            $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+    }
+    else {
+        $ip_address = $_SERVER['REMOTE_ADDR'];
+    }
+	return $ip_address;
+}
+
+function multi_register( $login ) {
+    $user = get_user_by('login',$login);
+    $user_ID = $user->ID;
+    $ip_array = maybe_unserialize(get_post_meta( 139664, 'login_array_general', true ));
+	$useragent = $_SERVER['HTTP_USER_AGENT'];
+	
+	
+	 if( array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+        if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',')>0) {
+            $addr = explode(",",$_SERVER['HTTP_X_FORWARDED_FOR']);
+            return trim($addr[0]);
+        } else {
+            $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+    }
+    else {
+        $ip_address = $_SERVER['REMOTE_ADDR'];
+    }
+	
+	
+
+	if(empty($ip_array[$ip_address])){
+		$ip_array[$ip_address] = array();
+	}
+	$hostaddress = gethostbyaddr($ip_address);
+	
+	
+	    $ch = curl_init(); 
+
+        // set url 
+        curl_setopt($ch, CURLOPT_URL, "https://tools.keycdn.com/geo.json?host=$ip_address"); 
+
+        //return the transfer as a string 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+
+        // $output contains the output string 
+        $output = curl_exec($ch); 
+
+        // close curl resource to free up system resources 
+        curl_close($ch);      
+		
+		
+	
+	
+	$ip_array[$ip_address][$user_ID] = array(date('Y-m-d H:i:s'),$useragent,$hostaddress,$output);
+	
+	update_post_meta( 139664, 'login_array_general', $ip_array);
+	
+	$logindata = maybe_unserialize(get_user_meta( $user_ID, 'logindata', true ));
+	if(!is_array($logindata)){$logindata = array();}
+	$logindata[$ip_address] = array(date('Y-m-d H:i:s'),$useragent,$hostaddress,$output);
+
+	update_user_meta( $user_ID, 'logindata', $logindata);
+	
+	
+
+
+
+
+}
+add_action( 'wp_login', 'multi_register');
+
+
 function my_login_redirect( $redirect_to, $request, $user ) {
     return get_site_url()."/dashboard/";
 }
@@ -728,44 +823,6 @@ function wpse_76815_remove_publish_box() {
     remove_meta_box( 'submitdiv', 'clan', 'side' );
 }
 add_action( 'admin_menu', 'wpse_76815_remove_publish_box' );
-
-/*function multi_register( $login ) {
-    $user = get_user_by('login',$login);
-    $user_ID = $user->ID;
-    $ip_array = get_field('login_array_general',139664);
-	$useragent = $_SERVER['HTTP_USER_AGENT'];
-
-	$ip_address = $_SERVER["HTTP_CF_CONNECTING_IP"];
-	if(empty($ip_array[$ip_address])){
-	$ip_array[$ip_address] = array();}
-	$hostaddress = gethostbyaddr($ip_address);
-	
-	
-	    $ch = curl_init(); 
-
-        // set url 
-        curl_setopt($ch, CURLOPT_URL, "https://tools.keycdn.com/geo.json?host=$ip_address"); 
-
-        //return the transfer as a string 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-
-        // $output contains the output string 
-        $output = curl_exec($ch); 
-
-        // close curl resource to free up system resources 
-        curl_close($ch);      
-		
-		
-	
-	
-	$ip_array[$ip_address][$user_ID] = array(date('Y-m-d H:i:s'),$useragent,$hostaddress,$output);
-
-
-	update_field('login_array_general',$ip_array,139664);
-
-
-}
-add_action( 'wp_login', 'multi_register');*/
 
 
 function count_deposits($user_ID){

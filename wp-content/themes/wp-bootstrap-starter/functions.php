@@ -256,13 +256,24 @@ if (is_user_logged_in() && !is_admin()){
 	$userStatus = get_user_meta($userId, 'status',true);
 }
 	$path = $_SERVER['REQUEST_URI'];
-	$pathArray = array('/home','/home/','/wp-login.php','/register','/register/','/manual','/manual/','/');
+	$pathArray = array(
+		'/dashboard/',
+		'/dashboard',
+		'/research',
+		'/research/',
+		'/bank/',
+		'/bank',
+		'/',
+		'',
+		);
 	
 	
-	if( !is_user_logged_in() && !in_array($path, $pathArray)){
-		header("Location: ".get_site_url()."/home/");
-		exit();
-	}
+		if( !is_user_logged_in() && in_array($path, $pathArray)){
+				header("Location: ".get_site_url()."/home/");
+				exit();
+			}
+		
+	
 	$pathArray = array('/home','/home/','/register','/dashboard','/');
 	
 	if(is_user_logged_in() && in_array($path, $pathArray)){

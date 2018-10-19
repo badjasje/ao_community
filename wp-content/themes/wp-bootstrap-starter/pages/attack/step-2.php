@@ -423,9 +423,11 @@
 	<div id="stepback" class="col-md-6 totalsField statCol-1">
 		Back
 	</div>
+	<?php if($unitsOwned > 0):?>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
 		<input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
 	</div>
+	<?php endif;?>
 </div>	
 	<?php endif;?>
 
@@ -499,9 +501,11 @@
 	<div id="stepback" class="col-md-6 totalsField statCol-1">
 		Back
 	</div>
+	<?php if($unitsOwned > 0):?>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit">
 		<input type="submit" value="Next Step">
 	</div>
+	<?php endif;?>
 </div>	
 			<script>
 					jQuery( "body" ).on('click','.maxBlock',function() {
@@ -587,9 +591,11 @@
 	<div id="stepback" class="col-md-6 totalsField statCol-1">
 		Back
 	</div>
+	<?php if($unitsOwned > 0):?>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit">
 		<input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
 	</div>
+	<?php endif;?>
 </div>	
 <?php endif;?>
 
@@ -643,9 +649,11 @@
 	<div id="stepback" class="col-md-6 totalsField statCol-1">
 		Back
 	</div>
+	<?php if($userData['sat_owned'][0] == 'laser' || $userData['sat_owned'][0] == 'empsat'):?>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
 		<input class="mainSubmit" type="submit" value="Next Step" style="border-top:0px;">
 	</div>
+	<?php endif;?>
 </div>	
 <?php endif;?>
 

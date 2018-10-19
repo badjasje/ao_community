@@ -1,10 +1,7 @@
 <?php 
 	require_once("wp-load.php");
-
-	global $userId;
-	if($userId != 1){
-		exit;
-	}
+	
+	$winnerArray = array();
 	$args = array(
 	'meta_key'     	=> 'land',
 	'number'		=> 10,
@@ -15,10 +12,20 @@
 	
 	<strong>Medal of Earth</strong>
 	<table>
-	<?php foreach ($users as $user) {
+	<?php 
+		
+		$count = 0;
+		foreach ($users as $user) {
+		
 		$user_ID = $user->ID;
 		$member_data = get_userdata($user_ID);
-		$land = get_user_meta($user_ID, 'land', true);?>
+		$land = get_user_meta($user_ID, 'land', true);
+		$count++;
+		if($count == 1){
+			$winnerArray['Medal of Earth'] = array($user_ID,'Land: '.number_format($land, 0, ',', ' ').'m2'); 
+		}
+		
+		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)
 			</td>
@@ -30,13 +37,13 @@
 	<?php } ?>
 	</table><br/>
 	<?php
-		
+	
 		$args = array(
 	'meta_key'     => 'user_clan_points',
 	'number'	=> 10,
 	'orderby'      => 'meta_value_num',
 	'order'        => 'DESC',);
-	
+	$count = 0;
 	$users = get_users($args); ?>
 	
 	<strong>Medal of Honor</strong>
@@ -44,7 +51,13 @@
 	<?php foreach ($users as $user) {
 		$user_ID = $user->ID;
 		$member_data = get_userdata($user_ID);
-		$points = get_user_meta($user_ID, 'user_clan_points', true);?>
+		$points = get_user_meta($user_ID, 'user_clan_points', true);
+		$count++;
+		if($count == 1){
+			$winnerArray['Medal of Honor'] = array($user_ID,'Points: '.number_format($points, 0, ',', ' ')); 
+		}
+		
+		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)
 			</td>
@@ -63,7 +76,7 @@
 	'number'	=> 10,
 	'orderby'      => 'meta_value_num',
 	'order'        => 'DESC',);
-	
+	$count = 0;
 	$users = get_users($args); ?>
 	
 	<strong>Medal of Growth</strong>
@@ -71,7 +84,13 @@
 	<?php foreach ($users as $user) {
 		$user_ID = $user->ID;
 		$member_data = get_userdata($user_ID);
-		$networth = get_user_meta($user_ID, 'networth', true);?>
+		$networth = get_user_meta($user_ID, 'networth', true);
+		$count++;
+		if($count == 1){
+			$winnerArray['Medal of Growth'] = array($user_ID,'Networth: $ '.number_format($networth, 0, ',', ' ')); 
+		}
+		
+		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)
 			</td>
@@ -89,7 +108,7 @@
 	'number'	=> 10,
 	'orderby'      => 'meta_value_num',
 	'order'        => 'DESC',);
-	
+	$count = 0;
 	$users = get_users($args); ?>
 	
 	<strong>Medal of Courage</strong>
@@ -97,7 +116,14 @@
 	<?php foreach ($users as $user) {
 		$user_ID = $user->ID;
 		$member_data = get_userdata($user_ID);
-		$attacks = get_user_meta($user_ID, 'attacks_made', true);?>
+		$attacks = get_user_meta($user_ID, 'attacks_made', true);
+		$count++;
+		if($count == 1){
+			$winnerArray['Medal of Courage'] = array($user_ID,'Attacks: '.number_format($attacks, 0, ',', ' ')); 
+		}
+		
+		
+		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)
 			</td>
@@ -115,7 +141,7 @@
 	'number'	=> 10,
 	'orderby'      => 'meta_value_num',
 	'order'        => 'DESC',);
-	
+	$count = 0;
 	$users = get_users($args); ?>
 	
 	<strong>Medal of Death</strong>
@@ -123,7 +149,13 @@
 	<?php foreach ($users as $user) {
 		$user_ID = $user->ID;
 		$member_data = get_userdata($user_ID);
-		$kills = get_user_meta($user_ID, 'kills_made', true);?>
+		$kills = get_user_meta($user_ID, 'kills_made', true);
+		$count++;
+		if($count == 1){
+			$winnerArray['Medal of Death'] = array($user_ID,'Kills: '.number_format($kills, 0, ',', ' ')); 
+		}
+		
+		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)
 			</td>
@@ -142,7 +174,7 @@
 	'number'	=> 10,
 	'orderby'      => 'meta_value_num',
 	'order'        => 'DESC',);
-	
+	$count = 0;
 	$users = get_users($args); ?>
 	
 	<strong>Medal of Thievery</strong>
@@ -150,7 +182,13 @@
 	<?php foreach ($users as $user) {
 		$user_ID = $user->ID;
 		$member_data = get_userdata($user_ID);
-		$stolen = get_user_meta($user_ID, 'money_gained_thieving', true);?>
+		$stolen = get_user_meta($user_ID, 'money_gained_thieving', true);
+		$count++;
+		if($count == 1){
+			$winnerArray['Medal of Thievery'] = array($user_ID,'Stolen: $ '.number_format($stolen, 0, ',', ' ')); 
+		}
+		
+		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)
 			</td>
@@ -169,7 +207,7 @@
 	'number'	=> 10,
 	'orderby'      => 'meta_value_num',
 	'order'        => 'DESC',);
-	
+	$count = 0;
 	$users = get_users($args); ?>
 	
 	<strong>Medal of Destruction</strong>
@@ -177,7 +215,14 @@
 	<?php foreach ($users as $user) {
 		$user_ID = $user->ID;
 		$member_data = get_userdata($user_ID);
-		$damage = get_user_meta($user_ID, 'nw_damage_missiles', true);?>
+		$damage = get_user_meta($user_ID, 'nw_damage_missiles', true);
+		$count++;
+		if($count == 1){
+			$winnerArray['Medal of Destruction'] = array($user_ID,'Damage: $ '.number_format($damage, 0, ',', ' ')); 
+		}
+		
+		
+		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)
 			</td>
@@ -216,7 +261,7 @@
 		)),
 	
 	);
-	
+	$count = 0;
 	$attacks = get_posts($args); ?>
 	
 	
@@ -231,7 +276,13 @@
 		if(!in_array($user_ID, $users)){
 		$count++;
 		$member_data = get_userdata($user_ID);
-		$damage = get_post_meta($attack->ID, 'nw_damage_defender', true);?>
+		$damage = get_post_meta($attack->ID, 'nw_damage_defender', true);
+
+		if($count == 1){
+			$winnerArray['Medal of Devastation'] = array($user_ID,'Damage: $ '.number_format($damage, 0, ',', ' ')); 
+		}
+		
+		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)
 			</td>
@@ -243,6 +294,33 @@
 	<?php 
 		
 		$users[] = $user_ID;
-		if($count == 10){die;}
+		if($count == 10){break;}
 		}} ?>
 	</table><br/>
+	
+	<?php
+	
+		if($_GET['add'] == 1){
+			
+			if(empty($_GET['round']) || !isset($_GET['round'])){
+				die;
+			}
+			
+			foreach ($winnerArray as $key => $winner) {
+				
+				$args = [
+					'post_title' => $key,
+					'post_status' => 'publish',
+					'post_type' => 'medal',
+					'post_author' => 1
+				];
+
+				$newMedalId = wp_insert_post($args);
+				update_field('medal_round', 'Beta round '.$_GET['round'], $newMedalId);
+				update_field('winning_user', $winner[0], $newMedalId);	
+				
+			}
+			
+			
+		
+		}

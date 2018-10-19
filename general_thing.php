@@ -1,50 +1,33 @@
 <?php
     
     require_once("wp-load.php");
-    
-$link = 'asdassdas?asdasdasd';
-$link = substr($link, 0, strpos($link, "?"));
-echo $link;
+   
+	
 
-/*
+    $ip_array = maybe_unserialize(get_field('login_array_general',139664));
+	
+	foreach ($ip_array as $ip => $userdata):?>
+	<h2><?php echo $ip;?></h2>
+	<?php if(count($userdata) > 1){ echo '<span style="color:#ff0000"><strong>MULTI DETECTED</strong></span><br/><br/>';}?>
+	<?php foreach ($userdata as $userId => $data):?>
+	<?php echo get_user_name($userId);?>
+	<?php echo '<pre>';
+	print_r($userdata[$userId]);
+	echo '</pre>';
+	$geodata = json_decode($userdata[$userId][3]);
 
-$clan_points = (20000/1100)+((sqrt(20000)/25) * ((sqrt(200000[0]*1.5)/4.1)/100));
- $clan_points = ceil($clan_points);
- 
- echo $clan_points;
-/*
-update_post_meta( 890317, 'bonus_level', 0 );
-
-
-/*
-$querystr = "
-           	SELECT wposts.* 
-			FROM 
-				$wpdb->posts wposts,
-				$wpdb->postmeta wpostmeta,
-				$wpdb->postmeta wpostmetadmg 
-			WHERE wposts.ID = wpostmeta.post_id 
-				AND wposts.post_type = 'event_local'
-			
-				AND wpostmeta.meta_key = 'war_status'
-				AND wpostmeta.meta_value IN('mutual','incoming','outgoing')
-				
-				AND wpostmetadmg.meta_key = 'nw_damage_defender'
-				AND wpostmetadmg.meta_value >= 23
-				
-			ORDER BY wpostmetadmg.meta_value DESC
-			LIMIT 300
-         ";
-         
-         
-    
-    
- $pageposts = $wpdb->get_results($querystr);
-
-    
-
-echo '<pre>';
-print_r($pageposts);
-echo '</pre>';	
-
-
+	?>
+	<ul>
+	<?
+	foreach ($geodata->data->geo as $key => $item):?>
+	
+	<li><?php echo $key;?>: <?php echo $item;?></li>
+	
+	<?php endforeach;?>
+	</ul>
+	<br/>
+	<?php endforeach;?>
+	
+	<?php endforeach;
+		
+		

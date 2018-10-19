@@ -123,7 +123,7 @@ $args = array(
 			
 $new_event_id = wp_insert_post( $args );
 
-
+update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 update_field('time_attacked',$timestamp, $new_event_id);
 update_field('defender_id',$target_id, $new_event_id);
 update_field('attacker_id',$userId, $new_event_id);
@@ -132,5 +132,6 @@ update_field('winner_id',$winner_id, $new_event_id);
 
 
 update_user_meta($userId,'turns',$turns-2);
+turn_spread('saboteur',2);
 
 	

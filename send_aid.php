@@ -137,7 +137,7 @@ if (get_field('game_status', 'option') == 'Live') {
     );
             
     $new_event_id = wp_insert_post($args);
-
+	update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
     update_field('defender_id', $receiver, $new_event_id);
     update_field('attacker_id', $user_ID, $new_event_id);
     update_field('attacktype', 'aid', $new_event_id);

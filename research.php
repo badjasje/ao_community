@@ -65,7 +65,7 @@ if ($totalturns < 25) {
     exit;
 }
 update_user_meta($userId, 'turns', $totalturns-25);
-
+turn_spread('research',25);
 $timestamp = current_time('timestamp');
 
 $startingbonus = $userData['starting_bonus'][0];
@@ -142,6 +142,7 @@ update_user_meta($userId, 'turns', $totalturns-30);
  	$array['status'] = $researches[$research]['name'].' research queued';
     $array['next'] = false;
     $array['turns'] = $totalturns-30;
+    turn_spread('research_queue',30);
     $array['started'] = $research;
     $array['endtime'] = 'queued';
     echo json_encode($array);

@@ -229,6 +229,7 @@ foreach ($missiles as $key => $missile) {
 $array['status'] = $total_missiles_ordered.' missile'.plural_func($total_missiles_ordered).' ordered for '.$totalturncost.' turn'.plural_func($totalturncost).' and $ '.number_format($totalordercost, 0, ',', ' ');
 $array['next'] = true;
 $array['turns'] = $turns-$totalturncost;
+turn_spread('missiles',$totalturncost);
 $array['money'] = $totalmoney-$totalordercost;
 $array['allordered'] = $allOrdered;
 $array['newmax'] = $newMax;

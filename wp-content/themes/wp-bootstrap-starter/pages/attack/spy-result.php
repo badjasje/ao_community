@@ -40,14 +40,14 @@ if($turns < 1){
 }	
 
 update_user_meta($userId,'turns',$turns-1);
-
+turn_spread('spying',3);
 
 $sat_status = $defenderData['stealth_sat_status'][0];
 $snipers = $defenderData['snipers_owned'][0];
 $land_def = $defenderData['land'][0];
 $networth_def = $defenderData['networth'][0];
 
-$success = mt_rand(1,130)+($snipers*0.25);
+$success = mt_rand(1,110)+($snipers*0.25);
 
 if($sat_status == 'active'){
 	$success = 100;
@@ -144,7 +144,7 @@ $members = get_post_meta($clan_ID,'clan_members',true);
 			}
 			
 if($spytype == 'spy'):?>
-	<?php if($success <= 90):?>
+	<?php if($success <= 95):?>
 		<?php $winner_id = $userId; $result = 'success';?>
 
 <div class="blockHeader">Your spy entered the base of <?php echo get_user_name($target_id);?></div>
@@ -303,7 +303,7 @@ update_user_meta($userId, 'spy_owned', $spies-1);
 			
 			
 <?php if($spytype == 'spyplane'):?>
-	<?php if($success <= 90):?>
+	<?php if($success <= 95):?>
 		<?php $winner_id = $userId; $result = 'success';?>
 
 
@@ -412,7 +412,7 @@ update_user_meta($userId, 'spy_owned', $spies-1);
 				
 			
 			$new_event_id = wp_insert_post( $args );
-			
+			update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 			update_field('spied_id', $target_id, $new_event_id);
 			update_field('clan_id_report', $clan_ID, $new_event_id);
 			update_field('spy_type', 'spyplane', $new_event_id);
@@ -474,7 +474,7 @@ $args = array(
 			
 $new_event_id = wp_insert_post( $args );
 
-
+update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 update_field('time_attacked',$timestamp, $new_event_id);
 
 

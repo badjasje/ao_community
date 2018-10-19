@@ -62,7 +62,7 @@ $array = array();
 	}
     $sat_morale = $userData['sat_morale'][0];
 
-    $target_id = $_POST['target_id'];
+    $target_id = round($_POST['target_id']);
    /* if(intval($target_id) <= 10){
         $array['status'] = 'Cannot attack an administrator';
 		$array['next'] = false;

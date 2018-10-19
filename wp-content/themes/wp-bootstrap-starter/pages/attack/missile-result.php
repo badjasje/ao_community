@@ -516,6 +516,23 @@ $old_CP = $attackerClanData['clan_points'][0];
 
 
 if($war_type != 'none' && $result == 'success'){
+	
+	
+/* check if defender is killed */
+if ($killed == true) { 
+/* add stats */
+// attacker
+
+$kills_made = $attackerData['kills_made'][0];
+update_user_meta($userId, 'kills_made', $kills_made+1);
+
+// defender
+
+$times_killed = $defenderData['times_killed'][0];
+update_user_meta($target_id, 'times_killed', $times_killed+1);
+	
+
+}
 			
 	$def_total_units = $_total_air_units_def+$_total_inf_units_def+$_total_veh_units_def+$_total_sea_units_def;
 			
@@ -581,21 +598,7 @@ if($def_NW_lost <= 1){
 	$clan_points == 0;
 }
 
-/* check if defender is killed */
-if ($killed == true) { 
-/* add stats */
-// attacker
 
-$kills_made = $attackerData['kills_made'][0];
-update_user_meta($userId, 'kills_made', $kills_made+1);
-
-// defender
-
-$times_killed = $defenderData['times_killed'][0];
-update_user_meta($target_id, 'times_killed', $times_killed+1);
-	
-
-}
 			
 
 
@@ -739,7 +742,7 @@ $args = array(
 			
 
 
-
+			update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 
 			update_field('time_attacked',$timestamp, $new_event_id);
 			
@@ -777,6 +780,7 @@ $args = array(
 			}
 			
 			update_user_meta($userId,'turns',$turns-3);
+			turn_spread('regular_missile',3);
 			update_user_meta($target_id, 'new_events', $defenderData['new_events'][0]+1);
 			
 			$user_pts = $attackerData['user_clan_points'][0];

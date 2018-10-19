@@ -5,6 +5,7 @@
 get_header(); 
 global $userId;
 global $userData;
+$turnSpread = maybe_unserialize(maybe_unserialize($userData['turn_spread'][0]));
 ?>
 <div class="row pageRow no-gutters">	
 <div class="col-md-6">
@@ -166,6 +167,8 @@ global $userData;
 	</div>
 </div>
 <div class="pageSpacer"></div>
+
+<div class="col-md-6">
 	<div class="blockHeader">General statistics</div>
 	<div class="row unitRow">
 		<div class="col-md-12 celBlock">
@@ -208,6 +211,98 @@ global $userData;
 			<span class="dataVisibleRight">$ <?php echo number_format($userData['highest_networth'][0], 0, ',', ' ');?></span>
 		</div>
 	</div>
+</div>
+
+<div class="col-md-6">
+	<div class="blockHeader">Turn usage breakdown</div>
+	<div class="row unitRow">
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Regular, Ground and Air & Sea attacks</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['unit_attack'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Thieving</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['thieving'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Spying</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['spying'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Sending snipers</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['sniper'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Laser beam satellite</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['laser_sattelite'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">EMP satellite</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['emp_satellite'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Activating stealth satellite</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['activate_sat'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Sending saboteurs</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['saboteur'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Launching missiles</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['regular_missile'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Launching EMP missiles</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['emp_missile'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Unit turn build</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['unit_turn_build'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Building satellites</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['build_satellite'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Building missiles</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['missiles'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Buildings</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['buildings'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Exploring</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['exploring'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Research</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['research'];?></span>
+		</div>
+		
+		<div class="col-md-12 celBlock">
+			<span class="dataVisibleLeft">Queue research</span>
+			<span class="dataVisibleRight"><?php echo $turnSpread['research_queue'];?></span>
+		</div>
+
+	</div>
+</div>
 </div> <!-- end .pageRow -->
 <?php
 get_footer();

@@ -88,6 +88,7 @@ if ($attack_cost_turns > $attack_curr_turns) {
 /* deduct attack cost */
 $attack_new_turns = $attack_curr_turns - $attack_cost_turns;
 update_user_meta($userId, 'turns', $attack_new_turns);
+turn_spread('unit_attack',$attack_cost_turns);
 $attack_new_morale = $attack_curr_morale - $attack_cost_morale;
 update_user_meta($userId, 'morale', $attack_new_morale);
 
@@ -1089,6 +1090,7 @@ $args = array(
 );
 			
 $new_event_id = wp_insert_post( $args );
+update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 update_field('defender_lost', $def_unitslost, $new_event_id);
 update_field('attacker_lost', $att_unitslost, $new_event_id);
 update_field('land_lost', $land_stolen, $new_event_id);

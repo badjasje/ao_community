@@ -9,7 +9,7 @@ $timestamp = current_time('timestamp');
 $backColor = "45, 67, 81";
 $attack_type = $_POST['attacktype'];
 
-$target_id = $_POST['target_id'];
+$target_id = round($_POST['target_id']);
 global $userId;
 global $userData;
 $attackerData = $userData;

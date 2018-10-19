@@ -90,6 +90,7 @@ if (in_array($userID, $allowedToKick)) {
     ];
 
     $newEventId = wp_insert_post($args);
+    update_post_meta( $newEventId, 'event_ip_address', get_user_ip_address());
     update_field('attacktype', 'user_change', $newEventId);
     update_field('outcome', 'kicked', $newEventId);
 

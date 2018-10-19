@@ -242,6 +242,7 @@ foreach ($units as $key => $order) {
     $time = current_time('G:i:s | d-m-Y');
     $current .= $time."\n";
     $current .= "ID: ".$userId."\n";
+    $current .= "Value: ".$totalOrderCost."\n";
     $current .= "Units ordered: ".$orderedUnits."\n\n";
     file_put_contents($file, $current);
 }

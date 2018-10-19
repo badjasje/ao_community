@@ -109,6 +109,7 @@ $args = array(
 $array['status'] = $satellites[$ordered]['name'].' ordered';
 $array['money'] = $totalmoney-$satcost;
 $array['turns'] = $totalturns-25;
+turn_spread('build_satellite',25);
 $array['next'] = true;
 echo json_encode($array);
 exit;

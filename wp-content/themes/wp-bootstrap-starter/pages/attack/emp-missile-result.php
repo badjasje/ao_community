@@ -190,7 +190,9 @@ $args = array(
 			
 			$new_event_id = wp_insert_post( $args );
 			
-
+			
+			
+			update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 
 			update_field('time_attacked',$timestamp, $new_event_id);
 			
@@ -216,6 +218,7 @@ $args = array(
 			
 			
 			update_user_meta($userId,'turns',$turns-3);
+			turn_spread('emp_missile',3);
 			update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events')[0]+1);
 			
 		

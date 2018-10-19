@@ -6,7 +6,7 @@
 require_once("wp-load.php");
 include('constants.php');
 
-
+nocache_headers();
 if (get_field('game_status', 'option') != 'Live') { exit; }
 
     // note: increments are by one. $INCOME_TURNS is assumed to be 1

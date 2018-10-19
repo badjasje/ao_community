@@ -3,7 +3,7 @@
  * Handles hourly monetary income
  */
 require_once("wp-load.php");
-
+nocache_headers();
 if (get_field('game_status', 'option') != 'Live') { exit;}
 	include('constants.php');
     global $wpdb;

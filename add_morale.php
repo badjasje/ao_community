@@ -4,7 +4,7 @@
  */
 include('constants.php');
 require_once("wp-load.php");
-
+nocache_headers();
 // Global.
 $moraleIncome = $INCOME_MORALE;
 

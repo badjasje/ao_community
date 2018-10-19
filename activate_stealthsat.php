@@ -63,6 +63,7 @@ update_user_meta($userId, 'stealth_sat_time', $timestamp+3600*3.5);
 update_user_meta($userId, 'sat_morale', $sat_morale-100);
 update_user_meta($userId, 'turns', $turns-3);
 
+turn_spread('activate_sat',3);
 
 $array['status'] = 'Stealth satellite activated';
 $array['next'] = true;

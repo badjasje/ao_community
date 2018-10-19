@@ -196,7 +196,7 @@ $args = array(
 				
 			
 	$new_event_id = wp_insert_post( $args );
-
+	update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 	update_field('defender_lost', $def_unitslost, $new_event_id);
 	update_field('attacker_lost', $att_unitslost, $new_event_id);
 	
@@ -214,6 +214,7 @@ $args = array(
 	
 	
 	update_user_meta($userId,'turns',$turns-2);
+	turn_spread('sniper',2);
 	update_user_meta($userId, 'morale', $oldmorale - 10);
 	update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events',true)+1);
 	
