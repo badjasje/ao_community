@@ -43,7 +43,7 @@
             'shortatt'      =>  array('b'),
             'attacks'       =>  array('bld'),
             'defends'       =>  array(''),
-            'attack'        =>  8000,
+            'attack'        =>  7200,
             'type'          =>  'mis',
             'life'          =>  0),
     'empmis'    => array(
