@@ -50,7 +50,7 @@ class AsgarosForumEditor {
                 }
 
                 // Error when the user is banned.
-                if (AsgarosForumPermissions::isBanned('current')) {
+                if ($this->asgarosforum->permissions->isBanned('current')) {
                     return false;
                     break;
                 }
@@ -69,13 +69,13 @@ class AsgarosForumEditor {
                 }
 
                 // Error when the user is banned.
-                if (AsgarosForumPermissions::isBanned('current')) {
+                if ($this->asgarosforum->permissions->isBanned('current')) {
                     return false;
                     break;
                 }
 
                 // Error when the topic is closed and the user is not a moderator.
-                if ($this->asgarosforum->get_status('closed') && !AsgarosForumPermissions::isModerator('current')) {
+                if ($this->asgarosforum->get_status('closed') && !$this->asgarosforum->permissions->isModerator('current')) {
                     return false;
                     break;
                 }
@@ -88,9 +88,9 @@ class AsgarosForumEditor {
                 }
 
                 // Error when the user cannot edit a post.
-				$user_id = AsgarosForumPermissions::$currentUserID;
+				$user_id = $this->asgarosforum->permissions->currentUserID;
 
-                if (!AsgarosForumPermissions::can_edit_post($user_id, $this->asgarosforum->current_post)) {
+                if (!$this->asgarosforum->permissions->can_edit_post($user_id, $this->asgarosforum->current_post)) {
                     return false;
                     break;
                 }
@@ -115,7 +115,7 @@ class AsgarosForumEditor {
                     $quoteData = $this->asgarosforum->db->get_row($this->asgarosforum->db->prepare("SELECT text, author_id, date FROM ".$this->asgarosforum->tables->posts." WHERE id = %d;", absint($_GET['quote'])));
 
                     if ($quoteData) {
-                        $message = '<blockquote><div class="quotetitle">'.__('Quote from', 'asgaros-forum').' '.$this->asgarosforum->getUsername($quoteData->author_id).' '.sprintf(__('on %s', 'asgaros-forum'), $this->asgarosforum->format_date($quoteData->date)).'</div>'.stripslashes($quoteData->text).'</blockquote><br />';
+                        $message = '<blockquote><div class="quotetitle">'.__('Quote from', 'asgaros-forum').' '.$this->asgarosforum->getUsername($quoteData->author_id).' '.sprintf(__('on %s', 'asgaros-forum'), $this->asgarosforum->format_date($quoteData->date)).'</div>'.stripslashes($quoteData->text).'</blockquote><br>';
 					}
                 }
             } else if ($editorView === 'editpost') {

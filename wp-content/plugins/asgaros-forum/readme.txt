@@ -5,7 +5,7 @@ Tags: forum, forums, discussion, multisite, community, bulletin, board, asgaros,
 Requires at least: 4.7
 Tested up to: 4.9
 Requires PHP: 5.2
-Stable tag: 1.10.0
+Stable tag: 1.10.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,18 @@ You can find a list of available hooks and filters on this site:
 6. Manage general options.
 
 == Changelog ==
+= 1.10.1 =
+* Added: Forum administrator role
+* Added: Show forum role in backend user overview
+* Added: Moderators can now ban users
+* Added: Its now possible to ban users from their profile
+* Fixed: Rare PHP-error in rewrite-logic when post-object is not set
+* Fixed: Performance issues in forums which consist of many topics
+* Fixed: Broken links in posts pointing to other forum topics
+* Fixed: Wrong default values for dates in database
+* Changed: Users can no longer be moderators and banned at the same time
+* Minor design changes
+* Performance improvements and code optimizations
 = 1.10.0 =
 * Added: RSS feeds for topics and forums
 * Added: Option to change main forum title

@@ -177,5 +177,3 @@
 			WHERE meta_key IN('cooldown_list','previous_members','24h_pts_list','open_invites','24h_nw_list','war_array')
             ");
             
-            */
-	

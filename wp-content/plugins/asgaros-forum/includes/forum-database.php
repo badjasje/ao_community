@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) exit;
 
 class AsgarosForumDatabase {
     private $db;
-    private $db_version = 20;
+    private $db_version = 26;
     private $tables;
 
     public function __construct() {
@@ -124,8 +124,8 @@ class AsgarosForumDatabase {
             id int(11) NOT NULL auto_increment,
             text longtext,
             parent_id int(11) NOT NULL default '0',
-            date datetime NOT NULL default '0000-00-00 00:00:00',
-            date_edit datetime NOT NULL default '0000-00-00 00:00:00',
+            date datetime NOT NULL default '1000-01-01 00:00:00',
+            date_edit datetime NOT NULL default '1000-01-01 00:00:00',
             author_id int(11) NOT NULL default '0',
             author_edit int(11) NOT NULL default '0',
             uploads longtext,
@@ -259,6 +259,78 @@ class AsgarosForumDatabase {
                         $asgarosforum->content->insert_forum($new_category['term_id'], $default_forum_name, $default_forum_description, 0, 'dashicons-editor-justify', 1, 0);
                     }
                 }
+            }
+
+            // Add index to topics.parent_id for faster queries.
+            if ($database_version_installed < 21) {
+                $this->db->query('ALTER TABLE '.$this->tables->topics.' ADD INDEX(parent_id);');
+
+                update_option('asgarosforum_db_version', 21);
+            }
+
+            // Use valid default-values for dates.
+            if ($database_version_installed < 23) {
+                $this->db->query("UPDATE {$this->tables->posts} SET date = '1000-01-01 00:00:00' WHERE date = '0000-00-00 00:00:00';");
+                $this->db->query("UPDATE {$this->tables->posts} SET date_edit = '1000-01-01 00:00:00' WHERE date_edit = '0000-00-00 00:00:00';");
+
+                update_option('asgarosforum_db_version', 23);
+            }
+
+            // Add index to posts.date for faster queries.
+            if ($database_version_installed < 24) {
+                $this->db->query('ALTER TABLE '.$this->tables->posts.' ADD INDEX(date);');
+
+                update_option('asgarosforum_db_version', 24);
+            }
+
+            // Add index to forums.parent_id for faster queries.
+            if ($database_version_installed < 25) {
+                $this->db->query('ALTER TABLE '.$this->tables->forums.' ADD INDEX(parent_id);');
+
+                update_option('asgarosforum_db_version', 25);
+            }
+
+            // Convert to new role system.
+            if ($database_version_installed < 26) {
+                // Convert moderators.
+                $get_moderators = get_users(array(
+                    'fields'            => array('ID'),
+                    'meta_query'        => array(
+                        array(
+                            'key'       => 'asgarosforum_moderator',
+                            'compare'   => 'EXISTS'
+                        )
+                    )
+                ));
+
+                if (!empty($get_moderators)) {
+                    foreach ($get_moderators as $moderator) {
+                        $asgarosforum->permissions->set_forum_role($moderator->ID, 'moderator');
+                    }
+                }
+
+                delete_metadata('user', 0, 'asgarosforum_moderator', '', true);
+
+                // Convert banned users.
+                $get_banned = get_users(array(
+                    'fields'            => array('ID'),
+                    'meta_query'        => array(
+                        array(
+                            'key'       => 'asgarosforum_banned',
+                            'compare'   => 'EXISTS'
+                        )
+                    )
+                ));
+
+                if (!empty($get_banned)) {
+                    foreach ($get_banned as $banned) {
+                        $asgarosforum->permissions->set_forum_role($banned->ID, 'banned');
+                    }
+                }
+
+                delete_metadata('user', 0, 'asgarosforum_banned', '', true);
+
+                update_option('asgarosforum_db_version', 26);
             }
 
             update_option('asgarosforum_db_version', $this->db_version);

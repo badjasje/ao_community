@@ -19,6 +19,49 @@
 	if(!is_user_logged_in()){
 		$hideitems = 'true';
 	}
+	if(is_user_logged_in()){
+		 if( array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+        if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',')>0) {
+            $addr = explode(",",$_SERVER['HTTP_X_FORWARDED_FOR']);
+            return trim($addr[0]);
+        } else {
+            $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+    }
+    else {
+        $ip_address = $_SERVER['REMOTE_ADDR'];
+    }
+	
+	
+
+	if(empty($ip_array[$ip_address])){
+		$ip_array[$ip_address] = array();
+	}
+	$hostaddress = gethostbyaddr($ip_address);
+	
+	
+	    $ch = curl_init(); 
+
+        // set url 
+        curl_setopt($ch, CURLOPT_URL, "https://tools.keycdn.com/geo.json?host=$ip_address"); 
+
+        //return the transfer as a string 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+
+        // $output contains the output string 
+        $output = curl_exec($ch); 
+
+        // close curl resource to free up system resources 
+        curl_close($ch);      
+		$output = json_decode($output);
+		$currentIsp = $output->data->geo->isp;
+		$blocklist = array('Highwinds Network Group, Inc.','Highwinds Network Group','ZSCALER, INC.','Micfo, LLC.','M247 Ltd','StackPath LLC','M247 Ltd.');
+		
+		if(in_array($currentIsp, $blocklist)){
+			echo '<br/><br/><center>Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.</center>';
+			die;
+		}
+}
 	
 	$pageId = get_the_id();
 	$endDate = get_field('end_date','option');
@@ -46,9 +89,42 @@
 });
 </script>
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+<!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1603414756640075');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1603414756640075&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-40825301-45"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-40825301-45');
+</script>
+
 </head>
 
 <body <?php body_class(); ?>>
+<script>
+  fbq('track', 'ViewContent', {
+    value: 1,
+    content_ids: '<?php echo get_the_title();?>',
+  });
+</script>
 
 <div id="splashback" class=""></div>
 <div class="splashmessage"></div>
@@ -313,7 +389,7 @@
 						<a class="dropdown-item" href="/all-clans/">All Clans</a>
 						<a class="dropdown-item" href="/users">Users</a>
 						<a class="dropdown-item" href="/toplists">Toplists</a>
-						<a class="dropdown-item" href="#">Statistics</a>
+						<a class="dropdown-item" href="/player-statistics">Statistics</a>
 						<a class="dropdown-item" href="/category/awards-medals/">Awards & Medals</a>
 						<a class="dropdown-item" href="/manual">Manual</a>
 						<a class="dropdown-item" href="/rules">Rules</a>

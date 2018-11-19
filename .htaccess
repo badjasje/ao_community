@@ -15,6 +15,15 @@ RewriteRule \.(txt|htaccess)$ https://assault.online/home [R,L]
 Order Deny,Allow
 Deny from all
 Allow from 87.209.229.255
+Allow from 213.125.228.34
+</Files>
+
+
+<Files "isp_list.php">
+Order Deny,Allow
+Deny from all
+Allow from 87.209.229.255
+Allow from 213.125.228.34
 </Files>
 
 <Files "RESET_GAME.php">

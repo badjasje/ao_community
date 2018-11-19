@@ -10,6 +10,9 @@ License: GPL
 Copyright: Kevin Bogaard
 */
 
+
+
+
 function turn_spread($turntype,$addedturns){
 	global $userId;
 	
@@ -83,7 +86,8 @@ function multi_register( $login ) {
         // close curl resource to free up system resources 
         curl_close($ch);      
 		
-		
+	
+	
 	
 	
 	$ip_array[$ip_address][$user_ID] = array(date('Y-m-d H:i:s'),$useragent,$hostaddress,$output);

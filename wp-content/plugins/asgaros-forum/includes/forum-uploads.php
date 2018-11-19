@@ -218,7 +218,7 @@ class AsgarosForumUploads {
 			// Dont show upload controls under certain conditions.
 			if (!is_user_logged_in() && $this->asgarosforum->options['upload_permission'] != 'everyone') {
 				return;
-			} else if (!AsgarosForumPermissions::isModerator('current') && $this->asgarosforum->options['upload_permission'] == 'moderator') {
+			} else if (!$this->asgarosforum->permissions->isModerator('current') && $this->asgarosforum->options['upload_permission'] == 'moderator') {
 				return;
 			}
 
@@ -234,7 +234,7 @@ class AsgarosForumUploads {
 
 				if ($this->asgarosforum->options['uploads_maximum_number'] == 0 || $uploadedFilesCounter < $this->asgarosforum->options['uploads_maximum_number']) {
 					$uploadedFilesCounter++;
-					echo '<input type="file" name="forumfile[]"><br />';
+					echo '<input type="file" name="forumfile[]"><br>';
 
 					if ($this->asgarosforum->options['uploads_maximum_number'] == 0 || $uploadedFilesCounter < $this->asgarosforum->options['uploads_maximum_number']) {
 						$flag = '';
