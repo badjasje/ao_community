@@ -217,6 +217,7 @@ $(document).on("keyup paste blur change", ".buyInput", function() {
     var orderval = 0;
     var addednw = 0;
     var turntot = 0;
+    var oldnw = <?php echo $userData['networth'][0];?>;
     $(".buyInput").each(function(){
 	    var inputval = $(this).val();
         sum += +$(this).val();
@@ -233,6 +234,7 @@ $(document).on("keyup paste blur change", ".buyInput", function() {
     $("#total").html(sum);
     $("#order_total").html(number_format(orderval, 0, ',', ' '));
     $("#networth_total").html(number_format(addednw, 0, ',', ' '));
+    $("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
     
     
 });
@@ -240,6 +242,7 @@ $(document).on("click", ".allbutton", function() {
 	var sum = 0;
 	var inputkey = $(this).attr( "data-key" );
 	var inputamount = $(this).html();
+	var oldnw = <?php echo $userData['networth'][0];?>;
 
 	$(".buy_"+inputkey).val(inputamount);
 	
@@ -264,15 +267,16 @@ $(document).on("click", ".allbutton", function() {
 	$("#turn_total").html(Math.ceil(sum/<?php echo $buildingsPerTurn;?>));
     $("#order_total").html(number_format(orderval, 0, ',', ' '));
     $("#networth_total").html(number_format(addednw, 0, ',', ' '));
+    $("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
 });
 
 // Demo bds total fields fuckery
-
-$(document).on("blur", ".sellInput", function() {
+$(document).on("keyup paste blur change", ".sellInput", function() {
 	
     var sum = 0;
     var orderval = 0;
     var lostnw = 0;
+    var oldnw = <?php echo $userData['networth'][0];?>;
 
     $(".sellInput").each(function(){
 	    var inputval = $(this).val();
@@ -287,8 +291,10 @@ $(document).on("blur", ".sellInput", function() {
     $("#demototal").html(sum);
     $("#demoorder_total").html(number_format(orderval, 0, ',', ' '));
     $("#demonetworth_total").html(number_format(lostnw, 0, ',', ' '));
+    $("#networth_new_demo").html(number_format(lostnw+oldnw, 0, ',', ' '));
     
 });
+
 
 $(document).on('click', '.sellall', function() {
 	var sum = 0;
@@ -298,6 +304,7 @@ $(document).on('click', '.sellall', function() {
 	
 	var orderval = 0
 	var addednw = 0;
+	var oldnw = <?php echo $userData['networth'][0];?>;
 
 	$(".sellInput").each(function(){
         var inputval = $(this).val();
@@ -312,6 +319,7 @@ $(document).on('click', '.sellall', function() {
     $("#demototal").html(sum);
     $("#demoorder_total").html(number_format(orderval, 0, ',', ' '));
     $("#demonetworth_total").html(number_format(addednw, 0, ',', ' '));
+    $("#networth_new_demo").html(number_format(addednw+oldnw, 0, ',', ' '));
 });
 
 

@@ -110,17 +110,20 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
             
             <div class="row statusBlockButtons">
 
-				<div class="col-md-3 totalsField statCol-1">
-					Number of units: <span id="total">0</span>
+				<div class="col-md-2 totalsField statCol-1">
+					Units: <span id="total">0</span>
 				</div>
 				<div class="col-md-3 totalsField statCol-2">
 					Total cost: $ <span id="order_total">0</span>
 				</div>
-				<div class="col-md-3 totalsField statCol-3">
+				<div class="col-md-2 totalsField statCol-3">
 					Turns required: <span id="turn_total">0</span>
 				</div>
-				<div class="col-md-3 totalsField statCol-4">
-					Added networth : $ <span id="networth_total">0</span>
+				<div class="col-md-2 totalsField statCol-4">
+					Added Nw. : $ <span id="networth_total">0</span>
+				</div>
+				<div class="col-md-3 totalsField statCol-3">
+					New Nw. : $ <span id="networth_new">0</span>
 				</div>
 			</div>
             
@@ -206,6 +209,7 @@ $(document).on("keyup paste blur change", ".buyInput", function() {
     var orderval = 0;
     var addednw = 0;
     var turntot = 0;
+    var oldnw = <?php echo $userData['networth'][0];?>;
   
     $(".buyInput").each(function(){
 	    var inputval = $(this).val();
@@ -238,6 +242,7 @@ $(document).on("keyup paste blur change", ".buyInput", function() {
     $("#order_total").html(number_format(orderval, 0, ',', ' '));
     $("#networth_total").html(number_format(addednw, 0, ',', ' '));
     $("#turn_total").html(number_format(turntot, 0, ',', ' '));
+    $("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
     
 });
 $(document).on("click", ".allbutton", function() {
@@ -250,6 +255,7 @@ $(document).on("click", ".allbutton", function() {
 	
 	var orderval = 0;
 	var addednw = 0;
+	var oldnw = <?php echo $userData['networth'][0];?>;
 
 	
 	$(".buyInput").each(function(){
@@ -281,6 +287,7 @@ $(document).on("click", ".allbutton", function() {
     $("#order_total").html(number_format(orderval, 0, ',', ' '));
     $("#networth_total").html(number_format(addednw, 0, ',', ' '));
     $("#turn_total").html(number_format(turntot, 0, ',', ' '));
+    $("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
 });
 
 

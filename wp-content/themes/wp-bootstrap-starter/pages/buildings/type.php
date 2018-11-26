@@ -52,17 +52,20 @@
 	}?>
 <div class="row statusBlockButtons">
 
-	<div class="col-md-3 totalsField statCol-1">
-		Number of buildings: <span id="total">0</span>
+	<div class="col-md-2 totalsField statCol-1">
+		Buildings: <span id="total">0</span>
 	</div>
 	<div class="col-md-3 totalsField statCol-2">
 		Total cost: $ <span id="order_total">0</span>
 	</div>
-	<div class="col-md-3 totalsField statCol-3">
+	<div class="col-md-2 totalsField statCol-3">
 		Turns required: <span id="turn_total">0</span>
 	</div>
-	<div class="col-md-3 totalsField statCol-4">
-		Added networth : $ <span id="networth_total">0</span>
+	<div class="col-md-2 totalsField statCol-4">
+		Added Nw.: $ <span id="networth_total">0</span>
+	</div>
+	<div class="col-md-3 totalsField statCol-3">
+		New Nw.: $ <span id="networth_new"></span>
 	</div>
 </div>
 
@@ -125,14 +128,17 @@
         ?>
 <div class="row statusBlockButtons">
 
-	<div class="col-md-4 totalsField statCol-1">
+	<div class="col-md-3 totalsField statCol-1">
 		Number of buildings: <span id="demototal">0</span>
 	</div>
-	<div class="col-md-4 totalsField statCol-2">
+	<div class="col-md-3 totalsField statCol-2">
 		Total cost: $ <span id="demoorder_total">0</span>
 	</div>
-	<div class="col-md-4 totalsField statCol-3">
+	<div class="col-md-3 totalsField statCol-3">
 		Networth lost: $ <span id="demonetworth_total">0</span>
+	</div>
+	<div class="col-md-3 totalsField statCol-4">
+		New Nw.: $ <span id="networth_new_demo"></span>
 	</div>
 </div>
 <input type="submit" value="Demolish" class="mainSubmit hoverEffect">

@@ -105,14 +105,17 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
             
 <div class="row statusBlockButtons">
 
-	<div class="col-md-4 totalsField statCol-1">
+	<div class="col-md-3 totalsField statCol-1">
 		Number of units: <span id="totalsell">0</span>
 	</div>
-	<div class="col-md-4 totalsField statCol-2">
+	<div class="col-md-3 totalsField statCol-2">
 		Return value: $ <span id="return_val">0</span>
 	</div>
-	<div class="col-md-4 totalsField statCol-3">
+	<div class="col-md-3 totalsField statCol-3">
 		Networth lost: $ <span id="nw_lost">0</span>
+	</div>
+	<div class="col-md-3 totalsField statCol-4">
+		New networth: $ <span id="networth_new"></span>
 	</div>
 </div>
             
@@ -137,6 +140,7 @@ $(document).on("keyup paste blur change", ".sellInput", function() {
     var sum = 0;
     var orderval = 0;
     var nwlost = 0;
+    var oldnw = <?php echo $userData['networth'][0];?>;
 
     $(".sellInput").each(function(){
 	    var inputval = $(this).val();
@@ -148,10 +152,11 @@ $(document).on("keyup paste blur change", ".sellInput", function() {
         	
         }
     });
-
+	
     $("#totalsell").html(sum);
     $("#return_val").html(number_format(orderval, 0, ',', ' '));
     $("#nw_lost").html(number_format(nwlost, 0, ',', ' '));
+    $("#networth_new").html(number_format(oldnw-nwlost, 0, ',', ' '));
     
 });
 
@@ -159,6 +164,7 @@ $(document).on('click', '.sellall', function() {
 	var sum = 0;
 	var inputkey = $(this).attr( "data-key" );
 	var inputamount = $(this).html();
+	var oldnw = <?php echo $userData['networth'][0];?>;
 
 	$("#sell_"+inputkey).val(inputamount);
 	
@@ -179,6 +185,7 @@ $(document).on('click', '.sellall', function() {
     $("#totalsell").html(sum);
     $("#return_val").html(number_format(orderval, 0, ',', ' '));
     $("#nw_lost").html(number_format(nwlost, 0, ',', ' '));
+    $("#networth_new").html(number_format(oldnw-nwlost, 0, ',', ' '));
 });
 
 
