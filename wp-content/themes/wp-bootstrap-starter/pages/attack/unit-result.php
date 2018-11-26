@@ -474,6 +474,12 @@ $attacks_received = $defenderData['attacks_received'][0];
 update_user_meta($target_id, 'attacks_received', $attacks_received+1);
 
 
+/* Building killer defense, half BK damage if land is lower than 10k */
+
+if($defenderData['land'][0] < 10000){
+	$attacker_type_damage['bld'] = $attacker_type_damage['bld']/2;
+}
+
 
 
 /* calculate power usage */
