@@ -44,11 +44,11 @@
 			'normalname'	=>	'Siege Chopper',
 			'attacks'		=>  array('inf','veh','bld'),
 			'defends'		=>  array('inf','veh'),
-			'attack'		=>	60,
+			'attack'		=>	55,
 			'type'			=>	'air',
 			'sectype'		=>	'normal',
 			'attacktype'	=>	array('air_sea','regular'),
-			'life'			=>	50),
+			'life'			=>	45),
 	'b2_bomber' 	=> array(
 			'price'			=>	'2200',
 			'networth'		=>	13,
@@ -66,7 +66,7 @@
 			'normalname'	=>	'MiG',
 			'attacks'		=>  array('inf','bld'),
 			'defends'		=>  array('inf'),
-			'attack'		=>	35,
+			'attack'		=>	40,
 			'type'			=>	'air',
 			'sectype'		=>	'normal',
 			'attacktype'	=>	array('air_sea','regular'),
@@ -132,8 +132,8 @@
 			'price'			=>	'730',
 			'networth'		=>	10,
 			'normalname'	=>	'Mirage Tank',
-			'attacks'		=>  array('inf','veh'),
-			'defends'		=>  array('inf','veh'),
+			'attacks'		=>  array('inf','bld'),
+			'defends'		=>  array('inf'),
 			'attack'		=>	50,
 			'type'			=>	'veh',
 			'sectype'		=>	'normal',
@@ -297,7 +297,7 @@
 			'type'			=>	'inf',
 			'sectype'		=>	'normal',
 			'attacktype'	=>	array('ground','regular'),
-			'life'			=>	25),
+			'life'			=>	30),
 	
 	
 	/// SEA ///
