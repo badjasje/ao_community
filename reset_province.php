@@ -35,6 +35,17 @@ if (empty($userId) || !is_user_logged_in()) {
 
 if (count($incomingWars) < 1) {
     update_user_meta($userId, 'status', 'dead');
+    $moneyThieved = get_user_meta( $userId, 'money_gained_thieving', true );
+    
+    if(($moneyThieved-20000000) <= 0){
+	    $newValue = 0;
+    }else{
+	    $newValue = $moneyThieved-20000000;
+    }
+    
+    
+    update_user_meta( $userId, 'money_gained_thieving', $newValue );
+    
     $array['status'] = 'Account has been reset';
 	$array['next'] = true;
 	echo json_encode($array);
