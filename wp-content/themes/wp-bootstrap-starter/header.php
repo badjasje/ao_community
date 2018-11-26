@@ -11,6 +11,12 @@
 	
 	global $userId;
 	global $userData;
+	
+	if($userData['status'][0] == 'banned'){
+		echo '<br/><br/><center>Your account is banned from Assault.Online.</center>';
+			die;
+	}
+	
 	$inProgress = $userData['research_in_progress'][0];
 	include('research_array.php');
 	wp_head(); 

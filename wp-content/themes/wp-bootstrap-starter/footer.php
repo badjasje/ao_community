@@ -14,7 +14,7 @@
                 y = x.substr(1,4)+"-";
                 document.write(x);
                 </script>';?></strong>.
-                <br/>Current server date/time is <strong><?php echo date("d-m-Y | G:i", strtotime('+2 hours')); ?></strong><br/>
+                <br/>Current server date/time is <strong><?php echo date("d-m-Y | G:i", strtotime('+1 hours')); ?></strong><br/>
                 <?php if(is_user_logged_in()):?>
                 <a href="<?php echo wp_logout_url( get_site_url()."/home/" ); ?>">Logout</a></center>
                 <?php endif;?>

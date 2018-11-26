@@ -816,6 +816,10 @@ if($war_type != 'none' && $result == 'success') {
 	$inwarattacks = $attackerData['in_war_attacks'][0];
 	update_user_meta($userId, 'in_war_attacks', $inwarattacks+1);
 	
+	/* add attacks for UA */
+	$starting_attacks = get_post_meta($attack_clan_id,'ua_total',true);
+	update_post_meta($attack_clan_id,'ua_total',$starting_attacks+1);
+	
 	$def_total_units = 0;
 	foreach($defender_unit_array as $type => $unit_stats) {
 		$def_total_units += $unit_stats['total_count'];
@@ -873,9 +877,7 @@ if($war_type != 'none' && $result == 'success') {
 
 
 	
-	/* add attacks for UA */
-	$starting_attacks = get_post_meta($attack_clan_id,'ua_total',true);
-	update_post_meta($attack_clan_id,'ua_total',$starting_attacks+1);
+	
 	
 	/* 24H pts update */
 	$_pts = get_post_meta($attack_clan_id, '24h_pts', true);

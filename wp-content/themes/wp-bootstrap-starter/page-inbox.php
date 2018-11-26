@@ -23,7 +23,7 @@ update_user_meta($userId,'new_messages',0);
 $custom_query_args['paged'] = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 	
 	$inboxargs = array(
-	'posts_per_page'   => 20,
+	'posts_per_page'   => 200,
 	'post_type'		=> 'user_message',
 	'meta_key' => 'last_update_stamp',
 	'orderby' => 'meta_value',
