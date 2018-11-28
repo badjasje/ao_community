@@ -1,9 +1,10 @@
 <div class="tab-pane active" id="all" role="tabpanel">
 <div class="row headerRow row-no-padding" style="border-bottom:1px solid #fff;background-color: rgba(<?php echo $backColorCNW;?>, 0.75);border-top:1px solid #fff;">
 	<div class="col-md-1 celBlock"></div>
-	<div class="col-md-4 celBlock">Name</a></strong></div>
-	<div class="col-md-4 celBlock">Networth</strong></div>
-	<div class="col-md-3 celBlock">Land</div>
+	<div class="col-md-4 celBlock" style="max-width: 25% !important">Name</a></strong></div>
+	<div class="col-md-4 celBlock" style="max-width: 23% !important">Networth</strong></div>
+	<div class="col-md-3 celBlock" style="max-width: 23% !important">Land</div>
+	<div class="col-md-3 celBlock" style="max-width: 18% !important">War-Declare Eligible</div>
 </div>
 	
 	
@@ -45,25 +46,37 @@
 			</span>
 		</div>
 	
-	<div class="col-md-4 celBlock allUsersNameCol">
+	<div class="col-md-4 celBlock allUsersNameCol" style="max-width: 25% !important">
 		<a href="<?php echo get_the_permalink($clanId);?>">
 			<?php echo get_the_title($clanId);?> (#<?php echo $clanId;?>)	
 		</a>
 	</div>
-	<div class="col-md-4 celBlock">
+	<div class="col-md-4 celBlock" style="max-width: 23% !important">
 		<span class="columnDataLeft">Networth</span>
 		<span class="columnDataRight store-pop-span2">
 			$ <?php echo number_format(get_post_meta($clanId, 'clan_networth',true), 0, ',', ' ')?>				
 		</span>
 
 	</div>
-	<div class="col-md-3 celBlock">
+	<div class="col-md-3 celBlock style="max-width: 23% !important">
 		<span class="columnDataLeft">Land</span>
 		<span class="columnDataRight land">
 			<?php echo number_format(get_post_meta($clanId, 'clan_land',true), 0, ',', ' ')?> m&#178;
 		</span>
 	</div>
 
+	<div class="col-md-3 celBlock" style="max-width: 18% !important">
+		<span class="columnDataLeft">War-Declare Eligible</span>
+		<span class="columnDataRight land">
+                        <?php $optout = get_post_meta($clanId, 'optout_status',true);
+                        if ($optout == 1) {
+                          ?><font color="red">Opted Out</font><?php 
+                        }
+                        else {
+                          echo "Eligible";
+                        } ?>
+		</span>
+	</div>
 </div> <! // Close profile row -->
 
 <?php  }?>

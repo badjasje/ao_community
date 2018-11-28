@@ -12,6 +12,11 @@
 	</div>
 		
 	<div class="col-md-6 col-lg-4 celBlock" style="padding:0px;">
+		<a href="/optinout-clan">
+			<button class="cancelButton hoverEffect" style="background-color:rgba(66, 92, 107,0.95)"><i class="fa fa-wrench"></i>Opt In or Out of Clan Wars</button>
+		</a>
+	</div>
+	<div class="col-md-6 col-lg-4 celBlock" style="padding:0px;">
 		<a href="/open-invites">
 			<button class="cancelButton hoverEffect" style="background-color:rgba(66, 92, 107,0.9)"><i class="fa fa-envelope-open"></i> Open invites</button>
 		</a>
