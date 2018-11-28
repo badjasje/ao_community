@@ -123,7 +123,7 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 					Added Nw. : $ <span id="networth_total">0</span>
 				</div>
 				<div class="col-md-3 totalsField statCol-3">
-					New Nw. : $ <span id="networth_new">0</span>
+					New Nw. : $ <span id="networth_new"></span>
 				</div>
 			</div>
             
