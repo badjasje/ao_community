@@ -11,6 +11,12 @@
             'level2_value'          => 35000,
             'maxlevel'              => 2,
             'duration'              =>  '15'),
+    'raid_protection'     => array(
+            'name'                  => 'Raid protection',
+            'level1'                => 'Automatically builds 15 antimissile systems, 35 powerplants and puts your account in Assault Protection for 30 minutes when building count drops to 0. Raid protection has a cooldown period of 24 hours.',
+            'maxlevel'              => 1,
+            'description'           => 'Power Plants life and power produced increased by 50%',
+            'duration'              =>  '20'),
     'missile_accuracy'          => array(
             'name'                  => 'Missile accuracy',
             'level1'                => '45% chance to hit target',

@@ -11,7 +11,45 @@ Copyright: Kevin Bogaard
 */
 
 
-
+function raid_protection($target_id){
+	
+	
+	$raidProteectionLevel = get_user_meta( $target_id, 'level_raid_protection', true );
+	
+	if($raidProteectionLevel >= 1):
+		$timestamp = current_time('timestamp');
+		$raidProtectionTimestamp = get_user_meta( $target_id, 'raid_protection_timestamp', true );
+	
+		$raidTimeStamp = 0; 
+		$raidTimeStamp = isset($raidProtectionTimestamp) ?  $raidProtectionTimestamp : 0;
+		$raidTimeStamp = !empty($raidProtectionTimestamp) ?  $raidProtectionTimestamp : 0;
+	
+		if($timestamp > $raidTimeStamp){
+			$land = get_user_meta( $target_id, 'land', true );
+			
+			if($land < 2000){
+				update_user_meta( $target_id, 'land', 2000);
+			}
+			
+			update_user_meta( $target_id, 'antimissile', 15);
+			update_user_meta( $target_id, 'powerplant', 35);
+			update_user_meta( $target_id, 'raid_protection_timestamp', $timestamp+86400);
+			
+			update_user_meta($target_id, 'status', 'nukeprotection');
+			update_user_meta($target_id, 'nuke_protection_timestamp', $timestamp+1800); // 30 minutes protection
+			count_all_stats($target_id);
+			
+			return 'yes';
+			
+		}	else{
+			
+			return 'no';
+			
+		}
+	
+	endif;
+	
+}
 
 function turn_spread($turntype,$addedturns){
 	global $userId;
@@ -1122,12 +1160,16 @@ function after_death( $user_id ) {
 		update_user_meta($user_id, 'level_engineering_effectiveness', 0);
 		update_user_meta($user_id, 'level_bank_management', 0);
 		update_user_meta($user_id, 'level_powerplant_efficiency', 0);
+		update_user_meta($user_id, 'level_raid_protection', 0);
+		
+		
 		update_user_meta($user_id, 'research_in_progress', 0);
 		update_user_meta($user_id, 'queued_research', 0);
 		update_user_meta($user_id, 'sat_in_progress', 0);
 		update_user_meta($user_id, 'sat_owned', 0);
 		update_user_meta($user_id, 'starting_bonus','');
 		update_user_meta($user_id, 'stealth_sat_status',0);
+		
 
 
 		$args = array(

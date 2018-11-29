@@ -492,6 +492,15 @@ $money_stolen = 0;
 
 $killed = false;
 if($result == 'success'){
+
+if ($_total_bld_def <= 0) {
+	$protected = raid_protection($target_id);
+	if($protected == 'yes'){
+		$_total_bld_def = 999999; // just some bullshit number to stop dying
+	}
+}		
+	
+	
 if ($def_lostbuildings_tot >= $_total_bld_def) {
     $killed = true;
     update_user_meta($target_id, 'status', 'dead');

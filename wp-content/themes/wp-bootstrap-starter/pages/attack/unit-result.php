@@ -811,6 +811,17 @@ if($result == 'success'){
 }
 
 $killed = false;
+
+if ($defender_buildings_lost >= $defender_building_total) {
+	$protected = raid_protection($target_id);
+	if($protected == 'yes'){
+		$defender_building_total = 999999; // just some bullshit number to stop dying
+	}
+}		
+	
+
+
+
 if ($defender_buildings_lost >= $defender_building_total) {
 	$killed = true;
 	kill_player($target_id);
