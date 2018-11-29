@@ -88,7 +88,6 @@ if ($attack_cost_turns > $attack_curr_turns) {
 /* deduct attack cost */
 $attack_new_turns = $attack_curr_turns - $attack_cost_turns;
 update_user_meta($userId, 'turns', $attack_new_turns);
-turn_spread('unit_attack',$attack_cost_turns);
 $attack_new_morale = $attack_curr_morale - $attack_cost_morale;
 update_user_meta($userId, 'morale', $attack_new_morale);
 
@@ -474,12 +473,6 @@ $attacks_received = $defenderData['attacks_received'][0];
 update_user_meta($target_id, 'attacks_received', $attacks_received+1);
 
 
-/* Building killer defense, half BK damage if land is lower than 10k */
-
-if($defenderData['land'][0] < 10000){
-	$attacker_type_damage['bld'] = $attacker_type_damage['bld']/2;
-}
-
 
 
 /* calculate power usage */
@@ -769,7 +762,16 @@ if($result == 'success'){
 	    $land_stolen   = max(ceil($freeland * $STOLEN_LAND_RATIO * $resourceMulti * $aggressive_multi * $extraLandKill * resource_dice_roll()), 0);
 	    $money_stolen  = max(ceil($money * ($STOLEN_MONEY_RATIO * $resourceMulti*$extraLandKill) * resource_dice_roll()*$aggressive_multi), 0);
 	}
-
+        //MEGA        
+        //Divide land and money stolen if users clan is opting out of wars      
+        $userclan = get_user_meta($userId, 'clan_id_user', true);
+        $useroptoutstatus=get_post_meta($userclan, 'optout_status',true);
+        if ($useroptoutstatus == "1") {
+          $land_stolen = ceil($land_stolen/2);
+          $money_stolen = ceil($money_stolen/2);
+        }
+        //Done
+        
 	$attackermoney = $attackerData['money'][0];
 	$attackerland  = $attackerData['land'][0];
 
@@ -822,10 +824,6 @@ if($war_type != 'none' && $result == 'success') {
 	$inwarattacks = $attackerData['in_war_attacks'][0];
 	update_user_meta($userId, 'in_war_attacks', $inwarattacks+1);
 	
-	/* add attacks for UA */
-	$starting_attacks = get_post_meta($attack_clan_id,'ua_total',true);
-	update_post_meta($attack_clan_id,'ua_total',$starting_attacks+1);
-	
 	$def_total_units = 0;
 	foreach($defender_unit_array as $type => $unit_stats) {
 		$def_total_units += $unit_stats['total_count'];
@@ -837,7 +835,7 @@ if($war_type != 'none' && $result == 'success') {
 
 		$clan_points = calculate_pts($defender_building_NW_lost,$defender_unit_NW_lost,$aggressive_multi);
 
-
+                 
                  if ($networth_def > 290000) {
 
                    $reductionFactor =  (sqrt(($networth_def)/1.5/65)/2)-25;
@@ -847,7 +845,6 @@ if($war_type != 'none' && $result == 'success') {
 
 
                  }
-
 
 	}
 	
@@ -882,8 +879,12 @@ if($war_type != 'none' && $result == 'success') {
 
 
 
-	
-	
+	/* add points */
+	$starting_points = get_post_meta($attack_clan_id,'clan_points',true);
+	update_post_meta($attack_clan_id,'clan_points',$starting_points+$clan_points);
+	/* add attacks for UA */
+	$starting_attacks = get_post_meta($attack_clan_id,'ua_total',true);
+	update_post_meta($attack_clan_id,'ua_total',$starting_attacks+1);
 	
 	/* 24H pts update */
 	$_pts = get_post_meta($attack_clan_id, '24h_pts', true);
@@ -979,9 +980,15 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 
 	
 	?>
+<script>
+	jQuery(document).ready(function() {
+		jQuery( "#successsplash" ).show();
+		jQuery( "#successsplash" ).delay(750).fadeOut( "slow");
+		jQuery('.pageTitle').html('S U C C E S S');
+	});
+</script>
 
-
-<div class="blockHeader">You won the battle against <?php echo get_user_name($target_id);?>
+<div class="blockHeader">You won the battle against <?php echo get_user_name($target_id)?>
 	<?php if ($killed == true):?>
 		<u>and killed this player</u>
 	<?php endif;?>
@@ -989,6 +996,13 @@ update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
 
 <?php else:	?>
 
+<script>
+	jQuery(document).ready(function() {
+		jQuery( "#failsplash" ).show();
+		jQuery( "#failsplash" ).delay(750).fadeOut( "slow")
+		jQuery('.pageTitle').html('F A I L U R E');
+	});
+</script>
 <div class="blockHeader">You lost the battle against <?php echo get_user_name($target_id);?>
 	<?php if ($killed == true):?>
 		<u>but managed to kill this player</u>
@@ -1098,7 +1112,6 @@ $args = array(
 );
 			
 $new_event_id = wp_insert_post( $args );
-update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 update_field('defender_lost', $def_unitslost, $new_event_id);
 update_field('attacker_lost', $att_unitslost, $new_event_id);
 update_field('land_lost', $land_stolen, $new_event_id);
@@ -1180,12 +1193,9 @@ update_user_meta($target_id, 'new_events', $event_count + 1);
 $user_pts = $attackerData['user_clan_points'][0];
 update_user_meta($userId,'user_clan_points',$user_pts+$clan_points);
 
-$current_clan_pts = $attackerData['current_clan_points'][0];
-update_user_meta($userId, 'current_clan_points', $current_clan_pts+$clan_points);
-
-/* add points for attacking clan */
-$starting_points = get_post_meta($attack_clan_id,'clan_points',true);
-update_post_meta($attack_clan_id,'clan_points',$starting_points+$clan_points);
+// Update attacker points for current clan
+$userAttPts = $attackerData['current_clan_points'][0];
+update_user_meta($userId, 'current_clan_points', $userAttPts+$clan_points);
 
 
 $last_ids = $attackerData['last_attacked'][0];

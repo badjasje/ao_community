@@ -14,9 +14,8 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     exit;
 }
 
-global $userId;
-global $userData;
 
+$userId = get_current_user_ID();
 $slug = strtolower($_POST['clanname']);
 
 $args = array(
@@ -57,8 +56,28 @@ update_field('ct_1', 0, $new_order_id);
 update_field('ct_2', 0, $new_order_id);
 update_field('ct_3', 0, $new_order_id);
 update_field('ct_4', 0, $new_order_id);
+
 update_post_meta($new_order_id, 'bonus_level', 0);
 update_post_meta($new_order_id, 'clan_points', 0);
+$array['optin'] = $_POST['optin_status'];
+
+if ($_POST['optin_status'] == 'optedout') {
+  $array['thing'] = "optedout";
+  //update_post_meta($new_order_id, 'optout_status','1');
+  //update_post_meta($new_order_id, 'optout_reset','1');
+
+  update_field('optout_status', '1', $new_order_id);
+  update_field('optout_reset', '1', $new_order_id);
+}
+if ($_POST['optin_status'] == 'optedin') {
+  $array['thing'] = "optedin";
+  //update_post_meta($new_order_id, 'optout_status','0');
+  //update_post_meta($new_order_id 'optout_reset','0');
+  update_field('optout_status', '0', $new_order_id);
+  update_field('optout_reset', '0', $new_order_id);
+}
+
+
  $array['status'] = 'Clan successfully created';
 $array['next'] = true;
 echo json_encode($array);
