@@ -439,6 +439,14 @@ if(array_key_exists('tomahawk', $attack_array)){
 
 update_user_meta($userId, 'tomahawk_owned', $tomahawks-$tomahawksSent);
 }
+
+/* Building killer defense, half BK damage if land is lower than 10k */
+
+if($defenderData['land'][0] < 10000){
+	$attacker_type_damage['bld'] = $attacker_type_damage['bld']/2;
+}
+
+
 // Check if there are wars for statistic counting
 $warstatID = 0;
 $warcheck = get_posts(
