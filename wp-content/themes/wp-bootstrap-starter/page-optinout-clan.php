@@ -12,6 +12,7 @@ $clanData = get_post_meta($clan_ID);
 
 $clanleader = $clanData['clan_leader'][0];
 $clanmembers = maybe_unserialize(get_post_meta( $clan_ID, 'clan_members', true ));
+$clanmembers_count = 5;
 $ct_1 = get_post_meta($clan_ID,'ct_1',true);
 $ct_2 = get_post_meta($clan_ID,'ct_2',true);
 $ct_3 = get_post_meta($clan_ID,'ct_3',true);
@@ -27,107 +28,72 @@ $playstyle = get_post_meta($clan_ID, 'autojoin_playstyle', true);
 $optinout_status = get_post_meta($clan_ID, 'optout_status', true);
 $optinout_reset = get_post_meta($clan_ID, 'optout_reset',true);
 
-$casual = '';
-$points = '';
-$networth = '';
-$other = '';
-if($playstyle == 'Casual'){
-	$casual = 'selected="selected"';
-}
-if($playstyle == 'Points'){
-	$points = 'selected="selected"';
-}
-if($playstyle == 'Networth'){
-	$networth = 'selected="selected"';
-}
-if($playstyle == 'Other'){
-	$other = 'selected="selected"';
-}
 
-
-$autojoinYes = '';
-$autojoinNo = '';
-
-if($autojoin == 'yes'){
-	$autojoinYes = 'selected="selected"';
-}
-if($autojoin == 'no'){
-	$autojoinNo = 'selected="selected"';
-}
 
 
 $clan = get_post($clan_ID);
+$timestamp = current_time('timestamp');
+
+$exclusiondate = strtotime(get_field('starting_date','options'));
 
 ?>
+<div class="row pageRow fw-row">	
+	
+	
+<div class="blockHeader">
+	Opt In or Out of Clan Wars!
+</div>
 
-<form id="optinout-clan" method="post">
-<div class="row pageRow">	
+<div class="blockHeader spaceNotice">
+        Current Status: <?php if ($optinout_status != 1) {?>Opted<strong> <font color="green">IN!</font></strong> You will be a part of the competetive points list this round<?php ;} else { ?>Opted <strong><font color="red"> OUT!</font></strong> You cannot be declared on, or declare wars this round<?php } ?>
+</div>
+
 	
 
-<div class="col-md-6 col-lg-4 col-no-padding editClanCol" style="height: 380px !important" >
-	<div class="blockHeader">
-	Opt In or Out of Clan Wars!
-	</div>
+<div class="col-md-12 clanMessage">
+	
         It is now possible to opt out of clan wars.<br/><br/>If your clan has LESS than 4 members, you can opt out of clan wars once per round within the first 7 days of the round, or the first 7 days of formulation of your clan.<br/><br/>
         ONCE YOU HAVE CHANGED THIS SETTING, IT CANNOT BE CHANGED AGAIN IN A SINGLE ROUND<br/><br/>
         Opting out achieves the following:
         <ul><li>You cannot be declared upon</li><li>You cannot declare on others</li><li>Outgoing attacks from your clan give you 50% less resources at all times</li></ul>
 </div>
-<div class="col-md-6 col-lg-4 col-no-padding editClanCol" style="height: 380px !important">
-	<div class="blockHeader">&nbsp;
-	</div>
-	<div class="blockHeader" style="background-color:#fff;color:#545454">
-	Opt In or Out of Clan Wars<br/><br/>
-        Current Status: <?php if ($optinout_status != 1) {?>Opted<strong> <font color="green">IN!</font></strong> You will be a part of the competetive points list this round<?php ;} else { ?>Opted <strong><font color="red"> OUT!</font></strong> You cannot be declared on, or declare wars this round<?php } ?>
-	</div>
-<?php
-                                          $exclusiondate=strtotime(get_field('starting_date','options'))+604800;
-                                          $currenttimestamp=time();
-?>
-	<div style="padding: 0px 9px;width:100%;" class="attackDropdown statCol-2 no-gutters">
+	
 
-					<?php
-                                          if ($optinout_reset == 1) {
-                                            
-                                            echo "You have already changed your opt in/out settings this round";
-                                          }
-                                          else if ($currenttimestamp > $exclusiondate) {
-                                            if ($optinout_reset == 1) { echo "";} else { 
-                                            echo "The round is more than a week old, you can no longer opt out of clan wars this round";
-                                          } }
-                                          else { ?>
-		<select id="optin_status" name="optin_status" class="attackTypeInput">
-                                              <?php 
-                                                if ($optinout_status != 1) {
-                                                  $optinout_status = "0";
-                                                  ?>
-                                                  <option value="optedin" name"optin_status" selected="selected">Opted IN</option>
-                                                  <option value="optedout" name"optin_status" >Opt OUT now</option>
-                                                  <?
-                                                }
-                                                else {
-                                                  $optinout_status = "1";
-                                                 
-                                                  ?>
-                                                  <option value="optedout" name"optin_status" selected="selected">Opted OUT</option>
-                                                  <option value="optedin" name"optin_status">Opt IN now</option>
-                                                  <?
-                                                }
-                                              
-			                ?>
-		</select>
-                <?php } ?>
+<?php if ($optinout_reset == 1):?>
+	
+	<div class="blockHeader">You have already changed your opt in/out settings this round</div>
+
+	<?php elseif ($timestamp < $exclusiondate):?>
+		
+		<?php if ($optinout_reset == 1):?> 
+		
+		<?php else:?>
+			
+			<div class="blockHeader">The round is more than a week old, you can no longer opt out of clan wars this round</div>
+		<?php endif;?>
+	<?php else:?>
+	
+	
+	<form id="optinout-clan" class="fw-row"method="post">
+	<div class="row no-gutters fw-row">
+		
+		<div class="col-md-6 no-gutters">
+			<input style="display:none;" type="radio" value="optedin" name="optin_status" id="optedin" required>
+			<label style="background-color:rgba(66, 92, 107,1)" class="mainSubmit hoverEffect attackSelect" for="optedin">
+				<i class="fas fa-check"></i> Opt in
+			</label>
+		</div>
+		<div class="col-md-6 no-gutters">
+			<input style="display:none;" type="radio" value="optedout" name="optin_status" id="optedout" required>
+			<label style="background-color:rgba(66, 92, 107,0.95)"class="mainSubmit hoverEffect attackSelect" for="optedout">
+				<i class="fas fa-ban"></i> Opt out
+			</label>
+		</div>
 	</div>
 	
-	<div class="form-group">
-		<div class="blockHeader" style="background-color:#fff;color:#545454">
-        <?php if (($optinout_reset == 1) or ($currenttimestamp > $exclusiondate)) {} else { ?>Why may you wish to do this? Easy. If you opt out: Those pesky highly aggressive top points clans cannot declare on you. You can build your province in a sustainable way and not get smashed whilst you sleep.<br/>
-        If you aren't sure whether or not to go for this - we recommend you first of all ask for some advice in the<strong> <a style="color:#000000" href="https://discord.gg/ttdng4n" target="_blank">Discord channel!</a></strong> Remember, once you opt out, you cannot change it this round! <?php } ?>
-		</div>
-  	</div>
-</div>
-<?php
-$clanmembers_count = count($clanmembers);
+	
+	<?php
+
 
 if ($user_ID == $clanleader and ($optinout_reset != 1)) {
 ?><input class="mainSubmit" type="submit" value="Change Opt In or Out Settings" name="submit">
@@ -144,17 +110,31 @@ else {
 
 //MEGA DEBUG OVERRIDE THE STUFF
 ?>
- <select id="optin_status" name="optin_status" class="attackTypeInput">
-                                                  <option value="optedin" name"optin_status" selected="selected">Opted IN</option>
-                                                  <option value="optedout" name"optin_status" >Opt OUT now</option>
-                </select>
+	
+	
+	</form>
+	
+	
+	
+	
+                <?php endif; ?> 
+
+<div class="pageSpacer"></div>
+<div class="col-md-12 clanMessage">
+Why would you want to opt out? Easy. If you opt out: top points clans cannot declare your clan. You can build your province in a sustainable way without being killed.<br/>
+        If you aren't sure whether or not to go for this - we recommend you first of all ask for some advice in the<strong><u> <a style="color:#fff" href="https://discord.gg/ttdng4n" target="_blank">Discord channel!</a></u></strong> Remember, once you opt out, you cannot change it this round! 
+		</div>
+  	</div>
+</div>
+
+
 <?
 
 
 
 ?>
 
-</form>
+
 	
 	
 	

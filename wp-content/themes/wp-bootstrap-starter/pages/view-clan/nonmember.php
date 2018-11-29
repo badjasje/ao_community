@@ -11,9 +11,9 @@
 	<div class="col-md-12 loginfield statCol-2">
 		<input required type="text" name="clantag" id="clantag" maxlength="5" placeholder="Clan Tag. Max 5 characters.">
 	</div>
-        
-	<div class="col-md-12 loginfield statCol-2">
-          <h2>Opt In or Out of Clan Wars? </h2>
+	<div class="pageSpacer"></div>
+	<div class="col-md-12 clanMessage">
+          <h2 style="color:#fff;">Opt In or Out of Clan Wars? </h2>
           <select id="optin_status" name="optin_status" class="attackTypeInput" style="background-color:white !important">
             <option value="optedin" name"optin_status" selected="selected">Opt IN: Gain clan points, be eligible for personal and clan awards, be able to declare and recieve wars.</option>
             <option value="optedout" name"optin_status" >Opt OUT: Avoid eligibility for all toplists, but also gain protection from unwanted incoming clan wars (Sandbox mode)</option>
