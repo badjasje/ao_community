@@ -256,19 +256,36 @@ if (is_user_logged_in() && !is_admin()){
 	$userStatus = get_user_meta($userId, 'status',true);
 }
 	$path = $_SERVER['REQUEST_URI'];
+	$url = $path;
+	$urlParts = explode('/', str_ireplace(array('http://', 'https://'), '', $url));
+	
 	$pathArray = array(
-		'/dashboard/',
-		'/dashboard',
-		'/research',
-		'/research/',
-		'/bank/',
-		'/bank',
-		'/',
-		'',
+		'dashboard',
+		'events',
+		'buildings',
+		'toplists',
+		'units',
+		'clan-wars',
+		'satellites',
+		'buy',
+		'clan-information',
+		'player-statistics',
+		'users',
+		'clan-member-information',
+		'conversations',
+		'explore',
+		'bank',
+		'sell',
+		'missiles',
+		'orders',
+		'research',
+		'send-aid',
+		'all-clans',
+		'forum',
 		);
 	
 	
-		if( !is_user_logged_in() && in_array($path, $pathArray)){
+		if( !is_user_logged_in() && in_array($urlParts[1], $pathArray)){
 				header("Location: ".get_site_url()."/home/");
 				exit();
 			}
