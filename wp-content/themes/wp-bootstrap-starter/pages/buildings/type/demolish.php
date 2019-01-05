@@ -57,6 +57,23 @@ $backColor = "127, 82, 67"
 						$maxOwned = 0;
 					}
 				}
+				
+				if ($buildingKey == 'command_centre') {
+
+					$maxMoney = floor($maxMoney - ($totalspecial / 5));
+
+					if ($maxMoney < 0) {
+						$maxMoney = 0;
+					}
+
+					$maxOwned = floor($maxOwned - ($totalspecial / 5));
+
+					if ($maxOwned < 0) {
+						$maxOwned = 0;
+					}
+				}
+				
+				
 
 				if ($buildingKey == 'shipyard') {
 

@@ -40,6 +40,12 @@ foreach ($units as $key => $order) {
 	$units_owned   = $userData[$key.'_owned'][0];
 	$units_ordered = $userData[$key.'_ordered'][0];
 	$unittype      = $units[$key]['type'];
+	$secondarytype = $units[$key]['sectype'];
+	
+	if($secondarytype == 'special'){
+		$totalspecial += $units_ordered + $units_owned;
+	}
+	
 	if ($unittype == 'air') {
 		$totalair += $units_ordered + $units_owned;
 	}
@@ -132,11 +138,8 @@ $("#buildbuildings").submit(function(event){
 					},{
 					type: 'info',
 					delay: 5000,
-					template: 	'<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-								'<i class="fa fa-info-circle"></i> ' +
-								'' +
-								'<span data-notify="message">{2}</span>' +
-								'</div>'
+					allow_dismiss: true,
+					newest_on_top: true,
 						});	
 			$.each( array.newmax, function( key, value ) {
 					$('#button'+key).html(value);
@@ -186,11 +189,8 @@ $("#demobuildings").submit(function(demolishevent){
 					},{
 					type: 'info',
 					delay: 5000,
-					template: 	'<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-								'<i class="fa fa-info-circle"></i> ' +
-								'' +
-								'<span data-notify="message">{2}</span>' +
-								'</div>'
+					allow_dismiss: true,
+					newest_on_top: true,
 						});	
 			if(array.next == true){
 				$.each( array.newmax, function( key, value ) {
