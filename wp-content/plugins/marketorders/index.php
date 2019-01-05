@@ -768,11 +768,8 @@ function alert_notification($message){
 },{
 	type: 'minimalist',
 	delay: 5000,
-	template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-		'<i class="fa fa-info-circle"></i> ' +
-		'' +
-		'<span data-notify="message">{2}</span>' +
-	'</div>'
+	allow_dismiss: true,
+	newest_on_top: true,
 });	
 			
 			
@@ -1879,21 +1876,62 @@ function fcm_send_notification($receiver,$type,$attacker){
 	$member_data = get_userdata($receiver);
 	$displayName = $member_data->display_name;
 	
-	if($type == 'attack'){
+	if($type == 'regular' || $type == 'ground' || $type == 'air_sea'){
+		$avatar = get_user_meta($attacker, 'avatar_user', true);
 		$body = 'You were attacked by '.$displayName.' (#'.$receiver.')';
 		$url = get_site_url().'/events/incoming/';
 	}
+	
+	if($type == 'spy'){
+		$avatar = get_site_url().'/unknown.png';
+		$body = 'Someone spied your base';
+		$url = get_site_url().'/events/incoming/';
+	}
+	
+	if($type == 'thief'){
+		$avatar = get_site_url().'/unknown.png';
+		$body = 'Someone sent a thief';
+		$url = get_site_url().'/events/incoming/';
+	}
+	
+	if($type == 'sniper'){
+		$avatar = get_site_url().'/unknown.png';
+		$body = 'Someone sent a sniper';
+		$url = get_site_url().'/events/incoming/';
+	}
+	
+	if($type == 'saboteur'){
+		$avatar = get_site_url().'/unknown.png';
+		$body = 'Someone sent a sniper';
+		$url = get_site_url().'/events/incoming/';
+	}
+	
+	if($type == 'missile'){
+		$avatar = get_user_meta($attacker, 'avatar_user', true);
+		$body = $displayName.' (#'.$receiver.') launched a missile at your base';
+		$url = get_site_url().'/events/incoming/';
+	}
+	
+	if($type == 'satellite'){
+		$avatar = get_user_meta($attacker, 'avatar_user', true);
+		$body = $displayName.' (#'.$receiver.') fired a satellite at your base';
+		$url = get_site_url().'/events/incoming/';
+	}
+	
 	if($type == 'research'){
+		$avatar = get_user_meta($attacker, 'avatar_user', true);
 		$body = 'Research completed';
 		$url = get_site_url().'/research/';
 	}
+	
 	if($type == 'message'){
+		$avatar = get_user_meta($attacker, 'avatar_user', true);
 		$body = 'New message received';
 		$url = get_site_url().'/conversations/';
 	}
 	
 	
-	$avatar = get_user_meta($attacker, 'avatar_user', true);
+	
 	
 	$message = array( 
 		'title'     	=> 	'Assault.Online',

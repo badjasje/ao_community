@@ -169,7 +169,7 @@ if($result == 'success'):?>
 update_user_meta($userId, 'user_lock', 0);
 count_all_stats($target_id);
 count_all_stats($userId);
-fcm_send_notification($target_id,'attack',$userId);
+fcm_send_notification($target_id,$attack_type,$userId);
 ?>
 <script>
 (function($) {

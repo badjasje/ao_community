@@ -124,7 +124,7 @@
   gtag('config', 'UA-40825301-45');
 </script>
 
-<?php if($userId == 1 || $userId == 234 || $userId == 29 || $userId == 1029 || $userId == 2233 || $userId == 487):?>
+
 <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
 
 <!-- Add additional services that you want to use -->
@@ -175,9 +175,6 @@ messaging.getToken().then(function(currentToken) {
 </script>
 
 
-
-
-<?php endif;?>
 </head>
 
 <body <?php body_class(); ?>>
@@ -257,8 +254,8 @@ messaging.getToken().then(function(currentToken) {
 	<?php if($hideitems == 'false'):?>
 	<div id="mySidenav" class="sidenav">
 			
-			<div class="row menuRow hideMenuItem">
-				<div class="col-md-2 col-xs-2 buttonItem">
+			<div class="row menuRow hideMenuItem hide-menu-icon">
+				<div class="col-md-2 col-xs-2 buttonItem ">
 					<a href="/dashboard/">
 						<button class="menu-item" type="button" >
 							<i class="fas fa-tachometer-alt"></i> 
@@ -269,6 +266,22 @@ messaging.getToken().then(function(currentToken) {
 					<a href="/dashboard/">Dashboard</a>
 				</div>
 			</div>
+			
+			
+			<div class="row menuRow hideMenuItem">
+				<div class="col-md-2 col-xs-2 buttonItem">
+					<a target="_blank" href="/push-messaging.html">
+						<button class="menu-item" type="button" >
+							<i class="fas fa-bell"></i>
+						</button>
+					</a>
+				</div>
+				<div class="col-md-10 col-xs-10 menuText">
+					<a target="_blank" href="/push-messaging.html">Push Messaging</a>
+				</div>
+			</div>
+			
+			
 			
 			
 			
