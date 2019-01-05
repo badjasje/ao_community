@@ -168,6 +168,12 @@ $infdamage = $INF_ATT_power;
 $vehdamage = $VEH_ATT_power;
 $seadamage = $SEA_ATT_power;
 $blddamage = $BLD_ATT_power*1.2;
+
+if($defenderData['land'][0] < 10000){
+	$blddamage = $blddamage/2;
+}
+
+
 // DEFENDING //
 $_total_air_units_def = 0;
 $_total_inf_units_def = 0;
@@ -493,20 +499,21 @@ $money_stolen = 0;
 $killed = false;
 if($result == 'success'){
 
-if ($_total_bld_def <= 0) {
-	$protected = raid_protection($target_id);
-	if($protected == 'yes'){
-		$_total_bld_def = 999999; // just some bullshit number to stop dying
-	}
-}		
 	
 	
 if ($def_lostbuildings_tot >= $_total_bld_def) {
-    $killed = true;
-    update_user_meta($target_id, 'status', 'dead');
-    update_user_meta($target_id, 'networth', 0);
-    update_user_meta($target_id, 'land', 0);
-    after_death($target_id);
+	
+	$protected = raid_protection($target_id);
+	
+	if($protected == 'yes'){
+		$_total_bld_def = 999999; // just some bullshit number to stop dying
+	}else{
+	    $killed = true;
+	    update_user_meta($target_id, 'status', 'dead');
+	    update_user_meta($target_id, 'networth', 0);
+	    update_user_meta($target_id, 'land', 0);
+	    after_death($target_id);
+		}
 	}
 }
 
@@ -557,7 +564,8 @@ update_user_meta($target_id, 'times_killed', $times_killed+1);
 	        The division on the defender NW will decrease the overall points which nukes offer. HIGHER division = less pts */
 	
 	     /* New function MEGA should award reasonable points */
-            $clan_points = ($def_NW_lost/1100)+((sqrt($def_NW_lost)/25) * ((sqrt($networth_def*1.5)/4.1)/100));
+	     /* 5-1-2019 Kevin edit, just 90% awarded as per suggestions yo */
+            $clan_points = (($def_NW_lost/1100)+((sqrt($def_NW_lost)/25) * ((sqrt($networth_def*1.5)/4.1)/100)))*0.9;
 	    
 
 

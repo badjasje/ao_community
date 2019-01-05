@@ -58,6 +58,11 @@ if ($sat_owned != 'laser') {
 }
 
 $blddamage = rand(6500,8000);
+
+if($defenderData['land'][0] < 10000){
+	$blddamage = $blddamage/2;
+}
+
 update_user_meta($userId,'sat_morale',$sat_morale-100);
 $result = 'success';
 
