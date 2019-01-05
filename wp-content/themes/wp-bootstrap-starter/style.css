@@ -1519,6 +1519,11 @@ display: none;
 	}
 	}
 @media only screen and (max-width: 768px) {
+	
+.alert{
+	right:0px !important;
+	z-index:9999999999999 !important;
+}
 	.sortMobile{
 		display: block;
 		padding: 10px 10px 10px 15px;
@@ -1689,6 +1694,10 @@ display: none;
 	}
 	.hideMenuItem{
 		display: none;
+	}
+	.hide-menu-icon{
+		display: none;
+		height:0px;
 	}
 	.mobileHide{
 		display:none;
