@@ -189,13 +189,10 @@ $("#market").submit(function(event){
 					message: array.status,
 					},{
 					type: 'info',
+					allow_dismiss: true,
+					newest_on_top: true,
 					delay: 5000,
-					template: 	'<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-								'<i class="fa fa-info-circle"></i> ' +
-								'' +
-								'<span data-notify="message">{2}</span>' +
-								'</div>'
-						});	
+											});	
 			$('#order_total').html('0');
 			$('#total').html('0');
 			$('#networth_total').html('0');

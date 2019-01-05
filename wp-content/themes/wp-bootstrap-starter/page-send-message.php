@@ -11,7 +11,7 @@ $receiver_ID = $_GET['id'];
 	
 <div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.75-(1/100);?>);">
 		<div class="col-md-1 col-no-padding sea_heading allUsersAvatarCol">
-			<?php echo small_avatar($receiver_ID,'allUsersAvatar');?><span class="mobileUserName"><?php echo get_user_name($sender_ID);?></span>
+			<?php echo small_avatar($receiver_ID,'allUsersAvatar');?><span class="mobileUserName"><?php echo get_user_name($receiver_ID);?></span>
 		</div>
 	
 		<div class="col-md-11 celBlock allUsersNameCol">
@@ -64,11 +64,8 @@ $("#message").submit(function(event){
 				},{
 				type: 'info',
 				delay: 5000,
-				template: 	'<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-							'<i class="fa fa-info-circle"></i> ' +
-							'' +
-							'<span data-notify="message">{2}</span>' +
-							'</div>'
+				allow_dismiss: true,
+				newest_on_top: true,
 					});	
 			$('#message').trigger("reset");
 			

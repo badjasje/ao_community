@@ -169,11 +169,8 @@ $('form').submit(function( event ) {
 					},{
 					type: 'info',
 					delay: 5000,
-					template: 	'<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-								'<i class="fa fa-info-circle"></i> ' +
-								'' +
-								'<span data-notify="message">{2}</span>' +
-								'</div>'
+					allow_dismiss: true,
+					newest_on_top: true,
 						});	
 			
 			$('#money').html(number_format(array.money, 0, ',', ' '));
