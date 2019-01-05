@@ -33,8 +33,21 @@ class Asgaros_Forum_Admin_UserGroups_Table extends WP_List_Table {
         $columnHTML .= '<input type="hidden" id="usergroup_'.$item['term_id'].'_color" value="'.esc_html(stripslashes($item['color'])).'">';
         $columnHTML .= '<input type="hidden" id="usergroup_'.$item['term_id'].'_visibility" value="'.esc_html(stripslashes($item['visibility'])).'">';
         $columnHTML .= '<input type="hidden" id="usergroup_'.$item['term_id'].'_auto_add" value="'.esc_html(stripslashes($item['auto_add'])).'">';
+        $columnHTML .= '<div class="usergroup-icon">';
         $columnHTML .= '<div class="usergroup-color" style="background-color: '.$item['color'].';"></div>';
-        $columnHTML .= '<a class="usergroup-name" href="'.admin_url('users.php?forum-user-group='.$item['term_id']).'">'.stripslashes($item['name']).' <span class="element-id">('.sprintf(_n('%s User', '%s Users', $item['users'], 'asgaros-forum'), $users_i18n).')</span></a>';
+        $columnHTML .= '</div>';
+        $columnHTML .= '<a class="usergroup-name" href="'.admin_url('users.php?forum-user-group='.$item['term_id']).'">';
+        $columnHTML .= stripslashes($item['name']);
+        $columnHTML .= '&nbsp;';
+        $columnHTML .= '<span class="element-id">';
+        $columnHTML .= '('.__('ID', 'asgaros-forum').': '.$item['term_id'].')';
+        $columnHTML .= '</span>';
+        $columnHTML .= '</a>';
+        $columnHTML .= '<br>';
+        $columnHTML .= '<span class="forum-description">';
+        $columnHTML .= sprintf(_n('%s User', '%s Users', $item['users'], 'asgaros-forum'), $users_i18n);
+        $columnHTML .= '</span>';
+
 
         return $columnHTML;
     }
@@ -57,9 +70,9 @@ class Asgaros_Forum_Admin_UserGroups_Table extends WP_List_Table {
 
     function column_actions($item) {
         $columnHTML = '';
-        $columnHTML .= '<a href="#" class="usergroup-delete-link link-delete" data-value-id="'.$item['term_id'].'" data-value-editor-title="'.__('Delete User Group', 'asgaros-forum').'">'.__('Delete', 'asgaros-forum').'</a>';
+        $columnHTML .= '<a href="#" class="usergroup-delete-link link-delete" data-value-id="'.$item['term_id'].'" data-value-editor-title="'.__('Delete Usergroup', 'asgaros-forum').'">'.__('Delete', 'asgaros-forum').'</a>';
         $columnHTML .= ' &middot; ';
-        $columnHTML .= '<a href="#" class="usergroup-editor-link" data-value-id="'.$item['term_id'].'" data-value-category="'.$item['parent'].'" data-value-editor-title="'.__('Edit User Group', 'asgaros-forum').'">'.__('Edit', 'asgaros-forum').'</a>';
+        $columnHTML .= '<a href="#" class="usergroup-editor-link" data-value-id="'.$item['term_id'].'" data-value-category="'.$item['parent'].'" data-value-editor-title="'.__('Edit Usergroup', 'asgaros-forum').'">'.__('Edit', 'asgaros-forum').'</a>';
 
         return $columnHTML;
     }

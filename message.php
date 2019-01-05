@@ -61,13 +61,14 @@ if($_POST['main_message'] == 'first'){
 	$i = add_row('field_5b5ef246154f0', $row, $newMessageId);
 	update_post_meta($newMessageId, 'last_update_stamp', $timestamp);
 
-       
+	fcm_send_notification($receiver,'message',$userId);
     $array['status'] = 'Message sent to '.get_user_name($receiver);
     $array['next'] = false;
     echo json_encode($array);
     exit;
 }else{
-	
+	$receiver = $_POST['receiver'];
+	fcm_send_notification($receiver,'message',$userId);
 	$row = array(
 		'field_5b5ef267154f1'	=> $userId,
 		'field_5b5ef27b154f2'	=> $_POST['message'],

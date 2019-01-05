@@ -39,6 +39,7 @@
 	$resetArray[] = "'clan_create_counter'";
 	$resetArray[] = "'special_sold_today'";
 	$resetArray[] = "'new_clan_timestamp'";
+	$resetArray[] = "'raid_protection_timestamp'";
 	$resetArray[] = "'aid_sent_today'";
 	$resetArray[] = "'total_aid_sent'";
 	$resetArray[] = "'number_of_aids'";

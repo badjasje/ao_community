@@ -7,6 +7,9 @@ class AsgarosForumProfile {
 
     public function __construct($object) {
         $this->asgarosforum = $object;
+
+        add_action('asgarosforum_breadcrumbs_profile', array($this, 'add_breadcrumbs_profile'));
+        add_action('asgarosforum_breadcrumbs_history', array($this, 'add_breadcrumbs_history'));
     }
 
     // Checks if the profile functionality is enabled.
@@ -52,17 +55,15 @@ class AsgarosForumProfile {
     }
 
     // Sets the breadcrumbs.
-    public function set_profile_breadcrumbs() {
+    public function add_breadcrumbs_profile() {
         $elementLink = $this->asgarosforum->get_link('current');
         $elementTitle = __('Profile', 'asgaros-forum').$this->get_title_suffix();
-
         $this->asgarosforum->breadcrumbs->add_breadcrumb($elementLink, $elementTitle);
     }
 
-    public function set_history_breadcrumbs() {
+    public function add_breadcrumbs_history() {
         $elementLink = $this->asgarosforum->get_link('current');
         $elementTitle = __('Post History', 'asgaros-forum').$this->get_title_suffix();
-
         $this->asgarosforum->breadcrumbs->add_breadcrumb($elementLink, $elementTitle);
     }
 
@@ -123,15 +124,34 @@ class AsgarosForumProfile {
         echo '</div>';
     }
 
-    public function count_history_data($user_id) {
-        return count($this->asgarosforum->content->get_posts_by_author($user_id));
+    public function count_post_history_by_user($user_id) {
+        return count($this->get_post_history_by_user($user_id));
     }
 
-    public function load_history_data($user_id) {
-        $start = $this->asgarosforum->current_page * 50;
-        $end = 50;
+    public function get_post_history_by_user($user_id, $limit = false) {
+        // Get accessible categories for the current user first.
+        $accessible_categories = $this->asgarosforum->content->get_accessible_categories();
 
-        return $this->asgarosforum->content->get_posts_by_author($user_id, true, $start, $end);
+        if (empty($accessible_categories)) {
+            // Cancel if the user cant access any categories.
+            return false;
+        } else {
+            // Now load history-data based for an user based on the categories which are accessible for the current user.
+            $accessible_categories = implode(',', $accessible_categories);
+
+            $query_limit = "";
+
+            if ($limit) {
+                $elements_maximum = 50;
+                $elements_start = $this->asgarosforum->current_page * $elements_maximum;
+
+                $query_limit = "LIMIT {$elements_start}, {$elements_maximum}";
+            }
+
+            $query = "SELECT p.id, p.text, p.date, p.parent_id, t.name FROM {$this->asgarosforum->tables->posts} AS p, {$this->asgarosforum->tables->topics} AS t WHERE p.author_id = %d AND p.parent_id = t.id AND EXISTS (SELECT f.id FROM {$this->asgarosforum->tables->forums} AS f WHERE f.id = t.parent_id AND f.parent_id IN ({$accessible_categories})) ORDER BY p.id DESC {$query_limit};";
+
+            return $this->asgarosforum->db->get_results($this->asgarosforum->db->prepare($query, $user_id));
+        }
     }
 
     public function show_history() {
@@ -146,7 +166,7 @@ class AsgarosForumProfile {
                 $this->show_profile_navigation($userData);
 
                 echo '<div id="profile-layer">';
-                    $posts = $this->load_history_data($user_id);
+                    $posts = $this->get_post_history_by_user($user_id, true);
 
                     if (empty($posts)) {
                         _e('No posts made by this user.', 'asgaros-forum');
@@ -209,11 +229,11 @@ class AsgarosForumProfile {
                         $this->renderProfileRow($cellTitle, $cellValue);
                     }
 
-                    // Show user groups.
+                    // Show usergroups.
                     $userGroups = AsgarosForumUserGroups::getUserGroupsOfUser($userData->ID, 'all', true);
 
                     if (!empty($userGroups)) {
-                        $cellTitle = __('User Groups:', 'asgaros-forum');
+                        $cellTitle = __('Usergroups:', 'asgaros-forum');
                         $cellValue = $userGroups;
 
                         $this->renderProfileRow($cellTitle, $cellValue, 'usergroups');
@@ -340,7 +360,7 @@ class AsgarosForumProfile {
         if ($this->hideProfileLink() || !$this->functionalityEnabled()) {
             return false;
         } else {
-            $profileLink = $this->asgarosforum->get_link('profile', $userObject->ID, $additional_parameters);
+            $profileLink = $this->asgarosforum->get_link('profile', $userObject->ID, $additional_parameters, '', false);
             $profileLink = apply_filters('asgarosforum_filter_profile_link', $profileLink, $userObject);
 
             return $profileLink;
@@ -370,7 +390,7 @@ class AsgarosForumProfile {
                 // Get and build profile link.
                 $profileLink = $this->getProfileLink($currentUserObject);
 
-                echo '<a class="profile-link" href="'.$profileLink.'">'.__('My Profile', 'asgaros-forum').'</a>';
+                echo '<a class="profile-link" href="'.$profileLink.'">'.__('Profile', 'asgaros-forum').'</a>';
             }
         }
     }

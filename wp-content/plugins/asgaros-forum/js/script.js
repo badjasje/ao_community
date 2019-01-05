@@ -53,7 +53,7 @@
             var quoteID = $(this).attr('data-value-id');
             var quoteContent = $('#post-quote-container-'+quoteID).html();
 
-            // At quote to the end of the editor.
+            // Add quote to the end of the editor.
             if (tinyMCE.activeEditor) {
                 tinyMCE.activeEditor.setContent(tinyMCE.activeEditor.getContent()+quoteContent);
             } else {
@@ -151,6 +151,21 @@
         // Focus search input when clicking on container.
         $('#af-wrapper #forum-search').click(function() {
             $('#af-wrapper #forum-search input[name=keywords]').focus();
+        });
+
+        // Memberslist filter toggle.
+        $('#af-wrapper #memberslist-filter-toggle').click(function() {
+            $('#af-wrapper #memberslist-filter').slideToggle(0, function() {
+                var final_state = $(this).is(':hidden') ? 'hidden' : 'visible';
+
+                if (final_state === 'hidden') {
+                    $('#af-wrapper #memberslist-filter-toggle').attr('class', 'title-element dashicons-before dashicons-arrow-down-alt2');
+                    $('#af-wrapper #memberslist-filter-toggle').html($("#af-wrapper #memberslist-filter").attr('data-value-show-filters'));
+                } else {
+                    $('#af-wrapper #memberslist-filter-toggle').attr('class', 'title-element dashicons-before dashicons-arrow-up-alt2');
+                    $('#af-wrapper #memberslist-filter-toggle').html($("#af-wrapper #memberslist-filter").attr('data-value-hide-filters'));
+                }
+            });
         });
     });
 })(jQuery);

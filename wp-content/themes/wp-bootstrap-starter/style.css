@@ -1557,6 +1557,9 @@ display: none;
 		position: relative;
 		margin-left:54px;
 	}
+	.mobileUserName a{
+		color:#fff !important;
+	}
 	.mobileClanName {
     	display: block;
 		top: -31px;

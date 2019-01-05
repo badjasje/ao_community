@@ -12,7 +12,7 @@ $clanData = get_post_meta($clan_ID);
 
 $clanleader = $clanData['clan_leader'][0];
 $clanmembers = maybe_unserialize(get_post_meta( $clan_ID, 'clan_members', true ));
-$clanmembers_count = 5;
+$clanmembers_count = count($clanmembers);
 $ct_1 = get_post_meta($clan_ID,'ct_1',true);
 $ct_2 = get_post_meta($clan_ID,'ct_2',true);
 $ct_3 = get_post_meta($clan_ID,'ct_3',true);
@@ -215,53 +215,6 @@ location.reload();
 
 
 
-
- 
-    $(window).on('load', function() {
-    
-      Dropzone.autoDiscover = false;
-      
-      $("#clan_avatar_dz").dropzone({
-          url: "<?php echo get_stylesheet_directory_uri();?>/dropzoneUpload.php",
-          addRemoveLinks: true,
-          
-          init: function() {
-            $("#clan_avatar_dz").addClass('dropzone');
-            
-            this.on("sending", function(file, xhr, formData){
-              formData.append("my_nonce_field", "<?php echo wp_create_nonce('protect_content') ?>");
-              formData.append("action", "submit_dropzonejs");
-      
-            });          
-            
-            this.on("removedfile", function(file, xhr, formData) {
-              // todo add server delete and check if deleted image is from author
-              console.log(file.previewTemplate.getAttribute('rel'));
-            });
-            
-          },
-          
-          success: function (file, response) {
-	          console.log(response);
-            
-            	$('input[name="newclanimage"]').attr('value',response);
-              //var imgName = response;
-              file.previewElement.classList.add("dz-success");
-              
-        
-       
-              
-     
-              
-              
-          },
-          error: function (file, response) {
-              file.previewElement.classList.add("dz-error");
-          }
-      });
-                
-    });
-    
 
 
 

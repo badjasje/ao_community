@@ -3,9 +3,9 @@ Contributors: Asgaros
 Donate link: https://www.paypal.me/asgaros
 Tags: forum, forums, discussion, multisite, community, bulletin, board, asgaros, support
 Requires at least: 4.7
-Tested up to: 4.9
+Tested up to: 5.0
 Requires PHP: 5.2
-Stable tag: 1.10.1
+Stable tag: 1.11.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,9 +15,8 @@ Asgaros Forum is the best forum solution for WordPress! It comes with dozens of 
 Asgaros Forum is the perfect WordPress plugin if you want to extend your website with a lightweight and feature-rich discussion board. It is easy to set up, super fast and integrates perfectly into WordPress.
 
 = Installation =
-* Create a new page for your forum to display on
-* Add the shortcode [forum] to this page
-* Add the page to your menu so you can access your forum
+* A new page for your forum gets automatically created during the installation-process.
+* Add this page to your menu so your users can access your forum within your website.
 * Thats all!
 
 = Demo, Support & Documentation =
@@ -36,7 +35,7 @@ Asgaros Forum is the perfect WordPress plugin if you want to extend your website
 * Moderators
 * Statistics
 * Permissions
-* User Groups
+* Usergroups
 * Who Is Online
 * Guest Postings
 * Reporting & Banning
@@ -94,6 +93,54 @@ You can find a list of available hooks and filters on this site:
 6. Manage general options.
 
 == Changelog ==
+= 1.11.3 =
+* Fixed: Possible infinite-loop during database-updates
+* Fixed: Prevent creation of indexes if they already exist
+* Fixed: Possible PHP-errors in overview when there are empty forums/subforums
+= 1.11.2 =
+* Added: Option for recent-posts-widget to group posts by topic
+* Added: asgarosforum_user_replacements filter
+* Fixed: Delayed database-updates after plugin-update
+* Fixed: Performance issues in forums which consist of many topics
+* Fixed: Rare PHP-error in unread-logic
+* Fixed: It was not possible to use HTML-attributes in mail-templates
+* Fixed: Display issues with some themes
+* Performance improvements and code optimizations
+= 1.11.1 =
+* Fixed: Wrong avatar-sizes with certain themes and plugins
+= 1.11.0 =
+* Added: New view to show unread topics
+* Added: Filter users in memberslist by their role/usergroup
+* Added: Mail-templates for notifications
+* Added: Show groups of user inside the memberslist
+* Added: Bulk-actions to assign roles
+* Added: Filter users in backend by their role
+* Added: Option to change link-color
+* Added: Option to change light text-color
+* Added: Option to change second background-color
+* Added: asgarosforum_prepare hook
+* Added: asgarosforum_usergroup_{ID}_add_user hooks
+* Added: asgarosforum_usergroup_{ID}_remove_user hooks
+* Added: asgarosforum_breadcrumbs_{current_view} hooks
+* Fixed: Only show accessible posts inside post-histories to the current user
+* Fixed: Broken forum-role selector in backend-profile
+* Fixed: Broken banning-functionality in frontend when using plain URL-structure
+* Fixed: Various problems which prevents the application of custom appearance-modifications
+* Fixed: Hidden filters for usergroups in backend user-overview when there were many usergroups
+* Fixed: A couple of display issues
+* Fixed: Display issues with some themes
+* Changed: Dont group posts in "Recent Forum Posts"-widget by topic
+* Changed: Show IDs of usergroups in the backend
+* Changed: Usergroup-tags now link to memberslist showing all users of that group
+* Changed: Show username of notification-receiver in mail
+* Minor design changes
+* Minor design changes in the administration area
+* Improved application of custom appearance-settings
+* Mobile-theme improvements
+* Improve first-time installation-process
+* Screen-reader accessibility improvements
+* Performance improvements and code optimizations
+* Compatibility with WordPress 5.0
 = 1.10.1 =
 * Added: Forum administrator role
 * Added: Show forum role in backend user overview
@@ -259,11 +306,11 @@ You can find a list of available hooks and filters on this site:
 = 1.6.6 =
 * Fixed: Do additional error checks during database upgrade to prevent some errors during an update
 = 1.6.5 =
-* Added: Categories for user groups
-* Fixed: Administrators didnt get notifications in some cases when using user groups
+* Added: Categories for usergroups
+* Fixed: Administrators didnt get notifications in some cases when using usergroups
 * Fixed: Hide topics and forums from subscription list when a user has no access to it
 * Fixed: Display issues with some themes
-* Changed: Show number of users for each user group in the user overview
+* Changed: Show number of users for each usergroup in the user overview
 * Changed: Minor design changes
 * Performance improvements and code optimizations
 = 1.6.4 =
@@ -276,7 +323,7 @@ You can find a list of available hooks and filters on this site:
 = 1.6.3 =
 * Added: Pagination in topic-overview
 * Added: Category name to breadcrumbs
-* Added: User groups to profile
+* Added: Usergroups to profile
 * Added: Biographical info to profile
 * Added: Signature to profile
 * Added: asgarosforum_filter_forum_menu filter
@@ -354,7 +401,7 @@ You can find a list of available hooks and filters on this site:
 = 1.5.1 =
 * Fixed: Fatal PHP error on some versions of PHP
 = 1.5.0 =
-* Added: User groups functionality
+* Added: Usergroups functionality
 * Added: Show newest member in overview
 * Added: Show names of online users in overview
 * Added: Show who edited a post

@@ -1,6 +1,7 @@
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
+
 RewriteBase /
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -8,10 +9,19 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
 </IfModule>
 Redirect 301 https://assault.online/ https://assault.online/home
+Redirect 301 https://assault.online https://assault.online/home
 
-RewriteRule \.(txt|htaccess)$ https://assault.online/home [R,L]
 
 <Files "general_thing.php">
+Order Deny,Allow
+Deny from all
+Allow from 87.209.229.255
+Allow from 213.125.228.34
+Allow from 217.121.5.245
+Allow from 213.125.228.34
+</Files>
+
+<Files "eor_stats.php">
 Order Deny,Allow
 Deny from all
 Allow from 87.209.229.255
@@ -36,6 +46,7 @@ Allow from 87.209.229.255
 Order Deny,Allow
 Deny from all
 Allow from 87.209.229.255
+Allow from 213.125.228.34
 </Files>
 
 <Files "clanawards.php">

@@ -79,6 +79,7 @@
 	$locals = $userData['new_events'][0];
 	$globals = $userData['new_global_events'][0];
 	?>
+
 <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 <script type='text/javascript' src='/wp-content/themes/wp-bootstrap-starter/js/jquery.countdown.min.js?ver=4.9.4'></script>
@@ -95,6 +96,7 @@
 });
 </script>
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+ <link rel="manifest" href="/manifest.json">
 <!-- Facebook Pixel Code -->
 <script>
   !function(f,b,e,v,n,t,s)
@@ -122,6 +124,60 @@
   gtag('config', 'UA-40825301-45');
 </script>
 
+<?php if($userId == 1 || $userId == 234 || $userId == 29 || $userId == 1029 || $userId == 2233 || $userId == 487):?>
+<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
+
+<!-- Add additional services that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-messaging.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-functions.js"></script>
+
+<script>
+ 
+var config = {
+	apiKey: "AIzaSyBBkuM6n38eUe5yqw50KjpM7HHAR2RGdOQ",
+	authDomain: "assaultonline-21594.firebaseapp.com",
+	databaseURL: "https://assaultonline-21594.firebaseio.com",
+	projectId: "assaultonline-21594",
+	storageBucket: "assaultonline-21594.appspot.com",
+	messagingSenderId: "776419312119"
+};
+
+firebase.initializeApp(config);
+
+
+const messaging = firebase.messaging();
+messaging.usePublicVapidKey("BPywnXWNiczMF1nEPWQ6hZOudN81OwAbvcBWQBaDx5FVFUG7Rdl0J9sd1GjqA7KpzDKYtOoWnlx-vY39C9uh3h0");
+	         
+messaging.getToken().then(function(currentToken) {
+  if (currentToken) {
+    jQuery.post("/addtoken.php",{
+			usertoken : currentToken
+		});
+	
+	
+  } else {
+    // Show permission request.
+    console.log('No Instance ID token available. Request permission to generate one.');
+    // Show permission UI.
+    updateUIForPushPermissionRequired();
+    setTokenSentToServer(false);
+  }
+}).catch(function(err) {
+  console.log('An error occurred while retrieving token. ', err);
+  showToken('Error retrieving Instance ID token. ', err);
+  setTokenSentToServer(false);
+});
+
+
+
+
+
+</script>
+
+
+
+
+<?php endif;?>
 </head>
 
 <body <?php body_class(); ?>>

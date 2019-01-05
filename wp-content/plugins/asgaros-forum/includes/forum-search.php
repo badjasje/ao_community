@@ -6,12 +6,12 @@ class AsgarosForumSearch {
     private $asgarosforum = null;
     public $search_keywords_for_query = '';
     public $search_keywords_for_output = '';
-    public $search_keywords_for_url = '';
 
     public function __construct($object) {
 		$this->asgarosforum = $object;
 
         add_action('init', array($this, 'initialize'));
+        add_action('asgarosforum_breadcrumbs_search', array($this, 'add_breadcrumbs'));
     }
 
     public function initialize() {
@@ -19,8 +19,13 @@ class AsgarosForumSearch {
             $keywords = trim($_GET['keywords']);
             $this->search_keywords_for_query = esc_sql($keywords);
             $this->search_keywords_for_output = stripslashes(esc_html($keywords));
-            $this->search_keywords_for_url = urlencode(stripslashes($keywords));
         }
+    }
+
+    public function add_breadcrumbs() {
+        $element_link = $this->asgarosforum->get_link('current');
+        $element_title = __('Search', 'asgaros-forum');
+        $this->asgarosforum->breadcrumbs->add_breadcrumb($element_link, $element_title);
     }
 
     public function show_search_input() {

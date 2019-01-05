@@ -9,8 +9,8 @@ class AsgarosForumMentioning {
     public function __construct($object) {
         $this->asgarosforum = $object;
 
-        add_action('asgarosforum_after_add_topic_submit', array($this, 'mention_users'), 10, 5);
-        add_action('asgarosforum_after_add_post_submit', array($this, 'mention_users'), 10, 5);
+        add_action('asgarosforum_after_add_topic_submit', array($this, 'mention_users'), 10, 6);
+        add_action('asgarosforum_after_add_post_submit', array($this, 'mention_users'), 10, 6);
     }
 
     public function render_nice_name($user_id) {
@@ -50,7 +50,7 @@ class AsgarosForumMentioning {
         return true;
     }
 
-    public function mention_users($post_id, $topic_id, $subject, $content, $link) {
+    public function mention_users($post_id, $topic_id, $subject, $content, $link, $author_id) {
         if ($this->asgarosforum->options['enable_mentioning']) {
             $matches = array();
 
@@ -69,17 +69,23 @@ class AsgarosForumMentioning {
                     // Get topic object.
                     $topic = $this->asgarosforum->content->get_topic($topic_id);
 
-                    // Get post author information.
-                    $post_author_id = $this->asgarosforum->get_post_author($post_id);
-                    $post_author_name = $this->asgarosforum->getUsername($post_author_id);
+                    // Get author-username.
+                    $author_name = $this->asgarosforum->getUsername($author_id);
 
                     // Create mail content.
-                    $notification_subject = __('You have been mentioned!', 'asgaros-forum');
-                    $notification_message = sprintf(__('Hello,<br><br>You have been mentioned in a forum post.<br><br>Topic:<br>%s<br><br>Mentioned by:<br>%s<br><br>Post:<br>%s<br><br>Link to the post:<br><a href="%s">%s</a>', 'asgaros-forum'), esc_html(stripslashes($topic->name)), $post_author_name, wpautop(stripslashes($content)), $link, $link);
-                    $notification_message = apply_filters('asgarosforum_filter_notify_mentioned_user_message', $notification_message, $topic, $post_author_name, $content, $link);
+                    $replacements = array(
+                        '###AUTHOR###'  => $author_name,
+                        '###LINK###'    => '<a href="'.$link.'">'.$link.'</a>',
+                        '###TITLE###'   => esc_html(stripslashes($topic->name)),
+                        '###CONTENT###' => wpautop(stripslashes($content))
+                    );
+
+                    $notification_subject = $this->asgarosforum->options['mail_template_mentioned_subject'];
+                    $notification_message = $this->asgarosforum->options['mail_template_mentioned_message'];
+                    $notification_message = apply_filters('asgarosforum_filter_notify_mentioned_user_message', $notification_message, $replacements);
 
                     // Send the notifications.
-                    $this->asgarosforum->notifications->send_notifications($this->asgarosforum->notifications->mailing_list, $notification_subject, $notification_message);
+                    $this->asgarosforum->notifications->send_notifications($this->asgarosforum->notifications->mailing_list, $notification_subject, $notification_message, $replacements);
                 }
             }
         }

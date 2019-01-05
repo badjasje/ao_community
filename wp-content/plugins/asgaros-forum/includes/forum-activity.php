@@ -7,10 +7,18 @@ class AsgarosForumActivity {
 
     public function __construct($object) {
         $this->asgarosforum = $object;
+
+        add_action('asgarosforum_breadcrumbs_activity', array($this, 'add_breadcrumbs'));
     }
 
     public function functionality_enabled() {
         return $this->asgarosforum->options['enable_activity'];
+    }
+
+    public function add_breadcrumbs() {
+        $element_link = $this->asgarosforum->get_link('activity');
+        $element_title = __('Activity', 'asgaros-forum');
+        $this->asgarosforum->breadcrumbs->add_breadcrumb($element_link, $element_title);
     }
 
     public function show_activity() {
@@ -53,7 +61,7 @@ class AsgarosForumActivity {
 
                 $name_author = $this->asgarosforum->getUsername($activity->author_id);
                 $name_topic = esc_html(stripslashes($activity->name));
-                $read_status = $this->asgarosforum->unread->get_post_status($activity->id, $activity->author_id, $activity->date, $activity->parent_id);
+                $read_status = $this->asgarosforum->unread->get_status_post($activity->id, $activity->author_id, $activity->date, $activity->parent_id);
 
                 if ($this->asgarosforum->is_first_post($activity->id, $activity->parent_id)) {
                     $link = $this->asgarosforum->get_link('topic', $activity->parent_id);
@@ -82,25 +90,7 @@ class AsgarosForumActivity {
     }
 
     public function load_activity_data($count_all = false) {
-        // Prepare lists and filters.
-        $ids_categories = array();
-        $ids_categories_excluded = array();
-        $ids_categories_excluded = apply_filters('asgarosforum_filter_get_categories', $ids_categories_excluded);
-        $meta_query_filter = $this->asgarosforum->content->get_categories_filter();
-
-        // Get accessible categories first.
-        $categories_list = get_terms('asgarosforum-category', array(
-            'hide_empty'    => false,
-            'exclude'       => $ids_categories_excluded,
-            'meta_query'    => $meta_query_filter
-        ));
-
-        // Now filter them based on usergroups.
-        $categories_list = AsgarosForumUserGroups::filterCategories($categories_list);
-
-        foreach ($categories_list as $category) {
-            $ids_categories[] = $category->term_id;
-        }
+        $ids_categories = $this->asgarosforum->content->get_accessible_categories();
 
         if (empty($ids_categories)) {
             return false;
@@ -108,7 +98,7 @@ class AsgarosForumActivity {
             $ids_categories = implode(',', $ids_categories);
 
             if ($count_all) {
-                return $this->asgarosforum->db->get_var("SELECT COUNT(p.id) FROM {$this->asgarosforum->tables->posts} AS p, {$this->asgarosforum->tables->topics} AS t, {$this->asgarosforum->tables->forums} AS f WHERE t.id = p.parent_id AND f.id = t.parent_id AND f.parent_id IN ({$ids_categories})");
+                return $this->asgarosforum->db->get_var("SELECT COUNT(p.id) FROM {$this->asgarosforum->tables->posts} AS p, {$this->asgarosforum->tables->forums} AS f WHERE p.forum_id = f.id AND f.parent_id IN ({$ids_categories})");
             } else {
                 $start = $this->asgarosforum->current_page * 50;
                 $end = 50;
@@ -119,7 +109,7 @@ class AsgarosForumActivity {
 
     public function show_activity_link() {
         if ($this->functionality_enabled()) {
-            echo '<a href="'.$this->asgarosforum->get_link('activity').'">'.__('Activity', 'asgaros-forum').'</a>';
+            echo '<a class="activity-link" href="'.$this->asgarosforum->get_link('activity').'">'.__('Activity', 'asgaros-forum').'</a>';
         }
     }
 }

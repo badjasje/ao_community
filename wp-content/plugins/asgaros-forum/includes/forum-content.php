@@ -121,6 +121,11 @@ class AsgarosForumContent {
             return false;
         }
 
+        // Ensure we have a subject.
+        if (empty($this->data_subject)) {
+            $this->data_subject = $this->get_topic_title($this->asgarosforum->current_topic);
+        }
+
         // Cancel if content is empty.
         if (empty($this->data_content)) {
             $this->asgarosforum->info = __('You must enter a message.', 'asgaros-forum');
@@ -171,14 +176,14 @@ class AsgarosForumContent {
             $this->asgarosforum->notifications->notify_about_new_topic($this->data_subject, $this->data_content, $redirect, $this->asgarosforum->permissions->currentUserID);
         } else if ($this->get_action() === 'add_post') {
             // Create the post.
-            $this->asgarosforum->current_post = $this->insert_post($this->asgarosforum->current_topic, $this->data_content, $author_id, $upload_list);
+            $this->asgarosforum->current_post = $this->insert_post($this->asgarosforum->current_topic, $this->asgarosforum->current_forum, $this->data_content, $author_id, $upload_list);
 
             $this->asgarosforum->uploads->upload_files($this->asgarosforum->current_post, $upload_list);
 
-            $redirect = html_entity_decode($this->asgarosforum->get_postlink($this->asgarosforum->current_topic, $this->asgarosforum->current_post));
+            $redirect = html_entity_decode($this->asgarosforum->rewrite->get_post_link($this->asgarosforum->current_post, $this->asgarosforum->current_topic));
 
             // Send notification about new post.
-            $this->asgarosforum->notifications->notify_about_new_post($this->data_content, $redirect, $this->asgarosforum->permissions->currentUserID);
+            $this->asgarosforum->notifications->notify_about_new_post($this->data_subject, $this->data_content, $redirect, $this->asgarosforum->permissions->currentUserID);
         } else if ($this->get_action() === 'edit_post') {
             $date = $this->asgarosforum->current_time();
             $upload_list = $this->asgarosforum->uploads->upload_files($this->asgarosforum->current_post, $upload_list);
@@ -188,12 +193,12 @@ class AsgarosForumContent {
                 $this->asgarosforum->db->update($this->asgarosforum->tables->topics, array('name' => $this->data_subject), array('id' => $this->asgarosforum->current_topic), array('%s'), array('%d'));
             }
 
-            $redirect = html_entity_decode($this->asgarosforum->get_postlink($this->asgarosforum->current_topic, $this->asgarosforum->current_post, $_POST['part_id']));
+            $redirect = html_entity_decode($this->asgarosforum->rewrite->get_post_link($this->asgarosforum->current_post, $this->asgarosforum->current_topic));
         }
 
         $this->asgarosforum->notifications->update_topic_subscription_status($this->asgarosforum->current_topic);
 
-        do_action('asgarosforum_after_'.$this->get_action().'_submit', $this->asgarosforum->current_post, $this->asgarosforum->current_topic, $this->data_subject, $this->data_content, $redirect);
+        do_action('asgarosforum_after_'.$this->get_action().'_submit', $this->asgarosforum->current_post, $this->asgarosforum->current_topic, $this->data_subject, $this->data_content, $redirect, $author_id);
 
         wp_redirect($redirect);
         exit;
@@ -237,14 +242,14 @@ class AsgarosForumContent {
         $inserted_ids->topic_id = $this->asgarosforum->db->insert_id;
 
         // Now create a post inside this topic and save its ID as well.
-        $inserted_ids->post_id = $this->insert_post($inserted_ids->topic_id, $text, $author_id, $uploads);
+        $inserted_ids->post_id = $this->insert_post($inserted_ids->topic_id, $forum_id, $text, $author_id, $uploads);
 
         // Return the IDs of the inserted content.
         return $inserted_ids;
     }
 
     // Inserts a new post.
-    public function insert_post($topic_id, $text, $author_id = false, $uploads = array()) {
+    public function insert_post($topic_id, $forum_id, $text, $author_id = false, $uploads = array()) {
         // Set the author ID.
         if (!$author_id) {
             $author_id = $this->asgarosforum->permissions->currentUserID;
@@ -254,7 +259,7 @@ class AsgarosForumContent {
         $date = $this->asgarosforum->current_time();
 
         // Insert the post.
-        $this->asgarosforum->db->insert($this->asgarosforum->tables->posts, array('text' => $text, 'parent_id' => $topic_id, 'date' => $date, 'author_id' => $author_id, 'uploads' => maybe_serialize($uploads)), array('%s', '%d', '%s', '%d', '%s'));
+        $this->asgarosforum->db->insert($this->asgarosforum->tables->posts, array('text' => $text, 'parent_id' => $topic_id, 'forum_id' => $forum_id, 'date' => $date, 'author_id' => $author_id, 'uploads' => maybe_serialize($uploads)), array('%s', '%d', '%d', '%s', '%d', '%s'));
 
         // Return the ID of the inserted post.
         return $this->asgarosforum->db->insert_id;
@@ -360,6 +365,30 @@ class AsgarosForumContent {
         return $categories;
     }
 
+    // TODO: Check function above. Can get combined somehow I guess ...
+    public function get_accessible_categories() {
+        // Prepare lists and filters.
+        $ids_categories = array();
+        $ids_categories_excluded = apply_filters('asgarosforum_filter_get_categories', array());
+        $meta_query_filter = $this->get_categories_filter();
+
+        // Get accessible categories first.
+        $categories_list = get_terms('asgarosforum-category', array(
+            'hide_empty'    => false,
+            'exclude'       => $ids_categories_excluded,
+            'meta_query'    => $meta_query_filter
+        ));
+
+        // Now filter them based on usergroups.
+        $categories_list = AsgarosForumUserGroups::filterCategories($categories_list);
+
+        foreach ($categories_list as $category) {
+            $ids_categories[] = $category->term_id;
+        }
+
+        return $ids_categories;
+    }
+
     public function get_categories_filter() {
         $meta_query_filter = array('relation' => 'AND');
 
@@ -399,16 +428,26 @@ class AsgarosForumContent {
         return $this->asgarosforum->db->get_row("SELECT p1.*, (SELECT COUNT(*) FROM {$this->asgarosforum->tables->posts} AS p2 WHERE p2.author_id = p1.author_id) AS author_posts FROM {$this->asgarosforum->tables->posts} AS p1 WHERE p1.id = {$post_id};");
     }
 
-    public function get_posts_by_author($author_id, $limit = false, $start = 0, $end = 0) {
-        if ($limit) {
-            return $this->asgarosforum->db->get_results($this->asgarosforum->db->prepare("SELECT p.id, p.text, p.date, p.parent_id, t.name FROM {$this->asgarosforum->tables->posts} AS p, {$this->asgarosforum->tables->topics} AS t WHERE p.author_id = %d AND p.parent_id = t.id ORDER BY p.id DESC LIMIT {$start}, {$end};", $author_id));
+    public function get_posts_by_user($user_id) {
+        return $this->asgarosforum->db->get_results($this->asgarosforum->db->prepare("SELECT p.id, p.text, p.date, p.parent_id, t.name FROM {$this->asgarosforum->tables->posts} AS p, {$this->asgarosforum->tables->topics} AS t WHERE p.author_id = %d AND p.parent_id = t.id ORDER BY p.id DESC;", $user_id));
+    }
+
+    public function get_first_unread_post($topic_id) {
+        if (isset($this->asgarosforum->unread->excluded_items[$topic_id])) {
+            // If we have opened this topic already, we take the post with the next-higher ID.
+            return $this->asgarosforum->db->get_row("SELECT p.* FROM {$this->asgarosforum->tables->posts} AS p WHERE p.parent_id = {$topic_id} AND p.id > {$this->asgarosforum->unread->excluded_items[$topic_id]} ORDER BY p.id ASC LIMIT 1;");
         } else {
-            return $this->asgarosforum->db->get_results($this->asgarosforum->db->prepare("SELECT p.id, p.text, p.date, p.parent_id, t.name FROM {$this->asgarosforum->tables->posts} AS p, {$this->asgarosforum->tables->topics} AS t WHERE p.author_id = %d AND p.parent_id = t.id ORDER BY p.id DESC;", $author_id));
+            // If we havent opened it yet, we take the first post since last clearing-date.
+            return $this->asgarosforum->db->get_row("SELECT p.* FROM {$this->asgarosforum->tables->posts} AS p WHERE p.parent_id = {$topic_id} AND p.date > '{$this->asgarosforum->unread->get_last_visit()}' ORDER BY p.id ASC LIMIT 1;");
         }
     }
 
     public function get_forum($forum_id) {
         return $this->asgarosforum->db->get_row("SELECT * FROM {$this->asgarosforum->tables->forums} WHERE id = {$forum_id};");
+    }
+
+    public function get_topic_title($topic_id) {
+        return $this->asgarosforum->db->get_var("SELECT name FROM {$this->asgarosforum->tables->topics} WHERE id = {$topic_id};");
     }
 }
 

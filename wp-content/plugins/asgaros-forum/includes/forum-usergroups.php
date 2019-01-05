@@ -16,12 +16,12 @@ class AsgarosForumUserGroups {
         add_action('manage_users_custom_column', array($this, 'manageUsersCustomColumn'), 10, 3);
         add_action('delete_user', array($this, 'delete_term_relationships'));
 
-        // Filtering users list in administration by user group.
-		add_filter('views_users', array($this, 'views'));
+        // Filtering users list in administration by usergroup.
+		add_filter('views_users', array($this, 'views'), 20);
         add_action('pre_user_query', array($this, 'user_query'));
 
 		// Bulk edit inside the users list.
-        add_filter('bulk_actions-users', array($this, 'bulk_actions_users'));
+        add_filter('bulk_actions-users', array($this, 'bulk_actions_users'), 20);
         add_filter('handle_bulk_actions-users', array($this, 'handle_bulk_actions_users'), 10, 3);
         add_action('admin_notices', array($this, 'bulk_actions_admin_notices'));
 
@@ -52,6 +52,7 @@ class AsgarosForumUserGroups {
     // FUNCTIONS FOR INSERTING CONTENT.
     //======================================================================
 
+    // Adds a new usergroup.
     public static function insertUserGroup($categoryID, $userGroupName, $userGroupColor = '#444444', $usergroup_visibility = 'normal', $usergroup_auto_add = 'no') {
         $userGroupName = trim($userGroupName);
         $userGroupColor = trim($userGroupColor);
@@ -89,7 +90,7 @@ class AsgarosForumUserGroups {
     }
 
     public static function insertUserGroupsOfForumCategory($forumCategoryID, $userGroups) {
-        // Only insert user groups to a forum category when there are some. Otherwise delete them all.
+        // Only insert usergroups to a forum category when there are some. Otherwise delete them all.
         if (!empty($userGroups)) {
             update_term_meta($forumCategoryID, 'usergroups', $userGroups);
         } else {
@@ -97,12 +98,30 @@ class AsgarosForumUserGroups {
         }
     }
 
-    public static function insertUserGroupsOfUsers($userID, $userGroups) {
-        if (!empty($userGroups)) {
-            wp_set_object_terms($userID, $userGroups, self::$taxonomyName);
-            clean_object_term_cache($userID, self::$taxonomyName);
+    // Assign an user to all given usergroups. The user gets removed from usergroups which are not inside the array anymore.
+    public static function insertUserGroupsOfUsers($user_id, $usergroups) {
+        // Get all current usergroups of the user first which allows us to run specific hooks.
+        $current_usergroups = self::getUserGroupsOfUser($user_id, 'ids');
+
+        if (!empty($usergroups)) {
+            wp_set_object_terms($user_id, $usergroups, self::$taxonomyName);
+            clean_object_term_cache($user_id, self::$taxonomyName);
         } else {
-            self::deleteUserGroupsOfUser($userID);
+            self::deleteUserGroupsOfUser($user_id);
+        }
+
+        // Run hooks for adding the user to a specific group.
+        foreach ($usergroups as $usergroup) {
+            if (!in_array($usergroup, $current_usergroups)) {
+                do_action('asgarosforum_usergroup_'.$usergroup.'_add_user', $user_id, $usergroup);
+            }
+        }
+
+        // Run hooks for removing the user from a specific group.
+        foreach ($current_usergroups as $usergroup) {
+            if (!in_array($usergroup, $usergroups)) {
+                do_action('asgarosforum_usergroup_'.$usergroup.'_remove_user', $user_id, $usergroup);
+            }
         }
     }
 
@@ -180,10 +199,10 @@ class AsgarosForumUserGroups {
     }
 
     public static function deleteUserGroupCategory($categoryID) {
-        // Get all user groups of the category first.
+        // Get all usergroups of the category first.
         $userGroups = self::getUserGroupsOfCategory($categoryID);
 
-        // Delete all user groups of the category.
+        // Delete all usergroups of the category.
         foreach ($userGroups as $group) {
             self::deleteUserGroup($group->term_id);
         }
@@ -205,12 +224,12 @@ class AsgarosForumUserGroups {
     // FUNCTIONS FOR GETTING CONTENT.
     //======================================================================
 
-    // Returns a specific user group.
+    // Returns a specific usergroup.
     public static function getUserGroup($userGroupID) {
         return get_term($userGroupID, self::$taxonomyName);
     }
 
-    // Returns all or specific user groups.
+    // Returns all or specific usergroups.
     public static function getUserGroups($include = array(), $visible_groups_only = false) {
         $userGroups = false;
 
@@ -221,7 +240,7 @@ class AsgarosForumUserGroups {
             $userGroups = get_terms(self::$taxonomyName, array('hide_empty' => false, 'include' => $include));
         }
 
-        // Now remove the categories so we only have user groups.
+        // Now remove the categories so we only have usergroups.
         $userGroups = array_filter($userGroups, array('AsgarosForumUserGroups', 'getUserGroupsArrayFilter'));
 
         return $userGroups;
@@ -232,16 +251,16 @@ class AsgarosForumUserGroups {
         return ($term->parent != 0);
     }
 
-    // Returns all user groups of a specific category.
+    // Returns all usergroups of a specific category.
     public static function getUserGroupsOfCategory($categoryID) {
         return get_terms(self::$taxonomyName, array('hide_empty' => false, 'parent' => $categoryID));
     }
 
-    // Returns all user groups categories.
+    // Returns all usergroups categories.
     public static function getUserGroupCategories($hide_empty = false) {
         $userGroupCategories = get_terms(self::$taxonomyName, array('hide_empty' => false, 'parent' => 0));
 
-        // Hide categories without user groups.
+        // Hide categories without usergroups.
         if ($hide_empty) {
             foreach ($userGroupCategories as $key => $category) {
                 $userGroupsInCategory = self::getUserGroupsOfCategory($category->term_id);
@@ -255,7 +274,7 @@ class AsgarosForumUserGroups {
         return $userGroupCategories;
     }
 
-    // Returns all user groups of an user.
+    // Returns all usergroups of an user.
     public static function getUserGroupsOfUser($userID, $fields = 'all', $filter_hidden = false) {
         $usergroups_of_user = wp_get_object_terms($userID, self::$taxonomyName, array('fields' => $fields));
 
@@ -273,7 +292,7 @@ class AsgarosForumUserGroups {
         return $usergroups_of_user;
     }
 
-    // Returns the color of an user group.
+    // Returns the color of an usergroup.
     public static function getUserGroupColor($userGroupID) {
         return get_term_meta($userGroupID, 'usergroup-color', true);
     }
@@ -288,7 +307,7 @@ class AsgarosForumUserGroups {
         return get_term_meta($usergroup_id, 'usergroup-auto-add', true);
     }
 
-    // Returns all user groups of a specific forum category.
+    // Returns all usergroups of a specific forum category.
     public static function getUserGroupsOfForumCategory($forumCategoryID) {
         $userGroupsIDs = self::getUserGroupsIDsOfForumCategory($forumCategoryID);
 
@@ -299,14 +318,28 @@ class AsgarosForumUserGroups {
         return false;
     }
 
-    // Returns all user groups IDs of a specific forum category.
+    // Returns all usergroups IDs of a specific forum category.
     public static function getUserGroupsIDsOfForumCategory($forumCategoryID) {
         return get_term_meta($forumCategoryID, 'usergroups', true);
     }
 
-    // Returns all users of a user group.
-    public static function getUsersOfUserGroup($userGroupID) {
+    // Returns all users of a usergroup.
+    public static function get_ids_of_users_in_usergroup($userGroupID) {
         return get_objects_in_term($userGroupID, self::$taxonomyName);
+    }
+
+    public static function get_users_in_usergroup($usergroup_id) {
+        // Get IDs first.
+        $user_ids = self::get_ids_of_users_in_usergroup($usergroup_id);
+
+        if (!empty($user_ids)) {
+            return get_users(array(
+                'fields'    => array('ID', 'display_name'),
+                'include'   => $user_ids
+            ));
+        }
+
+        return false;
     }
 
     //======================================================================
@@ -320,12 +353,12 @@ class AsgarosForumUserGroups {
 
         // We only need to check the access when the user is not an administrator.
         if (!self::$asgarosforum->permissions->isAdministrator($userID)) {
-            // Get user groups IDs of a forum category first.
+            // Get usergroups IDs of a forum category first.
             $userGroupsIDsOfForumCategory = self::getUserGroupsIDsOfForumCategory($forumCategoryID);
 
-            // Only continue the check when there are user groups IDs for a forum category.
+            // Only continue the check when there are usergroups IDs for a forum category.
             if (!empty($userGroupsIDsOfForumCategory)) {
-                // Now get the user groups IDs of a user.
+                // Now get the usergroups IDs of a user.
                 $userGroupsIDsOfUser = self::getUserGroupsOfUser($userID, 'ids');
 
                 // Get the insersection.
@@ -341,14 +374,14 @@ class AsgarosForumUserGroups {
         return $canAccess;
     }
 
-    // Checks if a user is in a specific user group.
+    // Checks if a user is in a specific usergroup.
     public static function isUserInUserGroup($userID, $userGroupID) {
         return is_object_in_term($userID, self::$taxonomyName, $userGroupID);
     }
 
-    // Counts the users of an user group.
+    // Counts the users of an usergroup.
     public static function countUsersOfUserGroup($userGroupID) {
-        return count(self::getUsersOfUserGroup($userGroupID));
+        return count(self::get_ids_of_users_in_usergroup($userGroupID));
     }
 
     //======================================================================
@@ -357,7 +390,7 @@ class AsgarosForumUserGroups {
 
     // Users List in Administration.
     public function manageUsersColumns($columns) {
-        $columns['forum-user-groups'] = __('Forum User Groups', 'asgaros-forum');
+        $columns['forum-user-groups'] = __('Forum Usergroups', 'asgaros-forum');
         return $columns;
   	}
 
@@ -405,12 +438,12 @@ class AsgarosForumUserGroups {
         }
     }
 
-    // Adds a new user groups string to the structure page.
+    // Adds a new usergroups string to the structure page.
     public static function renderUserGroupsInCategory($categoryID) {
         $userGroupsOfForumCategory = self::getUserGroupsOfForumCategory($categoryID);
 
         if (!empty($userGroupsOfForumCategory)) {
-            echo ' &middot; '.__('User Groups:', 'asgaros-forum').' ';
+            echo ' &middot; '.__('Usergroups:', 'asgaros-forum').' ';
 
             foreach ($userGroupsOfForumCategory as $key => $userGroup) {
                 if ($key > 0) {
@@ -427,7 +460,7 @@ class AsgarosForumUserGroups {
 
         if (!empty($userGroupCategories)) {
             echo '<tr id="usergroups-editor">';
-                echo '<th><label>'.__('User Groups:', 'asgaros-forum').'</label></th>';
+                echo '<th><label>'.__('Usergroups:', 'asgaros-forum').'</label></th>';
                 echo '<td>';
                     foreach ($userGroupCategories as $category) {
                         echo '<span class="usergroup-category-name">'.$category->name.':</span>';
@@ -440,7 +473,7 @@ class AsgarosForumUserGroups {
                             echo '</label>';
                         }
                     }
-                    echo '<p class="description">'.__('When user groups are selected, only users of the selected user groups will have access to the category.', 'asgaros-forum').'</p>';
+                    echo '<p class="description">'.__('When usergroups are selected, only users of the selected usergroups will have access to the category.', 'asgaros-forum').'</p>';
                 echo '</td>';
             echo '</tr>';
         }
@@ -498,7 +531,7 @@ class AsgarosForumUserGroups {
                 if (!empty($userObject)) {
                     $canAccess = self::canUserAccessForumCategory($userObject->ID, $forumCategoryID);
 
-                    // When the user cant access the user group, remove it from the mail list.
+                    // When the user cant access the usergroup, remove it from the mail list.
                     if (!$canAccess) {
                         unset($mails[$key]);
                     }
@@ -515,7 +548,7 @@ class AsgarosForumUserGroups {
 
         if (!empty($userGroupCategories)) {
             $output .= '<tr class="usergroups-editor">';
-            $output .= '<th><label>'.__('User Groups', 'asgaros-forum').'</label></th>';
+            $output .= '<th><label>'.__('Usergroups', 'asgaros-forum').'</label></th>';
             $output .= '<td>';
 
             foreach ($userGroupCategories as $category) {
@@ -543,11 +576,18 @@ class AsgarosForumUserGroups {
         return $output;
     }
 
-    // Renders the tag for a user group which can be used inside profiles, posts and in the administration area.
-    public static function render_usergroup_tag($usergroup_object) {
+    // Renders the tag for a usergroup which can be used inside profiles, posts and in the administration area.
+    public static function render_usergroup_tag($usergroup_object, $font_weight = 'normal') {
         $color = self::getUserGroupColor($usergroup_object->term_id);
-        $output = '<span class="af-usergroup-tag usergroup-tag-'.$usergroup_object->term_id.'" style="color: '.$color.'; border-color: '.$color.';">'.$usergroup_object->name.'</span>';
-        return $output;
+
+        // If the memberslist is enabled and we are inside the front-end, we will
+        // generate a link to the memberslist filtered by the selected usergroup.
+        if (self::$asgarosforum->memberslist->functionality_enabled() && !is_admin()) {
+            $link = self::$asgarosforum->rewrite->get_link('members', false, array('filter_type' => 'group', 'filter_name' => $usergroup_object->term_id));
+            return '<a href="'.$link.'" class="af-usergroup-tag usergroup-tag-'.$usergroup_object->term_id.'" style="color: '.$color.'; border-color: '.$color.'; font-weight: '.$font_weight.';">'.$usergroup_object->name.'</a>';
+        } else {
+            return '<span class="af-usergroup-tag usergroup-tag-'.$usergroup_object->term_id.'" style="color: '.$color.'; border-color: '.$color.'; font-weight: '.$font_weight.';">'.$usergroup_object->name.'</span>';
+        }
     }
 
     public static function updateUserProfileFields($user_id) {
@@ -560,7 +600,7 @@ class AsgarosForumUserGroups {
         $usergroups = self::getUserGroups();
 
         if ($usergroups) {
-            $views['forum-user-group'] = __('Forum:', 'asgaros-forum').'&nbsp;';
+            $views['forum-user-group'] = '<b>'.__('Forum Usergroups:', 'asgaros-forum').'</b>&nbsp;';
 
             $loopCounter = 0;
 
@@ -588,22 +628,24 @@ class AsgarosForumUserGroups {
     public function user_query($Query = '') {
 		global $pagenow, $wpdb;
 
-		if ($pagenow == 'users.php') {
-            if (!empty($_GET['forum-user-group'])) {
-    			$userGroupID = $_GET['forum-user-group'];
-    			$term = self::getUserGroup($userGroupID);
+        if (!self::$asgarosforum->prevent_query_modifications) {
+    		if ($pagenow == 'users.php') {
+                if (!empty($_GET['forum-user-group'])) {
+        			$userGroupID = $_GET['forum-user-group'];
+        			$term = self::getUserGroup($userGroupID);
 
-                if (!empty($term)) {
-        			$user_ids = self::getUsersOfUserGroup($term->term_id);
+                    if (!empty($term)) {
+            			$user_ids = self::get_ids_of_users_in_usergroup($term->term_id);
 
-                    if (!empty($user_ids)) {
-            			$ids = implode(',', wp_parse_id_list($user_ids));
-            			$Query->query_where .= " AND $wpdb->users.ID IN ($ids)";
-                    } else {
-                        $Query->query_where .= " AND $wpdb->users.ID IN (-1)";
+                        if (!empty($user_ids)) {
+                			$ids = implode(',', wp_parse_id_list($user_ids));
+                			$Query->query_where .= " AND $wpdb->users.ID IN ($ids)";
+                        } else {
+                            $Query->query_where .= " AND $wpdb->users.ID IN (-1)";
+                        }
                     }
-                }
-    		}
+        		}
+            }
         }
 	}
 
@@ -674,11 +716,11 @@ class AsgarosForumUserGroups {
 
     public function bulk_actions_admin_notices() {
         if (!empty($_REQUEST['forum_user_groups_assigned'])) {
-            printf('<div class="updated"><p>'.__('User groups assignments updated.', 'asgaros-forum').'</p></div>');
+            printf('<div class="updated"><p>'.__('Usergroups assignments updated.', 'asgaros-forum').'</p></div>');
         }
     }
 
-    // Adds a new user automatically to specific user groups.
+    // Adds a new user automatically to specific usergroups.
     public function add_new_user_to_usergroups($user_id) {
         $usergroups = self::getUserGroups();
         $auto_add_list = array();

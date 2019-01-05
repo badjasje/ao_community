@@ -78,7 +78,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
                 update_user_meta($user_ID, 'research_in_progress', 0);
                 $current_level = get_user_meta($user_ID, 'level_'.$research_in_progress);
                 update_user_meta($user_ID, 'level_'.$research_in_progress, $current_level[0]+1);
-        
+				fcm_send_notification($user_ID,'research',$user_ID);
         
         
         

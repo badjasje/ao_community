@@ -10,7 +10,14 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
 $data = maybe_unserialize( $_POST );
 $array = array();
 $clan_ID = get_user_meta($user_ID, 'clan_id_user',true);
+$clanmembers = maybe_unserialize(get_post_meta( $clan_ID, 'clan_members', true ));
 
+
+if($clanmembers > 3){
+	$array['status'] = 'Cannot opt out, too many clan members';
+	echo json_encode($array);
+	exit;
+}
 $clanData = get_post_meta($clan_ID);
 
 //Add serverside "if clan has points, reject the request - here

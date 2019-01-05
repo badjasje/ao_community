@@ -1866,3 +1866,59 @@ function display_all_units(){
 	}
 	$allunits.= '</div>';
     return $allunits;}
+    
+    
+    
+function fcm_send_notification($receiver,$type,$attacker){
+	
+	$registrationIds = maybe_unserialize(get_user_meta( $receiver, 'device_tokens', true ));
+
+	$serverKey = 'AAAAtMYygfc:APA91bEMDKTi556dx98bDJRF0KoG4IiG6L5xfiYvxOcRDL2yFWKhvnEwpqS-JHbLkUTdpmNqbQT0nn7mAt0B4ftxBQ6-zrI_yM_cWzwjLoTH-t51aCILfKbG_l6BcltB3MkGx6Yh9XBW';
+	$sendurl = 'https://fcm.googleapis.com/fcm/send';
+	
+	$member_data = get_userdata($receiver);
+	$displayName = $member_data->display_name;
+	
+	if($type == 'attack'){
+		$body = 'You were attacked by '.$displayName.' (#'.$receiver.')';
+		$url = get_site_url().'/events/incoming/';
+	}
+	if($type == 'research'){
+		$body = 'Research completed';
+		$url = get_site_url().'/research/';
+	}
+	if($type == 'message'){
+		$body = 'New message received';
+		$url = get_site_url().'/conversations/';
+	}
+	
+	
+	$avatar = get_user_meta($attacker, 'avatar_user', true);
+	
+	$message = array( 
+		'title'     	=> 	'Assault.Online',
+		'body'      	=> 	$body,
+		'click_action'	=>	$url,
+		"icon"			=> 	$avatar,
+		'vibrate'   	=> 	1,
+		'sound'      	=> 	1
+	);
+	$fields = array( 
+		'registration_ids' 	=> $registrationIds, 
+		'notification'    	=> $message
+	);
+	$headers = array( 
+		'Authorization: key='.$serverKey, 
+		'Content-Type: application/json'
+	);
+	$ch = curl_init();
+	curl_setopt( $ch,CURLOPT_URL,$sendurl);
+	curl_setopt( $ch,CURLOPT_POST,true);
+	curl_setopt( $ch,CURLOPT_HTTPHEADER,$headers);
+	curl_setopt( $ch,CURLOPT_RETURNTRANSFER,true);
+	curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER,false);
+	curl_setopt( $ch,CURLOPT_POSTFIELDS,json_encode($fields));
+	$result = curl_exec($ch);
+	curl_close($ch);
+}
+

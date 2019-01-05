@@ -4,23 +4,10 @@ if (!defined('ABSPATH')) exit;
 
 class AsgarosForumReports {
     private $asgarosforum = null;
-    private $reports = array();
+    private $current_user_reports = false;
 
     public function __construct($object) {
         $this->asgarosforum = $object;
-
-        add_action('init', array($this, 'initialize'));
-    }
-
-    public function initialize() {
-        if ($this->asgarosforum->options['reports_enabled']) {
-            // Load reports of the current user.
-            if (is_user_logged_in()) {
-                $reporter_id = get_current_user_id();
-
-                $this->reports[$reporter_id] = $this->get_reports_of_user($reporter_id);
-            }
-        }
     }
 
     public function render_report_button($post_id, $topic_id) {
@@ -34,7 +21,9 @@ class AsgarosForumReports {
                     $report_href = $this->asgarosforum->rewrite->get_link('topic', $topic_id, array('post' => $post_id, 'report_add' => 1, 'part' => ($this->asgarosforum->current_page + 1)), '#postid-'.$post_id);
 
                     echo '<a href="'.$report_href.'" title="'.__('Report Post', 'asgaros-forum').'" onclick="return confirm(\''.$report_message.'\');">';
-                        echo '<span class="report-link dashicons-before dashicons-warning"></span>';
+                        echo '<span class="report-link dashicons-before dashicons-warning">';
+                        echo '<span class="screen-reader-text">'.__('Click to report post.', 'asgaros-forum').'</span>';
+                        echo '</span>';
                     echo '</a>';
                 } else {
                     echo '<span class="report-exists dashicons-before dashicons-warning" title="'.__('You reported this post.', 'asgaros-forum').'"></span>';
@@ -57,8 +46,8 @@ class AsgarosForumReports {
                     // Send notification to site owner about new report.
                     $this->send_notification($post_id, $reporter_id);
 
-                    // Add the value also to the reports-array.
-                    $this->reports[$reporter_id][] = $post_id;
+                    // Add the value also to the reports array.
+                    $this->current_user_reports[] = $post_id;
                 }
             }
         }
@@ -71,12 +60,20 @@ class AsgarosForumReports {
             $author_name = $this->asgarosforum->getUsername($report['author_id']);
             $reporter = get_userdata($report['reporters']);
 
+            $replacements = array(
+                '###AUTHOR###'      => $author_name,
+                '###REPORTER###'    => $reporter->display_name,
+                '###LINK###'        => '<a href="'.$report['post_link'].'">'.$report['post_link'].'</a>',
+                '###TITLE###'       => $report['topic_name'],
+                '###CONTENT###'     => $report['post_text_raw']
+            );
+
             $notification_subject = __('New report', 'asgaros-forum');
-            $notification_message = sprintf(__('Hello,<br><br>There is a new report.<br><br>Topic:<br>%s<br><br>Post:<br>%s<br><br>Post Author:<br>%s<br><br>Reporter:<br>%s<br><br>Link to the post:<br><a href="%s">%s</a>', 'asgaros-forum'), $report['topic_name'], $report['post_text_raw'], $author_name, $reporter->display_name, $report['post_link'], $report['post_link']);
+            $notification_message = __('Hello ###USERNAME###,<br><br>There is a new report.<br><br>Topic:<br>###TITLE###<br><br>Post:<br>###CONTENT###<br><br>Post Author:<br>###AUTHOR###<br><br>Reporter:<br>###REPORTER###<br><br>Link:<br>###LINK###', 'asgaros-forum');
 
             $admin_mail = get_bloginfo('admin_email');
 
-            $this->asgarosforum->notifications->send_notifications($admin_mail, $notification_subject, $notification_message);
+            $this->asgarosforum->notifications->send_notifications($admin_mail, $notification_subject, $notification_message, $replacements);
         }
     }
 
@@ -85,12 +82,10 @@ class AsgarosForumReports {
     }
 
     public function report_exists($post_id, $reporter_id) {
-        // Load records of user first when they are not loaded yet.
-        if (!isset($this->reports[$reporter_id])) {
-            $this->reports[$reporter_id] = $this->get_reports_of_user($reporter_id);
-        }
+        // Load records of user first.
+        $user_reports = $this->get_reports_of_user($reporter_id);
 
-        if (in_array($post_id, $this->reports[$reporter_id])) {
+        if (in_array($post_id, $user_reports)) {
             return true;
         }
 
@@ -98,7 +93,11 @@ class AsgarosForumReports {
     }
 
     public function get_reports_of_user($reporter_id) {
-        return $this->asgarosforum->db->get_col($this->asgarosforum->db->prepare('SELECT post_id FROM '.$this->asgarosforum->tables->reports.' WHERE reporter_id = %d', $reporter_id));
+        if ($this->current_user_reports === false) {
+            $this->current_user_reports = $this->asgarosforum->db->get_col($this->asgarosforum->db->prepare('SELECT post_id FROM '.$this->asgarosforum->tables->reports.' WHERE reporter_id = %d', $reporter_id));
+        }
+
+        return $this->current_user_reports;
     }
 
     // Returns all reported posts with an array of reporting users.

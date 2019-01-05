@@ -68,24 +68,48 @@
     background-color: #fafafa;
 }
 /* OPTIONS */
-#af-options input {
-    vertical-align: middle;
+#af-options .inside {
+    padding: 0;
+    margin: 0;
 }
-#af-options label {
-    display: inline-block;
-    min-width: 250px;
+#af-options .regular-text {
+    width: 100%;
+}
+#af-options table {
+    width: 100%;
+    border-collapse: collapse;
+}
+#af-options tr:nth-child(2n+1) {
+    background-color: #fff;
+}
+#af-options tr:nth-child(2n) {
+    background-color: #fafafa;
+}
+#af-options th {
+    width: 35%;
+}
+#af-options th,
+#af-options td {
+    text-align: left;
+    padding: 8px 20px;
+    font-weight: normal;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+}
+#af-options td input {
+    margin: 0px;
 }
 #af-options .wp-picker-container label {
     min-width: initial;
 }
 #af-options .description {
-    vertical-align: middle;
-    color: #666;
+    color: #999;
+    display: block;
 }
 #af-options .postbox .dashicons-before:before {
     padding-right: 5px;
 }
-/* STRUCTURE/USER GROUPS */
+/* STRUCTURE/USERGROUPS */
 #af-structure .category-actions {
     float: right;
     font-weight: normal;
@@ -199,8 +223,8 @@
     height: 40px;
     font-size: 40px;
 }
-#af-structure .parentforum .forum-icon,
-#af-structure .subforum .forum-icon {
+#af-structure .forum-icon,
+#af-structure .usergroup-icon {
     display: block;
     float: left;
     margin-right: 8px;
@@ -222,8 +246,8 @@
     color: #888;
 }
 #af-structure .usergroup-color {
-    width: 25px;
-    height: 25px;
+    width: 40px;
+    height: 40px;
     border: 1px solid #000;
     float: left;
     display: block;

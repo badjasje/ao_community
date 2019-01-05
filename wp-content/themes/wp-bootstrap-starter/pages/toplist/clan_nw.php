@@ -4,7 +4,7 @@
 	<div class="col-md-4 celBlock" style="max-width: 25% !important">Name</a></strong></div>
 	<div class="col-md-4 celBlock" style="max-width: 23% !important">Networth</strong></div>
 	<div class="col-md-3 celBlock" style="max-width: 23% !important">Land</div>
-	<div class="col-md-3 celBlock" style="max-width: 18% !important">War-Declare Eligible</div>
+	<div class="col-md-3 celBlock" style="max-width: 18% !important">Opt-In War Status</div>
 </div>
 	
 	
@@ -66,14 +66,13 @@
 	</div>
 
 	<div class="col-md-3 celBlock" style="max-width: 18% !important">
-		<span class="columnDataLeft">War-Declare Eligible</span>
 		<span class="columnDataRight land">
                         <?php $optout = get_post_meta($clanId, 'optout_status',true);
                         if ($optout == 1) {
                           ?><font color="red">Opted Out</font><?php 
                         }
                         else {
-                          echo "Eligible";
+                          echo "Declare Eligible";
                         } ?>
 		</span>
 	</div>

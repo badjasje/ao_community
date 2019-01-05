@@ -4,72 +4,86 @@ if (!defined('ABSPATH')) exit;
 
 $counter++;
 
+// Special CSS-class for first post-element in view.
+$first_post_class = ($counter == 1) ? 'first-post' : '';
 
-$highlightClass = '';
+// Special CSS-class for highlighted posts.
+$highlight_class = '';
+
 if (!empty($_GET['highlight_post']) && $_GET['highlight_post'] == $post->id) {
-    $highlightClass = 'highlight-post';
+    $highlight_class = 'highlight-post';
 }
+
+// Special CSS-class for online users.
+$user_online_class = ($this->online->is_user_online($post->author_id)) ? 'user-online' : '';
 
 $user_data = get_userdata($post->author_id);
 
-?>
-<div class="post-element <?php echo $highlightClass; ?>" id="postid-<?php echo $post->id; ?>">
-    <div class="post-author<?php if ($this->online->is_user_online($post->author_id)) { echo ' user-online'; } ?>">
-        <?php
-        if ($this->current_view != 'post' && $this->options['highlight_authors'] && ($counter > 1 || $this->current_page > 0) && $topicStarter != 0 && $topicStarter == $post->author_id) {
-            echo '<small class="post-author-marker">'.__('Topic Author', 'asgaros-forum').'</small>';
-        }
-
+echo '<div class="post-element '.$highlight_class.' '.$first_post_class.'" id="postid-'.$post->id.'">';
+    echo '<div class="post-author '.$user_online_class.'">';
+        // Show avatar if activated.
         if ($avatars_available) {
-            $avatar_size = apply_filters('asgarosforum_filter_avatar_size', 100);
+            $avatar_size = apply_filters('asgarosforum_filter_avatar_size', 120);
             echo get_avatar($post->author_id, $avatar_size);
         }
-        ?>
-        <strong><?php echo apply_filters('asgarosforum_filter_post_username', $this->getUsername($post->author_id), $post->author_id); ?></strong>
-        <?php
 
-        // Condition for content which is only available for existing users.
-        if ($user_data != false) {
-            $this->mentioning->render_nice_name($post->author_id);
+        echo '<div class="post-author-block-name">';
+            // Show username.
+            $username = apply_filters('asgarosforum_filter_post_username', $this->getUsername($post->author_id), $post->author_id);
+            echo '<span class="post-username">'.$username.'</span>';
 
-            // Show author posts counter if activated.
-            if ($this->options['show_author_posts_counter']) {
-                $author_posts_i18n = number_format_i18n($post->author_posts);
-                echo '<small class="post-counter">'.sprintf(_n('%s Post', '%s Posts', $post->author_posts, 'asgaros-forum'), $author_posts_i18n).'</small>';
+            // Mentioning name.
+            if ($user_data != false) {
+                $this->mentioning->render_nice_name($post->author_id);
             }
-        }
+        echo '</div>';
 
-        if ($this->permissions->isBanned($post->author_id)) {
-            echo '<small class="banned">'.__('Banned', 'asgaros-forum').'</small>';
-        }
+        if ($user_data != false) {
+            echo '<div class="post-author-block-meta">';
+            // Show author posts counter if activated.
+                if ($this->options['show_author_posts_counter']) {
+                    $author_posts_i18n = number_format_i18n($post->author_posts);
+                    echo '<small class="post-counter">'.sprintf(_n('%s Post', '%s Posts', $post->author_posts, 'asgaros-forum'), $author_posts_i18n).'</small>';
+                }
 
-        // Show usergroups of user.
-        $usergroups = AsgarosForumUserGroups::getUserGroupsOfUser($post->author_id, 'all', true);
+                // Show marker for topic-author.
+                if ($this->current_view != 'post' && $this->options['highlight_authors'] && ($counter > 1 || $this->current_page > 0) && $topicStarter != 0 && $topicStarter == $post->author_id) {
+                    echo '<small class="topic-author">'.__('Topic Author', 'asgaros-forum').'</small>';
+                }
 
-        if (!empty($usergroups)) {
-            foreach ($usergroups as $usergroup) {
-                echo AsgarosForumUserGroups::render_usergroup_tag($usergroup);
+                // Show marker for banned user.
+                if ($this->permissions->isBanned($post->author_id)) {
+                    echo '<small class="banned">'.__('Banned', 'asgaros-forum').'</small>';
+                }
+            echo '</div>';
+
+            // Show groups of user.
+            $usergroups = AsgarosForumUserGroups::getUserGroupsOfUser($post->author_id, 'all', true);
+
+            if (!empty($usergroups)) {
+                echo '<div class="post-author-block-group">';
+                    foreach ($usergroups as $usergroup) {
+                        echo AsgarosForumUserGroups::render_usergroup_tag($usergroup);
+                    }
+                echo '</div>';
             }
         }
 
         do_action('asgarosforum_after_post_author', $post->author_id, $post->author_posts);
-        ?>
-        <div class="clear"></div>
-    </div>
-    <div class="post-wrapper">
-        <div class="post-message">
-            <?php
+    echo '</div>';
 
-            echo '<div class="forum-post-header">';
+    echo '<div class="post-wrapper">';
+        // Post header.
+        echo '<div class="forum-post-header">';
             echo '<div class="forum-post-date">'.$this->format_date($post->date).'</div>';
 
             if ($this->current_view != 'post') {
                 echo $this->show_post_menu($post->id, $post->author_id, $counter, $post->date);
             }
+        echo '</div>';
 
-            echo '<div class="clear"></div>';
-            echo '</div>';
-
+        // Post message.
+        echo '<div class="post-message">';
             echo '<div id="post-quote-container-'.$post->id.'" style="display: none;"><blockquote><div class="quotetitle">'.__('Quote from', 'asgaros-forum').' '.$this->getUsername($post->author_id).' '.sprintf(__('on %s', 'asgaros-forum'), $this->format_date($post->date)).'</div>'.wpautop(stripslashes($post->text)).'</blockquote><br></div>';
             global $wp_embed;
             $post_content = wpautop($wp_embed->autoembed(stripslashes($post->text)));
@@ -94,37 +108,39 @@ $user_data = get_userdata($post->author_id);
             $this->uploads->show_uploaded_files($post);
 
             do_action('asgarosforum_after_post_message', $post->author_id, $post->id);
+        echo '</div>';
 
-            // Show post footer.
-            echo '<div class="post-footer">';
-                $this->reactions->render_reactions_area($post->id, $this->current_topic);
+        // Show post footer.
+        echo '<div class="post-footer">';
+            $this->reactions->render_reactions_area($post->id, $this->current_topic);
 
-                echo '<div class="post-meta">';
-                    if ($this->options['show_edit_date'] && (strtotime($post->date_edit) > strtotime($post->date))) {
-                        // Show who edited a post (when the information exist in the database).
-                        if ($post->author_edit) {
-                            echo sprintf(__('Last edited on %s by %s', 'asgaros-forum'), $this->format_date($post->date_edit), $this->getUsername($post->author_edit));
-                        } else {
-                            echo sprintf(__('Last edited on %s', 'asgaros-forum'), $this->format_date($post->date_edit));
-                        }
+            echo '<div class="post-meta">';
+                if ($this->options['show_edit_date'] && (strtotime($post->date_edit) > strtotime($post->date))) {
+                    echo '<span class="post-edit-date">';
 
-                        if ($this->current_view != 'post') {
-                            echo '&nbsp;&middot;&nbsp;';
-                        }
+                    // Show who edited a post (when the information exist in the database).
+                    if ($post->author_edit) {
+                        echo sprintf(__('Last edited on %s by %s', 'asgaros-forum'), $this->format_date($post->date_edit), $this->getUsername($post->author_edit));
+                    } else {
+                        echo sprintf(__('Last edited on %s', 'asgaros-forum'), $this->format_date($post->date_edit));
                     }
 
                     if ($this->current_view != 'post') {
-                        // Show report button.
-                        $this->reports->render_report_button($post->id, $this->current_topic);
-
-                        echo '<a href="'.$this->get_postlink($this->current_topic, $post->id, ($this->current_page + 1)).'">#'.(($this->options['posts_per_page'] * $this->current_page) + $counter).'</a>';
+                        echo '&nbsp;&middot;&nbsp;';
                     }
-                echo '</div>';
-            echo '</div>';
-            ?>
-        </div>
 
-        <?php
+                    echo '</span>';
+                }
+
+                if ($this->current_view != 'post') {
+                    // Show report button.
+                    $this->reports->render_report_button($post->id, $this->current_topic);
+
+                    echo '<a href="'.$this->rewrite->get_post_link($post->id, $this->current_topic, ($this->current_page + 1)).'">#'.(($this->options['posts_per_page'] * $this->current_page) + $counter).'</a>';
+                }
+            echo '</div>';
+        echo '</div>';
+
         // Show signature.
         if ($this->current_view != 'post' && $this->options['allow_signatures']) {
             // Load signature.

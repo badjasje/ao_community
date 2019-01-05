@@ -38,10 +38,10 @@ class AsgarosForumAdmin {
                 $output .= '<td>';
 
                 $output .= '<select name="asgarosforum_role" id="asgarosforum_role">';
-                $output .= '<option value="normal" '.selected($role, 'normal').'>'.__('Normal User', 'asgaros-forum').'</option>';
-                $output .= '<option value="moderator" '.selected($role, 'moderator').'>'.__('Moderator', 'asgaros-forum').'</option>';
-                $output .= '<option value="administrator" '.selected($role, 'administrator').'>'.__('Administrator', 'asgaros-forum').'</option>';
-                $output .= '<option value="banned" '.selected($role, 'banned').'>'.__('Banned', 'asgaros-forum').'</option>';
+                $output .= '<option value="normal" '.selected($role, 'normal', false).'>'.__('Normal', 'asgaros-forum').'</option>';
+                $output .= '<option value="moderator" '.selected($role, 'moderator', false).'>'.__('Moderator', 'asgaros-forum').'</option>';
+                $output .= '<option value="administrator" '.selected($role, 'administrator', false).'>'.__('Administrator', 'asgaros-forum').'</option>';
+                $output .= '<option value="banned" '.selected($role, 'banned', false).'>'.__('Banned', 'asgaros-forum').'</option>';
                 $output .= '</select>';
 
                 $output .= '</td>';
@@ -127,7 +127,7 @@ class AsgarosForumAdmin {
             add_menu_page(__('Forum', 'asgaros-forum'), __('Forum', 'asgaros-forum'), 'read', 'asgarosforum-structure', array($this, 'structure_page'), 'dashicons-clipboard');
             add_submenu_page('asgarosforum-structure', __('Structure', 'asgaros-forum'), __('Structure', 'asgaros-forum'), 'read', 'asgarosforum-structure', array($this, 'structure_page'));
             add_submenu_page('asgarosforum-structure', __('Appearance', 'asgaros-forum'), __('Appearance', 'asgaros-forum'), 'read', 'asgarosforum-appearance', array($this, 'appearance_page'));
-            add_submenu_page('asgarosforum-structure', __('User Groups', 'asgaros-forum'), __('User Groups', 'asgaros-forum'), 'read', 'asgarosforum-usergroups', array($this, 'usergroups_page'));
+            add_submenu_page('asgarosforum-structure', __('Usergroups', 'asgaros-forum'), __('Usergroups', 'asgaros-forum'), 'read', 'asgarosforum-usergroups', array($this, 'usergroups_page'));
 
             if ($this->asgarosforum->options['reports_enabled']) {
                 // Add report counter to menu.
@@ -172,12 +172,12 @@ class AsgarosForumAdmin {
     function enqueue_admin_scripts($hook) {
         global $asgarosforum;
 
-        wp_enqueue_style('asgarosforum-admin-common-css', $asgarosforum->directory.'admin/css/admin-common.css', array(), $asgarosforum->version);
+        wp_enqueue_style('asgarosforum-admin-common-css', $asgarosforum->plugin_url.'admin/css/admin-common.css', array(), $asgarosforum->version);
 
         if (strstr($hook, 'asgarosforum') !== false) {
-            wp_enqueue_style('asgarosforum-admin-css', $asgarosforum->directory.'admin/css/admin.css', array(), $asgarosforum->version);
+            wp_enqueue_style('asgarosforum-admin-css', $asgarosforum->plugin_url.'admin/css/admin.css', array(), $asgarosforum->version);
             wp_enqueue_style('wp-color-picker');
-            wp_enqueue_script('asgarosforum-admin-js', $asgarosforum->directory.'admin/js/admin.js', array('wp-color-picker'), $asgarosforum->version, true);
+            wp_enqueue_script('asgarosforum-admin-js', $asgarosforum->plugin_url.'admin/js/admin.js', array('wp-color-picker'), $asgarosforum->version, true);
         }
     }
 
@@ -279,10 +279,10 @@ class AsgarosForumAdmin {
                 } else if (is_bool($v)) {
                     $saved_ops[$k] = (bool)$_POST[$k];
                 } else if ($k === 'allowed_filetypes') {
-                    $tmp = esc_sql(stripslashes(strtolower(trim($_POST[$k]))));
+                    $tmp = stripslashes(strtolower(trim($_POST[$k])));
                     $saved_ops[$k] = (!empty($tmp)) ? $tmp : $v;
                 } else {
-                    $tmp = esc_sql(stripslashes(trim($_POST[$k])));
+                    $tmp = stripslashes(trim($_POST[$k]));
                     $saved_ops[$k] = (!empty($tmp)) ? $tmp : $v;
                 }
             } else {
@@ -443,7 +443,7 @@ class AsgarosForumAdmin {
         echo '<div id="asgaros-panel">';
             echo '<div class="header-panel">';
                 echo '<div class="sub-panel-left">';
-                    echo '<img src="'.$asgarosforum->directory.'admin/images/logo.png">';
+                    echo '<img src="'.$asgarosforum->plugin_url.'admin/images/logo.png">';
                 echo '</div>';
                 echo '<div class="sub-panel-left">';
                     echo '<h1>'.$title.'</h1>';

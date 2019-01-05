@@ -276,7 +276,7 @@ $(document).on("click", ".allbutton", function() {
 				turntot += Math.ceil(inputval/20);
 			}
 			if(typekey == 'veh'){
-				turntot += Math.ceil(inputval/20);
+				turntot += Math.ceil(inputval/10);
 			}
         	
         }
