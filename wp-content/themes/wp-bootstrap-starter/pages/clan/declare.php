@@ -98,11 +98,8 @@ $(document).on('click','.declarewar',function(event){
 		},{
 		type: 'info',
 		delay: 5000,
-		template: 	'<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-					'<i class="fa fa-info-circle"></i> ' +
-					'' +
-					'<span data-notify="message">{2}</span>' +
-					'</div>'
+		allow_dismiss: true,
+		newest_on_top: true,
 			});	
 	});
 	
@@ -212,11 +209,8 @@ $(document).on('click','.peaceDecSubmit',function(event){
 		},{
 		type: 'info',
 		delay: 5000,
-		template: 	'<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-					'<i class="fa fa-info-circle"></i> ' +
-					'' +
-					'<span data-notify="message">{2}</span>' +
-					'</div>'
+		allow_dismiss: true,
+		newest_on_top: true,
 			});	
 	});
 	
@@ -257,19 +251,89 @@ $(document).on('click','.peaceDecSubmit',function(event){
 <?php if(!in_array($declarer_ID, $allowed_to_declare) || array_key_exists($clan_id, $cooldownlist)):?>
 
 <div class="row fw-row no-gutters">
-	<div class="col-md-3 ">
-	</div>
-
-	<div class="col-md-6">
-		<a href="/spy-report-overview/?id=<?php echo $clan_id;?>">
-			<button class="mainSubmit">
-		 		<i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
+	
+	<?php if($warcount > 0):?>
+	
+		<div class="col-md-6">
+			<button class="mainSubmit resumewar">
+				<i class="fas fa-fire" aria-hidden="true"></i> &nbsp;Resume war
 			</button>
-		 </a>
-	</div>
+		</div>
+	
+		<div class="col-md-6">
+			<a href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+				<button class="mainSubmit">
+			 		<i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
+				</button>
+			 </a>
+		</div>
+		
+		
+		
+	<script>
+(function($) {
+	
+var declare;
+$(document).on('click','.resumewar',function(event){
+	$('.pageLoader, #page-cover').show();
+	$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 
-	<div class="col-md-3 ">
-	</div>
+
+	
+	declare = $.ajax({
+		url: "/resumewar.php",
+		type: "post",
+		data: '&declaredon=<?php echo $clan_id;?>'
+	});
+
+	// Callback handler that will be called on success
+	declare.done(function (response, textStatus, jqXHR){
+
+
+	var json = $.parseJSON(response);
+	console.log(json);
+	if(json.next == true){
+		$('.warDecSubmit').html('<i class="fas fa-fire" aria-hidden="true"></i> You are at war with this clan');
+		$(".warDecSubmit").attr("disabled", "disabled");
+		$('#declareWarModal').remove();
+	}
+	$.notify({
+		message: json.status,
+		},{
+		type: 'info',
+		delay: 5000,
+		allow_dismiss: true,
+		newest_on_top: true,
+			});	
+		location.reload();
+	});
+	
+	
+});
+})(jQuery);
+</script>	
+
+	<?php else:?>
+	
+		<div class="col-md-6">
+			<a href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+				<button class="mainSubmit">
+			 		<i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
+				</button>
+			 </a>
+		</div>
+	
+		<div class="col-md-6">
+			<a href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+				<button class="mainSubmit">
+			 		<i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
+				</button>
+			 </a>
+		</div>
+	
+
+		
+	<?php endif;?>
 
 </div>
 

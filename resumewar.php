@@ -84,12 +84,6 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
 
 
 	$array['status'] = 'War resumed against '.get_the_title($declaredonID).'(#'.$declaredonID.')';
