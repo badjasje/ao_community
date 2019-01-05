@@ -1,7 +1,5 @@
 <?php
 
-
-
 ### Get General Information
 function fvm_get_generalinfo() {
     global $is_IIS;
@@ -318,14 +316,14 @@ if(!function_exists('fvm_get_serverload')) {
                     $load_avg = explode( " ", $data );
                     $server_load = trim($load_avg[0]);
                 }
-			} else if ('WIN' == strtoupper(substr(PHP_OS, 0, 3))) {
+			} else if ('WIN' == strtoupper(substr(PHP_OS, 0, 3)) && function_exists('popen') && fvm_function_available('popen')) {
 				$process = @popen('wmic cpu get NumberOfCores', 'rb');
 				if (false !== $process && null !== $process) {
 					fgets($process);
 					$numCpus = intval(fgets($process));
 					pclose($process);
 				}
-			} else {
+			} else if (function_exists('system') && fvm_function_available('system')){
                 $data = @system('uptime');
                 preg_match('/(.*):{1}(.*)/', $data, $matches);
 				if(isset($matches[2])) {
@@ -334,7 +332,9 @@ if(!function_exists('fvm_get_serverload')) {
 				} else {
 					$server_load = __('N/A', 'fvm-serverinfo');
 				}
-            }
+            } else {
+				$server_load = __('N/A', 'fvm-serverinfo');
+			}
         }
         if(empty($server_load)) {
             $server_load = __('N/A', 'fvm-serverinfo');
@@ -354,7 +354,7 @@ if(!function_exists('fvm_get_servercpu')) {
 				$cpuinfo = file_get_contents('/proc/cpuinfo');
 				preg_match_all('/^processor/m', $cpuinfo, $matches);
 				$numCpus = count($matches[0]);
-			} else {
+			} else if (function_exists('popen') && fvm_function_available('popen')) {
 				$process = @popen('sysctl -a', 'rb');
 				if (false !== $process && null !== $process) {
 					$output = stream_get_contents($process);
@@ -362,8 +362,10 @@ if(!function_exists('fvm_get_servercpu')) {
 					if ($matches) { $numCpus = intval($matches[1][0]); }
 					pclose($process);
 				}
-			}			
-        }
+			} else {
+					$numCpus = __('N/A', 'fvm-serverinfo');
+			}
+		}
         if(empty($numCpus)) {
             $numCpus = __('N/A', 'fvm-serverinfo');
         }

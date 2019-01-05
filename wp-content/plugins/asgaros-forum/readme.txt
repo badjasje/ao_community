@@ -5,7 +5,7 @@ Tags: forum, forums, discussion, multisite, community, bulletin, board, asgaros,
 Requires at least: 4.7
 Tested up to: 5.0
 Requires PHP: 5.2
-Stable tag: 1.11.3
+Stable tag: 1.12.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,7 @@ Asgaros Forum is the perfect WordPress plugin if you want to extend your website
 * Search
 * Moderators
 * Statistics
+* Ads Management
 * Permissions
 * Usergroups
 * Who Is Online
@@ -93,6 +94,33 @@ You can find a list of available hooks and filters on this site:
 6. Manage general options.
 
 == Changelog ==
+= 1.12.1 =
+* Fixed: Ad code containing JavaScript could not be edited
+* Fixed: Allow activity-feed when using shortcode-parameters for categories
+* Fixed: Only show accessible topics in unread-view
+* Fixed: Only show accessible topics in unread-view when using shortcode-parameters
+* Fixed: Only show accessible topics in post-history when using shortcode-parameters
+* Minor design changes
+* Performance improvements and code optimizations
+= 1.12.0 =
+* Added: Ads Management
+* Added: Option to add custom css
+* Added: Option to hide posts from logged-out users
+* Added: Mark all read-button to unread-view
+* Added: Show location of unread topics
+* Added: asgarosforum_content_top hook
+* Added: asgarosforum_content_header hook
+* Added: asgarosforum_after_category hook
+* Added: asgarosforum_after_forum hook
+* Added: asgarosforum_after_topic hook
+* Added: asgarosforum_after_post hook
+* Added: asgarosforum_content_bottom hook
+* Added: asgarosforum_add_admin_submenu_page hook
+* Fixed: Rare javascript-errors with some themes
+* Removed: asgarosforum_after_first_post hook
+* Minor design changes
+* Minor design changes in the administration area
+* Performance improvements and code optimizations
 = 1.11.3 =
 * Fixed: Possible infinite-loop during database-updates
 * Fixed: Prevent creation of indexes if they already exist

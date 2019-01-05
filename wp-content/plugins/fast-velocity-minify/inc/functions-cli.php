@@ -13,7 +13,7 @@ class fastvelocity_WPCLI {
 	# purge files + cache
 	public function purge() {
 		fvm_purge_all();
-		fastvelocity_purge_others();
+		fvm_purge_others();
 		WP_CLI::success('FVM and other caches were purged.');
 	}
 	

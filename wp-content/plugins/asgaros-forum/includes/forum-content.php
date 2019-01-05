@@ -327,66 +327,54 @@ class AsgarosForumContent {
 
     public function get_sticky_topics($forum_id) {
         $order = apply_filters('asgarosforum_filter_get_sticky_topics_order', "(SELECT MAX(id) FROM {$this->asgarosforum->tables->posts} AS p WHERE p.parent_id = t.id) DESC");
-        $results = $this->asgarosforum->db->get_results($this->asgarosforum->db->prepare("SELECT t.*, (SELECT author_id FROM {$this->asgarosforum->tables->posts} WHERE parent_id = t.id ORDER BY id ASC LIMIT 1) AS author_id, (SELECT (COUNT(*) - 1) FROM {$this->asgarosforum->tables->posts} WHERE parent_id = t.id) AS answers FROM {$this->asgarosforum->tables->topics} AS t WHERE t.parent_id = %d AND t.status LIKE 'sticky%' ORDER BY {$order};", $forum_id));
+        $results = $this->asgarosforum->db->get_results($this->asgarosforum->db->prepare("SELECT t.id, t.name, t.views, t.sticky, t.closed, (SELECT author_id FROM {$this->asgarosforum->tables->posts} WHERE parent_id = t.id ORDER BY id ASC LIMIT 1) AS author_id, (SELECT (COUNT(*) - 1) FROM {$this->asgarosforum->tables->posts} WHERE parent_id = t.id) AS answers FROM {$this->asgarosforum->tables->topics} AS t WHERE t.parent_id = %d AND t.sticky = 1 ORDER BY {$order};", $forum_id));
         $results = apply_filters('asgarosforum_filter_get_threads', $results);
         return $results;
     }
 
     public function get_categories($enable_filtering = true) {
-        $filter = array();
-        $include = array();
+        $ids_categories_excluded = array();
+        $ids_categories_included = array();
         $meta_query_filter = array();
 
         if ($enable_filtering) {
-            $filter = apply_filters('asgarosforum_filter_get_categories', $filter);
+            $ids_categories_excluded = apply_filters('asgarosforum_filter_get_categories', array());
+            $ids_categories_included = $this->asgarosforum->shortcode->includeCategories;
             $meta_query_filter = $this->get_categories_filter();
-
-            // Set include filter when extended shortcode is used.
-            if ($this->asgarosforum->shortcode->includeCategories) {
-                $include = $this->asgarosforum->shortcode->includeCategories;
-            }
         }
 
-        $categories = get_terms('asgarosforum-category', array('hide_empty' => false, 'exclude' => $filter, 'include' => $include, 'meta_query' => $meta_query_filter));
+        $categories_list = get_terms('asgarosforum-category', array(
+            'hide_empty'    => false,
+            'exclude'       => $ids_categories_excluded,
+            'include'       => $ids_categories_included,
+            'meta_query'    => $meta_query_filter
+        ));
 
         // Filter categories by usergroups.
         if ($enable_filtering) {
-            $categories = AsgarosForumUserGroups::filterCategories($categories);
+            $categories_list = AsgarosForumUserGroups::filterCategories($categories_list);
         }
 
         // Get information about ordering.
-        foreach ($categories as $category) {
+        foreach ($categories_list as $category) {
             $category->order = get_term_meta($category->term_id, 'order', true);
         }
 
         // Sort the categories based on ordering information.
-        usort($categories, array($this, 'get_categories_compare'));
+        usort($categories_list, array($this, 'get_categories_compare'));
 
-        return $categories;
+        return $categories_list;
     }
 
-    // TODO: Check function above. Can get combined somehow I guess ...
-    public function get_accessible_categories() {
-        // Prepare lists and filters.
-        $ids_categories = array();
-        $ids_categories_excluded = apply_filters('asgarosforum_filter_get_categories', array());
-        $meta_query_filter = $this->get_categories_filter();
+    public function get_categories_ids() {
+        $categories = $this->get_categories(true);
+        $categories_ids = array();
 
-        // Get accessible categories first.
-        $categories_list = get_terms('asgarosforum-category', array(
-            'hide_empty'    => false,
-            'exclude'       => $ids_categories_excluded,
-            'meta_query'    => $meta_query_filter
-        ));
-
-        // Now filter them based on usergroups.
-        $categories_list = AsgarosForumUserGroups::filterCategories($categories_list);
-
-        foreach ($categories_list as $category) {
-            $ids_categories[] = $category->term_id;
+        foreach ($categories as $category) {
+            $categories_ids[] = $category->term_id;
         }
 
-        return $ids_categories;
+        return $categories_ids;
     }
 
     public function get_categories_filter() {
@@ -419,9 +407,30 @@ class AsgarosForumContent {
         return ($a->order < $b->order) ? -1 : (($a->order > $b->order) ? 1 : 0);
     }
 
-    // TODO: Remove redundant function in forum.php
     public function get_topic($topic_id) {
         return $this->asgarosforum->db->get_row("SELECT * FROM {$this->asgarosforum->tables->topics} WHERE id = {$topic_id};");
+    }
+
+    function get_topics($forum_id) {
+        // Build query-part for pagination.
+        $limit_end = $this->asgarosforum->options['topics_per_page'];
+        $limit_start = $this->asgarosforum->current_page * $limit_end;
+        $limit = $this->asgarosforum->db->prepare("LIMIT %d, %d", $limit_start, $limit_end);
+
+        // Build query-part for ordering.
+        $order = "(SELECT MAX(id) FROM {$this->asgarosforum->tables->posts} AS p WHERE p.parent_id = t.id) DESC";
+        $order = apply_filters('asgarosforum_filter_get_threads_order', $order);
+
+        // Build additional sub-queries.
+        $query_author = "SELECT author_id FROM {$this->asgarosforum->tables->posts} WHERE parent_id = t.id ORDER BY id ASC LIMIT 1";
+        $query_answers = "SELECT (COUNT(*) - 1) FROM {$this->asgarosforum->tables->posts} WHERE parent_id = t.id";
+
+        // Build final query and get results.
+        $query = "SELECT t.id, t.name, t.views, t.sticky, t.closed, ({$query_author}) AS author_id, ({$query_answers}) AS answers FROM {$this->asgarosforum->tables->topics} AS t WHERE t.parent_id = %d AND t.sticky = 0 ORDER BY {$order} {$limit};";
+        $results = $this->asgarosforum->db->get_results($this->asgarosforum->db->prepare($query, $forum_id));
+        $results = apply_filters('asgarosforum_filter_get_threads', $results);
+
+        return $results;
     }
 
     public function get_post($post_id) {

@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) exit;
 
 class AsgarosForumDatabase {
     private $db;
-    private $db_version = 29;
+    private $db_version = 36;
     private $tables;
 
     public function __construct() {
@@ -24,6 +24,7 @@ class AsgarosForumDatabase {
         $this->tables->posts        = $this->db->prefix.'forum_posts';
         $this->tables->reports      = $this->db->prefix.'forum_reports';
         $this->tables->reactions    = $this->db->prefix.'forum_reactions';
+        $this->tables->ads          = $this->db->prefix.'forum_ads';
     }
 
     public function getTables() {
@@ -75,6 +76,7 @@ class AsgarosForumDatabase {
         $tables[] = $this->db->prefix.'forum_posts';
         $tables[] = $this->db->prefix.'forum_reports';
         $tables[] = $this->db->prefix.'forum_reactions';
+        $tables[] = $this->db->prefix.'forum_ads';
 
         // Delete data which has been used in old versions of the plugin.
         $tables[] = $this->db->prefix.'forum_threads';
@@ -86,11 +88,16 @@ class AsgarosForumDatabase {
     }
 
     public function buildDatabase() {
-        // Start the installation/update logic.
         global $asgarosforum;
-
+        $first_time_installation = false;
         $database_version_installed = get_option('asgarosforum_db_version');
 
+        // Set flag when it its a first-time-installation.
+        if ($database_version_installed === false) {
+            $first_time_installation = true;
+        }
+
+        // Start the installation/update logic.
         if ($database_version_installed != $this->db_version) {
             // Rename old table.
             $renameTable = $this->db->get_results('SHOW TABLES LIKE "'.$this->db->prefix.'forum_threads";');
@@ -120,7 +127,9 @@ class AsgarosForumDatabase {
             parent_id int(11) NOT NULL default '0',
             views int(11) NOT NULL default '0',
             name varchar(255) NOT NULL default '',
-            status varchar(20) NOT NULL default 'normal_open',
+            sticky int(1) NOT NULL default '0',
+            closed int(1) NOT NULL default '0',
+            approved int(1) NOT NULL default '1',
             slug varchar(255) NOT NULL default '',
             PRIMARY KEY  (id)
             ) $charset_collate;";
@@ -151,12 +160,21 @@ class AsgarosForumDatabase {
             PRIMARY KEY  (post_id, user_id)
             ) $charset_collate;";
 
+            $sql[] = "CREATE TABLE ".$this->tables->ads." (
+            id int(11) NOT NULL auto_increment,
+            name varchar(255) NOT NULL default '',
+            code longtext,
+            active int(1) NOT NULL default '0',
+            locations longtext,
+            PRIMARY KEY  (id)
+            ) $charset_collate;";
+
             require_once(ABSPATH.'wp-admin/includes/upgrade.php');
 
             dbDelta($sql);
 
             // First time installation instructions.
-            if ($database_version_installed == false) {
+            if ($first_time_installation) {
                 // Try to create a new page for the forum.
                 $page_id = wp_insert_post(
                     array(
@@ -175,6 +193,8 @@ class AsgarosForumDatabase {
                     $asgarosforum->options['location'] = $page_id;
                     $asgarosforum->saveOptions($asgarosforum->options);
                 }
+
+                update_option('asgarosforum_db_version', 1);
             }
 
             if ($database_version_installed < 5) {
@@ -183,16 +203,20 @@ class AsgarosForumDatabase {
                 // support FULLTEXT before MySQL version 5.6.
                 $this->db->query('ALTER TABLE '.$this->tables->posts.' ENGINE = MyISAM;');
                 $this->db->query('ALTER TABLE '.$this->tables->posts.' ADD FULLTEXT (text);');
+
+                update_option('asgarosforum_db_version', 5);
             }
 
             // Create forum slugs.
-            if ($database_version_installed < 6) {
+            if ($database_version_installed < 6 && !$first_time_installation) {
                 $forums = $this->db->get_results("SELECT id, name FROM ".$this->tables->forums." WHERE slug = '' ORDER BY id ASC;");
 
                 foreach ($forums as $forum) {
                     $slug = $asgarosforum->rewrite->create_unique_slug($forum->name, $this->tables->forums, 'forum');
                     $this->db->update($this->tables->forums, array('slug' => $slug), array('id' => $forum->id), array('%s'), array('%d'));
                 }
+
+                update_option('asgarosforum_db_version', 6);
             }
 
             // Add index to posts.author_id to make countings faster.
@@ -243,10 +267,12 @@ class AsgarosForumDatabase {
                         $defaultUserGroup = AsgarosForumUserGroups::insertUserGroup($defaultCategory['term_id'], $defaultUserGroupName, '#2d89cc');
                     }
                 }
+
+                update_option('asgarosforum_db_version', 13);
             }
 
             // Move appearance settings into its own options-array.
-            if ($database_version_installed < 14) {
+            if ($database_version_installed < 14 && !$first_time_installation) {
                 // Ensure that all options are loaded first.
                 $asgarosforum->loadOptions();
                 $asgarosforum->appearance->load_options();
@@ -260,6 +286,8 @@ class AsgarosForumDatabase {
                 // Save all options.
                 $asgarosforum->appearance->save_options($appearance_intersect);
                 $asgarosforum->saveOptions($options_cleaned);
+
+                update_option('asgarosforum_db_version', 14);
             }
 
             if ($database_version_installed < 19) {
@@ -268,6 +296,8 @@ class AsgarosForumDatabase {
                 // support FULLTEXT before MySQL version 5.6.
                 $this->db->query('ALTER TABLE '.$this->tables->topics.' ENGINE = MyISAM;');
                 $this->db->query('ALTER TABLE '.$this->tables->topics.' ADD FULLTEXT (name);');
+
+                update_option('asgarosforum_db_version', 19);
             }
 
             // Create some default content.
@@ -292,9 +322,11 @@ class AsgarosForumDatabase {
                         $default_forum_name = __('First Forum', 'asgaros-forum');
                         $default_forum_description = __('My first forum.', 'asgaros-forum');
 
-                        $asgarosforum->content->insert_forum($new_category['term_id'], $default_forum_name, $default_forum_description, 0, 'dashicons-editor-justify', 1, 0);
+                        $asgarosforum->content->insert_forum($new_category['term_id'], $default_forum_name, $default_forum_description, 0, 'dashicons-format-chat', 1, 0);
                     }
                 }
+
+                update_option('asgarosforum_db_version', 20);
             }
 
             // Add index to topics.parent_id for faster queries.
@@ -307,7 +339,7 @@ class AsgarosForumDatabase {
             }
 
             // Use valid default-values for dates.
-            if ($database_version_installed < 23) {
+            if ($database_version_installed < 23 && !$first_time_installation) {
                 $this->db->query("UPDATE {$this->tables->posts} SET date = '1000-01-01 00:00:00' WHERE date = '0000-00-00 00:00:00';");
                 $this->db->query("UPDATE {$this->tables->posts} SET date_edit = '1000-01-01 00:00:00' WHERE date_edit = '0000-00-00 00:00:00';");
 
@@ -333,7 +365,7 @@ class AsgarosForumDatabase {
             }
 
             // Convert to new role system.
-            if ($database_version_installed < 26) {
+            if ($database_version_installed < 26 && !$first_time_installation) {
                 // Convert moderators.
                 $get_moderators = get_users(array(
                     'fields'            => array('ID'),
@@ -376,7 +408,7 @@ class AsgarosForumDatabase {
             }
 
             // We need to save the forum_id in the posts-table to increase performance.
-            if ($database_version_installed < 27) {
+            if ($database_version_installed < 27 && !$first_time_installation) {
                 $this->db->query("UPDATE {$this->tables->posts} AS p INNER JOIN {$this->tables->topics} AS t ON p.parent_id = t.id SET p.forum_id = t.parent_id;");
 
                 update_option('asgarosforum_db_version', 27);
@@ -398,6 +430,27 @@ class AsgarosForumDatabase {
                 }
 
                 update_option('asgarosforum_db_version', 29);
+            }
+
+            // Save sticky-value in own field.
+            if ($database_version_installed < 33 && !$first_time_installation) {
+                $this->db->query("UPDATE {$this->tables->topics} SET sticky = 1 WHERE status LIKE 'sticky%';");
+
+                update_option('asgarosforum_db_version', 33);
+            }
+
+            // Save closed-value in own field.
+            if ($database_version_installed < 35 && !$first_time_installation) {
+                $this->db->query("UPDATE {$this->tables->topics} SET closed = 1 WHERE status LIKE '%closed';");
+
+                update_option('asgarosforum_db_version', 35);
+            }
+
+            // Drop old status-column.
+            if ($database_version_installed < 36 && !$first_time_installation) {
+                $this->db->query("ALTER TABLE {$this->tables->topics} DROP COLUMN status;");
+
+                update_option('asgarosforum_db_version', 36);
             }
 
             update_option('asgarosforum_db_version', $this->db_version);

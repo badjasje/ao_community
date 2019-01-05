@@ -5,13 +5,15 @@ function fastvelocity_version_check() {
 	
 	# current FVM install date, create if it doesn't exist
 	$ver = get_option("fastvelocity_plugin_version");
-	if ($ver == false) {
+	if ($ver == false) { $ver = '0.0.0'; }
+	
+	# save on upgrade
+	if ($ver != $fastvelocity_plugin_version) {
 		update_option( "fastvelocity_plugin_version", $fastvelocity_plugin_version);
-		$ver = '0.0.0';
 	}
 	
 	# compare versions (0.1.2)
-	$dots = explode('.', $fastvelocity_plugin_version);
+	$dots = explode('.', $ver);
 	if(!is_array($dots) || count($dots) != 3) { return false; }
 	
 	

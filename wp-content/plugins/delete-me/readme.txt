@@ -3,8 +3,8 @@ Contributors: cmc3215
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=L5VY6QDSAAZUL
 Tags: delete, unsubscribe, user management, gdpr, multisite
 Requires at least: 3.7
-Tested up to: 4.9
-Stable tag: 2.7
+Tested up to: 5.0
+Stable tag: 2.8
 Requires PHP: 5.2.4
 License: GPL2 http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -138,6 +138,11 @@ No, the only data stored is related to the plugin's settings which are located o
 
 == Changelog ==
 
+= 2.8 =
+
+* Release date: 12/19/2018
+* Added Role, First Name, and Last Name user data to email notification.
+
 = 2.7 =
 
 * Release date: 07/29/2018
@@ -263,6 +268,6 @@ No, the only data stored is related to the plugin's settings which are located o
 
 == Upgrade Notice ==
 
-= 2.7 =
+= 2.8 =
 
 See [Changelog](https://wordpress.org/plugins/delete-me/#developers) for details.

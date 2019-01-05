@@ -104,6 +104,9 @@ if ( $this->option['settings']['email_notification'] == true ) :
 	( ( $num_blogs_of_user > 1 && $delete_from_network ) ? ( sprintf( __( 'User deleted from %d total Network Sites.', 'delete-me' ), $num_blogs_of_user ) . "\n\n" ) : '' ) .
 	__( 'Username', 'delete-me' ) . ': ' . $this->user_login . "\n\n" .
 	__( 'E-mail', 'delete-me' ) . ': ' . $this->user_email . "\n\n" .
+	__( 'Role', 'delete-me' ) . ': ' . implode( ',', $user->roles ) . "\n\n" .
+	__( 'First Name', 'delete-me' ) . ': ' . ( empty( $user->first_name ) ? __( '(empty)', 'delete-me' ) : $user->first_name ) . "\n\n" .
+	__( 'Last Name', 'delete-me' ) . ': ' . ( empty( $user->last_name ) ? __( '(empty)', 'delete-me' ) : $user->last_name ) . "\n\n" .
 	sprintf( _x( 'Registered: %s', '%s = date user registered with the Network or Site', 'delete-me' ), $user->data->user_registered ) . "\n\n" .
 	sprintf( _x( 'This user deleted themselves using the WordPress plugin %s', '%s = plugin name', 'delete-me' ), $this->info['name'] ) . "\n\n" .
 	sprintf( __( '%d Post(s)', 'delete-me' ), count( $posts_list ) ) . "\n" .

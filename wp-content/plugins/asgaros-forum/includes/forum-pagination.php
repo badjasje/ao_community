@@ -26,7 +26,7 @@ class AsgarosForumPagination {
                 }
 
                 $link = $this->asgarosforum->get_link('topic', $topic_id, array('part' => $num_pages));
-                echo '&raquo;<a href="'.$link.'">'.__('Last', 'asgaros-forum').'</a>';
+                echo '<a href="'.$link.'">'.__('Last', 'asgaros-forum').'&nbsp;&raquo;</a>';
             }
 
             echo '</div>';
@@ -39,7 +39,7 @@ class AsgarosForumPagination {
         return '<a href="'.$link.'">'.number_format_i18n($page).'</a>';
     }
 
-    public function renderPagination($location, $sourceID = false) {
+    public function renderPagination($location, $sourceID = false, $element_counter = false) {
         $current_page = $this->asgarosforum->current_page;
         $num_pages = 0;
         $select_url = $this->asgarosforum->get_link('current', false, false, '', false);
@@ -48,7 +48,7 @@ class AsgarosForumPagination {
             $count = $this->asgarosforum->db->get_var($this->asgarosforum->db->prepare("SELECT COUNT(*) FROM {$location} WHERE parent_id = %d;", $sourceID));
             $num_pages = ceil($count / $this->asgarosforum->options['posts_per_page']);
         } else if ($location == $this->asgarosforum->tables->topics) {
-            $count = $this->asgarosforum->db->get_var($this->asgarosforum->db->prepare("SELECT COUNT(*) FROM {$location} WHERE parent_id = %d AND status LIKE %s;", $sourceID, "normal%"));
+            $count = $this->asgarosforum->db->get_var($this->asgarosforum->db->prepare("SELECT COUNT(*) FROM {$location} WHERE parent_id = %d AND sticky = 0;", $sourceID));
             $num_pages = ceil($count / $this->asgarosforum->options['topics_per_page']);
         } else if ($location === 'search') {
             $categories = $this->asgarosforum->content->get_categories();
@@ -85,14 +85,12 @@ class AsgarosForumPagination {
             $count = $this->asgarosforum->profile->count_post_history_by_user($user_id);
             $num_pages = ceil($count / 50);
         } else if ($location === 'unread') {
-            $count = count($this->asgarosforum->unread->get_unread_topics());
-            $num_pages = ceil($count / 50);
+            $num_pages = ceil($element_counter / 50);
         }
 
         // Only show pagination when there is more than one page.
         if ($num_pages > 1) {
             $out = '<div class="pages">';
-            $out .= __('Pages:', 'asgaros-forum');
 
             if ($num_pages <= 5) {
                 for ($i = 1; $i <= $num_pages; $i++) {
@@ -106,7 +104,7 @@ class AsgarosForumPagination {
             } else {
                 if ($current_page >= 3) {
                     $link = remove_query_arg('part', $select_url);
-                    $out .= '<a href="'.$link.'">'.__('First', 'asgaros-forum').'</a>&laquo;';
+                    $out .= '<a href="'.$link.'">&laquo;&nbsp;'.__('First', 'asgaros-forum').'</a>';
                 }
 
                 for ($i = 2; $i > 0; $i--) {
@@ -127,7 +125,7 @@ class AsgarosForumPagination {
 
                 if ($num_pages - $current_page >= 4) {
                     $link = add_query_arg('part', $num_pages, $select_url);
-                    $out .= '&raquo;<a href="'.$link.'">'.__('Last', 'asgaros-forum').'</a>';
+                    $out .= '<a href="'.$link.'">'.__('Last', 'asgaros-forum').'&nbsp;&raquo;</a>';
                 }
             }
 

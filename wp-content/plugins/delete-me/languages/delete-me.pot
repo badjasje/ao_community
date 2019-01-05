@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Delete Me\n"
-"POT-Creation-Date: 2018-05-25 14:58-0400\n"
+"POT-Creation-Date: 2018-12-19 04:56-0500\n"
 "PO-Revision-Date: 2018-02-04 03:24-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Poedit 2.2\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n;_nx:1,2,4c;_n_noop;"
@@ -419,28 +419,44 @@ msgid "E-mail"
 msgstr ""
 
 #: inc/delete_user.php:107
+msgid "Role"
+msgstr ""
+
+#: inc/delete_user.php:108
+msgid "First Name"
+msgstr ""
+
+#: inc/delete_user.php:108 inc/delete_user.php:109
+msgid "(empty)"
+msgstr ""
+
+#: inc/delete_user.php:109
+msgid "Last Name"
+msgstr ""
+
+#: inc/delete_user.php:110
 #, php-format
 msgctxt "%s = date user registered with the Network or Site"
 msgid "Registered: %s"
 msgstr ""
 
-#: inc/delete_user.php:108
+#: inc/delete_user.php:111
 #, php-format
 msgctxt "%s = plugin name"
 msgid "This user deleted themselves using the WordPress plugin %s"
 msgstr ""
 
-#: inc/delete_user.php:109
+#: inc/delete_user.php:112
 #, php-format
 msgid "%d Post(s)"
 msgstr ""
 
-#: inc/delete_user.php:112
+#: inc/delete_user.php:115
 #, php-format
 msgid "%d Link(s)"
 msgstr ""
 
-#: inc/delete_user.php:115
+#: inc/delete_user.php:118
 #, php-format
 msgid "%d Comment(s)"
 msgstr ""

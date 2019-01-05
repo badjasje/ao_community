@@ -3,7 +3,7 @@
 if (!defined('ABSPATH')) exit;
 
 class AsgarosForum {
-    var $version = '1.11.3';
+    var $version = '1.12.1';
     var $executePlugin = false;
     var $db = null;
     var $tables = null;
@@ -68,7 +68,7 @@ class AsgarosForum {
         'enable_search'                     => true,
         'enable_profiles'                   => true,
         'enable_memberslist'                => true,
-        'enable_activity'                   => false,
+        'enable_activity'                   => true,
         'enable_rss'                        => false,
         'count_topic_views'                 => true,
         'reports_enabled'                   => true,
@@ -88,7 +88,13 @@ class AsgarosForum {
         'time_limit_edit_posts'             => 0,
         'show_description_in_forum'         => false,
         'require_login'                     => false,
-        'create_blog_topics_id'             => 0
+        'require_login_posts'               => false,
+        'create_blog_topics_id'             => 0,
+        'enable_ads'                        => true,
+        'ads_frequency_categories'          => 2,
+        'ads_frequency_forums'              => 4,
+        'ads_frequency_topics'              => 8,
+        'ads_frequency_posts'               => 6
     );
     var $options_editor = array(
         'media_buttons' => false,
@@ -171,6 +177,7 @@ class AsgarosForum {
         $this->unread           = new AsgarosForumUnread($this);
         $this->feed             = new AsgarosForumFeed($this);
         $this->permissions      = new AsgarosForumPermissions($this);
+        $this->ads              = new AsgarosForumAds($this);
     }
 
     //======================================================================
@@ -407,7 +414,7 @@ class AsgarosForum {
     function check_access() {
         // Check login access.
         if ($this->options['require_login'] && !is_user_logged_in()) {
-            $this->error = __('Sorry, only logged in users have access to the forum.', 'asgaros-forum');
+            $this->error = __('Sorry, only logged-in users have access to the forum.', 'asgaros-forum');
             $this->error = apply_filters('asgarosforum_filter_error_message_require_login', $this->error);
             return;
         }
@@ -430,6 +437,12 @@ class AsgarosForum {
         // Check usergroups access.
         if (!AsgarosForumUserGroups::checkAccess($this->current_category)) {
             $this->error = __('Sorry, you dont have access to this area.', 'asgaros-forum');
+            return;
+        }
+
+        // Check topic-access.
+        if ($this->current_view === 'topic' && $this->options['require_login_posts'] && !is_user_logged_in()) {
+            $this->error = __('Sorry, only logged-in users have access to this topic.', 'asgaros-forum');
             return;
         }
 
@@ -506,11 +519,14 @@ class AsgarosForum {
         ob_start();
         echo '<div id="af-wrapper">';
 
+        do_action('asgarosforum_content_top');
         do_action('asgarosforum_'.$this->current_view.'_custom_content_top');
 
         // Show Header Area except for single posts.
         if ($this->current_view !== 'post') {
             $this->showHeader();
+
+            do_action('asgarosforum_content_header');
         }
 
         if (!empty($this->error)) {
@@ -537,7 +553,7 @@ class AsgarosForum {
                         $this->showMoveTopic();
                     break;
                     case 'forum':
-                        $this->showforum();
+                        $this->show_forum();
                     break;
                     case 'topic':
                         $this->showTopic();
@@ -574,6 +590,7 @@ class AsgarosForum {
             }
         }
 
+        do_action('asgarosforum_content_bottom');
         do_action('asgarosforum_'.$this->current_view.'_custom_content_bottom');
 
         echo '<div class="clear"></div>';
@@ -614,12 +631,7 @@ class AsgarosForum {
         require('views/post-element.php');
     }
 
-    function showforum() {
-        $topics = $this->get_topics($this->current_forum);
-        $sticky_topics = $this->content->get_sticky_topics($this->current_forum);
-        $counter_normal = count($topics);
-        $counter_total = $counter_normal + count($sticky_topics);
-
+    function show_forum() {
         require('views/forum.php');
     }
 
@@ -629,7 +641,7 @@ class AsgarosForum {
         $topic_title = esc_html(stripslashes($topic_object->name));
 
         echo '<div class="topic '.$topic_type.'">';
-            echo '<div class="topic-status dashicons-before dashicons-'.$topic_object->status.' '.$unread_status.'"></div>';
+            echo '<div class="topic-status dashicons-before '.$this->get_status_icon($topic_object->sticky, $topic_object->closed).' '.$unread_status.'"></div>';
             echo '<div class="topic-name">';
                 echo '<a href="'.$this->get_link('topic', $topic_object->id).'" title="'.$topic_title.'">'.$topic_title.'</a>';
                 echo '<small>';
@@ -668,11 +680,13 @@ class AsgarosForum {
             do_action('asgarosforum_custom_topic_column', $topic_object->id);
             echo '<div class="topic-poster">'.$this->get_lastpost($lastpost_data, 'topic').'</div>';
         echo '</div>';
+
+        do_action('asgarosforum_after_topic');
     }
 
     function showTopic() {
         // Create a unique slug for this topic if necessary.
-        $topic = $this->getTopic($this->current_topic);
+        $topic = $this->content->get_topic($this->current_topic);
 
         if (empty($topic->slug)) {
             $slug = $this->rewrite->create_unique_slug($topic->name, $this->tables->topics, 'topic');
@@ -765,17 +779,6 @@ class AsgarosForum {
 
     function getSpecificForums($ids) {
         $results = $this->db->get_results("SELECT id, parent_id AS category_id, name FROM {$this->tables->forums} WHERE id IN (".implode(',', $ids).") ORDER BY id ASC;");
-        return $results;
-    }
-
-    function get_topics($id) {
-        $start = $this->current_page * $this->options['topics_per_page'];
-        $end = $this->options['topics_per_page'];
-        $limit = $this->db->prepare("LIMIT %d, %d", $start, $end);
-
-        $order = apply_filters('asgarosforum_filter_get_threads_order', "(SELECT MAX(id) FROM {$this->tables->posts} AS p WHERE p.parent_id = t.id) DESC");
-        $results = $this->db->get_results($this->db->prepare("SELECT t.id, t.name, t.views, t.status, (SELECT author_id FROM {$this->tables->posts} WHERE parent_id = t.id ORDER BY id ASC LIMIT 1) AS author_id, (SELECT (COUNT(*) - 1) FROM {$this->tables->posts} WHERE parent_id = t.id) AS answers FROM {$this->tables->topics} AS t WHERE t.parent_id = %d AND t.status LIKE 'normal%' ORDER BY {$order} {$limit};", $id));
-        $results = apply_filters('asgarosforum_filter_get_threads', $results);
         return $results;
     }
 
@@ -1228,42 +1231,45 @@ class AsgarosForum {
 
     function change_status($property) {
         if ($this->permissions->isModerator('current')) {
-            $new_status = '';
-
             if ($property == 'sticky') {
-                $new_status .= 'sticky_';
-                $new_status .= ($this->get_status('closed')) ? 'closed' : 'open';
+                $this->db->update($this->tables->topics, array('sticky' => 1), array('id' => $this->current_topic), array('%d'), array('%d'));
             } else if ($property == 'normal') {
-                $new_status .= 'normal_';
-                $new_status .= ($this->get_status('closed')) ? 'closed' : 'open';
+                $this->db->update($this->tables->topics, array('sticky' => 0), array('id' => $this->current_topic), array('%d'), array('%d'));
             } else if ($property == 'closed') {
-                $new_status .= ($this->get_status('sticky')) ? 'sticky_' : 'normal_';
-                $new_status .= 'closed';
+                $this->db->update($this->tables->topics, array('closed' => 1), array('id' => $this->current_topic), array('%d'), array('%d'));
             } else if ($property == 'open') {
-                $new_status .= ($this->get_status('sticky')) ? 'sticky_' : 'normal_';
-                $new_status .= 'open';
+                $this->db->update($this->tables->topics, array('closed' => 0), array('id' => $this->current_topic), array('%d'), array('%d'));
             }
-
-            $this->db->update($this->tables->topics, array('status' => $new_status), array('id' => $this->current_topic), array('%s'), array('%d'));
-
-            // Update cache
-            $this->cache['get_status'][$this->current_topic] = $new_status;
         }
     }
 
     function get_status($property) {
-        if (empty($this->cache['get_status'][$this->current_topic])) {
-            $this->cache['get_status'][$this->current_topic] = $this->db->get_var($this->db->prepare("SELECT status FROM {$this->tables->topics} WHERE id = %d;", $this->current_topic));
+        if ($property == 'sticky') {
+            $status = $this->db->get_var("SELECT sticky FROM {$this->tables->topics} WHERE id = {$this->current_topic};");
+
+            if ($status == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if ($property == 'closed') {
+            $status = $this->db->get_var("SELECT closed FROM {$this->tables->topics} WHERE id = {$this->current_topic};");
+
+            if ($status == 1) {
+                return true;
+            } else {
+                return false;
+            }
         }
+    }
 
-        $status = $this->cache['get_status'][$this->current_topic];
-
-        if ($property == 'sticky' && ($status == 'sticky_open' || $status == 'sticky_closed')) {
-            return true;
-        } else if ($property == 'closed' && ($status == 'normal_closed' || $status == 'sticky_closed')) {
-            return true;
+    function get_status_icon($sticky, $closed) {
+        if ($sticky == 1) {
+            return 'dashicons-topic-sticky';
+        } else if ($closed == 1) {
+            return 'dashicons-topic-closed';
         } else {
-            return false;
+            return 'dashicons-topic-normal';
         }
     }
 
@@ -1330,11 +1336,6 @@ class AsgarosForum {
 
         // Assign error message, because when this location is reached, no parents has been set.
         $this->error = $error[$contentType];
-    }
-
-    // Gets all data of a topic based on its ID.
-    public function getTopic($topicID) {
-        return $this->db->get_row($this->db->prepare("SELECT * FROM {$this->tables->topics} WHERE id = %d;", $topicID));
     }
 
     public function createBlogTopic($new_status, $old_status, $post) {

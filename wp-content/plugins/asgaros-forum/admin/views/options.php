@@ -54,7 +54,7 @@ if (!defined('ABSPATH')) exit;
 
                                         echo '<option value="0"'.(0 == $asgarosforum->options['create_blog_topics_id'] ? ' selected="selected"' : '').'>'.__('Dont create topics', 'asgaros-forum').'</option>';
 
-                                        $categories = $asgarosforum->content->get_categories();
+                                        $categories = $asgarosforum->content->get_categories(false);
 
                                         if ($categories) {
                                             foreach ($categories as $category) {
@@ -112,8 +112,18 @@ if (!defined('ABSPATH')) exit;
                                 </tr>
 
                                 <tr>
-                                    <th><label for="require_login"><?php _e('Forum visible to logged in users only', 'asgaros-forum'); ?></label></th>
+                                    <th><label for="require_login"><?php _e('Hide forum from logged-out users', 'asgaros-forum'); ?></label></th>
                                     <td><input type="checkbox" name="require_login" id="require_login" <?php checked(!empty($asgarosforum->options['require_login'])); ?>></td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        <label for="require_login_posts"><?php _e('Hide posts from logged-out users', 'asgaros-forum'); ?></label>
+                                        <span class="description"><?php _e('Guests can see topics but need to log in to access the posts they contain.', 'asgaros-forum'); ?></span>
+                                    </th>
+                                    <td>
+                                        <input type="checkbox" name="require_login_posts" id="require_login_posts" <?php checked(!empty($asgarosforum->options['require_login_posts'])); ?>>
+                                    </td>
                                 </tr>
 
                                 <tr>
@@ -395,6 +405,37 @@ if (!defined('ABSPATH')) exit;
                                 <tr class="signatures-option" <?php if (!$signaturesOption) { echo 'style="display: none;"'; } ?>>
                                     <th><label for="signatures_html_tags"><?php _e('Allowed HTML tags:', 'asgaros-forum'); ?></label></th>
                                     <td><input class="regular-text" type="text" name="signatures_html_tags" id="signatures_html_tags" value="<?php echo esc_html(stripslashes($asgarosforum->options['signatures_html_tags'])); ?>"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="postbox">
+                        <h2 class="hndle dashicons-before dashicons-slides"><?php _e('Ads', 'asgaros-forum'); ?></h2>
+                        <div class="inside">
+                            <?php
+                            $adsOption = checked(!empty($asgarosforum->options['enable_ads']), true, false);
+                            ?>
+                            <table>
+                                <tr>
+                                    <th><label for="enable_ads"><?php _e('Enable ads', 'asgaros-forum'); ?></label></th>
+                                    <td><input type="checkbox" name="enable_ads" id="enable_ads" class="show_hide_initiator" data-hide-class="ads-option" <?php checked(!empty($asgarosforum->options['enable_ads'])); ?>></td>
+                                </tr>
+                                <tr class="ads-option" <?php if (!$adsOption) { echo 'style="display: none;"'; } ?>>
+                                    <th><label for="ads_frequency_categories"><?php _e('Ad frequency for categories:', 'asgaros-forum'); ?></label></th>
+                                    <td><input type="number" name="ads_frequency_categories" id="ads_frequency_categories" value="<?php echo stripslashes($asgarosforum->options['ads_frequency_categories']); ?>" size="3" min="1"></td>
+                                </tr>
+                                <tr class="ads-option" <?php if (!$adsOption) { echo 'style="display: none;"'; } ?>>
+                                    <th><label for="ads_frequency_forums"><?php _e('Ad frequency for forums:', 'asgaros-forum'); ?></label></th>
+                                    <td><input type="number" name="ads_frequency_forums" id="ads_frequency_forums" value="<?php echo stripslashes($asgarosforum->options['ads_frequency_forums']); ?>" size="3" min="1"></td>
+                                </tr>
+                                <tr class="ads-option" <?php if (!$adsOption) { echo 'style="display: none;"'; } ?>>
+                                    <th><label for="ads_frequency_topics"><?php _e('Ad frequency for topics:', 'asgaros-forum'); ?></label></th>
+                                    <td><input type="number" name="ads_frequency_topics" id="ads_frequency_topics" value="<?php echo stripslashes($asgarosforum->options['ads_frequency_topics']); ?>" size="3" min="1"></td>
+                                </tr>
+                                <tr class="ads-option" <?php if (!$adsOption) { echo 'style="display: none;"'; } ?>>
+                                    <th><label for="ads_frequency_posts"><?php _e('Ad frequency for posts:', 'asgaros-forum'); ?></label></th>
+                                    <td><input type="number" name="ads_frequency_posts" id="ads_frequency_posts" value="<?php echo stripslashes($asgarosforum->options['ads_frequency_posts']); ?>" size="3" min="1"></td>
                                 </tr>
                             </table>
                         </div>

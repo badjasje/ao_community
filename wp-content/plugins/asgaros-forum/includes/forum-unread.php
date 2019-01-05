@@ -192,32 +192,54 @@ class AsgarosForumUnread {
         echo '</div>';
     }
 
+    function show_unread_menu() {
+        echo '<div class="forum-menu">';
+        echo '<a class="dashicons-before dashicons-yes" href="'.$this->asgarosforum->get_link('markallread').'">';
+        echo __('Mark All Read', 'asgaros-forum');
+        echo '</a>';
+        echo '</div>';
+    }
+
     // Renders a view with all unread topics.
     public function show_unread_topics() {
-        $pagination_rendering = $this->asgarosforum->pagination->renderPagination('unread');
-        $paginationRendering = ($pagination_rendering) ? '<div class="pages-and-menu">'.$pagination_rendering.'<div class="clear"></div></div>' : '';
-        echo $paginationRendering;
-
+        // Load unread topics.
         $unread_topics = $this->get_unread_topics();
+        $unread_topics_counter = count($unread_topics);
+
+        // Render pagination.
+        $pagination_rendering = $this->asgarosforum->pagination->renderPagination('unread', false, $unread_topics_counter);
+
+        echo '<div class="pages-and-menu">';
+            echo $pagination_rendering;
+            $this->show_unread_menu();
+            echo '<div class="clear"></div>';
+        echo '</div>';
 
         echo '<div class="title-element"></div>';
         echo '<div class="content-element">';
 
-        if (count($unread_topics) > 0) {
+        if ($unread_topics_counter > 0) {
             $page_elements = 50;
             $page_start = $this->asgarosforum->current_page * $page_elements;
             $data_sliced = array_slice($unread_topics, $page_start, $page_elements);
 
             foreach ($data_sliced as $topic) {
-                $topic_title = esc_html(stripslashes($topic->name));
+                $topic_title = esc_html(stripslashes($topic->topic_name));
 
                 echo '<div class="unread-topic topic-normal">';
-                    echo '<div class="topic-status dashicons-before dashicons-'.$topic->status.' unread"></div>';
+                    echo '<div class="topic-status dashicons-before '.$this->asgarosforum->get_status_icon($topic->sticky, $topic->closed).' unread"></div>';
                     echo '<div class="topic-name">';
-                        $first_unread_post = $this->asgarosforum->content->get_first_unread_post($topic->id);
+                        $first_unread_post = $this->asgarosforum->content->get_first_unread_post($topic->topic_id);
                         $link = $this->asgarosforum->rewrite->get_post_link($first_unread_post->id, $first_unread_post->parent_id);
 
                         echo '<a href="'.$link.'" title="'.$topic_title.'">'.$topic_title.'</a>';
+
+                        echo '<small>';
+                        echo __('In', 'asgaros-forum').'&nbsp;';
+                        echo '<a href="'.$this->asgarosforum->rewrite->get_link('forum', $topic->forum_id).'">';
+                        echo esc_html(stripslashes($topic->forum_name));
+                        echo '</a>';
+                        echo '</small>';
                     echo '</div>';
                 echo '</div>';
             }
@@ -227,13 +249,17 @@ class AsgarosForumUnread {
 
         echo '</div>';
 
-        echo $paginationRendering;
+        echo '<div class="pages-and-menu">';
+            echo $pagination_rendering;
+            $this->show_unread_menu();
+            echo '<div class="clear"></div>';
+        echo '</div>';
     }
 
     // Get all unread topics.
     public function get_unread_topics() {
         // Get accessible categories first.
-        $ids_categories = $this->asgarosforum->content->get_accessible_categories();
+        $ids_categories = $this->asgarosforum->content->get_categories_ids();
 
         // Load potential unread topics.
         $unread_topics = array();
@@ -241,13 +267,13 @@ class AsgarosForumUnread {
         if (!empty($ids_categories)) {
             $ids_categories = implode(',', $ids_categories);
 
-            $unread_topics = $this->asgarosforum->db->get_results("SELECT MAX(p.id) AS max_id, t.id, t.name, t.status FROM {$this->asgarosforum->tables->posts} AS p LEFT JOIN {$this->asgarosforum->tables->topics} AS t ON (t.id = p.parent_id) WHERE EXISTS (SELECT f.id FROM {$this->asgarosforum->tables->forums} AS f WHERE f.id = t.parent_id AND f.parent_id IN ({$ids_categories})) AND p.date > '{$this->get_last_visit()}' GROUP BY p.parent_id ORDER BY MAX(p.id) DESC;");
+            $unread_topics = $this->asgarosforum->db->get_results("SELECT MAX(p.id) AS max_id, t.id AS topic_id, t.name AS topic_name, t.sticky, t.closed, f.id AS forum_id, f.name AS forum_name FROM {$this->asgarosforum->tables->posts} AS p LEFT JOIN {$this->asgarosforum->tables->topics} AS t ON (t.id = p.parent_id) LEFT JOIN {$this->asgarosforum->tables->forums} AS f ON (f.id = t.parent_id) WHERE f.parent_id IN ({$ids_categories}) AND p.date > '{$this->get_last_visit()}' GROUP BY p.parent_id ORDER BY MAX(p.id) DESC;");
         }
 
         // Remove read topics from that list.
         if (!empty($unread_topics) && !empty($this->excluded_items)) {
             foreach ($unread_topics as $key => $topic) {
-                if (isset($this->excluded_items[$topic->id]) && $topic->max_id <= $this->excluded_items[$topic->id]) {
+                if (isset($this->excluded_items[$topic->topic_id]) && $topic->max_id <= $this->excluded_items[$topic->topic_id]) {
                     unset($unread_topics[$key]);
                 }
             }
