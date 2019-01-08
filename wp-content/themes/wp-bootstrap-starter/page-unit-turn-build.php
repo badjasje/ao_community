@@ -227,7 +227,7 @@ $(document).on("keyup paste blur change", ".buyInput", function() {
 				turntot += Math.ceil(inputval/20);
 			}
 			if(inputkey == 'veh'){
-				turntot += Math.ceil(inputval/20);
+				turntot += Math.ceil(inputval/10);
 			}
         	
         	

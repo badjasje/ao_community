@@ -191054,3 +191054,333 @@ ID: 1
 Value: 125000
 Units ordered: thief 25
 
+10:07:21 | 07-01-2019
+ID: 2792
+Value: 16500
+Units ordered: navy 20
+
+10:09:55 | 07-01-2019
+ID: 2792
+Value: 38250
+Units ordered: artillery 30
+
+10:10:08 | 07-01-2019
+ID: 2792
+Value: 43000
+Units ordered: battleship 20
+
+10:10:18 | 07-01-2019
+ID: 2792
+Value: 66000
+Units ordered: b2_bomber 30
+
+10:10:30 | 07-01-2019
+ID: 2792
+Value: 17000
+Units ordered: rocket 20
+
+10:28:55 | 07-01-2019
+ID: 2078
+Value: 750000
+Units ordered: spyplane 50
+
+10:46:15 | 07-01-2019
+ID: 2792
+Value: 7500
+Units ordered: jsf 10
+
+10:46:25 | 07-01-2019
+ID: 2792
+Value: 5625
+Units ordered: destroyer 5
+
+10:46:41 | 07-01-2019
+ID: 2792
+Value: 5000
+Units ordered: humvee 10
+
+10:46:55 | 07-01-2019
+ID: 2792
+Value: 65000
+Units ordered: sniper 10
+
+10:46:55 | 07-01-2019
+ID: 2792
+Value: 65000
+Units ordered: flamethrower 30
+
+10:47:39 | 07-01-2019
+ID: 2792
+Value: 76750
+Units ordered: dragon 10
+
+10:47:39 | 07-01-2019
+ID: 2792
+Value: 76750
+Units ordered: f22_raptors 10
+
+10:47:39 | 07-01-2019
+ID: 2792
+Value: 76750
+Units ordered: rah66_commanches 10
+
+10:47:39 | 07-01-2019
+ID: 2792
+Value: 76750
+Units ordered: b2_bomber 10
+
+10:47:39 | 07-01-2019
+ID: 2792
+Value: 76750
+Units ordered: jsf 10
+
+10:47:39 | 07-01-2019
+ID: 2792
+Value: 76750
+Units ordered: typhoon 10
+
+10:47:39 | 07-01-2019
+ID: 2792
+Value: 76750
+Units ordered: seahawk 10
+
+10:47:49 | 07-01-2019
+ID: 2792
+Value: 63300
+Units ordered: apc 10
+
+10:47:49 | 07-01-2019
+ID: 2792
+Value: 63300
+Units ordered: humvee 10
+
+10:47:49 | 07-01-2019
+ID: 2792
+Value: 63300
+Units ordered: sam 10
+
+10:47:49 | 07-01-2019
+ID: 2792
+Value: 63300
+Units ordered: abraham 10
+
+10:47:49 | 07-01-2019
+ID: 2792
+Value: 63300
+Units ordered: artillery 10
+
+10:47:49 | 07-01-2019
+ID: 2792
+Value: 63300
+Units ordered: m70mlrs 10
+
+10:47:49 | 07-01-2019
+ID: 2792
+Value: 63300
+Units ordered: m270_rocket 10
+
+10:48:00 | 07-01-2019
+ID: 2792
+Value: 50250
+Units ordered: paratrooper 10
+
+10:48:00 | 07-01-2019
+ID: 2792
+Value: 50250
+Units ordered: grenade 10
+
+10:48:00 | 07-01-2019
+ID: 2792
+Value: 50250
+Units ordered: navy 10
+
+10:48:00 | 07-01-2019
+ID: 2792
+Value: 50250
+Units ordered: rifle 10
+
+10:48:00 | 07-01-2019
+ID: 2792
+Value: 50250
+Units ordered: rocket 10
+
+10:48:00 | 07-01-2019
+ID: 2792
+Value: 50250
+Units ordered: armoured 10
+
+10:48:00 | 07-01-2019
+ID: 2792
+Value: 50250
+Units ordered: flamethrower 10
+
+10:48:43 | 07-01-2019
+ID: 2792
+Value: 19450
+Units ordered: battleship 2
+
+10:48:43 | 07-01-2019
+ID: 2792
+Value: 19450
+Units ordered: frigate 2
+
+10:48:43 | 07-01-2019
+ID: 2792
+Value: 19450
+Units ordered: carrier 2
+
+10:48:43 | 07-01-2019
+ID: 2792
+Value: 19450
+Units ordered: submarine 2
+
+10:48:43 | 07-01-2019
+ID: 2792
+Value: 19450
+Units ordered: cruiser 2
+
+10:48:43 | 07-01-2019
+ID: 2792
+Value: 19450
+Units ordered: destroyer 2
+
+10:48:43 | 07-01-2019
+ID: 2792
+Value: 19450
+Units ordered: sparrow 2
+
+11:02:55 | 07-01-2019
+ID: 2768
+Value: 100000
+Units ordered: sniper 20
+
+12:59:53 | 07-01-2019
+ID: 2790
+Value: 375000
+Units ordered: jsf 500
+
+17:34:28 | 07-01-2019
+ID: 2790
+Value: 37000
+Units ordered: thief 5
+
+17:34:28 | 07-01-2019
+ID: 2790
+Value: 37000
+Units ordered: spy 3
+
+20:35:56 | 07-01-2019
+ID: 2787
+Value: 189000
+Units ordered: rocket 100
+
+20:35:56 | 07-01-2019
+ID: 2787
+Value: 189000
+Units ordered: armoured 100
+
+20:35:56 | 07-01-2019
+ID: 2787
+Value: 189000
+Units ordered: flamethrower 100
+
+21:34:23 | 07-01-2019
+ID: 2792
+Value: 205100
+Units ordered: dragon 20
+
+21:34:23 | 07-01-2019
+ID: 2792
+Value: 205100
+Units ordered: f22_raptors 20
+
+21:34:23 | 07-01-2019
+ID: 2792
+Value: 205100
+Units ordered: rah66_commanches 20
+
+21:34:23 | 07-01-2019
+ID: 2792
+Value: 205100
+Units ordered: b2_bomber 20
+
+21:34:23 | 07-01-2019
+ID: 2792
+Value: 205100
+Units ordered: jsf 20
+
+21:34:23 | 07-01-2019
+ID: 2792
+Value: 205100
+Units ordered: typhoon 20
+
+21:34:23 | 07-01-2019
+ID: 2792
+Value: 205100
+Units ordered: seahawk 20
+
+21:34:23 | 07-01-2019
+ID: 2792
+Value: 205100
+Units ordered: frigate 8
+
+21:34:23 | 07-01-2019
+ID: 2792
+Value: 205100
+Units ordered: carrier 8
+
+21:34:23 | 07-01-2019
+ID: 2792
+Value: 205100
+Units ordered: submarine 8
+
+21:34:23 | 07-01-2019
+ID: 2792
+Value: 205100
+Units ordered: cruiser 8
+
+21:34:23 | 07-01-2019
+ID: 2792
+Value: 205100
+Units ordered: sparrow 8
+
+22:59:19 | 07-01-2019
+ID: 1799
+Value: 585000
+Units ordered: spyplane 39
+
+23:00:17 | 07-01-2019
+ID: 1799
+Value: 165000
+Units ordered: spyplane 11
+
+5:31:37 | 08-01-2019
+ID: 2803
+Value: 178000
+Units ordered: grenade 400
+
+6:33:12 | 08-01-2019
+ID: 2792
+Value: 43100
+Units ordered: rifle 20
+
+6:33:12 | 08-01-2019
+ID: 2792
+Value: 43100
+Units ordered: rocket 20
+
+6:33:12 | 08-01-2019
+ID: 2792
+Value: 43100
+Units ordered: armoured 20
+
+6:48:10 | 08-01-2019
+ID: 2768
+Value: 150000
+Units ordered: sniper 30
+
+9:15:03 | 08-01-2019
+ID: 2078
+Value: 750000
+Units ordered: spyplane 50
+

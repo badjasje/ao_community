@@ -268,19 +268,7 @@ messaging.getToken().then(function(currentToken) {
 			</div>
 			
 			
-			<div class="row menuRow hideMenuItem">
-				<div class="col-md-2 col-xs-2 buttonItem">
-					<a target="_blank" href="/push-messaging.html">
-						<button class="menu-item" type="button" >
-							<i class="fas fa-bell"></i>
-						</button>
-					</a>
-				</div>
-				<div class="col-md-10 col-xs-10 menuText">
-					<a target="_blank" href="/push-messaging.html">Push Messaging</a>
-				</div>
-			</div>
-			
+					
 			
 			
 			
@@ -444,7 +432,19 @@ messaging.getToken().then(function(currentToken) {
 				</div>
 			</div>
 			
-			
+			<div class="row menuRow hideMenuItem">
+				<div class="col-md-2 col-xs-2 buttonItem">
+					<a target="_blank" href="/push-messaging.html">
+						<button class="menu-item" type="button" >
+							<i class="fas fa-bell"></i>
+						</button>
+					</a>
+				</div>
+				<div class="col-md-10 col-xs-10 menuText">
+					<a target="_blank" href="/push-messaging.html">Push Messaging</a>
+				</div>
+			</div>
+
 			
 			<div class="row menuRow hideMenuItem">
 				<div class="col-md-2 col-xs-2 buttonItem">
