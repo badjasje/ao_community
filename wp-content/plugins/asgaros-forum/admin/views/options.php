@@ -58,14 +58,14 @@ if (!defined('ABSPATH')) exit;
 
                                         if ($categories) {
                                             foreach ($categories as $category) {
-                                                $forums = $asgarosforum->get_forums($category->term_id, 0, true);
+                                                $forums = $asgarosforum->get_forums($category->term_id, 0);
 
                                                 if ($forums) {
                                                     foreach ($forums as $forum) {
                                                         echo '<option value="'.$forum->id.'"'.($forum->id == $asgarosforum->options['create_blog_topics_id'] ? ' selected="selected"' : '').'>'.esc_html($forum->name).'</option>';
 
                                                         if ($forum->count_subforums > 0) {
-                                                            $subforums = $asgarosforum->get_forums($category->term_id, $forum->id, true);
+                                                            $subforums = $asgarosforum->get_forums($category->term_id, $forum->id);
 
                                                             foreach ($subforums as $subforum) {
                                                                 echo '<option value="'.$subforum->id.'"'.($subforum->id == $asgarosforum->options['create_blog_topics_id'] ? ' selected="selected"' : '').'>--- '.esc_html($subforum->name).'</option>';
@@ -89,6 +89,11 @@ if (!defined('ABSPATH')) exit;
                                 <tr>
                                     <th><label for="allow_shortcodes"><?php _e('Allow shortcodes in posts', 'asgaros-forum'); ?></label></th>
                                     <td><input type="checkbox" name="allow_shortcodes" id="allow_shortcodes" <?php checked(!empty($asgarosforum->options['allow_shortcodes'])); ?>></td>
+                                </tr>
+
+                                <tr>
+                                    <th><label for="hide_spoilers_from_guests"><?php _e('Hide spoilers from logged-out users', 'asgaros-forum'); ?></label></th>
+                                    <td><input type="checkbox" name="hide_spoilers_from_guests" id="hide_spoilers_from_guests" <?php checked(!empty($asgarosforum->options['hide_spoilers_from_guests'])); ?>></td>
                                 </tr>
 
                                 <tr>
@@ -153,6 +158,19 @@ if (!defined('ABSPATH')) exit;
                                         <span class="description"><?php _e('(0 = No limitation)', 'asgaros-forum'); ?></span>
                                     </td>
                                 </tr>
+
+                                <tr>
+                                    <th>
+                                        <label for="approval_for"><?php _e('Approval needed for new topics from:', 'asgaros-forum'); ?></label>
+                                        <span class="description"><?php _e('This setting only affects forums that require approval for new topics.', 'asgaros-forum'); ?></span>
+                                    </th>
+                                    <td>
+                                        <select name="approval_for" id="approval_for">';
+                                            <option value="guests" <?php if ($asgarosforum->options['approval_for'] == 'guests') { echo 'selected="selected"'; } ?>><?php _e('Guests', 'asgaros-forum'); ?></option>
+                                            <option value="normal" <?php if ($asgarosforum->options['approval_for'] == 'normal') { echo 'selected="selected"'; } ?>><?php _e('Guests & Normal Users', 'asgaros-forum'); ?></option>
+                                        </select>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -164,10 +182,6 @@ if (!defined('ABSPATH')) exit;
                                 <tr>
                                     <th><label for="enable_seo_urls"><?php _e('Enable SEO-friendly URLs', 'asgaros-forum'); ?></label></th>
                                     <td><input type="checkbox" name="enable_seo_urls" id="enable_seo_urls" <?php checked(!empty($asgarosforum->options['enable_seo_urls'])); ?>></td>
-                                </tr>
-                                <tr>
-                                    <th><label for="enable_activity"><?php _e('Enable Activity Feed', 'asgaros-forum'); ?></label></th>
-                                    <td><input type="checkbox" name="enable_activity" id="enable_activity" <?php checked(!empty($asgarosforum->options['enable_activity'])); ?>></td>
                                 </tr>
                                 <tr>
                                     <th><label for="enable_reactions"><?php _e('Enable reactions', 'asgaros-forum'); ?></label></th>
@@ -221,7 +235,7 @@ if (!defined('ABSPATH')) exit;
                     </div>
 
                     <div class="postbox">
-                        <h2 class="hndle dashicons-before dashicons-email-alt"><?php _e('Subscriptions', 'asgaros-forum'); ?></h2>
+                        <h2 class="hndle dashicons-before dashicons-email-alt"><?php _e('Notifications', 'asgaros-forum'); ?></h2>
                         <div class="inside">
                             <table>
                                 <tr>
@@ -233,12 +247,22 @@ if (!defined('ABSPATH')) exit;
                                     <td><input class="regular-text" type="text" name="notification_sender_mail" id="notification_sender_mail" value="<?php echo esc_html(stripslashes($asgarosforum->options['notification_sender_mail'])); ?>"></td>
                                 </tr>
                                 <tr>
-                                    <th><label for="admin_subscriptions"><?php _e('Notify site owner about new topics', 'asgaros-forum'); ?></label></th>
-                                    <td><input type="checkbox" name="admin_subscriptions" id="admin_subscriptions" <?php checked(!empty($asgarosforum->options['admin_subscriptions'])); ?>></td>
+                                    <th>
+                                        <label for="receivers_admin_notifications"><?php _e('Receivers of administrative notifications:', 'asgaros-forum'); ?></label>
+                                        <span class="description"><?php _e('A comma-separated list of mail-addresses which can receive administrative notifications (new reports, unapproved topics, and more).', 'asgaros-forum'); ?></span>
+                                    </th>
+                                    <td><input class="regular-text" type="text" name="receivers_admin_notifications" id="receivers_admin_notifications" value="<?php echo esc_html(stripslashes($asgarosforum->options['receivers_admin_notifications'])); ?>"></td>
                                 </tr>
                                 <tr>
-                                    <th><label for="allow_subscriptions"><?php _e('Allow subscriptions (for logged-in users only)', 'asgaros-forum'); ?></label></th>
+                                    <th><label for="allow_subscriptions">
+                                        <?php _e('Enable subscriptions', 'asgaros-forum'); ?></label>
+                                        <span class="description"><?php _e('The subscription-functionality is only available for logged-in users.', 'asgaros-forum'); ?></span>
+                                    </th>
                                     <td><input type="checkbox" name="allow_subscriptions" id="allow_subscriptions" <?php checked(!empty($asgarosforum->options['allow_subscriptions'])); ?>></td>
+                                </tr>
+                                <tr>
+                                    <th><label for="admin_subscriptions"><?php _e('Notify receivers of administrative notifications about new topics', 'asgaros-forum'); ?></label></th>
+                                    <td><input type="checkbox" name="admin_subscriptions" id="admin_subscriptions" <?php checked(!empty($asgarosforum->options['admin_subscriptions'])); ?>></td>
                                 </tr>
                                 <!-- New Post Notifications -->
                                 <tr>
@@ -380,7 +404,7 @@ if (!defined('ABSPATH')) exit;
                                     <td><input type="checkbox" name="reports_enabled" id="reports_enabled" class="show_hide_initiator" data-hide-class="reports-option" <?php checked(!empty($asgarosforum->options['reports_enabled'])); ?>></td>
                                 </tr>
                                 <tr class="reports-option" <?php if (!$reportsOption) { echo 'style="display: none;"'; } ?>>
-                                    <th><label for="reports_notifications"><?php _e('Notify site owner about new reports', 'asgaros-forum'); ?></label></th>
+                                    <th><label for="reports_notifications"><?php _e('Notify receivers of administrative notifications about new reports', 'asgaros-forum'); ?></label></th>
                                     <td><input type="checkbox" name="reports_notifications" id="reports_notifications" <?php checked(!empty($asgarosforum->options['reports_notifications'])); ?>></td>
                                 </tr>
                             </table>
@@ -405,6 +429,25 @@ if (!defined('ABSPATH')) exit;
                                 <tr class="signatures-option" <?php if (!$signaturesOption) { echo 'style="display: none;"'; } ?>>
                                     <th><label for="signatures_html_tags"><?php _e('Allowed HTML tags:', 'asgaros-forum'); ?></label></th>
                                     <td><input class="regular-text" type="text" name="signatures_html_tags" id="signatures_html_tags" value="<?php echo esc_html(stripslashes($asgarosforum->options['signatures_html_tags'])); ?>"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="postbox">
+                        <h2 class="hndle dashicons-before dashicons-megaphone"><?php _e('Activity', 'asgaros-forum'); ?></h2>
+                        <div class="inside">
+                            <?php
+                            $activityOption = checked(!empty($asgarosforum->options['enable_activity']), true, false);
+                            ?>
+                            <table>
+                                <tr>
+                                    <th><label for="enable_activity"><?php _e('Enable Activity Feed', 'asgaros-forum'); ?></label></th>
+                                    <td><input type="checkbox" name="enable_activity" id="enable_activity" class="show_hide_initiator" data-hide-class="activity-option" <?php checked(!empty($asgarosforum->options['enable_activity'])); ?>></td>
+                                </tr>
+                                <tr class="activity-option" <?php if (!$activityOption) { echo 'style="display: none;"'; } ?>>
+                                    <th><label for="activity_days"><?php _e('Days of activity to show:', 'asgaros-forum'); ?></label></th>
+                                    <td><input type="number" name="activity_days" id="activity_days" value="<?php echo stripslashes($asgarosforum->options['activity_days']); ?>" size="3" min="1"></td>
                                 </tr>
                             </table>
                         </div>

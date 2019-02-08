@@ -34,6 +34,16 @@ class AsgarosForumRewrite {
         }
     }
 
+    // TODO: Use this function for all redirects.
+    function redirect($location) {
+        if ($location === 'overview') {
+            $location = $this->get_link('home');
+        }
+
+        wp_redirect($location);
+        exit;
+    }
+
     // Generate all necessary rewrite rules.
     function add_rewrite_rules_array($rules) {
         // Get all pages with a shortcode first.
@@ -271,6 +281,7 @@ class AsgarosForumRewrite {
             $this->links['profile']       = $this->links['home'].'/profile/';
             $this->links['history']       = $this->links['home'].'/history/';
             $this->links['unread']        = $this->links['home'].'/unread/';
+            $this->links['unapproved']    = $this->links['home'].'/unapproved/';
         } else {
             $this->links['activity']      = add_query_arg(array('view' => 'activity'), $this->links['home']);
             $this->links['subscriptions'] = add_query_arg(array('view' => 'subscriptions'), $this->links['home']);
@@ -286,6 +297,7 @@ class AsgarosForumRewrite {
             $this->links['profile']       = add_query_arg(array('view' => 'profile'), $this->links['home']);
             $this->links['history']       = add_query_arg(array('view' => 'history'), $this->links['home']);
             $this->links['unread']        = add_query_arg(array('view' => 'unread'), $this->links['home']);
+            $this->links['unapproved']    = add_query_arg(array('view' => 'unapproved'), $this->links['home']);
         }
     }
 

@@ -116,31 +116,25 @@ class AsgarosForumAppearance {
 		if ($this->asgarosforum->executePlugin) {
 			echo '<!-- Asgaros Forum: BEGIN -->'.PHP_EOL;
 
-			$currentLink = ($this->asgarosforum->current_page > 0) ? $this->asgarosforum->get_link('current') : esc_url(remove_query_arg('part', $this->asgarosforum->get_link('current', false, false, '', false)));
-			$currentTitle = ($this->asgarosforum->getMetaTitle()) ? $this->asgarosforum->getMetaTitle() : get_the_title();
-			$currentDescription = ($this->asgarosforum->current_description) ? $this->asgarosforum->current_description : $currentTitle;
+			$link = ($this->asgarosforum->current_page > 0) ? $this->asgarosforum->get_link('current') : esc_url(remove_query_arg('part', $this->asgarosforum->get_link('current', false, false, '', false)));
+			$title = ($this->asgarosforum->getMetaTitle()) ? $this->asgarosforum->getMetaTitle() : get_the_title();
+			$description = ($this->asgarosforum->current_description && $this->asgarosforum->error === false) ? $this->asgarosforum->current_description : $title;
 
-			// Prevent indexing of some views.
-			switch ($this->asgarosforum->current_view) {
-				case 'addtopic':
-				case 'movetopic':
-				case 'addpost':
-				case 'editpost':
-				case 'search':
-					echo '<meta name="robots" content="noindex, follow" />'.PHP_EOL;
-				break;
-				default:
-				break;
+			// Prevent indexing of some views or when there is an error.
+			$blocked_views_for_searchengines = array('addtopic', 'movetopic', 'addpost', 'editpost', 'search');
+
+			if (in_array($this->asgarosforum->current_view, $blocked_views_for_searchengines) || $this->asgarosforum->error !== false) {
+				echo '<meta name="robots" content="noindex, follow" />'.PHP_EOL;
 			}
 
-			echo '<link rel="canonical" href="'.$currentLink.'" />'.PHP_EOL;
-			echo '<meta name="description" content="'.$currentDescription.'" />'.PHP_EOL;
-			echo '<meta property="og:url" content="'.$currentLink.'" />'.PHP_EOL;
-			echo '<meta property="og:title" content="'.$currentTitle.'" />'.PHP_EOL;
-			echo '<meta property="og:description" content="'.$currentDescription.'" />'.PHP_EOL;
+			echo '<link rel="canonical" href="'.$link.'" />'.PHP_EOL;
+			echo '<meta name="description" content="'.$description.'" />'.PHP_EOL;
+			echo '<meta property="og:url" content="'.$link.'" />'.PHP_EOL;
+			echo '<meta property="og:title" content="'.$title.'" />'.PHP_EOL;
+			echo '<meta property="og:description" content="'.$description.'" />'.PHP_EOL;
 			echo '<meta property="og:site_name" content="'.get_bloginfo('name').'" />'.PHP_EOL;
-			echo '<meta name="twitter:title" content="'.$currentTitle.'" />'.PHP_EOL;
-			echo '<meta name="twitter:description" content="'.$currentDescription.'" />'.PHP_EOL;
+			echo '<meta name="twitter:title" content="'.$title.'" />'.PHP_EOL;
+			echo '<meta name="twitter:description" content="'.$description.'" />'.PHP_EOL;
 
 			do_action('asgarosforum_wp_head');
 
@@ -246,7 +240,7 @@ class AsgarosForumAppearance {
 			$custom_css .= '}'.PHP_EOL;
 
 			$custom_css .= '#af-wrapper input[type="submit"],'.PHP_EOL;
-			$custom_css .= '#af-wrapper .forum-menu a,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .forum-menu a.button-normal,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .title-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #forum-header,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #profile-header .background-avatar,'.PHP_EOL;
@@ -267,9 +261,7 @@ class AsgarosForumAppearance {
 		if ($this->options['custom_accent_color'] != $this->options_default['custom_accent_color'] && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $this->options['custom_accent_color'])) {
 			$custom_css .= '#af-wrapper input[type="button"],'.PHP_EOL;
 			$custom_css .= '#af-wrapper input[type="submit"],'.PHP_EOL;
-			$custom_css .= '#af-wrapper .editor-row .cancel,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .editor-row .cancel-back,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .forum-menu a,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .forum-menu a.button-normal,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .title-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #forum-header,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #forum-navigation a,'.PHP_EOL;
@@ -308,6 +300,10 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper .signature,'.PHP_EOL;
 			$custom_css .= '#af-wrapper span.mention-nice-name,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .activity-element:before,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .post-reactions .reaction,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .report-link,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .forum-poster .dashicons-before:before,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .topic-poster .dashicons-before:before,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .activity-time {'.PHP_EOL;
 			    $custom_css .= 'color: '.$this->options['custom_text_color_light'].' !important;'.PHP_EOL;
 			$custom_css .= '}'.PHP_EOL;
@@ -345,6 +341,7 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper .editor-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #statistics-online-users,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #profile-layer,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .spoiler .spoiler-head,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #profile-content {'.PHP_EOL;
 			    $custom_css .= 'background-color: '.$this->options['custom_background_color_alt'].' !important;'.PHP_EOL;
 			$custom_css .= '}'.PHP_EOL;
@@ -356,6 +353,7 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper .topic,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .member,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .unread-topic,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .unapproved-topic,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .forum-poster,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .topic-poster,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .member-last-seen,'.PHP_EOL;
@@ -386,6 +384,8 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper .activity-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .ad-forum,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .ad-topic,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .spoiler,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .spoiler .spoiler-body,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #usergroups-filter {'.PHP_EOL;
 			    $custom_css .= 'border-color: '.$this->options['custom_border_color'].' !important;'.PHP_EOL;
 			$custom_css .= '}'.PHP_EOL;

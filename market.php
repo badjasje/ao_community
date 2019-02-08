@@ -127,7 +127,7 @@ foreach ($units as $key => $order) {
     }
 
     if (isset($_POST[$key])) {
-        $orderedUnits = ceil($_POST[$key]);
+        $orderedUnits = abs(ceil($_POST[$key]));
         $totalUnitsOrdered += $orderedUnits;
 
         if (in_array($key, $specialUnitsArray)) {
@@ -199,7 +199,7 @@ foreach ($units as $key => $order) {
 
     $unitName = $key . '_ordered';
     $normalName = $order['normalname'];
-    $orderedUnits = ceil($_POST[$key]);
+    $orderedUnits = abs(ceil($_POST[$key]));
     $price = $order['price'] * 2.2 * $discount;
     $orderCost = $price * $orderedUnits;
     $totalOrderCost += $orderCost;

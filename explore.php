@@ -41,7 +41,7 @@ if (($perturnm2 < 50) && ($perturnm2 > 25)) {
 } elseif ($perturnm2 < 25) {
 	$perturnm2 = 25;
 }
-$postedTurns = floor($_POST['turns']);
+$postedTurns = abs(floor($_POST['turns']));
 
 $freeland = $userData['builtland'][0]/$ownedland;
 

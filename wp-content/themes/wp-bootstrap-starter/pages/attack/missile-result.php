@@ -170,7 +170,7 @@ $seadamage = $SEA_ATT_power;
 $blddamage = $BLD_ATT_power*1.2;
 
 if($defenderData['land'][0] < 10000){
-	$reduction = $defenderData['land'][0]/10000
+	$reduction = $defenderData['land'][0]/10000;
 	if($reduction <= 0.5){
 		$reduction = 0.5;
 	}

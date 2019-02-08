@@ -21,12 +21,7 @@ Allow from 217.121.5.245
 Allow from 213.125.228.34
 </Files>
 
-<Files "eor_stats.php">
-Order Deny,Allow
-Deny from all
-Allow from 87.209.229.255
-Allow from 213.125.228.34
-</Files>
+
 
 
 <Files "isp_list.php">
@@ -69,6 +64,46 @@ Deny from 84.219.211.41
 Deny from 2a00:801:2c0:db2c:0:0:0:1
 Deny from 2a00:801:300:9303:0:0:0:1
 Deny from 2a00:801:251:b2b1:0:0:0:1
+
+# Elon (#1219)
+Deny from 151.187.161.3
+Deny from 46.230.135.250 
+Deny from 89.162.32.30     
+Deny from 46.46.204.228 
+Deny from 46.230.143.144 
+Deny from 46.230.136.38
+Deny from 89.11.149.33
+Deny from 46.230.131.246
+Deny from 46.230.141.57 
+Deny from 46.46.193.150
+Deny from 46.230.128.74
+Deny from 192.108.100.200
+Deny from 46.230.143.98
+Deny from 46.230.130.92
+Deny from 77.18.57.248
+Deny from 77.16.61.101
+Deny from 77.16.222.45
+Deny from 77.16.72.0
+Deny from 77.16.50.222
+Deny from 77.16.218.3
+Deny from 77.16.60.122
+Deny from 77.16.216.28
+Deny from 128.199.167.194
+Deny from 128.199.238.125
+Deny from 77.16.216.43
+Deny from 77.18.61.18
+Deny from 77.16.55.202
+Deny from 77.18.61.33
+Deny from 77.16.77.68
+Deny from 77.16.213.74
+Deny from 77.16.51.223
+Deny from 213.239.66.46
+Deny from 77.18.56.100
+Deny from 77.18.53.47
+Deny from 77.18.55.163
+Deny from 77.16.217.106
+Deny from 77.16.215.12
+Deny from 77.16.54.74
 
 
 <IfModule mod_deflate.c>

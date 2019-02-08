@@ -26,7 +26,7 @@
                 foreach ($categories as $category) {
                     echo '<option value="'.$category->term_id.'_0">'.$category->name.'</option>';
 
-                    $forums = $asgarosforum->get_forums($category->term_id, 0, true);
+                    $forums = $asgarosforum->get_forums($category->term_id, 0);
 
                     if ($forums) {
                         foreach ($forums as $forum) {
@@ -116,6 +116,10 @@
                                         <td><input type="checkbox" id="forum_closed" name="forum_closed"></td>
                                     </tr>
                                     <tr>
+                                        <th><label for="forum_approval"><?php _e('Approval:', 'asgaros-forum'); ?></label></th>
+                                        <td><input type="checkbox" id="forum_approval" name="forum_approval"></td>
+                                    </tr>
+                                    <tr>
                                         <th><label for="forum_order"><?php _e('Order:', 'asgaros-forum'); ?></label></th>
                                         <td><input type="number" size="4" id="forum_order" name="forum_order" value="" min="1"></td>
                                     </tr>
@@ -172,7 +176,7 @@
                         echo '<input type="hidden" id="category_'.$category->term_id.'_order" value="'.$order.'">';
                         AsgarosForumUserGroups::renderHiddenFields($category->term_id);
 
-                        $forums = $asgarosforum->get_forums($category->term_id, 0, true, ARRAY_A);
+                        $forums = $asgarosforum->get_forums($category->term_id, 0, ARRAY_A);
                         ?>
                         <div class="postbox">
                             <h2 class="hndle dashicons-before dashicons-archive">

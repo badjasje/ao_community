@@ -4,7 +4,7 @@
 color: #999999 !important;
 }
 #af-wrapper input[type="submit"],
-#af-wrapper .forum-menu a,
+#af-wrapper .forum-menu a.button-normal,
 #af-wrapper .title-element,
 #af-wrapper #forum-header,
 #af-wrapper #profile-header .background-avatar,

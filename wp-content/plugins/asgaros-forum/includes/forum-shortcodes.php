@@ -85,8 +85,10 @@ class AsgarosForumShortcodes {
                 } else if (!empty($atts['category'])) {
                     $this->includeCategories = explode(',', $atts['category']);
 
-                    // Ensure that we are in the correct element.
-                    if (!in_array($this->asgarosforum->current_category, $this->includeCategories) && $this->asgarosforum->current_view != 'search' && $this->asgarosforum->current_view != 'subscriptions' && $this->asgarosforum->current_view != 'profile' && $this->asgarosforum->current_view != 'members' && $this->asgarosforum->current_view != 'history' && $this->asgarosforum->current_view != 'markallread' && $this->asgarosforum->current_view != 'unread' && $this->asgarosforum->current_view != 'activity') {
+                    $category_doesnt_matter_views = array('search', 'subscriptions', 'profile', 'members', 'history', 'markallread', 'unread', 'activity', 'unapproved');
+
+                    // Ensure that we are in the correct category or view, otherwise show overview.
+                    if (!in_array($this->asgarosforum->current_category, $this->includeCategories) && !in_array($this->asgarosforum->current_view, $category_doesnt_matter_views)) {
                         $this->asgarosforum->current_category   = false;
                         $this->asgarosforum->parent_forum       = false;
                         $this->asgarosforum->current_forum      = false;
@@ -99,12 +101,31 @@ class AsgarosForumShortcodes {
         }
     }
 
-    // Prevent the execution of specific shortcodes inside of posts.
-    function filterShortcodes($tags_to_remove, $content) {
-        $tags_to_remove = array();
-        $tags_to_remove[] = 'forum';
-        $tags_to_remove[] = 'Forum';
-        $tags_to_remove = apply_filters('asgarosforum_filter_post_shortcodes', $tags_to_remove);
-        return $tags_to_remove;
+    // Renders shortcodes inside of a post.
+    public function render_post_shortcodes($content) {
+        global $shortcode_tags;
+
+        // Do backup of original shortcode-tags.
+        $shortcode_tags_backup = $shortcode_tags;
+
+        // Ensure that the forum-shortcodes are removed.
+        unset($shortcode_tags['forum']);
+        unset($shortcode_tags['Forum']);
+
+        // If shortcodes are not allowed, ensure that the spoiler-shortcode still works.
+        if (!$this->asgarosforum->options['allow_shortcodes']) {
+            $shortcode_tags = array('spoiler' => $shortcode_tags_backup['spoiler']);
+        }
+
+        // Apply custom shortcodes.
+        $shortcode_tags = apply_filters('asgarosforum_filter_post_shortcodes', $shortcode_tags);
+
+        // Render shortcodes.
+        $content = do_shortcode($content);
+
+        // Restore original shortcode-tags.
+        $shortcode_tags = $shortcode_tags_backup;
+
+        return $content;
     }
 }

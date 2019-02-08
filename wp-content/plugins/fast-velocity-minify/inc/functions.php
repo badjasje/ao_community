@@ -105,16 +105,18 @@ if(function_exists('stat') && fvm_function_available('stat')) {
 # mkdir and check if umask requires chmod
 $dirs = array($cachebase, $cachedir, $tmpdir, $headerdir);
 foreach ($dirs as $target) {
-	if (@mkdir($target, $dir_perms, true)){
-		if ($dir_perms != ($dir_perms & ~umask())){
-			$folder_parts = explode( '/', substr( $target, strlen(dirname($target)) + 1 ) );
-				for ( $i = 1, $c = count( $folder_parts ); $i <= $c; $i++ ) {
-				@chmod(dirname($target) . '/' . implode( '/', array_slice( $folder_parts, 0, $i ) ), $dir_perms );
+	if(!is_dir($target)) {
+		if (@mkdir($target, $dir_perms, true)){
+			if ($dir_perms != ($dir_perms & ~umask())){
+				$folder_parts = explode( '/', substr($target, strlen(dirname($target)) + 1 ));
+					for ($i = 1, $c = count($folder_parts ); $i <= $c; $i++){
+					@chmod(dirname($target) . '/' . implode( '/', array_slice( $folder_parts, 0, $i ) ), $dir_perms );
+				}
 			}
+		} else {
+			# fallback
+			wp_mkdir_p($target);
 		}
-	} else {
-		# fallback
-		if(!is_dir($target)) { wp_mkdir_p($target); }
 	}
 }
 
@@ -133,7 +135,7 @@ function fastvelocity_plugin_activate() {
 		fvm_cache_increment();
 		
 		# default options to enable (1)
-		$options_enable_default = array('fastvelocity_min_remove_print_mediatypes',  'fastvelocity_fvm_clean_header_one', 'fastvelocity_min_skip_google_fonts', 'fastvelocity_min_force_inline_css_footer', 'fastvelocity_min_skip_cssorder', 'fastvelocity_gfonts_method', 'fastvelocity_fontawesome_method');
+		$options_enable_default = array('fastvelocity_min_remove_print_mediatypes',  'fastvelocity_fvm_clean_header_one', 'fastvelocity_min_skip_google_fonts', 'fastvelocity_min_force_inline_css_footer', 'fastvelocity_min_skip_cssorder', 'fastvelocity_gfonts_method', 'fastvelocity_fontawesome_method', 'fastvelocity_min_disable_css_inline_merge');
 		foreach($options_enable_default as $option) {
 			update_option($option, 1, 'yes');
 		}
@@ -143,7 +145,7 @@ function fastvelocity_plugin_activate() {
 		update_option('fastvelocity_min_blacklist', implode(PHP_EOL, $exc)); 
 		
 		# default ignore list
-		$exc = array('/Avada/assets/js/main.min.js', '/woocommerce-product-search/js/product-search.js', '/includes/builder/scripts/frontend-builder-scripts.js', '/assets/js/jquery.themepunch.tools.min.js', '/js/TweenMax.min.js', '/jupiter/assets/js/min/full-scripts', '/wp-content/themes/Divi/core/admin/js/react-dom.production.min.js');
+		$exc = array('/Avada/assets/js/main.min.js', '/woocommerce-product-search/js/product-search.js', '/includes/builder/scripts/frontend-builder-scripts.js', '/assets/js/jquery.themepunch.tools.min.js', '/js/TweenMax.min.js', '/jupiter/assets/js/min/full-scripts', '/wp-content/themes/Divi/core/admin/js/react-dom.production.min.js', '/LayerSlider/static/layerslider/js/greensock.js', '/themes/kalium/assets/js/main.min.js');
 		update_option('fastvelocity_min_ignorelist', implode(PHP_EOL, $exc));
 		
 	}
@@ -226,7 +228,7 @@ $default_protocol = $default_protocol.'://';
 $wp_home = rtrim($wp_home, '/');
 
 # apply some filters
-if (substr($hurl, 0, 2) === "//") { $hurl = 'http://'.ltrim($hurl, "/"); }  # protocol only
+if (substr($hurl, 0, 2) === "//") { $hurl = $default_protocol.ltrim($hurl, "/"); }  # protocol only
 if (substr($hurl, 0, 4) === "http" && stripos($hurl, $wp_domain) === false) { return $hurl; } # return if external domain
 if (substr($hurl, 0, 4) !== "http" && stripos($hurl, $wp_domain) !== false) { $hurl = $wp_home.'/'.ltrim($hurl, "/"); } # protocol + home
 
@@ -296,7 +298,7 @@ function fastvelocity_min_in_arrayi($hurl, $ignore){
 }
 
 
-# better compatibility urls + fix bootstrap 4 svg images https://www.w3.org/TR/SVG/intro.html#NamespaceAndDTDIdentifiers
+# better compatibility urls + fix w3.org NamespaceAndDTDIdentifiers
 function fvm_compat_urls($code) {
 	$default_protocol = get_option('fastvelocity_min_default_protocol', 'dynamic');
 	if($default_protocol == 'dynamic' || empty($default_protocol)) { 
@@ -305,7 +307,7 @@ function fvm_compat_urls($code) {
 		$default_protocol = $default_protocol.'://'; 
 	}
 	$code = str_ireplace(array('http://', 'https://'), $default_protocol, $code);
-	$code = str_ireplace($default_protocol.'www.w3.org/2000/svg', 'http://www.w3.org/2000/svg', $code);
+	$code = str_ireplace($default_protocol.'www.w3.org', 'http://www.w3.org', $code);
 	return $code;
 }
 
@@ -486,26 +488,6 @@ return $css;
 }
 
 
-
-# get remote urls with curl
-function fvm_file_get_contents_curl($url, $uagent=NULL) {
-    $ch = curl_init();
-	if(isset($uagent) && !empty($uagent)) { curl_setopt($ch,CURLOPT_USERAGENT, $uagent); }
-    curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT , 10); 
-	curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    $data = curl_exec($ch);
-	curl_close($ch);
-	return $data;
-}
-
-
-
 # download and cache css and js files
 function fvm_download_and_minify($hurl, $inline, $disable_minification, $type, $handle){
 global $cachedir, $cachedirurl, $wp_domain, $wp_home, $wp_home_path, $fvm_debug;
@@ -569,8 +551,11 @@ $printurl = str_ireplace(array(site_url(), home_url(), 'http:', 'https:'), '', $
 
 
 	# else, fallback to remote urls (or windows)
-	$code = fastvelocity_download($hurl);
-	if($code !== false) { 
+	$code = fastvelocity_download($hurl);	
+	if($code !== false && !empty($code) && strtolower(substr($code, 0, 9)) != "<!doctype") {
+	
+		# check if we got HTML instead of js or css code
+	
 		if($type == 'js') { 
 			$code = fastvelocity_min_get_js($hurl, $code, $disable_minification); 
 		} else { 
@@ -590,7 +575,7 @@ $printurl = str_ireplace(array(site_url(), home_url(), 'http:', 'https:'), '', $
 	if(stripos($hurl, $wp_domain) !== false && home_url() != site_url()) {
 		$nhurl = str_ireplace(site_url(), home_url(), $hurl);
 		$code = fastvelocity_download($nhurl);
-		if($code !== false) { 
+		if($code !== false && !empty($code) && strtolower(substr($code, 0, 9)) != "<!doctype") { 
 			if($type == 'js') { 
 				$code = fastvelocity_min_get_js($hurl, $code, $disable_minification); 
 			} else { 
@@ -694,11 +679,11 @@ function fastvelocity_min_concatenate_google_fonts($array) {
 				$multiple = explode('|', $font); 
 				if (count($multiple) > 0) { 
 					foreach ($multiple as $f) {
-						$families[] = trim($f);
+						$families[] = str_ireplace('subsets', 'subset', trim($f));
 					} 
 				}
 			} else { 
-				$families[] = $font;
+				$families[] = str_ireplace('subsets', 'subset', trim($font));
 			}
 		}
 	}
@@ -962,6 +947,13 @@ function fvm_safename($str, $noname=NULL) {
 }
 
 
+# escape html tags for document.write
+function fastvelocity_escape_url_js($str) {
+return str_ireplace('\\"', '\"', json_encode(str_ireplace('"', '\"', $str)));
+}
+
+
+
 # exclude processing from some pages / posts / contents
 function fastvelocity_exclude_contents() {
 	
@@ -1045,14 +1037,6 @@ function fastvelocity_download($url) {
 		return false;
 	}
 	
-	# fallback, let's try curl if available
-	if(function_exists('curl_version')) {
-		$curl = fvm_file_get_contents_curl($url, $uagent);
-		if($curl !== false && !empty($curl) && strlen($curl) > 1) {
-			return $curl;
-		}
-	}
-
 	# fallback fail
 	return false;
 }

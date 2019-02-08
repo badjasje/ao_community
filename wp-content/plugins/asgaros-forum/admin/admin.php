@@ -392,16 +392,17 @@ class AsgarosForumAdmin {
         $forum_icon         = trim($_POST['forum_icon']);
         $forum_icon         = (empty($forum_icon)) ? 'dashicons-format-chat' : $forum_icon;
         $forum_closed       = (isset($_POST['forum_closed'])) ? 1 : 0;
+        $forum_approval     = (isset($_POST['forum_approval'])) ? 1 : 0;
         $forum_order        = (is_numeric($_POST['forum_order'])) ? $_POST['forum_order'] : 0;
 
         if (!empty($forum_name)) {
             if ($forum_id === 'new') {
-                $asgarosforum->content->insert_forum($forum_category, $forum_name, $forum_description, $forum_parent_forum, $forum_icon, $forum_order, $forum_closed);
+                $asgarosforum->content->insert_forum($forum_category, $forum_name, $forum_description, $forum_parent_forum, $forum_icon, $forum_order, $forum_closed, $forum_approval);
             } else {
                 // Update forum.
                 $asgarosforum->db->update(
                     $asgarosforum->tables->forums,
-                    array('name' => $forum_name, 'description' => $forum_description, 'icon' => $forum_icon, 'sort' => $forum_order, 'closed' => $forum_closed, 'parent_id' => $forum_category, 'parent_forum' => $forum_parent_forum),
+                    array('name' => $forum_name, 'description' => $forum_description, 'icon' => $forum_icon, 'sort' => $forum_order, 'closed' => $forum_closed, 'approval' => $forum_approval, 'parent_id' => $forum_category, 'parent_forum' => $forum_parent_forum),
                     array('id' => $forum_id),
                     array('%s', '%s', '%s', '%d', '%d', '%d', '%d'),
                     array('%d')
@@ -415,6 +416,19 @@ class AsgarosForumAdmin {
                     array('%d'),
                     array('%d')
                 );
+
+                // Approve all unapproved topics in a forum if the approval-function is off.
+                if ($forum_approval === 0) {
+                    // Get all unapproved topics from this forum.
+                    $unapproved_topics = $asgarosforum->approval->get_unapproved_topics($forum_id);
+
+                    // Approve those topics if found.
+                    if (!empty($unapproved_topics)) {
+                        foreach ($unapproved_topics as $topic) {
+                            $asgarosforum->approval->approve_topic($topic->id);
+                        }
+                    }
+                }
             }
 
             $this->saved = true;
@@ -439,7 +453,7 @@ class AsgarosForumAdmin {
         global $asgarosforum;
 
         // Delete all subforums first
-        $subforums = $asgarosforum->get_forums($category_id, $forum_id, true);
+        $subforums = $asgarosforum->get_forums($category_id, $forum_id);
 
         if (count($subforums) > 0) {
             foreach ($subforums as $subforum) {
@@ -468,6 +482,9 @@ class AsgarosForumAdmin {
     /* USERGROUPS */
     function render_admin_header($title, $titleUpdated) {
         global $asgarosforum;
+
+        // Workaround to ensure that admin-notices are shown outside of our panel.
+        echo '<h1 id="asgaros-panel-notice-area"></h1>';
 
         echo '<div id="asgaros-panel">';
             echo '<div class="header-panel">';

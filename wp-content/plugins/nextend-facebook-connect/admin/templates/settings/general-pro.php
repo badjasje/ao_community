@@ -39,17 +39,7 @@ NextendSocialLoginAdmin::showProBox();
             </fieldset>
         </td>
     </tr>
-    <tr>
-        <th scope="row"><?php _e('Membership', 'nextend-facebook-connect'); ?></th>
-        <td>
-            <fieldset>
-                <label>
-                    <input type='hidden' name='allow_register' value='0'>
-                    <input type="checkbox" name="allow_register" value="1" <?php if ($settings->get('allow_register') != '0') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
-                    <span><?php _e('Allow registration with Social login', 'nextend-facebook-connect'); ?></span></label><br>
-            </fieldset>
-        </td>
-    </tr>
+
     <tr>
         <th scope="row"><?php _e('Registration notification sent to', 'nextend-facebook-connect'); ?></th>
         <td>
@@ -72,6 +62,19 @@ NextendSocialLoginAdmin::showProBox();
             </fieldset>
         </td>
     </tr>
+
+    <tr>
+        <th scope="row"><?php _e('Unlink', 'nextend-facebook-connect'); ?></th>
+        <td>
+            <fieldset>
+                <label>
+                    <input type='hidden' name='allow_unlink' value='0'>
+                    <input type="checkbox" name="allow_unlink" value="1" <?php if ($settings->get('allow_unlink') != '0') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Allow Social account unlink', 'nextend-facebook-connect'); ?></span></label><br>
+            </fieldset>
+        </td>
+    </tr>
+
     </tbody>
 </table>
 <?php if ($isPRO): ?>

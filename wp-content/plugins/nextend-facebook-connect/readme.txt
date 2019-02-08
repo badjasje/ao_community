@@ -3,8 +3,8 @@ Contributors: nextendweb
 Tags: social login, facebook, google, twitter, linkedin, register, login, social, nextend facebook connect, social sign in
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 4.5
-Tested up to: 4.9
-Stable tag: 3.0.14
+Tested up to: 5.0
+Stable tag: 3.0.17
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -119,14 +119,37 @@ Using the Pro Addon you can set where the login buttons should appear on the Reg
 2. Nextend Social Login and Register in the profile page for account linking
 
 == Changelog ==
+= 3.0.16 =
+* Fix: NSL Avatars used to override the specified BuddyPress avatars.
+* Fix: 500 error when the Extended Profiles setting is disabled in BuddyPress.
+* Fix: By default, users won’t be redirected to the homepage after unlinking their accounts, instead will be redirected back to the page, where the unlink action has happened.
+* Fix: Nextend Social Login will now wait for jQuery before positioning the social buttons.
+* Fix: Getting Started section of some providers are updated with the new App creation steps.
+* Feature: Russian translation added.
+* Feature: [Display avatars in “All media items”](https://nextendweb.com/nextend-social-login-docs/global-settings/) – Images can now load faster in Media Library – Grid view, when this option is enabled.
+* Feature: Social button alignment option for WordPress forms, shortcode and widget.
+* Feature: [Membership](https://nextendweb.com/nextend-social-login-docs/global-settings/) – is now available in the FREE version and provides support for WordPress default membership as well.
+* Feature: new hook allows overriding the username and email before registration - [nsl_registration_user_data](https://nextendweb.com/nextend-social-login-docs/backend-developer/)
+* Facebook – Graph API v3.2 - old API-s may require [API Call version upgrade](https://nextendweb.com/nextend-social-login-docs/facebook-upgrade-api-call/)!
+* Old Nextend Facebook/Twitter/Google Connect compatibility has been removed.
+* Social Buttons use flex-box layout now.
+
+
+* PRO: Fix: Internet Explorer – Pro Addon activation.
+* PRO: Fix: Facebook provider – Sync data: Gender, Profile link, Age range can be retrieved again.
+* PRO: Feature: Social button alignment option for WooCommerce, Comment, BuddyPress, MemberPress, UserPro, Ultimate Member forms.
+* PRO: Feature: [Unlink](https://nextendweb.com/nextend-social-login-docs/global-settings/) option to disable unlink buttons.
+* PRO: Feature: PayPal – Option to [disable the email scope](https://nextendweb.com/nextend-social-login-docs/provider-paypal/#settings).
+* PRO: Removed: Facebook provider – Sync data fields: Currency, TimeZone, Locale became deprecated.
+* PRO: Improvement: Google+ API will shut down soon, so [Google Sync data](https://nextendweb.com/nextend-social-login-docs/provider-google/#sync_data) will use Google People API instead.
+
 = 3.0.14 =
 * Fix: Conflict with Login with Ajax reset password.
 * Fix: BuddyPress related themes, that render the avatar with the bp_displayed_user_avatar() will be able to get the avatar of the user.
 * Fix: New email and profile Google scopes, since old ones became deprecated.
 * Fix: WooCommerce User Email Verification plugin prevented users with NSL from logging in.
 * Fix: registerComplete function is hooked later to let other plugins send their email notifications.
-* Old Nextend Twitter/Google Connect - backwards compatibility notice added. In the next release the backward compatibility will be removed.
-
+* Old Nextend Twitter/Google Connect - backwards compatibility notice added. In the 3.0.15 release the backward compatibility will be removed.
 
 * PRO: Fix: Ultimate Member - missing avatar when Support login restriction is disabled.
 * PRO: Fix: Authorized domain notification when the page was authorized on non www but was visited on www or vice versa.

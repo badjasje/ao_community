@@ -148,6 +148,10 @@
     -moz-box-shadow: none;
     box-shadow: none;
 }
+#af-wrapper .mce-i-spoiler::before {
+    font: normal 20px/1 dashicons;
+    content: "\f530";
+}
 
 /* INPUT ELEMENTS */
 #af-wrapper input {
@@ -189,9 +193,15 @@
 #af-wrapper .editor-row .cancel,
 #af-wrapper .editor-row .cancel-back,
 #af-wrapper .editor-row .cancel:hover,
-#af-wrapper .editor-row .cancel-back:hover {
+#af-wrapper .editor-row .cancel-back:hover,
+#af-wrapper .forum-menu a.button-delete {
     background: #ff5454;
     border-color: #f91111;
+    text-decoration: none;
+}
+#af-wrapper .forum-menu a.button-approve {
+    background: #49863a;
+    border-color: #24501e;
     text-decoration: none;
 }
 #af-wrapper input[type="radio"],
@@ -359,7 +369,8 @@
 #af-wrapper .forum small,
 #af-wrapper .topic small,
 #af-wrapper .member small,
-#af-wrapper .unread-topic small {
+#af-wrapper .unread-topic small,
+#af-wrapper .unapproved-topic small {
     display: block;
     font-style: normal; /* comp */
     letter-spacing: normal; /* comp */
@@ -380,20 +391,23 @@
 #af-wrapper .forum,
 #af-wrapper .topic,
 #af-wrapper .member,
-#af-wrapper .unread-topic {
+#af-wrapper .unread-topic,
+#af-wrapper .unapproved-topic {
     display: table;
     width: 100%;
     height: 80px;
     border-bottom: 1px solid #eee;
     line-height: 20px;
 }
-#af-wrapper .unread-topic {
+#af-wrapper .unread-topic,
+#af-wrapper .unapproved-topic {
     height: 40px;
 }
 #af-wrapper .forum:last-child,
 #af-wrapper .topic:last-child,
 #af-wrapper .member:last-child,
-#af-wrapper .unread-topic:last-child {
+#af-wrapper .unread-topic:last-child,
+#af-wrapper .unapproved-topic:last-child {
     border-bottom-width: 0px;
 }
 #af-wrapper .topic-sticky,
@@ -416,7 +430,8 @@
     width: 80px;
     text-align: center;
 }
-#af-wrapper .unread-topic .topic-status {
+#af-wrapper .unread-topic .topic-status,
+#af-wrapper .unapproved-topic .topic-status {
     width: 48px;
     text-align: center;
 }
@@ -443,9 +458,11 @@
 #af-wrapper .topic-poster .dashicons-before:before {
     font-size: 12px;
     width: 16px;
-    height: 22px;
-    line-height: 22px;
+    height: 20px;
+    line-height: 20px;
     box-sizing: initial; /* comp */
+    color: #888;
+    padding-right: 2px;
 }
 #af-wrapper .forum .forum-title {
     display: block;
@@ -494,24 +511,43 @@
 #af-wrapper .notice,
 #af-wrapper .error {
     text-align: center;
-    font-style: italic;
     padding: 12px;
 }
 #af-wrapper .error,
 #af-wrapper .info {
     margin: 15px 0;
-    color: #444;
 }
 #af-wrapper .info {
-    background-color: #ffb;
-    border: 1px solid #d6d25e;
+    background-color: #fff68f;
+    border: 1px solid #777100;
+    color: #777100;
 }
 #af-wrapper .info span {
     display: block;
 }
 #af-wrapper .error {
-    background-color: #fbb;
-    border: 1px solid #f77;
+    background-color: #ffa8a8;
+    border: 1px solid #9e0000;
+    color: #9e0000;
+}
+#af-wrapper .unapproved-notice {
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+    margin: 16px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #81e493;
+    border: 1px solid #006611;
+    color: #006611;
+}
+#af-wrapper .unapproved-notice span:before {
+    padding-right: 4px;
+}
+#af-wrapper .unapproved-notice a {
+    color: #006611 !important;
 }
 
 /* READ/UNREAD */
@@ -623,6 +659,7 @@
     width: 32px;
     line-height: 32px;
     padding-right: 5px;
+    display: inline-block; /* comp */
 }
 
 /* HEADER CONTAINER */
@@ -692,10 +729,10 @@
 }
 #af-wrapper .subscription .unsubscribe-link {
     float: right;
-    color: #a00;
+    color: #a00 !important;
 }
 #af-wrapper .subscription .unsubscribe-link:hover {
-    color: red;
+    color: red !important;
 }
 #af-wrapper #subscription-settings {
     display: table;
@@ -1001,10 +1038,10 @@
     line-height: 30px;
 }
 #af-wrapper .forum-post-menu a.dashicons-trash {
-    color: #a00;
+    color: #a00 !important;
 }
 #af-wrapper .forum-post-menu a.dashicons-trash:hover {
-    color: red;
+    color: red !important;
 }
 @media screen and (max-width: 440px) {
     #af-wrapper .forum-post-header .forum-post-date,
@@ -1499,11 +1536,17 @@
     height: 20px;
     line-height: 20px;
 }
+#af-wrapper .report-link {
+    color: #888;
+}
 
 /* REACTIONS */
 #af-wrapper .post-reactions {
     float: left;
     cursor: default;
+}
+#af-wrapper .post-reactions .reaction {
+    color: #888;
 }
 #af-wrapper .post-reactions .reaction-icon,
 #af-wrapper .post-reactions .reaction-icon:before,
@@ -1573,6 +1616,41 @@
     border-bottom: 1px solid #eee;
 }
 
+/* SPOILERS */
+#af-wrapper .spoiler {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+#af-wrapper .spoiler .spoiler-head {
+    display: block;
+    padding: 6px 8px;
+    cursor: pointer;
+    background-color: #fafafa;
+}
+#af-wrapper .spoiler .spoiler-body {
+    display: none;
+    padding: 6px 8px;
+    border-top: 1px solid #eee;
+}
+#af-wrapper .spoiler .spoiler-head span {
+    display: inline-block;
+    line-height: 20px;
+}
+#af-wrapper .spoiler .spoiler-head span:before {
+    display: inline-block;
+    line-height: 20px;
+    padding-right: 4px;
+}
+#af-wrapper .spoiler .closed span:before {
+    content: "+";
+}
+#af-wrapper .spoiler .opened span:before {
+    content: "-";
+}
+
 /* ICONS */
 #af-wrapper .dashicons-topic-normal:before {
     content: "\f206";
@@ -1583,15 +1661,17 @@
 #af-wrapper .dashicons-topic-sticky:before {
     content: "\f109";
 }
-#af-wrapper .forum-dashicon:before,
-#af-wrapper .dashicons-topic-normal:before,
-#af-wrapper .dashicons-topic-closed:before,
-#af-wrapper .dashicons-topic-sticky:before {
+#af-wrapper .forum .forum-dashicon:before,
+#af-wrapper .topic .dashicons-topic-normal:before,
+#af-wrapper .topic .dashicons-topic-closed:before,
+#af-wrapper .topic .dashicons-topic-sticky:before,
+#af-wrapper .topic .dashicons-editor-help:before {
     font-size: 40px;
     width: 40px;
     height: 40px;
 }
-#af-wrapper .unread-topic .topic-status:before {
+#af-wrapper .unread-topic .topic-status:before,
+#af-wrapper .unapproved-topic .topic-status:before {
     font-size: 20px;
     width: 20px;
     height: 20px;
@@ -1601,4 +1681,8 @@
 }
 #af-wrapper .read:before {
     opacity: 0.5;
+}
+#af-wrapper .dashicons-editor-help:before {
+    color: #ff5454;
+    opacity: 1.0;
 }

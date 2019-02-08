@@ -3,7 +3,7 @@
 if (!defined('ABSPATH')) exit;
 
 class AsgarosForum {
-    var $version = '1.12.1';
+    var $version = '1.13.0';
     var $executePlugin = false;
     var $db = null;
     var $tables = null;
@@ -46,6 +46,7 @@ class AsgarosForum {
         'upload_permission'                 => 'loggedin',
         'hide_uploads_from_guests'          => false,
         'hide_profiles_from_guests'         => false,
+        'hide_spoilers_from_guests'         => false,
         'uploads_maximum_number'            => 5,
         'uploads_maximum_size'              => 5,
         'uploads_show_thumbnails'           => true,
@@ -53,6 +54,7 @@ class AsgarosForum {
         'allow_subscriptions'               => true,
         'notification_sender_name'          => '',
         'notification_sender_mail'          => '',
+        'receivers_admin_notifications'     => '',
         'mail_template_new_post_subject'    => '',
         'mail_template_new_post_message'    => '',
         'mail_template_new_topic_subject'   => '',
@@ -68,7 +70,6 @@ class AsgarosForum {
         'enable_search'                     => true,
         'enable_profiles'                   => true,
         'enable_memberslist'                => true,
-        'enable_activity'                   => true,
         'enable_rss'                        => false,
         'count_topic_views'                 => true,
         'reports_enabled'                   => true,
@@ -94,7 +95,10 @@ class AsgarosForum {
         'ads_frequency_categories'          => 2,
         'ads_frequency_forums'              => 4,
         'ads_frequency_topics'              => 8,
-        'ads_frequency_posts'               => 6
+        'ads_frequency_posts'               => 6,
+        'approval_for'                      => 'guests',
+        'enable_activity'                   => true,
+        'activity_days'                     => 14
     );
     var $options_editor = array(
         'media_buttons' => false,
@@ -123,6 +127,9 @@ class AsgarosForum {
     var $unread         = null;
     var $feed           = null;
     var $permissions    = null;
+    var $ads            = null;
+    var $approval       = null;
+    var $spoilers       = null;
 
     function __construct() {
         // Initialize database.
@@ -178,6 +185,8 @@ class AsgarosForum {
         $this->feed             = new AsgarosForumFeed($this);
         $this->permissions      = new AsgarosForumPermissions($this);
         $this->ads              = new AsgarosForumAds($this);
+        $this->approval         = new AsgarosForumApproval($this);
+        $this->spoilers         = new AsgarosForumSpoilers($this);
     }
 
     //======================================================================
@@ -185,7 +194,16 @@ class AsgarosForum {
     //======================================================================
 
     function loadOptions() {
-        $this->options = array_merge($this->options_default, get_option('asgarosforum_options', array()));
+        // Get current options.
+		$current_options = get_option('asgarosforum_options', array());
+
+		// Merge options if current options are present, otherwise use default-options.
+		if (!empty($current_options)) {
+			$this->options = array_merge($this->options_default, $current_options);
+		} else {
+			$this->options = $this->options_default;
+		}
+
         $this->options_editor['teeny'] = $this->options['minimalistic_editor'];
 
         // Ensure default values if some needed files got deleted.
@@ -199,6 +217,10 @@ class AsgarosForum {
 
         if (empty($this->options['notification_sender_mail'])) {
             $this->options['notification_sender_mail'] = get_bloginfo('admin_email');
+        }
+
+        if (empty($this->options['receivers_admin_notifications'])) {
+            $this->options['receivers_admin_notifications'] = get_bloginfo('admin_email');
         }
 
         if (empty($this->options['mail_template_new_post_subject'])) {
@@ -354,6 +376,12 @@ class AsgarosForum {
                     $this->current_view = 'overview';
                 }
             break;
+            case 'unapproved':
+                // Ensure that the user is at least a moderator.
+                if (!$this->permissions->isModerator('current')) {
+                    $this->current_view = 'overview';
+                }
+            break;
             default:
                 $this->current_view = 'overview';
             break;
@@ -389,6 +417,8 @@ class AsgarosForum {
             $this->change_status('open');
         } else if (isset($_GET['close_topic'])) {
             $this->change_status('closed');
+        } else if (isset($_GET['approve_topic'])) {
+            $this->approval->approve_topic($this->current_topic);
         } else if (isset($_GET['subscribe_topic'])) {
             $topic_id = $_GET['subscribe_topic'];
             $this->notifications->subscribe_topic($topic_id);
@@ -414,7 +444,7 @@ class AsgarosForum {
     function check_access() {
         // Check login access.
         if ($this->options['require_login'] && !is_user_logged_in()) {
-            $this->error = __('Sorry, only logged-in users have access to the forum.', 'asgaros-forum');
+            $this->error = __('Sorry, only logged-in users can access the forum.', 'asgaros-forum');
             $this->error = apply_filters('asgarosforum_filter_error_message_require_login', $this->error);
             return;
         }
@@ -424,33 +454,40 @@ class AsgarosForum {
 
         if ($this->category_access_level) {
             if ($this->category_access_level === 'loggedin' && !is_user_logged_in()) {
-                $this->error = __('Sorry, only logged in users have access to this category.', 'asgaros-forum');
+                $this->error = __('Sorry, only logged-in users can access this category.', 'asgaros-forum');
                 return;
             }
 
             if ($this->category_access_level === 'moderator' && !$this->permissions->isModerator('current')) {
-                $this->error = __('Sorry, you dont have access to this area.', 'asgaros-forum');
+                $this->error = __('Sorry, you cannot access this area.', 'asgaros-forum');
                 return;
             }
         }
 
         // Check usergroups access.
         if (!AsgarosForumUserGroups::checkAccess($this->current_category)) {
-            $this->error = __('Sorry, you dont have access to this area.', 'asgaros-forum');
+            $this->error = __('Sorry, you cannot access this area.', 'asgaros-forum');
             return;
         }
 
-        // Check topic-access.
-        if ($this->current_view === 'topic' && $this->options['require_login_posts'] && !is_user_logged_in()) {
-            $this->error = __('Sorry, only logged-in users have access to this topic.', 'asgaros-forum');
-            return;
+        if ($this->current_view === 'topic' || $this->current_view === 'addpost') {
+            // Check topic-access.
+            if ($this->options['require_login_posts'] && !is_user_logged_in()) {
+                $this->error = __('Sorry, only logged-in users can access this topic.', 'asgaros-forum');
+                return;
+            }
+
+            // Check unapproved-topic access.
+            if (!$this->approval->is_topic_approved($this->current_topic) && !$this->permissions->isModerator('current')) {
+                $this->rewrite->redirect('overview');
+            }
         }
 
         // Check custom access.
         $custom_access = apply_filters('asgarosforum_filter_check_access', true, $this->current_category);
 
         if (!$custom_access) {
-            $this->error = __('Sorry, you dont have access to this area.', 'asgaros-forum');
+            $this->error = __('Sorry, you cannot access this area.', 'asgaros-forum');
             return;
         }
     }
@@ -499,6 +536,8 @@ class AsgarosForum {
                 $mainTitle = __('Activity', 'asgaros-forum');
             } else if ($this->current_view === 'unread') {
                 $mainTitle = __('Unread Topics', 'asgaros-forum');
+            } else if ($this->current_view === 'unapproved') {
+                $mainTitle = __('Unapproved Topics', 'asgaros-forum');
             }
         }
 
@@ -513,6 +552,25 @@ class AsgarosForum {
         }
 
         return $someString;
+    }
+
+    // Shows all kind of notices in the upper area.
+    function show_notices() {
+        if (!empty($this->info)) {
+            echo '<div class="info">'.$this->info.'</div>';
+        }
+
+        // Shows an info-message when a new unapproved topic got created.
+        $this->approval->notice_for_topic_creator();
+
+        // Shows an info-message when there are unapproved topics.
+        $this->approval->notice_for_moderators();
+
+        if (!is_user_logged_in() && !$this->options['allow_guest_postings']) {
+            $loginMessage = '<div class="info">'.__('You need to log in to create posts and topics.', 'asgaros-forum').'</div>';
+            $loginMessage = apply_filters('asgarosforum_filter_login_message', $loginMessage);
+            echo $loginMessage;
+        }
     }
 
     function forum() {
@@ -535,11 +593,7 @@ class AsgarosForum {
             if ($this->current_view === 'post') {
                 $this->showSinglePost();
             } else {
-                if (!empty($this->info)) {
-                    echo '<div class="info">'.$this->info.'</div>';
-                }
-
-                $this->showLoginMessage();
+                $this->show_notices();
                 $this->showMainTitleAndDescription();
 
                 switch ($this->current_view) {
@@ -561,7 +615,7 @@ class AsgarosForum {
                     case 'addtopic':
                     case 'addpost':
                     case 'editpost':
-                        $this->editor->showEditor();
+                        $this->editor->showEditor($this->current_view);
                     break;
                     case 'profile':
                         $this->profile->showProfile();
@@ -577,6 +631,9 @@ class AsgarosForum {
                     break;
                     case 'unread':
                         $this->unread->show_unread_topics();
+                    break;
+                    case 'unapproved':
+                        $this->approval->show_unapproved_topics();
                     break;
                     default:
                         $this->overview();
@@ -641,7 +698,7 @@ class AsgarosForum {
         $topic_title = esc_html(stripslashes($topic_object->name));
 
         echo '<div class="topic '.$topic_type.'">';
-            echo '<div class="topic-status dashicons-before '.$this->get_status_icon($topic_object->sticky, $topic_object->closed).' '.$unread_status.'"></div>';
+            echo '<div class="topic-status dashicons-before '.$this->get_status_icon($topic_object).' '.$unread_status.'"></div>';
             echo '<div class="topic-name">';
                 echo '<a href="'.$this->get_link('topic', $topic_object->id).'" title="'.$topic_title.'">'.$topic_title.'</a>';
                 echo '<small>';
@@ -711,14 +768,6 @@ class AsgarosForum {
         }
     }
 
-    function showLoginMessage() {
-        if (!is_user_logged_in() && !$this->options['allow_guest_postings']) {
-            $loginMessage = '<div class="info">'.__('You need to log in to create posts and topics.', 'asgaros-forum').'</div>';
-            $loginMessage = apply_filters('asgarosforum_filter_login_message', $loginMessage);
-            echo $loginMessage;
-        }
-    }
-
     function showMoveTopic() {
         if ($this->permissions->isModerator('current')) {
             $strOUT = '<form method="post" action="'.$this->get_link('movetopic', $this->current_topic, array('move_topic' => 1)).'">';
@@ -730,14 +779,14 @@ class AsgarosForum {
 
             if ($categories) {
                 foreach ($categories as $category) {
-                    $forums = $this->get_forums($category->term_id, 0, true);
+                    $forums = $this->get_forums($category->term_id, 0);
 
                     if ($forums) {
                         foreach ($forums as $forum) {
                             $strOUT .= '<option value="'.$forum->id.'"'.($forum->id == $this->current_forum ? ' selected="selected"' : '').'>'.esc_html($forum->name).'</option>';
 
                             if ($forum->count_subforums > 0) {
-                                $subforums = $this->get_forums($category->term_id, $forum->id, true);
+                                $subforums = $this->get_forums($category->term_id, $forum->id);
 
                                 foreach ($subforums as $subforum) {
                                     $strOUT .= '<option value="'.$subforum->id.'"'.($subforum->id == $this->current_forum ? ' selected="selected"' : '').'>&mdash; '.esc_html($subforum->name).'</option>';
@@ -766,14 +815,110 @@ class AsgarosForum {
         }
     }
 
-    function get_forums($id = false, $parent_forum = 0, $compact = false, $output_type = OBJECT) {
-        if ($id) {
-            // The compact mode only loads the fields in the forums-table and counts its existing subforums.
-            if ($compact) {
-                return $this->db->get_results($this->db->prepare("SELECT f.*, (SELECT COUNT(*) FROM {$this->tables->forums} AS sub_f WHERE sub_f.parent_forum = f.id) AS count_subforums FROM {$this->tables->forums} AS f WHERE f.parent_id = %d AND f.parent_forum = %d ORDER BY f.sort ASC;", $id, $parent_forum), $output_type);
-            } else {
-                return $this->db->get_results($this->db->prepare("SELECT f.*, (SELECT COUNT(*) FROM {$this->tables->topics} AS ct_t, {$this->tables->forums} AS ct_f WHERE ct_t.parent_id = ct_f.id AND (ct_f.id = f.id OR ct_f.parent_forum = f.id)) AS count_topics, (SELECT COUNT(*) FROM {$this->tables->posts} AS cp_p, {$this->tables->forums} AS cp_f WHERE cp_p.forum_id = cp_f.id AND (cp_f.id = f.id OR cp_f.parent_forum = f.id)) AS count_posts, (SELECT COUNT(*) FROM {$this->tables->forums} AS csf_f WHERE csf_f.parent_forum = f.id) AS count_subforums FROM {$this->tables->forums} AS f WHERE f.parent_id = %d AND f.parent_forum = %d GROUP BY f.id ORDER BY f.sort ASC;", $id, $parent_forum), $output_type);
+    var $topic_counters_cache = false;
+    function get_topic_counters() {
+        // If the cache is not set yet, create it.
+        if ($this->topic_counters_cache === false) {
+            // Get all topic-counters of each forum first.
+            $topic_counters = $this->db->get_results("SELECT parent_id AS forum_id, COUNT(*) AS topic_counter FROM {$this->tables->topics} WHERE approved = 1 GROUP BY parent_id;");
+
+            // Assign topic-counter for each forum.
+            if (!empty($topic_counters)) {
+                foreach ($topic_counters as $counter) {
+                    $this->topic_counters_cache[$counter->forum_id] = $counter->topic_counter;
+                }
             }
+
+            // Now get all subforums.
+            $subforums = $this->content->get_all_subforums();
+
+            // Re-assign topic-counter for each forum based on the topic-counters in its subforums.
+            if (!empty($subforums)) {
+                foreach ($subforums as $subforum) {
+                    // Continue if the subforum has no topics.
+                    if (!isset($this->topic_counters_cache[$subforum->id])) {
+                        continue;
+                    }
+
+                    // Re-assign value when the parent-forum has no topics.
+                    if (!isset($this->topic_counters_cache[$subforum->parent_forum])) {
+                        $this->topic_counters_cache[$subforum->parent_forum] = $this->topic_counters_cache[$subforum->id];
+                        continue;
+                    }
+
+                    // Otherwise add subforum-topics to the counter of the parent forum.
+                    $this->topic_counters_cache[$subforum->parent_forum] = ($this->topic_counters_cache[$subforum->parent_forum] + $this->topic_counters_cache[$subforum->id]);
+                }
+            }
+        }
+
+        return $this->topic_counters_cache;
+    }
+
+    function get_forum_topic_counter($forum_id) {
+        $counters = $this->get_topic_counters();
+
+        if (isset($counters[$forum_id])) {
+            return intval($counters[$forum_id]);
+        } else {
+            return 0;
+        }
+    }
+
+    var $post_counters_cache = false;
+    function get_post_counters() {
+        // If the cache is not set yet, create it.
+        if ($this->post_counters_cache === false) {
+            // Get all post-counters of each forum first.
+            $post_counters = $this->db->get_results("SELECT t.parent_id AS forum_id, COUNT(*) AS post_counter FROM {$this->tables->posts} AS p, {$this->tables->topics} AS t WHERE p.parent_id = t.id AND t.approved = 1 GROUP BY t.parent_id;");
+
+            // Assign post-counter for each forum.
+            if (!empty($post_counters)) {
+                foreach ($post_counters as $counter) {
+                    $this->post_counters_cache[$counter->forum_id] = $counter->post_counter;
+                }
+            }
+
+            // Now get all subforums.
+            $subforums = $this->content->get_all_subforums();
+
+            // Re-assign post-counter for each forum based on the post-counters in its subforums.
+            if (!empty($subforums)) {
+                foreach ($subforums as $subforum) {
+                    // Continue if the subforum has no posts.
+                    if (!isset($this->post_counters_cache[$subforum->id])) {
+                        continue;
+                    }
+
+                    // Re-assign value when the parent-forum has no posts.
+                    if (!isset($this->post_counters_cache[$subforum->parent_forum])) {
+                        $this->post_counters_cache[$subforum->parent_forum] = $this->post_counters_cache[$subforum->id];
+                        continue;
+                    }
+
+                    // Otherwise add subforum-posts to the counter of the parent forum.
+                    $this->post_counters_cache[$subforum->parent_forum] = ($this->post_counters_cache[$subforum->parent_forum] + $this->post_counters_cache[$subforum->id]);
+                }
+            }
+        }
+
+        return $this->post_counters_cache;
+    }
+
+    function get_forum_post_counter($forum_id) {
+        $counters = $this->get_post_counters();
+
+        if (isset($counters[$forum_id])) {
+            return intval($counters[$forum_id]);
+        } else {
+            return 0;
+        }
+    }
+
+    function get_forums($id = false, $parent_forum = 0, $output_type = OBJECT) {
+        if ($id) {
+            $query_count_subforums = "SELECT COUNT(*) FROM {$this->tables->forums} WHERE parent_forum = f.id";
+            return $this->db->get_results($this->db->prepare("SELECT f.*, ({$query_count_subforums}) AS count_subforums FROM {$this->tables->forums} AS f WHERE f.parent_id = %d AND f.parent_forum = %d ORDER BY f.sort ASC;", $id, $parent_forum), $output_type);
         }
     }
 
@@ -980,7 +1125,7 @@ class AsgarosForum {
             if ((is_user_logged_in() && !$this->permissions->isBanned('current')) || (!is_user_logged_in() && $this->options['allow_guest_postings'])) {
                 // New topic button.
                 $menu .= '<div class="forum-menu">';
-                $menu .= '<a class="forum-editor-button dashicons-before dashicons-plus-alt" href="'.$this->get_link('topic_add', $this->current_forum).'">';
+                $menu .= '<a class="forum-editor-button dashicons-before dashicons-plus-alt button-normal" href="'.$this->get_link('topic_add', $this->current_forum).'">';
                 $menu .= __('New Topic', 'asgaros-forum');
                 $menu .= '</a>';
                 $menu .= '</div>';
@@ -995,47 +1140,63 @@ class AsgarosForum {
     function showTopicMenu($showAllButtons = true) {
         $menu = '';
 
-        if ($this->permissions->isModerator('current') || (!$this->get_status('closed') && ((is_user_logged_in() && !$this->permissions->isBanned('current')) || (!is_user_logged_in() && $this->options['allow_guest_postings'])))) {
-            // Reply button.
-            $menu .= '<a class="forum-editor-button dashicons-before dashicons-plus-alt" href="'.$this->get_link('post_add', $this->current_topic).'">';
-            $menu .= __('Reply', 'asgaros-forum');
-            $menu .= '</a>';
+        $current_user_id = get_current_user_id();
+
+        // Show answer and certain moderation-buttons only for approved topics.
+        if ($this->approval->is_topic_approved($this->current_topic)) {
+            if ($this->permissions->can_create_post($current_user_id)) {
+                // Reply button.
+                $menu .= '<a class="forum-editor-button dashicons-before dashicons-plus-alt button-normal" href="'.$this->get_link('post_add', $this->current_topic).'">';
+                $menu .= __('Reply', 'asgaros-forum');
+                $menu .= '</a>';
+            }
+
+            if ($this->permissions->isModerator('current') && $showAllButtons) {
+                // Move button.
+                $menu .= '<a class="dashicons-before dashicons-randomize button-normal" href="'.$this->get_link('movetopic', $this->current_topic).'">';
+                $menu .= __('Move', 'asgaros-forum');
+                $menu .= '</a>';
+
+                if ($this->get_status('sticky')) {
+                    // Undo sticky button.
+                    $menu .= '<a class="dashicons-before dashicons-sticky button-normal" href="'.$this->get_link('topic', $this->current_topic, array('unsticky_topic' => 1)).'">';
+                    $menu .= __('Unsticky', 'asgaros-forum');
+                    $menu .= '</a>';
+                } else {
+                    // Sticky button.
+                    $menu .= '<a class="dashicons-before dashicons-admin-post button-normal" href="'.$this->get_link('topic', $this->current_topic, array('sticky_topic' => 1)).'">';
+                    $menu .= __('Sticky', 'asgaros-forum');
+                    $menu .= '</a>';
+                }
+
+                if ($this->get_status('closed')) {
+                    // Open button.
+                    $menu .= '<a class="dashicons-before dashicons-unlock button-normal" href="'.$this->get_link('topic', $this->current_topic, array('open_topic' => 1)).'">';
+                    $menu .= __('Open', 'asgaros-forum');
+                    $menu .= '</a>';
+                } else {
+                    // Close button.
+                    $menu .= '<a class="dashicons-before dashicons-lock button-normal" href="'.$this->get_link('topic', $this->current_topic, array('close_topic' => 1)).'">';
+                    $menu .= __('Close', 'asgaros-forum');
+                    $menu .= '</a>';
+                }
+            }
+        } else {
+            if ($this->permissions->isModerator('current') && $showAllButtons) {
+                // Approve button.
+                if (!$this->approval->is_topic_approved($this->current_topic)) {
+                    $menu .= '<a class="dashicons-before dashicons-yes button-approve" href="'.$this->get_link('topic', $this->current_topic, array('approve_topic' => 1)).'">';
+                    $menu .= __('Approve', 'asgaros-forum');
+                    $menu .= '</a>';
+                }
+            }
         }
 
         if ($this->permissions->isModerator('current') && $showAllButtons) {
-            // Move button.
-            $menu .= '<a class="dashicons-before dashicons-randomize" href="'.$this->get_link('movetopic', $this->current_topic).'">';
-            $menu .= __('Move', 'asgaros-forum');
-            $menu .= '</a>';
-
             // Delete button.
-            $menu .= '<a class="dashicons-before dashicons-trash" href="'.$this->get_link('topic', $this->current_topic, array('delete_topic' => 1)).'" onclick="return confirm(\''.__('Are you sure you want to remove this?', 'asgaros-forum').'\');">';
+            $menu .= '<a class="dashicons-before dashicons-trash button-delete" href="'.$this->get_link('topic', $this->current_topic, array('delete_topic' => 1)).'" onclick="return confirm(\''.__('Are you sure you want to remove this?', 'asgaros-forum').'\');">';
             $menu .= __('Delete', 'asgaros-forum');
             $menu .= '</a>';
-
-            if ($this->get_status('sticky')) {
-                // Undo sticky button.
-                $menu .= '<a class="dashicons-before dashicons-sticky" href="'.$this->get_link('topic', $this->current_topic, array('unsticky_topic' => 1)).'">';
-                $menu .= __('Unsticky', 'asgaros-forum');
-                $menu .= '</a>';
-            } else {
-                // Sticky button.
-                $menu .= '<a class="dashicons-before dashicons-admin-post" href="'.$this->get_link('topic', $this->current_topic, array('sticky_topic' => 1)).'">';
-                $menu .= __('Sticky', 'asgaros-forum');
-                $menu .= '</a>';
-            }
-
-            if ($this->get_status('closed')) {
-                // Open button.
-                $menu .= '<a class="dashicons-before dashicons-unlock" href="'.$this->get_link('topic', $this->current_topic, array('open_topic' => 1)).'">';
-                $menu .= __('Open', 'asgaros-forum');
-                $menu .= '</a>';
-            } else {
-                // Close button.
-                $menu .= '<a class="dashicons-before dashicons-lock" href="'.$this->get_link('topic', $this->current_topic, array('close_topic' => 1)).'">';
-                $menu .= __('Close', 'asgaros-forum');
-                $menu .= '</a>';
-            }
         }
 
         $menu = (!empty($menu)) ? '<div class="forum-menu">'.$menu.'</div>' : $menu;
@@ -1047,28 +1208,31 @@ class AsgarosForum {
     function show_post_menu($post_id, $author_id, $counter, $post_date) {
         $menu = '';
 
-        if (is_user_logged_in()) {
-            if ($this->permissions->isModerator('current') && ($counter > 1 || $this->current_page >= 1)) {
-                // Delete button.
-                $menu .= '<a class="dashicons-before dashicons-trash" onclick="return confirm(\''.__('Are you sure you want to remove this?', 'asgaros-forum').'\');" href="'.$this->get_link('topic', $this->current_topic, array('post' => $post_id, 'remove_post' => 1)).'">';
-                $menu .= __('Delete', 'asgaros-forum');
-                $menu .= '</a>';
+        // Only show post-menu when the topic is approved.
+        if ($this->approval->is_topic_approved($this->current_topic)) {
+            if (is_user_logged_in()) {
+                if ($this->permissions->isModerator('current') && ($counter > 1 || $this->current_page >= 1)) {
+                    // Delete button.
+                    $menu .= '<a class="dashicons-before dashicons-trash" onclick="return confirm(\''.__('Are you sure you want to remove this?', 'asgaros-forum').'\');" href="'.$this->get_link('topic', $this->current_topic, array('post' => $post_id, 'remove_post' => 1)).'">';
+                    $menu .= __('Delete', 'asgaros-forum');
+                    $menu .= '</a>';
+                }
+
+                $current_user_id = get_current_user_id();
+                if ($this->permissions->can_edit_post($current_user_id, $post_id, $author_id, $post_date)) {
+                    // Edit button.
+                    $menu .= '<a class="dashicons-before dashicons-edit" href="'.$this->get_link('post_edit', $post_id, array('part' => ($this->current_page + 1))).'">';
+                    $menu .= __('Edit', 'asgaros-forum');
+                    $menu .= '</a>';
+                }
             }
 
-            $current_user_id = get_current_user_id();
-            if ($this->permissions->can_edit_post($current_user_id, $post_id, $author_id, $post_date)) {
-                // Edit button.
-                $menu .= '<a class="dashicons-before dashicons-edit" href="'.$this->get_link('post_edit', $post_id, array('part' => ($this->current_page + 1))).'">';
-                $menu .= __('Edit', 'asgaros-forum');
+            if ($this->permissions->isModerator('current') || (!$this->get_status('closed') && ((is_user_logged_in() && !$this->permissions->isBanned('current')) || (!is_user_logged_in() && $this->options['allow_guest_postings'])))) {
+                // Quote button.
+                $menu .= '<a class="forum-editor-quote-button dashicons-before dashicons-editor-quote" data-value-id="'.$post_id.'" href="'.$this->get_link('post_add', $this->current_topic, array('quote' => $post_id)).'">';
+                $menu .= __('Quote', 'asgaros-forum');
                 $menu .= '</a>';
             }
-        }
-
-        if ($this->permissions->isModerator('current') || (!$this->get_status('closed') && ((is_user_logged_in() && !$this->permissions->isBanned('current')) || (!is_user_logged_in() && $this->options['allow_guest_postings'])))) {
-            // Quote button.
-            $menu .= '<a class="forum-editor-quote-button dashicons-before dashicons-editor-quote" data-value-id="'.$post_id.'" href="'.$this->get_link('post_add', $this->current_topic, array('quote' => $post_id)).'">';
-            $menu .= __('Quote', 'asgaros-forum');
-            $menu .= '</a>';
         }
 
         $menu = (!empty($menu)) ? '<div class="forum-post-menu">'.$menu.'</div>' : $menu;
@@ -1185,7 +1349,7 @@ class AsgarosForum {
     function prepare_lastpost_forum_cache() {
         if ($this->lastpost_forum_cache === false) {
             // Get all lastpost-elements of each forum first.
-            $lastpost_elements = $this->db->get_results("SELECT p.forum_id, MAX(p.id) AS id FROM {$this->tables->posts} AS p GROUP BY p.forum_id;");
+            $lastpost_elements = $this->db->get_results("SELECT t.parent_id AS forum_id, MAX(p.id) AS id FROM {$this->tables->posts} AS p, {$this->tables->topics} AS t WHERE p.parent_id = t.id AND t.approved = 1 GROUP BY t.parent_id;");
 
             // Assign lastpost-ids for each forum.
             if (!empty($lastpost_elements)) {
@@ -1195,7 +1359,7 @@ class AsgarosForum {
             }
 
             // Now get all subforums.
-            $subforums = $this->db->get_results("SELECT f.id, f.parent_forum FROM {$this->tables->forums} AS f WHERE f.parent_forum != 0;");
+            $subforums = $this->content->get_all_subforums();
 
             // Re-assign lastpost-ids for each forum based on the lastposts in its subforums.
             if (!empty($subforums)) {
@@ -1263,10 +1427,10 @@ class AsgarosForum {
         }
     }
 
-    function get_status_icon($sticky, $closed) {
-        if ($sticky == 1) {
+    function get_status_icon($topic_object) {
+        if ($topic_object->sticky == 1) {
             return 'dashicons-topic-sticky';
-        } else if ($closed == 1) {
+        } else if ($topic_object->closed == 1) {
             return 'dashicons-topic-closed';
         } else {
             return 'dashicons-topic-normal';

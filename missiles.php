@@ -54,7 +54,7 @@ $totalordercost = 0;
 $totalturncost = 0;
 foreach ($missiles as $key => $order) {
     $price = $order['price'];
-    $ordered_missiles = ceil($_POST["$key"]);
+    $ordered_missiles = abs(ceil($_POST["$key"]));
 
     if (empty($_POST["$key"])) {
         $letter_check = 0;
@@ -76,7 +76,7 @@ foreach ($missiles as $key => $order) {
     if ($key == 'tomahawk') {
         $orderamount = $price*$ordered_missiles;
         $totalordercost+=$orderamount;
-        $totalturncost+=ceil($ordered_missiles/3);
+        $totalturncost+=abs(ceil($ordered_missiles/3));
     }
 }
 if ($totalordercost > $totalmoney) {
@@ -112,7 +112,7 @@ foreach ($missiles as $key => $order) {
         $missile_name = $key.'_ordered';
         $normalname = $order['normalname'];
         $price = $order['price'];
-        $ordered_missiles = ceil($_POST["$key"]);
+        $ordered_missiles = abs(ceil($_POST["$key"]));
         $mis+=$ordered_missiles;
                 
         $owned_missiles = get_user_meta($userId, $key.'_owned', true);

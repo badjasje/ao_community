@@ -468,7 +468,7 @@ messaging.getToken().then(function(currentToken) {
 						<a class="dropdown-item" href="/category/awards-medals/">Awards & Medals</a>
 						<a class="dropdown-item" href="/manual">Manual</a>
 						<a class="dropdown-item" href="/rules">Rules</a>
-						<a class="dropdown-item" target="_blank" href="https://discord.gg/ttdng4n">Discord</a>
+						<a class="dropdown-item" target="_blank" href="https://discord.gg/ybJ5Etu">Discord</a>
   					</div>
 					</div>
 				</div>

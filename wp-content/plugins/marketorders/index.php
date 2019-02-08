@@ -1900,11 +1900,7 @@ function fcm_send_notification($receiver,$type,$attacker){
 		$url = get_site_url().'/events/incoming/';
 	}
 	
-	if($type == 'saboteur'){
-		$avatar = get_site_url().'/unknown.png';
-		$body = 'Someone sent a sniper';
-		$url = get_site_url().'/events/incoming/';
-	}
+	
 	
 	if($type == 'missile'){
 		$avatar = get_user_meta($attacker, 'avatar_user', true);

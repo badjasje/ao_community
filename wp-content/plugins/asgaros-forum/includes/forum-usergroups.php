@@ -521,7 +521,7 @@ class AsgarosForumUserGroups {
     }
 
     // Makes sure that only users who have access to the forum category will receive mails.
-    public static function filterSubscriberMails($mails, $forumCategoryID) {
+    public static function filterSubscriberMails($mails, $category_id) {
         // Only filter when there are mails.
         if (!empty($mails)) {
             foreach ($mails as $key => $mail) {
@@ -529,7 +529,7 @@ class AsgarosForumUserGroups {
                 $userObject = get_user_by('email', $mail);
 
                 if (!empty($userObject)) {
-                    $canAccess = self::canUserAccessForumCategory($userObject->ID, $forumCategoryID);
+                    $canAccess = self::canUserAccessForumCategory($userObject->ID, $category_id);
 
                     // When the user cant access the usergroup, remove it from the mail list.
                     if (!$canAccess) {
@@ -584,9 +584,9 @@ class AsgarosForumUserGroups {
         // generate a link to the memberslist filtered by the selected usergroup.
         if (self::$asgarosforum->memberslist->functionality_enabled() && !is_admin()) {
             $link = self::$asgarosforum->rewrite->get_link('members', false, array('filter_type' => 'group', 'filter_name' => $usergroup_object->term_id));
-            return '<a href="'.$link.'" class="af-usergroup-tag usergroup-tag-'.$usergroup_object->term_id.'" style="color: '.$color.'; border-color: '.$color.'; font-weight: '.$font_weight.';">'.$usergroup_object->name.'</a>';
+            return '<a href="'.$link.'" class="af-usergroup-tag usergroup-tag-'.$usergroup_object->term_id.'" style="color: '.$color.' !important; border-color: '.$color.' !important; font-weight: '.$font_weight.' !important;">'.$usergroup_object->name.'</a>';
         } else {
-            return '<span class="af-usergroup-tag usergroup-tag-'.$usergroup_object->term_id.'" style="color: '.$color.'; border-color: '.$color.'; font-weight: '.$font_weight.';">'.$usergroup_object->name.'</span>';
+            return '<span class="af-usergroup-tag usergroup-tag-'.$usergroup_object->term_id.'" style="color: '.$color.' !important; border-color: '.$color.' !important; font-weight: '.$font_weight.' !important;">'.$usergroup_object->name.'</span>';
         }
     }
 

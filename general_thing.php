@@ -2,10 +2,103 @@
     
 require_once("wp-load.php");
 
+/*
+$args = array(
+	'meta_key'     	=> 'last_online',
+	'orderby'      	=> 'meta_value_num',
+	'meta_value'	=> $timestamp-1728000,
+	'meta_compare'	=> '>',
 
-//fcm_send_notification(234,'attack',1);
+); 
 
 
+    $args = array(
+        'meta_query'=>
+
+         array(
+
+            array(
+
+                'relation' => 'AND',
+
+            array(
+                'key' => 'last_online',
+                'value' => $timestamp-1728000,
+                'compare' => ">",
+                'type' => 'numeric'
+            ),
+
+            array(
+                'key' => 'networth',
+                'value' =>  10,
+                'compare' => ">",
+                'type' => 'numeric'
+            ),
+
+
+           
+          )
+       )
+    );
+
+    $users = get_users( $args );
+
+
+foreach ($users as $user):
+$userData = get_user_meta($user->ID);
+echo get_user_name($user->ID);
+$turnSpread = maybe_unserialize(maybe_unserialize($userData['turn_spread'][0]));
+echo '<pre>';
+print_r($turnSpread);
+echo '</pre>';
+endforeach;
+
+/*
+$userId = 1029;
+$array_for_filter = array(	
+					
+				
+						'satellite',
+						'regular',
+						'air_sea',
+						'ground',
+						'missile',
+	);
+$args = array(
+	'posts_per_page'   => -1,
+	'orderby'          	=> 'date',
+	'order'            	=> 'DESC',
+
+	'post_type'        	=> 'event_local',
+	'post_status'      	=> 'publish',
+	'meta_query'	=> array(
+					'relation' => 'AND',
+					array(
+						'key'	 	=> 'defender_id',
+						'value'	  	=> $userId,
+						'compare' 	=> '=',
+						),
+					array(
+						'key' => 'attacktype',
+						'value' => $array_for_filter,
+						'compare' => 'IN'
+						),
+						
+						
+						)
+);
+			
+$attacks = get_posts( $args );
+
+$buildingslost = 0;
+foreach ($attacks as $attack):
+$eventData = get_post_meta($attack->ID);
+
+$buildingslost += $eventData['total_buildings_lost'][0];
+
+
+endforeach;
+echo $buildingslost;
 /*
 
    

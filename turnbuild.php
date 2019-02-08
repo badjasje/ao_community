@@ -88,7 +88,7 @@ foreach ($units as $key => $order) {
 			echo json_encode($array);
 			exit;
         }
-        $tot_air+=ceil($_POST["$key"]);
+        $tot_air+=abs(ceil($_POST["$key"]));
             
         if (empty($_POST["$key"])) {
             $letter_check = 0;
@@ -105,7 +105,7 @@ foreach ($units as $key => $order) {
         if ($key == 'spyplane' && $_POST["$key"] > 0) {
             $total_special+=$_POST["$key"];
             $total_spec_count+=$_POST["$key"];
-            if (ceil($_POST["$key"]) > $ccspace) {
+            if (abs(ceil($_POST["$key"])) > $ccspace) {
                $array['status'] = 'Not enough command centres';
 			   $array['next'] = false;
 			   echo json_encode($array);
@@ -116,7 +116,7 @@ foreach ($units as $key => $order) {
         $unit_name = $key.'_ordered';
         $normalname = $order['normalname'];
         $price = $order['price'];
-        $ordered_units = ceil($_POST["$key"]);
+        $ordered_units = abs(ceil($_POST["$key"]));
         $air+=$ordered_units;
         $owned_units = $userData[$key.'_owned'][0];
         $units_already_on_order = $userData[$key.'_ordered'][0];
@@ -143,7 +143,7 @@ foreach ($units as $key => $order) {
 			echo json_encode($array);
 			exit;
         }
-        $tot_veh+=ceil($_POST["$key"]);
+        $tot_veh+=abs(ceil($_POST["$key"]));
         if (empty($_POST["$key"])) {
             $letter_check = 0;
         } else {
@@ -158,7 +158,7 @@ foreach ($units as $key => $order) {
         $unit_name = $key.'_ordered';
         $normalname = $order['normalname'];
         $price = $order['price'];
-        $ordered_units = ceil($_POST["$key"]);
+        $ordered_units = abs(ceil($_POST["$key"]));
         $veh+=$ordered_units;
         $owned_units = $userData[$key.'_owned'][0];
         $units_already_on_order = $userData[$key.'_ordered'][0];
@@ -185,7 +185,7 @@ foreach ($units as $key => $order) {
 			echo json_encode($array);
 			exit;
         }
-        $tot_sea+=ceil($_POST["$key"]);
+        $tot_sea+=abs(ceil($_POST["$key"]));
         if (empty($_POST["$key"])) {
             $letter_check = 0;
         } else {
@@ -200,7 +200,7 @@ foreach ($units as $key => $order) {
         $unit_name = $key.'_ordered';
         $normalname = $order['normalname'];
         $price = $order['price'];
-        $ordered_units = ceil($_POST["$key"]);
+        $ordered_units = abs(ceil($_POST["$key"]));
         $sea+=$ordered_units;
         $owned_units = $userData[$key.'_owned'][0];
         $units_already_on_order = $userData[$key.'_ordered'][0];
@@ -227,7 +227,7 @@ foreach ($units as $key => $order) {
 		   echo json_encode($array);
 		   exit;
         }
-        $tot_inf+=ceil($_POST["$key"]);
+        $tot_inf+=abs(ceil($_POST["$key"]));
         if (empty($_POST["$key"])) {
             $letter_check = 0;
         } else {
@@ -243,7 +243,7 @@ foreach ($units as $key => $order) {
         if ($key == 'spy' && $_POST["$key"] > 0) {
             $total_special+=$_POST["$key"];
             $total_spec_count+=$_POST["$key"];
-            if (ceil($_POST["$key"]) > $ccspace) {
+            if (abs(ceil($_POST["$key"])) > $ccspace) {
                 $array['status'] = 'Not enough command centres';
 				$array['next'] = false;
 				echo json_encode($array);
@@ -254,7 +254,7 @@ foreach ($units as $key => $order) {
         if ($key == 'thief' && $_POST["$key"] > 0) {
             $total_special+=$_POST["$key"];
             $total_spec_count+=$_POST["$key"];
-            if (ceil($_POST["$key"]) > $ccspace) {
+            if (abs(ceil($_POST["$key"])) > $ccspace) {
                 $array['status'] = 'Not enough command centres';
 				$array['next'] = false;
 				echo json_encode($array);
@@ -265,7 +265,7 @@ foreach ($units as $key => $order) {
         if ($key == 'sniper' && $_POST["$key"] > 0) {
             $total_special+=$_POST["$key"];
             $total_spec_count+=$_POST["$key"];
-            if (ceil($_POST["$key"]) > $ccspace) {
+            if (abs(ceil($_POST["$key"])) > $ccspace) {
                 $array['status'] = 'Not enough command centres';
 				$array['next'] = false;
 				echo json_encode($array);
@@ -276,7 +276,7 @@ foreach ($units as $key => $order) {
         if ($key == 'saboteur' && $_POST["$key"] > 0) {
             $total_special+=$_POST["$key"];
             $total_spec_count+=$_POST["$key"];
-            if (ceil($_POST["$key"]) > $ccspace) {
+            if (abs(ceil($_POST["$key"])) > $ccspace) {
                 $array['status'] = 'Not enough command centres';
 				$array['next'] = false;
 				echo json_encode($array);
@@ -287,7 +287,7 @@ foreach ($units as $key => $order) {
         $unit_name = $key.'_ordered';
         $normalname = $order['normalname'];
         $price = $order['price'];
-        $ordered_units = ceil($_POST["$key"]);
+        $ordered_units = abs(ceil($_POST["$key"]));
         $inf+=$ordered_units;
         $owned_units = $userData[$key.'_owned'][0];
         $units_already_on_order = $userData[$key.'_ordered'][0];
@@ -320,7 +320,7 @@ if ($total_spec_count>0) {
 $total_units_ordered = 0;
 foreach ($units as $key => $order) {
         $price = $order['price'];
-        $totalordercost+= $price*ceil($_POST["$key"]);
+        $totalordercost+= $price*abs(ceil($_POST["$key"]));
 }
 
 
@@ -349,7 +349,7 @@ if ($turns_needed > $totalturns) {
     
             $normalname = $order['normalname'];
             $price = $order['price'];
-            $ordered_units = ceil($_POST["$key"]);
+            $ordered_units = abs(ceil($_POST["$key"]));
             if ($ordered_units > 0) {
                 $orderamount = $price*$ordered_units;
     

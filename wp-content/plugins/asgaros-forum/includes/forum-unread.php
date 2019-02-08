@@ -109,9 +109,9 @@ class AsgarosForumUnread {
 
             // We need to use slightly different queries here because we cant determine if a post was created by the visiting guest.
             if ($this->user_id) {
-                $sql = "SELECT p.id FROM {$this->asgarosforum->tables->forums} AS f, {$this->asgarosforum->tables->topics} AS t, {$this->asgarosforum->tables->posts} AS p WHERE (f.id = {$id} OR f.parent_forum = {$id}) AND t.parent_id = f.id AND p.parent_id = t.id AND p.parent_id NOT IN({$visited_topics}) AND p.author_id <> {$this->user_id} AND p.date > '{$this->get_last_visit()}' LIMIT 1;";
+                $sql = "SELECT p.id FROM {$this->asgarosforum->tables->forums} AS f, {$this->asgarosforum->tables->topics} AS t, {$this->asgarosforum->tables->posts} AS p WHERE (f.id = {$id} OR f.parent_forum = {$id}) AND t.parent_id = f.id AND p.parent_id = t.id AND p.parent_id NOT IN({$visited_topics}) AND p.date > '{$this->get_last_visit()}' AND t.approved = 1 AND p.author_id <> {$this->user_id} LIMIT 1;";
             } else {
-                $sql = "SELECT p.id FROM {$this->asgarosforum->tables->forums} AS f, {$this->asgarosforum->tables->topics} AS t, {$this->asgarosforum->tables->posts} AS p WHERE (f.id = {$id} OR f.parent_forum = {$id}) AND t.parent_id = f.id AND p.parent_id = t.id AND p.parent_id NOT IN({$visited_topics}) AND p.date > '{$this->get_last_visit()}' LIMIT 1;";
+                $sql = "SELECT p.id FROM {$this->asgarosforum->tables->forums} AS f, {$this->asgarosforum->tables->topics} AS t, {$this->asgarosforum->tables->posts} AS p WHERE (f.id = {$id} OR f.parent_forum = {$id}) AND t.parent_id = f.id AND p.parent_id = t.id AND p.parent_id NOT IN({$visited_topics}) AND p.date > '{$this->get_last_visit()}' AND t.approved = 1 LIMIT 1;";
             }
 
             $unread_check = $this->asgarosforum->db->get_results($sql);
@@ -125,9 +125,9 @@ class AsgarosForumUnread {
 
             // Again we need to use slightly different queries here because we cant determine if a post was created by the visiting guest.
             if ($this->user_id) {
-                $sql = "SELECT MAX(p.id) AS max_id, p.parent_id FROM {$this->asgarosforum->tables->forums} AS f, {$this->asgarosforum->tables->topics} AS t, {$this->asgarosforum->tables->posts} AS p WHERE (f.id = {$id} OR f.parent_forum = {$id}) AND t.parent_id = f.id AND p.parent_id = t.id AND p.parent_id IN({$visited_topics}) AND p.author_id <> {$this->user_id} GROUP BY p.parent_id;";
+                $sql = "SELECT MAX(p.id) AS max_id, p.parent_id FROM {$this->asgarosforum->tables->forums} AS f, {$this->asgarosforum->tables->topics} AS t, {$this->asgarosforum->tables->posts} AS p WHERE (f.id = {$id} OR f.parent_forum = {$id}) AND t.parent_id = f.id AND p.parent_id = t.id AND p.parent_id IN({$visited_topics}) AND t.approved = 1 AND p.author_id <> {$this->user_id} GROUP BY p.parent_id;";
             } else {
-                $sql = "SELECT MAX(p.id) AS max_id, p.parent_id FROM {$this->asgarosforum->tables->forums} AS f, {$this->asgarosforum->tables->topics} AS t, {$this->asgarosforum->tables->posts} AS p WHERE (f.id = {$id} OR f.parent_forum = {$id}) AND t.parent_id = f.id AND p.parent_id = t.id AND p.parent_id IN({$visited_topics}) GROUP BY p.parent_id;";
+                $sql = "SELECT MAX(p.id) AS max_id, p.parent_id FROM {$this->asgarosforum->tables->forums} AS f, {$this->asgarosforum->tables->topics} AS t, {$this->asgarosforum->tables->posts} AS p WHERE (f.id = {$id} OR f.parent_forum = {$id}) AND t.parent_id = f.id AND p.parent_id = t.id AND p.parent_id IN({$visited_topics}) AND t.approved = 1 GROUP BY p.parent_id;";
             }
 
             $unread_check = $this->asgarosforum->db->get_results($sql);
@@ -194,7 +194,7 @@ class AsgarosForumUnread {
 
     function show_unread_menu() {
         echo '<div class="forum-menu">';
-        echo '<a class="dashicons-before dashicons-yes" href="'.$this->asgarosforum->get_link('markallread').'">';
+        echo '<a class="dashicons-before dashicons-yes button-normal" href="'.$this->asgarosforum->get_link('markallread').'">';
         echo __('Mark All Read', 'asgaros-forum');
         echo '</a>';
         echo '</div>';
@@ -227,7 +227,7 @@ class AsgarosForumUnread {
                 $topic_title = esc_html(stripslashes($topic->topic_name));
 
                 echo '<div class="unread-topic topic-normal">';
-                    echo '<div class="topic-status dashicons-before '.$this->asgarosforum->get_status_icon($topic->sticky, $topic->closed).' unread"></div>';
+                    echo '<div class="topic-status dashicons-before '.$this->asgarosforum->get_status_icon($topic).' unread"></div>';
                     echo '<div class="topic-name">';
                         $first_unread_post = $this->asgarosforum->content->get_first_unread_post($topic->topic_id);
                         $link = $this->asgarosforum->rewrite->get_post_link($first_unread_post->id, $first_unread_post->parent_id);
@@ -267,7 +267,7 @@ class AsgarosForumUnread {
         if (!empty($ids_categories)) {
             $ids_categories = implode(',', $ids_categories);
 
-            $unread_topics = $this->asgarosforum->db->get_results("SELECT MAX(p.id) AS max_id, t.id AS topic_id, t.name AS topic_name, t.sticky, t.closed, f.id AS forum_id, f.name AS forum_name FROM {$this->asgarosforum->tables->posts} AS p LEFT JOIN {$this->asgarosforum->tables->topics} AS t ON (t.id = p.parent_id) LEFT JOIN {$this->asgarosforum->tables->forums} AS f ON (f.id = t.parent_id) WHERE f.parent_id IN ({$ids_categories}) AND p.date > '{$this->get_last_visit()}' GROUP BY p.parent_id ORDER BY MAX(p.id) DESC;");
+            $unread_topics = $this->asgarosforum->db->get_results("SELECT MAX(p.id) AS max_id, t.id AS topic_id, t.name AS topic_name, t.sticky, t.closed, f.id AS forum_id, f.name AS forum_name FROM {$this->asgarosforum->tables->posts} AS p LEFT JOIN {$this->asgarosforum->tables->topics} AS t ON (t.id = p.parent_id) LEFT JOIN {$this->asgarosforum->tables->forums} AS f ON (f.id = t.parent_id) WHERE f.parent_id IN ({$ids_categories}) AND p.date > '{$this->get_last_visit()}' AND t.approved = 1 GROUP BY p.parent_id ORDER BY MAX(p.id) DESC;");
         }
 
         // Remove read topics from that list.

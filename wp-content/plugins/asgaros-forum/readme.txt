@@ -2,21 +2,21 @@
 Contributors: Asgaros
 Donate link: https://www.paypal.me/asgaros
 Tags: forum, forums, discussion, multisite, community, bulletin, board, asgaros, support
-Requires at least: 4.7
+Requires at least: 4.8
 Tested up to: 5.0
 Requires PHP: 5.2
-Stable tag: 1.12.1
+Stable tag: 1.13.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Asgaros Forum is the best forum solution for WordPress! It comes with dozens of features in a beautiful design and stays simple and fast.
+Asgaros Forum is the best forum-plugin for WordPress! It comes with dozens of features in a beautiful design and stays simple and fast.
 
 == Description ==
-Asgaros Forum is the perfect WordPress plugin if you want to extend your website with a lightweight and feature-rich discussion board. It is easy to set up, super fast and integrates perfectly into WordPress.
+Asgaros Forum is the perfect WordPress plugin if you want to extend your website with a lightweight and feature-rich discussion board. It is easy to set up, super fast and perfectly integrated into WordPress.
 
 = Installation =
-* A new page for your forum gets automatically created during the installation-process.
-* Add this page to your menu so your users can access your forum within your website.
+* A new forum-page is automatically created during the installation
+* Add this page to your menu so your users can access your forum
 * Thats all!
 
 = Demo, Support & Documentation =
@@ -32,6 +32,7 @@ Asgaros Forum is the perfect WordPress plugin if you want to extend your website
 * Reactions
 * Uploads
 * Search
+* Approval
 * Moderators
 * Statistics
 * Ads Management
@@ -94,6 +95,28 @@ You can find a list of available hooks and filters on this site:
 6. Manage general options.
 
 == Changelog ==
+= 1.13.0 =
+* Added: Approval functionality for topics
+* Added: Spoiler functionality
+* Added: Option to define days of activity to show
+* Added: Option to define receivers of administrative notifications
+* Fixed: Display issues in the administration-area of Asgaros Forum when notices of WordPress or other plugins are shown
+* Fixed: Broken forum if settings could not get loaded from database
+* Fixed: Height of editor to small in certain configurations
+* Fixed: It is not longer possible to quote posts from other topics
+* Fixed: It is not longer possible to quote posts from inaccessible topics
+* Fixed: It is not longer possible for guests to post when topics are inaccessible for guests
+* Fixed: Search-engines cannot longer index inaccessible areas
+* Fixed: Dont leak content via meta-tags in inaccessible areas
+* Fixed: Performance issues in forums which consist of many topics
+* Fixed: PHP-error in notifications-processing when a receiver-mail does not belong to a WordPress-user
+* Fixed: Wrong stylings when using custom colors
+* Fixed: Display issues with some themes
+* Changed: Show all editor-buttons when the minimalistic editor is not used
+* Changed: Dont notify users about a new post or topic when they already receive a mail because they got mentioned
+* Minor design changes
+* Performance improvements and code optimizations
+* The required version of WordPress is 4.8
 = 1.12.1 =
 * Fixed: Ad code containing JavaScript could not be edited
 * Fixed: Allow activity-feed when using shortcode-parameters for categories

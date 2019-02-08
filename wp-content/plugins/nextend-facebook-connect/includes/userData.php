@@ -62,6 +62,8 @@ class NextendSocialUserData {
                 $this->displayForm();
             }
         }
+
+        $this->userData = apply_filters('nsl_registration_user_data', $this->userData, $this->provider);
     }
 
     public function toArray() {

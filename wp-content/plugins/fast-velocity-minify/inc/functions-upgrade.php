@@ -46,3 +46,17 @@ function fastvelocity_version_check() {
 
 }
 add_action( 'plugins_loaded', 'fastvelocity_version_check' );
+
+
+# upgrade notifications
+function fastvelocity_plugin_update_message($currentPluginMetadata, $newPluginMetadata) {
+	if (isset($newPluginMetadata->upgrade_notice) && strlen(trim($newPluginMetadata->upgrade_notice)) > 0){
+		echo '<span style="display:block; background: #F7FCFE; padding: 14px 0 6px 0; margin: 10px -12px -12px -16px;">';
+		echo '<span class="notice notice-info" style="display:block; padding: 10px; margin: 0;">';
+		echo '<span class="dashicons dashicons-megaphone" style="margin-left: 2px; margin-right: 6px;"></span>';
+		echo strip_tags($newPluginMetadata->upgrade_notice);
+		echo '</span>'; 
+		echo '</span>'; 
+	}
+}
+add_action( 'in_plugin_update_message-fast-velocity-minify/fvm.php', 'fastvelocity_plugin_update_message', 10, 2 );

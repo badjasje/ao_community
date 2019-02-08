@@ -15290,3 +15290,1583 @@ User ID: 1421 Event ID: 1213030
 IP Address: 174.236.153.120
 New Money: 599734 Old turns: 115 | New Turns: 203
 
+17:42:30 | 10-01-2019
+User ID: 2233 Event ID: 1218913
+IP Address: 80.187.110.53
+New Money: 598068 Old turns: 16 | New Turns: 74
+
+18:54:02 | 10-01-2019
+User ID: 2741 Event ID: 1218916
+IP Address: 87.157.59.156
+New Money: 293991 Old turns: 43 | New Turns: 101
+
+8:11:17 | 11-01-2019
+User ID: 1319 Event ID: 1219708
+IP Address: 62.72.192.107
+New Money: 334667 Old turns: 141 | New Turns: 199
+
+9:25:44 | 11-01-2019
+User ID: 1203 Event ID: 1219705
+IP Address: 62.140.132.84
+New Money: 983993 Old turns: 54 | New Turns: 112
+
+9:58:43 | 11-01-2019
+User ID: 1383 Event ID: 1219710
+IP Address: 84.198.164.68
+New Money: 1117449.5 Old turns: 59 | New Turns: 117
+
+10:03:30 | 11-01-2019
+User ID: 1201 Event ID: 1219706
+IP Address: 31.20.23.121
+New Money: 350847.6 Old turns: 18 | New Turns: 76
+
+12:05:06 | 11-01-2019
+User ID: 2233 Event ID: 1219967
+IP Address: 46.254.121.164
+New Money: 746951 Old turns: 11 | New Turns: 99
+
+13:16:15 | 11-01-2019
+User ID: 1906 Event ID: 1219707
+IP Address: 84.212.245.0
+New Money: 307501 Old turns: 59 | New Turns: 117
+
+15:38:16 | 11-01-2019
+User ID: 2458 Event ID: 1218915
+IP Address: 80.187.111.184
+New Money: 553042 Old turns: 43 | New Turns: 101
+
+18:47:57 | 11-01-2019
+User ID: 2741 Event ID: 1219970
+IP Address: 87.157.59.156
+New Money: 590599 Old turns: 39 | New Turns: 127
+
+18:49:50 | 11-01-2019
+User ID: 2783 Event ID: 1218918
+IP Address: 95.91.227.145
+New Money: 333379 Old turns: 1 | New Turns: 59
+
+18:51:11 | 11-01-2019
+User ID: 2742 Event ID: 1218914
+IP Address: 87.157.63.146
+New Money: 353421.5 Old turns: 7 | New Turns: 65
+
+8:07:05 | 12-01-2019
+User ID: 1319 Event ID: 1221221
+IP Address: 62.140.132.24
+New Money: 659605 Old turns: 78 | New Turns: 166
+
+9:39:40 | 12-01-2019
+User ID: 1201 Event ID: 1221219
+IP Address: 84.241.205.235
+New Money: 664275 Old turns: 16 | New Turns: 104
+
+10:41:58 | 12-01-2019
+User ID: 2458 Event ID: 1219969
+IP Address: 62.158.58.59
+New Money: 598598 Old turns: 83 | New Turns: 171
+
+12:35:41 | 12-01-2019
+User ID: 2636 Event ID: 1219709
+IP Address: 85.229.16.57
+New Money: 574919 Old turns: 133 | New Turns: 191
+
+12:35:42 | 12-01-2019
+User ID: 2636 Event ID: 1221222
+IP Address: 85.229.16.57
+New Money: 1158252 Old turns: 191 | New Turns: 279
+
+13:03:06 | 12-01-2019
+User ID: 2744 Event ID: 1218917
+IP Address: 89.15.238.223
+New Money: 339064 Old turns: 36 | New Turns: 94
+
+14:07:26 | 12-01-2019
+User ID: 1203 Event ID: 1221218
+IP Address: 82.73.59.10
+New Money: 632541 Old turns: 76 | New Turns: 164
+
+14:23:36 | 12-01-2019
+User ID: 1383 Event ID: 1221223
+IP Address: 109.139.89.217
+New Money: 583909.875 Old turns: 61 | New Turns: 149
+
+0:34:47 | 13-01-2019
+User ID: 2783 Event ID: 1219972
+IP Address: 95.91.227.145
+New Money: 732583 Old turns: 47 | New Turns: 135
+
+2:07:58 | 13-01-2019
+User ID: 2233 Event ID: 1222680
+IP Address: 62.158.58.59
+New Money: 687622.5 Old turns: 29 | New Turns: 117
+
+7:58:33 | 13-01-2019
+User ID: 2617 Event ID: 1223063
+IP Address: 84.104.68.188
+New Money: 720034 Old turns: 15 | New Turns: 85
+
+9:29:01 | 13-01-2019
+User ID: 2741 Event ID: 1222683
+IP Address: 87.157.59.156
+New Money: 691882.25 Old turns: 45 | New Turns: 133
+
+10:39:51 | 13-01-2019
+User ID: 2742 Event ID: 1219968
+IP Address: 95.90.248.19
+New Money: 861118.75 Old turns: 70 | New Turns: 158
+
+14:32:18 | 13-01-2019
+User ID: 1744 Event ID: 1223060
+IP Address: 79.67.23.7
+New Money: 525181.2 Old turns: 74 | New Turns: 144
+
+15:43:05 | 13-01-2019
+User ID: 1843 Event ID: 1223408
+IP Address: 107.10.7.61
+New Money: 308612 Old turns: 33 | New Turns: 91
+
+15:52:56 | 13-01-2019
+User ID: 2134 Event ID: 1223410
+IP Address: 77.218.226.193
+New Money: 391478 Old turns: 178 | New Turns: 236
+
+15:58:15 | 13-01-2019
+User ID: 1906 Event ID: 1221220
+IP Address: 84.212.245.0
+New Money: 637261 Old turns: 107 | New Turns: 195
+
+15:58:18 | 13-01-2019
+User ID: 1906 Event ID: 1223771
+IP Address: 84.212.245.0
+New Money: 1220594 Old turns: 195 | New Turns: 283
+
+15:59:50 | 13-01-2019
+User ID: 1319 Event ID: 1223772
+IP Address: 84.105.7.54
+New Money: 857588 Old turns: 7 | New Turns: 95
+
+16:00:19 | 13-01-2019
+User ID: 1383 Event ID: 1223774
+IP Address: 84.198.164.68
+New Money: 624174.875 Old turns: 50 | New Turns: 138
+
+17:08:38 | 13-01-2019
+User ID: 2228 Event ID: 1223869
+IP Address: 81.136.91.105
+New Money: 698843.5 Old turns: 32 | New Turns: 149
+
+18:32:04 | 13-01-2019
+User ID: 1029 Event ID: 1223412
+IP Address: 78.21.193.202
+New Money: 307449 Old turns: 109 | New Turns: 167
+
+20:30:39 | 13-01-2019
+User ID: 2783 Event ID: 1222685
+IP Address: 95.91.227.145
+New Money: 804833 Old turns: 184 | New Turns: 272
+
+20:45:20 | 13-01-2019
+User ID: 1201 Event ID: 1223770
+IP Address: 31.20.23.121
+New Money: 583915.4 Old turns: 35 | New Turns: 123
+
+23:27:31 | 13-01-2019
+User ID: 1775 Event ID: 1223061
+IP Address: 82.132.185.146
+New Money: 546064.6 Old turns: 4 | New Turns: 74
+
+13:18:03 | 14-01-2019
+User ID: 1910 Event ID: 1223409
+IP Address: 94.143.189.241
+New Money: 335509 Old turns: 59 | New Turns: 117
+
+13:47:52 | 14-01-2019
+User ID: 1843 Event ID: 1225390
+IP Address: 99.203.129.137
+New Money: 797330 Old turns: 0 | New Turns: 88
+
+15:51:41 | 14-01-2019
+User ID: 2243 Event ID: 1223871
+IP Address: 82.132.219.105
+New Money: 879566 Old turns: 9 | New Turns: 126
+
+18:29:37 | 14-01-2019
+User ID: 2458 Event ID: 1222682
+IP Address: 62.158.58.59
+New Money: 621091 Old turns: 156 | New Turns: 244
+
+20:06:45 | 14-01-2019
+User ID: 1319 Event ID: 1226038
+IP Address: 84.105.7.54
+New Money: 849883 Old turns: 9 | New Turns: 97
+
+21:05:15 | 14-01-2019
+User ID: 1125 Event ID: 1223064
+IP Address: 70.15.211.218
+New Money: 379244 Old turns: 22 | New Turns: 92
+
+21:08:59 | 14-01-2019
+User ID: 615 Event ID: 1223407
+IP Address: 86.22.8.157
+New Money: 1335796.5 Old turns: 99 | New Turns: 157
+
+21:15:48 | 14-01-2019
+User ID: 2187 Event ID: 1223062
+IP Address: 172.254.160.155
+New Money: 544256.5 Old turns: 176 | New Turns: 246
+
+21:16:34 | 14-01-2019
+User ID: 2245 Event ID: 1223870
+IP Address: 213.205.241.48
+New Money: 624765 Old turns: 11 | New Turns: 128
+
+22:06:48 | 14-01-2019
+User ID: 1255 Event ID: 1225412
+IP Address: 46.59.45.198
+New Money: 569322.2 Old turns: 165 | New Turns: 253
+
+22:08:16 | 14-01-2019
+User ID: 2702 Event ID: 1225414
+IP Address: 95.199.132.29
+New Money: 544156.5 Old turns: 252 | New Turns: 340
+
+22:12:17 | 14-01-2019
+User ID: 2744 Event ID: 1222684
+IP Address: 89.15.239.100
+New Money: 829723 Old turns: 158 | New Turns: 246
+
+22:12:30 | 14-01-2019
+User ID: 1029 Event ID: 1225394
+IP Address: 78.21.193.202
+New Money: 641842 Old turns: 24 | New Turns: 112
+
+22:48:28 | 14-01-2019
+User ID: 2742 Event ID: 1222681
+IP Address: 95.90.248.19
+New Money: 763625.75 Old turns: 131 | New Turns: 219
+
+22:51:15 | 14-01-2019
+User ID: 2741 Event ID: 1226391
+IP Address: 109.41.66.84
+New Money: 587300 Old turns: 88 | New Turns: 176
+
+22:54:04 | 14-01-2019
+User ID: 1203 Event ID: 1223769
+IP Address: 82.73.59.10
+New Money: 631240 Old turns: 42 | New Turns: 130
+
+0:01:08 | 15-01-2019
+User ID: 1383 Event ID: 1226040
+IP Address: 84.198.164.68
+New Money: 585116.625 Old turns: 27 | New Turns: 115
+
+0:39:45 | 15-01-2019
+User ID: 2668 Event ID: 1223411
+IP Address: 217.120.116.239
+New Money: 493830 Old turns: 60 | New Turns: 118
+
+1:07:33 | 15-01-2019
+User ID: 2636 Event ID: 1223773
+IP Address: 85.229.16.57
+New Money: 673614 Old turns: 139 | New Turns: 227
+
+8:46:04 | 15-01-2019
+User ID: 2742 Event ID: 1226389
+IP Address: 95.90.248.19
+New Money: 796958.75 Old turns: 248 | New Turns: 336
+
+21:42:16 | 15-01-2019
+User ID: 1910 Event ID: 1225391
+IP Address: 92.48.134.101
+New Money: 1251492 Old turns: 18 | New Turns: 106
+
+2:56:58 | 16-01-2019
+User ID: 1201 Event ID: 1226036
+IP Address: 84.241.204.78
+New Money: 1361733 Old turns: 54 | New Turns: 142
+
+11:40:48 | 16-01-2019
+User ID: 2458 Event ID: 1226390
+IP Address: 80.187.108.120
+New Money: 583518.5 Old turns: 181 | New Turns: 269
+
+12:28:24 | 16-01-2019
+User ID: 2636 Event ID: 1226039
+IP Address: 130.237.241.107
+New Money: 705953.5 Old turns: 141 | New Turns: 229
+
+14:19:42 | 16-01-2019
+User ID: 1843 Event ID: 1229110
+IP Address: 99.203.128.231
+New Money: 875039 Old turns: 21 | New Turns: 109
+
+15:28:39 | 16-01-2019
+User ID: 2233 Event ID: 1226388
+IP Address: 80.187.109.112
+New Money: 635576 Old turns: 47 | New Turns: 135
+
+15:46:48 | 16-01-2019
+User ID: 2744 Event ID: 1228844
+IP Address: 139.11.229.39
+New Money: 782887 Old turns: 211 | New Turns: 299
+
+17:16:40 | 16-01-2019
+User ID: 2783 Event ID: 1226393
+IP Address: 95.91.227.145
+New Money: 584465.75 Old turns: 170 | New Turns: 258
+
+19:32:29 | 16-01-2019
+User ID: 1319 Event ID: 1228168
+IP Address: 84.105.7.54
+New Money: 1073179 Old turns: 5 | New Turns: 93
+
+21:12:12 | 16-01-2019
+User ID: 2228 Event ID: 1229483
+IP Address: 81.136.91.105
+New Money: 1351356.5 Old turns: 0 | New Turns: 175
+
+22:32:27 | 16-01-2019
+User ID: 2245 Event ID: 1229484
+IP Address: 146.198.195.180
+New Money: 1219093 Old turns: 0 | New Turns: 175
+
+23:51:28 | 16-01-2019
+User ID: 1201 Event ID: 1228166
+IP Address: 84.241.201.204
+New Money: 613255 Old turns: 41 | New Turns: 129
+
+8:13:49 | 17-01-2019
+User ID: 2636 Event ID: 1228169
+IP Address: 85.229.16.57
+New Money: 1092292.5 Old turns: 5 | New Turns: 93
+
+8:13:53 | 17-01-2019
+User ID: 2636 Event ID: 1230168
+IP Address: 85.229.16.57
+New Money: 1675625.5 Old turns: 93 | New Turns: 181
+
+8:19:09 | 17-01-2019
+User ID: 1201 Event ID: 1230165
+IP Address: 31.20.23.121
+New Money: 1296608 Old turns: 21 | New Turns: 109
+
+8:32:06 | 17-01-2019
+User ID: 2617 Event ID: 1229575
+IP Address: 192.33.238.57
+New Money: 2041995.25 Old turns: 73 | New Turns: 178
+
+8:33:43 | 17-01-2019
+User ID: 2233 Event ID: 1228840
+IP Address: 62.158.58.59
+New Money: 962934 Old turns: 110 | New Turns: 198
+
+8:38:36 | 17-01-2019
+User ID: 2742 Event ID: 1228841
+IP Address: 95.90.248.19
+New Money: 1074546.75 Old turns: 94 | New Turns: 182
+
+11:09:47 | 17-01-2019
+User ID: 1029 Event ID: 1229114
+IP Address: 81.82.231.226
+New Money: 599449 Old turns: 31 | New Turns: 119
+
+15:34:54 | 17-01-2019
+User ID: 2243 Event ID: 1229485
+IP Address: 82.132.217.72
+New Money: 1368502 Old turns: 61 | New Turns: 236
+
+21:20:49 | 17-01-2019
+User ID: 1383 Event ID: 1228170
+IP Address: 84.198.164.68
+New Money: 1008333 Old turns: 74 | New Turns: 162
+
+21:31:01 | 17-01-2019
+User ID: 1255 Event ID: 1228051
+IP Address: 46.59.45.198
+New Money: 952764.375 Old turns: 158 | New Turns: 289
+
+22:13:20 | 17-01-2019
+User ID: 1744 Event ID: 1229572
+IP Address: 82.132.218.173
+New Money: 1689664.1 Old turns: 8 | New Turns: 113
+
+22:19:39 | 17-01-2019
+User ID: 1906 Event ID: 1228167
+IP Address: 84.212.245.0
+New Money: 705697 Old turns: 10 | New Turns: 98
+
+0:12:19 | 18-01-2019
+User ID: 60 Event ID: 1231659
+IP Address: 68.41.207.181
+New Money: 1066757 Old turns: 5 | New Turns: 180
+
+0:34:51 | 18-01-2019
+User ID: 1775 Event ID: 1229573
+IP Address: 82.132.227.174
+New Money: 1045784.6 Old turns: 7 | New Turns: 112
+
+1:13:46 | 18-01-2019
+User ID: 2783 Event ID: 1228845
+IP Address: 95.91.227.145
+New Money: 755583.25 Old turns: 169 | New Turns: 257
+
+7:03:45 | 18-01-2019
+User ID: 2458 Event ID: 1228842
+IP Address: 62.158.58.59
+New Money: 667549.5 Old turns: 125 | New Turns: 213
+
+7:31:33 | 18-01-2019
+User ID: 2741 Event ID: 1228843
+IP Address: 79.202.188.253
+New Money: 640207 Old turns: 146 | New Turns: 234
+
+7:38:00 | 18-01-2019
+User ID: 615 Event ID: 1229109
+IP Address: 86.22.8.157
+New Money: 620062 Old turns: 107 | New Turns: 195
+
+9:08:01 | 18-01-2019
+User ID: 2233 Event ID: 1231483
+IP Address: 80.187.106.249
+New Money: 747873 Old turns: 74 | New Turns: 162
+
+9:26:59 | 18-01-2019
+User ID: 1910 Event ID: 1229111
+IP Address: 109.143.139.69
+New Money: 1048333 Old turns: 179 | New Turns: 267
+
+13:09:47 | 18-01-2019
+User ID: 1125 Event ID: 1229576
+IP Address: 70.15.211.218
+New Money: 841597 Old turns: 9 | New Turns: 114
+
+14:38:11 | 18-01-2019
+User ID: 2187 Event ID: 1229574
+IP Address: 68.194.241.55
+New Money: 741984.5 Old turns: 81 | New Turns: 186
+
+17:05:45 | 18-01-2019
+User ID: 1086 Event ID: 1231660
+IP Address: 188.221.248.255
+New Money: 983646.5 Old turns: 56 | New Turns: 231
+
+22:56:01 | 18-01-2019
+User ID: 1383 Event ID: 1230169
+IP Address: 94.227.236.168
+New Money: 614190 Old turns: 35 | New Turns: 123
+
+6:35:45 | 19-01-2019
+User ID: 1319 Event ID: 1230167
+IP Address: 84.105.7.54
+New Money: 1294782 Old turns: 0 | New Turns: 88
+
+11:06:24 | 19-01-2019
+User ID: 1744 Event ID: 1233107
+IP Address: 79.67.23.7
+New Money: 1283333 Old turns: 175 | New Turns: 263
+
+13:37:34 | 19-01-2019
+User ID: 2617 Event ID: 1233110
+IP Address: 213.73.157.43
+New Money: 873142.5 Old turns: 0 | New Turns: 88
+
+18:14:07 | 19-01-2019
+User ID: 2742 Event ID: 1231484
+IP Address: 89.15.237.201
+New Money: 1965679 Old turns: 70 | New Turns: 158
+
+18:19:13 | 19-01-2019
+User ID: 2458 Event ID: 1231485
+IP Address: 62.158.58.59
+New Money: 584819.25 Old turns: 115 | New Turns: 203
+
+21:07:59 | 19-01-2019
+User ID: 2741 Event ID: 1231486
+IP Address: 109.41.65.15
+New Money: 848595 Old turns: 28 | New Turns: 116
+
+21:12:02 | 19-01-2019
+User ID: 2783 Event ID: 1231488
+IP Address: 95.112.16.109
+New Money: 787684.25 Old turns: 105 | New Turns: 193
+
+23:01:43 | 19-01-2019
+User ID: 2228 Event ID: 1234529
+IP Address: 86.163.57.49
+New Money: 1167873.4 Old turns: 13 | New Turns: 188
+
+23:51:18 | 19-01-2019
+User ID: 1319 Event ID: 1234749
+IP Address: 84.105.7.54
+New Money: 953575 Old turns: 2 | New Turns: 90
+
+1:09:33 | 20-01-2019
+User ID: 2243 Event ID: 1234531
+IP Address: 82.16.222.77
+New Money: 1202020 Old turns: 10 | New Turns: 185
+
+12:04:27 | 20-01-2019
+User ID: 2245 Event ID: 1234530
+IP Address: 143.159.0.141
+New Money: 1232278.4 Old turns: 60 | New Turns: 235
+
+12:08:52 | 20-01-2019
+User ID: 2741 Event ID: 1234706
+IP Address: 109.41.67.69
+New Money: 849048.5 Old turns: 33 | New Turns: 121
+
+12:17:56 | 20-01-2019
+User ID: 2233 Event ID: 1234703
+IP Address: 95.91.227.64
+New Money: 682835 Old turns: 36 | New Turns: 124
+
+13:46:30 | 20-01-2019
+User ID: 1125 Event ID: 1233111
+IP Address: 70.15.211.218
+New Money: 588318 Old turns: 69 | New Turns: 157
+
+14:51:07 | 20-01-2019
+User ID: 1775 Event ID: 1233108
+IP Address: 82.132.243.191
+New Money: 991585.7 Old turns: 0 | New Turns: 88
+
+18:11:44 | 20-01-2019
+User ID: 2723 Event ID: 1233945
+IP Address: 111.71.54.243
+New Money: 1299817 Old turns: 62 | New Turns: 237
+
+18:16:17 | 20-01-2019
+User ID: 2714 Event ID: 1233944
+IP Address: 220.128.232.8
+New Money: 1146385.25 Old turns: 38 | New Turns: 213
+
+19:16:14 | 20-01-2019
+User ID: 2187 Event ID: 1233109
+IP Address: 68.194.241.55
+New Money: 840619.5 Old turns: 138 | New Turns: 226
+
+20:01:24 | 20-01-2019
+User ID: 2553 Event ID: 1233112
+IP Address: 188.207.110.237
+New Money: 728333.5 Old turns: 76 | New Turns: 164
+
+22:45:04 | 20-01-2019
+User ID: 2800 Event ID: 1236031
+IP Address: 86.87.0.141
+New Money: 488065 Old turns: 117 | New Turns: 205
+
+6:15:25 | 21-01-2019
+User ID: 1203 Event ID: 1234746
+IP Address: 62.72.192.78
+New Money: 583871.8 Old turns: 115 | New Turns: 203
+
+6:30:10 | 21-01-2019
+User ID: 2636 Event ID: 1234750
+IP Address: 85.229.16.57
+New Money: 927352.5 Old turns: 14 | New Turns: 102
+
+8:29:13 | 21-01-2019
+User ID: 1201 Event ID: 1234747
+IP Address: 31.20.23.121
+New Money: 1018763.85 Old turns: 35 | New Turns: 123
+
+8:35:18 | 21-01-2019
+User ID: 1383 Event ID: 1234751
+IP Address: 94.227.236.168
+New Money: 704056.5 Old turns: 22 | New Turns: 110
+
+8:35:54 | 21-01-2019
+User ID: 1906 Event ID: 1234748
+IP Address: 84.212.245.0
+New Money: 1848564 Old turns: 112 | New Turns: 200
+
+8:37:10 | 21-01-2019
+User ID: 2458 Event ID: 1234705
+IP Address: 80.187.110.246
+New Money: 2031033.25 Old turns: 112 | New Turns: 200
+
+8:40:17 | 21-01-2019
+User ID: 1319 Event ID: 1237413
+IP Address: 62.140.132.55
+New Money: 902545 Old turns: 30 | New Turns: 118
+
+8:40:55 | 21-01-2019
+User ID: 1201 Event ID: 1237411
+IP Address: 31.20.23.121
+New Money: 592622.85 Old turns: 52 | New Turns: 140
+
+8:43:33 | 21-01-2019
+User ID: 2636 Event ID: 1237414
+IP Address: 217.214.150.236
+New Money: 604115.5 Old turns: 24 | New Turns: 112
+
+8:56:06 | 21-01-2019
+User ID: 1203 Event ID: 1237410
+IP Address: 82.73.59.10
+New Money: 583391.8 Old turns: 59 | New Turns: 147
+
+9:15:05 | 21-01-2019
+User ID: 2790 Event ID: 1237479
+IP Address: 81.232.1.55
+New Money: 1868458 Old turns: 9 | New Turns: 359
+
+10:57:34 | 21-01-2019
+User ID: 2742 Event ID: 1234704
+IP Address: 95.90.248.19
+New Money: 728257 Old turns: 58 | New Turns: 146
+
+13:46:41 | 21-01-2019
+User ID: 1843 Event ID: 1237852
+IP Address: 99.203.0.45
+New Money: 842294 Old turns: 124 | New Turns: 212
+
+14:14:33 | 21-01-2019
+User ID: 2744 Event ID: 1234707
+IP Address: 77.20.254.245
+New Money: 737996 Old turns: 28 | New Turns: 116
+
+18:42:15 | 21-01-2019
+User ID: 2744 Event ID: 1238182
+IP Address: 77.20.254.245
+New Money: 775959 Old turns: 69 | New Turns: 157
+
+19:59:07 | 21-01-2019
+User ID: 1906 Event ID: 1237412
+IP Address: 84.212.245.0
+New Money: 599994 Old turns: 93 | New Turns: 181
+
+20:41:21 | 21-01-2019
+User ID: 2741 Event ID: 1238181
+IP Address: 109.41.65.167
+New Money: 722944.5 Old turns: 11 | New Turns: 99
+
+21:23:22 | 21-01-2019
+User ID: 1910 Event ID: 1237853
+IP Address: 109.140.171.74
+New Money: 583499 Old turns: 16 | New Turns: 104
+
+22:21:42 | 21-01-2019
+User ID: 2792 Event ID: 1236033
+IP Address: 81.231.125.18
+New Money: 485769 Old turns: 134 | New Turns: 222
+
+4:28:06 | 22-01-2019
+User ID: 2799 Event ID: 1236032
+IP Address: 62.238.13.151
+New Money: 720732 Old turns: 85 | New Turns: 173
+
+6:10:54 | 22-01-2019
+User ID: 2723 Event ID: 1236974
+IP Address: 59.124.69.228
+New Money: 1756284.5 Old turns: 50 | New Turns: 313
+
+6:15:41 | 22-01-2019
+User ID: 2714 Event ID: 1236973
+IP Address: 59.124.69.228
+New Money: 3056728.75 Old turns: 92 | New Turns: 355
+
+6:16:53 | 22-01-2019
+User ID: 1383 Event ID: 1237415
+IP Address: 94.227.236.168
+New Money: 651021.4 Old turns: 42 | New Turns: 130
+
+6:29:18 | 22-01-2019
+User ID: 2636 Event ID: 1239077
+IP Address: 85.229.16.57
+New Money: 1572678 Old turns: 43 | New Turns: 131
+
+6:34:10 | 22-01-2019
+User ID: 1203 Event ID: 1239073
+IP Address: 62.140.132.5
+New Money: 693301.8 Old turns: 1 | New Turns: 89
+
+7:36:03 | 22-01-2019
+User ID: 1201 Event ID: 1239074
+IP Address: 31.20.23.121
+New Money: 584372.05 Old turns: 9 | New Turns: 97
+
+7:54:54 | 22-01-2019
+User ID: 2809 Event ID: 1236034
+IP Address: 89.200.43.238
+New Money: 472021 Old turns: 71 | New Turns: 159
+
+8:18:41 | 22-01-2019
+User ID: 1319 Event ID: 1239076
+IP Address: 62.72.192.88
+New Money: 988433.5 Old turns: 3 | New Turns: 91
+
+10:33:51 | 22-01-2019
+User ID: 2458 Event ID: 1238180
+IP Address: 62.158.58.59
+New Money: 838688.25 Old turns: 2 | New Turns: 90
+
+11:02:26 | 22-01-2019
+User ID: 615 Event ID: 1237851
+IP Address: 82.132.212.55
+New Money: 722585.5 Old turns: 106 | New Turns: 194
+
+11:04:48 | 22-01-2019
+User ID: 1029 Event ID: 1237856
+IP Address: 81.82.231.226
+New Money: 668289.2 Old turns: 23 | New Turns: 111
+
+11:12:24 | 22-01-2019
+User ID: 2800 Event ID: 1239216
+IP Address: 86.87.0.141
+New Money: 708326 Old turns: 5 | New Turns: 93
+
+15:12:13 | 22-01-2019
+User ID: 2799 Event ID: 1239217
+IP Address: 62.238.13.151
+New Money: 1584458 Old turns: 65 | New Turns: 153
+
+16:14:09 | 22-01-2019
+User ID: 1383 Event ID: 1239078
+IP Address: 94.227.236.168
+New Money: 1554862.6 Old turns: 4 | New Turns: 92
+
+16:16:03 | 22-01-2019
+User ID: 2815 Event ID: 1239221
+IP Address: 86.87.0.141
+New Money: 683333 Old turns: 172 | New Turns: 260
+
+23:02:26 | 22-01-2019
+User ID: 2636 Event ID: 1240723
+IP Address: 217.214.150.236
+New Money: 707462 Old turns: 113 | New Turns: 201
+
+23:07:17 | 22-01-2019
+User ID: 2134 Event ID: 1237854
+IP Address: 77.218.242.142
+New Money: 785411 Old turns: 117 | New Turns: 205
+
+9:57:06 | 23-01-2019
+User ID: 2783 Event ID: 1238183
+IP Address: 95.91.227.145
+New Money: 605816 Old turns: 126 | New Turns: 214
+
+11:39:58 | 23-01-2019
+User ID: 1910 Event ID: 1241517
+IP Address: 94.143.189.241
+New Money: 629456 Old turns: 16 | New Turns: 104
+
+12:44:32 | 23-01-2019
+User ID: 2233 Event ID: 1238178
+IP Address: 46.254.121.164
+New Money: 812815 Old turns: 8 | New Turns: 96
+
+12:58:50 | 23-01-2019
+User ID: 1906 Event ID: 1239075
+IP Address: 84.212.245.0
+New Money: 597766 Old turns: 2 | New Turns: 90
+
+13:38:30 | 23-01-2019
+User ID: 2809 Event ID: 1239219
+IP Address: 89.200.43.238
+New Money: 913770.5 Old turns: 52 | New Turns: 140
+
+15:21:35 | 23-01-2019
+User ID: 615 Event ID: 1241515
+IP Address: 81.153.11.203
+New Money: 900250 Old turns: 40 | New Turns: 128
+
+19:44:06 | 23-01-2019
+User ID: 2811 Event ID: 1239220
+IP Address: 188.206.73.181
+New Money: 791990.2 Old turns: 145 | New Turns: 233
+
+22:47:56 | 23-01-2019
+User ID: 1203 Event ID: 1240719
+IP Address: 62.140.132.5
+New Money: 845511.3 Old turns: 2 | New Turns: 90
+
+22:57:11 | 23-01-2019
+User ID: 2636 Event ID: 1242140
+IP Address: 85.229.16.57
+New Money: 596982 Old turns: 99 | New Turns: 187
+
+7:22:03 | 24-01-2019
+User ID: 2744 Event ID: 1242871
+IP Address: 77.20.254.245
+New Money: 609661.9 Old turns: 76 | New Turns: 164
+
+8:45:42 | 24-01-2019
+User ID: 2233 Event ID: 1242867
+IP Address: 46.254.121.164
+New Money: 663312 Old turns: 67 | New Turns: 155
+
+9:01:43 | 24-01-2019
+User ID: 1383 Event ID: 1240724
+IP Address: 94.227.236.168
+New Money: 583947.85 Old turns: 0 | New Turns: 88
+
+13:07:51 | 24-01-2019
+User ID: 2243 Event ID: 1243428
+IP Address: 82.132.238.153
+New Money: 1291667 Old turns: 2 | New Turns: 177
+
+14:06:01 | 24-01-2019
+User ID: 1843 Event ID: 1241516
+IP Address: 99.203.1.248
+New Money: 612614 Old turns: 62 | New Turns: 150
+
+16:55:22 | 24-01-2019
+User ID: 1201 Event ID: 1240720
+IP Address: 84.241.194.59
+New Money: 1203173.85 Old turns: 12 | New Turns: 100
+
+17:25:32 | 24-01-2019
+User ID: 2228 Event ID: 1243426
+IP Address: 82.132.225.89
+New Money: 1866667 Old turns: 146 | New Turns: 321
+
+18:55:43 | 24-01-2019
+User ID: 2783 Event ID: 1242872
+IP Address: 95.91.227.145
+New Money: 584769 Old turns: 72 | New Turns: 160
+
+18:56:24 | 24-01-2019
+User ID: 2741 Event ID: 1242870
+IP Address: 79.202.188.253
+New Money: 674672.5 Old turns: 6 | New Turns: 94
+
+20:55:09 | 24-01-2019
+User ID: 1319 Event ID: 1240722
+IP Address: 84.105.7.54
+New Money: 2834739 Old turns: 22 | New Turns: 110
+
+21:43:18 | 24-01-2019
+User ID: 2617 Event ID: 1244198
+IP Address: 84.104.68.188
+New Money: 1793053 Old turns: 56 | New Turns: 144
+
+22:49:40 | 24-01-2019
+User ID: 2245 Event ID: 1243427
+IP Address: 143.159.0.141
+New Money: 1184108.9 Old turns: 31 | New Turns: 206
+
+22:59:34 | 24-01-2019
+User ID: 1775 Event ID: 1244196
+IP Address: 82.132.228.10
+New Money: 691192.2 Old turns: 2 | New Turns: 90
+
+23:59:59 | 24-01-2019
+User ID: 2553 Event ID: 1244200
+IP Address: 83.247.33.185
+New Money: 585540 Old turns: 31 | New Turns: 119
+
+7:47:32 | 25-01-2019
+User ID: 2458 Event ID: 1242869
+IP Address: 80.187.108.17
+New Money: 807891.25 Old turns: 4 | New Turns: 92
+
+8:55:55 | 25-01-2019
+User ID: 1744 Event ID: 1244195
+IP Address: 79.67.23.7
+New Money: 1966222.4 Old turns: 26 | New Turns: 114
+
+9:00:21 | 25-01-2019
+User ID: 1203 Event ID: 1242136
+IP Address: 82.73.59.10
+New Money: 1491899.3 Old turns: 35 | New Turns: 123
+
+9:07:17 | 25-01-2019
+User ID: 1319 Event ID: 1242139
+IP Address: 62.72.192.88
+New Money: 647319.7 Old turns: 39 | New Turns: 127
+
+9:07:19 | 25-01-2019
+User ID: 1201 Event ID: 1242137
+IP Address: 84.241.200.100
+New Money: 1103552.85 Old turns: 67 | New Turns: 155
+
+9:07:39 | 25-01-2019
+User ID: 1383 Event ID: 1242141
+IP Address: 94.227.236.168
+New Money: 1600926.525 Old turns: 36 | New Turns: 124
+
+9:31:24 | 25-01-2019
+User ID: 2742 Event ID: 1242868
+IP Address: 95.90.248.19
+New Money: 666151 Old turns: 44 | New Turns: 132
+
+9:34:58 | 25-01-2019
+User ID: 2233 Event ID: 1245115
+IP Address: 62.158.58.59
+New Money: 615244.5 Old turns: 15 | New Turns: 103
+
+9:37:14 | 25-01-2019
+User ID: 1383 Event ID: 1245070
+IP Address: 94.227.236.168
+New Money: 585301.525 Old turns: 7 | New Turns: 95
+
+11:04:48 | 25-01-2019
+User ID: 1029 Event ID: 1241520
+IP Address: 81.82.231.226
+New Money: 691374.2 Old turns: 86 | New Turns: 174
+
+11:15:25 | 25-01-2019
+User ID: 2668 Event ID: 1241519
+IP Address: 217.120.116.239
+New Money: 896474 Old turns: 88 | New Turns: 176
+
+11:41:55 | 25-01-2019
+User ID: 2742 Event ID: 1245116
+IP Address: 95.90.248.19
+New Money: 814687 Old turns: 85 | New Turns: 173
+
+11:51:15 | 25-01-2019
+User ID: 2458 Event ID: 1245117
+IP Address: 46.254.121.164
+New Money: 854474.25 Old turns: 39 | New Turns: 127
+
+11:52:07 | 25-01-2019
+User ID: 2636 Event ID: 1245069
+IP Address: 85.229.16.57
+New Money: 805300 Old turns: 80 | New Turns: 168
+
+11:54:45 | 25-01-2019
+User ID: 1201 Event ID: 1245066
+IP Address: 84.241.200.100
+New Money: 588629.85 Old turns: 44 | New Turns: 132
+
+11:55:24 | 25-01-2019
+User ID: 1203 Event ID: 1245065
+IP Address: 62.72.192.84
+New Money: 598384.3 Old turns: 36 | New Turns: 124
+
+13:01:42 | 25-01-2019
+User ID: 2744 Event ID: 1245119
+IP Address: 77.20.254.245
+New Money: 753239.9 Old turns: 28 | New Turns: 116
+
+14:33:19 | 25-01-2019
+User ID: 1319 Event ID: 1245068
+IP Address: 62.72.192.88
+New Money: 751892.7 Old turns: 38 | New Turns: 126
+
+21:37:36 | 25-01-2019
+User ID: 1910 Event ID: 1246136
+IP Address: 91.181.126.246
+New Money: 662887 Old turns: 16 | New Turns: 104
+
+21:47:08 | 25-01-2019
+User ID: 1843 Event ID: 1246135
+IP Address: 107.10.7.61
+New Money: 597287 Old turns: 119 | New Turns: 207
+
+9:42:26 | 26-01-2019
+User ID: 1383 Event ID: 1246681
+IP Address: 94.227.236.168
+New Money: 758323.525 Old turns: 42 | New Turns: 130
+
+14:02:56 | 26-01-2019
+User ID: 2187 Event ID: 1244197
+IP Address: 68.198.68.56
+New Money: 621939 Old turns: 117 | New Turns: 205
+
+15:48:08 | 26-01-2019
+User ID: 615 Event ID: 1246134
+IP Address: 86.26.238.142
+New Money: 987089.325 Old turns: 47 | New Turns: 135
+
+15:51:42 | 26-01-2019
+User ID: 2134 Event ID: 1246137
+IP Address: 77.218.228.155
+New Money: 583551.5 Old turns: 204 | New Turns: 292
+
+17:17:44 | 26-01-2019
+User ID: 1203 Event ID: 1246676
+IP Address: 62.72.192.114
+New Money: 890823.3 Old turns: 0 | New Turns: 88
+
+18:07:01 | 26-01-2019
+User ID: 1319 Event ID: 1246679
+IP Address: 84.105.7.54
+New Money: 800552.2 Old turns: 6 | New Turns: 94
+
+18:15:51 | 26-01-2019
+User ID: 1201 Event ID: 1246677
+IP Address: 31.20.23.238
+New Money: 1062187 Old turns: 27 | New Turns: 115
+
+18:27:19 | 26-01-2019
+User ID: 1125 Event ID: 1244199
+IP Address: 107.77.204.31
+New Money: 621409 Old turns: 55 | New Turns: 143
+
+21:38:43 | 26-01-2019
+User ID: 2741 Event ID: 1245118
+IP Address: 109.41.65.17
+New Money: 761633 Old turns: 103 | New Turns: 191
+
+0:12:13 | 27-01-2019
+User ID: 1906 Event ID: 1245067
+IP Address: 84.212.245.0
+New Money: 649370 Old turns: 176 | New Turns: 264
+
+0:12:16 | 27-01-2019
+User ID: 1906 Event ID: 1246678
+IP Address: 84.212.245.0
+New Money: 1232703 Old turns: 264 | New Turns: 352
+
+1:51:25 | 27-01-2019
+User ID: 1775 Event ID: 1247824
+IP Address: 82.132.235.109
+New Money: 588539.2 Old turns: 30 | New Turns: 118
+
+5:47:51 | 27-01-2019
+User ID: 2187 Event ID: 1247825
+IP Address: 68.198.68.56
+New Money: 693933 Old turns: 0 | New Turns: 88
+
+7:33:41 | 27-01-2019
+User ID: 2714 Event ID: 1247154
+IP Address: 61.6.123.185
+New Money: 1946457.5 Old turns: 20 | New Turns: 283
+
+7:43:24 | 27-01-2019
+User ID: 2553 Event ID: 1247828
+IP Address: 83.247.33.185
+New Money: 933705 Old turns: 100 | New Turns: 188
+
+8:24:30 | 27-01-2019
+User ID: 1029 Event ID: 1246139
+IP Address: 78.21.193.202
+New Money: 585032.2 Old turns: 43 | New Turns: 131
+
+8:36:32 | 27-01-2019
+User ID: 2617 Event ID: 1247826
+IP Address: 84.104.68.188
+New Money: 2276222.5 Old turns: 73 | New Turns: 161
+
+12:02:20 | 27-01-2019
+User ID: 2723 Event ID: 1247155
+IP Address: 203.121.55.2
+New Money: 2952917 Old turns: 5 | New Turns: 268
+
+15:27:15 | 27-01-2019
+User ID: 1744 Event ID: 1247823
+IP Address: 79.67.23.7
+New Money: 659690.4 Old turns: 1 | New Turns: 89
+
+16:18:31 | 27-01-2019
+User ID: 1443 Event ID: 1246771
+IP Address: 1.47.44.192
+New Money: 2614637 Old turns: 93 | New Turns: 443
+
+6:44:21 | 28-01-2019
+User ID: 1201 Event ID: 1248895
+IP Address: 84.241.194.65
+New Money: 798208 Old turns: 21 | New Turns: 109
+
+9:01:07 | 28-01-2019
+User ID: 1383 Event ID: 1248899
+IP Address: 94.227.236.168
+New Money: 663398.275 Old turns: 27 | New Turns: 115
+
+9:01:28 | 28-01-2019
+User ID: 2636 Event ID: 1246680
+IP Address: 217.214.146.139
+New Money: 1385767 Old turns: 23 | New Turns: 111
+
+9:44:03 | 28-01-2019
+User ID: 1952 Event ID: 1247178
+IP Address: 1.127.110.201
+New Money: 886832 Old turns: 11 | New Turns: 186
+
+9:46:31 | 28-01-2019
+User ID: 1910 Event ID: 1250184
+IP Address: 109.139.246.101
+New Money: 585793 Old turns: 183 | New Turns: 271
+
+11:02:31 | 28-01-2019
+User ID: 615 Event ID: 1250182
+IP Address: 81.153.11.203
+New Money: 746315.825 Old turns: 75 | New Turns: 163
+
+12:22:30 | 28-01-2019
+User ID: 1319 Event ID: 1248897
+IP Address: 62.140.132.71
+New Money: 636403.4 Old turns: 32 | New Turns: 120
+
+13:00:41 | 28-01-2019
+User ID: 1953 Event ID: 1247177
+IP Address: 120.20.50.48
+New Money: 1058344 Old turns: 2 | New Turns: 177
+
+17:06:06 | 28-01-2019
+User ID: 1125 Event ID: 1247827
+IP Address: 70.15.211.218
+New Money: 626915 Old turns: 12 | New Turns: 100
+
+18:56:26 | 28-01-2019
+User ID: 1906 Event ID: 1248896
+IP Address: 84.212.245.0
+New Money: 602417.5 Old turns: 152 | New Turns: 240
+
+5:26:18 | 29-01-2019
+User ID: 60 Event ID: 1251618
+IP Address: 68.41.207.181
+New Money: 1854088 Old turns: 1 | New Turns: 264
+
+8:07:42 | 29-01-2019
+User ID: 1029 Event ID: 1250187
+IP Address: 109.140.205.25
+New Money: 598608.7 Old turns: 86 | New Turns: 174
+
+14:06:06 | 29-01-2019
+User ID: 1086 Event ID: 1251619
+IP Address: 94.192.194.164
+New Money: 1883236.5 Old turns: 55 | New Turns: 318
+
+15:57:04 | 29-01-2019
+User ID: 2553 Event ID: 1252218
+IP Address: 83.247.33.185
+New Money: 829388 Old turns: 81 | New Turns: 169
+
+16:24:42 | 29-01-2019
+User ID: 2741 Event ID: 1252514
+IP Address: 109.41.67.66
+New Money: 603287.5 Old turns: 96 | New Turns: 184
+
+16:26:38 | 29-01-2019
+User ID: 1251 Event ID: 1249130
+IP Address: 217.214.149.69
+New Money: 1479172.3 Old turns: 256 | New Turns: 387
+
+16:29:47 | 29-01-2019
+User ID: 2702 Event ID: 1249128
+IP Address: 95.195.212.123
+New Money: 1029457.675 Old turns: 272 | New Turns: 403
+
+16:59:37 | 29-01-2019
+User ID: 1775 Event ID: 1252214
+IP Address: 82.132.234.207
+New Money: 685399.4 Old turns: 10 | New Turns: 98
+
+21:19:05 | 29-01-2019
+User ID: 1843 Event ID: 1250183
+IP Address: 99.203.128.35
+New Money: 928964.5 Old turns: 83 | New Turns: 171
+
+5:32:49 | 30-01-2019
+User ID: 1744 Event ID: 1252213
+IP Address: 79.67.23.7
+New Money: 813557.8 Old turns: 19 | New Turns: 107
+
+8:37:42 | 30-01-2019
+User ID: 2134 Event ID: 1250185
+IP Address: 77.218.228.155
+New Money: 880099.5 Old turns: 120 | New Turns: 208
+
+9:13:16 | 30-01-2019
+User ID: 1125 Event ID: 1252217
+IP Address: 70.15.211.218
+New Money: 902150.5 Old turns: 35 | New Turns: 123
+
+18:45:07 | 30-01-2019
+User ID: 2617 Event ID: 1252216
+IP Address: 84.104.68.188
+New Money: 1851349.1 Old turns: 70 | New Turns: 158
+
+19:31:26 | 30-01-2019
+User ID: 2458 Event ID: 1252513
+IP Address: 80.187.85.215
+New Money: 728635 Old turns: 11 | New Turns: 99
+
+22:34:51 | 30-01-2019
+User ID: 2799 Event ID: 1254513
+IP Address: 62.238.13.151
+New Money: 1804960 Old turns: 116 | New Turns: 204
+
+8:14:15 | 31-01-2019
+User ID: 1255 Event ID: 1255132
+IP Address: 94.191.140.181
+New Money: 1025895.675 Old turns: 98 | New Turns: 229
+
+9:06:28 | 31-01-2019
+User ID: 25 Event ID: 1255130
+IP Address: 90.227.199.103
+New Money: 882307.6 Old turns: 1 | New Turns: 132
+
+9:32:19 | 31-01-2019
+User ID: 2233 Event ID: 1252511
+IP Address: 62.158.58.59
+New Money: 832528.4 Old turns: 55 | New Turns: 143
+
+9:41:37 | 31-01-2019
+User ID: 1319 Event ID: 1254896
+IP Address: 62.140.132.0
+New Money: 1639790.9 Old turns: 173 | New Turns: 261
+
+12:04:56 | 31-01-2019
+User ID: 2702 Event ID: 1255129
+IP Address: 95.199.142.109
+New Money: 1856500.175 Old turns: 0 | New Turns: 131
+
+13:01:33 | 31-01-2019
+User ID: 2187 Event ID: 1252215
+IP Address: 68.198.68.56
+New Money: 1143220.1 Old turns: 81 | New Turns: 169
+
+13:04:09 | 31-01-2019
+User ID: 2744 Event ID: 1252515
+IP Address: 77.20.254.203
+New Money: 1128270.15 Old turns: 114 | New Turns: 202
+
+13:12:19 | 31-01-2019
+User ID: 2744 Event ID: 1256256
+IP Address: 77.20.254.203
+New Money: 678481.15 Old turns: 117 | New Turns: 205
+
+13:17:19 | 31-01-2019
+User ID: 2742 Event ID: 1252512
+IP Address: 95.90.248.19
+New Money: 635031.25 Old turns: 38 | New Turns: 126
+
+19:45:48 | 31-01-2019
+User ID: 1443 Event ID: 1254006
+IP Address: 1.47.15.114
+New Money: 4334218 Old turns: 7 | New Turns: 532
+
+0:56:26 | 01-02-2019
+User ID: 2815 Event ID: 1254517
+IP Address: 86.87.0.141
+New Money: 748333 Old turns: 47 | New Turns: 135
+
+14:18:11 | 01-02-2019
+User ID: 2617 Event ID: 1258126
+IP Address: 192.33.238.49
+New Money: 588718.1 Old turns: 56 | New Turns: 144
+
+16:08:10 | 01-02-2019
+User ID: 2553 Event ID: 1258128
+IP Address: 188.206.108.249
+New Money: 759488.45 Old turns: 25 | New Turns: 113
+
+17:07:32 | 01-02-2019
+User ID: 2636 Event ID: 1254897
+IP Address: 85.229.16.57
+New Money: 4706460 Old turns: 36 | New Turns: 124
+
+17:11:02 | 01-02-2019
+User ID: 2636 Event ID: 1258171
+IP Address: 85.229.16.57
+New Money: 4647836 Old turns: 7 | New Turns: 95
+
+17:23:38 | 01-02-2019
+User ID: 1251 Event ID: 1255131
+IP Address: 155.4.128.196
+New Money: 890872.1 Old turns: 130 | New Turns: 261
+
+19:55:20 | 01-02-2019
+User ID: 1906 Event ID: 1254895
+IP Address: 84.212.241.21
+New Money: 645621.5 Old turns: 177 | New Turns: 265
+
+20:00:29 | 01-02-2019
+User ID: 1775 Event ID: 1258124
+IP Address: 82.132.216.145
+New Money: 671711.6 Old turns: 2 | New Turns: 90
+
+20:04:38 | 01-02-2019
+User ID: 2228 Event ID: 1258590
+IP Address: 86.163.57.49
+New Money: 1237004.4 Old turns: 11 | New Turns: 186
+
+20:11:57 | 01-02-2019
+User ID: 2243 Event ID: 1258592
+IP Address: 82.132.245.181
+New Money: 2022703 Old turns: 11 | New Turns: 186
+
+21:40:39 | 01-02-2019
+User ID: 2245 Event ID: 1258591
+IP Address: 143.159.0.141
+New Money: 1327659.1 Old turns: 15 | New Turns: 190
+
+9:43:45 | 02-02-2019
+User ID: 2741 Event ID: 1256255
+IP Address: 109.41.65.27
+New Money: 583333.5 Old turns: 149 | New Turns: 237
+
+12:11:09 | 02-02-2019
+User ID: 1744 Event ID: 1258123
+IP Address: 79.67.23.7
+New Money: 1629581.5 Old turns: 24 | New Turns: 112
+
+12:40:27 | 02-02-2019
+User ID: 1400 Event ID: 1256388
+IP Address: 62.156.35.190
+New Money: 2198358 Old turns: 200 | New Turns: 550
+
+15:22:45 | 02-02-2019
+User ID: 1383 Event ID: 1258172
+IP Address: 94.227.236.168
+New Money: 584299.875 Old turns: 3 | New Turns: 91
+
+15:46:45 | 02-02-2019
+User ID: 1201 Event ID: 1258168
+IP Address: 31.20.23.121
+New Money: 602652.3 Old turns: 73 | New Turns: 161
+
+17:42:35 | 02-02-2019
+User ID: 1906 Event ID: 1258169
+IP Address: 84.212.241.21
+New Money: 1630933 Old turns: 145 | New Turns: 233
+
+17:45:18 | 02-02-2019
+User ID: 1203 Event ID: 1258167
+IP Address: 82.73.59.10
+New Money: 600865.3 Old turns: 83 | New Turns: 171
+
+17:47:00 | 02-02-2019
+User ID: 1319 Event ID: 1258170
+IP Address: 83.87.73.59
+New Money: 598497.4 Old turns: 57 | New Turns: 145
+
+17:51:54 | 02-02-2019
+User ID: 2636 Event ID: 1260005
+IP Address: 85.229.16.57
+New Money: 763285.9 Old turns: 2 | New Turns: 90
+
+19:32:32 | 02-02-2019
+User ID: 1906 Event ID: 1260003
+IP Address: 84.212.241.21
+New Money: 609241 Old turns: 151 | New Turns: 239
+
+21:34:10 | 02-02-2019
+User ID: 1201 Event ID: 1260002
+IP Address: 31.20.23.121
+New Money: 720849.3 Old turns: 0 | New Turns: 88
+
+2:48:06 | 03-02-2019
+User ID: 1125 Event ID: 1258127
+IP Address: 70.15.211.218
+New Money: 790939.5 Old turns: 1 | New Turns: 89
+
+10:56:01 | 03-02-2019
+User ID: 1319 Event ID: 1260004
+IP Address: 84.105.7.54
+New Money: 1276010.4 Old turns: 61 | New Turns: 149
+
+10:58:04 | 03-02-2019
+User ID: 1383 Event ID: 1260006
+IP Address: 94.227.236.168
+New Money: 618397.825 Old turns: 17 | New Turns: 105
+
+10:58:24 | 03-02-2019
+User ID: 1203 Event ID: 1260001
+IP Address: 82.73.59.10
+New Money: 586890.3 Old turns: 103 | New Turns: 191
+
+14:07:23 | 03-02-2019
+User ID: 2553 Event ID: 1260990
+IP Address: 83.247.33.185
+New Money: 882262.2 Old turns: 14 | New Turns: 102
+
+18:50:26 | 03-02-2019
+User ID: 2617 Event ID: 1260988
+IP Address: 84.104.68.188
+New Money: 813825.1 Old turns: 1 | New Turns: 89
+
+22:10:16 | 03-02-2019
+User ID: 2134 Event ID: 1261555
+IP Address: 77.218.254.36
+New Money: 685681.05 Old turns: 22 | New Turns: 110
+
+22:23:31 | 03-02-2019
+User ID: 1843 Event ID: 1261553
+IP Address: 99.203.128.73
+New Money: 611684 Old turns: 5 | New Turns: 93
+
+0:48:39 | 04-02-2019
+User ID: 1775 Event ID: 1260986
+IP Address: 82.132.215.72
+New Money: 814667.6 Old turns: 20 | New Turns: 108
+
+7:21:24 | 04-02-2019
+User ID: 1910 Event ID: 1261554
+IP Address: 91.181.116.186
+New Money: 647669 Old turns: 8 | New Turns: 96
+
+8:15:59 | 04-02-2019
+User ID: 1029 Event ID: 1261557
+IP Address: 109.140.0.38
+New Money: 688333 Old turns: 72 | New Turns: 160
+
+11:39:46 | 04-02-2019
+User ID: 1125 Event ID: 1260989
+IP Address: 70.15.211.218
+New Money: 984021.5 Old turns: 3 | New Turns: 91
+
+12:02:18 | 04-02-2019
+User ID: 1744 Event ID: 1260985
+IP Address: 82.132.214.135
+New Money: 589786.5 Old turns: 1 | New Turns: 89
+
+12:18:10 | 04-02-2019
+User ID: 2617 Event ID: 1262370
+IP Address: 192.33.238.57
+New Money: 1115237.1 Old turns: 62 | New Turns: 150
+
+12:42:53 | 04-02-2019
+User ID: 2553 Event ID: 1262372
+IP Address: 83.247.33.185
+New Money: 620499.7 Old turns: 0 | New Turns: 88
+
+18:05:14 | 04-02-2019
+User ID: 615 Event ID: 1261552
+IP Address: 86.22.8.157
+New Money: 1453333 Old turns: 278 | New Turns: 366
+
+18:18:47 | 04-02-2019
+User ID: 1775 Event ID: 1262368
+IP Address: 82.132.231.204
+New Money: 583733.6 Old turns: 40 | New Turns: 128
+
+21:02:04 | 04-02-2019
+User ID: 2187 Event ID: 1260987
+IP Address: 172.254.160.155
+New Money: 1111289.6 Old turns: 19 | New Turns: 107
+
+5:59:09 | 05-02-2019
+User ID: 1255 Event ID: 1263720
+IP Address: 46.59.45.198
+New Money: 926808.725 Old turns: 13 | New Turns: 144
+
+7:13:20 | 05-02-2019
+User ID: 2243 Event ID: 1263872
+IP Address: 82.16.222.77
+New Money: 1573355 Old turns: 16 | New Turns: 191
+
+7:26:57 | 05-02-2019
+User ID: 2187 Event ID: 1262369
+IP Address: 68.198.68.56
+New Money: 1535764.6 Old turns: 19 | New Turns: 107
+
+10:51:42 | 05-02-2019
+User ID: 2245 Event ID: 1263871
+IP Address: 82.132.219.163
+New Money: 1180239.6 Old turns: 36 | New Turns: 211
+
+12:29:17 | 05-02-2019
+User ID: 1125 Event ID: 1262371
+IP Address: 70.15.211.218
+New Money: 692758.5 Old turns: 0 | New Turns: 88
+
+12:31:53 | 05-02-2019
+User ID: 2702 Event ID: 1263717
+IP Address: 95.195.214.180
+New Money: 1477474.925 Old turns: 2 | New Turns: 133
+
+18:06:12 | 05-02-2019
+User ID: 2553 Event ID: 1264662
+IP Address: 83.247.33.185
+New Money: 656615.2 Old turns: 2 | New Turns: 90
+
+19:43:22 | 05-02-2019
+User ID: 1125 Event ID: 1264661
+IP Address: 70.15.211.218
+New Money: 754982.5 Old turns: 2 | New Turns: 90
+
+22:13:33 | 05-02-2019
+User ID: 1775 Event ID: 1264658
+IP Address: 82.132.186.96
+New Money: 605833 Old turns: 125 | New Turns: 213
+
+0:40:47 | 06-02-2019
+User ID: 2723 Event ID: 1265410
+IP Address: 123.136.117.55
+New Money: 2423480.25 Old turns: 1 | New Turns: 264
+
+0:41:57 | 06-02-2019
+User ID: 2714 Event ID: 1265409
+IP Address: 123.136.117.55
+New Money: 1996690.5 Old turns: 51 | New Turns: 314
+
+6:01:15 | 06-02-2019
+User ID: 2228 Event ID: 1263870
+IP Address: 81.136.57.49
+New Money: 1334871.75 Old turns: 1 | New Turns: 176
+
+7:25:40 | 06-02-2019
+User ID: 2617 Event ID: 1264660
+IP Address: 84.104.68.188
+New Money: 2215373 Old turns: 47 | New Turns: 135
+
+10:50:32 | 06-02-2019
+User ID: 1744 Event ID: 1262367
+IP Address: 82.132.216.213
+New Money: 1069088 Old turns: 26 | New Turns: 114
+
+17:10:34 | 06-02-2019
+User ID: 1744 Event ID: 1264657
+IP Address: 82.132.216.213
+New Money: 721373 Old turns: 77 | New Turns: 165
+
+19:02:34 | 06-02-2019
+User ID: 2790 Event ID: 1263040
+IP Address: 81.232.1.55
+New Money: 4639727.2 Old turns: 0 | New Turns: 525
+
+20:10:00 | 06-02-2019
+User ID: 2553 Event ID: 1266974
+IP Address: 83.247.33.185
+New Money: 655627.7 Old turns: 110 | New Turns: 198
+
+20:35:51 | 06-02-2019
+User ID: 1775 Event ID: 1266970
+IP Address: 82.132.187.247
+New Money: 591168 Old turns: 70 | New Turns: 158
+
+20:56:22 | 06-02-2019
+User ID: 2617 Event ID: 1266972
+IP Address: 62.72.192.63
+New Money: 639227 Old turns: 95 | New Turns: 183
+
+21:04:01 | 06-02-2019
+User ID: 1910 Event ID: 1267059
+IP Address: 109.142.144.249
+New Money: 605178 Old turns: 0 | New Turns: 88
+
+21:06:22 | 06-02-2019
+User ID: 1843 Event ID: 1267058
+IP Address: 99.203.0.245
+New Money: 702628 Old turns: 39 | New Turns: 127
+
+22:04:27 | 06-02-2019
+User ID: 615 Event ID: 1267057
+IP Address: 86.22.8.157
+New Money: 678057 Old turns: 57 | New Turns: 145
+
+22:27:08 | 06-02-2019
+User ID: 1125 Event ID: 1266973
+IP Address: 70.15.211.218
+New Money: 676157.75 Old turns: 17 | New Turns: 105
+
+23:07:28 | 06-02-2019
+User ID: 2134 Event ID: 1267060
+IP Address: 77.218.254.36
+New Money: 705333 Old turns: 80 | New Turns: 168
+
+23:22:17 | 06-02-2019
+User ID: 1029 Event ID: 1267062
+IP Address: 78.21.193.202
+New Money: 1078333 Old turns: 284 | New Turns: 372
+
+23:36:56 | 06-02-2019
+User ID: 1744 Event ID: 1266969
+IP Address: 79.67.23.7
+New Money: 583555.5 Old turns: 1 | New Turns: 89
+
+7:04:57 | 07-02-2019
+User ID: 2742 Event ID: 1267271
+IP Address: 95.90.248.19
+New Money: 1019846 Old turns: 53 | New Turns: 141
+
+8:06:05 | 07-02-2019
+User ID: 2458 Event ID: 1267272
+IP Address: 62.158.58.59
+New Money: 583683 Old turns: 114 | New Turns: 202
+

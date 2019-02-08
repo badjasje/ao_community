@@ -39,6 +39,7 @@ NextendSocialLoginAdmin::showProBox();
             </fieldset>
         </td>
     </tr>
+
     <tr>
         <th scope="row"><?php _e('Register button style', 'nextend-facebook-connect'); ?></th>
         <td>
@@ -55,6 +56,24 @@ NextendSocialLoginAdmin::showProBox();
                     <span><?php _e('Icon', 'nextend-facebook-connect'); ?></span><br/>
                     <img src="<?php echo plugins_url('images/buttons/icon.png', NSL_ADMIN_PATH) ?>"/>
                 </label><br>
+            </fieldset>
+        </td>
+    </tr>
+
+    <tr>
+        <th scope="row"><?php _e('Button alignment', 'nextend-facebook-connect'); ?></th>
+        <td>
+            <fieldset>
+                <label><input type="radio" name="buddypress_register_button_align"
+                              value="left" <?php if ($settings->get('buddypress_register_button_align') == 'left') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Left', 'nextend-facebook-connect'); ?></span></label><br>
+                <label><input type="radio" name="buddypress_register_button_align"
+                              value="center" <?php if ($settings->get('buddypress_register_button_align') == 'center') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Center', 'nextend-facebook-connect'); ?></span></label><br>
+
+                <label><input type="radio" name="buddypress_register_button_align"
+                              value="right" <?php if ($settings->get('buddypress_register_button_align') == 'right') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Right', 'nextend-facebook-connect'); ?></span></label><br>
             </fieldset>
         </td>
     </tr>

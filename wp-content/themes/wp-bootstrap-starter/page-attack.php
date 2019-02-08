@@ -181,6 +181,7 @@ $("#attack").submit(function(event){
 					delay: 5000,
 					allow_dismiss: true,
 					newest_on_top: true,	
+					});
 			}
 		
 			if(array.next == true){
