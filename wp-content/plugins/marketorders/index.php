@@ -1645,12 +1645,14 @@ function fcm_send_notification($receiver, $type, $attacker) {
     $serverKey = 'AAAAtMYygfc:APA91bEMDKTi556dx98bDJRF0KoG4IiG6L5xfiYvxOcRDL2yFWKhvnEwpqS-JHbLkUTdpmNqbQT0nn7mAt0B4ftxBQ6-zrI_yM_cWzwjLoTH-t51aCILfKbG_l6BcltB3MkGx6Yh9XBW';
     $sendurl = 'https://fcm.googleapis.com/fcm/send';
 
-    $member_data = get_userdata($receiver);
-    $displayName = $member_data->display_name;
+    $attacker_data = get_userdata($attacker);
+    $attacker_name = $attacker_data->display_name;
+    $receiver_data = get_userdata($receiver);
+    $receiver_name = $receiver_data->display_name;
 
     if ($type == 'regular' || $type == 'ground' || $type == 'air_sea') {
         $avatar = get_user_meta($attacker, 'avatar_user', true);
-        $body = 'You were attacked by ' . $displayName . ' (#' . $receiver . ')';
+        $body = 'You were attacked by ' . $attacker_name . ' (#' . $attacker . ')';
         $url = get_site_url() . '/events/incoming/';
     }
 
@@ -1674,24 +1676,24 @@ function fcm_send_notification($receiver, $type, $attacker) {
 
     if ($type == 'missile') {
         $avatar = get_user_meta($attacker, 'avatar_user', true);
-        $body = $displayName . ' (#' . $receiver . ') launched a missile at your base';
+        $body = $attacker_name . ' (#' . $attacker . ') launched a missile at your base';
         $url = get_site_url() . '/events/incoming/';
     }
 
     if ($type == 'satellite') {
         $avatar = get_user_meta($attacker, 'avatar_user', true);
-        $body = $displayName . ' (#' . $receiver . ') fired a satellite at your base';
+        $body = $attacker_name . ' (#' . $attacker . ') fired a satellite at your base';
         $url = get_site_url() . '/events/incoming/';
     }
 
     if ($type == 'research') {
-        $avatar = get_user_meta($attacker, 'avatar_user', true);
+        $avatar = get_user_meta($receiver, 'avatar_user', true);
         $body = 'Research completed';
         $url = get_site_url() . '/research/';
     }
 
     if ($type == 'message') {
-        $avatar = get_user_meta($attacker, 'avatar_user', true);
+        $avatar = get_user_meta($receiver, 'avatar_user', true);
         $body = 'New message received';
         $url = get_site_url() . '/conversations/';
     }
