@@ -1,5 +1,6 @@
-jQuery( function ( $ ) {
+jQuery(function($) {
     'use strict';
+
     // here for each comment reply link of wordpress
     $( '.comment-reply-link' ).addClass( 'btn btn-primary' );
 
@@ -54,6 +55,7 @@ jQuery( function ( $ ) {
             'width': screenWidth,
         });
     }
+
     fullWidthSection();
     $( window ).resize(function() {
         fullWidthSection();
@@ -69,4 +71,11 @@ jQuery( function ( $ ) {
         }, 1000, 'swing');
     });
 
+    // Help in icon menu
+    $('.menuRow').each(function(i1) {
+        var t = $('.menuText>a',this).html();
+        if(!!t) {
+            $('.buttonItem>a', this).wrapInner('<div data-toggle="tooltip" data-html="true" data-placement="right" title="'+t.replace(/"/g, "'")+'"></div>');
+        }
+    });
 });
