@@ -1,60 +1,44 @@
 <div class="fw-row row row-no-padding">
-<div class="col-xs-2 col-no-padding eventImageCol">
-	<?php echo small_avatar($attacker_id,'eventAvatar');?>
-</div>
-	
-	
-<div class="col-xs-10 col-no-padding" style="flex: 100;">
-	<div class="eventMainMessage">
-		<?php if($status_defender == 'death'):?>	
-					
+	<div class="col-xs-2 col-no-padding eventImageCol">
+		<?php echo small_avatar($attacker_id,'eventAvatar');?>
+	</div>
+
+	<div class="col-xs-10 col-no-padding" style="flex: 100;">
+		<div class="eventMainMessage">
+			<?php if($status_defender == 'death'):?>
 				<?php clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
-				<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> hit your base with a satellite and <strong>you died</strong> 
-				
-				<?php else:?>
-				
+				<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> hit your base with a satellite and <strong>you died</strong>
+			<?php else:?>
 				<?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
 				<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> used a satellite and
-					
 				<?php if($winner_id == $defender_id):?>
-					
 					<strong>missed</strong> your base.
-
 				<?php else: ?>
-					
-					<strong>hit</strong> your base. 
-					
-		<?php endif; endif;?>
+					<strong>hit</strong> your base.
+				<?php endif; ?>
+			<?php endif;?>
 		</div>
-		
 		<div class="row eventResultRow">
 			<div class="col-md-12 col-no-padding">
 				<?php if($winner_id == $attacker_id):?>
-				
-									
-				<strong>Defender losses: <?php echo $def_tot_buildingslost;?> buildings</strong><br/>
-				<?php
-				foreach ($buildings as $key => $order) {
-					foreach ($def_unitslost as $def_unitlost) {
-					if (isset($def_unitlost[$key])) {
-						echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
-        			}
+					<strong>Defender losses: <?php echo $def_tot_buildingslost;?> buildings</strong><br/>
+					<?php
+					foreach ($buildings as $key => $order) {
+						foreach ($def_unitslost as $def_unitlost) {
+						if (isset($def_unitlost[$key])) {
+							echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
 						}
-					}
-				?>
+							}
+						}
+					?>
 				<?php else:?>
-				No losses!
+					No losses!
 				<?php endif;?>
 			</div>
-		
-		
-		
-		
+		</div>
 	</div>
-	
-</div>
-<div class="row statusBlockButtons eventFooter">
 
+	<div class="row statusBlockButtons eventFooter">
 		<div class="col-md-3 totalsField statCol-1">
 			<?php echo human_time_diff( $timeattacked, $timestamp );?> ago
 		</div>
@@ -67,4 +51,5 @@
 		<div class="col-md-3 totalsField statCol-4">
 			Land stolen: <?php echo number_format($landlost, 0, ',', ' '); ?>m<sup>2</sup>
 		</div>
-</div>
+	</div>
+</div><!-- end fw-row -->
