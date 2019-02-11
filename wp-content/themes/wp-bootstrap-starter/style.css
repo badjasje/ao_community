@@ -66,11 +66,15 @@ Tags: blog, custom-menu, featured-images, threaded-comments, translation-ready, 
 }
 
 
-
+html { min-height:100%; }
 body {
   font-family: 'Source Sans Pro', sans-serif;
-
+  min-height: 100vh;
 }
+
+/* minimal full height, footer at bottom */
+#page { display: flex; flex-direction: column; }
+.logged-in #page { min-height: 100vh; }
 
 article,
 aside,
@@ -188,7 +192,6 @@ html input[disabled] {
     cursor: default;
     background-color: #545454;
     color: #fff;
-}
 }
 
 button::-moz-focus-inner,
@@ -341,6 +344,8 @@ header#masthead {
   margin-bottom: 0;
   background-color: rgba(84, 84, 84, 0.50);
   min-height:41px;
+  position: fixed;
+  z-index: 3;
 }
 
 .navbar-brand > a {
@@ -713,8 +718,7 @@ a img.aligncenter {
 ## Posts and pages
 --------------------------------------------------------------*/
 #content.site-content {
-  padding-bottom: 3.75rem;
-  padding-top: 0px;
+  flex-grow: 1;
   background-color: #ccc !important;
 }
 
@@ -1049,21 +1053,26 @@ body:not(.theme-preset-active) footer#colophon {
 
 
 .sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 9999999999;
-    top: 0;
-    left: 0;
-    background-color: #111;
-    width:41px;
-    #transition: 1s;
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 9999999999;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  width:41px;
 	margin-top: 41px;
 }
+
+/* make a tooltip on small menu */
+.sidenav { z-index: 2070; }
+.sidenav .menu-item { float:none; }
+.tooltip { z-index: 2080; }
+.tooltip .marketMenu { width:auto; }
+
 @media only screen {
   .wideMenu{
   	width:100% !important;
-
   }
 }
 .wideMenu{
@@ -1115,7 +1124,7 @@ body:not(.theme-preset-active) footer#colophon {
 }
 .menuRow{
 	height:41px;
-	
+
 }
 
 @-webkit-keyframes globalsPulse {
@@ -1178,15 +1187,17 @@ body:not(.theme-preset-active) footer#colophon {
 	margin-left:41px;
 	margin-right:0px;;
 	padding: 0px 0px;
-    background-color: #ddd;
-    border-bottom: 1px solid #fff;
+  background-color: #ddd;
+  border-bottom: 1px solid #fff;
+}
+@media (max-width: 768px) {
+  .statheader { position: fixed; top: 41px; width: 100%; z-index: 3; } /* also fixed on top */
 }
 .topstatheader{
 	font-size:13px;
 	margin-left:41px;
 	margin-right:0px;
 	height: 41px;
-;
 }
 .menuAvatar,.eventAvatar {
     border-radius: 0px;
@@ -1211,7 +1222,7 @@ body:not(.theme-preset-active) footer#colophon {
     background-color: #ccc;
     padding-left: 5px;
     padding-right: 5px;
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -1231,13 +1242,13 @@ body:not(.theme-preset-active) footer#colophon {
 	background-color: #545454;
 	color:#fff;
 	padding: 13px 25px;
-    
+
     width: 100%;
     border-bottom:1px solid #fff;
 }
 .successHeader{
 	background-color: rgba(45, 67, 81, 0.75);
-	text-align: left; 
+	text-align: left;
 	border-bottom:0px;
 }
 .successHeader a,.blockHeader a{
@@ -1342,7 +1353,7 @@ input[type="radio"]:checked + label {
 	background: url(/wp-content/uploads/2016/12/nz_header_back_opt.png) no-repeat center top;
     background-size: cover;
     z-index:-999999;
-	
+
 }
 .clanMessageButton{
 	padding: 13px 25px;
@@ -1351,7 +1362,7 @@ input[type="radio"]:checked + label {
 	color:#fff;
 	background-color: #46765E;
 	cursor:pointer;
-	
+
 }
 .clanMessageButton a{
 	color:#fff;
@@ -1378,7 +1389,7 @@ input[type="radio"]:checked + label {
     color:#fff;
 }
 .navItem.active{
-	background-color:#46765E !important;	
+	background-color:#46765E !important;
 }
 .spaceNotice{
 	border: solid #fff;
@@ -1498,10 +1509,10 @@ input[type="radio"]:checked + label {
 	border-left: 1px solid #fff;
 	}
 .bonusCol{
-	padding:5px;	
+	padding:5px;
 }
 .nameBlock{
-	
+
 	font-weight:bold;
 }
 .dashMobile{
@@ -1519,7 +1530,7 @@ display: none;
 	}
 	}
 @media only screen and (max-width: 768px) {
-	
+
 .alert{
 	right:0px !important;
 	z-index:9999999999999 !important;
@@ -1580,7 +1591,7 @@ display: none;
 	.profileColumn{
 		width:40%;
 		display: inline-block;
-	}	
+	}
 	.splashHeader{
 		font-size:60px;
 	}
@@ -1606,7 +1617,7 @@ display: none;
 		text-align:center;
 		color: #fff;
 	}
-	
+
 	.air_heading,.demolish_heading{
 		background-color: rgba(127, 82, 67, 0.75);
 	}
@@ -1626,7 +1637,7 @@ display: none;
 	}
 	.spaceNotice{
 		border-width: 0px 0px 1px 0px;
-	
+
 	}
 	.navItem{
 		border-bottom:1px solid #fff;
@@ -1655,7 +1666,7 @@ display: none;
 	.toggle-menu-open {
 	    position: relative;
 	}
-	
+
 	.startingbonus {
     width: 100%;
     font-size:75%;
@@ -1681,10 +1692,10 @@ display: none;
 	}
 	.stattext{
 		font-size:12px;
-	}	
+	}
 
 
-	
+
 	.menuText {
     color: #fff;
     margin-left: 70px;
@@ -1722,20 +1733,29 @@ display: none;
   50% { background-color: rgba(67, 92, 108, 0.75); }
   to { background-color: #425C6B; }
 }
+
 .permaNotification{
-	  -webkit-animation-name: greenPulse;
-	  -webkit-animation-duration: 5s;
-	  -webkit-animation-iteration-count: infinite;
-	padding: 13px;
-    text-align: center;
-    color: #fff;
+  -webkit-animation-name: greenPulse;
+  -webkit-animation-duration: 5s;
+  -webkit-animation-iteration-count: infinite;
+  padding: 13px;
+  text-align: center;
+  color: #fff;
+  position:fixed; top:0; left:0; right: 0; z-index: 3;
 }
+.logged-in .permaNotification { top: 40px; left: 40px; }
+
+@media (max-width: 768px) {
+  .permaNotification { left:0; top: 120px; }
+}
+
+.alert-info { top:60px!important; } /* lower notification, so it's not over power usage */
+
 .clanMessage{
 	padding: 25px;
-    min-height: 164px;
-    background-color: #2D4351;
-    color: #fff;
-	
+  min-height: 164px;
+  background-color: #2D4351;
+  color: #fff;
 }
 .clanMessageRow{
 	padding:0px;
@@ -1946,7 +1966,7 @@ text-decoration: none !important;
     width:100%;
     background-color: transparent;
 }
-				
+
 
 #step-1,#step-2,#step-3,#attack-result{
 	width:100%;
@@ -1968,7 +1988,7 @@ text-decoration: none !important;
 	border-top:1px solid #fff;
 }
 .elipOverflow{
-	white-space: nowrap; 
+	white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -2197,7 +2217,7 @@ text-decoration: none !important;
 	background-color: rgba(0, 0, 0, 0.5);
 }
 .eventFooter .totalsField{
-cursor:default;	
+cursor:default;
 }
 
 .medal_box{
@@ -2247,59 +2267,58 @@ cursor:default;
 ## Netbook
 --------------------------------------------------------------*/
 @media only screen and (max-width: 1000px) {
-footer{
-	margin-top: 10px;
-}
+  footer{
+    margin-top: 10px;
+  }
 }
 @media only screen and (max-width: 2000px) {
-.editProfileColumn{
-	width:100%;
-	display: inline-block;
-}
-.bonusRow{
-	margin-bottom:10px;
-}
-
-.bankCol{
-	min-height:41px;
-}
-.userRow{
-	height:auto
-}
-.cancelButton,.allUsersAvatarCol,.attackTypeInput,.bonusTrack{
-	height:41px;
-}
-
-.attackAvatar {
+  .editProfileColumn{
+    width:100%;
+    display: inline-block;
+  }
+  .bonusRow{
+    margin-bottom:10px;
+  }
+  .bankCol{
+    min-height:41px;
+  }
+  .userRow{
+    height:auto
+  }
+  .cancelButton,.allUsersAvatarCol,.attackTypeInput,.bonusTrack{
+    height:41px;
+  }
+  .attackAvatar {
     height: 82px;
     width: 82px;
     line-height:82px;
-}
-.profileAvatar{
-	height: 82px;
+  }
+  .profileAvatar{
+	  height: 82px;
     width: 82px;
     line-height:82px;
-	
-}
-.allUsersAvatar {
+  }
+  .allUsersAvatar {
     height: 41px;
     width: 41px;
     line-height: 41px;
-}
-.iconBlockHeader{
-	font-size:23px;
-	margin-top: 5px;
-}
-
-.clanMessage{
-	min-height:164px;
-}
-
-body{
-	font-size:14px !important;
-}
-.bonusCompleted,.attackingRow,.entry-content,.totalsField,.profileButton,.attackDropdown,.eventResultRow,.alert-minimalist,.clanMessageButton,.battleReportInfo,.blockHeader,.celBlock,.permaNotification,.mainSubmit,.navItem,.statusInsideCol,.eventMainMessage {
+  }
+  .iconBlockHeader{
+	  font-size:23px;
+	  margin-top: 5px;
+  }
+  .clanMessage{
+    min-height:164px;
+  }
+  body{
+    font-size:14px !important;
+  }
+  .bonusCompleted,.attackingRow,.entry-content,.totalsField,.profileButton,.attackDropdown,.eventResultRow,.alert-minimalist,.clanMessageButton,.battleReportInfo,.blockHeader,.celBlock,.permaNotification,.mainSubmit,.navItem,.statusInsideCol,.eventMainMessage {
     padding: 10px 10px 10px 15px;
-}
+  }
 }
 
+/* no zoom on safari iOS */
+@media screen and (-webkit-min-device-pixel-ratio:0) and (max-width: 768px) {
+  input[type='number'] { font-size: 16px !important; min-height: 16px;  }
+}
