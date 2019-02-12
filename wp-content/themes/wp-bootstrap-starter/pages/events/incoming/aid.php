@@ -1,25 +1,23 @@
 <?php $money = $eventData['money_lost'][0];?>
 <div class="fw-row row row-no-padding">
-<div class="col-xs-2 col-no-padding eventImageCol">
-	<?php echo small_avatar($attacker_id,'eventAvatar');?>
-</div>
-	
-	
-<div class="col-xs-10 col-no-padding" style="flex: 100;">
-	<div class="eventMainMessage">
-		You received <strong>$ <?php echo number_format($money, 0, ',', ' ');?></strong> aid from 
-			<a href="/users/profile/?id=<?php echo $attacker_id;?>"><?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a>
+
+	<div class="col-xs-2 col-no-padding eventImageCol">
+		<?php echo small_avatar($attacker_id,'eventAvatar');?>
 	</div>
-		
+
+	<div class="col-xs-10 col-no-padding" style="flex: 100;">
+		<div class="eventMainMessage">
+			You received <strong>$ <?php echo number_format($money, 0, ',', ' ');?></strong> aid from
+				<a href="/users/profile/?id=<?php echo $attacker_id;?>"><?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a>
+		</div>
 		<div class="row eventResultRow">
 			<div class="col-md-12 col-no-padding">
 
 			</div>
 		</div>
-	
-</div>
-<div class="row statusBlockButtons eventFooter">
+	</div>
 
+	<div class="row statusBlockButtons eventFooter">
 		<div class="col-md-3 totalsField statCol-1">
 			<?php echo human_time_diff( $timeattacked, $timestamp );?> ago
 		</div>
@@ -32,4 +30,6 @@
 		<div class="col-md-3 totalsField statCol-4">
 			Land stolen: <?php echo number_format($landlost, 0, ',', ' '); ?>m<sup>2</sup>
 		</div>
-</div>
+	</div>
+
+</div><!-- end fw-row -->

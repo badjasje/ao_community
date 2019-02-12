@@ -1,15 +1,16 @@
-<?php $kicked_clan = $eventData['attacker_clan_id'][0];?>
+<?php
+$kicked_clan = $eventData['attacker_clan_id'][0];
+?>
 <div class="fw-row row row-no-padding">
-<div class="col-xs-2 col-no-padding eventImageCol">
-	<?php echo small_avatar($defender_id,'eventAvatar');?>
-</div>
-	
-	
-<div class="col-xs-10 col-no-padding" style="flex: 100;">
-	<div class="eventMainMessage">
-		<?php echo get_user_name($defender_id);?> 
+
+	<div class="col-xs-2 col-no-padding eventImageCol">
+		<?php echo small_avatar($defender_id,'eventAvatar');?>
 	</div>
-		
+
+	<div class="col-xs-10 col-no-padding" style="flex: 100;">
+		<div class="eventMainMessage">
+			<?php echo get_user_name($defender_id);?>
+		</div>
 		<div class="row eventResultRow">
 			<div class="col-md-12 col-no-padding">
 				<?php if($outcome == 'kicked'):?>
@@ -23,10 +24,9 @@
 				<?php endif;?>
 			</div>
 		</div>
-	
-</div>
-<div class="row statusBlockButtons eventFooter">
+	</div>
 
+	<div class="row statusBlockButtons eventFooter">
 		<div class="col-md-3 totalsField statCol-1">
 			<?php echo human_time_diff( $timeattacked, $timestamp );?> ago
 		</div>
@@ -39,4 +39,6 @@
 		<div class="col-md-3 totalsField statCol-4">
 			Land stolen: <?php echo number_format($landlost, 0, ',', ' '); ?>m<sup>2</sup>
 		</div>
-</div>
+	</div>
+
+</div><!-- end fw-row -->
