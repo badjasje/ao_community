@@ -74,7 +74,8 @@
 		jQuery.ajaxSetup({cache: false});
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
-	 <link rel="manifest" href="/manifest.json">
+	<link rel="icon" type="image/png" href="/wp-content/themes/wp-bootstrap-starter/img/favicon.png">
+	<link rel="manifest" href="/manifest.json">
 
 	<!-- Facebook Pixel Code -->
 	<script>
