@@ -13,6 +13,7 @@ $gameType = get_field('game_type','option');
 		<div class="blockHeader">Login</div>
 		
 		<form id="loginform" action="/wp-login.php" method="post" name="loginform">
+			<input name="rememberme" checked hidden type="checkbox" id="rememberme" value="forever">
 			<div class="col-md-12 loginfield statCol-1">
 			<input 	class="login_name_home" 
 				id="user_login" 
