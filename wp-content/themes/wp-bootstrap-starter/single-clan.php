@@ -155,7 +155,7 @@ $clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
 	
 <div class="row row-no-padding fw-row">
 	<div class="col-12 attackingRow statCol-2 row-no-padding">
-		<img class="clanImage" src="<?php echo $clanImg;?>">
+		<div class="clanImage" style="background:url(<?php echo $clanImg;?>)"></div>
 	</div>
 	<div class="col-12 attackingRow statCol-1">
 		<div class="profileColumn">Members</div> <?php echo count($clanMembers);?>

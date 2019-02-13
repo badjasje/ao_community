@@ -2272,6 +2272,10 @@ cursor:default;
     margin-right: auto;
     position: relative;
     display: inherit;
+    height: 400px;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    background-position: center !important;
 }
 /*--------------------------------------------------------------
 ## Netbook
@@ -2330,5 +2334,8 @@ cursor:default;
 
 /* no zoom on safari iOS */
 @media screen and (-webkit-min-device-pixel-ratio:0) and (max-width: 768px) {
+	.clanImage{
+		width:100%;
+	}
   input[type='number'] { font-size: 16px !important; min-height: 16px;  }
 }
