@@ -253,24 +253,14 @@ $(document).on('click','.peaceDecSubmit',function(event){
 <div class="row fw-row no-gutters">
 	
 	<?php if($warcount > 0):?>
-	
+		<?php if(in_array($declarer_ID, $allowed_to_declare)):?>
 		<div class="col-md-6">
 			<button class="mainSubmit resumewar">
 				<i class="fas fa-fire" aria-hidden="true"></i> &nbsp;Resume war
 			</button>
 		</div>
-	
-		<div class="col-md-6">
-			<a href="/spy-report-overview/?id=<?php echo $clan_id;?>">
-				<button class="mainSubmit">
-			 		<i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
-				</button>
-			 </a>
-		</div>
 		
-		
-		
-	<script>
+			<script>
 (function($) {
 	
 var declare;
@@ -312,6 +302,19 @@ $(document).on('click','.resumewar',function(event){
 });
 })(jQuery);
 </script>	
+		
+		<?php endif;?>
+		<div class="col-md-6">
+			<a href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+				<button class="mainSubmit">
+			 		<i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
+				</button>
+			 </a>
+		</div>
+		
+		
+		
+
 
 	<?php else:?>
 	
