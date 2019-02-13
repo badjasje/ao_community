@@ -89,7 +89,7 @@ if($attack_type != 'satellite'){
 	// Check if attacker has enough morale
 	$moralecost = get_attack_cost_morale($attack_type, $networth_att, $networth_def);
 	$oldmorale = $attackerData['morale'][0];
-	
+
 	if ($oldmorale < $moralecost) {
 		$array['status'] = 'Insufficient morale';
 		$array['next'] = false;
@@ -113,7 +113,7 @@ if($attack_type == 'missile'){
 	}else{
 		include("missile-result.php");
 	}
-		
+
 }
 
 if($attack_type == 'spy'){
