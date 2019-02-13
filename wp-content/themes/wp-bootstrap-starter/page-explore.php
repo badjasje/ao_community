@@ -113,6 +113,7 @@ $('#exploreform').submit(function( event ) {
 				
 				
 				$('form').trigger("reset");
+				location.reload();
 			}
 });	});	
 
@@ -171,6 +172,7 @@ $('#sellform').submit(function( event ) {
 				
 				
 				$('form').trigger("reset");
+				location.reload();
 			}
 });	});	
 
