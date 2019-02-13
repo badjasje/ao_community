@@ -54,9 +54,9 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
             
                 if (get_field('order_type', $orderID) == 'satellite') {
                     $sat_level = $userData['level_satellite_construction'][0];
-                    $days = 10;
+                    $days = 11;
                     if ($sat_level > 1) {
-                        $days = 15;
+                        $days = 16;
                     }
                     update_user_meta($user_ID, 'sat_owned', $unit_type);
                     update_user_meta($user_ID, 'sat_in_progress', 0);
