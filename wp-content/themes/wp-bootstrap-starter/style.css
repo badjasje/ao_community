@@ -1199,6 +1199,7 @@ body:not(.theme-preset-active) footer#colophon {
 	margin-left:41px;
 	margin-right:0px;
 	height: 41px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 .menuAvatar,.eventAvatar {
     border-radius: 0px;
