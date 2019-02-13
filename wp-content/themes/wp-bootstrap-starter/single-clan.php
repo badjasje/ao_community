@@ -142,57 +142,58 @@ if(in_array($declarer_ID, $declaringClanMembers)){
 
 ?>
 
-<div class="row pageRow">
+<div class="row pageRow clanContentRow">
 
 
 
 
-<?php while ( have_posts() ) : the_post(); ?>
+<?php while ( have_posts() ) : the_post(); 
+$clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
 <div class="blockHeader">
 	This clan is not in range
 </div>
 	
 <div class="row row-no-padding fw-row">
-	<div class="col-xs-2 col-no-padding eventImageCol" style="border-right: 1px solid #fff;">
-		<?php echo clan_avatar($clan_id,'profileAvatar');?>
+	<div class="col-12 attackingRow statCol-2 row-no-padding">
+		<img class="clanImage" src="<?php echo $clanImg;?>">
 	</div>
-	
-	<div class="col-xs-10 col-no-padding" style="flex:100">
-		<div class="col-12 attackingRow statCol-1">
-			<div class="profileColumn">Members</div> <?php echo count($clanMembers);?>
-		</div>
+	<div class="col-12 attackingRow statCol-1">
+		<div class="profileColumn">Members</div> <?php echo count($clanMembers);?>
+	</div>
 			
-		<div class="col-12 attackingRow statCol-2 elipOverflow">
-			<div class="profileColumn">Tag</div> <?php echo $clantag;?>
-		</div>
+	<div class="col-12 attackingRow statCol-2 elipOverflow">
+		<div class="profileColumn">Tag</div> <?php echo $clantag;?>
+	</div>
 		
-		<div class="col-12 attackingRow statCol-3">
-			<h3>Awards (<?php echo count($awards);?>)</h3>
-			 <div id="awardlist" class="fw-row" style="overflow: hidden;">
-			 	<?php include 'pages/clan/awardlist.php'; ?>
+	<div class="col-12 attackingRow statCol-3">
+		<h3>Awards (<?php echo count($awards);?>)</h3>
+			<div id="awardlist" class="fw-row" style="overflow: hidden;">
+				<?php include 'pages/clan/awardlist.php'; ?>
 			</div>
 			<a id="awardlistExpandBtn" style="display: none">Show more</a>
+	</div>
 			
-			
-			</div>
-			<div class="col-12 attackingRow statCol-4">
-				<div class="profileColumn">Total networth</div> $ <?php echo number_format($tot_networth, 0, ',', ' ');?>
-			</div>
-			<div class="col-12 attackingRow statCol-3">
-				<div class="profileColumn">Average networth</div> $ <?php echo number_format($averageNw, 0, ',', ' ');?>
-			</div>
-			<div class="col-12 attackingRow statCol-2">
-				<div class="profileColumn">Points</div> 
-				<?php if(!empty($clan_points)){
-							echo number_format($clan_points, 0, ',', ' ');
-						}
-						else{
-							echo '0';}?>pts <sup><?php echo $clanData['24h_pts'][0];?>pts today</sup>
+	<div class="col-12 attackingRow statCol-4">
+		<div class="profileColumn">Total networth</div> $ <?php echo number_format($tot_networth, 0, ',', ' ');?>
+	</div>
+	
+	<div class="col-12 attackingRow statCol-3">
+		<div class="profileColumn">Average networth</div> $ <?php echo number_format($averageNw, 0, ',', ' ');?>
+	</div>
+	
+	<div class="col-12 attackingRow statCol-2">
+		<div class="profileColumn">Points</div> 
+			<?php if(!empty($clan_points)){
+					echo number_format($clan_points, 0, ',', ' ');
+				}
+					else{
+				echo '0';}?>pts <sup><?php echo $clanData['24h_pts'][0];?>pts today</sup>
 				
-			</div>
-			<div class="col-12 attackingRow statCol-1 elipOverflow">
-				<h3>Message</h3> 
-				<div id="clanMessage"
+	</div>
+	
+	<div class="col-12 attackingRow statCol-1 elipOverflow">
+		<h3>Message</h3> 
+			<div id="clanMessage"
                           style="line-height: 18px;
                                       height: 54px;
                                     overflow: hidden;">
