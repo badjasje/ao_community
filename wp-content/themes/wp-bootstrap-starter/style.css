@@ -342,10 +342,11 @@ table {
 --------------------------------------------------------------*/
 header#masthead {
   margin-bottom: 0;
-  background-color: rgba(84, 84, 84, 0.50);
+  background-color: #000;
   min-height:41px;
   position: fixed;
   z-index: 3;
+  top:0;
 }
 
 .navbar-brand > a {
@@ -1746,7 +1747,7 @@ display: none;
 .logged-in .permaNotification { top: 40px; left: 40px; }
 
 @media (max-width: 768px) {
-  .permaNotification { left:0; top: 120px; }
+  .logged-in .permaNotification { left:0; top: 120px; }
 }
 
 .alert-info { top:60px!important; } /* lower notification, so it's not over power usage */
