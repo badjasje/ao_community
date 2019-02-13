@@ -539,16 +539,27 @@
 						setInterval(updateMarketTime, 1000 );
 					<?php endif;?>
 
-					jQuery("#nextbt, #nextbt2").toggle(function(){
-						jQuery( ".sidenav" ).addClass( "wideMenu" );
-						jQuery('.menuText').show(750);
-						jQuery( ".menuRow" ).removeClass( "hideMenuItem" );
-						jQuery( ".hamburger" ).addClass( "is-active" );
-					}, function(){
-						jQuery( ".sidenav" ).removeClass( "wideMenu" );
-						jQuery('.menuText').hide(500);
-						jQuery( ".menuRow" ).addClass( "hideMenuItem" );
-						jQuery( ".hamburger" ).removeClass( "is-active" );
+					// Help in icon menu
+					jQuery(function($) {
+						$('.menuRow').each(function(i1) {
+							var t = $('.menuText>a',this).html();
+							if(!!t) {
+								$('.buttonItem>a', this).wrapInner('<div data-toggle="tooltip" data-html="true" data-placement="right" title="'+t.replace(/"/g, "'")+'"></div>');
+							}
+						});
+						$("#nextbt, #nextbt2").toggle(function(){
+							$( ".sidenav" ).addClass( "wideMenu" );
+							$('.menuText').show(750);
+							$( ".menuRow" ).removeClass( "hideMenuItem" );
+							$( ".hamburger" ).addClass( "is-active" );
+							$('[data-toggle=tooltip]').tooltip('disable');
+						}, function(){
+							$( ".sidenav" ).removeClass( "wideMenu" );
+							$('.menuText').hide(500);
+							$( ".menuRow" ).addClass( "hideMenuItem" );
+							$( ".hamburger" ).removeClass( "is-active" );
+							$('[data-toggle=tooltip]').tooltip('enable');
+						});
 					});
 				</script>
 

@@ -71,11 +71,4 @@ jQuery(function($) {
         }, 1000, 'swing');
     });
 
-    // Help in icon menu
-    $('.menuRow').each(function(i1) {
-        var t = $('.menuText>a',this).html();
-        if(!!t) {
-            $('.buttonItem>a', this).wrapInner('<div data-toggle="tooltip" data-html="true" data-placement="right" title="'+t.replace(/"/g, "'")+'"></div>');
-        }
-    });
 });
