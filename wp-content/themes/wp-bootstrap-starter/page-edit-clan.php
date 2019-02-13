@@ -8,6 +8,7 @@ global $userId;
 
 $user_ID = $userId;
 $clan_ID = $userData['clan_id_user'][0];
+$clanImg = get_post_meta($clan_ID, 'clan_image', true);
 $clanData = get_post_meta($clan_ID);
 $clanleader = $clanData['clan_leader'][0];
 $clanmembers = maybe_unserialize(get_post_meta( $clan_ID, 'clan_members', true ));
@@ -53,45 +54,49 @@ if($autojoin == 'no'){
 
 
 $clan = get_post($clan_ID);
+$wp_upload_dir = wp_upload_dir();
 
 ?>
-
-<div class="row pageRow">	
+<style>
+.dropzone .dz-preview.dz-image-preview{
+	display: none;
+}
+.dropzone{
+	background:none;
+}
+</style>
+<div class="row pageRow clanContentRow">	
+	
+	
+	
 	
 
 
 
+<div class="row row-no-padding fw-row">
+	<div class="col-12 attackingRow statCol-2 row-no-padding">
+		<div id="clan_avatar_dz" class="clanImage" style='background-image:url("<?php echo $clanImg;?>")'></div>
+		<form id="editclan" method="post">
+		<input hidden type="text" name="newclanimage" class="newclanimage" id="newclanimage" value=""/>	
+	</div>
+
 	
-<div class="col-md-6 col-lg-4 col-no-padding editClanCol">
-	<div class="blockHeader">
-	Set clan avatar
-	</div>
-	<div class="row no-gutters">
-		<div class="col-xs-2 col-no-padding eventImageCol" style="border-right: 1px solid #fff;height: 270px;">
-			<?php echo clan_avatar($clan_ID,'profileAvatar');?>
-		</div>
+			
 		
-		<div class="col-xs-10" style="flex:100">
-			<form id="editclan" method="post">
-				
-			<div class="needsclick dz-clickable" id="clan_avatar_dz">
-				<div class="dz-message needsclick">				
-					Drop files or click to upload. <br/>Squared image for the best result.
-          		</div>		
-          		<input hidden type="text" name="newclanimage" class="newclanimage" id="newclanimage" value=""/>	
-        	</div>
-		
-				
+	<div class="col-12 attackingRow statCol-1 elipOverflow">
+		<h3>Edit public message</h3> 
+			<textarea rows="10" class="messageBox" type="text" name="publicmessage" id="clanmessager"><?php echo $clan->post_content;?></textarea>
+			
 		</div>
 	</div>
-</div>
-<div class="col-md-6 col-lg-4 col-no-padding editClanCol">
-	<div class="blockHeader">
-	Edit public message
-	</div>
-	<textarea rows="10" class="messageBox" type="text" name="publicmessage" id="clanmessager"><?php echo $clan->post_content;?></textarea>
-</div>
-<div class="col-md-6 col-lg-4 col-no-padding editClanCol">
+
+
+
+<div class="pageSpacer"></div>
+
+
+
+<div class="col-md-12 col-lg-12 col-no-padding editClanCol">
 	<div class="blockHeader">
 	Clan leader & Clan trustee management
 	</div>
@@ -218,7 +223,8 @@ $("#editclan").submit(function(event){
 					newest_on_top: true,
 						});	
 			if(array.imagechanged == true){
-				$('.clan_avatar').css('background-image', 'url(' + array.newclanimage + ')');
+				$('.clanImage').css('background-image', 'url(' + array.newclanimage + ')');
+				console.log(array.newclanimage);
 				var myDropzone = Dropzone.forElement("#clan_avatar_dz");
 				myDropzone.removeAllFiles(true);
 			}
@@ -286,6 +292,7 @@ $("select").on('change', function(e) {
 	          console.log(response);
             
             	$('input[name="newclanimage"]').attr('value',response);
+            	$('.clanImage').css('background-image', 'url(<?php echo $wp_upload_dir['url'];?>/' + response + ')');
               //var imgName = response;
               file.previewElement.classList.add("dz-success");
               

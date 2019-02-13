@@ -2085,8 +2085,8 @@ text-decoration: none !important;
 .messageBox{
 	width: 100%;
     border: 0px;
-    color: #fff;
-    background-color: #2D4351;
+    color: #24292d;
+    background-color: #c0c0c0;
     padding: 15px;
 }
 .editClanCol{
