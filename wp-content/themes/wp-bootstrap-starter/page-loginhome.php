@@ -64,9 +64,28 @@ $gameType = get_field('game_type','option');
 	Assault.Online is the unofficial successor to Nukezone.nu. Assault.Online is a strategic text based browser game. It is played entirely in the browser, so no downloads needed! Assault.Online is free to play No downloads required
 	<?php endif;?>
 	</div>
+	<div class="pageSpacer"></div>
+	<div class="blockHeader">Resources</div>
+	<a class="col-md-12 profileButton" style="background-color: rgba(70, 118, 94, 1);" href="https://assault.online/manual/">
+		Manual
+	</a>
+	<a class="col-md-12 profileButton" style="background-color: rgba(70, 118, 94, 0.9);" href="https://assault.online/category/changes/">
+		Round changes
+	</a>
+	<a class="col-md-12 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="https://assault.online/category/awards-medals/">
+		Medals & awards
+	</a>
+	<a class="col-md-12 profileButton" style="background-color: rgba(70, 118, 94, 0.7);" href="https://assault.online/toplists/">
+		Toplists
+	</a>
+	
+	
+	
+
 	</div>
 	
 	</div>
+	
 	<div class="col-md-3" style="padding:0px;">
 	</div>
 	

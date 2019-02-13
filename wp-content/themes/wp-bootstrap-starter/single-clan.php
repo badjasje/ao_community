@@ -154,9 +154,11 @@ $clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
 </div>
 	
 <div class="row row-no-padding fw-row">
+	<?php if(!empty($clanImg)):?>
 	<div class="col-12 attackingRow statCol-2 row-no-padding">
 		<div class="clanImage" style="background:url(<?php echo $clanImg;?>)"></div>
 	</div>
+	<?php endif;?>
 	<div class="col-12 attackingRow statCol-1">
 		<div class="profileColumn">Members</div> <?php echo count($clanMembers);?>
 	</div>
