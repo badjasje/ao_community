@@ -59,8 +59,8 @@ if ($sat_owned != 'laser') {
 
 $blddamage = rand(6500,8000);
 
-if($defenderData['land'][0] < 10000){
-	$reduction = $defenderData['land'][0]/10000;
+if($defenderData['land'][0] < 7500){
+	$reduction = $defenderData['land'][0]/7500;
 	if($reduction <= 0.5){
 		$reduction = 0.5;
 	}

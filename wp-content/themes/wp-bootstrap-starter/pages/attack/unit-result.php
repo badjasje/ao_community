@@ -442,8 +442,8 @@ update_user_meta($userId, 'tomahawk_owned', $tomahawks-$tomahawksSent);
 
 /* Building killer defense, half BK damage if land is lower than 10k */
 
-if($defenderData['land'][0] < 10000){
-	$reduction = $defenderData['land'][0]/10000;
+if($defenderData['land'][0] < 7500){
+	$reduction = $defenderData['land'][0]/7500;
 	if($reduction <= 0.5){
 		$reduction = 0.5;
 	}
