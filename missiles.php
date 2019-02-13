@@ -85,7 +85,7 @@ if ($totalordercost > $totalmoney) {
     echo json_encode($array);
     exit;
 }
-if ($turns <= $totalturncost) {
+if ($turns < $totalturncost) {
     $array['status'] = 'Not enough turns';
     $array['next'] = false;
     echo json_encode($array);
