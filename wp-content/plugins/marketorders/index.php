@@ -1691,7 +1691,7 @@ function fcm_send_notification($receiver, $type, $attacker) {
 
     if ($type == 'message') {
         $avatar = get_user_meta($receiver, 'avatar_user', true);
-        $body = 'New message received';
+        $body = 'New message received from '. $attacker_name .' (#' . $attacker . ')';
         $url = get_site_url() . '/conversations/';
     }
 
