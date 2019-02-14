@@ -1,5 +1,5 @@
-<?php 
-get_header(); 
+<?php
+get_header();
 include('constants.php');
 global $userId;
 global $userData;
@@ -32,7 +32,7 @@ $declarer_clanleader = $declarerClanData['clan_leader'][0];
 
     //Count the members in YOUR clan
     $declaringClanMembers = maybe_unserialize($declarerClanData['clan_members'][0]);
-    $declaringMembersCount = count($declaringClanMembers);
+    $declaringMembersCount = (is_array($declaringClanMembers) ? count($declaringClanMembers) : 1);
     $declarerAverageNw = $declarerClanData['clan_networth'][0] / $declaringMembersCount;
 
 $average_OK = "false";
@@ -109,7 +109,7 @@ foreach ($wars_on as $war) {
 	}
 $_member = false;
 
-if(in_array($declarer_ID, $declaringClanMembers)){
+if(is_array($declaringClanMembers) && in_array($declarer_ID, $declaringClanMembers)){
 	$_member = true;
 
 }
@@ -147,12 +147,12 @@ if(in_array($declarer_ID, $declaringClanMembers)){
 
 
 
-<?php while ( have_posts() ) : the_post(); 
+<?php while ( have_posts() ) : the_post();
 $clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
 <div class="blockHeader">
 	This clan is not in range
 </div>
-	
+
 <div class="row row-no-padding fw-row">
 	<?php if(!empty($clanImg)):?>
 	<div class="col-12 attackingRow statCol-2 row-no-padding">
@@ -162,11 +162,11 @@ $clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
 	<div class="col-12 attackingRow statCol-1">
 		<div class="profileColumn">Members</div> <?php echo count($clanMembers);?>
 	</div>
-			
+
 	<div class="col-12 attackingRow statCol-2 elipOverflow">
 		<div class="profileColumn">Tag</div> <?php echo $clantag;?>
 	</div>
-		
+
 	<div class="col-12 attackingRow statCol-3">
 		<h3>Awards (<?php echo count($awards);?>)</h3>
 			<div id="awardlist" class="fw-row" style="overflow: hidden;">
@@ -174,27 +174,27 @@ $clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
 			</div>
 			<a id="awardlistExpandBtn" style="display: none">Show more</a>
 	</div>
-			
+
 	<div class="col-12 attackingRow statCol-4">
 		<div class="profileColumn">Total networth</div> $ <?php echo number_format($tot_networth, 0, ',', ' ');?>
 	</div>
-	
+
 	<div class="col-12 attackingRow statCol-3">
 		<div class="profileColumn">Average networth</div> $ <?php echo number_format($averageNw, 0, ',', ' ');?>
 	</div>
-	
+
 	<div class="col-12 attackingRow statCol-2">
-		<div class="profileColumn">Points</div> 
+		<div class="profileColumn">Points</div>
 			<?php if(!empty($clan_points)){
 					echo number_format($clan_points, 0, ',', ' ');
 				}
 					else{
 				echo '0';}?>pts <sup><?php echo $clanData['24h_pts'][0];?>pts today</sup>
-				
+
 	</div>
-	
+
 	<div class="col-12 attackingRow statCol-1 elipOverflow">
-		<h3>Message</h3> 
+		<h3>Message</h3>
 			<div id="clanMessage"
                           style="line-height: 18px;
                                       height: 54px;
@@ -205,10 +205,10 @@ $clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
                         </div>
                         <br />
                         <a id="clanMessageExpandBtn" style="display: none">Show more</a>
-					
+
 
 			</div>
-			
+
 		</div>
 	</div>
 
@@ -222,7 +222,8 @@ $clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
     initReadMore("clanMessage", "clanMessageExpandBtn", 54);
     initReadMore("awardlist",   "awardlistExpandBtn",   164);
 </script>
-	
-	
+
+<div class="pageSpacer"></div>
+
 </div> <!-- // pageRow -->
 <?php get_footer();
