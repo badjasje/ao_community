@@ -71,4 +71,16 @@ jQuery(function($) {
         }, 1000, 'swing');
     });
 
+    if(jQuery(window).height() <= 732) {
+        var scrolledPos;
+        $('#nextbt').on('click', function(e) {
+            if($(this).hasClass('is-active') && !!scrolledPos) {
+                $('html, body').animate({'scrollTop':scrolledPos}, 300, 'swing');
+            }
+            else {
+                scrolledPos = jQuery('html').scrollTop();
+                $('html, body').animate({'scrollTop':0}, 300, 'swing');
+            }
+        });
+    }
 });

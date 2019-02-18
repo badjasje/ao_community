@@ -428,6 +428,7 @@
 						</div>
 					</div>
 				</div>
+
 			</div>
 
 			<div id="page-sub-header">
@@ -459,9 +460,6 @@
 				</div>
 			</div>
 		<?php endif;?>
-		<div class="container">
-
-		</div>
 	</div>
 
 	<?php if(get_field('game_status','option') == 'Pause' /*&& $userId != 1*/): // Check if game is live or not ?>
