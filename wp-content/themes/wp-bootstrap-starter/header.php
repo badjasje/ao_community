@@ -424,10 +424,11 @@
 							<a class="dropdown-item" href="<?php echo get_site_url(); ?>/category/awards-medals/">Awards & Medals</a>
 							<a class="dropdown-item" href="<?php echo get_site_url(); ?>/manual">Manual</a>
 							<a class="dropdown-item" href="<?php echo get_site_url(); ?>/rules">Rules</a>
-							<a class="dropdown-item" target="_blank" href="https://discord.gg/gVpvK5">Discord</a>
+							<a class="dropdown-item" target="_blank" href="http://bit.ly/2US8Dh0">Discord</a>
 						</div>
 					</div>
 				</div>
+
 			</div>
 
 			<div id="page-sub-header">
@@ -459,9 +460,6 @@
 				</div>
 			</div>
 		<?php endif;?>
-		<div class="container">
-
-		</div>
 	</div>
 
 	<?php if(get_field('game_status','option') == 'Pause' /*&& $userId != 1*/): // Check if game is live or not ?>

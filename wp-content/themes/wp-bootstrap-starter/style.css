@@ -342,12 +342,12 @@ table {
 --------------------------------------------------------------*/
 header#masthead {
   margin-bottom: 0;
-  background-color: #ddd;
   min-height:41px;
   position: fixed;
   z-index: 3;
   top:0;
 }
+.logged-in header#masthead { background-color: #ddd; }
 
 .navbar-brand > a {
   color: rgba(0, 0, 0, 0.9);
@@ -997,10 +997,6 @@ body:not(.theme-preset-active) footer#colophon {
 /*--------------------------------------------------------------
 ## Notebook
 --------------------------------------------------------------*/
-@media only screen and (max-width: 1280px) {
-
-}
-
 @media screen and (max-width: 1199px) {
   .navbar-dark .dropdown-item {
     color: #fff;
@@ -1012,46 +1008,27 @@ body:not(.theme-preset-active) footer#colophon {
   }
 }
 
-/*--------------------------------------------------------------
-## iPad
---------------------------------------------------------------*/
-@media only screen and (max-width: 960px) {
-
-}
-/*--------------------------------------------------------------
-## iPad
---------------------------------------------------------------*/
-@media only screen and (max-width: 768px) {
-
-}
-/*--------------------------------------------------------------
-## iPad
---------------------------------------------------------------*/
-@media only screen and (max-width: 480px) {
-
-}
 .toggle-menu-open{
-    display: inline;
-    float: left;
-    border: none;
-    background-color: #545454;
-    color: #fff;
+  display: inline;
+  float: left;
+  border: none;
+  background-color: #545454;
+  color: #fff;
 	font-size: 13px;
 	z-index: 99999999999;
 	position: fixed;
 }
 
 .menu-item{
-    display: inline;
-    float: left;
-    width: 41px;
-    border: none;
-    background-color: #000;
-    color: #fff;
-    height: 41px;
+  display: inline;
+  float: left;
+  width: 41px;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  height: 41px;
 	font-size: 14px;
 }
-
 
 .sidenav {
   height: 100%;
@@ -1073,22 +1050,23 @@ body:not(.theme-preset-active) footer#colophon {
 
 @media only screen {
   .wideMenu{
-  	width:100% !important;
+    width:100% !important;
   }
 }
 .wideMenu{
-	width: 36% !important;
+  width: 36% !important;
+  min-width: 400px;
 }
 
 .smallAvatar{
 	border-radius: 50%;
-    height: 40px;
-    width: 40px;
+  height: 40px;
+  width: 40px;
 	text-align: center;
-    line-height: 40px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #fff;
+  line-height: 40px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
 }
 .setAvatar{
 	border-radius:100%;
@@ -1191,9 +1169,7 @@ body:not(.theme-preset-active) footer#colophon {
   background-color: #ddd;
   border-bottom: 1px solid #fff;
 }
-@media (max-width: 768px) {
-  .statheader { position: fixed; top: 41px; width: 100%; z-index: 3; } /* also fixed on top */
-}
+
 .topstatheader{
 	font-size:13px;
 	margin-left:41px;
@@ -1316,23 +1292,20 @@ input[type="radio"]:checked + label {
     opacity: 0.5;
 }
 .pageRow{
-	margin: 25px 25px 25px 66px;
+	margin: 25px;
 	width: 100%;
 }
-@media only screen and (min-width: 1000px) {
+@media only screen and (min-width: 1024px) {
   .contentRow{
-	margin-left: 5% !important;
-	padding:0px;
-        width: 90% !important;
+	  margin-left: 5% !important;
+	  padding:0px;
+    width: 90% !important;
   }
-
-  .mainContainer
-    {
-	padding:0px;
-        width: 100% !important;
-    }
+  .mainContainer {
+  	padding:0px;
+    width: 100% !important;
+  }
 }
-
 
 .contentRow,.mainContainer {
   margin:0px;
@@ -1344,13 +1317,12 @@ input[type="radio"]:checked + label {
 }
 .pageTitle{
 	font-size: 41px;
-    text-align: center;
-    font-weight: bold;
-    width: 100% !important;
-    padding: 51px;
-    background: rgba(45, 67, 80, 0.7);
-    color: #fff;
-    margin-top:41px;
+  text-align: center;
+  font-weight: bold;
+  width: 100% !important;
+  padding: 51px;
+  background: rgba(45, 67, 80, 0.7);
+  color: #fff;
 }
 .titleBackWrapper{
 	background: url(/wp-content/uploads/2016/12/nz_header_back_opt.png) no-repeat center top;
@@ -1440,14 +1412,23 @@ input[type="radio"]:checked + label {
 .mobileClanName {
     display: none;
 }
+.dashMobile{
+  display: none;
+}
 
-
-@media only screen and (min-width: 1000px) {
+@media only screen and (min-width: 1024px) {
 	.statheader{
 		display: none ;
-	}
-	}
-@media only screen and (max-width: 999px) {
+  }
+  .menuText {
+    margin-left: 70px;
+    margin-top: -41px;
+  }
+  .inboxButton {
+    margin-left: 41px;
+  }
+}
+@media only screen and (max-width: 1023px) {
 	.stattext{
 		margin:0px;
 	}
@@ -1457,8 +1438,58 @@ input[type="radio"]:checked + label {
 	}
 	.topstatheader{
 		display: none;
+  }
+  .dashMobile{
+		display: block;
+  }
+  .sidenav {
+    width:0px;
+  }
+	.toggle-menu-open {
+    position: relative;
+  }
+	.menuText {
+    color: #fff;
+
+    font-size: 13px;
+    text-transform: uppercase;
 	}
+	.hideMenuItem{
+		display: none;
+	}
+	.hide-menu-icon{
+		display: none;
+		height:0px;
+	}
+	.mobileHide{
+		display:none;
+	}
+	.topbarButton{
+		display: block;
+	}
+	.wideMenu{
+		width:100% !important;
+		margin-top:120px;
+	}
+	.statheader{
+		margin-left:0px;
+    background-color: #525252;
+    position: fixed;
+    top: 41px;
+    width: 100%;
+    z-index: 3;
+  }  /* also fixed on top */
+  .logged-in .pageTitle {
+    margin-top:71px;
+  }
 }
+@media only screen and (max-width: 768px) {
+  .menuText {
+    margin-left: 70px;
+    margin-top: -41px;
+  }
+}
+
 .statusBlockButtons{
 	width:100%;
 	margin:0px;
@@ -1476,9 +1507,6 @@ input[type="radio"]:checked + label {
 }
 .inputBlock{
 	padding:0px !important;
-}
-.inboxButton{
-	margin-left:41px;;
 }
 .columnDataLeft{
 	float:none;
@@ -1518,26 +1546,32 @@ input[type="radio"]:checked + label {
 
 	font-weight:bold;
 }
-.dashMobile{
-display: none;
-}
 .sortMobile{
 	display: none;
 }
+
+.permaNotification{
+  -webkit-animation-name: greenPulse;
+  -webkit-animation-duration: 5s;
+  -webkit-animation-iteration-count: infinite;
+  padding: 13px;
+  text-align: center;
+  color: #fff;
+  position:fixed; top:0; left:0; right: 0; z-index: 3;
+}
+.logged-in .permaNotification { top: 40px; left: 40px; }
+
 @media only screen and (max-width: 1000px) {
 	.startingbonus {
     	font-size:85%;
-    }
-	.pageRow{
-		margin:10px 10px 0px 60px
-	}
-	}
-@media only screen and (max-width: 768px) {
-
-.alert{
-	right:0px !important;
-	z-index:9999999999999 !important;
+  }
 }
+@media only screen and (max-width: 768px) {
+  .alert{
+	  right:0px !important;
+	  z-index:9999999999999 !important;
+  }
+  .logged-in .permaNotification { left:0; top: 120px; }
 	.sortMobile{
 		display: block;
 		padding: 10px 10px 10px 15px;
@@ -1550,12 +1584,9 @@ display: none;
 	.sortMobile a{
 		color:#fff;
 	}
-	.dashMobile{
-		display: block;
-		}
 	.removeProtection{
 		float:right;
-		}
+  }
 	.pageLoader{
 		top:25% !important;
 	}
@@ -1569,7 +1600,6 @@ display: none;
 	.loader{
 		height: unset !important;
 	}
-
 	.mobileUserName{
 		display: inline-block;
 		top: -31px;
@@ -1634,11 +1664,9 @@ display: none;
 		background-color: rgba(126, 100, 68, 0.75);
 	}
 	.pageTitle {
-    	font-size: 40px;
+    font-size: 40px;
 		padding: 40px;
-		margin-top:120px;
-
-	}
+  }
 	.spaceNotice{
 		border-width: 0px 0px 1px 0px;
 
@@ -1667,10 +1695,6 @@ display: none;
 	.fourthbutton{
 		border-width: 1px 0px 0px 0px;
 	}
-	.toggle-menu-open {
-	    position: relative;
-	}
-
 	.startingbonus {
     width: 100%;
     font-size:75%;
@@ -1697,61 +1721,11 @@ display: none;
 	.stattext{
 		font-size:12px;
 	}
-
-
-
-	.menuText {
-    color: #fff;
-    margin-left: 70px;
-    font-size: 13px;
-    text-transform: uppercase;
-    margin-top: -41px;
-	}
-	.hideMenuItem{
-		display: none;
-	}
-	.hide-menu-icon{
-		display: none;
-		height:0px;
-	}
-	.mobileHide{
-		display:none;
-	}
-	.topbarButton{
-		display: block;
-	}
-	.sidenav {
-   		width:0px;
-	}
-	.wideMenu{
-		width:100% !important;
-		margin-top:120px;
-	}
-	.statheader{
-		margin-left:0px;
-		background-color: #525252;
-	}
-
 }
 @-webkit-keyframes greenPulse {
   from { background-color: #425C6B;}
   50% { background-color: rgba(67, 92, 108, 0.75); }
   to { background-color: #425C6B; }
-}
-
-.permaNotification{
-  -webkit-animation-name: greenPulse;
-  -webkit-animation-duration: 5s;
-  -webkit-animation-iteration-count: infinite;
-  padding: 13px;
-  text-align: center;
-  color: #fff;
-  position:fixed; top:0; left:0; right: 0; z-index: 3;
-}
-.logged-in .permaNotification { top: 40px; left: 40px; }
-
-@media (max-width: 768px) {
-  .logged-in .permaNotification { left:0; top: 120px; }
 }
 
 .alert-info { top:60px!important; } /* lower notification, so it's not over power usage */
@@ -2335,6 +2309,14 @@ cursor:default;
   .bonusCompleted,.attackingRow,.entry-content,.totalsField,.profileButton,.attackDropdown,.eventResultRow,.alert-minimalist,.clanMessageButton,.battleReportInfo,.blockHeader,.celBlock,.permaNotification,.mainSubmit,.navItem,.statusInsideCol,.eventMainMessage {
     padding: 10px 10px 10px 15px;
   }
+}
+
+@media screen and (max-height: 732px) and (max-width: 768px) { /* make the sidemenu scrollable */
+  body { position: relative; }
+  header#masthead { z-index:2080; }
+  .wideMenu #page-sub-header { position: absolute; top: -80px; width: 100%; }
+  .wideMenu .statheader { position: relative; top: 0; }
+  .wideMenu.sidenav { position: absolute;padding-right: 15px;margin-top: 75px; }
 }
 
 /* no zoom on safari iOS */
