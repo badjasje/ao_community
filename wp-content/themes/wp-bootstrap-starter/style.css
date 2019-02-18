@@ -2152,7 +2152,7 @@ text-decoration: none !important;
     font-size: 10px;
     color: #fff;
     background-color: #233946;
-    z-index: 9999;
+    z-index: 1;
     border-radius: 50%;
     left: 1px;
     top: 1px;
