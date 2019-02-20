@@ -12,12 +12,12 @@
 				You were attacked by <?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
 				<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> and you
 				<?php if($winner_id == $defender_id):?>
-					<strong>won</strong> the battle.
+					<strong> won</strong> the battle.
 					<?php if($defender_points != 0):?>
 						<br/><?php echo $defender_points;?> clan point<?php if($defender_points>1){echo 's';}?> gained for successful base defense.
 					<?php endif;?>
 				<?php else: ?>
-					<strong>lost</strong> the battle.
+					<strong> lost</strong> the battle.
 				<?php endif; ?>
 			<?php endif;?>
 		</div>
