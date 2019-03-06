@@ -2,7 +2,7 @@
     
 require_once("wp-load.php");
 
-/*
+
 $args = array(
 	'meta_key'     	=> 'last_online',
 	'orderby'      	=> 'meta_value_num',
@@ -46,14 +46,22 @@ $args = array(
 
 foreach ($users as $user):
 $userData = get_user_meta($user->ID);
+
 echo get_user_name($user->ID);
 $turnSpread = maybe_unserialize(maybe_unserialize($userData['turn_spread'][0]));
 echo '<pre>';
 print_r($turnSpread);
 echo '</pre>';
+$totalTurnspread = array_sum($turnSpread);
+echo 'Turns lost: '.$userData['turns'][0].'<br/>';
+echo 'Turns on hand: '.$userData['turns_lost'][0].'<br/>';
+echo 'Turns in turnspread: '.$totalTurnspread.'<br/><br/>';
+echo 'All turns: '.$totalTurnspread+$userData['turns_lost'][0]+$userData['turns'][0].'<br/><br/>';
 endforeach;
 
+
 /*
+
 $userId = 1029;
 $array_for_filter = array(	
 					
@@ -99,7 +107,7 @@ $buildingslost += $eventData['total_buildings_lost'][0];
 
 endforeach;
 echo $buildingslost;
-/*
+
 
    
 	
