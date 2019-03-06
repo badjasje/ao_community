@@ -110,7 +110,7 @@ if($PwrUsage > 50) {
 	helpText('Keep your power level around 20% to survive attacks longer', 'buildings', 'reminder');
 }
 if($userData['advancedpowerplant'][0] > $userData['powerplant'][0]) {
-	helpText('Normal powerplants survice attacks longer', 'buildings', 'reminder');
+	helpText('Normal powerplants survive attacks longer', 'buildings', 'reminder');
 }
 ?>
 
