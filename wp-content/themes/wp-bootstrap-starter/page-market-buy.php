@@ -2,7 +2,7 @@
  /*
  * Template Name: Market Buy
 */
-get_header(); 
+get_header();
 $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'air';
 global $userData;
 global $userId;
@@ -90,8 +90,8 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 }
 ?>
 
-<div class="row pageRow <?php echo $disableClass;?>">	
-	
+<div class="row pageRow <?php echo $disableClass;?>">
+
 	<div class="fw-row">
 		<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
 			<a class="nav-item nav-link navItem <?php echo $activeTab === 'air' ? 'active' : ''; ?>" data-toggle="tab" data-target="#air" href="?tab=air">Air units</a>
@@ -101,14 +101,14 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 			<a class="nav-item nav-link navItem" href="/sell" style="background-color: rgba(70, 118, 94, 0.8);">Sell</a>
 		</nav>
 	</div>
-	
+
 	<div class="fw-row">
     <form class="form" name="" id="market" method="post">
         <input type="hidden" name="currentTab" id="currentTab" value="?tab=<?php echo $activeTab; ?>" />
         <div class="tab-content current build_content tabbed-table">
 
             <?php include('pages/market/buy/type.php'); ?>
-            
+
             <div class="row statusBlockButtons">
 
 				<div class="col-md-3 totalsField statCol-1">
@@ -124,8 +124,8 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 					New networth : $ <span id="networth_new"></span>
 				</div>
 			</div>
-            
-            
+
+
 			<?php if($timeLeft > 0):?>
             	<input type="submit" value="Place order" class="mainSubmit hoverEffect">
             <?php endif;?>
@@ -135,11 +135,16 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 
 
 
-	
+
 </div> <!-- // End pageRow -->
+
+<?php
+helpText('Buying units in the market does not use turns', 'market', 'reminder');
+?>
+
 <script>
 (function($) {
-	
+
 $(document).on('shown.bs.tab', function (event) {
 	var currentTab = $(event.target).attr('href');
 	history.pushState(null, null, currentTab);
@@ -192,26 +197,26 @@ $("#market").submit(function(event){
 					allow_dismiss: true,
 					newest_on_top: true,
 					delay: 5000,
-											});	
+											});
 			$('#order_total').html('0');
 			$('#total').html('0');
 			$('#networth_total').html('0');
-			
+
 			if(array.next == true){
 				$.each( array.allordered, function( key, value ) {
 						$('#'+key+'_ordered').html(value);
 					});
-					
+
 					$.each( array.newmax, function( key, value ) {
 						$('#button'+key).html(value);
 					});
-					
+
 					$.each( array.usedspace, function( key, value ) {
 						$('#'+key+'spacecount').html(number_format(value, 0, ',', ' '));
 					});
 			}
 			$('#market').trigger("reset");
-});	});	
+});	});
 
 $(document).on("keyup paste blur change", ".buyInput", function() {
     var sum = 0;
@@ -226,13 +231,13 @@ $(document).on("keyup paste blur change", ".buyInput", function() {
         	addednw += +$(this).attr( "nw-per-unit" )*inputval;
         }
     });
-   
+
 
     $("#total").html(sum);
     $("#order_total").html(number_format(orderval, 0, ',', ' '));
     $("#networth_total").html(number_format(addednw, 0, ',', ' '));
     $("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
-    
+
 });
 $(document).on("click", ".allbutton", function() {
 	var sum = 0;
@@ -240,23 +245,23 @@ $(document).on("click", ".allbutton", function() {
 	var inputamount = $(this).html();
 
 	$(".buy_"+inputkey).val(inputamount);
-	
+
 	var orderval = 0;
 	var addednw = 0;
 	var oldnw = <?php echo $userData['networth'][0];?>;
 
-	
+
 	$(".buyInput").each(function(){
         var inputval = $(this).val();
         sum += +$(this).val();
         if(inputval > 0){
         	orderval += +$(this).attr( "data-price" )*inputval;
         	addednw += +$(this).attr( "nw-per-unit" )*inputval;
-        	
+
         }
     });
 
-   
+
     $("#total").html(sum);
     $("#order_total").html(number_format(orderval, 0, ',', ' '));
     $("#networth_total").html(number_format(addednw, 0, ',', ' '));
