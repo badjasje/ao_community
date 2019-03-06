@@ -26,7 +26,7 @@
 				<?php if($winner_id == $attacker_id){?>
 					lost the battle.
 				<?php } else { ?>
-					<strong>won the battle</strong>
+					<strong> won the battle</strong>
 				<?php } ?>
 			<?php } ?>
 		</div>

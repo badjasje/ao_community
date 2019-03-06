@@ -3,7 +3,7 @@
  * Template Name: Research Page
 */
 
-get_header(); 
+get_header();
 $backColor = "45, 67, 81";
 $buttonColor = "70, 118, 94";
 include 'research_array.php';
@@ -48,13 +48,13 @@ $selectText = 'Select';
 
 if($researchCount >= 1){
 	$researchURL = '/queue_research.php';
-	$btnText = 'Queue research';	
+	$btnText = 'Queue research';
 	$selectText = 'Queue select';
 }
 
 ?>
 
-<div class="row pageRow">	
+<div class="row pageRow">
 
 
 <form class="fw-row" id="research">
@@ -66,8 +66,8 @@ if($researchCount >= 1){
     <div class="col-md-2 celBlock">Time</div>
     <div class="col-md-3 celBlock"></div>
 </div> <! // Close Unit row -->
-	
-<?php 
+
+<?php
 	$count = 0;
 	foreach ($researches as $key => $research) {
 		$count++;
@@ -79,7 +79,7 @@ if($researchCount >= 1){
 		$extraClass = '';
 		if($inProgress == 1){
 			$extraClass = 'loader';
-		
+
 		$args = array(
 			'posts_per_page'   => 1,
 			'author'	   => $userId,
@@ -93,7 +93,7 @@ if($researchCount >= 1){
 		$totaltime = $research['duration']*60*60*$research_reduce;
 		$percentage = round((1-($timeLeft/$totaltime))*100);
 		$timeLeft = date('H:i:s', $timeLeft);
-	
+
 		}
 ?>
 
@@ -103,20 +103,20 @@ if($researchCount >= 1){
 			<sup>Current level: <?php echo $current;?> / <?php echo $research['maxlevel'];?></sup>
     </div>
     <div class="col-md-4 celBlock">
-	    <?php 
+	    <?php
 				$level = 'level' . ($current + 1);
-				
+
 				if ($research['maxlevel'] != $current) {
 					$hideButton = '';
 					switch ($key) {
-					
+
 					case 'market_discount':
 						$md_discount_research = $research[$level.'_value']+$market_discount_bonus;
 						echo str_replace('{value}', $md_discount_research, $research[$level]);
 					break;
 					case 'money_production':
 						$money_research = $research[$level.'_value'] * (1 + ($money_bonus / 100));
-						echo str_replace('{value}', GameUtil::format_money($money_research), $research[$level]);
+						echo str_replace('{value}', '$ '.number_format($money_research, 0, ',', ' '), $research[$level]);
 					break;
 					default:
 						echo $research[$level];
@@ -127,7 +127,7 @@ if($researchCount >= 1){
 						echo '<strong>Maximum level reached.</strong>';
 					}
 				?>
-			
+
     </div>
     <div class="col-md-2 celBlock">
 	    <?php if($research['maxlevel'] != $current):?>
@@ -138,7 +138,7 @@ if($researchCount >= 1){
 			<?php endif;?>
     </div>
     <div class="col-md-3 celBlock" style="padding:0px;">
-	   
+
 		<?php if($research_queued == '0' || $research_in_progress == '0'):?>
 		<div class="researchselector">
 			<input style="display:none;" type="radio" name="research" id="<?php echo $key;?>" value="<?php echo $key;?>">
@@ -153,7 +153,7 @@ if($researchCount >= 1){
 			</label>
 		</div>
 		<?php endif;?>
-		
+
     </div>
 </div> <! // Close Unit row -->
 <?php if($inProgress == 1):?>
@@ -191,7 +191,7 @@ diff -= 1000;
 
 }
 setInterval(updateETime, 1000 );
-</script>	   
+</script>
 </div>
 <?php endif;?>
 
@@ -207,16 +207,25 @@ setInterval(updateETime, 1000 );
 <?php endif;?>
 </form>
 
+<?php
+if(!empty($research_in_progress)) {
+	helpText('Queueing research takes extra turns', 'research', 'warning');
+}
+else {
+	helpText('Every hour of research adds to your networth', 'research', 'reminder');
+}
+?>
+
 <script>
 (function($) {
-	
+
 
 // Variable to hold request
 var request;
 
 // Bind to the submit event of our form
 $('form').submit(function( event ) {
-	
+
 	 if (!$("input[name='research']:checked").val()) {
        $.notify({
 					message: 'Please select a research',
@@ -228,7 +237,7 @@ $('form').submit(function( event ) {
 						});
         return false;
     }
-	
+
 	$('.pageLoader, #page-cover').show();
 	$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
     // Prevent default posting of form - put here to work in case of errors
@@ -263,8 +272,8 @@ $('form').submit(function( event ) {
     request.done(function (response, textStatus, jqXHR){
         updateHeaderData();
         var array = JSON.parse(response);
-      
-        
+
+
 				$.notify({
 					message: array.status,
 					},{
@@ -272,19 +281,19 @@ $('form').submit(function( event ) {
 					delay: 5000,
 					allow_dismiss: true,
 					newest_on_top: true,
-						});	
-			
-	
+						});
+
+
 			$("#researchsubmit").val('Queue research');
 			$( ".researchlabel" ).html( "Queue select" );
 			location.reload();
 			$( array.hidebutton).hide();
-			
+
 			if(array.endtime != 'queued'){
 				$( "<div class='blockHeader fw-row'><i class='fa fa-circle-notch fa-spin'></i> Time left: <div class='timeLeft' id='countdown_time'></div></div>").insertAfter( "#research_"+array.started );
-				
+
 				//////
-				
+
 var diff = array.endtime*1000;
 
 function updateETime() {
@@ -315,34 +324,34 @@ diff -= 1000;
 
 }
 setInterval(updateETime, 1000 );
-				
+
 				//////
-				
-				
-				
+
+
+
 
 	  			$( "#research_"+array.started ).addClass( "loader" );
-	  			
+
   			}else{
   				$( "<div class='blockHeader fw-row'><i class='fa fa-clock'></i> Research queued</div>").insertAfter( "#research_"+array.started );
   				$( "#researchsubmit" ).remove();
   				$( "#researchselector" ).empty();
   				$( ".researchselector" ).html('<label style="background-color: rgba(221, 221, 221, 0.9);" class="researchlabel mainSubmit hoverEffect attackSelect">No Selection Possible</label>');
-  				
-  				
+
+
   			}
-  			
-  			
+
+
   		$('form').trigger("reset");
 
-});	});	
+});	});
 })(jQuery);
 </script>
 
 
 
 
-	
+
 </div> <!-- End pageRow -->
 <?php
 get_footer();
