@@ -1639,10 +1639,10 @@ function display_all_units() {
     return $allunits;
 }
 
-function fcm_send_notification($receiver, $type, $attacker) {
+function fcm_send_notification($receiver, $type, $attacker=0) {
 
     $attacker_data = get_userdata($attacker);
-    $attacker_name = $attacker_data->display_name;
+    if(is_object($attacker_data)) $attacker_name = $attacker_data->display_name;
     $receiver_data = get_userdata($receiver);
     if(!$receiver_data || !is_object($receiver_data)) return;
     $receiver_name = $receiver_data->display_name;
@@ -1695,7 +1695,86 @@ function fcm_send_notification($receiver, $type, $attacker) {
         $url = get_site_url() . '/conversations/';
     }
 
-    if(empty($body)) return;
+    // -> /declare_war.php
+    if ($type == 'wardeclared') { // $attacker is a clan-member, but we want to show the clan info
+        $declarer_clan_ID = get_user_meta($attacker, 'clan_id_user', true);
+        if(!empty($declarer_clan_ID)) {
+            $tag = get_post_meta($declarer_clan_ID, 'clan_tag', true);
+            $avatar = get_user_meta($receiver, 'avatar_user', true);
+            $body = get_the_title($declarer_clan_ID) .' ('.$tag.') declared war on you';
+            $url = get_site_url() . '/clan-wars/';
+        }
+    }
+
+    // Nukeprotection removed -> /marketordercheck.php (cron)
+    if ($type == 'nukeprotectremoved') {
+        $avatar = get_user_meta($receiver, 'avatar_user', true);
+        $body = 'Your protection has been removed';
+        $url = get_site_url() . '/dashboard/';
+    }
+
+    // Market Order received
+    if ($type == 'orderarrived') {
+        $avatar = get_user_meta($receiver, 'avatar_user', true);
+        $body = 'Your order has arrived';
+        $url = get_site_url() . '/dashboard/';
+    }
+
+    // Max money? -> /add_money.php (cron)
+
+    // Sattelite crashed -> /marketordercheck.php (cron)
+    if ($type == 'satcrash') {
+        $avatar = get_user_meta($receiver, 'avatar_user', true);
+        $body = 'Your satellite crashed and burned up in the atmosphere';
+        $url = get_site_url() . '/satellites/';
+    }
+
+    // Power -> /marketordercheck.php (cron)
+    $lp_notified = get_user_meta($receiver, 'low_power_notified', true);
+    if ($type == 'lowpower'  && (empty($lp_notified) || $lp_notified == 'no')) {
+        $avatar = get_user_meta($receiver, 'avatar_user', true);
+        $body = 'Your power is currently offline. Restore your power as soon as possible';
+        $url = get_site_url() . '/buildings/';
+        update_user_meta($receiver, 'low_power_notified', 'yes');
+    }
+
+    // Power -> /marketordercheck.php (cron)
+    $hp_notified = get_user_meta($receiver, 'high_power_notified', true);
+    if ($type == 'highpower' && (empty($hp_notified) || $hp_notified == 'no')) {
+        $avatar = get_user_meta($receiver, 'avatar_user', true);
+        $body = 'Your power is currently high which makes you an easy target';
+        $url = get_site_url() . '/buildings/';
+        update_user_meta($receiver, 'high_power_notified', 'yes');
+    }
+
+    // Buildings -> /marketordercheck.php (cron)
+    $lb_notified = get_user_meta($receiver, 'low_buildings_notified', true);
+    if ($type == 'buildings' && (empty($lb_notified) || $lb_notified == 'no')) {
+        $avatar = get_user_meta($receiver, 'avatar_user', true);
+        $body = 'You have 50 buildings or less. Rebuild as soon as possible';
+        $url = get_site_url() . '/buildings/';
+        update_user_meta($receiver, 'low_buildings_notified', 'yes');
+    }
+
+    /*if ($type == 'roundstart') {
+        $avatar = get_user_meta($receiver, 'avatar_user', true);
+        $body = 'A new round has begun';
+        $url = get_site_url() . '/dashboard/';
+    }*/
+
+    // Max turns -> /add_turns.php (cron)
+    $mt_notified = get_user_meta($receiver, 'max_turns_notified', true);
+    if ($type == 'maxturns' && (empty($mt_notified) || $mt_notified == 'no')) {
+        $avatar = get_user_meta($receiver, 'avatar_user', true);
+        $body = 'Max turns reached, spend some on building, exploring or attacking';
+        $url = get_site_url() . '/dashboard/';
+        update_user_meta($receiver, 'max_turns_notified', 'yes');
+    }
+
+    if(!isset($body) || empty($body)) return;
+
+// Dev!
+//if($receiver != 2768) return;
 
     $registrationIds = maybe_unserialize(get_user_meta($receiver, 'device_tokens', true));
     if(!empty($registrationIds)) {
@@ -1735,3 +1814,12 @@ function fcm_send_notification($receiver, $type, $attacker) {
     }
 }
 
+/**
+ * @todo: check if user wants these help-texts
+ * @todo: find a way to "stack" these texts
+ */
+function helpText($message, $source='generic', $type='tip') {
+    echo "<script>(function($) { setTimeout(function() {
+        $.notify({message:'".ucfirst($type).": ".$message."'},{type:'info',delay:5000,allow_dismiss:true,newest_on_top:true});
+    },200); })(jQuery);</script>";
+}

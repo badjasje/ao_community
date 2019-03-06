@@ -82,7 +82,7 @@ $warcheck = get_posts(
 if (count($warcheck) == 0) {
     $decNW = get_post_meta($declarer_clan_ID, 'clan_networth', true);
     $recWN = get_post_meta($_POST['clan'], 'clan_networth', true);
-    
+
     //MEGA dropboost fix 20171106
     //Count the members in the clan
     $clanMembers = get_post_meta($_POST['clan'], 'clan_members', true);
@@ -103,10 +103,10 @@ if (count($warcheck) == 0) {
       exit;
     } */
     //END dropBoost fix!
- 
+
     //$_SESSION['status'] = 'DAVEi'.count($clanMembers).".Avg:".$averageNw."DeclAvg:".$declarerAverageNw;
     //wp_redirect(get_permalink($_GET['clan']));
-    //exit; 
+    //exit;
     if ($recWN > $decNW/1.4 && $recWN < $decNW*1.4) {
     } else {
         $array['status'] = 'You can not do that';
@@ -135,8 +135,8 @@ $new_war_id = wp_insert_post($args);
 update_post_meta($new_war_id, 'declared_by', $declarer_clan_ID);
 update_post_meta($new_war_id, 'declared_on', $_POST['clan']);
 update_post_meta($new_war_id, 'war_array_id', $war_ID);
-            
-            
+
+
 
     /* add globals */
 
@@ -168,6 +168,7 @@ $clan_members = get_post_meta($_POST['clan'], 'clan_members');
 foreach ($clan_members[0] as $member) {
     $globals = get_user_meta($member, 'new_global_events', true);
     update_user_meta($member, 'new_global_events', $globals+1);
+    fcm_send_notification($member, 'wardeclared', $userId); // Notify all clan members they are in a war now
 }
 
 
@@ -181,7 +182,7 @@ foreach ($clan_members2[0] as $member2) {
 if (count($warcheck) == 0) {
 // Set an array for tracking statistics - Declaring clan
     $war_array = maybe_unserialize(get_post_meta($declarer_clan_ID, 'war_array', true));
-    
+
     if(!is_array($war_array)){
 		$war_array = array();
 	}
@@ -223,7 +224,7 @@ if (count($warcheck) == 0) {
 
 // Set an array for tracking statistics - Declared clan
     $war_array_def = maybe_unserialize(get_post_meta($_POST['clan'], 'war_array', true));
-    
+
     if(!is_array($war_array_def)){
 		$war_array_def = array();
 	}
@@ -268,13 +269,13 @@ if (count($warcheck) == 0) {
 // If war already exists, update war array
 if (count($warcheck) > 0) {
     $war_array = maybe_unserialize(get_post_meta($declarer_clan_ID, 'war_array', true));
-    
-    
-    
+
+
+
     $war_array[$war_ID]['id_outgoing'] = $new_war_id;
     $war_array[$war_ID]['mutual_date'] = $timestamp;
     update_post_meta($declarer_clan_ID, 'war_array', maybe_serialize($war_array));
-    
+
     $war_array_def = maybe_unserialize(maybe_unserialize(get_post_meta($_POST['clan'], 'war_array', true)));
     $war_array_def[$war_ID]['id_incoming'] = $new_war_id;
     $war_array_def[$war_ID]['mutual_date'] = $timestamp;
