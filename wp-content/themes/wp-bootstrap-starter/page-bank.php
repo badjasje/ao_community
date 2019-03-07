@@ -3,7 +3,7 @@
  * Template Name: Bank
 */
 include 'interest_array.php';
-get_header(); 
+get_header();
 global $userData;
 global $userId;
 
@@ -30,112 +30,99 @@ if($daysleft < 3){
 }
 
 $banklevel = $userData['level_bank_management'][0];
-		$startingbonus = $userData['starting_bonus'][0];
-			$finance_multi = 1;
-			if($startingbonus == 'finance'){
-				$finance_multi = 1.5;
-			}
-		
-		if($banklevel == 0){
-			$extra_interest = 0;
-			$max_dep = 250000*$finance_multi;
-			$max_tot = 2500000*$finance_multi;
-		}
-		if($banklevel == 1){
-			$extra_interest = 0.5;
-			$max_dep = 350000*$finance_multi;
-			$max_tot = 3500000;
-		}
-		if($banklevel == 2){
-			$extra_interest = 0.5;
-			$max_dep = 450000*$finance_multi;
-			$max_tot = 4500000;
-		}
-		if($banklevel == 3){
-			$extra_interest = 0.75;
-			$max_dep = 500000*$finance_multi;
-			$max_tot = 5000000*$finance_multi;
+$startingbonus = $userData['starting_bonus'][0];
+	$finance_multi = 1;
+	if($startingbonus == 'finance'){
+		$finance_multi = 1.5;
+	}
+
+if($banklevel == 0){
+	$extra_interest = 0;
+	$max_dep = 250000*$finance_multi;
+	$max_tot = 2500000*$finance_multi;
+}
+if($banklevel == 1){
+	$extra_interest = 0.5;
+	$max_dep = 350000*$finance_multi;
+	$max_tot = 3500000;
+}
+if($banklevel == 2){
+	$extra_interest = 0.5;
+	$max_dep = 450000*$finance_multi;
+	$max_tot = 4500000;
+}
+if($banklevel == 3){
+	$extra_interest = 0.75;
+	$max_dep = 500000*$finance_multi;
+	$max_tot = 5000000*$finance_multi;
 }
 $maxDepositAmount = floor(min($max_dep,$money));
 ?>
 
-<div class="row pageRow">	
-	
-
+<div class="row pageRow">
 
 <div class="fw-row">
 <form id="bank">
-	
+
 	<div class="blockHeader" style="border-bottom:0px;">
 		Your current research allows you to deposit a total of $ <?php echo number_format($max_tot, 0, ',', ' '); ?>. $ <?php echo number_format($max_dep, 0, ',', ' '); ?> maximum per deposit.
 	</div>
-	
+
 	<div class="blockHeader spaceNotice">
-           The minimum required to deposit is $ 5 000. You currently have <span id="nrdeposits"><?php echo count_deposits($userId);?></span> deposits.
+        The minimum required to deposit is $ 5 000. You currently have <span id="nrdeposits"><?php echo count_deposits($userId);?></span> deposits.
 	</div>
-	
-	
-<div class="row no-gutters">
-	<div class="col-md-6 no-gutters">
-		<div class="row no-gutters">
-			<div class="attackDropdown statCol-1 no-gutters">
-				Days to deposit
-			</div>
-			
-			<div style="padding:0px;" class="attackDropdown statCol-2 no-gutters">
-				
-				
-				<select <?php echo $daysleft;?> name="days" class="attackTypeInput">
-					<?php 
+
+	<div class="row no-gutters">
+		<div class="col-md-6 no-gutters">
+			<div class="row no-gutters">
+				<div class="attackDropdown statCol-1 no-gutters">
+					Days to deposit
+				</div>
+
+				<div style="padding:0px;" class="attackDropdown statCol-2 no-gutters">
+
+					<select <?php echo $daysleft;?> name="days" class="attackTypeInput">
+					<?php
 						$count = 3;
 						if($daysleft < 3){
 							$count = 1;
 							$daysleft = 1;
 						}
 						foreach (range($count,min($daysleft,10)) as $rateDay) {?>
-					<?php if($daysleft < 3):?>
-						<option name="days">
-						 	You can no longer deposit money.
-						 </option>
-					<?php else:?>
-					<option name="days" value="<?php echo $count;?>">
-						 <?php echo $count;?> days (<?php echo ($rates[$count]['interest']-1)*100+$extra_interest;?>% daily interest)
-					</option>
-					<?php endif;?>
-					<?php 
+						<?php if($daysleft < 3):?>
+							<option name="days">
+								You can no longer deposit money.
+							</option>
+						<?php else:?>
+						<option name="days" value="<?php echo $count;?>">
+							<?php echo $count;?> days (<?php echo ($rates[$count]['interest']-1)*100+$extra_interest;?>% daily interest)
+						</option>
+						<?php endif;?>
+						<?php
 						$count++;
 						} ?>
-					</select>	
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6 no-gutters">
+			<div class="row no-gutters">
+				<div class="col-sm-6 bankCol">
+					<input class="unitInput" min="0" max="<?php echo $maxDepositAmount;?>" placeholder="Enter amount"type="number" id="amount" name="amount" style="border: none;"/>
+				</div>
+				<div id="maxdep" data-max="<?php echo $maxDepositAmount;?>" class="col-sm-6 bankCol mainSubmit" style="border-top:0px;background-color:rgba(70, 118, 94, 0.8);">
+					MAX
+				</div>
 			</div>
 		</div>
 	</div>
-	
-	<div class="col-md-6 no-gutters">
-		<div class="row no-gutters">
-		<div class="col-sm-6 bankCol">
-		 	<input class="unitInput" min="0" max="<?php echo $maxDepositAmount;?>" placeholder="Enter amount"type="number" id="amount" name="amount" style="border: none;"/>
-		</div>
-		<div id="maxdep" data-max="<?php echo $maxDepositAmount;?>" class="col-sm-6 bankCol mainSubmit" style="border-top:0px;background-color:rgba(70, 118, 94, 0.8);">
-			MAX
-		</div>
-		</div>
-	</div>
-</div>
-	
-	
+
 	<input type="submit" value="Deposit money" class="mainSubmit">
-</form>	
-	
-	
+</form>
 </div>
-	
-	
-	
-	
-	
+
 <div class="pageSpacer"></div>
-
-
 
 <div class="row unitRow headerRow fw-row bankHeader" style="border-bottom:1px solid #fff;background-color: rgba(<?php echo $backColor;?>, 0.75);">
 	<div class="col-md-3 celBlock nameBlock">
@@ -149,79 +136,65 @@ $maxDepositAmount = floor(min($max_dep,$money));
     </div>
     <div class="col-md-3 celBlock">
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- // Close Unit row -->
 
+<?php
+$args = array(
+	'posts_per_page'   => -1,
+	'author'	=> $userId,
+	'post_type'        => 'deposit',
+	'meta_key' => 'release_date',
+	'orderby'    => 'meta_value_num',
+);
+$deposits = get_posts( $args );
+$count = 0;
+foreach ($deposits as $deposit) :
+	$depositId = $deposit->ID;
+	$depositData = get_post_meta($depositId);
 
-
-	
-	
-<?php 	
-	
-	$args = array(
-		'posts_per_page'   => -1,
-		'author'	=> $userId,
-		'post_type'        => 'deposit',
-		'meta_key' => 'release_date',
-		'orderby'    => 'meta_value_num',
-		);
-	
-	$deposits = get_posts( $args ); 
-	$count = 0;
-	foreach ($deposits as $deposit) :
-		$depositId = $deposit->ID;
-		$depositData = get_post_meta($depositId);
-		
-		$days = $depositData['days'][0];
-		$deposited = $depositData['amount'][0];
-		$total_deposited+=$deposited;
-		$amount = $depositData['amount'][0];
-		$incl_interest = $amount*pow($rates[$days]['interest']+($extra_interest/100),$days);
-		$total_final+=$incl_interest;
-		$release_stamp = $depositData['release_date'][0];
-		$time_left = $release_stamp-$timestamp;
-		$placedStamp = $depositData['deposit_placed'][0];
-		$count++;
-	?>	
+	$days = $depositData['days'][0];
+	$deposited = $depositData['amount'][0];
+	$total_deposited+=$deposited;
+	$amount = $depositData['amount'][0];
+	$incl_interest = $amount*pow($rates[$days]['interest']+($extra_interest/100),$days);
+	$total_final+=$incl_interest;
+	$release_stamp = $depositData['release_date'][0];
+	$time_left = $release_stamp-$timestamp;
+	$placedStamp = $depositData['deposit_placed'][0];
+	$count++;
+	?>
 <div class="row unitRow fw-row deposit_<?php echo $depositId;?>" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
 	<div class="col-md-3 celBlock">
 	    <span class="columnDataLeft">Deposited</span>
 	    <span class="columnDataRight depositedspan" inclinterest="<?php echo $incl_interest;?>" depositamount="<?php echo $deposited;?>">$ <?php echo number_format($deposited, 0, ',', ' '); ?></span>
 	</div>
-	
+
 	<div class="col-md-3 celBlock">
 	    <span class="columnDataLeft">Including interest</span>
 	    <span class="columnDataRight">$ <?php echo number_format(ceil($incl_interest), 0, ',', ' '); ?></span>
 	</div>
-	
+
 	<div class="col-md-3 celBlock">
 	    <span class="columnDataLeft">Release date</span>
 	    <span class="columnDataRight"><?php echo date('H:i | d-m-Y', $release_stamp);?></span>
 	</div>
-	
+
 	<div class="col-md-3 celBlock" style="padding:0px;">
-		
-	
+
 	<?php if($time_left < 0):?>
-		
+
 		<?php $unlocked+=$incl_interest;?>
-		
+
 		<button id="withdraw" unlocked="<?php echo $incl_interest;?>" data-dep-value="<?php echo number_format(ceil($incl_interest), 0, ',', ' '); ?>" data-deposit="<?php echo $depositId;?>" class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);" type="submit" value="<?php echo $depositId;?>">Withdraw</button>
-		 
+
 	<?php endif;?>
-			
+
 <?php if($banklevel >= 2 && $time_left > 0):?>
-				
 	<?php if($placedStamp+43200 <= $timestamp && $time_left > 0){  $unlocked+=$incl_interest; ?>
-		
 		<button id="withdraw" unlocked="<?php echo $incl_interest;?>" data-dep-value="<?php echo number_format(ceil($deposited*$extra_interest), 0, ',', ' '); ?>" data-deposit="<?php echo $depositId;?>" class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/220);?>);" type="submit" >Cancel</button>
-					
-				<?php }?>
+	<?php }?>
 <?php endif;?>
-			
-	
-	
-	
-	
+
 	</div>
 </div>
 
@@ -232,12 +205,14 @@ $maxDepositAmount = floor(min($max_dep,$money));
 <div class="statCol-2 blockHeader bankFoot">Total final: $ <span id="inclinterest"><?php echo number_format($total_final, 0, ',', ' '); ?></span></div>
 <div class="statCol-3 blockHeader bankFoot">Total Available (unlocked): $ <span id="unlockedvalue"><?php echo number_format($unlocked, 0, ',', ' '); ?></span></div>
 
+<?php
+if($count == 0) {
+	helpText('Money will stay safe forever in the bank until you withdraw', 'bank', 'reminder');
+}
+?>
 
-
-	
 <script>
 (function($) {
-	
 
 $( ".cancelButton" ).click(function() {
 	$('.pageLoader, #page-cover').show();
@@ -245,17 +220,17 @@ $( ".cancelButton" ).click(function() {
 	var bankvalue = $(this).attr( "data-dep-value" );
 	if(confirm("Are you sure? This deposit will return $ "+bankvalue)){
 
-	
+
 	var withdrawid = $(this).attr( "data-deposit" );
 	var withdraw;
-  	
+
   	withdraw = $.ajax({
         url: "/withdraw_money.php",
         type: "post",
         data: {deposit : withdrawid}
     });
-    
-	withdraw.done(function (response, textStatus, jqXHR){ 
+
+	withdraw.done(function (response, textStatus, jqXHR){
 		updateHeaderData();
 		var array = JSON.parse(response);
 
@@ -266,7 +241,7 @@ $( ".cancelButton" ).click(function() {
 			delay: 5000,
 			allow_dismiss: true,
 			newest_on_top: true,
-				});	
+				});
 		$('#withdraw').trigger("reset");
 		if(array.next == true){
 			$('#money').html(number_format(array.money, 0, ',', ' '));
@@ -290,13 +265,13 @@ $( ".cancelButton" ).click(function() {
     		$(".cancelButton").each(function() {
 				unlocked += +$(this).attr( "unlocked" );
     		});
-    		
+
 			$('#depositedvalue').html(number_format(depval, 0, ',', ' '));
 			$('#inclinterest').html(number_format(inclinterest, 0, ',', ' '));
 			$('#unlockedvalue').html(number_format(unlocked, 0, ',', ' '));
-			
+
 		}
-		
+
 	});
 } // End cancel if statement
 });
@@ -340,8 +315,8 @@ $('form').submit(function( event ) {
     request.done(function (response, textStatus, jqXHR){
         updateHeaderData();
         var array = JSON.parse(response);
-        
-        	
+
+
 				$.notify({
 					message: array.status,
 					},{
@@ -349,9 +324,9 @@ $('form').submit(function( event ) {
 					delay: 5000,
 					allow_dismiss: true,
 					newest_on_top: true,
-						});	
-			
-			
+						});
+
+
 			if(array.next == true){
 				$("#amount").attr({
 					"max" : array.newmaxdep,
@@ -363,9 +338,9 @@ $('form').submit(function( event ) {
 				});
 				$('#money').html(number_format(array.money, 0, ',', ' '));
 				$('#nrdeposits,.totaldeposits').html(array.deposits);
-				
+
 				$(".bankHeader").after("<div class='row unitRow fw-row' style='background-color: rgba(45, 67, 81, 0.56);'><div class='col-md-3 celBlock'><span class='columnDataLeft'>Deposited</span><span class='columnDataRight depositedspan' inclinterest='"+array.inclinterest+"' depositamount='"+array.deposited+"'>$ "+number_format(array.deposited, 0, ',', ' ')+"</span></div><div class='col-md-3 celBlock'><span class='columnDataLeft'>Including interest</span><span class='columnDataRight'>$ "+number_format(array.inclinterest, 0, ',', ' ')+"</span></div><div class='col-md-3 celBlock'><span class='columnDataLeft'>Release date</span><span class='columnDataRight'>"+array.releasedate+"</span></div><div class='col-md-3 celBlock' style='padding:0px;'></div></div>");
-				
+
 			var depval = 0;
 			var inclinterest = 0;
 			var unlocked = 0;
@@ -376,37 +351,31 @@ $('form').submit(function( event ) {
     		$(".cancelButton").each(function() {
 				unlocked += +$(this).attr( "unlocked" );
     		});
-    		
+
 			$('#depositedvalue').html(number_format(depval, 0, ',', ' '));
 			$('#inclinterest').html(number_format(inclinterest, 0, ',', ' '));
 			$('#unlockedvalue').html(number_format(unlocked, 0, ',', ' '));
-				
-				
+
+
 				$('form').trigger("reset");
 			}
-});	});	
+});	});
 })(jQuery);
 </script>
-	
-	
-	
-	
-<?php if($daysleft >= 3):?>	
+
+
+
+
+<?php if($daysleft >= 3):?>
 <script type="text/javascript">
 	jQuery("#maxdep").click(function() {
 	var maxdep = jQuery(this).attr( "data-max" );
 		jQuery("#amount").val(maxdep);
 
 	});
-
 </script>
 <?php endif;?>
-	
-	
-	
-	
-	
-	
+
 </div> <!-- end pageRow -->
 <?php
 get_sidebar();

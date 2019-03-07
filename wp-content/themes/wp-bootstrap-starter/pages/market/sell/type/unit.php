@@ -28,7 +28,7 @@ $networthPerUnit = $unit['price'] * $unit['networth'] / 100;
     <div class="col-md-2 celBlock">
         <span class="columnDataLeft">Max</span>
         <span class="columnDataRight">
-			<?php if (in_array($unitKey, $specialUnitsArray)) : ?>
+			<?php if (is_array($specialUnitsArray) && in_array($unitKey, $specialUnitsArray)) : ?>
 				<span id="maxsell_<?php echo $unitKey;?>" class="sellall" data-nw="<?php echo $unit['networth'];?>" data-price="<?php echo $sellPrice;?>" data-key="<?php echo $unitKey;?>" data-amount="<?php echo min($unitsOwned,$specialSold);?>"><?php echo min($unitsOwned,$specialSold);?></span>
             <?php else:?>
                 <span id="maxsell_<?php echo $unitKey;?>" class="sellall" data-nw="<?php echo $unit['networth'];?>" data-price="<?php echo $sellPrice;?>" data-key="<?php echo $unitKey;?>" data-amount="<?php echo $unitsOwned;?>"><?php echo $unitsOwned;?></span>
@@ -37,7 +37,7 @@ $networthPerUnit = $unit['price'] * $unit['networth'] / 100;
     </div>
     <div class="col-md-4 celBlock" style="padding:0px;">
 	    <?php if($unitsOwned > 0):?>
-        <input class="unitInput sellInput" data-nw="<?php echo $unit['networth'];?>" data-key="<?php echo $unitKey;?>" data-price="<?php echo $sellPrice;?>" max="<?php echo $unitsOwned;?>" type="number" id="sell_<?php echo $unitKey;?>" min="0" name="<?php echo $unitKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
+        <input class="unitInput sellInput" data-nw="<?php echo $unit['networth'];?>" data-key="<?php echo $unitKey;?>" data-price="<?php echo $sellPrice;?>" data-baseprice="<?php echo $unit['price'];?>" max="<?php echo $unitsOwned;?>" type="number" id="sell_<?php echo $unitKey;?>" min="0" name="<?php echo $unitKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
         <?php endif;?>
     </div>
 </div>

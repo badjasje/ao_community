@@ -2,7 +2,7 @@
  /*
  * Template Name: Market Orders
 */
-get_header(); 
+get_header();
 global $userData;
 global $userId;
 
@@ -14,9 +14,9 @@ $backColor = "45, 67, 81";
 $buttonColor = "70, 118, 94"
 ?>
 
-<div class="row pageRow">	
-	
-	
+<div class="row pageRow">
+
+
 
 
 <div class="row unitRow headerRow fw-row" style="border-bottom:1px solid #fff;background-color: rgba(<?php echo $backColor;?>, 0.75);">
@@ -29,7 +29,7 @@ $buttonColor = "70, 118, 94"
 
 
 <?php
-	
+
 $args = [
     'posts_per_page'   => -1,
     'meta_key'		=> 'user_placed_id',
@@ -48,7 +48,7 @@ foreach ($orders as $order){
 	$count++;
     $orderId = $order->ID;
     $orderData = get_post_meta($orderId);
-    
+
     $units_in_this_order = $orderData['amount_ordered'][0];
 
     $order_type = $orderData['order_type'][0];
@@ -64,7 +64,7 @@ foreach ($orders as $order){
         if($order_type == 'missile'){
             $totalNetworth += $orderValue*$missiles[$unit_type]['networth']/100;
         }
-        
+
         if($order_type == 'satellite'){
             $totalNetworth += $orderValue*$satellites[$unit_type]['networth']/100;
         }
@@ -102,10 +102,10 @@ foreach ($orders as $order){
 			</form>
 		<?php endif;?>
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- // Close Unit row -->
 
 
-<?php }}?>	
+<?php }}?>
 
 <div class="row statusBlockButtons">
 	<div class="col-md-4 totalsField statCol-1">
@@ -121,7 +121,7 @@ foreach ($orders as $order){
 
 <script>
 (function($) {
-	
+
 
 // Variable to hold request
 var request;
@@ -171,12 +171,12 @@ $('form').submit(function( event ) {
 					delay: 5000,
 					allow_dismiss: true,
 					newest_on_top: true,
-						});	
-			
-			$('#money').html(number_format(array.money, 0, ',', ' '));
-		
+						});
 
-});	});	
+			$('#money').html(number_format(array.money, 0, ',', ' '));
+
+
+});	});
 })(jQuery);
 </script>
 

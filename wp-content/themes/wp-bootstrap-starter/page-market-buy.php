@@ -33,7 +33,6 @@ $planesOrdered = $userData['spyplane_ordered'][0];
 $sniper = $userData['sniper_owned'][0];
 $snipersOrdered = $userData['sniper_ordered'][0];
 
-
 $commandCenters = $userData['command_centre'][0];
 $space = [
     'air' => $userData['airfield'][0] * 10,
@@ -63,8 +62,6 @@ $startingBonus = $userData['starting_bonus'][0];
 if($startingBonus == 'shipping'){
     $discount = $discount - 0.1;
 }
-
-
 
 $specialUnits = [
     'spy',
@@ -133,141 +130,130 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
     </form>
 	</div>
 
-
-
-
 </div> <!-- // End pageRow -->
 
 <?php
-helpText('Buying units in the market does not use turns', 'market', 'reminder');
+$args = [
+    'posts_per_page'=> -1,
+    'meta_key'		=> 'user_placed_id',
+    'meta_value'	=> $userId,
+    'post_type'     => 'market_order',
+];
+$orders = get_posts( $args );
+if(count($orders) == 0) {
+	helpText('Buying units in the market does not use turns', 'market', 'reminder');
+}
 ?>
 
 <script>
 (function($) {
+	$(document).on('shown.bs.tab', function (event) {
+		var currentTab = $(event.target).attr('href');
+		history.pushState(null, null, currentTab);
+	});
 
-$(document).on('shown.bs.tab', function (event) {
-	var currentTab = $(event.target).attr('href');
-	history.pushState(null, null, currentTab);
-});
+	// Variable to hold request
+	var request;
+	// Bind to the submit event of our form
+	$("#market").submit(function(event){
+		$('.pageLoader, #page-cover').show();
+		$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
+		// Prevent default posting of form - put here to work in case of errors
+		event.preventDefault();
 
-// Variable to hold request
-var request;
+		// Abort any pending request
+		if (request) {
+			request.abort();
+		}
+		// setup some local variables
+		var $form = $(this);
 
-// Bind to the submit event of our form
-$("#market").submit(function(event){
-	$('.pageLoader, #page-cover').show();
-	$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
-    // Prevent default posting of form - put here to work in case of errors
-    event.preventDefault();
+		// Let's select and cache all the fields
+		var $inputs = $form.find("input, select, button, textarea");
 
-    // Abort any pending request
-    if (request) {
-        request.abort();
-    }
-    // setup some local variables
-    var $form = $(this);
+		// Serialize the data in the form
+		var serializedData = $form.serialize();
 
-    // Let's select and cache all the fields
-    var $inputs = $form.find("input, select, button, textarea");
+		// Fire off the request to /form.php
+		request = $.ajax({
+			url: "/market.php",
+			type: "post",
+			data: serializedData
+		});
 
-    // Serialize the data in the form
-    var serializedData = $form.serialize();
+		// Callback handler that will be called on success
+		request.done(function (response, textStatus, jqXHR){
+			updateHeaderData();
+			var array = JSON.parse(response);
 
-    // Let's disable the inputs for the duration of the Ajax request.
-    // Note: we disable elements AFTER the form data has been serialized.
-    // Disabled form elements will not be serialized.
-    //$inputs.prop("disabled", true);
-
-    // Fire off the request to /form.php
-    request = $.ajax({
-        url: "/market.php",
-        type: "post",
-        data: serializedData
-    });
-
-    // Callback handler that will be called on success
-    request.done(function (response, textStatus, jqXHR){
-        updateHeaderData();
-        var array = JSON.parse(response);
-
-				$.notify({
-					message: array.status,
-					},{
-					type: 'info',
-					allow_dismiss: true,
-					newest_on_top: true,
-					delay: 5000,
-											});
+			$.notify({message: array.status},{type:'info', allow_dismiss:true, newest_on_top:true, delay:5000});
 			$('#order_total').html('0');
 			$('#total').html('0');
 			$('#networth_total').html('0');
 
-			if(array.next == true){
+			if(array.next == true) {
 				$.each( array.allordered, function( key, value ) {
-						$('#'+key+'_ordered').html(value);
-					});
+					$('#'+key+'_ordered').html(value);
+				});
 
-					$.each( array.newmax, function( key, value ) {
-						$('#button'+key).html(value);
-					});
+				$.each( array.newmax, function( key, value ) {
+					$('#button'+key).html(value);
+				});
 
-					$.each( array.usedspace, function( key, value ) {
-						$('#'+key+'spacecount').html(number_format(value, 0, ',', ' '));
-					});
+				$.each( array.usedspace, function( key, value ) {
+					$('#'+key+'spacecount').html(number_format(value, 0, ',', ' '));
+				});
 			}
 			$('#market').trigger("reset");
-});	});
+		});
+	});
 
-$(document).on("keyup paste blur change", ".buyInput", function() {
-    var sum = 0;
-    var orderval = 0;
-    var addednw = 0;
-    var oldnw = <?php echo $userData['networth'][0];?>;
-    $(".buyInput").each(function(){
-	    var inputval = $(this).val();
-        sum += +$(this).val();
-        if(inputval > 0){
-        	orderval += +$(this).attr( "data-price" )*inputval;
-        	addednw += +$(this).attr( "nw-per-unit" )*inputval;
-        }
-    });
+	$(document).on("keyup paste blur change", ".buyInput", function() {
+		var sum = 0;
+		var orderval = 0;
+		var addednw = 0;
+		var oldnw = parseInt($('#masthead .networthheader').text().replace(' ',''));
+		$(".buyInput").each(function(){
+			var inputkey = $(this).attr("data-key");
+			var inputval = Math.min( Math.abs(parseInt($(this).val())), parseInt($('#button'+inputkey).text()) );
+			if(inputval > 0) {
+				sum += inputval;
+				orderval += parseInt($(this).attr("data-price")) * inputval;
+				addednw += $(this).attr("nw-per-unit")*inputval;
+			}
+		});
 
+		$("#total").html(sum);
+		$("#order_total").html(number_format(orderval, 0, ',', ' '));
+		$("#networth_total").html(number_format(addednw, 0, ',', ' '));
+		$("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
+	});
 
-    $("#total").html(sum);
-    $("#order_total").html(number_format(orderval, 0, ',', ' '));
-    $("#networth_total").html(number_format(addednw, 0, ',', ' '));
-    $("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
+	$(document).on("click", ".allbutton", function() {
+		var sum = 0;
+		var inputkey = $(this).attr("data-key");
+		var inputamount = $(this).html();
+		$(".buy_"+inputkey).val(inputamount);
 
-});
-$(document).on("click", ".allbutton", function() {
-	var sum = 0;
-	var inputkey = $(this).attr( "data-key" );
-	var inputamount = $(this).html();
+		var orderval = 0;
+		var addednw = 0;
+		var oldnw = parseInt($('#masthead .networthheader').text().replace(' ',''));
 
-	$(".buy_"+inputkey).val(inputamount);
+		$(".buyInput").each(function(){
+			var inputkey = $(this).attr("data-key");
+			var inputval = Math.min( Math.abs(parseInt($(this).val())), parseInt($('#button'+inputkey).text()) );
+			if(inputval > 0){
+				sum += inputval;
+				orderval += parseInt($(this).attr("data-price")) * inputval;
+				addednw += $(this).attr("nw-per-unit")*inputval;
+			}
+		});
 
-	var orderval = 0;
-	var addednw = 0;
-	var oldnw = <?php echo $userData['networth'][0];?>;
-
-
-	$(".buyInput").each(function(){
-        var inputval = $(this).val();
-        sum += +$(this).val();
-        if(inputval > 0){
-        	orderval += +$(this).attr( "data-price" )*inputval;
-        	addednw += +$(this).attr( "nw-per-unit" )*inputval;
-
-        }
-    });
-
-
-    $("#total").html(sum);
-    $("#order_total").html(number_format(orderval, 0, ',', ' '));
-    $("#networth_total").html(number_format(addednw, 0, ',', ' '));
-    $("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
-});
-
+		$("#total").html(sum);
+		$("#order_total").html(number_format(orderval, 0, ',', ' '));
+		$("#networth_total").html(number_format(addednw, 0, ',', ' '));
+		$("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
+	});
 
 })(jQuery);
 </script>

@@ -1,4 +1,4 @@
-<?php foreach($unitTypes as $unitTypeKey => $unitType) : 
+<?php foreach($unitTypes as $unitTypeKey => $unitType) :
 	$count = 0;
  if ($unitTypeKey == 'air') {
                 $housing = "airfields";
@@ -13,8 +13,8 @@
                 $housing = 'barracks';
                 $backColor = "126, 100, 68";
             }
-	
-	
+
+
 ?>
     <div class="tab-pane <?php echo 'air' === $unitTypeKey ? 'active' : ''; ?>"
          id="<?php echo $unitTypeKey; ?>" role="tabpanel">
@@ -33,9 +33,9 @@
     </div>
     <div class="col-md-4 celBlock">
     </div>
-</div> <! // Close Unit row -->
-        
-        
+</div> <!-- // Close Unit row -->
+
+
         <?php
         foreach($units as $unitKey => $unit) {
             if ($unit['type'] == $unitTypeKey) {

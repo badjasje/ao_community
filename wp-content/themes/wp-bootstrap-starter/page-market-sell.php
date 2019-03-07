@@ -2,7 +2,7 @@
  /*
  * Template Name: Market Sell
 */
-get_header(); 
+get_header();
 
 global $userData;
 global $userId;
@@ -83,7 +83,7 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 }
 ?>
 
-<div class="row pageRow">	
+<div class="row pageRow">
 
 	<?php if(get_field('game_status','option') == 'Live'):?>
 	<div class="fw-row">
@@ -95,14 +95,14 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 			<a class="nav-item nav-link navItem" href="/buy" style="background-color: rgba(70, 118, 94, 0.8);">Buy</a>
 		</nav>
 	</div>
-	
+
 	<div class="fw-row">
     <form class="form" name="" id="sellmarket" method="post">
         <input type="hidden" name="currentTab" id="currentTab" value="?tab=<?php echo $activeTab; ?>" />
         <div class="tab-content current build_content tabbed-table">
 
             <?php include('pages/market/sell/type.php'); ?>
-            
+
 <div class="row statusBlockButtons">
 
 	<div class="col-md-3 totalsField statCol-1">
@@ -118,124 +118,104 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 		New networth: $ <span id="networth_new"></span>
 	</div>
 </div>
-            
-            
+
+
 
             <input type="submit" value="Sell units" class="mainSubmit hoverEffect">
-            
+
         </div>
     </form>
 	</div>
     <?php endif;?>
 
 
-	
+
 </div> <!-- // End pageRow -->
 <script>
 (function($) {
-	
-$(document).on("keyup paste blur change", ".sellInput", function() {
 
-	
-    var sum = 0;
-    var orderval = 0;
-    var nwlost = 0;
-    var oldnw = <?php echo $userData['networth'][0];?>;
+	$(document).on("keyup paste blur change", ".sellInput", function() {
+		var sum = 0;
+		var orderval = 0;
+		var nwlost = 0;
+		var oldnw = parseInt($('#masthead .networthheader').text().replace(' ',''));
 
-    $(".sellInput").each(function(){
-	    var inputval = $(this).val();
-	    console.log(inputval);
-        if(inputval > 0){
-	        sum += +$(this).val();
-        	orderval += +$(this).attr( "data-price" )*inputval;
-        	nwlost += +$(this).attr( "data-price" )*inputval*($(this).attr( "data-nw" )/100);
-        	
-        }
-    });
-	
-    $("#totalsell").html(sum);
-    $("#return_val").html(number_format(orderval, 0, ',', ' '));
-    $("#nw_lost").html(number_format(nwlost, 0, ',', ' '));
-    $("#networth_new").html(number_format(oldnw-nwlost, 0, ',', ' '));
-    
-});
+		$(".sellInput").each(function(){
+			var inputkey = $(this).attr("data-key");
+			var inputval = Math.min( Math.abs(parseInt($(this).val())), parseInt($('#maxsell_'+inputkey).text()) );
+			if(inputval > 0) {
+				sum += inputval;
+				orderval += parseInt($(this).attr("data-price")) * inputval;
+				nwlost += parseInt($(this).attr("data-baseprice")) * inputval * ($(this).attr("data-nw")/100);
+			}
+		});
 
-$(document).on('click', '.sellall', function() {
-	var sum = 0;
-	var inputkey = $(this).attr( "data-key" );
-	var inputamount = $(this).html();
-	var oldnw = <?php echo $userData['networth'][0];?>;
+		$("#totalsell").html(sum);
+		$("#return_val").html(number_format(orderval, 0, ',', ' '));
+		$("#nw_lost").html(number_format(nwlost, 0, ',', ' '));
+		$("#networth_new").html(number_format(oldnw-nwlost, 0, ',', ' '));
+	});
 
-	$("#sell_"+inputkey).val(inputamount);
-	
-	var orderval = 0
-	var nwlost = 0;
+	$(document).on('click', '.sellall', function() {
+		var sum = 0;
+		var inputkey = $(this).attr("data-key");
+		var inputamount = parseInt($(this).text());
+		var oldnw = parseInt($('#masthead .networthheader').text().replace(' ',''));
+		$("#sell_"+inputkey).val(inputamount);
 
-	$(".sellInput").each(function(){
-        var inputval = $(this).val();
-        
-        if(inputval > 0){
-	        sum += +$(this).val();
-        	orderval += +$(this).attr( "data-price" )*inputval;
-        	nwlost += +$(this).attr( "data-price" )*inputval*($(this).attr( "data-nw" )/100);
-		}
-    });
+		var orderval = 0
+		var nwlost = 0;
+		$(".sellInput").each(function(){
+			var inputkey = $(this).attr("data-key");
+			var inputval = Math.min( Math.abs(parseInt($(this).val())), parseInt($('#maxsell_'+inputkey).text()) );
+			if(inputval > 0){
+				sum += inputval;
+				orderval += parseInt($(this).attr("data-price")) * inputval;
+				nwlost += parseInt($(this).attr("data-baseprice")) * inputval * ($(this).attr("data-nw")/100);
+			}
+		});
 
-   
-    $("#totalsell").html(sum);
-    $("#return_val").html(number_format(orderval, 0, ',', ' '));
-    $("#nw_lost").html(number_format(nwlost, 0, ',', ' '));
-    $("#networth_new").html(number_format(oldnw-nwlost, 0, ',', ' '));
-});
+		$("#totalsell").html(sum);
+		$("#return_val").html(number_format(orderval, 0, ',', ' '));
+		$("#nw_lost").html(number_format(nwlost, 0, ',', ' '));
+		$("#networth_new").html(number_format(oldnw-nwlost, 0, ',', ' '));
+	});
 
+	var request;
+	$("#sellmarket").submit(function(event){
+		$('.pageLoader, #page-cover').show();
+		$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 
-var request;
-$("#sellmarket").submit(function(event){
-	$('.pageLoader, #page-cover').show();
-	$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
+		event.preventDefault();
 
-    event.preventDefault();
+		if (request) { request.abort(); }
 
-    if (request) { request.abort(); }
+		var $form = $(this);
+		var $inputs = $form.find("input, select, button, textarea");
+		var serializedData = $form.serialize();
 
-    var $form = $(this);
-    var $inputs = $form.find("input, select, button, textarea");
-    var serializedData = $form.serialize();
+		request = $.ajax({url: "/sell_units.php",type: "post",data: serializedData});
+		request.done(function (response, textStatus, jqXHR){
+			updateHeaderData();
+			var array = JSON.parse(response);
+			console.log(array);
+			$.each( array.allowned, function( key, value ) {
+				$('#maxsell_'+key).text(parseInt(value));
+				if(parseInt(value) <= 0){
+					$('#sell_'+key).remove();
+				}
+			});
 
-    request = $.ajax({
-        url: "/sell_units.php",
-        type: "post",
-        data: serializedData
-    });
-
-
-    request.done(function (response, textStatus, jqXHR){
-		updateHeaderData();
-        var array = JSON.parse(response);
-        	console.log(array);
-        		$.each( array.allowned, function( key, value ) {
-					$('#maxsell_'+key).html(value);
-					if(value <= 0){
-						$('#sell_'+key).remove();
-					}
-				});
-
-				
-				$.notify({
-					message: array.status,
-					},{
-					type: 'info',
-					delay: 5000,
-					allow_dismiss: true,
-					newest_on_top: true,
-						});	
+			$.notify({message: array.status}, {type:'info', delay:5000, allow_dismiss:true, newest_on_top:true});
 			$('#totalsell').html('0');
 			$('#return_val').html('0');
 			$('#nw_lost').html('0');
 			$('#sellmarket').trigger("reset");
-});	});	
+			$("#networth_new").html(number_format(array.networth, 0, ',', ' '));
+		});
+	});
 })(jQuery);
 </script>
- 
+
 <?php
 get_footer();
