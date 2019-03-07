@@ -133,7 +133,16 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 </div> <!-- // End pageRow -->
 
 <?php
-helpText('Buying units in the market does not use turns', 'market', 'reminder');
+$args = [
+    'posts_per_page'=> -1,
+    'meta_key'		=> 'user_placed_id',
+    'meta_value'	=> $userId,
+    'post_type'     => 'market_order',
+];
+$orders = get_posts( $args );
+if(count($orders) == 0) {
+	helpText('Buying units in the market does not use turns', 'market', 'reminder');
+}
 ?>
 
 <script>
