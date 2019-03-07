@@ -2,7 +2,7 @@
  /*
  * Template Name: Clan Member Information
 */
-get_header(); 
+get_header();
 global $userData;
 global $userId;
 $clan_ID = $userData['clan_id_user'][0];
@@ -29,12 +29,12 @@ include('units_array.php');
 include('building_array.php');
 ?>
 
-<div class="row pageRow">	
-	
-	
-	
-	
-<?php 
+<div class="row pageRow">
+
+
+
+
+<?php
 	$NRmembers = count($clan_members);
 	$counter = 0;
 	$count = 0;
@@ -55,27 +55,27 @@ include('building_array.php');
 		$pool = $memberData['morale_pool'][0];
 		$last_online = $memberData['last_online'][0];
 		$power = $memberData['power'][0];
-		
+
 		$totAidSent = $memberData['total_aid_sent'][0];
 		$noAids = $memberData['number_of_aids'][0];
 		$aidRec = $memberData['aid_received'][0];
 		$inprogress = $memberData['research_in_progress'][0];
 		$attMade = $memberData['attacks_made_current'][0];
 		$attRec = $memberData['attacks_rec_current'][0];
-		
+
 		$highest_networth = number_format($memberData['highest_networth'][0], 0, ',', ' ');
 		$freeLand = number_format($memberData['land'][0]-$memberData['builtland'][0], 0, ',', ' ');
-		
+
 		$extraClass = '';
 		$counter++;
 		if($counter == $NRmembers){
 			$extraClass = '_last';
-			
+
 		}
 		$member_data = get_userdata($member);
 		$last_online = $memberData['last_online'][0];
-		$spiednr = $memberData['spied_current_clan'][0];
-		
+		$spiednr = intval($memberData['spied_current_clan'][0]);
+
 		if(!empty($last_online)){
 		$last_seen = $timestamp - $last_online;
 		}
@@ -83,42 +83,42 @@ include('building_array.php');
 
 
 <div class="blockHeader">
-	<?php echo get_user_name($member);?>		
+	<?php echo get_user_name($member);?>
 </div>
 
 <!-- Row 1 -->
 <div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-($count/70);?>);">
-		
+
 	<div class="col-md-3 celBlock">
 		<span class="dataVisibleLeft">Networth</span>
 		<span class="dataVisibleRight store-pop-span2">
-			<?php echo networth_range($member);?>	
+			<?php echo networth_range($member);?>
 		</span>
 	</div>
-	
+
 	<div class="col-md-3 celBlock">
 		<span class="dataVisibleLeft">Land</span>
 		<span class="dataVisibleRight land">
 			<?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup>
 		</span>
 	</div>
-	
+
 	<div class="col-md-3 celBlock">
 		<span class="dataVisibleLeft">Points per attack</span>
 		<span class="dataVisibleRight store-pop-span2">
-			<?php echo number_format($PPA, 1, ',', ' '); ?>	
+			<?php echo number_format($PPA, 1, ',', ' '); ?>
 		</span>
 	</div>
-		
+
 	<div class="col-md-3 celBlock">
 		<span class="dataVisibleLeft">Targets spied</span>
 		<span class="dataVisibleRight store-pop-span2">
-			<?php echo number_format($spiednr, 0, ',', ' '); ?>	
+			<?php echo number_format($spiednr, 0, ',', ' '); ?>
 		</span>
 	</div>
-	
-</div> <! // Close Row 1 -->
-		
+
+</div> <!-- // Close Row 1 -->
+
 <!-- Row 2 -->
 <div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.4-($count/70);?>);">
 	<div class="col-md-3 celBlock">
@@ -127,29 +127,29 @@ include('building_array.php');
 			<?php echo $turns;?>
 		</span>
 	</div>
-	
+
 	<div class="col-md-3 celBlock">
 		<span class="dataVisibleLeft">Money</span>
 		<span class="dataVisibleRight">
 			$ <?php echo number_format($money, 0, ',', ' ');?>
 		</span>
 	</div>
-	
+
 	<div class="col-md-3 celBlock">
 		<span class="dataVisibleLeft">Morale</span>
 		<span class="dataVisibleRight store-pop-span2">
 			<?php echo $morale;?>% <sup>(<?php echo $pool;?>%)</sup>
 		</span>
 	</div>
-		
+
 	<div class="col-md-3 celBlock">
 		<span class="dataVisibleLeft">Last online</span>
 		<span class="dataVisibleRight store-pop-span2">
 			<?php echo date('H:i | d-m-y', $last_online);?>
 		</span>
-	</div> 
-</div><! // Close Row 2 -->
-		
+	</div>
+</div><!-- // Close Row 2 -->
+
 <!-- Row 3 -->
 <div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.45-($count/70);?>);">
 	<div class="col-md-3 celBlock">
@@ -162,29 +162,29 @@ include('building_array.php');
 		<?php  }?>
 			</span>
 	</div>
-		
+
 	<div class="col-md-3 celBlock">
 		<span class="dataVisibleLeft">Can attack</span>
 		<span class="dataVisibleRight">
 			<?php  echo implode(', ', can_attack($member));?>
 		</span>
 	</div>
-	
+
 	<div class="col-md-3 celBlock">
 		<span class="dataVisibleLeft">Attacks made</span>
 		<span class="dataVisibleRight store-pop-span2">
 			<?php echo $attMade;?>
 		</span>
 	</div>
-		
+
 	<div class="col-md-3 celBlock">
 		<span class="dataVisibleLeft">Attacks received</span>
 		<span class="dataVisibleRight store-pop-span2">
 			<?php echo $attRec;?>
 		</span>
 	</div>
-</div> <! // Close Row 3 -->
-	
+</div> <!-- // Close Row 3 -->
+
 <!-- Row 4 -->
 
 <div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.5-($count/70);?>);">
@@ -194,94 +194,94 @@ include('building_array.php');
 			$ <?php echo number_format($totAidSent, 0, ',', ' ');?>
 		</span>
 	</div>
-	
+
 	<div class="col-md-3 celBlock">
 		<span class="dataVisibleLeft">Aid received</span>
 		<span class="dataVisibleRight">
 			$ <?php echo number_format($aidRec, 0, ',', ' ');?>
 		</span>
 	</div>
-	
+
 	<div class="col-md-3 celBlock">
 		<span class="dataVisibleLeft">Power usage</span>
 		<span class="dataVisibleRight store-pop-span2">
 			<?php echo round($power);?>%
 		</span>
 	</div>
-		
+
 	<div class="col-md-3 celBlock">
 		<span class="dataVisibleLeft"></span>
 		<span class="dataVisibleRight store-pop-span2"></span>
 	</div>
-</div> <! // Close Row 4 -->
+</div> <!-- // Close Row 4 -->
 
 <!-- Button row -->
 <div class="row fw-row no-gutters">
 	<div class="col-md-4 celBlock" style="padding:0px">
 		<button viewtype="research" member-id="<?php echo $member;?>" class="cancelButton hoverEffect viewmemberinfo" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);" type="submit">
-			<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Research 
+			<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Research
 			<?php if($inprogress != '0'):?>
 				<span class="badge" data-toggle="tooltip" data-placement="top" title="Research currently in progress: <?php echo $researches[$inprogress]['name'];?>">
 					<i class="fa fa-circle-o-notch fa-spin"></i>
 				</span>
 			<?php endif;?>
 		</button>
-		
+
 		<div class="memberInfo research_<?php echo $member;?>">
-		<?php 
-			
+		<?php
+
 			foreach ($researches as $key => $research) {
-			$level = $memberData['level_'.$key][0];?>	
-				<span class="dataVisibleLeft"><?php echo $research['name'];?></span> 
+			$level = $memberData['level_'.$key][0];?>
+				<span class="dataVisibleLeft"><?php echo $research['name'];?></span>
 				<span class="dataVisibleRight">Level: <?php echo $level;?></span>
 					<br/>
-						
+
 						<?php }?>
 					<?php if($inprogress != '0'):?>
 						<br/>
 						<strong>In progress: <?php echo $researches[$inprogress]['name'];?></strong>
 					<?php endif;?>
 		</div>
-		
+
 	</div>
-	
-	
+
+
 	<div class="col-md-4 celBlock" style="padding:0px">
 		<button viewtype="units" member-id="<?php echo $member;?>" class="cancelButton hoverEffect viewmemberinfo" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 0.95-($count/70);?>);" type="submit">
 			<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Units <?php echo count_tot_units($member);?>
 		</button>
-		
+
 		<div class="memberInfo units_<?php echo $member;?>">
 			<?php foreach($units as $key => $order){
 				$units_owned = $memberData[$key.'_owned'][0];
 				$units_ordered = $memberData[$key.'_ordered'][0];
-				
+
 				if($units_owned > 0 || $units_ordered > 0){?>
-					<span class="dataVisibleLeft"><?php echo $order['normalname'];?></span> 
+					<span class="dataVisibleLeft"><?php echo $order['normalname'];?></span>
 					<span class="dataVisibleRight"><?php echo $units_owned;?> (<?php echo $units_ordered;?>)</span><br/>
 			<?php }}?>
 		</div>
-		
+
 	</div>
-	
-	
+
+
 	<div class="col-md-4 celBlock" style="padding:0px">
 		<button viewtype="buildings" member-id="<?php echo $member;?>" class="cancelButton hoverEffect viewmemberinfo" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 0.9-($count/70);?>);" type="submit">
 			<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Buildings <?php echo count_tot_buildings($member);?>
 		</button>
-		
+
 		<div class="memberInfo buildings_<?php echo $member;?>">
 			<?php foreach($buildings as $key => $order){
 						$units_owned = $memberData[$key][0];
 						if($units_owned > 0 || $units_ordered > 0){
 				?>
-				<span class="dataVisibleLeft"><?php echo $order['normalname'];?></span> 
+				<span class="dataVisibleLeft"><?php echo $order['normalname'];?></span>
 				<span class="dataVisibleRight"><?php echo $units_owned;?></span>
 				<br/>
-					
+
 					<?php }}?>
 		</div>
-		
+
 	</div>
 </div>
 <!-- // Button row -->
@@ -291,7 +291,7 @@ include('building_array.php');
 <?php $count++; endforeach; // End clan member loop ?>
 
 <script>
-	
+
 
 jQuery(".viewmemberinfo").toggle(
 	function(){
@@ -304,13 +304,13 @@ jQuery(".viewmemberinfo").toggle(
 		var member = jQuery(this).attr('member-id');
 		var viewtype = jQuery(this).attr('viewtype');
 		jQuery('.'+viewtype+'_'+member).hide(150);;
-	}); 
-	
+	});
+
 
 </script>
-	
 
-	
+
+
 </div> <!-- end .pageRow -->
 <?php
 get_footer();
