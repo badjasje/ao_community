@@ -6,9 +6,6 @@ $buyPrice =  ceil(($unit['price'] * 2.2) * $discount);
 $canAttack = is_array($unit['attacks']) && !empty($unit['attacks']) ? implode(', ', $unit['attacks']) : 'N/A';
 $count++;
 
-
-
-
 ?>
 <div class="row unitRow" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
     <div class="col-md-2 celBlock nameBlock <?php echo $unitTypeKey;?>_heading">
@@ -55,17 +52,17 @@ $count++;
 	    <span class="columnDataLeft">Max</span>
 	    <span class="columnDataRight">
 		<?php
-            $maxMoney = floor($totalMoney / $buyPrice);
-            $maxSpace = $space[$unitTypeKey] - $usedSpace[$unitTypeKey];
-            ?>
+		$maxMoney = floor($totalMoney / $buyPrice);
+		$maxSpace = $space[$unitTypeKey] - $usedSpace[$unitTypeKey];
+		?>
 
-		<?php if(in_array($unitKey, $specialUnits)) : 
-			$maxInput = (min($space['special'], $maxMoney, $maxSpace));	
+		<?php if(in_array($unitKey, $specialUnits)) :
+			$maxInput = (min($space['special'], $maxMoney, $maxSpace));
 		?>
 			<span class="allbutton" id="button<?php echo $unitKey;?>" nw-per-unit="<?php echo $networthPerUnit;?>" data-key="<?php echo $unitKey;?>" data-amount="<?php echo $maxInput;?>"><?php echo $maxInput;?></span>
-		<?php else : 
+		<?php else :
 			$maxInput = (min($maxMoney, $maxSpace));
-			
+
 		?>
                 <span class="allbutton" id="button<?php echo $unitKey;?>" nw-per-unit="<?php echo $networthPerUnit;?>" data-key="<?php echo $unitKey;?>" data-amount="<?php echo $maxInput;?>"><?php echo $maxInput;?></span>
 		<?php endif;?>
@@ -75,4 +72,4 @@ $count++;
 	    <?php if($maxInput < 0){ $maxInput = 0;}?>
         <input class="unitInput buyInput buy_<?php echo $unitKey;?>" min="0" max="<?php echo $maxInput;?>" data-key="<?php echo $unitKey;?>" nw-per-unit="<?php echo $networthPerUnit;?>" data-price="<?php echo $buyPrice;?>" type="number" id="<?php echo $unitKey;?>" name="<?php echo $unitKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- // Close Unit row -->
