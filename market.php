@@ -145,7 +145,7 @@ foreach ($units as $key => $order) {
         $totals['special']['owned'] = $orderedUnits;
     }
 
-    $totalOrderAmount += $order['price'] * 2.2 * $discount * $orderedUnits;
+    $totalOrderAmount += ceil(($order['price'] * 2.2) * $discount) * $orderedUnits;
 }
 
 if ($totalOrderAmount > $totalMoney) {
@@ -200,7 +200,7 @@ foreach ($units as $key => $order) {
     $unitName = $key . '_ordered';
     $normalName = $order['normalname'];
     $orderedUnits = abs(ceil($_POST[$key]));
-    $price = $order['price'] * 2.2 * $discount;
+    $price = ceil(($order['price'] * 2.2) * $discount);
     $orderCost = $price * $orderedUnits;
     $totalOrderCost += $orderCost;
 
