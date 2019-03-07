@@ -98,7 +98,7 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 $hours = 12;
 if ($marketShippingLevel == 1) {
     $hours = 9;
-} 
+}
 if ($marketShippingLevel >= 2) {
     $hours = 6;
 }
@@ -183,7 +183,7 @@ foreach ($totals as $type => $total) {
     }
 
     if ($type == 'special' && $total['order'] > 500) {
-        $array['status'] = 'Cannot build more than 500 special unitsn';
+        $array['status'] = 'Cannot build more than 500 special units';
         $array['next'] = false;
         echo json_encode($array);
         exit;
@@ -294,10 +294,10 @@ foreach ($units as $key => $unit) {
     if($ordered > 0) {
         $allOrdered[$key] = $ordered;
     }
-    
+
     $maxMoney = floor($totalMoney / ceil($unit['price'] * 2.2) * $discount);
     $maxSpace = $space[$unitTypeKey] - $usedSpace[$unitTypeKey];
-    
+
     if(in_array($key, $specialUnitsArray)) {
         $newMax[$key] = min($maxMoney, $maxSpace, $space['special']);
     } else {
