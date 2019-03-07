@@ -42,7 +42,7 @@ $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'explore'
 
 <?php
 if($userData['turns'][0] > 150 && $userData['money'][0] < 70000) {
-	helpText('Low on money? Use some turn to explore and then sell', 'explore', 'reminder');
+	helpText('Low on money? Use some turns to explore and sell', 'explore', 'reminder');
 }
 if($maxSell > 700) {
 	helpText('You will lose unused land when attacked', 'explore', 'reminder');
