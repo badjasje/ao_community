@@ -32,7 +32,13 @@ function get_user_by_authkey($key) {
 // Receive message from user
 if(isset($_GET['path']) && $_GET['path']=='Chiricahua1829Goyahkla') {
     $bot = new TelegramBot();
-    $message = $bot->receiveMessage();
+    /*if($_GET['debug']==1) {
+        $message['text'] = '/claninfo';
+        $bot->getChatByUserId(2768);
+    }
+    else {*/
+        $message = $bot->receiveMessage();
+    //}
     $telegramChat = $bot->getChat();
 
     if($message['text']) {
@@ -44,7 +50,7 @@ if(isset($_GET['path']) && $_GET['path']=='Chiricahua1829Goyahkla') {
 			if(in_array($c, $commands)) {
 
                 $user = false;
-                if(in_array($c, array('summary'))) {
+                if(in_array($c, array('summary','claninfo'))) {
                     if(!isset($telegramChat['auth_key']) || empty($telegramChat['auth_key'])) {
                         $bot->sendMessage("Please connect your AO account first using /start");
                     }
@@ -56,7 +62,7 @@ if(isset($_GET['path']) && $_GET['path']=='Chiricahua1829Goyahkla') {
 
                 switch($c) {
                     case 'help':
-                        $bot->sendMessage("Use /start connect this chat to your AO account\nYou can then use /summary");
+                        $bot->sendMessage("Use /start connect this chat to your AO account\nYou can then use /summary and /claninfo");
                     break;
                     case 'start':
                         $bot->updateChat(array('step'=>'start'));
@@ -79,6 +85,45 @@ if(isset($_GET['path']) && $_GET['path']=='Chiricahua1829Goyahkla') {
                             } else $bot->sendMessage("Cannot get stats, sorry");
                         }
                     break;
+                    case 'claninfo':
+                        if($user) {
+                            $userData = get_user_meta($user->ID, '', true);
+                            $clan_ID = $userData['clan_id_user'][0];
+                            if(is_numeric($clan_ID) && $clan_ID > 0) {
+                                $clanData = get_post_meta($clan_ID);
+                                $clan_members = array();
+                                if(is_array($clanData) && isset($clanData['clan_members'])) {
+                                    $clan_members = maybe_unserialize($clanData['clan_members'][0]);
+                                }
+                                if(is_array($clan_members) && count($clan_members) > 0) {
+                                    $all = array();
+                                    foreach ($clan_members as $key => $member) {
+                                        $data = get_user_meta($member, '', true);
+                                        $member_data = get_userdata($member);
+                                        $name = $member_data->display_name;
+
+                                        $reply = array();
+                                        if(isset($data['money']) && is_numeric($data['money'][0])) $reply['money'] = '$ '. number_format($data['money'][0],0,'.',' ');
+                                        if(isset($data['networth']) && is_numeric($data['networth'][0])) $reply['nw'] = '$ '.number_format($data['networth'][0],0,'.',' ');
+                                        if(isset($data['turns']) && is_numeric($data['turns'][0])) $reply['turns'] = $data['turns'][0];
+                                        if(isset($data['morale']) && is_numeric($data['morale'][0])) $reply['morale'] = round($data['morale'][0]) .'%';
+                                        if(isset($data['land']) && is_numeric($data['land'][0])) {
+                                            $reply['land'] = number_format($data['land'][0],0,'.',' ') .'m2';
+                                            $reply['freeLand'] = number_format($data['land'][0]-$data['builtland'][0], 0, ',', ' ') .'m2';
+                                        }
+                                        if(isset($data['power']) && is_numeric($data['power'][0])) $reply['power'] = round($data['power'][0]) .'%';
+                                        if(is_array($reply) && count($reply) > 0) {
+                                            array_walk($reply, function(&$i,$k) { return $i=" $k: $i"; });
+                                            $all[] = '<b>'.$name.'</b>'. implode(', ', $reply);
+                                        }
+                                    }
+                                    if(is_array($all) && count($all) > 0) {
+                                        $bot->sendMessage(implode("\n", $all), array('parse_mode' => 'html'));
+                                    } else $bot->sendMessage("Cannot get claninfo, sorry");
+                                } else $bot->sendMessage("You are not in a clan");
+                            } else $bot->sendMessage("You are not in a clan");
+                        }
+                    break;
                 }
             } else $bot->sendMessage("See /help  for commands");
         } else {
@@ -87,7 +132,7 @@ if(isset($_GET['path']) && $_GET['path']=='Chiricahua1829Goyahkla') {
                     case 'start':
                         if($user = get_user_by_authkey($msg)) {
                             $bot->updateChat(array('step' => '0', 'auth_key' => $msg, 'user_id' => $user->ID));
-                            $bot->sendMessage("Thanks ".$user->data->display_name."! I'll try to keep you updated. You can now use /summary",
+                            $bot->sendMessage("Thanks ".$user->data->display_name."! I'll try to keep you updated. You can now use /summary and /claninfo",
                                 array('reply_markup' => array('hide_keyboard' => true)));
                         } else $bot->sendMessage("No such user found.");
                     break;
