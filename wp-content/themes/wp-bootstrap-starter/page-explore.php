@@ -3,7 +3,7 @@
  * Template Name: Explore
 */
 
-get_header(); 
+get_header();
 global $userData;
 global $userId;
 $ownedland = $userData['land'][0];
@@ -12,9 +12,9 @@ $freeland = $ownedland-$builtLand;
 $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'explore';
 ?>
 
-<div class="row pageRow">	
-	
-	
+<div class="row pageRow">
+
+
 <div class="fw-row">
 		<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
 			<a class="nav-item nav-link navItem <?php echo $activeTab === 'explore' ? 'active' : ''; ?>" data-toggle="tab" data-target="#explore" href="?tab=explore">Explore</a>
@@ -28,23 +28,30 @@ $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'explore'
 				<div class="tab-pane <?php echo $activeTab === 'explore' ? 'active' : ''; ?>"  id="explore" role="tabpanel">
 
 					<?php include 'pages/explore/explore.php'; ?>
-					
+
 				</div>
 
 
 				<div class="tab-pane <?php echo $activeTab === 'sell' ? 'active' : ''; ?>"  id="sell" role="tabpanel">
 
 					<?php include 'pages/explore/sell.php'; ?>
-					
+
 				</div>
 			</div>
 </div>
-	
-	
-	
+
+<?php
+if($userData['turns'][0] > 150 && $userData['money'][0] < 70000) {
+	helpText('Low on money? Use some turn to explore and then sell', 'explore', 'reminder');
+}
+if($maxSell > 700) {
+	helpText('You will lose unused land when attacked', 'explore', 'reminder');
+}
+?>
+
 <script>
 (function($) {
-	
+
 	$("#maxexp").click(function() {
 		var maxexp = $(this).attr( "data-max" );
 	$("#turnsinput").val(maxexp);
@@ -84,7 +91,7 @@ $('#exploreform').submit(function( event ) {
         updateHeaderData();
         var array = JSON.parse(response);
 
-        	
+
 				$.notify({
 					message: array.status,
 					},{
@@ -92,11 +99,11 @@ $('#exploreform').submit(function( event ) {
 					delay: 5000,
 					allow_dismiss: true,
 					newest_on_top: true,
-						});	
-			
-			
+						});
+
+
 			if(array.next == true){
-				
+
 				$( ".explNotice" ).empty();
 				$( ".explNotice" ).append(array.exploredtoday);
 				$('#exprate').html(array.newrate);
@@ -109,13 +116,13 @@ $('#exploreform').submit(function( event ) {
 					"data-max" : array.maxturns,
 					"min" : 0
 				});
-				
-				
-				
+
+
+
 				$('form').trigger("reset");
 				location.reload();
 			}
-});	});	
+});	});
 
 
 // jQuery Sell
@@ -150,8 +157,8 @@ $('#sellform').submit(function( event ) {
     request.done(function (response, textStatus, jqXHR){
         updateHeaderData();
         var array = JSON.parse(response);
-        
-        	
+
+
 				$.notify({
 					message: array.status,
 					},{
@@ -159,22 +166,22 @@ $('#sellform').submit(function( event ) {
 					delay: 5000,
 					allow_dismiss: true,
 					newest_on_top: true,
-						});	
-			
-			
+						});
+
+
 			if(array.next == true){
-		
+
 				$( ".sellNotice" ).empty();
 				$( ".sellNotice" ).append(array.soldtoday);
-				
-				
-				
-				
-				
+
+
+
+
+
 				$('form').trigger("reset");
 				location.reload();
 			}
-});	});	
+});	});
 
 
 
@@ -182,8 +189,8 @@ $('#sellform').submit(function( event ) {
 
 })(jQuery);
 </script>
-	
-	
+
+
 </div> <!-- end .pageRow -->
 <?php
 get_footer();
