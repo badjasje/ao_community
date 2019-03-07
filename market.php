@@ -295,7 +295,7 @@ foreach ($units as $key => $unit) {
         $allOrdered[$key] = $ordered;
     }
 
-    $maxMoney = floor($totalMoney / ceil($unit['price'] * 2.2) * $discount);
+    $maxMoney = floor($totalMoney / ceil(($unit['price'] * 2.2) * $discount));
     $maxSpace = $space[$unitTypeKey] - $usedSpace[$unitTypeKey];
 
     if(in_array($key, $specialUnitsArray)) {
