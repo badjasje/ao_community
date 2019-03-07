@@ -12,9 +12,9 @@
 				<!-- defender -->
 				<?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?> and
 
-				<?php if($winner_id == $attacker_id){?>
-					won the battle.<br/>
-					<?php if($clan_points != 0  && !empty($clan_points)):?>
+				<?php if($winner_id == $attacker_id){
+					echo " won the battle.<br/>";
+					if($clan_points != 0  && !empty($clan_points)):?>
 						<?php echo $clan_points;?> clan points gained.
 					<?php endif;?>
 				<?php } else { ?>
