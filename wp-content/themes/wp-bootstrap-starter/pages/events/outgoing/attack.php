@@ -11,9 +11,9 @@
 			<?php else:?>
 				You attacked <?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?> and you
 				<?php if($winner_id == $attacker_id):?>
-					won the battle.
+					&nbsp;won the battle.
 				<?php else: ?>
-					lost the battle.
+					&nbsp;lost the battle.
 				<?php endif; ?>
 			<?php endif;?>
 		</div>

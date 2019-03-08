@@ -8,9 +8,9 @@
 		<div class="eventMainMessage">
 			You sent snipers to <?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?> and you
 			<?php if($winner_id == $attacker_id):?>
-				won the battle.
+				&nbsp;won the battle.
 			<?php else: ?>
-				lost the battle.
+				&nbsp;lost the battle.
 			<?php endif;?>
 		</div>
 		<div class="row eventResultRow">
