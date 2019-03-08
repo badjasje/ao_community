@@ -15,7 +15,7 @@ $declared_clan = $eventData['defender_clan_id'][0];
 			<?php elseif($clan_ID == $declared_clan):?>
 				<a href="<?php echo get_the_permalink($declaring_clan);?>">
 				<?php echo get_the_title($declaring_clan);?> (#<?php echo $declaring_clan;?>)</a>
-				declared peace against your clan.
+				declared peace.
 			<?php endif;?>
 		</div>
 		<div class="row eventResultRow">
