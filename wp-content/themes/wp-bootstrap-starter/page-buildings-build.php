@@ -117,45 +117,33 @@ if($userData['advancedpowerplant'][0] > $userData['powerplant'][0]) {
 <script>
 (function($) {
 
-var request;
+	var request;
 
-$("#buildbuildings").submit(function(event){
-	$('.pageLoader, #page-cover').show();
-	$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
+	$("#buildbuildings").submit(function(event){
+		$('.pageLoader, #page-cover').show();
+		$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 
-    event.preventDefault();
+		event.preventDefault();
 
-    if (request) { request.abort(); }
+		if (request) { request.abort(); }
 
-    var $form = $(this);
-    var $inputs = $form.find("input, select, button, textarea");
-    var serializedData = $form.serialize();
+		var $form = $(this);
+		var $inputs = $form.find("input, select, button, textarea");
+		var serializedData = $form.serialize();
 
-    request = $.ajax({
-        url: "/build.php",
-        type: "POST",
-        data: serializedData
-    });
+		request = $.ajax({url: "/build.php",type: "POST",data: serializedData});
+		request.done(function (response, textStatus, jqXHR){
+			updateHeaderData();
+			var array = JSON.parse(response);
 
-    request.done(function (response, textStatus, jqXHR){
-	    updateHeaderData();
-        var array = JSON.parse(response);
-
-
-				$.notify({
-					message: array.status,
-					},{
-					type: 'info',
-					delay: 5000,
-					allow_dismiss: true,
-					newest_on_top: true,
-						});
+			$.notify({message: array.status},{type:'info', delay:5000, allow_dismiss:true, newest_on_top:true});
 			$.each( array.newmax, function( key, value ) {
-					$('#button'+key).html(value);
-				});
+				$('#button'+key).html(value);
+			});
 			$.each( array.newowned, function( key, value ) {
-					$('#'+key+'_owned').html(value);
-				});
+				$('#'+key+'_owned').html(value);
+			});
+
 			$('#order_total').html('0');
 			$('#total').html('0');
 
@@ -164,47 +152,32 @@ $("#buildbuildings").submit(function(event){
 			$('#landspace').html(array.landspace);
 
 			$('#buildbuildings').trigger("reset");
-});	});
+		});
+	});
 
+	var demolish;
 
+	$("#demobuildings").submit(function(demolishevent){
+		$('.pageLoader, #page-cover').show();
+		$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 
-var demolish;
+		demolishevent.preventDefault();
 
-$("#demobuildings").submit(function(demolishevent){
-	$('.pageLoader, #page-cover').show();
-	$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
+		if (demolish) { demolish.abort(); }
 
-    demolishevent.preventDefault();
+		var $form = $(this);
+		var $inputs = $form.find("input, select, button, textarea");
+		var serializedData = $form.serialize();
 
-    if (demolish) { demolish.abort(); }
-
-    var $form = $(this);
-    var $inputs = $form.find("input, select, button, textarea");
-    var serializedData = $form.serialize();
-
-    demolish = $.ajax({
-        url: "/demolish.php",
-        type: "POST",
-        data: serializedData
-    });
-
-    demolish.done(function (response, textStatus, jqXHR){
-	    updateHeaderData();
-        var array = JSON.parse(response);
-
-
-				$.notify({
-					message: array.status,
-					},{
-					type: 'info',
-					delay: 5000,
-					allow_dismiss: true,
-					newest_on_top: true,
-						});
+		demolish = $.ajax({url: "/demolish.php", type: "POST", data: serializedData});
+		demolish.done(function (response, textStatus, jqXHR){
+			updateHeaderData();
+			var array = JSON.parse(response);
+			$.notify({message: array.status},{type:'info', delay:5000, allow_dismiss:true, newest_on_top:true});
 			if(array.next == true){
 				$.each( array.newmax, function( key, value ) {
-						$('#demobutton'+key).html(value);
-					});
+					$('#demobutton'+key).html(value);
+				});
 				$.each( array.newowned, function( key, value ) {
 					$('#'+key+'_demo_owned').html(value);
 				});
@@ -212,128 +185,112 @@ $("#demobuildings").submit(function(demolishevent){
 				$('#demoorder_total').html('0');
 				$('#demonetworth_total').html('0');
 
-
 				$('#demolandspace').html(array.landspace);
 			}
 			$('#demobuildings').trigger("reset");
+		});
 	});
-});
 
+	$(document).on("keyup paste blur change", ".buyInput", function() {
+		var sum = 0;
+		var orderval = 0;
+		var addednw = 0;
+		var turntot = 0;
+		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
 
+		$(".buyInput").each(function(){
+			var inputval = Math.abs(parseInt($(this).val()));
+			if(inputval > 0){
+				sum += inputval;
+				orderval += parseInt($(this).attr("data-price")) * inputval;
+				addednw += +($(this).attr( "data-nw" )/100)*orderval;
+			}
+		});
 
-$(document).on("keyup paste blur change", ".buyInput", function() {
-    var sum = 0;
-    var orderval = 0;
-    var addednw = 0;
-    var turntot = 0;
-    var oldnw = <?php echo $userData['networth'][0];?>;
-    $(".buyInput").each(function(){
-	    var inputval = $(this).val();
-        sum += +$(this).val();
-        if(inputval > 0){
-        	orderval += +$(this).attr( "data-price" )*inputval;
-        	addednw += +($(this).attr( "data-nw" )/100)*orderval;
-        	var inputkey = $(this).attr( "data-key" );
+		$("#turn_total").html(Math.ceil(sum/<?php echo $buildingsPerTurn;?>));
 
-        }
-    });
+		$("#total").html(sum);
+		$("#order_total").html(number_format(orderval, 0, ',', ' '));
+		$("#networth_total").html(number_format(addednw, 0, ',', ' '));
+		$("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
+	});
 
-	$("#turn_total").html(Math.ceil(sum/<?php echo $buildingsPerTurn;?>));
+	$(document).on("click", ".allbutton", function() {
+		var sum = 0;
+		var inputkey = $(this).attr( "data-key" );
+		var inputamount = $(this).html();
+		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
 
-    $("#total").html(sum);
-    $("#order_total").html(number_format(orderval, 0, ',', ' '));
-    $("#networth_total").html(number_format(addednw, 0, ',', ' '));
-    $("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
+		$(".buy_"+inputkey).val(inputamount);
 
+		var orderval = 0
+		var addednw = 0;
+		var turntot = 0;
 
-});
-$(document).on("click", ".allbutton", function() {
-	var sum = 0;
-	var inputkey = $(this).attr( "data-key" );
-	var inputamount = $(this).html();
-	var oldnw = <?php echo $userData['networth'][0];?>;
+		$(".buyInput").each(function(){
+			var inputval = Math.abs(parseInt($(this).val()));
+			if(inputval > 0){
+				sum += inputval;
+				orderval += parseInt($(this).attr("data-price")) * inputval;
+				addednw += +$(this).attr("data-nw")/100 * orderval;
+			}
+		});
 
-	$(".buy_"+inputkey).val(inputamount);
+		$("#total").html(sum);
+		$("#turn_total").html(Math.ceil(sum/<?php echo $buildingsPerTurn;?>));
+		$("#order_total").html(number_format(orderval, 0, ',', ' '));
+		$("#networth_total").html(number_format(addednw, 0, ',', ' '));
+		$("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
+	});
 
-	var orderval = 0
-	var addednw = 0;
-	var turntot = 0;
+	// Demo bds total fields fuckery
+	$(document).on("keyup paste blur change", ".sellInput", function() {
 
-	$(".buyInput").each(function(){
-        var inputval = $(this).val();
-        sum += +$(this).val();
-        if(inputval > 0){
-        	orderval += +$(this).attr( "data-price" )*inputval;
-        	addednw += +$(this).attr( "data-nw" )/100*orderval;
-        	var inputkey = $(this).attr( "data-key" );
+		var sum = 0;
+		var orderval = 0;
+		var lostnw = 0;
+		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
 
+		$(".sellInput").each(function(){
+			var inputval = Math.abs(parseInt($(this).val()));
+			if(inputval > 0){
+				sum += inputval;
+				orderval += parseInt($(this).attr("data-price")) * inputval;
+				lostnw += +$(this).attr("data-nw")/100 * orderval;
+			}
+		});
 
-        }
-    });
+		$("#demototal").html(sum);
+		$("#demoorder_total").html(number_format(orderval, 0, ',', ' '));
+		$("#demonetworth_total").html(number_format(lostnw, 0, ',', ' '));
+		$("#networth_new_demo").html(number_format(oldnw-lostnw, 0, ',', ' '));
 
+	});
 
-	$("#total").html(sum);
-	$("#turn_total").html(Math.ceil(sum/<?php echo $buildingsPerTurn;?>));
-    $("#order_total").html(number_format(orderval, 0, ',', ' '));
-    $("#networth_total").html(number_format(addednw, 0, ',', ' '));
-    $("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
-});
+	$(document).on('click', '.sellall', function() {
+		var sum = 0;
+		var inputkey = $(this).attr( "data-key" );
+		var inputamount = $(this).html();
+		$("#demo_"+inputkey).val(inputamount);
 
-// Demo bds total fields fuckery
-$(document).on("keyup paste blur change", ".sellInput", function() {
+		var orderval = 0
+		var addednw = 0;
+		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
 
-    var sum = 0;
-    var orderval = 0;
-    var lostnw = 0;
-    var oldnw = <?php echo $userData['networth'][0];?>;
+		$(".sellInput").each(function(){
+			var inputval = Math.abs(parseInt($(this).val()));
+			if(inputval > 0){
+				sum += inputval;
+				orderval += parseInt($(this).attr("data-price")) * inputval;
+				addednw += +$(this).attr( "data-nw" )/100*orderval;
+			}
+		});
 
-    $(".sellInput").each(function(){
-	    var inputval = $(this).val();
-        sum += +$(this).val();
-        if(inputval > 0){
-        	orderval += +$(this).attr( "data-price" )*inputval;
-        	lostnw += +$(this).attr( "data-nw" )/100*orderval;
-
-        }
-    });
-
-    $("#demototal").html(sum);
-    $("#demoorder_total").html(number_format(orderval, 0, ',', ' '));
-    $("#demonetworth_total").html(number_format(lostnw, 0, ',', ' '));
-    $("#networth_new_demo").html(number_format(lostnw+oldnw, 0, ',', ' '));
-
-});
-
-
-$(document).on('click', '.sellall', function() {
-	var sum = 0;
-	var inputkey = $(this).attr( "data-key" );
-	var inputamount = $(this).html();
-	$("#demo_"+inputkey).val(inputamount);
-
-	var orderval = 0
-	var addednw = 0;
-	var oldnw = <?php echo $userData['networth'][0];?>;
-
-	$(".sellInput").each(function(){
-        var inputval = $(this).val();
-        sum += +$(this).val();
-        if(inputval > 0){
-        	orderval += +$(this).attr( "data-price" )*inputval;
-        	addednw += +$(this).attr( "data-nw" )/100*orderval;
-		}
-    });
-
-
-    $("#demototal").html(sum);
-    $("#demoorder_total").html(number_format(orderval, 0, ',', ' '));
-    $("#demonetworth_total").html(number_format(addednw, 0, ',', ' '));
-    $("#networth_new_demo").html(number_format(addednw+oldnw, 0, ',', ' '));
-});
-
-
-
-
+		$("#demototal").html(sum);
+		$("#demoorder_total").html(number_format(orderval, 0, ',', ' '));
+		$("#demonetworth_total").html(number_format(addednw, 0, ',', ' '));
+		$("#networth_new_demo").html(number_format(addednw+oldnw, 0, ',', ' '));
+	});
 
 })(jQuery);
 </script>
