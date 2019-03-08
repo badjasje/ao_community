@@ -212,7 +212,7 @@ if(count($orders) == 0) {
 		var sum = 0;
 		var orderval = 0;
 		var addednw = 0;
-		var oldnw = parseInt($('#masthead .networthheader').text().replace(' ',''));
+		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
 		$(".buyInput").each(function(){
 			var inputkey = $(this).attr("data-key");
 			var inputval = Math.min( Math.abs(parseInt($(this).val())), parseInt($('#button'+inputkey).text()) );
@@ -237,7 +237,7 @@ if(count($orders) == 0) {
 
 		var orderval = 0;
 		var addednw = 0;
-		var oldnw = parseInt($('#masthead .networthheader').text().replace(' ',''));
+		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
 
 		$(".buyInput").each(function(){
 			var inputkey = $(this).attr("data-key");

@@ -138,7 +138,7 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 		var sum = 0;
 		var orderval = 0;
 		var nwlost = 0;
-		var oldnw = parseInt($('#masthead .networthheader').text().replace(' ',''));
+		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
 
 		$(".sellInput").each(function(){
 			var inputkey = $(this).attr("data-key");
@@ -160,7 +160,7 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 		var sum = 0;
 		var inputkey = $(this).attr("data-key");
 		var inputamount = parseInt($(this).text());
-		var oldnw = parseInt($('#masthead .networthheader').text().replace(' ',''));
+		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
 		$("#sell_"+inputkey).val(inputamount);
 
 		var orderval = 0
