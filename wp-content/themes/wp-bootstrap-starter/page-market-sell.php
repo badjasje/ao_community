@@ -103,31 +103,28 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 
             <?php include('pages/market/sell/type.php'); ?>
 
-<div class="row statusBlockButtons">
+			<div class="row statusBlockButtons">
 
-	<div class="col-md-3 totalsField statCol-1">
-		Number of units: <span id="totalsell">0</span>
-	</div>
-	<div class="col-md-3 totalsField statCol-2">
-		Return value: $ <span id="return_val">0</span>
-	</div>
-	<div class="col-md-3 totalsField statCol-3">
-		Networth lost: $ <span id="nw_lost">0</span>
-	</div>
-	<div class="col-md-3 totalsField statCol-4">
-		New networth: $ <span id="networth_new"></span>
-	</div>
-</div>
-
-
+				<div class="col-md-3 totalsField statCol-1">
+					Number of units: <span id="totalsell">0</span>
+				</div>
+				<div class="col-md-3 totalsField statCol-2">
+					Return value: $ <span id="return_val">0</span>
+				</div>
+				<div class="col-md-3 totalsField statCol-3">
+					Networth lost: $ <span id="nw_lost">0</span>
+				</div>
+				<div class="col-md-3 totalsField statCol-4">
+					New networth: $ <span id="networth_new"></span>
+				</div>
+			</div>
 
             <input type="submit" value="Sell units" class="mainSubmit hoverEffect">
 
         </div>
     </form>
-	</div>
-    <?php endif;?>
-
+</div>
+<?php endif;?>
 
 
 </div> <!-- // End pageRow -->
@@ -142,7 +139,7 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 
 		$(".sellInput").each(function(){
 			var inputkey = $(this).attr("data-key");
-			var inputval = Math.min( Math.abs(parseInt($(this).val())), parseInt($('#maxsell_'+inputkey).text()) );
+			var inputval = Math.abs(parseInt($(this).val()));
 			if(inputval > 0) {
 				sum += inputval;
 				orderval += parseInt($(this).attr("data-price")) * inputval;
@@ -167,7 +164,7 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 		var nwlost = 0;
 		$(".sellInput").each(function(){
 			var inputkey = $(this).attr("data-key");
-			var inputval = Math.min( Math.abs(parseInt($(this).val())), parseInt($('#maxsell_'+inputkey).text()) );
+			var inputval = Math.abs(parseInt($(this).val()));
 			if(inputval > 0){
 				sum += inputval;
 				orderval += parseInt($(this).attr("data-price")) * inputval;

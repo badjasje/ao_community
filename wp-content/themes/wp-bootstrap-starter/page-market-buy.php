@@ -215,7 +215,7 @@ if(count($orders) == 0) {
 		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
 		$(".buyInput").each(function(){
 			var inputkey = $(this).attr("data-key");
-			var inputval = Math.min( Math.abs(parseInt($(this).val())), parseInt($('#button'+inputkey).text()) );
+			var inputval = Math.abs(parseInt($(this).val()));
 			if(inputval > 0) {
 				sum += inputval;
 				orderval += parseInt($(this).attr("data-price")) * inputval;
@@ -241,7 +241,7 @@ if(count($orders) == 0) {
 
 		$(".buyInput").each(function(){
 			var inputkey = $(this).attr("data-key");
-			var inputval = Math.min( Math.abs(parseInt($(this).val())), parseInt($('#button'+inputkey).text()) );
+			var inputval = Math.abs(parseInt($(this).val()));
 			if(inputval > 0){
 				sum += inputval;
 				orderval += parseInt($(this).attr("data-price")) * inputval;
