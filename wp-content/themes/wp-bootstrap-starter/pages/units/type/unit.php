@@ -46,11 +46,11 @@ $count++;
     <div class="col-md-1 celBlock maxBlock">
 	    <span class="columnDataLeft">Max</span>
 	    <span class="columnDataRight">
-		<?php 
+		<?php
             $maxMoney = floor($totalMoney / $buyPrice);
             $maxSpace = $space[$unitTypeKey] - $usedSpace[$unitTypeKey];
             $maxTurns = floor($totalturns*$unitsPerTurn[$unitTypeKey]);
-       
+
             ?>
 
 		<?php if(in_array($unitKey, $specialUnits)) : ?>
@@ -66,4 +66,4 @@ $count++;
         <input type="number" id="<?php echo $unitKey;?>_nw_total" class="nwtotal" hidden />
         <input type="number" id="<?php echo $unitKey;?>_turn_total" class="turntotal" hidden  />
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->

@@ -45,12 +45,12 @@ $backColor = "45, 67, 81"
 	    <span class="columnDataLeft">Max</span>
 	    <span class="columnDataRight">
 		<?php
-            
-            
+
+
             $maxMoney = floor($totalMoney / $building['price']);
 			$maxTurns = floor($totalturns * $turns_multiplier);
 			$maxSpace = floor(($land - $builtland) / 20);
-            
+
             ?>
 
 			<span class="allbutton" data-amount="<?php echo (min($maxMoney, $maxSpace, $maxTurns)); ?>" data-nw="<?php echo $building['networth'];?>" data-price="<?php echo $order['price'];?>" data-key="<?php echo $buildingKey;?>" id="button<?php echo $buildingKey;?>"><?php echo (min($maxMoney, $maxSpace, $maxTurns)); ?></span>
@@ -59,6 +59,6 @@ $backColor = "45, 67, 81"
     </div>
     <div class="col-md-2 celBlock inputBlock">
         <input class="unitInput buyInput buy_<?php echo $buildingKey;?>" data-nw="<?php echo $building['networth'];?>" data-price="<?php echo $building['price'];?>" data-key="<?php echo $buildingKey;?>" min="0" type="number" id="<?php echo $buildingKey;?>" name="<?php echo $buildingKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
- 
+
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->

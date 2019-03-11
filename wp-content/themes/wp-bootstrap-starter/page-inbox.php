@@ -118,7 +118,7 @@ if($receiver_id == $userId){
 		?>
 
 	</div>
-</div> <! // Close profile row -->
+</div> <!-- //Close profile row -->
 
 
 

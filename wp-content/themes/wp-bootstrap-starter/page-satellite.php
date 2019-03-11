@@ -2,7 +2,7 @@
  /*
  * Template Name: Satellite
 */
-get_header(); 
+get_header();
 include 'satellite_array.php';
 global $userId;
 global $userData;
@@ -29,7 +29,7 @@ if($sat_owned != '0'){
 $buttonColor = "70, 118, 94"
 ?>
 
-<div class="row pageRow">	
+<div class="row pageRow">
 <div class="blockHeader"><?php echo $headerText;?></div>
 <div class="fw-row <?php echo $disableClass;?> satblock">
 <?php if($sat_owned == '0' && $sat_progress == '0'):?>
@@ -45,10 +45,10 @@ $buttonColor = "70, 118, 94"
 		Price
     </div>
     <div class="col-md-2 celBlock"></div>
-</div> <! // Close Unit row -->
-	
+</div> <!-- //Close Unit row -->
+
 <form class="form" name="" id="satbuild" method="post">
-<?php 
+<?php
 	$count = 0;
 	foreach ($satellites as $key => $satellite): $count++; ?>
 
@@ -73,11 +73,11 @@ $buttonColor = "70, 118, 94"
 				Select
 			</label>
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 <?php endforeach;?>
 
-	
+
 </div>
 <?php if($sat_level > 0):?>
 	<input type="submit" value="Order satellite" class="mainSubmit hoverEffect">
@@ -94,11 +94,11 @@ $buttonColor = "70, 118, 94"
     <div class="col-md-2 celBlock">Order value</div>
     <div class="col-md-2 celBlock">Time left</div>
     <div class="col-md-3 celBlock"></div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
 <?php
-	
+
 $args = [
     'posts_per_page'   => -1,
     'meta_key'		=> 'user_placed_id',
@@ -117,7 +117,7 @@ foreach ($orders as $order){
 	$count++;
     $orderId = $order->ID;
     $orderData = get_post_meta($orderId);
-  
+
     $units_in_this_order = $orderData['amount_ordered'][0];
 
     $order_type = $orderData['order_type'][0];
@@ -133,8 +133,8 @@ foreach ($orders as $order){
     if($timeLeft >= 0) {
         $orderValue = $orderData['order_value'][0];
 
-       
-        
+
+
         if($order_type == 'satellite'){
             $totalNetworth += $orderValue*$satellites[$unit_type]['networth']/100;
         }
@@ -169,10 +169,10 @@ foreach ($orders as $order){
 			</form>
 		<?php endif;?>
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
-<?php }}?>	
+<?php }}?>
 
 <div class="row statusBlockButtons">
 	<div class="col-md-4 totalsField statCol-1">
@@ -193,11 +193,11 @@ foreach ($orders as $order){
 
 <?php elseif($sat_owned != '0'):
 $timestamp = current_time('timestamp');
-			
+
 $timeleft = $sat_endlife-$timestamp;
 $timeleft2 = date('H:i:s', $timeleft);
-	
-	
+
+
 ?>
 <div class="blockHeader spaceNotice"><?php echo date('d', $timeleft);?> days</strong> and <strong><?php echo $timeleft2;?></strong> before your satellite re-enters the atmosphere.</div>
 <div class="fw-row satblock">
@@ -209,12 +209,12 @@ $timeleft2 = date('H:i:s', $timeleft);
 		Effect
     </div>
     <div class="col-md-4 celBlock"></div>
-</div> <! // Close Unit row -->
-	
+</div> <!-- //Close Unit row -->
 
-<?php 
+
+<?php
 	$count = 0;
-	foreach ($satellites as $key => $satellite): $count++; 
+	foreach ($satellites as $key => $satellite): $count++;
 	if($sat_owned != $key){ continue;}
 	?>
 
@@ -228,9 +228,9 @@ $timeleft2 = date('H:i:s', $timeleft);
 		<span class="columnDataRight"><?php echo $satellite['desc'];?></span>
     </div>
      <div class="col-md-4 celBlock" style="padding:0px;">
-	    
+
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 <?php if($sat_owned == 'stealths'):?>
 	<?php if($sat_status == 'active'):?>
 		<div class="blockHeader">Stealth satellite active. <?php echo human_time_diff( $stealth_sat_time,$timestamp);?> before you need to reactivate.</div>
@@ -238,7 +238,7 @@ $timeleft2 = date('H:i:s', $timeleft);
 		<a class="mainSubmit profileButton activateSatellite" href="#">
 			<i class="fa fa-power-off" aria-hidden="true"></i> Activate stealth satellite
 		</a>
-				
+
 			<?php endif;?>
 
 <?php endif;?>
@@ -251,21 +251,21 @@ $timeleft2 = date('H:i:s', $timeleft);
 
 <script>
 (function($) {
-	
+
 
 
 $( ".activateSatellite" ).click(function() {
 	$('.pageLoader, #page-cover').show();
 	$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
-	
+
 	if(confirm("Are you sure you want to activate your stealth satellite?")){
 
   	activate = $.ajax({
         url: '/activate_stealthsat.php',
         type: 'get'
     });
-    
-    activate.done(function (response, textStatus, jqXHR){ 
+
+    activate.done(function (response, textStatus, jqXHR){
 		updateHeaderData();
 		var array = JSON.parse(response);
 
@@ -276,21 +276,21 @@ $( ".activateSatellite" ).click(function() {
 			delay: 5000,
 			allow_dismiss: true,
 			newest_on_top: true,
-				});	
+				});
 		if(array.next == true){
-			
-			
+
+
 			$('.activateSatellite').remove();
 			$(".satrow").append('<div class="blockHeader">Stealth satellite active. 3.5 hours before you need to reactivate.</div>');
 			$('.titleBackWrapper').addClass('stealthsatactive');
 		}
-	
+
 	});
-	
-	
+
+
 }
 });
-	
+
 var cancel;
 $( "body" ).on('submit','#cancelsat',function(cancelevent) {
 	jQuery('.pageTitle').html('<i class="fa fa-circle-o-notch fa-spin"></i>');
@@ -324,19 +324,19 @@ $( "body" ).on('submit','#cancelsat',function(cancelevent) {
 						});
 			$.get( "<?php echo get_stylesheet_directory_uri();?>/pages/satellite/satOrderBlock.php", function( canceldata ) {
 					$( ".satblock" ).empty().append( canceldata );
-				
+
 				});
 			$('.pageTitle').html('<?php echo get_the_title();?>');
 			$('#money').html(number_format(cancelarray.money, 0, ',', ' '));
-		
 
-});	});	
+
+});	});
 })(jQuery);
 </script>
 
 <script>
 (function($) {
-	
+
 var request;
 $(document).on('submit','#satbuild',function(event){
 
@@ -367,7 +367,7 @@ $(document).on('submit','#satbuild',function(event){
 					delay: 5000,
 					allow_dismiss: true,
 					newest_on_top: true,
-						});	
+						});
 			if(array.next == true){
 				$.get( "<?php echo get_stylesheet_directory_uri();?>/pages/satellite/satOrderBlock.php", function( data ) {
 					$( ".satblock" ).empty().append( data );
@@ -379,17 +379,17 @@ $(document).on('submit','#satbuild',function(event){
 			$('#total').html('0');
 			$('#networth_total').html('0');
 			$('#turn_total').html('0');
-			
+
 			$('#money').html(number_format(array.money, 0, ',', ' '));
 			$('#turns').html(number_format(array.turns, 0, ',', ' '));
-			
+
 			$('#satbuild').trigger("reset");
-});	});	
+});	});
 })(jQuery);
 </script>
 
-	
-	
+
+
 </div> <!-- end .pageRow -->
 <?php
 get_footer();

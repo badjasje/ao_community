@@ -43,7 +43,7 @@
     </div>
     <div class="col-md-1 celBlock">Max</div>
     <div class="col-md-2 celBlock"></div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
 <?php $count = 0;
@@ -73,7 +73,7 @@
 <input type="submit" value="Build" class="mainSubmit hoverEffect">
  </form>
 </div>
-    
+
 <div class="tab-pane <?php echo $activeTab === 'demolish' ? 'active' : ''; ?>" id="demolish" role="tabpanel">
 <form class="form" id="demobuildings">
 <input type="hidden" name="currentTab" id="currentTab" value="?tab=<?php echo $activeTab; ?>" />
@@ -119,7 +119,7 @@
     </div>
     <div class="col-md-1 celBlock">Max</div>
     <div class="col-md-2 celBlock"></div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
         <?php $count = 0;
         foreach($buildings as $buildingKey => $building) {
                 include('type/demolish.php');

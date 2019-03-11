@@ -16,28 +16,28 @@ if(empty($spytype)){
 }
 
 /* check if user has enough spies or spy planes */
-if($spies <= 0 && $spytype == 'spy'){ 
+if($spies <= 0 && $spytype == 'spy'){
 	$array['status'] = 'Not enough spies';
 	$array['next'] = false;
 	echo json_encode($array);
 	exit;
-}	
-	
-if($spyplanes <= 0 && $spytype == 'spyplane'){ 
-	
+}
+
+if($spyplanes <= 0 && $spytype == 'spyplane'){
+
 	$array['status'] = 'Not enough spy planes';
 	$array['next'] = false;
 	echo json_encode($array);
 	exit;
 }
-	
+
 /* check if user has enough turns */
-if($turns < 1){ 
+if($turns < 1){
 	$array['status'] = 'Not enough turns';
 	$array['next'] = false;
 	echo json_encode($array);
 	exit;
-}	
+}
 
 update_user_meta($userId,'turns',$turns-1);
 turn_spread('spying',3);
@@ -54,11 +54,11 @@ if($sat_status == 'active'){
 }
 
 $members = get_post_meta($clan_ID,'clan_members',true);
-			
-			
+
+
 			/* enhancing spy */
 			$enhanceSpy = 0;
-			
+
 			$args = array(
 			'posts_per_page'   => -1,
 			'author__in'	=> $members,
@@ -76,34 +76,34 @@ $members = get_post_meta($clan_ID,'clan_members',true);
 						'value'	  	=> 'spy',
 						'compare' 	=> '=',
 						),
-						
-					
+
+
 					),
 			'post_type'        => 'spy_rep',
 			);
-			$reports = get_posts( $args ); 		
-		
+			$reports = get_posts( $args );
+
 			foreach ($reports as $report) {
-				
-			
+
+
 			$posttime = strtotime($report->post_date);
-		
+
 			if($posttime-$timestamp+900 > 0){
-			
+
 				$enhanceSpy+=1;
 				}
-			
+
 			}
 			if($enhanceSpy >= 3){
 				$enhanceSpy = 3;
 			}
-			
-			
-			
-			
+
+
+
+
 			/* enhancing plane */
 			$enhancePlane = 0;
-			
+
 			$args = array(
 			'posts_per_page'   => -1,
 			'author__in'	=> $members,
@@ -121,28 +121,28 @@ $members = get_post_meta($clan_ID,'clan_members',true);
 						'value'	  	=> 'spyplane',
 						'compare' 	=> '=',
 						),
-						
-					
+
+
 					),
 			'post_type'        => 'spy_rep',
 			);
-			$reports = get_posts( $args ); 		
-		
+			$reports = get_posts( $args );
+
 			foreach ($reports as $report) {
-				
-			
+
+
 			$posttime = strtotime($report->post_date);
-			
+
 			if($posttime-$timestamp+900 > 0){
-			
+
 				$enhancePlane+=1;
 				}
-			
+
 			}
 			if($enhancePlane >= 3){
 				$enhancePlane = 3;
 			}
-			
+
 if($spytype == 'spy'):?>
 	<?php if($success <= 95):?>
 		<?php $winner_id = $userId; $result = 'success';?>
@@ -154,7 +154,7 @@ if($spytype == 'spy'):?>
 	<?php else:?>
 		Spy report fully enhanced.
 	<?php endif;?>
-	
+
 	<?php if($enhanceSpy < 3):?>
 		Re-spy this target within 15 minutes to enhance spy reports</span>
 	<?php endif;?>
@@ -166,7 +166,7 @@ if($spytype == 'spy'):?>
 		View clan
 		</button>
 		</a>
-	</div> 
+	</div>
 
 	<div class="col-md-6">
 		<a href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">
@@ -175,14 +175,14 @@ if($spytype == 'spy'):?>
 		</button>
 		</a>
 	</div>
-</div>		
+</div>
 <div class="pageSpacer"></div>
-				
-<?php 
-					
-	$amountArray = array();	
+
+<?php
+
+	$amountArray = array();
 	$spy_array = array();
-			
+
 	foreach ($units as $key => $unit) {
 		$owned_units = $defenderData[$key.'_owned'][0];
 		if($owned_units <= 0){ continue; }
@@ -196,19 +196,19 @@ if($spytype == 'spy'):?>
     <div class="col-md-6 celBlock">
 		Owned
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
-<?php 
+<?php
 	foreach ($amountArray as $unit => $amount) {
 		$count++;
 		$rangeDamp = 1 - sqrt(($amount)*1.4)/100;
 			if($rangeDamp < 0){
 				$rangeDamp = 0.2;
 			}
-				
-		
+
+
 				$displayamount = max(round($amount/(1+(mt_rand(20*$rangeDamp, 30*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(36*$rangeDamp, 72*$rangeDamp)/100)))));
-				
+
 				if($enhanceSpy == 1){
 					$displayamount = max(round($amount/(1+(mt_rand(10*$rangeDamp, 20*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(12*$rangeDamp, 36*$rangeDamp)/100)))));
 				}
@@ -219,59 +219,59 @@ if($spytype == 'spy'):?>
 					$displayamount = max(round($amount/(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)))));
 				}
 				$spy_array[$unit] = $displayamount;
-			
-			
+
+
 			?>
 			<div class="row unitRow" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
 			    <div class="col-md-6 celBlock nameBlock sea_heading">
 			        <?php echo $unit;?>
 			    </div>
-			
+
 			    <div class="col-md-6 celBlock">
 				    <span class="columnDataLeft">Owned</span>
 					<span class="columnDataRight"><?php echo $displayamount;?></span>
 			    </div>
-			</div> <! // Close Unit row -->
+			</div> <!-- //Close Unit row -->
 
-		
-			
-			<?php 
+
+
+			<?php
 				$spy_array['enhance'] = $enhanceSpy;
-				
+
 				}?>
-			
-		
-		
-			
-			<?php $args = array(	
+
+
+
+
+			<?php $args = array(
 				'post_title'    => 'Spy report by '.$userId.' Defender: '.$target_id.' '.$spytype,
 				'post_status'   => 'publish',
 				'post_type'		=> 'spy_rep',
 				'post_author'   => $userId
 				);
-				
-			
+
+
 			$new_event_id = wp_insert_post( $args );
-			
+
 			update_field('spied_id', $target_id, $new_event_id);
 			update_field('clan_id_report', $clan_ID, $new_event_id);
 			update_field('spy_type', 'spy', $new_event_id);
 			update_field('spy_array', $spy_array, $new_event_id);
-			
-			
+
+
 			update_field('spied_land', $land_def, $new_event_id);
 			update_field('spied_nw', $networth_def, $new_event_id);
-			
-			
+
+
 			?>
 <?php else:?>
-	
+
 <?php $winner_id = $target_id;
 $result = 'failure';
 $spies = get_user_meta( $userId, 'spy_owned', true );
 update_user_meta($userId, 'spy_owned', $spies-1);
-	
-	
+
+
 ?>
 
 
@@ -285,7 +285,7 @@ update_user_meta($userId, 'spy_owned', $spies-1);
 		View clan
 		</button>
 		</a>
-	</div> 
+	</div>
 
 	<div class="col-md-6">
 		<a href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">
@@ -294,14 +294,14 @@ update_user_meta($userId, 'spy_owned', $spies-1);
 		</button>
 		</a>
 	</div>
-</div>		
+</div>
 <div class="pageSpacer"></div>
 
 
 <?php endif;?>
 <?php endif;?>
-			
-			
+
+
 <?php if($spytype == 'spyplane'):?>
 	<?php if($success <= 95):?>
 		<?php $winner_id = $userId; $result = 'success';?>
@@ -314,7 +314,7 @@ update_user_meta($userId, 'spy_owned', $spies-1);
 	<?php else:?>
 		Spy report fully enhanced.
 	<?php endif;?>
-	
+
 	<?php if($enhancePlane < 3):?>
 		Re-spy this target within 15 minutes to enhance spy reports</span>
 	<?php endif;?>
@@ -326,7 +326,7 @@ update_user_meta($userId, 'spy_owned', $spies-1);
 		View clan
 		</button>
 		</a>
-	</div> 
+	</div>
 
 	<div class="col-md-6">
 		<a href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">
@@ -335,14 +335,14 @@ update_user_meta($userId, 'spy_owned', $spies-1);
 		</button>
 		</a>
 	</div>
-</div>		
+</div>
 <div class="pageSpacer"></div>
-				
-<?php 
-					
-	$amountArray = array();	
+
+<?php
+
+	$amountArray = array();
 	$spy_array = array();
-			
+
 	foreach ($buildings as $key => $unit) {
 		$owned_units = $defenderData[$key][0];
 		if($owned_units <= 0){ continue; }
@@ -356,19 +356,19 @@ update_user_meta($userId, 'spy_owned', $spies-1);
     <div class="col-md-6 celBlock">
 		Owned
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
-<?php 
+<?php
 	foreach ($amountArray as $unit => $amount) {
 		$count++;
 		$rangeDamp = 1 - sqrt(($amount)*1.4)/100;
 			if($rangeDamp < 0){
 				$rangeDamp = 0.2;
 			}
-				
-		
+
+
 				$displayamount = max(round($amount/(1+(mt_rand(20*$rangeDamp, 30*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(36*$rangeDamp, 72*$rangeDamp)/100)))));
-				
+
 				if($enhanceSpy == 1){
 					$displayamount = max(round($amount/(1+(mt_rand(10*$rangeDamp, 20*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(12*$rangeDamp, 36*$rangeDamp)/100)))));
 				}
@@ -379,59 +379,59 @@ update_user_meta($userId, 'spy_owned', $spies-1);
 					$displayamount = max(round($amount/(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)))));
 				}
 				$spy_array[$unit] = $displayamount;
-			
-			
+
+
 			?>
 			<div class="row unitRow" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
 			    <div class="col-md-6 celBlock nameBlock sea_heading">
 			        <?php echo $unit;?>
 			    </div>
-			
+
 			    <div class="col-md-6 celBlock">
 				    <span class="columnDataLeft">Owned</span>
 					<span class="columnDataRight"><?php echo $displayamount;?></span>
 			    </div>
-			</div> <! // Close Unit row -->
+			</div> <!-- //Close Unit row -->
 
-		
-			
-			<?php 
+
+
+			<?php
 				$spy_array['enhance'] = $enhanceSpy;
-				
+
 				}?>
-			
-		
-		
-			
-			<?php $args = array(	
+
+
+
+
+			<?php $args = array(
 				'post_title'    => 'Spy report by '.$userId.' Defender: '.$target_id.' '.$spytype,
 				'post_status'   => 'publish',
 				'post_type'		=> 'spy_rep',
 				'post_author'   => $userId
 				);
-				
-			
+
+
 			$new_event_id = wp_insert_post( $args );
 			update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 			update_field('spied_id', $target_id, $new_event_id);
 			update_field('clan_id_report', $clan_ID, $new_event_id);
 			update_field('spy_type', 'spyplane', $new_event_id);
 			update_field('spy_array', $spy_array, $new_event_id);
-			
-			
+
+
 			update_field('spied_land', $land_def, $new_event_id);
 			update_field('spied_nw', $networth_def, $new_event_id);
-			
-			
+
+
 			?>
 <?php else:?>
-	
+
 <?php $winner_id = $target_id;
 $result = 'failure';
 $spies = get_user_meta( $userId, 'spyplane_owned', true );
 update_user_meta($userId, 'spyplane_owned', $spies-1);
-	
-	
+
+
 ?>
 
 
@@ -445,7 +445,7 @@ update_user_meta($userId, 'spyplane_owned', $spies-1);
 		View clan
 		</button>
 		</a>
-	</div> 
+	</div>
 
 	<div class="col-md-6">
 		<a href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">
@@ -454,24 +454,24 @@ update_user_meta($userId, 'spyplane_owned', $spies-1);
 		</button>
 		</a>
 	</div>
-</div>		
+</div>
 <div class="pageSpacer"></div>
 
 
 <?php endif;?>
 <?php endif;?>
-<div id="strikeagain" class="mainSubmit"><i class="fas fa-sync" aria-hidden="true"></i> Re-Spy</div>     
-<?php 
-	
+<div id="strikeagain" class="mainSubmit"><i class="fas fa-sync" aria-hidden="true"></i> Re-Spy</div>
+<?php
+
 /* Create Spy event post */
 
-$args = array(	
+$args = array(
 	'post_title'    => 'Spy attempt by '.$userId.' Defender: '.$target_id.' '.$spytype,
 	'post_status'   => 'publish',
 	'post_type'		=> 'event_local',
 	'post_author'   => $userId
 );
-			
+
 $new_event_id = wp_insert_post( $args );
 
 update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());

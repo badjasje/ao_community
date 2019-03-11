@@ -57,7 +57,7 @@ $backColor = "127, 82, 67"
 						$maxOwned = 0;
 					}
 				}
-				
+
 				if ($buildingKey == 'command_centre') {
 
 					$maxMoney = floor($maxMoney - ($totalspecial / 5));
@@ -72,8 +72,8 @@ $backColor = "127, 82, 67"
 						$maxOwned = 0;
 					}
 				}
-				
-				
+
+
 
 				if ($buildingKey == 'shipyard') {
 
@@ -118,9 +118,9 @@ $backColor = "127, 82, 67"
 						$maxOwned = 0;
 					}
 				}
-            
+
             ?>
-            
+
             <span class="sellall" id="demobutton_<?php echo $buildingKey; ?>" data-key="<?php echo $buildingKey;?>" data-amount="<?php echo min($maxMoney, $maxOwned); ?>">
     			<?php echo min($maxMoney, $maxOwned); ?>
 			</span>
@@ -131,5 +131,5 @@ $backColor = "127, 82, 67"
     <div class="col-md-2 celBlock" style="padding:0px;">
         <input class="unitInput demobds sellInput" data-nw="<?php echo $building['networth'];?>" data-key="<?php echo $buildingKey;?>" data-price="<?php echo $building['price']*0.15;?>" min="0" type="number" id="demo_<?php echo $buildingKey;?>" name="<?php echo $buildingKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 <?php endif;?>
