@@ -18,7 +18,7 @@
 </div> <! // Close Unit row -->
 
 
-<?php 
+<?php
 $totalair = 0;
 $count = 0;
 foreach($missiles as $key => $order){
@@ -27,18 +27,18 @@ $units_ordered = $userData[$key.'_ordered'][0];
 $unittype = $missiles[$key]['type'];
 ?>
 
-			
+
 <div class="row unitRow" style="background-color: rgba(<?php echo $buyBackColor;?>, <?php echo 0.6-($count/25);?>);">
 	<div class="col-md-2 celBlock nameBlock sea_heading">
 		<?php echo $order['normalname'];?>
-			
+
 		<?php if(isset($order['description'])):?>
 			<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="bottom">
 			<i class="fa fa-info-circle" aria-hidden="true"></i>
 			</span>
 		<?php endif;?>
 	</div>
-	
+
 	<div class="col-md-2 celBlock">
 		<span class="columnDataLeft">Owned (ordered)</span>
 		<span class="columnDataRight">
@@ -49,27 +49,27 @@ $unittype = $missiles[$key]['type'];
 	<div class="col-md-1 celBlock">
 		<span class="columnDataLeft">Price</span>
 		<span class="columnDataRight">
-			<span 	class="hover-tip"  
-					data-toggle="tooltip" 
-					data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth. 
-					$ <?php echo $order['price']*$order['networth']/100;?> per unit." 
+			<span 	class="hover-tip"
+					data-toggle="tooltip"
+					data-original-title="The <?php echo $order['normalname'];?> adds <?php echo $order['networth'];?>% networth.
+					$ <?php echo $order['price']*$order['networth']/100;?> per unit."
 					data-placement="bottom">
 						$ <?php echo number_format(ceil($order['price']), 0, ',', ' '); ?>
-			</span>	
+			</span>
 		</span>
 	</div>
-	
+
 	<div class="col-md-1 celBlock">
 		<span class="columnDataLeft">Attack</span>
 		<span class="columnDataRight">
 		 	<?php echo $order['attack'];?>
 		</span>
 	</div>
-	
+
 	<div class="col-md-2 celBlock">
 		<span class="columnDataLeft">Targets</span>
 		<span class="columnDataRight">
-			<?php if(!empty($order['attacks'])){ 
+			<?php if(!empty($order['attacks'])){
 				echo implode (", ", $order['attacks']);
 				}else{
 				echo 'N.A';
@@ -81,19 +81,19 @@ $unittype = $missiles[$key]['type'];
 	<div class="col-md-1 celBlock">
 		<span class="columnDataLeft">Max</span>
 		<span class="columnDataRight">
-			<?php 	
+			<?php
 			if($key != 'tomahawk'){
-			$max_money = floor($totalMoney/($order['price']));
-			$max_turns = floor($totalturns*5);
-			$max_space = $missilespace-$totalmissiles;
+				$max_money = floor($totalMoney/($order['price']));
+				$max_turns = floor($totalturns*5);
+				$max_space = $missilespace-$totalmissiles;
 			}else{
-			$max_money = floor($totalMoney/($order['price']));
-			$max_turns = round($totalturns/3);
-			$max_space = $tomahawkspace-$userData['tomahawk_owned'][0]-$userData['tomahawk_ordered'][0];
-				
+				$max_money = floor($totalMoney/($order['price']));
+				$max_turns = round($totalturns/3);
+				$owned = (!empty($userData['tomahawk_owned'][0]) ? $userData['tomahawk_owned'][0] : 0);
+				$ordered = (!empty($userData['tomahawk_ordered'][0]) ? $userData['tomahawk_ordered'][0] : 0);
+				$max_space = $tomahawkspace - $owned - $ordered;
 			}
-							
-						?>
+			?>
 		<span id="<?php echo $key;?>" class="allbutton" data-nw="<?php echo $order['networth'];?>" data-price="<?php echo $order['price'];?>" data-key="<?php echo $key;?>" data-amount="<?php echo (min($max_money,$max_turns,$max_space));?>"><?php echo (min($max_money,$max_turns,$max_space));?></span>
 		</span>
 	</div>
@@ -105,7 +105,7 @@ $unittype = $missiles[$key]['type'];
 		<?php endif;?>
 	</div>
 </div> <! // Close Unit row -->
-<?php $count++; }?>	
+<?php $count++; }?>
 
 
 
@@ -127,10 +127,10 @@ $unittype = $missiles[$key]['type'];
 </div>
 
 <input type="submit" value="Place order" class="mainSubmit">
-				
-								
-    
-									
+
+
+
+
 			</form>
 
 </div>
