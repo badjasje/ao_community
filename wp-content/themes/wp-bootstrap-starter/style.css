@@ -980,10 +980,12 @@ body:not(.theme-preset-active) footer#colophon {
   margin-bottom: 0;
   text-align: center;
 }
-
 .copyright a, footer#colophon a {
   color: inherit;
 }
+.footer-nav, .footer-nav a { color:#FFF; font-size: 13px; }
+.footer-nav h4 { margin-top: 0; margin-bottom: 5px; color: #94a0a4; }
+.footer-list { padding-left: 16px; margin: 0; }
 
 @media screen and (max-width: 767px) {
   #masthead .navbar-nav > li > a {

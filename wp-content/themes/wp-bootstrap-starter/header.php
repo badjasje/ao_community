@@ -389,7 +389,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<?/*<div class="row menuRow hideMenuItem">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a target="_blank" href="<?php echo get_site_url(); ?>/push-messaging.html">
 							<button class="menu-item" type="button" >
@@ -414,22 +414,21 @@
 							<button type="button" class="btn btn-secondary dropdown-toggle everythingElse hoverEffect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Everything else
 							</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="<?php echo get_site_url(); ?>/getting-started">Getting Started</a>
-							<a class="dropdown-item" href="<?php echo get_site_url(); ?>/forum">Forum</a>
-							<a class="dropdown-item" href="<?php echo get_site_url(); ?>/all-clans/">All Clans</a>
-							<a class="dropdown-item" href="<?php echo get_site_url(); ?>/users">Users</a>
-							<a class="dropdown-item" href="<?php echo get_site_url(); ?>/toplists">Toplists</a>
-							<a class="dropdown-item" href="<?php echo get_site_url(); ?>/player-statistics">Statistics</a>
-							<a class="dropdown-item" href="<?php echo get_site_url(); ?>/category/awards-medals/">Awards & Medals</a>
-							<a class="dropdown-item" href="<?php echo get_site_url(); ?>/manual">Manual</a>
-							<a class="dropdown-item" href="<?php echo get_site_url(); ?>/rules">Rules</a>
-							<a class="dropdown-item" target="_blank" href="http://bit.ly/2US8Dh0">Discord</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/getting-started">Getting Started</a>
+								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/forum">Forum</a>
+								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/all-clans/">All Clans</a>
+								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/users">Users</a>
+								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/toplists">Toplists</a>
+								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/player-statistics">Statistics</a>
+								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/category/awards-medals/">Awards & Medals</a>
+								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/manual">Manual</a>
+								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/rules">Rules</a>
+								<a class="dropdown-item" target="_blank" href="http://bit.ly/2US8Dh0">Discord</a>
+							</div>
 						</div>
 					</div>
-				</div>
-
-			</div>
+				</div>*/?>
 
 			<div id="page-sub-header">
 				<div class="row statheader">
