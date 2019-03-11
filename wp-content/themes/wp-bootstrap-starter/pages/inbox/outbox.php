@@ -9,9 +9,9 @@
 
 
 
-<?php 
+<?php
 $custom_query_args['paged'] = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
-			
+
 	$args = array(
 	'posts_per_page'   => 20,
 	'orderby'          => 'date',
@@ -25,9 +25,9 @@ $custom_query_args['paged'] = get_query_var( 'paged' ) ? get_query_var( 'paged' 
 				'value'	  	=> $userId,
 				'compare' 	=> '=',
 				),
-			
-				
-			
+
+
+
 			)
 		);
 // Instantiate custom query
@@ -48,51 +48,50 @@ $sender = get_userdata( get_the_author_meta('ID') );
 $messageData = get_post_meta($message_ID);
 $parent_ID = $messageData['parent_message_id'][0];
 
-$receiver_id = $messageData['receiver_id'][0];	
-$receiver = get_userdata( $receiver_id );	
+$receiver_id = $messageData['receiver_id'][0];
+$receiver = get_userdata( $receiver_id );
 ?>
 
 <div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-($count/70);?>);">
 		<div class="col-md-1 col-no-padding sea_heading allUsersAvatarCol">
 			<?php echo small_avatar($receiver_id,'allUsersAvatar');?><span class="mobileUserName"><?php echo get_user_name($user_ID);?></span>
 		</div>
-	
+
 	<div class="col-md-4 celBlock allUsersNameCol">
 
-		<?php echo get_user_name($receiver_id);?>		
+		<?php echo get_user_name($receiver_id);?>
 
 	</div>
 	<div class="col-md-4 celBlock">
 		<span class="columnDataLeft">Subject</span>
 		<span class="columnDataRight store-pop-span2">
-		
-			<a href="<?php echo get_the_permalink($parent_ID);?>"> <?php 
-					
+
+			<a href="<?php echo get_the_permalink($parent_ID);?>"> <?php
+
 			if (strlen(get_the_title($parent_ID)) > 55) {
 			echo substr(get_the_title($parent_ID), 0, 55) . '...'; } else {
 			echo get_the_title($parent_ID);
 			}?></a>
-					
+
 		</span>
 
 	</div>
 	<div class="col-md-2 celBlock">
 		<span class="columnDataLeft">Date</span>
 		<span class="columnDataRight">
-			<?php echo get_the_date('G:i | d-m-Y'); ?> 
+			<?php echo get_the_date('G:i | d-m-Y'); ?>
 		</span>
 	</div>
-	
+
 	<div class="col-md-1 celBlock">
-		
-	
-	
+
+
+
 	</div>
-</div> <! // Close profile row -->
+</div> <!-- //Close profile row -->
 
 
 
 <?php endwhile; endif; ?>
-	
+
 </div> <!-- // End .tab-pane -->
-		

@@ -13,7 +13,7 @@
 				<?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?> and
 
 				<?php if($winner_id == $attacker_id){
-					echo " won the battle.<br/>";
+					echo "&nbsp;won the battle.<br/>";
 					if($clan_points != 0  && !empty($clan_points)):?>
 						<?php echo $clan_points;?> clan points gained.
 					<?php endif;?>
@@ -28,7 +28,7 @@
 				<?php if($winner_id == $attacker_id){?>
 					lost the battle. <br/>
 				<?php } else { ?>
-					<strong> won the battle.</strong>
+					<strong>&nbsp;won the battle.</strong>
 					<?php if($defender_points != 0):?>
 						<br/><?php echo $defender_points;?> clan point<?php if($defender_points>1){echo 's';}?> gained for successful base defense.
 					<?php endif;?>

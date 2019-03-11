@@ -12,9 +12,9 @@
 				You were attacked by <?php echo clan_tag($attacker_id);?> <a href="/users/profile/?id=<?php echo $attacker_id;?>">
 				<?php echo $member_data->display_name.' (#'.$attacker_id.')';?></a> and you
 				<?php if($winner_id == $defender_id):?>
-					<strong> won</strong> the battle.
+					<strong>&nbsp;won</strong> the battle.
 				<?php else: ?>
-					<strong> lost</strong> the battle.
+					<strong>&nbsp;lost</strong> the battle.
 				<?php endif; ?>
 			<?php endif;?>
 		</div>

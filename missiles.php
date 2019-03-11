@@ -42,10 +42,8 @@ $totalmoney = get_user_meta($userId, 'money', true);
 
 $turns = get_user_meta($userId, 'turns', true);
 
-
 $missilespace = get_user_meta($userId, 'silo', true);
 $tomahawkspace = get_user_meta($userId, 'submarine_owned', true)*2;
-
 
 include 'missiles_array.php';
 include 'count_functions.php';
@@ -61,6 +59,7 @@ foreach ($missiles as $key => $order) {
     } else {
         $letter_check = $_POST["$key"];
     }
+
     if (!is_numeric($letter_check)) {
         $array['status'] = 'Enter a valid number';
 		$array['next'] = false;
@@ -75,8 +74,8 @@ foreach ($missiles as $key => $order) {
     }
     if ($key == 'tomahawk') {
         $orderamount = $price*$ordered_missiles;
-        $totalordercost+=$orderamount;
-        $totalturncost+=abs(ceil($ordered_missiles/3));
+        $totalordercost += $orderamount;
+        $totalturncost += abs(ceil($ordered_missiles/3));
     }
 }
 if ($totalordercost > $totalmoney) {
@@ -85,6 +84,7 @@ if ($totalordercost > $totalmoney) {
     echo json_encode($array);
     exit;
 }
+
 if ($turns < $totalturncost) {
     $array['status'] = 'Not enough turns';
     $array['next'] = false;
@@ -92,11 +92,8 @@ if ($turns < $totalturncost) {
     exit;
 }
 
-
-
 $mis = 0;
 $total_missile_ordered = 0;
-
 
 $startingbonus = get_user_meta($userId, 'starting_bonus', true);
 $shipping_speed = 1;
@@ -104,9 +101,7 @@ if ($startingbonus == 'shipping') {
     $shipping_speed = 0.5;
 }
 
-
 // CHECK MISSILESPACE //
-
 foreach ($missiles as $key => $order) {
     if ($key != 'tomahawk') {
         $missile_name = $key.'_ordered';
@@ -114,13 +109,15 @@ foreach ($missiles as $key => $order) {
         $price = $order['price'];
         $ordered_missiles = abs(ceil($_POST["$key"]));
         $mis+=$ordered_missiles;
-                
+
         $owned_missiles = get_user_meta($userId, $key.'_owned', true);
         $missiles_already_on_order = get_user_meta($userId, $key.'_ordered', true);
-                
+        $owned_missiles = (!empty($owned_missiles) ? $owned_missiles : 0);
+        $missiles_already_on_order = (!empty($missiles_already_on_order) ? $missiles_already_on_order : 0);
+
         $total_missile_ordered+=$ordered_missiles+$owned_missiles+$missiles_already_on_order;
     }
-                
+
     if ($mis>0) {
         if ($total_missile_ordered > $missilespace) {
             $array['status'] = 'Build more missile silos';
@@ -129,16 +126,17 @@ foreach ($missiles as $key => $order) {
 			exit;
         }
     }
-            
-            
+
     if ($key == 'tomahawk') {
         $owned_tomahawks = get_user_meta($userId, $key.'_owned', true);
         $tomahawks_already_on_order = get_user_meta($userId, $key.'_ordered', true);
-                
+        $owned_tomahawks = (!empty($owned_tomahawks) ? $owned_tomahawks : 0);
+        $tomahawks_already_on_order = (!empty($tomahawks_already_on_order) ? $tomahawks_already_on_order : 0);
+
         $ordered_tomahawks = ceil($_POST["$key"]);
-                
+
         $total_tomahawks_ordered = $ordered_tomahawks + $tomahawks_already_on_order + $owned_tomahawks;
-                
+
         if ($ordered_tomahawks > 0) {
             if ($total_tomahawks_ordered > $tomahawkspace) {
                 $array['status'] = 'You need more submarines to house the ordered amount of tomahawk missiles';
@@ -153,33 +151,29 @@ foreach ($missiles as $key => $order) {
 // BUILD MISSILES //
 $total_missiles_ordered = 0;
 foreach ($missiles as $key => $order) {
-            $missile_name = $key.'_ordered';
-    
-            $normalname = $order['normalname'];
-            $price = $order['price'];
-            $ordered_missiles = ceil($_POST["$key"]);
-            $total_missiles_ordered+=$ordered_missiles;
-    
+    $missile_name = $key.'_ordered';
+
+    $normalname = $order['normalname'];
+    $price = $order['price'];
+    $ordered_missiles = ceil($_POST["$key"]);
+    $total_missiles_ordered+=$ordered_missiles;
+
     if ($ordered_missiles > 0) {
         $missiles_on_order = get_user_meta($userId, $missile_name);
         $missiles_on_order = $missiles_on_order[0];
-
-        
         update_user_meta($userId, 'money', $totalmoney-$totalordercost);
         update_user_meta($userId, 'turns', $turns-$totalturncost);
-        
-            
-            
+
         update_user_meta($userId, $missile_name, $missiles_on_order+$ordered_missiles);
-            
+
         $args = array(
-        'post_title'    => $order['normalname'],
-        'post_status'   => 'publish',
-        'post_type'     => 'market_order',
-        'post_author'   => $userId
+            'post_title'    => $order['normalname'],
+            'post_status'   => 'publish',
+            'post_type'     => 'market_order',
+            'post_author'   => $userId
         );
         $timestamp = current_time('timestamp');
-            
+
         $new_order_id = wp_insert_post($args);
         update_field('unit_type', $key, $new_order_id);
         update_field('user_placed_id', $userId, $new_order_id);
@@ -205,7 +199,6 @@ $missileAccLevel = $userData['level_missile_accuracy'][0];
 $totalmissiles = count_missilespace($userId);
 
 foreach ($missiles as $key => $missile) {
-
 	if($key != 'tomahawk'){
 		$max_money = floor($totalMoney/($missile['price']));
 		$max_turns = floor($totalturns*5);
@@ -215,15 +208,14 @@ foreach ($missiles as $key => $missile) {
 		$max_turns = round($totalturns/3);
 		$max_space = $tomahawkspace-$userData['tomahawk_owned'][0]-$userData['tomahawk_ordered'][0];
 	}
-	
+
     $ordered = $userData[$key.'_ordered'][0];
 
     if($ordered > 0) {
         $allOrdered[$key] = $ordered;
     }
-    
+
 	$newMax[$key] = min($max_money, $max_turns, $max_space);
-   
 }
 
 $array['status'] = $total_missiles_ordered.' missile'.plural_func($total_missiles_ordered).' ordered for '.$totalturncost.' turn'.plural_func($totalturncost).' and $ '.number_format($totalordercost, 0, ',', ' ');

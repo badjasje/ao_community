@@ -36,7 +36,7 @@ foreach ($units as $key => $order) {
     $units_ordered = $userData[$key.'_ordered'][0];
     $units_total = $units_owned + $units_ordered;
     $unittype = $units[$key]['type'];
-        
+
     if ($unittype == 'air') {
         $totalair+=$units_total;
         if ($key == 'spyplane') {
@@ -60,8 +60,8 @@ foreach ($units as $key => $order) {
 /* calculate total missiles */
 $totalmissiles = 0;
 foreach ($missiles as $key => $data) {
-    $missiles_owned = $userData[$key.'_owned'][0];
-    $missiles_ordered = $userData[$key.'_ordered'][0];
+    $missiles_owned = (!empty($userData[$key.'_owned'][0]) ? $userData[$key.'_owned'][0] : 0);
+    $missiles_ordered = (!empty($userData[$key.'_ordered'][0]) ? $userData[$key.'_ordered'][0] : 0);
     $totalmissiles+=($missiles_owned + $missiles_ordered);
 }
 
@@ -96,7 +96,7 @@ foreach ($buildings as $key => $order) {
     if ($sold_buildings > $owned_buildings) {
         $sold_buildings = $owned_buildings;
     }
-                        
+
     /* validate no demolishing filled buildings */
     if (array_key_exists($key, $max_sell) && $sold_buildings > $max_sell[$key]) {
         $array['status'] = 'You must sell units occupying the buildings before you can demolish them';
@@ -107,7 +107,7 @@ foreach ($buildings as $key => $order) {
 
     /* all validations passed - add to array for selling */
     $toSell[$key] = $sold_buildings;
-    
+
     /* calculate cost to sell */
     $total_selling+=($order['price']*0.15*$sold_buildings);
     $total_buildings+=$sold_buildings;
@@ -139,7 +139,7 @@ foreach ($toSell as $key => $count) {
 /* now update to remove the cash */
 update_user_meta($userId, 'money', $totalmoney-$total_selling);
 
-count_all_stats($userId); 
+count_all_stats($userId);
 
 $newMax = array();
 $newOwned = array();
@@ -173,7 +173,7 @@ foreach ($units as $key => $order) {
 }
 
 foreach ($buildings as $key => $building) {
-		
+
 		$newOwned[$key] = $userData[$key][0];
 
 		$newMax[$key] = floor($userData[$key][0]);
@@ -189,10 +189,10 @@ foreach ($buildings as $key => $building) {
 		elseif ($key == 'baracks') {
 			$newMax[$key] = max(0,floor($userData[$key][0] - ($totalinf/20)));
 		}
-	
+
 }
 
-      
+
 $array['status'] = 'Buildings demolished';
 $array['money'] = $totalmoney;
 $array['newmax'] = $newMax;

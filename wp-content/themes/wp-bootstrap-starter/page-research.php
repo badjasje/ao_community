@@ -65,7 +65,7 @@ if($researchCount >= 1){
     <div class="col-md-4 celBlock">Effect</div>
     <div class="col-md-2 celBlock">Time</div>
     <div class="col-md-3 celBlock"></div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 <?php
 	$count = 0;
@@ -155,7 +155,7 @@ if($researchCount >= 1){
 		<?php endif;?>
 
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 <?php if($inProgress == 1):?>
 <div class="blockHeader fw-row">
 <i class="fa fa-circle-notch fa-spin"></i> Time left:&nbsp; <div class="timeLeft" id="countdown_time"></div>

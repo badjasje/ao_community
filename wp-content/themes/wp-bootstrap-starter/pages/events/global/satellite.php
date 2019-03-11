@@ -23,10 +23,10 @@
 			<?php if(in_array($defender_id, $members[0])) { //Clanmember is defender?>
 				<?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?> was attacked by
 				<?php echo clan_tag($attacker_id);?> <?php echo get_user_name($attacker_id);?> and
-				<?php if($winner_id == $attacker_id){?>
-					lost the battle.
-				<?php } else { ?>
-					<strong> won the battle</strong>
+				<?php if($winner_id == $attacker_id){
+					echo "&nbsp;lost the battle.";
+				} else { ?>
+					<strong>&nbsp;won the battle</strong>
 				<?php } ?>
 			<?php } ?>
 		</div>

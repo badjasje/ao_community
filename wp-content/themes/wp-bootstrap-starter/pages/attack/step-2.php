@@ -37,7 +37,7 @@
 	    Owned
     </div>
     <div class="col-md-2 celBlock"></div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
 	<?php foreach ($units as $unitKey => $unit) { ?>
@@ -81,7 +81,7 @@
 				    <div class="col-md-2 celBlock" style="padding:0px;">
 				        <input id="<?php echo $unitKey;?>" style="border: 5px solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);" class="unitInput <?php echo $unitKey;?>-input" min="0" type="number" id="<?php echo $unitKey;?>" name="<?php echo $unitKey;?>"/>
 				    </div>
-				</div> <! // Close Unit row -->
+				</div> <!-- //Close Unit row -->
 
 
 
@@ -124,7 +124,7 @@
 				        		type="number"
 				        		name="tomahawk"/>
 				    </div>
-				</div> <! // Close Tomahawk row -->
+				</div> <!-- //Close Tomahawk row -->
 			<div class="blockHeader">
 				You can send a maximum of 2 tomahawk missiles per submarine with a maximum of 2 tomahawks for every $10 000 networth you own.
 			</div>
@@ -207,7 +207,7 @@ jQuery("body").on('click','.maxBlock', function() {
 	    Owned
     </div>
     <div class="col-md-2 celBlock"></div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
 <?php foreach ($missiles as $missileKey => $missile) {
@@ -253,7 +253,7 @@ jQuery("body").on('click','.maxBlock', function() {
 								Select
 							</label>
 				    </div>
-				</div> <! // Close Unit row -->
+				</div> <!-- //Close Unit row -->
 
 
 			<?php }}?>
@@ -284,7 +284,7 @@ jQuery("body").on('click','.maxBlock', function() {
 	    Owned
     </div>
     <div class="col-md-2 celBlock"></div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
 <?php foreach ($units as $key => $unit) {
@@ -334,7 +334,7 @@ jQuery("body").on('click','.maxBlock', function() {
 								Select
 							</label>
 				    </div>
-				</div> <! // Close Unit row -->
+				</div> <!-- //Close Unit row -->
 
 
 			<?php }}?>
@@ -367,7 +367,7 @@ jQuery("body").on('click','.maxBlock', function() {
 	    Owned
     </div>
     <div class="col-md-2 celBlock"></div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
 	<?php foreach ($units as $unitKey => $unit) {
@@ -423,7 +423,7 @@ jQuery("body").on('click','.maxBlock', function() {
 							</select>
 						</div>
 				    </div>
-				</div> <! // Close Unit row -->
+				</div> <!-- //Close Unit row -->
 
 
 
@@ -458,7 +458,7 @@ jQuery("body").on('click','.maxBlock', function() {
 	    Owned
     </div>
     <div class="col-md-2 celBlock"></div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
 	<?php foreach ($units as $unitKey => $unit) {
@@ -501,7 +501,7 @@ jQuery("body").on('click','.maxBlock', function() {
 				    <div class="col-md-2 celBlock" style="padding:0px;">
 				        <input id="<?php echo $unitKey;?>" style="border: 5px solid rgba(<?php echo $backColor;?>, <?php echo 0.3-($count/25);?>);" max="10" class="unitInput <?php echo $unitKey;?>-input" min="0" value="" type="number" id="<?php echo $unitKey;?>" name="<?php echo $unitKey;?>"/>
 				    </div>
-				</div> <! // Close Unit row -->
+				</div> <!-- //Close Unit row -->
 
 
 
@@ -544,7 +544,7 @@ jQuery("body").on('click','.maxBlock', function() {
 	    Owned
     </div>
     <div class="col-md-2 celBlock"></div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
 <?php foreach ($units as $key => $unit) {
@@ -592,7 +592,7 @@ jQuery("body").on('click','.maxBlock', function() {
 								Select
 							</label>
 				    </div>
-				</div> <! // Close Unit row -->
+				</div> <!-- //Close Unit row -->
 
 
 			<?php }}?>
@@ -624,7 +624,7 @@ jQuery("body").on('click','.maxBlock', function() {
     </div>
     <div class="col-md-4 celBlock">
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
 <?php $count = 0; foreach ($satellites as $key => $satellite) {
@@ -650,7 +650,7 @@ jQuery("body").on('click','.maxBlock', function() {
 				Select
 			</label>
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
 <?php }?>

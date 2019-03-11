@@ -35,10 +35,10 @@ $buttonColor = "70, 118, 94"
 		Price
     </div>
     <div class="col-md-2 celBlock"></div>
-</div> <! // Close Unit row -->
-	
+</div> <!-- //Close Unit row -->
+
 <form class="form" name="" id="satbuild" method="post">
-<?php 
+<?php
 	$count = 0;
 	foreach ($satellites as $key => $satellite): $count++; ?>
 
@@ -63,11 +63,11 @@ $buttonColor = "70, 118, 94"
 				Select
 			</label>
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 <?php endforeach;?>
 
-	
+
 
 <?php if($sat_level > 0):?>
 	<input type="submit" value="Order satellite" class="mainSubmit hoverEffect">
@@ -84,11 +84,11 @@ $buttonColor = "70, 118, 94"
     <div class="col-md-2 celBlock">Order value</div>
     <div class="col-md-2 celBlock">Time left</div>
     <div class="col-md-3 celBlock"></div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
 <?php
-	
+
 $args = [
     'posts_per_page'   => -1,
     'meta_key'		=> 'user_placed_id',
@@ -107,7 +107,7 @@ foreach ($orders as $order){
 	$count++;
     $orderId = $order->ID;
     $orderData = get_post_meta($orderId);
-  
+
     $units_in_this_order = $orderData['amount_ordered'][0];
 
     $order_type = $orderData['order_type'][0];
@@ -123,8 +123,8 @@ foreach ($orders as $order){
     if($timeLeft >= 0) {
         $orderValue = $orderData['order_value'][0];
 
-       
-        
+
+
         if($order_type == 'satellite'){
             $totalNetworth += $orderValue*$satellites[$unit_type]['networth']/100;
         }
@@ -159,10 +159,10 @@ foreach ($orders as $order){
 			</form>
 		<?php endif;?>
     </div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
-<?php }}?>	
+<?php }}?>
 
 <div class="row statusBlockButtons">
 	<div class="col-md-4 totalsField statCol-1">

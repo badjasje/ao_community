@@ -25,7 +25,7 @@ $buttonColor = "70, 118, 94"
     <div class="col-md-2 celBlock">Order value</div>
     <div class="col-md-2 celBlock">Time left</div>
     <div class="col-md-3 celBlock"></div>
-</div> <! // Close Unit row -->
+</div> <!-- //Close Unit row -->
 
 
 <?php
