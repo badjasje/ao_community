@@ -25,8 +25,8 @@ $ordered = (!empty($userData['tomahawk_ordered'][0]) ? $userData['tomahawk_order
 	$totalair = 0;
 	$count = 0;
 	foreach($missiles as $key => $order){
-		$units_owned = $userData[$key.'_owned'][0];
-		$units_ordered = $userData[$key.'_ordered'][0];
+		$units_owned = (!empty($userData[$key.'_owned'][0]) ? $userData[$key.'_owned'][0] : 0);
+		$units_ordered = (!empty($userData[$key.'_ordered'][0]) ? $userData[$key.'_ordered'][0] : 0);
 		$unittype = $missiles[$key]['type'];
 		?>
 		<div class="row unitRow" style="background-color: rgba(<?php echo $buyBackColor;?>, <?php echo 0.6-($count/25);?>);">
@@ -91,7 +91,7 @@ $ordered = (!empty($userData['tomahawk_ordered'][0]) ? $userData['tomahawk_order
 						$max_space = $missilespace-$totalmissiles;
 					} else {
 						$max_money = floor($totalMoney/($order['price']));
-						$max_turns = round($totalturns/3);
+						$max_turns = round($totalturns*3);
 						$max_space = $tomahawkspace - $owned - $ordered;
 					}
 					?>
