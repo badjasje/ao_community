@@ -329,7 +329,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<?/*<div class="row menuRow hideMenuItem">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/users/">
 							<button class="menu-item" type="button" >
@@ -345,7 +345,7 @@
 							<div class="marketMenu">All clans</div>
 						</a>
 					</div>
-				</div>
+				</div>*/?>
 
 				<div class="row menuRow hideMenuItem">
 					<div class="col-md-2 col-xs-2 buttonItem">
@@ -385,6 +385,27 @@
 						</a>
 						<a href="<?php echo get_site_url(); ?>/send-aid">
 							<div class="marketMenu">Send aid</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="row menuRow hideMenuItem">
+					<div class="col-md-2 col-xs-2 buttonItem">
+						<a href="<?php echo get_site_url(); ?>/toplists/">
+							<button class="menu-item" type="button" >
+								<i class="fas fa-trophy"></i>
+							</button>
+						</a>
+					</div>
+					<div class="col-md-10 col-xs-10 menuText">
+						<a href="<?php echo get_site_url(); ?>/toplists/?tab=provicenw">
+							<div class="marketMenu">Toplists (nw)</div>
+						</a>
+						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clanpoints">
+							<div class="marketMenu">Clan points</div>
+						</a>
+						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clannw">
+							<div class="marketMenu">Clan nw</div>
 						</a>
 					</div>
 				</div>
