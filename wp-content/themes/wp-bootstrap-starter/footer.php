@@ -1,7 +1,7 @@
 <?php
 if(!is_page_template( 'blank-page.php' ) && !is_page_template( 'blank-page-with-container.php' )):
-    global $userId;
-    global $userData;
+    $userId = get_current_user_id();
+    $userData = get_userdata($userId);
 ?>
 			</div><!-- .row -->
 		</div><!-- .container -->
@@ -42,7 +42,7 @@ if(!is_page_template( 'blank-page.php' ) && !is_page_template( 'blank-page-with-
                     </ul>
                 </div>
                 <div class="col-md-3">
-                    <h4><?php echo $userData['nickname'][0]; ?></h4>
+                    <h4><?php echo $userData->display_name; ?></h4>
                     <ul class="footer-list">
                         <li><a href="<?php echo get_site_url(); ?>/users/profile/?id=<?php echo $userId; ?>">Profile</a></li>
                         <li><a href="<?php echo get_site_url(); ?>/player-statistics">Statistics</a></li>
