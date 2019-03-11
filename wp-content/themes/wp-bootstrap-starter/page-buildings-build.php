@@ -163,7 +163,7 @@ if($userData['advancedpowerplant'][0] > $userData['powerplant'][0]) {
 			$.notify({message: array.status},{type:'info', delay:5000, allow_dismiss:true, newest_on_top:true});
 			if(array.next == true){
 				$.each( array.newmax, function( key, value ) {
-					$('#demobutton'+key).html(value);
+					$('#demobutton_'+key).html(value);
 				});
 				$.each( array.newowned, function( key, value ) {
 					$('#'+key+'_demo_owned').html(value);
