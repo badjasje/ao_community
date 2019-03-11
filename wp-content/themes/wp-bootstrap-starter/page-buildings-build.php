@@ -31,7 +31,6 @@ if ($startingbonus == 'defensive') {
 	$extra_divide = 5;
 }
 
-
 $totalair = 0;
 $totalsea = 0;
 $totalveh = 0;
@@ -62,9 +61,9 @@ foreach ($units as $key => $order) {
 		$totalveh += $units_ordered + $units_owned;
 	}
 }
-if ($EElevel == 0 || empty($EElevel)) {
-		$buildingsPerTurn = 5 + $extra_divide;
 
+if ($EElevel == 0 || empty($EElevel)) {
+	$buildingsPerTurn = 5 + $extra_divide;
 
 	if ($EElevel == 1) {
 		$buildingsPerTurn = 10 + $extra_divide;
@@ -75,10 +74,7 @@ if ($EElevel == 0 || empty($EElevel)) {
 
 	}
 }
-
 ?>
-
-
 
 <div class="row pageRow">
 	<div class="fw-row">
@@ -89,21 +85,12 @@ if ($EElevel == 0 || empty($EElevel)) {
 	</div>
 
 	<div class="fw-row">
-
         <div class="tab-content current tabbed-table">
-
             <?php include('pages/buildings/type.php'); ?>
-
-
-
         </div>
     </form>
 	</div>
-
-
-
 </div> <!-- // End pageRow -->
-
 
 <?php
 if($PwrUsage > 50) {
