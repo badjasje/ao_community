@@ -21,7 +21,9 @@
 	if(!is_user_logged_in()){
 		$hideitems = 'true';
 	}
+
 	if(is_user_logged_in()) {
+		$ip_address = $_SERVER['REMOTE_ADDR'];
 		if( array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
         	if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',')>0) {
             	$addr = explode(",",$_SERVER['HTTP_X_FORWARDED_FOR']);
@@ -30,19 +32,13 @@
             	$ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
         	}
     	}
-    	else {
-        	$ip_address = $_SERVER['REMOTE_ADDR'];
-    	}
-		if(empty($ip_array[$ip_address])){
-			$ip_array[$ip_address] = array();
-		}
-		$hostaddress = gethostbyaddr($ip_address);
 
-	    $ch = curl_init();
+		$ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://tools.keycdn.com/geo.json?host=$ip_address");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
-        curl_close($ch);
+		curl_close($ch);
+
 		$output = json_decode($output);
 		$currentIsp = $output->data->geo->isp;
 		$blocklist = array('Highwinds Network Group, Inc.','Highwinds Network Group','ZSCALER, INC.','Micfo, LLC.','M247 Ltd','StackPath LLC','M247 Ltd.');
@@ -398,7 +394,7 @@
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/toplists/?tab=provicenw">
+						<a href="<?php echo get_site_url(); ?>/toplists/">
 							<div class="marketMenu">Toplists (nw)</div>
 						</a>
 						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clanpoints">

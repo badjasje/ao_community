@@ -125,9 +125,9 @@ $members = $visitorClanData['clan_members'][0];
 			</div>
 			<?php if($viewedId == $visiting_user) { ?>
 			<div class="col-12 attackingRow statCol-2">
-				<div class="profileColumn">Personal telegram key</div>
-				<strong><?php echo $telegram_key ?></strong>
-				- Use this code on <a href="https://t.me/assaultonlinebot" style="text-decoration:underline;" target="_blank">our Telegram Bot</a>
+				<div class="profileColumn">Push notifications</div>
+				Install <a href="https://t.me/assaultonlinebot" style="text-decoration:underline;" target="_blank">Telegram</a> on your mobile
+				device and use this code <strong><?php echo $telegram_key ?></strong> to get instant notifications.</a>
 			</div>
 			<?php } ?>
 		</div>

@@ -72,40 +72,62 @@ function get_user_ip_address() {
     return $ip_address;
 }
 
+function check_custom_authentication($username) {
+    if (!username_exists($username)) {
+        return;
+    }
+    $user = get_user_by('login', $username);
+    $user_ID = $user->ID;
+    if(in_array($user_ID, array(1))) return;
+
+    $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
+
+    $ip_address = $_SERVER['REMOTE_ADDR'];
+    if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') > 0) {
+            $addr = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $ip_address = trim($addr[0]);
+        } else {
+            $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+    }
+    if(!isset($ip_array[$ip_address])) $ip_array[$ip_address] = array();
+
+    foreach($ip_array[$ip_address] as $uid => $data) {
+        if(!empty($uid) && $uid != $user_ID) { // Multi detected, this ip was previously used for another user
+            echo 'Please login with your own account.';
+            die();
+        }
+    }
+}
+add_action('wp_authenticate', 'check_custom_authentication');
+
 function multi_register($login) {
     $user = get_user_by('login', $login);
     $user_ID = $user->ID;
     $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
     $useragent = $_SERVER['HTTP_USER_AGENT'];
 
+    $ip_address = $_SERVER['REMOTE_ADDR'];
     if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') > 0) {
             $addr = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
-            return trim($addr[0]);
+            $ip_address = trim($addr[0]);
         } else {
             $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
         }
-    } else {
-        $ip_address = $_SERVER['REMOTE_ADDR'];
     }
 
     if (empty($ip_array[$ip_address])) {
         $ip_array[$ip_address] = array();
     }
+
     $hostaddress = gethostbyaddr($ip_address);
 
     $ch = curl_init();
-
-    // set url
     curl_setopt($ch, CURLOPT_URL, "https://tools.keycdn.com/geo.json?host=$ip_address");
-
-    //return the transfer as a string
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-    // $output contains the output string
     $output = curl_exec($ch);
-
-    // close curl resource to free up system resources
     curl_close($ch);
 
     $ip_array[$ip_address][$user_ID] = array(date('Y-m-d H:i:s'), $useragent, $hostaddress, $output);

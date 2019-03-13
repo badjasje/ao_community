@@ -205,7 +205,7 @@ if($userData['advancedpowerplant'][0] > $userData['powerplant'][0]) {
 	$(document).on("click", ".allbutton", function() {
 		var sum = 0;
 		var inputkey = $(this).attr( "data-key" );
-		var inputamount = $(this).html();
+		var inputamount = Math.abs(parseInt($(this).text()));
 		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
 
 		$(".buy_"+inputkey).val(inputamount);
@@ -257,7 +257,7 @@ if($userData['advancedpowerplant'][0] > $userData['powerplant'][0]) {
 	$(document).on('click', '.sellall', function() {
 		var sum = 0;
 		var inputkey = $(this).attr( "data-key" );
-		var inputamount = $(this).html();
+		var inputamount = Math.abs(parseInt($(this).text()));
 		$("#demo_"+inputkey).val(inputamount);
 
 		var orderval = 0

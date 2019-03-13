@@ -1,3 +1,14 @@
+<?php
+$mog_next = !empty($userData['mog_next'][0]) ? $userData['mog_next'][0] : 0;
+$mog_prev = !empty($userData['mog_prev'][0]) ? $userData['mog_prev'][0] : 0;
+
+$mot_next = !empty($userData['mot_next'][0]) ? $userData['mot_next'][0] : 0;
+$mot_prev = !empty($userData['mot_prev'][0]) ? $userData['mot_prev'][0] : 0;
+
+$modes_next = !empty($userData['modes_next'][0]) ? $userData['modes_next'][0] : 0;
+$modes_prev = !empty($userData['modes_prev'][0]) ? $userData['modes_prev'][0] : 0;
+
+?>
 <div class="row row-no-padding fw-row">
 	<div class="col-md-4 medal_col">
 		<div class="row medal_box">
@@ -5,7 +16,7 @@
 				<strong>Medal of Earth
 				<span class="hover-tip"  data-toggle="tooltip" data-original-title="Highest land area at the end of round." data-placement="bottom">
 					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
-				
+
 				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moe_position'][0];?></div>
@@ -15,14 +26,14 @@
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moe_prev'][0];?> m<sup>2</sup></div>
 		</div>
 	</div>
-	
+
 	<div class="col-md-4 medal_col">
 		<div class="row medal_box">
 			<div class="col-md-12 medal_header">
 				<strong>Medal of Honor
 				<span class="hover-tip"  data-toggle="tooltip" data-original-title="Most clan points gained by a province." data-placement="bottom">
 					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
-				
+
 				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moh_position'][0];?></div>
@@ -32,21 +43,21 @@
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moh_prev'][0];?> pts</div>
 		</div>
 	</div>
-	
+
 	<div class="col-md-4 medal_col">
 		<div class="row medal_box">
 			<div class="col-md-12 medal_header">
 				<strong>Medal of Growth
 				<span class="hover-tip"  data-toggle="tooltip" data-original-title="Highest networth at the end of round." data-placement="bottom">
 					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
-					
+
 				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['mog_position'][0];?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
-			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($userData['mog_next'][0], 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($mog_next, 0, ',', ' ');?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
-			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($userData['mog_prev'][0], 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($mog_prev, 0, ',', ' ');?></div>
 		</div>
 	</div>
 </div>
@@ -68,7 +79,7 @@
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['moc_prev'][0];?> attacks</div>
 		</div>
 	</div>
-	
+
 	<div class="col-md-4 medal_col">
 		<div class="row medal_box">
 			<div class="col-md-12 medal_header">
@@ -84,7 +95,7 @@
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['mod_prev'][0];?> kills</div>
 		</div>
 	</div>
-	
+
 	<div class="col-md-4 medal_col">
 		<div class="row medal_box">
 			<div class="col-md-12 medal_header">
@@ -95,9 +106,9 @@
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['mot_position'][0];?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
-			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($userData['mot_next'][0], 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($mot_next, 0, ',', ' ');?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
-			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($userData['mot_prev'][0], 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($mot_prev, 0, ',', ' ');?></div>
 		</div>
 	</div>
 </div>
@@ -114,9 +125,9 @@
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['modes_position'][0];?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
-			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($userData['modes_next'][0], 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($modes_next, 0, ',', ' ');?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
-			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($userData['modes_prev'][0], 0, ',', ' ');?></div>
+			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($modes_prev, 0, ',', ' ');?></div>
 		</div>
 	</div>
 

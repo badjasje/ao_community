@@ -1431,6 +1431,9 @@ input[type="radio"]:checked + label {
   }
 }
 @media only screen and (max-width: 1023px) {
+  .footer-nav h4 { margin-top: 10px; }
+  body:not(.theme-preset-active) footer#colophon { padding-left: 0; }
+
 	.stattext{
 		margin:0px;
 	}
@@ -1569,6 +1572,7 @@ input[type="radio"]:checked + label {
   }
 }
 @media only screen and (max-width: 768px) {
+  .col-xs-6 { flex: 0 0 50%; max-width: 50%; }
   .alert{
 	  right:0px !important;
 	  z-index:9999999999999 !important;
