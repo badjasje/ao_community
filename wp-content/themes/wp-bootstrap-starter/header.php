@@ -398,7 +398,7 @@
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/toplists/?tab=provicenw">
+						<a href="<?php echo get_site_url(); ?>/toplists/">
 							<div class="marketMenu">Toplists (nw)</div>
 						</a>
 						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clanpoints">
