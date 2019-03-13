@@ -95,7 +95,7 @@ function check_custom_authentication($username) {
 
     foreach($ip_array[$ip_address] as $uid => $data) {
         if(!empty($uid) && $uid != $user_ID) { // Multi detected, this ip was previously used for another user
-            echo 'Please login with your own account.';
+            echo 'Please login with your own account. <a href="'. get_site_url() .'">Back</a>';
             die();
         }
     }
