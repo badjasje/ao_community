@@ -325,7 +325,7 @@
 					</div>
 				</div>
 
-				<?/*<div class="row menuRow hideMenuItem">
+				<div class="row menuRow hideMenuItem">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/users/">
 							<button class="menu-item" type="button" >
@@ -341,7 +341,7 @@
 							<div class="marketMenu">All clans</div>
 						</a>
 					</div>
-				</div>*/?>
+				</div>
 
 				<div class="row menuRow hideMenuItem">
 					<div class="col-md-2 col-xs-2 buttonItem">
