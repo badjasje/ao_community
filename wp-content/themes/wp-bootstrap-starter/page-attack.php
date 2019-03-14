@@ -2,6 +2,10 @@
  /*
  * Template Name: Attack
 */
+if(!is_user_logged_in()) {
+	exit(wp_redirect(home_url('/')));
+}
+
 get_header();
 nocache_headers();
 include 'constants.php';
@@ -39,11 +43,11 @@ if($satOwned != 0 || !empty($satOwned) && $satOwned != 'stealths'){
 	$satDisabledClass = 'btn-general';
 }
 $low_range = $networth/$ATTACK_RANGE_MULT;
-					
+
 $attackRange = '$ '.number_format($low_range, 0, ',', ' ').' and $ '.number_format($networth*$ATTACK_RANGE_MULT, 0, ',', ' ');
 
 $attackUserNW = get_user_meta($attackUserId, 'networth',true);
-	if (($attackUserNW > $networth/1.4 && $attackUserNW < $networth*1.4)){	
+	if (($attackUserNW > $networth/1.4 && $attackUserNW < $networth*1.4)){
 		$range_msg = '<i class="fa fa-check-circle" aria-hidden="true"></i> Target in range';
 	}
 	else {
@@ -66,26 +70,26 @@ $attackUserNW = get_user_meta($attackUserId, 'networth',true);
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 <div id="attackstep" stepcount="1"></div>
-<div id="step-1">	
+<div id="step-1">
 	<?php include('pages/attack/step-1.php'); ?>
 </div>
-<div id="step-2">	
+<div id="step-2">
 </div>
-<div id="step-3">	
+<div id="step-3">
 </div>
-<div id="attack-result">	
+<div id="attack-result">
 </div>
-	
-	
+
+
 <script>
 (function($) {
-	
+
 <?php /*?>
 $('html').keypress(function(e){
-	
+
 	if(e.keyCode === 8 || e.keyCode === 46){
 		var stepnumber = $('#attackstep').attr( "stepcount");
 		e.preventDefault();
@@ -94,7 +98,7 @@ $('html').keypress(function(e){
 		 	jQuery( "#step-2").empty();
 			jQuery( "#step-1").show();
 			jQuery('.pageTitle').html('Attack: Step '+stepnumber-1);
-			
+
 		}
 		if(stepnumber >= 3){
 			$('#attackstep').attr( "stepcount",2 );
@@ -103,19 +107,19 @@ $('html').keypress(function(e){
 		 	jQuery( "#step-1").hide();
 			jQuery( "#step-2").show();
 			jQuery('.pageTitle').html('Attack: Step '+stepnumber-1);
-			
+
 		}
 	 }
 });
 $(document).on('click','#stepback',function(event){
 	var stepnumber = $('#attackstep').attr( "stepcount");
-	
+
 		if(stepnumber == 2){
 			$('#attackstep').attr( "stepcount",1 );
 		 	jQuery( "#step-2").empty();
 			jQuery( "#step-1").show();
 			jQuery('.pageTitle').html('Attack: Step '+stepnumber-1);
-			
+
 		}
 		if(stepnumber >= 3){
 			$('#attackstep').attr( "stepcount",2 );
@@ -123,11 +127,11 @@ $(document).on('click','#stepback',function(event){
 		 	jQuery( "#step-1").hide();
 			jQuery( "#step-2").show();
 			jQuery('.pageTitle').html('Attack: Step '+stepnumber-1);
-			
+
 		}
 });
 <?php */ ?>
-	
+
 
 // Variable to hold request
 var request;
@@ -168,11 +172,11 @@ $("#attack").submit(function(event){
     request.done(function (response, textStatus, jqXHR){
         // Log a message to the console
         var array = JSON.parse(response);
-        
-       
-      
-        
-      
+
+
+
+
+
 			if(array.next == false){
 				$.notify({
 					message: array.status,
@@ -180,17 +184,17 @@ $("#attack").submit(function(event){
 					type: 'info',
 					delay: 5000,
 					allow_dismiss: true,
-					newest_on_top: true,	
+					newest_on_top: true,
 					});
 			}
-		
+
 			if(array.next == true){
 				var request2;
 				$( "#step-1" ).hide();
 				$('.pageTitle').html('Attack: Step 2');
 				$('#attackstep').attr( "stepcount",2 );
 				$( "#step-2" ).show();
-				
+
 				request2 = $.ajax({
 					url: "<?php echo get_stylesheet_directory_uri();?>/pages/attack/step-2.php",
 					type: "post",
@@ -199,11 +203,11 @@ $("#attack").submit(function(event){
 
 					// Callback handler that will be called on success
 				request2.done(function (response2, textStatus, jqXHR){
-				
-				 
-		
+
+
+
 				 $( "#step-2" ).append( response2 );
-				
+
 				 var request3;
 
 // Bind to the submit event of our form
@@ -220,13 +224,13 @@ $("#attack2").submit(function(event){
     }
     // setup some local variables
     var $form = $(this);
-	
+
     // Let's select and cache all the fields
     var $inputs = $form.find("input, button, textarea");
 
     // Serialize the data in the form
     var serializedData3 = $form.serialize();
-    
+
 
     request3 = $.ajax({
         url: "/attack2.php",
@@ -236,10 +240,10 @@ $("#attack2").submit(function(event){
 
     	// Callback handler that will be called on success
    	 	request3.done(function (response, textStatus, jqXHR){
-		
-				
+
+
 				$( "#step-2" ).hide();
-				
+
 				jQuery('.pageTitle').html('Attack: Step 3');
 				$('#attackstep').attr( "stepcount",3 );
 				var request4;
@@ -252,20 +256,20 @@ $("#attack2").submit(function(event){
 
 					// Callback handler that will be called on success
 				request4.done(function (response4, textStatus, jqXHR){
-		
+
 					$( "#step-3" ).append( response4 );
 					$( "#step-3" ).show();
-					
+
 					var attackresult;
-					
+
 					$(document).on('click','#attack3',function(event){
 					$('.pageLoader, #page-cover').show();
 					$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 					var $form = $(this);
-					
+
 					$( "#attack-result" ).show();
-					
-					
+
+
 					attackresult = $.ajax({
 						url: "<?php echo get_stylesheet_directory_uri();?>/pages/attack/attack-result.php",
 						type: "post",
@@ -275,24 +279,24 @@ $("#attack2").submit(function(event){
 					// Callback handler that will be called on success
 					attackresult.done(function (attackresultresponse, textStatus, jqXHR){
 						$( "#attack-result" ).empty().append( attackresultresponse );
-						
-						
+
+
 						var strikeagain;
 						$(document).on('click','#strikeagain',function(strikeevent){
 						$( "#strikeagain" ).hide();
 						$('.pageLoader, #page-cover').show();
 						$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
-			
-					
+
+
 						strikeagain = $.ajax({
 							url: "<?php echo get_stylesheet_directory_uri();?>/pages/attack/attack-result.php",
 							type: "post",
 							data: finalarray
 						});
-						
+
 						// Callback handler that will be called on success
 						strikeagain.done(function (strikeagainresponse, textStatus, jqXHR){
-							
+
 						try {
 							json = $.parseJSON(strikeagainresponse);
 							console.log(json);
@@ -303,51 +307,51 @@ $("#attack2").submit(function(event){
 								delay: 5000,
 								allow_dismiss: true,
 								newest_on_top: true,
-							
-									});	
+
+									});
 									return false;
 						} catch (e) {
 							$( "#attack-result" ).hide();
 							$( "#attack-result" ).empty().append( strikeagainresponse );
 							$( "#attack-result" ).show();
 						}
-							
-							
-						
+
+
+
 						$( "#strikeagain" ).show();
 					});
 				});
-						
-						
-						
-						
-						
+
+
+
+
+
 				});
 			});
-		
+
 		});
 	});
 });
 
 
-					
-	
-			});	
-			
-			
-			
+
+
+			});
+
+
+
 	}
     });
 
-  
+
 
 });
-	
+
 
 
 
 })(jQuery);
-    </script>		
+    </script>
 </div>
 <?php
 get_footer();

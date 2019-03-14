@@ -2,20 +2,24 @@
  /*
  * Template Name: Send message
 */
-get_header(); 
+if(!is_user_logged_in()) {
+	exit(wp_redirect(home_url('/')));
+}
+
+get_header();
 $backColor = "45, 67, 81";
 $receiver_ID = $_GET['id'];
 ?>
 
-<div class="row pageRow">	
-	
+<div class="row pageRow">
+
 <div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.75-(1/100);?>);">
 		<div class="col-md-1 col-no-padding sea_heading allUsersAvatarCol">
 			<?php echo small_avatar($receiver_ID,'allUsersAvatar');?><span class="mobileUserName"><?php echo get_user_name($receiver_ID);?></span>
 		</div>
-	
+
 		<div class="col-md-11 celBlock allUsersNameCol">
-			Sending message to <?php echo get_user_name($receiver_ID);?>		
+			Sending message to <?php echo get_user_name($receiver_ID);?>
 		</div>
 </div>
 <div class="row fw-row row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-(1/40);?>);">
@@ -28,10 +32,10 @@ $receiver_ID = $_GET['id'];
 		<div class="col-md-12 loginfield statCol-2">
 		<textarea class="fw-row" id="message" required rows="10" name="message" placeholder="Your message..."></textarea>
 		</div>
-		
+
 		<input class="mainSubmit hoverEffect" type="submit" value="Send">
 	</form>
-		
+
 </div>
 
 <script>
@@ -58,7 +62,7 @@ $("#message").submit(function(event){
     request.done(function (response, textStatus, jqXHR){
 
         var array = JSON.parse(response);
-       
+
 			$.notify({
 				message: array.status,
 				},{
@@ -66,11 +70,11 @@ $("#message").submit(function(event){
 				delay: 5000,
 				allow_dismiss: true,
 				newest_on_top: true,
-					});	
+					});
 			$('#message').trigger("reset");
-			
 
-});	});	
+
+});	});
 })(jQuery);
 </script>
 

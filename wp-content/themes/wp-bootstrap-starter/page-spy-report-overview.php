@@ -2,6 +2,10 @@
  /*
  * Template Name: Spy report overview
 */
+if(!is_user_logged_in()) {
+	exit(wp_redirect(home_url('/')));
+}
+
 get_header();
 $backColor = "45, 67, 81";
 $buttonColor = "70, 118, 94";
