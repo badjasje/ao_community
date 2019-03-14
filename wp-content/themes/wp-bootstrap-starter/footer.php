@@ -1,7 +1,12 @@
 <?php
 if(!is_page_template( 'blank-page.php' ) && !is_page_template( 'blank-page-with-container.php' )):
-    $userId = get_current_user_id();
-    $userData = get_userdata($userId);
+
+    $hideitems = true;
+	if(!is_user_logged_in()){
+		$hideitems = false;
+        $userId = get_current_user_id();
+        $userData = get_userdata($userId);
+    }
 ?>
 			</div><!-- .row -->
 		</div><!-- .container -->
@@ -12,7 +17,7 @@ if(!is_page_template( 'blank-page.php' ) && !is_page_template( 'blank-page-with-
 	<footer id="colophon" class="site-footer <?php echo wp_bootstrap_starter_bg_class(); ?>" role="contentinfo">
 
         <div class="container-fluid p-2 p-md-5">
-
+            <? if($hideitems) { ?>
             <div class="row no-gutters footer-nav">
                 <div class="col-xs-6 col-md-3">
                     <h4>Beginners</h4>
@@ -52,6 +57,7 @@ if(!is_page_template( 'blank-page.php' ) && !is_page_template( 'blank-page-with-
             </div>
 
             <hr size="1">
+            <? } ?>
 
             <div class="site-info">
 	            <center>
