@@ -7,19 +7,17 @@ include '../../../../../constants.php';
 $timestamp = current_time('timestamp');
 
 $backColor = "45, 67, 81";
-$attack_type = $_POST['attacktype'];
+$attack_type = filter_input(INPUT_POST, 'attacktype', FILTER_SANITIZE_STRING);
+$target_id = filter_input(INPUT_POST, 'target_id', FILTER_VALIDATE_INT);
 
-$target_id = round($_POST['target_id']);
 global $userId;
 global $userData;
 $attackerData = $userData;
 $defenderData = get_user_meta($target_id);
 
-
 // LOCK
 $userLock = intval($attackerData['user_lock'][0]);
 $moraleLock = intval($attackerData['morale_lock'][0]);
-
 
 // Attack spam protection
 if($userLock == 1){
@@ -38,7 +36,6 @@ if($moraleLock == 1){
 	echo json_encode($array);
 	exit;
 }
-
 
 // Check if target is alive
 if($defenderData['status'][0] == 'dead' || $defenderData['status'][0] == 'nukeprotection'){
@@ -63,9 +60,6 @@ if($defenderData['status'][0] == 'nukeprotection'){
 	echo json_encode($array);
 	exit;
 }
-
-
-
 
 // Check if target is in range
 $attacker_clan_ID = $attackerData['clan_id_user'][0];
@@ -101,8 +95,6 @@ if($attack_type != 'satellite'){
 ?>
 <div class="pageSpacer"></div>
 <?
-
-
 if($attack_type == 'regular'  || $attack_type == 'ground' || $attack_type == 'air_sea'){
 	include("unit-result.php");
 }
@@ -113,7 +105,6 @@ if($attack_type == 'missile'){
 	}else{
 		include("missile-result.php");
 	}
-
 }
 
 if($attack_type == 'spy'){
@@ -140,7 +131,6 @@ if($attack_type == 'saboteur'){
 	include("saboteur-result.php");
 }
 if($result == 'success'):?>
-
 <script>
 	jQuery(document).ready(function() {
 		jQuery( ".splashmessage" ).html('S U C C E S S');
@@ -150,7 +140,6 @@ if($result == 'success'):?>
 		jQuery('.pageTitle').html('S U C C E S S');
 	});
 </script>
-
 <?php else:?>
 <script>
 	jQuery(document).ready(function() {
@@ -162,8 +151,6 @@ if($result == 'success'):?>
 	});
 </script>
 <?php endif;?>
-
-
 
 <?php
 update_user_meta($userId, 'user_lock', 0);

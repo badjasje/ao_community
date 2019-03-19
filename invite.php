@@ -13,21 +13,25 @@ if ('GET' != $_SERVER['REQUEST_METHOD']) {
 
 require(dirname(__FILE__) . '/wp-load.php');
 
-
 global $userId;
 global $userData;
 $timestamp = current_time('timestamp');
-$invitee = $_GET['user'];
+$invitee = intval($_GET['user']);
+$invitee_data = get_userdata($invitee);
+if ($invitee_data === false) {
+    exit;
+}
+$status = get_user_meta($invitee_id, 'status', true);
+if ($status == 'banned') {
+    exit;
+}
 $clanId = $userData['clan_id_user'][0];
 
 $openInvites = maybe_unserialize(get_post_meta($clanId, 'open_invites',true));
 
-
 if(!is_array($openInvites)){
 	$openInvites = array();
 }
-
-
 
 foreach($openInvites as $key => $openInvite) {
     if (!is_array($openInvite)) {
@@ -49,17 +53,14 @@ $args = [
     'post_type'     => 'user_message',
     'post_author'   => $userId
 ];
-            
+
 $newOrderId = wp_insert_post($args);
 update_field('invite_hash', $inviteKey, $newOrderId);
 update_field('clan_id_invited', $clanId, $newOrderId);
-update_field('receiver_id', $_GET['user'], $newOrderId);
+update_field('receiver_id', $invitee, $newOrderId);
 update_field('sender_id', $userId, $newOrderId);
 update_field('last_update_stamp', $timestamp, $newOrderId);
-            
 
-
-            
 $openInvites[] = [
     'user' => $invitee,
     'clan' => $clanId,
@@ -67,10 +68,10 @@ $openInvites[] = [
     'invite_id' => $newOrderId
 ];
 
-update_post_meta($_GET['clan'], 'open_invites', maybe_serialize($openInvites));
+update_post_meta($clanId, 'open_invites', maybe_serialize($openInvites));
 $msgs = get_user_meta( $invitee, 'new_messages', true );
 update_user_meta($invitee, 'new_messages', $msgs+1);
-            
+
 $_SESSION['status'] = 'Invite sent';
 wp_redirect(get_permalink(3520).'?id='.$invitee);
 exit;

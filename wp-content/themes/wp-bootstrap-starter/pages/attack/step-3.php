@@ -1,20 +1,20 @@
 <?php
+require_once("../../../../../wp-load.php");
+include("../../../../../units_array.php");
+include("../../../../../missiles_array.php");
+include("../../../../../satellite_array.php");
 
-	require_once("../../../../../wp-load.php");
-	include("../../../../../units_array.php");
-	include("../../../../../missiles_array.php");
-	include("../../../../../satellite_array.php");
+$attackType = filter_input(INPUT_POST, 'attacktype', FILTER_SANITIZE_STRING);
+$target_id = filter_input(INPUT_POST, 'target_id', FILTER_VALIDATE_INT);
 
-	$attackType = $_POST['attacktype'];
+global $userId;
+$userData = get_user_meta($userId);
+$tomahawkOwned = $userData['tomahawk_owned'][0];
+$typeArray = array('air_sea','ground','regular');
+$backColor = "45, 67, 81";
+$count = 0;
 
-	global $userId;
-	$userData = get_user_meta($userId);
-	$tomahawkOwned = $userData['tomahawk_owned'][0];
-	$typeArray = array('air_sea','ground','regular');
-	$backColor = "45, 67, 81";
-	$count = 0;
-
-	?>
+?>
 <div class="pageSpacer"></div>
 <?php if(in_array($attackType, $typeArray)):
 	$attackArray = $_POST['attackarray'];
@@ -477,12 +477,10 @@
 <?php endif;?>
 
 <div class="row statusBlockButtons">
-	<?php /*
-	<div id="stepback" class="col-md-4 totalsField statCol-1">
+	<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-6 totalsField statCol-1">
 		Back
-	</div>
-	<?php */?>
-	<div id="nextstep3" class="col-md-8 attackStep-2-submit" style="padding:0px;">
+	</a>
+	<div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
 		<button class="mainSubmit" id="attack3" style="border-top:0px;">Attack</button>
 	</div>
 </div>

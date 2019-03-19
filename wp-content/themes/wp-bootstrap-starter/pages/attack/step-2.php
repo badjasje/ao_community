@@ -1,19 +1,19 @@
 <?php
+require_once("../../../../../wp-load.php");
+include("../../../../../units_array.php");
+include("../../../../../missiles_array.php");
+include("../../../../../satellite_array.php");
 
-	require_once("../../../../../wp-load.php");
-	include("../../../../../units_array.php");
-	include("../../../../../missiles_array.php");
-	include("../../../../../satellite_array.php");
+$attackType = filter_input(INPUT_POST, 'attacktype', FILTER_SANITIZE_STRING);
+$target_id = filter_input(INPUT_POST, 'target_id', FILTER_VALIDATE_INT);
+global $userId;
+$userData = get_user_meta($userId);
 
-	$attackType = $_POST['attacktype'];
-	global $userId;
-	$userData = get_user_meta($userId);
+$typeArray = array('air_sea','ground','regular');
+$backColor = "45, 67, 81";
+$count = 0;
 
-	$typeArray = array('air_sea','ground','regular');
-	$backColor = "45, 67, 81";
-	$count = 0;
-
-	?>
+?>
 <div class="pageSpacer"></div>
 
 <form id="attack2">
@@ -162,9 +162,9 @@
 
 <?php }?>
 <div class="row statusBlockButtons">
-	<div id="stepback" class="col-md-4 totalsField statCol-1">
+	<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-4 totalsField statCol-1">
 		Back
-	</div>
+	</a>
 	<div id="sendAll" class="col-md-4 totalsField statCol-2" data-val="<?php echo implode('|',$sendall);?>">
 		Send all available units
 	</div>
@@ -259,9 +259,9 @@ jQuery("body").on('click','.maxBlock', function() {
 			<?php }}?>
 
 			<div class="row statusBlockButtons">
-	<div id="stepback" class="col-md-6 totalsField statCol-1">
+			<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-4 totalsField statCol-1">
 		Back
-	</div>
+	</a>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
 		<input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
 	</div>
@@ -340,9 +340,9 @@ jQuery("body").on('click','.maxBlock', function() {
 			<?php }}?>
 
 			<div class="row statusBlockButtons">
-	<div id="stepback" class="col-md-6 totalsField statCol-1">
+			<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-4 totalsField statCol-1">
 		Back
-	</div>
+	</a>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
 		<input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
 	</div>
@@ -430,9 +430,9 @@ jQuery("body").on('click','.maxBlock', function() {
 			<?php }}?>
 
 			<div class="row statusBlockButtons">
-	<div id="stepback" class="col-md-6 totalsField statCol-1">
+	<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-4 totalsField statCol-1">
 		Back
-	</div>
+	</a>
 	<?php if($unitsOwned > 0):?>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
 		<input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
@@ -508,9 +508,9 @@ jQuery("body").on('click','.maxBlock', function() {
 			<?php }}?>
 
 			<div class="row statusBlockButtons">
-	<div id="stepback" class="col-md-6 totalsField statCol-1">
+		<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-4 totalsField statCol-1">
 		Back
-	</div>
+	</a>
 	<?php if($unitsOwned > 0):?>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit">
 		<input type="submit" value="Next Step">
@@ -598,9 +598,9 @@ jQuery("body").on('click','.maxBlock', function() {
 			<?php }}?>
 
 			<div class="row statusBlockButtons">
-	<div id="stepback" class="col-md-6 totalsField statCol-1">
+	<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-4 totalsField statCol-1">
 		Back
-	</div>
+	</a>
 	<?php if($unitsOwned > 0):?>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit">
 		<input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
@@ -656,9 +656,9 @@ jQuery("body").on('click','.maxBlock', function() {
 <?php }?>
 
 			<div class="row statusBlockButtons">
-	<div id="stepback" class="col-md-6 totalsField statCol-1">
+	<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-4 totalsField statCol-1">
 		Back
-	</div>
+	</a>
 	<?php if($userData['sat_owned'][0] == 'laser' || $userData['sat_owned'][0] == 'empsat'):?>
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
 		<input class="mainSubmit" type="submit" value="Next Step" style="border-top:0px;">

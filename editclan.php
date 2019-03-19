@@ -1,8 +1,8 @@
 <?php
-
 require_once("wp-load.php");
-if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
-    $array['status'] = 'The round has ended';
+
+if (!defined('ABSPATH')) {
+    $array['status'] = 'Error';
     $array['next'] = false;
     echo json_encode($array);
     exit;
@@ -40,12 +40,8 @@ if(!empty($data['newclanimage'])){
 	$array['imagechanged'] = true;
 }
 
-
 if (in_array($userId, $allowed)) {
-      $my_post = array(
-      'ID'           => $clan_ID,
-      'post_content' => $data['publicmessage'],
-    );
+    $my_post = array('ID' => $clan_ID, 'post_content' => $data['publicmessage']);
     wp_update_post($my_post);
 }
 
@@ -65,7 +61,6 @@ if ($userId == $clanleader) {
 	}
 }
 
-
 update_post_meta($clan_ID, 'ct_1', 0);
 update_post_meta($clan_ID, 'ct_2', 0);
 update_post_meta($clan_ID, 'ct_3', 0);
@@ -74,7 +69,6 @@ update_post_meta($clan_ID, 'ct_4', 0);
 $clanTrustees = array_slice($clanTrustees, 0, 4);
 $count = 1;
 foreach ($clanTrustees as $trustee) {
-
 	update_post_meta($clan_ID, 'ct_'.$count, $trustee);
 	$count++;
 }
