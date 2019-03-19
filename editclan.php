@@ -1,7 +1,7 @@
 <?php
 require_once("wp-load.php");
 
-if (!defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
+if (!defined('ABSPATH')) {
     $array['status'] = 'Error';
     $array['next'] = false;
     echo json_encode($array);
