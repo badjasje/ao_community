@@ -22,32 +22,6 @@
 		$hideitems = 'true';
 	}
 
-	if(is_user_logged_in()) {
-		$ip_address = $_SERVER['REMOTE_ADDR'];
-		if( array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
-        	if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',')>0) {
-            	$addr = explode(",",$_SERVER['HTTP_X_FORWARDED_FOR']);
-            	$ip_address = trim($addr[0]);
-        	} else {
-            	$ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        	}
-    	}
-
-		$ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://tools.keycdn.com/geo.json?host=$ip_address");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $output = curl_exec($ch);
-		curl_close($ch);
-
-		$output = json_decode($output);
-		$currentIsp = $output->data->geo->isp;
-		$blocklist = array('Highwinds Network Group, Inc.','Highwinds Network Group','ZSCALER, INC.','Micfo, LLC.','M247 Ltd','StackPath LLC','M247 Ltd.');
-		if(in_array($currentIsp, $blocklist)){
-			echo '<br/><br/><center>Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.</center>';
-			die;
-		}
-	}
-
 	$pageId = get_the_id();
 	$endDate = get_field('end_date','option');
 	$endStamp = strtotime($endDate);
