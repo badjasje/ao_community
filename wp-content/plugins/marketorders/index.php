@@ -57,8 +57,6 @@ function turn_spread($turntype, $addedturns) {
 }
 
 function get_user_ip_address() {
-    $useragent = $_SERVER['HTTP_USER_AGENT'];
-
     if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') > 0) {
             $addr = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
@@ -72,32 +70,74 @@ function get_user_ip_address() {
     return $ip_address;
 }
 
+function get_user_geo() {
+    $ip_address = get_user_ip_address();
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "https://tools.keycdn.com/geo.json?host=$ip_address");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    $output = curl_exec($ch);
+    curl_close($ch);
+    return $output;
+}
+
+function is_multi($user_ID, $ip_array=false) {
+    if(!$ip_array) {
+        $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
+    }
+
+    $ip_address = get_user_ip_address();
+    if(!isset($ip_array[$ip_address])) $ip_array[$ip_address] = array();
+
+    // What was MY first login?
+    $firstlogin = time();
+    foreach($ip_array as $ip => $data) {
+        if(in_array($user_ID, array_keys($data))) {
+            if(strtotime($data[$user_ID][0]) < $firstlogin) $firstlogin = strtotime($data[$user_ID][0]);
+        }
+    }
+
+    foreach($ip_array[$ip_address] as $uid => $data) {
+        if(!empty($uid) && $uid != $user_ID) { // Multi detected, this ip was previously used for another user
+            // If my first login was later than any other account on this ip, block the login attempt
+            if($firstlogin > strtotime($data[0])) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+function is_vpn($geo=false) {
+    if(!$geo) $geo = get_user_geo();
+
+    $output = json_decode($output);
+    $currentIsp = $output->data->geo->isp;
+
+    $blocklist = array(
+        'Highwinds Network Group, Inc.','Highwinds Network Group','ZSCALER, INC.',
+        'Micfo, LLC.','M247 Ltd','StackPath LLC','M247 Ltd.'
+    );
+    if(in_array($currentIsp, $blocklist)) return true;
+    return false;
+}
+
 function check_custom_authentication($username) {
     if (!username_exists($username)) {
         return;
     }
     $user = get_user_by('login', $username);
     $user_ID = $user->ID;
-    if(in_array($user_ID, array(1))) return;
 
-    $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
-
-    $ip_address = $_SERVER['REMOTE_ADDR'];
-    if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') > 0) {
-            $addr = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
-            $ip_address = trim($addr[0]);
-        } else {
-            $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        }
+    if(is_multi($user_ID)) {
+        echo 'Please login with your own account. <a href="'. get_site_url() .'">Back</a>';
+        die();
+        return;
     }
-    if(!isset($ip_array[$ip_address])) $ip_array[$ip_address] = array();
-
-    foreach($ip_array[$ip_address] as $uid => $data) {
-        if(!empty($uid) && $uid != $user_ID) { // Multi detected, this ip was previously used for another user
-            echo 'Please login with your own account. <a href="'. get_site_url() .'">Back</a>';
-            die();
-        }
+    if(is_vpn()) {
+        echo 'Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.';
+        die();
+        return;
     }
 }
 add_action('wp_authenticate', 'check_custom_authentication');
@@ -105,31 +145,24 @@ add_action('wp_authenticate', 'check_custom_authentication');
 function multi_register($login) {
     $user = get_user_by('login', $login);
     $user_ID = $user->ID;
+
     $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
+    if(is_multi($user_ID, $ip_array)) {
+        echo 'Please login with your own account. <a href="'. get_site_url() .'">Back</a>';
+        die();
+        return;
+    }
+    $output = get_user_geo();
+    if(is_vpn($output)) {
+        echo 'Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.';
+        die();
+        return;
+    }
+
     $useragent = $_SERVER['HTTP_USER_AGENT'];
-
-    $ip_address = $_SERVER['REMOTE_ADDR'];
-    if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') > 0) {
-            $addr = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
-            $ip_address = trim($addr[0]);
-        } else {
-            $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        }
-    }
-
-    if (empty($ip_array[$ip_address])) {
-        $ip_array[$ip_address] = array();
-    }
-
+    $ip_address = get_user_ip_address();
+    if (!isset($ip_array[$ip_address])) $ip_array[$ip_address] = array();
     $hostaddress = gethostbyaddr($ip_address);
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://tools.keycdn.com/geo.json?host=$ip_address");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $output = curl_exec($ch);
-    curl_close($ch);
-
     $ip_array[$ip_address][$user_ID] = array(date('Y-m-d H:i:s'), $useragent, $hostaddress, $output);
 
     update_post_meta(139664, 'login_array_general', $ip_array);
