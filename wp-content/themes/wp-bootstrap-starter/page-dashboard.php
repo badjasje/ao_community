@@ -2,7 +2,7 @@
  /*
  * Template Name: Dashboard
 */
-get_header(); 
+get_header();
 include('startingbonus_array.php');
 
 
@@ -92,7 +92,7 @@ if ($level_money_production == 0){
 if($user_status == 'dead'){
     after_death($userId);
 }
-$user = get_userdata($userId); 
+$user = get_userdata($userId);
 
 if($clanId == 0){
     $clans = get_posts(
@@ -115,112 +115,77 @@ if($clanId == 0){
 }
 ?>
 
-<div class="row pageRow">		
-	
+<div class="row pageRow">
+
 <?php if($userData['networth'][0] <= 3499):?>
 <div style="background-color:#A00000" class="blockHeader">WARNING: Your networth is below $3500</div>
 <div class="blockHeader spaceNotice">You will not receive resources when below the $3500 treshold.</div>
 <div class="pageSpacer"></div>
 <?php endif;?>
 
-<?php if(get_field('game_status','option') == 'Pause' /*&& $userId != 1*/): // Check if game is live or not ?>
-	<?php include('pages/dashboard/status-column.php'); ?>
-	<div class="pageSpacer"></div>
-	<?php include('pages/dashboard/latest-block.php'); ?>	
-	<div class="pageSpacer"></div>
-	<?php include('pages/dashboard/round-date.php'); ?>
-
-<?php else: // If game is live ?> 
-	<?php if($gameType == 'Development'):?>
+<?php if(get_field('game_status','option') == 'Live' && $gameType == 'Development') { ?>
 	<div class="blockHeader">Welcome to dev.assault.online. To receive turns/money/morale, hit the button below!</div>
 	<div class="blockHeader spaceNotice">If you are dead, hitting this button will revive you as well.</div>
 	<button style="background-color:#A00000;border:0px;" class="mainSubmit receiveFunds">Receive funds</button>
 	<div class="pageSpacer"></div>
-	
-	
 	<script>
-(function($) {
-	var devfunding;
-	
-	$(document).on('click','.receiveFunds',function(){
-	
-	$('.pageLoader, #page-cover').show();
-	$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
-	var target = $(this).attr('data-target');
-		devfunding = $.ajax({
-			url: "/devfunds.php",
-			type: "post",
-			data: ''
-		});
-						
-						// Callback handler that will be called on success
-						devfunding.done(function (response, textStatus, jqXHR){
-							
-							var response = $.parseJSON(response);
-							
-							$('#money').html(number_format(response.money, 0, ',', ' '));
-							$('#morale').html(number_format(response.morale, 0, ',', ' '));
-							$('#turns').html(number_format(response.turns, 0, ',', ' '));
-							
-							console.log(response);
-							$.notify({
-								message: response.status,
-								},{
-								type: 'info',
-								delay: 5000,
-								allow_dismiss: true,
-								newest_on_top: true,
-							});	
-						
-						
-					
-					});
+		(function($) {
+			var devfunding;
+
+			$(document).on('click','.receiveFunds',function(){
+				$('.pageLoader, #page-cover').show();
+				$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
+				var target = $(this).attr('data-target');
+				devfunding = $.ajax({url: "/devfunds.php",type: "post",data: ''});
+				devfunding.done(function (response, textStatus, jqXHR){
+
+					var response = $.parseJSON(response);
+
+					$('#money').html(number_format(response.money, 0, ',', ' '));
+					$('#morale').html(number_format(response.morale, 0, ',', ' '));
+					$('#turns').html(number_format(response.turns, 0, ',', ' '));
+					$.notify({message: response.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
 				});
+			});
+		})(jQuery);
+	</script>
+<?php } ?>
 
-})(jQuery);
-</script>
-	
-	
-	
-	
-	<?php endif;?>
-
-
+<?php if(get_field('game_status','option') == 'Live') { ?>
 	<?php include('pages/dashboard/pick-startingbonus.php'); ?>
 	<?php include('pages/dashboard/bonus-receive.php'); ?>
-	<?php if($clanId != 0):?>
-		<?php 	
-				$clanData = get_post_meta($clanId);
-				
-				$ct_1 = $clanData['ct_1'][0];
-				$ct_2 = $clanData['ct_2'][0];
-				$ct_3 = $clanData['ct_3'][0];
-				$ct_4 = $clanData['ct_4'][0];
-				$clanleader = $clanData['clan_leader'][0];
-				
-				$allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
-				$clanMessage = $clanData['clan_message'][0];
-				
-				$settings = array( 
-					'media_buttons' => false,
-					'editor_height' => 300,
-					'textarea_name' => 'new_message' );
-		?>
-		<?php include('pages/dashboard/clan-message.php'); ?>
-	<?php endif;?>
-	<div class="pageSpacer"></div>
-	<?php include('pages/dashboard/status-column.php'); ?>
-	<div class="pageSpacer"></div>
-	<?php include('pages/dashboard/latest-block.php'); ?>
-	<div class="pageSpacer"></div>
-	<?php include('pages/dashboard/round-date.php'); ?>
+<?php } ?>
+
+<?php if($clanId != 0) {?>
+	<?php
+	$clanData = get_post_meta($clanId);
+
+	$ct_1 = $clanData['ct_1'][0];
+	$ct_2 = $clanData['ct_2'][0];
+	$ct_3 = $clanData['ct_3'][0];
+	$ct_4 = $clanData['ct_4'][0];
+	$clanleader = $clanData['clan_leader'][0];
+
+	$allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
+	$clanMessage = $clanData['clan_message'][0];
+
+	$settings = array('media_buttons' => false, 'editor_height' => 300, 'textarea_name' => 'new_message');
+	?>
+	<?php include('pages/dashboard/clan-message.php'); ?>
+<?php } ?>
+<div class="pageSpacer"></div>
+<?php include('pages/dashboard/status-column.php'); ?>
+<div class="pageSpacer"></div>
+<?php include('pages/dashboard/latest-block.php'); ?>
+<div class="pageSpacer"></div>
+<?php include('pages/dashboard/round-date.php'); ?>
+
+<?php if(get_field('game_status','option') == 'Live') { ?>
 	<div class="pageSpacer"></div>
 	<?php include('pages/dashboard/medalpositions.php'); ?>
+<?php } ?>
 
-	<?php //include('pages/dashboard/latest.php'); ?>
-
-<?php endif; // End game is live check. After this, no more content. ?>
-
+<?php //include('pages/dashboard/latest.php'); ?>
 </div>
 
 <?php
