@@ -14,7 +14,7 @@ $timeLeft = $endStamp-$timestamp;
 $marketClose = $timeLeft + 86400;
 
 $disableClass = '';
-if($timeLeft <= 0){
+if($timeLeft <= 0 || get_field('game_status', 'option') != 'Live') {
 	$disableClass = 'disabledDiv';
 }
 
