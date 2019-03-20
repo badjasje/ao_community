@@ -8,7 +8,6 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 
 require_once("wp-load.php");
 
-
 $message = 'Profile updated';
 nocache_headers();
 
@@ -24,34 +23,24 @@ if(!empty($_POST['newuserimage'])){
 	$array['imagechanged'] = true;
 }
 
-
-
 if (!empty($_POST['username'])) {
-	
     if (get_user_meta($userId, 'name_change_counter', true) != 1) {
-	
-		$args= array(
-			'search' => $_POST['username'], // or login or nicename in this example
-	        'search_fields' => array('display_name')
-	            );
-	    
+		$args= array('search' => $_POST['username'], 'search_fields' => array('display_name'));
+
 		$user = new WP_User_Query($args);
 	    $users = count($user->results);
-	    
 	    if ($user->results[0]->data->ID != $userId) {
-	        if ($users >= 1) {
-	            $message = 'Username already exists';
-	        }
+	        if ($users >= 1) $message = 'Username already exists';
 	    }
-	
+
 	    if (strtolower($_POST['username']) != strtolower($user->results[0]->data->display_name)) {
-	            wp_update_user(array( 'ID' => $userId, 'display_name' => $_POST['username'] ));
-	            update_user_meta($userId, 'name_change_counter', 1);
-	            $message = 'Username updated';
-	            $array['usernamechanged'] = true;
+			wp_update_user(array( 'ID' => $userId, 'display_name' => $_POST['username'] ));
+			update_user_meta($userId, 'name_change_counter', 1);
+			$message = 'Username updated';
+			$array['usernamechanged'] = true;
 	    }
-    } // end check for name change counter
-} 
+    } else $message = 'Username already changed this round';
+}
 
 update_user_meta($userId, 'phone_number', $_POST['phone']);
 wp_update_user( array( 'ID' => $userId, 'user_email' => $_POST['email'] ) );

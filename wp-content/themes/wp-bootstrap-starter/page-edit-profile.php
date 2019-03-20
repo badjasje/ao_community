@@ -15,14 +15,13 @@ $clan_id = $userData['clan_id_user'][0];
 $timestamp = current_time('timestamp');
 $clan_timestamp = $userData['new_clan_timestamp'][0];
 
-
 include('country_array.php');
 $user_country_code = $userData['user_country'][0];
 
 $last_online = $userData['last_online'][0];
-	if(!empty($last_online)){
-		$last_seen = $timestamp - $last_online;
-	}
+if(!empty($last_online)){
+	$last_seen = $timestamp - $last_online;
+}
 
 $visiting_user = $userId;
 
