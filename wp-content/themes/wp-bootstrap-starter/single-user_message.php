@@ -109,35 +109,37 @@ if(!empty($invite_hash)) {
 		<div class="blockHeader">You have already used this clan invite</div>
 	<?php } else { ?>
 		<div class="blockHeader" style="border-bottom:0px;">You've been invited to join <?php echo get_the_title($clan_ID);?> (# <?php echo $clan_ID;?>). If you wish to accept this invite, hit the accept button.</div>
-		<div class="row fw-row no-gutters profileButtonRow">
-			<a class="col-md-6 profileButton invitebutton" style="background-color: rgba(70, 118, 94, 1);" data-target="accept" href="#">
-				Accept
-			</a>
-			<a class="col-md-6 profileButton invitebutton" style="background-color: rgba(70, 118, 94, 0.9);" data-target="decline" href="#">
-				Decline
- 			</a>
-		</div>
-		<script>
-		(function($) {
-			var accept;
-			$(document).on('click','.invitebutton',function(){
-				$('.pageLoader, #page-cover').show();
-				$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
-				var target = $(this).attr('data-target');
-				accept = $.ajax({
-					url: "/handleinvite.php",
-					type: "post",
-					data: '&hash=<?php echo $invite_hash;?>&target='+target+'&clan=<?php echo $clan_ID;?>'
+		<? if($userId != $author_id) { ?>
+			<div class="row fw-row no-gutters profileButtonRow">
+				<a class="col-md-6 profileButton invitebutton" style="background-color: rgba(70, 118, 94, 1);" data-target="accept" href="#">
+					Accept
+				</a>
+				<a class="col-md-6 profileButton invitebutton" style="background-color: rgba(70, 118, 94, 0.9);" data-target="decline" href="#">
+					Decline
+				</a>
+			</div>
+			<script>
+			(function($) {
+				var accept;
+				$(document).on('click','.invitebutton',function(){
+					$('.pageLoader, #page-cover').show();
+					$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
+					var target = $(this).attr('data-target');
+					accept = $.ajax({
+						url: "/handleinvite.php",
+						type: "post",
+						data: '&hash=<?php echo $invite_hash;?>&target='+target+'&clan=<?php echo $clan_ID;?>'
+					});
+					accept.done(function (response, textStatus, jqXHR){
+						$('.profileButtonRow').remove();
+						$('.blockHeader').html('You have already used this clan invite');
+						var response = $.parseJSON(response);
+						$.notify({message: response.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
+					});
 				});
-				accept.done(function (response, textStatus, jqXHR){
-					$('.profileButtonRow').remove();
-					$('.blockHeader').html('You have already used this clan invite');
-					var response = $.parseJSON(response);
-					$.notify({message: response.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
-				});
-			});
-		})(jQuery);
-		</script>
+			})(jQuery);
+			</script>
+		<? } ?>
 	<?php } ?>
 <?php } ?>
 
