@@ -466,7 +466,7 @@
 		</div>
 	<?php endif;?>
 
-	<?php if($timeLeft < 1 && $pageId == 3179):?>
+	<?php if(get_field('game_status','option') == 'Live' && $timeLeft < 1 && $pageId == 3179):?>
 		<div class="permaNotification">
 			<i class="fas fa-info-circle"></i> You cannot order units during the last 24 hours of the round
 		</div>
