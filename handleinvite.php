@@ -48,7 +48,7 @@ if($_POST['target'] == 'accept') {
     $endStamp = strtotime($endDate);
     $timeLeft = $endStamp-$timestamp;
     $marketClose = $timeLeft - 172800;
-    if($timeLeft < 172800){
+    if(get_field('game_status', 'option') == 'Live' && $timeLeft < 172800){
         $array['status'] = 'Cannot join a clan the last 48 hours of a round';
         $array['next'] = false;
         echo json_encode($array);
