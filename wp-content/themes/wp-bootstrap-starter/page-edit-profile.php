@@ -47,7 +47,7 @@ $CT_CL_array = array($ct_1,$ct_2,$ct_3,$ct_4,$cl_1);
 $members = $visitorClanData['clan_members'][0];
 
 $disable_input = "";
-if($userData['name_change_counter'][0] == 1){
+if($userData['name_change_counter'][0] == 1 && get_field('game_status', 'option') == 'Live') {
 	 $disable_input = "disabled";
 }
 
@@ -136,7 +136,6 @@ if($userData['name_change_counter'][0] == 1){
 
             request = $.ajax({url: "/update_profile.php",type: "post",data: serializedData});
             request.done(function (response, textStatus, jqXHR){
-                // Log a message to the console
                 var array = JSON.parse(response);
         	    $.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
 			    if(array.imagechanged == true){
