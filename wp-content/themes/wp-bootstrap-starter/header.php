@@ -511,11 +511,13 @@
 								mm = mins - hours * 60,
 								ss = secs - mins * 60;
 								$("#market_timer").text( ('00'+hh).slice(-2) +':'+ ('00'+mm).slice(-2) +':'+ ('00'+ss).slice(-2) );
+								<? if(get_field('game_status','option') == 'Live') { ?>
 								diff -= 1000;
 								if(diff <= 0){
 									$('.permaNotification').html('<i class="fas fa-info-circle"></i> You cannot order units during the last 24 hours of the round');
 									return false;
 								}
+								<? } ?>
 							}
 							setInterval(updateMarketTime, 1000 );
 						<?php } ?>
