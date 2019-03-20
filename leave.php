@@ -16,7 +16,7 @@ nocache_headers();
 
 $userID = get_current_user_id();
 
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 if (empty($userID) || !is_user_logged_in()) {
@@ -32,20 +32,16 @@ $ct_2 = get_post_meta($clan, 'ct_2', true);
 $ct_3 = get_post_meta($clan, 'ct_3', true);
 $ct_4 = get_post_meta($clan, 'ct_4', true);
 
-$previousMembers = maybe_unserialize(get_post_meta($clan, 'previous_members',true));
-
-if(!is_array($previousMembers)){
-	$previousMembers = array();
-}
-
-$previousMembers[] = $user;
-
-update_post_meta($clan, 'previous_members', maybe_serialize($previousMembers));
-
 if ($user == $userID) {
+    $previousMembers = maybe_unserialize(get_post_meta($clan, 'previous_members',true));
+
+    if(!is_array($previousMembers)) $previousMembers = array();
+    $previousMembers[] = $user;
+
+    update_post_meta($clan, 'previous_members', maybe_serialize($previousMembers));
+
     $clan_members = maybe_unserialize(get_post_meta($clan, 'clan_members',true));
     $clan_leader = get_post_meta($clan, 'clan_leader', true);
-
 
     foreach ($clan_members as $key => $member) {
         if ($member == $user) {
@@ -53,18 +49,10 @@ if ($user == $userID) {
         }
     }
 
-    if ($user == $ct_1) {
-        update_post_meta($clan, 'ct_1', 0);
-    }
-    if ($user == $ct_2) {
-        update_post_meta($clan, 'ct_2', 0);
-    }
-    if ($user == $ct_3) {
-        update_post_meta($clan, 'ct_3', 0);
-    }
-    if ($user == $ct_4) {
-        update_post_meta($clan, 'ct_4', 0);
-    }
+    if ($user == $ct_1) update_post_meta($clan, 'ct_1', 0);
+    if ($user == $ct_2) update_post_meta($clan, 'ct_2', 0);
+    if ($user == $ct_3) update_post_meta($clan, 'ct_3', 0);
+    if ($user == $ct_4) update_post_meta($clan, 'ct_4', 0);
 
     update_post_meta($clan, 'clan_members', $clan_members);
     update_user_meta($user, 'clan_id_user', 0);
@@ -75,9 +63,7 @@ if ($user == $userID) {
     $clanPoints = get_post_meta($clan, 'clan_points', true);
 
     $newClanPoints = $clanPoints-$cpLost;
-    if ($newClanPoints < 0) {
-        $newClanPoints = 0;
-    }
+    if ($newClanPoints < 0) $newClanPoints = 0;
 
     update_user_meta($user, 'current_clan_points', 0);
     update_post_meta($clan, 'clan_points', $newClanPoints);
