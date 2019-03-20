@@ -486,6 +486,39 @@
 			</div>
 			<div class="row contentRow">
 				<script>
+					function updateHeaderData() {
+						jQuery.getJSON('<?php echo get_site_url();?>/checkevents.php', function(data) {
+							var globals = data.globals;
+							var locals = data.locals;
+							var messages = data.messages;
+							var money = data.money;
+							jQuery('.moneyheader').text(number_format(money, 0, ',', ' '));
+							var networth = data.networth;
+							jQuery('.networthheader').text(number_format(networth, 0, ',', ' '));
+							var turns = data.turns;
+							jQuery('.turnsheader').text(turns);
+							var morale = data.morale;
+							jQuery('.moraleheader').text(morale);
+							var land = data.land;
+							jQuery('.landheader').text(number_format(land, 0, ',', ' '));
+							var power = data.power;
+							jQuery('.powerheader').text(number_format(power, 0, ',', ' '));
+							if (globals > 1){
+								jQuery('.globalsBadge').text(globals);
+								jQuery('.globalsBadge').show(100);
+								jQuery('title').text(globals+' new global events');
+							}
+							if (locals > 1){
+								jQuery('.localsBadge').text(locals);
+								jQuery('.localsBadge').show(100);
+							}
+							if (messages > 1){
+								jQuery('.inboxBadge').text(messages);
+								jQuery('.inboxBadge').show(100);
+							}
+						});
+					}
+
 					(function($) {
 						<?php if($userData['status'][0] == 'dead' && $userData['times_killed'][0] > 0) {
 							after_death($userId);
@@ -511,11 +544,13 @@
 								mm = mins - hours * 60,
 								ss = secs - mins * 60;
 								$("#market_timer").text( ('00'+hh).slice(-2) +':'+ ('00'+mm).slice(-2) +':'+ ('00'+ss).slice(-2) );
+								<? if(get_field('game_status','option') == 'Live') { ?>
 								diff -= 1000;
 								if(diff <= 0){
 									$('.permaNotification').html('<i class="fas fa-info-circle"></i> You cannot order units during the last 24 hours of the round');
 									return false;
 								}
+								<? } ?>
 							}
 							setInterval(updateMarketTime, 1000 );
 						<?php } ?>
@@ -540,39 +575,6 @@
 							$( ".hamburger" ).removeClass( "is-active" );
 							$('[data-toggle=tooltip]').tooltip('enable');
 						});
-
-						function updateHeaderData() {
-							$.getJSON('<?php echo get_site_url();?>/checkevents.php', function(data) {
-								var globals = data.globals;
-								var locals = data.locals;
-								var messages = data.messages;
-								var money = data.money;
-								$('.moneyheader').text(number_format(money, 0, ',', ' '));
-								var networth = data.networth;
-								$('.networthheader').text(number_format(networth, 0, ',', ' '));
-								var turns = data.turns;
-								$('.turnsheader').text(turns);
-								var morale = data.morale;
-								$('.moraleheader').text(morale);
-								var land = data.land;
-								$('.landheader').text(number_format(land, 0, ',', ' '));
-								var power = data.power;
-								$('.powerheader').text(number_format(power, 0, ',', ' '));
-								if (globals > 1){
-									$('.globalsBadge').text(globals);
-									$('.globalsBadge').show(100);
-									$('title').text(globals+' new global events');
-								}
-								if (locals > 1){
-									$('.localsBadge').text(locals);
-									$('.localsBadge').show(100);
-								}
-								if (messages > 1){
-									$('.inboxBadge').text(messages);
-									$('.inboxBadge').show(100);
-								}
-							});
-						}
 
 						$(document).ready(function() {
 							$(function () {
