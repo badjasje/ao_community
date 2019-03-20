@@ -47,7 +47,7 @@ $clan_id_user = $visitorData['clan_id_user'][0];
 $visitorClanData = get_post_meta($clan_id_user);
 
 $previous_members = maybe_unserialize(get_post_meta($clan_id_user, 'previous_members', true));
-if(!is_array($previous_members)) $previous_members = array();
+if(!is_array($previous_members) || get_field('game_status', 'option') == 'Pause') $previous_members = array();
 
 $ct_1 = $visitorClanData['ct_1'][0];
 $ct_2 = $visitorClanData['ct_2'][0];
@@ -226,11 +226,8 @@ $game_live = (get_field('game_status','option')=='Live');
 			<i class="fa fa-user-plus" aria-hidden="true"></i> &nbsp;Cannot invite
 		</a>
 	<?php else:?>
-		<a 	style="background-color: rgba(70, 118, 94, 0.7);"
-			class="col-md-3 profileButton"
-			onclick="return confirm('Are you sure you want to invite <?php echo $user->display_name;?> (#<?php echo $viewedId;?>)?')"
-			href="/invite.php?invite=<?php echo md5(uniqid(rand(), TRUE)) . "\n";?>&clan=<?php echo $clan_id_user;?>&user=<?php echo $viewedId;?>">
-					<i class="fa fa-user-plus" aria-hidden="true"></i> &nbsp;Send clan invite
+		<a style="background-color: rgba(70, 118, 94, 0.7);" class="col-md-3 profileButton inviteButton" href="javascript:void(0);">
+			<i class="fa fa-user-plus" aria-hidden="true"></i> &nbsp;Send clan invite
 		</a>
 	<?php endif;?>
 
@@ -243,7 +240,25 @@ $game_live = (get_field('game_status','option')=='Live');
 			<i class="fas fa-save"></i> &nbsp;Save user
 		</a>
 	<?php endif;?>
-
+	<script>
+		(function($) {
+			var request;
+			$('.inviteButton').on('click', function(event) {
+				event.preventDefault();
+				if (request) request.abort();
+				if(confirm('Are you sure you want to invite <?php echo $user->display_name;?> (#<?php echo $viewedId;?>)?')) {
+					request = $.ajax({url: '/invite.php?user=<?php echo $viewedId;?>', type: "get"});
+					request.done(function (response, textStatus, jqXHR) {
+						var array = JSON.parse(response);
+						$.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
+						if(array.next == true){
+							$('.inviteButton').addClass('disabled');
+						}
+					});
+				}
+			});
+		})(jQuery);
+	</script>
 </div>
 <?php endif;?>
 

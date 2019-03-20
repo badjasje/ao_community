@@ -70,11 +70,11 @@ if (in_array($userID, $allowedToKick)) {
     update_user_meta($user, 'new_clan_timestamp', $timestamp+86400);
 
     $previousMembers = maybe_unserialize(get_post_meta($clan, 'previous_members',true));
-    
+
     if(!is_array($previousMembers)){
-		 	$previousMembers = array();
-		}
-   
+        $previousMembers = array();
+    }
+
     $previousMembers[] = $user;
 
     update_post_meta($clan, 'previous_members', maybe_serialize($previousMembers));

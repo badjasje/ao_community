@@ -17,7 +17,10 @@ require(dirname(__FILE__) . '/wp-load.php');
 global $userId;
 global $userData;
 
-if (! defined('ABSPATH')) {
+if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
+    $array['status'] = 'The round has ended';
+    $array['next'] = false;
+    echo json_encode($array);
     exit;
 }
 if (empty($userId) || !is_user_logged_in()) {
@@ -89,7 +92,7 @@ foreach ($units as $key => $order) {
 			exit;
         }
         $tot_air+=abs(ceil($_POST["$key"]));
-            
+
         if (empty($_POST["$key"])) {
             $letter_check = 0;
         } else {
@@ -101,7 +104,7 @@ foreach ($units as $key => $order) {
 			echo json_encode($array);
 			exit;
         }
-            
+
         if ($key == 'spyplane' && $_POST["$key"] > 0) {
             $total_special+=$_POST["$key"];
             $total_spec_count+=$_POST["$key"];
@@ -112,7 +115,7 @@ foreach ($units as $key => $order) {
 			   exit;
             }
         }
-            
+
         $unit_name = $key.'_ordered';
         $normalname = $order['normalname'];
         $price = $order['price'];
@@ -123,7 +126,7 @@ foreach ($units as $key => $order) {
         $total_air_ordered+=$ordered_units+$owned_units+$units_already_on_order;
     }
 }
-        
+
 if ($air>0) {
     if ($total_air_ordered > $airspace) {
         $array['status'] = 'Build more airfields';
@@ -165,7 +168,7 @@ foreach ($units as $key => $order) {
         $total_veh_ordered+=$ordered_units+$owned_units+$units_already_on_order;
     }
 }
-        
+
 if ($veh>0) {
     if ($total_veh_ordered > $vehspace) {
        $array['status'] = 'Build more warfactories';
@@ -207,7 +210,7 @@ foreach ($units as $key => $order) {
         $total_sea_ordered+=$ordered_units+$owned_units+$units_already_on_order;
     }
 }
-        
+
 if ($sea>0) {
     if ($total_sea_ordered > $seaspace) {
         $array['status'] = 'Build more shipyards';
@@ -239,7 +242,7 @@ foreach ($units as $key => $order) {
 			echo json_encode($array);
 			exit;
         }
-            
+
         if ($key == 'spy' && $_POST["$key"] > 0) {
             $total_special+=$_POST["$key"];
             $total_spec_count+=$_POST["$key"];
@@ -250,7 +253,7 @@ foreach ($units as $key => $order) {
 				exit;
             }
         }
-            
+
         if ($key == 'thief' && $_POST["$key"] > 0) {
             $total_special+=$_POST["$key"];
             $total_spec_count+=$_POST["$key"];
@@ -261,7 +264,7 @@ foreach ($units as $key => $order) {
 				exit;
             }
         }
-            
+
         if ($key == 'sniper' && $_POST["$key"] > 0) {
             $total_special+=$_POST["$key"];
             $total_spec_count+=$_POST["$key"];
@@ -272,7 +275,7 @@ foreach ($units as $key => $order) {
 				exit;
             }
         }
-        
+
         if ($key == 'saboteur' && $_POST["$key"] > 0) {
             $total_special+=$_POST["$key"];
             $total_spec_count+=$_POST["$key"];
@@ -283,7 +286,7 @@ foreach ($units as $key => $order) {
 				exit;
             }
         }
-            
+
         $unit_name = $key.'_ordered';
         $normalname = $order['normalname'];
         $price = $order['price'];
@@ -294,7 +297,7 @@ foreach ($units as $key => $order) {
         $total_inf_ordered+=$ordered_units+$owned_units+$units_already_on_order;
     }
 }
-        
+
 if ($inf>0) {
     if ($total_inf_ordered > $infspace) {
         	$array['status'] = 'Build more baracks';
@@ -333,7 +336,7 @@ if ($turns_needed > $totalturns) {
 	$array['next'] = false;
 	echo json_encode($array);
 	exit;
-	
+
 } else {
     if ($totalordercost > $totalmoney) {
         $array['status'] = 'Insufficient funds';
@@ -342,34 +345,34 @@ if ($turns_needed > $totalturns) {
 		exit;
     } else {
         $units_built_turns = $userData['units_built_turns'][0];
-    
-    
+
+
         foreach ($units as $key => $order) {
             $unit_name = $key;
-    
+
             $normalname = $order['normalname'];
             $price = $order['price'];
             $ordered_units = abs(ceil($_POST["$key"]));
             if ($ordered_units > 0) {
                 $orderamount = $price*$ordered_units;
-    
-        
+
+
                 $units_owned = $userData[$unit_name.'_owned'][0];
                 $total_units_ordered+=$ordered_units;
 
-        
-            
-            
-        
-            
-            
+
+
+
+
+
+
                 update_user_meta($userId, $key.'_owned', $units_owned+$ordered_units);
                 $units_tbuilt = $userData['units_built_turns'][0];
                 update_user_meta($userId, 'units_built_turns', $units_tbuilt+$ordered_units);
-           
-        
-        
-        
+
+
+
+
                 $file = 'turnbuildlog.txt';
     // Open the file to get existing content
                 $current = file_get_contents($file);
@@ -450,11 +453,11 @@ foreach ($units as $key => $unit) {
     if($owned > 0) {
         $allOwned[$key] = $owned;
     }
-    
+
     $maxMoney = floor($totalMoney / ceil($unit['price']));
     $maxSpace = $space[$unitTypeKey] - $usedSpace[$unitTypeKey];
     $maxTurns = floor($totalturns*$unitsPerTurn[$unitTypeKey]);
-    
+
     if(in_array($key, $specialUnitsArray)) {
         $newMax[$key] = min($maxMoney, $maxSpace, $space['special'], $maxTurns);
     } else {

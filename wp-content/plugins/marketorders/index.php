@@ -97,7 +97,7 @@ function is_multi($user_ID, $ip_array=false) {
     }
 
     foreach($ip_array[$ip_address] as $uid => $data) {
-        if(!empty($uid) && $uid != $user_ID) { // Multi detected, this ip was previously used for another user
+        if(!empty($uid) && $uid != $user_ID && !is_banned($user_ID)) { // Multi detected, this ip was previously used for another user
             // If my first login was later than any other account on this ip, block the login attempt
             if($firstlogin > strtotime($data[0])) {
                 return true;
@@ -119,6 +119,12 @@ function is_vpn($geo=false) {
         'Micfo, LLC.','M247 Ltd','StackPath LLC','M247 Ltd.'
     );
     if(in_array($currentIsp, $blocklist)) return true;
+    return false;
+}
+
+function is_banned($userId) {
+    $status = get_user_meta($userId, 'status', true);
+    if($status == 'banned') return true;
     return false;
 }
 
@@ -222,8 +228,7 @@ function page_custom_column_views($column_name, $id) {
 }
 
 function ban_redirect($userId) {
-    $status = get_user_meta($userId, 'status', true);
-    if ($status == 'banned') {
+    if(is_banned($userId)) {
         wp_redirect(get_permalink(702260));
         exit;
     }

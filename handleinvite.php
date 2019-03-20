@@ -1,6 +1,5 @@
 <?php
-
-if ( 'POST' != $_SERVER['REQUEST_METHOD'] ) {
+if ('POST' != $_SERVER['REQUEST_METHOD']) {
     header('Allow: POST');
     header('HTTP/1.1 405 Method Not Allowed');
     header('Content-Type: text/plain');
@@ -11,24 +10,23 @@ require( dirname(__FILE__) . '/wp-load.php' );
 
 $userId = get_current_user_id();
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if (!defined( 'ABSPATH')) exit;
+
 if(empty($userId)){
     $array['status'] = 'You must log in to perform this action';
     $array['next'] = false;
     echo json_encode($array);
     exit;
 }
-if ( !is_user_logged_in() ) {
+if (!is_user_logged_in()) {
     $array['status'] = 'You must log in to perform this action';
     $array['next'] = false;
     echo json_encode($array);
     exit;
 }
 
-
 $inviteKey = $_POST['hash'];
 $clan = $_POST['clan'];
-
 
 $clanId = get_user_meta($userId, 'clan_id_user',true);
 
@@ -39,59 +37,50 @@ if($clanId != 0){
     exit;
 }
 
+if($_POST['target'] == 'accept') {
 
-if($_POST['target'] == 'accept'):
+    $clanMembers = maybe_unserialize(get_post_meta($clan,'clan_members',true));
 
+    $clanLeader = get_post_meta($clan,'clan_leader',true);
+    $timestamp = current_time('timestamp');
 
+    $endDate = get_field('end_date','option');
+    $endStamp = strtotime($endDate);
+    $timeLeft = $endStamp-$timestamp;
+    $marketClose = $timeLeft - 172800;
+    if(get_field('game_status', 'option') == 'Live' && $timeLeft < 172800){
+        $array['status'] = 'Cannot join a clan the last 48 hours of a round';
+        $array['next'] = false;
+        echo json_encode($array);
+        exit;
+    }
 
+    // Todo: The number '5' should be contained inside a configuration file / constant.
+    if(count($clanMembers) >= 6){
+        $array['status'] = 'Maximum number of clan members reached';
+        $array['next'] = false;
+        echo json_encode($array);
+        exit;
+    }
 
-$clanMembers = maybe_unserialize(get_post_meta($clan,'clan_members',true));
+    $open_invites = maybe_unserialize(get_post_meta($clan,'open_invites',true));
 
-$clanLeader = get_post_meta($clan,'clan_leader',true);
-$timestamp = current_time('timestamp');
+    if(!is_array($open_invites)){
+        $open_invites = array();
+    }
 
-$endDate = get_field('end_date','option');
-$endStamp = strtotime($endDate);
-$timeLeft = $endStamp-$timestamp;
-$marketClose = $timeLeft - 172800;
-if($timeLeft < 172800){
-	$array['status'] = 'Cannot join a clan the last 48 hours of a round';
-    $array['next'] = false;
-    echo json_encode($array);
-    exit;
-}
-
-// Todo: The number '5' should be contained inside a configuration file / constant.
-if(count($clanMembers) >= 6){
-    $array['status'] = 'Maximum number of clan members reached';
-    $array['next'] = false;
-    echo json_encode($array);
-    exit;
-}
-
-$open_invites = maybe_unserialize(get_post_meta($clan,'open_invites',true));
-
-if(!is_array($open_invites)){
-	$open_invites = array();
-}
-
-
-
-
-foreach ($open_invites as $key => $invite) {
-
-	if($invite['invite'] == $inviteKey && $invite['clan'] == $clan) {
+    foreach ($open_invites as $key => $invite) {
+        if($invite['invite'] == $inviteKey && $invite['clan'] == $clan) {
             if($invite['user'] != $userId) {
                 $array['status'] = "This is not the invite you're looking for";
 				$array['next'] = false;
 				echo json_encode($array);
 				exit;
             }
-            
+
             if($invite['user'] == $userId) {
                 update_user_meta($userId,'clan_id_user',$clan);
 
-                
                 $clanMembers[] = $userId;
 
                 unset($open_invites[$key]);
@@ -131,29 +120,19 @@ foreach ($open_invites as $key => $invite) {
         }
     }
 
+} else { // decline
 
+    $open_invites = maybe_unserialize(get_post_meta($clan, 'open_invites',true));
 
-	
-else: // decline
-
-
-$open_invites = maybe_unserialize(get_post_meta($clan, 'open_invites',true));
-
-foreach ($open_invites as $key => $invite) {
-    if ($invite['invite'] == $invitekey && $invite['clan'] == $clan && $invite['user'] == $userId) {
-    	unset($open_invites[$key]);
-        update_post_meta($invite['invite_id'], 'invite_status', 'accept');
-        update_post_meta($clan, 'open_invites', $open_invites);
-        $array['status'] = "You declined the invite of ".get_the_title($clan);
-		$array['next'] = false;
-		echo json_encode($array);
-		exit;
+    foreach ($open_invites as $key => $invite) {
+        if ($invite['invite'] == $invitekey && $invite['clan'] == $clan && $invite['user'] == $userId) {
+            unset($open_invites[$key]);
+            update_post_meta($invite['invite_id'], 'invite_status', 'accept');
+            update_post_meta($clan, 'open_invites', $open_invites);
+            $array['status'] = "You declined the invite of ".get_the_title($clan);
+            $array['next'] = false;
+            echo json_encode($array);
+            exit;
         }
     }
-
-
-
-
-
-
-endif;
+}

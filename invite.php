@@ -21,27 +21,36 @@ $invitee_data = get_userdata($invitee);
 if ($invitee_data === false) {
     exit;
 }
-$status = get_user_meta($invitee_id, 'status', true);
+$status = get_user_meta($invitee, 'status', true);
 if ($status == 'banned') {
     exit;
 }
 $clanId = $userData['clan_id_user'][0];
 
-$openInvites = maybe_unserialize(get_post_meta($clanId, 'open_invites',true));
-
-if(!is_array($openInvites)){
-	$openInvites = array();
+// Check if previously invited
+$previous_members = maybe_unserialize(get_post_meta($clanId, 'previous_members', true));
+if(!is_array($previous_members) || get_field('game_status', 'option') == 'Pause') $previous_members = array(); //
+if(in_array($invitee, $previous_members)) {
+    $array['status'] = 'Cannot invite, this user has been a member already';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
 }
 
+// Check if invite already sent
+$openInvites = maybe_unserialize(get_post_meta($clanId, 'open_invites',true));
+if(!is_array($openInvites)) $openInvites = array();
 foreach($openInvites as $key => $openInvite) {
-    if (!is_array($openInvite)) {
-       unset($openInvites[$key]);
+    if (!is_array($openInvite)) unset($openInvites[$key]);
+    else if($openInvite['user'] == $invitee) {
+        $array['status'] = 'Invite already sent';
+        $array['next'] = false;
+        echo json_encode($array);
+        exit;
     }
 }
+if ($openInvites == 0 || empty($openInvites)) $openInvites = array();
 
-if ($openInvites == 0 || empty($openInvites)) {
-    $openInvites = [];
-}
 
 // Generate a random invite code...
 $inviteKey = strtoupper(substr(md5(microtime()),rand(0,26),10));
@@ -72,6 +81,9 @@ update_post_meta($clanId, 'open_invites', maybe_serialize($openInvites));
 $msgs = get_user_meta( $invitee, 'new_messages', true );
 update_user_meta($invitee, 'new_messages', $msgs+1);
 
-$_SESSION['status'] = 'Invite sent';
-wp_redirect(get_permalink(3520).'?id='.$invitee);
+//$_SESSION['status'] = 'Invite sent';
+//wp_redirect(get_permalink(3520).'?id='.$invitee);
+$array['status'] = 'Invite sent';
+$array['next'] = true;
+echo json_encode($array);
 exit;

@@ -452,21 +452,21 @@
 		<?php endif;?>
 	</div>
 
-	<?php if(get_field('game_status','option') == 'Pause' /*&& $userId != 1*/): // Check if game is live or not ?>
+	<?php if(get_field('game_status','option') == 'Pause' /*&& $userId != 1*/) { // Check if game is live or not ?>
 		<div class="permaNotification">
 			<span class="rdw-line">
 				<i class="fas fa-info-circle"></i> The round has ended! Expect a new round on <?php echo get_field('new_round_start','option');?>
 			</span>
 		</div>
-	<?php endif;?>
+	<?php } ?>
 
-	<?php if($timeLeft < 172800 && $timeLeft > 0):?>
+	<?php if($timeLeft < 172800 && $timeLeft > 0) {?>
 		<div class="permaNotification">
 			<i class="fas fa-info-circle"></i> <span id="market_timer"></span> left before the market closes
 		</div>
-	<?php endif;?>
+	<?php } ?>
 
-	<?php if($timeLeft < 1 && $pageId == 3179):?>
+	<?php if(get_field('game_status','option') == 'Live' && $timeLeft < 1 && $pageId == 3179):?>
 		<div class="permaNotification">
 			<i class="fas fa-info-circle"></i> You cannot order units during the last 24 hours of the round
 		</div>
@@ -485,50 +485,42 @@
 				</div>
 			</div>
 			<div class="row contentRow">
-				<?php if($userData['status'][0] == 'dead' && $userData['times_killed'][0] > 0):
-					after_death($userId);
-					update_user_meta($userId, 'status', 'nukeprotection');
-					update_user_meta($userId, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
-					?>
-					<script>
-						jQuery(document).ready(function() {
-							jQuery( ".splashmessage" ).html('You died');
-							jQuery( "#splashback" ).addClass( "failsplash" );
-							jQuery( "#splashback,.splashmessage" ).show();
-							jQuery( "#splashback,.splashmessage" ).delay(1500).fadeOut( "slow")
-						});
-					</script>
-				<?php endif;?>
 				<script>
-					<?php if($timeLeft < 172800+86400):?>
-						var diff = <?php echo ($marketClose-86400)*1000;?>;
-						function updateMarketTime() {
-							function pad(num) {
-								return num > 9 ? num : '0'+num;
-							};
-							days = Math.floor( diff / (1000*60*60*48) ),
-							hours = Math.floor( diff / (1000*60*60) ),
-							mins = Math.floor( diff / (1000*60) ),
-							secs = Math.floor( diff / 1000 ),
-							dd = days,
-							hh = hours - days * 24,
-							mm = mins - hours * 60,
-							ss = secs - mins * 60;
-							jQuery("#market_timer").text =
-								pad(hh) + ':' + //' hours ' +
-								pad(mm) + ':' + //' minutes ' +
-								pad(ss) ; //+ ' seconds' ;
-							diff -= 1000;
-							if(diff <= 0){
-								jQuery('.permaNotification').html('<i class="fas fa-info-circle"></i> You cannot order units during the last 24 hours of the round');
-								return false;
-							}
-						}
-						setInterval(updateMarketTime, 1000 );
-					<?php endif;?>
+					(function($) {
+						<?php if($userData['status'][0] == 'dead' && $userData['times_killed'][0] > 0) {
+							after_death($userId);
+							update_user_meta($userId, 'status', 'nukeprotection');
+							update_user_meta($userId, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
+							?>
+							$(".splashmessage").html('You died');
+							$("#splashback").addClass( "failsplash" );
+							$("#splashback,.splashmessage").show();
+							$("#splashback,.splashmessage").delay(1500).fadeOut("slow")
+							<?php
+						} ?>
 
-					// Help in icon menu
-					jQuery(function($) {
+						<?php if($timeLeft < 172800+86400) {?>
+							var diff = <?php echo ($marketClose-86400)*1000;?>;
+							function updateMarketTime() {
+								days = Math.floor( diff / (1000*60*60*48) ),
+								hours = Math.floor( diff / (1000*60*60) ),
+								mins = Math.floor( diff / (1000*60) ),
+								secs = Math.floor( diff / 1000 ),
+								dd = days,
+								hh = hours - days * 24,
+								mm = mins - hours * 60,
+								ss = secs - mins * 60;
+								$("#market_timer").text( ('00'+hh).slice(-2) +':'+ ('00'+mm).slice(-2) +':'+ ('00'+ss).slice(-2) );
+								diff -= 1000;
+								if(diff <= 0){
+									$('.permaNotification').html('<i class="fas fa-info-circle"></i> You cannot order units during the last 24 hours of the round');
+									return false;
+								}
+							}
+							setInterval(updateMarketTime, 1000 );
+						<?php } ?>
+
+						// Help in icon menu
 						$('.menuRow').each(function(i1) {
 							var t = $('.menuText>a',this).html();
 							if(!!t) {
@@ -548,43 +540,40 @@
 							$( ".hamburger" ).removeClass( "is-active" );
 							$('[data-toggle=tooltip]').tooltip('enable');
 						});
-					});
-				</script>
 
-				<script>
-					function updateHeaderData() {
-						jQuery.getJSON('<?php echo get_site_url();?>/checkevents.php', function(data) {
-							var globals = data.globals;
-							var locals = data.locals;
-							var messages = data.messages;
-							var money = data.money;
-							jQuery('.moneyheader').text(number_format(money, 0, ',', ' '));
-							var networth = data.networth;
-							jQuery('.networthheader').text(number_format(networth, 0, ',', ' '));
-							var turns = data.turns;
-							jQuery('.turnsheader').text(turns);
-							var morale = data.morale;
-							jQuery('.moraleheader').text(morale);
-							var land = data.land;
-							jQuery('.landheader').text(number_format(land, 0, ',', ' '));
-							var power = data.power;
-							jQuery('.powerheader').text(number_format(power, 0, ',', ' '));
-							if (globals > 1){
-								jQuery('.globalsBadge').text(globals);
-								jQuery('.globalsBadge').show(100);
-								jQuery('title').text(globals+' new global events');
-							}
-							if (locals > 1){
-								jQuery('.localsBadge').text(locals);
-								jQuery('.localsBadge').show(100);
-							}
-							if (messages > 1){
-								jQuery('.inboxBadge').text(messages);
-								jQuery('.inboxBadge').show(100);
-							}
-						});
-					}
-					(function($) {
+						function updateHeaderData() {
+							$.getJSON('<?php echo get_site_url();?>/checkevents.php', function(data) {
+								var globals = data.globals;
+								var locals = data.locals;
+								var messages = data.messages;
+								var money = data.money;
+								$('.moneyheader').text(number_format(money, 0, ',', ' '));
+								var networth = data.networth;
+								$('.networthheader').text(number_format(networth, 0, ',', ' '));
+								var turns = data.turns;
+								$('.turnsheader').text(turns);
+								var morale = data.morale;
+								$('.moraleheader').text(morale);
+								var land = data.land;
+								$('.landheader').text(number_format(land, 0, ',', ' '));
+								var power = data.power;
+								$('.powerheader').text(number_format(power, 0, ',', ' '));
+								if (globals > 1){
+									$('.globalsBadge').text(globals);
+									$('.globalsBadge').show(100);
+									$('title').text(globals+' new global events');
+								}
+								if (locals > 1){
+									$('.localsBadge').text(locals);
+									$('.localsBadge').show(100);
+								}
+								if (messages > 1){
+									$('.inboxBadge').text(messages);
+									$('.inboxBadge').show(100);
+								}
+							});
+						}
+
 						$(document).ready(function() {
 							$(function () {
 								$('[data-toggle="tooltip"]').tooltip()
