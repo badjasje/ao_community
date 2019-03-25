@@ -20,8 +20,8 @@ $aggressive_multi = 1;
 $life_deduct = 1;
 if($attackmode == 'aggressive'){
 	$extra_morale_cost = 10;
-	$life_deduct = 1.13;
-	$aggressive_multi = 1.20;
+	$life_deduct = 1.15;
+	$aggressive_multi = 1.35;
 }
 
 $defend_nw = $defenderData['networth'][0];
