@@ -88,7 +88,7 @@ $attack_new_morale = $attack_curr_morale - $attack_cost_morale;
 update_user_meta($userId, 'morale', $attack_new_morale);
 
 /* Calculate dragon extra attack power */
-$dragons = 25 * intval($attack_array['dragon']); // each carriers 25 vehs
+$dragons = 40 * intval($attack_array['dragon']); // each carries 40 vehs
 if($dragons < 0) {
 	$array['status'] = 'How to train your dragon.. Pause.. NOOOT';
 	$array['next'] = false;
@@ -110,16 +110,16 @@ foreach ($attack_array as $key => $count) {
 }
 
 if($veh_total > $dragons){
-    $added_dragon_damage = ($veh_att_power/$veh_total)*$dragons*0.15;
+    $added_dragon_damage = ($veh_att_power/$veh_total)*$dragons*0.20;
 
 }else{
-    $added_dragon_damage = $veh_att_power*0.15;
+    $added_dragon_damage = $veh_att_power*0.20;
 }
 
 /* Calculate dragon extra attack power */
 $apcs = 0;
 if(array_key_exists('apc', $attack_array)){
-	$apcs = 50 * intval($attack_array['apc']); // each carriers 50 infs
+	$apcs = 75 * intval($attack_array['apc']); // each carriers 50 infs
 }
 if($apcs < 0) {
     $array['status'] = "Don't talk so negative about those APCs!";
@@ -142,14 +142,14 @@ foreach ($attack_array as $key => $count) {
 }
 
 if($inf_total > $apcs){
-    $added_apc_damage = ($inf_att_power/$inf_total)*$apcs*0.15;
+    $added_apc_damage = ($inf_att_power/$inf_total)*$apcs*0.20;
 
 }else{
-    $added_apc_damage = $inf_att_power*0.15;
+    $added_apc_damage = $inf_att_power*0.20;
 }
 
 /* Calculate carrier extra attack power */
-$carriers = 25 * intval($attack_array['carrier']);
+$carriers = 40 * intval($attack_array['carrier']);
 if($carriers < 0) {
     $array['status'] = "Did you just got carried away?";
 	$array['next'] = false;
@@ -171,10 +171,10 @@ foreach ($attack_array as $key => $count) {
 }
 
 if($air_total > $carriers){
-    $added_carrier_damage = ($air_att_power/$air_total)*$carriers*0.15;
+    $added_carrier_damage = ($air_att_power/$air_total)*$carriers*0.20;
 
 }else{
-    $added_carrier_damage = $air_att_power*0.15;
+    $added_carrier_damage = $air_att_power*0.20;
 }
 
 /* start checking for damage split */
