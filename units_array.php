@@ -330,31 +330,31 @@ $units = array(
 
 	/// SEA ///
 	'battleship' 		=> array(
-		'price'			=>	'2150',
+		'price'			=>	'2350',
 		'networth'		=>	13,
 		'normalname'	=>	'Battleship',
 		'attacks'		=>  array('bld'),
 		'defends'		=>  array(),
-		'attack'		=>	120,
+		'attack'		=>	135,
 		'type'			=>	'sea',
 		'sectype'		=>	'bk',
 		'attacktype'	=>	array('air_sea'),
-		'life'			=>	110
+		'life'			=>	120
 	),
 	'frigate' 		=> array(
-		'price'			=>	'875',
+		'price'			=>	'965',
 		'networth'		=>	10,
 		'normalname'	=>	'Sea Scorpion',
 		'attacks'		=>  array('inf'),
 		'defends'		=>  array('inf'),
-		'attack'		=>	65,
+		'attack'		=>	70,
 		'type'			=>	'sea',
 		'sectype'		=>	'normal',
 		'attacktype'	=>	array('air_sea'),
-		'life'			=>	50
+		'life'			=>	55
 	),
 	'carrier' 		=> array(
-		'price'			=>	'2250',
+		'price'			=>	'2475',
 		'networth'		=>	14,
 		'normalname'	=>	'Aircraft carrier',
 		'description'	=>	'The Aircraft carrier is a support unit. Each Aircraft carrier sent into battle supports up to 25 air units, providing a 15% attack boost.',
@@ -364,7 +364,7 @@ $units = array(
 		'type'			=>	'sea',
 		'sectype'		=>	'normal',
 		'attacktype'	=>	array('air_sea'),
-		'life'			=>	210
+		'life'			=>	235
 	),
 	/*'stealth' 			=> array(
 			'price'			=>	'900',
@@ -376,51 +376,51 @@ $units = array(
 			'type'			=>	'sea',
 			'life'			=>	55),*/
 	'submarine' 		=> array(
-		'price'			=>	'1000',
+		'price'			=>	'1090',
 		'networth'		=>	10,
 		'normalname'	=>	'Submarine',
 		'attacks'		=>  array('sea','bld'),
 		'defends'		=>  array('sea'),
-		'attack'		=>	60,
-		'type'			=>	'sea',
-		'sectype'		=>	'normal',
-		'attacktype'	=>	array('air_sea'),
-		'life'			=>	65
-	),
-	'cruiser' 			=> array(
-		'price'			=>	'1300',
-		'networth'		=>	10,
-		'normalname'	=>	'Cruiser',
-		'attacks'		=>  array('air','bld'),
-		'defends'		=>  array('air'),
-		'attack'		=>	90,
-		'type'			=>	'sea',
-		'sectype'		=>	'normal',
-		'attacktype'	=>	array('air_sea'),
-		'life'			=>	85
-	),
-	'destroyer' 		=> array(
-		'price'			=>	'1125',
-		'networth'		=>	10,
-		'normalname'	=>	'Destroyer',
-		'attacks'		=>  array('veh','inf','bld'),
-		'defends'		=>  array('veh','inf'),
-		'attack'		=>	80,
-		'type'			=>	'sea',
-		'sectype'		=>	'normal',
-		'attacktype'	=>	array('air_sea'),
-		'life'			=>	65
-	),
-	'sparrow'	 		=> array(
-		'price'			=>	'1025',
-		'networth'		=>	10,
-		'normalname'	=>	'Corvette',
-		'attacks'		=>  array('sea','veh'),
-		'defends'		=>  array('sea','veh'),
-		'attack'		=>	75,
+		'attack'		=>	65,
 		'type'			=>	'sea',
 		'sectype'		=>	'normal',
 		'attacktype'	=>	array('air_sea'),
 		'life'			=>	70
+	),
+	'cruiser' 			=> array(
+		'price'			=>	'1400',
+		'networth'		=>	10,
+		'normalname'	=>	'Cruiser',
+		'attacks'		=>  array('air','bld'),
+		'defends'		=>  array('air'),
+		'attack'		=>	100,
+		'type'			=>	'sea',
+		'sectype'		=>	'normal',
+		'attacktype'	=>	array('air_sea'),
+		'life'			=>	90
+	),
+	'destroyer' 		=> array(
+		'price'			=>	'1235',
+		'networth'		=>	10,
+		'normalname'	=>	'Destroyer',
+		'attacks'		=>  array('veh','inf','bld'),
+		'defends'		=>  array('veh','inf'),
+		'attack'		=>	90,
+		'type'			=>	'sea',
+		'sectype'		=>	'normal',
+		'attacktype'	=>	array('air_sea'),
+		'life'			=>	70
+	),
+	'sparrow'	 		=> array(
+		'price'			=>	'1150',
+		'networth'		=>	10,
+		'normalname'	=>	'Corvette',
+		'attacks'		=>  array('sea','veh'),
+		'defends'		=>  array('sea','veh'),
+		'attack'		=>	85,
+		'type'			=>	'sea',
+		'sectype'		=>	'normal',
+		'attacktype'	=>	array('air_sea'),
+		'life'			=>	75
 	),
 );
