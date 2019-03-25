@@ -3,7 +3,7 @@
 $satellites = array(
     'laser'     => array(
         'price'         =>  '1000000',
-        'networth'      =>  14,
+        'networth'      =>  12,
         'targets'       => 'Buildings',
         'name'          =>  'Laser Beam Satellite',
         'shortname'     =>  'LBS',
@@ -19,7 +19,7 @@ $satellites = array(
     ),*/
     'stealths'      => array(
         'price'         =>  '600000',
-        'networth'      =>  14,
+        'networth'      =>  12,
         'name'          =>  'Stealth satellite',
         'shortname'     =>  'STE',
         'desc'          =>  'When activated, the Stealth Satellite will hide your base from enemy spies, thieves, saboteurs, snipers, laser beam satellites and EMP satellites.  It hides your base for 3.5 hours.'),
@@ -34,7 +34,7 @@ $satellites = array(
     ),*/
 	'amssat' 		=> array(
         'price'			=>	'500000',
-        'networth'		=>	14,
+        'networth'		=>	12,
         'name'			=>	'Anti-missile satellite',
         'shortname'     =>  'AMS',
         'desc'			=>	'An anti-missile satellite grants 100% protection against missiles.',
@@ -42,7 +42,7 @@ $satellites = array(
     ),
     'empsat'        => array(
         'price'         =>  '500000',
-        'networth'      =>  14,
+        'networth'      =>  12,
         'targets'       => 'Power',
         'shortname'     =>  'EMP',
         'name'          =>  'EMP satellite',
