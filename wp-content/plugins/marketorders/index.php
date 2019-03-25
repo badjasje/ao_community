@@ -1200,7 +1200,7 @@ function count_all_stats($user_ID) {
         $sat_NW = 0;
 
         if ($sat_owned != 0 || !empty($sat_owned)) {
-            $sat_NW = $satellites[$sat_owned]['price'] * 0.06;
+            $sat_NW = $satellites[$sat_owned]['price'] * 0.04;
         }
 
         $land = $userData['land'][0];
