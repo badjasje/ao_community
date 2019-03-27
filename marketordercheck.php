@@ -20,7 +20,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
         $power = isset($userData['power'][0]) ? $userData['power'][0] : 0;
         $plants = (isset($userData['powerplant'][0]) ? $userData['powerplant'][0] : 0);
         $plants += (isset($userData['advancedpowerplant'][0]) ? $userData['advancedpowerplant'][0] : 0);
-        if($plants > 0 && $power <= 0) {
+        if($plants > 0 && $power >= 100) {
             fcm_send_notification($user_ID, 'lowpower', $user_ID);
         }
         if($plants > 0 && $power > 50) {
