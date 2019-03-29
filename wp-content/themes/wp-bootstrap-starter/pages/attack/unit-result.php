@@ -12,7 +12,8 @@ $attack_cost_turns = 0;
 $attack_cost_morale = 0;
 
 $maintarget = $_POST['maintarget'];
-$attackmode = $_POST['attackmode'];
+$attackmode = filter_input(INPUT_POST, 'attackmode', FILTER_SANITIZE_STRING);
+$attackmode = ($attackmode == 'aggressive' ? 'aggressive' : 'normal');
 
 $extra_morale_cost = 0;
 $aggressive_multi = 1;
@@ -111,7 +112,6 @@ foreach ($attack_array as $key => $count) {
 
 if($veh_total > $dragons){
     $added_dragon_damage = ($veh_att_power/$veh_total)*$dragons*0.20;
-
 }else{
     $added_dragon_damage = $veh_att_power*0.20;
 }
@@ -143,7 +143,6 @@ foreach ($attack_array as $key => $count) {
 
 if($inf_total > $apcs){
     $added_apc_damage = ($inf_att_power/$inf_total)*$apcs*0.20;
-
 }else{
     $added_apc_damage = $inf_att_power*0.20;
 }
