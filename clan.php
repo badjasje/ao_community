@@ -52,7 +52,8 @@ update_field('ct_4', 0, $new_order_id);
 
 update_post_meta($new_order_id, 'bonus_level', 0);
 update_post_meta($new_order_id, 'clan_points', 0);
-$array['optin'] = $_POST['optin_status'];
+
+/*$array['optin'] = $_POST['optin_status'];
 
 if ($_POST['optin_status'] == 'optedout') {
   $array['thing'] = "optedout";
@@ -63,7 +64,7 @@ if ($_POST['optin_status'] == 'optedin') {
   $array['thing'] = "optedin";
   update_field('optout_status', '0', $new_order_id);
   update_field('optout_reset', '0', $new_order_id);
-}
+}*/
 
 $array['status'] = 'Clan successfully created';
 $array['next'] = true;

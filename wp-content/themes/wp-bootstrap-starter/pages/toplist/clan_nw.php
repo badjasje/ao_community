@@ -67,13 +67,14 @@
 
 	<div class="col-md-3 celBlock" style="max-width: 18% !important">
 		<span class="columnDataRight land">
-                        <?php $optout = get_post_meta($clanId, 'optout_status',true);
+                        <?php /*$optout = get_post_meta($clanId, 'optout_status',true);
                         if ($optout == 1) {
                           ?><font color="red">Opted Out</font><?php
                         }
-                        else {
+                        else {*/
                           echo "Declare Eligible";
-                        } ?>
+						//}
+						?>
 		</span>
 	</div>
 </div> <!-- //Close profile row -->

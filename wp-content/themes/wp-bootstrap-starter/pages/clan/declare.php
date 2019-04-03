@@ -3,9 +3,9 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
 
 <div class="row fw-row no-gutters">
 	<?php
-	$optoutstatus=get_post_meta($clan_id,'optout_status',true);
-	$user_clan_ID= get_user_meta($declarer_ID, 'clan_id_user',true);
-	$useroptoutstatus=get_post_meta($user_clan_ID, 'optout_status',true);
+	//$optoutstatus=get_post_meta($clan_id,'optout_status',true);
+	//$user_clan_ID= get_user_meta($declarer_ID, 'clan_id_user',true);
+	//$useroptoutstatus=get_post_meta($user_clan_ID, 'optout_status',true);
 	?>
 	<br/><br/>
 
@@ -17,7 +17,7 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
 		<?php else:?>
 			<?php /*if ($average_OK == "false" && $warcount != 1) { ?>
 			    <i class="fa fa-fire" aria-hidden="true"></i> &nbsp;Your average NW is too low to declare on this clan</span>
-			<?php } else { */?>
+			<?php } else {?>
             <?php if ($optoutstatus == 1 ) { ?>
                 <button class="mainSubmit" disabled>
                     <i class="fas fa-fire" aria-hidden="true"></i> &nbsp;This clan has opted out of incoming war declarations
@@ -26,11 +26,11 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
                 <button class="mainSubmit" disabled>
                     <i class="fas fa-fire" aria-hidden="true"></i> &nbsp;Your clan has opted out of clan wars this round.
                 </button>
-            <?php } else { ?>
+            <?php } else { */ ?>
                 <button class="mainSubmit warDecSubmit" data-toggle="modal" data-target="#declareWarModal">
                     <i class="fas fa-fire" aria-hidden="true"></i> &nbsp;Declare <?php echo $warText;?>
                 </button>
-            <?php } ?>
+            <?php //} ?>
 
             <!-- Modal -->
             <div class="modal fade" id="declareWarModal" tabindex="-1" role="dialog" aria-labelledby="declareWarModalLabel" aria-hidden="true">

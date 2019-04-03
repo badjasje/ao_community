@@ -670,7 +670,7 @@ if($result == 'success'){
 	    $land_stolen   = max(ceil($freeland * $STOLEN_LAND_RATIO * $resourceMulti * $aggressive_multi * $extraLandKill * resource_dice_roll()), 0);
 	    $money_stolen  = max(ceil($money * ($STOLEN_MONEY_RATIO * $resourceMulti*$extraLandKill) * resource_dice_roll()*$aggressive_multi), 0);
 	}
-    //MEGA
+    /*MEGA
     //Divide land and money stolen if users clan is opting out of wars
     $userclan = get_user_meta($userId, 'clan_id_user', true);
     $useroptoutstatus=get_post_meta($userclan, 'optout_status',true);
@@ -678,7 +678,7 @@ if($result == 'success'){
         $land_stolen = ceil($land_stolen/2);
         $money_stolen = ceil($money_stolen/2);
     }
-	//Done
+	//Done*/
 
 	// Jaap, resource stolen based on clansize
 	$land_stolen = scaled_land_to_clansize($land_stolen, $userId, $target_id);
