@@ -389,6 +389,9 @@ if($defenderData['land'][0] < 7500){
 	$attacker_type_damage['bld'] = $attacker_type_damage['bld']*$reduction;
 }
 
+// Scale building damage on clan size difference
+$attacker_type_damage['bld'] = scaled_damage_to_clansize($attacker_type_damage['bld'], $userId, $target_id);
+
 // Check if there are wars for statistic counting
 $warstatID = 0;
 $warcheck = get_posts(
@@ -675,7 +678,11 @@ if($result == 'success'){
         $land_stolen = ceil($land_stolen/2);
         $money_stolen = ceil($money_stolen/2);
     }
-    //Done
+	//Done
+
+	// Jaap, resource stolen based on clansize
+	$land_stolen = scaled_land_to_clansize($land_stolen, $userId, $target_id);
+	$money_stolen = scaled_money_to_clansize($money_stolen, $userId, $target_id);
 
 	$attackermoney = $attackerData['money'][0];
 	$attackerland  = $attackerData['land'][0];
@@ -772,6 +779,9 @@ if($war_type != 'none' && $result == 'success') {
 			$clan_points = 25;
 		}
 	}
+
+	// Jaap, points based on clansize
+	$clan_points = scaled_points_to_clansize($clan_points, $userId, $target_id);
 
 	/* add points */
 	$starting_points = get_post_meta($attack_clan_id,'clan_points',true);

@@ -64,6 +64,9 @@ if($defenderData['land'][0] < 7500){
 	$blddamage = $blddamage*$reduction;
 }
 
+// Scale building damage on clan size difference
+$blddamage = scaled_damage_to_clansize($blddamage, $userId, $target_id);
+
 update_user_meta($userId,'sat_morale',$sat_morale-100);
 $result = 'success';
 
@@ -210,6 +213,9 @@ if($war_type != 'none' && $result == 'success') {
 			$clan_points = 25;
 		}
 	}
+
+	// Jaap, points based on clansize
+	$clan_points = scaled_points_to_clansize($clan_points, $userId, $target_id);
 }
 
 /* add points */

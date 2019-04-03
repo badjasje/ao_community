@@ -788,9 +788,7 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
             $unit_count = $unit_stats['count'];
 
             /* determine portion of attack power dedicated to this unit */
-
             $power_ratio = $unit_count / $total_units;
-
             $distributed_power = $attack_power * $power_ratio;
 
             /* dice roll to pseudo randomize */
@@ -939,4 +937,81 @@ function kill_event($attackerId,$defenderId,$result,$defend_clan_id,$attack_clan
 
     update_field('defender_clan_id',$defend_clan_id, $new_event_id);
     update_field('attacker_clan_id',$attack_clan_id, $new_event_id);
+}
+
+/**
+ * Helper function in an attempt to avoid big clans completely raiding smaller clans or single provinces
+ */
+function get_clan_member_difference($attacker_ID, $defender_ID) {
+    $attackerData = get_user_meta($attacker_ID);
+    $defenderData = get_user_meta($defender_ID);
+    $attacker_clan_ID = $attackerData['clan_id_user'][0];
+    $defender_clan_ID = $defenderData['clan_id_user'][0];
+
+    // If attacker is not in a clan, no difference
+    if(empty($attacker_clan_ID)) return 0;
+
+    // In a mutual war you always get full points,damage,etc
+    $war_type = get_war_type($attacker_clan_ID,$defender_clan_ID);
+    if($war_type == 'mutual') return 0;
+
+    // Failsafe on clan
+    $attacker_clan_size = count(maybe_unserialize(get_post_meta($attacker_clan_ID, 'clan_members', true)));
+    if(empty($attacker_clan_size)) return 0;
+
+    // If the defender is not in a clan, clansize is also 1
+    if(empty($defender_clan_ID)) $defender_clan_size = 1;
+    else $defender_clan_size = count(maybe_unserialize(get_post_meta($defender_clan_ID, 'clan_members', true)));
+
+    // But if the attackers clan is bigger than the defender, than we get in some reduction (finally)
+    return $attacker_clan_size-$defender_clan_size;
+}
+
+/**
+ * Clanpoint gain reduction based on clanmembersize difference
+ * Some stats:
+ * If clan is 1 larger, there is 1 point difference from 15 points or higher (15=14, 25=24)
+ * If clan is 2 larger, there is 1 point difference from 8 points or higher (8=7, 25=22)
+ * If clan is 3 larger, there is 1 point difference from 5 points or higher (5=4, 25=20)
+ * If clan is 4 larger, there is 1 point difference from 4 points or higher (4=3, 25=18)
+ * If clan is 5 larger, there is 1 point difference from 3 points or higher (3=2, 25=17)
+ */
+function scaled_points_to_clansize($clan_points, $attacker_ID, $defender_ID) {
+    $diff = get_clan_member_difference($attacker_ID, $defender_ID);
+    if($diff < 1) return $clan_points; // If attacker no clan, mutual war or the attacker clan size is smaller or equal, no reduction
+    $clan_points = ceil($clan_points * ((100-(($diff*35)/5))/100) ); //diff 5 = 35%
+    return $clan_points;
+}
+
+/**
+ * Stolen land reduction
+ * Only for a clanmember-difference of 3 or larger
+ * @todo: currently disabled
+ */
+function scaled_land_to_clansize($land_stolen, $attacker_ID, $defender_ID) {
+    //$diff = get_clan_member_difference($attacker_ID, $defender_ID);
+    //if($diff < 3) return $land_stolen; // If attacker no clan, mutual war or the attacker clan size is smaller or equal, no reduction
+    return $land_stolen;
+}
+
+/**
+ * Stolen money reduction
+ * Only for a clanmember-difference of 3 or larger
+ * @todo: currently disabled
+ */
+function scaled_money_to_clansize($money_stolen, $attacker_ID, $defender_ID) {
+    //$diff = get_clan_member_difference($attacker_ID, $defender_ID);
+    //if($diff < 3) return $money_stolen; // If attacker no clan, mutual war or the attacker clan size is smaller or equal, no reduction
+    return $money_stolen;
+}
+
+/**
+ * Damage reduction based on clan member size difference
+ * Only used for buildings for now
+ */
+function scaled_damage_to_clansize($damage, $attacker_ID, $defender_ID) {
+    $diff = get_clan_member_difference($attacker_ID, $defender_ID);
+    if($diff < 1) return $damage; // If attacker no clan, mutual war or the attacker clan size is smaller or equal, no reduction
+    $damage = ceil($damage * ((100-(($diff*30)/5))/100)); // diff 5 = 30%
+    return $damage;
 }

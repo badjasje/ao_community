@@ -168,6 +168,9 @@ if($defenderData['land'][0] < 7500){
 	$blddamage = $blddamage*$reduction;
 }
 
+// Scale building damage on clan size difference
+$blddamage = scaled_damage_to_clansize($blddamage, $userId, $target_id);
+
 // DEFENDING //
 $_total_air_units_def = 0;
 $_total_inf_units_def = 0;
@@ -497,6 +500,9 @@ if($war_type != 'none' && $result == 'success') {
 	if($clan_points < 1){
 		$clan_points = 1;
 	}
+
+	// Jaap, points based on clansize
+	$clan_points = scaled_points_to_clansize($clan_points, $userId, $target_id);
 }
 // End MEGA 20180215
 
