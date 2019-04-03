@@ -1,8 +1,8 @@
 <?php
 /* utility functions for attack engine reuse */
 
-/* 
-	determine war type 
+/*
+	determine war type
 	Params:
 		$attack_clan_id : Clan ID of attacking player
 		$defend_clan_id : Clan ID of defending player
@@ -13,7 +13,6 @@ include('constants.php');
 
 
 function calculate_pts($unit_damage, $bld_damage, $aggressive_multi) {
-
     //MEGA 2017-07-18
 
     global $POINTS_CAP;
@@ -66,14 +65,8 @@ function calculate_pts($unit_damage, $bld_damage, $aggressive_multi) {
     }
 
     //MEGA new change - scale damage at high NW down by small amounts
-
-
-
     //END
-
-
     $pts = ceil ($pts_gained);	 //Round to higher number
-
     if($pts > $POINTS_CAP) {
         $pts = $POINTS_CAP;  // If more than max, set to max!
     }
@@ -278,6 +271,7 @@ function get_attack_cost_morale($attack_type, $attack_nw, $defend_nw) {
     }
 };
 
+
 function get_attack_cost_turns($attack_type) {
     global $TURNS_MISSILE, $TURNS_SPY, $TURNS_THIEF, $TURNS_ATTACK;
     if (strtolower($attack_type) == 'thief')
@@ -313,8 +307,6 @@ function create_defender_array($target_id, $type_array) {
     include('constants.php');
 
     $target_data = get_user_meta($target_id);
-
-
 
     $stat_array = array();
     $total_life = 0;
@@ -406,7 +398,7 @@ function create_attacker_array($attack_array) {
     foreach($attack_array as $key => $unit_count) {
 	    if($key != 'tomahawk'){
        		$unit_type = $units[$key]['type'];
-	   		
+
 	   		if ($unit_count > 0) {
             	$unit_life = $units[$key]['life'];
 				$unit_sum_life = $unit_life * $unit_count;
@@ -438,9 +430,7 @@ function create_attacker_array($attack_array) {
 	Return:
 		$defense_array : array of defensive power by type
 */
-
 $overall_bld_total = 0;
-
 function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) {
 
     global $overall_bld_total;
@@ -464,8 +454,6 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
         'veh' => 0,
         'inf' => 0
     );
-
-
 
     /* get values for buildings */
     foreach($buildings as $key => $data) {
@@ -496,8 +484,6 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
         //Store the value of this building count to overall total
          $overall_bld_total +=$bld_count;
     }
-
-
 
     /* get defense from units */
     foreach($units as $key => $data) {
@@ -545,8 +531,8 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
     return $defense_array;
 }
 
-function return_overall_blds_for_defender ()
-{
+
+function return_overall_blds_for_defender () {
     global $overall_bld_total;
     return $overall_bld_total;
 }
@@ -575,8 +561,6 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
     );
 
     /* get values for buildings */
-
-
     foreach($buildings as $key => $data) {
         $bld_count = get_user_meta($target_id, $key)[0];
 
@@ -649,9 +633,6 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
 
     return $defense_array;
 }
-
-
-
 
 
 /*
@@ -745,6 +726,7 @@ function attack_dice_roll() {
     return rand($UNIT_DICEROLL_DAMAGE_MIN, $UNIT_DICEROLL_DAMAGE_MAX) / 100;
 }
 
+
 /*
 	resource_dice_roll
 	Params:
@@ -807,9 +789,7 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
 
             /* determine portion of attack power dedicated to this unit */
 
-
             $power_ratio = $unit_count / $total_units;
-
 
             $distributed_power = $attack_power * $power_ratio;
 
@@ -848,7 +828,6 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
             if ($_POST['attackmode'] == 'aggressive') {
                 $effective_atk_power = $effective_atk_power*1.2;
             }
-
 
             /* calculate kills as power/life */
             $units_killed = round($effective_atk_power / $unit_life);
@@ -911,8 +890,8 @@ function calculate_losses($damage_array) {
     $buildings_lost = 0;
     $units_lost = 0;
     foreach($damage_array as $type => $loss_array) {
-        if($type == 'total_power')
-            continue;
+        if($type == 'total_power') continue;
+
         foreach($loss_array as $key => $count) {
             if ($type == 'bld') {
                 $net_ratio = $buildings[$key]['networth'] / 100;
@@ -935,29 +914,29 @@ function calculate_losses($damage_array) {
     return $losses;
 }
 
-function kill_event($attackerId,$defenderId,$result,$defend_clan_id,$attack_clan_id){
 
-$timestamp = current_time('timestamp');
+function kill_event($attackerId,$defenderId,$result,$defend_clan_id,$attack_clan_id) {
+    $timestamp = current_time('timestamp');
 
-$args = array(	
-	'post_title'    => 'Kill made by '.$attackerId.' Defender: '.$defenderId,
-	'post_status'   => 'publish',
-	'post_type'		=> 'event_local',
-	'post_author'   => $attackerId
-);
-			
-$new_event_id = wp_insert_post( $args );
+    $args = array(
+        'post_title'    => 'Kill made by '.$attackerId.' Defender: '.$defenderId,
+        'post_status'   => 'publish',
+        'post_type'		=> 'event_local',
+        'post_author'   => $attackerId
+    );
 
-update_field('time_attacked',$timestamp, $new_event_id);
+    $new_event_id = wp_insert_post( $args );
 
-update_field('defender_id',$defenderId, $new_event_id);
-update_field('attacker_id',$attackerId, $new_event_id);
+    update_field('time_attacked',$timestamp, $new_event_id);
 
-update_field('winner_id',$attackerId, $new_event_id);
-update_field('attacktype','killed', $new_event_id);
-update_field('outcome',$result, $new_event_id);
+    update_field('defender_id',$defenderId, $new_event_id);
+    update_field('attacker_id',$attackerId, $new_event_id);
+
+    update_field('winner_id',$attackerId, $new_event_id);
+    update_field('attacktype','killed', $new_event_id);
+    update_field('outcome',$result, $new_event_id);
 
 
-update_field('defender_clan_id',$defend_clan_id, $new_event_id);
-update_field('attacker_clan_id',$attack_clan_id, $new_event_id);
+    update_field('defender_clan_id',$defend_clan_id, $new_event_id);
+    update_field('attacker_clan_id',$attack_clan_id, $new_event_id);
 }
