@@ -436,7 +436,8 @@ function clan_avg_networth_range($clanId) {
     $viewerClanId = get_post_meta($viewerId, 'clan_id_user', true);
 
     $clanMembers = count(get_post_meta($clanId, 'clan_members', true));
-    $decClanMembers = count(get_post_meta($viewerClanId, 'clan_members', true));
+    $viewer_clan = get_post_meta($viewerClanId, 'clan_members', true);
+    $decClanMembers = (!empty($viewer_clan) ? count($viewer_clan) : 1);
 
     $clanNetworth = get_post_meta($clanId, 'clan_networth', true) / $clanMembers;
     $decClanNetworth = get_post_meta($viewerClanId, 'clan_networth', true) / $decClanMembers;
