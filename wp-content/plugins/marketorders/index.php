@@ -12,7 +12,7 @@ Copyright: Kevin Bogaard
 require_once('telegrambot.class.php');
 
 function raid_protection($target_id) {
-    $raidProteectionLevel = get_user_meta($target_id, 'level_raid_protection', true);
+    /*$raidProteectionLevel = get_user_meta($target_id, 'level_raid_protection', true);
 
     if ($raidProteectionLevel >= 1) {
         $timestamp = current_time('timestamp');
@@ -41,7 +41,8 @@ function raid_protection($target_id) {
         } else {
             return 'no';
         }
-    }
+    }*/
+    return 'no';
 }
 
 function turn_spread($turntype, $addedturns) {
