@@ -21,6 +21,7 @@
 	if(!is_user_logged_in()){
 		$hideitems = 'true';
 	}
+	$menuOpen = (isset($_COOKIE['menuOpen'])&&$_COOKIE['menuOpen']==1?true:false);
 
 	$pageId = get_the_id();
 	$endDate = get_field('end_date','option');
@@ -107,7 +108,7 @@
 	</script>
 </head>
 
-<body <?php body_class(); ?>>
+<body <?php body_class(array(($menuOpen?'menuOpen':''))) ?>>
 	<script>
 		fbq('track', 'ViewContent', {value: 1,content_ids: '<?php echo get_the_title();?>'});
 	</script>
@@ -122,7 +123,7 @@
 
 		<header id="masthead" class="site-header navbar-static-top <?php echo wp_bootstrap_starter_bg_class(); ?>" role="banner">
 			<?php if($hideitems == 'false'):?>
-				<button id="nextbt" class="toggle-menu-open hamburger hamburger--collapse" type="button">
+				<button id="nextbt" class="toggle-menu-open hamburger hamburger--collapse<?=($menuOpen?' is-active':'')?>" type="button">
 					<span class="hamburger-box">
 						<span class="hamburger-inner"></span>
 					</span>
@@ -189,7 +190,7 @@
 		<?php if($hideitems == 'false'):?>
 			<div id="mySidenav" class="sidenav">
 
-				<div class="row menuRow hideMenuItem hide-menu-icon">
+				<div class="row menuRow  hide-menu-icon">
 					<div class="col-md-2 col-xs-2 buttonItem ">
 						<a href="<?php echo get_site_url(); ?>/dashboard/">
 							<button class="menu-item" type="button" >
@@ -202,7 +203,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/research">
 							<button class="menu-item" type="button" >
@@ -221,7 +222,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/bank">
 							<button class="menu-item" type="button" >
@@ -234,7 +235,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/buildings">
 							<button class="menu-item" type="button" >
@@ -247,7 +248,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/explore">
 							<button class="menu-item" type="button" >
@@ -260,7 +261,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/units">
 							<button class="menu-item" type="button" >
@@ -273,7 +274,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/missiles">
 							<button class="menu-item" type="button" >
@@ -286,7 +287,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/satellites">
 							<button class="menu-item" type="button" >
@@ -299,7 +300,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/users/">
 							<button class="menu-item" type="button" >
@@ -317,7 +318,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/buy/">
 							<button class="menu-item" type="button" >
@@ -338,7 +339,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/clan-information">
 							<button class="menu-item" type="button" >
@@ -359,7 +360,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/toplists/">
 							<button class="menu-item" type="button" >
@@ -380,7 +381,7 @@
 					</div>
 				</div>
 
-				<?/*<div class="row menuRow hideMenuItem">
+				<?/*<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a target="_blank" href="<?php echo get_site_url(); ?>/push-messaging.html">
 							<button class="menu-item" type="button" >
@@ -393,7 +394,7 @@
 					</div>
 				</div>
 
-				<div class="row menuRow hideMenuItem">
+				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<button id="nextbt2" class="menu-item" type="button" >
 							<i class="fas fa-list"></i>
@@ -486,6 +487,26 @@
 			</div>
 			<div class="row contentRow">
 				<script>
+					function setCookie(name,value,days) {
+						var expires = "";
+						if (days) {
+							var date = new Date();
+							date.setTime(date.getTime() + (days*24*60*60*1000));
+							expires = "; expires=" + date.toUTCString();
+						}
+						document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+					}
+					function getCookie(name) {
+						var nameEQ = name + "=";
+						var ca = document.cookie.split(';');
+						for(var i=0;i < ca.length;i++) {
+							var c = ca[i];
+							while (c.charAt(0)==' ') c = c.substring(1,c.length);
+							if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+						}
+						return null;
+					}
+
 					function updateHeaderData() {
 						jQuery.getJSON('<?php echo get_site_url();?>/checkevents.php', function(data) {
 							var globals = data.globals;
@@ -562,18 +583,25 @@
 								$('.buttonItem>a', this).wrapInner('<div data-toggle="tooltip" data-html="true" data-placement="right" title="'+t.replace(/"/g, "'")+'"></div>');
 							}
 						});
-						$("#nextbt, #nextbt2").toggle(function(){
-							$( ".sidenav" ).addClass( "wideMenu" );
-							$('.menuText').show(750);
-							$( ".menuRow" ).removeClass( "hideMenuItem" );
-							$( ".hamburger" ).addClass( "is-active" );
-							$('[data-toggle=tooltip]').tooltip('disable');
-						}, function(){
-							$( ".sidenav" ).removeClass( "wideMenu" );
-							$('.menuText').hide(500);
-							$( ".menuRow" ).addClass( "hideMenuItem" );
-							$( ".hamburger" ).removeClass( "is-active" );
-							$('[data-toggle=tooltip]').tooltip('enable');
+
+						if(getCookie('menuOpen') === null) setCookie('menuOpen', 0, 256);
+						else { setCookie('menuOpen', getCookie('menuOpen'), 256); } // Remember forever
+
+						$("#nextbt, #nextbt2").on('click', function(e) {
+							e.preventDefault();
+							if($('body').hasClass('menuOpen')) {
+								$('body').removeClass('menuOpen');
+								$('.menuText').hide(500);
+								$(".hamburger").removeClass("is-active");
+								$('[data-toggle=tooltip]').tooltip('enable');
+								setCookie('menuOpen', 0, 256);
+							} else {
+								$('body').addClass('menuOpen');
+								$('.menuText').show(750);
+								$(".hamburger").addClass("is-active");
+								$('[data-toggle=tooltip]').tooltip('disable');
+								if($(window).width() >= 1400) setCookie('menuOpen', 1, 256);
+							}
 						});
 
 						$(document).ready(function() {

@@ -612,7 +612,7 @@ a img.aligncenter {
 --------------------------------------------------------------*/
 #content.site-content {
     flex-grow: 1;
-    background-color: #ccc !important;
+    background-color: #ccc;
 }
 .sticky .entry-title::before {
     content: '\f08d';
@@ -912,16 +912,7 @@ body:not(.theme-preset-active) footer#colophon {
 .sidenav .menu-item { float:none; }
 .tooltip { z-index: 2080; }
 .tooltip .marketMenu { width:auto; }
-
-@media only screen {
-  .wideMenu{
-    width:100% !important;
-  }
-}
-.wideMenu{
-    width: 36% !important;
-    min-width: 400px;
-}
+.menuOpen .sidenav { width: 36%; min-width: 400px; }
 
 .smallAvatar{
     border-radius: 50%;
@@ -966,6 +957,7 @@ body:not(.theme-preset-active) footer#colophon {
     display: none;
     text-transform: uppercase;
 }
+.menuOpen .menuText { display:block; }
 .menuRow{
 	height:41px;
 }
@@ -1158,18 +1150,6 @@ input[type="radio"]:checked + label {
 	margin: 25px;
 	width: 100%;
 }
-@media only screen and (min-width: 1024px) {
-    .contentRow{
-	    margin-left: 5% !important;
-        padding:0px;
-        width: 90% !important;
-    }
-    .mainContainer {
-        padding:0px;
-        width: 100% !important;
-    }
-}
-
 .contentRow,.mainContainer {
     margin:0px;
     padding: 0px;
@@ -1294,6 +1274,27 @@ input[type="radio"]:checked + label {
         margin-left: 41px;
     }
 }
+@media only screen and (min-width: 1024px) {
+    .contentRow{
+	    margin-left: 5% !important;
+        padding:0px;
+        width: 90%;
+    }
+    .mainContainer {
+        padding:0px;
+        width: 100%;
+    }
+}
+@media only screen and (min-width: 1400px) {
+    .sidenav:before { position: absolute; content: ''; display: block; top: 0; width: 41px; bottom: 0; background: #000; }
+    .menuText { background-color: #313d43; margin-left: 56px; padding-right: 0; max-width: 80%; }
+    .contentRow { margin-left: 2.5% !important; width: 95%; }
+    .marketMenu { width:32.7%; }
+    .menuRow a:hover div, .menuText a:hover { text-decoration: underline; }
+
+    .menuOpen .sidenav { width:325px; min-width: unset; background-color: #313d43; }
+    .menuOpen  #content.site-content { margin-left: 325px; }
+}
 @media only screen and (max-width: 1023px) {
     .footer-nav h4 { margin-top: 10px; }
     body:not(.theme-preset-active) footer#colophon { padding-left: 0; }
@@ -1321,22 +1322,22 @@ input[type="radio"]:checked + label {
         font-size: 13px;
         text-transform: uppercase;
 	}
-	.hideMenuItem{
-		display: none;
-	}
-	.hide-menu-icon{
-		display: none;
-		height:0px;
-	}
+
 	.mobileHide{
 		display:none;
 	}
 	.topbarButton{
 		display: block;
 	}
-	.wideMenu{
-		width:100% !important;
+	.menuOpen .sidenav {
+		width:100%;
 		margin-top:120px;
+    }
+    .menuRow { display:none; }
+    .menuOpen .menuRow { display:flex; }
+    .hide-menu-icon, .menuOpen .hide-menu-icon {
+		display: none;
+		height:0px;
 	}
 	.statheader{
 		margin-left:0px;
@@ -2181,9 +2182,9 @@ input[type="radio"]:checked + label {
 @media screen and (max-height: 732px) and (max-width: 768px) { /* make the sidemenu scrollable */
     body { position: relative; }
     header#masthead { z-index:2080; }
-    .wideMenu #page-sub-header { position: absolute; top: -80px; width: 100%; }
-    .wideMenu .statheader { position: relative; top: 0; }
-    .wideMenu.sidenav { position: absolute;padding-right: 15px;}
+    .menuOpen .sidenav #page-sub-header { position: absolute; top: -80px; width: 100%; }
+    .menuOpen .statheader { position: relative; top: 0; }
+    .menuOpen .sidenav { position: absolute;padding-right: 15px;}
 }
 
 /* no zoom on safari iOS */
