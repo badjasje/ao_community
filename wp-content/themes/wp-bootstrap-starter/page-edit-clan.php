@@ -166,6 +166,7 @@ $wp_upload_dir = wp_upload_dir();
                     var myDropzone = Dropzone.forElement("#clan_avatar_dz");
                     myDropzone.removeAllFiles(true);
                 }
+                location.reload();
             });
         });
 

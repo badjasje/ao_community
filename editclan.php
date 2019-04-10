@@ -41,7 +41,7 @@ if(!empty($data['newclanimage'])){
 }
 
 if (in_array($userId, $allowed)) {
-    $my_post = array('ID' => $clan_ID, 'post_content' => $data['publicmessage']);
+    $my_post = array('ID' => $clan_ID, 'post_content' => wp_strip_all_tags($data['publicmessage']));
     wp_update_post($my_post);
 }
 
