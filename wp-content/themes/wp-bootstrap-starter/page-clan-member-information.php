@@ -30,11 +30,9 @@ include('building_array.php');
 ?>
 
 <div class="row pageRow">
-
-
-
-
 <?php
+	$timestamp = current_time('timestamp');
+
 	$NRmembers = count($clan_members);
 	$counter = 0;
 	$count = 0;
@@ -45,7 +43,7 @@ include('building_array.php');
 		$pts = $memberData['user_clan_points'][0];
 		$PPA = 0;
 		if($pts > 0){
-		$PPA = round($pts / $attacksMade,1);
+			$PPA = round($pts / $attacksMade,1);
 		}
 		$networth = $memberData['networth'][0];
 		$land = $memberData['land'][0];
@@ -62,6 +60,14 @@ include('building_array.php');
 		$inprogress = $memberData['research_in_progress'][0];
 		$attMade = $memberData['attacks_made_current'][0];
 		$attRec = $memberData['attacks_rec_current'][0];
+
+		$timeLeft ='';
+		if(!empty($inprogress)) {
+			$args = array('posts_per_page' => 1, 'author' => $member, 'post_type' => 'research');
+			$researches_in_progress = get_posts( $args );
+			$completionTime = $researches_in_progress[0]->post_title;
+			$timeLeft = human_time_diff($completionTime, $timestamp);
+		}
 
 		$highest_networth = number_format($memberData['highest_networth'][0], 0, ',', ' ');
 		$freeLand = number_format($memberData['land'][0]-$memberData['builtland'][0], 0, ',', ' ');
@@ -220,27 +226,26 @@ include('building_array.php');
 	<div class="col-md-4 celBlock" style="padding:0px">
 		<button viewtype="research" member-id="<?php echo $member;?>" class="cancelButton hoverEffect viewmemberinfo" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);" type="submit">
 			<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Research
-			<?php if($inprogress != '0'):?>
-				<span class="badge" data-toggle="tooltip" data-placement="top" title="Research currently in progress: <?php echo $researches[$inprogress]['name'];?>">
+			<?php if($inprogress != '0') {?>
+				<span class="badge" data-toggle="tooltip" data-placement="top" title="Research currently in progress: <?php echo $researches[$inprogress]['name'];?>, <?=$timeLeft?> left">
 					<i class="fa fa-circle-o-notch fa-spin"></i>
 				</span>
-			<?php endif;?>
+			<?php } ?>
 		</button>
 
 		<div class="memberInfo research_<?php echo $member;?>">
 		<?php
 
 			foreach ($researches as $key => $research) {
-			$level = $memberData['level_'.$key][0];?>
+				$level = $memberData['level_'.$key][0];?>
 				<span class="dataVisibleLeft"><?php echo $research['name'];?></span>
 				<span class="dataVisibleRight">Level: <?php echo $level;?></span>
 					<br/>
-
-						<?php }?>
-					<?php if($inprogress != '0'):?>
-						<br/>
-						<strong>In progress: <?php echo $researches[$inprogress]['name'];?></strong>
-					<?php endif;?>
+			<?php } ?>
+			<?php if($inprogress != '0'):?>
+				<br/>
+				<strong>In progress: <?php echo $researches[$inprogress]['name'];?>, <?=$timeLeft?> left</strong>
+			<?php endif;?>
 		</div>
 
 	</div>

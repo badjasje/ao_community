@@ -14,6 +14,14 @@
 	}
 
 	$inProgress = $userData['research_in_progress'][0];
+	$researchTimeLeft ='';
+	if(!empty($inProgress)) {
+		$timestamp = current_time('timestamp');
+		$args = array('posts_per_page' => 1, 'author' => $userId, 'post_type' => 'research');
+		$researches_in_progress = get_posts( $args );
+		$completionTime = $researches_in_progress[0]->post_title;
+		$researchTimeLeft = human_time_diff($completionTime, $timestamp);
+	}
 	include('research_array.php');
 	wp_head();
 
@@ -214,7 +222,7 @@
 					<div class="col-md-10 col-xs-10 menuText">
 						<a href="<?php echo get_site_url(); ?>/research">Research
 							<?php if($inProgress != '0'):?>
-								<span class="badge badge-secondary" data-toggle="tooltip" data-placement="top" title="Research currently in progress: <?php echo $researches[$inProgress]['name'];?>">
+								<span class="badge badge-secondary" data-toggle="tooltip" data-placement="top" title="Research currently in progress: <?php echo $researches[$inProgress]['name'];?>, <?=$researchTimeLeft?> left">
 									<i class="fas fa-circle-notch fa-spin"></i>
 								</span>
 							<?php endif;?>
