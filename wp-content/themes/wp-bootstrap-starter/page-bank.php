@@ -209,6 +209,9 @@ foreach ($deposits as $deposit) :
 if($count == 0) {
 	helpText('Money will stay safe forever in the bank until you withdraw', 'bank', 'reminder');
 }
+else if($banklevel < 2) {
+	helpText('From bank research level 2, you can withdraw a deposit one day earlier', 'bank', 'reminder');
+}
 ?>
 
 <script>
