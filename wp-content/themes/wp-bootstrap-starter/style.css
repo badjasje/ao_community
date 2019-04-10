@@ -1288,10 +1288,10 @@ input[type="radio"]:checked + label {
 @media only screen and (min-width: 1400px) {
     .sidenav:before { position: absolute; content: ''; display: block; top: 0; width: 41px; bottom: 0; background: #000; }
     .menuText { background-color: #313d43; margin-left: 56px; padding-right: 0; max-width: 80%; }
-    .contentRow { margin-left: 2.5% !important; width: 95%; }
     .marketMenu { width:32.7%; }
     .menuRow a:hover div, .menuText a:hover { text-decoration: underline; }
 
+    .menuOpen .contentRow { margin-left: 2.5% !important; width: 95%; }
     .menuOpen .sidenav { width:325px; min-width: unset; background-color: #313d43; }
     .menuOpen #content.site-content { margin-left: 325px; }
     .menuOpen footer#colophon { margin-left: 325px; width: calc(100% - 325px); }
