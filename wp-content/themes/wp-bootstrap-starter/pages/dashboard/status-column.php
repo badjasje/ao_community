@@ -25,6 +25,17 @@ elseif($user_status =='dead'){
 	$statusMessage = 'Status: Dead';
 }
 
+$inProgress = $userData['research_in_progress'][0];
+$researchTimeLeft ='';
+if(!empty($inProgress)) {
+	$timestamp = current_time('timestamp');
+	$args = array('posts_per_page' => 1, 'author' => $userId, 'post_type' => 'research');
+	$researches_in_progress = get_posts( $args );
+	$completionTime = $researches_in_progress[0]->post_title;
+	$researchTimeLeft = human_time_diff($completionTime, $timestamp);
+}
+include('research_array.php');
+
 $telegram_key = $userData['telegram_key'][0];
 if(empty($telegram_key)) {
 	$telegram_key = uniqid();
@@ -112,6 +123,16 @@ if(empty($telegram_key)) {
 					<u><a href="#startingBonus">None</a></u>
 				<?php endif;?>
 			</div>
+
+			<?php if(!empty($inProgress)) {?>
+			<div class="statusInsideCol">
+				<strong>Research in progress</strong>
+			</div>
+			<div class="statusInsideCol">
+				<?php echo $researches[$inProgress]['name'];?><br><?=$researchTimeLeft?> left
+			</div>
+			<?php } ?>
+
 		</div>
 
 		<div class="col-md-6 col-lg-4 statusRow statCol-3">
@@ -123,11 +144,13 @@ if(empty($telegram_key)) {
 			</div>*/?>
 
 			<div class="celBlock">
-				<strong>Push notifications</strong><br>
-				Install <a href="https://t.me/assaultonlinebot" style="text-decoration:underline;" target="_blank">Telegram</a> on your mobile
-				device.<br>
-				Add <a href="https://t.me/assaultonlinebot" style="text-decoration:underline;" target="_blank">assaultonlinebot</a>.<br>
-				Use this code <strong><?php echo $telegram_key ?></strong> to get instant notifications.</a>
+				<strong>Push notifications</strong>
+				<ul style="padding-left: 16px;">
+					<li>Install <a href="https://t.me/assaultonlinebot" style="text-decoration:underline;" target="_blank">Telegram</a> on your mobile
+				device.</li>
+					<li>Add <a href="https://t.me/assaultonlinebot" style="text-decoration:underline;" target="_blank">assaultonlinebot</a>.</li>
+					<li>Use this code <strong><?php echo $telegram_key ?></strong> to get instant notifications.</a></li>
+				</ul>
 			</div>
 		</div>
 
