@@ -163,7 +163,7 @@ if($researchCount >= 1){
 						hh = hours - days * 24,
 						mm = mins - hours * 60,
 						ss = secs - mins * 60;
-						$("#countdown_time").text(('00'+hh).slice(-2) + ':' + ('00'+mm).slice(-2) + ':' + ('00'+ss).slice(-2));
+						jQuery("#countdown_time").text(('00'+hh).slice(-2) + ':' + ('00'+mm).slice(-2) + ':' + ('00'+ss).slice(-2));
 						diff -= 1000;
 					}
 					setInterval(updateETimeLeft, 1000);
