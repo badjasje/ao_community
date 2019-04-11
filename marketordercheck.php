@@ -6,12 +6,11 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
 
     $timestamp = current_time('timestamp');
 
-    $args = array(
-		'meta_key'     	=> 'sat_owned',
-		'meta_value'	=> '0',
-		'meta_compare'	=> '!=',
-	);
-    $users = get_users();
+    $args = array();
+    if(strpos($_SERVER['SERVER_NAME'], 'assault') !== 0) { // Just me on dev.
+        $args = array('include' => array(2768));
+    }
+    $users = get_users($args);
     foreach ($users as $user) {
         $user_ID = $user->ID;
         $userData = get_user_meta($user_ID);

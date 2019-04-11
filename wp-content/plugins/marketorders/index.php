@@ -1835,8 +1835,10 @@ function fcm_send_notification($receiver, $type, $attacker=0) {
 
     if(!isset($body) || empty($body)) return;
 
-// Dev!
-//if($receiver != 2768) return;
+    // No notifications to others on Dev!
+    if(strpos($_SERVER['SERVER_NAME'], 'assault') !== 0) {
+        if($receiver != 2768) return;
+    }
 
     $registrationIds = maybe_unserialize(get_user_meta($receiver, 'device_tokens', true));
     if(!empty($registrationIds)) {
