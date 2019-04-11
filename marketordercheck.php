@@ -39,7 +39,6 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
         /* sat crash */
         $sat_owned = $userData['sat_owned'][0];
         $sat_endlife = 0;
-		$sat_endlife = isset($userData['sat_endlife'][0]) ?  $userData['sat_endlife'][0] : 0;
 		$sat_endlife = !empty( $userData['sat_endlife'][0]) ?  $userData['sat_endlife'][0] : 0;
 
         $timeleft = $sat_endlife-$timestamp;
