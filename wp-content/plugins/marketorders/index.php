@@ -461,6 +461,21 @@ function clan_networth_range($clanId) {
     }
 }
 
+function get_spy_units($user_ID) {
+    $userData = get_user_meta($user_ID);
+    $spiesOwned = array();
+	@include("units_array.php");
+	foreach ($units as $unitKey => $unit) {
+		if(in_array('spy',$unit['attacktype'])) {
+			$unitsOwned = $userData[$unitKey.'_owned'][0];
+			if($unitsOwned > 0) {
+				$spiesOwned[$unitKey] = $unit['normalname'];
+			}
+		}
+    }
+    return $spiesOwned;
+}
+
 function get_user_name($user_ID) {
     $userData = get_user_meta($user_ID);
     $timestamp = current_time('timestamp');

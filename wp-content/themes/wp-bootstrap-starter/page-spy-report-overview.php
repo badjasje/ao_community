@@ -37,7 +37,6 @@ $clans = get_posts($args);
 
 include('units_array.php');
 include('building_array.php');
-
 ?>
 <div class="row pageRow">
 
@@ -116,13 +115,15 @@ include('building_array.php');
 			$unitarray = maybe_unserialize(get_post_meta($unitRep_ID, 'spy_array', true));
 
 			$attack_array = array();
-			foreach ($units as $unit) {
-				foreach ($unitarray as $unitname => $amount) {
-					if($unitname == $unit['normalname']){
-						$attack_array[] = array_shift($attacks);
-						$attacks = $unit['attacks'];
-						if(!empty($attacks)){
-							$attack_array[] = array_shift($attacks);
+			if(is_array($units)) {
+				foreach ($units as $unit) {
+					foreach ($unitarray as $unitname => $amount) {
+						if($unitname == $unit['normalname']){
+							if(is_array($attacks)) $attack_array[] = array_shift($attacks);
+							$attacks = $unit['attacks'];
+							if(!empty($attacks)){
+								$attack_array[] = array_shift($attacks);
+							}
 						}
 					}
 				}
@@ -131,15 +132,16 @@ include('building_array.php');
 			$attack_array = array_unique($attack_array);
 
 			$type_array = array();
-			foreach ($units as $unit) {
-				foreach ($unitarray as $unitname => $amount) {
-					if($unitname == $unit['normalname'] && $unitname != 'Spy' && $unitname != 'SR-71 Spyplane'){
-						$types = $unit['type'];
-						$type_array[] = $types;
+			if(is_array($units)) {
+				foreach ($units as $unit) {
+					foreach ($unitarray as $unitname => $amount) {
+						if($unitname == $unit['normalname'] && $unitname != 'Spy' && $unitname != 'SR-71 Spyplane'){
+							$types = $unit['type'];
+							$type_array[] = $types;
+						}
 					}
 				}
 			}
-
 			$type_array = array_diff($type_array,array('n.a',''));
 			$type_array = array_unique($type_array);
 		}else{
@@ -202,6 +204,7 @@ include('building_array.php');
 		$member_data = get_userdata($member);
 		$last_online = get_user_meta($member, 'last_online',true);
 		$spiednr = get_user_meta($user_ID, 'spied_current_clan',true);
+		$status = get_user_meta($member, 'status', true);
 
 		if(!empty($last_online)){
 			$last_seen = $timestamp - $last_online;
@@ -270,7 +273,7 @@ include('building_array.php');
 			<div class="col-md-4 celBlock" style="padding:0px">
 				<a href="<?php echo get_site_url();?>/attack/?id=<?php echo $member;?>">
 					<button class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);">
-						<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;re-spy
+						<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
 					</button>
 				</a>
 			</div>
@@ -280,9 +283,9 @@ include('building_array.php');
 					<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Units
 				</button>
 				<div class="memberInfo units_<?php echo $member;?>">
-					<?php foreach($unitarray as $key => $units){ ?>
+					<?php foreach($unitarray as $key => $unitvalue){ ?>
 						<span class="dataVisibleLeft"><?php echo $key;?></span>
-						<span class="dataVisibleRight"><?php echo $units;?></span><br/>
+						<span class="dataVisibleRight"><?php echo $unitvalue;?></span><br/>
 					<?php }?>
 				</div>
 			</div>
@@ -300,6 +303,25 @@ include('building_array.php');
 			</div>
 		</div>
 		<!-- // Button row -->
+
+		<?
+		if($member != $userId && $visiting_clan != $clan_ID && !in_array($status, array('dead','banned','nukeprotection'))) {
+			$spiesOwned = get_spy_units($userId);
+			if(count($spiesOwned)) {
+				$btnClass = (count($spiesOwned)==2?'col-md-6':'col-md-12');
+				echo '<div class="row fw-row no-gutters">';
+				foreach($spiesOwned as $key => $name) {
+					$url = get_site_url().'/attack/?id='.$member.'&attacktype=spy&attackmode=normal&maintarget=none&spytype='.$key;
+					?>
+					<div class="<?=$btnClass?> celBlock" style="padding:0px"><a href="<?=$url?>">
+						<button class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);">
+							<i class="fas fa-binoculars"></i> &nbsp;Send <?=$name?>
+						</button>
+					</a></div><?
+				}
+				echo '</div>';
+			}
+		} ?>
 
 		<div class="pageSpacer"></div>
 		<?php

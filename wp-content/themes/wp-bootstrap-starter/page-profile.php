@@ -336,6 +336,24 @@ $game_live = (get_field('game_status','option')=='Live');
 </div>
 <?php endif;?>
 
+<?php
+// If I have spy units, and I can spy this person
+if($visiting_user != $viewedId && $clan_id != $clan_id_user && !in_array($status, array('dead','banned','nukeprotection'))) {
+	$spiesOwned = get_spy_units($userId);
+	if(count($spiesOwned)) {
+		$btnClass = (count($spiesOwned)==2?'col-md-6':'col-md-12');
+		echo '<div class="row no-gutters fw-row profileButtonRow">';
+		foreach($spiesOwned as $key => $name) {
+			$url = get_site_url().'/attack/?id='.$viewedId.'&attacktype=spy&attackmode=normal&maintarget=none&spytype='.$key;
+			?>
+			<a class="<?=$btnClass?> profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="<?=$url?>">
+				<i class="fas fa-binoculars"></i> &nbsp;Send <?=$name?>
+			</a><?
+		}
+		echo '</div>';
+	}
+}
+?>
 
 <?php if(current_user_can('activate_plugins')){
 	$logindata = get_user_meta( $viewedId, 'logindata', true );

@@ -21,12 +21,20 @@ $status = $userData['status'][0];
 $satOwned = $userData['sat_owned'][0];
 
 $attackUserId = sanitize_text_field($_GET['id']);
-
-if ( ! empty($attackUserId)) {
-	//count_all_stats($attackUserId);
+if ($attackUserId == $userId) {
+	exit(wp_redirect(home_url('/')));
 }
-
 $attackUserData = get_userdata($attackUserId);
+
+$attackArray = array('target_id' => $attackUserId, 'attackarray' => array());
+$attacktype = filter_input(INPUT_GET, 'attacktype', FILTER_SANITIZE_STRING);
+if(!empty($attacktype)) $attackArray['attacktype'] = $attacktype;
+$attackmode = filter_input(INPUT_GET, 'attackmode', FILTER_SANITIZE_STRING);
+if(!empty($attackmode)) $attackArray['attackmode'] = $attackmode;
+$maintarget = filter_input(INPUT_GET, 'maintarget', FILTER_SANITIZE_STRING);
+if(!empty($maintarget)) $attackArray['maintarget'] = $maintarget;
+$spytype = filter_input(INPUT_GET, 'spytype', FILTER_SANITIZE_STRING);
+if(!empty($spytype)) $attackArray['spytype'] = $spytype;
 
 $sat_morale = $userData['sat_morale'][0];
 $last_attacked = rtrim($userData['last_attacked'][0], ',');
@@ -82,7 +90,23 @@ else {
 
 	<script>
 	(function($) {
-		var request;
+		<? if(count($attackArray) > 5 && $attackArray['attacktype']=='spy') {
+			?>
+			$('.pageLoader, #page-cover').show();
+			$( "#step-1" ).hide();
+			var attackresult = $.ajax({
+				url: "<?php echo get_stylesheet_directory_uri();?>/pages/attack/attack-result.php",
+				type: "post",
+				data: <?=json_encode($attackArray)?>
+			});
+			attackresult.done(function (attackresultresponse, textStatus, jqXHR){
+				$('.pageLoader, #page-cover').fadeOut("fast");
+				$("#attack-result").empty().append(attackresultresponse);
+				$('#strikeagain').hide();// Not on quick-spy
+			});
+		<? } ?>
+
+		var request, finalarray;
 		$("#attack").submit(function(event){
 			$('.pageLoader, #page-cover').show();
 			$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
@@ -153,7 +177,7 @@ else {
 										$( "#step-3" ).empty();
 										attackresult.done(function (attackresultresponse, textStatus, jqXHR){
 											$( "#attack-result" ).empty().append( attackresultresponse );
-
+											$('#strikeagain').show(); // if hidden
 											var strikeagain;
 											$(document).on('click','#strikeagain',function(strikeevent){
 
@@ -170,12 +194,7 @@ else {
 												strikeagain.done(function (strikeagainresponse, textStatus, jqXHR){
 													try {
 														json = $.parseJSON(strikeagainresponse);
-														$.notify({message: json.status},{
-															type: 'info',
-															delay: 5000,
-															allow_dismiss: true,
-															newest_on_top: true,
-														});
+														$.notify({message: json.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
 														return false;
 													} catch (e) {
 														$( "#attack-result" ).hide();
