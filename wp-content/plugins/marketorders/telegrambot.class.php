@@ -39,7 +39,7 @@ class TelegramBot {
 
     public function getChatByUserId($user_id) {
         global $wpdb;
-        if($chat = $wpdb->get_row($wpdb->prepare("SELECT * FROM `telegram_chat` WHERE user_id=%s", $user_id), ARRAY_A)) {
+        if($chat = $wpdb->get_row($wpdb->prepare("SELECT * FROM `telegram_chat` WHERE `user_id`=%s", $user_id), ARRAY_A)) {
             $this->chat = $chat;
             $this->chatID = $chat['chat_id'];
         }
