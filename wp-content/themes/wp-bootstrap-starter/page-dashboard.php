@@ -154,6 +154,7 @@ if($clanId == 0){
 <?php if(get_field('game_status','option') == 'Live') { ?>
 	<?php include('pages/dashboard/pick-startingbonus.php'); ?>
 	<?php include('pages/dashboard/bonus-receive.php'); ?>
+	<?php include('pages/dashboard/toplists.php'); ?>
 <?php } ?>
 
 <?php if($clanId != 0) {?>
