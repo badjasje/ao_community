@@ -15,6 +15,9 @@ $clan_leader = $clanData['clan_leader'][0];
 $timestamp = current_time('timestamp');
 $war_array = maybe_unserialize(maybe_unserialize($clanData['war_array'][0]));
 
+$cooldownlist = maybe_unserialize(maybe_unserialize($clanData['cooldown_list'][0]));
+if(!is_array($cooldownlist)) $cooldownlist = array();
+
 $backColorDecOn = "45, 67, 81";
 $backColorDecBy = "127, 82, 67";
 $backColorStats = "86, 113, 61";
@@ -143,10 +146,11 @@ $wars_by = get_posts(array(
 
 	<div class="row unitRow fw-row headerRow" style="border-bottom:1px solid #fff;background-color: rgba(<?php echo $backColorStats;?>, 0.75);">
 		<div class="col-md-3 celBlock">War against</div>
-		<div class="col-md-2 celBlock">Date</div>
+		<div class="col celBlock">Date</div>
+		<div class="col celBlock">Cooldown</div>
 		<div class="col-md-3 celBlock">First declared by</div>
-		<div class="col-md-1 celBlock">Mutual</div>
-		<div class="col-md-3 celBlock"></div>
+		<div class="col celBlock">Mutual</div>
+		<div class="col-md-2 celBlock"></div>
 
 	</div>
 
@@ -163,10 +167,19 @@ $wars_by = get_posts(array(
 				</span>
 			</div>
 
-			<div class="col-md-2 celBlock">
+			<div class="col celBlock">
 				<span class="columnDataLeft">Date</span>
 				<span class="columnDataRight">
-					<?php echo date('H:i | d-m-Y', $war['date']);?>
+					<?php echo date('H:i | d-m', $war['date']);?>
+				</span>
+			</div>
+
+			<div class="col celBlock">
+				<span class="columnDataLeft">Cooldown</span>
+				<span class="columnDataRight">
+				<?php if(isset($cooldownlist[$warred_clan]) && $cooldownlist[$warred_clan] > $timestamp) {
+			 		echo human_time_diff($timestamp, $cooldownlist[$warred_clan]);
+				} ?>
 				</span>
 			</div>
 
@@ -177,16 +190,14 @@ $wars_by = get_posts(array(
 				</span>
 			</div>
 
-			<div class="col-md-1 celBlock">
+			<div class="col celBlock">
 				<span class="columnDataLeft">Mutual?</span>
 				<span class="columnDataRight">
-					<?php if($war['mutual_date'] != 0):?>
-						Yes
-					<?php endif;?>
+					<?=($war['mutual_date']!=0?'Yes':'No')?>
 				</span>
 			</div>
 
-			<div class="col-md-3 celBlock" style="padding:0px;">
+			<div class="col-md-2 celBlock" style="padding:0px;">
 				<a href="/war-statistics/?id=<?php echo $key;?>">
 					<button class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);" type="submit"><i class="fa fa-chart-line" aria-hidden="true"></i> &nbsp;View statistics</button>
 				</a>
