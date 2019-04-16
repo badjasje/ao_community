@@ -33,13 +33,13 @@ function get_user_by_authkey($key) {
 if(isset($_GET['path']) && $_GET['path']=='Chiricahua1829Goyahkla') {
     $bot = new TelegramBot();
 
-    if($_GET['debug']==1) {
+    /*if($_GET['debug']==1) {
         $message['text'] = '/claninfo';
         $bot->getChatByUserId(2768);
     }
-    else {
+    else {*/
         $message = $bot->receiveMessage();
-    }
+    //}
     $telegramChat = $bot->getChat();
 
     if($message['text']) {
@@ -136,7 +136,7 @@ if(isset($_GET['path']) && $_GET['path']=='Chiricahua1829Goyahkla') {
                                         }
                                     }
                                     if(is_array($body) && count($body) > 0) {
-                                        $bot->sendMessage(implode("\n",$body), array('parse_mode' => 'markdown'));
+                                        $bot->sendMessage(implode("",$body), array('parse_mode' => 'markdown'));
                                     } else $bot->sendMessage("Cannot get claninfo, sorry");
 
                                 } else $bot->sendMessage("You are not in a clan");
