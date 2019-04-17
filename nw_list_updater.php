@@ -30,9 +30,9 @@ if((date('H') == '19' && date('i') <= 30) || isset($_GET['file'])) { // Once bet
         $top3pts[] = str_pad(get_the_title($clanId),30) .' '.str_pad($clantag,8).' '. get_post_meta($clanId, 'clan_points', true);
     }
 
-    $body = (count($top324) ? "*Clan pts today:*```\n".implode("\n",$top324)."\n```" : '').
-        "*Clan nw:*```\n".implode("\n",$top3nw)."\n```".
-        "*Clan pts:*```\n".implode("\n",$top3pts)."\n```";
+    $body = (count($top324) ? "*Clan pts today:*\n```\n".implode("\n",$top324)."\n```" : '').
+        "*Clan nw:**\n```\n".implode("\n",$top3nw)."\n```".
+        "*Clan pts:**\n```\n".implode("\n",$top3pts)."\n```";
 }
 
 $timestamp = current_time('timestamp');
