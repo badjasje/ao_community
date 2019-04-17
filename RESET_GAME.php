@@ -1,6 +1,5 @@
 <?php
 	/*
-
     require_once("wp-load.php");
     include('units_array.php');
 	include('building_array.php');
