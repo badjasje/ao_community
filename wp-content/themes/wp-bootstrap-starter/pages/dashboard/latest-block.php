@@ -7,8 +7,8 @@
 	    'meta_value'    => $userId,
 	    'post_type'        => 'market_order',
 	    );
-    $orders = get_posts($args); 
-    
+    $orders = get_posts($args);
+
     $args = array(
 		'posts_per_page'   => 5,
 		'orderby'          => 'date',
@@ -17,11 +17,11 @@
 		'post_type'        => 'post'
 	);
 
-	$posts = get_posts( $args ); 
-	
+	$posts = get_posts( $args );
+
 	global $wpdb;
 	$topics = $wpdb->get_results("SELECT * FROM 23zx_forum_topics ORDER BY 23zx_forum_topics.id DESC LIMIT 5");
-	
+
 	$inboxargs = array(
 	'posts_per_page'   => 5,
 	'post_type'		=> 'user_message',
@@ -42,26 +42,26 @@
 			),
 		),
 	);
-		
-	$messages = get_posts( $inboxargs ); 
-	
+
+	$messages = get_posts( $inboxargs );
+
     ?>
-   
+
 <div class="statusBlock">
 	<div class="row statusTotalRow">
 		<div class="col-md-6 col-lg-3 statusRow statCol-4">
 		<div class="blockHeader">Latest orders</div>
-			
+
 		<?php foreach ($orders as $order):
 		   	$units_in_this_order = get_post_meta($order->ID,'amount_ordered',true);
 		   	$order_type = get_post_meta($order->ID,'order_type',true);
 
 		   	$userId = $order->post_author;
 		   	$delivery_time = get_post_meta($order->ID,'delivery_time',true);
-        
-    
+
+
 		   	$timeleft = date('H:i:s', $delivery_time-$timestamp);
-			
+
 		?>
 		<div class="row unitRow">
 			<div class="col-md-4 celBlock nameBlock sea_heading">
@@ -78,21 +78,21 @@
 		</div>
 			<?php endforeach;?>
 		</div>
-		
-		
+
+
 		<div class="col-md-6 col-lg-3 statusRow statCol-3">
 			<div class="blockHeader">Latest news</div>
-				
+
 			<?php foreach ($posts as $post):
 			   	$units_in_this_order = get_post_meta($order->ID,'amount_ordered',true);
 			   	$order_type = get_post_meta($order->ID,'order_type',true);
-	
+
 			   	$userId = $order->post_author;
 			   	$delivery_time = get_post_meta($order->ID,'delivery_time',true);
-	        
-	    
+
+
 			   	$timeleft = date('H:i:s', $delivery_time-$timestamp);
-				
+
 			?>
 			<div class="row unitRow">
 				<div class="col-md-12 celBlock">
@@ -103,29 +103,29 @@
 			</div>
 			<?php endforeach;?>
 		</div>
-		
-		
+
+
 		<div class="col-md-6 col-lg-3 statusRow statCol-2">
 			<div class="blockHeader">Latest forum topics</div>
-				
+
 			<?php foreach ($topics as $topic):?>
 			<div class="row unitRow">
 				<div class="col-md-12 celBlock">
-					<a href="/forum/topic/<?php echo $topic->slug;?>">
+					<a href="/forum/topic/<?php echo $topic->id;?>">
 						<?php echo $topic->name;?>
 					</a>
 				</div>
 			</div>
 			<?php endforeach;?>
 		</div>
-		
-		
+
+
 		<div class="col-md-6 col-lg-3 statusRow statCol-1">
 			<div class="blockHeader">Recent conversations</div>
-				
+
 			<?php foreach ($messages as $message):
 				  $messageId = $message->ID;
-				 				
+
 			?>
 			<div class="row unitRow">
 				<div class="col-md-12 celBlock">
@@ -139,10 +139,10 @@
 			</div>
 			<?php endforeach;?>
 		</div>
-			
-			
-				 	
-	 	
+
+
+
+
 	 	</div> <!-- // End row -->
-	 	
- </div> 
+
+ </div>
