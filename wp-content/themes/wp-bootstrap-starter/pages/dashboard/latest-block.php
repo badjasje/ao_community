@@ -1,52 +1,37 @@
 <?php
-	$timestamp = current_time('timestamp');
-     $args = array(
-	    'posts_per_page'   => 5,
-	    'meta_key'      => 'user_placed_id',
-	    'post_status'      	=> 'publish',
-	    'meta_value'    => $userId,
-	    'post_type'        => 'market_order',
-	    );
-    $orders = get_posts($args);
+$timestamp = current_time('timestamp');
+$args = array(
+    'posts_per_page'=> 5,
+    'meta_key'      => 'user_placed_id',
+    'post_status'   => 'publish',
+    'meta_value'    => $userId,
+    'post_type'     => 'market_order',
+);
+$orders = get_posts($args);
 
-    $args = array(
-		'posts_per_page'   => 5,
-		'orderby'          => 'date',
-		'order'            => 'DESC',
-		'post_status'      => 'publish',
-		'post_type'        => 'post'
-	);
+$args = array(
+    'posts_per_page'   => 5,
+    'orderby'          => 'date',
+    'order'            => 'DESC',
+    'post_status'      => 'publish',
+    'post_type'        => 'post'
+);
+$posts = get_posts( $args );
 
-	$posts = get_posts( $args );
+global $wpdb;
+$topics = $wpdb->get_results("SELECT * FROM 23zx_forum_topics ORDER BY 23zx_forum_topics.id DESC LIMIT 5");
 
-	global $wpdb;
-	$topics = $wpdb->get_results("SELECT * FROM 23zx_forum_topics ORDER BY 23zx_forum_topics.id DESC LIMIT 5");
+$inboxargs = array(
+	'posts_per_page' => 5, 'post_type' => 'user_message', 'meta_key' => 'last_update_stamp', 'orderby' => 'meta_value', 'order' => 'DESC',
+    'meta_query' => array(
+        'relation'		=> 'OR',
+        array('key' => 'receiver_id', 'value' => $userId, 'compare' => '='),
+        array('key' => 'sender_id', 'value'	=> $userId, 'compare' => '='),
+    ),
+);
+$messages = get_posts( $inboxargs );
 
-	$inboxargs = array(
-	'posts_per_page'   => 5,
-	'post_type'		=> 'user_message',
-	'meta_key' => 'last_update_stamp',
-	'orderby' => 'meta_value',
-	'order' => 'DESC',
-		'meta_query'	=> array(
-			'relation'		=> 'OR',
-			array(
-				'key'	 	=> 'receiver_id',
-				'value'	  	=> $userId,
-				'compare' 	=> '=',
-			),
-			array(
-				'key'	 	=> 'sender_id',
-				'value'	  	=> $userId,
-				'compare' 	=> '=',
-			),
-		),
-	);
-
-	$messages = get_posts( $inboxargs );
-
-    ?>
-
+?>
 <div class="statusBlock">
 	<div class="row statusTotalRow">
 		<div class="col-md-6 col-lg-3 statusRow statCol-4">
