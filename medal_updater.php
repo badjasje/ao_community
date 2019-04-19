@@ -211,7 +211,104 @@ foreach ($attacks as $attack) {
     }
 }
 
+/**
+ *  Recruitment:
+ * - User has referral_userid set
+ * - User has logged in
+ * - User has chosen a starting bonus
+ * - User is not a multi (based on ip, agent, continent, email similarity, etc)
+ */
+$referrals = array();
+$user_referrees = $wpdb->get_results("SELECT `umeta_id`, `user_id`, `meta_value` AS `from_id`
+    FROM ${table_prefix}usermeta WHERE `meta_key` = 'referral_userid'", ARRAY_A);
+foreach($user_referrees as $ref) {
+    $score = 0;
+    $code = array();
 
+    if(is_banned($ref['user_id'])) { $score += 20; $code[] = 'USER_BANNED'; }
+    if(is_banned($ref['from_id'])) { $score += 20; $code[] = 'REFERRER_BANNED'; }
+
+    $user_logindata = get_user_meta( $ref['user_id'], 'logindata', true);
+    if(empty($user_logindata)) { $score += 20; $code[] = 'USER_NEVER_LOGIN'; }
+
+    $from_logindata = get_user_meta( $ref['from_id'], 'logindata', true);
+    if(empty($from_logindata)) { $score += 20; $code[] = 'REFERRER_NEVER_LOGIN'; }
+
+    $user_data = get_userdata($ref['user_id']);
+    $user_domain = explode('.',explode('@',$user_data->user_email)[1])[0];
+    $from_data = get_userdata($ref['from_id']);
+    $from_domain = explode('.',explode('@',$from_data->user_email)[1])[0];
+    if(!in_array($user_domain,array('hotmail','gmail','live','aol','yahoo'))) {
+        if($user_domain == $from_domain) { $score += 10; $code[] = 'EMAILS_SAME_DOMAIN'; }
+    }
+
+    similar_text($user_data->user_email, $from_data->user_email, $perc);
+    if($perc > 68) { $score += 5; $code[] = 'EMAILS_SIMILAR'; }
+
+    if(!empty($from_logindata) && !empty($user_logindata)) {
+        if(count(array_intersect(array_keys($user_logindata), array_keys($from_logindata))) > 0) {
+            $score += 5; $code[] = 'MATCHING_IPS';
+        }
+
+        $user_agents = array();
+        $user_notwestern = 0;
+        foreach($user_logindata as $ip => $data) {
+            $user_agents[] = $data[1];
+            $user_geo = json_decode($data[3],true);
+            if(isset($user_geo['data']['geo']) && !in_array($user_geo['data']['geo']['continent_code'],array('EU','US'))) {
+                $user_notwestern += 1;
+            }
+        }
+        if( ($user_notwestern*100)/count($user_logindata) > 49 ) { $score += 5; $code[] = 'OFTEN_OUTSIDE_US'; }
+
+        $from_agents = array();
+        foreach($from_logindata as $ip => $data) $from_agents[] = $data[1];
+        if(count(array_intersect($user_agents, $from_agents)) > 0) { $score += 5; $code[] = 'MATCHING_AGENTS'; }
+    }
+
+    $startingbonus = get_user_meta( $ref['user_id'], 'starting_bonus', true);
+    if(empty($startingbonus)) { $score += 10; $code[] = 'USER_NOT_STARTED'; }
+
+    //wtf($user_data->user_email, $score, $code);
+    //echo '<hr>';
+
+    update_user_meta($ref['user_id'], 'referral_score', $score);
+    update_user_meta($ref['user_id'], 'referral_code', $code);
+
+    if($score < 10) {
+        if(!isset($referrals[$ref['from_id']])) $referrals[$ref['from_id']]=0;
+        $referrals[$ref['from_id']]++; // Going for that recruitment level!
+    }
+}
+
+// Update referal users
+foreach($referrals as $user_ID => $num) {
+    update_user_meta($user_ID, 'referral_num', $num);
+}
+
+// Medal stuff
+$args = array('meta_key' => 'referral_num', 'orderby' => 'meta_value_num', 'order' => 'DESC');
+$users = get_users($args);
+$position = 0;
+foreach ($users as $key => $user) {
+    $position += 1;
+    $user_ID = $user->ID;
+    $next_ID = $users[$key-1]->ID;
+    $prev_ID = $users[$key+1]->ID;
+
+    $damage = get_user_meta($user_ID, 'referral_num', true);
+    $next_damage = get_user_meta($next_ID, 'referral_num', true);
+    $prev_damge = get_user_meta($prev_ID, 'referral_num', true);
+
+    update_user_meta($user_ID, 'mor_position', $position);
+    update_user_meta($user_ID, 'mor_prev', (!empty($damage)?$damage:0)-(!empty($prev_damge)?$prev_damge:0));
+
+    if ($position == 1) {
+        update_user_meta($user_ID, 'mor_next', 0);
+    } else {
+        update_user_meta($user_ID, 'mor_next', (!empty($next_damage)?$next_damage:0)-(!empty($damage)?$damage:0));
+    }
+}
 
 /* New but broken
     require_once("wp-load.php");
@@ -324,3 +421,4 @@ foreach ($attacks as $attack) {
         }
     }
 }
+*/

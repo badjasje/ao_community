@@ -233,6 +233,34 @@ $attacks = get_posts($args);
 <br/>
 <?php
 
+
+$args = array('meta_key' => 'referral_num', 'number' => 10, 'orderby' => 'meta_value_num', 'order' => 'DESC');
+$count = 0;
+$users = get_users($args);
+?>
+<strong>Medal of Recruitment</strong>
+<table>
+	<?php
+	foreach ($users as $user) {
+		$user_ID = $user->ID;
+		$member_data = get_userdata($user_ID);
+		$referrals = get_user_meta($user_ID, 'referral_num', true);
+		$count++;
+		if($count == 1){
+			$winnerArray['Medal of Recruitment'] = array($user_ID, $referrals);
+		}
+		?>
+		<tr>
+			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)</td>
+			<td><?php echo $referrals; ?></td>
+		</tr>
+		<?php
+	}
+	?>
+</table>
+<br/>
+<?php
+
 if($_GET['add'] == 1){
 	if(empty($_GET['round']) || !isset($_GET['round'])){
 		die;

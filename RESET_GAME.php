@@ -98,6 +98,10 @@
 	$resetArray[] = "'in_war_attacks'";
 	$resetArray[] = "'last_attacked'";
 	$resetArray[] = "'sat_endlife'";
+	$resetArray[] = "'referral_userid'";
+	$resetArray[] = "'referral_score'";
+	$resetArray[] = "'referral_code'";
+	$resetArray[] = "'referral_num'";
 
 	$resetArray[] = "'moe_position'";
 	$resetArray[] = "'moe_next'";
@@ -124,6 +128,9 @@
 	$resetArray[] = "'modev_damage'";
 	$resetArray[] = "'modev_prev'";
 	$resetArray[] = "'modev_next'";
+	$resetArray[] = "'mor_position'";
+	$resetArray[] = "'mor_next'";
+	$resetArray[] = "'mor_prev'";
 
 	$resetArray = implode(',',$resetArray);
 

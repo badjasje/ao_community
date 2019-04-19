@@ -357,9 +357,13 @@ if($visiting_user != $viewedId && $clan_id != $clan_id_user && !in_array($status
 
 <?php if(current_user_can('activate_plugins')){
 	$logindata = get_user_meta( $viewedId, 'logindata', true );
+	$referral_userid = get_user_meta($viewedId, 'referral_userid', true);
+	$referral_score = get_user_meta($viewedId, 'referral_score', true);
+	$referral_code = get_user_meta($viewedId, 'referral_code', true);
 	?>
 	<center><a target="_blank" href="/wp-admin/user-edit.php?user_id=<?php echo $viewedId;?>&wp_http_referer=%2Fwp-admin%2Fusers.php">Backend edit</a></center>
 	<?php
+	echo '<p>Referral: '.$referral_userid.', score: '.$referral_score.', '.(is_array($referral_code)?implode(', ',$referral_code):'none').' </p>';
 	echo '<pre>';
 	print_r($logindata);
 	echo '</pre>';
