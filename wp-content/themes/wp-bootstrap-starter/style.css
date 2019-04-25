@@ -2195,3 +2195,30 @@ input[type="radio"]:checked + label {
 	}
     input[type='number'] { font-size: 16px !important; min-height: 16px;  }
 }
+
+/* Small tables for buildings, units, missiles and market */
+@media only screen and (max-width: 768px) {
+
+    .navItem, .smallTable .mainSubmit { padding: 5px; }
+
+    .smallTable .headerRow { display: flex; }
+    .smallTable .celBlock { padding: 4px; font-size: 11px; width: calc(62% / 4); text-align: center; }
+    .smallTable .nameBlock { width: 38%; font-weight: normal; font-size: 12px; text-align: left; }
+    .smallTable .columnDataLeft, .smallTable .attacklife, .smallTable .targets { display:none; }
+    .smallTable .columnDataRight { float:none; }
+    .smallTable .inputBlock input {
+        box-shadow:none; padding: 0 4px; border-radius:0;
+        border-left: none!important; border-top: none!important; border-right: none!important; border-bottom-width: 1px!important;
+    }
+    .smallTable .totalsField {  padding: 4px; font-size: 11px; text-transform:none; }
+
+    .unitBuildTable .attacklife, .marketBuyTable .attacklife { display: block; }
+    .unitBuildTable .celBlock, .marketBuyTable .celBlock { width: calc(69% / 5); }
+    .marketBuyTable.withDelay .celBlock { width: calc(69% / 6); }
+    .unitBuildTable .nameBlock, .marketBuyTable .nameBlock { width: 31%; }
+
+    .marketSellTable .celBlock { width: calc(62% / 3); }
+    .marketSellTable .nameBlock { width: 38%; }
+
+    .attackStep2Table .totalsField { padding: 7px; font-size: 12px; }
+}
