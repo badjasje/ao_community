@@ -34,20 +34,19 @@ $ct_4 = $clanData['ct_4'][0];
 
 $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clan_leader);
 
-$clans = get_posts(array(
+/*$clans = get_posts(array(
 	'numberposts'	=> -1,
 	'post_type'		=> 'clan',
 	'meta_key'		=> 'autojoin_allowed',
 	'meta_value'	=> 'yes'
 ));
-
 $clanCount = 0;
 foreach ($clans as $clan) {
 	$members = count(get_post_meta($clan->ID,'clan_members',true));
 	if($members < 7){
 		$clanCount++;
 	}
-}
+}*/
 ?>
 
 <div class="row pageRow">

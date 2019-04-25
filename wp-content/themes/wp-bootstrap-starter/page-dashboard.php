@@ -95,7 +95,7 @@ if($user_status == 'dead'){
 $user = get_userdata($userId);
 
 if($clanId == 0){
-    $clans = get_posts(
+    /*$clans = get_posts(
         [
             'numberposts'	=> -1,
             'post_type'		=> 'clan',
@@ -111,7 +111,7 @@ if($clanId == 0){
         if ($members < 7) {
             $clanCount++;
         }
-    }
+    }*/
 }
 ?>
 
