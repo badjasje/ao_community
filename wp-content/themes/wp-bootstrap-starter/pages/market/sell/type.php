@@ -16,7 +16,7 @@
 
 
 ?>
-    <div class="tab-pane <?php echo 'air' === $unitTypeKey ? 'active' : ''; ?>"
+    <div class="tab-pane smallTable marketSellTable <?php echo 'air' === $unitTypeKey ? 'active' : ''; ?>"
          id="<?php echo $unitTypeKey; ?>" role="tabpanel">
         <div class="blockHeader spaceNotice">
             <?php echo sprintf('%d special units sold today. You can sell a maximum of 50 special units per day.', $specialSold); ?>
@@ -25,10 +25,10 @@
 	<div class="col-md-3 celBlock nameBlock">
 		Name
     </div>
-    <div class="col-md-3 celBlock">
+    <div class="col-md-3 celBlock price">
 		Price
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock max">
 		Max
     </div>
     <div class="col-md-4 celBlock">

@@ -15,7 +15,7 @@ $count = 0;
 ?>
 <div class="pageSpacer"></div>
 
-<form id="attack2">
+<form id="attack2" class="attackStep2Table">
     <?php
     if(in_array($attackType, $typeArray)):
 		$sendall = array();
@@ -66,7 +66,7 @@ $count = 0;
                             <span class="columnDataLeft">Owned</span>
                             <span class="columnDataRight"><?php echo $unitsOwned; ?></span>
                         </div>
-                        <div class="col-md-2 celBlock" style="padding:0px;">
+                        <div class="col-md-2 celBlock inputBlock">
                             <input id="<?php echo $unitKey;?>" style="border: 5px solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);" class="unitInput <?php echo $unitKey;?>-input" min="0" type="number" id="<?php echo $unitKey;?>" name="<?php echo $unitKey;?>"/>
                         </div>
                     </div> <!-- //Close Unit row -->
@@ -98,7 +98,7 @@ $count = 0;
                     <span class="columnDataLeft">Owned</span>
                     <span class="columnDataRight"><?php echo $maxTomahawk; ?></span>
                 </div>
-                <div class="col-md-2 celBlock" style="padding:0px;">
+                <div class="col-md-2 celBlock inputBlock">
                     <input id="tomahawk"
                             style="border: 5px solid rgba(<?php echo $backColor;?>, <?php echo 0.9-($count/25);?>);"
                             class="unitInput"
@@ -218,7 +218,7 @@ $count = 0;
                         <span class="columnDataLeft">Owned</span>
                         <span class="columnDataRight"><?php echo $missilesOwned; ?></span>
 				    </div>
-				    <div class="col-md-2 celBlock" style="padding:0px;">
+				    <div class="col-md-2 celBlock inputBlock">
 				        <input style="display:none;" type="radio" name="missiletype" id="<?php echo $missileKey;?>" value="<?php echo $missileKey;?>" checked>
                         <label style="background-color:rgba(70, 118, 94,<?php echo 0.95-($count/12);?>)" class="mainSubmit hoverEffect attackSelect" for="<?php echo $missileKey;?>">
                             Select
@@ -291,7 +291,7 @@ $count = 0;
                         <span class="columnDataLeft">Owned</span>
                         <span class="columnDataRight"><?php echo $unitOwned; ?></span>
 				    </div>
-				    <div class="col-md-2 celBlock" style="padding:0px;">
+				    <div class="col-md-2 celBlock inputBlock">
 				        <input style="display:none;" type="radio" name="spytype" id="<?php echo $key;?>_select" value="<?php echo $key;?>" required>
                         <label style="background-color:rgba(70, 118, 94,<?php echo 0.95-($count/12);?>)" class="mainSubmit hoverEffect attackSelect" for="<?php echo $key;?>_select">
                             Select
@@ -361,7 +361,7 @@ $count = 0;
                         <span class="columnDataLeft">Owned</span>
                         <span class="columnDataRight"><?php echo $unitsOwned; ?></span>
 				    </div>
-				    <div class="col-md-2 celBlock" style="padding:0px;">
+				    <div class="col-md-2 celBlock inputBlock">
 						<div style="padding:0px; width:100%;" class="attackDropdown statCol-4 no-gutters">
 							<select name="nothiefs" class="attackTypeInput">
 								<option name="nothiefs" value="1">1</option>
@@ -443,7 +443,7 @@ $count = 0;
                         <span class="columnDataLeft">Owned</span>
                         <span class="columnDataRight"><?php echo $unitsOwned; ?></span>
 				    </div>
-				    <div class="col-md-2 celBlock" style="padding:0px;">
+				    <div class="col-md-2 celBlock inputBlock">
 				        <input id="<?php echo $unitKey;?>" style="border: 5px solid rgba(<?php echo $backColor;?>, <?php echo 0.3-($count/25);?>);" max="10" class="unitInput <?php echo $unitKey;?>-input" min="0" value="" type="number" id="<?php echo $unitKey;?>" name="<?php echo $unitKey;?>"/>
 				    </div>
 				</div> <!-- //Close Unit row -->
@@ -521,7 +521,7 @@ $count = 0;
 							<span class="columnDataLeft">Owned</span>
 							<span class="columnDataRight"><?php echo $unitsOwned; ?></span>
 				    </div>
-				    <div class="col-md-2 celBlock" style="padding:0px;">
+				    <div class="col-md-2 celBlock inputBlock">
 				        <input style="display:none;" type="radio" name="saboteur" id="<?php echo $key;?>_select" value="<?php echo $key;?>" required>
 							<label style="background-color:rgba(70, 118, 94,<?php echo 0.95-($count/12);?>)" class="mainSubmit hoverEffect attackSelect" for="<?php echo $key;?>_select">
 								Select
@@ -575,7 +575,7 @@ $count = 0;
                     <span class="columnDataLeft">Effect</span>
                     <span class="columnDataRight"><?php echo $satellite['desc'];?></span>
                 </div>
-                <div class="col-md-4 celBlock" style="padding:0px;">
+                <div class="col-md-4 celBlock inputBlock">
                     <input style="display:none;" type="radio" name="satellitetype" id="<?php echo $key;?>_select" value="<?php echo $key;?>" required>
                     <label style="background-color:rgba(70, 118, 94,<?php echo 0.95-($count/12);?>)" class="mainSubmit hoverEffect attackSelect" for="<?php echo $key;?>_select">
                         Select

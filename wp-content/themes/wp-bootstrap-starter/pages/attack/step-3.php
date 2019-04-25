@@ -16,6 +16,7 @@ $count = 0;
 ?>
 <div class="pageSpacer"></div>
 
+<div class="attackStep3Table">
 <?php
 if(in_array($attackType, $typeArray)):
     $attackArray = $_POST['attackarray'];
@@ -404,4 +405,6 @@ endif;
 	<div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
 		<button class="mainSubmit" id="attack3" style="border-top:0px;">Attack</button>
 	</div>
+</div>
+
 </div>

@@ -9,30 +9,33 @@ $backColor = "127, 82, 67"
 ?>
 
 <?php if($buildingsOwned > 0):?>
-<div id="<?php echo $buildingKey;?>_row" class="row unitRow" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
+<div id="<?php echo $buildingKey;?>_row" class="row unitRow bodyRow" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
     <div class="col-md-2 celBlock nameBlock demolish_heading">
         <?php echo $building['normalname'];?>
 
         <?php if(isset($building['description'])):?>
-            <span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $building['description'];?>" data-placement="bottom">
+            <span class="hover-tip"  data-toggle="tooltip" data-html="true" data-original-title="<?php echo $building['description'];?><br>
+            Attack: <?php echo $building['attack'];?><br>
+            Life: <?php echo $building['life'];?><br>
+            Targets: <?php echo $canAttack; ?>" data-placement="bottom">
 				<i class="fa fa-info-circle" aria-hidden="true"></i>
-				</span>
+            </span>
         <?php endif;?>
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock owned">
 		<span class="columnDataLeft">Owned</span>
 		<span id="<?php echo $buildingKey;?>_demo_owned" class="columnDataRight"><?php echo $buildingsOwned; ?></span>
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock price">
 	    <span class="columnDataLeft">Price</span>
 	    <span class="columnDataRight">$ <?php echo floor($buyPrice*0.15);?></span>
 	    </span>
     </div>
-    <div class="col-md-1 celBlock">
+    <div class="col-md-1 celBlock attacklife">
 	    <span class="columnDataLeft">Attack / Life</span>
 		<span class="columnDataRight"><?php echo $building['attack'];?>/<?php echo $building['life'];?></span>
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock targets">
 	    <span class="columnDataLeft">Targets</span>
 		<span class="columnDataRight"><?php echo $canAttack; ?></span>
     </div>
@@ -128,7 +131,7 @@ $backColor = "127, 82, 67"
 
 	    </span>
     </div>
-    <div class="col-md-2 celBlock" style="padding:0px;">
+    <div class="col-md-2 celBlock inputBlock">
         <input class="unitInput demobds sellInput" data-nw="<?php echo $building['networth'];?>" data-key="<?php echo $buildingKey;?>" data-price="<?php echo $building['price']*0.15;?>" min="0" type="number" id="demo_<?php echo $buildingKey;?>" name="<?php echo $buildingKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
     </div>
 </div> <!-- //Close Unit row -->

@@ -1,6 +1,6 @@
 <?php
 	foreach($unitTypes as $unitTypeKey => $unitType) :  ?>
-    <div class="tab-pane <?php echo $activeTab === $unitTypeKey ? 'active' : ''; ?>"
+    <div class="tab-pane smallTable marketBuyTable <?=($startingBonus=='shipping'?'withDelay':'')?> <?php echo $activeTab === $unitTypeKey ? 'active' : ''; ?>"
          id="<?php echo $unitTypeKey; ?>" role="tabpanel">
         <div class="blockHeader spaceNotice">
             <?php
@@ -28,24 +28,24 @@
 	<div class="col-md-2 celBlock nameBlock">
 		Name
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock owned">
 		Owned (ordered)
     </div>
-    <div class="col-md-1 celBlock">
+    <div class="col-md-1 celBlock price">
 		Price
     </div>
-    <div class="col-md-1 celBlock">
+    <div class="col-md-1 celBlock attacklife">
 		Att / Life
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock targets">
 		Targets
     </div>
-    <div class="col-md-1 celBlock">
-	    <?php if($startingBonus == 'shipping'):?>
+    <?php if($startingBonus == 'shipping'):?>
+    <div class="col-md-1 celBlock delay">
 			Delay
-         <?php endif;?>
     </div>
-    <div class="col-md-1 celBlock"></div>
+    <?php endif;?>
+    <div class="col-md-1 celBlock max">Max</div>
     <div class="col-md-2 celBlock"></div>
 </div> <!-- // Close Unit row -->
         <?php $count = 0;
