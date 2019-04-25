@@ -31,17 +31,13 @@
     var request;
     $("#clan").submit(function(event){
         $('.pageLoader, #page-cover').show();
-        $('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 
         event.preventDefault();
         if (request) { request.abort(); }
 
-        var $form = $(this);
-        var $inputs = $form.find("input, select, button, textarea");
-        var serializedData = $form.serialize();
-
-        request = $.ajax({url: "/clan.php", type: "post", data: serializedData});
+        request = $.ajax({url: "/clan.php", type: "post", data: $(this).find("input").serialize()});
         request.done(function (response, textStatus, jqXHR){
+            $('.pageLoader, #page-cover').fadeOut( "fast");
             var array = JSON.parse(response);
             $.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
             if(array.next == true){
