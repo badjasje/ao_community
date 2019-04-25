@@ -608,5 +608,8 @@ $count = 0;
             return val[i] || "";
         });
     });
+    if($("#sendAll").data("val").toString().split("|").length ==1) {
+        $("#sendAll").trigger('click');
+    }
 })(jQuery);
 </script>
