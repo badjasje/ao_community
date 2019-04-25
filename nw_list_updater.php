@@ -2,7 +2,7 @@
 require_once("wp-load.php");
 
 $bot = false;
-if((date('H') == '19' && date('i') <= 30) || isset($_GET['file'])) { // Once between 19 and 19:30
+if( (date('H') == '19' && date('i') <= 30 && get_field('game_status', 'option') == 'Live') || isset($_GET['file'])) { // Once between 19 and 19:30
 
     require_once('wp-content/plugins/marketorders/telegrambot.class.php');
     $bot = new TelegramBot();
@@ -13,26 +13,27 @@ if((date('H') == '19' && date('i') <= 30) || isset($_GET['file'])) { // Once bet
     foreach(array_slice($toplistArray['24h_pts'],0,3) as $clanId) {
         $clantag = get_post_meta($clanId, 'clan_tag', true);
         $clantag = str_replace(array("[", "]"), "", $clantag);
-        $top324[] = str_pad(get_the_title($clanId),30) .' '.str_pad($clantag,8) .' '.  ceil(get_post_meta($clanId, '24h_pts',true));
+        $pts = ceil(get_post_meta($clanId, '24h_pts',true));
+        if($pts > 0) $top324[] = str_pad(get_the_title($clanId),27) .' '.str_pad($clantag,5) ."\n". $pts;
     }
     // top 3 nw clans
     $top3nw = array();
     foreach(array_slice($toplistArray['clannetworth'],0,3) as $clanId) {
         $clantag = get_post_meta($clanId, 'clan_tag', true);
         $clantag = str_replace(array("[", "]"), "", $clantag);
-        $top3nw[] = str_pad(get_the_title($clanId),30) .' '.str_pad($clantag,8) .' $'. number_format(get_post_meta($clanId, 'clan_networth',true), 0, ',', ' ');
+        $top3nw[] = str_pad(get_the_title($clanId),27) .' '.str_pad($clantag,5) ."\n$". number_format(get_post_meta($clanId, 'clan_networth',true), 0, ',', ' ');
     }
     // top pts clan
     $top3pts = array();
     foreach(array_slice($toplistArray['clanpoints'],0,3) as $clanId) {
         $clantag = get_post_meta($clanId, 'clan_tag', true);
         $clantag = str_replace(array("[", "]"), "", $clantag);
-        $top3pts[] = str_pad(get_the_title($clanId),30) .' '.str_pad($clantag,8).' '. get_post_meta($clanId, 'clan_points', true);
+        $top3pts[] = str_pad(get_the_title($clanId),27) .' '.str_pad($clantag,5)."\n". get_post_meta($clanId, 'clan_points', true);
     }
 
     $body = (count($top324) ? "*Clan pts today:*\n```\n".implode("\n",$top324)."\n```" : '').
-        "*Clan nw:**\n```\n".implode("\n",$top3nw)."\n```".
-        "*Clan pts:**\n```\n".implode("\n",$top3pts)."\n```";
+        "*Clan nw:*\n```\n".implode("\n",$top3nw)."\n```".
+        "*Clan pts:*\n```\n".implode("\n",$top3pts)."\n```";
 }
 
 $timestamp = current_time('timestamp');
