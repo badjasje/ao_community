@@ -7,12 +7,19 @@ if(count($toplistArray) && isset($toplistArray['clannetworth'])) {
         <div class="col-md-4">
             <div class="row statusRow statCol-4">
                 <div class="blockHeader"><strong>Top clan pts today</strong></div>
-                <? foreach(array_slice($toplistArray['24h_pts'],0,3) as $topClanId) {
-                    ?>
-                    <div class="col-xs-6 col-sm-8 celBlock"><a href="<?php echo get_the_permalink($topClanId);?>"><?=get_the_title($topClanId)?></a></div>
-                    <div class="col-xs-6 col-sm-4 celBlock"><?=ceil(get_post_meta($topClanId, '24h_pts',true))?></div>
-                    <?
-                } ?>
+                <? $c=0;
+                foreach(array_slice($toplistArray['24h_pts'],0,3) as $topClanId) {
+                    $pts = ceil(get_post_meta($topClanId, '24h_pts',true));
+                    if($pts > 0) {
+                        $c++;
+                        ?>
+                        <div class="col-xs-6 col-sm-8 celBlock"><a href="<?php echo get_the_permalink($topClanId);?>"><?=get_the_title($topClanId)?></a></div>
+                        <div class="col-xs-6 col-sm-4 celBlock"><?=$pts?></div>
+                        <?
+                    }
+                }
+                if($c<3) echo str_repeat('<div class="col-sm-12 celBlock">&nbsp;</div>', 3-$c); // might be an empty list
+                ?>
             </div>
         </div>
         <div class="col-md-4">
