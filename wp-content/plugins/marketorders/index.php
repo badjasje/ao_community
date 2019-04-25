@@ -82,6 +82,10 @@ function get_user_geo() {
 }
 
 function is_multi($user_ID, $ip_array=false) {
+    if(in_array($user_ID, array(1,2,6,2768,2957))) { // Admins may have multi's?
+        return false;
+    }
+
     if(!$ip_array) {
         $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
     }
