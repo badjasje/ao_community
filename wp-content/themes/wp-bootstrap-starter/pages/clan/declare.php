@@ -95,8 +95,8 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
             </button>
         </div>
         <div class="col-md-6">
-            <center><a class="btn btn-general mainSubmit" href="/spy-report-overview/?id=<?php echo $clan_id;?>">
-            <i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports</a></center>
+            <button class="mainSubmit" href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+            <i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports</button>
         </div>
     </div>
 
