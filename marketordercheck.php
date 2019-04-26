@@ -169,17 +169,11 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
         $clan_ID = $clan->ID;
         $clanData = get_post_meta($clan_ID);
 
-        $cooldownlist = maybe_unserialize(maybe_unserialize($clanData['cooldown_list'][0]));
-
-        if(!is_array($cooldownlist)){
-		 	$cooldownlist = array();
-		}
-
+        $cooldownlist = maybe_unserialize($clanData['cooldown_list'][0]);
+        if(!is_array($cooldownlist)) $cooldownlist = array();
         foreach ($cooldownlist as $key => $unset_time) {
-            if ($unset_time < $timestamp) {
-                unset($cooldownlist[$key]);
-            }
-            update_post_meta($clan_ID, 'cooldown_list', maybe_serialize($cooldownlist));
+            if ($unset_time < $timestamp) unset($cooldownlist[$key]);
+            update_post_meta($clan_ID, 'cooldown_list', $cooldownlist);
         }
 
         if (empty($clan_points)) {
@@ -299,12 +293,11 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
             update_field('time_attacked', $timestamp, $new_event_id);
 
             /* add clan to cooldown list */
-            $cooldownlist = get_post_meta($declarer_clan_ID, 'cooldown_list', true);
-
+            $cooldownlist = maybe_unserialize(get_post_meta($declarer_clan_ID, 'cooldown_list', true));
+            if(!is_array($cooldownlist)) $cooldownlist = array();
             $clan_ID = $declared_on;
-
             $cooldownlist[$clan_ID] = $timestamp+(72 * 3600);
-            update_post_meta($declarer_clan_ID, 'cooldown_list', $cooldownlist);
+            update_post_meta($declarer_clan_ID, 'cooldown_list', maybe_serialize($cooldownlist));
 
             /* update events */
             $clan_members = get_post_meta($declared_on, 'clan_members');

@@ -8,6 +8,13 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
     exit;
 }
 
+if (!is_user_logged_in()) {
+    $array['status'] = 'You must be logged in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
+
 global $userId;
 global $userData;
 
@@ -25,15 +32,23 @@ $posts = get_posts(array(
     ),
 ));
 
+if (count($posts) == 0) {
+    $array['status'] = 'War not found';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
+
 $timestamp = current_time('timestamp');
 $my_post = array('ID' => $posts[0]->ID,'post_status' => 'publish','post_title' => $timestamp);
 
 // Update the post into the database
 wp_update_post($my_post);
 
-$list = maybe_unserialize(get_post_meta($declaredbyID, 'cooldown_list', true));
-unset($list[$declaredonID]);
-update_post_meta($declaredbyID, 'cooldown_list', maybe_serialize($list));
+$cooldownlist = maybe_unserialize(get_post_meta($declaredbyID, 'cooldown_list', true));
+if(!is_array($cooldownlist)) $cooldownlist = array();
+unset($cooldownlist[$declaredonID]);
+update_post_meta($declaredbyID, 'cooldown_list', $cooldownlist);
 
 $args = array('post_title' => 'WAR RESUMED', 'post_status' => 'publish', 'post_type' => 'event_local','post_author' => 1);
 $new_event_id = wp_insert_post($args);

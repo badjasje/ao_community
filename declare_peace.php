@@ -33,7 +33,6 @@ if (!is_user_logged_in()) {
     exit;
 }
 
-
 $declarer_clan_ID = $userData['clan_id_user'][0];
 $clan_leader = get_post_meta($declarer_clan_ID, 'clan_leader', true);
 
@@ -67,16 +66,10 @@ if ($declarer_ID == $clan_leader || $ct_1 || $ct_2 || $ct_3 || $ct_4) {
 
     /* add clan to cooldown list */
     $cooldownlist = maybe_unserialize(get_post_meta($declarer_clan_ID, 'cooldown_list', true));
-
-    if(!is_array($cooldownlist)){
-		$cooldownlist = array();
-	}
-
-    $clan_ID = $declared_on;
-
+    if(!is_array($cooldownlist)) $cooldownlist = array();
+	$clan_ID = $declared_on;
     $cooldownlist[$clan_ID] = $timestamp+(72 * 3600);
-    update_post_meta($declarer_clan_ID, 'cooldown_list', maybe_serialize($cooldownlist));
-
+    update_post_meta($declarer_clan_ID, 'cooldown_list', $cooldownlist);
 
     /* update events */
     $clan_members = get_post_meta($declared_on, 'clan_members');

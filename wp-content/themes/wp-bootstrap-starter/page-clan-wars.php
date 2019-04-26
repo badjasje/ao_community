@@ -15,7 +15,7 @@ $clan_leader = $clanData['clan_leader'][0];
 $timestamp = current_time('timestamp');
 $war_array = maybe_unserialize(maybe_unserialize($clanData['war_array'][0]));
 
-$cooldownlist = maybe_unserialize(maybe_unserialize($clanData['cooldown_list'][0]));
+$cooldownlist = maybe_unserialize($clanData['cooldown_list'][0]);
 if(!is_array($cooldownlist)) $cooldownlist = array();
 
 $backColorDecOn = "45, 67, 81";
