@@ -135,7 +135,7 @@ update_post_meta($clan_id, 'clan_networth', ceil($tot_networth));
 
     $clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
     <div class="blockHeader">
-        This clan is not in range
+        <?php echo get_the_title($clan_id) ?>
     </div>
 
     <div class="row row-no-padding fw-row">
