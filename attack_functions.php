@@ -984,24 +984,22 @@ function scaled_points_to_clansize($clan_points, $attacker_ID, $defender_ID) {
 }
 
 /**
- * Stolen land reduction
- * Only for a clanmember-difference of 3 or larger
- * @todo: currently disabled
+ * Stolen land reduction based on clanmembersize difference and nw losses
+ * diff 5 = 55% land reduction
  */
-function scaled_land_to_clansize($land_stolen, $attacker_ID, $defender_ID) {
-    //$diff = get_clan_member_difference($attacker_ID, $defender_ID);
-    //if($diff < 3) return $land_stolen; // If attacker no clan, mutual war or the attacker clan size is smaller or equal, no reduction
+function scaled_land_to_clansize($land_stolen, $attacker_ID, $defender_ID, $attacker_networth_lost, $defender_networth_lost) {
+    $diff = get_clan_member_difference($attacker_ID, $defender_ID);
+    if($diff > 0 && $attacker_networth_lost > ($defender_networth_lost*1.5)) $land_stolen = ceil( $land_stolen * ((100-(($diff*55)/5))/100) );
     return $land_stolen;
 }
 
 /**
- * Stolen money reduction
- * Only for a clanmember-difference of 3 or larger
- * @todo: currently disabled
+ * Stolen money reduction based on clanmembersize difference and nw losses
+ * diff 5 = 75% money reduction
  */
-function scaled_money_to_clansize($money_stolen, $attacker_ID, $defender_ID) {
-    //$diff = get_clan_member_difference($attacker_ID, $defender_ID);
-    //if($diff < 3) return $money_stolen; // If attacker no clan, mutual war or the attacker clan size is smaller or equal, no reduction
+function scaled_money_to_clansize($money_stolen, $attacker_ID, $defender_ID, $attacker_networth_lost, $defender_networth_lost) {
+    $diff = get_clan_member_difference($attacker_ID, $defender_ID);
+    if($diff > 0 && $attacker_networth_lost > ($defender_networth_lost*1.5)) $money_stolen = ceil( $money_stolen * ((100-(($diff*75)/5))/100) );
     return $money_stolen;
 }
 

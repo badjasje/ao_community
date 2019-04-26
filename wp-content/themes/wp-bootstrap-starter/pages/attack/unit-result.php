@@ -177,11 +177,6 @@ if($air_total > $carriers){
 }
 
 /* start checking for damage split */
-$defHasAir = false;
-$defHasSea = false;
-$defHasInf = false;
-$defHasVeh = false;
-
 $defAirTot = 0;
 $defSeaTot = 0;
 $defInfTot = 0;
@@ -645,6 +640,12 @@ foreach ($buildings as $key => $building) {
 }
 update_user_meta($target_id, 'builtland', ceil($builtland));
 
+// Jaap, if attacker lost too much nw, the result is a loss
+if($attacker_networth_lost > ($defender_networth_lost*2.1)) {
+	$result = 'failure';
+	$winner_id = $target_id;
+}
+
 /* resources stolen */
 $land_stolen  = 0;
 $money_stolen = 0;
@@ -680,9 +681,9 @@ if($result == 'success'){
     }
 	//Done*/
 
-	// Jaap, resource stolen based on clansize
-	$land_stolen = scaled_land_to_clansize($land_stolen, $userId, $target_id);
-	$money_stolen = scaled_money_to_clansize($money_stolen, $userId, $target_id);
+	// Jaap, resources stolen based on clansize and nw-losses
+	$land_stolen = scaled_land_to_clansize($land_stolen, $userId, $target_id, $attacker_networth_lost, $defender_networth_lost);
+	$money_stolen = scaled_money_to_clansize($money_stolen, $userId, $target_id, $attacker_networth_lost, $defender_networth_lost);
 
 	$attackermoney = $attackerData['money'][0];
 	$attackerland  = $attackerData['land'][0];
