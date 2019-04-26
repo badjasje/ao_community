@@ -34,7 +34,7 @@ if ($userLock == 1) {
 }
 update_user_meta($declarer_ID, 'user_lock', 1);
 
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
@@ -61,20 +61,11 @@ $war_ID = md5(uniqid(rand(), true));
 
 $warcheck = get_posts(
     array(
-        'numberposts'   => -1,
-        'post_type'     => 'wars',
-        'meta_query'    => array(
-            'relation'      => 'AND',
-            array(
-                'key'       => 'declared_on',
-                'value'     => $declarer_clan_ID,
-                'compare'   => '=',
-            ),
-            array(
-                'key'       => 'declared_by',
-                'value'     => $_POST['clan'],
-                'compare'   => '=',
-            ),
+        'numberposts' => -1, 'post_type' => 'wars',
+        'meta_query' => array(
+            'relation' => 'AND',
+            array('key' => 'declared_on', 'value' => $declarer_clan_ID, 'compare' => '='),
+            array('key' => 'declared_by', 'value' => $_POST['clan'], 'compare' => '='),
         ),
     )
 );
@@ -127,8 +118,7 @@ $args = array(
     'post_status'   => 'publish',
     'post_type'     => 'wars',
     'post_author'   => $declarer_ID
-    );
-
+);
 
 $new_war_id = wp_insert_post($args);
 update_post_meta($new_war_id, 'declared_by', $declarer_clan_ID);
