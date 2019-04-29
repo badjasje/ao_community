@@ -6,7 +6,7 @@
  */
 
 require(dirname(__FILE__) . '/wp-load.php');
-if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
+if (! defined('ABSPATH')) {
     $array['status'] = 'The round has ended';
     $array['next'] = false;
     echo json_encode($array);
@@ -19,6 +19,7 @@ $clan_ID = $userData['clan_id_user'][0];
 $clanData = get_post_meta($clan_ID);
 $clanleader = $clanData['clan_leader'][0];
 $changecount = $clanData['clan_name_change'][0];
+if(get_field('game_status', 'option') != 'Live') $changecount = 0;
 $data = maybe_unserialize( $_POST );
 $array = array('clan_updated' => false, 'status' => 'Unknown error');
 

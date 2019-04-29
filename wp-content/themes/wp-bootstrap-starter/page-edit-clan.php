@@ -18,6 +18,7 @@ $ct_3 = get_post_meta($clan_ID,'ct_3',true);
 $ct_4 = get_post_meta($clan_ID,'ct_4',true);
 $settings = array( 'media_buttons' => false );
 $changecount = get_post_meta($clan_ID, 'clan_name_change', true);
+if(get_field('game_status', 'option') != 'Live') $changecount = 0;
 $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
 
 $autojoin = get_post_meta($clan_ID, 'autojoin_allowed', true);
