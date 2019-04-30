@@ -32,6 +32,7 @@ function get_user_by_authkey($key) {
 // Receive message from user
 if(isset($_GET['path']) && $_GET['path']=='Chiricahua1829Goyahkla') {
     $bot = new TelegramBot();
+
     /*if($_GET['debug']==1) {
         $message['text'] = '/claninfo';
         $bot->getChatByUserId(2768);
@@ -96,30 +97,46 @@ if(isset($_GET['path']) && $_GET['path']=='Chiricahua1829Goyahkla') {
                                     $clan_members = maybe_unserialize($clanData['clan_members'][0]);
                                 }
                                 if(is_array($clan_members) && count($clan_members) > 0) {
-                                    $all = array();
+                                    $body = array();
                                     foreach ($clan_members as $key => $member) {
                                         $data = get_user_meta($member, '', true);
                                         $member_data = get_userdata($member);
                                         $name = $member_data->display_name;
 
                                         $reply = array();
-                                        if(isset($data['money']) && is_numeric($data['money'][0])) $reply['money'] = '$ '. number_format($data['money'][0],0,'.',' ');
-                                        if(isset($data['networth']) && is_numeric($data['networth'][0])) $reply['nw'] = '$ '.number_format($data['networth'][0],0,'.',' ');
-                                        if(isset($data['turns']) && is_numeric($data['turns'][0])) $reply['turns'] = $data['turns'][0];
-                                        if(isset($data['morale']) && is_numeric($data['morale'][0])) $reply['morale'] = round($data['morale'][0]) .'%';
-                                        if(isset($data['land']) && is_numeric($data['land'][0])) {
-                                            $reply['land'] = number_format($data['land'][0],0,'.',' ') .'m2';
-                                            $reply['freeLand'] = number_format($data['land'][0]-$data['builtland'][0], 0, ',', ' ') .'m2';
+                                        if(isset($data['money']) && is_numeric($data['money'][0])) {
+                                            $reply[] = str_pad('Money',10).' '.str_pad('$ '. number_format($data['money'][0],0,'.',' '), 13). ' ';
                                         }
-                                        if(isset($data['power']) && is_numeric($data['power'][0])) $reply['power'] = round($data['power'][0]) .'%';
+                                        if(isset($data['networth']) && is_numeric($data['networth'][0])) {
+                                            $reply[] = str_pad('Networth',10).' '.str_pad('$ '.number_format($data['networth'][0],0,'.',' '), 13);
+                                        }
+
+                                        $tmp = '';
+                                        if(isset($data['turns']) && is_numeric($data['turns'][0])) {
+                                            $tmp .= str_pad('Turns',6).' '.str_pad($data['turns'][0], 8). ' ';
+                                        }
+                                        if(isset($data['morale']) && is_numeric($data['morale'][0])) {
+                                            $tmp .= str_pad('Morale',7).' '.str_pad(round($data['morale'][0]) .'%', 6);
+                                        }
+                                        if(!empty($tmp)) $reply[] = $tmp;
+
+                                        if(isset($data['land']) && is_numeric($data['land'][0])) {
+                                            $reply[] = str_pad('Land',6).' '.str_pad(number_format($data['land'][0],0,'.','') .'m2', 8) .' '.
+                                                str_pad('Free land',9).' '.str_pad(number_format($data['land'][0]-$data['builtland'][0], 0, ',', '') .'m2', 8);
+                                        }
+
+                                        if(isset($data['power']) && is_numeric($data['power'][0])) {
+                                            $reply[] = str_pad('Power',6).' '.str_pad(round($data['power'][0]) .'%', 6);
+                                        }
+
                                         if(is_array($reply) && count($reply) > 0) {
-                                            array_walk($reply, function(&$i,$k) { return $i=" $k: $i"; });
-                                            $all[] = '<b>'.$name.'</b>'. implode(', ', $reply);
+                                            $body[] = "*".$name."*\n```\n".implode("\n",$reply)."\n```";
                                         }
                                     }
-                                    if(is_array($all) && count($all) > 0) {
-                                        $bot->sendMessage(implode("\n", $all), array('parse_mode' => 'html'));
+                                    if(is_array($body) && count($body) > 0) {
+                                        $bot->sendMessage(implode("",$body), array('parse_mode' => 'markdown'));
                                     } else $bot->sendMessage("Cannot get claninfo, sorry");
+
                                 } else $bot->sendMessage("You are not in a clan");
                             } else $bot->sendMessage("You are not in a clan");
                         }

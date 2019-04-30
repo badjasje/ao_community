@@ -1,10 +1,10 @@
 <div class="pageSpacer"></div>
-<form id="attack">
+<form id="attack" class="attackStep1Table">
 	<input type="hidden" id="target_id" name="target_id" value="<?php echo $attackUserId; ?>" />
-	
-	
+
+
 	<div class="blockHeader">
-		Your morale is currently at <?php echo $morale;?>%. 
+		Your morale is currently at <?php echo $morale;?>%.
 		<?php if(!empty($satOwned)){ echo 'Satellite power is currently at '. $sat_morale.'%';}?>
 	</div>
 	<div class="row no-gutters fw-row">
@@ -69,7 +69,7 @@
 			<div class="attackDropdown statCol-1 no-gutters">
 				Attack Type
 			</div>
-			
+
 			<div style="padding:0px;" class="attackDropdown statCol-2 no-gutters">
 				<select name="attackmode" class="attackTypeInput">
 					<option name="attackmode" value="normal">Normal</option>
@@ -78,7 +78,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="col-md-6 no-gutters">
 		<div class="row no-gutters">
 			<div class="attackDropdown statCol-3 no-gutters">
@@ -101,7 +101,7 @@
 		</div>
 	</div>
 </div>
-	
-	
+
+
 	<input type="submit" value="Next Step" class="mainSubmit">
-</form>	
+</form>

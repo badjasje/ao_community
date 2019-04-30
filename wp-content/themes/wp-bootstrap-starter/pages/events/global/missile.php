@@ -23,7 +23,10 @@ if($missile_type == 'moab'){ $missile_name = 'MOAB'; }
 					<?php echo clan_tag($attacker_id);?> <?php echo get_user_name($attacker_id);?>
 				<?php }else {?>
 					<?php echo clan_tag($attacker_id);?> <?php echo get_user_name($attacker_id);?> launched a <?php echo $missile_name;?> at
-					<?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?> and
+					<?php if(!empty($defender_id)) { ?>
+						<?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?>
+					<?php } else echo ' someone '; // In case of sobotaged silo's ?>
+					 and
 					<?php if($winner_id == $attacker_id){?>
 						hit the enemy base.
 						<?php if($clan_points != 0  && !empty($clan_points)):?>
@@ -40,7 +43,9 @@ if($missile_type == 'moab'){ $missile_name = 'MOAB'; }
 					<?php echo clan_tag($attacker_id);?> <?php echo get_user_name($attacker_id);?>
 				<?php }else {?>
 					<?php echo clan_tag($attacker_id);?> <?php echo get_user_name($attacker_id);?> launched a <?php echo $missile_name;?> at
-					<?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?>
+					<?php if(!empty($defender_id)) { ?>
+						<?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?>
+					<?php } else echo ' someone '; // In case of sobotaged silo's ?>
 					<?php if($winner_id == $attacker_id){?>
 						and <strong>hit</strong> the base.
 					<?php } else { ?>

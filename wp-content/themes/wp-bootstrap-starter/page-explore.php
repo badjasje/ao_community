@@ -52,16 +52,15 @@ if($maxSell > 700) {
 <script>
 (function($) {
 
-	$("#maxexp").click(function() {
+	$(".maxexp").on('click',function() {
 		var maxexp = $(this).attr( "data-max" );
-	$("#turnsinput").val(maxexp);
-});
-	$("#maxsell").click(function() {
-	$("#landinput").val("<?php echo $maxSell;?>");
-});
+		$("#turnsinput").val(maxexp);
+	});
+	$(".maxsell").on('click',function() {
+		$("#landinput").val("<?php echo $maxSell;?>");
+	});
 
 var request;
-
 
 $('#exploreform').submit(function( event ) {
 	$('.pageLoader, #page-cover').show();

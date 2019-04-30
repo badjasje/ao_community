@@ -336,12 +336,34 @@ $game_live = (get_field('game_status','option')=='Live');
 </div>
 <?php endif;?>
 
+<?php
+// If I have spy units, and I can spy this person
+if($visiting_user != $viewedId && $clan_id != $clan_id_user && !in_array($status, array('dead','banned','nukeprotection'))) {
+	$spiesOwned = get_spy_units($userId);
+	if(count($spiesOwned)) {
+		$btnClass = (count($spiesOwned)==2?'col-md-6':'col-md-12');
+		echo '<div class="row no-gutters fw-row profileButtonRow">';
+		foreach($spiesOwned as $key => $name) {
+			$url = get_site_url().'/attack/?id='.$viewedId.'&attacktype=spy&attackmode=normal&maintarget=none&spytype='.$key;
+			?>
+			<a class="<?=$btnClass?> profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="<?=$url?>">
+				<i class="fas fa-binoculars"></i> &nbsp;Send <?=$name?>
+			</a><?
+		}
+		echo '</div>';
+	}
+}
+?>
 
-<?php if(current_user_can('activate_plugins')){
+<?php if(current_user_can('activate_plugins') || in_aray($userId, array(2768))) {
 	$logindata = get_user_meta( $viewedId, 'logindata', true );
+	$referral_userid = get_user_meta($viewedId, 'referral_userid', true);
+	$referral_score = get_user_meta($viewedId, 'referral_score', true);
+	$referral_code = get_user_meta($viewedId, 'referral_code', true);
 	?>
 	<center><a target="_blank" href="/wp-admin/user-edit.php?user_id=<?php echo $viewedId;?>&wp_http_referer=%2Fwp-admin%2Fusers.php">Backend edit</a></center>
 	<?php
+	echo '<p>Referral: '.$referral_userid.', score: '.$referral_score.', '.(is_array($referral_code)?implode(', ',$referral_code):'none').' </p>';
 	echo '<pre>';
 	print_r($logindata);
 	echo '</pre>';

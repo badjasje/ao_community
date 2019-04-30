@@ -18,6 +18,7 @@ $ct_3 = get_post_meta($clan_ID,'ct_3',true);
 $ct_4 = get_post_meta($clan_ID,'ct_4',true);
 $settings = array( 'media_buttons' => false );
 $changecount = get_post_meta($clan_ID, 'clan_name_change', true);
+if(get_field('game_status', 'option') != 'Live') $changecount = 0;
 $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
 
 $autojoin = get_post_meta($clan_ID, 'autojoin_allowed', true);
@@ -115,6 +116,7 @@ $wp_upload_dir = wp_upload_dir();
                     </select>
                 </div>
             </div>
+            <input type="hidden" name="id" value="<?php echo $clan_ID;?>">
             <input class="mainSubmit" type="submit" value="Edit clan" name="submit">
 	    </div>
     </form>
@@ -122,7 +124,7 @@ $wp_upload_dir = wp_upload_dir();
     <?php if($user_ID == $clanleader):?>
         <?php if(empty($changecount) || $changecount != 1):?>
             <div class="pageSpacer"></div>
-            <form class="form fw-row" action="<?php echo home_url() ?>/change_clan_name.php?id=<?php echo $clan_ID;?>" name="" id="clanname" method="post">
+            <form class="form fw-row" id="clanname" method="post">
                 <div class="row no-gutters">
                     <div class="col-md-12">
                         <div class="blockHeader">Change your clan name and/or tag</div>
@@ -132,7 +134,8 @@ $wp_upload_dir = wp_upload_dir();
                         <div class="col-md-12 loginfield statCol-3" style="border-top:1px solid #fff;">
                             <input required value="<?php echo get_post_meta($clan_ID, 'clan_tag', true);?>" class="new_user_name" type="text" name="clantag" id="clantag" maxlength="5">
                         </div>
-                        <input onclick="return confirm('Are you sure you want to change your clan name and tag?')" class="mainSubmit" type="submit" value="Change" />
+                        <input type="hidden" name="id" value="<?php echo $clan_ID;?>">
+                        <input class="mainSubmit" type="submit" value="Change" />
                     </div>
                 </div>
                 <div class="hometext">
@@ -166,6 +169,24 @@ $wp_upload_dir = wp_upload_dir();
                     var myDropzone = Dropzone.forElement("#clan_avatar_dz");
                     myDropzone.removeAllFiles(true);
                 }
+                location.reload();
+            });
+        });
+
+        var namerequest;
+        $("#clanname").on('submit', function(e) {
+            if(!confirm('Are you sure you want to change your clan name and tag?')) return;
+            $('.pageLoader, #page-cover').show();
+
+            e.preventDefault();
+            if (namerequest) namerequest.abort();
+
+            namerequest = $.ajax({url: "/change_clan_name.php",type: "post",data: $(this).find('input').serialize()});
+            namerequest.done(function(response) {
+                $('.pageLoader, #page-cover').fadeOut( "fast");
+                var array = JSON.parse(response);
+                $.notify({message: array.status},{type:'info', delay:5000, allow_dismiss:true, newest_on_top: true});
+                if(array.clan_updated == true) location.reload();
             });
         });
 

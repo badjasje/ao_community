@@ -39,7 +39,7 @@ class TelegramBot {
 
     public function getChatByUserId($user_id) {
         global $wpdb;
-        if($chat = $wpdb->get_row($wpdb->prepare("SELECT * FROM `telegram_chat` WHERE user_id=%s", $user_id), ARRAY_A)) {
+        if($chat = $wpdb->get_row($wpdb->prepare("SELECT * FROM `telegram_chat` WHERE `user_id`=%s", $user_id), ARRAY_A)) {
             $this->chat = $chat;
             $this->chatID = $chat['chat_id'];
         }
@@ -104,17 +104,17 @@ class TelegramBot {
     }
 
     public function log($msg) {
-        var_dump($msg);
-        /*$fh = fopen('bot_debug.log', 'w') or die("can't open file");
+        //var_dump($msg);
+        $fh = fopen(__DIR__.'/bot_debug.log', 'w') or die("can't open file");
         fwrite($fh,  date('Y-m-d H:i:s') .': ' . $msg . PHP_EOL);
-        fclose($fh);*/
+        fclose($fh);
     }
 
     public function error($msg) {
-        var_dump($msg);
-        /*$fh = fopen('bot_error.log', 'w') or die("can't open file");
+        //var_dump($msg);
+        $fh = fopen(__DIR__.'/bot_error.log', 'w') or die("can't open file");
         fwrite($fh, date('Y-m-d H:i:s') .': ' . $msg . PHP_EOL);
-        fclose($fh);*/
+        fclose($fh);
     }
 
     public function getCommands() {

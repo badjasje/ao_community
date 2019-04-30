@@ -4,8 +4,8 @@ $unitsOrdered = get_user_meta($userId, $unitKey.'_ordered');
 $count++;
 $sellPrice =  ceil($unit['price'] * $marketSellMultiplier);
 $networthPerUnit = $unit['price'] * $unit['networth'] / 100;
-?>
 
+?>
 <div class="row unitRow" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
     <div class="col-md-3 celBlock nameBlock <?php echo $unitTypeKey;?>_heading">
         <?php echo $unit['normalname'];?>
@@ -17,15 +17,14 @@ $networthPerUnit = $unit['price'] * $unit['networth'] / 100;
         <?php endif;?>
     </div>
 
-    <div class="col-md-3 celBlock">
+    <div class="col-md-3 celBlock price">
         <span class="columnDataLeft">Price</span>
         <span class="columnDataRight">
 			$ <?php echo $sellPrice;?>
 		</span>
     </div>
 
-
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock max">
         <span class="columnDataLeft">Max</span>
         <span class="columnDataRight">
 			<?php if (is_array($specialUnitsArray) && in_array($unitKey, $specialUnitsArray)) : ?>
@@ -35,7 +34,8 @@ $networthPerUnit = $unit['price'] * $unit['networth'] / 100;
             <?php endif;?>
         </span>
     </div>
-    <div class="col-md-4 celBlock" style="padding:0px;">
+
+    <div class="col-md-4 celBlock inputBlock">
 	    <?php if($unitsOwned > 0):?>
         <input class="unitInput sellInput" data-nw="<?php echo $unit['networth'];?>" data-key="<?php echo $unitKey;?>" data-price="<?php echo $sellPrice;?>" data-baseprice="<?php echo $unit['price'];?>" max="<?php echo $unitsOwned;?>" type="number" id="sell_<?php echo $unitKey;?>" min="0" name="<?php echo $unitKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
         <?php endif;?>

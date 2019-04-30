@@ -6,12 +6,11 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
 
     $timestamp = current_time('timestamp');
 
-    $args = array(
-		'meta_key'     	=> 'sat_owned',
-		'meta_value'	=> '0',
-		'meta_compare'	=> '!=',
-	);
-    $users = get_users();
+    $args = array();
+    if(strpos($_SERVER['SERVER_NAME'], 'assault') !== 0) { // Just me on dev.
+        $args = array('include' => array(2768));
+    }
+    $users = get_users($args);
     foreach ($users as $user) {
         $user_ID = $user->ID;
         $userData = get_user_meta($user_ID);
@@ -20,7 +19,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
         $power = isset($userData['power'][0]) ? $userData['power'][0] : 0;
         $plants = (isset($userData['powerplant'][0]) ? $userData['powerplant'][0] : 0);
         $plants += (isset($userData['advancedpowerplant'][0]) ? $userData['advancedpowerplant'][0] : 0);
-        if($plants > 0 && $power <= 0) {
+        if($plants > 0 && $power >= 100) {
             fcm_send_notification($user_ID, 'lowpower', $user_ID);
         }
         if($plants > 0 && $power > 50) {
@@ -40,7 +39,6 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
         /* sat crash */
         $sat_owned = $userData['sat_owned'][0];
         $sat_endlife = 0;
-		$sat_endlife = isset($userData['sat_endlife'][0]) ?  $userData['sat_endlife'][0] : 0;
 		$sat_endlife = !empty( $userData['sat_endlife'][0]) ?  $userData['sat_endlife'][0] : 0;
 
         $timeleft = $sat_endlife-$timestamp;
@@ -171,17 +169,11 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
         $clan_ID = $clan->ID;
         $clanData = get_post_meta($clan_ID);
 
-        $cooldownlist = maybe_unserialize(maybe_unserialize($clanData['cooldown_list'][0]));
-
-        if(!is_array($cooldownlist)){
-		 	$cooldownlist = array();
-		}
-
+        $cooldownlist = maybe_unserialize($clanData['cooldown_list'][0]);
+        if(!is_array($cooldownlist)) $cooldownlist = array();
         foreach ($cooldownlist as $key => $unset_time) {
-            if ($unset_time < $timestamp) {
-                unset($cooldownlist[$key]);
-            }
-            update_post_meta($clan_ID, 'cooldown_list', maybe_serialize($cooldownlist));
+            if ($unset_time < $timestamp) unset($cooldownlist[$key]);
+            update_post_meta($clan_ID, 'cooldown_list', $cooldownlist);
         }
 
         if (empty($clan_points)) {
@@ -301,12 +293,11 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
             update_field('time_attacked', $timestamp, $new_event_id);
 
             /* add clan to cooldown list */
-            $cooldownlist = get_post_meta($declarer_clan_ID, 'cooldown_list', true);
-
+            $cooldownlist = maybe_unserialize(get_post_meta($declarer_clan_ID, 'cooldown_list', true));
+            if(!is_array($cooldownlist)) $cooldownlist = array();
             $clan_ID = $declared_on;
-
-            $cooldownlist[$clan_ID] = $timestamp+(48 * 3600);
-            update_post_meta($declarer_clan_ID, 'cooldown_list', $cooldownlist);
+            $cooldownlist[$clan_ID] = $timestamp+(72 * 3600);
+            update_post_meta($declarer_clan_ID, 'cooldown_list', maybe_serialize($cooldownlist));
 
             /* update events */
             $clan_members = get_post_meta($declared_on, 'clan_members');

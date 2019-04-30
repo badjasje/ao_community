@@ -10,18 +10,21 @@ $count++;
 <div class="row unitRow" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
     <div class="col-md-2 celBlock nameBlock <?php echo $unitTypeKey;?>_heading">
         <?php echo $unit['normalname'];?>
-
-        <?php if(isset($unit['description'])):?>
-            <span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $unit['description'];?>" data-placement="bottom">
+		<span class="hover-tip"  data-toggle="tooltip" data-html="true" data-original-title="<?php if(isset($unit['description'])):?>
+			<?php echo $unit['description'];?><br>
+			<?php endif;?>
+			Attack: <?php echo $unit['attack'];?><br>
+			Life: <?php echo $unit['life'];?><br>
+			Targets: <?php echo $canAttack; ?>
+			" data-placement="bottom">
 				<i class="fa fa-info-circle" aria-hidden="true"></i>
-				</span>
-        <?php endif;?>
+		</span>
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock owned">
 	    <span class="columnDataLeft">Owned (ordered)</span>
 	    <span class="columnDataRight"><?php echo $unitsOwned; ?> (<span id="<?php echo $unitKey;?>_ordered"><?php echo $unitsOrdered; ?></span>)</span>
     </div>
-    <div class="col-md-1 celBlock">
+    <div class="col-md-1 celBlock price">
 	    <span class="columnDataLeft">Price</span>
 	    <span class="columnDataRight">
 	        <span class="hover-tip"
@@ -32,22 +35,22 @@ $count++;
 	        </span>
 	    </span>
     </div>
-    <div class="col-md-1 celBlock">
+    <div class="col-md-1 celBlock attacklife">
 	    <span class="columnDataLeft">Attack / Life</span>
 		<span class="columnDataRight"><?php echo $unit['attack'];?>/<?php echo $unit['life'];?></span>
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock targets">
 		<span class="columnDataLeft">Targets</span>
 		<span class="columnDataRight"><?php echo $canAttack; ?></span>
-    </div>
-    <div class="col-md-1 celBlock">
+	</div>
+	<?php if($startingBonus == 'shipping'):?>
+    <div class="col-md-1 celBlock delay">
 	    <span class="columnDataLeft">Delay</span>
 	    <span class="columnDataRight">
-	    <?php if($startingBonus == 'shipping'):?>
 			<input class="unitInput" type="number" min="0" id="delay<?php echo $unitKey;?>" style="padding-left:5px;border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 0px 5px 0px;" name="delay<?php echo $unitKey;?>" placeholder="Delay in min."/>
-         <?php endif;?>
 	    </span>
-    </div>
+	</div>
+	<?php endif;?>
     <div class="col-md-1 celBlock maxBlock">
 	    <span class="columnDataLeft">Max</span>
 	    <span class="columnDataRight">

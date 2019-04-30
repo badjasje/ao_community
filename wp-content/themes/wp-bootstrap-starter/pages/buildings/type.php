@@ -1,4 +1,4 @@
-<div class="tab-pane <?php echo $activeTab === 'build' ? 'active' : ''; ?>" id="build" role="tabpanel">
+<div class="tab-pane smallTable buildingBuildTable <?php echo $activeTab === 'build' ? 'active' : ''; ?>" id="build" role="tabpanel">
 <form class="form" name="build" id="buildbuildings" method="post">
 
 	<div class="blockHeader spaceNotice">
@@ -29,19 +29,19 @@
 	<div class="col-md-2 celBlock nameBlock">
 		Name
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock owned">
 		Owned
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock price">
 		Price
     </div>
-    <div class="col-md-1 celBlock">
+    <div class="col-md-1 celBlock attacklife">
 		Att / Life
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock targets">
 		Targets
     </div>
-    <div class="col-md-1 celBlock">Max</div>
+    <div class="col-md-1 celBlock max">Max</div>
     <div class="col-md-2 celBlock"></div>
 </div> <!-- //Close Unit row -->
 
@@ -74,7 +74,7 @@
  </form>
 </div>
 
-<div class="tab-pane <?php echo $activeTab === 'demolish' ? 'active' : ''; ?>" id="demolish" role="tabpanel">
+<div class="tab-pane smallTable buildingDemolishTable <?php echo $activeTab === 'demolish' ? 'active' : ''; ?>" id="demolish" role="tabpanel">
 <form class="form" id="demobuildings">
 <input type="hidden" name="currentTab" id="currentTab" value="?tab=<?php echo $activeTab; ?>" />
 	<div class="blockHeader spaceNotice">
@@ -105,19 +105,19 @@
 	<div class="col-md-2 celBlock nameBlock">
 		Name
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock owned">
 		Owned
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock price">
 		Cost to demolish
     </div>
-    <div class="col-md-1 celBlock">
+    <div class="col-md-1 celBlock attacklife">
 		Att / Life
     </div>
-    <div class="col-md-2 celBlock">
+    <div class="col-md-2 celBlock targets">
 		Targets
     </div>
-    <div class="col-md-1 celBlock">Max</div>
+    <div class="col-md-1 celBlock max">Max</div>
     <div class="col-md-2 celBlock"></div>
 </div> <!-- //Close Unit row -->
         <?php $count = 0;

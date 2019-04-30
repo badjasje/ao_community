@@ -12,7 +12,7 @@ Copyright: Kevin Bogaard
 require_once('telegrambot.class.php');
 
 function raid_protection($target_id) {
-    $raidProteectionLevel = get_user_meta($target_id, 'level_raid_protection', true);
+    /*$raidProteectionLevel = get_user_meta($target_id, 'level_raid_protection', true);
 
     if ($raidProteectionLevel >= 1) {
         $timestamp = current_time('timestamp');
@@ -41,7 +41,8 @@ function raid_protection($target_id) {
         } else {
             return 'no';
         }
-    }
+    }*/
+    return 'no';
 }
 
 function turn_spread($turntype, $addedturns) {
@@ -81,6 +82,10 @@ function get_user_geo() {
 }
 
 function is_multi($user_ID, $ip_array=false) {
+    if(in_array($user_ID, array(1,2,6,2768,2957))) { // Admins may have multi's?
+        return false;
+    }
+
     if(!$ip_array) {
         $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
     }
@@ -436,7 +441,8 @@ function clan_avg_networth_range($clanId) {
     $viewerClanId = get_post_meta($viewerId, 'clan_id_user', true);
 
     $clanMembers = count(get_post_meta($clanId, 'clan_members', true));
-    $decClanMembers = count(get_post_meta($viewerClanId, 'clan_members', true));
+    $viewer_clan = get_post_meta($viewerClanId, 'clan_members', true);
+    $decClanMembers = (!empty($viewer_clan) ? count($viewer_clan) : 1);
 
     $clanNetworth = get_post_meta($clanId, 'clan_networth', true) / $clanMembers;
     $decClanNetworth = get_post_meta($viewerClanId, 'clan_networth', true) / $decClanMembers;
@@ -457,6 +463,21 @@ function clan_networth_range($clanId) {
     } else {
         return '<span>$ ' . number_format($clanNetworth, 0, ',', ' ') . '</span>';
     }
+}
+
+function get_spy_units($user_ID) {
+    $userData = get_user_meta($user_ID);
+    $spiesOwned = array();
+	@include("units_array.php");
+	foreach ($units as $unitKey => $unit) {
+		if(in_array('spy',$unit['attacktype'])) {
+			$unitsOwned = $userData[$unitKey.'_owned'][0];
+			if($unitsOwned > 0) {
+				$spiesOwned[$unitKey] = $unit['normalname'];
+			}
+		}
+    }
+    return $spiesOwned;
 }
 
 function get_user_name($user_ID) {
@@ -1833,8 +1854,10 @@ function fcm_send_notification($receiver, $type, $attacker=0) {
 
     if(!isset($body) || empty($body)) return;
 
-// Dev!
-//if($receiver != 2768) return;
+    // No notifications to others on Dev!
+    if(strpos($_SERVER['SERVER_NAME'], 'assault') !== 0) {
+        if($receiver != 2768) return;
+    }
 
     $registrationIds = maybe_unserialize(get_user_meta($receiver, 'device_tokens', true));
     if(!empty($registrationIds)) {

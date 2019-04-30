@@ -12,7 +12,8 @@ $attack_cost_turns = 0;
 $attack_cost_morale = 0;
 
 $maintarget = $_POST['maintarget'];
-$attackmode = $_POST['attackmode'];
+$attackmode = filter_input(INPUT_POST, 'attackmode', FILTER_SANITIZE_STRING);
+$attackmode = ($attackmode == 'aggressive' ? 'aggressive' : 'normal');
 
 $extra_morale_cost = 0;
 $aggressive_multi = 1;
@@ -111,7 +112,6 @@ foreach ($attack_array as $key => $count) {
 
 if($veh_total > $dragons){
     $added_dragon_damage = ($veh_att_power/$veh_total)*$dragons*0.20;
-
 }else{
     $added_dragon_damage = $veh_att_power*0.20;
 }
@@ -143,7 +143,6 @@ foreach ($attack_array as $key => $count) {
 
 if($inf_total > $apcs){
     $added_apc_damage = ($inf_att_power/$inf_total)*$apcs*0.20;
-
 }else{
     $added_apc_damage = $inf_att_power*0.20;
 }
@@ -178,11 +177,6 @@ if($air_total > $carriers){
 }
 
 /* start checking for damage split */
-$defHasAir = false;
-$defHasSea = false;
-$defHasInf = false;
-$defHasVeh = false;
-
 $defAirTot = 0;
 $defSeaTot = 0;
 $defInfTot = 0;
@@ -389,6 +383,9 @@ if($defenderData['land'][0] < 7500){
 	}
 	$attacker_type_damage['bld'] = $attacker_type_damage['bld']*$reduction;
 }
+
+// Scale building damage on clan size difference
+$attacker_type_damage['bld'] = scaled_damage_to_clansize($attacker_type_damage['bld'], $userId, $target_id);
 
 // Check if there are wars for statistic counting
 $warstatID = 0;
@@ -643,6 +640,12 @@ foreach ($buildings as $key => $building) {
 }
 update_user_meta($target_id, 'builtland', ceil($builtland));
 
+// Jaap, if attacker lost too much nw, the result is a loss
+if($attacker_networth_lost > ($defender_networth_lost*2.1)) {
+	$result = 'failure';
+	$winner_id = $target_id;
+}
+
 /* resources stolen */
 $land_stolen  = 0;
 $money_stolen = 0;
@@ -668,7 +671,7 @@ if($result == 'success'){
 	    $land_stolen   = max(ceil($freeland * $STOLEN_LAND_RATIO * $resourceMulti * $aggressive_multi * $extraLandKill * resource_dice_roll()), 0);
 	    $money_stolen  = max(ceil($money * ($STOLEN_MONEY_RATIO * $resourceMulti*$extraLandKill) * resource_dice_roll()*$aggressive_multi), 0);
 	}
-    //MEGA
+    /*MEGA
     //Divide land and money stolen if users clan is opting out of wars
     $userclan = get_user_meta($userId, 'clan_id_user', true);
     $useroptoutstatus=get_post_meta($userclan, 'optout_status',true);
@@ -676,7 +679,11 @@ if($result == 'success'){
         $land_stolen = ceil($land_stolen/2);
         $money_stolen = ceil($money_stolen/2);
     }
-    //Done
+	//Done*/
+
+	// Jaap, resources stolen based on clansize and nw-losses
+	$land_stolen = scaled_land_to_clansize($land_stolen, $userId, $target_id, $attacker_networth_lost, $defender_networth_lost);
+	$money_stolen = scaled_money_to_clansize($money_stolen, $userId, $target_id, $attacker_networth_lost, $defender_networth_lost);
 
 	$attackermoney = $attackerData['money'][0];
 	$attackerland  = $attackerData['land'][0];
@@ -706,12 +713,12 @@ if($result == 'success'){
 
 $killed = false;
 
-if ($defender_buildings_lost >= $defender_building_total) {
+/*if ($defender_buildings_lost >= $defender_building_total) {
 	$protected = raid_protection($target_id);
 	if($protected == 'yes'){
 		$defender_building_total = 999999; // just some bullshit number to stop dying
 	}
-}
+}*/
 
 if ($defender_buildings_lost >= $defender_building_total) {
 	$killed = true;
@@ -773,6 +780,9 @@ if($war_type != 'none' && $result == 'success') {
 			$clan_points = 25;
 		}
 	}
+
+	// Jaap, points based on clansize
+	$clan_points = scaled_points_to_clansize($clan_points, $userId, $target_id);
 
 	/* add points */
 	$starting_points = get_post_meta($attack_clan_id,'clan_points',true);

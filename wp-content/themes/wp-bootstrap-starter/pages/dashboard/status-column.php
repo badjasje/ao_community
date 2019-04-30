@@ -24,6 +24,23 @@ elseif($user_status =='online'){
 elseif($user_status =='dead'){
 	$statusMessage = 'Status: Dead';
 }
+
+$inProgress = $userData['research_in_progress'][0];
+$researchTimeLeft ='';
+if(!empty($inProgress)) {
+	$timestamp = current_time('timestamp');
+	$args = array('posts_per_page' => 1, 'author' => $userId, 'post_type' => 'research');
+	$researches_in_progress = get_posts( $args );
+	$completionTime = $researches_in_progress[0]->post_title;
+	$researchTimeLeft = human_time_diff($completionTime, $timestamp);
+}
+include('research_array.php');
+
+$telegram_key = $userData['telegram_key'][0];
+if(empty($telegram_key)) {
+	$telegram_key = uniqid();
+	update_user_meta($userId, 'telegram_key', $telegram_key);
+}
 ?>
 
 <div class="blockHeader" <?php echo $extraStyle;?>><?php echo $statusMessage;?></div>
@@ -62,7 +79,7 @@ elseif($user_status =='dead'){
 		</div>
 
 		<div class="col-md-6 col-lg-4 statusRow statCol-2">
-			<div class="statusInsideCol">
+			<?/*<div class="statusInsideCol">
 				<strong>Events</strong>
 			</div>
 			<div class="statusInsideCol">
@@ -76,7 +93,7 @@ elseif($user_status =='dead'){
 			</div>
 			<div class="statusInsideCol">
 				<?php echo number_format($PwrUsage, 0, ',', ' ');?>%
-			</div>
+			</div>*/?>
 
 			<div class="statusInsideCol">
 				<strong>Conversations</strong>
@@ -85,15 +102,6 @@ elseif($user_status =='dead'){
 				<a href="/conversations/">
 					<?php echo $new_messages;?> new message<?php echo plural_func($new_messages);?>
 				</a>
-			</div>
-		</div>
-
-		<div class="col-md-6 col-lg-4 statusRow statCol-3">
-			<div class="statusInsideCol">
-				<strong>Morale & pool</strong>
-			</div>
-			<div class="statusInsideCol">
-				<?php echo $morale.'% <sup>('.$moralepool.'%)</sup>';?>
 			</div>
 
 			<div class="statusInsideCol">
@@ -115,6 +123,35 @@ elseif($user_status =='dead'){
 					<u><a href="#startingBonus">None</a></u>
 				<?php endif;?>
 			</div>
+
+			<?php if(!empty($inProgress)) {?>
+			<div class="statusInsideCol">
+				<strong>Research in progress</strong>
+			</div>
+			<div class="statusInsideCol">
+				<?php echo $researches[$inProgress]['name'];?><br><?=$researchTimeLeft?> left
+			</div>
+			<?php } ?>
+
+		</div>
+
+		<div class="col-md-6 col-lg-4 statusRow statCol-3">
+			<?/*<div class="statusInsideCol">
+				<strong>Morale & pool</strong>
+			</div>
+			<div class="statusInsideCol">
+				<?php echo $morale.'% <sup>('.$moralepool.'%)</sup>';?>
+			</div>*/?>
+
+			<div class="celBlock">
+				<strong>Push notifications</strong>
+				<ul style="padding-left: 16px;">
+					<li>Install <a href="https://t.me/assaultonlinebot" style="text-decoration:underline;" target="_blank">Telegram</a> on your mobile
+				device.</li>
+					<li>Add <a href="https://t.me/assaultonlinebot" style="text-decoration:underline;" target="_blank">assaultonlinebot</a>.</li>
+					<li>Use this code <strong><?php echo $telegram_key ?></strong> to get instant notifications.</a></li>
+				</ul>
+			</div>
 		</div>
 
 	</div> <!-- // End row -->
@@ -125,12 +162,12 @@ elseif($user_status =='dead'){
 		<i class="fa fa-bars"></i> Military overview
 	</a>
 
-	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.9);" href="/users/profile/edit/">
-		<i class="fa fa-wrench"></i> Edit profile
-	</a>
-
 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/player-statistics/">
 		<i class="fas fa-chart-line"></i> View statistics
+	</a>
+
+	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.9);" href="/users/profile/edit/">
+		<i class="fa fa-wrench"></i> Edit profile
 	</a>
 </div>
 

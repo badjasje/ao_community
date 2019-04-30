@@ -15,13 +15,36 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
 }
 
 $userId = get_current_user_ID();
+global $userData;
+
+$clan_id_user = $userData['clan_id_user'][0];
+if(!empty($clan_id_user)) {
+    $array['status'] = 'You cannot create a clan';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
+
+$clanCreate = $userData['clan_create_counter'][0];
+if(!empty($clanCreate)) {
+    $array['status'] = 'You cannot create a clan';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
+
 $slug = strtolower($_POST['clanname']);
-
-$args = array('post_type' => 'clan', 'posts_per_page' => -1, 'name' => $slug);
-$posts = get_posts($args);
-
+$posts = get_posts(array('post_type' => 'clan', 'posts_per_page' => -1, 'name' => $slug));
 if (count($posts) != 0) {
     $array['status'] = 'This clan name already exists';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
+
+$clans = get_posts(['numberposts' => -1, 'post_type' => 'clan', 'meta_key' => 'clan_tag', 'meta_value' => $_POST['clantag']]);
+if (count($clans) != 0) {
+    $array['status'] = 'This clan tag already exists';
     $array['next'] = false;
     echo json_encode($array);
     exit;
@@ -52,7 +75,8 @@ update_field('ct_4', 0, $new_order_id);
 
 update_post_meta($new_order_id, 'bonus_level', 0);
 update_post_meta($new_order_id, 'clan_points', 0);
-$array['optin'] = $_POST['optin_status'];
+
+/*$array['optin'] = $_POST['optin_status'];
 
 if ($_POST['optin_status'] == 'optedout') {
   $array['thing'] = "optedout";
@@ -63,7 +87,7 @@ if ($_POST['optin_status'] == 'optedin') {
   $array['thing'] = "optedin";
   update_field('optout_status', '0', $new_order_id);
   update_field('optout_reset', '0', $new_order_id);
-}
+}*/
 
 $array['status'] = 'Clan successfully created';
 $array['next'] = true;

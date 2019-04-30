@@ -3,7 +3,7 @@ $owned = (!empty($userData['tomahawk_owned'][0]) ? $userData['tomahawk_owned'][0
 $ordered = (!empty($userData['tomahawk_ordered'][0]) ? $userData['tomahawk_ordered'][0] : 0);
 ?>
 
-<div class="tab-pane <?php echo $activeTab === 'buy' ? 'active' : ''; ?>" id="buy" role="tabpanel">
+<div class="tab-pane smallTable missileBuyTable <?php echo $activeTab === 'buy' ? 'active' : ''; ?>" id="buy" role="tabpanel">
 
 <form class="form" id="ordermissiles" method="post">
 	<div class="blockHeader spaceNotice">
@@ -13,11 +13,11 @@ $ordered = (!empty($userData['tomahawk_ordered'][0]) ? $userData['tomahawk_order
 
 	<div class="row unitRow headerRow" style="border-bottom:1px solid #fff;background-color: rgba(45, 67, 81, 0.75);">
 		<div class="col-md-2 celBlock nameBlock">Name</div>
-		<div class="col-md-2 celBlock">Owned (ordered)</div>
-		<div class="col-md-2 celBlock">Price</div>
-		<div class="col-md-1 celBlock">Attack</div>
-		<div class="col-md-2 celBlock">Targets</div>
-		<div class="col-md-1 celBlock"></div>
+		<div class="col-md-2 celBlock owned">Owned (ordered)</div>
+		<div class="col-md-2 celBlock price">Price</div>
+		<div class="col-md-1 celBlock attacklife">Attack</div>
+		<div class="col-md-2 celBlock targets">Targets</div>
+		<div class="col-md-1 celBlock max">Max</div>
 		<div class="col-md-2 celBlock"></div>
 	</div> <!-- // Close Unit row -->
 
@@ -33,14 +33,17 @@ $ordered = (!empty($userData['tomahawk_ordered'][0]) ? $userData['tomahawk_order
 			<div class="col-md-2 celBlock nameBlock sea_heading">
 				<?php echo $order['normalname'];?>
 
-				<?php if(isset($order['description'])):?>
-					<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $order['description'];?>" data-placement="bottom">
+				<span class="hover-tip"  data-toggle="tooltip" data-html="true" data-original-title="<?php if(isset($order['description'])):?>
+					<?php echo $order['description'];?><br>
+					<?php endif;?>
+					Attack: <?php echo $order['attack'];?><br>
+					Targets: <?php echo implode (", ", $order['attacks']); ?>
+				" data-placement="bottom">
 					<i class="fa fa-info-circle" aria-hidden="true"></i>
-					</span>
-				<?php endif;?>
+				</span>
 			</div>
 
-			<div class="col-md-2 celBlock">
+			<div class="col-md-2 celBlock owned">
 				<span class="columnDataLeft">Owned (ordered)</span>
 				<span class="columnDataRight">
 					<?php echo $units_owned; ?>
@@ -48,7 +51,7 @@ $ordered = (!empty($userData['tomahawk_ordered'][0]) ? $userData['tomahawk_order
 				</span>
 			</div>
 
-			<div class="col-md-1 celBlock">
+			<div class="col-md-1 celBlock price">
 				<span class="columnDataLeft">Price</span>
 				<span class="columnDataRight">
 					<span class="hover-tip"
@@ -61,14 +64,14 @@ $ordered = (!empty($userData['tomahawk_ordered'][0]) ? $userData['tomahawk_order
 				</span>
 			</div>
 
-			<div class="col-md-1 celBlock">
+			<div class="col-md-1 celBlock attacklife">
 				<span class="columnDataLeft">Attack</span>
 				<span class="columnDataRight">
 					<?php echo $order['attack'];?>
 				</span>
 			</div>
 
-			<div class="col-md-2 celBlock">
+			<div class="col-md-2 celBlock targets">
 				<span class="columnDataLeft">Targets</span>
 				<span class="columnDataRight">
 					<?php
@@ -81,7 +84,7 @@ $ordered = (!empty($userData['tomahawk_ordered'][0]) ? $userData['tomahawk_order
 				</span>
 			</div>
 
-			<div class="col-md-1 celBlock">
+			<div class="col-md-1 celBlock max">
 				<span class="columnDataLeft">Max</span>
 				<span class="columnDataRight">
 					<?php

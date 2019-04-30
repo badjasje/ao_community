@@ -1,4 +1,4 @@
-<div class="tab-pane <?php echo $activeTab === 'sell' ? 'active' : ''; ?>" id="sell" role="tabpanel">
+<div class="tab-pane smallTable missileSellTable <?php echo $activeTab === 'sell' ? 'active' : ''; ?>" id="sell" role="tabpanel">
 
 <form class="form" name="" id="sellmissiles" method="post">
 <div class="blockHeader spaceNotice">
@@ -7,8 +7,8 @@
 
 <div class="row unitRow headerRow" style="border-bottom:1px solid #fff;background-color: rgba(<?php echo $sellBackColor;?>, 0.75);">
 	<div class="col-md-3 celBlock nameBlock">Name</div>
-    <div class="col-md-3 celBlock">Sell price</div>
-    <div class="col-md-2 celBlock">You can sell</div>
+    <div class="col-md-3 celBlock price">Sell price</div>
+    <div class="col-md-2 celBlock max">You can sell</div>
     <div class="col-md-4 celBlock"></div>
 </div> <!-- //Close Unit row -->
 
@@ -32,7 +32,7 @@ if($missiles_owned > 0){
 		<?php endif;?>
 	</div>
 
-	<div class="col-md-3 celBlock">
+	<div class="col-md-3 celBlock price">
 		<span class="columnDataLeft">Price</span>
 		<span class="columnDataRight">
 			$ <?php echo number_format(ceil($order['price']*0.75), 0, ',', ' '); ?>
@@ -41,13 +41,13 @@ if($missiles_owned > 0){
 	</div>
 
 
-	<div class="col-md-2 celBlock">
+	<div class="col-md-2 celBlock max">
 		<span class="columnDataLeft">Max</span>
 		<span class="columnDataRight">
 			<span id="maxsell_<?php echo $key;?>" class="sellall" data-nw="<?php echo $order['networth'];?>" data-price="<?php echo $order['price']*0.75;?>" data-key="<?php echo $key;?>" data-amount="<?php echo $missiles_owned;?>"><?php echo $missiles_owned;?></span>
 		</span>
 	</div>
-	<div class="col-md-4 celBlock" style="padding:0px;">
+	<div class="col-md-4 celBlock inputBlock" style="padding:0px;">
 		<input class="unitInput sellInput" data-nw="<?php echo $order['networth'];?>" data-key="<?php echo $key;?>" data-price="<?php echo $order['price']*0.75;?>" max="<?php echo $missiles_owned;?>" type="number" id="sell_<?php echo $key;?>" min="0" name="<?php echo $key;?>" style="border: solid rgba(<?php echo $sellBackColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
 	</div>
 </div> <!-- //Close Unit row -->

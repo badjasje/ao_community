@@ -1,34 +1,32 @@
 <?php
 	/*
-    
     require_once("wp-load.php");
     include('units_array.php');
 	include('building_array.php');
 	include('missiles_array.php');
-    
+
 	global $wpdb;
-	
+
 	$resetArray = array();
 	foreach ($units as $key => $unit) {
 		$resetArray[] = "'".$key.'_owned'."'";
 		$resetArray[] = "'".$key.'_ordered'."'";
-		}
-	
+	}
+
 	foreach ($missiles as $key => $missile) {
 		$resetArray[] = "'".$key.'_owned'."'";
 		$resetArray[] = "'".$key.'_ordered'."'";
-		}
-	
+	}
+
 	foreach ($buildings as $key => $building) {
 		$resetArray[] = "'".$key."'";
-		}
-		
+	}
+
 	$resetArray[] = "'networth'";
 	$resetArray[] = "'land'";
 	$resetArray[] = "'sat_owned'";
 	$resetArray[] = "'research_in_progress'";
-	
-	
+
 	$resetArray[] = "'new_global_events'";
 	$resetArray[] = "'new_events'";
 	$resetArray[] = "'land_gained_combat'";
@@ -100,10 +98,11 @@
 	$resetArray[] = "'in_war_attacks'";
 	$resetArray[] = "'last_attacked'";
 	$resetArray[] = "'sat_endlife'";
-	
-	
-	
-	
+	$resetArray[] = "'referral_userid'";
+	$resetArray[] = "'referral_score'";
+	$resetArray[] = "'referral_code'";
+	$resetArray[] = "'referral_num'";
+
 	$resetArray[] = "'moe_position'";
 	$resetArray[] = "'moe_next'";
 	$resetArray[] = "'moe_prev'";
@@ -129,57 +128,57 @@
 	$resetArray[] = "'modev_damage'";
 	$resetArray[] = "'modev_prev'";
 	$resetArray[] = "'modev_next'";
-	
-	
-	
-	
-	
+	$resetArray[] = "'mor_position'";
+	$resetArray[] = "'mor_next'";
+	$resetArray[] = "'mor_prev'";
+
 	$resetArray = implode(',',$resetArray);
-	
+
 	$wpdb->query("
 			UPDATE ${table_prefix}usermeta
 			SET meta_value = 0
 			WHERE meta_key IN($resetArray)
-            ");
+    ");
 	$wpdb->query("
 			UPDATE ${table_prefix}usermeta
 			SET meta_value = 0
 			WHERE meta_key = 'networth'
-            ");
+    ");
 	$wpdb->query("
 			UPDATE ${table_prefix}usermeta
 			SET meta_value = ''
 			WHERE meta_key = 'turn_spread'
-            ");
+    ");
 	$wpdb->query("
 			UPDATE ${table_prefix}usermeta
 			SET meta_value = 'dead'
 			WHERE meta_key = 'status'
 			AND meta_value != 'banned'
-            ");
+    ");
 	$wpdb->query("
 			UPDATE ${table_prefix}usermeta
 			SET meta_value = 'inactive'
 			WHERE meta_key = 'stealth_sat_status'
-            ");
+    ");
 	$wpdb->query("
-			DELETE FROM `${table_prefix}posts` 
-			WHERE `post_type` 
+			DELETE FROM `${table_prefix}posts`
+			WHERE `post_type`
 			IN ('event_local','sub_user_message','user_message','wars','deposit','market_order','research','spy_rep','emp')
-			");
-	
+	");
+
 	// Resetting clans
 	// Setting variables to 0
 	$wpdb->query("
 			UPDATE `${table_prefix}postmeta`
 			SET meta_value = 0
 			WHERE meta_key IN('bonus_level','clan_points','clan_networth','clan_name_change','ua_total','ub_total','24h_pts')
-            ");
+	");
+
 	// Setting variables to empty array
 	$emptyArray = maybe_serialize(array());
 	$wpdb->query("
 			UPDATE `${table_prefix}postmeta`
 			SET meta_value = ''
 			WHERE meta_key IN('cooldown_list','previous_members','24h_pts_list','open_invites','24h_nw_list','war_array')
-            ");
-            
+    ");
+

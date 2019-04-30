@@ -8,6 +8,9 @@ $mot_prev = !empty($userData['mot_prev'][0]) ? $userData['mot_prev'][0] : 0;
 $modes_next = !empty($userData['modes_next'][0]) ? $userData['modes_next'][0] : 0;
 $modes_prev = !empty($userData['modes_prev'][0]) ? $userData['modes_prev'][0] : 0;
 
+$mor_next = !empty($userData['mor_next'][0]) ? $userData['mor_next'][0] : 0;
+$mor_prev = !empty($userData['mor_prev'][0]) ? $userData['mor_prev'][0] : 0;
+
 ?>
 <div class="row row-no-padding fw-row">
 	<div class="col-md-4 medal_col">
@@ -146,6 +149,21 @@ $modes_prev = !empty($userData['modes_prev'][0]) ? $userData['modes_prev'][0] : 
 			<div class="col-md-6 col-xs-6 medal_row"></div>
 		</div>
 	</div>
+
 	<div class="col-md-4 medal_col">
+		<div class="row medal_box">
+			<div class="col-md-12 medal_header">
+				<strong>Medal of Recruitment
+					<span class="hover-tip"  data-toggle="tooltip" data-original-title="Succesfully invited most new players" data-placement="bottom">
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
+					</span>
+				</strong></div>
+			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['mor_position'][0];?></div>
+			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $mor_next;?></div>
+			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $mor_prev;?></div>
+		</div>
 	</div>
 </div>
