@@ -16,7 +16,7 @@ $units = array(
 		'attacktype'	=>	array('spy'),
 		'life'			=>	200
 	),
-	'dragon' 		=> array(
+	/*'dragon' 		=> array(
 		'price'			=>	'1500',
 		'networth'		=>	14,
 		'normalname'	=>	'U-2 Dragon Lady',
@@ -28,7 +28,7 @@ $units = array(
 		'sectype'		=>	'special',
 		'attacktype'	=>	array('air_sea','regular'),
 		'life'			=>	105
-	),
+	),*/
     'f22_raptors' 		=> array(
 		'price'			=>	'830',
 		'networth'		=>	10,
@@ -103,7 +103,7 @@ $units = array(
 	),
 
 	/// VEHICLES ///
-	'apc' 		=> array(
+	/*'apc' 		=> array(
 		'price'			=>	'1500',
 		'networth'		=>	14,
 		'normalname'	=>	'Battle Fortress',
@@ -115,7 +115,7 @@ $units = array(
 		'sectype'		=>	'special',
 		'attacktype'	=>	array('ground','regular'),
 		'life'			=>	105
-	),
+	),*/
 	'humvee' 		=> array(
 		'price'			=>	'500',
 		'networth'		=>	10,
@@ -353,7 +353,7 @@ $units = array(
 		'attacktype'	=>	array('air_sea'),
 		'life'			=>	55
 	),
-	'carrier' 		=> array(
+	/*'carrier' 		=> array(
 		'price'			=>	'2475',
 		'networth'		=>	14,
 		'normalname'	=>	'Aircraft carrier',
@@ -365,16 +365,17 @@ $units = array(
 		'sectype'		=>	'normal',
 		'attacktype'	=>	array('air_sea'),
 		'life'			=>	235
-	),
+	),*/
 	/*'stealth' 			=> array(
-			'price'			=>	'900',
-			'networth'		=>	10,
-			'normalname'	=>	'Zumwalt',
-			'attacks'		=>  array('inf'),
-			'defends'		=>  array('inf'),
-			'attack'		=>	65,
-			'type'			=>	'sea',
-			'life'			=>	55),*/
+        'price'			=>	'900',
+        'networth'		=>	10,
+        'normalname'	=>	'Zumwalt',
+        'attacks'		=>  array('inf'),
+        'defends'		=>  array('inf'),
+        'attack'		=>	65,
+        'type'			=>	'sea',
+        'life'			=>	55
+    ),*/
 	'submarine' 		=> array(
 		'price'			=>	'1090',
 		'networth'		=>	10,
