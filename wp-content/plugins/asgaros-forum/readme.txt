@@ -3,9 +3,9 @@ Contributors: Asgaros
 Donate link: https://www.paypal.me/asgaros
 Tags: forum, forums, discussion, multisite, community, bulletin, board, asgaros, support
 Requires at least: 4.8
-Tested up to: 5.0
+Tested up to: 5.2
 Requires PHP: 5.2
-Stable tag: 1.13.0
+Stable tag: 1.14.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,7 +24,7 @@ Asgaros Forum is the perfect WordPress plugin if you want to extend your website
 * [Documentation](https://www.asgaros.de/docs/)
 
 = Features =
-* Simple Structure & Content Management
+* Simple Content Management
 * Profiles & Members List
 * Powerful Editor
 * Notifications
@@ -32,20 +32,18 @@ Asgaros Forum is the perfect WordPress plugin if you want to extend your website
 * Reactions
 * Uploads
 * Search
+* Polls
 * Approval
-* Moderators
 * Statistics
-* Ads Management
-* Permissions
-* Usergroups
 * Who Is Online
+* Ads Management
 * Guest Postings
 * Reporting & Banning
-* Easy Appearance Customization
+* Moderators, Permissions & Usergroups
 * Widgets
 * RSS Feeds
-* Mobile Theme
-* Theme Manager
+* Easy Color Customization
+* Mobile Theme & Theme Manager
 * Multilingualism
 * Multiple Instances
 * Multisite Compatibility
@@ -61,16 +59,14 @@ Asgaros Forum is the perfect WordPress plugin if you want to extend your website
 * Done!
 
 == Frequently Asked Questions ==
-= I cant see new posts/threads or modifications I made to the forum =
+= I cant see content or modifications I made to the forum =
 If you are using some third-party plugin for caching (WP Super Cache for example) and disable caching for the forum-page, everything should work fine again.
 = I cant upload my files =
 By default only files of the following filetype can be uploaded: jpg, jpeg, gif, png, bmp, pdf. You can modify the allowed filetypes inside the forum administration.
-= Where can I add moderators? =
-Moderators can be added via the user edit screen in the WordPress administration interface.
+= Where can I add moderators or ban users? =
+You can ban users or ad moderators via the user edit screen in the WordPress administration interface.
 = How can I show a specific post/topic/forum/category on a page? =
 You can extend the shortcodes with different parameters to show specific content only. For example: `[forum post="POSTID"]`, `[forum topic="TOPICID"]`, `[forum forum="FORUMID"]`, `[forum category="CATEGORYID"]` or `[forum category="CATEGORYID1,CATEGORYID2"]`.
-= Where can I ban users? =
-Users can be banned via the user edit screen in the WordPress administration interface.
 = How can I add a captcha to the editor for guests? =
 To extend your forum with a captcha you have to use one of the available third-party captcha-plugins for WordPress and extend your themes functions.php file with the checking-logic via the available hooks and filters by your own. For example you can use the plugin [Really Simple CAPTCHA](https://wordpress.org/plugins/really-simple-captcha/) and extend your themes functions.php file with this code:
 [https://gist.github.com/Asgaros/6d4b88b1f5013efb910d9fcd01284698](https://gist.github.com/Asgaros/6d4b88b1f5013efb910d9fcd01284698).
@@ -95,6 +91,59 @@ You can find a list of available hooks and filters on this site:
 6. Manage general options.
 
 == Changelog ==
+= 1.14.4 =
+* Added: Option to define who can use signatures
+* Fixed: Properly escape content of posts
+* Fixed: Strip slashes inside of polls
+* Fixed: Escape HTML inside of polls
+* Compatibility with WordPress 5.2
+= 1.14.3 =
+* Added: Caption titles to topic-icons
+* Fixed: Display issues with Font Awesome icons
+* Fixed: Display issues with some themes
+= 1.14.2 =
+* Fixed: Load Font Awesome v4 compatibility library to fix display-issues with icons
+= 1.14.1 =
+* Fixed: Database error when creating table for poll-answers
+= 1.14.0 =
+* Added: Poll functionality
+* Added: Font Awesome icons
+* Added: Option to change URL mode (slug, ID) for SEO-friendly URLs
+* Added: Option to disable spoiler-functionality
+* Added: asgarosforum_after_topic_approve hook
+* Fixed: Dont send notifications to users who got mentioned inside of quotes
+* Fixed: Broken layout with certain links
+* Fixed: Wrong avatar-size in certain configurations
+* Fixed: Display issues with some themes
+* Improved compatibility with Rank Math SEO
+* Minor design changes
+* Updated design for the administration area
+* Performance improvements and code optimizations
+= 1.13.3 =
+* Added: Option to disable avatars
+* Added: Show received likes in profiles
+* Added: Functionality to reassign forum posts when deleting users
+* Design changes
+* Performance improvements and code optimizations
+= 1.13.2 =
+* Fixed: Names of administrators/moderators not highlighted when using custom link-colors
+= 1.13.1 =
+* Added: Global stickies
+* Added: Option to disable automatic embedding of content in posts
+* Added: Option to show excerpt in recent topics/posts widget
+* Added: asgarosforum_widget_excerpt_length filter
+* Fixed: In some cases usergroup could not get removed from user using bulk-actions
+* Fixed: Wrong stylings when using custom colors
+* Fixed: Display issues with some themes
+* Changed: Moderators have access to reports
+* Changed: Report management has been moved to the frontend
+* Changed: Dont show HTML tags in report preview
+* Changed: Show enabled register-link even when user registration is temporarily disabled
+* Improved RTL support
+* Improved compatibility with Yoast SEO
+* Minor design changes
+* Performance improvements and code optimizations
+* Compatibility with WordPress 5.1
 = 1.13.0 =
 * Added: Approval functionality for topics
 * Added: Spoiler functionality

@@ -39,7 +39,7 @@ class AsgarosForumAppearance {
 
 		add_filter('mce_css', array($this, 'add_editor_css'));
 		add_action('wp_enqueue_scripts', array($this, 'add_css'));
-		add_action('wp_head', array($this, 'set_header'));
+		add_action('wp_head', array($this, 'set_header'), 1);
 	}
 
 	public function load_options() {
@@ -145,10 +145,22 @@ class AsgarosForumAppearance {
 	public function add_css() {
 		$themeurl = $this->get_current_theme_url();
 
+		if ($this->asgarosforum->options['load_fontawesome']) {
+			wp_enqueue_style('af-fontawesome', $this->asgarosforum->plugin_url.'libs/fontawesome/css/all.min.css', array(), $this->asgarosforum->version);
+		}
+
+		if ($this->asgarosforum->options['load_fontawesome_compat_v4']) {
+			wp_enqueue_style('af-fontawesome-compat-v4', $this->asgarosforum->plugin_url.'libs/fontawesome/css/v4-shims.min.css', array(), $this->asgarosforum->version);
+		}
+
 		wp_enqueue_style('af-widgets', $themeurl.'/widgets.css', array(), $this->asgarosforum->version);
 
 		if ($this->asgarosforum->executePlugin) {
 			wp_enqueue_style('af-style', $themeurl.'/style.css', array(), $this->asgarosforum->version);
+
+			if (is_rtl()) {
+				wp_enqueue_style('af-rtl', $themeurl.'/rtl.css', array(), $this->asgarosforum->version);
+			}
 
 			// Set path to custom CSS file.
 			$custom_css_path = $this->asgarosforum->plugin_path.'skin/custom.css';
@@ -239,8 +251,7 @@ class AsgarosForumAppearance {
 				$custom_css .= 'color: '.$this->options['custom_color'].' !important;'.PHP_EOL;
 			$custom_css .= '}'.PHP_EOL;
 
-			$custom_css .= '#af-wrapper input[type="submit"],'.PHP_EOL;
-			$custom_css .= '#af-wrapper .forum-menu a.button-normal,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .button-normal,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .title-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #forum-header,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #profile-header .background-avatar,'.PHP_EOL;
@@ -259,9 +270,7 @@ class AsgarosForumAppearance {
 		}
 
 		if ($this->options['custom_accent_color'] != $this->options_default['custom_accent_color'] && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $this->options['custom_accent_color'])) {
-			$custom_css .= '#af-wrapper input[type="button"],'.PHP_EOL;
-			$custom_css .= '#af-wrapper input[type="submit"],'.PHP_EOL;
-			$custom_css .= '#af-wrapper .forum-menu a.button-normal,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .button-normal,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .title-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #forum-header,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #forum-navigation a,'.PHP_EOL;
@@ -291,7 +300,7 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper .editor-row-uploads .upload-hints,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .forum-stats,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .topic-stats,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .subscription-option-description,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .action-panel-description,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #forum-breadcrumbs,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #forum-breadcrumbs a,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .forum-post-date,'.PHP_EOL;
@@ -299,11 +308,15 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper .post-footer a,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .signature,'.PHP_EOL;
 			$custom_css .= '#af-wrapper span.mention-nice-name,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .activity-element:before,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .activity-icon:before,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .post-reactions .reaction,'.PHP_EOL;
+			$custom_css .= '#af-wrapper #poll-results .poll-result-numbers,'.PHP_EOL;
+			$custom_css .= '#af-wrapper #poll-results .poll-result-total,'.PHP_EOL;
+			$custom_css .= '#af-wrapper #poll-warning,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .topic-icon:before,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .report-link,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .forum-poster .dashicons-before:before,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .topic-poster .dashicons-before:before,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .report-content:before,'.PHP_EOL;
+			$custom_css .= '#af-wrapper input::placeholder,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .activity-time {'.PHP_EOL;
 			    $custom_css .= 'color: '.$this->options['custom_text_color_light'].' !important;'.PHP_EOL;
 			$custom_css .= '}'.PHP_EOL;
@@ -319,29 +332,29 @@ class AsgarosForumAppearance {
 		}
 
 		if ($this->options['custom_background_color'] != $this->options_default['custom_background_color'] && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $this->options['custom_background_color'])) {
-			$custom_css .= '#af-wrapper .content-element,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .content-container,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .report-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #statistics,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .post-wrapper,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .topic-sticky,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .topic-sticky .topic-poster,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #profile-header .background-contrast,'.PHP_EOL;
+			$custom_css .= '#af-wrapper #poll-results .poll-result-bar,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #memberslist-filter {'.PHP_EOL;
 			    $custom_css .= 'background-color: '.$this->options['custom_background_color'].' !important;'.PHP_EOL;
 			$custom_css .= '}'.PHP_EOL;
 		}
 
 		if ($this->options['custom_background_color_alt'] != $this->options_default['custom_background_color_alt'] && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $this->options['custom_background_color_alt'])) {
-			$custom_css .= '#af-wrapper .content-element .forum:nth-child(even),'.PHP_EOL;
-			$custom_css .= '#af-wrapper .content-element .topic:nth-child(even),'.PHP_EOL;
-			$custom_css .= '#af-wrapper .content-element .subscription:nth-child(even),'.PHP_EOL;
-			$custom_css .= '#af-wrapper .content-element .member:nth-child(even),'.PHP_EOL;
-			$custom_css .= '#af-wrapper .content-element .activity-element:nth-child(even),'.PHP_EOL;
+			$custom_css .= '#af-wrapper .content-element:nth-child(even),'.PHP_EOL;
+			$custom_css .= '#af-wrapper .topic-sticky,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .topic-sticky .topic-poster,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #forum-breadcrumbs,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .post-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .editor-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #statistics-online-users,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #profile-layer,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .spoiler .spoiler-head,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .report-content,'.PHP_EOL;
+			$custom_css .= '#af-wrapper #poll-panel,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #profile-content {'.PHP_EOL;
 			    $custom_css .= 'background-color: '.$this->options['custom_background_color_alt'].' !important;'.PHP_EOL;
 			$custom_css .= '}'.PHP_EOL;
@@ -349,20 +362,14 @@ class AsgarosForumAppearance {
 
 		if ($this->options['custom_border_color'] != $this->options_default['custom_border_color'] && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $this->options['custom_border_color'])) {
 			$custom_css .= '#af-wrapper input,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .forum,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .topic,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .member,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .unread-topic,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .unapproved-topic,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .forum-poster,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .topic-poster,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .member-last-seen,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .subscription,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .editor-element,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .content-element,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .content-container,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .forum-post-header,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #statistics-body,'.PHP_EOL;
-			$custom_css .= '#af-wrapper #statistics .statistics-element,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .statistics-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #statistics-online-users,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .editor-row,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .editor-row-subject,'.PHP_EOL;
@@ -371,8 +378,7 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper .post-wrapper,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .forum-subforums,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .uploaded-file img,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .subscription-option,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .topic-sticky,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .action-panel-option,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .topic-sticky .topic-poster,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #profile-layer,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #profile-layer .pages-and-menu:first-of-type,'.PHP_EOL;
@@ -381,11 +387,20 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper .history-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #memberslist-filter,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #forum-breadcrumbs,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .activity-element,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .content-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .ad-forum,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .ad-topic,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .spoiler,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .spoiler .spoiler-body,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .report-element,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .report-source,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .report-content,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .report-actions,'.PHP_EOL;
+			$custom_css .= '#af-wrapper #profile-content .profile-section-header,'.PHP_EOL;
+			$custom_css .= '#af-wrapper #poll-options,'.PHP_EOL;
+			$custom_css .= '#af-wrapper #poll-panel,'.PHP_EOL;
+			$custom_css .= '#af-wrapper #poll-panel #poll-headline,'.PHP_EOL;
+			$custom_css .= '#af-wrapper #poll-results .poll-result-bar,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #usergroups-filter {'.PHP_EOL;
 			    $custom_css .= 'border-color: '.$this->options['custom_border_color'].' !important;'.PHP_EOL;
 			$custom_css .= '}'.PHP_EOL;

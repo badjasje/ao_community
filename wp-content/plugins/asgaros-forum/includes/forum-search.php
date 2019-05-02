@@ -30,7 +30,9 @@ class AsgarosForumSearch {
 
     public function show_search_input() {
         if ($this->asgarosforum->options['enable_search']) {
-            echo '<div id="forum-search" class="dashicons-before dashicons-search">';
+            echo '<div id="forum-search">';
+            echo '<span class="search-icon fas fa-search"></span>';
+
             echo '<form method="get" action="'.$this->asgarosforum->get_link('search').'">';
 
             // Workaround for broken search when using plain permalink structure.
@@ -66,14 +68,15 @@ class AsgarosForumSearch {
             echo __('Search results:', 'asgaros-forum').' '.$this->search_keywords_for_output;
             echo '<span class="last-post-headline">'.__('Last post', 'asgaros-forum').'</span>';
         echo '</div>';
-        echo '<div class="content-element">';
+        echo '<div class="content-container">';
 
         if ($results) {
             foreach ($results as $topic) {
                 $this->asgarosforum->render_topic_element($topic, 'topic-normal', true);
             }
         } else {
-            echo '<div class="notice">'.__('No results found for:', 'asgaros-forum').' <b>'.$this->search_keywords_for_output.'</b></div>';
+            $notice = __('No results found for:', 'asgaros-forum').'&nbsp;<b>'.$this->search_keywords_for_output.'</b>';
+            $this->asgarosforum->render_notice($notice);
         }
 
         echo '</div>';

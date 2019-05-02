@@ -2,6 +2,16 @@
 
 if (!defined('ABSPATH')) exit;
 
+function disable_gutenberg_get_options() {
+	
+	global $DisableGutenberg;
+	
+	$default = $DisableGutenberg->options();
+	
+	return get_option('disable_gutenberg_options', $default);
+	
+}
+
 function disable_gutenberg_init() {
 	
 	if (disable_gutenberg()) disable_gutenberg_remove();
@@ -93,7 +103,7 @@ function disable_gutenberg_get_post_types() {
 	
 	$post_types = get_post_types(array(), 'objects');
 	
-	$unset = array('attachment', 'revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache');
+	$unset = array('attachment', 'revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block');
 	
 	$unset = apply_filters('disable_gutenberg_post_types_unset', $unset);
 	
@@ -104,7 +114,7 @@ function disable_gutenberg_get_post_types() {
 		$types[$key]['name']  = $post_type->name;
 		$types[$key]['label'] = $post_type->label;
 		
-		if (in_array($post_type->name, $unset) || !post_type_supports($post_type->name, 'custom-fields')) unset($types[$key]);
+		if (in_array($post_type->name, $unset)) unset($types[$key]);
 		
 	}
 	
@@ -314,7 +324,7 @@ function disable_gutenberg_whitelist_id($post_id = false) {
 	
 	$post_id = disable_gutenberg_get_post_id($post_id);
 	
-	if (is_admin() && !empty($post_id)) {
+	if (!empty($post_id)) {
 		
 		$options = disable_gutenberg_get_options();
 		
@@ -338,7 +348,7 @@ function disable_gutenberg_whitelist_slug($post_id = false) {
 	
 	$status = get_post_status($post_id);
 	
-	if (is_admin() && !empty($post_id) && $status === 'publish') {
+	if (!empty($post_id) && $status === 'publish') {
 		
 		$post = get_post($post_id);
 		
@@ -364,7 +374,7 @@ function disable_gutenberg_whitelist_title($post_id = false) {
 	
 	$post_id = disable_gutenberg_get_post_id($post_id);
 	
-	if (is_admin() && !empty($post_id)) {
+	if (!empty($post_id)) {
 		
 		$title = strtolower(get_the_title($post_id));
 		
@@ -376,7 +386,7 @@ function disable_gutenberg_whitelist_title($post_id = false) {
 		
 	}
 	
-	return in_array($title, $whitelist);
+	return (!empty($title) && in_array($title, $whitelist));
 	
 }
 

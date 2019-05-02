@@ -1,7 +1,7 @@
 <?php 
 
 // Register store.
-acf_register_store( 'field-groups' );
+acf_register_store( 'field-groups' )->prop( 'multisite', true );
 
 /**
  * acf_get_field_group
@@ -520,6 +520,9 @@ function acf_update_field_group( $field_group ) {
     	'menu_order'	=> $field_group['menu_order'],
 	);
 	
+	// Unhook wp_targeted_link_rel() filter from WP 5.1 corrupting serialized data.
+	remove_filter( 'content_save_pre', 'wp_targeted_link_rel' );
+	
 	// Slash data.
 	// WP expects all data to be slashed and will unslash it (fixes '\' character issues).
 	$save = wp_slash( $save );
@@ -958,8 +961,8 @@ function acf_prepare_field_group_for_export( $field_group = array() ) {
  */
 function acf_import_field_group( $field_group ) {
 	
-	// Disable filters to ensure ACF loads data from DB.
-	acf_disable_filters();
+	// Disable filters to ensure data is not modified by local, clone, etc.
+	$filters = acf_disable_filters();
 	
 	// Validate field group.
 	$field_group = acf_get_valid_field_group( $field_group );
@@ -1032,7 +1035,12 @@ function acf_import_field_group( $field_group ) {
 			} else {
 				$count[ $field['parent'] ]++;
 			}
-			$field['menu_order'] = ($count[ $field['parent'] ] - 1);
+			
+			// Only add menu order if doesn't already exist.
+			// Allows Flexible Content field to set custom order.
+			if( empty($field['menu_order']) ) {
+				$field['menu_order'] = ($count[ $field['parent'] ] - 1);
+			}
 			
 			// Save field.
 			$field = acf_update_field( $field );
@@ -1044,6 +1052,9 @@ function acf_import_field_group( $field_group ) {
 	
 	// Save field group.
 	$field_group = acf_update_field_group( $field_group );
+	
+	// Enable filters again.
+	acf_enable_filters( $filters );
 	
 	/**
 	 * Fires immediately after a field_group has been imported.

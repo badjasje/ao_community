@@ -20,17 +20,20 @@ class AsgarosForumStatistics {
         if (self::$asgarosforum->options['show_statistics']) {
             $data = self::getData();
             echo '<div id="statistics">';
-                echo '<div class="title-element title-element-dark dashicons-before dashicons-chart-bar">'.__('Statistics', 'asgaros-forum').'</div>';
+                echo '<div class="title-element title-element-dark">';
+                    echo '<span class="title-element-icon fas fa-chart-pie"></span>';
+                    echo __('Statistics', 'asgaros-forum');
+                echo '</div>';
                 echo '<div id="statistics-body">';
                     echo '<div id="statistics-elements">';
-                        self::renderStatisticsElement(__('Topics', 'asgaros-forum'), $data->topics, 'dashicons-before dashicons-editor-alignleft');
-                        self::renderStatisticsElement(__('Posts', 'asgaros-forum'), $data->posts, 'dashicons-before dashicons-format-quote');
+                        self::renderStatisticsElement(__('Topics', 'asgaros-forum'), $data->topics, 'far fa-comments');
+                        self::renderStatisticsElement(__('Posts', 'asgaros-forum'), $data->posts, 'far fa-comment');
 
                         if (self::$asgarosforum->options['count_topic_views']) {
-                            self::renderStatisticsElement(__('Views', 'asgaros-forum'), $data->views, 'dashicons-before dashicons-visibility');
+                            self::renderStatisticsElement(__('Views', 'asgaros-forum'), $data->views, 'far fa-eye');
                         }
 
-                        self::renderStatisticsElement(__('Users', 'asgaros-forum'), $data->users, 'dashicons-before dashicons-groups');
+                        self::renderStatisticsElement(__('Users', 'asgaros-forum'), $data->users, 'far fa-user');
                         self::$asgarosforum->online->render_statistics_element();
                         do_action('asgarosforum_statistics_custom_element');
                     echo '</div>';
@@ -59,7 +62,10 @@ class AsgarosForumStatistics {
 
     public static function renderStatisticsElement($title, $data, $iconClass) {
         echo '<div class="statistics-element">';
-            echo '<div class="element-number '.$iconClass.'">'.number_format_i18n($data).'</div>';
+            echo '<div class="element-number">';
+                echo '<span class="statistics-element-icon '.$iconClass.'"></span>';
+                echo number_format_i18n($data);
+            echo '</div>';
             echo '<div class="element-name">'.$title.'</div>';
         echo '</div>';
     }

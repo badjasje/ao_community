@@ -185,8 +185,16 @@ class AsgarosForumUnread {
             echo '<span class="indicator-label">'.__('New posts', 'asgaros-forum').'</span>';
             echo '<span class="indicator read"></span>';
             echo '<span class="indicator-label">'.__('Nothing new', 'asgaros-forum').'</span>';
-            echo '<span class="indicator-label dashicons-before dashicons-yes"><a href="'.$this->asgarosforum->get_link('markallread').'">'.__('Mark All Read', 'asgaros-forum').'</a></span>';
-            echo '<span class="indicator-label dashicons-before dashicons-backup"><a href="'.$this->asgarosforum->get_link('unread').'">'.__('Show Unread Topics', 'asgaros-forum').'</a></span>';
+
+            echo '<span class="indicator-label">';
+                echo '<span class="fas fa-check"></span>';
+                echo '<a href="'.$this->asgarosforum->get_link('markallread').'">'.__('Mark All Read', 'asgaros-forum').'</a>';
+            echo '</span>';
+
+            echo '<span class="indicator-label">';
+                echo '<span class="fas fa-history"></span>';
+                echo '<a href="'.$this->asgarosforum->get_link('unread').'">'.__('Show Unread Topics', 'asgaros-forum').'</a>';
+            echo '</span>';
 
             echo '<div class="clear"></div>';
         echo '</div>';
@@ -194,9 +202,10 @@ class AsgarosForumUnread {
 
     function show_unread_menu() {
         echo '<div class="forum-menu">';
-        echo '<a class="dashicons-before dashicons-yes button-normal" href="'.$this->asgarosforum->get_link('markallread').'">';
-        echo __('Mark All Read', 'asgaros-forum');
-        echo '</a>';
+            echo '<a class="button button-normal" href="'.$this->asgarosforum->get_link('markallread').'">';
+                echo '<span class="menu-icon fas fa-check"></span>';
+                echo __('Mark All Read', 'asgaros-forum');
+            echo '</a>';
         echo '</div>';
     }
 
@@ -216,7 +225,7 @@ class AsgarosForumUnread {
         echo '</div>';
 
         echo '<div class="title-element"></div>';
-        echo '<div class="content-element">';
+        echo '<div class="content-container">';
 
         if ($unread_topics_counter > 0) {
             $page_elements = 50;
@@ -226,11 +235,23 @@ class AsgarosForumUnread {
             foreach ($data_sliced as $topic) {
                 $topic_title = esc_html(stripslashes($topic->topic_name));
 
-                echo '<div class="unread-topic topic-normal">';
-                    echo '<div class="topic-status dashicons-before '.$this->asgarosforum->get_status_icon($topic).' unread"></div>';
+                echo '<div class="content-element unread-topic topic-normal">';
+                    echo '<div class="topic-status far fa-comments unread"></div>';
                     echo '<div class="topic-name">';
                         $first_unread_post = $this->asgarosforum->content->get_first_unread_post($topic->topic_id);
                         $link = $this->asgarosforum->rewrite->get_post_link($first_unread_post->id, $first_unread_post->parent_id);
+
+                        if ($this->asgarosforum->is_topic_sticky($topic->topic_id)) {
+                            echo '<span class="topic-icon fas fa-thumbtack"></span>';
+                        }
+
+                        if ($this->asgarosforum->is_topic_closed($topic->topic_id)) {
+                            echo '<span class="topic-icon fas fa-lock"></span>';
+                        }
+
+                        if ($this->asgarosforum->polls->has_poll($topic->topic_id)) {
+                            echo '<span class="topic-icon fas fa-poll-h"></span>';
+                        }
 
                         echo '<a href="'.$link.'" title="'.$topic_title.'">'.$topic_title.'</a>';
 
@@ -244,7 +265,7 @@ class AsgarosForumUnread {
                 echo '</div>';
             }
         } else {
-            echo '<div class="notice">'.__('There are no unread topics.', 'asgaros-forum').'</div>';
+            $this->asgarosforum->render_notice(__('There are no unread topics.', 'asgaros-forum'));
         }
 
         echo '</div>';

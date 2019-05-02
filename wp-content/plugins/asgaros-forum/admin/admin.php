@@ -53,29 +53,32 @@ class AsgarosForumAdmin {
 
         if ($asgarosforum->options['enable_mentioning']) {
             $output .= '<tr>';
-            $output .= '<th><label for="asgarosforum_mention_notify">'.__('Notify me when I got mentioned', 'asgaros-forum').'</label></th>';
+            $output .= '<th><label for="asgarosforum_mention_notify">'.__('Notify me when I get mentioned', 'asgaros-forum').'</label></th>';
             $output .= '<td><input type="checkbox" name="asgarosforum_mention_notify" id="asgarosforum_mention_notify" value="1" '.checked($asgarosforum->mentioning->user_wants_notification($user->ID), true, false).'></td>';
             $output .= '</tr>';
         }
 
         if ($asgarosforum->options['allow_signatures']) {
-            $output .= '<tr>';
-            $output .= '<th><label for="asgarosforum_signature">'.__('Signature', 'asgaros-forum').'</label></th>';
-            $output .= '<td>';
-            $output .= '<textarea rows="5" cols="30" name="asgarosforum_signature" id="asgarosforum_signature">'.get_the_author_meta('asgarosforum_signature', $user->ID).'</textarea>';
+            // Ensure that the user has permission to use a signature.
+            if ($asgarosforum->permissions->can_use_signature($user->ID)) {
+                $output .= '<tr>';
+                $output .= '<th><label for="asgarosforum_signature">'.__('Signature', 'asgaros-forum').'</label></th>';
+                $output .= '<td>';
+                $output .= '<textarea rows="5" cols="30" name="asgarosforum_signature" id="asgarosforum_signature">'.get_the_author_meta('asgarosforum_signature', $user->ID).'</textarea>';
 
-            // Show info about allowed HTML tags.
-            if ($asgarosforum->options['signatures_html_allowed']) {
-                $output .= '<p class="description">';
-                $output .= __('You can use the following HTML tags in signatures:', 'asgaros-forum');
-                $output .= '&nbsp;<code>'.esc_html($asgarosforum->options['signatures_html_tags']).'</code>';
-                $output .= '</p>';
-            } else {
-                $output .= '<p class="description">'.__('HTML tags are not allowed in signatures.', 'asgaros-forum').'</p>';
+                // Show info about allowed HTML tags.
+                if ($asgarosforum->options['signatures_html_allowed']) {
+                    $output .= '<p class="description">';
+                    $output .= __('You can use the following HTML tags in signatures:', 'asgaros-forum');
+                    $output .= '&nbsp;<code>'.esc_html($asgarosforum->options['signatures_html_tags']).'</code>';
+                    $output .= '</p>';
+                } else {
+                    $output .= '<p class="description">'.__('HTML tags are not allowed in signatures.', 'asgaros-forum').'</p>';
+                }
+
+                $output .= '</td>';
+                $output .= '</tr>';
             }
-
-            $output .= '</td>';
-            $output .= '</tr>';
         }
 
         if (!empty($output)) {
@@ -109,14 +112,17 @@ class AsgarosForumAdmin {
         }
 
         if ($asgarosforum->options['allow_signatures']) {
-            if (isset($_POST['asgarosforum_signature'])) {
-                if ($asgarosforum->options['signatures_html_allowed']) {
-                    update_user_meta($user_id, 'asgarosforum_signature', trim(wp_kses_post(strip_tags($_POST['asgarosforum_signature'], $asgarosforum->options['signatures_html_tags']))));
+            // Ensure that the user has permission to use a signature.
+            if ($asgarosforum->permissions->can_use_signature($user_id)) {
+                if (isset($_POST['asgarosforum_signature'])) {
+                    if ($asgarosforum->options['signatures_html_allowed']) {
+                        update_user_meta($user_id, 'asgarosforum_signature', trim(wp_kses_post(strip_tags($_POST['asgarosforum_signature'], $asgarosforum->options['signatures_html_tags']))));
+                    } else {
+                        update_user_meta($user_id, 'asgarosforum_signature', trim(wp_kses_post(strip_tags($_POST['asgarosforum_signature']))));
+                    }
                 } else {
-                    update_user_meta($user_id, 'asgarosforum_signature', trim(wp_kses_post(strip_tags($_POST['asgarosforum_signature']))));
+                    delete_user_meta($user_id, 'asgarosforum_signature');
                 }
-            } else {
-                delete_user_meta($user_id, 'asgarosforum_signature');
             }
         }
     }
@@ -124,22 +130,10 @@ class AsgarosForumAdmin {
     // Add all required pages to the menu.
     function add_admin_pages() {
         if ($this->asgarosforum->permissions->isAdministrator('current')) {
-            add_menu_page(__('Forum', 'asgaros-forum'), __('Forum', 'asgaros-forum'), 'read', 'asgarosforum-structure', array($this, 'structure_page'), 'dashicons-clipboard');
+            add_menu_page(__('Forum', 'asgaros-forum'), __('Forum', 'asgaros-forum'), 'read', 'asgarosforum-structure', array($this, 'structure_page'), 'none');
             add_submenu_page('asgarosforum-structure', __('Structure', 'asgaros-forum'), __('Structure', 'asgaros-forum'), 'read', 'asgarosforum-structure', array($this, 'structure_page'));
             add_submenu_page('asgarosforum-structure', __('Appearance', 'asgaros-forum'), __('Appearance', 'asgaros-forum'), 'read', 'asgarosforum-appearance', array($this, 'appearance_page'));
             add_submenu_page('asgarosforum-structure', __('Usergroups', 'asgaros-forum'), __('Usergroups', 'asgaros-forum'), 'read', 'asgarosforum-usergroups', array($this, 'usergroups_page'));
-
-            if ($this->asgarosforum->options['reports_enabled']) {
-                // Add report counter to menu.
-                $label_reports = __('Reports', 'asgaros-forum');
-                $counter_reports = $this->asgarosforum->reports->count_reports();
-
-                if ($counter_reports > 0) {
-                    $label_reports = sprintf(__('Reports %s', 'asgaros-forum'), '<span class="update-plugins count-'.$counter_reports.'"><span class="plugin-count">'.number_format_i18n($counter_reports).'</span></span>');
-                }
-
-                add_submenu_page('asgarosforum-structure', __('Reports', 'asgaros-forum'), $label_reports, 'read', 'asgarosforum-reports', array($this, 'reports_page'));
-            }
 
             if ($this->asgarosforum->options['enable_ads']) {
                 add_submenu_page('asgarosforum-structure', __('Ads', 'asgaros-forum'), __('Ads', 'asgaros-forum'), 'read', 'asgarosforum-ads', array($this, 'ads_page'));
@@ -170,10 +164,6 @@ class AsgarosForumAdmin {
         require('views/usergroups.php');
     }
 
-    function reports_page() {
-        require('views/reports.php');
-    }
-
     function ads_page() {
         require('views/ads.php');
     }
@@ -181,10 +171,10 @@ class AsgarosForumAdmin {
     function enqueue_admin_scripts($hook) {
         global $asgarosforum;
 
-        wp_enqueue_style('asgarosforum-admin-common-css', $asgarosforum->plugin_url.'admin/css/admin-common.css', array(), $asgarosforum->version);
+        wp_enqueue_style('asgarosforum-fontawesome-css', $asgarosforum->plugin_url.'libs/fontawesome/css/all.min.css', array(), $asgarosforum->version);
+        wp_enqueue_style('asgarosforum-admin-css', $asgarosforum->plugin_url.'admin/css/admin.css', array(), $asgarosforum->version);
 
         if (strstr($hook, 'asgarosforum') !== false) {
-            wp_enqueue_style('asgarosforum-admin-css', $asgarosforum->plugin_url.'admin/css/admin.css', array(), $asgarosforum->version);
             wp_enqueue_style('wp-color-picker');
             wp_enqueue_script('asgarosforum-admin-js', $asgarosforum->plugin_url.'admin/js/admin.js', array('wp-color-picker'), $asgarosforum->version, true);
         }
@@ -262,13 +252,6 @@ class AsgarosForumAdmin {
 
                 if (!empty($_POST['usergroup-category-id']) && is_numeric($_POST['usergroup-category-id'])) {
                     AsgarosForumUserGroups::deleteUserGroupCategory($_POST['usergroup-category-id']);
-                }
-            } else if (isset($_POST['asgaros-forum-delete-report'])) {
-                // Verify nonce first.
-                check_admin_referer('asgaros_forum_delete_report');
-
-                if (!empty($_POST['report-id']) && is_numeric($_POST['report-id'])) {
-                    $this->asgarosforum->reports->remove_report($_POST['report-id']);
                 }
             } else if (isset($_POST['af-create-edit-ad-submit'])) {
                 // Verify nonce first.
@@ -390,7 +373,7 @@ class AsgarosForumAdmin {
         $forum_name         = trim($_POST['forum_name']);
         $forum_description  = trim($_POST['forum_description']);
         $forum_icon         = trim($_POST['forum_icon']);
-        $forum_icon         = (empty($forum_icon)) ? 'dashicons-format-chat' : $forum_icon;
+        $forum_icon         = (empty($forum_icon)) ? 'fas fa-comments' : $forum_icon;
         $forum_closed       = (isset($_POST['forum_closed'])) ? 1 : 0;
         $forum_approval     = (isset($_POST['forum_approval'])) ? 1 : 0;
         $forum_order        = (is_numeric($_POST['forum_order'])) ? $_POST['forum_order'] : 0;
@@ -495,11 +478,20 @@ class AsgarosForumAdmin {
                     echo '<h1>'.$title.'</h1>';
                 echo '</div>';
                 echo '<div class="sub-panel-right">';
-                    echo '<a href="https://www.asgaros.de/support/" target="_blank" class="dashicons-before dashicons-admin-users">'.__('Official Support Forum', 'asgaros-forum').'</a>';
+                    echo '<a href="https://www.asgaros.de/support/" target="_blank">';
+                        echo '<span class="asgaros-panel-icon fas fa-user"></span>';
+                        echo __('Official Support Forum', 'asgaros-forum');
+                    echo '</a>';
                     echo '&bull;';
-                    echo '<a href="https://www.asgaros.de/docs/" target="_blank" class="dashicons-before dashicons-book">'.__('Documentation', 'asgaros-forum').'</a>';
+                    echo '<a href="https://www.asgaros.de/docs/" target="_blank">';
+                        echo '<span class="asgaros-panel-icon fas fa-book"></span>';
+                        echo __('Documentation', 'asgaros-forum');
+                    echo '</a>';
                     echo '&bull;';
-                    echo '<a href="https://www.paypal.me/asgaros" target="_blank" class="dashicons-before dashicons-heart">'.__('Donate', 'asgaros-forum').'</a>';
+                    echo '<a href="https://www.paypal.me/asgaros" target="_blank">';
+                        echo '<span class="asgaros-panel-icon donate-icon fas fa-heart"></span>';
+                        echo __('Donate', 'asgaros-forum');
+                    echo '</a>';
                 echo '</div>';
                 echo '<div class="clear"></div>';
             echo '</div>';

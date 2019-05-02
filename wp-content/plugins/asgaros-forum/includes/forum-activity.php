@@ -60,7 +60,7 @@ class AsgarosForumActivity {
                     }
 
                     echo '<div class="title-element">'.$current_time.'</div>';
-                    echo '<div class="content-element">';
+                    echo '<div class="content-container">';
                 }
 
                 $name_author = $this->asgarosforum->getUsername($activity->author_id);
@@ -70,13 +70,15 @@ class AsgarosForumActivity {
                 if ($this->asgarosforum->is_first_post($activity->id, $activity->parent_id)) {
                     $link = $this->asgarosforum->get_link('topic', $activity->parent_id);
                     $link_html = '<a href="'.$link.'">'.$name_topic.'</a>';
-                    echo '<div class="activity-element dashicons-before dashicons-edit '.$read_status.'">';
+                    echo '<div class="content-element activity-element">';
+                    echo '<span class="activity-icon fas fa-comments '.$read_status.'"></span>';
                     echo sprintf(__('New topic %s created by %s.', 'asgaros-forum'), $link_html, $name_author).' <i class="activity-time">'.$human_time_diff.'</i>';
                     echo '</div>';
                 } else {
                     $link = $this->asgarosforum->rewrite->get_post_link($activity->id, $activity->parent_id);
                     $link_html = '<a href="'.$link.'">'.$name_topic.'</a>';
-                    echo '<div class="activity-element dashicons-before dashicons-admin-comments '.$read_status.'">';
+                    echo '<div class="content-element activity-element">';
+                    echo '<span class="activity-icon fas fa-comment '.$read_status.'"></span>';
                     echo sprintf(__('%s answered in %s.', 'asgaros-forum'), $name_author, $link_html).' <i class="activity-time">'.$human_time_diff.'</i>';
                     echo '</div>';
                 }
@@ -85,8 +87,8 @@ class AsgarosForumActivity {
             echo '</div>';
         } else {
             echo '<div class="title-element"></div>';
-            echo '<div class="content-element">';
-            echo '<div class="notice">'.__('No activity yet!', 'asgaros-forum').'</div>';
+            echo '<div class="content-container">';
+            $this->asgarosforum->render_notice(__('No activity yet!', 'asgaros-forum'));
             echo '</div>';
         }
 
