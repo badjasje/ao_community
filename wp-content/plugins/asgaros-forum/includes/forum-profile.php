@@ -69,11 +69,10 @@ class AsgarosForumProfile {
 
     public function show_profile_header($user_data) {
         $userOnline = ($this->asgarosforum->online->is_user_online($user_data->ID)) ? ' class="user-online"' : '';
-        $showAvatars = get_option('show_avatars');
         $background_style = '';
 
         echo '<div id="profile-header"'.$userOnline.'>';
-            if ($showAvatars) {
+            if ($this->asgarosforum->options['enable_avatars']) {
                 $url = get_avatar_url($user_data->ID, 480);
                 $background_style = 'style="background-image: url(\''.$url.'\');"';
             }
@@ -82,8 +81,8 @@ class AsgarosForumProfile {
             echo '<div class="background-contrast"></div>';
 
             // Show avatar.
-            if ($showAvatars) {
-                echo get_avatar($user_data->ID, 160);
+            if ($this->asgarosforum->options['enable_avatars']) {
+                echo get_avatar($user_data->ID, 160, '', '', array('force_display' => true));
             }
 
             echo '<div class="user-info">';
@@ -261,22 +260,6 @@ class AsgarosForumProfile {
 
                     $this->renderProfileRow($cellTitle, $cellValue);
 
-                    // Show topics started.
-                    $createdTopics = $this->asgarosforum->getTopicsByUser($userData->ID);
-                    $counterTopics = count($createdTopics);
-                    $cellTitle = __('Topics Started:', 'asgaros-forum');
-                    $cellValue = number_format_i18n($counterTopics);
-
-                    $this->renderProfileRow($cellTitle, $cellValue);
-
-                    // Show replies created.
-                    $createdPosts = $this->asgarosforum->countPostsByUser($userData->ID);
-                    $counterPosts = $createdPosts - $counterTopics;
-                    $cellTitle = __('Replies Created:', 'asgaros-forum');
-                    $cellValue = number_format_i18n($counterPosts);
-
-                    $this->renderProfileRow($cellTitle, $cellValue);
-
                     // Show biographical info.
                     if (!empty($userData->description)) {
                         $cellTitle = __('Biographical Info:', 'asgaros-forum');
@@ -287,33 +270,61 @@ class AsgarosForumProfile {
 
                     // Show signature.
                     if ($this->asgarosforum->options['allow_signatures']) {
-                        // TODO: We can put this code in an own function because the logic is used twice (here and in posts).
-                        $signature = get_user_meta($userData->ID, 'asgarosforum_signature', true);
+                        // Ensure that the user has permission to use a signature.
+                        if ($this->asgarosforum->permissions->can_use_signature($userData->ID)) {
+                            // TODO: We can put this code in an own function because the logic is used twice (here and in posts).
+                            $signature = get_user_meta($userData->ID, 'asgarosforum_signature', true);
 
-                        // Prepare signature based on settings.
-                        if ($this->asgarosforum->options['signatures_html_allowed']) {
-                            $signature = strip_tags($signature, $this->asgarosforum->options['signatures_html_tags']);
-                        } else {
-                            $signature = esc_html(strip_tags($signature));
-                        }
+                            // Prepare signature based on settings.
+                            if ($this->asgarosforum->options['signatures_html_allowed']) {
+                                $signature = strip_tags($signature, $this->asgarosforum->options['signatures_html_tags']);
+                            } else {
+                                $signature = esc_html(strip_tags($signature));
+                            }
 
-                        // Trim it.
-                        $signature = trim($signature);
+                            // Trim it.
+                            $signature = trim($signature);
 
-                        if (!empty($signature)) {
-                            $cellTitle = __('Signature:', 'asgaros-forum');
-                            $cellValue = $signature;
+                            if (!empty($signature)) {
+                                $cellTitle = __('Signature:', 'asgaros-forum');
+                                $cellValue = $signature;
 
-                            $this->renderProfileRow($cellTitle, $cellValue);
+                                $this->renderProfileRow($cellTitle, $cellValue);
+                            }
                         }
                     }
+
+                    echo '<div class="profile-section-header">';
+                        echo '<span class="profile-section-header-icon fas fa-address-card"></span>';
+                        echo __('Member Activity', 'asgaros-forum');
+                    echo '</div>';
+
+                    echo '<div class="profile-section-content">';
+                        // Topics started.
+                        $count_topics = $this->asgarosforum->countTopicsByUser($userData->ID);
+                        AsgarosForumStatistics::renderStatisticsElement(__('Topics Started', 'asgaros-forum'), $count_topics, 'far fa-comments');
+
+                        // Replies created.
+                        $count_posts = $this->asgarosforum->countPostsByUser($userData->ID);
+                        $count_posts = $count_posts - $count_topics;
+                        AsgarosForumStatistics::renderStatisticsElement(__('Replies Created', 'asgaros-forum'), $count_posts, 'far fa-comment');
+
+                        // Likes Received.
+                        if ($this->asgarosforum->options['enable_reactions']) {
+                            $count_likes = $this->asgarosforum->reactions->get_reactions_received($userData->ID, 'up');
+                            AsgarosForumStatistics::renderStatisticsElement(__('Likes Received', 'asgaros-forum'), $count_likes, 'fas fa-thumbs-up');
+                        }
+                    echo '</div>';
 
                     do_action('asgarosforum_custom_profile_content', $userData);
 
                     $current_user_id = get_current_user_id();
 
                     if ($userData->ID == $current_user_id) {
-                        echo '<a href="'.get_edit_profile_url().'" class="edit-profile-link"><span class="dashicons-before dashicons-edit">'.__('Edit Profile', 'asgaros-forum').'</span></a>';
+                        echo '<a href="'.get_edit_profile_url().'" class="edit-profile-link">';
+                            echo '<span class="fas fa-pencil-alt"></span>';
+                            echo __('Edit Profile', 'asgaros-forum');
+                        echo '</a>';
                     }
 
                     // Check if the current user can ban this user.

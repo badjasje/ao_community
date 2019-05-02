@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Disable Gutenberg\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-12 01:13+0000\n"
+"POT-Creation-Date: 2019-03-07 01:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -19,48 +19,94 @@ msgstr ""
 msgid "Disable Gutenberg"
 msgstr ""
 
-#: disable-gutenberg.php:157
+#: disable-gutenberg.php:158
 msgid "Settings"
 msgstr ""
 
-#: disable-gutenberg.php:172
+#: disable-gutenberg.php:173
 msgid "Plugin Homepage"
 msgstr ""
 
-#: disable-gutenberg.php:173
+#: disable-gutenberg.php:174
 msgid "Homepage"
 msgstr ""
 
-#: disable-gutenberg.php:178
+#: disable-gutenberg.php:179
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr ""
 
-#: disable-gutenberg.php:179
+#: disable-gutenberg.php:180
 msgid "Rate this plugin"
 msgstr ""
 
-#: disable-gutenberg.php:201
+#: disable-gutenberg.php:202
 msgid "requires WordPress "
 msgstr ""
 
-#: disable-gutenberg.php:202
+#: disable-gutenberg.php:203
 msgid " or higher, and has been deactivated! "
 msgstr ""
 
-#: disable-gutenberg.php:203
+#: disable-gutenberg.php:204
 msgid "Please return to the"
 msgstr ""
 
-#: disable-gutenberg.php:204
+#: disable-gutenberg.php:205
 msgid "WP Admin Area"
 msgstr ""
 
-#: disable-gutenberg.php:204
+#: disable-gutenberg.php:205
 msgid "to upgrade WordPress and try again."
 msgstr ""
 
-#: disable-gutenberg.php:224 disable-gutenberg.php:230
+#: disable-gutenberg.php:225 disable-gutenberg.php:231
 msgid "Sorry, pal!"
+msgstr ""
+
+#: inc/settings-reset.php:18
+msgid "Default options restored."
+msgstr ""
+
+#: inc/settings-reset.php:24
+msgid "No changes made to options."
+msgstr ""
+
+#: inc/plugin-features.php:49
+msgid "(Classic)"
+msgstr ""
+
+#: inc/plugin-features.php:84
+msgid "Block Edit"
+msgstr ""
+
+#: inc/plugin-features.php:86
+#, php-format
+msgid "Edit &#8220;%s&#8221; in the Block Editor"
+msgstr ""
+
+#: inc/plugin-features.php:94
+msgid "Classic Edit"
+msgstr ""
+
+#: inc/plugin-features.php:96
+#, php-format
+msgid "Edit &#8220;%s&#8221; in the Classic Editor"
+msgstr ""
+
+#: inc/resources-enqueue.php:33
+msgid "Confirm Reset"
+msgstr ""
+
+#: inc/resources-enqueue.php:34
+msgid "Restore default options?"
+msgstr ""
+
+#: inc/resources-enqueue.php:35
+msgid "Yes, make it so."
+msgstr ""
+
+#: inc/resources-enqueue.php:36
+msgid "No, abort mission."
 msgstr ""
 
 #: inc/settings-register.php:30
@@ -243,52 +289,6 @@ msgstr ""
 
 #: inc/settings-register.php:238
 msgid "Please give a 5-star rating! A huge THANK YOU for your support!"
-msgstr ""
-
-#: inc/settings-reset.php:18
-msgid "Default options restored."
-msgstr ""
-
-#: inc/settings-reset.php:24
-msgid "No changes made to options."
-msgstr ""
-
-#: inc/resources-enqueue.php:33
-msgid "Confirm Reset"
-msgstr ""
-
-#: inc/resources-enqueue.php:34
-msgid "Restore default options?"
-msgstr ""
-
-#: inc/resources-enqueue.php:35
-msgid "Yes, make it so."
-msgstr ""
-
-#: inc/resources-enqueue.php:36
-msgid "No, abort mission."
-msgstr ""
-
-#: inc/plugin-features.php:49
-msgid "(Classic)"
-msgstr ""
-
-#: inc/plugin-features.php:84
-msgid "Block Edit"
-msgstr ""
-
-#: inc/plugin-features.php:86
-#, php-format
-msgid "Edit &#8220;%s&#8221; in the Block Editor"
-msgstr ""
-
-#: inc/plugin-features.php:94
-msgid "Classic Edit"
-msgstr ""
-
-#: inc/plugin-features.php:96
-#, php-format
-msgid "Edit &#8220;%s&#8221; in the Classic Editor"
 msgstr ""
 
 #. Description of the plugin

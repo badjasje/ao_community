@@ -148,9 +148,17 @@ class AsgarosForumRewrite {
 
             // Set the current element id.
             if (!empty($parsed_url[1])) {
-                // If we have a numeric value, its already an id. But this does not hold for usernames because they can be numeric as well.
-                if (is_numeric($parsed_url[1]) && $this->asgarosforum->current_view != 'profile' && $this->asgarosforum->current_view != 'history') {
+                // If we have a numeric value, its already an id.
+                if (is_numeric($parsed_url[1])) {
                     $this->asgarosforum->current_element = absint($parsed_url[1]);
+
+                    // But this does not hold for usernames because they can be numeric as well.
+                    if ($this->asgarosforum->current_view == 'profile' || $this->asgarosforum->current_view == 'history') {
+                        // Only make the conversion when slugs are used for profile-URLs.
+                        if ($this->asgarosforum->options['seo_url_mode_profile'] === 'slug') {
+                            $this->asgarosforum->current_element = $this->convert_slug_to_id($parsed_url[1], $this->asgarosforum->current_view);
+                        }
+                    }
                 } else {
                     $this->asgarosforum->current_element = $this->convert_slug_to_id($parsed_url[1], $this->asgarosforum->current_view);
                 }
@@ -282,6 +290,7 @@ class AsgarosForumRewrite {
             $this->links['history']       = $this->links['home'].'/history/';
             $this->links['unread']        = $this->links['home'].'/unread/';
             $this->links['unapproved']    = $this->links['home'].'/unapproved/';
+            $this->links['reports']       = $this->links['home'].'/reports/';
         } else {
             $this->links['activity']      = add_query_arg(array('view' => 'activity'), $this->links['home']);
             $this->links['subscriptions'] = add_query_arg(array('view' => 'subscriptions'), $this->links['home']);
@@ -298,6 +307,7 @@ class AsgarosForumRewrite {
             $this->links['history']       = add_query_arg(array('view' => 'history'), $this->links['home']);
             $this->links['unread']        = add_query_arg(array('view' => 'unread'), $this->links['home']);
             $this->links['unapproved']    = add_query_arg(array('view' => 'unapproved'), $this->links['home']);
+            $this->links['reports']       = add_query_arg(array('view' => 'reports'), $this->links['home']);
         }
     }
 
@@ -327,6 +337,16 @@ class AsgarosForumRewrite {
     // Converts a slug to an id.
     private $convert_slug_to_id_cache = array();
     function convert_slug_to_id($slug, $type) {
+        // Rename certain types to prevent duplicate queries.
+        switch ($type) {
+            case 'movetopic':
+                $type = 'topic';
+                break;
+            case 'history':
+                $type = 'profile';
+                break;
+        }
+
         // Check cache first.
         if (empty($this->convert_slug_to_id_cache[$type.'-'.$slug])) {
             // Set false as a default value in case it does not belong to an element.
@@ -335,7 +355,6 @@ class AsgarosForumRewrite {
             // Now try to determine an id.
             switch ($type) {
                 case 'topic':
-                case 'movetopic':
                     $result = $this->asgarosforum->db->get_var('SELECT id FROM '.$this->asgarosforum->tables->topics.' WHERE slug = "'.$slug.'";');
 
                     if ($result) {
@@ -352,7 +371,6 @@ class AsgarosForumRewrite {
 
                     break;
                 case 'profile':
-                case 'history':
                     $result = get_user_by('slug', $slug);
 
                     if ($result) {
@@ -369,6 +387,16 @@ class AsgarosForumRewrite {
     // Converts an id to a slug.
     private $convert_id_to_slug_cache = array();
     function convert_id_to_slug($id, $type) {
+        // Rename certain types to prevent duplicate queries.
+        switch ($type) {
+            case 'movetopic':
+                $type = 'topic';
+                break;
+            case 'history':
+                $type = 'profile';
+                break;
+        }
+
         // Check cache first.
         if (empty($this->convert_id_to_slug_cache[$type.'-'.$id])) {
             // Set the id as a default value in case we cant find a slug.
@@ -377,7 +405,11 @@ class AsgarosForumRewrite {
             // Now try to determine a slug.
             switch ($type) {
                 case 'topic':
-                case 'movetopic':
+                    // Cancel if IDs should be used for content-URLs.
+                    if ($this->asgarosforum->options['seo_url_mode_content'] === 'id') {
+                        break;
+                    }
+
                     $result = $this->asgarosforum->db->get_var('SELECT slug FROM '.$this->asgarosforum->tables->topics.' WHERE id = '.$id.';');
 
                     if ($result) {
@@ -386,6 +418,11 @@ class AsgarosForumRewrite {
 
                     break;
                 case 'forum':
+                    // Cancel if IDs should be used for content-URLs.
+                    if ($this->asgarosforum->options['seo_url_mode_content'] === 'id') {
+                        break;
+                    }
+
                     $result = $this->asgarosforum->db->get_var('SELECT slug FROM '.$this->asgarosforum->tables->forums.' WHERE id = '.$id.';');
 
                     if ($result) {
@@ -394,7 +431,11 @@ class AsgarosForumRewrite {
 
                     break;
                 case 'profile':
-                case 'history':
+                    // Cancel if IDs should be used for profile-URLs.
+                    if ($this->asgarosforum->options['seo_url_mode_profile'] === 'id') {
+                        break;
+                    }
+
                     $result = get_user_by('id', $id);
 
                     if ($result) {

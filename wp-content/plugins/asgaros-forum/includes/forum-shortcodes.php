@@ -85,7 +85,7 @@ class AsgarosForumShortcodes {
                 } else if (!empty($atts['category'])) {
                     $this->includeCategories = explode(',', $atts['category']);
 
-                    $category_doesnt_matter_views = array('search', 'subscriptions', 'profile', 'members', 'history', 'markallread', 'unread', 'activity', 'unapproved');
+                    $category_doesnt_matter_views = array('search', 'subscriptions', 'profile', 'members', 'history', 'markallread', 'unread', 'activity', 'unapproved', 'reports');
 
                     // Ensure that we are in the correct category or view, otherwise show overview.
                     if (!in_array($this->asgarosforum->current_category, $this->includeCategories) && !in_array($this->asgarosforum->current_view, $category_doesnt_matter_views)) {
@@ -112,9 +112,14 @@ class AsgarosForumShortcodes {
         unset($shortcode_tags['forum']);
         unset($shortcode_tags['Forum']);
 
-        // If shortcodes are not allowed, ensure that the spoiler-shortcode still works.
+        // Remove all shortcodes if they are not allowed inside of posts ...
         if (!$this->asgarosforum->options['allow_shortcodes']) {
-            $shortcode_tags = array('spoiler' => $shortcode_tags_backup['spoiler']);
+            $shortcode_tags = array();
+
+            // ... but ensure that spoilers still stay available if activated.
+            if ($this->asgarosforum->options['enable_spoilers']) {
+                $shortcode_tags['spoiler'] = $shortcode_tags_backup['spoiler'];
+            }
         }
 
         // Apply custom shortcodes.

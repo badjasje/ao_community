@@ -73,7 +73,7 @@
             var forum_parent_forum      = $(this).attr('data-value-parent-forum');
             var forum_name              = '';
             var forum_description       = '';
-            var forum_icon              = 'dashicons-format-chat';
+            var forum_icon              = 'fas fa-comments';
             var forum_closed            = '';
             var forum_approval          = '';
             var forum_order             = '1';
@@ -284,17 +284,6 @@
             showEditorInstance('#usergroup-category-delete');
         });
 
-        // Delete report dialog.
-        $('.report-delete-link').click(function() {
-            resetEditor();
-
-            var elementID = $(this).attr('data-value-id');
-            $('#report-delete input[name=report-id]').val(elementID);
-
-            setEditorTitle(this);
-            showEditorInstance('#report-delete');
-        });
-
         // Delete ad dialog.
         $('.ad-delete-link').click(function() {
             resetEditor();
@@ -313,7 +302,7 @@
         function setEditorTitle(objectElement) {
             var editor_title = $(objectElement).attr('data-value-editor-title');
 
-            $('#editor-container h2').html(editor_title);
+            $('#editor-container .settings-header').html(editor_title);
         }
 
         function resetEditor() {

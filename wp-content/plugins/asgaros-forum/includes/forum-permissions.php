@@ -234,7 +234,7 @@ class AsgarosForumPermissions {
         }
 
         // Ensure that the topics is not closed.
-        if (!$this->asgarosforum->get_status('closed')) {
+        if (!$this->asgarosforum->is_topic_closed($this->asgarosforum->current_topic)) {
             // If a logged-in user is not banned, he can create a post.
             if (is_user_logged_in() && !$this->isBanned($user_id)) {
                 return true;
@@ -247,6 +247,27 @@ class AsgarosForumPermissions {
         }
 
         // Otherwise its not possible to create a post.
+        return false;
+    }
+
+    // Checks if an user can use a signature.
+    public function can_use_signature($user_id) {
+        // Disallow when user is banned.
+        if ($this->isBanned($user_id)) {
+            return false;
+        }
+
+        // Moderators can always use a signature.
+        if ($this->isModerator($user_id)) {
+            return true;
+        }
+
+        // Based on the settings, logged-in users can use a signature.
+        if ($this->asgarosforum->options['signatures_permission'] == 'loggedin') {
+            return true;
+        }
+
+        // Otherwise its not possible to use a signature.
         return false;
     }
 
@@ -292,7 +313,13 @@ class AsgarosForumPermissions {
         }
     }
 
+    private $get_users_by_role_cache = array();
     public function get_users_by_role($role) {
+        // Return cached value if available.
+        if (isset($this->get_users_by_role_cache[$role])) {
+            return $this->get_users_by_role_cache[$role];
+        }
+
         $data = array();
 
         // Ensure we dont run core query modifications for this function.
@@ -386,7 +413,9 @@ class AsgarosForumPermissions {
         // Reset settings for core query modifications.
         $this->asgarosforum->prevent_query_modifications = false;
 
-        return $data;
+        // Cache value and return it.
+        $this->get_users_by_role_cache[$role] = $data;
+        return $this->get_users_by_role_cache[$role];
     }
 
     // Users List in Administration.

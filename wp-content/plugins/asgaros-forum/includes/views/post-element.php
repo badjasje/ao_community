@@ -22,9 +22,9 @@ $user_data = get_userdata($post->author_id);
 echo '<div class="post-element '.$highlight_class.' '.$first_post_class.'" id="postid-'.$post->id.'">';
     echo '<div class="post-author '.$user_online_class.'">';
         // Show avatar if activated.
-        if ($avatars_available) {
+        if ($this->options['enable_avatars']) {
             $avatar_size = apply_filters('asgarosforum_filter_avatar_size', 120);
-            echo get_avatar($post->author_id, $avatar_size);
+            echo get_avatar($post->author_id, $avatar_size, '', '', array('force_display' => true));
         }
 
         echo '<div class="post-author-block-name">';
@@ -84,18 +84,31 @@ echo '<div class="post-element '.$highlight_class.' '.$first_post_class.'" id="p
 
         // Post message.
         echo '<div class="post-message">';
-            echo '<div id="post-quote-container-'.$post->id.'" style="display: none;"><blockquote><div class="quotetitle">'.__('Quote from', 'asgaros-forum').' '.$this->getUsername($post->author_id).' '.sprintf(__('on %s', 'asgaros-forum'), $this->format_date($post->date)).'</div>'.wpautop(stripslashes($post->text)).'</blockquote><br></div>';
-            global $wp_embed;
-            $post_content = wpautop($wp_embed->autoembed(stripslashes($post->text)));
+            // Initial escaping.
+            $post_content = wp_kses($post->text, 'post');
+            $post_content = stripslashes($post_content);
+
+            echo '<div id="post-quote-container-'.$post->id.'" style="display: none;"><blockquote><div class="quotetitle">'.__('Quote from', 'asgaros-forum').' '.$this->getUsername($post->author_id).' '.sprintf(__('on %s', 'asgaros-forum'), $this->format_date($post->date)).'</div>'.wpautop($post_content).'</blockquote><br></div>';
+
+            // Automatically embed contents if enabled.
+            if ($this->options['embed_content']) {
+                global $wp_embed;
+                $post_content = $wp_embed->autoembed($post_content);
+            }
+
+            // Wrap paragraphs.
+            $post_content = wpautop($post_content);
 
             // Render shortcodes.
             $post_content = $this->shortcode->render_post_shortcodes($post_content);
 
+            // Create nicename-links.
             $post_content = $this->mentioning->nice_name_to_link($post_content);
 
             // This function has to be called at last to ensure that we dont break links to mentioned users.
             $post_content = make_clickable($post_content);
 
+            // Apply custom filters.
             $post_content = apply_filters('asgarosforum_filter_post_content', $post_content, $post->id);
 
             echo $post_content;
@@ -139,21 +152,24 @@ echo '<div class="post-element '.$highlight_class.' '.$first_post_class.'" id="p
 
         // Show signature.
         if ($this->current_view != 'post' && $this->options['allow_signatures']) {
-            // Load signature.
-            $signature = get_user_meta($post->author_id, 'asgarosforum_signature', true);
+            // Ensure that the user has permission to use a signature.
+            if ($this->permissions->can_use_signature($post->author_id)) {
+                // Load signature.
+                $signature = get_user_meta($post->author_id, 'asgarosforum_signature', true);
 
-            // Prepare signature based on settings.
-            if ($this->options['signatures_html_allowed']) {
-                $signature = strip_tags($signature, $this->options['signatures_html_tags']);
-            } else {
-                $signature = esc_html(strip_tags($signature));
-            }
+                // Prepare signature based on settings.
+                if ($this->options['signatures_html_allowed']) {
+                    $signature = strip_tags($signature, $this->options['signatures_html_tags']);
+                } else {
+                    $signature = esc_html(strip_tags($signature));
+                }
 
-            // Trim it.
-            $signature = trim($signature);
+                // Trim it.
+                $signature = trim($signature);
 
-            if (!empty($signature)) {
-                echo '<div class="signature">'.$signature.'</div>';
+                if (!empty($signature)) {
+                    echo '<div class="signature">'.$signature.'</div>';
+                }
             }
         }
         ?>

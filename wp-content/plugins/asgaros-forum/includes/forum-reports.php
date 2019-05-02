@@ -8,6 +8,15 @@ class AsgarosForumReports {
 
     public function __construct($object) {
         $this->asgarosforum = $object;
+
+        add_action('asgarosforum_breadcrumbs_reports', array($this, 'add_breadcrumbs'));
+        add_action('asgarosforum_prepare_overview', array($this, 'register_notice'));
+    }
+
+    public function add_breadcrumbs() {
+        $element_link = $this->asgarosforum->get_link('reports');
+        $element_title = __('Reports', 'asgaros-forum');
+        $this->asgarosforum->breadcrumbs->add_breadcrumb($element_link, $element_title);
     }
 
     public function render_report_button($post_id, $topic_id) {
@@ -21,12 +30,12 @@ class AsgarosForumReports {
                     $report_href = $this->asgarosforum->rewrite->get_link('topic', $topic_id, array('post' => $post_id, 'report_add' => 1, 'part' => ($this->asgarosforum->current_page + 1)), '#postid-'.$post_id);
 
                     echo '<a href="'.$report_href.'" title="'.__('Report Post', 'asgaros-forum').'" onclick="return confirm(\''.$report_message.'\');">';
-                        echo '<span class="report-link dashicons-before dashicons-warning">';
+                        echo '<span class="report-link fas fa-exclamation-triangle">';
                         echo '<span class="screen-reader-text">'.__('Click to report post.', 'asgaros-forum').'</span>';
                         echo '</span>';
                     echo '</a>';
                 } else {
-                    echo '<span class="report-exists dashicons-before dashicons-warning" title="'.__('You reported this post.', 'asgaros-forum').'"></span>';
+                    echo '<span class="report-exists fas fa-exclamation-triangle" title="'.__('You reported this post.', 'asgaros-forum').'"></span>';
                 }
 
                 echo '&nbsp;&middot;&nbsp;';
@@ -87,6 +96,11 @@ class AsgarosForumReports {
     }
 
     public function remove_report($post_id) {
+        // Ensure that the current user is at least a moderator.
+        if (!$this->asgarosforum->permissions->isModerator('current')) {
+            return;
+        }
+
         $this->asgarosforum->db->delete($this->asgarosforum->tables->reports, array('post_id' => $post_id), array('%d'));
     }
 
@@ -111,12 +125,19 @@ class AsgarosForumReports {
 
     // Returns all reported posts with an array of reporting users.
     public function get_reports() {
-        $result = $this->asgarosforum->db->get_results('SELECT post_id, reporter_id FROM '.$this->asgarosforum->tables->reports.' ORDER BY post_id DESC;');
-
         $reports = array();
 
-        foreach ($result as $report) {
-            $reports[$report->post_id][] = $report->reporter_id;
+        // Get accessible categories first.
+        $ids_categories = $this->asgarosforum->content->get_categories_ids();
+
+        if (!empty($ids_categories)) {
+            $ids_categories = implode(',', $ids_categories);
+
+            $result = $this->asgarosforum->db->get_results("SELECT r.post_id, r.reporter_id FROM {$this->asgarosforum->tables->reports} AS r, {$this->asgarosforum->tables->posts} AS p, {$this->asgarosforum->tables->forums} AS f WHERE r.post_id = p.id AND p.forum_id = f.id AND f.parent_id IN ({$ids_categories}) ORDER BY r.post_id DESC;");
+
+            foreach ($result as $report) {
+                $reports[$report->post_id][] = $report->reporter_id;
+            }
         }
 
         return $reports;
@@ -130,7 +151,7 @@ class AsgarosForumReports {
 
         $report = array(
             'post_id'       => $post_id,
-            'post_text'     => esc_html(stripslashes($post_object->text)),
+            'post_text'     => esc_html(stripslashes(strip_tags($post_object->text))),
             'post_text_raw' => wpautop(stripslashes($post_object->text)),
             'post_link'     => $post_link,
             'topic_name'    => esc_html(stripslashes($topic_object->name)),
@@ -142,8 +163,91 @@ class AsgarosForumReports {
     }
 
     public function count_reports() {
-        $result = $this->asgarosforum->db->get_results('SELECT * FROM '.$this->asgarosforum->tables->reports.';');
+        $result = $this->get_reports();
 
         return count($result);
+    }
+
+    // Shows an info-message when there are new reports.
+    public function register_notice() {
+        // Ensure that this option is enabled.
+        if (!$this->asgarosforum->options['reports_enabled']) {
+            return;
+        }
+
+        // Ensure that the current user is at least a moderator.
+        if (!$this->asgarosforum->permissions->isModerator('current')) {
+            return;
+        }
+
+        $reports_counter = $this->count_reports();
+
+        if ($reports_counter > 0) {
+            $notice = __('There are reports.', 'asgaros-forum');
+            $link = $this->asgarosforum->rewrite->get_link('reports');
+            $icon = 'fas fa-exclamation-triangle';
+            $this->asgarosforum->add_notice($notice, $link, $icon);
+        }
+    }
+
+    public function show_reports() {
+        $reports = $this->get_reports();
+
+        echo '<div class="title-element"></div>';
+
+        if (empty($reports)) {
+            $this->asgarosforum->render_notice(__('There are no reports.', 'asgaros-forum'));
+        } else {
+            foreach ($reports as $post_id => $reporter_ids) {
+                $report = $this->get_report($post_id, $reporter_ids);
+
+                echo '<div class="report-element">';
+                    $post_link = '<a href="'.$report['post_link'].'" title="'.$report['topic_name'].'">'.$report['topic_name'].'</a>';
+                    $post_author = $this->asgarosforum->getUsername($report['author_id']);
+
+                    echo '<div class="report-source">';
+                        echo sprintf('Posted in %s by %s', $post_link, $post_author);
+                        echo '&nbsp;&middot;&nbsp;';
+                        echo __('Reported by:', 'asgaros-forum').'&nbsp;';
+
+                        $first_reporter = true;
+
+                        foreach ($report['reporters'] as $reporter) {
+                            $userdata = get_userdata($reporter);
+
+                            if (!$first_reporter) {
+                                echo ',&nbsp;';
+                            }
+
+                            echo $this->asgarosforum->getUsername($reporter);
+
+                            $first_reporter = false;
+                        }
+                    echo '</div>';
+
+                    echo '<div class="report-content">';
+                        if (strlen($report['post_text']) > 300) {
+                            $report['post_text'] = mb_substr($report['post_text'], 0, 300, 'UTF-8') . ' &hellip;';
+                        }
+
+                        echo $report['post_text'];
+                    echo '</div>';
+
+                    echo '<div class="report-actions">';
+                        $delete_link = $this->asgarosforum->rewrite->get_link('reports', false, array('report_delete' => $report['post_id']));
+
+                        echo '<a class="report-action-delete" href="'.$delete_link.'">';
+                            echo '<span class="fas fa-trash-alt"></span>';
+                            echo __('Delete Report', 'asgaros-forum');
+                        echo '</a>';
+
+                        echo '<a href="'.$report['post_link'].'">';
+                            echo '<span class="fas fa-eye"></span>';
+                            echo __('Show Post', 'asgaros-forum');
+                        echo '</a>';
+                    echo '</div>';
+                echo '</div>';
+            }
+        }
     }
 }

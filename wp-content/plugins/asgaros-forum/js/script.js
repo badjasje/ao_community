@@ -1,22 +1,16 @@
 (function($) {
     $(document).ready(function() {
-        // Adds a new spoiler-button to the editor.
-        $(document).on('tinymce-editor-setup', function(event, editor) {
-            editor.settings.toolbar1 += ',spoiler';
+        // Sticky panel.
+        $('#af-wrapper .topic-button-sticky').click(function(e) {
+            e.preventDefault();
 
-            editor.addButton('spoiler', {
-                icon: 'spoiler',
-                tooltip: 'Spoiler',
-                onclick: function() {
-                    editor.insertContent("[spoiler][/spoiler]");
-                }
-            });
-        });
-
-        // Toggles a clicked spoiler.
-        $('#af-wrapper .spoiler .spoiler-head').click(function() {
-    		$(this).toggleClass('closed').toggleClass('opened').next().toggle();
+    		$('#af-wrapper #sticky-panel').toggle();
     	});
+
+        // Automatic submit for sticky-mode.
+        $('#af-wrapper input[name=sticky_topic]').on('change', function() {
+            $(this).closest('form').submit();
+        });
 
         // Show editor inside another view.
         $('a.forum-editor-button').click(function(e) {
@@ -96,7 +90,7 @@
 
         $('a#add_file_link').click(function() {
             // Insert new upload element.
-            $('<input type="file" name="forumfile[]" /><br>').insertBefore(this);
+            $('<input type="file" name="forumfile[]"><br>').insertBefore(this);
 
             // Check if we can add more upload elements.
             checkUploadsMaximumNumber();
@@ -104,7 +98,7 @@
 
         $('.uploaded-files a.delete').click(function() {
             var filename= $(this).attr('data-filename');
-            $('.files-to-delete').append('<input type="hidden" name="deletefile[]" value="'+filename+'" />');
+            $('.files-to-delete').append('<input type="hidden" name="deletefile[]" value="'+filename+'">');
             $(this).parent().remove();
 
             // Check if we can add more upload elements.
@@ -177,13 +171,58 @@
                 var final_state = $(this).is(':hidden') ? 'hidden' : 'visible';
 
                 if (final_state === 'hidden') {
-                    $('#af-wrapper #memberslist-filter-toggle').attr('class', 'title-element dashicons-before dashicons-arrow-down-alt2');
-                    $('#af-wrapper #memberslist-filter-toggle').html($("#af-wrapper #memberslist-filter").attr('data-value-show-filters'));
+                    $('#af-wrapper #memberslist-filter-toggle .title-element-icon').attr('class', 'title-element-icon fas fa-chevron-down');
+                    $('#af-wrapper #memberslist-filter-toggle .title-element-text').html($("#af-wrapper #memberslist-filter").attr('data-value-show-filters'));
                 } else {
-                    $('#af-wrapper #memberslist-filter-toggle').attr('class', 'title-element dashicons-before dashicons-arrow-up-alt2');
-                    $('#af-wrapper #memberslist-filter-toggle').html($("#af-wrapper #memberslist-filter").attr('data-value-hide-filters'));
+                    $('#af-wrapper #memberslist-filter-toggle .title-element-icon').attr('class', 'title-element-icon fas fa-chevron-up');
+                    $('#af-wrapper #memberslist-filter-toggle .title-element-text').html($("#af-wrapper #memberslist-filter").attr('data-value-hide-filters'));
                 }
             });
         });
+
+        // Polls form add.
+        $('#af-wrapper .add-poll').click(function() {
+            $('#af-wrapper #poll-form').css('display', 'block');
+        });
+
+        // Polls form remove.
+        $('#af-wrapper .remove-poll').click(function() {
+            $('#af-wrapper #poll-form').css('display', 'none');
+            clear_form_elements('#af-wrapper #poll-form');
+        });
+
+        $('#af-wrapper .poll-option-add').click(function() {
+            var content = $('#af-wrapper #poll-option-template').html();
+            $(content).insertBefore(this);
+        });
+
+        $(document).on('click', '#af-wrapper .poll-option-delete', function(event) {
+            event.preventDefault();
+            $(this).parent().remove();
+        });
+
+        // Clears all form-elements inside of a selected DOM-element.
+        function clear_form_elements(selector) {
+            $(selector).find(':input').each(function() {
+                switch(this.type) {
+                    case 'password':
+                    case 'text':
+                    case 'textarea':
+                    case 'file':
+                    case 'select-one':
+                    case 'select-multiple':
+                    case 'date':
+                    case 'number':
+                    case 'tel':
+                    case 'email':
+                        $(this).val('');
+                    break;
+                    case 'checkbox':
+                    case 'radio':
+                        this.checked = false;
+                    break;
+                }
+            });
+        }
     });
 })(jQuery);

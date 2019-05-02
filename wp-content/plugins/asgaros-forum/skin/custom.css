@@ -3,8 +3,7 @@
 #af-wrapper input[type="checkbox"]:checked:before {
 color: #999999 !important;
 }
-#af-wrapper input[type="submit"],
-#af-wrapper .forum-menu a.button-normal,
+#af-wrapper .button-normal,
 #af-wrapper .title-element,
 #af-wrapper #forum-header,
 #af-wrapper #profile-header .background-avatar,

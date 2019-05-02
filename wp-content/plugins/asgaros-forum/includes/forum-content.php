@@ -109,7 +109,7 @@ class AsgarosForumContent {
 
         // Cancel if the topic is closed and the user is not a moderator.
         if ($this->get_action() === 'add_post') {
-            if ($this->asgarosforum->get_status('closed') && !$this->asgarosforum->permissions->isModerator('current')) {
+            if ($this->asgarosforum->is_topic_closed($this->asgarosforum->current_topic) && !$this->asgarosforum->permissions->isModerator('current')) {
                 $this->asgarosforum->error = __('You are not allowed to do this.', 'asgaros-forum');
                 return false;
             }
@@ -117,7 +117,7 @@ class AsgarosForumContent {
 
         // Cancel if subject is empty.
         if (($this->get_action() === 'add_topic' || ($this->get_action() === 'edit_post' && $this->asgarosforum->is_first_post($this->asgarosforum->current_post))) && empty($this->data_subject)) {
-            $this->asgarosforum->info = __('You must enter a subject.', 'asgaros-forum');
+            $this->asgarosforum->add_notice(__('You must enter a subject.', 'asgaros-forum'));
             return false;
         }
 
@@ -128,19 +128,19 @@ class AsgarosForumContent {
 
         // Cancel if content is empty.
         if (empty($this->data_content)) {
-            $this->asgarosforum->info = __('You must enter a message.', 'asgaros-forum');
+            $this->asgarosforum->add_notice(__('You must enter a message.', 'asgaros-forum'));
             return false;
         }
 
         // Cancel when the file extension of uploads are not allowed.
         if (!$this->asgarosforum->uploads->check_uploads_extension()) {
-            $this->asgarosforum->info = __('You are not allowed to upload files with that file extension.', 'asgaros-forum');
+            $this->asgarosforum->add_notice(__('You are not allowed to upload files with that file extension.', 'asgaros-forum'));
             return false;
         }
 
         // Cancel when the file size of uploads is too big.
         if (!$this->asgarosforum->uploads->check_uploads_size()) {
-            $this->asgarosforum->info = __('You are not allowed to upload files with that file size.', 'asgaros-forum');
+            $this->asgarosforum->add_notice(__('You are not allowed to upload files with that file size.', 'asgaros-forum'));
             return false;
         }
 
@@ -470,7 +470,30 @@ class AsgarosForumContent {
     }
 
     public function get_sticky_topics($forum_id) {
-        return $this->get_topics($forum_id, 1);
+        // Get accessible categories first.
+        $ids_categories = $this->get_categories_ids();
+
+        // Cancel if there are no accessible categories.
+        if (empty($ids_categories)) {
+            return false;
+        }
+
+        $ids_categories = implode(',', $ids_categories);
+
+        // Build query-part for ordering.
+        $order = "(SELECT MAX(id) FROM {$this->asgarosforum->tables->posts} WHERE parent_id = t.id) DESC";
+        $order = apply_filters('asgarosforum_filter_get_threads_order', $order);
+
+        // Build additional sub-queries.
+        $query_author = "SELECT author_id FROM {$this->asgarosforum->tables->posts} WHERE parent_id = t.id ORDER BY id ASC LIMIT 1";
+        $query_answers = "SELECT (COUNT(*) - 1) FROM {$this->asgarosforum->tables->posts} WHERE parent_id = t.id";
+
+        // Build final query and get results.
+        $query = "SELECT t.id, t.name, t.views, t.sticky, t.closed, ({$query_author}) AS author_id, ({$query_answers}) AS answers FROM {$this->asgarosforum->tables->topics} AS t, {$this->asgarosforum->tables->forums} AS f WHERE t.parent_id = f.id AND f.parent_id IN ({$ids_categories}) AND t.approved = 1 AND ((t.sticky = 2) OR (t.parent_id = %d AND t.sticky = 1)) ORDER BY ".$order.";";
+        $results = $this->asgarosforum->db->get_results($this->asgarosforum->db->prepare($query, $forum_id));
+        $results = apply_filters('asgarosforum_filter_get_threads', $results);
+
+        return $results;
     }
 
     // Returns all subforums.
@@ -485,15 +508,11 @@ class AsgarosForumContent {
         return $this->get_all_subforums_cache;
     }
 
-    function get_topics($forum_id, $sticky = 0) {
+    function get_topics($forum_id) {
         // Build query-part for pagination.
-        $limit = "";
-
-        if ($sticky === 0) {
-            $limit_end = $this->asgarosforum->options['topics_per_page'];
-            $limit_start = $this->asgarosforum->current_page * $limit_end;
-            $limit = $this->asgarosforum->db->prepare("LIMIT %d, %d", $limit_start, $limit_end);
-        }
+        $limit_end = $this->asgarosforum->options['topics_per_page'];
+        $limit_start = $this->asgarosforum->current_page * $limit_end;
+        $limit = $this->asgarosforum->db->prepare("LIMIT %d, %d", $limit_start, $limit_end);
 
         // Build query-part for ordering.
         $order = "(SELECT MAX(id) FROM {$this->asgarosforum->tables->posts} WHERE parent_id = t.id) DESC";
@@ -504,7 +523,7 @@ class AsgarosForumContent {
         $query_answers = "SELECT (COUNT(*) - 1) FROM {$this->asgarosforum->tables->posts} WHERE parent_id = t.id";
 
         // Build final query and get results.
-        $query = "SELECT t.id, t.name, t.views, t.sticky, t.closed, ({$query_author}) AS author_id, ({$query_answers}) AS answers FROM {$this->asgarosforum->tables->topics} AS t WHERE t.parent_id = %d AND t.sticky = {$sticky} AND t.approved = 1 ORDER BY {$order} {$limit};";
+        $query = "SELECT t.id, t.name, t.views, t.sticky, t.closed, ({$query_author}) AS author_id, ({$query_answers}) AS answers FROM {$this->asgarosforum->tables->topics} AS t WHERE t.parent_id = %d AND t.sticky = 0 AND t.approved = 1 ORDER BY {$order} {$limit};";
         $results = $this->asgarosforum->db->get_results($this->asgarosforum->db->prepare($query, $forum_id));
         $results = apply_filters('asgarosforum_filter_get_threads', $results);
 

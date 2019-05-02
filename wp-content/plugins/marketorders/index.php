@@ -151,7 +151,7 @@ function check_custom_authentication($username) {
         return;
     }
 }
-add_action('wp_authenticate', 'check_custom_authentication');
+//add_action('wp_authenticate', 'check_custom_authentication');
 
 function multi_register($login) {
     $user = get_user_by('login', $login);

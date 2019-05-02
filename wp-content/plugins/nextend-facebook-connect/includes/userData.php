@@ -63,7 +63,17 @@ class NextendSocialUserData {
             }
         }
 
-        $this->userData = apply_filters('nsl_registration_user_data', $this->userData, $this->provider);
+        $this->errors   = new WP_Error();
+        $this->userData = apply_filters('nsl_registration_user_data', $this->userData, $this->provider, $this->errors);
+
+        if ($this->errors->get_error_code() != '') {
+            if ($this->errors->get_error_message() != '') {
+                \NSL\Notices::addError($this->errors->get_error_message());
+            }
+
+            wp_redirect( site_url( 'wp-login.php' ) );
+            exit();
+        }
     }
 
     public function toArray() {
@@ -123,7 +133,7 @@ class NextendSocialUserData {
 
             login_header(__('Registration Form'), '<p class="message register">' . __('Register For This Site!') . '</p>', $this->errors);
 
-            $this->render_registration_form();
+            echo $this->render_registration_form();
 
             login_footer('user_login');
             exit;
@@ -146,7 +156,7 @@ class NextendSocialUserData {
         }
         $this->errors = array();
 
-        $this->render_registration_form();
+        return $this->render_registration_form();
     }
 
     public function render_registration_form() {
@@ -161,6 +171,7 @@ class NextendSocialUserData {
         } else {
             $postUrl = add_query_arg('loginSocial', $this->provider->getId(), NextendSocialLogin::getLoginUrl('login_post'));
         }
+        ob_start();
         ?>
         <form name="registerform" id="registerform" action="<?php echo esc_url($postUrl); ?>" method="post">
             <input type="hidden" name="submit" value="1"/>
@@ -174,9 +185,11 @@ class NextendSocialUserData {
                                      class="button button-primary button-large" value="<?php esc_attr_e('Register'); ?>"/></p>
         </form>
         <?php
+        return ob_get_clean();
     }
 
     public function render_registration_form_tml() {
+        ob_start();
         ?>
         <div class="tml tml-register" id="theme-my-login">
             <?php
@@ -213,10 +226,11 @@ class NextendSocialUserData {
             $this->errors = array();
 
 
-            $this->render_registration_form();
+            echo $this->render_registration_form();
             ?>
         </div>
         <?php
+        return ob_get_clean();
     }
 
     public function bp_before_register_page() {
@@ -262,6 +276,6 @@ class NextendSocialUserData {
         }
         $this->errors = array();
 
-        $this->render_registration_form();
+        echo $this->render_registration_form();
     }
 }

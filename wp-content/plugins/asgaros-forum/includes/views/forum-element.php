@@ -2,27 +2,20 @@
 
 if (!defined('ABSPATH')) exit;
 
-$lastpost_data = false;
-
 // Get counters and format them.
 $count_topics = $this->get_forum_topic_counter($forum->id);
 $count_topics_i18n = number_format_i18n($count_topics);
 $count_posts = $this->get_forum_post_counter($forum->id);
 $count_posts_i18n = number_format_i18n($count_posts);
 
-// Only fetch lastpost data when there are topics in the forum.
-if ($count_topics) {
-    $lastpost_data = $this->get_lastpost_in_forum($forum->id);
-}
-
 // Get the read/unread status of a forum.
 $unread_status = $this->unread->get_status_forum($forum->id, $count_topics);
 
-echo '<div class="forum" id="forum-'.$forum->id.'">';
+echo '<div class="content-element forum" id="forum-'.$forum->id.'">';
     $forum_icon = trim(esc_html(stripslashes($forum->icon)));
-    $forum_icon = (empty($forum_icon)) ? 'dashicons-format-chat' : $forum_icon;
+    $forum_icon = (empty($forum_icon)) ? 'fas fa-comments' : $forum_icon;
 
-    echo '<div class="forum-status forum-dashicon dashicons-before '.$forum_icon.' '.$unread_status.'"></div>';
+    echo '<div class="forum-status '.$forum_icon.' '.$unread_status.'"></div>';
     echo '<div class="forum-name">';
         echo '<a class="forum-title" href="'.$this->get_link('forum', $forum->id).'">'.esc_html(stripslashes($forum->name)).'</a>';
 
@@ -40,7 +33,7 @@ echo '<div class="forum" id="forum-'.$forum->id.'">';
         echo '</small>';
 
         echo '<small class="forum-lastpost-small">';
-            echo $this->get_lastpost($lastpost_data, 'forum', true);
+            echo $this->render_lastpost_in_forum($forum->id, true);
         echo '</small>';
 
         // Show subforums.
@@ -61,7 +54,7 @@ echo '<div class="forum" id="forum-'.$forum->id.'">';
         }
     echo '</div>';
     do_action('asgarosforum_custom_forum_column', $forum->id);
-    echo '<div class="forum-poster">'.$this->get_lastpost($lastpost_data).'</div>';
+    echo '<div class="forum-poster">'.$this->render_lastpost_in_forum($forum->id).'</div>';
 echo '</div>';
 
 do_action('asgarosforum_after_forum');
