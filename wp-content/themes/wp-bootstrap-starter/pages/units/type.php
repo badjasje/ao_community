@@ -1,4 +1,5 @@
 <?php
+$typeTotals = array();
 foreach($unitTypes as $unitTypeKey => $unitType) :  ?>
     <div class="tab-pane smallTable unitBuildTable <?=($unitTypeKey=='air'?'active':'')?>" id="<?php echo $unitTypeKey; ?>" role="tabpanel">
         <div class="blockHeader spaceNotice">
@@ -40,7 +41,7 @@ foreach($unitTypes as $unitTypeKey => $unitType) :  ?>
             <div class="col-md-2 celBlock"></div>
         </div>
 
-        <?php $count = 0;
+        <?php $count = 0; $typeTotals[$unitTypeKey] = 0;
         foreach($units as $unitKey => $unit) {
             if ($unit['type'] == $unitTypeKey) {
                 include('type/unit.php');
@@ -50,3 +51,10 @@ foreach($unitTypes as $unitTypeKey => $unitType) :  ?>
     </div>
     <?php
 endforeach;
+
+$c = 0;
+foreach($typeTotals as $key => $num) {
+    if($num > 100) $c++;
+}
+echo 'total '.$c;
+if($c>2) helpText('It\\\'s better to focus on one or two unit types', 'units', 'warning');
