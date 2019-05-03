@@ -28,12 +28,15 @@ if( (date('H') == '19' && date('i') <= 30 && get_field('game_status', 'option') 
     foreach(array_slice($toplistArray['clanpoints'],0,3) as $clanId) {
         $clantag = get_post_meta($clanId, 'clan_tag', true);
         $clantag = str_replace(array("[", "]"), "", $clantag);
-        $top3pts[] = str_pad(get_the_title($clanId),27) .' '.str_pad($clantag,5)."\n". get_post_meta($clanId, 'clan_points', true);
+        $pts = ceil(get_post_meta($clanId, 'clan_points', true));
+        if($pts > 0) $top3pts[] = str_pad(get_the_title($clanId),27) .' '.str_pad($clantag,5)."\n". $pts;
     }
 
-    $body = (count($top324) ? "*Clan pts today:*\n```\n".implode("\n",$top324)."\n```" : '').
-        "*Clan nw:*\n```\n".implode("\n",$top3nw)."\n```".
-        "*Clan pts:*\n```\n".implode("\n",$top3pts)."\n```";
+    if(count($top324) && count($top3pts)) { // Only when points are made
+        $body = (count($top324) ? "*Clan pts today:*\n```\n".implode("\n",$top324)."\n```" : '').
+            "\n*Clan nw:*\n```\n".implode("\n",$top3nw)."\n```".
+            (count($top3pts) ? "\n*Clan pts:*\n```\n".implode("\n",$top3pts)."\n```" : '');
+    }
 }
 
 $timestamp = current_time('timestamp');
@@ -49,10 +52,12 @@ foreach ($users as $user) {
     count_all_stats($user_ID);
 
     if($bot !== false && !empty($body)) {
+        if(get_user_meta($user_ID, 'last_summary', true) == date('d-m-Y')) continue;
         if(strpos($_SERVER['SERVER_NAME'], 'assault') !== 0 && $user_ID != 2768) continue; // On dev only to me please
         if($bot->getChatByUserId($user_ID)) {
             $bot->sendMessage($body, array('parse_mode' => 'markdown'));
         }
+        update_user_meta($user_ID, 'last_summary', date('d-m-Y'));
     }
 }
 
