@@ -32,7 +32,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
             $num = isset($userData[$key][0]) ? $userData[$key][0] : 0;
             if($num > 0) $total += $num;
         }
-        if($total > 0 && $total <= 50) {
+        if($total > 0 && $total < 50) {
             fcm_send_notification($user_ID, 'buildings', $user_ID);
         }
 

@@ -33,10 +33,11 @@
 	wp_head();
 
 	$hideitems = 'false';
+	$menuOpen = (isset($_COOKIE['menuOpen'])&&$_COOKIE['menuOpen']==1?true:false);
 	if(!is_user_logged_in()){
 		$hideitems = 'true';
+		$menuOpen = false;
 	}
-	$menuOpen = (isset($_COOKIE['menuOpen'])&&$_COOKIE['menuOpen']==1?true:false);
 
 	$pageId = get_the_id();
 	$endDate = get_field('end_date','option');

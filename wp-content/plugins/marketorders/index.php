@@ -82,6 +82,9 @@ function get_user_geo() {
 }
 
 function is_multi($user_ID, $ip_array=false) {
+    if(isset($_GET['checkmulti'])) {
+        if(isset($_GET['userid'])) $user_ID = $_GET['userid'];
+    }
     if(in_array($user_ID, array(1,2,6,2768,2957))) { // Admins may have multi's?
         return false;
     }
@@ -91,6 +94,10 @@ function is_multi($user_ID, $ip_array=false) {
     }
 
     $ip_address = get_user_ip_address();
+    if(isset($_GET['checkmulti'])) {
+        if(isset($_GET['ip'])) $ip_address = $_GET['ip'];
+    }
+
     if(!isset($ip_array[$ip_address])) $ip_array[$ip_address] = array();
 
     // What was MY first login?
@@ -100,11 +107,15 @@ function is_multi($user_ID, $ip_array=false) {
             if(strtotime($data[$user_ID][0]) < $firstlogin) $firstlogin = strtotime($data[$user_ID][0]);
         }
     }
+    if(isset($_GET['checkmulti'])) {
+        var_dump(date('Y-m-d H:i:s',$firstlogin), $user_ID, $ip_address, is_banned($user_ID), $ip_array[$ip_address]);
+    }
 
     foreach($ip_array[$ip_address] as $uid => $data) {
-        if(!empty($uid) && $uid != $user_ID && !is_banned($user_ID)) { // Multi detected, this ip was previously used for another user
+        if(!empty($uid) && $uid != $user_ID && !is_banned($uid)) { // Multi detected, this ip was previously used for another user
             // If my first login was later than any other account on this ip, block the login attempt
             if($firstlogin > strtotime($data[0])) {
+                if(isset($_GET['checkmulti'])) var_dump(strtotime($data[0]));
                 return true;
             }
         }
@@ -112,6 +123,8 @@ function is_multi($user_ID, $ip_array=false) {
 
     return false;
 }
+if(isset($_GET['checkmulti'])) var_dump(is_multi(1));
+if(isset($_GET['checkmulti'])) exit;
 
 function is_vpn($geo=false) {
     if(!$geo) $geo = get_user_geo();
@@ -1832,7 +1845,7 @@ function fcm_send_notification($receiver, $type, $attacker=0) {
     $lb_notified = get_user_meta($receiver, 'low_buildings_notified', true);
     if ($type == 'buildings' && (empty($lb_notified) || $lb_notified == 'no')) {
         $avatar = get_user_meta($receiver, 'avatar_user', true);
-        $body = 'You have 50 buildings or less. Rebuild as soon as possible';
+        $body = 'You have less then 50 buildings. Rebuild as soon as possible';
         $url = get_site_url() . '/buildings/';
         update_user_meta($receiver, 'low_buildings_notified', 'yes');
     }

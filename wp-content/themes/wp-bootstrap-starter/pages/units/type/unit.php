@@ -5,7 +5,7 @@ $networthPerUnit = $unit['price']*$unit['networth']/100;
 $buyPrice =  ceil($unit['price']);
 $canAttack = is_array($unit['attacks']) && !empty($unit['attacks']) ? implode(', ', $unit['attacks']) : 'N/A';
 $count++;
-
+$typeTotals[$unitTypeKey] += $unitsOwned;
 
 
 
