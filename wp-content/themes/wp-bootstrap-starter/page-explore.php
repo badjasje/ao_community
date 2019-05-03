@@ -94,7 +94,7 @@ $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'explore'
 					$( ".sellNotice" ).empty();
 					$( ".sellNotice" ).append(array.soldtoday);
 					$('form').trigger("reset");
-					location.reload();
+					location.href = '?tab=sell';
 				}
 			});
 		});
