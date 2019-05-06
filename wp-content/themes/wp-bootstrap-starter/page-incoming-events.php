@@ -173,7 +173,7 @@ if($userId != 0){
 				$reportHeader = 'You died';
 			}
 			?>
-			<div class="fw-row">
+			<div class="fw-row" id="event-<?=$eventId?>">
 				<div class="iconBlockHeader">
 					<i class="<?php echo $icon;?>"></i>
 				</div>

@@ -137,7 +137,7 @@ if($snipers_lost > 0){
 }
 
 if($thiefs_lost > 0){
-	$def_unitslost[] = array('type' => 'unit', 'sniper' => $thiefs_lost);
+	$def_unitslost[] = array('type' => 'unit', 'thief' => $thiefs_lost);
 }
 
 if($spy_lost > 0){
