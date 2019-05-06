@@ -2,7 +2,7 @@
 require_once("wp-load.php");
 
 $bot = false;
-if( (date('H') == '19' && date('i') <= 30 && get_field('game_status', 'option') == 'Live') || isset($_GET['file'])) { // Once between 19 and 19:30
+/*if( (date('H') == '19' && date('i') <= 30 && get_field('game_status', 'option') == 'Live') || isset($_GET['file'])) { // Once between 19 and 19:30
 
     require_once('wp-content/plugins/marketorders/telegrambot.class.php');
     $bot = new TelegramBot();
@@ -37,7 +37,7 @@ if( (date('H') == '19' && date('i') <= 30 && get_field('game_status', 'option') 
             "\n*Clan nw:*\n```\n".implode("\n",$top3nw)."\n```".
             (count($top3pts) ? "\n*Clan pts:*\n```\n".implode("\n",$top3pts)."\n```" : '');
     }
-}
+}*/
 
 $timestamp = current_time('timestamp');
 $args = array(
