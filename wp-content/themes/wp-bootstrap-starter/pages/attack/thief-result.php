@@ -126,7 +126,7 @@ else {
 <?php
 //These happen regardless of success or failure
 $thieving_attempts = get_user_meta($userId, 'thieving_attempts', true);
-update_user_meta($userId, 'thieving_attempts', $thieving_attempts+1);
+update_user_meta($userId, 'thieving_attempts', (!empty($thieving_attempts)?$thieving_attempts:0)+1);
 
 $attempts_received = get_user_meta($target_id, 'attempts_received', true);
 update_user_meta($target_id, 'attempts_received', $attempts_received+1);

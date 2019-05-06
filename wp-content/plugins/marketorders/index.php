@@ -483,7 +483,7 @@ function get_spy_units($user_ID) {
     $spiesOwned = array();
 	@include("units_array.php");
 	foreach ($units as $unitKey => $unit) {
-		if(in_array('spy',$unit['attacktype'])) {
+		if(in_array($unitKey,array('spy','spyplane'))) {
 			$unitsOwned = $userData[$unitKey.'_owned'][0];
 			if($unitsOwned > 0) {
 				$spiesOwned[$unitKey] = $unit['normalname'];
