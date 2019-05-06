@@ -230,10 +230,10 @@ $count = 0;
         }
         ?>
 		<div class="row statusBlockButtons">
-			<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-4 totalsField statCol-1">
+			<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-6 totalsField statCol-1">
         		Back
 	        </a>
-	        <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
+	        <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0;">
 		        <input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
 	        </div>
         </div>
@@ -302,10 +302,10 @@ $count = 0;
             }
         } ?>
 		<div class="row statusBlockButtons">
-			<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-4 totalsField statCol-1">
+			<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-6 totalsField statCol-1">
         		Back
 	        </a>
-	        <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
+	        <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0;">
 		        <input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
 	        </div>
         </div>
@@ -382,11 +382,11 @@ $count = 0;
             }
         } ?>
 		<div class="row statusBlockButtons">
-            <a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-4 totalsField statCol-1">
+            <a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-6 totalsField statCol-1">
                 Back
             </a>
             <?php if($unitsOwned > 0):?>
-            <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
+            <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0;">
                 <input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
             </div>
             <?php endif;?>
@@ -451,12 +451,12 @@ $count = 0;
             }
         } ?>
 		<div class="row statusBlockButtons">
-    		<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-4 totalsField statCol-1">
+    		<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-6 totalsField statCol-1">
 	        	Back
 	        </a>
             <?php if($unitsOwned > 0):?>
-                <div id="nextstep3" class="col-md-6 attackStep-2-submit">
-                    <input type="submit" value="Next Step">
+                <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
+                    <input class="mainSubmit" type="submit" value="Next Step" style="border-top:0px;">
                 </div>
             <?php endif;?>
         </div>
@@ -533,11 +533,11 @@ $count = 0;
         }
         ?>
 		<div class="row statusBlockButtons">
-            <a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-4 totalsField statCol-1">
+            <a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-6 totalsField statCol-1">
                 Back
             </a>
             <?php if($unitsOwned > 0):?>
-                <div id="nextstep3" class="col-md-6 attackStep-2-submit">
+                <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0;">
                     <input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
                 </div>
             <?php endif;?>
@@ -586,7 +586,7 @@ $count = 0;
         }
         ?>
 		<div class="row statusBlockButtons">
-            <a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-4 totalsField statCol-1">
+            <a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-6 totalsField statCol-1">
                 Back
             </a>
             <?php if($userData['sat_owned'][0] == 'laser' || $userData['sat_owned'][0] == 'empsat'):?>

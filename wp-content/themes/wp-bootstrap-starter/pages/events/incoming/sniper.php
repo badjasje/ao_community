@@ -38,11 +38,11 @@
 				<?php
 				foreach ($units as $key => $order) {
 					foreach ($def_unitslost as $def_unitlost) {
-					if (isset($def_unitlost[$key])) {
-						echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
-					}
+						if (isset($def_unitlost[$key])) {
+							echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
 						}
 					}
+				}
 				?>
 			</div>
 		</div>
