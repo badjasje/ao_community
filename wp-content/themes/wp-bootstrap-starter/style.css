@@ -1088,7 +1088,7 @@ body:not(.theme-preset-active) footer#colophon {
 	color:#fff;
 }
 .eventFooter{
-	margin-bottom:50px !important;
+	margin-bottom:50px;
 }
 .mainSubmit{
 	background-color: #46765E;
@@ -2196,9 +2196,9 @@ input[type="radio"]:checked + label {
     input[type='number'] { font-size: 16px !important; min-height: 16px;  }
 }
 
-/* Small tables for buildings, units, missiles and market */
-@media only screen and (max-width: 768px) {
 
+@media only screen and (max-width: 768px) {
+    /* Small tables for buildings, units, missiles and market */
     .navItem, .smallTable .mainSubmit { padding: 5px; }
 
     .smallTable .headerRow { display: flex; }
@@ -2215,10 +2215,11 @@ input[type="radio"]:checked + label {
     .unitBuildTable .attacklife, .marketBuyTable .attacklife { display: block; }
     .unitBuildTable .celBlock, .marketBuyTable .celBlock { width: calc(69% / 5); }
     .marketBuyTable.withDelay .celBlock { width: calc(69% / 6); }
-    .unitBuildTable .nameBlock, .marketBuyTable .nameBlock { width: 31%; }
+    .unitBuildTable .nameBlock, .marketBuyTable .nameBlock, .marketBuyTable.withDelay .nameBlock { width: 31%; }
 
     .marketSellTable .celBlock { width: calc(62% / 3); }
     .marketSellTable .nameBlock { width: 38%; }
 
     .attackStep2Table .totalsField { padding: 7px; font-size: 12px; }
+
 }
