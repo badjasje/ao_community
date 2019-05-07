@@ -15438,3 +15438,153 @@ ID: 2768
 Value: 99512
 Units ordered: 56
 
+10:15:55 | 07-05-2019
+ID: 1255
+Value: 265750
+Units ordered: 250
+
+10:16:07 | 07-05-2019
+ID: 313
+Value: 608300
+Units ordered: 790
+
+10:17:51 | 07-05-2019
+ID: 313
+Value: 68530
+Units ordered: 89
+
+10:39:06 | 07-05-2019
+ID: 1744
+Value: 1434576
+Units ordered: 494
+
+10:59:56 | 07-05-2019
+ID: 675
+Value: 661500
+Units ordered: 750
+
+11:03:53 | 07-05-2019
+ID: 475
+Value: 136826
+Units ordered: 74
+
+11:16:55 | 07-05-2019
+ID: 3020
+Value: 57057
+Units ordered: 39
+
+11:18:45 | 07-05-2019
+ID: 522
+Value: 218020
+Units ordered: 220
+
+11:44:12 | 07-05-2019
+ID: 1052
+Value: 201541
+Units ordered: 109
+
+11:44:33 | 07-05-2019
+ID: 1052
+Value: 94299
+Units ordered: 51
+
+11:59:34 | 07-05-2019
+ID: 2046
+Value: 1109654
+Units ordered: 871
+
+12:01:05 | 07-05-2019
+ID: 1843
+Value: 856814
+Units ordered: 1249
+
+12:06:21 | 07-05-2019
+ID: 234
+Value: 521360
+Units ordered: 760
+
+12:25:08 | 07-05-2019
+ID: 1947
+Value: 813450
+Units ordered: 290
+
+12:25:32 | 07-05-2019
+ID: 1947
+Value: 60500
+Units ordered: 25
+
+12:34:18 | 07-05-2019
+ID: 1759
+Value: 232155
+Units ordered: 201
+
+12:42:48 | 07-05-2019
+ID: 2458
+Value: 409250
+Units ordered: 250
+
+12:43:09 | 07-05-2019
+ID: 2458
+Value: 310600
+Units ordered: 200
+
+13:28:14 | 07-05-2019
+ID: 2973
+Value: 1093400
+Units ordered: 1420
+
+13:29:42 | 07-05-2019
+ID: 2973
+Value: 138600
+Units ordered: 180
+
+13:30:33 | 07-05-2019
+ID: 2973
+Value: 277200
+Units ordered: 360
+
+13:40:28 | 07-05-2019
+ID: 433
+Value: 981760
+Units ordered: 1180
+
+13:42:57 | 07-05-2019
+ID: 170
+Value: 1330160
+Units ordered: 1040
+
+13:44:25 | 07-05-2019
+ID: 1910
+Value: 162240
+Units ordered: 195
+
+13:44:28 | 07-05-2019
+ID: 1421
+Value: 984676
+Units ordered: 556
+
+13:45:51 | 07-05-2019
+ID: 2355
+Value: 974050
+Units ordered: 550
+
+13:51:28 | 07-05-2019
+ID: 475
+Value: 36980
+Units ordered: 20
+
+14:20:11 | 07-05-2019
+ID: 1759
+Value: 142065
+Units ordered: 123
+
+14:21:32 | 07-05-2019
+ID: 60
+Value: 285560
+Units ordered: 59
+
+14:39:25 | 07-05-2019
+ID: 1953
+Value: 294525
+Units ordered: 105
+
