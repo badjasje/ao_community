@@ -73,7 +73,7 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
             })(jQuery);
             </script>
         <?php //} ?>
-		<?php endif;?>
+		<?php endif; ?>
 	</div>
 
 	<div class="col-md-6">
@@ -142,7 +142,8 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
     </script>
 <?php endif;?>
 
-<?php if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $cooldownlist) &&  $inRange == 'no' && $canPeace == false):?>
+<?php
+if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $cooldownlist) &&  $inRange == 'no' && $canPeace == false):?>
     <div class="row fw-row no-gutters">
         <div class="col-md-6">
             <button class="mainSubmit">
