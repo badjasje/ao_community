@@ -72,6 +72,9 @@ if($declarer_clan_ID != 0) {
 	$dec_tot_networth = 0;
     foreach ($declaringClanMembers as $dec_member) {
         $dec_networth = get_user_meta($dec_member, 'networth',true);
+        if(get_user_meta($dec_member, 'status',true) == 'dead'){
+            $dec_networth = 0;
+        }
         $dec_tot_networth+=$dec_networth;
     }
 }

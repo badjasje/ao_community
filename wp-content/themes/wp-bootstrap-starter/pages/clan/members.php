@@ -91,7 +91,7 @@
 		$inRange = 'yes';
 		$warText = 'war';
 	}
-	if($warcount == 1){
+	if($warcount >= 1){
 		$inRange = 'yes';
 		$warText = 'mutual war';
 	}

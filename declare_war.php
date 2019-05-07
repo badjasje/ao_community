@@ -70,6 +70,26 @@ $warcheck = get_posts(
     )
 );
 
+$wars_on = get_posts(array(
+	'numberposts'	=> -1,
+	'post_type'		=> 'wars',
+	'post_status'   => 'publish',
+	'meta_key'		=> 'declared_by',
+	'meta_value'	=> $declarer_clan_ID
+));
+$declared_on = array();
+foreach ($wars_on as $war) {
+	$defClanID = get_post_meta($war->ID,'declared_on',true);
+	$declared_on[] = $defClanID;
+}
+if (in_array($_POST['clan'], $declared_on)) {
+    $array['status'] = 'You already declared war with this clan';
+    $array['next'] = false;
+    echo json_encode($array);
+    update_user_meta($declarer_ID, 'user_lock', 0);
+    exit;
+}
+
 if (count($warcheck) == 0) {
     $decNW = get_post_meta($declarer_clan_ID, 'clan_networth', true);
     $recWN = get_post_meta($_POST['clan'], 'clan_networth', true);

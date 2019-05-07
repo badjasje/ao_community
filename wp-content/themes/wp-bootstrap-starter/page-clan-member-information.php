@@ -51,6 +51,7 @@ include('building_array.php');
 		$money = $memberData['money'][0];
 		$morale = $memberData['morale'][0];
 		$pool = $memberData['morale_pool'][0];
+		$sat_morale = $memberData['sat_morale'][0];
 		$last_online = $memberData['last_online'][0];
 		$power = $memberData['power'][0];
 
@@ -216,8 +217,10 @@ include('building_array.php');
 	</div>
 
 	<div class="col-md-3 celBlock">
-		<span class="dataVisibleLeft"></span>
-		<span class="dataVisibleRight store-pop-span2"></span>
+		<span class="dataVisibleLeft">Satellite power</span>
+		<span class="dataVisibleRight store-pop-span2">
+			<?php echo number_format($sat_morale, 0, ',', ' '); ?>%
+		</span>
 	</div>
 </div> <!-- // Close Row 4 -->
 
