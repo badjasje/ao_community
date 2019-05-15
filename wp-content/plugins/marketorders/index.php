@@ -1087,6 +1087,7 @@ function after_death($user_id) {
         update_user_meta($user_id, 'power', 0);
         update_user_meta($user_id, 'builtland', 1000);
         update_user_meta($user_id, 'morale', 0);
+        update_user_meta($user_id, 'sat_morale', 0);
         update_user_meta($user_id, 'morale_pool', 0);
         update_user_meta($user_id, 'total_deposits', 0);
 
