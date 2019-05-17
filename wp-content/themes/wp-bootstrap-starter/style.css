@@ -1924,7 +1924,6 @@ input[type="radio"]:checked + label {
 	height:50px;
 }
 .ctclField{
-	width:20px;
 	display: inline-block;
 }
 .clanImgForm{
