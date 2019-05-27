@@ -2201,7 +2201,8 @@ input[type="radio"]:checked + label {
     .smallTable .celBlock { padding: 4px; font-size: 11px; width: calc(62% / 4); text-align: center; }
     .smallTable .nameBlock { width: 38%; font-weight: normal; font-size: 12px; text-align: left; }
     .smallTable .columnDataLeft, .smallTable .attacklife, .smallTable .targets { display:none; }
-    .smallTable .columnDataRight { float:none; }
+    .smallTable .columnDataRight { float:none; display:block; }
+    .smallTable .maxBlock, .smallTable .sellall, .smallTable .allbutton { display:block; }
     .smallTable .inputBlock input {
         box-shadow:none; padding: 0 4px; border-radius:0;
         border-left: none!important; border-top: none!important; border-right: none!important; border-bottom-width: 1px!important;
