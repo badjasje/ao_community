@@ -19,10 +19,10 @@ if (! defined('ABSPATH')) { exit; }
 $userId = get_current_user_id();
 
 if (empty($userId) || !is_user_logged_in()) {
-   $array['status'] = 'You must log in to perform this action';
-   $array['next'] = false;
-   echo json_encode($array);
-   exit;
+$array['status'] = 'You must log in to perform this action';
+$array['next'] = false;
+echo json_encode($array);
+exit;
 }
 
 $userData = get_user_meta($userId);
@@ -32,122 +32,123 @@ $userLock = $userData['user_lock'][0];
 $marketSellMultiplier = (2.2 * 0.5);
 
 $specialUnitsArray = [
-    'spyplane',
-    'sniper',
-    'thief',
-    'saboteur',
-    'spy'
+'spyplane',
+'sniper',
+'thief',
+'saboteur',
+'spy'
 ];
 
 if ($userLock == 1) {
-	$array['status'] = 'Please try again';
-	$array['next'] = false;
-	update_user_meta($userId, 'user_lock', 0);
-	echo json_encode($array);
-	exit;
+$array['status'] = 'Please try again';
+$array['next'] = false;
+update_user_meta($userId, 'user_lock', 0);
+echo json_encode($array);
+exit;
 }
 
 update_user_meta($userId, 'user_lock', 1);
 include 'units_array.php';
 
-    $specialSelling = 0;
-    foreach ($units as $key => $order) {
-        if (!empty($_POST["$key"])) {
-            $ownedUnits = $userData[$key.'_owned'][0];
-            $soldUnits = ceil($_POST["$key"]);
+$specialSelling = 0;
+foreach ($units as $key => $order) {
+    if (!empty($_POST["$key"])) {
+        $ownedUnits = $userData[$key.'_owned'][0];
+        $soldUnits = ceil($_POST["$key"]);
 
-            if ($_POST[$key] < 0) {
-                $array['status'] = 'Enter a valid number';
-				$array['next'] = false;
-				update_user_meta($userId, 'user_lock', 0);
-				echo json_encode($array);
-				exit;
-            }
+        if ($_POST[$key] < 0) {
+            $array['status'] = 'Enter a valid number';
+            $array['next'] = false;
+            update_user_meta($userId, 'user_lock', 0);
+            echo json_encode($array);
+            exit;
+        }
 
-            $letterCheck = isset($_POST[$key]) ? $_POST[$key] : 0;
-            if (!is_numeric($letterCheck)) {
-                $array['status'] = 'Enter a valid number';
-					$array['next'] = false;
-					update_user_meta($userId, 'user_lock', 0);
-					echo json_encode($array);
-					exit;
-            }
+        $letterCheck = isset($_POST[$key]) ? $_POST[$key] : 0;
+        if (!is_numeric($letterCheck)) {
+            $array['status'] = 'Enter a valid number';
+                $array['next'] = false;
+                update_user_meta($userId, 'user_lock', 0);
+                echo json_encode($array);
+                exit;
+        }
 
-            if ($ownedUnits < $soldUnits) {
-                $soldUnits = $ownedUnits;
-            }
-            if (in_array($key, $specialUnitsArray)) {
-                $specialSelling += $_POST[$key];
-            }
+        if ($ownedUnits < $soldUnits) {
+            $soldUnits = $ownedUnits;
+        }
+        if (in_array($key, $specialUnitsArray)) {
+            $specialSelling += $_POST[$key];
         }
     }
+}
 
-    $specials_sold = $userData['special_sold_today'][0];
+$specials_sold = $userData['special_sold_today'][0];
 
-    if (($specials_sold+$specialSelling) > 50) {
-        $array['status'] = 'Cannot sell more than 50 special units per day';
-		$array['next'] = false;
-		update_user_meta($userId, 'user_lock', 0);
-		echo json_encode($array);
-		exit;
-    } else {
-        update_user_meta($userId, 'special_sold_today', $specials_sold+$specialSelling);
-    }
-
-
-    $totalSelling = 0;
-
-    foreach ($units as $key => $order) {
-        if (!empty($_POST["$key"])) {
-            $ownedUnits = $userData[$key.'_owned'][0];
-            $soldUnits = ceil($_POST["$key"]);
-            if ($_POST["$key"] < 0) {
-                $array['status'] = 'Enter a valid number';
-				$array['next'] = false;
-				update_user_meta($userId, 'user_lock', 0);
-				echo json_encode($array);
-				exit;
-            }
-            if (empty($_POST["$key"])) {
-                $letterCheck = 0;
-            } else {
-                $letterCheck = $_POST["$key"];
-            }
-            if (!is_numeric($letterCheck)) {
-                $array['status'] = 'Enter a valid number';
-				$array['next'] = false;
-				update_user_meta($userId, 'user_lock', 0);
-				echo json_encode($array);
-				exit;
-            }
-
-            if ($ownedUnits < $soldUnits) {
-                $soldUnits = $ownedUnits;
-            }
-            if ($key == 'spy' || $key == 'spyplane' || $key == 'sniper') {
-                $specialSelling+=$_POST["$key"];
-            }
-            $price = $order['price'] * $marketSellMultiplier;
-
-            $soldAmount = $price * $soldUnits;
-            $totalSelling += $soldAmount;
-            update_user_meta($userId, $key.'_owned', $ownedUnits - $soldUnits);
-
-            $unitsSold = $userData['units_sold'][0];
-            update_user_meta($userId, 'units_sold', $unitsSold+$soldUnits);
-
-            // Add log entry
-            // Todo: Replace this with a standardized logger (E.g. Monolog)
-           /* $file = 'marketselllog.txt';
-            $current = file_get_contents($file);
-            $current .= "ID: ".$userId."\n";
-            $current .= "Units sold: ".$soldUnits."\nType: ".$key."\n\n";
-            file_put_contents($file, $current);
-			*/
-            update_user_meta($userId, 'money', $totalMoney+$totalSelling);
-        }
-    }
+if (($specials_sold+$specialSelling) > 50) {
+    $array['status'] = 'Cannot sell more than 50 special units per day';
+    $array['next'] = false;
     update_user_meta($userId, 'user_lock', 0);
+    echo json_encode($array);
+    exit;
+} else {
+    update_user_meta($userId, 'special_sold_today', $specials_sold+$specialSelling);
+}
+
+
+$totalSelling = 0;
+
+foreach ($units as $key => $order) {
+    if (!empty($_POST["$key"])) {
+        $ownedUnits = $userData[$key.'_owned'][0];
+        $soldUnits = ceil($_POST["$key"]);
+        if ($_POST["$key"] < 0) {
+            $array['status'] = 'Enter a valid number';
+            $array['next'] = false;
+            update_user_meta($userId, 'user_lock', 0);
+            echo json_encode($array);
+            exit;
+        }
+        if (empty($_POST["$key"])) {
+            $letterCheck = 0;
+        } else {
+            $letterCheck = $_POST["$key"];
+        }
+        if (!is_numeric($letterCheck)) {
+            $array['status'] = 'Enter a valid number';
+            $array['next'] = false;
+            update_user_meta($userId, 'user_lock', 0);
+            echo json_encode($array);
+            exit;
+        }
+
+        if ($ownedUnits < $soldUnits) {
+            $soldUnits = $ownedUnits;
+        }
+        if ($key == 'spy' || $key == 'spyplane' || $key == 'sniper') {
+            $specialSelling+=$_POST["$key"];
+        }
+        $price = $order['price'] * $marketSellMultiplier;
+
+        $soldAmount = $price * $soldUnits;
+        $totalSelling += $soldAmount;
+        update_user_meta($userId, $key.'_owned', $ownedUnits - $soldUnits);
+
+        $unitsSold = $userData['units_sold'][0];
+        update_user_meta($userId, 'units_sold', $unitsSold+$soldUnits);
+
+        // Add log entry
+        // Todo: Replace this with a standardized logger (E.g. Monolog)
+        /* $file = 'marketselllog.txt';
+        $current = file_get_contents($file);
+        $current .= "ID: ".$userId."\n";
+        $current .= "Units sold: ".$soldUnits."\nType: ".$key."\n\n";
+        file_put_contents($file, $current);
+        */
+        update_user_meta($userId, 'money', $totalMoney+$totalSelling);
+    }
+}
+
+update_user_meta($userId, 'user_lock', 0);
 
 count_all_stats($userId);
 $userData = get_user_meta($userId);
@@ -164,7 +165,6 @@ $planes = $userData['spyplane_owned'][0];
 $planesOrdered = $userData['spyplane_ordered'][0];
 $sniper = $userData['sniper_owned'][0];
 $snipersOrdered = $userData['sniper_ordered'][0];
-
 
 $commandCenters = $userData['command_centre'][0];
 
@@ -211,11 +211,11 @@ foreach ($units as $key => $unit) {
     if($owned > 0) {
         $allOwned[$key] = $owned;
     }
-    
+
     $maxMoney = floor($totalMoney / ceil($unit['price']));
     $maxSpace = $space[$unitTypeKey] - $usedSpace[$unitTypeKey];
     $maxTurns = floor($totalturns*$unitsPerTurn[$unitTypeKey]);
-    
+
     if(in_array($key, $specialUnitsArray)) {
         $newMax[$key] = min($maxMoney, $maxSpace, $space['special'], $maxTurns);
     } else {
@@ -223,17 +223,14 @@ foreach ($units as $key => $unit) {
     }
 }
 
-    
-    
-    
-    $array['status'] = $soldUnits.' units sold for a price of $ '. number_format($totalSelling, 0, ',', ' ');
-	$array['money'] = $userData['money'][0];
-	$array['turns'] = $userData['turns'][0];
-	$array['networth'] = $userData['networth'][0];
-	$array['allowned'] = $allOwned;
-	$array['newmax'] = $newMax;
-	$array['usedspace'] = $availableSpace;
-	$array['next'] = true;
-	echo json_encode($array);
-	update_user_meta($userId, 'user_lock', 0);
-	exit;
+$array['status'] = $soldUnits.' units sold for a price of $ '. number_format($totalSelling, 0, ',', ' ');
+$array['money'] = $userData['money'][0];
+$array['turns'] = $userData['turns'][0];
+$array['networth'] = $userData['networth'][0];
+$array['allowned'] = $allOwned;
+$array['newmax'] = $newMax;
+$array['usedspace'] = $availableSpace;
+$array['next'] = true;
+echo json_encode($array);
+update_user_meta($userId, 'user_lock', 0);
+exit;
