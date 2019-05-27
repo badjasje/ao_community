@@ -60,6 +60,7 @@ foreach ($units as $key => $order) {
 /* calculate total missiles */
 $totalmissiles = 0;
 foreach ($missiles as $key => $data) {
+    if(in_array($key, array('tomahawk'))) continue;
     $missiles_owned = (!empty($userData[$key.'_owned'][0]) ? $userData[$key.'_owned'][0] : 0);
     $missiles_ordered = (!empty($userData[$key.'_ordered'][0]) ? $userData[$key.'_ordered'][0] : 0);
     $totalmissiles+=($missiles_owned + $missiles_ordered);
