@@ -1420,15 +1420,16 @@ input[type="radio"]:checked + label {
 }
 
 .permaNotification{
-    -webkit-animation-name: greenPulse;
-    -webkit-animation-duration: 5s;
-    -webkit-animation-iteration-count: infinite;
+    animation-name: greenPulse;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
     padding: 13px;
     text-align: center;
     color: #fff;
     position:fixed; top:0; left:0; right: 0; z-index: 3;
 }
 .logged-in .permaNotification { top: 40px; left: 40px; }
+.alert-info { top:60px!important; } /* lower notification, so it's not over power usage */
 
 @media only screen and (max-width: 1000px) {
 	.startingbonus {
@@ -1437,10 +1438,8 @@ input[type="radio"]:checked + label {
 }
 @media only screen and (max-width: 768px) {
     .col-xs-6 { flex: 0 0 50%; max-width: 50%; }
-    .alert{
-        right:0px !important;
-        z-index:9999999999999 !important;
-    }
+    .alert{ right:0px !important; z-index:9999999999999 !important; }
+    .alert-info { top:auto!important; bottom:15px; } /* info at the bottom */
     .logged-in .permaNotification { left:0; top: 120px; }
 	.sortMobile{
 		display: block;
@@ -1597,8 +1596,6 @@ input[type="radio"]:checked + label {
     50% { background-color: rgba(67, 92, 108, 0.75); }
     to { background-color: #425C6B; }
 }
-
-.alert-info { top:60px!important; } /* lower notification, so it's not over power usage */
 
 .clanMessage{
 	padding: 25px;
