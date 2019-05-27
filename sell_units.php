@@ -19,10 +19,10 @@ if (! defined('ABSPATH')) { exit; }
 $userId = get_current_user_id();
 
 if (empty($userId) || !is_user_logged_in()) {
-$array['status'] = 'You must log in to perform this action';
-$array['next'] = false;
-echo json_encode($array);
-exit;
+    $array['status'] = 'You must log in to perform this action';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
 }
 
 $userData = get_user_meta($userId);
@@ -32,19 +32,19 @@ $userLock = $userData['user_lock'][0];
 $marketSellMultiplier = (2.2 * 0.5);
 
 $specialUnitsArray = [
-'spyplane',
-'sniper',
-'thief',
-'saboteur',
-'spy'
+    'spyplane',
+    'sniper',
+    'thief',
+    'saboteur',
+    'spy'
 ];
 
 if ($userLock == 1) {
-$array['status'] = 'Please try again';
-$array['next'] = false;
-update_user_meta($userId, 'user_lock', 0);
-echo json_encode($array);
-exit;
+    $array['status'] = 'Please try again';
+    $array['next'] = false;
+    update_user_meta($userId, 'user_lock', 0);
+    echo json_encode($array);
+    exit;
 }
 
 update_user_meta($userId, 'user_lock', 1);
@@ -80,6 +80,21 @@ foreach ($units as $key => $order) {
             $specialSelling += $_POST[$key];
         }
     }
+}
+
+// You cannot sell subs when having tommy's
+$missiles_owned = (!empty($userData['tomahawk_owned']) ? $userData['tomahawk_owned'][0] : 0);
+$missiles_ordered = (!empty($userData['tomahawk_ordered']) ? $userData['tomahawk_ordered'][0] : 0);
+$totalmissiles = ($missiles_owned+$missiles_ordered);
+$submarine_owned = (!empty($userData['submarine_owned']) ? $userData['submarine_owned'][0] : 0);
+$sellsubs = (!empty($_POST['submarine']) ? intval($_POST['submarine']) : 0);
+$totalsubs = $submarine_owned - $sellsubs;
+if($totalmissiles > 0 && $sellsubs > 0 && ceil($totalmissiles/2) > $totalsubs ) {
+    $array['status'] = 'You must sell the tomahawks occupying the submarines before you can sell them';
+    $array['next'] = false;
+    update_user_meta($userId, 'user_lock', 0);
+    echo json_encode($array);
+    exit;
 }
 
 $specials_sold = $userData['special_sold_today'][0];
