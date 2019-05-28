@@ -1474,7 +1474,12 @@ input[type="radio"]:checked + label {
 		top: -31px;
 		position: relative;
 		margin-left:54px;
-	}
+    }
+    .mobileUserName.float-right {
+        margin-left:0;
+        margin-right:10px;
+        color: #FFF;
+    }
 	.mobileUserName a{
 		color:#fff !important;
 	}
