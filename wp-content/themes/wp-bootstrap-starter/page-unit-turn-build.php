@@ -12,6 +12,7 @@ include 'count_functions.php';
 
 $totalMoney = $userData['money'][0];
 $totalturns = $userData['turns'][0];
+
 // Calculate space for special units.
 $spies = $userData['spy_owned'][0];
 $spiesOrdered = $userData['spy_ordered'][0];
@@ -21,7 +22,6 @@ $planes = $userData['spyplane_owned'][0];
 $planesOrdered = $userData['spyplane_ordered'][0];
 $sniper = $userData['sniper_owned'][0];
 $snipersOrdered = $userData['sniper_ordered'][0];
-
 
 $commandCenters = $userData['command_centre'][0];
 $space = [
@@ -38,6 +38,7 @@ $usedSpace = [
     'veh' => count_vehspace($userId),
     'inf' => count_infspace($userId),
 ];
+
 $unitsPerTurn = [
     'air' => 10,
     'sea' => 5,
@@ -54,6 +55,7 @@ if($discountLevel == 1){
 } elseif($discountLevel >= 2){
 	$discount = $discount - 0.3;
 }
+
 $startingBonus = $userData['starting_bonus'][0];
 if($startingBonus == 'shipping'){
     $discount = $discount - 0.1;
@@ -81,17 +83,12 @@ $unitTypes = [
 ];
 
 $marketShippingLevel = $userData['level_shipping_time'][0];
-	if($marketShippingLevel == 1){
-		$hours = 9;
-	} elseif($marketShippingLevel == 2){
-		$hours = 6;
-	} else {
-		$hours = 12;
-}
+if($marketShippingLevel == 1) $hours = 9;
+elseif($marketShippingLevel == 2) $hours = 6;
+else $hours = 12;
+
 ?>
-
 <div class="row pageRow">
-
 
 	<div class="fw-row">
 		<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
@@ -103,88 +100,58 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 	</div>
 
 	<div class="fw-row">
-    <form class="form" id="turnbuild">
-        <div class="tab-content current build_content tabbed-table">
-
-            <?php include('pages/units/type.php'); ?>
-
-            <div class="row statusBlockButtons">
-
-				<div class="col-md-2 totalsField statCol-1">
-					Units: <span id="total">0</span>
+		<form class="form" id="turnbuild">
+			<div class="tab-content current build_content tabbed-table">
+				<?php include('pages/units/type.php'); ?>
+				<div class="row statusBlockButtons">
+					<div class="col-md-2 totalsField statCol-1">
+						Units: <span id="total">0</span>
+					</div>
+					<div class="col-md-3 totalsField statCol-2">
+						Total cost: $ <span id="order_total">0</span>
+					</div>
+					<div class="col-md-2 totalsField statCol-3">
+						Turns required: <span id="turn_total">0</span>
+					</div>
+					<div class="col-md-2 totalsField statCol-4">
+						Added Nw. : $ <span id="networth_total">0</span>
+					</div>
+					<div class="col-md-3 totalsField statCol-3">
+						New Nw. : $ <span id="networth_new"></span>
+					</div>
 				</div>
-				<div class="col-md-3 totalsField statCol-2">
-					Total cost: $ <span id="order_total">0</span>
-				</div>
-				<div class="col-md-2 totalsField statCol-3">
-					Turns required: <span id="turn_total">0</span>
-				</div>
-				<div class="col-md-2 totalsField statCol-4">
-					Added Nw. : $ <span id="networth_total">0</span>
-				</div>
-				<div class="col-md-3 totalsField statCol-3">
-					New Nw. : $ <span id="networth_new"></span>
-				</div>
+				<input type="submit" value="Turn build" class="mainSubmit hoverEffect">
 			</div>
-
-
-
-            <input type="submit" value="Turn build" class="mainSubmit hoverEffect">
-
-        </div>
-    </form>
+		</form>
 	</div>
 
 </div> <!-- // End pageRow -->
 
 <script>
-
-
 (function($) {
 
-var request;
-$(document).on('submit', '#turnbuild', function(event) {
+	var request;
+	$(document).on('submit', '#turnbuild', function(event) {
 
-	var turn_total = parseInt($('#turn_total').text());
-	if(turn_total >= 50 && !confirm('This will cost a lot of turns, are you sure?')) {
-		event.preventDefault();
-		return;
-	}
+		var turn_total = parseInt($('#turn_total').text());
+		if(turn_total >= 50 && !confirm('This will cost a lot of turns, are you sure?')) {
+			event.preventDefault();
+			return;
+		}
 
-	$('.pageLoader, #page-cover').show();
-	$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
+		$('.pageLoader, #page-cover').show();
+		$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 
-    event.preventDefault();
+	    event.preventDefault();
+    	if (request) { request.abort(); }
+		var serializedData = $(this).serialize();
+		request = $.ajax({url: "/turnbuild.php", type: "post", data: serializedData});
+		request.done(function (response, textStatus, jqXHR){
+			updateHeaderData();
 
-    if (request) { request.abort(); }
-
-    var $form = $(this);
-    var $inputs = $form.find("input, select, button, textarea");
-    var serializedData = $form.serialize();
-
-    request = $.ajax({
-        url: "/turnbuild.php",
-        type: "post",
-        data: serializedData
-    });
-
-    // Callback handler that will be called on success
-    request.done(function (response, textStatus, jqXHR){
-	    updateHeaderData();
-
-        // Log a message to the console
-        var array = JSON.parse(response);
-        	console.log(array);
-
-
-				$.notify({
-					message: array.status,
-					},{
-					type: 'info',
-					delay: 5000,
-					allow_dismiss: true,
-					newest_on_top: true,
-						});
+			// Log a message to the console
+			var array = JSON.parse(response);
+			$.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
 			$('#order_total').html('0');
 			$('#total').html('0');
 			$('#networth_total').html('0');
@@ -193,112 +160,96 @@ $(document).on('submit', '#turnbuild', function(event) {
 				$.each( array.allowned, function( key, value ) {
 					$('#'+key+'_owned').html(value);
 				});
-
 				$.each( array.newmax, function( key, value ) {
 					$('#button'+key).html(value);
 				});
-
 				$.each( array.usedspace, function( key, value ) {
 					$('#'+key+'spacecount').html(number_format(value, 0, ',', ' '));
 				});
-
 			}
 			$('#turnbuild').trigger("reset");
-});	});
+		});
+	});
 
+	$(document).on("keyup paste blur change", ".buyInput", function() {
+		var sum = 0;
+		var orderval = 0;
+		var addednw = 0;
+		var turntot = 0;
+		var oldnw = <?php echo $userData['networth'][0];?>;
 
-$(document).on("keyup paste blur change", ".buyInput", function() {
-    var sum = 0;
-    var orderval = 0;
-    var addednw = 0;
-    var turntot = 0;
-    var oldnw = <?php echo $userData['networth'][0];?>;
+		$(".buyInput").each(function(){
+			var inputval = $(this).val();
+			sum += +$(this).val();
+			if(inputval > 0){
+				orderval += +$(this).attr( "data-price" )*inputval;
+				addednw += +$(this).attr( "data-price" )*($(this).attr( "data-nw" )/100)*inputval;
 
-    $(".buyInput").each(function(){
-	    var inputval = $(this).val();
-        sum += +$(this).val();
-        if(inputval > 0){
-
-        	orderval += +$(this).attr( "data-price" )*inputval;
-        	addednw += +$(this).attr( "data-price" )*($(this).attr( "data-nw" )/100)*inputval;
-
-        	var inputkey = $(this).attr( "type-key" );
-        	if(inputkey == 'air'){
-				turntot += Math.ceil(inputval/10);
+				var inputkey = $(this).attr( "type-key" );
+				if(inputkey == 'air'){
+					turntot += Math.ceil(inputval/10);
+				}
+				if(inputkey == 'sea'){
+					turntot += Math.ceil(inputval/5);
+				}
+				if(inputkey == 'inf'){
+					turntot += Math.ceil(inputval/20);
+				}
+				if(inputkey == 'veh'){
+					turntot += Math.ceil(inputval/10);
+				}
 			}
-			if(inputkey == 'sea'){
-				turntot += Math.ceil(inputval/5);
+		});
+
+		$("#total").html(sum);
+		$("#order_total").html(number_format(orderval, 0, ',', ' '));
+		$("#networth_total").html(number_format(addednw, 0, ',', ' '));
+		$("#turn_total").html(number_format(turntot, 0, ',', ' '));
+		$("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
+	});
+
+	$(document).on("click", ".allbutton", function() {
+		var sum = 0;
+		var inputkey = $(this).attr( "data-key" );
+		var inputamount = $(this).html();
+		var turntot = 0;
+
+		$(".buy_"+inputkey).val(inputamount);
+
+		var orderval = 0;
+		var addednw = 0;
+		var oldnw = <?php echo $userData['networth'][0];?>;
+
+		$(".buyInput").each(function(){
+			var inputval = $(this).val();
+			sum += +$(this).val();
+			if(inputval > 0){
+				orderval += +$(this).attr( "data-price" )*inputval;
+				addednw += +$(this).attr( "data-price" )*($(this).attr( "data-nw" )/100)*inputval;
+
+				var typekey = $(this).attr( "type-key" );
+				if(typekey == 'air'){
+					turntot += Math.ceil(inputval/10);
+				}
+				if(typekey == 'sea'){
+					turntot += Math.ceil(inputval/5);
+				}
+				if(typekey == 'inf'){
+					turntot += Math.ceil(inputval/20);
+				}
+				if(typekey == 'veh'){
+					turntot += Math.ceil(inputval/10);
+				}
 			}
-			if(inputkey == 'inf'){
-				turntot += Math.ceil(inputval/20);
-			}
-			if(inputkey == 'veh'){
-				turntot += Math.ceil(inputval/10);
-			}
+		});
 
-
-        }
-    });
-
-
-    $("#total").html(sum);
-    $("#order_total").html(number_format(orderval, 0, ',', ' '));
-    $("#networth_total").html(number_format(addednw, 0, ',', ' '));
-    $("#turn_total").html(number_format(turntot, 0, ',', ' '));
-    $("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
-
-});
-$(document).on("click", ".allbutton", function() {
-	var sum = 0;
-	var inputkey = $(this).attr( "data-key" );
-	var inputamount = $(this).html();
-	var turntot = 0;
-
-	$(".buy_"+inputkey).val(inputamount);
-
-	var orderval = 0;
-	var addednw = 0;
-	var oldnw = <?php echo $userData['networth'][0];?>;
-
-
-	$(".buyInput").each(function(){
-        var inputval = $(this).val();
-        sum += +$(this).val();
-        if(inputval > 0){
-        	orderval += +$(this).attr( "data-price" )*inputval;
-        	addednw += +$(this).attr( "data-price" )*($(this).attr( "data-nw" )/100)*inputval;
-
-        	var typekey = $(this).attr( "type-key" );
-        	if(typekey == 'air'){
-				turntot += Math.ceil(inputval/10);
-			}
-			if(typekey == 'sea'){
-				turntot += Math.ceil(inputval/5);
-			}
-			if(typekey == 'inf'){
-				turntot += Math.ceil(inputval/20);
-			}
-			if(typekey == 'veh'){
-				turntot += Math.ceil(inputval/10);
-			}
-
-        }
-    });
-
-
-    $("#total").html(sum);
-    $("#order_total").html(number_format(orderval, 0, ',', ' '));
-    $("#networth_total").html(number_format(addednw, 0, ',', ' '));
-    $("#turn_total").html(number_format(turntot, 0, ',', ' '));
-    $("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
-});
-
-
-
-
+		$("#total").html(sum);
+		$("#order_total").html(number_format(orderval, 0, ',', ' '));
+		$("#networth_total").html(number_format(addednw, 0, ',', ' '));
+		$("#turn_total").html(number_format(turntot, 0, ',', ' '));
+		$("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
+	});
 })(jQuery);
-
-
 </script>
 <?php
 get_footer();
