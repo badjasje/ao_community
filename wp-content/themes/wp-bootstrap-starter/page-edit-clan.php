@@ -8,19 +8,22 @@ global $userId;
 
 $user_ID = $userId;
 $clan_ID = $userData['clan_id_user'][0];
-$clanImg = get_post_meta($clan_ID, 'clan_image', true);
+$clanImg = get_post_meta($clan_ID, 'clan_image', true); // landscape, 750x400
+$clanThumb = get_post_meta($clan_ID, 'clan_thumb', true); // square, 90x90
 $clanData = get_post_meta($clan_ID);
 $clanleader = $clanData['clan_leader'][0];
+$leader_data = get_userdata($clanleader);
 $clanmembers = maybe_unserialize(get_post_meta( $clan_ID, 'clan_members', true ));
 $ct_1 = get_post_meta($clan_ID,'ct_1',true);
 $ct_2 = get_post_meta($clan_ID,'ct_2',true);
 $ct_3 = get_post_meta($clan_ID,'ct_3',true);
 $ct_4 = get_post_meta($clan_ID,'ct_4',true);
-$settings = array( 'media_buttons' => false );
+//$settings = array( 'media_buttons' => false );
 $changecount = get_post_meta($clan_ID, 'clan_name_change', true);
 if(get_field('game_status', 'option') != 'Live') $changecount = 0;
 $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
 
+/* UNUSED
 $autojoin = get_post_meta($clan_ID, 'autojoin_allowed', true);
 $autojoinDesc = get_post_meta($clan_ID, 'autojoin_description', true);
 $playstyle = get_post_meta($clan_ID, 'autojoin_playstyle', true);
@@ -44,37 +47,35 @@ if($playstyle == 'Other'){
 
 $autojoinYes = '';
 $autojoinNo = '';
-
-if($autojoin == 'yes'){
-	$autojoinYes = 'selected="selected"';
-}
-if($autojoin == 'no'){
-	$autojoinNo = 'selected="selected"';
-}
+if($autojoin == 'yes') $autojoinYes = 'selected="selected"';
+if($autojoin == 'no') $autojoinNo = 'selected="selected"';*/
 
 $clan = get_post($clan_ID);
 $wp_upload_dir = wp_upload_dir();
 ?>
 <style>
-.dropzone .dz-preview.dz-image-preview{
-	display: none;
-}
-.dropzone{
-	background:none;
-}
+.dropzone .dz-preview.dz-image-preview { display: none; }
+.dropzone { background:none; border:1px solid #999!important; overflow: hidden; }
 </style>
 <div class="row pageRow clanContentRow">
     <form id="editclan" method="post">
         <div class="row row-no-padding fw-row">
 
-            <div class="col-12 attackingRow statCol-2 row-no-padding">
-                <div id="clan_avatar_dz" class="clanImage" style='background-image:url("<?php echo $clanImg;?>")'></div>
-                <input hidden type="text" name="newclanimage" class="newclanimage" id="newclanimage" value=""/>
+            <div class="col-12 attackingRow statCol-2">
+                <h3>Edit clan header image <sup>(750x400)</sup></h3>
+                <div id="clan_header_dz" class="clanImage clanUpload" style='background-image:url("<?php echo $clanImg;?>")'></div>
+                <input type="hidden" name="newclanimage" class="newclanimage" id="newclanimage" value=""/>
             </div>
-            <div class="col-12 attackingRow statCol-1 elipOverflow">
+            <div class="col-12 attackingRow statCol-1">
+                <h3>Edit clan profile image <sup>(90x90)</sup></h3>
+                <div id="clan_avatar_dz" class="setAvatar clanAvatar profileAvatar clanUpload" style='background-image:url("<?php echo $clanThumb;?>")'></div>
+                <input type="hidden" name="newclanavatar" class="newclanavatar" id="newclanavatar" value=""/>
+            </div>
+            <div class="col-12 attackingRow statCol-2">
                 <h3>Edit public message</h3>
                 <textarea rows="10" class="messageBox" type="text" name="publicmessage" id="clanmessager"><?php echo $clan->post_content;?></textarea>
             </div>
+
 
             <div class="pageSpacer"></div>
 
@@ -88,11 +89,10 @@ $wp_upload_dir = wp_upload_dir();
                 <div style="padding: 0px 9px;width:100%;" class="attackDropdown statCol-2 no-gutters">
                     <select id="clanleader" name="new_leader" class="attackTypeInput">
                         <option value="<?php echo $clanleader;?>" selected="selected">
-                            <?php  $member_data = get_userdata($clanleader);
-                            echo $member_data->display_name;?>
+                            <?php echo $leader_data->display_name;?>
                         </option>
-                        <?php foreach ($clanmembers as $key => $member) {
-                            if($member != $clanleader){
+                        <?php foreach($clanmembers as $key => $member) {
+                            if($member != $clanleader) {
                                 $member_data = get_userdata($member);?>
                                 <option name="new_leader" value="<?php echo $member;?>"><?php echo $member_data->display_name;?></option>
                                 <?php
@@ -155,21 +155,15 @@ $wp_upload_dir = wp_upload_dir();
 
             event.preventDefault();
             if (request) request.abort();
-
-            var $form = $(this);
-            var $inputs = $form.find("input, select, button, textarea");
-            var serializedData = $form.serialize();
+            var serializedData = $(this).serialize();
             request = $.ajax({url: "/editclan.php",type: "post",data: serializedData});
             request.done(function (response, textStatus, jqXHR){
-                // Log a message to the console
                 var array = JSON.parse(response);
-                $.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
                 if(array.imagechanged == true) {
-                    $('.clanImage').css('background-image', 'url(' + array.newclanimage + ')');
-                    var myDropzone = Dropzone.forElement("#clan_avatar_dz");
+                    var myDropzone = Dropzone.forElement(".clanUpload");
                     myDropzone.removeAllFiles(true);
-                }
-                location.reload();
+                    location.reload();
+                } else $.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
             });
         });
 
@@ -177,16 +171,14 @@ $wp_upload_dir = wp_upload_dir();
         $("#clanname").on('submit', function(e) {
             if(!confirm('Are you sure you want to change your clan name and tag?')) return;
             $('.pageLoader, #page-cover').show();
-
             e.preventDefault();
             if (namerequest) namerequest.abort();
-
             namerequest = $.ajax({url: "/change_clan_name.php",type: "post",data: $(this).find('input').serialize()});
             namerequest.done(function(response) {
                 $('.pageLoader, #page-cover').fadeOut( "fast");
                 var array = JSON.parse(response);
-                $.notify({message: array.status},{type:'info', delay:5000, allow_dismiss:true, newest_on_top: true});
                 if(array.clan_updated == true) location.reload();
+                else $.notify({message: array.status},{type:'info', delay:5000, allow_dismiss:true, newest_on_top: true});
             });
         });
 
@@ -203,27 +195,28 @@ $wp_upload_dir = wp_upload_dir();
 
         $(window).on('load', function() {
             Dropzone.autoDiscover = false;
-
-            $("#clan_avatar_dz").dropzone({
+            $(".clanUpload").dropzone({
                 url: "<?php echo get_stylesheet_directory_uri();?>/dropzoneUpload.php",
                 addRemoveLinks: true,
                 init: function() {
-                    $("#clan_avatar_dz").addClass('dropzone');
-
+                    $(".clanUpload").addClass('dropzone');
                     this.on("sending", function(file, xhr, formData){
                         formData.append("my_nonce_field", "<?php echo wp_create_nonce('protect_content') ?>");
                         formData.append("action", "submit_dropzonejs");
                     });
-
                     this.on("removedfile", function(file, xhr, formData) {
-                        // todo add server delete and check if deleted image is from author
-                        console.log(file.previewTemplate.getAttribute('rel'));
+                        console.log(file.previewTemplate.getAttribute('rel')); // todo add server delete and check if deleted image is from author
                     });
                 },
                 success: function (file, response) {
-                    $('input[name="newclanimage"]').attr('value',response);
-                    $('.clanImage').css('background-image', 'url(<?php echo $wp_upload_dir['url'];?>/' + response + ')');
-                    //var imgName = response;
+                    if($(file.previewElement).parents('.clanUpload').is('#clan_avatar_dz')) {
+                        $('input[name="newclanavatar"]').attr('value',response);
+                        $('#clan_avatar_dz').css('background-image', 'url(<?php echo $wp_upload_dir['url'];?>/' + response + ')');
+                    }
+                    else {
+                        $('input[name="newclanimage"]').attr('value',response);
+                        $('#clan_header_dz').css('background-image', 'url(<?php echo $wp_upload_dir['url'];?>/' + response + ')');
+                    }
                     file.previewElement.classList.add("dz-success");
                 },
                 error: function (file, response) {

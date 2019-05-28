@@ -32,11 +32,17 @@ $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
 
 $array['imagechanged'] = false;
 
+$wp_upload_dir = wp_upload_dir();
 if(!empty($data['newclanimage'])){
-	$wp_upload_dir = wp_upload_dir();
 	$newclanimg = $wp_upload_dir['url'] . '/' . $data['newclanimage'];
 	update_post_meta($clan_ID, 'clan_image', $newclanimg);
 	$array['newclanimage'] = $newclanimg;
+	$array['imagechanged'] = true;
+}
+if(!empty($data['newclanavatar'])){
+	$newclanavatar = $wp_upload_dir['url'] . '/' . $data['newclanavatar'];
+	update_post_meta($clan_ID, 'clan_thumb', $newclanavatar);
+	$array['newclanavatar'] = $newclanavatar;
 	$array['imagechanged'] = true;
 }
 

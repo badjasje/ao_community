@@ -647,7 +647,8 @@ function clan_avatar($clan_ID, $type) {
         $addClass = $type;
     }
     if ($clan_ID != 0) {
-        $avatar = get_post_meta($clan_ID, 'clan_image', true);
+        $avatar = get_post_meta($clan_ID, 'clan_thumb', true);
+        if(empty($avatar)) $avatar = get_post_meta($clan_ID, 'clan_image', true);
         if (!empty($avatar)) {
             //$avatar = str_replace("http://", "https://", $avatar);
             return "<a href='" . get_the_permalink($clan_ID) . "'><div class='setAvatar clan_avatar $addClass' style='background: url(" . $avatar . ");'></div></a>";
