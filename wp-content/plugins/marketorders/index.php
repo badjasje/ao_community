@@ -1917,6 +1917,6 @@ function fcm_send_notification($receiver, $type, $attacker=0) {
  */
 function helpText($message, $source='generic', $type='tip') {
     echo "<script>(function($) { setTimeout(function() {
-        $.notify({message:'".ucfirst($type).": ".$message."'},{type:'info',delay:5000,allow_dismiss:true,newest_on_top:true});
+        $.notify({message:'".ucfirst($type).": ".$message."'},{type:'help',newest_on_top:true});
     },200); })(jQuery);</script>";
 }
