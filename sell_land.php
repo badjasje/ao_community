@@ -47,7 +47,7 @@ if ($_POST['land'] < 0 || !is_numeric($_POST['land']) || $_POST['land'] > $freel
 }
 
 if ((20000-$sold_land_today) >= $_POST['land']) {
-	
+
     update_user_meta($userId, 'land', $ownedland-$_POST['land']);
     update_user_meta($userId, 'land_sold_today', $sold_land_today+($_POST['land']));
     update_user_meta($userId, 'money', $money+($_POST['land']*75));
@@ -55,8 +55,7 @@ if ((20000-$sold_land_today) >= $_POST['land']) {
 	$soldLandToday = $sold_land_today+($_POST['land']);
 	$freeLand = ($ownedland-$_POST['land']) - $builtLand;
 	$maxSell = $freeLand < (20000 - $soldLandToday) ? $freeLand : (20000 - $soldLandToday);
-	
-	
+
 	$file = 'landselllog.txt';
     $current = file_get_contents($file);
     $time = current_time('G:i:s | d-m-Y');
@@ -65,8 +64,6 @@ if ((20000-$sold_land_today) >= $_POST['land']) {
     $current .= "Sold land: ".$_POST['land']."\n";
     $current .= "Land sold today: ".$soldLandToday."\n\n";
     file_put_contents($file, $current);
-	
-	
 
     count_all_stats($userId);
     $userData = get_user_meta($userId);
@@ -75,12 +72,13 @@ if ((20000-$sold_land_today) >= $_POST['land']) {
 	$array['networth'] = $userData['networth'][0];
 	$array['land'] = $userData['land'][0];
 	$array['money'] = $userData['money'][0];
-	$array['soldtoday'] = "1 m<sup>2</sup> has a value of $ 75. You have $freeLand m<sup>2</sup> of free land.
-    You have sold <strong> $soldLandToday m<sup>2</sup></strong> today. You can sell an additional <strong> $maxSell m<sup>2</sup></strong>";
-  
+	$array['maxsell'] = $maxSell;
+	$array['soldtoday'] = '1 m<sup>2</sup> has a value of $ 75. You have '.$freeLand.' m<sup>2</sup> of free land.
+	You have sold <strong> '.$soldLandToday.' m<sup>2</sup></strong> today. You can sell an additional
+	<strong class="maxsell" data-max="'. $maxSell .'">'.$maxSell.' m<sup>2</sup></strong>';
+
 	echo json_encode($array);
 	exit;
-    
 }
 
 if ((20000-$sold_land_today) < $_POST['land']) {
