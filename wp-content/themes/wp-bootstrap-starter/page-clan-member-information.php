@@ -62,7 +62,21 @@ include('interest_array.php');
 		$inprogress = $memberData['research_in_progress'][0];
 		$attMade = $memberData['attacks_made_current'][0];
 		$attRec = $memberData['attacks_rec_current'][0];
+		$canAttack = implode(', ', can_attack($member));
+		if(empty($canAttack)) $canAttack = '<em>none</em>';
 
+		$totalUnits = count_tot_units($member); // array
+		$totalBuildings = count_tot_buildings($member);
+
+		// Unittypes with totals in popup
+		$unitTypes = array();
+		foreach (unit_types($member) as $type => $number) {
+			$unitTypes[] = '<span class="hover-tip" data-toggle="tooltip" data-original-title="Owned: '.
+				$number.'" data-placement="bottom">'. $type .'</span>';
+		}
+		$unitTypes = (count($unitTypes) ? implode(', ',$unitTypes) : '<em>none</em>');
+
+		// Research time left
 		$timeLeft ='';
 		if(!empty($inprogress)) {
 			$args = array('posts_per_page' => 1, 'author' => $member, 'post_type' => 'research');
@@ -72,20 +86,21 @@ include('interest_array.php');
 		}
 
 		// Check how many open bonusses you have
-		$open_bonusses = 0;
+		$open_bonusses = $open_money = $open_turns = 0;
 		$args = array('author' => $member, 'numberposts' => -1, 'post_type' => 'event_local',
 			'meta_query' => array('relation' => 'AND', array('key' => 'attacktype', 'value' => array('bonus'), 'compare' => 'IN')),
 		);
-		$bonus_posts = get_posts($args); // Get all bonusses for player
-		foreach ($bonus_posts as $bonus) {
+		foreach (get_posts($args) as $bonus) {
 			$event_ID = $bonus->ID;
 			$used = get_post_meta($event_ID, 'bonus_used', true);
 			if($used != 'yes') {
 				$open_bonusses++;
-				//$money = get_post_meta($event_ID, 'bonus_money', true);
-				//$turns = get_post_meta($event_ID, 'bonus_turns', true);
+				$open_money += get_post_meta($event_ID, 'bonus_money', true);
+				$open_turns += get_post_meta($event_ID, 'bonus_turns', true);
 			}
 		}
+		$unused_bonusses = ($open_bonusses > 0 ? '<span class="hover-tip" data-toggle="tooltip" data-original-title="Money: $ '.
+			number_format($open_money, 0, ',', ' ').', turns: '.$open_turns.'" data-placement="bottom">'. $open_bonusses .'</span>' : 0);
 
 		// Find bank deposits
 		$total_final = $unlocked = 0;
@@ -117,17 +132,13 @@ include('interest_array.php');
 
 		$extraClass = '';
 		$counter++;
-		if($counter == $NRmembers){
-			$extraClass = '_last';
+		if($counter == $NRmembers) $extraClass = '_last';
 
-		}
 		$member_data = get_userdata($member);
 		$last_online = $memberData['last_online'][0];
 		$spiednr = intval($memberData['spied_current_clan'][0]);
 
-		if(!empty($last_online)){
-			$last_seen = $timestamp - $last_online;
-		}
+		if(!empty($last_online)) $last_seen = $timestamp - $last_online;
 		?>
 		<div class="blockHeader">
 			<?php echo get_user_name($member);?>
@@ -135,28 +146,28 @@ include('interest_array.php');
 
 		<!-- Row 1 -->
 		<div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-($count/70);?>);">
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Networth</span>
 				<span class="dataVisibleRight store-pop-span2">
 					<?php echo networth_range($member);?>
 				</span>
 			</div>
 
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Land</span>
 				<span class="dataVisibleRight land">
 					<?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup>
 				</span>
 			</div>
 
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Points per attack</span>
 				<span class="dataVisibleRight store-pop-span2">
 					<?php echo number_format($PPA, 1, ',', ' '); ?>
 				</span>
 			</div>
 
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Targets spied</span>
 				<span class="dataVisibleRight store-pop-span2">
 					<?php echo number_format($spiednr, 0, ',', ' '); ?>
@@ -166,28 +177,28 @@ include('interest_array.php');
 
 		<!-- Row 2 -->
 		<div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.4-($count/70);?>);">
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Turns</span>
 				<span class="dataVisibleRight store-pop-span2">
 					<?php echo $turns;?>
 				</span>
 			</div>
 
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Money</span>
 				<span class="dataVisibleRight">
 					$ <?php echo number_format($money, 0, ',', ' ');?>
 				</span>
 			</div>
 
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Morale</span>
 				<span class="dataVisibleRight store-pop-span2">
 					<?php echo $morale;?>% <sup>(<?php echo $pool;?>%)</sup>
 				</span>
 			</div>
 
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Last online</span>
 				<span class="dataVisibleRight store-pop-span2">
 					<?php echo date('H:i | d-m-y', $last_online);?>
@@ -197,32 +208,28 @@ include('interest_array.php');
 
 		<!-- Row 3 -->
 		<div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.45-($count/70);?>);">
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Unit types</span>
 				<span class="dataVisibleRight store-pop-span2">
-					<?php $typecount = count(unit_types($member));
-						foreach (unit_types($member) as $type => $number) { $typecounter++;?>
-					<span class="hover-tip"  data-toggle="tooltip" data-html="true"  data-original-title="Owned: <?php echo $number;?>" data-placement="bottom">
-					<?php echo $type;?></span><?php if($typecount > $typecounter){echo',';}?>
-				<?php  }?>
-					</span>
-			</div>
-
-			<div class="col-md-3 celBlock">
-				<span class="dataVisibleLeft">Can attack</span>
-				<span class="dataVisibleRight">
-					<?php  echo implode(', ', can_attack($member));?>
+					<?php echo $unitTypes; ?>
 				</span>
 			</div>
 
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
+				<span class="dataVisibleLeft">Can attack</span>
+				<span class="dataVisibleRight">
+					<?php echo $canAttack;?>
+				</span>
+			</div>
+
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Attacks made</span>
 				<span class="dataVisibleRight store-pop-span2">
 					<?php echo $attMade;?>
 				</span>
 			</div>
 
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Attacks received</span>
 				<span class="dataVisibleRight store-pop-span2">
 					<?php echo $attRec;?>
@@ -232,28 +239,28 @@ include('interest_array.php');
 
 		<!-- Row 4 -->
 		<div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.5-($count/70);?>);">
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Aid sent</span>
 				<span class="dataVisibleRight store-pop-span2">
 					$ <?php echo number_format($totAidSent, 0, ',', ' ');?>
 				</span>
 			</div>
 
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Aid received</span>
 				<span class="dataVisibleRight">
 					$ <?php echo number_format($aidRec, 0, ',', ' ');?>
 				</span>
 			</div>
 
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Power usage</span>
 				<span class="dataVisibleRight store-pop-span2">
 					<?php echo round($power);?>%
 				</span>
 			</div>
 
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Satellite power</span>
 				<span class="dataVisibleRight store-pop-span2">
 					<?php echo number_format($sat_morale, 0, ',', ' '); ?>%
@@ -263,26 +270,27 @@ include('interest_array.php');
 
 		<!-- Row 5 -->
 		<div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.55-($count/70);?>);">
-			<div class="col-md-3 celBlock">
-				<span class="dataVisibleLeft">Unused bonusses</span>
-				<span class="dataVisibleRight"><?=$open_bonusses?></span>
-			</div>
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Bank total</span>
 				<span class="dataVisibleRight">$ <?=number_format($total_final, 0, ',', ' ')?></span>
 			</div>
-			<div class="col-md-3 celBlock">
+			<div class="col-md-3 col-xs-6 celBlock">
 				<span class="dataVisibleLeft">Bank available</span>
 				<span class="dataVisibleRight">$ <?=number_format($unlocked, 0, ',', ' ')?></span>
 			</div>
-			<div class="col-md-3 celBlock"></div>
+			<div class="col-md-3 col-xs-6 celBlock">
+				<span class="dataVisibleLeft">Unused bonusses</span>
+				<span class="dataVisibleRight"><?=$unused_bonusses?></span>
+			</div>
+			<div class="col-md-3 col-xs-6 celBlock"></div>
 		</div><!-- // Close Row 5 -->
 
 		<!-- Button row -->
 		<div class="row fw-row no-gutters">
 
 			<div class="col-md-4 celBlock" style="padding:0px">
-				<button viewtype="research" member-id="<?php echo $member;?>" class="cancelButton hoverEffect viewmemberinfo" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);" type="submit">
+				<button viewtype="research" member-id="<?php echo $member;?>"
+					class="cancelButton hoverEffect viewmemberinfo<?=(count($researches)||$inprogress!='0'?' active':'')?>" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);">
 					<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Research
 					<?php if($inprogress != '0') {?>
 						<span class="badge" data-toggle="tooltip" data-placement="top" title="Research currently in progress: <?php echo $researches[$inprogress]['name'];?>, <?=$timeLeft?> left">
@@ -307,8 +315,9 @@ include('interest_array.php');
 			</div>
 
 			<div class="col-md-4 celBlock" style="padding:0px">
-				<button viewtype="units" member-id="<?php echo $member;?>" class="cancelButton hoverEffect viewmemberinfo" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 0.95-($count/70);?>);" type="submit">
-					<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Units <?php echo count_tot_units($member);?>
+				<button viewtype="units" member-id="<?php echo $member;?>"
+					class="cancelButton hoverEffect viewmemberinfo<?=($totalUnits['owned']+$totalUnits['ordered']>0?' active':'')?>" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 0.95-($count/70);?>);">
+					<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Units <?php echo $totalUnits['owned'];?> (<?php echo $totalUnits['ordered'];?>)
 				</button>
 				<div class="memberInfo units_<?php echo $member;?>">
 					<?php foreach($units as $key => $order){
@@ -323,13 +332,14 @@ include('interest_array.php');
 			</div>
 
 			<div class="col-md-4 celBlock" style="padding:0px">
-				<button viewtype="buildings" member-id="<?php echo $member;?>" class="cancelButton hoverEffect viewmemberinfo" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 0.9-($count/70);?>);" type="submit">
-					<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Buildings <?php echo count_tot_buildings($member);?>
+				<button viewtype="buildings" member-id="<?php echo $member;?>"
+					class="cancelButton hoverEffect viewmemberinfo<?=($totalBuildings['owned']>0?' active':'')?>" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 0.9-($count/70);?>);">
+					<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Buildings <?php echo $totalBuildings['owned'];?>
 				</button>
 				<div class="memberInfo buildings_<?php echo $member;?>">
 					<?php foreach($buildings as $key => $order){
 						$units_owned = $memberData[$key][0];
-						if($units_owned > 0 || $units_ordered > 0){ ?>
+						if($units_owned > 0){ ?>
 							<span class="dataVisibleLeft"><?php echo $order['normalname'];?></span>
 							<span class="dataVisibleRight"><?php echo $units_owned;?></span>
 							<br/>
@@ -347,18 +357,17 @@ include('interest_array.php');
 	endforeach; // End clan member loop ?>
 
 	<script>
-	jQuery(".viewmemberinfo").toggle(
-		function(){
-			var member = jQuery(this).attr('member-id');
-			var viewtype = jQuery(this).attr('viewtype');
-			jQuery('.'+viewtype+'_'+member).show(150);
-		},
-
-		function(){
-			var member = jQuery(this).attr('member-id');
-			var viewtype = jQuery(this).attr('viewtype');
-			jQuery('.'+viewtype+'_'+member).hide(150);;
-		});
+		(function($) {
+			$(".viewmemberinfo.active").toggle(function(){
+				var member = $(this).attr('member-id');
+				var viewtype = $(this).attr('viewtype');
+				$('.'+viewtype+'_'+member).show(150);
+			}, function(){
+				var member = $(this).attr('member-id');
+				var viewtype = $(this).attr('viewtype');
+				$('.'+viewtype+'_'+member).hide(150);;
+			});
+		})(jQuery);
 	</script>
 
 </div> <!-- end .pageRow -->
