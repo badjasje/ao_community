@@ -2224,4 +2224,12 @@ input[type="radio"]:checked + label {
 
     .attackStep2Table .totalsField { padding: 7px; font-size: 12px; }
 
+    /* make a lot of things more compact on mobile */
+    .blockHeader, .successHeader, .medal_header, .medal_row,
+    .eventMainMessage,  .eventResultRow,
+    .profileButton, .totalsField, .statusInsideCol,
+    .celBlock, .mainSubmit {
+        padding: 7px 12px;
+    }
+    .eventFooter { margin-bottom:50px; }
 }
