@@ -62,7 +62,8 @@ $marketClose = $timeLeft;
 $specialUnits = [
     'spy',
     'thief',
-    'sniper',
+	'sniper',
+	'saboteur',
     'spyplane'
 ];
 

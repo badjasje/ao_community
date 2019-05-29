@@ -75,6 +75,7 @@ $specialUnitsArray = [
     'spyplane',
     'sniper',
     'thief',
+    'saboteur',
     'spy'
 ];
 

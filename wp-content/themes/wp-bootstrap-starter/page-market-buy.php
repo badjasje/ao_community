@@ -66,7 +66,8 @@ if($startingBonus == 'shipping'){
 $specialUnits = [
     'spy',
     'thief',
-    'sniper',
+	'sniper',
+	'saboteur',
     'spyplane'
 ];
 
@@ -157,32 +158,15 @@ if(count($orders) == 0) {
 	// Bind to the submit event of our form
 	$("#market").submit(function(event){
 		$('.pageLoader, #page-cover').show();
-		$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
-		// Prevent default posting of form - put here to work in case of errors
+
 		event.preventDefault();
+		if (request) request.abort();
 
-		// Abort any pending request
-		if (request) {
-			request.abort();
-		}
-		// setup some local variables
-		var $form = $(this);
-
-		// Let's select and cache all the fields
-		var $inputs = $form.find("input, select, button, textarea");
-
-		// Serialize the data in the form
-		var serializedData = $form.serialize();
-
-		// Fire off the request to /form.php
-		request = $.ajax({
-			url: "/market.php",
-			type: "post",
-			data: serializedData
-		});
-
-		// Callback handler that will be called on success
+		var serializedData = $(this).serialize();
+		request = $.ajax({url: "/market.php",type: "post",data: serializedData});
 		request.done(function (response, textStatus, jqXHR){
+			$('.pageLoader, #page-cover').fadeOut( "fast");
+
 			updateHeaderData();
 			var array = JSON.parse(response);
 

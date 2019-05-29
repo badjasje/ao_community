@@ -117,11 +117,8 @@ $buttonColor = "70, 118, 94";
         var request;
         $('form').submit(function( event ) {
             $('.pageLoader, #page-cover').show();
-
             event.preventDefault();
             if (request) request.abort();
-
-            var $inputs = $form.find("input, select, button, textarea");
             var serializedData = $(this).serialize();
             request = $.ajax({url: "/cancel_order.php",type: "post",data: serializedData});
             request.done(function (response, textStatus, jqXHR){
