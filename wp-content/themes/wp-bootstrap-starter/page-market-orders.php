@@ -117,7 +117,6 @@ $buttonColor = "70, 118, 94";
         var request;
         $('form').submit(function( event ) {
             $('.pageLoader, #page-cover').show();
-            $('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 
             event.preventDefault();
             if (request) request.abort();
@@ -126,7 +125,7 @@ $buttonColor = "70, 118, 94";
             var serializedData = $(this).serialize();
             request = $.ajax({url: "/cancel_order.php",type: "post",data: serializedData});
             request.done(function (response, textStatus, jqXHR){
-
+                $('.pageLoader, #page-cover').fadeOut( "fast");
                 var array = JSON.parse(response);
                 $( "#order_"+array.remove ).empty();
                 $.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true,});

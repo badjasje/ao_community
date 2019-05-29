@@ -179,26 +179,21 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 	$("#sellmarket").submit(function(event){
 		$('.pageLoader, #page-cover').show();
 
-
 		event.preventDefault();
 		if (request) { request.abort(); }
 
-		var $form = $(this);
-		var $inputs = $form.find("input, select, button, textarea");
-		var serializedData = $form.serialize();
-
+		var serializedData = $(this).serialize();
 		request = $.ajax({url: "/sell_units.php",type: "post",data: serializedData});
 		request.done(function (response, textStatus, jqXHR){
 			$('.pageLoader, #page-cover').fadeOut( "fast");
 			updateHeaderData();
 			var array = JSON.parse(response);
-			$.each(array.allowned, function( key, value ) {
+			$.each(array.newmax, function( key, value ) {
 				$('#maxsell_'+key).text(parseInt(value));
 				if(parseInt(value) <= 0){
 					$('#sell_'+key).remove();
 				}
 			});
-
 			$.notify({message: array.status}, {type:'info', delay:5000, allow_dismiss:true, newest_on_top:true});
 			$('#totalsell').html('0');
 			$('#return_val').html('0');
