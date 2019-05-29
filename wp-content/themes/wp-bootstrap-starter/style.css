@@ -1084,8 +1084,8 @@ body:not(.theme-preset-active) footer#colophon {
 	text-align: left;
 	border-bottom:0px;
 }
-.successHeader a,.blockHeader a{
-	color:#fff;
+.successHeader a, .blockHeader a, .statusTotalRow .blockHeader a {
+	color:#fff!important;
 }
 .eventFooter{
 	margin-bottom:50px;
@@ -2126,6 +2126,11 @@ input[type="radio"]:checked + label {
     background-size: contain !important;
     background-position: center !important;
 }
+
+.wp-polls p { margin: 0; }
+.wp-polls ul, .wp-polls-ul, .wp-polls-ans ul { margin:0; }
+.wp-polls .pollbar { background: #46765d; border: none; }
+
 /*--------------------------------------------------------------
 ## Netbook
 --------------------------------------------------------------*/
