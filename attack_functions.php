@@ -300,7 +300,7 @@ function create_defender_array($target_id, $type_array) {
     $startingbonus = get_user_meta($target_id, 'starting_bonus',true);
     $defensive_multi = 1;
     if($startingbonus == 'defensive'){
-        $defensive_multi = 1.2;
+        $defensive_multi = 1.15;
     }
     include('units_array.php');
     include('building_array.php');
@@ -319,7 +319,7 @@ function create_defender_array($target_id, $type_array) {
         $build_count = $target_data[$key][0];
         if ($build_count > 0) {
             $build_life = $data['life'];
-            $bld_sum_life = $build_count * $build_life;
+            $bld_sum_life = $build_count * ($build_life * $defensive_multi);
             $stat_array['bld'][$key]['life'] = $bld_sum_life;
             $stat_array['bld'][$key]['count'] = $build_count;
 
@@ -969,47 +969,43 @@ function get_clan_member_difference($attacker_ID, $defender_ID) {
 
 /**
  * Clanpoint gain reduction based on clanmembersize difference
- * Some stats:
- * If clan is 1 larger, there is 1 point difference from 15 points or higher (15=14, 25=24)
- * If clan is 2 larger, there is 1 point difference from 8 points or higher (8=7, 25=22)
- * If clan is 3 larger, there is 1 point difference from 5 points or higher (5=4, 25=20)
- * If clan is 4 larger, there is 1 point difference from 4 points or higher (4=3, 25=18)
- * If clan is 5 larger, there is 1 point difference from 3 points or higher (3=2, 25=17)
+ * diff 5 = 50% pts reduction
  */
 function scaled_points_to_clansize($clan_points, $attacker_ID, $defender_ID) {
     $diff = get_clan_member_difference($attacker_ID, $defender_ID);
     if($diff < 1) return $clan_points; // If attacker no clan, mutual war or the attacker clan size is smaller or equal, no reduction
-    $clan_points = ceil($clan_points * ((100-(($diff*35)/5))/100) ); //diff 5 = 35%
+    $clan_points = ceil($clan_points * ((100-(($diff*50)/5))/100) );
     return $clan_points;
 }
 
 /**
- * Stolen land reduction based on clanmembersize difference and nw losses
- * diff 5 = 55% land reduction
+ * Stolen land reduction based on nw loss difference
  */
 function scaled_land_to_clansize($land_stolen, $attacker_ID, $defender_ID, $attacker_networth_lost, $defender_networth_lost) {
-    $diff = get_clan_member_difference($attacker_ID, $defender_ID);
-    if($diff > 0 && $attacker_networth_lost > ($defender_networth_lost*1.5)) $land_stolen = ceil( $land_stolen * ((100-(($diff*55)/5))/100) );
+    //$diff = get_clan_member_difference($attacker_ID, $defender_ID);
+    //if($diff > 0 && $attacker_networth_lost > ($defender_networth_lost*1.5)) $land_stolen = ceil( $land_stolen * ((100-(($diff*55)/5))/100) );
+    $land_stolen = $land_stolen / max(1, ($attacker_networth_lost / $defender_networth_lost));
     return $land_stolen;
 }
 
 /**
- * Stolen money reduction based on clanmembersize difference and nw losses
- * diff 5 = 75% money reduction
+ * Stolen money reduction based on nw loss difference
  */
 function scaled_money_to_clansize($money_stolen, $attacker_ID, $defender_ID, $attacker_networth_lost, $defender_networth_lost) {
-    $diff = get_clan_member_difference($attacker_ID, $defender_ID);
-    if($diff > 0 && $attacker_networth_lost > ($defender_networth_lost*1.5)) $money_stolen = ceil( $money_stolen * ((100-(($diff*75)/5))/100) );
+    //$diff = get_clan_member_difference($attacker_ID, $defender_ID);
+    //if($diff > 0 && $attacker_networth_lost > ($defender_networth_lost*1.5)) $money_stolen = ceil( $money_stolen * ((100-(($diff*75)/5))/100) );
+    $money_stolen = $money_stolen / max(1, ($attacker_networth_lost / $defender_networth_lost));
     return $money_stolen;
 }
 
 /**
- * Damage reduction based on clan member size difference
+ * Building damage reduction based on clan member size difference
  * Only used for buildings for now
+ * diff 5 = 2% damage reduction
  */
 function scaled_damage_to_clansize($damage, $attacker_ID, $defender_ID) {
     $diff = get_clan_member_difference($attacker_ID, $defender_ID);
     if($diff < 1) return $damage; // If attacker no clan, mutual war or the attacker clan size is smaller or equal, no reduction
-    $damage = ceil($damage * ((100-(($diff*30)/5))/100)); // diff 5 = 30%
+    $damage = ceil($damage * ((100-(($diff*2)/5))/100));
     return $damage;
 }

@@ -64,6 +64,12 @@ if($defenderData['land'][0] < 7500){
 	$blddamage = $blddamage*$reduction;
 }
 
+$startingbonus = $defenderData['starting_bonus'][0];
+$defensive_multi = 1;
+if($startingbonus == 'defensive'){
+	$defensive_multi = 1.15;
+}
+
 // Scale building damage on clan size difference
 $blddamage = scaled_damage_to_clansize($blddamage, $userId, $target_id);
 
@@ -100,7 +106,7 @@ foreach ($buildings as $key => $building) {
 
         $damage = $blddamage * $percentage;
 
-        $buildings_lost = round($damage / $building['life']);
+        $buildings_lost = round($damage / ($building['life']*$defensive_multi));
         if ($buildings_lost > 0) {
 			if ($def_bld_owned < $buildings_lost) {
 				update_user_meta($target_id, $key, 0);

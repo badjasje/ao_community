@@ -16,7 +16,7 @@ $backColor = "127, 82, 67"
         <?php if(isset($building['description'])):?>
             <span class="hover-tip"  data-toggle="tooltip" data-html="true" data-original-title="<?php echo $building['description'];?><br>
             Attack: <?php echo $building['attack'];?><br>
-            Life: <?php echo $building['life'];?><br>
+            Life: <?php echo round($building['life']*$defensive_multi);?><br>
             Targets: <?php echo $canAttack; ?>" data-placement="bottom">
 				<i class="fa fa-info-circle" aria-hidden="true"></i>
             </span>
@@ -33,7 +33,7 @@ $backColor = "127, 82, 67"
     </div>
     <div class="col-md-1 celBlock attacklife">
 	    <span class="columnDataLeft">Attack / Life</span>
-		<span class="columnDataRight"><?php echo $building['attack'];?>/<?php echo $building['life'];?></span>
+		<span class="columnDataRight"><?php echo $building['attack'];?>/<?php echo round($building['life']*$defensive_multi);?></span>
     </div>
     <div class="col-md-2 celBlock targets">
 	    <span class="columnDataLeft">Targets</span>

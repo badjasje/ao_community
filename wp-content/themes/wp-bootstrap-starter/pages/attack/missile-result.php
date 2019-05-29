@@ -39,6 +39,11 @@ $shotdown = false;
 $AMS = $defenderData['antimissile'][0];
 $power = $defenderData['power'][0];
 $def_land = $defenderData['builtland'][0];
+$startingbonus = $defenderData['starting_bonus'][0];
+$defensive_multi = 1;
+if($startingbonus == 'defensive'){
+	$defensive_multi = 1.15;
+}
 
 $shootdown_chance = min((($AMS*100)/$def_land)*100,75);
 $shootdown = rand(1, 100);
@@ -334,7 +339,7 @@ if($result == 'success') {
 			$damage = $blddamage * $percentage;
 			$TOTAL_ATT_DAMAGE += $damage;
 
-			$buildings_lost = round($damage / $building['life']);
+			$buildings_lost = round($damage / ($building['life']*$defensive_multi));
 			if ($buildings_lost > 0) {
 				if ($def_bld_owned < $buildings_lost) {
 					update_user_meta($target_id, $key, 0);
