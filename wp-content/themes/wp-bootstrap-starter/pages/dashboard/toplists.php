@@ -26,34 +26,43 @@ if(count($toplistArray) && isset($toplistArray['clannetworth'])) {
                 '<div class="col-xs-6 col-sm-4 celBlock">'.$pts.'</div>';
         }
     }
-    if(!empty($topPtsToday) && !empty($topClanNw) && !empty($topPts)) {
+    ///if(!empty($topPtsToday) && !empty($topClanNw) && !empty($topPts)) {
     ?>
     <div class="row row-no-padding fw-row statusTotalRow">
-        <div class="col-md-4">
-            <div class="row statusRow statCol-4">
-                <div class="blockHeader"><strong>Top clan pts today</strong></div>
-                <?=(!empty($topPtsToday) ? $topPtsToday : str_repeat('<div class="col-sm-12 celBlock">&nbsp;</div>', 3))?>
+        <div class="col-md-3 statusRow statCol-4">
+            <div class="blockHeader">
+                <strong>Top clan pts today</strong>
+                <a href="<?php echo get_site_url(); ?>/toplists/?tab=clanpointstoday" class="float-right"><small>more &raquo;</small></a>
             </div>
+            <?=(!empty($topPtsToday) ? '<div class="row unitRow">'.$topPtsToday.'</div>' : '')?>
         </div>
-        <div class="col-md-4">
-            <div class="row statusRow statCol-2">
-                <div class="blockHeader"><strong>Top clan nw</strong></div>
-                <?=(!empty($topClanNw) ? $topClanNw : str_repeat('<div class="col-sm-12 celBlock">&nbsp;</div>', 3))?>
+        <div class="col-md-3 statusRow statCol-2">
+            <div class="blockHeader">
+                <strong>Top clan nw</strong>
+                <a href="<?php echo get_site_url(); ?>/toplists/?tab=clannw" class="float-right"><small>more &raquo;</small></a>
             </div>
+            <?=(!empty($topClanNw) ? '<div class="row unitRow">'.$topClanNw.'</div>' : '')?>
         </div>
-        <div class="col-md-4">
-            <div class="row statusRow statCol-3">
-                <div class="blockHeader"><strong>Top clan pts total</strong></div>
-                <?=(!empty($topPts) ? $topPts : str_repeat('<div class="col-sm-12 celBlock">&nbsp;</div>', 3))?>
+        <div class="col-md-3 statusRow statCol-3">
+            <div class="blockHeader">
+                <strong>Top clan pts total</strong>
+                <a href="<?php echo get_site_url(); ?>/toplists/?tab=clanpoints" class="float-right"><small>more &raquo;</small></a>
             </div>
+            <?=(!empty($topPts) ? '<div class="row unitRow">'.$topPts.'</div>' : '')?>
         </div>
-        <div class="col-md-12 statCol-1 text-right" style="border-top:1px solid #FFF;padding: 3px 10px;">
-            <a href="<?php echo get_site_url(); ?>/toplists/">More <i class="fas fa-chevron-right"></i></a>
+        <div class="col-md-3 statusRow statCol-4">
+            <?php if(function_exists('vote_poll') && !in_pollarchive()): ?>
+                <div class="blockHeader">
+                    <strong>Poll</strong>
+                </div>
+                <div class="celBlock">
+                    <?php get_poll();?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 
-
     <div class="pageSpacer"></div>
     <?php
-    }
+    //}
 }

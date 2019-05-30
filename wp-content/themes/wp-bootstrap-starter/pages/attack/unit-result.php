@@ -640,12 +640,6 @@ foreach ($buildings as $key => $building) {
 }
 update_user_meta($target_id, 'builtland', ceil($builtland));
 
-// Jaap, if attacker lost too much nw, the result is a loss
-if($attacker_networth_lost > ($defender_networth_lost*2.1)) {
-	$result = 'failure';
-	$winner_id = $target_id;
-}
-
 /* resources stolen */
 $land_stolen  = 0;
 $money_stolen = 0;

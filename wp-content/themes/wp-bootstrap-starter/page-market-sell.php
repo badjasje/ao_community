@@ -62,7 +62,8 @@ $marketClose = $timeLeft;
 $specialUnits = [
     'spy',
     'thief',
-    'sniper',
+	'sniper',
+	'saboteur',
     'spyplane'
 ];
 
@@ -97,35 +98,32 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 	</div>
 
 	<div class="fw-row">
-    <form class="form" name="" id="sellmarket" method="post">
-        <input type="hidden" name="currentTab" id="currentTab" value="?tab=<?php echo $activeTab; ?>" />
-        <div class="tab-content current build_content tabbed-table">
+		<form class="form" name="" id="sellmarket" method="post">
+			<input type="hidden" name="currentTab" id="currentTab" value="?tab=<?php echo $activeTab; ?>" />
+			<div class="tab-content current build_content tabbed-table">
 
-            <?php include('pages/market/sell/type.php'); ?>
+				<?php include('pages/market/sell/type.php'); ?>
 
-			<div class="row statusBlockButtons">
+				<div class="row statusBlockButtons">
+					<div class="col-md-3 totalsField statCol-1">
+						Number of units: <span id="totalsell">0</span>
+					</div>
+					<div class="col-md-3 totalsField statCol-2">
+						Return value: $ <span id="return_val">0</span>
+					</div>
+					<div class="col-md-3 totalsField statCol-3">
+						Networth lost: $ <span id="nw_lost">0</span>
+					</div>
+					<div class="col-md-3 totalsField statCol-4">
+						New networth: $ <span id="networth_new"></span>
+					</div>
+				</div>
 
-				<div class="col-md-3 totalsField statCol-1">
-					Number of units: <span id="totalsell">0</span>
-				</div>
-				<div class="col-md-3 totalsField statCol-2">
-					Return value: $ <span id="return_val">0</span>
-				</div>
-				<div class="col-md-3 totalsField statCol-3">
-					Networth lost: $ <span id="nw_lost">0</span>
-				</div>
-				<div class="col-md-3 totalsField statCol-4">
-					New networth: $ <span id="networth_new"></span>
-				</div>
+				<input type="submit" value="Sell units" class="mainSubmit hoverEffect">
 			</div>
-
-            <input type="submit" value="Sell units" class="mainSubmit hoverEffect">
-
-        </div>
-    </form>
-</div>
+		</form>
+	</div>
 <?php endif;?>
-
 
 </div> <!-- // End pageRow -->
 <script>
@@ -181,28 +179,22 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 	var request;
 	$("#sellmarket").submit(function(event){
 		$('.pageLoader, #page-cover').show();
-		$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 
 		event.preventDefault();
-
 		if (request) { request.abort(); }
 
-		var $form = $(this);
-		var $inputs = $form.find("input, select, button, textarea");
-		var serializedData = $form.serialize();
-
+		var serializedData = $(this).serialize();
 		request = $.ajax({url: "/sell_units.php",type: "post",data: serializedData});
 		request.done(function (response, textStatus, jqXHR){
+			$('.pageLoader, #page-cover').fadeOut( "fast");
 			updateHeaderData();
 			var array = JSON.parse(response);
-			console.log(array);
-			$.each( array.allowned, function( key, value ) {
+			$.each(array.newmax, function( key, value ) {
 				$('#maxsell_'+key).text(parseInt(value));
 				if(parseInt(value) <= 0){
 					$('#sell_'+key).remove();
 				}
 			});
-
 			$.notify({message: array.status}, {type:'info', delay:5000, allow_dismiss:true, newest_on_top:true});
 			$('#totalsell').html('0');
 			$('#return_val').html('0');

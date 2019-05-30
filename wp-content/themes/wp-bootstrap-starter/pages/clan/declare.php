@@ -147,7 +147,7 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
     <div class="row fw-row no-gutters">
         <div class="col-md-6">
             <button class="mainSubmit">
-                <i class="fas fa-fire" aria-hidden="true"></i> &nbsp;Currently not in range
+                <i class="fas fa-fire" aria-hidden="true"></i> &nbsp;<?=($peaceID!=0?'You are at war with this clan':'Currently not in range')?>
             </button>
         </div>
         <div class="col-md-6">

@@ -23,7 +23,7 @@
 			<label class="startingbonus darkerBonus" for="defensive">
 				<h3 class="startinghead"><i class="fas fa-shield-alt" aria-hidden="true"></i> Defensive</h3>
 				Constructing 10 buildings per turn by default (to a maximum of 20 with full research),
-				plus 20% extra defense for all defending units, plus 10% time deduction when researching, plus 3 500m<sup>2</sup> of land.
+				plus 20% extra defense for all defending units, 15% extra life for buildings, plus 10% time deduction when researching, plus 3 500m<sup>2</sup> of land.
 			</label>
 
 			<input required style="display:none;" type="radio" name="bonustype" id="finance" value="finance" >

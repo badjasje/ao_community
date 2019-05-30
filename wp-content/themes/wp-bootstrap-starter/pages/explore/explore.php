@@ -14,10 +14,10 @@ $maxAmount = floor((20000-$exploredToday)/$perturnm2);
 </div>
 <div class="blockHeader spaceNotice explNotice">
 	<?php if(empty($exploredToday) || $exploredToday == 0):?>
-		You haven't explored any land today. You can explore <strong><?php echo number_format(20000-$exploredToday, 0, ',', ' '); ?> m<sup>2</sup></strong> <i>(<?php echo $maxAmount;?> turns)</i>
+		You haven't explored any land today. You can explore <strong class="maxexp" data-max="<?php echo $maxAmount;?>"><?php echo number_format(20000-$exploredToday, 0, ',', ' '); ?> m<sup>2</sup></strong> <i>(<?php echo $maxAmount;?> turns)</i>
 	<?php else:?>
 		You have explored <strong><?php echo number_format($exploredToday, 0, ',', ' '); ?> m<sup>2</sup></strong> today.
-		You can explore an additional <strong class="maxexp"><?php echo number_format(20000-$exploredToday, 0, ',', ' '); ?> m<sup>2</sup></strong> <i>(<?php echo floor((20000-$exploredToday)/(200-((ceil($ownedland*0.002)))));?> turns)</i>
+		You can explore an additional <strong class="maxexp" data-max="<?php echo $maxAmount;?>"><?php echo number_format(20000-$exploredToday, 0, ',', ' '); ?> m<sup>2</sup></strong> <i>(<?php echo floor((20000-$exploredToday)/(200-((ceil($ownedland*0.002)))));?> turns)</i>
 	<?php endif;?>
 </div>
 

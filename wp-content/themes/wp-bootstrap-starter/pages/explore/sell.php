@@ -6,7 +6,7 @@ $maxSell = $freeLand < (20000 - $soldLandToday) ? $freeLand : (20000 - $soldLand
 <div class="blockHeader spaceNotice sellNotice">
 	1 m<sup>2</sup> has a value of $ 75. You have <?php echo $freeLand;?> m<sup>2</sup> of free land.
 	You have sold <strong><?php echo $soldLandToday;?> m<sup>2</sup></strong> today.
-	You can sell an additional <strong class="maxsell"><?php echo $maxSell;?> m<sup>2</sup></strong>
+	You can sell an additional <strong class="maxsell" data-max="<?php echo $maxSell;?>"><?php echo $maxSell;?> m<sup>2</sup></strong>
 </div>
 
 <div class="fw-row">
@@ -24,7 +24,7 @@ $maxSell = $freeLand < (20000 - $soldLandToday) ? $freeLand : (20000 - $soldLand
 						<input class="unitInput" min="0" max="<?php echo $maxSell;?>" placeholder="Enter amount" type="number" id="landinput" name="land" style="border: none;"/>
 					</div>
 
-					<div id="maxsell" class="col-sm-6 bankCol maxsell mainSubmit" style="border-top:0px;background-color:rgba(70, 118, 94, 0.8);">
+					<div id="maxsell" data-max="<?php echo $maxSell;?>" class="col-sm-6 bankCol maxsell mainSubmit" style="border-top:0px;background-color:rgba(70, 118, 94, 0.8);">
 						ALL LAND
 					</div>
 				</div>

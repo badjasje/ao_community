@@ -27,8 +27,10 @@ $EElevel = $userData['level_engineering_effectiveness'][0];
 
 $startingbonus = $userData['starting_bonus'][0];
 $extra_divide  = 0;
+$defensive_multi = 1;
 if ($startingbonus == 'defensive') {
 	$extra_divide = 5;
+	$defensive_multi = 1.15;
 }
 
 $totalair = 0;

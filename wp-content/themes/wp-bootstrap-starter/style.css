@@ -1084,8 +1084,8 @@ body:not(.theme-preset-active) footer#colophon {
 	text-align: left;
 	border-bottom:0px;
 }
-.successHeader a,.blockHeader a{
-	color:#fff;
+.successHeader a, .blockHeader a, .statusTotalRow .blockHeader a {
+	color:#fff!important;
 }
 .eventFooter{
 	margin-bottom:50px;
@@ -1420,15 +1420,17 @@ input[type="radio"]:checked + label {
 }
 
 .permaNotification{
-    -webkit-animation-name: greenPulse;
-    -webkit-animation-duration: 5s;
-    -webkit-animation-iteration-count: infinite;
+    animation-name: greenPulse;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
     padding: 13px;
     text-align: center;
     color: #fff;
     position:fixed; top:0; left:0; right: 0; z-index: 3;
 }
 .logged-in .permaNotification { top: 40px; left: 40px; }
+.alert { top:60px!important; border-radius:0; padding:8px 12px; font-size:14px; box-shadow:1px 1px 4px rgba(0,0,0,.15); }
+.alert-help { color: #111;background-color: #EEE;border-color: #EEE; top:auto!important; bottom:15px; }
 
 @media only screen and (max-width: 1000px) {
 	.startingbonus {
@@ -1437,10 +1439,7 @@ input[type="radio"]:checked + label {
 }
 @media only screen and (max-width: 768px) {
     .col-xs-6 { flex: 0 0 50%; max-width: 50%; }
-    .alert{
-        right:0px !important;
-        z-index:9999999999999 !important;
-    }
+    .alert { right:0px !important; z-index:9999999999999 !important; top:120px!important; }
     .logged-in .permaNotification { left:0; top: 120px; }
 	.sortMobile{
 		display: block;
@@ -1475,7 +1474,12 @@ input[type="radio"]:checked + label {
 		top: -31px;
 		position: relative;
 		margin-left:54px;
-	}
+    }
+    .mobileUserName.float-right {
+        margin-left:0;
+        margin-right:10px;
+        color: #FFF;
+    }
 	.mobileUserName a{
 		color:#fff !important;
 	}
@@ -1597,8 +1601,6 @@ input[type="radio"]:checked + label {
     50% { background-color: rgba(67, 92, 108, 0.75); }
     to { background-color: #425C6B; }
 }
-
-.alert-info { top:60px!important; } /* lower notification, so it's not over power usage */
 
 .clanMessage{
 	padding: 25px;
@@ -1924,7 +1926,6 @@ input[type="radio"]:checked + label {
 	height:50px;
 }
 .ctclField{
-	width:20px;
 	display: inline-block;
 }
 .clanImgForm{
@@ -2125,6 +2126,11 @@ input[type="radio"]:checked + label {
     background-size: contain !important;
     background-position: center !important;
 }
+
+.wp-polls p { margin: 0; }
+.wp-polls ul, .wp-polls-ul, .wp-polls-ans ul { margin:0; }
+.wp-polls .pollbar { background: #46765d; border: none; }
+
 /*--------------------------------------------------------------
 ## Netbook
 --------------------------------------------------------------*/
@@ -2205,7 +2211,8 @@ input[type="radio"]:checked + label {
     .smallTable .celBlock { padding: 4px; font-size: 11px; width: calc(62% / 4); text-align: center; }
     .smallTable .nameBlock { width: 38%; font-weight: normal; font-size: 12px; text-align: left; }
     .smallTable .columnDataLeft, .smallTable .attacklife, .smallTable .targets { display:none; }
-    .smallTable .columnDataRight { float:none; }
+    .smallTable .columnDataRight { float:none; display:block; }
+    .smallTable .maxBlock, .smallTable .sellall, .smallTable .allbutton { display:block; }
     .smallTable .inputBlock input {
         box-shadow:none; padding: 0 4px; border-radius:0;
         border-left: none!important; border-top: none!important; border-right: none!important; border-bottom-width: 1px!important;
@@ -2222,4 +2229,12 @@ input[type="radio"]:checked + label {
 
     .attackStep2Table .totalsField { padding: 7px; font-size: 12px; }
 
+    /* make a lot of things more compact on mobile */
+    .blockHeader, .successHeader, .medal_header, .medal_row,
+    .eventMainMessage,  .eventResultRow,
+    .profileButton, .totalsField, .statusInsideCol,
+    .celBlock, .mainSubmit {
+        padding: 7px 12px;
+    }
+    .eventFooter { margin-bottom:50px; }
 }

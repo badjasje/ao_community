@@ -1,37 +1,32 @@
 <?php
-    require_once("wp-load.php");
-    
-function count_tot_units($user_id)
-{
+require_once("wp-load.php");
+
+function count_tot_units($user_id) {
     include 'units_array.php';
     $units_owned = 0;
     $units_ordered = 0;
-        
     foreach ($units as $key => $order) {
-        $units_owned+= get_user_meta($user_id, $key.'_owned')[0];
-        $units_ordered+= get_user_meta($user_id, $key.'_ordered')[0];
+        $units_owned += get_user_meta($user_id, $key.'_owned')[0];
+        $units_ordered += get_user_meta($user_id, $key.'_ordered')[0];
     }
-        return $units_owned.' ('.$units_ordered.')';
+    return array('owned' => $units_owned, 'ordered' => $units_ordered);
 }
 
-function count_tot_buildings($user_id)
-{
+function count_tot_buildings($user_id) {
     include 'building_array.php';
-    $units_owned = 0;
-    $units_ordered = 0;
-        
+    $buildings_owned = 0;
     foreach ($buildings as $key => $order) {
-        $units_owned+= get_user_meta($user_id, $key)[0];
+        $buildings_owned += get_user_meta($user_id, $key)[0];
     }
-        return $units_owned;
+    return array('owned' => $buildings_owned);
 }
-    
+
 
 function count_airspace($user_id)
 {
     include 'units_array.php';
     $totalair = 0;
-        
+
     foreach ($units as $key => $order) {
         $unittype = $units[$key]['type'];
         if ($unittype == 'air') {
@@ -46,7 +41,7 @@ function count_allunits($user_id)
 {
     include 'units_array.php';
     $totalunits = 0;
-        
+
     foreach ($units as $key => $order) {
         $unittype = $units[$key]['type'];
         if ($unittype == 'air' || $unittype == 'veh' || $unittype == 'inf' || $unittype == 'sea') {
@@ -61,7 +56,7 @@ function count_vehspace($user_id)
 {
     include 'units_array.php';
     $totalveh = 0;
-        
+
     foreach ($units as $key => $order) {
         $unittype = $units[$key]['type'];
         if ($unittype == 'veh') {
@@ -77,7 +72,7 @@ function count_infspace($user_id)
 {
     include 'units_array.php';
     $totalinf = 0;
-        
+
     foreach ($units as $key => $order) {
         $unittype = $units[$key]['type'];
         if ($unittype == 'inf') {
@@ -92,7 +87,7 @@ function count_seaspace($user_id)
 {
     include 'units_array.php';
     $totalsea = 0;
-        
+
     foreach ($units as $key => $order) {
         $unittype = $units[$key]['type'];
         if ($unittype == 'sea') {
@@ -107,7 +102,7 @@ function count_missilespace($user_id)
 {
     include 'missiles_array.php';
     $totalmissiles = 0;
-        
+
     foreach ($missiles as $key => $missile) {
         if ($key != 'tomahawk') {
             $missiles_owned = intval(get_user_meta($user_id, $key.'_owned', true));

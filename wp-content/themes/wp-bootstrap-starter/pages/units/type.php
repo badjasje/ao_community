@@ -56,5 +56,5 @@ $c = 0;
 foreach($typeTotals as $key => $num) {
     if($num > 100) $c++;
 }
-echo 'total '.$c;
+//echo 'total '.$c;
 if($c>2) helpText('It\\\'s better to focus on one or two unit types', 'units', 'warning');

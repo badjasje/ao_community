@@ -9,6 +9,7 @@ if(!is_user_logged_in()) {
 get_header();
 nocache_headers();
 include 'constants.php';
+include('attack_functions.php');
 
 global $userData;
 global $userId;
@@ -53,12 +54,24 @@ $low_range = $networth/$ATTACK_RANGE_MULT;
 
 $attackRange = '$ '.number_format($low_range, 0, ',', ' ').' and $ '.number_format($networth*$ATTACK_RANGE_MULT, 0, ',', ' ');
 
-$attackUserNW = get_user_meta($attackUserId, 'networth',true);
-if (($attackUserNW > $networth/1.4 && $attackUserNW < $networth*1.4)){
-	$range_msg = '<i class="fa fa-check-circle" aria-hidden="true"></i> Target in range';
+// Check if in mutual war, where range does not matter
+$war_type = '';
+$attacker_clan_ID = get_user_meta($userId, 'clan_id_user', true);
+$defender_clan_ID = get_user_meta($attackUserId, 'clan_id_user', true);
+if(!empty($attacker_clan_ID) && !empty($defender_clan_ID)) {
+	$war_type = get_war_type($attacker_clan_ID,$defender_clan_ID);
+}
+if($war_type == 'mutual') {
+	$range_msg = '<i class="fa fa-check-circle" aria-hidden="true"></i> In a mutual war';
 }
 else {
-	$range_msg = '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Target out of range';
+	$attackUserNW = get_user_meta($attackUserId, 'networth',true);
+	if (($attackUserNW > $networth/1.4 && $attackUserNW < $networth*1.4)){
+		$range_msg = '<i class="fa fa-check-circle" aria-hidden="true"></i> Target in range';
+	}
+	else {
+		$range_msg = '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Target out of range';
+	}
 }
 ?>
 <div class="row pageRow">

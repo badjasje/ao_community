@@ -647,7 +647,8 @@ function clan_avatar($clan_ID, $type) {
         $addClass = $type;
     }
     if ($clan_ID != 0) {
-        $avatar = get_post_meta($clan_ID, 'clan_image', true);
+        $avatar = get_post_meta($clan_ID, 'clan_thumb', true);
+        if(empty($avatar)) $avatar = get_post_meta($clan_ID, 'clan_image', true);
         if (!empty($avatar)) {
             //$avatar = str_replace("http://", "https://", $avatar);
             return "<a href='" . get_the_permalink($clan_ID) . "'><div class='setAvatar clan_avatar $addClass' style='background: url(" . $avatar . ");'></div></a>";
@@ -1087,6 +1088,7 @@ function after_death($user_id) {
         update_user_meta($user_id, 'power', 0);
         update_user_meta($user_id, 'builtland', 1000);
         update_user_meta($user_id, 'morale', 0);
+        update_user_meta($user_id, 'sat_morale', 0);
         update_user_meta($user_id, 'morale_pool', 0);
         update_user_meta($user_id, 'total_deposits', 0);
 
@@ -1916,6 +1918,6 @@ function fcm_send_notification($receiver, $type, $attacker=0) {
  */
 function helpText($message, $source='generic', $type='tip') {
     echo "<script>(function($) { setTimeout(function() {
-        $.notify({message:'".ucfirst($type).": ".$message."'},{type:'info',delay:5000,allow_dismiss:true,newest_on_top:true});
+        $.notify({message:'".ucfirst($type).": ".$message."'},{type:'help',newest_on_top:true});
     },200); })(jQuery);</script>";
 }
