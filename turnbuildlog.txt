@@ -15493,3 +15493,118 @@ ID: 2768
 Value: 142500
 Units ordered: sam 150
 
+10:28:07 | 07-05-2019
+ID: 1906
+Value: 56000
+Units ordered: cruiser 40
+
+10:30:59 | 07-05-2019
+ID: 3016
+Value: 166500
+Units ordered: flamethrower 333
+
+10:31:48 | 07-05-2019
+ID: 3016
+Value: 42200
+Units ordered: artillery 20
+
+10:31:48 | 07-05-2019
+ID: 3016
+Value: 42200
+Units ordered: m70mlrs 20
+
+10:31:53 | 07-05-2019
+ID: 3016
+Value: 5400
+Units ordered: m270_rocket 10
+
+10:32:06 | 07-05-2019
+ID: 3016
+Value: 50000
+Units ordered: flamethrower 100
+
+10:52:21 | 07-05-2019
+ID: 2951
+Value: 21000
+Units ordered: cruiser 15
+
+10:56:53 | 07-05-2019
+ID: 2200
+Value: 60000
+Units ordered: flamethrower 120
+
+11:15:09 | 07-05-2019
+ID: 3005
+Value: 339400
+Units ordered: sam 100
+
+11:15:09 | 07-05-2019
+ID: 3005
+Value: 339400
+Units ordered: artillery 100
+
+11:15:09 | 07-05-2019
+ID: 3005
+Value: 339400
+Units ordered: m70mlrs 140
+
+11:27:44 | 07-05-2019
+ID: 1408
+Value: 229500
+Units ordered: artillery 180
+
+11:38:01 | 07-05-2019
+ID: 2874
+Value: 87500
+Units ordered: rah66_commanches 100
+
+11:38:12 | 07-05-2019
+ID: 2874
+Value: 55200
+Units ordered: typhoon 80
+
+11:42:35 | 07-05-2019
+ID: 1052
+Value: 50000
+Units ordered: thief 10
+
+12:13:09 | 07-05-2019
+ID: 92
+Value: 150000
+Units ordered: thief 30
+
+12:13:13 | 07-05-2019
+ID: 92
+Value: 95000
+Units ordered: sniper 19
+
+12:20:09 | 07-05-2019
+ID: 2355
+Value: 285000
+Units ordered: spyplane 19
+
+12:51:15 | 07-05-2019
+ID: 2339
+Value: 285000
+Units ordered: sam 300
+
+12:56:30 | 07-05-2019
+ID: 3003
+Value: 9200
+Units ordered: sparrow 8
+
+13:13:24 | 07-05-2019
+ID: 92
+Value: 35000
+Units ordered: sniper 7
+
+13:58:32 | 07-05-2019
+ID: 3023
+Value: 50000
+Units ordered: flamethrower 100
+
+14:25:16 | 07-05-2019
+ID: 1400
+Value: 175000
+Units ordered: rah66_commanches 200
+

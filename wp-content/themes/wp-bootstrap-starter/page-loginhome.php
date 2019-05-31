@@ -32,7 +32,7 @@ $gameType = get_field('game_type','option');
 			<button style="background-color:#4266b2"class="mainSubmit"><i class="fab fa-facebook-square"></i> Login or register with Facebook</button>
 		</a>
 
-		<a href="<?php echo get_site_url();?>/register"><button style="background-color:#7e7b7b"class="mainSubmit">Register without Facebook</button></a>
+		<a href="<?php echo get_site_url();?>/register/"><button style="background-color:#7e7b7b"class="mainSubmit">Register without Facebook</button></a>
 
 		<div class="hometext">
 			<?php if($gameType == 'Development'):?>
