@@ -597,6 +597,7 @@
 								<? } ?>
 							}
 							setInterval(updateMarketTime, 1000 );
+							updateMarketTime(); // do not wait a second
 						<?php } ?>
 
 						// Help in icon menu
