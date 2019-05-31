@@ -26,11 +26,9 @@ $infspace = $userData['baracks'][0] * 20;
 $EElevel = $userData['level_engineering_effectiveness'][0];
 
 $startingbonus = $userData['starting_bonus'][0];
-$extra_divide  = 0;
 $defensive_multi = 1;
 if ($startingbonus == 'defensive') {
-	$extra_divide = 5;
-	$defensive_multi = 1.15;
+	$defensive_multi = 1.25;
 }
 
 $totalair = 0;
@@ -65,16 +63,9 @@ foreach ($units as $key => $order) {
 }
 
 if ($EElevel == 0 || empty($EElevel)) {
-	$buildingsPerTurn = 5 + $extra_divide;
-
-	if ($EElevel == 1) {
-		$buildingsPerTurn = 10 + $extra_divide;
-
-	}
-	if ($EElevel >= 2) {
-		$buildingsPerTurn = 15 + $extra_divide;
-
-	}
+	$buildingsPerTurn = 5;
+	if ($EElevel == 1) $buildingsPerTurn = 10;
+	if ($EElevel >= 2) $buildingsPerTurn = 15;
 }
 ?>
 

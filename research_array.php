@@ -73,8 +73,8 @@ $researches = array(
     ),
     'engineering_effectiveness' => array(
         'name'                  => 'Engineering effectiveness',
-        'level1'                => '10 buildings built per turn. 15 if defensive bonus is picked.',
-        'level2'                => '15 buildings built per turn. 20 if defensive bonus is picked.',
+        'level1'                => '10 buildings built per turn.',
+        'level2'                => '15 buildings built per turn.',
         'maxlevel'              => 2,
         'description'           => 'Increases the amount of buildings built per turn',
         'duration'              =>  '10'

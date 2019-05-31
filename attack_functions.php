@@ -300,7 +300,7 @@ function create_defender_array($target_id, $type_array) {
     $startingbonus = get_user_meta($target_id, 'starting_bonus',true);
     $defensive_multi = 1;
     if($startingbonus == 'defensive'){
-        $defensive_multi = 1.15;
+        $defensive_multi = 1.25;
     }
     include('units_array.php');
     include('building_array.php');

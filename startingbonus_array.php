@@ -1,5 +1,5 @@
 <?php
-    
+
     $bonuses = array(
     /// Research ///
     'offensive'             => array(
@@ -9,7 +9,7 @@
     'defensive'             => array(
         'name'                  => 'Defensive',
         'icon'                  => 'fa-shield-alt',
-        'description'           => 'Constructing 10 buildings per turn by default (to a maximum of 20 with full research), plus 20% extra defense for all defending units, plus 10% time deduction when researching, plus 3 500 m2 of land.'),
+        'description'           => '20% extra defense for all defending units, 25% extra life for buildings, plus 10% time deduction when researching, plus 3 500 m2 of land.'),
     'finance'               => array(
         'name'                  => 'Finance',
         'icon'                  => 'fa-dollar-sign',
