@@ -844,6 +844,7 @@ function clan_tag($user_ID) {
 }
 
 function wpse66094_no_admin_access() {
+    if(defined('DOING_AJAX')) return;
     $redirect = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : home_url('/');
     global $current_user;
     $user_roles = $current_user->roles;
@@ -852,7 +853,6 @@ function wpse66094_no_admin_access() {
         exit(wp_redirect($redirect));
     }
 }
-
 add_action('admin_init', 'wpse66094_no_admin_access', 100);
 
 function create_post_type() {
