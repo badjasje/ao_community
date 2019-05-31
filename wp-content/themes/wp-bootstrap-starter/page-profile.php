@@ -355,7 +355,7 @@ if($visiting_user != $viewedId && $clan_id != $clan_id_user && !in_array($status
 }
 ?>
 
-<?php if(current_user_can('activate_plugins') || in_aray($userId, array(2768))) {
+<?php if(current_user_can('activate_plugins') || in_array($userId, array(2768))) {
 	$logindata = get_user_meta( $viewedId, 'logindata', true );
 	$referral_userid = get_user_meta($viewedId, 'referral_userid', true);
 	$referral_score = get_user_meta($viewedId, 'referral_score', true);
