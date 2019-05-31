@@ -998,6 +998,8 @@ function myplugin_registration_save($user_id) {
     update_user_meta($user_id, 'bio_ordered', 0);
     update_user_meta($user_id, 'moab_owned', 0);
     update_user_meta($user_id, 'moab_ordered', 0);
+    update_user_meta($user_id, 'tomahawk_owned', 0);
+    update_user_meta($user_id, 'tomahawk_ordered', 0);
     update_user_meta($user_ID, 'empmis_owned', 0);
     update_user_meta($user_ID, 'empmis_ordered', 0);
 
@@ -1076,6 +1078,10 @@ function after_death($user_id) {
         update_user_meta($user_id, 'bio_ordered', 0);
         update_user_meta($user_id, 'moab_owned', 0);
         update_user_meta($user_id, 'moab_ordered', 0);
+        update_user_meta($user_id, 'tomahawk_owned', 0);
+        update_user_meta($user_id, 'tomahawk_ordered', 0);
+        update_user_meta($user_id, 'empmis_owned', 0);
+        update_user_meta($user_id, 'empmis_ordered', 0);
 
         // SET STATS after death
         update_user_meta($user_id, 'money', 450000);
