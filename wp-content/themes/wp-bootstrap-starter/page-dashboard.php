@@ -120,14 +120,17 @@ if($clanId == 0){
 <?php endif;?>
 
 <?php if(get_field('game_status','option') == 'Live' && $gameType == 'Test') { ?>
-	<div class="blockHeader">Welcome to test.assault.online. To receive turns/money/morale, hit the button below!</div>
+	<div class="blockHeader">Welcome to test.assault.online.</div>
 <?php } ?>
 <?php if(get_field('game_status','option') == 'Live' && $gameType == 'Development') { ?>
-	<div class="blockHeader">Welcome to dev.assault.online. To receive turns/money/morale, hit the button below!</div>
+	<div class="blockHeader">Welcome to dev.assault.online.</div>
 <?php } ?>
 <?php if(get_field('game_status','option') == 'Live' && in_array($gameType, array('Development','Test'))) { ?>
-	<div class="blockHeader spaceNotice">If you are dead, hitting this button will revive you as well.</div>
-	<button style="background-color:#A00000;border:0px;" class="mainSubmit receiveFunds">Receive funds</button>
+	<div class="blockHeader spaceNotice">
+		To receive turns/money/morale/research/orders, hit the button below!<br>
+		If you are dead or under protection, hitting this button will revive you as well.
+	</div>
+	<button style="background-color:#A00000;border:0px;" class="mainSubmit receiveFunds">Receive all</button>
 	<div class="pageSpacer"></div>
 	<script>
 		(function($) {
