@@ -1876,8 +1876,9 @@ function fcm_send_notification($receiver, $type, $attacker=0) {
     if(!isset($body) || empty($body)) return;
 
     // No notifications to others on Dev!
-    if(strpos($_SERVER['SERVER_NAME'], 'assault') !== 0) {
-        if($receiver != 2768) return;
+    $gameType = get_field('game_type','option');
+    if(in_array($gameType, array('Development','Test')) && $receiver != 2768) {
+        return;
     }
 
     $registrationIds = maybe_unserialize(get_user_meta($receiver, 'device_tokens', true));
