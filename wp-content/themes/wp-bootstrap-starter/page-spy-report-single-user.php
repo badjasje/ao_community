@@ -16,9 +16,6 @@ $user = get_userdata($target_id);
 $clan_ID = get_user_meta($userId, 'clan_id_user',true);
 $target_clan_ID = get_user_meta($target_id, 'clan_id_user',true);
 
-$savedUsers = get_user_meta($userId, 'saved_users', true);
-$savedUsers = json_decode($savedUsers);
-
 $members = get_post_meta($clan_ID,'clan_members',true);
 $members[] = $userId;
 
@@ -28,24 +25,15 @@ $status = $profileData['status'][0];
 ?>
 <div class="row pageRow">
 	<div class="row fw-row no-gutters profileButtonRow">
-		<a class="col-md-3 profileButton" style="background-color: rgba(70, 118, 94, 1);" href="/attack/?id=<?php echo $target_id;?>">
+		<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 1);" href="/attack/?id=<?php echo $target_id;?>">
 			<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
 		</a>
-		<a class="col-md-3 profileButton" style="background-color: rgba(70, 118, 94, 0.9);" href="/users/profile/?id=<?php echo $target_id;?>">
+		<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.9);" href="/users/profile/?id=<?php echo $target_id;?>">
 			<i class="fa fa-user" aria-hidden="true"></i> &nbsp;Profile
 		</a>
-		<a class="col-md-3 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/spy-report-overview/?id=<?php echo $target_clan_ID;?>">
+		<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/spy-report-overview/?id=<?php echo $target_clan_ID;?>">
 			<i class="fas fa-address-card" aria-hidden="true"></i> &nbsp;Clan reports
 		</a>
-		<?php if(in_array($user__ID, $savedUsers)):?>
-			<a class="col-md-3 profileButton" style="background-color: rgba(0, 0, 0, 0.5)" href="/saved-users">
-				<i class="fas fa-save"></i> &nbsp;User saved
-			</a>
-		<?php else:?>
-			<a class="col-md-3 profileButton" style="background-color: rgba(70, 118, 94, 0.7);" href="/save_user.php/?id=<?php echo $user__ID;?>&return=<?php echo get_the_id();?>">
-				<i class="fas fa-save"></i> &nbsp;Save user
-			</a>
-		<?php endif;?>
 	</div>
 
 	<?

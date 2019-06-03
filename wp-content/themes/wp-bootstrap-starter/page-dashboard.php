@@ -15,10 +15,6 @@ global $userId;
 
 $pageId 					= get_the_id();
 
-
-$savedUsers 				= $userData['saved_users'][0];
-$decodedSavedUsers          = json_decode($savedUsers);
-$savedUsers 				= is_array($decodedSavedUsers) ? $decodedSavedUsers : [];
 update_user_meta($userId, 'user_lock', 0);
 $new_events 				= $userData['new_events'][0];
 $new_messages 				= $userData['new_messages'][0];
