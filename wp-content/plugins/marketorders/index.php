@@ -1360,6 +1360,19 @@ function count_units($user_ID) {
     return $totalunits;
 }
 
+function count_units_by_type($type='air', $user_ID=null) {
+    include 'units_array.php';
+    global $userId;
+    if($user_ID == null) $user_ID = $userId;
+    $totalunits = 0;
+    foreach ($units as $key => $unit) {
+        if($unit['type'] != $type) continue;
+        $units_owned = get_user_meta($user_ID, $key . '_owned', true);
+        $totalunits += $units_owned;
+    }
+    return $totalunits;
+}
+
 function bonus_update() {
     include 'bonus_array.php';
     $timestamp = current_time('timestamp');

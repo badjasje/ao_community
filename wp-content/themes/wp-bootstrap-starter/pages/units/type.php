@@ -1,7 +1,7 @@
 <?php
 $typeTotals = array();
 foreach($unitTypes as $unitTypeKey => $unitType) :  ?>
-    <div class="tab-pane smallTable unitBuildTable <?=($unitTypeKey=='air'?'active':'')?>" id="<?php echo $unitTypeKey; ?>" role="tabpanel">
+    <div class="tab-pane smallTable unitBuildTable <?php echo $activeTab === $unitTypeKey ? 'active' : ''; ?>" id="<?php echo $unitTypeKey; ?>" role="tabpanel">
         <div class="blockHeader spaceNotice">
             <?php
             $housing = 'housing';
