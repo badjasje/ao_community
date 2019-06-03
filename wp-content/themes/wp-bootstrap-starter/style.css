@@ -911,7 +911,6 @@ body:not(.theme-preset-active) footer#colophon {
 .sidenav { z-index: 2070; }
 .sidenav .menu-item { float:none; }
 .tooltip { z-index: 2080; }
-.tooltip .marketMenu { width:auto; }
 .menuOpen .sidenav { width: 36%; min-width: 400px; }
 
 .smallAvatar{
@@ -1288,7 +1287,6 @@ input[type="radio"]:checked + label {
 @media only screen and (min-width: 1400px) {
     .sidenav:before { position: absolute; content: ''; display: block; top: 0; width: 41px; bottom: 0; background: #000; }
     .menuText { background-color: #313d43; margin-left: 56px; padding-right: 0; max-width: 80%; }
-    .marketMenu { width:32.7%; }
     .menuRow a:hover div, .menuText a:hover { text-decoration: underline; }
 
     .menuOpen .contentRow { margin-left: 2.5% !important; width: 95%; }
@@ -1697,8 +1695,7 @@ input[type="radio"]:checked + label {
 }
 .marketMenu{
 	display: inline-block;
-    width: 32%;
-    text-align: left;
+    width: 32.7%;
 }
 .menuRow a{
 	color:#fff;
