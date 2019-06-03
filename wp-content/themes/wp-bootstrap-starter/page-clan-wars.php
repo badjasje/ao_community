@@ -52,7 +52,7 @@ $wars_by = get_posts(array(
 <div class="row pageRow">
 
 	<div class="blockHeader">You can target clans with a networth between
-		<?php echo GameUtil::format_networth($clan_networth/1.4); ?> and <?php echo GameUtil::format_networth($clan_networth*1.4);?>
+		$ <?=number_format(($clan_networth/1.4), 0, ',', ' ')?> and $ <?=number_format(($clan_networth*1.4), 0, ',', ' ');?>
 	</div>
 	<div class="blockHeader spaceNotice">After 24 hours you are able to declare peace with a clan. A war will auto peace after 72 hours.</div>
 
