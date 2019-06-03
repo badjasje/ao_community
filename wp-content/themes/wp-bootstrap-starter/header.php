@@ -293,7 +293,14 @@
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/units">Units <span class="badge badge-secondary"><?php echo do_shortcode('[current-units]');?></span></a>
+						<? 
+						$tab = 'air';
+						$num = count_units_by_type('air');
+						if(count_units_by_type('sea') > $num) $tab = 'sea';
+						elseif(count_units_by_type('veh') > $num) $tab = 'veh';
+						elseif(count_units_by_type('inf') > $num) $tab = 'inf';
+						?>
+						<a href="<?php echo get_site_url(); ?>/units?tab=<?=$tab?>">Units <span class="badge badge-secondary"><?php echo do_shortcode('[current-units]');?></span></a>
 					</div>
 				</div>
 
