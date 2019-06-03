@@ -156,8 +156,9 @@ $wars_by = get_posts(array(
 
 	<?php
 	foreach ($war_array as $key => $war) {
-		$warred_clan =  array_shift(array_diff(array($war['declarer_id'],$war['receiver_id']), array($declarer_clan_ID)));
-		if(empty($war['receiver_id'])){continue;}
+		if(!is_array($war) || !isset($war['receiver_id']) || empty($war['receiver_id'])) continue;
+		$aDiff = array_diff(array($war['declarer_id'],$war['receiver_id']), array($declarer_clan_ID));
+		$warred_clan =  array_shift($aDiff);
 		?>
 		<div class="row unitRow fw-row" style="background-color: rgba(<?php echo $backColorStats;?>, <?php echo 0.6-($count/25);?>);">
 			<div class="col-md-3 celBlock nameBlock veh_heading">
