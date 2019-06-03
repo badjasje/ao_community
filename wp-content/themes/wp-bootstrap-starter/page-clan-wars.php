@@ -32,7 +32,7 @@ $clan_networth = $clanData['clan_networth'][0];
 
  //MEGA 20171106 Count the members in YOUR clan
  $declaringClanMembers = maybe_unserialize($clanData['clan_members'][0]);
- $declaringMembAersCount = count($declaringClanMembers);
+ $declaringMembersCount = count($declaringClanMembers);
  $declarerAverageNw = ($declaringMembersCount>0 ? $clan_networth / $declaringMembersCount : 0);
 
  $wars_on = get_posts(array(
