@@ -5,7 +5,6 @@
 get_header();
 include('startingbonus_array.php');
 
-
 $startingDate = get_field('starting_date','options');
 $endDate = get_field('end_date','options');
 $gameType = get_field('game_type','option');
@@ -43,35 +42,9 @@ if($startingbonus == 'finance'){
 	$finance_multi = 1.1;
 }
 
-/* Check for nightmode */
-
-$nightmode = $userData['nightmode'][0];
-$regular = '';
-if($nightmode == 'regular'){
-	$regular = 'selected';
-}
-$night = '';
-if($nightmode == 'night'){
-	$night = 'selected';
-}
-$nostalgia = '';
-if($nightmode == 'nostalgia'){
-	$nostalgia = 'selected';
-}
-$blackwhite = '';
-if($nightmode == 'blackwhite'){
-	$blackwhite = 'selected';
-}
-$grayscale = '';
-if($nightmode == 'grayscale'){
-	$grayscale = 'selected';
-}
-
-
 $shootdown_chance = 0;
 if($AMS > 0){
     $shootdown_chance = (($AMS*100)/$def_land)*100;
-
     if($shootdown_chance >= 75){
         $shootdown_chance = 75;
     }
@@ -89,26 +62,6 @@ if($user_status == 'dead'){
     after_death($userId);
 }
 $user = get_userdata($userId);
-
-if($clanId == 0){
-    /*$clans = get_posts(
-        [
-            'numberposts'	=> -1,
-            'post_type'		=> 'clan',
-            'meta_key'		=> 'autojoin_allowed',
-            'meta_value'	=> 'yes'
-        ]
-    );
-
-    $clanCount = 0;
-
-    foreach ($clans as $clan) {
-        $members = count(get_post_meta($clan->ID,'clan_members',true));
-        if ($members < 7) {
-            $clanCount++;
-        }
-    }*/
-}
 ?>
 
 <div class="row pageRow">
