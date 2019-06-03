@@ -22,6 +22,7 @@ $planesOrdered = $userData['spyplane_ordered'][0];
 $sniper = $userData['sniper_owned'][0];
 $snipersOrdered = $userData['sniper_ordered'][0];
 
+$specialSold = $userData['special_sold_today'][0];
 
 $commandCenters = $userData['command_centre'][0];
 $space = [

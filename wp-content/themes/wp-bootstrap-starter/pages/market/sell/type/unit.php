@@ -27,7 +27,7 @@ $networthPerUnit = $unit['price'] * $unit['networth'] / 100;
     <div class="col-md-2 celBlock max">
         <span class="columnDataLeft">Max</span>
         <span class="columnDataRight">
-			<?php if (is_array($specialUnitsArray) && in_array($unitKey, $specialUnitsArray)) : ?>
+			<?php if (is_array($specialUnits) && in_array($unitKey, $specialUnits)) : ?>
 				<span id="maxsell_<?php echo $unitKey;?>" class="sellall" data-nw="<?php echo $unit['networth'];?>" data-price="<?php echo $sellPrice;?>" data-key="<?php echo $unitKey;?>" data-amount="<?php echo min($unitsOwned,$specialSold);?>"><?php echo min($unitsOwned,$specialSold);?></span>
             <?php else:?>
                 <span id="maxsell_<?php echo $unitKey;?>" class="sellall" data-nw="<?php echo $unit['networth'];?>" data-price="<?php echo $sellPrice;?>" data-key="<?php echo $unitKey;?>" data-amount="<?php echo $unitsOwned;?>"><?php echo $unitsOwned;?></span>
