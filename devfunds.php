@@ -15,6 +15,7 @@ global $userId;
 global $userData;
 $extraMoney = 250000;
 $extraTurns = 50;
+$timestamp = current_time('timestamp');
 
 update_user_meta( $userId, 'money', $userData['money'][0]+$extraMoney);
 update_user_meta( $userId, 'turns', $userData['turns'][0]+$extraTurns);
@@ -35,10 +36,22 @@ if(!empty($userData['research_in_progress'][0])) {
 		update_user_meta($userId, 'level_'.$research_in_progress, $current_level[0]+1);
 		wp_trash_post($research->ID);
 	}
+
+	$queued_research = get_user_meta($userId, 'queued_research', true);
+	if (!empty($queued_research) || $queued_research != 0) {
+		include 'research_array.php';
+		$time = $researches[$queued_research]['duration'];
+		$args = array(
+			'post_title' => $timestamp+($time*60*60), 'post_status' => 'publish', 'post_content' => $queued_research,
+			'post_type' => 'research', 'post_author' => $userId
+		);
+		$new_research_id = wp_insert_post($args);
+		update_user_meta($userId, 'research_in_progress', $queued_research);
+		update_user_meta($userId, 'queued_research', 0);
+	}
 }
 
 // Market orders
-$timestamp = current_time('timestamp');
 $args = array('posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'market_order', 'author' => $userId);
 $orders = get_posts($args);
 foreach ($orders as $order) {
@@ -68,7 +81,7 @@ foreach ($orders as $order) {
 }
 
 wp_reset_postdata();
-	
+
 $array['status'] = 'All set: $250 000, full morale, orders, research and 50 turns received';
 $array['money'] = $userData['money'][0]+$extraMoney;
 $array['turns'] = $userData['turns'][0]+$extraTurns;
