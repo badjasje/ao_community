@@ -236,7 +236,7 @@ if($userData['advancedpowerplant'][0] > $userData['powerplant'][0]) {
 			if(inputval > 0){
 				sum += inputval;
 				orderval += parseInt($(this).attr("data-price")) * inputval;
-				lostnw += +$(this).attr("data-nw")/100 * orderval;
+				lostnw += +$(this).attr("data-nw")/100 * (parseInt($(this).attr("data-sellprice")) * inputval);
 			}
 		});
 
