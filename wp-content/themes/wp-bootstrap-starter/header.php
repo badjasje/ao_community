@@ -1,3 +1,39 @@
+<?php
+global $userId;
+global $userData;
+if($userData['status'][0] == 'banned'){
+	echo '<br/><br/><center>Your account is banned from Assault.Online.</center>'; die;
+}
+
+$inProgress = $userData['research_in_progress'][0];
+$researchTimeLeft ='';
+if(!empty($inProgress)) {
+	$timestamp = current_time('timestamp');
+	$args = array('posts_per_page' => 1, 'author' => $userId, 'post_type' => 'research');
+	$researches_in_progress = get_posts( $args );
+	$completionTime = $researches_in_progress[0]->post_title;
+	$researchTimeLeft = human_time_diff($completionTime, $timestamp);
+}
+include('research_array.php');
+wp_head();
+
+$hideitems = 'false';
+$menuOpen = (isset($_COOKIE['menuOpen'])&&$_COOKIE['menuOpen']==1?true:false);
+if(!is_user_logged_in()){
+	$hideitems = 'true';
+	$menuOpen = false;
+}
+
+$pageId = get_the_id();
+$endDate = get_field('end_date','option');
+$endStamp = strtotime($endDate);
+$timestamp = current_time('timestamp');
+$timeLeft = $endStamp-$timestamp;
+$marketClose = $timeLeft + 86400;
+$msgs = $userData['new_messages'][0];
+$locals = $userData['new_events'][0];
+$globals = $userData['new_global_events'][0];
+?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -10,49 +46,14 @@
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
     <!-- Google Tag Manager -->
-	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-	})(window,document,'script','dataLayer','GTM-TXGKNL3');</script>
+	<script>
+			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-TXGKNL3');
+	</script>
 	<!-- End Google Tag Manager -->
-	<?php
-	global $userId;
-	global $userData;
-	if($userData['status'][0] == 'banned'){
-		echo '<br/><br/><center>Your account is banned from Assault.Online.</center>'; die;
-	}
-
-	$inProgress = $userData['research_in_progress'][0];
-	$researchTimeLeft ='';
-	if(!empty($inProgress)) {
-		$timestamp = current_time('timestamp');
-		$args = array('posts_per_page' => 1, 'author' => $userId, 'post_type' => 'research');
-		$researches_in_progress = get_posts( $args );
-		$completionTime = $researches_in_progress[0]->post_title;
-		$researchTimeLeft = human_time_diff($completionTime, $timestamp);
-	}
-	include('research_array.php');
-	wp_head();
-
-	$hideitems = 'false';
-	$menuOpen = (isset($_COOKIE['menuOpen'])&&$_COOKIE['menuOpen']==1?true:false);
-	if(!is_user_logged_in()){
-		$hideitems = 'true';
-		$menuOpen = false;
-	}
-
-	$pageId = get_the_id();
-	$endDate = get_field('end_date','option');
-	$endStamp = strtotime($endDate);
-	$timestamp = current_time('timestamp');
-	$timeLeft = $endStamp-$timestamp;
-	$marketClose = $timeLeft + 86400;
-	$msgs = $userData['new_messages'][0];
-	$locals = $userData['new_events'][0];
-	$globals = $userData['new_global_events'][0];
-	?>
-
 	<script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 	<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 	<script type='text/javascript' src='/wp-content/themes/wp-bootstrap-starter/js/jquery.countdown.min.js?ver=4.9.4'></script>
@@ -60,31 +61,26 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
-	<script>
-		jQuery.ajaxSetup({cache: false});
-	</script>
+	<script>jQuery.ajaxSetup({cache: false});</script>
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 	<link rel="icon" type="image/png" href="/wp-content/themes/wp-bootstrap-starter/img/favicon.png">
 	<link rel="manifest" href="/manifest.json">
-
 	<!-- Facebook Pixel Code -->
 	<script>
-	!function(f,b,e,v,n,t,s)
-	{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-	n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-	if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-	n.queue=[];t=b.createElement(e);t.async=!0;
-	t.src=v;s=b.getElementsByTagName(e)[0];
-	s.parentNode.insertBefore(t,s)}(window, document,'script',
-	'https://connect.facebook.net/en_US/fbevents.js');
-	fbq('init', '1603414756640075');
-	fbq('track', 'PageView');
-	</script>
-	<noscript><img height="1" width="1" style="display:none"
-	src="https://www.facebook.com/tr?id=1603414756640075&ev=PageView&noscript=1"
+		!function(f,b,e,v,n,t,s)
+		{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+		n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+		if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+		n.queue=[];t=b.createElement(e);t.async=!0;
+		t.src=v;s=b.getElementsByTagName(e)[0];
+		s.parentNode.insertBefore(t,s)}(window, document,'script',
+		'https://connect.facebook.net/en_US/fbevents.js');
+		fbq('init', '1603414756640075');
+		fbq('track', 'PageView');
+		</script>
+	<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1603414756640075&ev=PageView&noscript=1"
 	/></noscript>
 	<!-- End Facebook Pixel Code -->
-
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-40825301-45"></script>
 	<script>
@@ -93,7 +89,6 @@
 		gtag('js', new Date());
 		gtag('config', 'UA-40825301-45');
 	</script>
-
 	<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-messaging.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-functions.js"></script>
@@ -128,13 +123,11 @@
 </head>
 
 <body <?php body_class(array(($menuOpen?'menuOpen':''))) ?>>
+
 	<!-- Google Tag Manager (noscript) -->
-	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXGKNL3"
-	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXGKNL3" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	<!-- End Google Tag Manager (noscript) -->
-	<script>
-		fbq('track', 'ViewContent', {value: 1,content_ids: '<?php echo get_the_title();?>'});
-	</script>
+	<script>fbq('track', 'ViewContent', {value: 1,content_ids: '<?php echo get_the_title();?>'});</script>
 
 	<div id="splashback" class=""></div>
 	<div class="splashmessage"></div>
@@ -147,15 +140,11 @@
 		<header id="masthead" class="site-header navbar-static-top <?php echo wp_bootstrap_starter_bg_class(); ?>" role="banner">
 			<?php if($hideitems == 'false'):?>
 				<button id="nextbt" class="toggle-menu-open hamburger hamburger--collapse<?=($menuOpen?' is-active':'')?>" type="button">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
+					<span class="hamburger-box"><span class="hamburger-inner"></span></span>
 				</button>
 
 				<a href="/dashboard/">
-					<button class="menu-item dashMobile" type="button" >
-						<i class="fas fa-tachometer-alt"></i>
-					</button>
+					<button class="menu-item dashMobile" type="button"><i class="fas fa-tachometer-alt"></i></button>
 				</a>
 
 				<div class="">
@@ -216,9 +205,7 @@
 				<div class="row menuRow  hide-menu-icon">
 					<div class="col-md-2 col-xs-2 buttonItem ">
 						<a href="<?php echo get_site_url(); ?>/dashboard/">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-tachometer-alt"></i>
-							</button>
+							<button class="menu-item" type="button"><i class="fas fa-tachometer-alt"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
@@ -229,9 +216,7 @@
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/bank">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-university"></i>
-							</button>
+							<button class="menu-item" type="button"><i class="fas fa-university"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
@@ -242,9 +227,7 @@
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/research">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-flask"></i>
-							</button>
+							<button class="menu-item" type="button"><i class="fas fa-flask"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
@@ -256,14 +239,12 @@
 							<?php endif;?>
 						</a>
 					</div>
-				</div>				
+				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/explore">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-map"></i>
-							</button>
+							<button class="menu-item" type="button"><i class="fas fa-map"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
@@ -274,26 +255,22 @@
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/buildings">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-industry"></i>
-							</button>
+							<button class="menu-item" type="button"><i class="fas fa-industry"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
 						<a href="<?php echo get_site_url(); ?>/buildings">Buildings <span class="badge badge-secondary"><?php echo do_shortcode('[current-buildings]');?></span></a>
 					</div>
-				</div>				
+				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/units">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-fighter-jet"></i>
-							</button>
+							<button class="menu-item" type="button"><i class="fas fa-fighter-jet"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<? 
+						<?
 						$tab = 'air';
 						$num = count_units_by_type('air');
 						if(count_units_by_type('sea') > $num) $tab = 'sea';
@@ -307,9 +284,7 @@
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/missiles">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-rocket"></i>
-							</button>
+							<button class="menu-item" type="button"><i class="fas fa-rocket"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
@@ -320,9 +295,7 @@
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/satellites">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-bullseye"></i>
-							</button>
+							<button class="menu-item" type="button"><i class="fas fa-bullseye"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
@@ -333,124 +306,53 @@
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/buy/">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-shopping-cart"></i>
-							</button>
+							<button class="menu-item" type="button"><i class="fas fa-shopping-cart"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/buy/" class="marketMenu">
-							Buy
-						</a>
-						<a href="<?php echo get_site_url(); ?>/sell/" class="marketMenu">
-							Sell
-						</a>
-						<a href="<?php echo get_site_url(); ?>/orders/" class="marketMenu">
-							Orders
-						</a>
+						<a href="<?php echo get_site_url(); ?>/buy/" class="marketMenu">Buy</a>
+						<a href="<?php echo get_site_url(); ?>/sell/" class="marketMenu">Sell</a>
+						<a href="<?php echo get_site_url(); ?>/orders/" class="marketMenu">Orders</a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/clan-information">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-users"></i>
-							</button>
+							<button class="menu-item" type="button"><i class="fas fa-users"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/clan-information" class="marketMenu">
-							Clan
-						</a>
-						<a href="<?php echo get_site_url(); ?>/clan-wars" class="marketMenu">
-							Wars
-						</a>
-						<a href="<?php echo get_site_url(); ?>/send-aid" class="marketMenu">
-							Send aid
-						</a>
+						<a href="<?php echo get_site_url(); ?>/clan-information" class="marketMenu">Clan</a>
+						<a href="<?php echo get_site_url(); ?>/clan-wars" class="marketMenu">Wars</a>
+						<a href="<?php echo get_site_url(); ?>/send-aid" class="marketMenu">Send aid</a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/users/">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-search"></i>
-							</button>
+							<button class="menu-item" type="button"><i class="fas fa-search"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/users/" class="marketMenu">
-							All users
-						</a>
-						<a href="<?php echo get_site_url(); ?>/all-clans/" class="marketMenu">
-							All clans
-						</a>
+						<a href="<?php echo get_site_url(); ?>/users/" class="marketMenu">All users</a>
+						<a href="<?php echo get_site_url(); ?>/all-clans/" class="marketMenu">All clans</a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/toplists/">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-trophy"></i>
-							</button>
+							<button class="menu-item" type="button"><i class="fas fa-trophy"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/toplists/" class="marketMenu">
-							Toplists (nw)
-						</a>
-						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clanpoints" class="marketMenu">
-							Clan points
-						</a>
-						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clannw" class="marketMenu">
-							Clan nw
-						</a>
+						<a href="<?php echo get_site_url(); ?>/toplists/" class="marketMenu">Toplists (nw)</a>
+						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clanpoints" class="marketMenu">Clan points</a>
+						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clannw" class="marketMenu">Clan nw</a>
 					</div>
 				</div>
-
-				<?/*<div class="row menuRow ">
-					<div class="col-md-2 col-xs-2 buttonItem">
-						<a target="_blank" href="<?php echo get_site_url(); ?>/push-messaging.html">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-bell"></i>
-							</button>
-						</a>
-					</div>
-					<div class="col-md-10 col-xs-10 menuText">
-						<a target="_blank" href="<?php echo get_site_url(); ?>/push-messaging.html">Push Messaging</a>
-					</div>
-				</div>
-
-				<div class="row menuRow ">
-					<div class="col-md-2 col-xs-2 buttonItem">
-						<button id="nextbt2" class="menu-item" type="button" >
-							<i class="fas fa-list"></i>
-						</button>
-					</div>
-					<div class="col-md-10 col-xs-10 menuText">
-						<!-- Default dropright button -->
-						<div class="btn-group dropup" style="width:100%;">
-							<button type="button" class="btn btn-secondary dropdown-toggle everythingElse hoverEffect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Everything else
-							</button>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/getting-started">Getting Started</a>
-								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/forum">Forum</a>
-								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/all-clans/">All Clans</a>
-								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/users">Users</a>
-								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/toplists">Toplists</a>
-								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/player-statistics">Statistics</a>
-								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/category/awards-medals/">Awards & Medals</a>
-								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/manual">Manual</a>
-								<a class="dropdown-item" href="<?php echo get_site_url(); ?>/rules">Rules</a>
-								<a class="dropdown-item" target="_blank" href="http://bit.ly/2US8Dh0">Discord</a>
-							</div>
-						</div>
-					</div>
-				</div>*/?>
 
 			<div id="page-sub-header">
 				<div class="row statheader">
