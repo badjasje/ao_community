@@ -2110,9 +2110,6 @@ input[type="radio"]:checked + label {
 .deadback{
 	background: rgba(80, 45, 45, 0.7);
 }
-.clanContentRow{
-	margin: 25px 0px 25px 0px !important;
-}
 .clanImage{
 	width: 750px;
     margin-left: auto;
