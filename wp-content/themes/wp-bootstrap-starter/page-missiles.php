@@ -43,7 +43,7 @@ $sellBackColor = "127, 82, 67"
 <script>
 (function($) {
 
-	$(document).on("blur", ".buyInput", function() {
+	$(document).on("keyup paste blur change", ".buyInput", function() {
 
 		var sum = 0;
 		var orderval = 0;
@@ -103,7 +103,7 @@ $sellBackColor = "127, 82, 67"
 		$("#networth_total").html(number_format(addednw, 0, ',', ' '));
 	});
 
-	$(document).on("blur", ".sellInput", function() {
+	$(document).on("keyup paste blur change", ".sellInput", function() {
 		var sum = 0;
 		var orderval = 0;
 		var addednw = 0;
