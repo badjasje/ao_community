@@ -169,7 +169,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
         $clan_ID = $clan->ID;
         $clanData = get_post_meta($clan_ID);
 
-        $cooldownlist = maybe_unserialize($clanData['cooldown_list'][0]);
+        $cooldownlist = (isset($clanData['cooldown_list']) ? maybe_unserialize($clanData['cooldown_list'][0]) : false);
         if(!is_array($cooldownlist)) $cooldownlist = array();
         foreach ($cooldownlist as $key => $unset_time) {
             if ($unset_time < $timestamp) unset($cooldownlist[$key]);
