@@ -7,9 +7,11 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
     $timestamp = current_time('timestamp');
 
     $args = array();
-    if(strpos($_SERVER['SERVER_NAME'], 'assault') !== 0) { // Just me on dev.
+    $gameType = get_field('game_type','option');
+    if(in_array($gameType, array('Development'))) { // Just me on dev.
         $args = array('include' => array(2768));
     }
+
     $users = get_users($args);
     foreach ($users as $user) {
         $user_ID = $user->ID;
