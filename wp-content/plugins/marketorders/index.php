@@ -123,8 +123,6 @@ function is_multi($user_ID, $ip_array=false) {
 
     return false;
 }
-if(isset($_GET['checkmulti'])) var_dump(is_multi(1));
-if(isset($_GET['checkmulti'])) exit;
 
 function is_vpn($geo=false) {
     if(!$geo) $geo = get_user_geo();
