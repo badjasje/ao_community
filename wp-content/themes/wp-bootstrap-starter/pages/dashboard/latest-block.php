@@ -63,16 +63,7 @@ $messages = get_posts( $inboxargs );
 
 		<div class="col-md-6 col-lg-3 statusRow statCol-3">
 			<div class="blockHeader">Latest news</div>
-			<?php foreach ($posts as $post):
-			   	$units_in_this_order = get_post_meta($order->ID,'amount_ordered',true);
-			   	$order_type = get_post_meta($order->ID,'order_type',true);
-
-			   	$userId = $order->post_author;
-			   	$delivery_time = get_post_meta($order->ID,'delivery_time',true);
-
-
-			   	$timeleft = date('H:i:s', $delivery_time-$timestamp);
-				?>
+			<?php foreach ($posts as $post): ?>
 				<div class="row unitRow">
 					<div class="col-md-12 celBlock">
 						<a href="<?php echo get_the_permalink($post->ID);?>">

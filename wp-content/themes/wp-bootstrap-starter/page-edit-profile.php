@@ -27,10 +27,6 @@ $visiting_user = $userId;
 
 $visitorData = get_user_meta($visiting_user);
 
-$savedUsers = $visitorData['saved_users'][0];
-$savedUsers = json_decode($savedUsers);
-$savedUsers = is_array($savedUsers) ? $savedUsers : [];
-
 $clan_id_user = $visitorData['clan_id_user'][0];
 
 $visitorClanData = get_post_meta($clan_id_user);

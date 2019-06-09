@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
+	<? /* When there are no inline styles and scripts, we can (and should!) enable this
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';">
+	*/ ?>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -225,6 +228,19 @@
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
+						<a href="<?php echo get_site_url(); ?>/bank">
+							<button class="menu-item" type="button" >
+								<i class="fas fa-university"></i>
+							</button>
+						</a>
+					</div>
+					<div class="col-md-10 col-xs-10 menuText">
+						<a href="<?php echo get_site_url(); ?>/bank">Bank <span class="badge badge-secondary"><?php echo count_deposits($userId);?></span></a>
+					</div>
+				</div>
+
+				<div class="row menuRow ">
+					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/research">
 							<button class="menu-item" type="button" >
 								<i class="fas fa-flask"></i>
@@ -240,33 +256,7 @@
 							<?php endif;?>
 						</a>
 					</div>
-				</div>
-
-				<div class="row menuRow ">
-					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/bank">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-university"></i>
-							</button>
-						</a>
-					</div>
-					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/bank">Bank <span class="badge badge-secondary"><?php echo count_deposits($userId);?></span></a>
-					</div>
-				</div>
-
-				<div class="row menuRow ">
-					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/buildings">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-industry"></i>
-							</button>
-						</a>
-					</div>
-					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/buildings">Buildings <span class="badge badge-secondary"><?php echo do_shortcode('[current-buildings]');?></span></a>
-					</div>
-				</div>
+				</div>				
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
@@ -283,6 +273,19 @@
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
+						<a href="<?php echo get_site_url(); ?>/buildings">
+							<button class="menu-item" type="button" >
+								<i class="fas fa-industry"></i>
+							</button>
+						</a>
+					</div>
+					<div class="col-md-10 col-xs-10 menuText">
+						<a href="<?php echo get_site_url(); ?>/buildings">Buildings <span class="badge badge-secondary"><?php echo do_shortcode('[current-buildings]');?></span></a>
+					</div>
+				</div>				
+
+				<div class="row menuRow ">
+					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/units">
 							<button class="menu-item" type="button" >
 								<i class="fas fa-fighter-jet"></i>
@@ -290,7 +293,14 @@
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/units">Units <span class="badge badge-secondary"><?php echo do_shortcode('[current-units]');?></span></a>
+						<? 
+						$tab = 'air';
+						$num = count_units_by_type('air');
+						if(count_units_by_type('sea') > $num) $tab = 'sea';
+						elseif(count_units_by_type('veh') > $num) $tab = 'veh';
+						elseif(count_units_by_type('inf') > $num) $tab = 'inf';
+						?>
+						<a href="<?php echo get_site_url(); ?>/units?tab=<?=$tab?>">Units <span class="badge badge-secondary"><?php echo do_shortcode('[current-units]');?></span></a>
 					</div>
 				</div>
 
@@ -322,24 +332,6 @@
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/users/">
-							<button class="menu-item" type="button" >
-								<i class="fas fa-search"></i>
-							</button>
-						</a>
-					</div>
-					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/users/">
-							<div class="marketMenu">All users</div>
-						</a>
-						<a href="<?php echo get_site_url(); ?>/all-clans/">
-							<div class="marketMenu">All clans</div>
-						</a>
-					</div>
-				</div>
-
-				<div class="row menuRow ">
-					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?php echo get_site_url(); ?>/buy/">
 							<button class="menu-item" type="button" >
 								<i class="fas fa-shopping-cart"></i>
@@ -347,14 +339,14 @@
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/buy/">
-							<div class="marketMenu">Market</div>
+						<a href="<?php echo get_site_url(); ?>/buy/" class="marketMenu">
+							Buy
 						</a>
-						<a href="<?php echo get_site_url(); ?>/sell/">
-							<div class="marketMenu">Sell</div>
+						<a href="<?php echo get_site_url(); ?>/sell/" class="marketMenu">
+							Sell
 						</a>
-						<a href="<?php echo get_site_url(); ?>/orders/">
-							<div class="marketMenu">Orders</div>
+						<a href="<?php echo get_site_url(); ?>/orders/" class="marketMenu">
+							Orders
 						</a>
 					</div>
 				</div>
@@ -368,14 +360,32 @@
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/clan-information">
-							<div class="marketMenu">Clan</div>
+						<a href="<?php echo get_site_url(); ?>/clan-information" class="marketMenu">
+							Clan
 						</a>
-						<a href="<?php echo get_site_url(); ?>/clan-wars">
-							<div class="marketMenu">Wars</div>
+						<a href="<?php echo get_site_url(); ?>/clan-wars" class="marketMenu">
+							Wars
 						</a>
-						<a href="<?php echo get_site_url(); ?>/send-aid">
-							<div class="marketMenu">Send aid</div>
+						<a href="<?php echo get_site_url(); ?>/send-aid" class="marketMenu">
+							Send aid
+						</a>
+					</div>
+				</div>
+
+				<div class="row menuRow ">
+					<div class="col-md-2 col-xs-2 buttonItem">
+						<a href="<?php echo get_site_url(); ?>/users/">
+							<button class="menu-item" type="button" >
+								<i class="fas fa-search"></i>
+							</button>
+						</a>
+					</div>
+					<div class="col-md-10 col-xs-10 menuText">
+						<a href="<?php echo get_site_url(); ?>/users/" class="marketMenu">
+							All users
+						</a>
+						<a href="<?php echo get_site_url(); ?>/all-clans/" class="marketMenu">
+							All clans
 						</a>
 					</div>
 				</div>
@@ -389,14 +399,14 @@
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/toplists/">
-							<div class="marketMenu">Toplists (nw)</div>
+						<a href="<?php echo get_site_url(); ?>/toplists/" class="marketMenu">
+							Toplists (nw)
 						</a>
-						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clanpoints">
-							<div class="marketMenu">Clan points</div>
+						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clanpoints" class="marketMenu">
+							Clan points
 						</a>
-						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clannw">
-							<div class="marketMenu">Clan nw</div>
+						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clannw" class="marketMenu">
+							Clan nw
 						</a>
 					</div>
 				</div>
@@ -594,6 +604,7 @@
 								<? } ?>
 							}
 							setInterval(updateMarketTime, 1000 );
+							updateMarketTime(); // do not wait a second
 						<?php } ?>
 
 						// Help in icon menu

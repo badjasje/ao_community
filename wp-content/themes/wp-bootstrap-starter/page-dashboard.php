@@ -5,7 +5,6 @@
 get_header();
 include('startingbonus_array.php');
 
-
 $startingDate = get_field('starting_date','options');
 $endDate = get_field('end_date','options');
 $gameType = get_field('game_type','option');
@@ -15,10 +14,6 @@ global $userId;
 
 $pageId 					= get_the_id();
 
-
-$savedUsers 				= $userData['saved_users'][0];
-$decodedSavedUsers          = json_decode($savedUsers);
-$savedUsers 				= is_array($decodedSavedUsers) ? $decodedSavedUsers : [];
 update_user_meta($userId, 'user_lock', 0);
 $new_events 				= $userData['new_events'][0];
 $new_messages 				= $userData['new_messages'][0];
@@ -47,35 +42,9 @@ if($startingbonus == 'finance'){
 	$finance_multi = 1.1;
 }
 
-/* Check for nightmode */
-
-$nightmode = $userData['nightmode'][0];
-$regular = '';
-if($nightmode == 'regular'){
-	$regular = 'selected';
-}
-$night = '';
-if($nightmode == 'night'){
-	$night = 'selected';
-}
-$nostalgia = '';
-if($nightmode == 'nostalgia'){
-	$nostalgia = 'selected';
-}
-$blackwhite = '';
-if($nightmode == 'blackwhite'){
-	$blackwhite = 'selected';
-}
-$grayscale = '';
-if($nightmode == 'grayscale'){
-	$grayscale = 'selected';
-}
-
-
 $shootdown_chance = 0;
 if($AMS > 0){
     $shootdown_chance = (($AMS*100)/$def_land)*100;
-
     if($shootdown_chance >= 75){
         $shootdown_chance = 75;
     }
@@ -93,26 +62,6 @@ if($user_status == 'dead'){
     after_death($userId);
 }
 $user = get_userdata($userId);
-
-if($clanId == 0){
-    /*$clans = get_posts(
-        [
-            'numberposts'	=> -1,
-            'post_type'		=> 'clan',
-            'meta_key'		=> 'autojoin_allowed',
-            'meta_value'	=> 'yes'
-        ]
-    );
-
-    $clanCount = 0;
-
-    foreach ($clans as $clan) {
-        $members = count(get_post_meta($clan->ID,'clan_members',true));
-        if ($members < 7) {
-            $clanCount++;
-        }
-    }*/
-}
 ?>
 
 <div class="row pageRow">
@@ -123,27 +72,30 @@ if($clanId == 0){
 <div class="pageSpacer"></div>
 <?php endif;?>
 
+<?php if(get_field('game_status','option') == 'Live' && $gameType == 'Test') { ?>
+	<div class="blockHeader">Welcome to test.assault.online.</div>
+<?php } ?>
 <?php if(get_field('game_status','option') == 'Live' && $gameType == 'Development') { ?>
-	<div class="blockHeader">Welcome to dev.assault.online. To receive turns/money/morale, hit the button below!</div>
-	<div class="blockHeader spaceNotice">If you are dead, hitting this button will revive you as well.</div>
-	<button style="background-color:#A00000;border:0px;" class="mainSubmit receiveFunds">Receive funds</button>
+	<div class="blockHeader">Welcome to dev.assault.online.</div>
+<?php } ?>
+<?php if(get_field('game_status','option') == 'Live' && in_array($gameType, array('Development','Test'))) { ?>
+	<div class="blockHeader spaceNotice">
+		To receive turns/money/morale/research/orders, hit the button below!<br>
+		If you are dead or under protection, hitting this button will revive you as well.
+	</div>
+	<button style="background-color:#A00000;border:0px;" class="mainSubmit receiveFunds">Receive all</button>
 	<div class="pageSpacer"></div>
 	<script>
 		(function($) {
 			var devfunding;
-
 			$(document).on('click','.receiveFunds',function(){
 				$('.pageLoader, #page-cover').show();
-				$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 				var target = $(this).attr('data-target');
 				devfunding = $.ajax({url: "/devfunds.php",type: "post",data: ''});
 				devfunding.done(function (response, textStatus, jqXHR){
-
+					$('.pageLoader, #page-cover').fadeOut( "fast");
 					var response = $.parseJSON(response);
-
-					$('#money').html(number_format(response.money, 0, ',', ' '));
-					$('#morale').html(number_format(response.morale, 0, ',', ' '));
-					$('#turns').html(number_format(response.turns, 0, ',', ' '));
+					updateHeaderData();
 					$.notify({message: response.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
 				});
 			});

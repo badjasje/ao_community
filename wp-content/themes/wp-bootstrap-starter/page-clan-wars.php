@@ -32,7 +32,7 @@ $clan_networth = $clanData['clan_networth'][0];
 
  //MEGA 20171106 Count the members in YOUR clan
  $declaringClanMembers = maybe_unserialize($clanData['clan_members'][0]);
- $declaringMembAersCount = count($declaringClanMembers);
+ $declaringMembersCount = count($declaringClanMembers);
  $declarerAverageNw = ($declaringMembersCount>0 ? $clan_networth / $declaringMembersCount : 0);
 
  $wars_on = get_posts(array(
@@ -52,7 +52,7 @@ $wars_by = get_posts(array(
 <div class="row pageRow">
 
 	<div class="blockHeader">You can target clans with a networth between
-		<?php echo GameUtil::format_networth($clan_networth/1.4); ?> and <?php echo GameUtil::format_networth($clan_networth*1.4);?>
+		$ <?=number_format(($clan_networth/1.4), 0, ',', ' ')?> and $ <?=number_format(($clan_networth*1.4), 0, ',', ' ');?>
 	</div>
 	<div class="blockHeader spaceNotice">After 24 hours you are able to declare peace with a clan. A war will auto peace after 72 hours.</div>
 
@@ -156,8 +156,9 @@ $wars_by = get_posts(array(
 
 	<?php
 	foreach ($war_array as $key => $war) {
-		$warred_clan =  array_shift(array_diff(array($war['declarer_id'],$war['receiver_id']), array($declarer_clan_ID)));
-		if(empty($war['receiver_id'])){continue;}
+		if(!is_array($war) || !isset($war['receiver_id']) || empty($war['receiver_id'])) continue;
+		$aDiff = array_diff(array($war['declarer_id'],$war['receiver_id']), array($declarer_clan_ID));
+		$warred_clan =  array_shift($aDiff);
 		?>
 		<div class="row unitRow fw-row" style="background-color: rgba(<?php echo $backColorStats;?>, <?php echo 0.6-($count/25);?>);">
 			<div class="col-md-3 celBlock nameBlock veh_heading">

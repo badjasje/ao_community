@@ -50,28 +50,13 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     $land = $userData['land'][0];
     $builtland = $userData['builtland'][0];
     $EElevel = $userData['level_engineering_effectiveness'][0];
-    $startingbonus = $userData['starting_bonus'][0];
-    $extra_divide = 0;
-    if ($startingbonus == 'defensive') {
-        $extra_divide = 5;
-    }
 
-
-    if ($EElevel == 0 || empty($EElevel)) {
-		$turns_divider = 5+$extra_divide;
-    }       
-    if ($EElevel == 1) {
-        $turns_divider = 10+$extra_divide;
-    }
-    if ($EElevel >= 2) {
-        $turns_divider = 15+$extra_divide;
-    }
-                    
-
+    $turns_divider = 5;
+    if ($EElevel == 1) $turns_divider = 10;
+    if ($EElevel >= 2) $turns_divider = 15;
 
     include 'building_array.php';
-	
-	
+
     $totalordercost = 0;
     $totalbuildings = 0;
     foreach ($buildings as $key => $order) {
@@ -134,29 +119,29 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
 
             foreach ($buildings as $key => $order) {
                 $buildingName = $key;
-    
+
                 $normalname = $order['normalname'];
                 $price = $order['price'];
                 $ordered_buildings = ceil($_POST["$key"]);
                 if ($ordered_buildings > 0) {
                     $orderamount = $price*$ordered_buildings;
-    
-        
+
+
                     $units_on_order = $userData[$buildingName][0];
 
                     update_user_meta($userId, 'money', $totalmoney-$totalordercost);
                     update_user_meta($userId, 'turns', $totalturns-$turns_needed);
                     update_user_meta($userId, $key, $ordered_buildings);
-        
-            
-            
+
+
+
                     update_user_meta($userId, $buildingName, $units_on_order+$ordered_buildings);
                 }
             }
         }
     }
 turn_spread('buildings',$turns_needed);
-count_all_stats($userId); 
+count_all_stats($userId);
 
 $newMax = array();
 $newOwned = array();
@@ -166,16 +151,16 @@ $totalmoney = $userData['money'][0];
 $totalturns = $userData['turns'][0];
 
 foreach ($buildings as $key => $building) {
-	
+
 	$maxMoney = floor($totalmoney / $building['price']);
 	$maxTurns = floor($totalturns * $turns_divider);
 	$maxSpace = floor(($land - $builtland) / 20);
-	
+
 	$newMax[$key] = min($maxMoney,$maxTurns,$maxSpace);
 	$newOwned[$key] = $userData[$key][0];
 }
 
-     
+
     $array['status'] = $totalbuildings.' buildings built using ' .$turns_needed.' turns';
 	$array['money'] = $totalmoney;
 	$array['allordered'] = $totalbuildings;

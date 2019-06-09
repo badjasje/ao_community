@@ -6,6 +6,7 @@ get_header();
 
 global $userData;
 global $userId;
+$activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'air';
 
 include 'units_array.php';
 include 'count_functions.php';
@@ -92,10 +93,10 @@ else $hours = 12;
 
 	<div class="fw-row">
 		<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
-			<a class="nav-item nav-link navItem active" data-toggle="tab" data-target="#air" href="?tab=air">Air units</a>
-			<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#sea" href="?tab=sea">Sea units</a>
-			<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#veh" href="?tab=veh">Vehicles</a>
-			<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#inf" href="?tab=inf">Infantry</a>
+			<a class="nav-item nav-link navItem <?php echo $activeTab === 'air' ? 'active' : ''; ?>" data-toggle="tab" data-target="#air" href="?tab=air">Air units</a>
+			<a class="nav-item nav-link navItem <?php echo $activeTab === 'sea' ? 'active' : ''; ?>" data-toggle="tab" data-target="#sea" href="?tab=sea">Sea units</a>
+			<a class="nav-item nav-link navItem <?php echo $activeTab === 'veh' ? 'active' : ''; ?>" data-toggle="tab" data-target="#veh" href="?tab=veh">Vehicles</a>
+			<a class="nav-item nav-link navItem <?php echo $activeTab === 'inf' ? 'active' : ''; ?>" data-toggle="tab" data-target="#inf" href="?tab=inf">Infantry</a>
 		</nav>
 	</div>
 

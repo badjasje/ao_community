@@ -45,94 +45,64 @@ $backColor = "127, 82, 67"
 		<?php
             $maxMoney = floor($totalMoney / ($building['price'] * 0.15));
 			$maxOwned = $buildingsOwned;
-
-				if ($buildingKey == 'airfield') {
-
-					$maxMoney = floor($maxMoney - ($totalair / 10));
-
-					if ($maxMoney < 0) {
-						$maxMoney = 0;
-					}
-
-					$maxOwned = floor($maxOwned - ($totalair / 10));
-
-					if ($maxOwned < 0) {
-						$maxOwned = 0;
-					}
+			if ($buildingKey == 'airfield') {
+				$maxMoney = floor($maxMoney - ($totalair / 10));
+				if ($maxMoney < 0) {
+					$maxMoney = 0;
 				}
-
-				if ($buildingKey == 'command_centre') {
-
-					$maxMoney = floor($maxMoney - ($totalspecial / 5));
-
-					if ($maxMoney < 0) {
-						$maxMoney = 0;
-					}
-
-					$maxOwned = floor($maxOwned - ($totalspecial / 5));
-
-					if ($maxOwned < 0) {
-						$maxOwned = 0;
-					}
+				$maxOwned = floor($maxOwned - ($totalair / 10));
+				if ($maxOwned < 0) {
+					$maxOwned = 0;
 				}
-
-
-
-				if ($buildingKey == 'shipyard') {
-
-					$maxMoney = floor($maxMoney - ($totalsea / 5));
-
-					if ($maxMoney < 0) {
-						$maxMoney = 0;
-					}
-
-					$maxOwned = floor($maxOwned - $totalsea / 5);
-
-					if ($maxOwned < 0) {
-						$maxOwned = 0;
-					}
+			}
+			if ($buildingKey == 'command_centre') {
+				$maxMoney = floor($maxMoney - ($totalspecial / 5));
+				if ($maxMoney < 0) {
+					$maxMoney = 0;
 				}
-
-				if ($buildingKey == 'baracks') {
-
-					$maxMoney = floor($maxMoney - ($totalinf / 20));
-
-					if ($maxMoney < 0) {
-						$maxMoney = 0;
-					}
-
-					$maxOwned = floor($maxOwned - ($totalinf / 20));
-
-					if ($maxOwned < 0) {
-						$maxOwned = 0;
-					}
+				$maxOwned = floor($maxOwned - ($totalspecial / 5));
+				if ($maxOwned < 0) {
+					$maxOwned = 0;
 				}
-				if ($buildingKey == 'warfactory') {
-
-					$maxMoney = floor($maxMoney - ($totalveh / 10));
-
-					if ($maxMoney < 0) {
-						$maxMoney = 0;
-					}
-
-					$maxOwned = floor($maxOwned - ($totalveh / 10));
-
-					if ($maxOwned < 0) {
-						$maxOwned = 0;
-					}
+			}
+			if ($buildingKey == 'shipyard') {
+				$maxMoney = floor($maxMoney - ($totalsea / 5));
+				if ($maxMoney < 0) {
+					$maxMoney = 0;
 				}
-
+				$maxOwned = floor($maxOwned - $totalsea / 5);
+				if ($maxOwned < 0) {
+					$maxOwned = 0;
+				}
+			}
+			if ($buildingKey == 'baracks') {
+				$maxMoney = floor($maxMoney - ($totalinf / 20));
+				if ($maxMoney < 0) {
+					$maxMoney = 0;
+				}
+				$maxOwned = floor($maxOwned - ($totalinf / 20));
+				if ($maxOwned < 0) {
+					$maxOwned = 0;
+				}
+			}
+			if ($buildingKey == 'warfactory') {
+				$maxMoney = floor($maxMoney - ($totalveh / 10));
+				if ($maxMoney < 0) {
+					$maxMoney = 0;
+				}
+				$maxOwned = floor($maxOwned - ($totalveh / 10));
+				if ($maxOwned < 0) {
+					$maxOwned = 0;
+				}
+			}
             ?>
-
             <span class="sellall" id="demobutton_<?php echo $buildingKey; ?>" data-key="<?php echo $buildingKey;?>" data-amount="<?php echo min($maxMoney, $maxOwned); ?>">
     			<?php echo min($maxMoney, $maxOwned); ?>
 			</span>
-
-
 	    </span>
     </div>
     <div class="col-md-2 celBlock inputBlock">
-        <input class="unitInput demobds sellInput" data-nw="<?php echo $building['networth'];?>" data-key="<?php echo $buildingKey;?>" data-price="<?php echo $building['price']*0.15;?>" min="0" type="number" id="demo_<?php echo $buildingKey;?>" name="<?php echo $buildingKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
+        <input class="unitInput demobds sellInput" data-nw="<?php echo $building['networth'];?>" data-key="<?php echo $buildingKey;?>" data-sellprice="<?php echo $building['price'];?>" data-price="<?php echo $building['price']*0.15;?>" min="0" type="number" id="demo_<?php echo $buildingKey;?>" name="<?php echo $buildingKey;?>" style="border: solid rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
     </div>
 </div> <!-- //Close Unit row -->
 <?php endif;?>

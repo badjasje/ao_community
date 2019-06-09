@@ -42,7 +42,7 @@ $def_land = $defenderData['builtland'][0];
 $startingbonus = $defenderData['starting_bonus'][0];
 $defensive_multi = 1;
 if($startingbonus == 'defensive'){
-	$defensive_multi = 1.15;
+	$defensive_multi = 1.25;
 }
 
 $shootdown_chance = min((($AMS*100)/$def_land)*100,75);

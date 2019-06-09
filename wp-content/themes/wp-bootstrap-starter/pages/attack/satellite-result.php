@@ -67,7 +67,7 @@ if($defenderData['land'][0] < 7500){
 $startingbonus = $defenderData['starting_bonus'][0];
 $defensive_multi = 1;
 if($startingbonus == 'defensive'){
-	$defensive_multi = 1.15;
+	$defensive_multi = 1.25;
 }
 
 // Scale building damage on clan size difference

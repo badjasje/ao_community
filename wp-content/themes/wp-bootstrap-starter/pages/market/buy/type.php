@@ -48,6 +48,7 @@ foreach($unitTypes as $unitTypeKey => $unitType) :  ?>
             <div class="col-md-2 celBlock"></div>
         </div> <!-- // Close Unit row -->
         <?php
+        $count=0;
         foreach($units as $unitKey => $unit) {
             if ($unit['type'] == $unitTypeKey) {
                 include('type/unit.php');

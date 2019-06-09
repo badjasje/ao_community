@@ -209,7 +209,7 @@ foreach ($missiles as $key => $missile) {
 		$max_space = $tomahawkspace-$userData['tomahawk_owned'][0]-$userData['tomahawk_ordered'][0];
 	}
 
-    $ordered = $userData[$key.'_ordered'][0];
+    $ordered = (isset($userData[$key.'_ordered']) ? $userData[$key.'_ordered'][0] : 0);
 
     if($ordered > 0) {
         $allOrdered[$key] = $ordered;

@@ -7,7 +7,7 @@ $canAttack = is_array($unit['attacks']) && !empty($unit['attacks']) ? implode(',
 $count++;
 ?>
 <div class="row unitRow" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
-    <div class="col-md-2 celBlock nameBlock <?php echo $unitTypeKey;?>_heading">
+    <div class="col-md-<?=($startingBonus == 'shipping'?2:3)?> celBlock nameBlock <?php echo $unitTypeKey;?>_heading">
         <?php echo $unit['normalname'];?>
 		<span class="hover-tip"  data-toggle="tooltip" data-html="true" data-original-title="<?php if(isset($unit['description'])):?>
 			<?php echo $unit['description'];?><br>

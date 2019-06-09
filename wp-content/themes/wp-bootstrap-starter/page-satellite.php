@@ -231,10 +231,10 @@ $buttonColor = "70, 118, 94"
 
 			$( ".activateSatellite" ).click(function() {
 				$('.pageLoader, #page-cover').show();
-				$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 				if(confirm("Are you sure you want to activate your stealth satellite?")){
 					activate = $.ajax({url: '/activate_stealthsat.php',type: 'get'});
 					activate.done(function (response, textStatus, jqXHR){
+						$('.pageLoader, #page-cover').fadeOut( "fast");
 						updateHeaderData();
 						var array = JSON.parse(response);
 						$.notify({message: array.status},{type: 'info', delay: 5000, allow_dismiss: true, newest_on_top: true});
@@ -244,7 +244,7 @@ $buttonColor = "70, 118, 94"
 							$('.titleBackWrapper').addClass('stealthsatactive');
 						}
 					});
-				}
+				} else $('.pageLoader, #page-cover').fadeOut( "fast");
 			});
 
 			var cancel;

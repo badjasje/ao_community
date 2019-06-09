@@ -5,9 +5,11 @@ $mog_prev = !empty($userData['mog_prev'][0]) ? $userData['mog_prev'][0] : 0;
 $mot_next = !empty($userData['mot_next'][0]) ? $userData['mot_next'][0] : 0;
 $mot_prev = !empty($userData['mot_prev'][0]) ? $userData['mot_prev'][0] : 0;
 
+$modes_position = !empty($userData['modes_position'][0]) ? $userData['modes_position'][0] : 0;
 $modes_next = !empty($userData['modes_next'][0]) ? $userData['modes_next'][0] : 0;
 $modes_prev = !empty($userData['modes_prev'][0]) ? $userData['modes_prev'][0] : 0;
 
+$mor_position = !empty($userData['mor_position'][0]) ? $userData['mor_position'][0] : 0;
 $mor_next = !empty($userData['mor_next'][0]) ? $userData['mor_next'][0] : 0;
 $mor_prev = !empty($userData['mor_prev'][0]) ? $userData['mor_prev'][0] : 0;
 
@@ -126,7 +128,7 @@ $mor_prev = !empty($userData['mor_prev'][0]) ? $userData['mor_prev'][0] : 0;
 					<i class="fa fa-info-circle" aria-hidden="true"></i></span>
 				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['modes_position'][0];?></div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $modes_position;?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
 			<div class="col-md-6 col-xs-6 medal_row">$ <?php echo number_format($modes_next, 0, ',', ' ');?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
@@ -159,7 +161,7 @@ $mor_prev = !empty($userData['mor_prev'][0]) ? $userData['mor_prev'][0] : 0;
 					</span>
 				</strong></div>
 			<div class="col-md-6 col-xs-6 medal_row">Position:</div>
-			<div class="col-md-6 col-xs-6 medal_row"><?php echo $userData['mor_position'][0];?></div>
+			<div class="col-md-6 col-xs-6 medal_row"><?php echo $mor_position; ?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
 			<div class="col-md-6 col-xs-6 medal_row"><?php echo $mor_next;?></div>
 			<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>

@@ -6,24 +6,24 @@ if(count($toplistArray) && isset($toplistArray['clannetworth'])) {
     foreach(array_slice($toplistArray['24h_pts'],0,3) as $topClanId) {
         $pts = ceil(get_post_meta($topClanId, '24h_pts',true));
         if($pts > 0) {
-            $topPtsToday .= '<div class="col-xs-6 col-sm-8 celBlock"><a href="'.
+            $topPtsToday .= '<div class="col-xs-6 col-sm-7 celBlock"><a href="'.
                 get_the_permalink($topClanId).'">'.get_the_title($topClanId).'</a></div>'.
-                '<div class="col-xs-6 col-sm-4 celBlock">'.$pts.'</div>';
+                '<div class="col-xs-6 col-sm-5 celBlock">'.$pts.'</div>';
         }
     }
     $topClanNw = '';
     foreach(array_slice($toplistArray['clannetworth'],0,3) as $topClanId) {
-        $topClanNw .= '<div class="col-xs-6 col-sm-8 celBlock"><a href="'.
+        $topClanNw .= '<div class="col-xs-6 col-sm-7 celBlock"><a href="'.
             get_the_permalink($topClanId).'">'.get_the_title($topClanId).'</a></div>'.
-            '<div class="col-xs-6 col-sm-4 celBlock">$ '.number_format(get_post_meta($topClanId, 'clan_networth',true), 0, ',', ' ') .'</div>';
+            '<div class="col-xs-6 col-sm-5 celBlock">$ '.number_format(get_post_meta($topClanId, 'clan_networth',true), 0, ',', ' ') .'</div>';
     }
     $topPts = '';
     foreach(array_slice($toplistArray['clanpoints'],0,3) as $topClanId) {
         $pts = ceil(get_post_meta($topClanId, 'clan_points',true));
         if($pts > 0) {
-            $topPts .= '<div class="col-xs-6 col-sm-8 celBlock"><a href="'.
+            $topPts .= '<div class="col-xs-6 col-sm-7 celBlock"><a href="'.
                 get_the_permalink($topClanId).'">'.get_the_title($topClanId).'</a></div>'.
-                '<div class="col-xs-6 col-sm-4 celBlock">'.$pts.'</div>';
+                '<div class="col-xs-6 col-sm-5 celBlock">'.$pts.'</div>';
         }
     }
     ///if(!empty($topPtsToday) && !empty($topClanNw) && !empty($topPts)) {

@@ -123,8 +123,6 @@ function is_multi($user_ID, $ip_array=false) {
 
     return false;
 }
-if(isset($_GET['checkmulti'])) var_dump(is_multi(1));
-if(isset($_GET['checkmulti'])) exit;
 
 function is_vpn($geo=false) {
     if(!$geo) $geo = get_user_geo();
@@ -844,6 +842,7 @@ function clan_tag($user_ID) {
 }
 
 function wpse66094_no_admin_access() {
+    if(defined('DOING_AJAX')) return;
     $redirect = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : home_url('/');
     global $current_user;
     $user_roles = $current_user->roles;
@@ -852,7 +851,6 @@ function wpse66094_no_admin_access() {
         exit(wp_redirect($redirect));
     }
 }
-
 add_action('admin_init', 'wpse66094_no_admin_access', 100);
 
 function create_post_type() {
@@ -998,6 +996,8 @@ function myplugin_registration_save($user_id) {
     update_user_meta($user_id, 'bio_ordered', 0);
     update_user_meta($user_id, 'moab_owned', 0);
     update_user_meta($user_id, 'moab_ordered', 0);
+    update_user_meta($user_id, 'tomahawk_owned', 0);
+    update_user_meta($user_id, 'tomahawk_ordered', 0);
     update_user_meta($user_ID, 'empmis_owned', 0);
     update_user_meta($user_ID, 'empmis_ordered', 0);
 
@@ -1076,6 +1076,10 @@ function after_death($user_id) {
         update_user_meta($user_id, 'bio_ordered', 0);
         update_user_meta($user_id, 'moab_owned', 0);
         update_user_meta($user_id, 'moab_ordered', 0);
+        update_user_meta($user_id, 'tomahawk_owned', 0);
+        update_user_meta($user_id, 'tomahawk_ordered', 0);
+        update_user_meta($user_id, 'empmis_owned', 0);
+        update_user_meta($user_id, 'empmis_ordered', 0);
 
         // SET STATS after death
         update_user_meta($user_id, 'money', 450000);
@@ -1348,6 +1352,19 @@ function count_units($user_ID) {
     include 'units_array.php';
     $totalunits = 0;
     foreach ($units as $key => $unit) {
+        $units_owned = get_user_meta($user_ID, $key . '_owned', true);
+        $totalunits += $units_owned;
+    }
+    return $totalunits;
+}
+
+function count_units_by_type($type='air', $user_ID=null) {
+    include 'units_array.php';
+    global $userId;
+    if($user_ID == null) $user_ID = $userId;
+    $totalunits = 0;
+    foreach ($units as $key => $unit) {
+        if($unit['type'] != $type) continue;
         $units_owned = get_user_meta($user_ID, $key . '_owned', true);
         $totalunits += $units_owned;
     }
@@ -1870,8 +1887,9 @@ function fcm_send_notification($receiver, $type, $attacker=0) {
     if(!isset($body) || empty($body)) return;
 
     // No notifications to others on Dev!
-    if(strpos($_SERVER['SERVER_NAME'], 'assault') !== 0) {
-        if($receiver != 2768) return;
+    $gameType = get_field('game_type','option');
+    if(in_array($gameType, array('Development','Test')) && $receiver != 2768) {
+        return;
     }
 
     $registrationIds = maybe_unserialize(get_user_meta($receiver, 'device_tokens', true));

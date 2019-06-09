@@ -1,7 +1,7 @@
 <?php
 $typeTotals = array();
 foreach($unitTypes as $unitTypeKey => $unitType) :  ?>
-    <div class="tab-pane smallTable unitBuildTable <?=($unitTypeKey=='air'?'active':'')?>" id="<?php echo $unitTypeKey; ?>" role="tabpanel">
+    <div class="tab-pane smallTable unitBuildTable <?php echo $activeTab === $unitTypeKey ? 'active' : ''; ?>" id="<?php echo $unitTypeKey; ?>" role="tabpanel">
         <div class="blockHeader spaceNotice">
             <?php
             $housing = 'housing';
@@ -26,7 +26,7 @@ foreach($unitTypes as $unitTypeKey => $unitType) :  ?>
                 $unitsPerTurn2 = 20;
                 $unitsNameDisplay = 'infantry';
             }
-            echo sprintf('Your empty %s allow you to build a maximum of <span id="'.$unitTypeKey.'spacecount">%d %s units. ', $housing, $space[$unitTypeKey] - $usedSpace[$unitTypeKey], strtolower($unitType));
+            echo sprintf('Your empty %s allow you to build a maximum of <span id="'.$unitTypeKey.'spacecount">%d</span> %s units. ', $housing, $space[$unitTypeKey] - $usedSpace[$unitTypeKey], strtolower($unitType));
             echo sprintf('<strong>'.$unitsPerTurn2.' units </strong>built per turn for '.$unitsNameDisplay);
             ?>
         </div>
