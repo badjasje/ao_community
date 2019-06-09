@@ -7,7 +7,7 @@
  * @wordpress-plugin
  * Plugin Name: Invisible reCaptcha
  * Description: Google Invisible reCaptcha for WordPress.
- * Version: 1.2.2
+ * Version: 1.2.3
  * Author: Mihai Chelaru
  * Text Domain: invisible-recaptcha
  * Domain Path: /languages
@@ -16,7 +16,7 @@
 
 final class InvisibleReCaptcha
 {
-	CONST PLUGIN_VERSION    = '1.2.2';
+	CONST PLUGIN_VERSION    = '1.2.3';
 	CONST PLUGIN_ABBR       = 'ic';
 	CONST PLUGIN_SLUG       = 'invisible-recaptcha';
 	CONST PLUGIN_NAME       = 'Invisible reCaptcha';

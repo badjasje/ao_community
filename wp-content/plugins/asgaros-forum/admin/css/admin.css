@@ -1,11 +1,120 @@
+/* TABS */
+#af-options #settings-wrapper {
+    position: relative;
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 13px;
+    border: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    background: none;
+    font-family: inherit;
+}
+#af-options #settings-tabs {
+    z-index: 2;
+    position: relative;
+    width: 159px;
+    float: left;
+    background: #f5f5f5;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-right: 0;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    line-height: inherit;
+}
+#af-options #settings-tabs li {
+    margin: 0;
+    padding: 0;
+    float: none;
+    background: none;
+    white-space: normal;
+}
+#af-options #settings-tabs li a {
+    display: block;
+    margin:  0 10px;
+    padding: 20px 0 20px 10px;
+    text-decoration: none;
+    color: #666;
+    border-bottom: 1px solid #ddd;
+    word-break: break-word;
+    box-shadow: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    transition: none;
+    -webkit-transition: none;
+    float: none;
+}
+#af-options #settings-tabs li i {
+    padding-right: 6px;
+}
+#af-options #settings-tabs li.active-tab {
+    width: 161px;
+}
+#af-options #settings-tabs li.active-tab a,
+#af-options #settings-tabs li a:hover {
+    width: 161px;
+    margin: -1px 0 0 0;
+    border-top: 1px solid #ddd;
+    padding: 20px 11px 20px 20px;
+    color: #000 !important;
+    background: #fff !important;
+}
+#af-options #settings-tabs li:last-child a {
+    border-bottom: none;
+}
+#af-options #settings-wrapper #tab-content {
+    position: relative;
+    padding: 0px 10px 20px;
+    width: calc( 100% - 183px );
+    float: right;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #444;
+    min-height: 1000px;
+}
+@media only screen and (max-width: 1100px) {
+    #af-options #settings-tabs {
+        width: 59px;
+    }
+    #af-options #settings-tabs li a {
+        margin: 0;
+        padding: 20px;
+        width: 60px;
+        height: 60px;
+    }
+    #af-options #settings-tabs li.active-tab a,
+    #af-options #settings-tabs li a:hover {
+        padding: 20px;
+        height: 61px;
+        width: 61px;
+    }
+    #af-options #settings-wrapper #tab-content {
+        width: calc( 100% - 83px );
+    }
+    #af-options #settings-tabs span {
+        display: none;
+    }
+}
+/* GENERAL */
 .af-usergroup-tag {
-    padding: 0 3px;
+    padding: 0 4px;
     border-radius: 3px;
     border-width: 1px;
     border-style: solid;
-    margin: 1px;
+    margin: 2px;
     display: inline-block;
-    line-height: 20px;
+    line-height: 18px;
+    font-size: smaller !important;
+}
+#af-structure .usergroup-name i,
+.af-usergroup-tag i {
+    padding-right: 4px;
 }
 .usergroups-editor .usergroup-category-name {
     display: block;
@@ -212,28 +321,10 @@ li.forum-user-group {
 }
 #af-structure .make-bold {
     font-weight: 600;
+    font-size: 14px;
 }
 #af-structure .forum-icon {
     padding-right: 8px;
-}
-#af-structure .usergroup-icon {
-    display: block;
-    float: left;
-    padding-right: 16px;
-    width: 40px;
-    text-align: center;
-}
-#af-structure .column-status,
-#af-structure .column-sort,
-#af-structure .column-users {
-    width: 100px;
-}
-#af-structure .usergroup-name {
-    font-weight: 600;
-    line-height: 25px;
-}
-#af-structure .usergroup-name .element-id {
-    color: #888;
 }
 #af-structure .usergroup-color {
     width: 40px;
@@ -243,6 +334,19 @@ li.forum-user-group {
     display: block;
     margin-right: 8px;
     box-sizing: border-box;
+}
+#af-structure .column-status,
+#af-structure .column-sort,
+#af-structure .column-users {
+    width: 100px;
+}
+#af-structure .usergroup-name {
+    font-weight: 600;
+    line-height: 25px;
+    font-size: 14px;
+}
+#af-structure .usergroup-name .element-id {
+    color: #888;
 }
 #af-structure #usergroups-editor th,
 #af-structure #usergroup-color-settings th,
@@ -289,7 +393,7 @@ li.forum-user-group {
 .settings-header {
     display: block;
     font-size: 22px;
-    padding: 16px 8px;
+    padding: 14px 8px;
     line-height: 30px;
     border-bottom: 1px solid #e5e5e5;
     margin: 0 0 16px 0;

@@ -1,5 +1,29 @@
+// Prevent replacing Font Awesome icons with SVG icons.
+window.FontAwesomeConfig = {
+    autoReplaceSvg: false
+};
+
 (function($) {
     $(document).ready(function() {
+        // Settings-tabs toggle.
+        $('#af-options #settings-tabs li').click(function() {
+            // Get slug.
+            var tab = $(this).attr('data-slug');
+
+            // Set slug.
+            $('#af-options input[name=selected_tab]').val(tab);
+
+            // Change highlighted tab.
+            $('#af-options #settings-wrapper #settings-tabs li').removeClass('active-tab');
+            $('#af-options #settings-wrapper #settings-tabs li[data-slug='+tab+']').addClass('active-tab');
+
+            // Hide all tabs.
+            $('#af-options #settings-wrapper .tab').css('display', 'none');
+
+            // Show selected tab.
+            $('#af-options #settings-wrapper #tab-'+tab).css('display', 'block');
+        });
+
         // Adding color picker
         $('.color-picker').wpColorPicker();
 
@@ -166,12 +190,14 @@
             var usergroup_color         = '#444444';
             var usergroup_visibility    = '';
             var usergroup_auto_add      = '';
+            var usergroup_icon          = '';
 
             if (usergroup_id !== 'new') {
                 usergroup_name          = $('#usergroup_'+usergroup_id+'_name').val();
                 usergroup_color         = $('#usergroup_'+usergroup_id+'_color').val();
                 usergroup_visibility    = $('#usergroup_'+usergroup_id+'_visibility').val();
                 usergroup_auto_add      = $('#usergroup_'+usergroup_id+'_auto_add').val();
+                usergroup_icon          = $('#usergroup_'+usergroup_id+'_icon').val();
             }
 
             $('#usergroup-editor input[name=usergroup_id]').val(usergroup_id);
@@ -191,6 +217,8 @@
             } else {
                 $('#usergroup-editor input[name=usergroup_auto_add]').prop('checked', false);
             }
+
+            $('#usergroup-editor input[name=usergroup_icon]').val(usergroup_icon);
 
             setEditorTitle(this);
             showEditorInstance('#usergroup-editor');

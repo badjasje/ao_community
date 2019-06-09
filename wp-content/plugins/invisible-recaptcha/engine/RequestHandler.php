@@ -23,6 +23,7 @@ class RequestHandler
 				case MchWpUtils::isUserInDashboard() : AdminEngine::getInstance();   break;
 				default                              : PublicEngine::getInstance();  break;
 			}
+			
 		}, 0);
 
 	}

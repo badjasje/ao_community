@@ -21,6 +21,8 @@ class AsgarosForumAppearance {
         'custom_background_color'		=> '#ffffff',
 		'custom_background_color_alt'	=> '#fafafa',
         'custom_border_color'       	=> '#eeeeee',
+		'custom_read_indicator_color'	=> '#a2a2a2',
+		'custom_unread_indicator_color'	=> '#2d89cc',
 		'custom_font'					=> 'Verdana, Tahoma, sans-serif',
 		'custom_font_size'				=> '13px',
 		'custom_css'					=> ''
@@ -114,31 +116,61 @@ class AsgarosForumAppearance {
 	public function set_header() {
 		// SEO stuff.
 		if ($this->asgarosforum->executePlugin) {
-			echo '<!-- Asgaros Forum: BEGIN -->'.PHP_EOL;
+			echo '<!-- Asgaros Forum - SEO: BEGIN -->'.PHP_EOL;
 
 			$link = ($this->asgarosforum->current_page > 0) ? $this->asgarosforum->get_link('current') : esc_url(remove_query_arg('part', $this->asgarosforum->get_link('current', false, false, '', false)));
 			$title = ($this->asgarosforum->getMetaTitle()) ? $this->asgarosforum->getMetaTitle() : get_the_title();
 			$description = ($this->asgarosforum->current_description && $this->asgarosforum->error === false) ? $this->asgarosforum->current_description : $title;
 
-			// Prevent indexing of some views or when there is an error.
+			// Prevent indexing of some views, when there is an error or for other configurations.
+			$prevent_indexing = false;
 			$blocked_views_for_searchengines = array('addtopic', 'movetopic', 'addpost', 'editpost', 'search');
 
-			if (in_array($this->asgarosforum->current_view, $blocked_views_for_searchengines) || $this->asgarosforum->error !== false) {
+			if (in_array($this->asgarosforum->current_view, $blocked_views_for_searchengines)) {
+				$prevent_indexing = true;
+			}
+
+			if ($this->asgarosforum->error !== false) {
+				$prevent_indexing = true;
+			}
+
+			$profile_views = array('profile', 'history');
+
+			if ($this->asgarosforum->options['hide_profiles_from_guests'] && in_array($this->asgarosforum->current_view, $profile_views)) {
+				$prevent_indexing = true;
+			}
+
+			if ($prevent_indexing) {
 				echo '<meta name="robots" content="noindex, follow" />'.PHP_EOL;
 			}
 
+			// Create meta-tags.
 			echo '<link rel="canonical" href="'.$link.'" />'.PHP_EOL;
 			echo '<meta name="description" content="'.$description.'" />'.PHP_EOL;
 			echo '<meta property="og:url" content="'.$link.'" />'.PHP_EOL;
 			echo '<meta property="og:title" content="'.$title.'" />'.PHP_EOL;
 			echo '<meta property="og:description" content="'.$description.'" />'.PHP_EOL;
 			echo '<meta property="og:site_name" content="'.get_bloginfo('name').'" />'.PHP_EOL;
+
+			// Try to set og:image-tag.
+			if ($this->asgarosforum->current_view === 'topic') {
+				$first_post = $this->asgarosforum->content->get_first_post($this->asgarosforum->current_element);
+
+				if ($first_post) {
+					$image_url = $this->asgarosforum->extract_image_url($first_post->text);
+
+					if ($image_url) {
+						echo '<meta property="og:image" content="'.$image_url.'" />'.PHP_EOL;
+					}
+				}
+			}
+
 			echo '<meta name="twitter:title" content="'.$title.'" />'.PHP_EOL;
 			echo '<meta name="twitter:description" content="'.$description.'" />'.PHP_EOL;
 
 			do_action('asgarosforum_wp_head');
 
-			echo '<!-- Asgaros Forum: END -->'.PHP_EOL;
+			echo '<!-- Asgaros Forum - SEO: END -->'.PHP_EOL;
 		}
 	}
 
@@ -245,7 +277,6 @@ class AsgarosForumAppearance {
 		$custom_css = '';
 
 		if ($this->options['custom_color'] != $this->options_default['custom_color'] && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $this->options['custom_color'])) {
-			$custom_css .= '#af-wrapper .unread:before,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #forum-profile .display-name,'.PHP_EOL;
 			$custom_css .= '#af-wrapper input[type="checkbox"]:checked:before {'.PHP_EOL;
 				$custom_css .= 'color: '.$this->options['custom_color'].' !important;'.PHP_EOL;
@@ -256,7 +287,6 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper #forum-header,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #profile-header .background-avatar,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #profile-navigation,'.PHP_EOL;
-			$custom_css .= '#af-wrapper #read-unread .unread,'.PHP_EOL;
 			$custom_css .= '#af-wrapper input[type="radio"]:checked:before {'.PHP_EOL;
 				$custom_css .= 'background-color: '.$this->options['custom_color'].' !important;'.PHP_EOL;
 			$custom_css .= '}'.PHP_EOL;
@@ -289,10 +319,6 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper .main-title {'.PHP_EOL;
 			    $custom_css .= 'color: '.$this->options['custom_text_color'].' !important;'.PHP_EOL;
 			$custom_css .= '}'.PHP_EOL;
-
-			$custom_css .= '#af-wrapper #read-unread .read {'.PHP_EOL;
-				$custom_css .= 'background-color: '.$this->options['custom_text_color'].' !important;'.PHP_EOL;
-			$custom_css .= '}'.PHP_EOL;
 		}
 
 		if ($this->options['custom_text_color_light'] != $this->options_default['custom_text_color_light'] && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $this->options['custom_text_color_light'])) {
@@ -308,7 +334,6 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper .post-footer a,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .signature,'.PHP_EOL;
 			$custom_css .= '#af-wrapper span.mention-nice-name,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .activity-icon:before,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .post-reactions .reaction,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #poll-results .poll-result-numbers,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #poll-results .poll-result-total,'.PHP_EOL;
@@ -403,6 +428,26 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper #poll-results .poll-result-bar,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #usergroups-filter {'.PHP_EOL;
 			    $custom_css .= 'border-color: '.$this->options['custom_border_color'].' !important;'.PHP_EOL;
+			$custom_css .= '}'.PHP_EOL;
+		}
+
+		if ($this->options['custom_read_indicator_color'] != $this->options_default['custom_read_indicator_color'] && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $this->options['custom_read_indicator_color'])) {
+			$custom_css .= '#af-wrapper .read {'.PHP_EOL;
+				$custom_css .= 'color: '.$this->options['custom_read_indicator_color'].' !important;'.PHP_EOL;
+			$custom_css .= '}'.PHP_EOL;
+
+			$custom_css .= '#af-wrapper #read-unread .read {'.PHP_EOL;
+				$custom_css .= 'background-color: '.$this->options['custom_read_indicator_color'].' !important;'.PHP_EOL;
+			$custom_css .= '}'.PHP_EOL;
+		}
+
+		if ($this->options['custom_unread_indicator_color'] != $this->options_default['custom_unread_indicator_color'] && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $this->options['custom_unread_indicator_color'])) {
+			$custom_css .= '#af-wrapper .unread {'.PHP_EOL;
+				$custom_css .= 'color: '.$this->options['custom_unread_indicator_color'].' !important;'.PHP_EOL;
+			$custom_css .= '}'.PHP_EOL;
+
+			$custom_css .= '#af-wrapper #read-unread .unread {'.PHP_EOL;
+				$custom_css .= 'background-color: '.$this->options['custom_unread_indicator_color'].' !important;'.PHP_EOL;
 			$custom_css .= '}'.PHP_EOL;
 		}
 
