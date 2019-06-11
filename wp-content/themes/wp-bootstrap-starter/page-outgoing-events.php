@@ -6,7 +6,7 @@ get_header();
 global $userData;
 global $userId;
 
-$array_for_filter = array(	
+$array_for_filter = array(
 						'empsat',
 						'empmissile',
 						'satellite',
@@ -29,24 +29,24 @@ $clan_ID = $userData['clan_id_user'][0];
 
 if($userId != 0){
 	$members = get_post_meta($clan_ID,'clan_members');
-} 
+}
 ?>
 
 <div class="row pageRow">
-	
+
 <div class="row no-gutters fw-row profileButtonRow">
 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 1);" href="/events/incoming">
 		<i class="fa fa-arrow-circle-down" aria-hidden="true"></i> &nbsp;Incoming events
 	</a>
- 	
+
  	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.9);"href="/events/outgoing">
  		<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> &nbsp;Outgoing events
  	</a>
- 	
+
  	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);"href="/events/global">
  		<i class="fa fa-globe" aria-hidden="true"></i> &nbsp;Global events
 	</a>
-</div>	
+</div>
 <div class="pageSpacer"></div>
 <?php
 $custom_query_args['paged'] = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
@@ -70,12 +70,12 @@ $args = array(
 						'value' => $array_for_filter,
 						'compare' => 'IN'
 						),
-						
-						
+
+
 						)
 );
-					
-			
+
+
 // Instantiate custom query
 $custom_query = new WP_Query( $args );
 
@@ -89,50 +89,49 @@ if ( $custom_query->have_posts() ) :
 	while ( $custom_query->have_posts() ) :
 	$custom_query->the_post();
 
-	
-							
+
+
 	$eventId = get_the_id();
 	$eventData = get_post_meta($eventId);
 	$defender_id = $eventData['defender_id'][0];
 	$attacker_id = $eventData['attacker_id'][0];
-	
-	$defender_points = $eventData['defender_points'][0];
+
+	$defender_points = (isset($eventData['defender_points']) ? $eventData['defender_points'][0] : 0);
 
 	$member_data = get_userdata($attacker_id);
-	
-	$def_unitslost = maybe_unserialize($eventData['defender_lost'][0]);
-	$att_unitslost = maybe_unserialize($eventData['attacker_lost'][0]);
-	
-	$def_tot_unitslost = $eventData['def_total_units_lost'][0];
-	$att_tot_unitslost = $eventData['att_total_units_lost'][0];
-	
+
+	$def_unitslost = (isset($eventData['defender_lost']) ? maybe_unserialize($eventData['defender_lost'][0]) : 0);
+	$att_unitslost = (isset($eventData['attacker_lost']) ? maybe_unserialize($eventData['attacker_lost'][0]) : 0);
+
+	$def_tot_unitslost = (isset($eventData['def_total_units_lost']) ? $eventData['def_total_units_lost'][0] : 0);
+	$att_tot_unitslost = (isset($eventData['att_total_units_lost']) ? $eventData['att_total_units_lost'][0] : 0);
+
 	if(empty($def_tot_unitslost)){
 	$def_tot_unitslost = 0;
 	}
 	if(empty($att_tot_unitslost)){
 	$att_tot_unitslost = 0;
 	}
-	
-	
-	$def_tot_buildingslost = $eventData['total_buildings_lost'][0];
-	$landlost = $eventData['land_lost'][0];
-	$moneylost = $eventData['money_lost'][0];
-	
-	$status_defender = $eventData['status_defender'][0];
-	
-	$defender_NW_lost = $eventData['nw_damage_defender'][0];
-	$attacker_NW_lost = $eventData['nw_damage_attacker'][0];
-	
-	$tomahawkHit = $eventData['tomahawk_hit'][0];
-	$tomahawkDown = $eventData['tomahawk_down'][0];
-	
-	
+
+
+	$def_tot_buildingslost = (isset($eventData['total_buildings_lost']) ? $eventData['total_buildings_lost'][0] : 0);
+	$landlost = (isset($eventData['land_lost']) ? $eventData['land_lost'][0] : 0);
+	$moneylost = (isset($eventData['money_lost']) ? $eventData['money_lost'][0] : 0);
+
+	$status_defender = (isset($eventData['status_defender']) ? $eventData['status_defender'][0] : 0);
+
+	$defender_NW_lost = (isset($eventData['nw_damage_defender']) ? $eventData['nw_damage_defender'][0] : 0);
+	$attacker_NW_lost = (isset($eventData['nw_damage_attacker']) ? $eventData['nw_damage_attacker'][0] : 0);
+
+	$tomahawkHit = (isset($eventData['tomahawk_hit']) ? $eventData['tomahawk_hit'][0] : 0);
+	$tomahawkDown = (isset($eventData['tomahawk_down']) ? $eventData['tomahawk_down'][0] : 0);
+
 	$timeattacked = $eventData['time_attacked'][0];
 	$timestamp = current_time('timestamp');
 	$attack_type = $eventData['attacktype'][0];
 	$winner_id = $eventData['winner_id'][0];
-	
-		
+
+
 		$reportHeader = '';
 		if($attack_type == 'air_sea'){
 			$icon = 'flaticon-ship';
@@ -194,10 +193,10 @@ if ( $custom_query->have_posts() ) :
 			$icon = 'flaticon-badge';
 			$reportHeader = 'Kill report';
 		}
-		
-		
-		
-		
+
+
+
+
 		?>
 <div class="fw-row">
 <div class="iconBlockHeader">
@@ -208,7 +207,7 @@ if ( $custom_query->have_posts() ) :
 <?php if($attack_type == 'ground' || $attack_type == 'air_sea' || $attack_type == 'regular'): ?>
 
 	<?php include('pages/events/outgoing/attack.php'); ?>
-	
+
 <?php elseif($attack_type == 'missile'): ?>
 
 	<?php include('pages/events/outgoing/missile.php'); ?>
@@ -216,23 +215,23 @@ if ( $custom_query->have_posts() ) :
 <?php elseif($attack_type == 'empmissile'): ?>
 
 	<?php include('pages/events/outgoing/emp-missile.php'); ?>
-	
+
 <?php elseif($attack_type == 'satellite'): ?>
 
 	<?php include('pages/events/outgoing/satellite.php'); ?>
-	
+
 <?php elseif($attack_type == 'empsat'): ?>
 
 	<?php include('pages/events/outgoing/emp-sat.php'); ?>
-	
+
 <?php elseif($attack_type == 'sniper'): ?>
 
 	<?php include('pages/events/outgoing/sniper.php'); ?>
-	
+
 <?php elseif($attack_type == 'thief'): ?>
 
 	<?php include('pages/events/outgoing/thief.php'); ?>
-	
+
 <?php elseif($attack_type == 'aid'): ?>
 
 	<?php include('pages/events/outgoing/aid.php'); ?>
@@ -251,12 +250,12 @@ if ( $custom_query->have_posts() ) :
 
 <?php elseif($attack_type == 'killed'): ?>
 
-	<?php include('pages/events/outgoing/killed.php'); ?>	
-	
+	<?php include('pages/events/outgoing/killed.php'); ?>
+
 <?php endif;?>
-				
-				
-				
+
+
+
 
 <?php endwhile; endif; ?>
 <div class="row fw-row no-gutters">
@@ -265,17 +264,17 @@ if ( $custom_query->have_posts() ) :
 
 
 		<?php next_posts_link('Next <i class="fas fa-arrow-right"></i>') ?>
-	
-</div>
-				
-				<?php wp_reset_postdata(); // fixes bug where below ACF fields wont display 
-					
-					$wp_query = NULL;
-					$wp_query = $temp_query; 
-				?>
-				
 
-	
+</div>
+
+				<?php wp_reset_postdata(); // fixes bug where below ACF fields wont display
+
+					$wp_query = NULL;
+					$wp_query = $temp_query;
+				?>
+
+
+
 </div> <!-- End pageRow -->
 <?php
 get_footer();

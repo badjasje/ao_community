@@ -397,6 +397,7 @@ function unit_types($user_ID) {
     $userData = get_user_meta($user_ID);
     $type_array = array();
     foreach ($units as $key => $unit) {
+        if(!isset($type_array[$unit['type']])) $type_array[$unit['type']] = 0;
         $units = $userData[$key . '_owned'][0];
         if ($units > 0 && $unit['sectype'] != 'special') {
             $type_array[$unit['type']] += $units;
