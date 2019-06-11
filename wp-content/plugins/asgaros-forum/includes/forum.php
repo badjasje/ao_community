@@ -3,7 +3,7 @@
 if (!defined('ABSPATH')) exit;
 
 class AsgarosForum {
-    var $version = '1.14.4';
+    var $version = '1.14.9';
     var $executePlugin = false;
     var $db = null;
     var $tables = null;
@@ -88,7 +88,12 @@ class AsgarosForum {
         'highlight_authors'                 => true,
         'show_author_posts_counter'         => true,
         'show_edit_date'                    => true,
+        'enable_edit_post'                  => true,
         'time_limit_edit_posts'             => 0,
+        'enable_delete_post'                => false,
+        'time_limit_delete_posts'           => 3,
+        'enable_delete_topic'               => false,
+        'time_limit_delete_topics'          => 3,
         'show_description_in_forum'         => false,
         'require_login'                     => false,
         'require_login_posts'               => false,
@@ -101,13 +106,31 @@ class AsgarosForum {
         'approval_for'                      => 'guests',
         'enable_activity'                   => true,
         'activity_days'                     => 14,
+        'activities_per_page'               => 50,
         'enable_polls'                      => true,
         'polls_permission'                  => 'loggedin',
         'enable_seo_urls'                   => true,
         'seo_url_mode_content'              => 'slug',
         'seo_url_mode_profile'              => 'slug',
+        'view_name_activity'                => 'activity',
+        'view_name_subscriptions'           => 'subscriptions',
+        'view_name_search'                  => 'search',
+        'view_name_forum'                   => 'forum',
+        'view_name_topic'                   => 'topic',
+        'view_name_addtopic'                => 'addtopic',
+        'view_name_movetopic'               => 'movetopic',
+        'view_name_addpost'                 => 'addpost',
+        'view_name_editpost'                => 'editpost',
+        'view_name_markallread'             => 'markallread',
+        'view_name_members'                 => 'members',
+        'view_name_profile'                 => 'profile',
+        'view_name_history'                 => 'history',
+        'view_name_unread'                  => 'unread',
+        'view_name_unapproved'              => 'unapproved',
+        'view_name_reports'                 => 'reports',
         'enable_spoilers'                   => true,
-        'hide_spoilers_from_guests'         => false
+        'hide_spoilers_from_guests'         => false,
+        'subforums_location'                => 'above'
     );
     var $options_editor = array(
         'media_buttons' => false,
@@ -329,6 +352,8 @@ class AsgarosForum {
             $this->options['location'] = $post->ID;
         }
 
+        do_action('asgarosforum_execution_check');
+
         // Set all base links.
         if ($this->executePlugin || get_post($this->options['location'])) {
             $this->rewrite->set_links();
@@ -533,7 +558,8 @@ class AsgarosForum {
             return;
         }
 
-        wp_enqueue_script('asgarosforum-js', $this->plugin_url.'js/script.js', array('jquery'), $this->version);
+        wp_enqueue_script('asgarosforum-js', $this->plugin_url.'js/script.js', array('jquery', 'wp-api'), $this->version);
+        wp_localize_script('wp-api', 'wpApiSettings', array('root' => esc_url_raw(rest_url()), 'nonce' => wp_create_nonce('wp_rest')));
 
         if ($this->options['enable_spoilers']) {
             wp_enqueue_script('asgarosforum-js-spoilers', $this->plugin_url.'js/script-spoilers.js', array('jquery'), $this->version);
@@ -771,7 +797,7 @@ class AsgarosForum {
         $topic_title = esc_html(stripslashes($topic_object->name));
 
         echo '<div class="content-element topic '.$topic_type.'">';
-            echo '<div class="topic-status far fa-comments '.$unread_status.'"></div>';
+            echo '<div class="topic-status '.$unread_status.'"><i class="far fa-comments"></i></div>';
             echo '<div class="topic-name">';
                 if ($this->is_topic_sticky($topic_object->id)) {
                     echo '<span class="topic-icon fas fa-thumbtack" title="'.__('This topic is sticked', 'asgaros-forum').'"></span>';
@@ -827,6 +853,24 @@ class AsgarosForum {
         echo '</div>';
 
         do_action('asgarosforum_after_topic');
+    }
+
+    // Renders all subforums inside of a category/forum combination.
+    function render_subforums($category_id, $forum_id) {
+        $subforums = $this->get_forums($category_id, $forum_id);
+
+        if (!empty($subforums)) {
+            echo '<div class="title-element">';
+                echo __('Subforums', 'asgaros-forum');
+                echo '<span class="last-post-headline">'.__('Last post', 'asgaros-forum').'</span>';
+            echo '</div>';
+
+            echo '<div class="content-container">';
+                foreach ($subforums as $forum) {
+                    require('views/forum-element.php');
+                }
+            echo '</div>';
+        }
     }
 
     function showTopic() {
@@ -1060,7 +1104,6 @@ class AsgarosForum {
     }
 
     // TODO: Clean up the complete username logic ...
-
     function get_plain_username($user_id) {
         if ($user_id) {
             $user = get_userdata($user_id);
@@ -1310,7 +1353,7 @@ class AsgarosForum {
             if ((is_user_logged_in() && !$this->permissions->isBanned('current')) || (!is_user_logged_in() && $this->options['allow_guest_postings'])) {
                 // New topic button.
                 $menu .= '<div class="forum-menu">';
-                $menu .= '<a class="button button-normal forum-editor-button" href="'.$this->get_link('topic_add', $this->current_forum).'">';
+                $menu .= '<a class="button button-normal forum-editor-button" href="'.$this->get_link('addtopic', $this->current_forum).'">';
                     $menu .= '<span class="menu-icon fas fa-plus-square"></span>';
                     $menu .= __('New Topic', 'asgaros-forum');
                 $menu .= '</a>';
@@ -1374,7 +1417,7 @@ class AsgarosForum {
         if ($this->approval->is_topic_approved($this->current_topic)) {
             if ($this->permissions->can_create_post($current_user_id)) {
                 // Reply button.
-                $menu .= '<a class="button button-normal forum-editor-button" href="'.$this->get_link('post_add', $this->current_topic).'">';
+                $menu .= '<a class="button button-normal forum-editor-button" href="'.$this->get_link('addpost', $this->current_topic).'">';
                     $menu .= '<span class="menu-icon fas fa-reply"></span>';
                     $menu .= __('Reply', 'asgaros-forum');
                 $menu .= '</a>';
@@ -1427,7 +1470,7 @@ class AsgarosForum {
             }
         }
 
-        if ($this->permissions->isModerator('current') && $show_all_buttons) {
+        if ($this->permissions->can_delete_topic($current_user_id, $this->current_topic) && $show_all_buttons) {
             // Delete button.
             $menu .= '<a class="button button-red" href="'.$this->get_link('topic', $this->current_topic, array('delete_topic' => 1)).'" onclick="return confirm(\''.__('Are you sure you want to remove this?', 'asgaros-forum').'\');">';
                 $menu .= '<span class="menu-icon fas fa-trash-alt"></span>';
@@ -1447,7 +1490,9 @@ class AsgarosForum {
         // Only show post-menu when the topic is approved.
         if ($this->approval->is_topic_approved($this->current_topic)) {
             if (is_user_logged_in()) {
-                if ($this->permissions->isModerator('current') && ($counter > 1 || $this->current_page >= 1)) {
+                $current_user_id = get_current_user_id();
+
+                if ($this->permissions->can_delete_post($current_user_id, $post_id, $author_id, $post_date) && ($counter > 1 || $this->current_page >= 1)) {
                     // Delete button.
                     $menu .= '<a class="delete-forum-post" onclick="return confirm(\''.__('Are you sure you want to remove this?', 'asgaros-forum').'\');" href="'.$this->get_link('topic', $this->current_topic, array('post' => $post_id, 'remove_post' => 1)).'">';
                         $menu .= '<span class="menu-icon fas fa-trash-alt"></span>';
@@ -1455,10 +1500,9 @@ class AsgarosForum {
                     $menu .= '</a>';
                 }
 
-                $current_user_id = get_current_user_id();
                 if ($this->permissions->can_edit_post($current_user_id, $post_id, $author_id, $post_date)) {
                     // Edit button.
-                    $menu .= '<a href="'.$this->get_link('post_edit', $post_id, array('part' => ($this->current_page + 1))).'">';
+                    $menu .= '<a href="'.$this->get_link('editpost', $post_id, array('part' => ($this->current_page + 1))).'">';
                         $menu .= '<span class="menu-icon fas fa-pencil-alt"></span>';
                         $menu .= __('Edit', 'asgaros-forum');
                     $menu .= '</a>';
@@ -1467,7 +1511,7 @@ class AsgarosForum {
 
             if ($this->permissions->isModerator('current') || (!$this->is_topic_closed($this->current_topic) && ((is_user_logged_in() && !$this->permissions->isBanned('current')) || (!is_user_logged_in() && $this->options['allow_guest_postings'])))) {
                 // Quote button.
-                $menu .= '<a class="forum-editor-quote-button" data-value-id="'.$post_id.'" href="'.$this->get_link('post_add', $this->current_topic, array('quote' => $post_id)).'">';
+                $menu .= '<a class="forum-editor-quote-button" data-value-id="'.$post_id.'" href="'.$this->get_link('addpost', $this->current_topic, array('quote' => $post_id)).'">';
                     $menu .= '<span class="menu-icon fas fa-quote-left"></span>';
                     $menu .= __('Quote', 'asgaros-forum');
                 $menu .= '</a>';
@@ -1531,27 +1575,44 @@ class AsgarosForum {
         }
     }
 
-    function delete_topic($topic_id, $admin_action = false) {
-        if ($this->permissions->isModerator('current')) {
-            if ($topic_id) {
-                do_action('asgarosforum_before_delete_topic', $topic_id);
+    function delete_topic($topic_id, $admin_action = false, $permission_check = true) {
+        // Cancel when no topic is given.
+        if (!$topic_id) {
+            return false;
+        }
 
-                // Delete uploads and reports.
-                $posts = $this->db->get_col($this->db->prepare("SELECT id FROM {$this->tables->posts} WHERE parent_id = %d;", $topic_id));
-                foreach ($posts as $post) {
-                    $this->remove_post($post);
-                }
+        // Cancel when topic does not exist.
+        if (!$this->content->topic_exists($topic_id)) {
+            return false;
+        }
 
-                $this->db->delete($this->tables->topics, array('id' => $topic_id), array('%d'));
-                $this->notifications->remove_all_topic_subscriptions($topic_id);
+        // Cancel if user cannot delete topic.
+        if ($permission_check) {
+            $user_id = get_current_user_id();
 
-                do_action('asgarosforum_after_delete_topic', $topic_id);
-
-                if (!$admin_action) {
-                    wp_redirect(html_entity_decode($this->get_link('forum', $this->current_forum)));
-                    exit;
-                }
+            if (!$this->permissions->can_delete_topic($user_id, $topic_id)) {
+                return false;
             }
+        }
+
+        // Continue ...
+        do_action('asgarosforum_before_delete_topic', $topic_id);
+
+        // Delete posts.
+        $posts = $this->db->get_col($this->db->prepare("SELECT id FROM {$this->tables->posts} WHERE parent_id = %d;", $topic_id));
+        foreach ($posts as $post) {
+            $this->remove_post($post, false);
+        }
+
+        // Delete topic.
+        $this->db->delete($this->tables->topics, array('id' => $topic_id), array('%d'));
+        $this->notifications->remove_all_topic_subscriptions($topic_id);
+
+        do_action('asgarosforum_after_delete_topic', $topic_id);
+
+        if (!$admin_action) {
+            wp_redirect(html_entity_decode($this->get_link('forum', $this->current_forum)));
+            exit;
         }
     }
 
@@ -1566,15 +1627,33 @@ class AsgarosForum {
         }
     }
 
-    function remove_post($post_id) {
-        if ($this->permissions->isModerator('current') && $this->content->post_exists($post_id)) {
-            do_action('asgarosforum_before_delete_post', $post_id);
-            $this->uploads->delete_post_files($post_id);
-            $this->reports->remove_report($post_id);
-            $this->reactions->remove_all_reactions($post_id);
-            $this->db->delete($this->tables->posts, array('id' => $post_id), array('%d'));
-            do_action('asgarosforum_after_delete_post', $post_id);
+    function remove_post($post_id, $permission_check = true) {
+        // Cancel if no post is given.
+        if (!$post_id) {
+            return false;
         }
+
+        // Cancel if post does not exist.
+        if (!$this->content->post_exists($post_id)) {
+            return false;
+        }
+
+        // Cancel if user cannot delete post.
+        if ($permission_check) {
+            $user_id = get_current_user_id();
+
+            if (!$this->permissions->can_delete_post($user_id, $post_id)) {
+                return false;
+            }
+        }
+
+        // Delete post.
+        do_action('asgarosforum_before_delete_post', $post_id);
+        $this->uploads->delete_post_files($post_id);
+        $this->reports->remove_report($post_id, false);
+        $this->reactions->remove_all_reactions($post_id);
+        $this->db->delete($this->tables->posts, array('id' => $post_id), array('%d'));
+        do_action('asgarosforum_after_delete_post', $post_id);
     }
 
     function change_status($property) {
@@ -1848,5 +1927,88 @@ class AsgarosForum {
 
         // Reassign forum posts.
         $this->db->update($this->tables->posts, array('author_id' => $_POST['forum_reassign_user']), array('author_id' => $id), array('%d'), array('%d'));
+    }
+
+    // Extract the first URL of an image from a given string.
+    public function extract_image_url($content) {
+    	$images = array();
+
+        // Check if content is given.
+        if ($content) {
+            // Try to find images.
+            preg_match_all('#https?://[^\s\'\"<>]+\.(?:jpg|jpeg|png|gif)#isu', $content, $found, PREG_SET_ORDER);
+
+            if (empty($found)) {
+                preg_match_all('#//[^\s\'\"<>]+\.(?:jpg|jpeg|png|gif)#isu', $content, $found, PREG_SET_ORDER);
+            }
+
+            if (empty($found)) {
+                preg_match_all('#https?://[^\s\'\"<>]+#isu', $content, $found, PREG_SET_ORDER);
+            }
+
+            if (empty($found)) {
+                preg_match_all('#//[^\s\'\"<>]+#isu', $content, $found, PREG_SET_ORDER);
+            }
+
+            // If images found, check extensions.
+            if (!empty($found)) {
+                foreach ($found as $match) {
+                    $extension = pathinfo($match[0], PATHINFO_EXTENSION);
+
+                    if ($extension) {
+                        $check = false;
+                        $extension = strtolower($extension);
+
+                    	if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'gif') {
+                    		$check = true;
+                    	}
+
+                        if ($check) {
+                            $images[] = $match[0];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+    	if (empty($images)) {
+            return false;
+        } else {
+            return $images[0];
+        }
+    }
+
+    // Tries to get the signature for a given user.
+    public function get_signature($user_id) {
+        // Ensure signatures are enabled.
+        if (!$this->options['allow_signatures']) {
+            return false;
+        }
+
+        // Ensure that the user has the permission to use a signature.
+        if (!$this->permissions->can_use_signature($user_id)) {
+            return false;
+        }
+
+        // Try to get signature.
+        $signature = get_user_meta($user_id, 'asgarosforum_signature', true);
+
+        // Prepare signature based on settings.
+        if ($this->options['signatures_html_allowed']) {
+            $signature = strip_tags($signature, $this->options['signatures_html_tags']);
+        } else {
+            $signature = esc_html(strip_tags($signature));
+        }
+
+        // Trim it.
+        $signature = trim($signature);
+
+        // Ensure signature is not empty.
+        if (empty($signature)) {
+            return false;
+        }
+
+        return $signature;
     }
 }

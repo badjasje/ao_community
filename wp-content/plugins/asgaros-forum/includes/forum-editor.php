@@ -164,7 +164,7 @@ class AsgarosForumEditor {
 			if ($editor_view == 'addpost') {
 				$actionURL = $this->asgarosforum->get_link('topic', $this->asgarosforum->current_topic);
 			} else if ($editor_view == 'editpost') {
-				$actionURL = $this->asgarosforum->get_link('post_edit', $this->asgarosforum->current_post);
+				$actionURL = $this->asgarosforum->get_link('editpost', $this->asgarosforum->current_post);
 			} else if ($editor_view == 'addtopic') {
 				$actionURL = $this->asgarosforum->get_link('forum', $this->asgarosforum->current_forum);
 			}
@@ -192,7 +192,7 @@ class AsgarosForumEditor {
                     $this->asgarosforum->notifications->show_editor_subscription_option();
                     do_action('asgarosforum_editor_custom_content_bottom', $editor_view);
 
-                    echo '<div class="editor-row">';
+                    echo '<div class="editor-row editor-row-submit">';
                         if ($editor_view === 'addtopic') {
                             echo '<input type="hidden" name="submit_action" value="add_topic">';
                         } else if ($editor_view === 'addpost') {

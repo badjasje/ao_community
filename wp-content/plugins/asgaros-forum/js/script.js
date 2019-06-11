@@ -1,5 +1,32 @@
+// Prevent replacing Font Awesome icons with SVG icons.
+window.FontAwesomeConfig = {
+    autoReplaceSvg: false
+};
+
 (function($) {
     $(document).ready(function() {
+        // Handle click on reaction-icon.
+        $(document).on('click', '#af-wrapper .post-reactions a', function(e) {
+            e.preventDefault();
+
+            // Get relevant data first.
+            var post_id = $(this).attr('data-post-id');
+            var reaction = $(this).attr('data-reaction');
+
+            $.ajax({
+                url: wpApiSettings.root+'asgaros-forum/v1/reaction/'+post_id+'/'+reaction,
+                method: 'POST',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-WP-Nonce', wpApiSettings.nonce);
+                }
+            })
+            .done(function(response) {
+                if (response.status === true) {
+                    $('#af-wrapper #postid-'+post_id+' .post-reactions').html(response.data);
+                }
+            });
+        });
+
         // Sticky panel.
         $('#af-wrapper .topic-button-sticky').click(function(e) {
             e.preventDefault();
@@ -40,7 +67,7 @@
         });
 
         // Close editor.
-        $('.editor-row a.cancel').click(function(e) {
+        $('#af-wrapper .editor-row-submit a.cancel').click(function(e) {
             e.preventDefault();
 
             $('#forum-editor-form').slideToggle(400, function() {
@@ -48,6 +75,7 @@
                 $('.editor-row-subject input').val('');
 
                 if (tinyMCE.activeEditor) {
+                    // Clear TinyMCE editor.
                     tinyMCE.activeEditor.setContent('');
                 } else {
                     $('textarea[id="message"]').val('');
@@ -200,6 +228,34 @@
             event.preventDefault();
             $(this).parent().remove();
         });
+
+        // Warn user when he made changes inside the editor and leaves the page.
+        $(window).on('beforeunload', function() {
+            if (typeof tinyMCE !== 'undefined') {
+                if (tinyMCE.activeEditor) {
+                    if (tinyMCE.activeEditor.isDirty()) {
+                        return 'Are you sure you want to leave?';
+                    }
+                }
+            }
+        });
+
+        // Avoid dirty-check when submitting/cancelling the editor.
+        $('#af-wrapper .editor-row-submit .button-red').on('click', function(e) {
+            editor_not_dirty();
+        });
+
+        $('#af-wrapper #forum-editor-form').on('submit', function(e) {
+            editor_not_dirty();
+        });
+
+        function editor_not_dirty() {
+            if (typeof tinyMCE !== 'undefined') {
+                if (tinyMCE.activeEditor) {
+                    tinyMCE.activeEditor.isNotDirty = true;
+                }
+            }
+        }
 
         // Clears all form-elements inside of a selected DOM-element.
         function clear_form_elements(selector) {

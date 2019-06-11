@@ -5,7 +5,7 @@ Tags: forum, forums, discussion, multisite, community, bulletin, board, asgaros,
 Requires at least: 4.8
 Tested up to: 5.2
 Requires PHP: 5.2
-Stable tag: 1.14.4
+Stable tag: 1.14.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,13 +14,8 @@ Asgaros Forum is the best forum-plugin for WordPress! It comes with dozens of fe
 == Description ==
 Asgaros Forum is the perfect WordPress plugin if you want to extend your website with a lightweight and feature-rich discussion board. It is easy to set up, super fast and perfectly integrated into WordPress.
 
-= Installation =
-* A new forum-page is automatically created during the installation
-* Add this page to your menu so your users can access your forum
-* Thats all!
-
-= Demo, Support & Documentation =
-* [Official Support Forum](https://www.asgaros.de/support/)
+= Support, Demo & Documentation =
+* [Support & Demo](https://www.asgaros.de/support/)
 * [Documentation](https://www.asgaros.de/docs/)
 
 = Features =
@@ -42,21 +37,25 @@ Asgaros Forum is the perfect WordPress plugin if you want to extend your website
 * Moderators, Permissions & Usergroups
 * Widgets
 * RSS Feeds
-* Easy Color Customization
+* Easy Appearance Customization
 * Mobile Theme & Theme Manager
 * Multilingualism
 * Multiple Instances
 * Multisite Compatibility
 
+= Installation =
+* A new forum-page is automatically created during the installation
+* Add this page to your menu so your users can access your forum
+* Thats all!
+
 == Installation ==
-* Download `Asgaros Forum`.
-* Upload the plugin files to the `/wp-content/plugins/asgaros-forum` directory or install the plugin directly via the WordPress plugins screen.
-* Activate the plugin via the `Plugins` screen in WordPress.
-* Create a new page for your forum, add the `[forum]` shortcode to it and save the page.
-* Add this page to your sites menu so you can access it.
-* On the left side of the administration area you will find a new menu called `Forum`.
-* Configure your options and create the categories/forums there.
-* Done!
+* Download `Asgaros Forum`
+* Activate the plugin via the `Plugins` screen in WordPress
+* A new forum-page is automatically created during the installation
+* You can also add a forum to a page manually by adding the `[forum]` shortcode to it
+* Add this page to your menu so your users can access your forum
+* On the left side of the administration area you will find a new menu called `Forum` where you can change the settings and create new categories & forums
+* Thats all!
 
 == Frequently Asked Questions ==
 = I cant see content or modifications I made to the forum =
@@ -91,6 +90,47 @@ You can find a list of available hooks and filters on this site:
 6. Manage general options.
 
 == Changelog ==
+= 1.14.9 =
+* Added: Option to define number of activities per page
+* Added: asgarosforum_reactions filter
+* Added: asgarosforum_execution_check action
+* Fixed: JavaScript ReferenceError when leaving a page which does not contain an instance of the TinyMCE editor
+* Fixed: Display issues with some themes
+* Changed: Use AJAX for reactions to prevent reload of page
+* Improved compatibility with Toolset
+* Improved compatibility with Permalink Manager
+* Performance improvements and code optimizations
+= 1.14.8 =
+* Added: Option to let users delete their own topics
+* Added: Option to set time limitation for deleting topics
+* Added: Option to let users delete their own posts
+* Added: Option to set time limitation for deleting posts
+* Added: Option to disable post editing
+* Added: Option to change location of subforums
+* Added: Warning when an user leaves a page with unsaved changes in the editor
+* Fixed: Division by zero warning when viewing the results of a poll without votes
+* Fixed: Added missing translation strings
+* Fixed: Display issues with some themes
+* Changed: Select ad randomly if multiple ads are defined for a specific location
+* Changed: Restructuring of settings
+* Updated: Font Awesome version 5.8.2
+* Minor design changes
+* Performance improvements and code optimizations
+= 1.14.7 =
+* Fixed: Search-engines could not index the forum if profiles were not accessible for guests
+= 1.14.6 =
+* Added: Option to change the indicator color for read and unread items
+* Fixed: Wrong stylings when using custom colors
+= 1.14.5 =
+* Added: Options to change URL-slugs for views
+* Added: Option to set icon for usergroup
+* Added: Generate Open Graph image-tag for topics
+* Added: asgarosforum_seo_trailing_slash filter
+* Fixed: Search-engines cannot longer index profiles if they are not accessible for guests
+* Fixed: Display issues with Font Awesome icons
+* Fixed: Display issues with some themes
+* Minor design changes
+* Performance improvements and code optimizations
 = 1.14.4 =
 * Added: Option to define who can use signatures
 * Fixed: Properly escape content of posts

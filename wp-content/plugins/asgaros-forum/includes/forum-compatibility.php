@@ -11,6 +11,8 @@ class AsgarosForumCompatibility {
         $this->compatibility_autoptimize();
         $this->compatibility_yoastseo();
         $this->compatibility_rankmathseo();
+        $this->compatibility_toolset();
+        $this->compatibility_permalinkmanager();
     }
 
     // AUTOPTIMIZE
@@ -55,5 +57,49 @@ class AsgarosForumCompatibility {
             remove_all_actions('rank_math/head');
             add_filter('rank_math/frontend/remove_credit_notice', '__return_true');
         }
+    }
+
+    // TOOLSET
+    function compatibility_toolset() {
+        add_action('asgarosforum_execution_check', array($this, 'comp_toolset_asgarosforum_execution_check'));
+    }
+
+    function comp_toolset_asgarosforum_execution_check() {
+        global $post;
+
+        // Ensure that Toolset is active.
+        if (!defined('WPV_VERSION')) {
+            return;
+        }
+
+        // Ensure that the current post is a WP_Post.
+        if (!is_a($post, 'WP_Post')) {
+            return;
+        }
+
+        // Ensure that a content template is assigned to the current post.
+        if (is_wpv_content_template_assigned($post->ID) == true || get_post_meta($post->ID, '_views_template', true) > 0) {
+            // Get ID of the content template assigned to the post.
+            $ct_id = get_post_meta($post->ID, '_views_template', true);
+
+            // Get content of content template.
+            $ct_content = get_post_field('post_content', $ct_id);
+
+            // Check if the content template has the forum-shortcode.
+            if (has_shortcode($ct_content, 'forum') || has_shortcode($ct_content, 'Forum')) {
+                $this->asgarosforum->executePlugin = true;
+                $this->asgarosforum->options['location'] = $post->ID;
+            }
+        }
+    }
+
+    // PERMALINK MANAGER
+    function compatibility_permalinkmanager() {
+        add_action('asgarosforum_prepare', array($this, 'comp_permalinkmanager_asgarosforum_prepare'));
+    }
+
+    function comp_permalinkmanager_asgarosforum_prepare() {
+        global $wp_query;
+        $wp_query->query_vars['do_not_redirect'] = 1;
     }
 }

@@ -153,6 +153,11 @@ class AsgarosForumPermissions {
 
     // This function checks if a user can edit a specified post. Optional parameters for author_id and post_date available to reduce database queries.
     public function can_edit_post($user_id, $post_id, $author_id = false, $post_date = false) {
+        // Disallow when user is not logged-in.
+        if (!is_user_logged_in()) {
+            return false;
+        }
+
         // Disallow when user is banned.
         if ($this->isBanned($user_id)) {
             return false;
@@ -161,6 +166,11 @@ class AsgarosForumPermissions {
         // Allow when user is moderator.
         if ($this->isModerator($user_id)) {
             return true;
+        }
+
+        // Disallow when post editing is disabled.
+        if (!$this->asgarosforum->options['enable_edit_post']) {
+            return false;
         }
 
         // Disallow when user is not the author of a post.
@@ -172,6 +182,109 @@ class AsgarosForumPermissions {
 
         // Allow when there is no time limitation.
         $time_limitation = $this->asgarosforum->options['time_limit_edit_posts'];
+
+        if ($time_limitation == 0) {
+            return true;
+        }
+
+        // Otherwise decision based on current time.
+        $date_creation = ($post_date) ? $post_date : $this->asgarosforum->get_post_date($post_id);
+        $date_creation = strtotime($date_creation);
+        $date_now = strtotime($this->asgarosforum->current_time());
+        $date_difference = $date_now - $date_creation;
+
+        if (($time_limitation * 60) < $date_difference) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    // This function checks if a user can delete a specific topic.
+    public function can_delete_topic($user_id, $topic_id, $author_id = false, $post_date = false) {
+        // Disallow when user is not logged-in.
+        if (!is_user_logged_in()) {
+            return false;
+        }
+
+        // Disallow when user is banned.
+        if ($this->isBanned($user_id)) {
+            return false;
+        }
+
+        // Allow when user is moderator.
+        if ($this->isModerator($user_id)) {
+            return true;
+        }
+
+        // Disallow when deleting topics is disabled.
+        if (!$this->asgarosforum->options['enable_delete_topic']) {
+            return false;
+        }
+
+        // Get information about first post.
+        $first_post = $this->asgarosforum->content->get_first_post($topic_id);
+
+        // Disallow when user is not the author of the topic.
+        if (!$author_id) {
+            $author_id = $first_post->author_id;
+        }
+
+        if ($user_id != $author_id) {
+            return false;
+        }
+
+        // Allow when there is no time limitation.
+        $time_limitation = $this->asgarosforum->options['time_limit_delete_topics'];
+
+        if ($time_limitation == 0) {
+            return true;
+        }
+
+        // Otherwise decision based on current time.
+        $date_creation = ($post_date) ? $post_date : $first_post->date;
+        $date_creation = strtotime($date_creation);
+        $date_now = strtotime($this->asgarosforum->current_time());
+        $date_difference = $date_now - $date_creation;
+
+        if (($time_limitation * 60) < $date_difference) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    // This function checks if a user can delete a specific post.
+    public function can_delete_post($user_id, $post_id, $author_id = false, $post_date = false) {
+        // Disallow when user is not logged-in.
+        if (!is_user_logged_in()) {
+            return false;
+        }
+
+        // Disallow when user is banned.
+        if ($this->isBanned($user_id)) {
+            return false;
+        }
+
+        // Allow when user is moderator.
+        if ($this->isModerator($user_id)) {
+            return true;
+        }
+
+        // Disallow when deleting posts is disabled.
+        if (!$this->asgarosforum->options['enable_delete_post']) {
+            return false;
+        }
+
+        // Disallow when user is not the author of the post.
+        $author_id = ($author_id) ? $author_id : $this->asgarosforum->get_post_author($post_id);
+
+        if ($user_id != $author_id) {
+            return false;
+        }
+
+        // Allow when there is no time limitation.
+        $time_limitation = $this->asgarosforum->options['time_limit_delete_posts'];
 
         if ($time_limitation == 0) {
             return true;
