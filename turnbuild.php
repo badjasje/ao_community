@@ -406,7 +406,8 @@ $planes = $userData['spyplane_owned'][0];
 $planesOrdered = $userData['spyplane_ordered'][0];
 $sniper = $userData['sniper_owned'][0];
 $snipersOrdered = $userData['sniper_ordered'][0];
-
+$saboteur = $userData['saboteur_owned'][0];
+$saboteur_ordered = $userData['saboteur_ordered'][0];
 
 $commandCenters = $userData['command_centre'][0];
 
@@ -423,7 +424,7 @@ $space = [
     'sea' => $userData['shipyard'][0] * 5,
     'veh' => $userData['warfactory'][0] * 10,
     'inf' => $userData['baracks'][0] * 20,
-    'special' => ($commandCenters * 5) - $spies - $thieves - $planes - $spiesOrdered - $thievesOrdered - $planesOrdered - $sniper - $snipersOrdered
+    'special' => ($commandCenters * 5) - $spies - $thieves - $planes - $spiesOrdered - $thievesOrdered - $planesOrdered - $sniper - $snipersOrdered - $saboteur - $saboteur_ordered
 ];
 
 $usedSpace = [

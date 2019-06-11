@@ -3,47 +3,18 @@
  * Template Name: Market Sell
 */
 get_header();
-
+$activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'air';
 global $userData;
 global $userId;
 $marketSellMultiplier = (2.2 * 0.5);
 include 'units_array.php';
 include 'count_functions.php';
 
-$totalMoney = $userData['money'][0];
-
-// Calculate space for special units.
-$spies = $userData['spy_owned'][0];
-$spiesOrdered = $userData['spy_ordered'][0];
-$thieves = $userData['thief_owned'][0];
-$thievesOrdered = $userData['thief_ordered'][0];
-$planes = $userData['spyplane_owned'][0];
-$planesOrdered = $userData['spyplane_ordered'][0];
-$sniper = $userData['sniper_owned'][0];
-$snipersOrdered = $userData['sniper_ordered'][0];
-
 $specialSold = $userData['special_sold_today'][0];
-
-$commandCenters = $userData['command_centre'][0];
-$space = [
-    'air' => $userData['airfield'][0] * 10,
-    'sea' => $userData['shipyard'][0] * 5,
-    'veh' => $userData['warfactory'][0] * 10,
-    'inf' => $userData['baracks'][0] * 20,
-    'special' => ($commandCenters * 5) - $spies - $thieves - $planes - $spiesOrdered - $thievesOrdered - $planesOrdered - $sniper - $snipersOrdered
-];
-
-$usedSpace = [
-    'air' => count_airspace($userId),
-    'sea' => count_seaspace($userId),
-    'veh' => count_vehspace($userId),
-    'inf' => count_infspace($userId),
-];
 
 $discountLevel = $userData['level_market_discount'][0];
 
 $discount = 1.0;
-
 if($discountLevel == 1){
 	$discount = $discount - 0.15;
 } elseif($discountLevel >= 2){
@@ -76,12 +47,12 @@ $unitTypes = [
 ];
 
 $marketShippingLevel = $userData['level_shipping_time'][0];
-	if($marketShippingLevel == 1){
-		$hours = 9;
-	} elseif($marketShippingLevel == 2){
-		$hours = 6;
-	} else {
-		$hours = 12;
+if($marketShippingLevel == 1){
+	$hours = 9;
+} elseif($marketShippingLevel == 2){
+	$hours = 6;
+} else {
+	$hours = 12;
 }
 ?>
 
@@ -90,10 +61,10 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 	<?php if(get_field('game_status','option') == 'Live'):?>
 	<div class="fw-row">
 		<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
-			<a class="nav-item nav-link navItem active" data-toggle="tab" data-target="#air" href="?tab=air">Air units</a>
-			<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#sea" href="?tab=sea">Sea units</a>
-			<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#veh" href="?tab=veh">Vehicles</a>
-			<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#inf" href="?tab=inf">Infantry</a>
+			<a class="nav-item nav-link navItem <?php echo $activeTab === 'air' ? 'active' : ''; ?>" data-toggle="tab" data-target="#air" href="?tab=air">Air units</a>
+			<a class="nav-item nav-link navItem <?php echo $activeTab === 'sea' ? 'active' : ''; ?>" data-toggle="tab" data-target="#sea" href="?tab=sea">Sea units</a>
+			<a class="nav-item nav-link navItem <?php echo $activeTab === 'veh' ? 'active' : ''; ?> " data-toggle="tab" data-target="#veh" href="?tab=veh">Vehicles</a>
+			<a class="nav-item nav-link navItem <?php echo $activeTab === 'inf' ? 'active' : ''; ?>" data-toggle="tab" data-target="#inf" href="?tab=inf">Infantry</a>
 			<a class="nav-item nav-link navItem" href="/buy" style="background-color: rgba(70, 118, 94, 0.8);">Buy</a>
 		</nav>
 	</div>
