@@ -49,9 +49,8 @@ function turn_spread($turntype, $addedturns) {
     global $userId;
 
     $turnSpread = maybe_unserialize(get_user_meta($userId, 'turn_spread', true));
-    if (!is_array($turnSpread)) {
-        $turnSpread = array();
-    }
+    if (!is_array($turnSpread)) $turnSpread = array();
+    if(!isset($turnSpread[$turntype])) $turnSpread[$turntype] = 0;
     $turnSpread[$turntype] += $addedturns;
 
     update_user_meta($userId, 'turn_spread', maybe_serialize($turnSpread));

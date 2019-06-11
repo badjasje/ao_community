@@ -29,7 +29,6 @@ $endDate = get_field('end_date','option');
 $endStamp = strtotime($endDate);
 $timestamp = current_time('timestamp');
 $timeLeft = $endStamp-$timestamp;
-$marketClose = $timeLeft;
 
 $specialUnits = [
     'spy',

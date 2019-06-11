@@ -18,7 +18,6 @@ $endDate = get_field('end_date','option');
 $endStamp = strtotime($endDate);
 $timestamp = current_time('timestamp');
 $timeLeft = $endStamp-$timestamp;
-$marketClose = $timeLeft + 86400;
 
 $array = array();
 if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {

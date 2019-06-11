@@ -6,7 +6,7 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
     header('Content-Type: text/plain');
     exit;
 }
-    
+
 require(dirname(__FILE__) . '/wp-load.php');
 if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     $array['status'] = 'The round has ended';
@@ -74,10 +74,9 @@ $unitType = get_post_meta($orderId, 'unit_type', true);
 $orderType = get_post_meta($orderId, 'order_type', true);
 
 $unitsOrdered = get_post_meta($orderId, 'amount_ordered', true);
-$ownedUnits = $userData[$unitType.'_owned'][0];
-
-$totalUnitsOnOrder = $userData[$unitType.'_ordered'][0];
-$unitPrice = $units[$unitType]['price']*2.2*$discount;
+$ownedUnits = (isset($userData[$unitType.'_owned']) ? $userData[$unitType.'_owned'][0] : 0);
+$totalUnitsOnOrder = (isset($userData[$unitType.'_ordered']) ? $userData[$unitType.'_ordered'][0] : 0);
+$unitPrice = (isset($units[$unitType]) ? $units[$unitType]['price']*2.2*$discount : 0);
 
 $orderValue = get_post_meta($orderId, 'order_value', true);
 
@@ -86,17 +85,16 @@ $cashback = $orderValue * 0.75;
 $unitOwnerMetaKey = $unitType.'_owned';
 update_user_meta($userId, $unitType.'_ordered', $totalUnitsOnOrder - $unitsOrdered);
 wp_trash_post($orderId);
-
 if ($orderType == 'satellite') {
     update_user_meta($userId, 'sat_in_progress', 0);
     $cashback = $satellites[$unitType]['price']*0.75;
 }
-    $totalmoney = $userData['money'][0];
-    update_user_meta($userId, 'money', $totalmoney+$cashback);
+$totalmoney = $userData['money'][0];
+update_user_meta($userId, 'money', $totalmoney+$cashback);
 
-    update_user_meta($userId, 'user_lock', 0);
-    $array['status'] = 'Order canceled. You received $ '.number_format($cashback, 0, ',', ' ');
-    $array['remove'] = $orderId;
-    $array['money'] = $totalmoney+$cashback;
-    echo json_encode($array);
-    exit;
+update_user_meta($userId, 'user_lock', 0);
+$array['status'] = 'Order canceled. You received $ '.number_format($cashback, 0, ',', ' ');
+$array['remove'] = $orderId;
+$array['money'] = $totalmoney+$cashback;
+echo json_encode($array);
+exit;
