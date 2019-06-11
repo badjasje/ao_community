@@ -54,7 +54,6 @@ $specialSelling = 0;
 foreach ($units as $key => $order) {
     if (!empty($_POST["$key"])) {
         $ownedUnits = $userData[$key.'_owned'][0];
-        $soldUnits = ceil($_POST["$key"]);
 
         if ($_POST[$key] < 0) {
             $array['status'] = 'Enter a valid number';
@@ -73,11 +72,8 @@ foreach ($units as $key => $order) {
                 exit;
         }
 
-        if ($ownedUnits < $soldUnits) {
-            $soldUnits = $ownedUnits;
-        }
         if (in_array($key, $specialUnitsArray)) {
-            $specialSelling += $_POST[$key];
+            $specialSelling += ceil($_POST[$key]);
         }
     }
 }
@@ -139,9 +135,7 @@ foreach ($units as $key => $order) {
         if ($ownedUnits < $soldUnits) {
             $soldUnits = $ownedUnits;
         }
-        if ($key == 'spy' || $key == 'spyplane' || $key == 'sniper') {
-            $specialSelling+=$_POST["$key"];
-        }
+
         $price = $order['price'] * $marketSellMultiplier;
 
         $soldAmount = $price * $soldUnits;
@@ -167,74 +161,16 @@ update_user_meta($userId, 'user_lock', 0);
 
 count_all_stats($userId);
 $userData = get_user_meta($userId);
-$totalMoney = $userData['money'][0];
-$allOrdered = array();
+
 $newMax = array();
-
-// Calculate space for special units.
-$spies = $userData['spy_owned'][0];
-$spiesOrdered = $userData['spy_ordered'][0];
-$thieves = $userData['thief_owned'][0];
-$thievesOrdered = $userData['thief_ordered'][0];
-$planes = $userData['spyplane_owned'][0];
-$planesOrdered = $userData['spyplane_ordered'][0];
-$sniper = $userData['sniper_owned'][0];
-$snipersOrdered = $userData['sniper_ordered'][0];
-
-$commandCenters = $userData['command_centre'][0];
-
-$specialUnitsArray = [
-    'spyplane',
-    'sniper',
-    'thief',
-    'spy'
-];
-
-$space = [
-    'air' => $userData['airfield'][0] * 10,
-    'sea' => $userData['shipyard'][0] * 5,
-    'veh' => $userData['warfactory'][0] * 10,
-    'inf' => $userData['baracks'][0] * 20,
-    'special' => ($commandCenters * 5) - $spies - $thieves - $planes - $spiesOrdered - $thievesOrdered - $planesOrdered - $sniper - $snipersOrdered
-];
-
-$usedSpace = [
-    'air' => count_airspace($userId),
-    'sea' => count_seaspace($userId),
-    'veh' => count_vehspace($userId),
-    'inf' => count_infspace($userId),
-];
-
-$availableSpace = [
-    'air' => $space['air']-count_airspace($userId),
-    'sea' => $space['sea']-count_seaspace($userId),
-    'veh' => $space['veh']-count_vehspace($userId),
-    'inf' => $space['inf']-count_infspace($userId),
-];
-
-$unitsPerTurn = [
-    'air' => 10,
-    'sea' => 5,
-    'veh' => 10,
-    'inf' => 20,
-];
+$specialSold = $userData['special_sold_today'][0];
 
 foreach ($units as $key => $unit) {
     $unitTypeKey = $unit['type'];
     $owned = $userData[$key.'_owned'][0];
-
-    if($owned > 0) {
-        $allOwned[$key] = $owned;
-    }
-
-    $maxMoney = floor($totalMoney / ceil($unit['price']));
-    $maxSpace = $space[$unitTypeKey] - $usedSpace[$unitTypeKey];
-    $maxTurns = floor($totalturns*$unitsPerTurn[$unitTypeKey]);
-
-    if(in_array($key, $specialUnitsArray)) {
-        $newMax[$key] = min($maxMoney, $maxSpace, $space['special'], $maxTurns);
-    } else {
-        $newMax[$key] = min($maxMoney, $maxSpace, $maxTurns);
+    $newMax[$key] = $owned;
+    if(is_array($specialUnitsArray) && in_array($key, $specialUnitsArray)) {
+        $newMax[$key] = min($newMax[$key], (50-$specialSold));
     }
 }
 
@@ -242,9 +178,7 @@ $array['status'] = $soldUnits.' units sold for a price of $ '. number_format($to
 $array['money'] = $userData['money'][0];
 $array['turns'] = $userData['turns'][0];
 $array['networth'] = $userData['networth'][0];
-$array['allowned'] = $allOwned;
 $array['newmax'] = $newMax;
-$array['usedspace'] = $availableSpace;
 $array['next'] = true;
 echo json_encode($array);
 update_user_meta($userId, 'user_lock', 0);

@@ -136,13 +136,6 @@ if(empty($telegram_key)) {
 		</div>
 
 		<div class="col-md-6 col-lg-4 statusRow statCol-3">
-			<?/*<div class="statusInsideCol">
-				<strong>Morale & pool</strong>
-			</div>
-			<div class="statusInsideCol">
-				<?php echo $morale.'% <sup>('.$moralepool.'%)</sup>';?>
-			</div>*/?>
-
 			<div class="celBlock">
 				<strong>Push notifications</strong>
 				<ul style="padding-left: 16px;">

@@ -55,6 +55,8 @@ include('interest_array.php');
 		$sat_morale = $memberData['sat_morale'][0];
 		$last_online = $memberData['last_online'][0];
 		$power = $memberData['power'][0];
+		$startingbonus = $memberData['starting_bonus'][0];
+		if(empty($startingbonus)) $startingbonus = '<em>none</em>';
 
 		$totAidSent = $memberData['total_aid_sent'][0];
 		$noAids = $memberData['number_of_aids'][0];
@@ -282,7 +284,10 @@ include('interest_array.php');
 				<span class="dataVisibleLeft">Unused bonusses</span>
 				<span class="dataVisibleRight"><?=$unused_bonusses?></span>
 			</div>
-			<div class="col-md-3 col-xs-6 celBlock"></div>
+			<div class="col-md-3 col-xs-6 celBlock">
+				<span class="dataVisibleLeft">Start bonus</span>
+				<span class="dataVisibleRight"><?=$startingbonus?></span>
+			</div>
 		</div><!-- // Close Row 5 -->
 
 		<!-- Button row -->

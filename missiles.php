@@ -159,8 +159,8 @@ foreach ($missiles as $key => $order) {
     $total_missiles_ordered+=$ordered_missiles;
 
     if ($ordered_missiles > 0) {
-        $missiles_on_order = get_user_meta($userId, $missile_name);
-        $missiles_on_order = $missiles_on_order[0];
+        $missiles_on_order = get_user_meta($userId, $missile_name, true);
+        if(empty($missiles_on_order)) $missiles_on_order = 0;
         update_user_meta($userId, 'money', $totalmoney-$totalordercost);
         update_user_meta($userId, 'turns', $turns-$totalturncost);
 
@@ -218,11 +218,12 @@ foreach ($missiles as $key => $missile) {
 	$newMax[$key] = min($max_money, $max_turns, $max_space);
 }
 
+count_all_stats($userId);
+
 $array['status'] = $total_missiles_ordered.' missile'.plural_func($total_missiles_ordered).' ordered for '.$totalturncost.' turn'.plural_func($totalturncost).' and $ '.number_format($totalordercost, 0, ',', ' ');
 $array['next'] = true;
 $array['turns'] = $turns-$totalturncost;
 turn_spread('missiles',$totalturncost);
-$array['money'] = $totalmoney-$totalordercost;
 $array['allordered'] = $allOrdered;
 $array['newmax'] = $newMax;
 echo json_encode($array);

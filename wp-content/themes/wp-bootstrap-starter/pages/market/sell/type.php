@@ -16,7 +16,7 @@ foreach($unitTypes as $unitTypeKey => $unitType) :
         $backColor = "126, 100, 68";
     }
     ?>
-    <div class="tab-pane smallTable marketSellTable <?=('air'===$unitTypeKey?'active ':'')?>"
+    <div class="tab-pane smallTable marketSellTable <?=($activeTab===$unitTypeKey?'active':'')?>"
          id="<?php echo $unitTypeKey; ?>" role="tabpanel">
 
          <div class="blockHeader spaceNotice">

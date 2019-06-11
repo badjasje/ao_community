@@ -22,7 +22,7 @@
 
 			<label class="startingbonus darkerBonus" for="defensive">
 				<h3 class="startinghead"><i class="fas fa-shield-alt" aria-hidden="true"></i> Defensive</h3>
-				20% extra defense for all defending units, 25% extra life for buildings,
+				20% extra life for all defending units, 25% extra life for buildings,
 				plus 10% time deduction when researching, plus 3 500m<sup>2</sup> of land.
 			</label>
 
@@ -30,7 +30,7 @@
 
 			<label class="startingbonus darkerBonus" for="finance">
 				<h3 class="startinghead"><i class="fas fa-dollar-sign" aria-hidden="true"></i> Finance</h3>
-				Hourly income increased by 10%. Your bank capacity is raised by 50%. You will receive an additional$ 400 000
+				Hourly income increased by 10%. Your bank capacity is raised by 50%. You will receive an additional $ 400 000
 			</label>
 
 			<input required style="display:none;" type="radio" name="bonustype" id="shipping" value="shipping" >

@@ -5,7 +5,7 @@ $PPE_level = get_user_meta($player_ID, 'level_powerplant_efficiency', true);
 $PPE_multi = 1;
 $pp = "Produces 3000 power.";
 $app = "Produces 15000 power.";
-    
+
 if ($PPE_level == 1) {
     $PPE_multi = 1.5;
     $pp = 'Produces ' . 3000*$PPE_multi.' power.';
@@ -36,7 +36,7 @@ $buildings = array(
             'powerprod'     =>  0,
             'power'         =>  10000,
             'life'          =>  600),
-    
+
     'command_centre'    => array(
             'price'         =>  '2200',
             'networth'      =>  6,
@@ -49,7 +49,7 @@ $buildings = array(
             'powerprod'     =>  0,
             'power'         =>  1800,
             'life'          =>  145),
-    
+
     'shipyard'      => array(
             'price'         =>  '1100',
             'networth'      =>  6,
@@ -62,7 +62,7 @@ $buildings = array(
             'powerprod'     =>  0,
             'power'         =>  700,
             'life'          =>  110),
-    
+
     'airfield'      => array(
             'price'         =>  '1000',
             'networth'      =>  6,
@@ -75,7 +75,7 @@ $buildings = array(
             'powerprod'     =>  0,
             'power'         =>  600,
             'life'          =>  100),
-    
+
     'warfactory'    => array(
             'price'         =>  '1200',
             'networth'      =>  6,
@@ -88,7 +88,7 @@ $buildings = array(
             'powerprod'     =>  0,
             'power'         =>  550,
             'life'          =>  105),
-    
+
     'baracks'       => array(
             'price'         =>  '700',
             'networth'      =>  6,
@@ -101,7 +101,7 @@ $buildings = array(
             'powerprod'     =>  0,
             'power'         =>  500,
             'life'          =>  80),
-    
+
     'powerplant'     => array(
             'price'         =>  '600',
             'description'   =>  $pp,
@@ -113,8 +113,8 @@ $buildings = array(
             'type'          =>  'bds',
             'powerprod'     =>  3000,
             'power'         =>  0,
-            'life'          =>  130),
-    
+            'life'          =>  130 * $PPE_multi),
+
     'advancedpowerplant' => array(
             'price'         =>  '1300',
             'networth'      =>  6,
@@ -126,8 +126,8 @@ $buildings = array(
             'type'          =>  'bds',
             'powerprod'     =>  15000,
             'power'         =>  0,
-            'life'          =>  60),
-    
+            'life'          =>  60 * $PPE_multi),
+
     'torpedolauncher'   => array(
             'price'         =>  '1580',
             'networth'      =>  11,
@@ -140,7 +140,7 @@ $buildings = array(
             'powerprod'     =>  0,
             'power'         =>  750,
             'life'          =>  360),
-    
+
     'samsite'           => array(
             'price'         =>  '1495',
             'networth'      =>  11,
@@ -153,7 +153,7 @@ $buildings = array(
             'powerprod'     =>  0,
             'power'         =>  600,
             'life'          =>  330),
-    
+
     'missileturret'     => array(
             'price'         =>  '1500',
             'networth'      =>  11,
@@ -166,7 +166,7 @@ $buildings = array(
             'powerprod'     =>  0,
             'power'         =>  550,
             'life'          =>  340),
-    
+
     'machinegunturret'  => array(
             'price'         =>  '1465',
             'networth'      =>  11,
@@ -179,7 +179,7 @@ $buildings = array(
             'powerprod'     =>  0,
             'power'         =>  700,
             'life'          =>  300),
-    
+
     'antimissile'       => array(
             'price'         =>  '5000',
             'networth'      =>  14,

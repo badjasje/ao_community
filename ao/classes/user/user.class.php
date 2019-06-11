@@ -49,7 +49,7 @@ class User extends DbObject {
     }
 
     public function isBanned() {
-        return ($this->status == 'banned');
+        return ($this->get('status') == 'banned');
     }
     public function getProvince() {
         return $this->province;

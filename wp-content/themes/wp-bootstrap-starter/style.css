@@ -881,8 +881,9 @@ body:not(.theme-preset-active) footer#colophon {
     color: #fff;
 	font-size: 13px;
 	z-index: 99999999999;
-	position: fixed;
+    position: fixed;
 }
+.hamburger-box { height: 30px; }
 
 .menu-item{
     display: inline;
