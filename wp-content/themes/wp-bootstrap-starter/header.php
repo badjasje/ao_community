@@ -33,6 +33,12 @@ $marketClose = $timeLeft + 86400;
 $msgs = $userData['new_messages'][0];
 $locals = $userData['new_events'][0];
 $globals = $userData['new_global_events'][0];
+
+$tab = 'air'; $nums = array(); $max = 0;
+foreach(array('air','sea','veh','inf') as $type) $nums[$type] = count_units_by_type($type);
+foreach($nums as $type => $num) {
+	if($num > $max) $tab = $type;
+}
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -270,13 +276,6 @@ $globals = $userData['new_global_events'][0];
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<?
-						$tab = 'air';
-						$num = count_units_by_type('air');
-						if(count_units_by_type('sea') > $num) $tab = 'sea';
-						elseif(count_units_by_type('veh') > $num) $tab = 'veh';
-						elseif(count_units_by_type('inf') > $num) $tab = 'inf';
-						?>
 						<a href="<?php echo get_site_url(); ?>/units?tab=<?=$tab?>">Units <span class="badge badge-secondary"><?php echo do_shortcode('[current-units]');?></span></a>
 					</div>
 				</div>
@@ -311,7 +310,7 @@ $globals = $userData['new_global_events'][0];
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
 						<a href="<?php echo get_site_url(); ?>/buy/" class="marketMenu">Buy</a>
-						<a href="<?php echo get_site_url(); ?>/sell/" class="marketMenu">Sell</a>
+						<a href="<?php echo get_site_url(); ?>/sell/?tab=<?=$tab?>" class="marketMenu">Sell</a>
 						<a href="<?php echo get_site_url(); ?>/orders/" class="marketMenu">Orders</a>
 					</div>
 				</div>
