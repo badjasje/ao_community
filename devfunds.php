@@ -1,5 +1,7 @@
 <?php
 require_once("wp-load.php");
+nocache_headers();
+
 $gameType = get_field('game_type','option');
 if(!in_array($gameType, array('Development','Test'))) {
 	exit;
