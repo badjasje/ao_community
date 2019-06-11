@@ -11,7 +11,7 @@ if($user_status =='nukeprotection'){
 	}
 	$timeleft = date('H:i:s', $timeleft);
 
-	$statusMessage .= 'Protection time left: <span id="countdown_time"></span>';
+	$statusMessage .= 'Protection time left: <span id="countdown_time" data-countdown="'.$timer_left.'"></span>';
 
 	if($timer_left < 86400){
 		$extraStyle = 'style="padding-top:0px;padding-bottom:0px;"';
@@ -32,7 +32,7 @@ if(!empty($inProgress)) {
 	$args = array('posts_per_page' => 1, 'author' => $userId, 'post_type' => 'research');
 	$researches_in_progress = get_posts( $args );
 	$completionTime = $researches_in_progress[0]->post_title;
-	$researchTimeLeft = human_time_diff($completionTime, $timestamp);
+	$researchTimeLeft = $completionTime-$timestamp;
 }
 include('research_array.php');
 
@@ -129,7 +129,7 @@ if(empty($telegram_key)) {
 				<strong>Research in progress</strong>
 			</div>
 			<div class="statusInsideCol">
-				<?php echo $researches[$inProgress]['name'];?><br><?=$researchTimeLeft?> left
+				<?php echo $researches[$inProgress]['name'];?><br><span data-countdown="<?=$researchTimeLeft?>"></span> left
 			</div>
 			<?php } ?>
 
@@ -163,25 +163,3 @@ if(empty($telegram_key)) {
 		<i class="fa fa-wrench"></i> Edit profile
 	</a>
 </div>
-
-<?php if($user_status =='nukeprotection'):?>
-<script>
-var diff = <?php echo $timer_left*1000;?>;
-
-function updateETime() {
-	days = Math.floor( diff / (1000*60*60*48) ),
-	hours = Math.floor( diff / (1000*60*60) ),
-	mins = Math.floor( diff / (1000*60) ),
-	secs = Math.floor( diff / 1000 ),
-
-	dd = days,
-	hh = hours - days * 24,
-	mm = mins - hours * 60,
-	ss = secs - mins * 60;
-
-	jQuery("#countdown_time").text( ('00'+hh).slice(-2) + ':' + ('00'+mm).slice(-2) + ':' +  ('00'+ss).slice(-2) );
-	diff -= 1000;
-}
-setInterval(updateETime, 1000 );
-</script>
-<?php endif;?>

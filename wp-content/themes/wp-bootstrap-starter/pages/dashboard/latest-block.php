@@ -39,11 +39,7 @@ $messages = get_posts( $inboxargs );
 			<?php foreach ($orders as $order):
 				$units_in_this_order = get_post_meta($order->ID,'amount_ordered',true);
 				$order_type = get_post_meta($order->ID,'order_type',true);
-
-				$userId = $order->post_author;
 				$delivery_time = get_post_meta($order->ID,'delivery_time',true);
-
-				$timeleft = date('H:i:s', $delivery_time-$timestamp);
 				?>
 				<div class="row unitRow">
 					<div class="col-md-4 celBlock nameBlock sea_heading">
@@ -55,7 +51,7 @@ $messages = get_posts( $inboxargs );
 					</div>
 					<div class="col-md-4 celBlock">
 						<span class="columnDataLeft">Time left</span>
-						<span class="columnDataRight"><?php echo $timeleft;?></span>
+						<span class="columnDataRight" data-countdown="<?=($delivery_time-$timestamp)?>"></span>
 					</div>
 				</div>
 			<?php endforeach;?>

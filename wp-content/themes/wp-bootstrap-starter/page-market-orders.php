@@ -65,7 +65,7 @@ $buttonColor = "70, 118, 94";
             if($order_type == 'units'){
                 $totalNetworth += (($units[$unit_type]['price'] *$units[$unit_type]['networth']) / 100) * $units_in_this_order;
             }
-            $timeLeft = date('H:i:s', $timeLeft);
+
             $totalOrder += $units_in_this_order;
             $totalOrderValue += $orderValue;
             ?>
@@ -84,7 +84,7 @@ $buttonColor = "70, 118, 94";
                 </div>
                 <div class="col-md-2 celBlock">
                     <span class="columnDataLeft">Time left</span>
-                    <span class="columnDataRight"><?php echo $timeLeft;?></span>
+                    <span class="columnDataRight" data-countdown="<?=$timeLeft?>"></span>
                 </div>
                 <div class="col-md-3 celBlock" style="padding:0px;">
                     <?php if($order_type != 'missile'):?>

@@ -10,7 +10,7 @@ $sat_progress = (string)$userData['sat_in_progress'][0];
 
 $sat_endlife = $userData['sat_endlife'][0];
 $sat_status = $userData['stealth_sat_status'][0];
-$stealth_sat_time = $userData['stealth_sat_time'][0];
+$stealth_sat_time = (isset($userData['stealth_sat_time']) ? $userData['stealth_sat_time'][0] : 0);
 $backColor = "45, 67, 81";
 
 $headerText = 'Building a satellite requires 25 turns';
@@ -122,14 +122,10 @@ foreach ($orders as $order){
 
     if($timeLeft >= 0) {
         $orderValue = $orderData['order_value'][0];
-
-
-
         if($order_type == 'satellite'){
             $totalNetworth += $orderValue*$satellites[$unit_type]['networth']/100;
         }
 
-        $timeLeft = date('H:i:s', $timeLeft);
         $totalOrder += $units_in_this_order;
         $totalOrderValue += $orderValue;
     ?>
@@ -149,7 +145,7 @@ foreach ($orders as $order){
     </div>
     <div class="col-md-2 celBlock">
 	    <span class="columnDataLeft">Time left</span>
-		<span class="columnDataRight"><?php echo $timeLeft;?></span>
+		<span class="columnDataRight" data-countdown="<?=$timeLeft?>"></span>
     </div>
     <div class="col-md-3 celBlock" style="padding:0px;">
 	    <?php if($order_type != 'missile'):?>

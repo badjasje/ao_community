@@ -117,12 +117,9 @@ $buttonColor = "70, 118, 94"
 
 				if($timeLeft >= 0) {
 					$orderValue = $orderData['order_value'][0];
-
 					if($order_type == 'satellite'){
 						$totalNetworth += $orderValue*$satellites[$unit_type]['networth']/100;
 					}
-
-					$timeLeft = date('H:i:s', $timeLeft);
 					$totalOrder += $units_in_this_order;
 					$totalOrderValue += $orderValue;
 					?>
@@ -141,7 +138,7 @@ $buttonColor = "70, 118, 94"
 						</div>
 						<div class="col-md-2 celBlock">
 							<span class="columnDataLeft">Time left</span>
-							<span class="columnDataRight"><?php echo $timeLeft;?></span>
+							<span class="columnDataRight" data-countdown="<?=$timeLeft?>"></span>
 						</div>
 						<div class="col-md-3 celBlock" style="padding:0px;">
 							<?php if($order_type != 'missile'):?>
@@ -172,13 +169,10 @@ $buttonColor = "70, 118, 94"
 		}
 		elseif($sat_owned != '0') {
 			$timestamp = current_time('timestamp');
-
 			$timeleft = floor($sat_endlife-$timestamp);
-			$dtF = new \DateTime('@0');
-			$dtT = new \DateTime("@$timeleft");
 			?>
 			<div class="blockHeader spaceNotice">
-				<strong><?=$dtF->diff($dtT)->format('%a days and %h:%i:%s')?></strong> before your satellite re-enters the atmosphere.
+				<strong data-countdown="<?=$timeleft?>"></strong> before your satellite re-enters the atmosphere.
 			</div>
 			<div class="fw-row satblock">
 				<div class="row unitRow headerRow fw-row" style="border-bottom:1px solid #fff;background-color: rgba(<?php echo $backColor;?>, 0.75);">
@@ -266,6 +260,7 @@ $buttonColor = "70, 118, 94"
 					$.notify({message: cancelarray.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
 					$.get( "<?php echo get_stylesheet_directory_uri();?>/pages/satellite/satOrderBlock.php", function( canceldata ) {
 						$( ".satblock" ).empty().append( canceldata );
+						start_countdowns();
 					});
 					$('.pageTitle').html('<?php echo get_the_title();?>');
 					$('#money').html(number_format(cancelarray.money, 0, ',', ' '));
@@ -291,6 +286,7 @@ $buttonColor = "70, 118, 94"
 					if(array.next == true){
 						$.get( "<?php echo get_stylesheet_directory_uri();?>/pages/satellite/satOrderBlock.php", function( data ) {
 							$( ".satblock" ).empty().append( data );
+							start_countdowns();
 							$( ".mainSubmit" ).remove();
 						});
 					}

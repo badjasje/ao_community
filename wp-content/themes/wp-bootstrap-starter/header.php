@@ -29,7 +29,7 @@ $endDate = get_field('end_date','option');
 $endStamp = strtotime($endDate);
 $timestamp = current_time('timestamp');
 $timeLeft = $endStamp-$timestamp;
-$marketClose = $timeLeft + 86400;
+
 $msgs = $userData['new_messages'][0];
 $locals = $userData['new_events'][0];
 $globals = $userData['new_global_events'][0];
@@ -394,7 +394,7 @@ foreach($nums as $type => $num) {
 
 	<?php if($timeLeft < 172800 && $timeLeft > 0) {?>
 		<div class="permaNotification">
-			<i class="fas fa-info-circle"></i> <span id="market_timer"></span> left before the market closes
+			<i class="fas fa-info-circle"></i> <span id="market_timer" data-countdown="<?=$timeLeft?>"></span> left before the market closes
 		</div>
 	<?php } ?>
 
@@ -418,26 +418,6 @@ foreach($nums as $type => $num) {
 			</div>
 			<div class="row contentRow">
 				<script>
-					function setCookie(name,value,days) {
-						var expires = "";
-						if (days) {
-							var date = new Date();
-							date.setTime(date.getTime() + (days*24*60*60*1000));
-							expires = "; expires=" + date.toUTCString();
-						}
-						document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-					}
-					function getCookie(name) {
-						var nameEQ = name + "=";
-						var ca = document.cookie.split(';');
-						for(var i=0;i < ca.length;i++) {
-							var c = ca[i];
-							while (c.charAt(0)==' ') c = c.substring(1,c.length);
-							if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-						}
-						return null;
-					}
-
 					function updateHeaderData() {
 						jQuery.getJSON('<?php echo get_site_url();?>/checkevents.php', function(data) {
 							var globals = data.globals;
@@ -484,63 +464,6 @@ foreach($nums as $type => $num) {
 							<?php
 						} ?>
 
-						<?php if($timeLeft < 172800+86400) {?>
-							var diff = <?php echo ($marketClose-86400)*1000;?>;
-							function updateMarketTime() {
-								days = Math.floor( diff / (1000*60*60*48) ),
-								hours = Math.floor( diff / (1000*60*60) ),
-								mins = Math.floor( diff / (1000*60) ),
-								secs = Math.floor( diff / 1000 ),
-								dd = days,
-								hh = hours - days * 24,
-								mm = mins - hours * 60,
-								ss = secs - mins * 60;
-								$("#market_timer").text( ('00'+hh).slice(-2) +':'+ ('00'+mm).slice(-2) +':'+ ('00'+ss).slice(-2) );
-								<? if(get_field('game_status','option') == 'Live') { ?>
-								diff -= 1000;
-								if(diff <= 0){
-									$('.permaNotification').html('<i class="fas fa-info-circle"></i> You cannot order units during the last 24 hours of the round');
-									return false;
-								}
-								<? } ?>
-							}
-							setInterval(updateMarketTime, 1000 );
-							updateMarketTime(); // do not wait a second
-						<?php } ?>
-
-						// Help in icon menu
-						$('.menuRow').each(function(i1) {
-							var t = $('.menuText>a',this).html();
-							if(!!t) {
-								$('.buttonItem>a', this).wrapInner('<div data-toggle="tooltip" data-html="true" data-placement="right" title="'+t.replace(/"/g, "'")+'"></div>');
-							}
-						});
-
-						if(getCookie('menuOpen') === null) setCookie('menuOpen', 0, 256);
-						else { setCookie('menuOpen', getCookie('menuOpen'), 256); } // Remember forever
-
-						$("#nextbt, #nextbt2").on('click', function(e) {
-							e.preventDefault();
-							if($('body').hasClass('menuOpen')) {
-								$('body').removeClass('menuOpen');
-								$('.menuText').hide(500);
-								$(".hamburger").removeClass("is-active");
-								$('[data-toggle=tooltip]').tooltip('enable');
-								setCookie('menuOpen', 0, 256);
-							} else {
-								$('body').addClass('menuOpen');
-								$('.menuText').show(750);
-								$(".hamburger").addClass("is-active");
-								$('[data-toggle=tooltip]').tooltip('disable');
-								if($(window).width() >= 1400) setCookie('menuOpen', 1, 256);
-							}
-						});
-
-						$(document).ready(function() {
-							$(function () {
-								$('[data-toggle="tooltip"]').tooltip()
-							})
-						});
 						var i = setInterval(function() { updateHeaderData(); }, 10000);
 					})(jQuery);
 				</script>

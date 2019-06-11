@@ -150,24 +150,7 @@ if($researchCount >= 1){
 			<?php if($inProgress == 1):?>
 				<div class="blockHeader fw-row">
 					<i class="fa fa-circle-notch fa-spin"></i> Time left:&nbsp;
-					<div class="timeLeft" id="countdown_time"></div>
-					<script>
-					var diff = <?php echo $timeLeftStamp*1000;?>;
-
-					function updateETimeLeft() {
-						days = Math.floor( diff / (1000*60*60*48) ),
-						hours = Math.floor( diff / (1000*60*60) ),
-						mins = Math.floor( diff / (1000*60) ),
-						secs = Math.floor( diff / 1000 ),
-						dd = days,
-						hh = hours - days * 24,
-						mm = mins - hours * 60,
-						ss = secs - mins * 60;
-						jQuery("#countdown_time").text(('00'+hh).slice(-2) + ':' + ('00'+mm).slice(-2) + ':' + ('00'+ss).slice(-2));
-						diff -= 1000;
-					}
-					setInterval(updateETimeLeft, 1000);
-					</script>
+					<div class="timeLeft" id="countdown_time" data-countdown="<?=$timeLeftStamp?>"></div>
 				</div>
 			<?php endif;?>
 
@@ -225,23 +208,11 @@ if($researchCount >= 1){
 				$( array.hidebutton).hide();
 
 				if(array.endtime != 'queued') {
-					$( "<div class='blockHeader fw-row'><i class='fa fa-circle-notch fa-spin'></i> Time left: <div class='timeLeft' id='countdown_time'></div></div>").insertAfter( "#research_"+array.started );
-
-					var diff = array.endtime*1000;
-					function updateETime() {
-						days = Math.floor( diff / (1000*60*60*48) ),
-						hours = Math.floor( diff / (1000*60*60) ),
-						mins = Math.floor( diff / (1000*60) ),
-						secs = Math.floor( diff / 1000 ),
-						dd = days,
-						hh = hours - days * 24,
-						mm = mins - hours * 60,
-						ss = secs - mins * 60;
-						$("#countdown_time").text(('00'+hh).slice(-2) + ':' + ('00'+mm).slice(-2) + ':' + ('00'+ss).slice(-2));
-						diff -= 1000;
-					}
-					setInterval(updateETime, 1000 );
-
+					$(`<div class="blockHeader fw-row">
+						<i class="fa fa-circle-notch fa-spin"></i> Time left:
+						<div class="timeLeft" id="countdown_time" data-countdown="`+array.endtime+`"></div>
+					</div>`).insertAfter("#research_"+array.started);
+					start_countdowns();
 					$( "#research_"+array.started ).addClass("loader");
 				} else {
 					$( "<div class='blockHeader fw-row'><i class='fa fa-clock'></i> Research queued</div>").insertAfter("#research_"+array.started);
