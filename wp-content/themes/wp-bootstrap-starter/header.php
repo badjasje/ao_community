@@ -25,6 +25,7 @@ if(!is_user_logged_in()){
 }
 
 $pageId = get_the_id();
+$gameType = get_field('game_type','option');
 $endDate = get_field('end_date','option');
 $endStamp = strtotime($endDate);
 $timestamp = current_time('timestamp');
@@ -383,6 +384,19 @@ foreach($nums as $type => $num) {
 			</div>
 		<?php endif;?>
 	</div>
+
+	<?php if($timeLeft > 172800 && in_array($gameType, array('Development','Test')) && date('G') > 5 && date('G') < 9 && rand(0,10) == 1) { ?>
+		<div style="background-color:#36393f;padding:9px;position:fixed;bottom:0;right:0;z-index:900;width:auto;" onclick="this.remove();">
+			<div style="display:flex;align-items:center;justify-content:center;">
+				<div style="border-radius:50%;width:40px;height:40px;background-size:100%;background-image:url(https://cdn.discordapp.com/avatars/502088259946545163/71a45e651a3e86e9298e0a20eb5c6308.png?size=128);margin: 0 10px 0 0;"></div>
+				<div>
+					<span style="color:rgb(233, 30, 99);font-size:1rem;">Dikdap</span>
+					<span style="font-size: 0.75rem;letter-spacing: 0;font-weight: 400;margin-left: .3rem;color: hsla(0,0%,100%,.2);">today at 07:20</span><br>
+					<span style="color:#dcddde;font-size:0.9rem;line-height:1.3;">Good morning everyone!</span>
+				</div>
+			</div>
+		</div>
+	<?php } ?>
 
 	<?php if(get_field('game_status','option') == 'Pause' /*&& $userId != 1*/) { // Check if game is live or not ?>
 		<div class="permaNotification">
