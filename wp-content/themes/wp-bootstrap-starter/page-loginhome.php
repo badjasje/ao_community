@@ -27,21 +27,29 @@ $gameType = get_field('game_type','option');
 			<? if(isset($reCAPTCHA3_Login_Form)) $reCAPTCHA3_Login_Form->captcha_display() ?>
 		</form>
 
+		<?php if(!in_array($gameType, array('Test','Development'))) { ?>
 		<a href="/wp-login.php?loginSocial=facebook" data-plugin="nsl" data-action="connect" data-redirect="current"
 			data-provider="facebook" data-popupwidth="475" data-popupheight="175">
 			<button style="background-color:#4266b2"class="mainSubmit"><i class="fab fa-facebook-square"></i> Login or register with Facebook</button>
 		</a>
+		<?php } ?>
 
-		<a href="<?php echo get_site_url();?>/register/"><button style="background-color:#7e7b7b"class="mainSubmit">Register without Facebook</button></a>
+		<a href="<?php echo get_site_url();?>/register/"><button style="background-color:#7e7b7b"class="mainSubmit">
+		Register<? if(!in_array($gameType, array('Test','Development'))) { ?> without Facebook<? } ?></button></a>
 
 		<div class="hometext">
-			<?php if($gameType == 'Development'):?>
-			<h2>Welcome to Assault.Online Development</h2>
-			That's right! You've reached the Assault.Online development environment, a place where dreams come true! Somewhat highly experimental, so if something breaks, please report back on the <a target="_blank" href="https://assault.online/forum">Assault.Online forum.</a>. Happy testing!
-			<?php else:?>
-			<h2 style="margin-top:0;">Welcome to Assault.Online</h2>
-			Assault.Online is the unofficial successor to Nukezone.nu. Assault.Online is a strategic text based browser game. It is played entirely in the browser, so no downloads needed! Assault.Online is free to play No downloads required
-			<?php endif;?>
+			<?php if($gameType == 'Test') { ?>
+				<h2 style="margin-top:0;">Welcome to Assault.Online Test</h2>
+				We use this place to test the game. Please do not use it as a sandbox, thank you.
+			<?php } else if($gameType == 'Development') { ?>
+				<h2 style="margin-top:0;">Welcome to Assault.Online Development</h2>
+				That's right! You've reached the Assault.Online development environment, a place where dreams come true!
+				Somewhat highly experimental, so if something breaks, please report back on the
+				<a target="_blank" href="https://assault.online/forum">Assault.Online forum.</a>. Happy testing!
+			<?php } else { ?>
+				<h2 style="margin-top:0;">Welcome to Assault.Online</h2>
+				Assault.Online is the unofficial successor to Nukezone.nu. Assault.Online is a strategic text based browser game. It is played entirely in the browser, so no downloads needed! Assault.Online is free to play No downloads required
+			<?php } ?>
 		</div>
 
 		<div class="pageSpacer"></div>
