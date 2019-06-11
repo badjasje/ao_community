@@ -75,7 +75,7 @@ $sellBackColor = "127, 82, 67"
 
 		var sum = 0;
 		var inputkey = $(this).attr( "data-key" );
-		var inputamount = $(this).html();
+		var inputamount = parseInt($(this).data('amount'));
 		$(".buy_"+inputkey).val(inputamount);
 
 		var orderval = 0
@@ -86,7 +86,6 @@ $sellBackColor = "127, 82, 67"
 			if(inputval > 0){
 				sum += inputval;
 				orderval += parseInt($(this).attr("data-price")) * inputval;
-				addednw += +$(this).attr( "data-nw" )/100 * orderval;
 				addednw += +$(this).attr( "data-nw" )/100 * orderval;
 				var inputkey = $(this).attr( "data-key" );
 				if(inputkey == 'tomahawk'){
@@ -112,8 +111,7 @@ $sellBackColor = "127, 82, 67"
 			if(inputval > 0){
 				sum += inputval;
 				orderval += parseInt($(this).attr("data-price")) * inputval;
-				addednw += +$(this).attr( "data-nw" )/100*orderval;
-
+				addednw += +($(this).attr("data-nw")/100) * (parseInt($(this).attr("data-nwprice")) * inputval);
 			}
 		});
 
@@ -126,7 +124,7 @@ $sellBackColor = "127, 82, 67"
 
 		var sum = 0;
 		var inputkey = $(this).attr( "data-key" );
-		var inputamount = $(this).html();
+		var inputamount = parseInt($(this).data('amount'));
 		$("#sell_"+inputkey).val(inputamount);
 		var orderval = 0
 		var addednw = 0;
@@ -135,7 +133,7 @@ $sellBackColor = "127, 82, 67"
 			if(inputval > 0){
 				sum += inputval;
 				orderval += parseInt($(this).attr("data-price")) * inputval;
-				addednw += +$(this).attr( "data-nw" )/100*orderval;
+				addednw += +($(this).attr("data-nw")/100) * (parseInt($(this).attr("data-nwprice")) * inputval);
 			}
 		});
 
@@ -146,38 +144,28 @@ $sellBackColor = "127, 82, 67"
 
 	// Post request for ordering missiles yay
 	var request;
-
 	$("#ordermissiles").submit(function(event){
 		$('.pageLoader, #page-cover').show();
-		$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
-
 		event.preventDefault();
 		if (request) { request.abort(); }
 
-		var $form = $(this);
-		var $inputs = $form.find("input, select, button, textarea");
-		var serializedData = $form.serialize();
-
+		var serializedData = $(this).serialize();
 		request = $.ajax({url: "/missiles.php", type: "POST", data: serializedData});
 		request.done(function (response, textStatus, jqXHR){
+			$('.pageLoader, #page-cover').fadeOut( "fast");
 			updateHeaderData();
-			// Log a message to the console
 			var array = JSON.parse(response);
 			$.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true,});
 			if(array.next == true){
 				$('#order_total').html('0');
 				$('#total').html('0');
-
 				$('#networth_total').html('0');
 				$('#turn_total').html('0');
-
 				$('#ordermissiles').trigger("reset");
-
 				$.each( array.newmax, function( key, value ) {
 					$('#'+key).html(value);
 					$('#'+key).attr("data-amount",value); //setter
 				});
-
 				$.each( array.allordered, function( key, value ) {
 					$('#'+key+'_ordered').html(value);
 				});
@@ -187,42 +175,29 @@ $sellBackColor = "127, 82, 67"
 
 	// Post request for selling missiles yay
 	var sellrequest;
-
 	$("#sellmissiles").submit(function(event){
 		$('.pageLoader, #page-cover').show();
-		$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
-
 		event.preventDefault();
 		if (sellrequest) { sellrequest.abort(); }
 
-		var $form = $(this);
-		var $inputs = $form.find("input, select, button, textarea");
-		var serializedData = $form.serialize();
-
+		var serializedData = $(this).serialize();
 		sellrequest = $.ajax({url: "/sell_missiles.php", type: "POST", data: serializedData});
 		sellrequest.done(function (response, textStatus, jqXHR){
-			console.log(response);
-			// Log a message to the console
+			$('.pageLoader, #page-cover').fadeOut( "fast");
+			updateHeaderData();
 			var array = JSON.parse(response);
-
 			$.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
 			if(array.next == true){
-
 				$('#totalsell').html('0');
 				$('#return_val').html('0');
 				$('#nw_lost').html('0');
-
-				$('#money').html(number_format(array.money, 0, ',', ' '));
-				$('#networth').html(number_format(array.newnw, 0, ',', ' '));
-
 				$.each( array.newmaxsell, function( key, value ) {
 					$('#maxsell_'+key).html(value);
 					$('#maxsell_'+key).attr("data-amount",value); //setter
 					if(value <= 0){
-						$( ".removerow_"+key ).empty();
+						$(".removerow_"+key).empty();
 					}
 				});
-
 				$('#sellmissiles').trigger("reset");
 			}
 		});
