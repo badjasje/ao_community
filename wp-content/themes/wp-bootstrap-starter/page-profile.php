@@ -128,6 +128,10 @@ $game_live = (get_field('game_status','option')=='Live');
 				Install <a href="https://t.me/assaultonlinebot" style="text-decoration:underline;" target="_blank">Telegram</a> on your mobile
 				device and use this code <strong><?php echo $telegram_key ?></strong> to get instant notifications.</a>
 			</div>
+			<div class="col-12 attackingRow statCol-1">
+				<div class="profileColumn">Recruitment link</div>
+				<input type="text" onclick="this.select()" value="<?=get_site_url()?>/register/?referral_userid=<?=$viewedId?>" style="width:50%;">
+			</div>
 			<?php } ?>
 		</div>
 	</div>
