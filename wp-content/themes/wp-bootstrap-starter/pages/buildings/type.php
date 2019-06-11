@@ -4,20 +4,20 @@
 	<div class="blockHeader spaceNotice">
 		Your free land allows you to build <span id="landspace"><strong><?php echo floor(($land - $builtland) / 20); ?></strong></span> buildings.
 		<?php if ($EElevel == 0 || empty($EElevel)) {
-		$buildingsPerTurn = 5 + $extra_divide;
+		$buildingsPerTurn = 5;
 		echo 'You can currently build <strong>' . $buildingsPerTurn . '</strong> buildings per turn.';
-		$turns_multiplier = 5 + $extra_divide;
+		$turns_multiplier = 5;
 	}
 
 	if ($EElevel == 1) {
-		$buildingsPerTurn = 10 + $extra_divide;
+		$buildingsPerTurn = 10;
 		echo 'You can currently build <strong>' . $buildingsPerTurn . '</strong> buildings per turn.';
-		$turns_multiplier = 10 + $extra_divide;
+		$turns_multiplier = 10;
 	}
 	if ($EElevel >= 2) {
-		$buildingsPerTurn = 15 + $extra_divide;
+		$buildingsPerTurn = 15;
 		echo 'You can currently build <strong>' . $buildingsPerTurn . '</strong> buildings per turn.';
-		$turns_multiplier = 15 + $extra_divide;
+		$turns_multiplier = 15;
 	}
 
 	?>
@@ -80,20 +80,20 @@
 	<div class="blockHeader spaceNotice">
 		Your free land allows you to build <span id="demolandspace"><strong><?php echo floor(($land - $builtland) / 20); ?></strong></span> buildings.
 		<?php if ($EElevel == 0 || empty($EElevel)) {
-		$buildingsPerTurn = 5 + $extra_divide;
+		$buildingsPerTurn = 5;
 		echo 'You can currently build <strong>' . $buildingsPerTurn . '</strong> buildings per turn.';
-		$turns_multiplier = 5 + $extra_divide;
+		$turns_multiplier = 5;
 	}
 
 	if ($EElevel == 1) {
-		$buildingsPerTurn = 10 + $extra_divide;
+		$buildingsPerTurn = 10;
 		echo 'You can currently build <strong>' . $buildingsPerTurn . '</strong> buildings per turn.';
-		$turns_multiplier = 10 + $extra_divide;
+		$turns_multiplier = 10;
 	}
 	if ($EElevel == 2) {
-		$buildingsPerTurn = 15 + $extra_divide;
+		$buildingsPerTurn = 15;
 		echo 'You can currently build <strong>' . $buildingsPerTurn . '</strong> buildings per turn.';
-		$turns_multiplier = 15 + $extra_divide;
+		$turns_multiplier = 15;
 	}
 
 	?>

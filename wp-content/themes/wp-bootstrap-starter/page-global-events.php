@@ -113,30 +113,30 @@ if($userId != 0){
             $clan_points = $eventData['clan_points'][0];
 
             $outcome = $eventData['outcome'][0];
-            $defender_points = $eventData['defender_points'][0];
+            $defender_points = (isset($eventData['defender_points']) ? $eventData['defender_points'][0] : 0);
 
             $member_data = get_userdata($attacker_id);
 
-            $def_unitslost = maybe_unserialize($eventData['defender_lost'][0]);
-            $att_unitslost = maybe_unserialize($eventData['attacker_lost'][0]);
+            $def_unitslost = (isset($eventData['defender_lost']) ? maybe_unserialize($eventData['defender_lost'][0]) : 0);
+            $att_unitslost =(isset($eventData['attacker_lost']) ? maybe_unserialize($eventData['attacker_lost'][0]) : 0);
 
-            $def_tot_unitslost = $eventData['def_total_units_lost'][0];
-            $att_tot_unitslost = $eventData['att_total_units_lost'][0];
+            $def_tot_unitslost = (isset($eventData['def_total_units_lost']) ? $eventData['def_total_units_lost'][0] : 0);
+            $att_tot_unitslost = (isset($eventData['att_total_units_lost']) ? $eventData['att_total_units_lost'][0] : 0);
 
             if(empty($def_tot_unitslost) || !is_numeric($def_tot_unitslost)) $def_tot_unitslost = 0;
             if(empty($att_tot_unitslost) || !is_numeric($att_tot_unitslost)) $att_tot_unitslost = 0;
 
-            $def_tot_buildingslost = $eventData['total_buildings_lost'][0];
-            $landlost = $eventData['land_lost'][0];
-            $moneylost = $eventData['money_lost'][0];
+            $def_tot_buildingslost = (isset($eventData['total_buildings_lost']) ? $eventData['total_buildings_lost'][0] : 0);
+            $landlost = (isset($eventData['land_lost']) ? $eventData['land_lost'][0] : 0);
+            $moneylost = (isset($eventData['money_lost']) ? $eventData['money_lost'][0] : 0);
 
-            $status_defender = $eventData['status_defender'][0];
+            $status_defender = (isset($eventData['status_defender']) ? $eventData['status_defender'][0] : 0);
 
-            $defender_NW_lost = $eventData['nw_damage_defender'][0];
-            $attacker_NW_lost = $eventData['nw_damage_attacker'][0];
+            $defender_NW_lost = (isset($eventData['nw_damage_defender']) ? $eventData['nw_damage_defender'][0] : 0);
+			$attacker_NW_lost = (isset($eventData['nw_damage_attacker']) ? $eventData['nw_damage_attacker'][0] : 0);
 
-            $tomahawkHit = $eventData['tomahawk_hit'][0];
-            $tomahawkDown = $eventData['tomahawk_down'][0];
+			$tomahawkHit = (isset($eventData['tomahawk_hit']) ? $eventData['tomahawk_hit'][0] : 0);
+            $tomahawkDown = (isset($eventData['tomahawk_down']) ? $eventData['tomahawk_down'][0] : 0);
 
             $timeattacked = $eventData['time_attacked'][0];
             $timestamp = current_time('timestamp');

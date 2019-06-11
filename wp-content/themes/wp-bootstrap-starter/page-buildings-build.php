@@ -31,6 +31,7 @@ if ($startingbonus == 'defensive') {
 	$defensive_multi = 1.25;
 }
 
+$totalspecial = 0;
 $totalair = 0;
 $totalsea = 0;
 $totalveh = 0;
