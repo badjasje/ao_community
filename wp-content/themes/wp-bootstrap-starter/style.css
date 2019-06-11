@@ -1365,10 +1365,8 @@ input[type="radio"]:checked + label {
 }
 .unitInput {
 	width: 100%;
-    -webkit-box-shadow: inset 0px 0px 0px 10px #545454;
-    -moz-box-shadow: inset 0px 0px 0px 10px #f00;
     box-shadow: inset 0px 0px 0px 1px #545454;
-    height: 100%;
+    /*height: 100%;*/
     padding-left: 20px;
     min-height:41px;
     border-width:5px 13px 5px 13px;
