@@ -124,6 +124,13 @@ class Province extends User {
         return ($format ? Format::power($n) : $n);
     }
 
+    public function getStartingBonus() {
+        return $this->get('starting_bonus');
+    }
+    public function hasStartingBonus($key) {
+        return $this->get('starting_bonus') == $key;
+    }
+
     /**
      *
      */
@@ -145,19 +152,26 @@ class Province extends User {
         if($r = $this->getCurrentResearch()) return Format::time_diff($r->get('end_time'));
         return false;
     }
+    public function hasResearchMinimalLevel($key,$level=0) { // 0 will always return true
+        $r = !empty($this->get('level_'.$key)) ? intval($this->get('level_'.$key)) : 0;
+        return $r == $level;
+    }
 
     /**
      * Get all information of one or all buildings of this province
      */
     public function getBuildings($key=null) {
+
         $buildings = Buildings::get();
         foreach($buildings as $key => $building) {
             $buildings[$key]['num'] = (!!$this->get($key) ? intval($this->get($key)) : 0);
+            if ($this->hasStartingBonus('defensive')) $buildings[$key]['life'] = $buildings[$key]['life']*1.25;
         }
 
-        $PPE_level = intval($this->get('level_powerplant_efficiency'));
-        if ($PPE_level >= 1) {
+        if ($this->hasResearchMinimalLevel('powerplant_efficiency',1)) {
+            $buildings['powerplant']['life'] = $buildings['powerplant']['life'] * 1.5;
             $buildings['powerplant']['description'] = 'Produces ' . (3000*1.5) .' power';
+            $buildings['advancedpowerplant']['life'] = $buildings['powerplant']['life'] * 1.5;
             $buildings['advancedpowerplant']['description'] = 'Produces ' . (15000*1.5) .' power';
         }
 
@@ -174,6 +188,7 @@ class Province extends User {
 
         return ($key != null && $buildings[$key] ? $buildings[$key] : $buildings);
     }
+
     // Calculate total buildings number
     public function getBuildingsNum() {
         $num = 0;
@@ -188,7 +203,7 @@ class Province extends User {
      * Get all information of one or all of one type, or all units of this province
      */
     public function getUnits($key=null,$type=null) {
-
+        // startbonus defensive: +20% extra life
     }
     public function getUnitsNum($type=null) {
 

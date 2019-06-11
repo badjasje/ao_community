@@ -7,19 +7,12 @@ Util/Hooks {
 }
 Util/PhpObject {}
 Util/DbObject extends PhpObject {}
-Util/PostObject extends DbObject { // WP-post, we could someday use our own tables for huge performance improvement
-    var $params //
-    get_post_meta()
-    update_post_meta()
-    update_field()
-    getSome($key,$value)  // get some, returns Collection, using get_posts(args)
-    getAll() // returns Collection
-}
+Util/PostObject extends DbObject {} // WP-post, we could someday use our own tables for huge performance improvement
 
 // User
-User/User extends DbObject {}
+User/User extends DbObject {} // WP-user, we could someday use our own tables for huge performance improvement
 User/CurrentUser extends User {}
-User/Province extends User? {} //if we ever can create multiple provinces per account
+User/Province extends User? {} // if we ever can create multiple provinces per account
 User/UserMedal extends PostObject //post type = medal
 
 // Bank
