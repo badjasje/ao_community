@@ -74,6 +74,11 @@ $user = get_userdata($userId);
 
 <?php if(get_field('game_status','option') == 'Live' && $gameType == 'Test') { ?>
 	<div class="blockHeader">Welcome to test.assault.online.</div>
+	<div class="pageSpacer statCol-4">
+		<strong>WARNING: this is NOT a sandbox!</strong>
+		Some people are setting up testcases to test the game-engine, so please do not attack out of the blue.<br>
+		Ask on <a href="http://bit.ly/2US8Dh0" target="_blank">discord</a> for a volunteer, or attack <a href="/clan/target-practice/">us</a>
+	</div>
 <?php } ?>
 <?php if(get_field('game_status','option') == 'Live' && $gameType == 'Development') { ?>
 	<div class="blockHeader">Welcome to dev.assault.online.</div>
