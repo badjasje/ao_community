@@ -38,7 +38,7 @@ $globals = $userData['new_global_events'][0];
 $tab = 'air'; $nums = array(); $max = 0;
 foreach(array('air','sea','veh','inf') as $type) $nums[$type] = count_units_by_type($type);
 foreach($nums as $type => $num) {
-	if($num > $max) $tab = $type;
+	if($num > $max) { $tab = $type; $max = $num; }
 }
 ?>
 <!DOCTYPE html>
