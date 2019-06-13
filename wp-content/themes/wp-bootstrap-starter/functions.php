@@ -1,6 +1,6 @@
 <?php
 
-	
+
 global $userId;
 $userId = get_current_user_id();
 global $userData;
@@ -163,43 +163,41 @@ function wp_bootstrap_starter_widgets_init() {
 add_action( 'widgets_init', 'wp_bootstrap_starter_widgets_init' );
 
 
-
 /**
  * Enqueue scripts and styles.
  */
 function wp_bootstrap_starter_scripts() {
-	wp_register_script( 'hullabaloo', get_template_directory_uri().'/js/bootstrap-notify.js','','',true);
+	wp_register_script('hullabaloo', get_template_directory_uri().'/js/bootstrap-notify.js','','',true);
 	wp_enqueue_script('hullabaloo');
-	wp_register_script( 'countdown', get_template_directory_uri().'/js/jquery.countdown.min.js','','',true);
+	wp_register_script('countdown', get_template_directory_uri().'/js/jquery.countdown.min.js','','',true);
 	wp_enqueue_script('countdown');
-	wp_register_script( 'numberformat', get_template_directory_uri().'/js/number_format.js','','',true);
+	wp_register_script('numberformat', get_template_directory_uri().'/js/number_format.js','','',true);
 	wp_enqueue_script('numberformat');
-	wp_enqueue_style( 'flaticons', get_template_directory_uri() . '/inc/assets/fonts/flaticon.css');
-	wp_enqueue_style( 'burger', get_template_directory_uri() . '/css/hamburger.min.css');
+	wp_enqueue_style('flaticons', get_template_directory_uri() . '/inc/assets/fonts/flaticon.css');
+	wp_enqueue_style('burger', get_template_directory_uri() . '/css/hamburger.min.css');
 	// load bootstrap css
-	wp_enqueue_style( 'wp-bootstrap-starter-bootstrap-css', get_template_directory_uri() . '/inc/assets/css/bootstrap.min.css' );
+	wp_enqueue_style('wp-bootstrap-starter-bootstrap-css', get_template_directory_uri() . '/inc/assets/css/bootstrap.min.css' );
 	// load bootstrap css
 	// load AItheme styles
 	// load WP Bootstrap Starter styles
-	wp_enqueue_style( 'wp-bootstrap-starter-style', get_stylesheet_uri() );
-    if(get_theme_mod( 'theme_option_setting' ) && get_theme_mod( 'theme_option_setting' ) !== 'default') {
-        wp_enqueue_style( 'wp-bootstrap-starter-'.get_theme_mod( 'theme_option_setting' ), get_template_directory_uri() . '/inc/assets/css/presets/theme-option/'.get_theme_mod( 'theme_option_setting' ).'.css', false, '' );
+	wp_enqueue_style('wp-bootstrap-starter-style', get_stylesheet_uri(), '', filemtime(get_theme_file_path().'/style.css'));
+    if(get_theme_mod('theme_option_setting') && get_theme_mod('theme_option_setting') !== 'default') {
+        wp_enqueue_style('wp-bootstrap-starter-'.get_theme_mod('theme_option_setting'), get_template_directory_uri() . '/inc/assets/css/presets/theme-option/'.get_theme_mod('theme_option_setting').'.css', false, '' );
     }
-
 
 	wp_enqueue_script('jquery');
 
     // Internet Explorer HTML5 support
-    wp_enqueue_script( 'html5hiv',get_template_directory_uri().'/inc/assets/js/html5.js', array(), '3.7.0', false );
-    wp_script_add_data( 'html5hiv', 'conditional', 'lt IE 9' );
+    wp_enqueue_script('html5hiv', get_template_directory_uri().'/inc/assets/js/html5.js', array(), '3.7.0', false );
+    wp_script_add_data('html5hiv', 'conditional', 'lt IE 9');
 
 	// load bootstrap js
-    
-   
     wp_enqueue_script('wp-bootstrap-starter-popper', get_template_directory_uri() . '/inc/assets/js/popper.min.js', array() );
 	wp_enqueue_script('wp-bootstrap-starter-bootstrapjs', get_template_directory_uri() . '/inc/assets/js/bootstrap.min.js', array() );
-    wp_enqueue_script('wp-bootstrap-starter-themejs', get_template_directory_uri() . '/inc/assets/js/theme-script.js', array() );
-	wp_enqueue_script( 'wp-bootstrap-starter-skip-link-focus-fix', get_template_directory_uri() . '/inc/assets/js/skip-link-focus-fix.js', array(), '20151215', true );
+	wp_enqueue_script('wp-bootstrap-starter-themejs', get_template_directory_uri() . '/inc/assets/js/theme-script.js', array() );
+	wp_enqueue_script('wp-bootstrap-starter-scriptjs', get_template_directory_uri() . '/js/script.js', array(),
+		filemtime(get_theme_file_path().'/js/script.js'));
+	wp_enqueue_script('wp-bootstrap-starter-skip-link-focus-fix', get_template_directory_uri() . '/inc/assets/js/skip-link-focus-fix.js', array(), '20151215', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -249,54 +247,51 @@ require get_template_directory() . '/inc/plugin-compatibility/plugin-compatibili
 /**
  * Load custom WordPress nav walker.
  */
-
 if (is_user_logged_in() && !is_admin()){
 	count_all_stats($userId);
 	update_user_meta($userId, 'last_online', $timestamp);
 	$userStatus = get_user_meta($userId, 'status',true);
 }
-	$path = $_SERVER['REQUEST_URI'];
-	$url = $path;
-	$urlParts = explode('/', str_ireplace(array('http://', 'https://'), '', $url));
-	
-	$pathArray = array(
-		'dashboard',
-		'events',
-		'buildings',
-		'spy-report-overview',
-		'units',
-		'clan',
-		'clan-wars',
-		'satellites',
-		'buy',
-		'clan-information',
-		'player-statistics',
-		'users',
-		'clan-member-information',
-		'conversations',
-		'explore',
-		'bank',
-		'sell',
-		'missiles',
-		'orders',
-		'research',
-		'send-aid',
-		'all-clans',
-		'forum',
-		'',
-		'/'
-		);
-	
-	
-		if( !is_user_logged_in() && in_array($urlParts[1], $pathArray)){
-				header("Location: ".get_site_url()."/home/");
-				exit();
-			}
-		
-	
-	$pathArray = array('/home','/home/','/register','/dashboard','/');
-	
-	if(is_user_logged_in() && in_array($path, $pathArray)){
-		header("Location: ".get_site_url()."/dashboard/");
-		exit();
-	}
+
+$path = $_SERVER['REQUEST_URI'];
+$url = $path;
+$urlParts = explode('/', str_ireplace(array('http://', 'https://'), '', $url));
+
+$pathArray = array(
+	'dashboard',
+	'events',
+	'buildings',
+	'spy-report-overview',
+	'units',
+	'clan',
+	'clan-wars',
+	'satellites',
+	'buy',
+	'clan-information',
+	'player-statistics',
+	'users',
+	'clan-member-information',
+	'conversations',
+	'explore',
+	'bank',
+	'sell',
+	'missiles',
+	'orders',
+	'research',
+	'send-aid',
+	'all-clans',
+	'forum',
+	'',
+	'/'
+);
+if( !is_user_logged_in() && in_array($urlParts[1], $pathArray)){
+	header("Location: ".get_site_url()."/home/");
+	exit();
+}
+
+$pathArray = array('/home','/home/','/register','/dashboard','/');
+
+if(is_user_logged_in() && in_array($path, $pathArray)){
+	header("Location: ".get_site_url()."/dashboard/");
+	exit();
+}
