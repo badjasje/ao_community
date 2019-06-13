@@ -118,7 +118,7 @@ if ( $custom_query->have_posts() ) :
 	$landlost = (isset($eventData['land_lost']) ? $eventData['land_lost'][0] : 0);
 	$moneylost = (isset($eventData['money_lost']) ? $eventData['money_lost'][0] : 0);
 
-	$status_defender = (isset($eventData['status_defender']) ? $eventData['status_defender'][0] : 0);
+	$status_defender = (isset($eventData['status_defender']) ? $eventData['status_defender'][0] : '');
 
 	$defender_NW_lost = (isset($eventData['nw_damage_defender']) ? $eventData['nw_damage_defender'][0] : 0);
 	$attacker_NW_lost = (isset($eventData['nw_damage_attacker']) ? $eventData['nw_damage_attacker'][0] : 0);
