@@ -2180,7 +2180,7 @@ input[type="radio"]:checked + label {
     }
 }
 
-@media screen and (max-height: 732px) and (max-width: 768px) { /* make the sidemenu scrollable */
+@media screen and (max-height: 600px) and (max-width: 768px) { /* make the sidemenu scrollable */
     body { position: relative; }
     header#masthead { z-index:2080; }
     .menuOpen .sidenav #page-sub-header { position: absolute; top: -80px; width: 100%; }
