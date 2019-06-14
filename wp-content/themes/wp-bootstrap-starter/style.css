@@ -1172,6 +1172,9 @@ input[type="radio"]:checked + label {
     background-size: cover;
     z-index:-999999;
 }
+.game-type-test .titleBackWrapper{
+    background-image: url('/wp-content/themes/wp-bootstrap-starter/img/header_test.png');
+}
 .clanMessageButton{
 	padding: 13px 25px;
 	text-align:left;
