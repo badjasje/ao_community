@@ -793,6 +793,7 @@ function resource_dice_roll() {
 */
 function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$target_id,$life_deduct) {
     global $debug;
+    global $userId;
     include('units_array.php');
     include('building_array.php');
     include('constants.php');
@@ -809,7 +810,7 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
     // Check for ppe (not logged in user, that's in building_array)
     $PPE_multi = 1;
     $PPE_level = get_user_meta($target_id, 'level_powerplant_efficiency', true);
-    if ($PPE_level == 1 && $target_id != get_current_user_id()) $PPE_multi = 1.5;
+    if ($PPE_level == 1 && $target_id != $userId) $PPE_multi = 1.5;
 
     $losses = array();
 

@@ -5,7 +5,8 @@ $networthPerUnit = $building['price']*$building['networth']/100;
 $buyPrice =  ceil($building['price']);
 $canAttack = is_array($building['attacks']) && !empty($building['attacks']) ? implode(', ', $building['attacks']) : 'N/A';
 $count++;
-$backColor = "45, 67, 81"
+$backColor = "45, 67, 81";
+if(in_array($buildingKey,array('powerplant','advancedpowerplant'))) $building['life'] = $building['life']*$PPE_multi;
 ?>
 
 <div class="row unitRow bodyRow" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">

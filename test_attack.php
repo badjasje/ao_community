@@ -3,7 +3,8 @@ require_once("./wp-load.php");
 nocache_headers();
 
 global $userId;
-$userId = 2; // Attacker
+if(isset($_GET['attacker'])) $userId = $_GET['attacker'];
+else $userId = get_current_user_id(); // Attacker
 global $userData;
 $userData = get_user_meta($userId);
 global $debug;
@@ -19,7 +20,13 @@ if(isset($_GET['attackarray'])) {
     $_POST['attackarray'] = array();
     $_POST['attackarray'][$_GET['attackarray']] = 1;
 }
-$_GET = array('id' => 2768); // Defender
+if(isset($_GET['defender'])) {
+    $_POST['target_id'] = $_GET['defender'];
+    $_GET = array('id' => $_GET['defender']);
+} else {
+    $_GET = array('id' => 2); // Defender
+    $_POST['target_id'] = 2;
+}
 
 function debug_update_user($user_id, $key, $value) {
     echo '<strong>Update '.$user_id.'</strong> '.$key.': '.$value.'<br>'.PHP_EOL;
