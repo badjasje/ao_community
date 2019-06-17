@@ -613,6 +613,10 @@ a img.aligncenter {
 #content.site-content {
     flex-grow: 1;
     background-color: #ccc;
+
+}
+.logged-in #content.site-content {
+    padding-top: 41px;
 }
 .sticky .entry-title::before {
     content: '\f08d';
@@ -1172,6 +1176,9 @@ input[type="radio"]:checked + label {
     background-size: cover;
     z-index:-999999;
 }
+.game-type-test .titleBackWrapper{
+    background-image: url('/wp-content/themes/wp-bootstrap-starter/img/header_test.png');
+}
 .clanMessageButton{
 	padding: 13px 25px;
 	text-align:left;
@@ -1347,9 +1354,6 @@ input[type="radio"]:checked + label {
         width: 100%;
         z-index: 3;
     }  /* also fixed on top */
-    .logged-in .pageTitle {
-        margin-top:71px;
-    }
 }
 @media only screen and (max-width: 768px) {
     .menuText {
@@ -1589,7 +1593,10 @@ input[type="radio"]:checked + label {
 	}
 	#content.site-content{
 		padding-top:0px;
-	}
+    }
+    .logged-in #content.site-content {
+        padding-top: 116px;
+    }
 	.stattext{
 		font-size:12px;
 	}

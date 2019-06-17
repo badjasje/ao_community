@@ -131,6 +131,7 @@ $user = get_userdata($userId);
 	?>
 	<?php include('pages/dashboard/clan-message.php'); ?>
 <?php } ?>
+
 <div class="pageSpacer"></div>
 <?php include('pages/dashboard/status-column.php'); ?>
 <div class="pageSpacer"></div>

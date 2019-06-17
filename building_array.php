@@ -2,15 +2,13 @@
 $player_ID = get_current_user_id();
 
 $PPE_level = get_user_meta($player_ID, 'level_powerplant_efficiency', true);
-$PPE_multi = 1;
 $pp = "Produces 3000 power.";
 $app = "Produces 15000 power.";
-
 if ($PPE_level == 1) {
-    $PPE_multi = 1.5;
-    $pp = 'Produces ' . 3000*$PPE_multi.' power.';
-    $app = 'Produces ' . 15000*$PPE_multi.' power.';
+    $pp = 'Produces ' . 3000*1.5.' power.';
+    $app = 'Produces ' . 15000*1.5.' power.';
 }
+
 $AMS = get_user_meta($player_ID, 'antimissile', true);
 $def_land   =   get_user_meta($player_ID, 'builtland', true);
 $shootdown_chance = 0;
@@ -113,7 +111,7 @@ $buildings = array(
             'type'          =>  'bds',
             'powerprod'     =>  3000,
             'power'         =>  0,
-            'life'          =>  130 * $PPE_multi),
+            'life'          =>  130),
 
     'advancedpowerplant' => array(
             'price'         =>  '1300',
@@ -126,7 +124,7 @@ $buildings = array(
             'type'          =>  'bds',
             'powerprod'     =>  15000,
             'power'         =>  0,
-            'life'          =>  60 * $PPE_multi),
+            'life'          =>  60),
 
     'torpedolauncher'   => array(
             'price'         =>  '1580',

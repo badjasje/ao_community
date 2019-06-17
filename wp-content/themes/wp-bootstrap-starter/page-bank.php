@@ -29,32 +29,27 @@ if($daysleft < 3){
 	$placeholder = 'Not available';
 }
 
-$banklevel = $userData['level_bank_management'][0];
 $startingbonus = $userData['starting_bonus'][0];
-	$finance_multi = 1;
-	if($startingbonus == 'finance'){
-		$finance_multi = 1.5;
-	}
+$finance_multi = 1;
+if($startingbonus == 'finance'){
+	$finance_multi = 1.5;
+}
 
 if($banklevel == 0){
 	$extra_interest = 0;
 	$max_dep = 250000*$finance_multi;
-	//$max_tot = 2500000*$finance_multi;
 }
 if($banklevel == 1){
 	$extra_interest = 0.5;
 	$max_dep = 350000*$finance_multi;
-	//$max_tot = 3500000;
 }
 if($banklevel == 2){
 	$extra_interest = 0.5;
 	$max_dep = 450000*$finance_multi;
-	//$max_tot = 4500000;
 }
 if($banklevel == 3){
 	$extra_interest = 0.75;
 	$max_dep = 500000*$finance_multi;
-	//$max_tot = 5000000*$finance_multi;
 }
 $maxDepositAmount = floor(min($max_dep,$money));
 ?>

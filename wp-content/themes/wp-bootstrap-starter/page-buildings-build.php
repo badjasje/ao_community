@@ -31,6 +31,12 @@ if ($startingbonus == 'defensive') {
 	$defensive_multi = 1.25;
 }
 
+$PPE_level = get_user_meta($player_ID, 'level_powerplant_efficiency', true);
+$PPE_multi = 1;
+if ($PPE_level == 1) {
+    $PPE_multi = 1.5;
+}
+
 $totalspecial = 0;
 $totalair = 0;
 $totalsea = 0;

@@ -129,7 +129,7 @@ foreach($nums as $type => $num) {
 	</script>
 </head>
 
-<body <?php body_class(array(($menuOpen?'menuOpen':''))) ?>>
+<body <?php body_class(array(($menuOpen?'menuOpen':''),'game-type-'.strtolower($gameType))) ?>>
 
 	<!-- Google Tag Manager (noscript) -->
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXGKNL3" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
