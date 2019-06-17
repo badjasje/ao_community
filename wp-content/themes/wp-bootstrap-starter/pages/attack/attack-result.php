@@ -1,14 +1,15 @@
 <?php
-require_once("../../../../../wp-load.php");
+if(!isset($debug)) $debug = false;
+if(!$debug) require_once("../../../../../wp-load.php");
 nocache_headers();
 
-include("../../../../../attack_functions.php");
-include '../../../../../constants.php';
+include(ABSPATH."/attack_functions.php");
+include ABSPATH.'/constants.php';
 $timestamp = current_time('timestamp');
 
 $backColor = "45, 67, 81";
-$attack_type = filter_input(INPUT_POST, 'attacktype', FILTER_SANITIZE_STRING);
-$target_id = filter_input(INPUT_POST, 'target_id', FILTER_VALIDATE_INT);
+$attack_type = ($debug ? $_POST['attacktype'] : filter_input(INPUT_POST, 'attacktype', FILTER_SANITIZE_STRING));
+$target_id = ($debug ? $_POST['target_id'] : filter_input(INPUT_POST, 'target_id', FILTER_VALIDATE_INT));
 
 global $userId;
 global $userData;
@@ -16,8 +17,8 @@ $attackerData = $userData;
 $defenderData = get_user_meta($target_id);
 
 // LOCK
-$userLock = intval($attackerData['user_lock'][0]);
-$moraleLock = intval($attackerData['morale_lock'][0]);
+$userLock = ($debug ? 0 : intval($attackerData['user_lock'][0]));
+$moraleLock = ($debug ? 0 : intval($attackerData['morale_lock'][0]));
 
 // Attack spam protection
 if($userLock == 1){
@@ -27,7 +28,7 @@ if($userLock == 1){
 	update_user_meta($userId, 'user_lock', 0);
 	exit;
 }
-update_user_meta($userId, 'user_lock', 1);
+if(!$debug) update_user_meta($userId, 'user_lock', 1);
 
 // Cannot attack when morale is being updated
 if($moraleLock == 1){
@@ -71,7 +72,7 @@ $networth_att = $attackerData['networth'][0];
 $networth_def = $defenderData['networth'][0];
 
 $in_range = target_in_range($attack_type, $networth_att, $networth_def, $war_type);
-
+if($debug) $in_range = true;
 if (!$in_range) {
 	$array['status'] = 'Out of networth range';
 	$array['next'] = false;
@@ -79,7 +80,7 @@ if (!$in_range) {
 	exit;
 }
 
-if($attack_type != 'satellite'){
+if(!$debug && $attack_type != 'satellite'){
 	// Check if attacker has enough morale
 	$moralecost = get_attack_cost_morale($attack_type, $networth_att, $networth_def);
 	$oldmorale = $attackerData['morale'][0];
@@ -92,78 +93,79 @@ if($attack_type != 'satellite'){
 	}
 }
 
-?>
-<div class="pageSpacer"></div>
-<?
+if(!$debug) echo '<div class="pageSpacer"></div>';
+
+$path = dirname(__FILE__);
 if($attack_type == 'regular'  || $attack_type == 'ground' || $attack_type == 'air_sea'){
-	include("unit-result.php");
+	include($path."/unit-result.php");
 }
 
 if($attack_type == 'missile'){
 	if($_POST['missiletype'] == 'empmis'){
-		include("emp-missile-result.php");
+		include($path."/emp-missile-result.php");
 	}else{
-		include("missile-result.php");
+		include($path."/missile-result.php");
 	}
 }
 
 if($attack_type == 'spy'){
-	include("spy-result.php");
+	include($path."/spy-result.php");
 }
 
 if($attack_type == 'thief'){
-	include("thief-result.php");
+	include($path."/thief-result.php");
 }
 
 if($attack_type == 'sniper'){
-	include("sniper-result.php");
+	include($path."/sniper-result.php");
 }
 
 if($attack_type == 'satellite'){
 	if($_POST['satellitetype'] == 'empsat'){
-		include("emp-satellite-result.php");
+		include($path."/emp-satellite-result.php");
 	}else{
-		include("satellite-result.php");
+		include($path."/satellite-result.php");
 	}
 }
 
 if($attack_type == 'saboteur'){
-	include("saboteur-result.php");
+	include($path."/saboteur-result.php");
 }
-if($result == 'success'):?>
-<script>
-	jQuery(document).ready(function() {
-		jQuery( ".splashmessage" ).html('S U C C E S S');
-		jQuery( "#splashback" ).addClass( "successsplash" );
-		jQuery( "#splashback,.splashmessage" ).show();
-		jQuery( "#splashback,.splashmessage" ).delay(750).fadeOut( "slow")
-		jQuery('.pageTitle').html('S U C C E S S');
-	});
-</script>
-<?php else:?>
-<script>
-	jQuery(document).ready(function() {
-		jQuery( ".splashmessage" ).html('F A I L U R E');
-		jQuery( "#splashback" ).addClass( "failsplash" );
-		jQuery( "#splashback,.splashmessage" ).show();
-		jQuery( "#splashback,.splashmessage" ).delay(750).fadeOut( "slow")
-		jQuery('.pageTitle').html('F A I L U R E');
-	});
-</script>
-<?php endif;?>
+if(!$debug) {
+	if($result == 'success'):?>
+	<script>
+		jQuery(document).ready(function() {
+			jQuery( ".splashmessage" ).html('S U C C E S S');
+			jQuery( "#splashback" ).addClass( "successsplash" );
+			jQuery( "#splashback,.splashmessage" ).show();
+			jQuery( "#splashback,.splashmessage" ).delay(750).fadeOut( "slow")
+			jQuery('.pageTitle').html('S U C C E S S');
+		});
+	</script>
+	<?php else:?>
+	<script>
+		jQuery(document).ready(function() {
+			jQuery( ".splashmessage" ).html('F A I L U R E');
+			jQuery( "#splashback" ).addClass( "failsplash" );
+			jQuery( "#splashback,.splashmessage" ).show();
+			jQuery( "#splashback,.splashmessage" ).delay(750).fadeOut( "slow")
+			jQuery('.pageTitle').html('F A I L U R E');
+		});
+	</script>
+	<?php endif;
 
-<?php
-update_user_meta($userId, 'user_lock', 0);
-count_all_stats($target_id);
-count_all_stats($userId);
-if($attack_type != 'saboteur'){
-	fcm_send_notification($target_id,$attack_type,$userId);
+	update_user_meta($userId, 'user_lock', 0);
+	count_all_stats($target_id);
+	count_all_stats($userId);
+	if($attack_type != 'saboteur'){
+		fcm_send_notification($target_id,$attack_type,$userId);
+	}
+	?>
+	<script>
+	(function($) {
+		$(document).ready(function() {
+			updateHeaderData();
+		});
+	})(jQuery);
+	</script><?php
 }
-?>
-<script>
-(function($) {
-	$(document).ready(function() {
-		updateHeaderData();
-	});
-})(jQuery);
-</script>

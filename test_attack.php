@@ -1,0 +1,31 @@
+<?php
+require_once("./wp-load.php");
+nocache_headers();
+
+global $userId;
+$userId = 2; // Attacker
+global $userData;
+$userData = get_user_meta($userId);
+global $debug;
+$debug = true;
+$_POST = array(
+    'attackarray' => array('paratrooper' => 1),
+    'attacktype' => 'ground',
+    'target_id' => 2768,
+    'attackmode' => (isset($_GET['attackmode']) ? $_GET['attackmode'] : 'normal'), //aggressive
+    'maintarget' => (isset($_GET['maintarget']) ? $_GET['maintarget'] : 'none')
+);
+if(isset($_GET['attackarray'])) {
+    $_POST['attackarray'] = array();
+    $_POST['attackarray'][$_GET['attackarray']] = 1;
+}
+$_GET = array('id' => 2768); // Defender
+
+function debug_update_user($user_id, $key, $value) {
+    echo '<strong>Update '.$user_id.'</strong> '.$key.': '.$value.'<br>'.PHP_EOL;
+}
+function debug_var($key, $value) {
+    echo '<strong>'.$key.'</strong>: '. $value.'<br>'.PHP_EOL;
+}
+
+require(ABSPATH.'/wp-content/themes/wp-bootstrap-starter/pages/attack/attack-result.php');

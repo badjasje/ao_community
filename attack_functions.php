@@ -296,15 +296,24 @@ function get_attack_cost_turns($attack_type) {
 */
 function create_defender_array($target_id, $type_array) {
 
-    /*check for starting bonus*/
-    $startingbonus = get_user_meta($target_id, 'starting_bonus',true);
-    $defensive_multi = 1;
-    if($startingbonus == 'defensive'){
-        $defensive_multi = 1.25;
-    }
+    global $debug;
     include('units_array.php');
     include('building_array.php');
     include('constants.php');
+
+    // Check for starting bonus
+    $startingbonus = get_user_meta($target_id, 'starting_bonus',true);
+    $defensive_multi = 1;
+    $defensive_multi_units = 1;
+    if($startingbonus == 'defensive'){
+        $defensive_multi = 1.25;
+        $defensive_multi_units = 1.2;
+    }
+
+    // Check for ppe
+    $PPE_multi = 1;
+    $PPE_level = get_user_meta($target_id, 'level_powerplant_efficiency', true);
+    if ($PPE_level == 1) $PPE_multi = 1.5;
 
     $target_data = get_user_meta($target_id);
 
@@ -318,13 +327,14 @@ function create_defender_array($target_id, $type_array) {
     foreach($buildings as $key => $data) {
         $build_count = $target_data[$key][0];
         if ($build_count > 0) {
-            $build_life = $data['life'];
+            $build_life = (in_array($key,array('powerplant','advancedpowerplant')) ? $data['life']*$PPE_multi : $data['life']);
             $bld_sum_life = $build_count * ($build_life * $defensive_multi);
             $stat_array['bld'][$key]['life'] = $bld_sum_life;
             $stat_array['bld'][$key]['count'] = $build_count;
 
             $total_bld_life += $bld_sum_life;
             $total_bld_count += $build_count;
+            if($debug) debug_var('cda '.$key, ($build_life*$defensive_multi));
         }
     }
     $stat_array['bld']['total_life'] = $total_bld_life;
@@ -434,9 +444,24 @@ $overall_bld_total = 0;
 function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) {
 
     global $overall_bld_total;
+    global $debug;
     include('units_array.php');
     include('building_array.php');
     include('constants.php');
+
+    // Check for starting bonus
+    $startingbonus = get_user_meta($target_id, 'starting_bonus',true);
+    $defensive_multi = 1;
+    $defensive_multi_units = 1;
+    if($startingbonus == 'defensive'){
+        $defensive_multi = 1.25;
+        $defensive_multi_units = 1.2;
+    }
+
+    // Check for ppe
+    $PPE_multi = 1;
+    $PPE_level = get_user_meta($target_id, 'level_powerplant_efficiency', true);
+    if ($PPE_level == 1) $PPE_multi = 1.5;
 
     /* initialize attack array with 0 for all */
     $attack_array = array(
@@ -477,12 +502,13 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
         }
 
         /* add to life for all */
-        $bld_life = $buildings[$key]['life'];
-        $bld_life_total = $bld_life * $bld_count;
+        $bld_life = (in_array($key,array('powerplant','advancedpowerplant')) ? $buildings[$key]['life'] * $PPE_multi : $buildings[$key]['life']);
+        $bld_life_total = ($bld_life * $defensive_multi) * $bld_count;
         $life_array['bld'] += $bld_life_total;
 
         //Store the value of this building count to overall total
-         $overall_bld_total +=$bld_count;
+        $overall_bld_total +=$bld_count;
+        if($debug) debug_var('cdbt '.$key, ($bld_life*$defensive_multi) );
     }
 
     /* get defense from units */
@@ -520,9 +546,9 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
 
         /* calculate life per type */
         $unit_life = $units[$key]['life'];
-        $unit_life_total = $unit_life * $unit_count;
+        $unit_life_total = ($unit_life * $defensive_multi_units) * $unit_count;
         $unit_type = $units[$key]['type'];
-
+        if($debug) debug_var('cbdt2 '.$key, ($unit_life * $defensive_multi_units));
         $life_array[$unit_type] += $unit_life_total;
     }
     $defense_array['life'] = $life_array;
@@ -539,9 +565,24 @@ function return_overall_blds_for_defender () {
 
 
 function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray) {
+    global $debug;
     include('units_array.php');
     include('building_array.php');
     include('constants.php');
+
+    // Check for starting bonus
+    $startingbonus = get_user_meta($target_id, 'starting_bonus',true);
+    $defensive_multi = 1;
+    $defensive_multi_units = 1;
+    if($startingbonus == 'defensive'){
+        $defensive_multi = 1.25;
+        $defensive_multi_units = 1.2;
+    }
+
+    // Check for ppe
+    $PPE_multi = 1;
+    $PPE_level = get_user_meta($target_id, 'level_powerplant_efficiency', true);
+    if ($PPE_level == 1) $PPE_multi = 1.5;
 
     /* initialize attack array with 0 for all */
     $attack_array = array(
@@ -569,7 +610,6 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
             continue;
         $power = get_user_meta($target_id, 'power', true);
 
-
         /* if valid DB add to attack array */
         if ($power < 100 && in_array($key, $DEFENSIVE_BUILDINGS)) {
             $target_type = $buildings[$key]['attacks'][0];
@@ -582,10 +622,10 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
         }
 
         /* add to life for all */
-        $bld_life = $buildings[$key]['life'];
-        $bld_life_total = $bld_life * $bld_count;
+        $bld_life = (in_array($key,array('powerplant','advancedpowerplant')) ? $buildings[$key]['life'] * $PPE_multi : $buildings[$key]['life']);
+        $bld_life_total = ($bld_life * $defensive_multi) * $bld_count;
         $life_array['bld'] += $bld_life_total;
-
+        if($debug) debug_var('cbdt2 '.$key, ($bld_life* $defensive_multi));
     }
 
     /* get defense from units */
@@ -623,8 +663,9 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
 
         /* calculate life per type */
         $unit_life = $units[$key]['life'];
-        $unit_life_total = $unit_life * $unit_count;
+        $unit_life_total = ($unit_life * $defensive_multi_units) * $unit_count;
         $unit_type = $units[$key]['type'];
+        if($debug) debug_var('cbdt2 '.$key, ($unit_life * $defensive_multi_units));
 
         $life_array[$unit_type] += $unit_life_total;
     }
@@ -723,7 +764,8 @@ function get_attack_type_multiplier($attack_type) {
 */
 function attack_dice_roll() {
     include('constants.php');
-    return rand($UNIT_DICEROLL_DAMAGE_MIN, $UNIT_DICEROLL_DAMAGE_MAX) / 100;
+    //return rand($UNIT_DICEROLL_DAMAGE_MIN, $UNIT_DICEROLL_DAMAGE_MAX) / 100;
+    return $UNIT_DICEROLL_DAMAGE_MIN / 100;
 }
 
 
@@ -736,7 +778,8 @@ function attack_dice_roll() {
 */
 function resource_dice_roll() {
     include('constants.php');
-    return rand($RESOURCE_DICEROLL_MIN, $RESOURCE_DICEROLL_MAX) / 100;
+    //return rand($RESOURCE_DICEROLL_MIN, $RESOURCE_DICEROLL_MAX) / 100;
+    return $RESOURCE_DICEROLL_MIN / 100;
 }
 
 
@@ -749,10 +792,24 @@ function resource_dice_roll() {
 		$damage_array['total_damage',$type][$key] = value
 */
 function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$target_id,$life_deduct) {
-
+    global $debug;
     include('units_array.php');
     include('building_array.php');
     include('constants.php');
+
+    // Check for starting bonus
+    $startingbonus = get_user_meta($target_id, 'starting_bonus',true);
+    $defensive_multi = 1;
+    $defensive_multi_units = 1;
+    if($startingbonus == 'defensive' && $attack_type != 'defend'){ // only defending units have a multi
+        $defensive_multi = 1.25;
+        $defensive_multi_units = 1.2;
+    }
+
+    // Check for ppe (not logged in user, that's in building_array)
+    $PPE_multi = 1;
+    $PPE_level = get_user_meta($target_id, 'level_powerplant_efficiency', true);
+    if ($PPE_level == 1 && $target_id != get_current_user_id()) $PPE_multi = 1.5;
 
     $losses = array();
 
@@ -798,16 +855,13 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
             /* now calculate kill count */
             $dmg_reduction = 6;
             if ($type == 'bld') {
-                $PPE_level = get_user_meta($target_id, 'level_powerplant_efficiency')[0];
-                $PPE_multi = 1;
-
-                if($buildings[$unit_key] == 'powerplant' || $buildings[$unit_key] == 'advancedpowerplant' ){
-                    if($PPE_level == 1){
-                        $PPE_multi = 1.5;
-                    }
+                if(in_array($unit_key, array('powerplant','advancedpowerplant'))) {
+                    $buildings[$unit_key]['life'] =  $buildings[$unit_key]['life'] * $PPE_multi;
                 }
+                $unit_life = $buildings[$unit_key]['life'] * $defensive_multi;
 
-                $unit_life = $buildings[$unit_key]['life']*$PPE_multi;
+                if($debug) debug_var($unit_key, $unit_life);
+
                 $dmg_reduction = $DAMAGE_REDUCTION_FACTOR_BLD;
                 //MEGA 20180219 make buildings harder to kill if less than 300 remain
                 if (return_overall_blds_for_defender() < 300) {
@@ -815,7 +869,7 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
                 }
             }
             else {
-                $unit_life = $units[$unit_key]['life'];
+                $unit_life = $units[$unit_key]['life'] * $defensive_multi_units;
                 $dmg_reduction = $DAMAGE_REDUCTION_FACTOR_UNIT;
             }
 
