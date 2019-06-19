@@ -1,4 +1,9 @@
 <?php
+/**
+ * A user is an website-entity with a username, email and password
+ * A province is game-entity with land, turns, morale, etc
+ * Right now a user can only have ONE province
+ */
 class User extends DbObject {
     //static $table = 'users';
     static $cache = 'users';
@@ -8,15 +13,15 @@ class User extends DbObject {
         'description','phone_number','first_visit','last_online','user_lock',
         'telegram_key','high_power_notified','low_power_notified','low_buildings_notified','last_summary',
     );
-    private $province = false;
+    public $province = false;
 
     public function __construct($props=null) {
         if(is_numeric($props)) {
             if(static::$cache && isset(static::$list[static::$cache][$props])) {
                 return parent::__construct(static::$list[static::$cache][$props]);
             }
-            // Set user and province from data from Wordpress (for now)
             $props = $this->getUserDataFromWordpress($props);
+            $p_props = $props;
         }
     	if(is_array($props)) {
             foreach($props as $k => $v) {
@@ -24,44 +29,45 @@ class User extends DbObject {
             }
         }
         parent::__construct($props);
+        if(isset($p_props)) $this->set('province', Province::make($p_props));
     }
 
     public function update($key, $value) {
-        if(in_array($key,$this->fields)) update_user_meta($this->id, $key, $value);
+        if(in_array($key,$this->fields)) update_user_meta($this->id, $key, $value); //@wp
         else {
-            $userdata = array('ID'=>$this->id);
-            $userdata['user_'.$key] = $value;
-            wp_update_user($userdata);
+            $_userdata = array('ID'=>$this->id);
+            $_userdata['user_'.$key] = $value;
+            wp_update_user($_userdata); //@wp
         }
-        parent::update($key, $value);
+        return parent::update($key, $value);
     }
 
     private function getUserDataFromWordpress($id) {
-        $user = get_userdata($id);
-        $meta = array_map( function( $a ){ return $a[0]; }, get_user_meta($id));
+        $user = get_userdata($id); //@wp
+        $meta = array_map( function( $a ){ return $a[0]; }, get_user_meta($id)); //@wp
         $props = array_merge(array(
             'id' => $user->ID, 'email' => $user->data->user_email, 'nicename' => $user->data->user_nicename,
             'registered' => $user->data->user_registered, 'display_name' => $user->data->display_name
         ), $meta);
-
-        $this->province = Province::make($props);
         return $props;
     }
 
     public function isBanned() {
         return ($this->get('status') == 'banned');
     }
+    public function isAdmin() {
+        return (in_array($this->get('id'), Settings::get('admin_ids'))); // can this even BE more ugly?
+    }
     public function getProvince() {
-        return $this->province;
+        return $this->get('province');
     }
 
     /*public function getUsernamelink() {
-        return '<a href="'.get_site_url().'/users/profile/?id='.$this->get('id').'" data-id="'.$this->get('id').'" class="user-link username-link">
+        return '<a href="'.Request::siteUrl().'/users/profile/?id='.$this->get('id').'" data-id="'.$this->get('id').'" class="user-link username-link">
             '.$this->get('username').'
         </a>';
     }
     public function getXP() {}
-    public function getAvatar() {}
     public function getDisplayName() {}
     public function getUsername() {}
     public function getEmail() {}*/

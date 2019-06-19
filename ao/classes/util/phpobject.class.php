@@ -3,7 +3,9 @@ class phpObject {
 
     // Example: Fill this object from a database result: $user = new User($result); echo $user->get('username');
 	public function __construct($props=null) {
+		if(is_object($props)) $props = json_decode(json_encode($props), true);
 		if(is_array($props)) $this->setPropertiesFromArray($props);
+
 	}
 
     // Easily create a new instance for method chaining
