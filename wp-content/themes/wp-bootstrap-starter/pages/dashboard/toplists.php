@@ -30,24 +30,24 @@ if(count($toplistArray) && isset($toplistArray['clannetworth'])) {
     ?>
     <div class="row row-no-padding fw-row statusTotalRow">
         <div class="col-md-3 statusRow statCol-4">
-            <div class="blockHeader">
+            <a href="<?=get_site_url()?>/toplists/?tab=clanpointstoday" class="blockHeader">
                 <strong>Top clan pts today</strong>
-                <a href="<?php echo get_site_url(); ?>/toplists/?tab=clanpointstoday" class="float-right"><small>more &raquo;</small></a>
-            </div>
+                <div class="float-right"><small>more &raquo;</small></div>
+            </a>
             <?=(!empty($topPtsToday) ? '<div class="row unitRow">'.$topPtsToday.'</div>' : '')?>
         </div>
         <div class="col-md-3 statusRow statCol-2">
-            <div class="blockHeader">
+            <a href="<?=get_site_url()?>/toplists/?tab=clannw" class="blockHeader">
                 <strong>Top clan nw</strong>
-                <a href="<?php echo get_site_url(); ?>/toplists/?tab=clannw" class="float-right"><small>more &raquo;</small></a>
-            </div>
+                <div class="float-right"><small>more &raquo;</small></div>
+            </a>
             <?=(!empty($topClanNw) ? '<div class="row unitRow">'.$topClanNw.'</div>' : '')?>
         </div>
         <div class="col-md-3 statusRow statCol-3">
-            <div class="blockHeader">
+            <a href="<?=get_site_url()?>/toplists/?tab=clanpoints" class="blockHeader">
                 <strong>Top clan pts total</strong>
-                <a href="<?php echo get_site_url(); ?>/toplists/?tab=clanpoints" class="float-right"><small>more &raquo;</small></a>
-            </div>
+                <div class="float-right"><small>more &raquo;</small></div>
+            </a>
             <?=(!empty($topPts) ? '<div class="row unitRow">'.$topPts.'</div>' : '')?>
         </div>
         <div class="col-md-3 statusRow statCol-4">
