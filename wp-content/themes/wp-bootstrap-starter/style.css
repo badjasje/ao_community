@@ -259,6 +259,7 @@ h2.entry-title {
 h3.widget-title {
     font-size: 1.2rem;
 }
+.underline { text-decoration:underline; }
 
 /*--------------------------------------------------------------
 # Elements
@@ -1093,6 +1094,9 @@ body:not(.theme-preset-active) footer#colophon {
 .successHeader a, .blockHeader a, .statusTotalRow .blockHeader a {
 	color:#fff!important;
 }
+.blockHeader.warning {
+    background-color:#A00000
+}
 .eventFooter{
 	margin-bottom:50px;
 }
@@ -1109,6 +1113,7 @@ body:not(.theme-preset-active) footer#colophon {
 	margin-bottom: 0px;
 	text-align:center;
 }
+.receiveFunds { background-color:#A00000; border:0; }
 .chooseFile{
 	background-color:#ddd;
 	border:0px;
@@ -1200,15 +1205,10 @@ input[type="radio"]:checked + label {
 .clanMessageButton a{
 	color:#fff;
 }
-.secondButton,.fourthbutton{
-	background-color: rgba(70, 118, 94, 0.95);
-}
-.secondButton{
-	border-width: 1px 0px 1px 1px;
-}
-.fourthbutton{
-	border-width: 1px 0px 0px 1px;
-}
+.secondButton,.fourthbutton { background-color: rgba(70, 118, 94, 0.95); }
+.secondButton { border-width: 1px 0px 1px 1px; }
+.fourthbutton { border-width: 1px 0px 0px 1px; }
+
 .statusRow{
 	padding:0px;
 	border: solid #fff;
@@ -1679,6 +1679,7 @@ input[type="radio"]:checked + label {
 .celBlock{
 	padding:13px;
 }
+.celBlock ul { padding-left:16px; }
 .unitRow{
 	margin:0px;
 }
@@ -1961,6 +1962,9 @@ input[type="radio"]:checked + label {
 .message-editor{
 	display: none;
 }
+.message-editor .mainSubmit { float:left; width:50% }
+.message-editor #dismiss { background-color:#ddd; color:#000; }
+
 .nameBlock a{
     color:#fff;
 }
