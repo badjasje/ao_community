@@ -63,7 +63,7 @@ Data/Satellites extends PhpObject
 Data/Settings extends PhpObject
 Data/Units extends PhpObject
 *Data/Bonusses extends PhpObject
-*Data/StartBonusses extends PhpObject
+*Data/StartBoni extends PhpObject
 *Data/Trophies extends PhpObject
 
 // Other

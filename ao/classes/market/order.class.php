@@ -4,10 +4,33 @@ class Order extends PostObject {
     function __construct($postData=null) {
         parent::__construct($postData);
         $this->setPropertiesFromArray(array('province_id' => intval($postData->post_author)));
-        // post_date
-        // order_type = units, satellite, ?
-        // order_value
-        // units: unit_type, amount_ordered, user_placed_id, time_placed, delivery_time
+        $unit_type = $this->get('unit_type');
+
+        if($this->type() == 'units') {
+            $unit = Units::get($unit_type);
+            if(!!$unit) $this->set('title', $unit['normalname']);
+        }
+        if($this->type() == 'satellite') {
+            $satellite = Satellites::get($unit_type);
+            if(!!$satellite) $this->set('title', $satellite['name']);
+        }
+    }
+
+    public function title($format=false) {
+        return $this->get('title');
+    }
+
+    public function type() {
+        return $this->get('order_type'); // should be checked with possible types
+    }
+
+    public function amount() {
+        return intval($this->get('amount_ordered'));
+    }
+
+    public function timeLeft($format=false) {
+        $diff = intval($this->get('delivery_time')) - current_time('timestamp');
+        return ($format ? Format::time_diff($diff) : $diff);
     }
 
     // Used by market-cronjob and devfunds ajax call
@@ -16,18 +39,19 @@ class Order extends PostObject {
         $province = Province::make($this->get('province_id'));
         $unit_type = $this->get('unit_type');
 
-        if($this->get('order_type') == 'units') {
+        if($this->type() == 'units') {
             $unit = Units::get($unit_type);
-            if(!$unit) return false;
+            if(!$unit) return false; // Unit does not exist
+
             $ownedunits = $province->getUnitsNum($unit_type);
-            $units_in_this_order = intval($this->get('amount_ordered'));
+            $units_in_this_order = $this->amount();
             $total_units_on_order = intval($province->get($unit_type.'_ordered'));
             $province->update($unit_type.'_ordered', $total_units_on_order - $units_in_this_order);
             $province->update($unit_type.'_owned', $units_in_this_order + $ownedunits);
             wp_trash_post($this->get('id'));
         }
 
-        if($this->get('order_type') == 'satellite') {
+        if($this->type() == 'satellite') {
             if(!$province->hasResearchMinimalLevel('satellite_construction', 1)) return false; // User cannot build sats
             if($province->getSatelliteNum() > 0) return false; // Province can only have one sattelite (for now)
             $satellite = Satellites::get($unit_type);

@@ -25,6 +25,14 @@ class Format extends PhpObject {
         return number_format($n, 0, ',', ' ');
     }
 
+    public static function points($n) {
+        return $n;
+    }
+
+    public static function position($n) {
+        return number_format($n, 0, ',', ' ');
+    }
+
     public static function date($timestamp, $format='H:i:s d F Y') {
         return date_i18n($format, $timestamp);
     }

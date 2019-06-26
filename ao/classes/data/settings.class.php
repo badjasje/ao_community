@@ -43,9 +43,9 @@ class Settings extends DataObject {
         'satellite_construction_2_endlife' => 16,
 
         // start bonus things
-        'startboni' => array('offensive','defensive','finance','shipping'),
         'startbonus_defensive_building_life_multi' => 1.25,
         'startbonus_defensive_unit_life_multi' => 1.2,
+        'startbonus_finance_income_multi' => 1.1,
 
         // attack constants
         'points_kill_outgoing' => 25,
@@ -75,6 +75,9 @@ class Settings extends DataObject {
         // attack range multiplier
         'attack_range_mult' => 1.4,
         'average_declare_nw_allowed' => 1.6,
+
+        // clan stuff
+        'clan_trustee_num' => 4,
     );
 
 }

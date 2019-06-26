@@ -9,7 +9,7 @@ class Province extends DbObject {
     public $fields = array(
         // Generic
         'id','display_name','avatar_user','status','starting_bonus','new_events','new_messages','new_global_events',
-        'user_lock','morale_lock',
+        'user_lock','morale_lock','telegram_key',
 
         // Resources
         'money','turns','networth','land','power','morale','morale_pool','sat_morale',
@@ -101,9 +101,9 @@ class Province extends DbObject {
     // Returns formatted data
     public function ajaxHeader($return) {
         $return['success']  = true;
-        $return['globals']  = intval($this->get('new_global_events'));
-        $return['locals']   = intval($this->get('new_events'));
-        $return['messages'] = intval($this->get('new_messages'));
+        $return['globals']  = $this->getGlobalNum();
+        $return['locals']   = $this->getLocalNum();
+        $return['messages'] = $this->getMessageNum();
         $return['turns'] 	= $this->getTurns(true);
         $return['networth'] = $this->getNetworth(true);
         $return['money'] 	= $this->getMoney(true);
@@ -133,8 +133,43 @@ class Province extends DbObject {
             Settings::get('devfunds_turns').' turns received');
     }
 
+    public function ajaxStartingbonus($return) {
+        if(!empty($this->getStartingBonus())) return array('status' => 'You already have a startbonus.');
+        $bonustype = Request::post('bonustype');
+        $bonus = Startboni::get($bonustype);
+        if(empty($bonus)) return array('status' => 'No such startbonus.');
+        switch($bonustype) {
+            case 'offensive': $this->update('turns', $this->getTurns() + 75); break;
+            case 'defensive': $this->update('land', $this->getLand() + 3500); break;
+            case 'finance': $this->update('money', $this->getMoney() + 400000); break;
+            case 'shipping':
+                $this->update('land', $this->getLand() + 2500);
+                $this->update('money', $this->getMoney() + 250000);
+            break;
+        }
+        $this->update('starting_bonus', $bonustype);
+        return array('success' => true, 'status' => 'Starting bonus picked');
+    }
+
+    public function ajaxRemoveNp($return) {
+        // @todo: use new LocalEvent();
+
+        $new_event_id = wp_insert_post(array(
+            'post_title' => 'Nukeprotection removed for '.$this->id,
+            'post_status' => 'publish', 'post_type' => 'event_local', 'post_author' => $this->id
+        ));
+        update_field('attacktype', 'nukeprotection', $new_event_id);
+        update_field('defender_id', $this->id, $new_event_id);
+        update_field('attacker_id', $this->id, $new_event_id);
+        update_field('time_attacked', current_time('timestamp'), $new_event_id);
+        $this->update('new_events', intval($this->get('new_events')) + 1 );
+
+        $this->update('status', 'online');
+        return array('success' => false, 'status' => 'Starting bonus picked');
+    }
+
     /**
-     * Status
+     * Status: dead
      */
     public function isDead() {
         return $this->get('status') == 'dead';
@@ -143,10 +178,20 @@ class Province extends DbObject {
 
     }
 
+    /**
+     * Status: protected
+     */
     public function isProtected() {
         return $this->get('status') == 'nukeprotection';
     }
+    public function getProtectionTimeLeft($format=false) {
+        $diff = intval($this->get('nuke_protection_timestamp')) - current_time('timestamp');
+        return ($format ? Format::time_diff($diff) : $diff);
+    }
 
+    /**
+     * Other
+     */
     public function inRange() {
         $user = CurrentUser::make();
         if(!$user->isLoggedIn()) return false;
@@ -241,13 +286,49 @@ class Province extends DbObject {
         return ($format ? Format::power($n) : $n);
     }
 
-    public function getStartingBonus() {
-        return $this->get('starting_bonus');
+    public function getPosition($key,$format=false) {
+        $n = intval($this->get($key.'_position'));
+        return ($format ? Format::position($n) : $n);
+    }
+
+    public function getGlobalNum($format=false) {
+        return intval($this->get('new_global_events'));
+    }
+    public function getLocalNum($format=false) {
+        return intval($this->get('new_events'));
+    }
+    public function getMessageNum($format=false) {
+        return intval($this->get('new_messages'));
+    }
+
+    // Used on dashboard
+    public function getIncome($format=false) {
+        $finance_multi = ($this->hasStartingBonus('finance') ? Settings::get('startbonus_finance_income_multi') : 1);
+        $income = Settings::get('income_money') * $finance_multi;
+
+        $money_production = $this->getResearches('money_production');
+        if($money_production['level'] == 1) $income = $money_production['level1_value'] * $finance_multi;
+        elseif($money_production['level'] == 2) $income = $money_production['level2_value'] * $finance_multi;
+
+        return ($format ? Format::money($income) : $income);
+    }
+
+    public function getTelegramKey() {
+        $telegram_key = $this->get('telegram_key');
+        if(empty($telegram_key)) {
+	        $telegram_key = uniqid();
+	        $this->update('telegram_key', $telegram_key);
+        }
+        return $telegram_key;
     }
 
     /**
      * Startingbonus
      */
+    public function getStartingBonus() {
+        $s = Startboni::get($this->get('starting_bonus'));
+        return (!!$s ? $s : false);
+    }
     public function hasStartingBonus($key) {
         return $this->get('starting_bonus') == $key;
     }
@@ -278,9 +359,9 @@ class Province extends DbObject {
     public function getResearches($key=null) {
         $researches = Researches::get();
         foreach($researches as $key => $research) {
-            if($this->hasStartingBonus('defensive')) $researches[$key]['duration'] = $researches[$key]['duration'] * 0.9;
-            //Hooks::trigger('get_province_research', array($key, $researches[$key])); // we might want to work with modifiers
             $researches[$key]['level'] = !empty($this->get('level_'.$key)) ? intval($this->get('level_'.$key)) : 0;
+            //Hooks::trigger('get_province_research', array($key, $researches[$key])); // we might want to work with modifiers
+            if($this->hasStartingBonus('defensive')) $researches[$key]['duration'] = $researches[$key]['duration'] * 0.9;
         }
         return  ($key != null && $researches[$key] ? $researches[$key] : $researches);
     }
@@ -310,10 +391,10 @@ class Province extends DbObject {
         $buildings = Buildings::get();
         foreach($buildings as $key => $building) {
             $buildings[$key]['num'] = (!!$this->get($key) ? intval($this->get($key)) : 0);
+            //Hooks::trigger('get_province_building', array($key, $buildings[$key])); // we might want to work with modifiers
             if($this->hasStartingBonus('defensive')) {
                 $buildings[$key]['life'] = $buildings[$key]['life'] * Settings::get('startbonus_defensive_building_life_multi');
             }
-            //Hooks::trigger('get_province_building', array($key, $buildings[$key])); // we might want to work with modifiers
         }
 
         if ($this->hasResearchMinimalLevel('powerplant_efficiency',1)) {
@@ -323,11 +404,7 @@ class Province extends DbObject {
             $buildings['advancedpowerplant']['description'] = 'Produces ' . (15000*1.5) .' power';
         }
 
-        $AMS = intval($this->get('antimissile'));
-        if($AMS > 0) {
-            $def_land = intval($province->get('builtland'));
-            $shootdown_chance = (($AMS*100)/$def_land)*100;
-            if ($shootdown_chance >= 75) $shootdown_chance = 75;
+        if($shootdown_chance = $this->getShootdownChance()) {
             $buildings['antimissile']['shootdown_chance'] = $shootdown_chance;
             $buildings['antimissile']['description'] = 'Each Anti-Missile System protects 100m2 of your built land.
                 Chance to shoot down missiles is currently '. $shootdown_chance .'%.
@@ -335,6 +412,20 @@ class Province extends DbObject {
         }
 
         return ($key != null && $buildings[$key] ? $buildings[$key] : $buildings);
+    }
+
+    /**
+     * Used for showing pp-buildings, and status on dashboard
+     */
+    public function getShootdownChance($format=false) {
+        $shootdown_chance = 0;
+        $AMS = intval($this->get('antimissile'));
+        if($AMS > 0) {
+            $def_land = intval($this->get('builtland'));
+            $shootdown_chance = round( (($AMS*100)/$def_land)*100, 2 );
+            if ($shootdown_chance >= 75) $shootdown_chance = 75;
+        }
+        return ($format ? $shootdown_chance.'%' : $shootdown_chance);
     }
 
     // Calculate total buildings number
@@ -356,10 +447,10 @@ class Province extends DbObject {
         $units = Units::get();
         foreach($units as $key => $unit) {
             $units[$key]['num'] = (!!$this->get($key.'_owned') ? intval($this->get($key.'_owned')) : 0);
+            //Hooks::trigger('get_province_unit', array($key, $units[$key])); // we might want to work with modifiers
             if($this->hasStartingBonus('defensive')) {
                 $units[$key]['life'] = $units[$key]['life'] * Settings::get('startbonus_defensive_unit_life_multi');
             }
-            //Hooks::trigger('get_province_unit', array($key, $units[$key])); // we might want to work with modifiers
         }
 
         return ($key != null && $units[$key] ? $units[$key] : $units);
@@ -417,7 +508,7 @@ class Province extends DbObject {
      * @todo: return a ClanObject
      */
     public function getClan() {
-        return $this->get('clan_id_user');
+        return (!empty($this->get('clan_id_user')) ? Clan::make($this->get('clan_id_user')) : false);
     }
 
     /*
