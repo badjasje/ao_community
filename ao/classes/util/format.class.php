@@ -1,7 +1,7 @@
 <?php
 class Format extends PhpObject {
 
-    public static function money($n) {
+    public static function money($n) { // @todo: We could put an euro here sometime for fun
         return sprintf('$ %s', number_format($n, 0, ',', ' '));
     }
 
@@ -25,11 +25,22 @@ class Format extends PhpObject {
         return number_format($n, 0, ',', ' ');
     }
 
+    public static function points($n) {
+        return $n;
+    }
+
+    public static function position($n) {
+        return number_format($n, 0, ',', ' ');
+    }
+
+    public static function date($timestamp, $format='H:i:s d F Y') {
+        return date_i18n($format, $timestamp);
+    }
+
     public static function time_diff($timestamp1, $timestamp2=null) {
         return human_time_diff($timestamp1, (!!$timestamp2 ? $timestamp2 : current_time('timestamp')));
     }
 
-    // Following functions should be in a util somewhere
     public static function time_elapsed($datetime, $level = 1) {
         if(!$datetime) { return 'never'; }
         $now = new DateTime;

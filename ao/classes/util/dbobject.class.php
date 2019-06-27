@@ -19,10 +19,10 @@ class DbObject extends PhpObject {
 		if(!!static::$cache && !isset(static::$list[static::$cache])) static::$list[static::$cache] = array();
 		if(is_numeric($props)) $props = $this->getOne($props);
 		if(is_array($props)) {
-            if(isset($props['id']) && !!static::$cache) static::$list[static::$cache][$props['id']] = $props;
             $this->setPropertiesFromArray($props);
+            if(isset($this->id)) $this->setCache($props);
         }
-	}
+    }
 
     /**
      * Example: User::add(array('username'=>'test','password'=>'12345'))
@@ -101,7 +101,8 @@ class DbObject extends PhpObject {
         $data[$key] = $value;
         if(!!static::$table) $this->db->changeTable($data, static::$table, array('id'));
         $this->setPropertiesFromArray($data);
-        if(!!static::$cache) static::$list[static::$cache][$data['id']][$key] = $value;
+        $this->setCache(array($key => $value));
+        return true;
     }
 
     // Example: $user->delete()
@@ -113,6 +114,16 @@ class DbObject extends PhpObject {
 		return false;
     }
 
+    public function set($key, $prop) {
+        $this->setCache(array($key => $prop));
+        parent::set($key, $prop);
+    }
 
+    //
+    public function setCache($props) {
+        if(!static::$cache) return false;
+        if(!isset(static::$list[static::$cache][$this->id])) static::$list[static::$cache][$this->id] = array();
+        static::$list[static::$cache][$this->id] = array_merge(static::$list[static::$cache][$this->id], $props);
+    }
 
 }

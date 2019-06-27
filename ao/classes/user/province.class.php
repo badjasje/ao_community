@@ -1,13 +1,16 @@
 <?php
 
-class Province extends User {
+class Province extends DbObject {
     //static $table = 'provinces';
     public static $cache = 'provinces';
+    public static $bankAccount = false;
 
     // @todo: add building, missile, sat, research, unit-fields from data objects
     public $fields = array(
         // Generic
-        'id','status','starting_bonus','new_events','new_messages','new_global_events','user_lock','morale_lock',
+        'id','display_name','avatar_user','status','starting_bonus','new_events','new_messages','new_global_events',
+        'user_lock','morale_lock','telegram_key',
+
         // Resources
         'money','turns','networth','land','power','morale','morale_pool','sat_morale',
         'networth_cache','land_cache','cached_land','cached_nw',
@@ -74,18 +77,182 @@ class Province extends User {
         'clan_message','clan_create_counter','spied_current_clan',
     );
 
-    public function getAvatar() {
-        return small_avatar($this->id,'menuAvatar');
+    public function __construct($props=null) {
+        if(is_numeric($props)) {
+            if(static::$cache && isset(static::$list[static::$cache][$props])) {
+                return parent::__construct(static::$list[static::$cache][$props]);
+            }
+            $props = User::make()->getUserDataFromWordpress($props);
+        }
+        if(is_array($props)) {
+            foreach($props as $k => $v) {
+                if(count($this->fields) && !in_array($k, $this->fields)) { unset($props[$k]); continue; }
+            }
+        }
+        parent::__construct($props);
     }
 
-    public function getMoney($format=false) {
-        $n = intval($this->get('money'));
-        return ($format ? Format::money($n) : $n);
+    // As long as we are using WP, we re-use this function
+    public function update($key, $value) {
+        if(in_array($key,$this->fields)) update_user_meta($this->id, $key, $value); //@wp
+        return parent::update($key, $value);
+    }
+
+    // Returns formatted data
+    public function ajaxHeader($return) {
+        $return['success']  = true;
+        $return['globals']  = $this->getGlobalNum();
+        $return['locals']   = $this->getLocalNum();
+        $return['messages'] = $this->getMessageNum();
+        $return['turns'] 	= $this->getTurns(true);
+        $return['networth'] = $this->getNetworth(true);
+        $return['money'] 	= $this->getMoney(true);
+        $return['morale'] 	= $this->getMorale(true);
+        $return['land'] 	= $this->getLand(true);
+        $return['power'] 	= $this->getPower(true);
+        return $return;
+    }
+
+    public function ajaxDevfunds($return) {
+        if(!Round::isDev() && !Round::isTest()) return array('status' => 'Unavailable');
+
+        $this->update('money', $this->getMoney() + Settings::get('devfunds_money'));
+        $this->update('turns', $this->getTurns() + Settings::get('devfunds_turns'));
+        $this->update('morale', 100);
+        $this->update('morale_pool', 100);
+        $this->update('sat_morale', 100);
+        if($this->isDead() || $this->isProtected()) $this->update('status', 'online');
+
+        if($research = $this->getCurrentResearch()) $research->end(); // could start queued research too
+        if($research = $this->getCurrentResearch()) $research->end(); // end the queued research too
+
+        foreach($this->getOrders() as $order) $order->end();
+
+        return array('success' => true, 'status' => 'All set: '.
+            Format::money(Settings::get('devfunds_money')).', full morale, orders, research and '.
+            Settings::get('devfunds_turns').' turns received');
+    }
+
+    public function ajaxStartingbonus($return) {
+        if(!empty($this->getStartingBonus())) return array('status' => 'You already have a startbonus.');
+        $bonustype = Request::post('bonustype');
+        $bonus = Startboni::get($bonustype);
+        if(empty($bonus)) return array('status' => 'No such startbonus.');
+        switch($bonustype) {
+            case 'offensive': $this->update('turns', $this->getTurns() + 75); break;
+            case 'defensive': $this->update('land', $this->getLand() + 3500); break;
+            case 'finance': $this->update('money', $this->getMoney() + 400000); break;
+            case 'shipping':
+                $this->update('land', $this->getLand() + 2500);
+                $this->update('money', $this->getMoney() + 250000);
+            break;
+        }
+        $this->update('starting_bonus', $bonustype);
+        return array('success' => true, 'status' => 'Starting bonus picked');
+    }
+
+    public function ajaxRemoveNp($return) {
+        // @todo: use new LocalEvent();
+
+        $new_event_id = wp_insert_post(array(
+            'post_title' => 'Nukeprotection removed for '.$this->id,
+            'post_status' => 'publish', 'post_type' => 'event_local', 'post_author' => $this->id
+        ));
+        update_field('attacktype', 'nukeprotection', $new_event_id);
+        update_field('defender_id', $this->id, $new_event_id);
+        update_field('attacker_id', $this->id, $new_event_id);
+        update_field('time_attacked', current_time('timestamp'), $new_event_id);
+        $this->update('new_events', intval($this->get('new_events')) + 1 );
+
+        $this->update('status', 'online');
+        return array('success' => false, 'status' => 'Starting bonus picked');
+    }
+
+    /**
+     * Status: dead
+     */
+    public function isDead() {
+        return $this->get('status') == 'dead';
+    }
+    public function afterDeath() {
+
+    }
+
+    /**
+     * Status: protected
+     */
+    public function isProtected() {
+        return $this->get('status') == 'nukeprotection';
+    }
+    public function getProtectionTimeLeft($format=false) {
+        $diff = intval($this->get('nuke_protection_timestamp')) - current_time('timestamp');
+        return ($format ? Format::time_diff($diff) : $diff);
+    }
+
+    /**
+     * Other
+     */
+    public function inRange() {
+        $user = CurrentUser::make();
+        if(!$user->isLoggedIn()) return false;
+
+        $province = $user->getProvince();
+        if($province->get('id') == $this->id) return false; // I am not in range of myself
+
+        if($this->isDead()) return false;
+
+        $networth = $this->getNetworth();
+        $viewerNetworth = $user->getNetworth();
+        $range = Settings::get('attack_range_mult');
+        return ($networth > $viewerNetworth / $range && $networth < $viewerNetworth * $range);
+    }
+
+    /**
+     * Public province data
+     */
+    public function getName() {
+        return $this->get('display_name');
+    }
+
+    public function getLink() {
+        return Request::siteUrl().'/users/profile/?id='.$this->id;
+    }
+
+    public function getAvatar() {
+        $avatar = $this->get('avatar_user');
+        $return = '<a href="'.$this->getLink().'" title="'.$this->getName().'">';
+        if(!empty($avatar)) {
+            $avatar = str_replace("http://", "https://", $avatar);
+            $return .= '<div class="setAvatar menuAvatar" style="background: url(\''.$avatar.'\');"></div>';
+        }
+        else {
+            // @todo Change this to classes to avoid inline css
+            $map = array('A'=>'#2D434E','B'=>'#607782','C'=>'#425D69','D'=>'#1B3642','E'=>'#0D2632','F'=>'#343855','G'=>'#6C708E','H'=>'#4C5173',
+            'I'=>'#212648','J'=>'#121636','K'=>'#315842','L'=>'#6A937C','M'=>'#49775D','N'=>'#1C4B31','O'=>'#0D3820','P'=>'#7B6C44','Q'=>'#CEBE95',
+            'R'=>'#CEBE95','S'=>'#A79566','T'=>'#695728','U'=>'#4F3E12','V'=>'#7B5044','W'=>'#CEA195','X'=>'#A77366','Y'=>'#693528','Z'=>'#4F1F12');
+            $firstletter = strtoupper(substr($this->getName(), 0, 1));
+            $color = (isset($map[$firstletter]) ? $map[$firstletter] : '#2D434E');
+            $return .= '<div class="setAvatar menuAvatar" style="background-color:'. $color .';">'. $firstletter .'</div>';
+        }
+        return $return .'</a>';
     }
 
     public function getNetworth($format=false) {
         $n = intval($this->get('networth'));
         return ($format ? Format::networth($n) : $n);
+    }
+
+    public function getLand($format=false) {
+        $n = intval($this->get('land'));
+        return ($format ? Format::land($n) : $n);
+    }
+
+    /**
+     * Private province data (within clan)
+     */
+    public function getMoney($format=false) {
+        $n = round($this->get('money'));
+        return ($format ? Format::money($n) : $n);
     }
 
     public function getTurns($format=false) {
@@ -104,18 +271,13 @@ class Province extends User {
     }
 
     public function getSatMorale($format=false) {
-        $n = intval($this->get('sat_morale'));
+        $n = ($this->get('sat_owned') == 0 ? 0 : intval($this->get('sat_morale')));
         return ($format ? Format::morale($n) : $n);
     }
 
-    public function getLand($format=false) {
-        $n = intval($this->get('land'));
-        return ($format ? Format::land($n) : $n);
-    }
-
     public function getFreeLand($format=false) {
-        $n = intval($this->get('land'));
-        $b = intval($this->get('land'));
+        $n = round($this->get('land'));
+        $b = round($this->get('builtland'));
         return ($format ? Format::land($n-$b) : $n-$b);
     }
 
@@ -124,37 +286,101 @@ class Province extends User {
         return ($format ? Format::power($n) : $n);
     }
 
+    public function getPosition($key,$format=false) {
+        $n = intval($this->get($key.'_position'));
+        return ($format ? Format::position($n) : $n);
+    }
+
+    public function getGlobalNum($format=false) {
+        return intval($this->get('new_global_events'));
+    }
+    public function getLocalNum($format=false) {
+        return intval($this->get('new_events'));
+    }
+    public function getMessageNum($format=false) {
+        return intval($this->get('new_messages'));
+    }
+
+    // Used on dashboard
+    public function getIncome($format=false) {
+        $finance_multi = ($this->hasStartingBonus('finance') ? Settings::get('startbonus_finance_income_multi') : 1);
+        $income = Settings::get('income_money') * $finance_multi;
+
+        $money_production = $this->getResearches('money_production');
+        if($money_production['level'] == 1) $income = $money_production['level1_value'] * $finance_multi;
+        elseif($money_production['level'] == 2) $income = $money_production['level2_value'] * $finance_multi;
+
+        return ($format ? Format::money($income) : $income);
+    }
+
+    public function getTelegramKey() {
+        $telegram_key = $this->get('telegram_key');
+        if(empty($telegram_key)) {
+	        $telegram_key = uniqid();
+	        $this->update('telegram_key', $telegram_key);
+        }
+        return $telegram_key;
+    }
+
+    /**
+     * Startingbonus
+     */
     public function getStartingBonus() {
-        return $this->get('starting_bonus');
+        $s = Startboni::get($this->get('starting_bonus'));
+        return (!!$s ? $s : false);
     }
     public function hasStartingBonus($key) {
         return $this->get('starting_bonus') == $key;
     }
 
     /**
-     *
+     * Province bank account
      */
+    public function getBankAccount() {
+        if(static::$bankAccount==false) static::$bankAccount = BankAccount::make($this->id);
+        return static::$bankAccount;
+    }
+
+    /**
+     * Province market orders
+     */
+    public function getOrders() {
+        $orders = get_posts(array('posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'market_order', 'author' => $this->id));
+        $return = array();
+        foreach($orders as $order) {
+            $return[] = Order::make($order);
+        }
+        return $return;
+    }
+
+    /**
+     * Province Research
+     */
+    public function getResearches($key=null) {
+        $researches = Researches::get();
+        foreach($researches as $key => $research) {
+            $researches[$key]['level'] = !empty($this->get('level_'.$key)) ? intval($this->get('level_'.$key)) : 0;
+            //Hooks::trigger('get_province_research', array($key, $researches[$key])); // we might want to work with modifiers
+            if($this->hasStartingBonus('defensive')) $researches[$key]['duration'] = $researches[$key]['duration'] * 0.9;
+        }
+        return  ($key != null && $researches[$key] ? $researches[$key] : $researches);
+    }
     public function getCurrentResearch() {
         if(!empty($this->get('research_in_progress'))) {
-            $args = array('posts_per_page' => 1, 'author' => $this->id, 'post_type' => 'research');
-            $researches = get_posts($args);
+            $researches = get_posts(array('posts_per_page' => 1, 'author' => $this->id, 'post_type' => 'research'));
             if(is_array($researches) && count($researches) && is_object($researches[0])) {
-                $props = array_merge(
-                    Researches::get($researches[0]->post_content),
-                    array('end_time' => $researches[0]->post_title)
-                );
-                return PhpObject::make($props); // @todo: should be a ResearchObject
+                return Research::make($researches[0]);
             }
         }
         return false;
     }
-    public function getResearchTimeLeft() {
-        if($r = $this->getCurrentResearch()) return Format::time_diff($r->get('end_time'));
+    public function getResearchTimeLeft($format=false) {
+        if($research = $this->getCurrentResearch()) return $research->timeLeft($format);
         return false;
     }
     public function hasResearchMinimalLevel($key,$level=0) { // 0 will always return true
         $r = !empty($this->get('level_'.$key)) ? intval($this->get('level_'.$key)) : 0;
-        return $r == $level;
+        return $r >= $level;
     }
 
     /**
@@ -165,7 +391,10 @@ class Province extends User {
         $buildings = Buildings::get();
         foreach($buildings as $key => $building) {
             $buildings[$key]['num'] = (!!$this->get($key) ? intval($this->get($key)) : 0);
-            if ($this->hasStartingBonus('defensive')) $buildings[$key]['life'] = $buildings[$key]['life']*1.25;
+            //Hooks::trigger('get_province_building', array($key, $buildings[$key])); // we might want to work with modifiers
+            if($this->hasStartingBonus('defensive')) {
+                $buildings[$key]['life'] = $buildings[$key]['life'] * Settings::get('startbonus_defensive_building_life_multi');
+            }
         }
 
         if ($this->hasResearchMinimalLevel('powerplant_efficiency',1)) {
@@ -175,11 +404,7 @@ class Province extends User {
             $buildings['advancedpowerplant']['description'] = 'Produces ' . (15000*1.5) .' power';
         }
 
-        $AMS = intval($this->get('antimissile'));
-        if($AMS > 0) {
-            $def_land = intval($province->get('builtland'));
-            $shootdown_chance = (($AMS*100)/$def_land)*100;
-            if ($shootdown_chance >= 75) $shootdown_chance = 75;
+        if($shootdown_chance = $this->getShootdownChance()) {
             $buildings['antimissile']['shootdown_chance'] = $shootdown_chance;
             $buildings['antimissile']['description'] = 'Each Anti-Missile System protects 100m2 of your built land.
                 Chance to shoot down missiles is currently '. $shootdown_chance .'%.
@@ -189,6 +414,20 @@ class Province extends User {
         return ($key != null && $buildings[$key] ? $buildings[$key] : $buildings);
     }
 
+    /**
+     * Used for showing pp-buildings, and status on dashboard
+     */
+    public function getShootdownChance($format=false) {
+        $shootdown_chance = 0;
+        $AMS = intval($this->get('antimissile'));
+        if($AMS > 0) {
+            $def_land = intval($this->get('builtland'));
+            $shootdown_chance = round( (($AMS*100)/$def_land)*100, 2 );
+            if ($shootdown_chance >= 75) $shootdown_chance = 75;
+        }
+        return ($format ? $shootdown_chance.'%' : $shootdown_chance);
+    }
+
     // Calculate total buildings number
     public function getBuildingsNum() {
         $num = 0;
@@ -196,33 +435,83 @@ class Province extends User {
             $num += (!!$this->get($key) ? intval($this->get($key)) : 0);
         }
         //$this->update('buildings_built', $num); // overhead to always update this
-        return 0;
+        //@todo: we might want to update builtland?
+        return $num;
     }
 
     /**
      * Get all information of one or all of one type, or all units of this province
      */
     public function getUnits($key=null,$type=null) {
-        // startbonus defensive: +20% extra life
+
+        $units = Units::get();
+        foreach($units as $key => $unit) {
+            $units[$key]['num'] = (!!$this->get($key.'_owned') ? intval($this->get($key.'_owned')) : 0);
+            //Hooks::trigger('get_province_unit', array($key, $units[$key])); // we might want to work with modifiers
+            if($this->hasStartingBonus('defensive')) {
+                $units[$key]['life'] = $units[$key]['life'] * Settings::get('startbonus_defensive_unit_life_multi');
+            }
+        }
+
+        return ($key != null && $units[$key] ? $units[$key] : $units);
     }
-    public function getUnitsNum($type=null) {
-
+    public function getUnitsNum($key=null,$type=null) {
+        $num = 0;
+        foreach(Units::get() as $k => $unit) {
+            if((!is_null($key)&&$k==$key) || (is_null($key) && (is_null($type) || $type==$unit['type']))) {
+                $num += (!!$this->get($k.'_owned') ? intval($this->get($k.'_owned')) : 0);
+            }
+        }
+        return $num;
     }
 
-    public function getSatellites() {
+    /**
+     * Get all information of one or all Missiles of this province
+     */
+    public function getMissiles($key=null) {
 
     }
-
-    public function getMissiles() {
-
+    public function getMissileNum() {
+        $num = 0;
+        foreach(array_keys(Missiles::get()) as $key) {
+            $num += (!!$this->get($key.'_owned') ? intval($this->get($key.'_owned')) : 0);
+        }
+        return $num;
     }
 
-    public function getResearches() {
+    /**
+     * Get all information of one or all Satellites of this province
+     * WARNING: currently a province should be able to have only one sat
+     */
+    public function getSattelites($key=null) {
+        if(!$this->hasResearchMinimalLevel('satellite_construction', 1)) return false;
+        if(!is_null($key) && $this->getSatelliteNum() == 0) return false;
 
+        $satellites = Satellites::get();
+        $sat = $this->get('sat_owned');
+        foreach($satellites as $key => $satellite) {
+            $satellites[$key]['num'] = ($sat == $key ? 1 : 0);
+        }
+        $satellites[$key]['status'] = ($this->get('stealth_sat_status')=='active' ? 'active' : '');
+
+        return ($key != null && $satellites[$key] ? $satellites[$key] : $satellites);
+    }
+    public function getSatelliteNum() {
+        if(!$this->hasResearchMinimalLevel('satellite_construction', 1)) return 0;
+        $sat = $this->get('sat_owned');
+        if(empty($sat)) return 0;
+        return (!!Satellites::get($sat) ? Satellites::get($sat)['shortname'] : 0);
+    }
+
+    /**
+     * Get Clan
+     * @todo: return a ClanObject
+     */
+    public function getClan() {
+        return (!empty($this->get('clan_id_user')) ? Clan::make($this->get('clan_id_user')) : false);
     }
 
     /*
-    getClan(),
     invite(),
     kick(),
     isFellowClanMember(),
@@ -236,11 +525,11 @@ class Province extends User {
 
     kill(),
     reset(),
-    isDead(),
-    isProtected(),
-    inRange()
 
     attack(),
     spy()
     */
+    // province    public function exploreLand() {}
+    // province    public function sellLand() {}
+    // province    public function setStartingBonus() {}
 }
