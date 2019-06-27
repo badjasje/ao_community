@@ -16,6 +16,7 @@ $timestamp = current_time('timestamp');
 $war_array = maybe_unserialize(maybe_unserialize($clanData['war_array'][0]));
 
 $cooldownlist = maybe_unserialize($clanData['cooldown_list'][0]);
+if(!is_array($cooldownlist) && !empty($cooldownlist)) $cooldownlist = maybe_unserialize($cooldownlist); // Temp fix double serialization
 if(!is_array($cooldownlist)) $cooldownlist = array();
 
 $backColorDecOn = "45, 67, 81";
@@ -72,7 +73,7 @@ $wars_by = get_posts(array(
 	foreach ($wars_on as $war){
 		$declared_on_ID = get_post_meta($war->ID, 'declared_on',true);
 		?>
-		<div class="row unitRow fw-row" style="background-color: rgba(<?php echo $backColorDecOn;?>, <?php echo 0.6-($count/25);?>);">
+		<div id="war-<?=$war->ID?>" class="row unitRow fw-row" style="background-color: rgba(<?php echo $backColorDecOn;?>, <?php echo 0.6-($count/25);?>);">
 			<div class="col-md-4 celBlock nameBlock sea_heading">
 				<a href="<?php echo get_the_permalink($declared_on_ID);?>"><?php echo get_the_title($declared_on_ID).' (#'.$declared_on_ID;?>)</a>
 			</div>

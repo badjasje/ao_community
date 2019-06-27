@@ -46,6 +46,7 @@ $my_post = array('ID' => $posts[0]->ID,'post_status' => 'publish','post_title' =
 wp_update_post($my_post);
 
 $cooldownlist = maybe_unserialize(get_post_meta($declaredbyID, 'cooldown_list', true));
+if(!is_array($cooldownlist) && !empty($cooldownlist)) $cooldownlist = maybe_unserialize($cooldownlist); // Temp fix double serialization
 if(!is_array($cooldownlist)) $cooldownlist = array();
 unset($cooldownlist[$declaredonID]);
 update_post_meta($declaredbyID, 'cooldown_list', $cooldownlist);
