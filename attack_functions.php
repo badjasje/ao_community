@@ -764,8 +764,9 @@ function get_attack_type_multiplier($attack_type) {
 */
 function attack_dice_roll() {
     include('constants.php');
-    //return rand($UNIT_DICEROLL_DAMAGE_MIN, $UNIT_DICEROLL_DAMAGE_MAX) / 100;
-    return $UNIT_DICEROLL_DAMAGE_MIN / 100;
+    $gameType = get_field('game_type','option');
+    if(in_array($gameType, array('Development','Test'))) return $UNIT_DICEROLL_DAMAGE_MIN / 100;
+    return rand($UNIT_DICEROLL_DAMAGE_MIN, $UNIT_DICEROLL_DAMAGE_MAX) / 100;
 }
 
 
@@ -778,8 +779,9 @@ function attack_dice_roll() {
 */
 function resource_dice_roll() {
     include('constants.php');
-    //return rand($RESOURCE_DICEROLL_MIN, $RESOURCE_DICEROLL_MAX) / 100;
-    return $RESOURCE_DICEROLL_MIN / 100;
+    $gameType = get_field('game_type','option');
+    if(in_array($gameType, array('Development','Test'))) return $RESOURCE_DICEROLL_MIN / 100;
+    return rand($RESOURCE_DICEROLL_MIN, $RESOURCE_DICEROLL_MAX) / 100;
 }
 
 
