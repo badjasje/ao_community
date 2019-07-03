@@ -26,7 +26,7 @@ class Format extends PhpObject {
     }
 
     public static function points($n) {
-        return $n;
+        return intval($n);
     }
 
     public static function position($n) {

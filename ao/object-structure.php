@@ -1,50 +1,48 @@
 <?php /*
+// Current objects in AO
+// with an * isn't done yet, or might be discarded
 
 // Util
-Util/DbObject extends PhpObject {} // A database object, will be used for own database tables per object
-Util/Format extends PhpObject {}   // Type formatting like money, networth and dates
-Util/Hooks extends PhpObject {
+Util/DataObject {}                  // High level parent class for all fixed game data
+Util/DbObject extends PhpObject {}  // A database object, could be used for own database tables per object someday
+Util/Format extends PhpObject {}    // Type formatting like money, networth and dates
+Util/Hooks extends PhpObject {      // Event system so at some point we can make everything more modulair
     on($action, $callback)
     trigger($action, $args..)
 }
-Util/PhpObject {}                   // An object with some easy functions
+Util/PhpObject {}                   // An object with some easy to use functions (set,get)
 Util/PostObject extends DbObject {} // WP-post, we could someday use our own tables for huge performance improvement
 Util/Request {}                     // The current called page with post and get variables
-*Util/Translation
 
 // User
-User/User extends DbObject {}       // WP-user, we could someday use our own tables for huge performance improvement
-User/CurrentUser extends User {}    // CurrentUser
-User/Province extends User? {}      // Most used entity. If we ever can create multiple provinces per account we can do so
-*User/UserMedal extends PostObject  // post type = medal
+User/CurrentUser extends User {}    // The Current User for this request, logs in and out
+User/User extends DbObject {}       // User entity, this is purely a login, person, has messages. Nothing gameplay related
+User/Province extends User? {}      // Most used entity. Has land, units, buildings, etc. Attacks and defends.
+// A user could also have an "outpost", a "research station", or a second province on another planet.
+*User/UserMedal extends PostObject  // wp-post type = medal
 
 // Bank
-*Bank/Bank extends PhpObject {}     // Has rates?? OpenAccount() CloseAccount() Loans?
+*Bank/Bank extends PhpObject {}     // Has rates?? Can open an accounts? Loans?
 Bank/BankAccount extends PhpObject  // We might create multiple bankaccounts per province or user someday
-Bank/Deposit extends PostObject {}
+Bank/Deposit extends PostObject {}  // A wp-post type. Has a limited time
 
 // Market
-Market/Market extends PhpObject {}  // Fluctuating prices?
-*Market/Order extends PostObject {  // Entity that starts and ends
-    create()
-    cancel()
-    end()
-}
-*Market/MissileOrder extends Order
-*Market/UnitOrder extends Order
-*Market/SatelliteOrder extends Order
+Market/Market extends PhpObject {}  // Is open or closed. Fluctuating prices?
+Market/Order extends PostObject {}  // Wp-post type that starts and ends
+// We might want to create objects for each type of order (when modulair)
+
+// Research
+Research/Research extends PostObject// Wp-post type that starts and ends
+// We might want to create objects for each type of research (when modulair)
 
 // Clan
-*Clan/Clan extends PostObject {
-    getAvatar(), getDisplayName(), getHeaderImage()
-    getMembers()
-}
+Clan/Clan extends PostObject {}     // Wp-post type with provinces, networth and data
 *Clan/ClanWar extends PostObject
 *Clan/ClanBonus extends PhpObject
 *Clan/ClanAward extends PostObject
 
 // Attacks
-*Attack/Attack
+*Attack/Attack extends PostObject   // Wp-post type
 *Attack/EmpMissileAttack
 *Attack/EmpSatteliteAttack
 *Attack/MissileAttack
@@ -56,23 +54,29 @@ Market/Market extends PhpObject {}  // Fluctuating prices?
 *Attack/UnitAttack
 
 // Fixed Game Data
-Data/Buildings extends PhpObject
-Data/Missiles extends PhpObject
-Data/Researches extends PhpObject
-Data/Satellites extends PhpObject
-Data/Settings extends PhpObject
-Data/Units extends PhpObject
-*Data/Bonusses extends PhpObject
-*Data/StartBoni extends PhpObject
-*Data/Trophies extends PhpObject
+// instead of using require(some_array), we use static objects
+// Buildings::get() or Buildings::get('powerplant') for generic building data
+// $province->getBuildings('powerplant') to get the actual data of a province
+// (as it's life might be larger because of research)
+Data/Buildings extends DataObject
+Data/Missiles extends DataObject
+Data/Researches extends DataObject
+Data/Satellites extends DataObject
+Data/Settings extends DataObject    // Balancing is very important, here we can easily change the "nw range" for instance
+Data/StartBoni extends DataObject
+Data/Units extends DataObject
+*Data/Bonusses extends DataObject
+*Data/Trophies extends DataObject
 
-// Other
-*Event extends PostObject       // different type of events?
-*Message extends PostObject
-Research extends PostObject     // Entity that starts and ends
+// Round
+Round/Round extends DataObject  // Start- and Endtime, type (dev,test) and status (pause, live)
+
+// Other (todo)
+*Event extends PostObject       // Locals, globals etc. We might create
+*Message extends PostObject     // Could be in User/Message?
 *SpyReport extends PostObject
 *EMP extends PostObject
-// New
-*Trophy extends PostObject
-
+*Trophy extends PostObject      // Could be in User/Trophy?
+*News?
+*Forum?
 */

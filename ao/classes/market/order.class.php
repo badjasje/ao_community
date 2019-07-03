@@ -21,7 +21,7 @@ class Order extends PostObject {
     }
 
     public function type() {
-        return $this->get('order_type'); // should be checked with possible types
+        return $this->get('order_type'); // @todo: should be checked with possible types
     }
 
     public function amount() {
