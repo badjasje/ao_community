@@ -9,6 +9,7 @@ class Request {
         'header' => array('province','ajaxHeader'),
         'devfunds' => array('province','ajaxDevfunds'),
         'startingbonus' => array('province','ajaxStartingbonus'),
+        'clanbonus' => array('province', 'ajaxClanBonus'),
         'removenp' => array('province','ajaxRemoveNp'),
         'clanmessage' => array('clan','ajaxSetMessage')
     );

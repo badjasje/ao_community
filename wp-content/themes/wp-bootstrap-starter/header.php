@@ -1,45 +1,30 @@
 <?php
-global $userId;
-global $userData;
-if($userData['status'][0] == 'banned'){
-	echo '<br/><br/><center>Your account is banned from Assault.Online.</center>'; die;
-}
-
-$inProgress = $userData['research_in_progress'][0];
-$researchTimeLeft ='';
-if(!empty($inProgress)) {
-	$timestamp = current_time('timestamp');
-	$args = array('posts_per_page' => 1, 'author' => $userId, 'post_type' => 'research');
-	$researches_in_progress = get_posts( $args );
-	$completionTime = $researches_in_progress[0]->post_title;
-	$researchTimeLeft = human_time_diff($completionTime, $timestamp);
-}
-include('research_array.php');
-wp_head();
-
-$hideitems = 'false';
-$menuOpen = (isset($_COOKIE['menuOpen'])&&$_COOKIE['menuOpen']==1?true:false);
-if(!is_user_logged_in()){
-	$hideitems = 'true';
-	$menuOpen = false;
-}
 
 $pageId = get_the_id();
-$gameType = get_field('game_type','option');
-$endDate = get_field('end_date','option');
-$endStamp = strtotime($endDate);
-$timestamp = current_time('timestamp');
-$timeLeft = $endStamp-$timestamp;
+$user = CurrentUser::make();
+$province = ($user->isLoggedIn() ? $user->getProvince() : false);
 
-$msgs = $userData['new_messages'][0];
-$locals = $userData['new_events'][0];
-$globals = $userData['new_global_events'][0];
+$menuOpen = (isset($_COOKIE['menuOpen'])&&$_COOKIE['menuOpen']==1?true:false);
+if(!$user->isLoggedIn()) $menuOpen = false;
 
+$researchInProgress = false;
+if(!!$province && $r = $province->getCurrentResearch()) $researchInProgress = $r->get('name');
+
+$provinceDied = (!!$province && $province->isDead() && $province->get('times_killed') > 0);
+if($provinceDied) { // this also happens in currentuser construct, but only the first time I guess?
+	$province->afterDeath();
+	$province->update('status', 'nukeprotection');
+	$province->update('nuke_protection_timestamp', current_time('timestamp') + Settings::get('nuke_protection_length'));
+}
+
+// Auto tab of unittype you have most of
 $tab = 'air'; $nums = array(); $max = 0;
-foreach(array('air','sea','veh','inf') as $type) $nums[$type] = count_units_by_type($type);
+foreach(Settings::get('unit_types') as $type) $nums[$type] = (!!$province ? $province->getUnitsNum(null,$type) : 0);
 foreach($nums as $type => $num) {
 	if($num > $max) { $tab = $type; $max = $num; }
 }
+
+$timeLeft = Market::timeLeft();
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -47,20 +32,23 @@ foreach($nums as $type => $num) {
 	<? /* When there are no inline styles and scripts, we can (and should!) enable this
 	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';">
 	*/ ?>
-    <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="profile" href="http://gmpg.org/xfn/11">
-    <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+    <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>">
     <!-- Google Tag Manager -->
 	<script>
-			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 		})(window,document,'script','dataLayer','GTM-TXGKNL3');
 	</script>
 	<!-- End Google Tag Manager -->
+	<?php
+	wp_head();
+	?>
 	<script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 	<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 	<script type='text/javascript' src='/wp-content/themes/wp-bootstrap-starter/js/jquery.countdown.min.js?ver=4.9.4'></script>
@@ -68,7 +56,7 @@ foreach($nums as $type => $num) {
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
-	<script>jQuery.ajaxSetup({cache: false});</script>
+	<script>jQuery.ajaxSetup({cache: false});var site_url = '<?=Request::siteUrl()?>';</script>
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 	<link rel="icon" type="image/png" href="/wp-content/themes/wp-bootstrap-starter/img/favicon.png">
 	<link rel="manifest" href="/manifest.json">
@@ -129,7 +117,7 @@ foreach($nums as $type => $num) {
 	</script>
 </head>
 
-<body <?php body_class(array(($menuOpen?'menuOpen':''),'game-type-'.strtolower($gameType))) ?>>
+<body <?php body_class(array(($menuOpen?'menuOpen':''),'game-type-'.Round::get('type'))) ?>>
 
 	<!-- Google Tag Manager (noscript) -->
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXGKNL3" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -145,7 +133,7 @@ foreach($nums as $type => $num) {
 	<div id="page" class="site">
 
 		<header id="masthead" class="site-header navbar-static-top <?php echo wp_bootstrap_starter_bg_class(); ?>" role="banner">
-			<?php if($hideitems == 'false'):?>
+			<?php if($user->isLoggedIn()) { ?>
 				<button id="nextbt" class="toggle-menu-open hamburger hamburger--collapse<?=($menuOpen?' is-active':'')?>" type="button">
 					<span class="hamburger-box"><span class="hamburger-inner"></span></span>
 				</button>
@@ -154,239 +142,256 @@ foreach($nums as $type => $num) {
 					<button class="menu-item dashMobile" type="button"><i class="fas fa-tachometer-alt"></i></button>
 				</a>
 
-				<div class="">
-					<?php echo small_avatar($userId,'menuAvatar');?>
-				</div>
+				<div><?=$province->getAvatar('menuAvatar')?></div>
 
-				<a href="/conversations">
+				<a href="<?=Request::siteUrl()?>/conversations">
 					<button class="menu-item inboxButton" type="button" >
 						<i class="fas fa-envelope"></i>
-						<span class="badge badge-pill badge-info inboxBadge <?php if($msgs > 0):?>activebadge<?php endif;?>"><?php echo $msgs;?></span>
+						<span class="badge badge-pill badge-info inboxBadge">0</span>
 					</button>
 				</a>
-				<a href="/events/incoming">
+				<a href="<?=Request::siteUrl()?>/events/incoming">
 					<button class="menu-item" type="button" >
 						<i class="fas fa-arrow-circle-down"></i>
-						<span class="badge badge-pill badge-primary localsBadge <?php if($locals > 0):?>activebadge<?php endif;?>"><?php echo $locals;?></span>
+						<span class="badge badge-pill badge-primary localsBadge">0</span>
 					</button>
 				</a>
-				<a href="/events/global">
+				<a href="<?=Request::siteUrl()?>/events/global">
 					<button class="menu-item" type="button" >
 						<i class="fas fa-globe"></i>
-						<span class="badge badge-pill badge-danger globalsBadge <?php if($globals > 0):?>activebadge<?php endif;?>"><?php echo $globals;?></span>
+						<span class="badge badge-pill badge-danger globalsBadge">0</span>
 					</button>
 				</a>
 
 				<div class="row topstatheader">
 					<div class="col-md-2 statitem">
 						<span class="stattext">
-							<strong>Money:</strong> $ <span class="moneyheader"><?php echo number_format($userData['money'][0], 0, ',', ' '); ?></span>
+							<strong>Money:</strong> <span class="moneyheader"><?=$province->getMoney(true)?></span>
 						</span>
 					</div>
 					<div class="col-md-2  statitem">
 						<span class="stattext">
-							<strong>Networth:</strong> $ <span class="networthheader"><?php echo number_format($userData['networth'][0], 0, ',', ' '); ?></span>
+							<strong>Networth:</strong> <span class="networthheader"><?=$province->getNetworth(true)?></span>
 						</span>
 					</div>
 					<div class="col-md-2 statitem">
 						<span class="stattext">
-							<strong>Turns:</strong> <span class="turnsheader"><?php echo number_format($userData['turns'][0], 0, ',', ' '); ?></span>
+							<strong>Turns:</strong> <span class="turnsheader"><?=$province->getTurns(true)?></span>
 						</span>
 					</div>
 					<div class="col-md-2 statitem">
-						<span data-toggle="tooltip" data-placement="bottom" title="Satellite power: <?php echo number_format($userData['sat_morale'][0], 0, ',', ' '); ?>%" class="stattext"><strong>Morale:</strong> <span class="moraleheader"><?php echo number_format($userData['morale'][0], 0, ',', ' '); ?></span>%<sup><span id="poolmorale"><?php echo $userData['morale_pool'][0];?></span>%</sup> <span style="float:right;"><i class="fas fa-caret-down"></i></span></span>
+						<span data-toggle="tooltip" data-placement="bottom" title="Satellite power: <?=$province->getSatMorale(true)?>" class="stattext">
+							<strong>Morale:</strong> <span class="moraleheader"><?=$province->getMorale(true)?></span>
+							<sup><span id="poolmorale"><?=$province->getMoralePool(true)?></span></sup>
+							<span class="float-right"><i class="fas fa-caret-down"></i></span></span>
 					</div>
 					<div class="col-md-2 statitem">
-						<span data-toggle="tooltip" data-placement="bottom" title="Free land: <?php echo number_format($userData['land'][0]-$userData['builtland'][0], 0, ',', ' '); ?>m2" class="stattext"><strong>Land:</strong> <span class="landheader"><?php echo number_format($userData['land'][0], 0, ',', ' '); ?></span>m<sup>2</sup> <span style="float:right;"><i class="fas fa-caret-down"></i></span></span>
+						<span data-toggle="tooltip" data-placement="bottom" title="Free land: <?=$province->getFreeLand()?>m2" class="stattext">
+						<strong>Land:</strong> <span class="landheader"><?=$province->getLand(true); ?></span>
+						<span class="float-right"><i class="fas fa-caret-down"></i></span></span>
 					</div>
 					<div class="col-md-2 statitem">
-						<span class="stattext"><strong>Power usage:</strong> <span class="powerheader"><?php echo number_format($userData['power'][0], 0, ',', ' '); ?></span>%</span>
+						<span class="stattext"><strong>Power usage:</strong>
+						<span class="powerheader"><?=$province->getPower(true)?></span></span>
 					</div>
 				</div>
-			<?php endif;?>
-		</header><!-- #masthead -->
+			<?php } ?>
+		</header>
 
-		<?php if($hideitems == 'false'):?>
+		<?php if($user->isLoggedIn()) { ?>
 			<div id="mySidenav" class="sidenav">
 
 				<div class="row menuRow  hide-menu-icon">
 					<div class="col-md-2 col-xs-2 buttonItem ">
-						<a href="<?php echo get_site_url(); ?>/dashboard/">
+						<a href="<?=Request::siteUrl()?>/dashboard/">
 							<button class="menu-item" type="button"><i class="fas fa-tachometer-alt"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/dashboard/">Dashboard</a>
+						<a href="<?=Request::siteUrl()?>/dashboard/">Dashboard</a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/bank">
+						<a href="<?=Request::siteUrl()?>/bank">
 							<button class="menu-item" type="button"><i class="fas fa-university"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/bank">Bank <span class="badge badge-secondary"><?php echo count_deposits($userId);?></span></a>
+						<a href="<?=Request::siteUrl()?>/bank">Bank
+						<span class="badge badge-secondary"><?=$province->getBankAccount()->getDepositNum();?></span></a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/research">
+						<a href="<?=Request::siteUrl()?>/research">
 							<button class="menu-item" type="button"><i class="fas fa-flask"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/research">Research
-							<?php if($inProgress != '0'):?>
-								<span class="badge badge-secondary" data-toggle="tooltip" data-placement="top" title="Research currently in progress: <?php echo $researches[$inProgress]['name'];?>, <?=$researchTimeLeft?> left">
+						<a href="<?=Request::siteUrl()?>/research">Research
+							<?php if(!!$researchInProgress) { ?>
+								<span class="badge badge-secondary" data-toggle="tooltip" data-placement="top"
+									title="Research currently in progress: <?=$researchInProgress?>, <?=$province->getResearchTimeLeft(true)?> left">
 									<i class="fas fa-circle-notch fa-spin"></i>
 								</span>
-							<?php endif;?>
+							<?php } ?>
 						</a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/explore">
+						<a href="<?=Request::siteUrl()?>/explore">
 							<button class="menu-item" type="button"><i class="fas fa-map"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/explore">Explore</a>
+						<a href="<?=Request::siteUrl()?>/explore">Explore</a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/buildings">
+						<a href="<?=Request::siteUrl()?>/buildings">
 							<button class="menu-item" type="button"><i class="fas fa-industry"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/buildings">Buildings <span class="badge badge-secondary"><?php echo do_shortcode('[current-buildings]');?></span></a>
+						<a href="<?=Request::siteUrl()?>/buildings">Buildings
+						<span class="badge badge-secondary"><?=$province->getBuildingsNum()?></span></a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/units">
+						<a href="<?=Request::siteUrl()?>/units?tab=<?=$tab?>">
 							<button class="menu-item" type="button"><i class="fas fa-fighter-jet"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/units?tab=<?=$tab?>">Units <span class="badge badge-secondary"><?php echo do_shortcode('[current-units]');?></span></a>
+						<a href="<?=Request::siteUrl()?>/units?tab=<?=$tab?>">Units
+						<span class="badge badge-secondary"><?=$province->getUnitsNum()?></span></a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/missiles">
+						<a href="<?=Request::siteUrl()?>/missiles">
 							<button class="menu-item" type="button"><i class="fas fa-rocket"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/missiles">Missiles <span class="badge badge-secondary"><?php echo do_shortcode('[current-missiles]');?></span></a>
+						<a href="<?=Request::siteUrl()?>/missiles">Missiles
+						<span class="badge badge-secondary"><?=$province->getMissileNum()?></span></a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/satellites">
+						<a href="<?=Request::siteUrl()?>/satellites">
 							<button class="menu-item" type="button"><i class="fas fa-bullseye"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/satellites">Satellites <span class="badge badge-secondary"><?php echo do_shortcode('[current-satellites]');?></span></a>
+						<a href="<?=Request::siteUrl()?>/satellites">Satellites
+						<span class="badge badge-secondary"><?=$province->getSatelliteNum()?></span></a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/buy/">
+						<a href="<?=Request::siteUrl()?>/buy/?tab=<?=$tab?>">
 							<button class="menu-item" type="button"><i class="fas fa-shopping-cart"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/buy/" class="marketMenu">Buy</a>
-						<a href="<?php echo get_site_url(); ?>/sell/?tab=<?=$tab?>" class="marketMenu">Sell</a>
-						<a href="<?php echo get_site_url(); ?>/orders/" class="marketMenu">Orders</a>
+						<a href="<?=Request::siteUrl()?>/buy/?tab=<?=$tab?>" class="marketMenu">Buy</a>
+						<a href="<?=Request::siteUrl()?>/sell/?tab=<?=$tab?>" class="marketMenu">Sell</a>
+						<a href="<?=Request::siteUrl()?>/orders/" class="marketMenu">Orders</a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/clan-information">
+						<a href="<?=Request::siteUrl()?>/clan-information">
 							<button class="menu-item" type="button"><i class="fas fa-users"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/clan-information" class="marketMenu">Clan</a>
-						<a href="<?php echo get_site_url(); ?>/clan-wars" class="marketMenu">Wars</a>
-						<a href="<?php echo get_site_url(); ?>/send-aid" class="marketMenu">Send aid</a>
+						<a href="<?=Request::siteUrl()?>/clan-information" class="marketMenu">Clan</a>
+						<a href="<?=Request::siteUrl()?>/clan-wars" class="marketMenu">Wars</a>
+						<a href="<?=Request::siteUrl()?>/send-aid" class="marketMenu">Send aid</a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/users/">
+						<a href="<?=Request::siteUrl()?>/users/">
 							<button class="menu-item" type="button"><i class="fas fa-search"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/users/" class="marketMenu">All users</a>
-						<a href="<?php echo get_site_url(); ?>/all-clans/" class="marketMenu">All clans</a>
+						<a href="<?=Request::siteUrl()?>/users/" class="marketMenu">All users</a>
+						<a href="<?=Request::siteUrl()?>/all-clans/" class="marketMenu">All clans</a>
 					</div>
 				</div>
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?php echo get_site_url(); ?>/toplists/">
+						<a href="<?=Request::siteUrl()?>/toplists/">
 							<button class="menu-item" type="button"><i class="fas fa-trophy"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?php echo get_site_url(); ?>/toplists/" class="marketMenu">Toplists (nw)</a>
-						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clanpoints" class="marketMenu">Clan points</a>
-						<a href="<?php echo get_site_url(); ?>/toplists/?tab=clannw" class="marketMenu">Clan nw</a>
+						<a href="<?=Request::siteUrl()?>/toplists/" class="marketMenu">Toplists (nw)</a>
+						<a href="<?=Request::siteUrl()?>/toplists/?tab=clanpoints" class="marketMenu">Clan points</a>
+						<a href="<?=Request::siteUrl()?>/toplists/?tab=clannw" class="marketMenu">Clan nw</a>
 					</div>
 				</div>
 
+			<?php if($user->isLoggedIn()) { ?>
 			<div id="page-sub-header">
 				<div class="row statheader">
 					<div class="col-6 statitem">
 						<span class="stattext">
-							<strong>Money:</strong> $ <span class="moneyheader"><?php echo number_format($userData['money'][0], 0, ',', ' '); ?></span>
+							<strong>Money:</strong> <span class="moneyheader"><?=$province->getMoney(true)?></span>
 						</span>
 					</div>
 					<div class="col-6 statitem">
 						<span class="stattext">
-							<strong>Net.:</strong> $ <span class="networthheader"><?php echo number_format($userData['networth'][0], 0, ',', ' '); ?></span>
+							<strong>Net.:</strong> $ <span class="networthheader"><?=$province->getNetworth(true)?></span>
 						</span>
 					</div>
 					<div class="col-6 statitem">
 						<span class="stattext">
-							<strong>Turns:</strong> <span class="turnsheader"><?php echo number_format($userData['turns'][0], 0, ',', ' '); ?></span>
+							<strong>Turns:</strong> <span class="turnsheader"><?=$province->getTurns(true)?></span>
 						</span>
 					</div>
 					<div class="col-6 statitem">
-						<span data-toggle="tooltip" data-placement="bottom" title="Satellite power: <?php echo number_format($userData['sat_morale'][0], 0, ',', ' '); ?>%"  class="stattext"><strong>Morale:</strong> <span class="moraleheader"><?php echo number_format($userData['morale'][0], 0, ',', ' '); ?></span>%<sup><?php echo number_format($userData['morale_pool'][0], 0, ',', ' '); ?>%</sup> <span style="float:right;"><i class="fas fa-caret-down"></i></span></span>
+						<span data-toggle="tooltip" data-placement="bottom" title="Satellite power: <?=$province->getSatMorale(true)?>" class="stattext">
+						<strong>Morale:</strong> <span class="moraleheader"><?=$province->getMorale(true)?></span>
+						<sup><?=$province->getMoralePool(true)?></sup>
+						<span class="float-right"><i class="fas fa-caret-down"></i></span></span>
 					</div>
 					<div class="col-6 statitem">
-						<span data-toggle="tooltip" data-placement="bottom" title="Free land: <?php echo number_format($userData['land'][0]-$userData['builtland'][0], 0, ',', ' '); ?>m2" class="stattext"><strong>Land:</strong> <span class="landheader"><?php echo number_format($userData['land'][0], 0, ',', ' '); ?></span>m<sup>2</sup> <span style="float:right;"><i class="fas fa-caret-down"></i></span></span>
+						<span data-toggle="tooltip" data-placement="bottom" title="Free land: <?=$province->getFreeLand()?>m2" class="stattext">
+						<strong>Land:</strong> <span class="landheader"><?=$province->getLand(true)?></span>
+						<span class="float-right"><i class="fas fa-caret-down"></i></span></span>
 					</div>
 					<div class="col-6 statitem">
-						<span class="stattext"><strong>Power usage:</strong> <span class="powerheader"><?php echo number_format($userData['power'][0], 0, ',', ' '); ?></span>%</span>
+						<span class="stattext"><strong>Power usage:</strong> <span class="powerheader"><?=$province->getPower(true)?></span></span>
 					</div>
 				</div>
 			</div>
-		<?php endif;?>
+			<?php } ?>
+		<?php } ?>
 	</div>
 
-	<?php if($timeLeft > 172800 && in_array($gameType, array('Development','Test')) && date('G') > 5 && date('G') < 9 && rand(0,10) == 1) { ?>
-		<div style="background-color:#36393f;padding:9px;position:fixed;bottom:0;right:0;z-index:900;width:auto;" onclick="this.remove();">
+	<?php if((Round::isDev() || Round::isTest()) && date('G') > 5 && date('G') < 9 && rand(0,10) == 1) { ?>
+		<div style="background-color:#36393f;padding:9px;position:fixed;bottom:0;right:0;z-index:900;width:auto;" id="msg-<?=date('G')?>" onclick="this.remove();">
 			<div style="display:flex;align-items:center;justify-content:center;">
 				<div style="border-radius:50%;width:40px;height:40px;background-size:100%;background-image:url(https://cdn.discordapp.com/avatars/502088259946545163/71a45e651a3e86e9298e0a20eb5c6308.png?size=128);margin: 0 10px 0 0;"></div>
 				<div>
@@ -398,10 +403,10 @@ foreach($nums as $type => $num) {
 		</div>
 	<?php } ?>
 
-	<?php if(get_field('game_status','option') == 'Pause' /*&& $userId != 1*/) { // Check if game is live or not ?>
+	<?php if(Round::isPaused()) { ?>
 		<div class="permaNotification">
 			<span class="rdw-line">
-				<i class="fas fa-info-circle"></i> The round has ended! Expect a new round on <?php echo get_field('new_round_start','option');?>
+				<i class="fas fa-info-circle"></i> The round has ended! Expect a new round on <?=Round::nextRoundStartDate();?>
 			</span>
 		</div>
 	<?php } ?>
@@ -412,7 +417,7 @@ foreach($nums as $type => $num) {
 		</div>
 	<?php } ?>
 
-	<?php if(get_field('game_status','option') == 'Live' && $timeLeft < 1 && $pageId == 3179):?>
+	<?php if(Round::isLive() && $timeLeft < 1 && $pageId == 3179):?>
 		<div class="permaNotification">
 			<i class="fas fa-info-circle"></i> You cannot order units during the last 24 hours of the round
 		</div>
@@ -421,63 +426,9 @@ foreach($nums as $type => $num) {
 	<div id="content" class="site-content">
 
 		<div class="container mainContainer">
-			<div class="titleBackWrapper <?php if($userData['stealth_sat_status'][0] == 'active'):?>stealthsatactive<?php endif;?>">
-				<div class="pageTitle <?php if($userData['status'][0] == 'dead' && $userData['times_killed'][0] > 0):?>deadback<?php endif;?>">
-					<?php if($userData['status'][0] == 'dead' && $userData['times_killed'][0] > 0):?>
-						You died
-					<?php else:?>
-						<?php echo get_the_title();?>
-					<?php endif;?>
+			<div class="titleBackWrapper<?=(!!$province && $province->getSattelites('stealths')['status']=='active'?' stealthsatactive':'')?>">
+				<div class="pageTitle <?=($provinceDied ? ' deadback':'')?>">
+					<?=($provinceDied ? t('You died') : get_the_title()) ?>
 				</div>
 			</div>
 			<div class="row contentRow">
-				<script>
-					function updateHeaderData() {
-						jQuery.getJSON('<?php echo get_site_url();?>/checkevents.php', function(data) {
-							var globals = data.globals;
-							var locals = data.locals;
-							var messages = data.messages;
-							var money = data.money;
-							jQuery('.moneyheader').text(number_format(money, 0, ',', ' '));
-							var networth = data.networth;
-							jQuery('.networthheader').text(number_format(networth, 0, ',', ' '));
-							var turns = data.turns;
-							jQuery('.turnsheader').text(turns);
-							var morale = data.morale;
-							jQuery('.moraleheader').text(morale);
-							var land = data.land;
-							jQuery('.landheader').text(number_format(land, 0, ',', ' '));
-							var power = data.power;
-							jQuery('.powerheader').text(number_format(power, 0, ',', ' '));
-							if (globals > 1){
-								jQuery('.globalsBadge').text(globals);
-								jQuery('.globalsBadge').show(100);
-								jQuery('title').text(globals+' new global events');
-							}
-							if (locals > 1){
-								jQuery('.localsBadge').text(locals);
-								jQuery('.localsBadge').show(100);
-							}
-							if (messages > 1){
-								jQuery('.inboxBadge').text(messages);
-								jQuery('.inboxBadge').show(100);
-							}
-						});
-					}
-
-					(function($) {
-						<?php if($userData['status'][0] == 'dead' && $userData['times_killed'][0] > 0) {
-							after_death($userId);
-							update_user_meta($userId, 'status', 'nukeprotection');
-							update_user_meta($userId, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
-							?>
-							$(".splashmessage").html('You died');
-							$("#splashback").addClass( "failsplash" );
-							$("#splashback,.splashmessage").show();
-							$("#splashback,.splashmessage").delay(1500).fadeOut("slow")
-							<?php
-						} ?>
-
-						var i = setInterval(function() { updateHeaderData(); }, 10000);
-					})(jQuery);
-				</script>

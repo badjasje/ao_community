@@ -1,19 +1,11 @@
 <?php
-
-
-global $userId;
-$userId = get_current_user_id();
-global $userData;
-$userData = get_user_meta($userId);
-
-
-$timestamp = current_time('timestamp');
-
-if($userData['status'][0] == 'dead' && $userData['times_killed'][0] == 0):
-	after_death($userId);
-	update_user_meta($userId, 'status', 'nukeprotection');
-	update_user_meta($userId, 'nuke_protection_timestamp', $timestamp+(48 * 3600));
-endif;
+/* @todo: comment this when OOP-resturcturing is done, estimation: 2023 ;-) */
+global $userId; // legacy
+$userId = get_current_user_id(); // legacy
+global $userData; // legacy
+$userData = get_user_meta($userId); // legacy
+$timestamp = current_time('timestamp'); // Legacy
+/* */
 
 if( function_exists('acf_add_options_page') ) {
 	acf_add_options_page();
@@ -34,6 +26,7 @@ function posts_link_attributes_1() {
 function posts_link_attributes_2() {
     return 'class="mainSubmit col-sm-6"';
 }
+
 if ( ! function_exists( 'wp_bootstrap_starter_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
@@ -102,9 +95,6 @@ function wp_bootstrap_starter_setup() {
 endif;
 add_action( 'after_setup_theme', 'wp_bootstrap_starter_setup' );
 
-
-
-
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
  *
@@ -162,7 +152,6 @@ function wp_bootstrap_starter_widgets_init() {
 }
 add_action( 'widgets_init', 'wp_bootstrap_starter_widgets_init' );
 
-
 /**
  * Enqueue scripts and styles.
  */
@@ -205,7 +194,6 @@ function wp_bootstrap_starter_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'wp_bootstrap_starter_scripts' );
 
-
 function wp_bootstrap_starter_password_form() {
     global $post;
     $label = 'pwbox-'.( empty( $post->ID ) ? rand() : $post->ID );
@@ -216,8 +204,6 @@ function wp_bootstrap_starter_password_form() {
     return $o;
 }
 add_filter( 'the_password_form', 'wp_bootstrap_starter_password_form' );
-
-
 
 /**
  * Implement the Custom Header feature.
@@ -243,55 +229,3 @@ require get_template_directory() . '/inc/customizer.php';
  * Load plugin compatibility file.
  */
 require get_template_directory() . '/inc/plugin-compatibility/plugin-compatibility.php';
-
-/**
- * Load custom WordPress nav walker.
- */
-if (is_user_logged_in() && !is_admin()){
-	count_all_stats($userId);
-	update_user_meta($userId, 'last_online', $timestamp);
-	$userStatus = get_user_meta($userId, 'status',true);
-}
-
-$path = $_SERVER['REQUEST_URI'];
-$url = $path;
-$urlParts = explode('/', str_ireplace(array('http://', 'https://'), '', $url));
-
-$pathArray = array(
-	'dashboard',
-	'events',
-	'buildings',
-	'spy-report-overview',
-	'units',
-	'clan',
-	'clan-wars',
-	'satellites',
-	'buy',
-	'clan-information',
-	'player-statistics',
-	'users',
-	'clan-member-information',
-	'conversations',
-	'explore',
-	'bank',
-	'sell',
-	'missiles',
-	'orders',
-	'research',
-	'send-aid',
-	'all-clans',
-	'forum',
-	'',
-	'/'
-);
-if( !is_user_logged_in() && in_array($urlParts[1], $pathArray)){
-	header("Location: ".get_site_url()."/home/");
-	exit();
-}
-
-$pathArray = array('/home','/home/','/register','/dashboard','/');
-
-if(is_user_logged_in() && in_array($path, $pathArray)){
-	header("Location: ".get_site_url()."/dashboard/");
-	exit();
-}

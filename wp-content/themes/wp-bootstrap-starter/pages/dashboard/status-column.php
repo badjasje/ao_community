@@ -1,49 +1,23 @@
 <?php
-$statusMessage = '';
-$extraStyle = '';
-if($user_status =='nukeprotection'){
-	$timestamp = current_time('timestamp');
-	$timeleft = $nuke_protection_timestamp-$timestamp;
-	$timer_left = $nuke_protection_timestamp-$timestamp;
-
-	if($timeleft < 0){
-		update_user_meta($userId, 'status', 'online');
-	}
-	$timeleft = date('H:i:s', $timeleft);
-
-	$statusMessage .= 'Protection time left: <span id="countdown_time" data-countdown="'.$timer_left.'"></span>';
-
-	if($timer_left < 86400){
-		$extraStyle = 'style="padding-top:0px;padding-bottom:0px;"';
-		$statusMessage .= "<a onclick='return confirm('Are you sure you want to remove protection?')' class='removeProtection hoverEffect' href='/remove_np.php/?user=$userId'><i class='fas fa-times'></i> Remove Protection</a>";
+$statusMessage = 'Status: online';
+if($province->isProtected()) {
+	$statusMessage = 'Protection time left: <span id="countdown_time" data-countdown="'.$province->getProtectionTimeLeft().'"></span>';
+	if($timer_left < 86400) {
+		$statusMessage .= '<a onclick="return confirm(\'Are you sure you want to remove protection?\')"
+			class="removeProtection hoverEffect ml-2" href="javascript:void(0);"><i class="fas fa-times"></i> Remove Protection</a>';
 	}
 }
-elseif($user_status =='online'){
-	$statusMessage = 'Status: Online';
-}
-elseif($user_status =='dead'){
+else if($province->isDead()) {
 	$statusMessage = 'Status: Dead';
 }
 
-$inProgress = $userData['research_in_progress'][0];
-$researchTimeLeft ='';
-if(!empty($inProgress)) {
-	$timestamp = current_time('timestamp');
-	$args = array('posts_per_page' => 1, 'author' => $userId, 'post_type' => 'research');
-	$researches_in_progress = get_posts( $args );
-	$completionTime = $researches_in_progress[0]->post_title;
-	$researchTimeLeft = $completionTime-$timestamp;
-}
-include('research_array.php');
+$startingbonus = $province->getStartingBonus();
 
-$telegram_key = $userData['telegram_key'][0];
-if(empty($telegram_key)) {
-	$telegram_key = uniqid();
-	update_user_meta($userId, 'telegram_key', $telegram_key);
-}
+$researchInProgress = false;
+if(!!$province && $r = $province->getCurrentResearch()) $researchInProgress = $r->get('name');
+
 ?>
-
-<div class="blockHeader" <?php echo $extraStyle;?>><?php echo $statusMessage;?></div>
+<div class="blockHeader npMessage<?=($province->isProtected()?' py-0':'')?>"><?php echo $statusMessage;?></div>
 
 <div class="statusBlock">
 	<div class="row statusTotalRow">
@@ -53,54 +27,38 @@ if(empty($telegram_key)) {
 				<strong>Points rank</strong>
 			</div>
 			<div class="statusInsideCol">
-				<?php echo number_format($PtsRank, 0, ',', ' ');?>
+				<?=$province->getPosition('moh', true)?>
 			</div>
 
 			<div class="statusInsideCol">
 				<strong>Satellite power</strong>
 			</div>
 			<div class="statusInsideCol">
-				<?php echo $sat_morale;?>%
+				<?=$province->getSatMorale()?>
 			</div>
 
 			<div class="statusInsideCol">
 				<strong>Networth rank</strong>
 			</div>
 			<div class="statusInsideCol">
-				<?php echo number_format($NwRank, 0, ',', ' ');?>
+				<?=$province->getPosition('mog', true)?>
 			</div>
 
 			<div class="statusInsideCol">
 				<strong>AMS Coverage</strong>
 			</div>
 			<div class="statusInsideCol">
-				<?php echo number_format($shootdown_chance, 0, ',', ' ');?>%
+				<?=$province->getShootdownChance(true)?>
 			</div>
 		</div>
 
 		<div class="col-md-6 col-lg-4 statusRow statCol-2">
-			<?/*<div class="statusInsideCol">
-				<strong>Events</strong>
-			</div>
-			<div class="statusInsideCol">
-				<a href="/events/incoming/">
-					<?php echo $new_events;?> new event<?php echo plural_func($new_events);?>
-				</a>
-			</div>
-
-			<div class="statusInsideCol">
-				<strong>Power usage</strong>
-			</div>
-			<div class="statusInsideCol">
-				<?php echo number_format($PwrUsage, 0, ',', ' ');?>%
-			</div>*/?>
-
 			<div class="statusInsideCol">
 				<strong>Conversations</strong>
 			</div>
 			<div class="statusInsideCol">
 				<a href="/conversations/">
-					<?php echo $new_messages;?> new message<?php echo plural_func($new_messages);?>
+					<?=$province->getMessageNum()?> new message<?=plural_func($province->getMessageNum());?>
 				</a>
 			</div>
 
@@ -108,58 +66,58 @@ if(empty($telegram_key)) {
 				<strong>Hourly income</strong>
 			</div>
 			<div class="statusInsideCol">
-				$ <?php echo number_format($income, 0, ',', ' ');?>
+				<?=$province->getIncome(true)?>
 			</div>
 
 			<div class="statusInsideCol">
 				<strong>Starting bonus</strong>
 			</div>
 			<div class="statusInsideCol">
-				<?php if(in_array($startingbonus, $boni)):?>
-					<span class="hover-tip"  data-toggle="tooltip" data-original-title="<?php echo $bonuses[$startingbonus]['description'];?>" data-placement="left">
-						<i class="fa <?php echo $bonuses[$startingbonus]['icon'];?>" aria-hidden="true"></i> <?php echo $bonuses[$startingbonus]['name'];?>
+				<? if($startingbonus) {?>
+					<span class="hover-tip" data-toggle="tooltip" data-title="<?=$startingbonus['description']?>" data-html="true" data-placement="left">
+						<i class="fa <?=$startingbonus['icon']?>" aria-hidden="true"></i> <?=$startingbonus['name']?>
 					</span>
-				<?php else:?>
+				<? } else { ?>
 					<u><a href="#startingBonus">None</a></u>
-				<?php endif;?>
+				<? } ?>
 			</div>
 
-			<?php if(!empty($inProgress)) {?>
+			<? if(!empty($researchInProgress)) { ?>
 			<div class="statusInsideCol">
 				<strong>Research in progress</strong>
 			</div>
 			<div class="statusInsideCol">
-				<?php echo $researches[$inProgress]['name'];?><br><span data-countdown="<?=$researchTimeLeft?>"></span> left
+				<?=$researchInProgress?><br><span data-countdown="<?=$province->getResearchTimeLeft()?>"></span> left
 			</div>
-			<?php } ?>
+			<? } ?>
 
 		</div>
 
 		<div class="col-md-6 col-lg-4 statusRow statCol-3">
 			<div class="celBlock">
 				<strong>Push notifications</strong>
-				<ul style="padding-left: 16px;">
-					<li>Install <a href="https://t.me/assaultonlinebot" style="text-decoration:underline;" target="_blank">Telegram</a> on your mobile
+				<ul>
+					<li>Install <a href="https://t.me/assaultonlinebot" class="underline" target="_blank">Telegram</a> on your mobile
 				device.</li>
-					<li>Add <a href="https://t.me/assaultonlinebot" style="text-decoration:underline;" target="_blank">assaultonlinebot</a>.</li>
-					<li>Use this code <strong><?php echo $telegram_key ?></strong> to get instant notifications.</a></li>
+					<li>Add <a href="https://t.me/assaultonlinebot" class="underline" target="_blank">assaultonlinebot</a>.</li>
+					<li>Use this code <strong><?=$province->getTelegramKey()?></strong> to get instant notifications.</a></li>
 				</ul>
 			</div>
 		</div>
 
-	</div> <!-- // End row -->
+	</div>
 </div>
 
 <div class="row fw-row no-gutters profileButtonRow">
-	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 1);" href="/military-overview/?id=<?php echo $userId;?>">
+	<a class="col-md-4 profileButton fourthbutton" href="/military-overview/?id=<?=$province->get('id')?>">
 		<i class="fa fa-bars"></i> Military overview
 	</a>
 
-	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/player-statistics/">
+	<a class="col-md-4 profileButton clanMessageButton" href="/player-statistics/">
 		<i class="fas fa-chart-line"></i> View statistics
 	</a>
 
-	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.9);" href="/users/profile/edit/">
+	<a class="col-md-4 profileButton secondButton" href="/users/profile/edit/">
 		<i class="fa fa-wrench"></i> Edit profile
 	</a>
 </div>
