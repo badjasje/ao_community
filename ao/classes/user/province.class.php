@@ -140,6 +140,14 @@ class Province extends DbObject {
         return array('success' => true, 'status' => 'Starting bonus picked');
     }
 
+    public function ajaxClanBonus($return) {
+        $bonus = Bonus::make(intval(Request::post('id')));
+        if($bonus->get('id')==0) return array('status' => 'No such bonus.');
+        if($bonus->isUsed()) return array('status' => 'Bonus already used.');
+        if($bonus->receive()) return array('success' => true, 'status' => $bonus->money(true).' money and '.$bonus->turns(true).' turns received');
+        return array('status' => 'Undefined error.');
+    }
+
     public function ajaxRemoveNp($return) {
         // @todo: use new LocalEvent();
 
@@ -344,6 +352,20 @@ class Province extends DbObject {
         return $telegram_key;
     }
 
+    /**
+     * Get province clanbonuses
+     */
+    public function getBonuses() {
+        $bonuses = get_posts(array(
+            'author' => $this->id, 'numberposts' => -1, 'orderby' => 'post_date', 'post_type' => 'event_local', 'order' =>  'ASC',
+            'meta_query' => array('relation' => 'AND', array('key' => 'attacktype', 'value' => array('bonus'), 'compare' => 'IN')),
+        ));
+        $return = array();
+        foreach($bonuses as $bonus) {
+            $return[] = Bonus::make($bonus);
+        }
+        return $return;
+    }
 
     /**
      * Startingbonus
