@@ -1425,6 +1425,8 @@ input[type="radio"]:checked + label {
 	display: none;
 }
 
+.logindata { width:100%; overflow:auto; }
+
 .permaNotification{
     animation-name: greenPulse;
     animation-duration: 5s;
@@ -1582,7 +1584,8 @@ input[type="radio"]:checked + label {
         min-height: 50px;
     }
     .pageRow {
-    	margin: 10px 10px 0px 10px;
+        margin: 10px 10px 0px 10px;
+        width: calc(100% - 20px);
 	}
 	.localsBadge{
 		left: 148px;
@@ -2147,7 +2150,7 @@ input[type="radio"]:checked + label {
 --------------------------------------------------------------*/
 @media only screen and (max-width: 1000px) {
     footer{
-        margin-top: 10px;
+        border-top: 10px solid #CCC;
     }
 }
 @media only screen and (max-width: 2000px) {
@@ -2205,14 +2208,14 @@ input[type="radio"]:checked + label {
     .menuOpen .sidenav { position: absolute;padding-right: 15px;}
 }
 
-/* no zoom on safari iOS */
+/* safari iOS fixes */
 @media screen and (-webkit-min-device-pixel-ratio:0) and (max-width: 768px) {
-	.clanImage{
-		width:100%;
-	}
+    /* no zoom on safari iOS */
+	.clanImage { width:100%; }
     input[type='number'] { font-size: 16px !important; min-height: 16px;  }
+   /* forum fix */
+    #af-wrapper .post-wrapper { display: block; }
 }
-
 
 @media only screen and (max-width: 768px) {
     /* Small tables for buildings, units, missiles and market */
