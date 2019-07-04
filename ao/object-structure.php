@@ -19,7 +19,9 @@ User/CurrentUser extends User {}    // The Current User for this request, logs i
 User/User extends DbObject {}       // User entity, this is purely a login, person, has messages. Nothing gameplay related
 User/Province extends User? {}      // Most used entity. Has land, units, buildings, etc. Attacks and defends.
 // A user could also have an "outpost", a "research station", or a second province on another planet.
+User/Bonus extends PostObject {}    // Wp-post type, a clan bonus a user can activate
 *User/UserMedal extends PostObject  // wp-post type = medal
+
 
 // Bank
 *Bank/Bank extends PhpObject {}     // Has rates?? Can open an accounts? Loans?
@@ -38,7 +40,6 @@ Research/Research extends PostObject// Wp-post type that starts and ends
 // Clan
 Clan/Clan extends PostObject {}     // Wp-post type with provinces, networth and data
 *Clan/ClanWar extends PostObject
-*Clan/ClanBonus extends PhpObject
 *Clan/ClanAward extends PostObject
 
 // Attacks
@@ -63,7 +64,7 @@ Data/Missiles extends DataObject
 Data/Researches extends DataObject
 Data/Satellites extends DataObject
 Data/Settings extends DataObject    // Balancing is very important, here we can easily change the "nw range" for instance
-Data/StartBoni extends DataObject
+Data/StartBonuses extends DataObject
 Data/Units extends DataObject
 *Data/Bonusses extends DataObject
 *Data/Trophies extends DataObject

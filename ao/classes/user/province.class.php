@@ -344,11 +344,12 @@ class Province extends DbObject {
         return $telegram_key;
     }
 
+
     /**
      * Startingbonus
      */
     public function getStartingBonus() {
-        $s = Startboni::get($this->get('starting_bonus'));
+        $s = Startbonuses::get($this->get('starting_bonus'));
         return (!!$s ? $s : false);
     }
     public function hasStartingBonus($key) {
@@ -356,7 +357,7 @@ class Province extends DbObject {
     }
     public function setStartingBonus($bonustype) {
         if(!empty($this->getStartingBonus())) return false; // Province already has a bonus
-        $bonus = Startboni::get($bonustype);
+        $bonus = Startbonuses::get($bonustype);
         if(empty($bonus)) return false; // No such bonus
         switch($bonustype) {
             case 'offensive': $this->update('turns', $this->getTurns() + 75); break;
@@ -475,7 +476,7 @@ class Province extends DbObject {
             $num += (!!$this->get($key) ? intval($this->get($key)) : 0);
         }
         //$this->update('buildings_built', $num); // overhead to always update this
-        //@todo: we might want to update builtland?
+        //@todo: we might want to update builtland too?
         return $num;
     }
 
@@ -531,11 +532,16 @@ class Province extends DbObject {
         $sat = $this->get('sat_owned');
         foreach($satellites as $id => $satellite) {
             $satellites[$id]['num'] = ($sat == $id ? 1 : 0);
+            //Hooks::trigger('get_province_sattelite', array($id, $satellites[$id])); // we might want to work with modifiers
+            if(!$this->hasResearchMinimalLevel('satellite_construction', 3)) {
+                $satellites[$id]['price'] = $satellites[$id]['price'] * Settings::get('satellite_construction_3_price_multi');
+            }
         }
         $satellites[$key]['status'] = ($this->get('stealth_sat_status')=='active' ? 'active' : '');
 
         return ($key != null && $satellites[$key] ? $satellites[$key] : $satellites);
     }
+    // Acktually gets shortname (header.php)
     public function getSatelliteNum() {
         if(!$this->hasResearchMinimalLevel('satellite_construction', 1)) return 0;
         $sat = $this->get('sat_owned');

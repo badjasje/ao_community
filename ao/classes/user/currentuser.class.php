@@ -10,7 +10,7 @@ class CurrentUser extends User {
         if(is_user_logged_in()) { //@wp
             parent::__construct(wp_get_current_user()->ID); //@wp
             $this->loggedin=true;
-            $this->update('last_online', time());
+            $this->update('last_online', current_time('timestamp')); //@wp
         }
 
         // Redirects or exits if needed
