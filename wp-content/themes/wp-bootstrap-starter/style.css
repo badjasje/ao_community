@@ -1545,7 +1545,8 @@ input[type="radio"]:checked + label {
 	}
 	.inf_heading{
 		background-color: rgba(126, 100, 68, 0.75);
-	}
+    }
+    .container .iconBlockHeader { margin-top:0; }
 	.pageTitle {
         font-size: 40px;
 		padding: 40px;
@@ -2250,5 +2251,5 @@ input[type="radio"]:checked + label {
     .celBlock, .mainSubmit {
         padding: 7px 12px;
     }
-    .eventFooter { margin-bottom:50px; }
+    .eventFooter { margin-bottom:20px; }
 }
