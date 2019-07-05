@@ -1,6 +1,6 @@
 <?php
 
-$moralecost = 5;
+$moralecost = Settings::get('thief_morale_cost');
 $no_thiefs = $_POST['nothiefs'];
 
 $attacker_money = $attackerData['money'][0];

@@ -12,6 +12,9 @@ $attack_cost_turns = 0;
 $attack_cost_morale = 0;
 
 $maintarget = ($debug ? $_POST['maintarget'] : filter_input(INPUT_POST, 'maintarget', FILTER_SANITIZE_STRING));
+if(!in_array($maintarget, array_keys(Settings::get('attack_maintargets')))) {
+	$maintarget = 'none';
+}
 $attackmode = ($debug ? $_POST['attackmode'] : filter_input(INPUT_POST, 'attackmode', FILTER_SANITIZE_STRING));
 $attackmode = ($attackmode == 'aggressive' ? 'aggressive' : 'normal');
 if($debug) debug_var('Attackmode', $attackmode);

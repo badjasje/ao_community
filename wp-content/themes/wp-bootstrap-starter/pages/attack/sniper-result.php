@@ -1,7 +1,7 @@
 <?php
 include("../../../../../units_array.php");
 
-$moralecost = 10;
+$moralecost = Settings::get('sniper_morale_cost');
 $attSnipers = $attackerData['sniper_owned'][0];
 $no_snipers = $attSnipers*$_POST['attackarray']['sniper'];
 

@@ -275,7 +275,7 @@ class Province extends DbObject {
     }
 
     public function getSatMorale($format=false) {
-        $n = ($this->get('sat_owned') == 0 ? 0 : intval($this->get('sat_morale')));
+        $n = ($this->get('sat_owned') !== 0 ? intval($this->get('sat_morale')) : 0);
         return ($format ? Format::morale($n) : $n);
     }
 

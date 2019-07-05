@@ -54,7 +54,7 @@ if($saboteurProtection > 90){
 if($sniperSuccess < $saboteurProtection){
 	$result = 'failure';
 }
-$moralecost = 30;
+$moralecost = Settings::get('saboteur_morale_cost');
 update_user_meta($userId, 'morale', $oldmorale - $moralecost);
 
 if ($result == 'success') {
