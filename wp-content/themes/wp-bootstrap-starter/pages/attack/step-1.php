@@ -76,7 +76,7 @@
 
 	</div>
 
-	<? if($province->getUnitAttackTypeNum('regular') > 0  && $province->getMorale() >= Settings::get('attack_morale_tgt_above')) { ?>
+	<? if(($province->getUnitAttackTypeNum('regular') > 0 || $province->getUnitAttackTypeNum('air_sea') > 0) && $province->getMorale() >= Settings::get('attack_morale_tgt_above')) { ?>
 	<div class="row no-gutters">
 		<div class="col-md-6 no-gutters">
 			<div class="row no-gutters">
