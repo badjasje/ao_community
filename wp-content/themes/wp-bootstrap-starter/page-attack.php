@@ -1,8 +1,11 @@
 <?php
- /*
+/**
  * Template Name: Attack
-*/
-if(!is_user_logged_in()) {
+ */
+$user = CurrentUser::make();
+$province = $user->getProvince();
+
+if(!$user->isLoggedIn()) {
 	exit(wp_redirect(home_url('/')));
 }
 
