@@ -25,7 +25,7 @@ class CurrentUser extends User {
             // Only really die when coming online
             $province = $this->getProvince();
             if(!Request::isAjax() && $province->isDead() && $province->get('times_killed') == 0) {
-                $province->after_death();
+                $province->afterDeath();
                 $province->update('status', 'nukeprotection');
                 $province->update('nuke_protection_timestamp', current_time('timestamp') + Settings::get('nuke_protection_length'));
             }

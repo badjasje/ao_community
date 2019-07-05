@@ -1009,7 +1009,7 @@ function scaled_power_pvp($power, $attacker_ID, $defender_ID) {
             array('key'	=> 'time_attacked', 'value'	=> strtotime('-5 day'), 'compare' => '>', 'type' => 'numeric'),
         ))
     ));
-    $power = $power * (1 / min(1, $out_of_war_attacks - 5) );
+    $power = $power * (1 / max(1, $out_of_war_attacks - 5) );
     return $power;
 }
 

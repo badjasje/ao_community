@@ -378,6 +378,7 @@ class Province extends DbObject {
      * Startingbonus
      */
     public function getStartingBonus() {
+        if(empty($this->get('starting_bonus'))) return false;
         $s = Startbonuses::get($this->get('starting_bonus'));
         return (!!$s ? $s : false);
     }
