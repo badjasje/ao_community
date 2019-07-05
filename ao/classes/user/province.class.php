@@ -166,6 +166,16 @@ class Province extends DbObject {
     }
 
     /**
+     * Helper function
+     */
+    public function isCurrentUser() {
+        $user = CurrentUser::make();
+        if(!$user->isLoggedIn()) return false;
+        $province = $user->getProvince();
+        return ($province->get('id') == $this->id);
+    }
+
+    /**
      * Status: dead
      */
     public function isDead() {
@@ -190,14 +200,11 @@ class Province extends DbObject {
      * Other
      */
     public function inRange() {
-        $user = CurrentUser::make();
-        if(!$user->isLoggedIn()) return false;
-
-        $province = $user->getProvince();
-        if($province->get('id') == $this->id) return false; // I am not in range of myself
-
+        if($this->isCurrentUser()) return false; // I am not in range of myself
         if($this->isDead()) return false;
+        if($this->isProtected()) return false;
 
+        $user = CurrentUser::make();
         $networth = $this->getNetworth();
         $viewerNetworth = $user->getNetworth();
         $range = Settings::get('attack_range_mult');
@@ -518,10 +525,24 @@ class Province extends DbObject {
 
         return ($key != null && $units[$key] ? $units[$key] : $units);
     }
-    public function getUnitsNum($key=null,$type=null) {
+    public function getUnitAttackTypeNum($attacktype=null) {
         $num = 0;
         foreach(Units::get() as $k => $unit) {
-            if((!is_null($key)&&$k==$key) || (is_null($key) && (is_null($type) || $type==$unit['type']))) {
+            if(in_array($attacktype,$unit['attacktype'])) $num += (!!$this->get($k.'_owned') ? intval($this->get($k.'_owned')) : 0);
+        }
+        return $num;
+    }
+    public function getUnitTypeNum($type=null) {
+        $num = 0;
+        foreach(Units::get() as $k => $unit) {
+            if($type==$unit['type']) $num += (!!$this->get($k.'_owned') ? intval($this->get($k.'_owned')) : 0);
+        }
+        return $num;
+    }
+    public function getUnitsNum($key=null) {
+        $num = 0;
+        foreach(Units::get() as $k => $unit) {
+            if(is_null($key) || $k == $key) {
                 $num += (!!$this->get($k.'_owned') ? intval($this->get($k.'_owned')) : 0);
             }
         }
