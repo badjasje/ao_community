@@ -168,6 +168,16 @@ $vehdamage = $VEH_ATT_power;
 $seadamage = $SEA_ATT_power;
 $blddamage = $BLD_ATT_power*1.2;
 
+// Attack power scaled to number of out-of-war attacks within X days between two provinces, where first Y aren't counted,
+// only applied outside of war
+if($war_type == 'none') {
+	$airdamage = scaled_power_pvp($airdamage, $userId, $target_id);
+	$infdamage = scaled_power_pvp($infdamage, $userId, $target_id);
+	$vehdamage = scaled_power_pvp($vehdamage, $userId, $target_id);
+	$seadamage = scaled_power_pvp($seadamage, $userId, $target_id);
+	$blddamage = scaled_power_pvp($blddamage, $userId, $target_id);
+}
+
 /*if($defenderData['land'][0] < 7500){
 	$reduction = $defenderData['land'][0]/7500;
 	if($reduction <= 0.5){

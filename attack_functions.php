@@ -997,6 +997,23 @@ function kill_event($attackerId,$defenderId,$result,$defend_clan_id,$attack_clan
 }
 
 /**
+ * Jaap: Attack power scaled to number of out-of-war attacks within X days between two provinces, where first Y aren't counted,
+ * only applied outside of war
+ */
+function scaled_power_pvp($power, $attacker_ID, $defender_ID) {
+    $out_of_war_attacks = count(get_posts(
+        array('numberposts'	=> -1, 'post_type' => 'event_local', 'author' => $attacker_ID, 'meta_query' => array(
+            'relation' => 'AND',
+            array('key'	=> 'defender_id', 'value' => $defender_ID, 'compare' => '='),
+            array('key'	=> 'war_status', 'value' => 'none', 'compare' => '='),
+            array('key'	=> 'time_attacked', 'value'	=> strtotime('-5 day'), 'compare' => '>', 'type' => 'numeric'),
+        ))
+    ));
+    $power = $power * (1 / min(1, $out_of_war_attacks - 5) );
+    return $power;
+}
+
+/**
  * Helper function in an attempt to avoid big clans completely raiding smaller clans or single provinces
  */
 function get_clan_member_difference($attacker_ID, $defender_ID) {

@@ -59,6 +59,11 @@ if ($sat_owned != 'laser') {
 
 $blddamage = rand(6500,8000);
 
+// Attack power scaled to number of out-of-war attacks within X days between two provinces, where first Y aren't counted,
+// only applied outside of war
+if($war_type == 'none') {
+	$blddamage = scaled_power_pvp($blddamage, $userId, $target_id);
+}
 /*if($defenderData['land'][0] < 7500){
 	$reduction = $defenderData['land'][0]/7500;
 	if($reduction <= 0.5){

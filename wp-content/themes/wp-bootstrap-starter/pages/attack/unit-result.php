@@ -380,6 +380,14 @@ if(array_key_exists('tomahawk', $attack_array)){
     else update_user_meta($userId, 'tomahawk_owned', $tomahawks-$tomahawksSent);
 }
 
+// Attack power scaled to number of out-of-war attacks within X days between two provinces, where first Y aren't counted,
+// only applied outside of war
+if($war_type == 'none') {
+	foreach($attacker_type_damage as $type => $dmg) {
+		$attacker_type_damage[$type] = scaled_power_pvp($dmg, $userId, $target_id);
+	}
+}
+
 /* Building killer defense, half BK damage if land is lower than 10k * /
 if($defenderData['land'][0] < 7500){
 	$reduction = $defenderData['land'][0]/7500;
