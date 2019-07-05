@@ -4,6 +4,9 @@ include("../../../../../building_array.php");
 include("../../../../../units_array.php");
 
 $winner_ID = $userId;
+$maintarget = ($debug ? $_POST['maintarget'] : filter_input(INPUT_POST, 'maintarget', FILTER_SANITIZE_STRING));
+$attackmode = ($debug ? $_POST['attackmode'] : filter_input(INPUT_POST, 'attackmode', FILTER_SANITIZE_STRING));
+$attackmode = ($attackmode == 'aggressive' ? 'aggressive' : 'normal');
 $defender_lost = array();
 
 // Need Silos to launch missile
@@ -660,6 +663,8 @@ update_field('winner_id',$winner_ID, $new_event_id);
 update_field('attacker_id',$userId, $new_event_id);
 update_field('attacktype',$attack_type, $new_event_id);
 update_field('outcome',$result, $new_event_id);
+update_field('maintarget', $maintarget, $new_event_id);
+update_field('attackmode', $attackmode, $new_event_id);
 
 if($shotdown == true){
 	update_field('shotdown','shotdown', $new_event_id);

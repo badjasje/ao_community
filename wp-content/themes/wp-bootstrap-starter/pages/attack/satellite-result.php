@@ -4,6 +4,9 @@ include("../../../../../units_array.php");
 include("../../../../../satellite_array.php");
 
 $target_id = $_POST['target_id'];
+$maintarget = ($debug ? $_POST['maintarget'] : filter_input(INPUT_POST, 'maintarget', FILTER_SANITIZE_STRING));
+$attackmode = ($debug ? $_POST['attackmode'] : filter_input(INPUT_POST, 'attackmode', FILTER_SANITIZE_STRING));
+$attackmode = ($attackmode == 'aggressive' ? 'aggressive' : 'normal');
 
 $SEA_ATT_power   = 0;
 $AIR_ATT_power   = 0;
@@ -396,6 +399,8 @@ update_field('winner_id',$winner_ID, $new_event_id);
 update_field('attacker_id',$userId, $new_event_id);
 update_field('attacktype',$attack_type, $new_event_id);
 update_field('outcome',$result, $new_event_id);
+update_field('maintarget', $maintarget, $new_event_id);
+update_field('attackmode', $attackmode, $new_event_id);
 
 if($killed == true){
 	kill_event($userId,$target_id,$result,$defender_clan_ID,$attacker_clan_ID);

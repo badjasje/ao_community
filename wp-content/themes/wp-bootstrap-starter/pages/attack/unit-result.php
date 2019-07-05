@@ -11,7 +11,7 @@ $attack_clan_id = $attackerData['clan_id_user'][0];
 $attack_cost_turns = 0;
 $attack_cost_morale = 0;
 
-$maintarget = $_POST['maintarget'];
+$maintarget = ($debug ? $_POST['maintarget'] : filter_input(INPUT_POST, 'maintarget', FILTER_SANITIZE_STRING));
 $attackmode = ($debug ? $_POST['attackmode'] : filter_input(INPUT_POST, 'attackmode', FILTER_SANITIZE_STRING));
 $attackmode = ($attackmode == 'aggressive' ? 'aggressive' : 'normal');
 if($debug) debug_var('Attackmode', $attackmode);
@@ -1009,6 +1009,8 @@ update_field('attacker_id',$userId, $new_event_id);
 update_field('winner_id',$winner_id, $new_event_id);
 update_field('attacktype',$attack_type, $new_event_id);
 update_field('outcome',$result, $new_event_id);
+update_field('maintarget', $maintarget, $new_event_id);
+update_field('attackmode', $attackmode, $new_event_id);
 
 update_field('tomahawk_hit', $tomahawksSent-$shotdown, $new_event_id);
 update_field('tomahawk_down', $shotdown, $new_event_id);
