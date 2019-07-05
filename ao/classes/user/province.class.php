@@ -130,13 +130,13 @@ class Province extends DbObject {
 
         return array('success' => true, 'status' => 'All set: '.
             Format::money(Settings::get('devfunds_money')).', full morale, orders, research and '.
-            Settings::get('devfunds_turns').' turns received');
+            Format::turns(Settings::get('devfunds_turns')).' turns received');
     }
 
     public function ajaxStartingbonus($return) {
         if(!empty($this->getStartingBonus())) return array('status' => 'You already have a startbonus.');
         $bonustype = Request::post('bonustype');
-        if($this->setStartingBonus($bonustype)) return array('status' => 'No such startbonus.');
+        if(!$this->setStartingBonus($bonustype)) return array('status' => 'No such startbonus.');
         return array('success' => true, 'status' => 'Starting bonus picked');
     }
 
