@@ -377,7 +377,7 @@ if(array_key_exists('tomahawk', $attack_array)){
     else update_user_meta($userId, 'tomahawk_owned', $tomahawks-$tomahawksSent);
 }
 
-/* Building killer defense, half BK damage if land is lower than 10k */
+/* Building killer defense, half BK damage if land is lower than 10k * /
 if($defenderData['land'][0] < 7500){
 	$reduction = $defenderData['land'][0]/7500;
 	if($reduction <= 0.5){
@@ -385,7 +385,7 @@ if($defenderData['land'][0] < 7500){
 	}
 	$attacker_type_damage['bld'] = $attacker_type_damage['bld']*$reduction;
 	if($debug) debug_var('Killer defense', true);
-}
+}/* */
 
 // Scale building damage on clan size difference
 if($debug) debug_var('attacker_type_damage', print_r($attacker_type_damage,1));

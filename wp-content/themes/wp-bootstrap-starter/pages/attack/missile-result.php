@@ -165,13 +165,13 @@ $vehdamage = $VEH_ATT_power;
 $seadamage = $SEA_ATT_power;
 $blddamage = $BLD_ATT_power*1.2;
 
-if($defenderData['land'][0] < 7500){
+/*if($defenderData['land'][0] < 7500){
 	$reduction = $defenderData['land'][0]/7500;
 	if($reduction <= 0.5){
 		$reduction = 0.5;
 	}
 	$blddamage = $blddamage*$reduction;
-}
+}*/
 
 // Scale building damage on clan size difference
 $blddamage = scaled_damage_to_clansize($blddamage, $userId, $target_id);

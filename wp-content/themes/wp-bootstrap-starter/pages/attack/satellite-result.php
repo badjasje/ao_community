@@ -56,13 +56,13 @@ if ($sat_owned != 'laser') {
 
 $blddamage = rand(6500,8000);
 
-if($defenderData['land'][0] < 7500){
+/*if($defenderData['land'][0] < 7500){
 	$reduction = $defenderData['land'][0]/7500;
 	if($reduction <= 0.5){
 		$reduction = 0.5;
 	}
 	$blddamage = $blddamage*$reduction;
-}
+}*/
 
 $startingbonus = $defenderData['starting_bonus'][0];
 $defensive_multi = 1;
