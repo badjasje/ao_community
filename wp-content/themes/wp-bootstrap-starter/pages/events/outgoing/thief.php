@@ -21,11 +21,16 @@ if($winner_id != $defender_id){
 		</div>
 		<div class="row eventResultRow">
 			<div class="col-md-12 col-no-padding">
-				<?php if($winner_id != $defender_id):?>
-					and stole <strong>$ <?php echo number_format($moneylost, 0, ',', ' '); ?></strong>
-				<?php elseif($winner_id == $defender_id):?>
-					<?php echo $thiefs_lost;?> thief<?php echo plural_func($thiefs_lost);?> lost.
-				<?php endif;?>
+				<?php if(!empty($moralecost)) { ?>
+					<p>Moralecost: <em><?=$moralecost?>%</em></p>
+				<?php } ?>
+				<p>
+					<?php if($winner_id != $defender_id):?>
+						You stole <strong>$ <?php echo number_format($moneylost, 0, ',', ' '); ?></strong>
+					<?php elseif($winner_id == $defender_id):?>
+						<?php echo $thiefs_lost;?> thief<?php echo plural_func($thiefs_lost);?> lost.
+					<?php endif;?>
+				</p>
 			</div>
 		</div>
 	</div>

@@ -20,7 +20,7 @@
 		<div class="row eventResultRow">
 			<div class="col-md-12 col-no-padding">
 				<?php if(!empty($attackmode) && !empty($maintarget)) { ?>
-				<p>Attackmode: <em><?=$attackmode?></em>, Maintarget: <em><?=$maintarget?></em></p>
+				<p>Attackmode: <em><?=$attackmode?></em>, maintarget: <em><?=$maintarget?></em>, morale: <em><?=$moralecost?>%</em></p>
 				<?php } ?>
 				<p>
 					In this attack <strong><?php echo number_format($landlost, 0, ',', ' '); ?> m<sup>2</sup></strong> and

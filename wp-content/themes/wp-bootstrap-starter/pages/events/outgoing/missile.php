@@ -35,15 +35,19 @@ if($missile_type == 'moab'){ $missile_name = 'MOAB'; }
 		</div>
 		<div class="row eventResultRow">
 			<div class="col-md-12 col-no-padding">
+				<?php if(!empty($moralecost)) { ?>
+					<p>Moralecost: <em><?=$moralecost?>%</em></p>
+				<?php } ?>
+				<p>
 				<?php if($winner_id == $attacker_id):?>
 					<?php
 					foreach ($units as $key => $order) {
 						foreach ($att_unitslost as $att_unitlost) {
-						if (isset($att_unitlost[$key])) {
-							echo $order['normalname'] . ': ' . $att_unitlost[$key] . ', ';
-						}
+							if (isset($att_unitlost[$key])) {
+								echo $order['normalname'] . ': ' . $att_unitlost[$key] . ', ';
 							}
 						}
+					}
 					?><br/>
 					<strong>Defender losses: <?php echo $def_tot_unitslost;?> units and <?php echo $def_tot_buildingslost;?> buildings</strong><br/>
 					<?php
@@ -67,6 +71,7 @@ if($missile_type == 'moab'){ $missile_name = 'MOAB'; }
 				<?php else:?>
 					No losses!
 				<?php endif;?>
+				</p>
 			</div>
 		</div>
 	</div>

@@ -164,6 +164,7 @@ update_field('attacktype','empmissile', $new_event_id);
 update_field('outcome',$result, $new_event_id);
 update_field('maintarget', $maintarget, $new_event_id);
 update_field('attackmode', $attackmode, $new_event_id);
+update_field('moralecost', $moralecost, $new_event_id);
 
 if($shotdown == true){
 	update_field('shotdown','shotdown', $new_event_id);

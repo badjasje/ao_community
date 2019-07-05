@@ -93,6 +93,7 @@ if($userId != 0){
 			$winner_id = $eventData['winner_id'][0];
 			$attackmode = (isset($eventData['attackmode']) ? $eventData['attackmode'][0] : '');
 			$maintarget = (isset($eventData['maintarget']) ? $eventData['maintarget'][0] : '');
+			$moralecost = (isset($eventData['moralecost']) ? $eventData['moralecost'][0] : '');
 
 			$reportHeader = '';
 			if($attack_type == 'air_sea'){

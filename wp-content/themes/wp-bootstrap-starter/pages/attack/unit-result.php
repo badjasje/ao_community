@@ -1011,6 +1011,7 @@ update_field('attacktype',$attack_type, $new_event_id);
 update_field('outcome',$result, $new_event_id);
 update_field('maintarget', $maintarget, $new_event_id);
 update_field('attackmode', $attackmode, $new_event_id);
+update_field('moralecost', $attack_cost_morale, $new_event_id);
 
 update_field('tomahawk_hit', $tomahawksSent-$shotdown, $new_event_id);
 update_field('tomahawk_down', $shotdown, $new_event_id);
