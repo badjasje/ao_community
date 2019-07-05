@@ -49,7 +49,7 @@ function update_countdowns() {
         hh = hours - days * 24,
         mm = mins - hours * 60,
         ss = secs - mins * 60;
-        var t = ''+(days > 0 ? days+' days and ' : '');
+        var t = ''+(days > 0 ? days+' '+(days==1?'day':'days')+' and ' : '');
         t+=('00'+hh).slice(-2) + ':' + ('00'+mm).slice(-2) + ':' + ('00'+ss).slice(-2);
         $this.text(t).data('diff', (diff-1000));
     });
