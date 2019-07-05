@@ -52,6 +52,8 @@ class Settings extends DataObject {
         'points_kill_outgoing' => 25,
         'points_kill_incoming' => 25,
         'points_kill_mutual' => 50,
+        'maintarget_target_multi' => 1.5,
+        'maintarget_notarget_multi' => 0.5,
 
         // turn costs
         'turns_missile' => 3,
