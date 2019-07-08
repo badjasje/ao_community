@@ -114,7 +114,7 @@ class Province extends DbObject {
     }
 
     public function ajaxDevfunds($return) {
-        if(!Round::isDev() && !Round::isTest()) return array('status' => 'Unavailable');
+        if(!Round::isDev() && !Round::isTest() && !Round::isSandbox()) return array('status' => 'Unavailable');
 
         $this->update('money', $this->getMoney() + Settings::get('devfunds_money'));
         $this->update('turns', $this->getTurns() + Settings::get('devfunds_turns'));

@@ -32,6 +32,9 @@ class Round extends DataObject {
     public static function isTest() {
         return static::$data['type'] == 'test';
     }
+    public static function isSandbox() {
+        return static::$data['type'] == 'sandbox';
+    }
 
     public static function isLive() {
         return static::$data['status'] == 'live';

@@ -17,9 +17,7 @@ echo '<div class="row pageRow">';
 		<?
 	}
 
-	if(Round::isTest() || Round::isDev()) {
-		require_once('pages/dashboard/devtest.php');
-	}
+	require_once('pages/dashboard/devtest.php');
 
 	if(Round::isLive()) {
 		require_once('pages/dashboard/pick-startingbonus.php');
