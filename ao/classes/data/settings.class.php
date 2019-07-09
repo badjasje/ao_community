@@ -41,6 +41,7 @@ class Settings extends DataObject {
         'powerplant_efficiency_life_multi' => 1.5,
         'satellite_construction_1_endlife' => 11,
         'satellite_construction_2_endlife' => 16,
+        'satellite_construction_3_price_multi' => .8,
 
         // start bonus things
         'startbonus_defensive_building_life_multi' => 1.25,
@@ -48,9 +49,30 @@ class Settings extends DataObject {
         'startbonus_finance_income_multi' => 1.1,
 
         // attack constants
+        'attack_maintargets' => array(
+            //'power' => 'Power plants',
+		    'silo' => 'Missile silos',
+		    'command' => 'Command centres',
+		    'shipyard' => 'Shipyards',
+		    'airfield' => 'Airfields',
+		    'barracks' => 'Barracks',
+		    'warfactory' => 'Warfactories',
+		    'defense' => 'Defense buildings',
+		    'ams' => 'Anti-Missile System',
+        ),
         'points_kill_outgoing' => 25,
         'points_kill_incoming' => 25,
         'points_kill_mutual' => 50,
+        'maintarget_target_multi' => 1.5,
+        'maintarget_notarget_multi' => 0.5,
+        'saboteur_morale_cost' => 30,
+        'sniper_morale_cost' => 10,
+        'thief_morale_cost' => 5,
+        'spy_morale_cost' => 0,
+        'missile_morale_tgt_below' => 40,
+        'missile_morale_tgt_above' => 35,
+        'attack_morale_tgt_below' => 25,
+        'attack_morale_tgt_above' => 20,
 
         // turn costs
         'turns_missile' => 3,

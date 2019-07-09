@@ -20,6 +20,7 @@ class PostObject extends PhpObject {
                 return parent::__construct(static::$list[static::$cache][$postData]);
             }
             $postData = get_post($postData);
+            //if(is_null($postData))
         }
         if(is_object($postData) && isset($postData->ID)) {
             $meta = array_map( function( $a ){ return $a[0]; }, get_post_meta($postData->ID));

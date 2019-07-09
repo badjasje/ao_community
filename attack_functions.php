@@ -764,8 +764,9 @@ function get_attack_type_multiplier($attack_type) {
 */
 function attack_dice_roll() {
     include('constants.php');
-    //return rand($UNIT_DICEROLL_DAMAGE_MIN, $UNIT_DICEROLL_DAMAGE_MAX) / 100;
-    return $UNIT_DICEROLL_DAMAGE_MIN / 100;
+    $gameType = get_field('game_type','option');
+    if(in_array($gameType, array('Development','Test'))) return $UNIT_DICEROLL_DAMAGE_MIN / 100;
+    return rand($UNIT_DICEROLL_DAMAGE_MIN, $UNIT_DICEROLL_DAMAGE_MAX) / 100;
 }
 
 
@@ -778,8 +779,9 @@ function attack_dice_roll() {
 */
 function resource_dice_roll() {
     include('constants.php');
-    //return rand($RESOURCE_DICEROLL_MIN, $RESOURCE_DICEROLL_MAX) / 100;
-    return $RESOURCE_DICEROLL_MIN / 100;
+    $gameType = get_field('game_type','option');
+    if(in_array($gameType, array('Development','Test'))) return $RESOURCE_DICEROLL_MIN / 100;
+    return rand($RESOURCE_DICEROLL_MIN, $RESOURCE_DICEROLL_MAX) / 100;
 }
 
 
@@ -992,6 +994,23 @@ function kill_event($attackerId,$defenderId,$result,$defend_clan_id,$attack_clan
 
     update_field('defender_clan_id',$defend_clan_id, $new_event_id);
     update_field('attacker_clan_id',$attack_clan_id, $new_event_id);
+}
+
+/**
+ * Jaap: Attack power scaled to number of out-of-war attacks within X days between two provinces, where first Y aren't counted,
+ * only applied outside of war
+ */
+function scaled_power_pvp($power, $attacker_ID, $defender_ID) {
+    $out_of_war_attacks = count(get_posts(
+        array('numberposts'	=> -1, 'post_type' => 'event_local', 'author' => $attacker_ID, 'meta_query' => array(
+            'relation' => 'AND',
+            array('key'	=> 'defender_id', 'value' => $defender_ID, 'compare' => '='),
+            array('key'	=> 'war_status', 'value' => 'none', 'compare' => '='),
+            array('key'	=> 'time_attacked', 'value'	=> strtotime('-5 day'), 'compare' => '>', 'type' => 'numeric'),
+        ))
+    ));
+    $power = $power * (1 / max(1, $out_of_war_attacks - 5) );
+    return $power;
 }
 
 /**

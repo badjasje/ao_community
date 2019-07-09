@@ -11,7 +11,10 @@ $attack_clan_id = $attackerData['clan_id_user'][0];
 $attack_cost_turns = 0;
 $attack_cost_morale = 0;
 
-$maintarget = $_POST['maintarget'];
+$maintarget = ($debug ? $_POST['maintarget'] : filter_input(INPUT_POST, 'maintarget', FILTER_SANITIZE_STRING));
+if(!in_array($maintarget, array_keys(Settings::get('attack_maintargets')))) {
+	$maintarget = 'none';
+}
 $attackmode = ($debug ? $_POST['attackmode'] : filter_input(INPUT_POST, 'attackmode', FILTER_SANITIZE_STRING));
 $attackmode = ($attackmode == 'aggressive' ? 'aggressive' : 'normal');
 if($debug) debug_var('Attackmode', $attackmode);
@@ -377,7 +380,15 @@ if(array_key_exists('tomahawk', $attack_array)){
     else update_user_meta($userId, 'tomahawk_owned', $tomahawks-$tomahawksSent);
 }
 
-/* Building killer defense, half BK damage if land is lower than 10k */
+// Attack power scaled to number of out-of-war attacks within X days between two provinces, where first Y aren't counted,
+// only applied outside of war
+if($war_type == 'none') {
+	foreach($attacker_type_damage as $type => $dmg) {
+		$attacker_type_damage[$type] = scaled_power_pvp($dmg, $userId, $target_id);
+	}
+}
+
+/* Building killer defense, half BK damage if land is lower than 10k * /
 if($defenderData['land'][0] < 7500){
 	$reduction = $defenderData['land'][0]/7500;
 	if($reduction <= 0.5){
@@ -385,7 +396,7 @@ if($defenderData['land'][0] < 7500){
 	}
 	$attacker_type_damage['bld'] = $attacker_type_damage['bld']*$reduction;
 	if($debug) debug_var('Killer defense', true);
-}
+}/* */
 
 // Scale building damage on clan size difference
 if($debug) debug_var('attacker_type_damage', print_r($attacker_type_damage,1));
@@ -562,9 +573,9 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 
 			if($maintarget != 'none'){
 				if($maintarget == $buildings[$key]['targetname']){
-					$killed = round($killed*$defender_loss_decrease*1.20);
+					$killed = round($killed * $defender_loss_decrease * Settings::get('maintarget_target_multi'));
 				}else{
-					$killed = round($killed*$defender_loss_decrease*0.80);
+					$killed = round($killed * $defender_loss_decrease * Settings::get('maintarget_notarget_multi'));
 				}
 			}else{
 				$killed = round($killed*$defender_loss_decrease);
@@ -1009,6 +1020,9 @@ update_field('attacker_id',$userId, $new_event_id);
 update_field('winner_id',$winner_id, $new_event_id);
 update_field('attacktype',$attack_type, $new_event_id);
 update_field('outcome',$result, $new_event_id);
+update_field('maintarget', $maintarget, $new_event_id);
+update_field('attackmode', $attackmode, $new_event_id);
+update_field('moralecost', $attack_cost_morale, $new_event_id);
 
 update_field('tomahawk_hit', $tomahawksSent-$shotdown, $new_event_id);
 update_field('tomahawk_down', $shotdown, $new_event_id);

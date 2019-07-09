@@ -1,5 +1,5 @@
 <?php
-class Startboni extends DataObject {
+class Startbonuses extends DataObject {
 
     static $data = array(
         'offensive' => array(

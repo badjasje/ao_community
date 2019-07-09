@@ -1100,45 +1100,31 @@ body:not(.theme-preset-active) footer#colophon {
 .eventFooter{
 	margin-bottom:50px;
 }
-.mainSubmit{
-	background-color: #46765E;
-    border: none;
-    padding: 13px;
-    width: 100%;
-    border-bottom: 1px solid #46765E;
-    color: #fff;
-    text-transform: uppercase;
-    border-top: 1px solid #fff;
-    cursor: pointer;
-	margin-bottom: 0px;
-	text-align:center;
+.mainSubmit {
+    background-color: #46765E; border: none; padding: 13px; width: 100%; border-bottom: 1px solid #46765E; color: #fff;
+    text-transform: uppercase; border-top: 1px solid #fff; cursor: pointer; margin-bottom: 0px;	text-align:center;
 }
+.secundarySubmit {
+    background-color: #425c6b; border: none; padding: 13px; width: 100%; border-bottom: 1px solid #46765E; color: #fff;
+    text-transform: uppercase; border-top: 1px solid #fff; cursor: pointer; margin-bottom: 0px;	text-align:center;
+}
+.bg-2,.bg-4,.bg-6,.bg-8 { opacity:.95; }
+.bg-3,.bg-9 { opacity:.9; }
+
+.mainSubmit.disabled, .secundarySubmit.disabled { background-color: #BBB; color: #999; cursor:default; }
+
 .receiveFunds { background-color:#A00000; border:0; }
 .chooseFile{
 	background-color:#ddd;
 	border:0px;
 }
 .attackStep-2-submit{
-	background-color: #46765E;
-    border: none;
-    padding: 13px;
-    width: 100%;
-    border-bottom: 1px solid #46765E;
-    color: #fff;
-    text-transform: uppercase;
-    cursor: pointer;
-	margin-bottom: 0px;
+	background-color: #46765E; border: none; padding: 13px; width: 100%; border-bottom: 1px solid #46765E; color: #fff;
+    text-transform: uppercase; cursor: pointer; margin-bottom: 0px;
 }
 .startingbonus {
-    width: 50%;
-    padding: 25px;
-    color: #fff;
-    background-color: #425C6B;
-    text-align: left;
-    cursor: pointer;
-    margin-bottom: 0px;
-    min-height: 200px;
-    float: left;
+    width: 50%; padding: 25px; color: #fff; background-color: #425C6B; text-align: left; cursor: pointer; margin-bottom: 0px;
+    min-height: 200px; float: left;
 }
 h1 .startingbonus {
     text-align:center;
@@ -1273,6 +1259,7 @@ input[type="radio"]:checked + label {
 .dashMobile{
     display: none;
 }
+.hidden { display:none; }
 
 @media only screen and (min-width: 1024px) {
     .statheader{
@@ -1425,6 +1412,8 @@ input[type="radio"]:checked + label {
 	display: none;
 }
 
+.logindata { width:100%; overflow:auto; }
+
 .permaNotification{
     animation-name: greenPulse;
     animation-duration: 5s;
@@ -1543,7 +1532,8 @@ input[type="radio"]:checked + label {
 	}
 	.inf_heading{
 		background-color: rgba(126, 100, 68, 0.75);
-	}
+    }
+    .container .iconBlockHeader { margin-top:0; }
 	.pageTitle {
         font-size: 40px;
 		padding: 40px;
@@ -1582,7 +1572,8 @@ input[type="radio"]:checked + label {
         min-height: 50px;
     }
     .pageRow {
-    	margin: 10px 10px 0px 10px;
+        margin: 10px 10px 0px 10px;
+        width: calc(100% - 20px);
 	}
 	.localsBadge{
 		left: 148px;
@@ -2147,7 +2138,7 @@ input[type="radio"]:checked + label {
 --------------------------------------------------------------*/
 @media only screen and (max-width: 1000px) {
     footer{
-        margin-top: 10px;
+        border-top: 10px solid #CCC;
     }
 }
 @media only screen and (max-width: 2000px) {
@@ -2192,7 +2183,7 @@ input[type="radio"]:checked + label {
     body{
         font-size:14px !important;
     }
-    .bonusCompleted,.attackingRow,.entry-content,.totalsField,.profileButton,.attackDropdown,.eventResultRow,.alert-minimalist,.clanMessageButton,.battleReportInfo,.blockHeader,.celBlock,.permaNotification,.mainSubmit,.navItem,.statusInsideCol,.eventMainMessage {
+    .bonusCompleted,.attackingRow,.entry-content,.totalsField,.profileButton,.attackDropdown,.eventResultRow,.alert-minimalist,.clanMessageButton,.battleReportInfo,.blockHeader,.celBlock,.permaNotification,.mainSubmit, .secundarySubmit,.secundarySubmit,.navItem,.statusInsideCol,.eventMainMessage {
         padding: 10px 10px 10px 15px;
     }
 }
@@ -2205,18 +2196,18 @@ input[type="radio"]:checked + label {
     .menuOpen .sidenav { position: absolute;padding-right: 15px;}
 }
 
-/* no zoom on safari iOS */
+/* safari iOS fixes */
 @media screen and (-webkit-min-device-pixel-ratio:0) and (max-width: 768px) {
-	.clanImage{
-		width:100%;
-	}
+    /* no zoom on safari iOS */
+	.clanImage { width:100%; }
     input[type='number'] { font-size: 16px !important; min-height: 16px;  }
+   /* forum fix */
+    #af-wrapper .post-wrapper { display: block; }
 }
-
 
 @media only screen and (max-width: 768px) {
     /* Small tables for buildings, units, missiles and market */
-    .navItem, .smallTable .mainSubmit { padding: 5px; }
+    .navItem, .smallTable .mainSubmit, .smallTable .secundarySubmit { padding: 5px; }
 
     .smallTable .headerRow { display: flex; }
     .smallTable .celBlock { padding: 4px; font-size: 11px; width: calc(62% / 4); text-align: center; }
@@ -2247,5 +2238,5 @@ input[type="radio"]:checked + label {
     .celBlock, .mainSubmit {
         padding: 7px 12px;
     }
-    .eventFooter { margin-bottom:50px; }
+    .eventFooter { margin-bottom:20px; }
 }

@@ -2,106 +2,112 @@
 <form id="attack" class="attackStep1Table">
 	<input type="hidden" id="target_id" name="target_id" value="<?php echo $attackUserId; ?>" />
 
-
 	<div class="blockHeader">
-		Your morale is currently at <?php echo $morale;?>%.
-		<?php if(!empty($satOwned)){ echo 'Satellite power is currently at '. $sat_morale.'%';}?>
+		Your morale is currently at <?=$province->getMorale(true)?>.
+		<? if($province->getSatelliteNum() !== 0) { /*returns shortname */?>
+			Satellite power is currently at <?=$province->getSatMorale(true)?>
+		<? } ?>
 	</div>
 	<div class="row no-gutters fw-row">
+
 		<div class="col-md-6 col-lg-4 no-gutters">
-			<input style="display:none;" type="radio" name="attacktype" id="air_sea" value="air_sea" checked>
-			<label style="background-color:rgba(66, 92, 107,1)" class="mainSubmit hoverEffect attackSelect" for="air_sea" data-show="air_sea-info">
+			<input class="hidden" type="radio" name="attacktype" id="air_sea" value="air_sea" checked>
+			<label class="secundarySubmit hoverEffect attackSelect bg-1 <?=($province->getUnitAttackTypeNum('air_sea') > 0  && $province->getMorale() >= Settings::get('attack_morale_tgt_above')?'" for="air_sea':'disabled')?>">
 				<i class="flaticon-ship"></i> Air & Sea Attack
 			</label>
 		</div>
+
 		<div class="col-md-6 col-lg-4 no-gutters">
-			<input style="display:none;" type="radio" name="attacktype" id="regular" value="regular">
-			<label style="background-color:rgba(66, 92, 107,0.95)"class="mainSubmit hoverEffect attackSelect" for="regular">
+			<input class="hidden" type="radio" name="attacktype" id="regular" value="regular">
+			<label class="secundarySubmit hoverEffect attackSelect bg-2 <?=($province->getUnitAttackTypeNum('regular') > 0  && $province->getMorale() >= Settings::get('attack_morale_tgt_above')?'" for="regular':'disabled')?>">
 				<i class="flaticon-fighter-plane"></i> Regular Attack
 			</label>
 		</div>
+
 		<div class="col-md-6 col-lg-4 no-gutters">
-			<input style="display:none;" type="radio" name="attacktype" id="ground" value="ground">
-			<label style="background-color:rgba(66, 92, 107,0.9)"class="mainSubmit hoverEffect attackSelect" for="ground">
+			<input class="hidden" type="radio" name="attacktype" id="ground" value="ground">
+			<label class="secundarySubmit hoverEffect attackSelect bg-3 <?=($province->getUnitAttackTypeNum('ground') > 0  && $province->getMorale() >= Settings::get('attack_morale_tgt_above')?'" for="ground':'disabled')?>">
 				<i class="flaticon-tank"></i> Ground Attack
 			</label>
 		</div>
+
 		<div class="col-md-6 col-lg-4 no-gutters">
-			<input style="display:none;" type="radio" name="attacktype" id="missile" value="missile">
-			<label style="background-color:rgba(66, 92, 107,0.85)"class="mainSubmit hoverEffect attackSelect" for="missile">
+			<input class="hidden" type="radio" name="attacktype" id="missile" value="missile">
+			<label class="secundarySubmit hoverEffect attackSelect bg-4 <?=($province->getMissileNum() > 0  && $province->getMorale() >= Settings::get('missile_morale_tgt_above')?'" for="missile':'disabled')?>">
 				<i class="flaticon-radioactive"></i> Launch Missile
 			</label>
 		</div>
+
 		<div class="col-md-6 col-lg-4 no-gutters">
-			<input style="display:none;" type="radio" name="attacktype" id="spy" value="spy">
-			<label style="background-color:rgba(66, 92, 107,0.8)"class="mainSubmit hoverEffect attackSelect" for="spy">
+			<input class="hidden" type="radio" name="attacktype" id="spy" value="spy">
+			<label class="secundarySubmit hoverEffect attackSelect bg-5 <?=($province->getUnitAttackTypeNum('spy') > 0 && $province->getMorale() >= Settings::get('spy_morale_cost')?'" for="spy':'disabled')?>">
 				<i class="flaticon-fighter-plane-1"></i> Send spy
 			</label>
 		</div>
+
 		<div class="col-md-6 col-lg-4 no-gutters">
-			<input style="display:none;" type="radio" name="attacktype" id="thief" value="thief">
-			<label style="background-color:rgba(66, 92, 107,0.75)"class="mainSubmit hoverEffect attackSelect" for="thief">
+			<input class="hidden" type="radio" name="attacktype" id="thief" value="thief">
+			<label class="secundarySubmit hoverEffect attackSelect bg-6 <?=($province->getUnitAttackTypeNum('thief') > 0 && $province->getMorale() >= Settings::get('thief_morale_cost')?'" for="thief':'disabled')?>">
 				<i class="flaticon-secret-agent"></i> Send thief
 			</label>
 		</div>
+
 		<div class="col-md-6 col-lg-4 no-gutters">
-			<input style="display:none;" type="radio" name="attacktype" id="sniper" value="sniper">
-			<label style="background-color:rgba(66, 92, 107,0.7)"class="mainSubmit hoverEffect attackSelect" for="sniper">
+			<input class="hidden" type="radio" name="attacktype" id="sniper" value="sniper">
+			<label class="secundarySubmit hoverEffect attackSelect bg-7 <?=($province->getUnitAttackTypeNum('sniper') > 0 && $province->getMorale() >= Settings::get('sniper_morale_cost')?'" for="sniper':'')?>">
 				<i class="flaticon-bullet"></i> Send sniper
 			</label>
 		</div>
+
+		<? /*returns shortname */?>
 		<div class="col-md-6 col-lg-4 no-gutters">
-			<input style="display:none;" type="radio" name="attacktype" id="satellite" value="satellite">
-			<label style="background-color:rgba(66, 92, 107,0.65)"class="mainSubmit hoverEffect attackSelect" for="satellite">
+			<input class="hidden" type="radio" name="attacktype" id="satellite" value="satellite">
+			<label class="secundarySubmit hoverEffect attackSelect bg-8 <?=($province->getSatelliteNum() !== 0 && $province->getSatMorale() >= 100 ?'" for="satellite':'disabled')?>">
 				<i class="flaticon-objective"></i> Use satellite
 			</label>
 		</div>
+
 		<div class="col-md-6 col-lg-4 no-gutters">
-			<input style="display:none;" type="radio" name="attacktype" id="saboteur" value="saboteur">
-			<label style="background-color:rgba(66, 92, 107,0.6)"class="mainSubmit hoverEffect attackSelect" for="saboteur">
+			<input class="hidden" type="radio" name="attacktype" id="saboteur" value="saboteur">
+			<label class="secundarySubmit hoverEffect attackSelect bg-9 <?=($province->getUnitAttackTypeNum('saboteur') > 0 && $province->getMorale() >= Settings::get('saboteur_morale_cost')?'" for="saboteur"':'disabled')?>">
 				<i class="flaticon-bomb-1"></i> Send saboteur
 			</label>
 		</div>
-	</div>
-<div class="row no-gutters">
-	<div class="col-md-6 no-gutters">
-		<div class="row no-gutters">
-			<div class="attackDropdown statCol-1 no-gutters">
-				Attack Type
-			</div>
 
-			<div style="padding:0px;" class="attackDropdown statCol-2 no-gutters">
-				<select name="attackmode" class="attackTypeInput">
-					<option name="attackmode" value="normal">Normal</option>
-					<option name="attackmode" value="aggressive">Aggressive (Higher gain and higher loss. Costs 10% extra morale.)</option>
-				</select>
+	</div>
+
+	<? if(($province->getUnitAttackTypeNum('regular') > 0 || $province->getUnitAttackTypeNum('air_sea') > 0) && $province->getMorale() >= Settings::get('attack_morale_tgt_above')) { ?>
+	<div class="row no-gutters">
+		<div class="col-md-6 no-gutters">
+			<div class="row no-gutters">
+				<div class="attackDropdown statCol-1 no-gutters">
+					Attack Type
+				</div>
+				<div style="padding:0px;" class="attackDropdown statCol-2 no-gutters">
+					<select name="attackmode" class="attackTypeInput">
+						<option name="attackmode" value="normal">Normal</option>
+						<option name="attackmode" value="aggressive">Aggressive (Higher gain and higher loss. Costs 10% extra morale.)</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 no-gutters">
+			<div class="row no-gutters">
+				<div class="attackDropdown statCol-3 no-gutters">
+					Main target
+				</div>
+				<div style="padding:0px;" class="attackDropdown statCol-4 no-gutters">
+					<select name="maintarget" class="attackTypeInput">
+						<option name="maintarget" value="none">-- none --</option>
+						<? foreach(Settings::get('attack_maintargets') as $k => $v) { ?>
+							<option name="maintarget" value="<?=$k?>"><?=$v?></option>
+						<? } ?>
+					</select>
+				</div>
 			</div>
 		</div>
 	</div>
-
-	<div class="col-md-6 no-gutters">
-		<div class="row no-gutters">
-			<div class="attackDropdown statCol-3 no-gutters">
-				Main target
-			</div>
-			<div style="padding:0px;" class="attackDropdown statCol-4 no-gutters">
-				<select name="maintarget" class="attackTypeInput">
-					<option name="maintarget" value="none">-- none --</option>
-					<option name="maintarget" value="power">Power plants</option>
-					<option name="maintarget" value="silo">Missile silos</option>
-					<option name="maintarget" value="command">Command centres</option>
-					<option name="maintarget" value="shipyard">Shipyards</option>
-					<option name="maintarget" value="airfield">Airfields</option>
-					<option name="maintarget" value="barracks">Barracks</option>
-					<option name="maintarget" value="warfactory">Warfactories</option>
-					<option name="maintarget" value="defense">Defense buildings</option>
-					<option name="maintarget" value="ams">Anti-Missile System</option>
-				</select>
-			</div>
-		</div>
-	</div>
-</div>
-
+	<? } ?>
 
 	<input type="submit" value="Next Step" class="mainSubmit">
 </form>

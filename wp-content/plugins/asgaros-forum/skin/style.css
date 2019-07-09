@@ -1004,10 +1004,15 @@
     border-color: #eee;
     padding: 0px 20px;
 }
+
 @media screen and (max-width: 782px) {
     #af-wrapper .post-wrapper {
         border-width: 1px 0px 0px 0px;
     }
+}
+/* Iphone fix */
+@media only screen and (max-device-width: 812px)  {
+    #af-wrapper .post-wrapper { display: block; }
 }
 
 /* POST HEADER */

@@ -10,7 +10,7 @@ class CurrentUser extends User {
         if(is_user_logged_in()) { //@wp
             parent::__construct(wp_get_current_user()->ID); //@wp
             $this->loggedin=true;
-            $this->update('last_online', time());
+            $this->update('last_online', current_time('timestamp')); //@wp
         }
 
         // Redirects or exits if needed
@@ -25,7 +25,7 @@ class CurrentUser extends User {
             // Only really die when coming online
             $province = $this->getProvince();
             if(!Request::isAjax() && $province->isDead() && $province->get('times_killed') == 0) {
-                $province->after_death();
+                $province->afterDeath();
                 $province->update('status', 'nukeprotection');
                 $province->update('nuke_protection_timestamp', current_time('timestamp') + Settings::get('nuke_protection_length'));
             }

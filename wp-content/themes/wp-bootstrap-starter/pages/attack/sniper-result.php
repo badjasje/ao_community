@@ -1,6 +1,7 @@
 <?php
 include("../../../../../units_array.php");
 
+$moralecost = Settings::get('sniper_morale_cost');
 $attSnipers = $attackerData['sniper_owned'][0];
 $no_snipers = $attSnipers*$_POST['attackarray']['sniper'];
 
@@ -177,6 +178,7 @@ update_field('defender_id',$target_id, $new_event_id);
 update_field('attacker_id',$userId, $new_event_id);
 update_field('attacktype','sniper', $new_event_id);
 update_field('winner_id',$winner_id, $new_event_id);
+update_field('moralecost', $moralecost, $new_event_id);
 
 update_field('def_total_units_lost', $totalDefLost , $new_event_id);
 update_field('att_total_units_lost',$attackerLost, $new_event_id);
@@ -186,7 +188,7 @@ update_field('nw_damage_attacker', $attNWlost , $new_event_id);
 
 update_user_meta($userId,'turns',$turns-2);
 turn_spread('sniper',2);
-update_user_meta($userId, 'morale', $oldmorale - 10);
+update_user_meta($userId, 'morale', $oldmorale - $moralecost);
 update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events',true)+1);
 
 /* update defender land and trigger event */

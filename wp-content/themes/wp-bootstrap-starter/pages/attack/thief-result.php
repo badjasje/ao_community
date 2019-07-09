@@ -1,4 +1,6 @@
 <?php
+
+$moralecost = Settings::get('thief_morale_cost');
 $no_thiefs = $_POST['nothiefs'];
 
 $attacker_money = $attackerData['money'][0];
@@ -80,7 +82,7 @@ if ($success > 0) {
 
 	//Nick money
 	$money_stolen = floor($defender_money*$success);
-	update_user_meta($userId, 'morale', $oldmorale - 5);
+	update_user_meta($userId, 'morale', $oldmorale - $moralecost);
 
 	/* FOLLOWS THE PAGE ITSELF */
 	$winner_id = $userId;
@@ -111,7 +113,7 @@ else {
 	$result = 'failure';
 	//Failure
 	$money_stolen = 0;
-	update_user_meta($userId, 'morale', $oldmorale - 5);
+	update_user_meta($userId, 'morale', $oldmorale - $moralecost);
 
 	$winner_id = $target_id;
 	$money_stolen = 0;
@@ -149,6 +151,7 @@ update_field('defender_id',$target_id, $new_event_id);
 update_field('attacker_id',$userId, $new_event_id);
 update_field('attacktype','thief', $new_event_id);
 update_field('winner_id',$winner_id, $new_event_id);
+update_field('moralecost', $moralecost, $new_event_id);
 
 update_user_meta($userId,'turns',$turns-$TURNS_THIEF);
 turn_spread('thieving',$TURNS_THIEF);

@@ -16,8 +16,11 @@
 		</div>
 		<div class="row eventResultRow">
 			<div class="col-md-12 col-no-padding">
+				<?php if(!empty($moralecost)) { ?>
+					<p>Moralecost: <em><?=$moralecost?>%</em></p>
+				<?php } ?>
 				<?php if($winner_id == $attacker_id):?>
-					Power decreased by 15% for 6 hours
+					<p>Power decreased by 15% for 6 hours</p>
 				<?php endif;?>
 			</div>
 		</div>

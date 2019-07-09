@@ -64,7 +64,7 @@ $buttonColor = "70, 118, 94"
 						</div>
 						<div class="col-md-2 celBlock" style="padding:0px;">
 							<input style="display:none;" type="radio" name="satellite" id="<?php echo $key;?>" value="<?php echo $key;?>" checked>
-							<label style="height:100%;background-color:rgba(70, 118, 94,<?php echo 0.95-($count/12);?>)" class="mainSubmit hoverEffect attackSelect" for="<?php echo $key;?>">
+							<label style="background-color:rgba(70, 118, 94,<?php echo 0.95-($count/12);?>)" class="mainSubmit hoverEffect attackSelect" for="<?php echo $key;?>">
 								Select
 							</label>
 						</div>

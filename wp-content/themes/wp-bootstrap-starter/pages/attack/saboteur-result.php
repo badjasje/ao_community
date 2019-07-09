@@ -54,7 +54,8 @@ if($saboteurProtection > 90){
 if($sniperSuccess < $saboteurProtection){
 	$result = 'failure';
 }
-update_user_meta($userId, 'morale', $oldmorale - 30);
+$moralecost = Settings::get('saboteur_morale_cost');
+update_user_meta($userId, 'morale', $oldmorale - $moralecost);
 
 if ($result == 'success') {
 	$silo1Status = get_user_meta($target_id, 'silo_disable_1', true);
@@ -112,6 +113,7 @@ update_field('defender_id',$target_id, $new_event_id);
 update_field('attacker_id',$userId, $new_event_id);
 update_field('attacktype','saboteur', $new_event_id);
 update_field('winner_id',$winner_id, $new_event_id);
+update_field('moralecost', $moralecost, $new_event_id);
 
 update_user_meta($userId,'turns',$turns-2);
 turn_spread('saboteur',2);

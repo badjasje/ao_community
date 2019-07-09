@@ -56,10 +56,33 @@ class User extends DbObject {
         return ($this->get('status') == 'banned');
     }
     public function isAdmin() {
-        return (in_array($this->get('id'), Settings::get('admin_ids'))); // can this even BE more ugly?
+        return (in_array($this->id, Settings::get('admin_ids'))); // can this even BE more ugly?
     }
     public function getProvince() {
         return $this->get('province');
+    }
+
+    public function getMessages() {
+        $inboxargs = array(
+            'posts_per_page' => 5, 'post_type' => 'user_message', 'meta_key' => 'last_update_stamp', 'orderby' => 'meta_value', 'order' => 'DESC',
+            'meta_query' => array(
+                'relation'		=> 'OR',
+                array('key' => 'receiver_id', 'value' => $this->id, 'compare' => '='),
+                array('key' => 'sender_id', 'value'	=> $this->id, 'compare' => '='),
+            )
+        );
+        $messages = get_posts($inboxargs);
+        $return = array();
+        if(count($messages)) {
+            foreach ($messages as $message) {
+                $title = get_the_title($message->ID);
+                $return[$message->ID]  = array(
+                    'link' => get_the_permalink($message->ID),
+                    'title' => (strlen($title) > 55 ? substr($title, 0, 55). '...' : $title)
+                );
+            }
+        }
+        return $return;
     }
 
     /*public function getUsernamelink() {

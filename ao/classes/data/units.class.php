@@ -200,7 +200,7 @@ class Units extends DataObject {
             'attack'		=>	0,
             'type'			=>	'inf',
             'sectype'		=>	'special',
-            'attacktype'	=>	array('spy'),
+            'attacktype'	=>	array('thief'), // this was spy??
             'life'			=>	60
         ),
         'saboteur' 		=> array(

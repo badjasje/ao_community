@@ -3,10 +3,12 @@ class Research extends PostObject {
 
     function __construct($postData=null) {
         parent::__construct($postData);
-        $this->setPropertiesFromArray(array_merge(
-            Researches::get($postData->post_content),
-            array('province_id' => intval($postData->post_author), 'key'=>$postData->post_content, 'end_time' => intval($postData->post_title))
-        ));
+        if(is_object($postData)) {
+            $this->setPropertiesFromArray(array_merge(
+                Researches::get($postData->post_content),
+                array('province_id' => intval($postData->post_author), 'key'=>$postData->post_content, 'end_time' => intval($postData->post_title))
+            ));
+        }
     }
 
     public function timeLeft($format=false) {

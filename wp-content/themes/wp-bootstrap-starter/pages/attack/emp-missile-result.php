@@ -1,5 +1,9 @@
 <?php
 
+$maintarget = ($debug ? $_POST['maintarget'] : filter_input(INPUT_POST, 'maintarget', FILTER_SANITIZE_STRING));
+$attackmode = ($debug ? $_POST['attackmode'] : filter_input(INPUT_POST, 'attackmode', FILTER_SANITIZE_STRING));
+$attackmode = ($attackmode == 'aggressive' ? 'aggressive' : 'normal');
+
 $shotdown = false;
 
 $AMS = $defenderData['antimissile'][0];
@@ -158,6 +162,9 @@ update_field('winner_id',$winner_ID, $new_event_id);
 update_field('attacker_id',$userId, $new_event_id);
 update_field('attacktype','empmissile', $new_event_id);
 update_field('outcome',$result, $new_event_id);
+update_field('maintarget', $maintarget, $new_event_id);
+update_field('attackmode', $attackmode, $new_event_id);
+update_field('moralecost', $moralecost, $new_event_id);
 
 if($shotdown == true){
 	update_field('shotdown','shotdown', $new_event_id);

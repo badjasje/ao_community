@@ -1003,7 +1003,7 @@ function myplugin_registration_save($user_id) {
 
 // SET STATS
     update_user_meta($user_id, 'money', 450000);
-    update_user_meta($user_id, 'sold_land_today', 0);
+    update_user_meta($user_id, 'land_sold_today', 0);
     update_user_meta($user_id, 'explored_today', 0);
     update_user_meta($user_id, 'turns', 200);
     update_user_meta($user_id, 'networth', 0);
@@ -1084,7 +1084,7 @@ function after_death($user_id) {
         // SET STATS after death
         update_user_meta($user_id, 'money', 450000);
 
-        update_user_meta($user_id, 'sold_land_today', 0);
+        update_user_meta($user_id, 'land_sold_today', 0);
         update_user_meta($user_id, 'explored_today', 0);
         update_user_meta($user_id, 'turns', 200);
         update_user_meta($user_id, 'networth', 0);

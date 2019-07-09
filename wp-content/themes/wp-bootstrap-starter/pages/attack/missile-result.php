@@ -4,6 +4,9 @@ include("../../../../../building_array.php");
 include("../../../../../units_array.php");
 
 $winner_ID = $userId;
+$maintarget = ($debug ? $_POST['maintarget'] : filter_input(INPUT_POST, 'maintarget', FILTER_SANITIZE_STRING));
+$attackmode = ($debug ? $_POST['attackmode'] : filter_input(INPUT_POST, 'attackmode', FILTER_SANITIZE_STRING));
+$attackmode = ($attackmode == 'aggressive' ? 'aggressive' : 'normal');
 $defender_lost = array();
 
 // Need Silos to launch missile
@@ -165,13 +168,23 @@ $vehdamage = $VEH_ATT_power;
 $seadamage = $SEA_ATT_power;
 $blddamage = $BLD_ATT_power*1.2;
 
-if($defenderData['land'][0] < 7500){
+// Attack power scaled to number of out-of-war attacks within X days between two provinces, where first Y aren't counted,
+// only applied outside of war
+if($war_type == 'none') {
+	$airdamage = scaled_power_pvp($airdamage, $userId, $target_id);
+	$infdamage = scaled_power_pvp($infdamage, $userId, $target_id);
+	$vehdamage = scaled_power_pvp($vehdamage, $userId, $target_id);
+	$seadamage = scaled_power_pvp($seadamage, $userId, $target_id);
+	$blddamage = scaled_power_pvp($blddamage, $userId, $target_id);
+}
+
+/*if($defenderData['land'][0] < 7500){
 	$reduction = $defenderData['land'][0]/7500;
 	if($reduction <= 0.5){
 		$reduction = 0.5;
 	}
 	$blddamage = $blddamage*$reduction;
-}
+}*/
 
 // Scale building damage on clan size difference
 $blddamage = scaled_damage_to_clansize($blddamage, $userId, $target_id);
@@ -660,6 +673,9 @@ update_field('winner_id',$winner_ID, $new_event_id);
 update_field('attacker_id',$userId, $new_event_id);
 update_field('attacktype',$attack_type, $new_event_id);
 update_field('outcome',$result, $new_event_id);
+update_field('maintarget', $maintarget, $new_event_id);
+update_field('attackmode', $attackmode, $new_event_id);
+update_field('moralecost', $moralecost, $new_event_id);
 
 if($shotdown == true){
 	update_field('shotdown','shotdown', $new_event_id);

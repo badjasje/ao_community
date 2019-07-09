@@ -49,15 +49,20 @@ class Clan extends PostObject {
         return ($format ? Format::points($n) : $n);
     }
 
-    public function getLeader() { // return ID!
+    public function getLeader() { // returns ID!
         return intval($this->get('clan_leader'));
     }
-    public function getTrustees() { // return IDs!
+    public function getTrustees() { // returns IDs!
         $return = array();
         for($i=1;$i<=Settings::get('clan_trustee_num');$i++) {
             if(!empty($this->get('ct_'.$i))) $return[] = $this->get('ct_'.$i);
         }
         return $return;
+    }
+    public function getMembers() { // returns IDs!
+        $members = $this->get('clan_members');
+        if(!empty($members)) $members = unserialize($members);
+        return (is_array($members) && count($members) ? $members : array());
     }
 
     public function canEditMessage($user=null) {

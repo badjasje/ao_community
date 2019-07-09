@@ -1,6 +1,9 @@
 <?php
 
 $winner_ID = $userId;
+$maintarget = ($debug ? $_POST['maintarget'] : filter_input(INPUT_POST, 'maintarget', FILTER_SANITIZE_STRING));
+$attackmode = ($debug ? $_POST['attackmode'] : filter_input(INPUT_POST, 'attackmode', FILTER_SANITIZE_STRING));
+$attackmode = ($attackmode == 'aggressive' ? 'aggressive' : 'normal');
 $turns = $attackerData['turns'][0];
 
 $powerReduction = 0;
@@ -86,6 +89,8 @@ update_field('winner_id',$winner_ID, $new_event_id);
 update_field('attacker_id',$userId, $new_event_id);
 update_field('attacktype','empsat', $new_event_id);
 update_field('outcome',$result, $new_event_id);
+update_field('maintarget', $maintarget, $new_event_id);
+update_field('attackmode', $attackmode, $new_event_id);
 update_field('nw_damage_defender',$powerReduction, $new_event_id); //Used to display power reduction in globals/locals/outgoing
 
 update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());

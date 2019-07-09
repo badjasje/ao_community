@@ -308,9 +308,9 @@ if($visiting_user != $viewedId && $clan_id != $clan_id_user && !in_array($status
 	<center><a target="_blank" href="/wp-admin/user-edit.php?user_id=<?php echo $viewedId;?>&wp_http_referer=%2Fwp-admin%2Fusers.php">Backend edit</a></center>
 	<?php
 	echo '<p>Referral: '.$referral_userid.', score: '.$referral_score.', '.(is_array($referral_code)?implode(', ',$referral_code):'none').' </p>';
-	echo '<pre>';
+	echo '<div class="logindata"><pre>';
 	print_r($logindata);
-	echo '</pre>';
+	echo '</pre></div>';
 }?>
 
 </div>

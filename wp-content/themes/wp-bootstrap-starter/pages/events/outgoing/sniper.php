@@ -15,30 +15,35 @@
 		</div>
 		<div class="row eventResultRow">
 			<div class="col-md-12 col-no-padding">
-				<strong>Attacker losses: <?php echo $att_tot_unitslost;?> units</strong><br/>
-				<?php
-				foreach ($units as $key => $order) {
-					foreach ($att_unitslost as $att_unitlost) {
-						if (isset($att_unitlost[$key])) {
-							echo $order['normalname'] . ': ' . $att_unitlost[$key] . ', ';
+				<?php if(!empty($moralecost)) { ?>
+					<p>Moralecost: <em><?=$moralecost?>%</em></p>
+				<?php } ?>
+				<p>
+					<strong>Attacker losses: <?php echo $att_tot_unitslost;?> units</strong><br/>
+					<?php
+					foreach ($units as $key => $order) {
+						foreach ($att_unitslost as $att_unitlost) {
+							if (isset($att_unitlost[$key])) {
+								echo $order['normalname'] . ': ' . $att_unitlost[$key] . ', ';
+							}
 						}
 					}
-				}
-				?>
-				<?php if($att_tot_unitslost > 0):?>
+					?>
+					<?php if($att_tot_unitslost > 0):?>
+						<br/>
+					<?php endif;?>
 					<br/>
-				<?php endif;?>
-				<br/>
-				<strong>Defender losses: <?php echo $def_tot_unitslost;?> units</strong><br/>
-				<?php
-				foreach ($units as $key => $order) {
-					foreach ($def_unitslost as $def_unitlost) {
-						if (isset($def_unitlost[$key])) {
-							echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
+					<strong>Defender losses: <?php echo $def_tot_unitslost;?> units</strong><br/>
+					<?php
+					foreach ($units as $key => $order) {
+						foreach ($def_unitslost as $def_unitlost) {
+							if (isset($def_unitlost[$key])) {
+								echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
+							}
 						}
 					}
-				}
-				?>
+					?>
+				</p>
 			</div>
 		</div>
 	</div>
