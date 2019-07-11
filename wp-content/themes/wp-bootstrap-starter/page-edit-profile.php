@@ -42,6 +42,8 @@ $cl_1 = $visitorClanData['clan_leader'][0];
 $CT_CL_array = array($ct_1,$ct_2,$ct_3,$ct_4,$cl_1);
 $members = $visitorClanData['clan_members'][0];
 
+$reset_status = get_user_meta($userId, 'reset_status', true);
+
 $disable_input = "";
 if($userData['name_change_counter'][0] == 1 && get_field('game_status', 'option') == 'Live') {
 	 $disable_input = "disabled";
@@ -87,10 +89,13 @@ if($userData['name_change_counter'][0] == 1 && get_field('game_status', 'option'
     </form>
 
     <div class="pageSpacer"></div>
-    <div class="pageSpacer"></div>
+    <div class="pageSpacer"><em>You can only reset once per round</em></div>
 
+    <? if(empty($reset_status)) { ?>
     <button id="resetaccount"style="background-color:#A00000;border:0px;" class="mainSubmit">
-    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> &nbsp;RESET ACCOUNT</button>
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> &nbsp;RESET ACCOUNT
+    </button>
+    <? } ?>
 
 </div> <!-- end pageRow --->
 

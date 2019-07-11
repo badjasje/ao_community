@@ -32,20 +32,28 @@ if (empty($userId) || !is_user_logged_in()) {
     exit;
 }
 
+$reset_status = get_user_meta($userId, 'reset_status', true);
+if(!empty($reset_status)) {
+    $array['status'] = 'You have already reset this round';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
 
 if (count($incomingWars) < 1) {
     update_user_meta($userId, 'status', 'dead');
+    update_user_meta($userId, 'reset_status', 1);
     $moneyThieved = get_user_meta( $userId, 'money_gained_thieving', true );
-    
+
     if(($moneyThieved-20000000) <= 0){
 	    $newValue = 0;
     }else{
 	    $newValue = $moneyThieved-20000000;
     }
-    
-    
+
+
     update_user_meta( $userId, 'money_gained_thieving', $newValue );
-    
+
     $array['status'] = 'Account has been reset';
 	$array['next'] = true;
 	echo json_encode($array);

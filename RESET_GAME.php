@@ -131,6 +131,7 @@
 	$resetArray[] = "'mor_position'";
 	$resetArray[] = "'mor_next'";
 	$resetArray[] = "'mor_prev'";
+	$resetArray[] = "'reset_status'";
 
 	$resetArray = implode(',',$resetArray);
 
