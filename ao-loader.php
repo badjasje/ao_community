@@ -1,6 +1,14 @@
 <?php
 // This file should be included in all pages and ajax files
 
+// WP does not start sessions..
+session_name('AOsession');
+if (ini_set('session.use_only_cookies', 1) === FALSE) { // No $_GET sessions!
+    die('Could not initiate a safe session');
+}
+if(!empty($_SERVER['SERVER_NAME'])) session_set_cookie_params(0, '/', '.'.$_SERVER['SERVER_NAME'], true, true);
+session_start();
+
 // Easy debug
 function wtf() {
 	array_map(function($x) {
@@ -12,7 +20,6 @@ function wtf() {
 // Get configs needed for classes
 $assaultOnlineDir = __DIR__.'/ao';
 define('CLASS_PATH', $assaultOnlineDir."/classes");
-require_once( __DIR__. '/wp-config.php' );
 
 // Autoload classes: When using "new Class()" (or static) it requires automatically
 require_once(CLASS_PATH.'/util/autoloader.class.php');

@@ -6,6 +6,10 @@ class CurrentUser extends User {
     static $cache = 'users';
 
     private function __construct($props=null) {
+
+        // Validate session based on user-agent, ip-address and other stuff
+        $this->validateSession();
+
         // Initialization of current user
         if(is_user_logged_in()) { //@wp
             parent::__construct(wp_get_current_user()->ID); //@wp
@@ -21,6 +25,20 @@ class CurrentUser extends User {
             // @todo: $this->count_all_stats(); On each request might be a big hit
             // @todo: move function to here
             count_all_stats($this->get('id'));
+
+            // Fill our session with browser data
+            if(!isset($_SESSION['user'])) {
+                $token = bin2hex(random_bytes(32));
+                $time = current_time('timestamp');
+                $_SESSION['user'] = array(
+                    'id' => preg_replace("/[^0-9]+/", "", $this->get('id')), // XSS protection as we might print this value
+                    'ipaddr' => $_SERVER['REMOTE_ADDR'],
+                    'useragent' => $_SERVER['HTTP_USER_AGENT'],
+                    'login_string' => hash('sha512', $token . $time . $_SERVER['HTTP_USER_AGENT']),
+                    'token' => $token,
+                    'session_started' => $time
+                );
+            }
 
             // Only really die when coming online
             $province = $this->getProvince();
@@ -48,6 +66,31 @@ class CurrentUser extends User {
     }
 
     /**
+     * Session validation so we can prevent XSS attacks and session hijacking
+     * This also prevents remote calling of ajax calls using a stolen cookie
+     */
+    public function validateSession() {
+        $error = '';
+        if(isset($_SESSION['user'])) {
+            if(isset($_SERVER['HTTP_USER_AGENT']) && $_SESSION['user']['useragent'] != $_SERVER['HTTP_USER_AGENT']) {
+                $error .= 'E02';
+            }
+            if(isset($_SERVER['REMOTE_ADDR']) && $_SESSION['user']['ipaddr'] != $_SERVER['REMOTE_ADDR']) {
+                $error .= 'E03';
+            }
+            $login_check = hash('sha512', $_SESSION['user']['token'] . $_SESSION['user']['session_started'] . $_SERVER['HTTP_USER_AGENT']);
+            if(!hash_equals($login_check, $_SESSION['user']['login_string'])) {
+                $error .= 'E04';
+            }
+        }
+        if(!empty($error)) {
+            $this->logout();
+            die('You might be the victim of an XSS attack, session hijack or remote cookie copy. If this problem keeps happening, let us know (code: '.$error.')');
+        }
+        return true;
+    }
+
+    /**
      * Access validation based on:
      * login, role, permissions, xp-level etc
      */
@@ -72,9 +115,15 @@ class CurrentUser extends User {
         }
     }
 
-    /*public function login() {}
-    public function logout() {}
-    public function changePassword() {}
+    //public function login() {}
+    public function logout() {
+        wp_logout();
+        unset($_SESSION['user']);
+        session_destroy();
+        // possible redirect? if(!Request::isAjax())
+    }
+
+    /*public function changePassword() {}
     public function editProfile() {}
     public function changeAvatar() {}
     */
