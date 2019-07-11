@@ -1001,7 +1001,7 @@ function kill_event($attackerId,$defenderId,$result,$defend_clan_id,$attack_clan
  * only applied outside of war
  */
 function scaled_power_pvp($power, $attacker_ID, $defender_ID) {
-    $out_of_war_attacks = count(get_posts(
+    /*$out_of_war_attacks = count(get_posts(
         array('numberposts'	=> -1, 'post_type' => 'event_local', 'author' => $attacker_ID, 'meta_query' => array(
             'relation' => 'AND',
             array('key'	=> 'defender_id', 'value' => $defender_ID, 'compare' => '='),
@@ -1009,7 +1009,7 @@ function scaled_power_pvp($power, $attacker_ID, $defender_ID) {
             array('key'	=> 'time_attacked', 'value'	=> strtotime('-5 day'), 'compare' => '>', 'type' => 'numeric'),
         ))
     ));
-    $power = $power * (1 / max(1, $out_of_war_attacks - 5) );
+    $power = $power * (1 / max(1, $out_of_war_attacks - 5) );*/
     return $power;
 }
 
