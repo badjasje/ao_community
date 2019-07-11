@@ -5,9 +5,11 @@ class Clan extends PostObject {
 
     function __construct($postData=null) {
         parent::__construct($postData);
-        $this->setPropertiesFromArray(array_merge(
-            array('link' => get_permalink($this->id), 'name' => $this->get('post_title') )
-        ));
+        if(isset($this->id)) {
+            $this->setPropertiesFromArray(array_merge(
+                array('link' => get_permalink($this->id), 'name' => $this->get('post_title') )
+            ));
+        }
     }
 
     public function ajaxSetMessage($result) {

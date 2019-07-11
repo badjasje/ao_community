@@ -88,21 +88,23 @@ class Request {
         if($user->isBanned()) $return['status'] = 'Your account is banned from Assault.Online.';
         if(!$user->isLoggedIn()) $return['status'] = 'You must log in to perform this action';
         $province = $user->getProvince();
-        if($province->get('user_lock') == 1) $return['status'] = 'Please reload the page and try again';
-        $province->update('user_lock', 1);
+        if(is_object($province)) {
+            if($province->get('user_lock') == 1) $return['status'] = 'Please reload the page and try again';
+            $province->update('user_lock', 1);
 
-        // Make sure we are in a valid path
-        if(!in_array(Request::part(1), array_keys(static::$ajax_paths))) $return['status'] = 'Unknown path.';
-        else {
-            $funcs = static::$ajax_paths[Request::part(1)];
-            if($funcs[0] == 'province') $return = call_user_func(array($province, $funcs[1]), $return);
-            else if($funcs[0] == 'clan') {
-                if($clan = $province->getClan()) {
-                    $return = call_user_func(array($clan, $funcs[1]), $return);
-                } else $return['status'] = 'Unknown clan.';
+            // Make sure we are in a valid path
+            if(!in_array(Request::part(1), array_keys(static::$ajax_paths))) $return['status'] = 'Unknown path.';
+            else {
+                $funcs = static::$ajax_paths[Request::part(1)];
+                if($funcs[0] == 'province') $return = call_user_func(array($province, $funcs[1]), $return);
+                else if($funcs[0] == 'clan') {
+                    if($clan = $province->getClan()) {
+                        $return = call_user_func(array($clan, $funcs[1]), $return);
+                    } else $return['status'] = 'Unknown clan.';
+                }
             }
+            $province->update('user_lock', 0);
         }
-        $province->update('user_lock', 0);
         return json_encode($return);
     }
 
