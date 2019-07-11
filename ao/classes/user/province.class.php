@@ -182,7 +182,7 @@ class Province extends DbObject {
         return $this->get('status') == 'dead';
     }
     public function afterDeath() {
-
+        after_death($this->id);
     }
 
     /**
