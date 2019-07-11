@@ -50,7 +50,7 @@ class Settings extends DataObject {
 
         // attack constants
         'attack_maintargets' => array(
-            //'power' => 'Power plants',
+            'power' => 'Power plants',
 		    'silo' => 'Missile silos',
 		    'command' => 'Command centres',
 		    'shipyard' => 'Shipyards',
@@ -64,6 +64,7 @@ class Settings extends DataObject {
         'points_kill_incoming' => 25,
         'points_kill_mutual' => 50,
         'maintarget_target_multi' => 1.5,
+        'maintarget_power_multi' => 1.2,
         'maintarget_notarget_multi' => 0.5,
         'saboteur_morale_cost' => 30,
         'sniper_morale_cost' => 10,

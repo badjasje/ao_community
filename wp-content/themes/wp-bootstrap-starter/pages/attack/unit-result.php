@@ -571,9 +571,10 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 			$type = 'bld';
 			$count_key = $key;
 
-			if($maintarget != 'none'){
-				if($maintarget == $buildings[$key]['targetname']){
-					$killed = round($killed * $defender_loss_decrease * Settings::get('maintarget_target_multi'));
+			if($maintarget != 'none') {
+				if($buildings[$key]['targetname'] == $maintarget){
+					$multi = ($maintarget == 'power' ? Settings::get('maintarget_power_multi') : Settings::get('maintarget_target_multi'));
+					$killed = round($killed * $defender_loss_decrease * $multi);
 				}else{
 					$killed = round($killed * $defender_loss_decrease * Settings::get('maintarget_notarget_multi'));
 				}
