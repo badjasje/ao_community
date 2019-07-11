@@ -72,6 +72,10 @@ function singleAjax(url,post,cb) {
 
 jQuery(function($) {
 
+    var d=new Date();
+    $('#footerTime').text(d.toLocaleString('nl-NL'));
+    $('#footerResolution').text(window.innerWidth +'x'+ window.innerHeight);
+
     // Help in icon menu
     $('.menuRow').each(function(i1) {
         var t = $('.menuText>a',this).html();
@@ -171,3 +175,57 @@ jQuery(function($) {
     });
 });
 
+// Google Tag Manager
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TXGKNL3');
+
+// Facebook Pixel Code
+!function(f,b,e,v,n,t,s) {
+    if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)
+}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1603414756640075');
+fbq('track', 'PageView');
+
+// Global site tag (gtag.js) - Google Analytics
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-40825301-45');
+
+// Firebase browser notifications
+if(typeof firebase != 'undefined') {
+    var config = {
+        apiKey: "AIzaSyBBkuM6n38eUe5yqw50KjpM7HHAR2RGdOQ",
+        authDomain: "assaultonline-21594.firebaseapp.com",
+        databaseURL: "https://assaultonline-21594.firebaseio.com",
+        projectId: "assaultonline-21594",
+        storageBucket: "assaultonline-21594.appspot.com",
+        messagingSenderId: "776419312119"
+    };
+    firebase.initializeApp(config);
+    const messaging = firebase.messaging();
+    messaging.usePublicVapidKey("BPywnXWNiczMF1nEPWQ6hZOudN81OwAbvcBWQBaDx5FVFUG7Rdl0J9sd1GjqA7KpzDKYtOoWnlx-vY39C9uh3h0");
+    messaging.getToken().then(function(currentToken) {
+        if (currentToken) {
+            jQuery.post("/addtoken.php",{usertoken : currentToken});
+        } else {
+            // Show permission request.
+            //console.log('No Instance ID token available. Request permission to generate one.');
+            // Show permission UI.
+            updateUIForPushPermissionRequired();
+            setTokenSentToServer(false);
+        }
+    }).catch(function(err) {
+        //console.log('An error occurred while retrieving token. ', err);
+        if(typeof showToken == 'function') showToken('Error retrieving Instance ID token. ', err);
+        if(typeof setTokenSentToServer == 'function') setTokenSentToServer(false);
+    });
+}
