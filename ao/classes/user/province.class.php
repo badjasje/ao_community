@@ -4,6 +4,7 @@ class Province extends DbObject {
     //static $table = 'provinces';
     public static $cache = 'provinces';
     public static $bankAccount = false;
+    public static $researches = false;
 
     // @todo: add building, missile, sat, research, unit-fields from data objects instead of huge array
     public $fields = array(
@@ -162,7 +163,49 @@ class Province extends DbObject {
         $this->update('new_events', intval($this->get('new_events')) + 1 );
 
         $this->update('status', 'online');
-        return array('success' => false, 'status' => 'Starting bonus picked');
+        return array('success' => true, 'status' => 'Starting bonus picked');
+    }
+
+    public function ajaxSetResearch($return) {
+        $researchInProgress = $this->getCurrentResearch();
+        $researchQueued = $this->getQueuedResearch();
+        if($researchInProgress !== false && $researchQueued !== false) return array('status' => 'There is already a research in progress, and you already queued a research.');
+
+        $new_key = Request::post('research');
+        if(!Researches::get($new_key)) return array('status' => 'No such research');
+        $new_research = $this->getResearches($new_key);
+        if($new_research['inProgress']) return array('status' => 'Already in progress');
+        if($new_research['queued']) return array('status' => 'Already queued');
+        if($new_research['level']>=$new_research['maxlevel']) return array('status' => 'Max reached');
+
+        $queueResearch = ($researchInProgress !== false);
+
+        $totalturns = $this->getTurns();
+        $turn_cost = ($queueResearch ? Settings::get('turns_queue_research') : Settings::get('turns_research'));
+        if($totalturns < $turn_cost) return array('status' => 'No enough turns');
+
+        $this->update('turns', $totalturns - $turn_cost);
+        turn_spread( ($queueResearch ? 'research_queue' : 'research'), $turn_cost);
+
+        $return = array('success' => true,'started' => $new_key, 'status' => '', 'endtime' => 'queued');
+        if($queueResearch === true) {
+            $this->update('queued_research', $new_key);
+            return array_merge($return, array('status' => $new_research['name'].' research queued'));
+        }
+        else {
+            // set up arguments for creating research post
+            // @todo use new Research-object
+            $endTime = current_time('timestamp') + ($new_research['duration']*60*60);
+            $args = array('post_title' => $endTime, 'post_status' => 'publish', 'post_content' => $new_key, 'post_type' => 'research', 'post_author' => $this->id);
+            $new_research_id = wp_insert_post($args);
+            $this->update('research_in_progress', $new_key);
+            return array_merge($return, array(
+                'status' => $new_research['name'].' research started',
+                'hidebutton' => ($new_research['level']+1) >= $new_research['maxlevel'] ? $new_key.'_button' : '',
+                'endtime' => $this->getResearchTimeLeft()
+            ));
+        }
+        return array('success' => false, 'status' => 'Research task failed successfully');
     }
 
     /**
@@ -428,9 +471,27 @@ class Province extends DbObject {
     public function getResearches($key=null) {
         $researches = Researches::get();
         foreach($researches as $id => $research) {
-            $researches[$id]['level'] = !empty($this->get('level_'.$id)) ? intval($this->get('level_'.$id)) : 0;
+            $level = !empty($this->get('level_'.$id)) ? intval($this->get('level_'.$id)) : 0;
+            $value = (isset($research['level'.($level+1).'_value']) ? $research['level'.($level+1).'_value'] : 0); // next 'value'
+            $description = (isset($research['level'.($level+1)]) ? $research['level'.($level+1)] : 'Unknown research level');
+
+            if($id == 'money_production') {
+                $value = Format::money($value * ($this->hasStartingBonus('finance') ? Settings::get('startbonus_money_research_multi') : 1));
+            }
+            if($id == 'market_discount' && $this->hasStartingBonus('shipping')) {
+                $value = $value + Settings::get('startbonus_shipping_research_multi');
+            }
+
+            $researches[$id]['level'] = $level;
+            $researches[$id]['level_value'] = $value;
+            $researches[$id]['level_description'] = str_replace('{value}', $value, $description);
+            $researches[$id]['inProgress'] = ($this->get('research_in_progress') == $id ? true : false);
+            $researches[$id]['queued'] = ($this->get('queued_research') == $id ?  true : false);
+            if($this->hasStartingBonus('defensive')) {
+                $researches[$id]['duration'] = $researches[$id]['duration'] * Settings::get('startbonus_defensive_research_time');
+            }
+            $researches[$id]['nw'] = Format::networth($researches[$id]['duration'] * Settings::get('nw_research'));
             //Hooks::trigger('get_province_research', array($id, $researches[$id])); // we might want to work with modifiers
-            if($this->hasStartingBonus('defensive')) $researches[$id]['duration'] = $researches[$id]['duration'] * 0.9;
         }
         return  ($key != null && $researches[$key] ? $researches[$key] : $researches);
     }
@@ -441,6 +502,11 @@ class Province extends DbObject {
                 return Research::make($researches[0]);
             }
         }
+        return false;
+    }
+    public function getQueuedResearch() {
+        $key = $this->get('queued_research');
+        if(!empty($key)) return $this->getResearches($key);
         return false;
     }
     public function getResearchTimeLeft($format=false) {

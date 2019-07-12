@@ -173,6 +173,30 @@ jQuery(function($) {
             if(response.success) $('.npMessage').removeClass('py-0').text('Status: online');
         });
     });
+
+    $('#research').on('submit', function(e) {
+        e.preventDefault();
+        singleAjax(site_url+'/ajax/research',  $(this), function(response) {
+            if(response.success) {
+                $('#researchsubmit').val('Queue research');
+                $('.researchlabel').html('Queue select');
+                $(response.hidebutton).hide();
+                if(response.endtime!='queued') {
+					$(`<div class="blockHeader fw-row">
+						<i class="fa fa-circle-notch fa-spin"></i> Time left:
+						<div class="timeLeft" id="countdown_time" data-countdown="`+response.endtime+`"></div>
+					</div>`).insertAfter('#research_'+response.started);
+					start_countdowns();
+					$('#research_'+response.started+' .unitRow').addClass('loader');
+				} else {
+					$('<div class="blockHeader fw-row"><i class="fa fa-clock"></i> Research queued</div>').insertAfter('#research_'+response.started);
+					$('#researchsubmit').remove();
+					$('.researchselector').html('<label class="mainSubmit disabled">No Selection Possible</label>');
+				}
+				$(this).trigger('reset');
+            }
+        });
+    });
 });
 
 // Google Tag Manager

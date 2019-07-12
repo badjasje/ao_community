@@ -11,6 +11,7 @@ class Request {
         'startingbonus' => array('province','ajaxStartingbonus'),
         'clanbonus' => array('province', 'ajaxClanBonus'),
         'removenp' => array('province','ajaxRemoveNp'),
+        'research' => array('province','ajaxSetResearch'),
         'clanmessage' => array('clan','ajaxSetMessage')
     );
     public static $page_links = array(

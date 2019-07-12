@@ -7,21 +7,22 @@ class CurrentUser extends User {
 
     private function __construct($props=null) {
 
-        // Validate session based on user-agent, ip-address and other stuff
-        $this->validateSession();
-
         // Initialization of current user
         if(is_user_logged_in()) { //@wp
             parent::__construct(wp_get_current_user()->ID); //@wp
             $this->loggedin=true;
-            $this->update('last_online', current_time('timestamp')); //@wp
         }
+
+        // Validate session based on user-agent, ip-address and other stuff
+        if(!$this->isAdmin()) $this->validateSession();
 
         // Redirects or exits if needed
         $this->validateCurrentPath();
 
         // After path validation
         if($this->isLoggedIn()) {
+            $this->update('last_online', current_time('timestamp')); //@wp
+
             // @todo: $this->count_all_stats(); On each request might be a big hit
             // @todo: move function to here
             count_all_stats($this->get('id'));

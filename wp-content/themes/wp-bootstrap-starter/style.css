@@ -963,9 +963,7 @@ body:not(.theme-preset-active) footer#colophon {
     text-transform: uppercase;
 }
 .menuOpen .menuText { display:block; }
-.menuRow{
-	height:41px;
-}
+.menuRow { height:41px; }
 
 @-webkit-keyframes globalsPulse {
     from { background-color: #dc3545;  }
@@ -1017,12 +1015,8 @@ body:not(.theme-preset-active) footer#colophon {
 	-webkit-animation-iteration-count: infinite;
 }
 .inboxBadge, .localsBadge, .globalsBadge { display:none; }
-.activebadge{
-	display:block;
-}
-.topbarButton{
-	display: none;
-}
+.activebadge { display:block; }
+.topbarButton { display: none; }
 .statheader{
 	font-size:16px;
 	margin-left:41px;
@@ -1259,7 +1253,6 @@ input[type="radio"]:checked + label {
 .dashMobile{
     display: none;
 }
-.hidden { display:none; }
 
 @media only screen and (min-width: 1024px) {
     .statheader{
@@ -2133,9 +2126,21 @@ input[type="radio"]:checked + label {
 .wp-polls ul, .wp-polls-ul, .wp-polls-ans ul { margin:0; }
 .wp-polls .pollbar { background: #46765d; border: none; }
 
-/*--------------------------------------------------------------
-## Netbook
---------------------------------------------------------------*/
+/* Bank page styling */
+
+
+/* Research page styling */
+#research { background: linear-gradient(rgba(45, 67, 81, 0.56), rgba(45, 67, 81, 0.24)); width: 100%; }
+#research .unitRow { border-bottom: 1px solid rgba(255,255,255,.2); width: 100%; margin: 0px; }
+#research .unitRow.loader { background: rgba(255,255,255,.1); }
+#research .headerRow { background: #2d4351bf; border-bottom: 1px solid #FFF; }
+#research .mainSubmit { border: 0; }
+@media only screen and (max-width: 768px) {
+    #research .nameBlock { background-color: rgba(45, 67, 81, 0.75); }
+    #research .itemRow { border-bottom: 6px solid #ccc; }
+}
+
+/* Netbook */
 @media only screen and (max-width: 1000px) {
     footer{
         border-top: 10px solid #CCC;
@@ -2188,7 +2193,8 @@ input[type="radio"]:checked + label {
     }
 }
 
-@media screen and (max-height: 600px) and (max-width: 768px) { /* make the sidemenu scrollable */
+/* make the sidemenu scrollable */
+@media screen and (max-height: 600px) and (max-width: 768px) {
     body { position: relative; }
     header#masthead { z-index:2080; }
     .menuOpen .sidenav #page-sub-header { position: absolute; top: -80px; width: 100%; }
@@ -2240,3 +2246,6 @@ input[type="radio"]:checked + label {
     }
     .eventFooter { margin-bottom:20px; }
 }
+
+.hidden { display:none; }
+.nopadding { padding:0; }

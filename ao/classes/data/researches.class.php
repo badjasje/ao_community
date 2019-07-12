@@ -12,6 +12,30 @@ class Researches extends DataObject {
             'maxlevel'              => 2,
             'duration'              =>  '15'
         ),
+        'engineering_effectiveness' => array(
+            'name'                  => 'Engineering effectiveness',
+            'level1'                => '10 buildings built per turn.',
+            'level2'                => '15 buildings built per turn.',
+            'maxlevel'              => 2,
+            'description'           => 'Increases the amount of buildings built per turn',
+            'duration'              =>  '10'
+        ),
+        'bank_management'           => array(
+            'name'                  => 'Bank management',
+            'level1'                => 'Bank stores up to $ 3 500 000 and bank interest increased by 0,5%',
+            'level2'                => 'Bank stores up to $ 4 500 000 and bank interest increased by 0,75% + option to withdraw money after 12 hours with no interest but with a 50% fee',
+            'level3'                => 'Bank stores up to $ 5 000 000 and bank interest increased by 1,0% + the fee for early withdrawals is now 25%',
+            'maxlevel'              => 3,
+            'description'           => 'Increases the amount of money you can bank',
+            'duration'              =>  '10'
+        ),
+        'powerplant_efficiency'     => array(
+            'name'                  => 'Powerplant efficiency',
+            'level1'                => 'Power Plants life and power produced increased by 50%',
+            'maxlevel'              => 1,
+            'description'           => 'Power Plants life and power produced increased by 50%',
+            'duration'              =>  '5'
+        ),
         /*'raid_protection'     => array(
             'name'                  => 'Raid protection',
             'level1'                => 'Automatically builds 15 antimissile systems, 35 powerplants and puts your account in Assault Protection for 30 minutes when building count drops to 0. Raid protection has a cooldown period of 24 hours.',
@@ -37,19 +61,22 @@ class Researches extends DataObject {
             'description'           => 'Enables you to build sattelites',
             'duration'              =>  '10'
         ),
+        'thieving_effectiveness'    => array(
+            'name'                  => 'Thief education',
+            'level1'                => 'Thieves steal two times the amount of money',
+            'level2'                => 'Thieves steal three times the amount of money',
+            'level3'                => 'Thieves steal four times the amount of money',
+            'maxlevel'              => 3,
+            'description'           => 'Enables your thieves to steal more money',
+            'duration'              =>  '5'
+        ),
+
         'shipping_time'             => array(
             'name'                  => 'Market shipping time',
             'level1'                => 'Shipping time reduced to 9 hours',
             'level2'                => 'Shipping time reduced to 6 hours',
             'maxlevel'              => 2,
             'description'           => 'Decreases shipping time from the market',
-            'duration'              =>  '5'
-        ),
-        'powerplant_efficiency'     => array(
-            'name'                  => 'Powerplant efficiency',
-            'level1'                => 'Power Plants life and power produced increased by 50%',
-            'maxlevel'              => 1,
-            'description'           => 'Power Plants life and power produced increased by 50%',
             'duration'              =>  '5'
         ),
         'market_discount'           => array(
@@ -62,32 +89,6 @@ class Researches extends DataObject {
             'description'           => 'Decreases market prices',
             'duration'              =>  '5'
         ),
-        'thieving_effectiveness'    => array(
-            'name'                  => 'Thief education',
-            'level1'                => 'Thieves steal two times the amount of money',
-            'level2'                => 'Thieves steal three times the amount of money',
-            'level3'                => 'Thieves steal four times the amount of money',
-            'maxlevel'              => 3,
-            'description'           => 'Enables your thieves to steal more money',
-            'duration'              =>  '5'
-        ),
-        'engineering_effectiveness' => array(
-            'name'                  => 'Engineering effectiveness',
-            'level1'                => '10 buildings built per turn.',
-            'level2'                => '15 buildings built per turn.',
-            'maxlevel'              => 2,
-            'description'           => 'Increases the amount of buildings built per turn',
-            'duration'              =>  '10'
-        ),
-        'bank_management'           => array(
-            'name'                  => 'Bank management',
-            'level1'                => 'Bank stores up to $ 3 500 000 and bank interest increased by 0,5%',
-            'level2'                => 'Bank stores up to $ 4 500 000 and bank interest increased by 0,75% + option to withdraw money after 12 hours with no interest but with a 50% fee',
-            'level3'                => 'Bank stores up to $ 5 000 000 and bank interest increased by 1,0% + the fee for early withdrawals is now 25%',
-            'maxlevel'              => 3,
-            'description'           => 'Increases the amount of money you can bank',
-            'duration'              =>  '10'
-        ),
-    );
 
+    );
 }

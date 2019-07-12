@@ -47,6 +47,9 @@ class Settings extends DataObject {
         'startbonus_defensive_building_life_multi' => 1.25,
         'startbonus_defensive_unit_life_multi' => 1.2,
         'startbonus_finance_income_multi' => 1.1,
+        'startbonus_money_research_multi' => 1.1,
+        'startbonus_shipping_research_multi' => 10,
+        'startbonus_defensive_research_time' => 0.9,
 
         // attack constants
         'attack_maintargets' => array(
@@ -80,6 +83,8 @@ class Settings extends DataObject {
         'turns_attack' => 3,
         'turns_thief' => 2,
         'turns_spy' => 1,
+        'turns_research' => 25,
+        'turns_queue_research' => 30,
 
         // morale costs
         'morale_missile_tgt_below' => 40,
