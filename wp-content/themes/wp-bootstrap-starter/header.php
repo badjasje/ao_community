@@ -301,7 +301,7 @@ $timeLeft = Market::timeLeft();
 					</div>
 					<div class="col-6 statitem">
 						<span class="stattext">
-							<strong>Net.:</strong> $ <span class="networthheader"><?=$province->getNetworth(true)?></span>
+							<strong>Net.:</strong> <span class="networthheader"><?=$province->getNetworth(true)?></span>
 						</span>
 					</div>
 					<div class="col-6 statitem">
