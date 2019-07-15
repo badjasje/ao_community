@@ -108,7 +108,7 @@ class Request {
             $_SESSION['request_error_num']=0;
             $user->logout();
         }
-        if(!static::validateNonce()) $error = 'Please refresh the page and try again (E01:VN)';
+        if(static::part(1)!='header' && !static::validateNonce()) $error = 'Please refresh the page and try again (E01:VN)';
 
         if(empty($error)) {
             $province = $user->getProvince();
@@ -135,9 +135,11 @@ class Request {
 
         if(!empty($error)) {
             $return = array_merge($return, array('status' => $error, 'success' => false));
-            $_SESSION['request_error_num'] = (!isset($_SESSION['request_error_num']) ? 1 : $_SESSION['request_error_num']+1);
+            //$_SESSION['request_error_num'] = (!isset($_SESSION['request_error_num']) ? 1 : $_SESSION['request_error_num']+1);
         }
-        return json_encode(array_merge($return, array('nonce' => static::getNonce())));
+
+        $return = array_merge($return, array('nonce' => static::getNonce()));
+        return json_encode($return);
     }
 
     // Basic sanitation (& trim)

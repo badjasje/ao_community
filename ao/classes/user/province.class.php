@@ -221,9 +221,9 @@ class Province extends DbObject {
         if ($maxLand < $postedLand) return array('status' => 'You can only explore '. Format::land($maxLand).'</strong> more land.');
 
         $ownedland = $this->getLand();
-        $this->update('turns', $turns-$postedTurns);
-        $this->update('land', $ownedland + $postedLand);
-        $this->update('explored_today', $this->get('explored_today') + $postedLand);
+        $this->update('turns', round($turns-$postedTurns));
+        $this->update('land', round($ownedland + $postedLand));
+        $this->update('explored_today', round($this->get('explored_today') + $postedLand));
         turn_spread('exploring', $postedTurns); //@wp
 
         // Recalculate NW
@@ -265,9 +265,9 @@ class Province extends DbObject {
         $maxSellLand = Settings::get('max_sell_land')-$this->get('land_sold_today');
         if ($maxSellLand < $postedLand) return array('status' => 'Cannot sell any more land');
 
-        $this->update('land', $this->getLand() - $postedLand);
-        $this->update('land_sold_today', $this->get('land_sold_today') + $postedLand);
-        $this->update('money', $this->getMoney() + ($postedLand * Settings::get('money_per_land')));
+        $this->update('land', round($this->getLand() - $postedLand));
+        $this->update('land_sold_today', round($this->get('land_sold_today') + $postedLand));
+        $this->update('money', $this->getMoney() + round($postedLand * Settings::get('money_per_land')));
 
         // Recalculate NW
         CurrentUser::make()->count_all_stats();
@@ -412,15 +412,18 @@ class Province extends DbObject {
 
     public function getExplorationRate($format=false) {
         $n = round($this->get('land'));
-        $perturnm2 = 200-((ceil($n*0.002)));
+        $perturnm2 = round(200-ceil($n*0.002));
         if (($perturnm2 < 50) && ($perturnm2 > 25)) $perturnm2 = 50;
         elseif ($perturnm2 < 25) $perturnm2 = 25;
         return ($format ? Format::land($perturnm2) : $perturnm2);
     }
 
     public function getMaxExploreLand() {
-        return floor(Settings::get('max_explore_land') - intval($this->get('explored_today')));
+        $turnMax = $this->getTurns() * $this->getExplorationRate();
+        $maxExplore = round(Settings::get('max_explore_land') - $this->get('explored_today'));
+        return $turnMax < $maxExplore ? $turnMax : $maxExplore;
     }
+
     public function getMaxSellLand() {
         $freeLand = $this->getFreeLand();
         $maxSellLand = (Settings::get('max_sell_land') - $this->get('land_sold_today'));

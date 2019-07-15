@@ -20,7 +20,7 @@ function getCookie(name) {
 
 function updateHeaderData() {
     var $ = jQuery;
-    $.ajax({url:site_url+'/ajax/header',type:'post',data:{nonce:$('.nonce').val()}}).done(function(response) { // ajax without loader
+    $.ajax({url:site_url+'/ajax/header',type:'post'}).done(function(response) { // ajax without loader
         var data = $.parseJSON(response);
         if(data.nonce) $('.nonce').val(data.nonce);
         for(var i in data) {

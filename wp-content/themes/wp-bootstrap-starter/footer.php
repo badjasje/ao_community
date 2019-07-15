@@ -64,7 +64,6 @@ if(!is_page_template('blank-page.php') && !is_page_template('blank-page-with-con
                     | Resolution <span id="footerResolution"></span><br>
                     <? if($user->isLoggedIn()) { ?>
                         <a href="<?=wp_logout_url( Request::siteUrl()."/home/")?>">Logout</a>
-                        <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
                     <? } ?>
                 </center>
             </div>
