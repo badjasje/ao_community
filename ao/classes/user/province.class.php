@@ -163,7 +163,7 @@ class Province extends DbObject {
         $this->update('new_events', intval($this->get('new_events')) + 1 );
 
         $this->update('status', 'online');
-        return array('success' => true, 'status' => 'Starting bonus picked');
+        return array('success' => true, 'status' => 'Protection removed');
     }
 
     public function ajaxSetResearch($return) {

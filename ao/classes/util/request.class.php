@@ -78,35 +78,55 @@ class Request {
         return is_numeric(static::$page_links[$key]) ? get_the_permalink(static::$page_links[$key]) : static::$page_links[$key];
     }
 
+    static function getNonce() {
+        if(!isset($_SESSION['nonce'])) { $_SESSION['nonce'] = uniqid(); }
+        return $_SESSION['nonce'];
+    }
+    static function validateNonce() {
+        $nonce = static::getNonce();
+        $_SESSION['nonce'] = uniqid();
+        if(empty(static::post('nonce'))) return false;
+        return (static::post('nonce') == $nonce);
+    }
+
     // Wrapper for most ajax calls
     static function ajax() {
         static::noCache();
 
-        $return = array('success' => false, 'status' => '');
-        if(!in_array($_SERVER['REQUEST_METHOD'], array('GET','POST'))) $return['status'] = 'Method not allowed';
-        if(!defined('ABSPATH')) $return['status'] = 'Base not found';
-        $user = CurrentUser::make();
-        if($user->isBanned()) $return['status'] = 'Your account is banned from Assault.Online.';
-        if(!$user->isLoggedIn()) $return['status'] = 'You must log in to perform this action';
-        $province = $user->getProvince();
-        if(is_object($province)) {
-            if($province->get('user_lock') == 1) $return['status'] = 'Please reload the page and try again';
-            $province->update('user_lock', 1);
+        $error = '';
+        $return = array('success' => false, 'status' => '', 'nonce' => '');
 
-            // Make sure we are in a valid path
-            if(!in_array(Request::part(1), array_keys(static::$ajax_paths))) $return['status'] = 'Unknown path.';
+        if(!in_array($_SERVER['REQUEST_METHOD'], array('POST'))) $error = 'Method not allowed';
+        if(!defined('ABSPATH')) $error = 'Base not found';
+        $user = CurrentUser::make();
+        if($user->isBanned()) $error = 'Your account is banned from Assault.Online.';
+        if(!$user->isLoggedIn()) $error = 'You must log in to perform this action';
+        if(!static::validateNonce()) $error = 'Task failed successfully, refresh the page';
+
+        if(empty($error)) {
+            $province = $user->getProvince();
+            if(!is_object($province)) $error = 'Province not found';
+            else if($province->get('user_lock') === 1) $error = 'Please reload the page and try again';
+        }
+        if(empty($error)) {
+            $province->update('user_lock', 1);
+            if(!in_array(Request::part(1), array_keys(static::$ajax_paths))) $error = 'Unknown path.';// Make sure we are in a valid path
             else {
-                $funcs = static::$ajax_paths[Request::part(1)];
+                $funcs = static::$ajax_paths[Request::part(1)]; // Call function related to this path
                 if($funcs[0] == 'province') $return = call_user_func(array($province, $funcs[1]), $return);
                 else if($funcs[0] == 'clan') {
                     if($clan = $province->getClan()) {
                         $return = call_user_func(array($clan, $funcs[1]), $return);
-                    } else $return['status'] = 'Unknown clan.';
+                    } else $error = 'Unknown clan.';
                 }
             }
             $province->update('user_lock', 0);
         }
-        return json_encode($return);
+
+        if(!empty($error)) {
+            $return = array_merge($return, array('status' => $error, 'success' => false));
+        }
+        return json_encode(array_merge($return, array('nonce' => static::getNonce())));
     }
 
     // Basic sanitation (& trim)

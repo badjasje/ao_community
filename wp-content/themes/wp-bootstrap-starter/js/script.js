@@ -20,7 +20,9 @@ function getCookie(name) {
 
 function updateHeaderData() {
     var $ = jQuery;
-    $.getJSON(site_url+'/ajax/header', function(data) { // ajax without loader
+    $.ajax({url:site_url+'/ajax/header',type:'post',data:{nonce:$('.nonce').val()}}).done(function(response) { // ajax without loader
+        var data = $.parseJSON(response);
+        if(data.nonce) $('.nonce').val(data.nonce);
         for(var i in data) {
             if($('.'+i+'header').length) $('.'+i+'header').html(data[i]);
         }
@@ -63,10 +65,11 @@ function singleAjax(url,post,cb) {
     $('.pageLoader, #page-cover').show();
     requests[url] = $.ajax({url:url,type:'post',data:serializedData}).done(function(response) {
         $('.pageLoader, #page-cover').fadeOut("fast");
-        var response = $.parseJSON(response);
+        var data = $.parseJSON(response);
+        if(data.nonce) $('.nonce').val(data.nonce);
         updateHeaderData(); // Something happened, so it probably costed money or something
-        if(!!response.status) $.notify({message:response.status},{type:'info',delay:5000,allow_dismiss:true,newest_on_top:true});
-        if(!!cb) cb.call(this, response);
+        if(!!data.status) $.notify({message:data.status},{type:'info',delay:5000,allow_dismiss:true,newest_on_top:true});
+        if(!!cb) cb.call(this, data);
     });
 }
 
@@ -124,8 +127,9 @@ jQuery(function($) {
         $("#splashback,.splashmessage").delay(1500).fadeOut("slow");
     }
 
-    $(document).on('click','.receiveFunds',function(){
-        singleAjax(site_url+'/ajax/devfunds')
+    $("#receiveFunds").on('submit', function(e) {
+        e.preventDefault();
+        singleAjax(site_url+'/ajax/devfunds', $(this));
     });
 
     $("#pickStartingBonus").on('submit', function(e) {
@@ -137,11 +141,11 @@ jQuery(function($) {
         });
     });
 
-    $('.retrieveBonus').on('click', function(e) {
+    $(".retrieveBonusForm").on('submit', function(e) {
         e.preventDefault();
         if(!confirm('Are you sure you want to receive your bonus?')) return;
         $(this).attr('disabled', true);
-        singleAjax(site_url+'/ajax/clanbonus', {id:$(this).data('id')}, function(response) {
+        singleAjax(site_url+'/ajax/clanbonus', $(this), function(response) {
             if(response.success) $(this).parent().hide(300);
             $(this).attr('disabled', false);
         }.bind(this));
@@ -157,8 +161,8 @@ jQuery(function($) {
     });
     $("#edit_clan_message").on('submit', function(e) {
         e.preventDefault();
-        var content = tinymce.activeEditor.getContent();
-        singleAjax(site_url+'/ajax/clanmessage', {'new_message':content}, function(response) {
+        $('[name="new_message"]').val(tinymce.activeEditor.getContent());
+        singleAjax(site_url+'/ajax/clanmessage', $(this), function(response) {
             if(response.success) {
                 $('#savedmsg').html(response.clanmessage);
                 $('.message-editor').hide();
@@ -167,9 +171,10 @@ jQuery(function($) {
         });
     });
 
-    $('.removeProtection').on('click', function(e) {
+    $('#removeProtection').on('submit', function(e) {
         e.preventDefault();
-        singleAjax(site_url+'/ajax/removenp', null, function(response) {
+        if(!confirm('Are you sure you want to remove protection?')) return;
+        singleAjax(site_url+'/ajax/removenp', $(this), function(response) {
             if(response.success) $('.npMessage').removeClass('py-0').text('Status: online');
         });
     });

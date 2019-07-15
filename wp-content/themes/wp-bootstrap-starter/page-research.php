@@ -75,6 +75,7 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 		<? } ?>
 
 		<? if($researchQueued === false || $researchInProgress === false) { ?>
+			<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
 			<input id="researchsubmit" type="submit" value="<?=($researchInProgress!==false?'Queue research':'Research')?>" class="mainSubmit hoverEffect">
 		<? } ?>
 	</form>

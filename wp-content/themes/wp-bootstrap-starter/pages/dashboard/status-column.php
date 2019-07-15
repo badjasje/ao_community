@@ -1,11 +1,8 @@
 <?php
 $statusMessage = 'Status: online';
 if($province->isProtected()) {
-	$statusMessage = 'Protection time left: <span id="countdown_time" data-countdown="'.$province->getProtectionTimeLeft().'"></span>';
-	if($timer_left < 86400) {
-		$statusMessage .= '<a onclick="return confirm(\'Are you sure you want to remove protection?\')"
-			class="removeProtection hoverEffect ml-2" href="javascript:void(0);"><i class="fas fa-times"></i> Remove Protection</a>';
-	}
+	$timer_left = $province->getProtectionTimeLeft();
+	$statusMessage = 'Protection time left: <span id="countdown_time" data-countdown="'.$timer_left.'"></span>';
 }
 else if($province->isDead()) {
 	$statusMessage = 'Status: Dead';
@@ -17,7 +14,19 @@ $researchInProgress = false;
 if(!!$province && $r = $province->getCurrentResearch()) $researchInProgress = $r->get('name');
 
 ?>
-<div class="blockHeader npMessage<?=($province->isProtected()?' py-0':'')?>"><?php echo $statusMessage;?></div>
+<div class="blockHeader npMessage<?=($province->isProtected()?' py-0 pr-0':'')?>">
+	<?php
+	echo $statusMessage;
+	if($province->isProtected() && $timer_left < 86400) {
+		?>
+		<form method="post" id="removeProtection" class="removeProtection">
+			<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
+			<button type="submit" name="submit" class="mainSubmit hoverEffect"><i class="fas fa-times"></i> Remove Protection</button>
+		</form>
+		<?
+	}
+	?>
+</div>
 
 <div class="statusBlock">
 	<div class="row statusTotalRow">

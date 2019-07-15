@@ -24,7 +24,10 @@ if(Round::isTest() || Round::isDev() || Round::isSandbox()) {
 		To receive turns/money/morale/research/orders, hit the button below!<br>
 		If you are dead or under protection, hitting this button will revive you as well.
 	</div>
-	<button class="mainSubmit receiveFunds">Receive all</button>
+	<form method="post" id="receiveFunds" class="fw-row">
+		<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
+		<input type="submit" name="submit" value="Receive all" class="mainSubmit receiveFunds">
+	</form>
 	<div class="pageSpacer"></div>
     <?
 }

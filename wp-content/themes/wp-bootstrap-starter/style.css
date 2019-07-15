@@ -1120,10 +1120,6 @@ body:not(.theme-preset-active) footer#colophon {
     width: 50%; padding: 25px; color: #fff; background-color: #425C6B; text-align: left; cursor: pointer; margin-bottom: 0px;
     min-height: 200px; float: left;
 }
-h1 .startingbonus {
-    text-align:center;
-    color:#fff;
-}
 .darkerBonus{
 	background-color:#2D4351;
 }
@@ -1378,15 +1374,8 @@ input[type="radio"]:checked + label {
 	display: inline-block;
 	float:right;
 }
-.removeProtection {
-	height: 41px;
-    display: inline-block;
-    line-height: 41px;
-    background-color: #46765e;
-    padding: 0px 10px;
-    text-transform: uppercase;
-    color:#fff;
-}
+.npMessage { display:flex; align-items: center;  }
+.removeProtection .mainSubmit { border:none; margin-left: 15px; }
 .eventResultRow {
 	padding:13px 25px;
 	margin:0px;
@@ -1441,10 +1430,9 @@ input[type="radio"]:checked + label {
 	}
 	.sortMobile a{
 		color:#fff;
-	}
-	.removeProtection{
-		float:right;
     }
+    .npMessage { justify-content: space-between; }
+    .removeProtection .mainSubmit { padding: 5px 9px; margin-left:0; }
 	.pageLoader{
 		top:25% !important;
 	}
