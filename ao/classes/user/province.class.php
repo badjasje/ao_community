@@ -174,9 +174,9 @@ class Province extends DbObject {
         $new_key = Request::post('research');
         if(!Researches::get($new_key)) return array('status' => 'No such research');
         $new_research = $this->getResearches($new_key);
-        if($new_research['inProgress']) return array('status' => 'Already in progress');
-        if($new_research['queued']) return array('status' => 'Already queued');
         if($new_research['level']>=$new_research['maxlevel']) return array('status' => 'Max reached');
+        if($new_research['queued']) return array('status' => 'Already queued');
+        if($new_research['inProgress'] && ($new_research['level']+1)>=$new_research['maxlevel']) return array('status' => 'Already in progress');
 
         $queueResearch = ($researchInProgress !== false);
 

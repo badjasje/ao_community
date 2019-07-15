@@ -47,7 +47,7 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 						<?php if($researchQueued == false || $researchInProgress == false) {?>
 							<div class="researchselector">
 								<input class="hidden" type="radio" name="research" id="<?=$key?>" value="<?=$key?>">
-								<label class="mainSubmit <?=$key?>_button <?=($research['level']>=$research['maxlevel']?'disabled':'hoverEffect')?>" for="<?=$key?>">
+								<label class="researchlabel mainSubmit <?=$key?>_button <?=($research['level']>=$research['maxlevel']?'disabled':'hoverEffect')?>" for="<?=$key?>">
 									<?=($researchInProgress!==false?'Queue select':'Select')?>
 								</label>
 							</div>
@@ -74,13 +74,13 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 			</div>
 		<? } ?>
 
-		<? if($researchQueued == false || $researchInProgress == false) { ?>
+		<? if($researchQueued === false || $researchInProgress === false) { ?>
 			<input id="researchsubmit" type="submit" value="<?=($researchInProgress!==false?'Queue research':'Research')?>" class="mainSubmit hoverEffect">
 		<? } ?>
 	</form>
 
 	<?
-	if($researchInProgress !== false) {
+	if($researchInProgress !== false && $researchQueued === false) {
 		helpText('Queueing research takes extra turns', 'research', 'warning');
 	}
 	else if(!$hasResearch) {
