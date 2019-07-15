@@ -96,28 +96,35 @@ class Request {
         $error = '';
         $return = array('success' => false, 'status' => '', 'nonce' => '');
 
-        if(!in_array($_SERVER['REQUEST_METHOD'], array('POST'))) $error = 'Method not allowed';
-        if(!defined('ABSPATH')) $error = 'Base not found';
+        if(!in_array($_SERVER['REQUEST_METHOD'], array('POST'))) $error = 'Request failed successfully (E03:P)';
+        if(!defined('ABSPATH')) $error = 'Request failed successfully (E04:ABS)';
         $user = CurrentUser::make();
-        if($user->isBanned()) $error = 'Your account is banned from Assault.Online.';
-        if(!$user->isLoggedIn()) $error = 'You must log in to perform this action';
-        if(!static::validateNonce()) $error = 'Task failed successfully, refresh the page';
+        if($user->isBanned()) $error = 'Your account is banned from Assault.Online (E05:BN)';
+        if(!$user->isLoggedIn()) $error = 'You must log in to perform this action (E06:LI)';
+        if(isset($_SESSION['request_error_num']) && $_SESSION['request_error_num'] > Settings::get('max_request_errors')) {
+            $error = 'Please login again and try again (E02:REN)';
+            $_SESSION['request_error_num']=0;
+            $user->logout();
+        }
+        if(!static::validateNonce()) $error = 'Please refresh the page and try again (E01:VN)';
 
         if(empty($error)) {
             $province = $user->getProvince();
-            if(!is_object($province)) $error = 'Province not found';
-            else if($province->get('user_lock') === 1) $error = 'Please reload the page and try again';
+            if(!is_object($province)) $error = 'Request failed successfully (E07:GP)';
+            else {
+                if($province->get('user_lock') === 1) $error = 'Please reload the page and try again (E08:UL)';
+            }
         }
         if(empty($error)) {
             $province->update('user_lock', 1);
-            if(!in_array(Request::part(1), array_keys(static::$ajax_paths))) $error = 'Unknown path.';// Make sure we are in a valid path
+            if(!in_array(Request::part(1), array_keys(static::$ajax_paths))) $error = 'Request failed successfully (E09:AP)';// Make sure we are in a valid path
             else {
                 $funcs = static::$ajax_paths[Request::part(1)]; // Call function related to this path
                 if($funcs[0] == 'province') $return = call_user_func(array($province, $funcs[1]), $return);
                 else if($funcs[0] == 'clan') {
                     if($clan = $province->getClan()) {
                         $return = call_user_func(array($clan, $funcs[1]), $return);
-                    } else $error = 'Unknown clan.';
+                    } else $error = 'Request failed successfully (E10:GC)';
                 }
             }
             $province->update('user_lock', 0);
@@ -125,6 +132,7 @@ class Request {
 
         if(!empty($error)) {
             $return = array_merge($return, array('status' => $error, 'success' => false));
+            $_SESSION['request_error_num'] = (!isset($_SESSION['request_error_num']) ? 1 : $_SESSION['request_error_num']+1);
         }
         return json_encode(array_merge($return, array('nonce' => static::getNonce())));
     }

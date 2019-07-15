@@ -11,6 +11,7 @@ class Settings extends DataObject {
         // Not game related, haha
         'admin_ids' => array(1,2768),
         'admin_ips' => array('87.209.229.255','213.125.228.34','217.121.5.245','213.125.228.34','83.80.24.164'),
+        'max_request_errors' => 10,
 
         // When you die or start of new round
         'start_money' => 450000,
