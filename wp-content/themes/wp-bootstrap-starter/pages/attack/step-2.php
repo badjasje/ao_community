@@ -289,7 +289,7 @@ $count = 0;
 				    </div>
                     <div class="col-md-2 celBlock">
                         <span class="columnDataLeft">Owned</span>
-                        <span class="columnDataRight"><?php echo $unitOwned; ?></span>
+                        <span class="columnDataRight"><?php echo $unitsOwned; ?></span>
 				    </div>
 				    <div class="col-md-2 celBlock inputBlock">
 				        <input style="display:none;" type="radio" name="spytype" id="<?php echo $key;?>_select" value="<?php echo $key;?>" required>

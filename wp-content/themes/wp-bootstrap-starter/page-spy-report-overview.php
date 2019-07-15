@@ -76,7 +76,7 @@ include('building_array.php');
 	<?php
 
 	$NRmembers = count($clan_members);
-	$counter = 0;
+	$counter = $count = 0;
 
 	foreach ($clan_members as $key => $member):
 		$unitarray = array();
@@ -114,7 +114,7 @@ include('building_array.php');
 			$unitrepStamp = get_the_time('U',$unitRep_ID);
 			$unitarray = maybe_unserialize(get_post_meta($unitRep_ID, 'spy_array', true));
 
-			$attack_array = array();
+			$attack_array = $attacks = array();
 			if(is_array($units)) {
 				foreach ($units as $unit) {
 					foreach ($unitarray as $unitname => $amount) {
@@ -225,7 +225,7 @@ include('building_array.php');
 			<div class="col-md-3 celBlock">
 				<span class="dataVisibleLeft">Networth registered</span>
 				<span class="dataVisibleRight">
-
+					$ <?php echo number_format($regNW, 0, ',', ' '); ?>
 				</span>
 			</div>
 			<div class="col-md-3 celBlock">
@@ -247,6 +247,7 @@ include('building_array.php');
 			<div class="col-md-3 celBlock">
 				<span class="dataVisibleLeft">Buildings spied date</span>
 				<span class="dataVisibleRight store-pop-span2">
+					<?php echo $bldRep_date; ?>
 				</span>
 			</div>
 			<div class="col-md-3 celBlock">
