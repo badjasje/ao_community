@@ -119,13 +119,13 @@ $timeLeft = Market::timeLeft();
 						</span>
 					</div>
 					<div class="col-md-2 statitem">
-						<span data-toggle="tooltip" data-placement="bottom" title="Satellite power: <?=$province->getSatMorale(true)?>" class="stattext">
+						<span data-toggle="tooltip" data-placement="bottom" data-html="true" title="Satellite power: <?=$province->getSatMorale(true)?>" class="satpower stattext">
 							<strong>Morale:</strong> <span class="moraleheader"><?=$province->getMorale(true)?></span>
 							<sup><span id="poolmorale"><?=$province->getMoralePool(true)?></span></sup>
 							<span class="float-right"><i class="fas fa-caret-down"></i></span></span>
 					</div>
 					<div class="col-md-2 statitem">
-						<span data-toggle="tooltip" data-placement="bottom" title="Free land: <?=$province->getFreeLand()?>m2" class="stattext">
+						<span data-toggle="tooltip" data-placement="bottom" data-html="true" title="Free land: <?=$province->getFreeLand(true)?>" class="freeland stattext">
 						<strong>Land:</strong> <span class="landheader"><?=$province->getLand(true); ?></span>
 						<span class="float-right"><i class="fas fa-caret-down"></i></span></span>
 					</div>
@@ -310,13 +310,13 @@ $timeLeft = Market::timeLeft();
 						</span>
 					</div>
 					<div class="col-6 statitem">
-						<span data-toggle="tooltip" data-placement="bottom" title="Satellite power: <?=$province->getSatMorale(true)?>" class="stattext">
+						<span data-toggle="tooltip" data-placement="bottom" title="Satellite power: <?=$province->getSatMorale(true)?>" class="stattext satpower">
 						<strong>Morale:</strong> <span class="moraleheader"><?=$province->getMorale(true)?></span>
 						<sup><?=$province->getMoralePool(true)?></sup>
 						<span class="float-right"><i class="fas fa-caret-down"></i></span></span>
 					</div>
 					<div class="col-6 statitem">
-						<span data-toggle="tooltip" data-placement="bottom" title="Free land: <?=$province->getFreeLand()?>m2" class="stattext">
+						<span data-toggle="tooltip" data-placement="bottom" title="Free land: <?=$province->getFreeLand(true)?>" class="stattext freeland">
 						<strong>Land:</strong> <span class="landheader"><?=$province->getLand(true)?></span>
 						<span class="float-right"><i class="fas fa-caret-down"></i></span></span>
 					</div>

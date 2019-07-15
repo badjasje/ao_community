@@ -31,6 +31,11 @@ class Settings extends DataObject {
         'nw_sat' => 0.04,
         'nw_research' => 950,
 
+        // Explore & sell
+        'max_explore_land' => 20000,
+        'max_sell_land' => 20000,
+        'money_per_land' => 75,
+
         // Building
         'land_per_building' => 20,
         'defensive_buildings' => array('torpedolauncher', 'samsite', 'missileturret', 'machinegunturret'),

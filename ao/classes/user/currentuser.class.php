@@ -24,8 +24,7 @@ class CurrentUser extends User {
             $this->update('last_online', current_time('timestamp')); //@wp
 
             // @todo: $this->count_all_stats(); On each request might be a big hit
-            // @todo: move function to here
-            count_all_stats($this->get('id'));
+            $this->count_all_stats();
 
             // Fill our session with browser data
             if(!isset($_SESSION['user'])) {
@@ -114,6 +113,11 @@ class CurrentUser extends User {
                 else { die('Access denied'); }
             }
         }
+    }
+
+    public function count_all_stats() {
+        // @todo: move actual function code to here
+        if(isset($this->id)) count_all_stats($this->id);
     }
 
     //public function login() {}

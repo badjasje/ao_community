@@ -12,6 +12,8 @@ class Request {
         'clanbonus' => array('province', 'ajaxClanBonus'),
         'removenp' => array('province','ajaxRemoveNp'),
         'research' => array('province','ajaxSetResearch'),
+        'exploreland' => array('province','ajaxExploreLand'),
+        'sellland' => array('province','ajaxSellLand'),
         'clanmessage' => array('clan','ajaxSetMessage')
     );
     public static $page_links = array(
@@ -117,9 +119,10 @@ class Request {
         }
         if(empty($error)) {
             $province->update('user_lock', 1);
-            if(!in_array(Request::part(1), array_keys(static::$ajax_paths))) $error = 'Request failed successfully (E09:AP)';// Make sure we are in a valid path
+            if(!in_array(static::part(1), array_keys(static::$ajax_paths))) $error = 'Request failed successfully (E09:AP)';// Make sure we are in a valid path
             else {
-                $funcs = static::$ajax_paths[Request::part(1)]; // Call function related to this path
+                // @todo make sure some calls aren't requested too often
+                $funcs = static::$ajax_paths[static::part(1)]; // Call function related to this path
                 if($funcs[0] == 'province') $return = call_user_func(array($province, $funcs[1]), $return);
                 else if($funcs[0] == 'clan') {
                     if($clan = $province->getClan()) {

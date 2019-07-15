@@ -26,6 +26,7 @@ function updateHeaderData() {
         for(var i in data) {
             if($('.'+i+'header').length) $('.'+i+'header').html(data[i]);
         }
+        $('.freeland').attr({'data-original-title': data.freeland});
         $('.globalsBadge').text(data.globals).toggle((data.globals>0));
         $('.localsBadge').text(data.locals).toggle((data.locals>0));
         $('.inboxBadge').text(data.messages).toggle((data.messages>0));
@@ -162,9 +163,9 @@ jQuery(function($) {
     $("#edit_clan_message").on('submit', function(e) {
         e.preventDefault();
         $('[name="new_message"]').val(tinymce.activeEditor.getContent());
-        singleAjax(site_url+'/ajax/clanmessage', $(this), function(response) {
-            if(response.success) {
-                $('#savedmsg').html(response.clanmessage);
+        singleAjax(site_url+'/ajax/clanmessage', $(this), function(data) {
+            if(data.success) {
+                $('#savedmsg').html(data.clanmessage);
                 $('.message-editor').hide();
                 $('#savedmsg').fadeIn(500);
             }
@@ -174,32 +175,65 @@ jQuery(function($) {
     $('#removeProtection').on('submit', function(e) {
         e.preventDefault();
         if(!confirm('Are you sure you want to remove protection?')) return;
-        singleAjax(site_url+'/ajax/removenp', $(this), function(response) {
-            if(response.success) $('.npMessage').removeClass('py-0').text('Status: online');
+        singleAjax(site_url+'/ajax/removenp', $(this), function(data) {
+            if(data.success) $('.npMessage').removeClass('py-0').text('Status: online');
         });
     });
 
     $('#research').on('submit', function(e) {
         e.preventDefault();
-        singleAjax(site_url+'/ajax/research',  $(this), function(response) {
-            if(response.success) {
+        singleAjax(site_url+'/ajax/research',  $(this), function(data) {
+            if(data.success) {
                 $('#researchsubmit').val('Queue research');
                 $('.researchlabel').html('Queue select');
-                $(response.hidebutton).hide();
-                if(response.endtime!='queued') {
+                $(data.hidebutton).hide();
+                if(data.endtime!='queued') {
 					$(`<div class="blockHeader fw-row">
 						<i class="fa fa-circle-notch fa-spin"></i> Time left:
-						<div class="timeLeft" id="countdown_time" data-countdown="`+response.endtime+`"></div>
-					</div>`).insertAfter('#research_'+response.started);
+						<div class="timeLeft" id="countdown_time" data-countdown="`+data.endtime+`"></div>
+					</div>`).insertAfter('#research_'+data.started);
 					start_countdowns();
-					$('#research_'+response.started+' .unitRow').addClass('loader');
+					$('#research_'+data.started+' .unitRow').addClass('loader');
 				} else {
-					$('<div class="blockHeader fw-row"><i class="fa fa-clock"></i> Research queued</div>').insertAfter('#research_'+response.started);
+					$('<div class="blockHeader fw-row"><i class="fa fa-clock"></i> Research queued</div>').insertAfter('#research_'+data.started);
 					$('#researchsubmit').remove();
 					$('.researchselector').html('<label class="mainSubmit disabled">No Selection Possible</label>');
 				}
-				$(this).trigger('reset');
+				$('#research').trigger('reset');
             }
+        });
+    });
+
+    $(document).on('click', ".maxexp", function() {
+        $("#turnsinput").val($(this).attr("data-max"));
+    });
+    $(document).on('click', ".maxsell", function() {
+        $("#landinput").val($(this).attr("data-max"));
+    });
+    $('#exploreform').on('submit', function(e) {
+        e.preventDefault();
+        singleAjax(site_url+'/ajax/exploreland', $(this), function(data) {
+            if(data.success) {
+                $(".explNotice").html(data.exploredtoday);
+                $(".sellNotice").html(data.soldtoday);
+                $('#exprate').html(data.newrate);
+                $("#turnsinput").attr({"max": data.maxturns});
+                $("#landinput").attr({"max": data.maxsell});
+                $(".maxexp").attr({"data-max": data.maxturns});
+                $(".maxsell").attr({"data-max": data.maxsell});
+            }
+            $('#exploreform').trigger("reset");
+        });
+    });
+    $('#sellform').on('submit', function(e) {
+        e.preventDefault();
+        singleAjax(site_url+'/ajax/sellland', $(this), function(data) {
+            if(data.success) {
+                $(".sellNotice").html(data.soldtoday);
+                $("#landinput").attr({"max": data.maxsell});
+                $(".maxsell").attr({"data-max": data.maxsell});
+            }
+            $('#sellform').trigger("reset");
         });
     });
 });

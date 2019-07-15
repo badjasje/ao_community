@@ -110,6 +110,7 @@ class Province extends DbObject {
         $return['money'] 	= $this->getMoney(true);
         $return['morale'] 	= $this->getMorale(true);
         $return['land'] 	= $this->getLand(true);
+        $return['freeland'] = $this->getFreeLand(true);
         $return['power'] 	= $this->getPower(true);
         return $return;
     }
@@ -185,7 +186,7 @@ class Province extends DbObject {
         if($totalturns < $turn_cost) return array('status' => 'No enough turns');
 
         $this->update('turns', $totalturns - $turn_cost);
-        turn_spread( ($queueResearch ? 'research_queue' : 'research'), $turn_cost);
+        turn_spread( ($queueResearch ? 'research_queue' : 'research'), $turn_cost); //@wp
 
         $return = array('success' => true,'started' => $new_key, 'status' => '', 'endtime' => 'queued');
         if($queueResearch === true) {
@@ -206,6 +207,87 @@ class Province extends DbObject {
             ));
         }
         return array('success' => false, 'status' => 'Research task failed successfully');
+    }
+
+    public function ajaxExploreLand($return) {
+        $postedTurns = abs(floor(Request::post('turns')));
+        if ($postedTurns < 1 || !is_numeric(($postedTurns))) return array('status' => 'Not a valid number.');
+        $perturnm2 = $this->getExplorationRate();
+        if($perturnm2 < 0) return array('status' => 'No more exploring possible');
+        $turns = $this->getTurns();
+        if($turns < $postedTurns) return array('status' => 'Not enough turns');
+        $maxLand = $this->getMaxExploreLand();
+        $postedLand = ($postedTurns*$perturnm2);
+        if ($maxLand < $postedLand) return array('status' => 'You can only explore '. Format::land($maxLand).'</strong> more land.');
+
+        $ownedland = $this->getLand();
+        $this->update('turns', $turns-$postedTurns);
+        $this->update('land', $ownedland + $postedLand);
+        $this->update('explored_today', $this->get('explored_today') + $postedLand);
+        turn_spread('exploring', $postedTurns); //@wp
+
+        // Recalculate NW
+        CurrentUser::make()->count_all_stats();
+        $exploredToday = $this->get('explored_today');
+
+        // Log it
+        $current = file_get_contents('explorelog.txt');
+        $current .= current_time('G:i:s | d-m-Y')."\n". "ID: ".$this->id."\n" . "Turns used: ".$postedTurns."\n" . "New land: ".($ownedland+$postedLand)."\n";
+        file_put_contents('explorelog.txt', $current."Explored today: ".$exploredToday."\n\n");
+
+        $perturnm2 = $this->getExplorationRate();
+        $maxLand = $this->getMaxExploreLand();
+        $maxAmount = floor($maxLand/$perturnm2);
+        $maxSell = $this->getMaxSellLand();
+        $return = array_merge($return, array(
+            'success' => true,
+            'status' => Format::land($postedLand).' explored',
+            'newrate' => Format::land($perturnm2),
+            'exploredtoday' => 'You have explored <strong>'.Format::land($exploredToday).' </strong> today.
+                You can explore an additional <span class="maxexp" data-max="'. $maxAmount .'"><strong>'.Format::land($maxLand).'</strong>
+                <i>('.$maxAmount.' turns)</i></span>',
+            'maxturns' => $maxAmount,
+            'maxsell' => $maxSell,
+            'soldtoday' => Format::land(1).' has a value of '.Format::money(Settings::get('money_per_land')).'.
+                You have '. $this->getFreeLand(true) .' of free land.
+                You have sold <strong>'.Format::land($this->get('land_sold_today')).'</strong> today. You can sell an additional
+                <strong class="maxsell" data-max="'. $maxSell .'">'. Format::land($maxSell) .'</strong>',
+        ));
+        return $return;
+    }
+
+    public function ajaxSellLand($return) {
+        $postedLand = abs(floor(Request::post('land')));
+        if($postedLand < 0 || !is_numeric($postedLand)) return array('status' => 'Not a valid number.');
+        $freeland = $this->getFreeLand();
+        if($freeland < 0) return array('status' => 'Cannot sell! Not enough free land');
+        if($postedLand > $freeland) return array('status' => 'Not enough free land');
+        $maxSellLand = Settings::get('max_sell_land')-$this->get('land_sold_today');
+        if ($maxSellLand < $postedLand) return array('status' => 'Cannot sell any more land');
+
+        $this->update('land', $this->getLand() - $postedLand);
+        $this->update('land_sold_today', $this->get('land_sold_today') + $postedLand);
+        $this->update('money', $this->getMoney() + ($postedLand * Settings::get('money_per_land')));
+
+        // Recalculate NW
+        CurrentUser::make()->count_all_stats();
+
+        // Log it
+        $current = file_get_contents('landselllog.txt');
+        $current .= current_time('G:i:s | d-m-Y')."\n" . "ID: ".$this->id."\n" . "Sold land: ".$postedLand."\n";
+        file_put_contents('landselllog.txt', $current . "Land sold today: ". $this->get('land_sold_today') ."\n\n");
+
+        $maxSell = $this->getMaxSellLand();
+        $return = array_merge($return, array(
+            'success' => true,
+            'status' => 'You sold '.Format::land($postedLand).' for a total sum of '.Format::money($postedLand * Settings::get('money_per_land')),
+            'maxsell' => $maxSell,
+            'soldtoday' => Format::land(1).' has a value of '.Format::money(Settings::get('money_per_land')).'.
+                You have '. $this->getFreeLand(true) .' of free land.
+                You have sold <strong>'.Format::land($this->get('land_sold_today')).'</strong> today. You can sell an additional
+                <strong class="maxsell" data-max="'. $maxSell .'">'. Format::land($maxSell) .'</strong>'
+        ));
+        return $return;
     }
 
     /**
@@ -326,6 +408,23 @@ class Province extends DbObject {
         $n = round($this->get('land'));
         $b = round($this->get('builtland'));
         return ($format ? Format::land($n-$b) : $n-$b);
+    }
+
+    public function getExplorationRate($format=false) {
+        $n = round($this->get('land'));
+        $perturnm2 = 200-((ceil($n*0.002)));
+        if (($perturnm2 < 50) && ($perturnm2 > 25)) $perturnm2 = 50;
+        elseif ($perturnm2 < 25) $perturnm2 = 25;
+        return ($format ? Format::land($perturnm2) : $perturnm2);
+    }
+
+    public function getMaxExploreLand() {
+        return floor(Settings::get('max_explore_land') - intval($this->get('explored_today')));
+    }
+    public function getMaxSellLand() {
+        $freeLand = $this->getFreeLand();
+        $maxSellLand = (Settings::get('max_sell_land') - $this->get('land_sold_today'));
+        return $freeLand < $maxSellLand ? $freeLand : $maxSellLand;
     }
 
     public function getPower($format=false) {
