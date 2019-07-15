@@ -13,9 +13,7 @@ $timestamp = current_time('timestamp');
 $timeLeft = $endStamp-$timestamp;
 
 $disableClass = '';
-if($timeLeft <= 0 || get_field('game_status', 'option') != 'Live') {
-	$disableClass = 'disabledDiv';
-}
+if($timeLeft <= 0 || get_field('game_status', 'option') != 'Live') $disableClass = ' disabledDiv';
 
 include 'units_array.php';
 include 'count_functions.php';
@@ -87,19 +85,19 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 }
 ?>
 
-<div class="row pageRow <?php echo $disableClass;?>">
+<div class="row pageRow">
 
 	<div class="fw-row">
 		<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
-			<a class="nav-item nav-link navItem <?php echo $activeTab === 'air' ? 'active' : ''; ?>" data-toggle="tab" data-target="#air" href="?tab=air">Air units</a>
-			<a class="nav-item nav-link navItem <?php echo $activeTab === 'sea' ? 'active' : ''; ?>" data-toggle="tab" data-target="#sea" href="?tab=sea">Sea units</a>
-			<a class="nav-item nav-link navItem <?php echo $activeTab === 'veh' ? 'active' : ''; ?>" data-toggle="tab" data-target="#veh" href="?tab=veh">Vehicles</a>
-			<a class="nav-item nav-link navItem <?php echo $activeTab === 'inf' ? 'active' : ''; ?>" data-toggle="tab" data-target="#inf" href="?tab=inf">Infantry</a>
+			<a class="nav-item nav-link navItem <?=($activeTab == 'air' ? 'active' : '').$disableClass?>" data-toggle="tab" data-target="#air" href="?tab=air">Air units</a>
+			<a class="nav-item nav-link navItem <?=($activeTab == 'sea' ? 'active' : '').$disableClass?>" data-toggle="tab" data-target="#sea" href="?tab=sea">Sea units</a>
+			<a class="nav-item nav-link navItem <?=($activeTab == 'veh' ? 'active' : '').$disableClass?>" data-toggle="tab" data-target="#veh" href="?tab=veh">Vehicles</a>
+			<a class="nav-item nav-link navItem <?=($activeTab == 'inf' ? 'active' : '').$disableClass?>" data-toggle="tab" data-target="#inf" href="?tab=inf">Infantry</a>
 			<a class="nav-item nav-link navItem" href="/sell" style="background-color: rgba(70, 118, 94, 0.8);">Sell</a>
 		</nav>
 	</div>
 
-	<div class="fw-row">
+	<div class="fw-row<?=$disableClass?>">
     <form class="form" name="" id="market" method="post">
         <input type="hidden" name="currentTab" id="currentTab" value="?tab=<?php echo $activeTab; ?>" />
         <div class="tab-content current build_content tabbed-table">
