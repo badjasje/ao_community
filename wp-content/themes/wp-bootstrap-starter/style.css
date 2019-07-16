@@ -963,9 +963,7 @@ body:not(.theme-preset-active) footer#colophon {
     text-transform: uppercase;
 }
 .menuOpen .menuText { display:block; }
-.menuRow{
-	height:41px;
-}
+.menuRow { height:41px; }
 
 @-webkit-keyframes globalsPulse {
     from { background-color: #dc3545;  }
@@ -1017,12 +1015,8 @@ body:not(.theme-preset-active) footer#colophon {
 	-webkit-animation-iteration-count: infinite;
 }
 .inboxBadge, .localsBadge, .globalsBadge { display:none; }
-.activebadge{
-	display:block;
-}
-.topbarButton{
-	display: none;
-}
+.activebadge { display:block; }
+.topbarButton { display: none; }
 .statheader{
 	font-size:16px;
 	margin-left:41px;
@@ -1111,7 +1105,7 @@ body:not(.theme-preset-active) footer#colophon {
 .bg-2,.bg-4,.bg-6,.bg-8 { opacity:.95; }
 .bg-3,.bg-9 { opacity:.9; }
 
-.mainSubmit.disabled, .secundarySubmit.disabled { background-color: #BBB; color: #999; cursor:default; }
+.mainSubmit.disabled, .secundarySubmit.disabled { background-color: #BBB; border-bottom-color: #999; color: #444; cursor:default; }
 
 .receiveFunds { background-color:#A00000; border:0; }
 .chooseFile{
@@ -1125,10 +1119,6 @@ body:not(.theme-preset-active) footer#colophon {
 .startingbonus {
     width: 50%; padding: 25px; color: #fff; background-color: #425C6B; text-align: left; cursor: pointer; margin-bottom: 0px;
     min-height: 200px; float: left;
-}
-h1 .startingbonus {
-    text-align:center;
-    color:#fff;
 }
 .darkerBonus{
 	background-color:#2D4351;
@@ -1259,7 +1249,6 @@ input[type="radio"]:checked + label {
 .dashMobile{
     display: none;
 }
-.hidden { display:none; }
 
 @media only screen and (min-width: 1024px) {
     .statheader{
@@ -1359,17 +1348,9 @@ input[type="radio"]:checked + label {
 	margin:0px;
 	border-top: 1px solid #fff;
 }
-.unitInput {
-	width: 100%;
-    box-shadow: inset 0px 0px 0px 1px #545454;
-    /*height: 100%;*/
-    padding-left: 20px;
-    min-height:41px;
-    border-width:5px 13px 5px 13px;
-}
-.inputBlock {
-	padding:0px !important;
-}
+.unitInput { width: 100%; box-shadow: inset 0px 0px 0px 1px #545454; padding-left: 20px; min-height:31px; border:none; }
+.inputBlock { padding:5px 13px !important; background: rgba(255,255,255,.2); }
+
 .columnDataLeft {
 	float:none;
 	display: none;
@@ -1385,15 +1366,8 @@ input[type="radio"]:checked + label {
 	display: inline-block;
 	float:right;
 }
-.removeProtection {
-	height: 41px;
-    display: inline-block;
-    line-height: 41px;
-    background-color: #46765e;
-    padding: 0px 10px;
-    text-transform: uppercase;
-    color:#fff;
-}
+.npMessage { display:flex; align-items: center;  }
+.removeProtection .mainSubmit { border:none; margin-left: 15px; }
 .eventResultRow {
 	padding:13px 25px;
 	margin:0px;
@@ -1448,10 +1422,9 @@ input[type="radio"]:checked + label {
 	}
 	.sortMobile a{
 		color:#fff;
-	}
-	.removeProtection{
-		float:right;
     }
+    .npMessage { justify-content: space-between; }
+    .removeProtection .mainSubmit { padding: 5px 9px; margin-left:0; }
 	.pageLoader{
 		top:25% !important;
 	}
@@ -2133,9 +2106,61 @@ input[type="radio"]:checked + label {
 .wp-polls ul, .wp-polls-ul, .wp-polls-ans ul { margin:0; }
 .wp-polls .pollbar { background: #46765d; border: none; }
 
-/*--------------------------------------------------------------
-## Netbook
---------------------------------------------------------------*/
+/* Bank page styling */
+
+
+/* Research page styling */
+#research { background: linear-gradient(rgba(45, 67, 81, 0.56), rgba(45, 67, 81, 0.24)); width: 100%; }
+#research .unitRow { border-bottom: 1px solid rgba(255,255,255,.2); width: 100%; margin: 0px; }
+#research .unitRow.loader { background: rgba(255,255,255,.1); }
+#research .headerRow { background: #3f525f; border-bottom: 1px solid #FFF; }
+#research .mainSubmit { border: 0; }
+@media only screen and (max-width: 768px) {
+    #research .nameBlock { background-color: rgba(45, 67, 81, 0.75); }
+    #research .itemRow { border-bottom: 10px solid #ccc; }
+}
+
+/* Explore+sell page styling */
+#exploresell .collabel {
+    padding: 10px 10px 10px 15px; text-transform: uppercase; background-color: rgba(84, 84, 84, 0.10);
+    display: flex; align-items:center;
+}
+#exploresell .inputnr { width: 100%; box-shadow: none; border: 1px solid #545454; padding-left: 20px; min-height: 41px; border:none; }
+#exploresell .inputnr.disabled { background:#CCC; }
+#exploresell .maxexp, #exploresell .maxsell { border-top:none; }
+
+/* Buildings page */
+#buildings { background: linear-gradient(rgba(81, 81, 81, 0.56), rgba(81, 81, 81, 0.08)); width: 100%; }
+#buildings table { margin:0; }
+#buildings .blockHeader p { margin-bottom:10px;}
+#buildings .blockHeader a { color: #000!important; }
+#buildings .headerRow { background: rgba(81, 81, 81, 0.75); }
+#buildings .headerRow th { font-weight:normal; border-bottom: 1px solid #FFF; }
+#buildings .headerRow th, #buildings .unitRow td {  padding: 10px 10px 10px 15px; }
+#buildings .headerRow .buildBlock { background: #3f525f; }
+#buildings .headerRow .demoBlock { background: #927065; }
+#buildings .unitRow td { border-bottom: 1px solid rgba(255,255,255,.2); }
+#buildings .unitRow td.nameBlock { font-weight:bold; }
+#buildings .buildBlock { background: rgba(45,67,81,.3); }
+#buildings .buildBlock .unitInput { box-shadow:none; border: 1px solid #468; }
+#buildings .demoBlock { background: rgba(127,82,67,.3); }
+#buildings .demoBlock .unitInput { box-shadow:none; border: 1px solid #B86; }
+#buildings .descriptionRow td { background: #CCC; padding: 2px 10px 11px; color: #333; }
+#buildings .demomax, #buildings .buildmax { cursor: pointer; }
+#buildings .totalsField { cursor:default; }
+@media only screen and (max-width: 768px) {
+    #buildings .attacklife, #buildings .targets { display:none }
+    #buildings .headerRow { display:table-row; }
+    #buildings .headerRow th, #buildings .unitRow td { padding: 4px; font-size: 11px; text-align: center; }
+    #buildings .unitRow td.nameBlock { font-size: 12px; text-align: left; font-weight: normal; color: #000; background: rgba(0,0,0,.15); }
+    #buildings .unitRow .inputBlock { padding: 0 2px!important; }
+    #buildings .unitInput { padding-left: 5px; width: 40px; }
+    #buildings .descriptionRow td { background: #B1B1B1; font-size: 11px;  }
+    #buildings .totalsField { padding: 4px 5px; font-size: 13px; }
+}
+
+
+/* Netbook */
 @media only screen and (max-width: 1000px) {
     footer{
         border-top: 10px solid #CCC;
@@ -2188,7 +2213,8 @@ input[type="radio"]:checked + label {
     }
 }
 
-@media screen and (max-height: 600px) and (max-width: 768px) { /* make the sidemenu scrollable */
+/* make the sidemenu scrollable */
+@media screen and (max-height: 600px) and (max-width: 768px) {
     body { position: relative; }
     header#masthead { z-index:2080; }
     .menuOpen .sidenav #page-sub-header { position: absolute; top: -80px; width: 100%; }
@@ -2240,3 +2266,6 @@ input[type="radio"]:checked + label {
     }
     .eventFooter { margin-bottom:20px; }
 }
+
+.hidden { display:none; }
+.nopadding { padding:0; }

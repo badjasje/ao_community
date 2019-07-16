@@ -40,8 +40,8 @@ if($turns < 1){
 update_user_meta($userId,'turns',$turns-1);
 turn_spread('spying',3);
 
-$sat_status = $defenderData['stealth_sat_status'][0];
-$snipers = $defenderData['snipers_owned'][0];
+$sat_status = (isset($defenderData['stealth_sat_status']) ? $defenderData['stealth_sat_status'][0] : 0);
+$snipers = (isset($defenderData['snipers_owned']) ? $defenderData['snipers_owned'][0] : 0);
 $land_def = $defenderData['land'][0];
 $networth_def = $defenderData['networth'][0];
 
@@ -143,20 +143,15 @@ if($spytype == 'spy'):?>
             <?php endif;?>
         </div>
         <div class="row no-gutters fw-row">
-            <div class="col-md-6">
-                <a href="<?php echo get_the_permalink($clan_defender_id);?>">
-                <button class="mainSubmit hoverEffect">
-                    View clan
-                </button>
-                </a>
-            </div>
-            <div class="col-md-6">
-                <a href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">
-                <button class="mainSubmit hoverEffect">
-                    Spy report overview clan
-                </button>
-                </a>
-            </div>
+            <a class="col-md-4 mainSubmit hoverEffect" href="<?php echo get_the_permalink($clan_defender_id);?>">
+                View clan
+            </a>
+            <a class="col-md-4 mainSubmit hoverEffect" href="/spy-reports/?id=<?=$target_id?>">
+                <i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
+            </a>
+            <a class="col-md-4 mainSubmit hoverEffect" href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">
+                Spy report overview clan
+            </a>
         </div>
         <div class="pageSpacer"></div>
         <?php
@@ -177,6 +172,7 @@ if($spytype == 'spy'):?>
             </div>
         </div> <!-- //Close Unit row -->
         <?php
+        $count=0;
         foreach ($amountArray as $unit => $amount) {
             $count++;
             $rangeDamp = 1 - sqrt(($amount)*1.4)/100;
@@ -237,21 +233,15 @@ if($spytype == 'spy'):?>
         <div class="blockHeader">Your spy was caught and killed by <?php echo get_user_name($target_id);?></div>
         <div class="blockHeader spaceNotice"><?php echo $spies-1; if($spies-1 == 1){ echo ' spy';} else { echo ' spies';}?> remaining</div>
         <div class="row no-gutters fw-row">
-            <div class="col-md-6">
-                <a href="<?php echo get_the_permalink($clan_defender_id);?>">
-                <button class="mainSubmit hoverEffect">
-                    View clan
-                </button>
-                </a>
-            </div>
-
-            <div class="col-md-6">
-                <a href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">
-                <button class="mainSubmit hoverEffect">
-                    Spy report overview clan
-                </button>
-                </a>
-            </div>
+            <a class="col-md-4 mainSubmit hoverEffect" href="<?php echo get_the_permalink($clan_defender_id);?>">
+                View clan
+            </a>
+            <a class="col-md-4 profileButton bg-2" href="/spy-reports/?id=<?=$target_id?>">
+                <i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
+            </a>
+            <a class="col-md-4 mainSubmit hoverEffect" href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">
+                Spy report overview clan
+            </a>
         </div>
         <div class="pageSpacer"></div>
     <?php endif;?>
@@ -276,20 +266,15 @@ if($spytype == 'spy'):?>
             <?php endif;?>
         </div>
         <div class="row no-gutters fw-row">
-            <div class="col-md-6">
-                <a href="<?php echo get_the_permalink($clan_defender_id);?>">
-                <button class="mainSubmit hoverEffect">
-                    View clan
-                </button>
-                </a>
-            </div>
-            <div class="col-md-6">
-                <a href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">
-                <button class="mainSubmit hoverEffect">
-                    Spy report overview clan
-                </button>
-                </a>
-            </div>
+            <a class="col-md-4 mainSubmit hoverEffect" href="<?php echo get_the_permalink($clan_defender_id);?>">
+                View clan
+            </a>
+            <a class="col-md-4 mainSubmit hoverEffect" href="/spy-reports/?id=<?=$target_id?>">
+                <i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
+            </a>
+            <a class="col-md-4 mainSubmit hoverEffect" href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">
+                Spy report overview clan
+            </a>
         </div>
         <div class="pageSpacer"></div>
         <?php
@@ -311,6 +296,7 @@ if($spytype == 'spy'):?>
             </div>
         </div> <!-- //Close Unit row -->
         <?php
+        $count=0;
 	    foreach ($amountArray as $unit => $amount) {
 		    $count++;
 		    $rangeDamp = 1 - sqrt(($amount)*1.4)/100;
@@ -371,21 +357,15 @@ if($spytype == 'spy'):?>
         <div class="blockHeader">Your spyplane was shot down by <?php echo get_user_name($target_id);?></div>
         <div class="blockHeader spaceNotice"><?php echo $spies-1;?> spyplane<?php echo plural_func($spies);?> remaining</div>
         <div class="row no-gutters fw-row">
-            <div class="col-md-6">
-                <a href="<?php echo get_the_permalink($clan_defender_id);?>">
-                <button class="mainSubmit hoverEffect">
-                    View clan
-                </button>
-                </a>
-            </div>
-
-            <div class="col-md-6">
-                <a href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">
-                <button class="mainSubmit hoverEffect">
-                    Spy report overview clan
-                </button>
-                </a>
-            </div>
+            <a class="col-md-4 mainSubmit hoverEffect" href="<?php echo get_the_permalink($clan_defender_id);?>">
+                View clan
+            </a>
+            <a class="col-md-4 mainSubmit hoverEffect" href="/spy-reports/?id=<?=$target_id?>">
+                <i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
+            </a>
+            <a class="col-md-4 mainSubmit hoverEffect" href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">
+                Spy report overview clan
+            </a>
         </div>
         <div class="pageSpacer"></div>
     <?php endif;?>

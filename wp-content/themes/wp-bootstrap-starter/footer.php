@@ -58,13 +58,10 @@ if(!is_page_template('blank-page.php') && !is_page_template('blank-page-with-con
 	            <center>
                     &copy; <?=date('Y')?> <a href="<?=Request::siteUrl()?>"><?=get_bloginfo('name')?></a>
                     <span class="sep"> | </span>
-                    Your local date/time is
-                    <strong><script type="text/javascript">var d=new Date();
-                        document.write(d.toLocaleString('nl-NL'));
-                    </script></strong>.<br>
+                    Your local date/time is <strong id="footerTime"></strong>.<br>
                     Current server date/time is
                     <strong><?=date("d-m-Y G:i:s", strtotime('+1 hours'))?></strong>
-                    | Resolution <script>document.write(window.innerWidth +'x'+ window.innerHeight)</script><br>
+                    | Resolution <span id="footerResolution"></span><br>
                     <? if($user->isLoggedIn()) { ?>
                         <a href="<?=wp_logout_url( Request::siteUrl()."/home/")?>">Logout</a>
                     <? } ?>

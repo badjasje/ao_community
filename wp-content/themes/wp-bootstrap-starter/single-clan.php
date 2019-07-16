@@ -132,72 +132,72 @@ update_post_meta($clan_id, 'clan_networth', ceil($tot_networth));
 
     <?php while ( have_posts() ) : the_post();
 
-    $clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
-    <div class="blockHeader">
-        <?php echo get_the_title($clan_id) ?>
-    </div>
+        $clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
+        <div class="blockHeader">
+            <?php echo get_the_title($clan_id) ?>
+        </div>
 
-    <div class="row row-no-padding fw-row">
-        <?php if(!empty($clanImg)):?>
-            <div class="col-12 attackingRow statCol-2 row-no-padding">
-                <div class="clanImage" style="background:url(<?php echo $clanImg;?>)"></div>
+        <div class="row row-no-padding fw-row">
+            <?php if(!empty($clanImg)):?>
+                <div class="col-12 attackingRow statCol-2 row-no-padding">
+                    <div class="clanImage" style="background:url(<?php echo $clanImg;?>)"></div>
+                </div>
+            <?php endif;?>
+
+            <div class="col-12 attackingRow statCol-1">
+                <div class="profileColumn">Members</div> <?php echo count($clanMembers);?>
             </div>
-        <?php endif;?>
 
-        <div class="col-12 attackingRow statCol-1">
-            <div class="profileColumn">Members</div> <?php echo count($clanMembers);?>
-        </div>
-
-        <div class="col-12 attackingRow statCol-2 elipOverflow">
-            <div class="profileColumn">Tag</div> <?php echo $clantag;?>
-        </div>
-
-	    <div class="col-12 attackingRow statCol-3">
-		    <h3>Awards (<?php echo count($awards);?>)</h3>
-			<div id="awardlist" class="fw-row" style="overflow: hidden;">
-				<?php include 'pages/clan/awardlist.php'; ?>
-			</div>
-			<a id="awardlistExpandBtn" style="display: none">Show more</a>
-	    </div>
-
-        <div class="col-12 attackingRow statCol-4">
-            <div class="profileColumn">Total networth</div> $ <?php echo number_format($tot_networth, 0, ',', ' ');?>
-        </div>
-
-        <div class="col-12 attackingRow statCol-3">
-            <div class="profileColumn">Average networth</div> $ <?php echo number_format($averageNw, 0, ',', ' ');?>
-        </div>
-
-	    <div class="col-12 attackingRow statCol-2">
-		    <div class="profileColumn">Points</div>
-			<?php if(!empty($clan_points)){
-				echo number_format($clan_points, 0, ',', ' ');
-            } else {
-                echo '0';
-            }?>pts <sup><?php echo $clanData['24h_pts'][0];?>pts today</sup>
-    	</div>
-
-    	<div class="col-12 attackingRow statCol-1 elipOverflow">
-	    	<h3>Message</h3>
-			<div id="clanMessage" style="line-height: 18px;">
-				<?php echo str_replace("\r", "<br />", wp_strip_all_tags(get_the_content($clan_id))); ?>
+            <div class="col-12 attackingRow statCol-2 elipOverflow">
+                <div class="profileColumn">Tag</div> <?php echo $clantag;?>
             </div>
+
+            <div class="col-12 attackingRow statCol-3">
+                <h3>Awards (<?php echo count($awards);?>)</h3>
+                <div id="awardlist" class="fw-row" style="overflow: hidden;">
+                    <?php include 'pages/clan/awardlist.php'; ?>
+                </div>
+                <a id="awardlistExpandBtn" style="display: none">Show more</a>
+            </div>
+
+            <div class="col-12 attackingRow statCol-4">
+                <div class="profileColumn">Total networth</div> $ <?php echo number_format($tot_networth, 0, ',', ' ');?>
+            </div>
+
+            <div class="col-12 attackingRow statCol-3">
+                <div class="profileColumn">Average networth</div> $ <?php echo number_format($averageNw, 0, ',', ' ');?>
+            </div>
+
+            <div class="col-12 attackingRow statCol-2">
+                <div class="profileColumn">Points</div>
+                <?php if(!empty($clan_points)){
+                    echo number_format($clan_points, 0, ',', ' ');
+                } else {
+                    echo '0';
+                }?>pts <sup><?php echo (isset($clanData['24h_pts'])?$clanData['24h_pts'][0]:0);?>pts today</sup>
+            </div>
+
+            <div class="col-12 attackingRow statCol-1 elipOverflow">
+                <h3>Message</h3>
+                <div id="clanMessage" style="line-height: 18px;">
+                    <?php echo str_replace("\r", "<br />", wp_strip_all_tags(get_the_content($clan_id))); ?>
+                </div>
+            </div>
+
         </div>
 
-    </div>
-</div>
+        <?php
+    endwhile;?>
 
-<?php endwhile;?>
+    <div class="pageSpacer"></div>
 
-<div class="pageSpacer"></div>
+    <?php include('pages/clan/members.php'); ?>
 
-<?php include('pages/clan/members.php'); ?>
+    <script type="text/javascript">
+        initReadMore("awardlist",   "awardlistExpandBtn",   164);
+    </script>
 
-<script type="text/javascript">
-    initReadMore("awardlist",   "awardlistExpandBtn",   164);
-</script>
-
-<div class="pageSpacer"></div>
+    <div class="pageSpacer"></div>
 
 </div> <!-- // pageRow -->
 <?php get_footer();

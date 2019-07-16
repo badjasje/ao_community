@@ -400,7 +400,9 @@ if($defenderData['land'][0] < 7500){
 
 // Scale building damage on clan size difference
 if($debug) debug_var('attacker_type_damage', print_r($attacker_type_damage,1));
-$attacker_type_damage['bld'] = scaled_damage_to_clansize($attacker_type_damage['bld'], $userId, $target_id);
+if(isset($attacker_type_damage['bld'])) {
+	$attacker_type_damage['bld'] = scaled_damage_to_clansize($attacker_type_damage['bld'], $userId, $target_id);
+}
 if($debug) debug_var('scaled_attacker_type_damage', print_r($attacker_type_damage,1));
 
 // Check if there are wars for statistic counting
@@ -561,7 +563,7 @@ if ($lost_building_count == 0 && $lost_unit_count == 0) {
 	$defender_unit_loss_decrease = 0.5;
 }
 
-$defender_units_lost = 0;
+$defender_units_lost = $defender_unit_NW_lost = 0;
 
 /* translate array structure for display + calculate & deduct losses */
 $def_unitslost = array();
@@ -571,9 +573,10 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 			$type = 'bld';
 			$count_key = $key;
 
-			if($maintarget != 'none'){
-				if($maintarget == $buildings[$key]['targetname']){
-					$killed = round($killed * $defender_loss_decrease * Settings::get('maintarget_target_multi'));
+			if($maintarget != 'none') {
+				if($buildings[$key]['targetname'] == $maintarget){
+					$multi = ($maintarget == 'power' ? Settings::get('maintarget_power_multi') : Settings::get('maintarget_target_multi'));
+					$killed = round($killed * $defender_loss_decrease * $multi);
 				}else{
 					$killed = round($killed * $defender_loss_decrease * Settings::get('maintarget_notarget_multi'));
 				}

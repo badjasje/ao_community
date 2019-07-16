@@ -56,7 +56,7 @@ class User extends DbObject {
         return ($this->get('status') == 'banned');
     }
     public function isAdmin() {
-        return (in_array($this->id, Settings::get('admin_ids'))); // can this even BE more ugly?
+        return (isset($this->id) && in_array($this->id, Settings::get('admin_ids'))); // can this even BE more ugly?
     }
     public function getProvince() {
         return $this->get('province');

@@ -11,6 +11,7 @@ class Settings extends DataObject {
         // Not game related, haha
         'admin_ids' => array(1,2768),
         'admin_ips' => array('87.209.229.255','213.125.228.34','217.121.5.245','213.125.228.34','83.80.24.164'),
+        'max_request_errors' => 10,
 
         // When you die or start of new round
         'start_money' => 450000,
@@ -30,15 +31,22 @@ class Settings extends DataObject {
         'nw_sat' => 0.04,
         'nw_research' => 950,
 
+        // Explore & sell
+        'max_explore_land' => 20000,
+        'max_sell_land' => 20000,
+        'money_per_land' => 75,
+
         // Building
         'land_per_building' => 20,
         'defensive_buildings' => array('torpedolauncher', 'samsite', 'missileturret', 'machinegunturret'),
         'all_types' => array('sea', 'air', 'veh', 'inf', 'bld'),
         'unit_types' => array('sea', 'air', 'veh', 'inf'),
         'special_units' => array('spyplane', 'thief', 'spy','sniper','saboteur'),
+        'demolish_price_multi' => 0.15,
 
         // research constants
         'powerplant_efficiency_life_multi' => 1.5,
+        'powerplant_efficiency_power_multi' => 1.5,
         'satellite_construction_1_endlife' => 11,
         'satellite_construction_2_endlife' => 16,
         'satellite_construction_3_price_multi' => .8,
@@ -47,10 +55,13 @@ class Settings extends DataObject {
         'startbonus_defensive_building_life_multi' => 1.25,
         'startbonus_defensive_unit_life_multi' => 1.2,
         'startbonus_finance_income_multi' => 1.1,
+        'startbonus_money_research_multi' => 1.1,
+        'startbonus_shipping_research_multi' => 10,
+        'startbonus_defensive_research_time' => 0.9,
 
         // attack constants
         'attack_maintargets' => array(
-            //'power' => 'Power plants',
+            'power' => 'Power plants',
 		    'silo' => 'Missile silos',
 		    'command' => 'Command centres',
 		    'shipyard' => 'Shipyards',
@@ -64,6 +75,7 @@ class Settings extends DataObject {
         'points_kill_incoming' => 25,
         'points_kill_mutual' => 50,
         'maintarget_target_multi' => 1.5,
+        'maintarget_power_multi' => 1.2,
         'maintarget_notarget_multi' => 0.5,
         'saboteur_morale_cost' => 30,
         'sniper_morale_cost' => 10,
@@ -79,6 +91,8 @@ class Settings extends DataObject {
         'turns_attack' => 3,
         'turns_thief' => 2,
         'turns_spy' => 1,
+        'turns_research' => 25,
+        'turns_queue_research' => 30,
 
         // morale costs
         'morale_missile_tgt_below' => 40,

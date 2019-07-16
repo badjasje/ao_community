@@ -1,104 +1,84 @@
 <?php
- /*
+/**
  * Template Name: Explore
  */
-
 get_header();
-global $userData;
-global $userId;
-$ownedland = $userData['land'][0];
-$builtLand = $userData['builtland'][0];
-$freeland = $ownedland-$builtLand;
-$activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'explore';
 
+$user = CurrentUser::make();
+$province = $user->getProvince();
+
+$exploredToday = $province->get('explored_today');
+$perturnm2 = $province->getExplorationRate();
+$soldLandToday = $province->get('land_sold_today');
+$freeLand = $province->getFreeLand(true);
+
+$maxLand = $province->getMaxExploreLand();
+$maxAmount = floor($maxLand/$perturnm2);
+$maxSell = $province->getMaxSellLand();
+
+$activeTab = isset($_GET['tab']) ? Request::get('tab') : 'explore';
 ?>
-<div class="row pageRow">
+<div id="exploresell" class="row pageRow">
 
-	<div class="fw-row">
-		<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
-			<a class="nav-item nav-link navItem <?php echo $activeTab === 'explore' ? 'active' : ''; ?>" href="?tab=explore" data-toggle="tab" data-target="#explore">Explore</a><?/* */?>
-			<a class="nav-item nav-link navItem <?php echo $activeTab === 'sell' ? 'active' : ''; ?>" href="?tab=sell" data-toggle="tab" data-target="#sell">Sell</a><?/**/?>
-		</nav>
-	</div>
+	<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
+		<a class="nav-item nav-link navItem <?=($activeTab == 'explore' ? 'active' : '')?>" href="?tab=explore" data-toggle="tab" data-target="#explore">Explore</a>
+		<a class="nav-item nav-link navItem <?=($activeTab == 'sell' ? 'active' : '')?>" href="?tab=sell" data-toggle="tab" data-target="#sell">Sell</a>
+	</nav>
 
-	<div class="fw-row">
-		<div class="tab-content current build_content tabbed-table">
-			<div class="tab-pane <?php echo $activeTab === 'explore' ? 'active' : ''; ?>"  id="explore" role="tabpanel">
-				<?php include 'pages/explore/explore.php'; ?>
+	<div class="tab-content">
+		<div class="tab-pane <?=($activeTab == 'explore' ? 'active' : '')?>" id="explore" role="tabpanel">
+			<div class="blockHeader spaceNotice">
+				You can explore <span id="exprate"><?=Format::land($perturnm2)?></span> of land each turn.
+				<? if($maxSell > 700) { ?>You will lose unused land when attacked.<? } ?>
+				<? if($province->getTurns() > 150 && $province->getMoney() < 70000) { ?>
+					Low on money? Use some turns to explore and sell.
+				<? } ?>
+				<div class="explNotice">
+					<?php if($exploredToday == 0) {?>
+						You haven't explored any land today. You can explore
+					<?php } else { ?>
+						You have explored <strong><?=Format::land($exploredToday)?></strong> today.
+						You can explore an additional
+					<?php } ?>
+					<span class="maxexp" data-max="<?=$maxAmount?>"><strong><?=Format::land($maxLand)?></strong> <i>(<?=$maxAmount?> turns)</i></span>
+				</div>
 			</div>
-			<div class="tab-pane <?php echo $activeTab === 'sell' ? 'active' : ''; ?>"  id="sell" role="tabpanel">
-				<?php include 'pages/explore/sell.php'; ?>
+			<form id="exploreform">
+				<div class="row no-gutters">
+					<div class="col-md-4 no-gutters collabel">
+						<span>Turns to explore</span>
+					</div>
+					<div class="col-md-4 no-gutters">
+						<input class="inputnr<?=($maxAmount==0?' disabled':'')?>" min="0" max="<?=$maxAmount?>" placeholder="Enter amount" type="number" id="turnsinput" name="turns">
+					</div>
+					<div class="col-md-4 no-gutters maxexp mainSubmit<?=($maxAmount==0?' disabled':'')?>" data-max="<?=$maxAmount?>">ALL TURNS</div>
+				</div>
+				<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
+				<input type="submit" value="Explore" class="mainSubmit<?=($maxAmount==0?' disabled':'')?>">
+			</form>
+		</div>
+		<div class="tab-pane <?=($activeTab === 'sell' ? 'active' : '')?>"  id="sell" role="tabpanel">
+			<div class="blockHeader spaceNotice sellNotice">
+				<?=Format::land(1)?> has a value of <?=Format::money(Settings::get('money_per_land'))?>. You have <?=$freeLand?> of free land.
+				You have sold <strong><?=Format::land($soldLandToday)?></strong> today.
+				You can sell an additional <strong class="maxsell" data-max="<?=$maxSell?>"><?=Format::land($maxSell)?></strong>
 			</div>
+			<form id="sellform">
+				<div class="row no-gutters">
+					<div class="col-md-4 no-gutters collabel">
+						Amount of land to sell
+					</div>
+					<div class="col-md-4 no-gutters">
+						<input class="inputnr" min="0" max="<?=$maxSell?>" placeholder="Enter amount" type="number" id="landinput" name="land" >
+					</div>
+					<div class="col-md-4 no-gutters maxsell mainSubmit" data-max="<?=$maxSell?>">ALL LAND</div>
+				</div>
+				<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
+				<input type="submit" value="Sell" class="mainSubmit">
+			</form>
 		</div>
 	</div>
-
-	<?php
-	if($userData['turns'][0] > 150 && $userData['money'][0] < 70000) {
-		helpText('Low on money? Use some turns to explore and sell', 'explore', 'reminder');
-	}
-	if($maxSell > 700) {
-		helpText('You will lose unused land when attacked', 'explore', 'reminder');
-	}
-	?>
-
-	<script>
-	(function($) {
-		$(document).on('click', ".maxexp", function() {
-			var maxexp = $(this).attr("data-max");
-			$("#turnsinput").val(maxexp);
-		});
-		$(document).on('click', ".maxsell", function() {
-			var maxsell = $(this).attr("data-max");
-			$("#landinput").val(maxsell);
-		});
-
-		var request;
-		$('#exploreform').submit(function( event ) {
-			$('.pageLoader, #page-cover').show();
-			event.preventDefault();
-			if (request) request.abort();
-
-			request = $.ajax({url: "/explore.php",type: "post",data: $(this).serialize()});
-			request.done(function (response, textStatus, jqXHR){
-				$('.pageLoader, #page-cover').fadeOut( "fast");
-				updateHeaderData();
-				var array = JSON.parse(response);
-				$.notify({message: array.status},{type: 'info', delay: 5000, allow_dismiss: true, newest_on_top: true});
-				if(array.next == true){
-					$(".explNotice").html(array.exploredtoday);
-					$(".sellNotice").html(array.soldtoday);
-					$('#exprate').html(array.newrate);
-					$("#turnsinput").attr({"max" : array.maxturns, "min" : 0});
-					$("#landinput").attr({"max" : array.maxsell, "min" : 0});
-					$(".maxexp").attr({"data-max" : array.maxturns});
-					$(".maxsell").attr({"data-max" : array.maxsell});
-					$('form').trigger("reset");
-				}
-			});
-		});
-
-		$('#sellform').submit(function( event ) {
-			$('.pageLoader, #page-cover').show();
-			event.preventDefault();
-			if (request) request.abort();
-
-			request = $.ajax({url: "/sell_land.php", type: "post", data: $(this).serialize()});
-			request.done(function (response, textStatus, jqXHR){
-				$('.pageLoader, #page-cover').fadeOut( "fast");
-				updateHeaderData();
-				var array = JSON.parse(response);
-				$.notify({message: array.status},{type: 'info', delay: 5000, allow_dismiss: true, newest_on_top: true});
-				if(array.next == true){
-					$(".sellNotice").html(array.soldtoday);
-					$("#landinput").attr({"max" : array.maxsell, "min" : 0});
-					$(".maxsell").attr({"data-max" : array.maxsell});
-					$('form').trigger("reset");
-				}
-			});
-		});
-	})(jQuery);
-	</script>
-
-</div> <!-- end .pageRow -->
+</div>
 <?php
+
 get_footer();

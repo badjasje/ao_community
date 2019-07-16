@@ -18,6 +18,7 @@
 					<?=$bonus['description']?>
 				</label>
 			<? $c++; } ?>
+			<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
 			<input type="submit" value="Pick starting bonus" class="mainSubmit hoverEffect bonusSubmit">
 		</form>
 

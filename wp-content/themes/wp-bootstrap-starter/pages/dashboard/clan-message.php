@@ -11,6 +11,7 @@ $settings = array('media_buttons' => false, 'editor_height' => 300, 'textarea_na
 	<div class="message-editor">
 		<form class="form" name="new_message" id="edit_clan_message" method="post">
 			<? wp_editor($clan->getMessage(true), 'new_message', $settings); ?>
+			<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
 			<input class="mainSubmit" type="submit" value="Submit">
 		</form>
 		<div id="dismissEditClanMessage" class="mainSubmit">Dismiss</div>

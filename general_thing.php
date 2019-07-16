@@ -1,5 +1,5 @@
 <?php
-    
+  /*
 require_once("wp-load.php");
 
 
@@ -9,7 +9,7 @@ $args = array(
 	'meta_value'	=> $timestamp-1728000,
 	'meta_compare'	=> '>',
 
-); 
+);
 
 
     $args = array(
@@ -36,7 +36,7 @@ $args = array(
             ),
 
 
-           
+
           )
        )
     );
@@ -59,13 +59,13 @@ echo 'Turns in turnspread: '.$totalTurnspread.'<br/><br/>';
 echo 'All turns: '.$totalTurnspread+$userData['turns_lost'][0]+$userData['turns'][0].'<br/><br/>';
 endforeach;
 
-
+*/
 /*
 
 $userId = 1029;
-$array_for_filter = array(	
-					
-				
+$array_for_filter = array(
+
+
 						'satellite',
 						'regular',
 						'air_sea',
@@ -91,11 +91,11 @@ $args = array(
 						'value' => $array_for_filter,
 						'compare' => 'IN'
 						),
-						
-						
+
+
 						)
 );
-			
+
 $attacks = get_posts( $args );
 
 $buildingslost = 0;
@@ -109,11 +109,11 @@ endforeach;
 echo $buildingslost;
 
 
-   
-	
+
+
 
     $ip_array = maybe_unserialize(get_field('login_array_general',139664));
-	
+
 	foreach ($ip_array as $ip => $userdata):?>
 	<h2><?php echo $ip;?></h2>
 	<?php if(count($userdata) > 1){ echo '<span style="color:#ff0000"><strong>MULTI DETECTED</strong></span><br/><br/>';}?>
@@ -128,14 +128,13 @@ echo $buildingslost;
 	<ul>
 	<?
 	foreach ($geodata->data->geo as $key => $item):?>
-	
+
 	<li><?php echo $key;?>: <?php echo $item;?></li>
-	
+
 	<?php endforeach;?>
 	</ul>
 	<br/>
 	<?php endforeach;?>
-	
+
 	<?php endforeach;
-		
-		
+

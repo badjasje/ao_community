@@ -1,4 +1,6 @@
-<?php $money = $eventData['money_lost'][0];?>
+<?php
+$money = (isset($eventData['money_lost']) ? $eventData['money_lost'][0] : 0);
+?>
 <div class="fw-row row row-no-padding">
 	<div class="col-xs-2 col-no-padding eventImageCol">
 		<?php echo small_avatar($attacker_id,'eventAvatar');?>

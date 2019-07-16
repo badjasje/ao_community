@@ -13,7 +13,7 @@ $sat_progress = (string)$userData['sat_in_progress'][0];
 
 $sat_endlife = $userData['sat_endlife'][0];
 $sat_status = $userData['stealth_sat_status'][0];
-$stealth_sat_time = $userData['stealth_sat_time'][0];
+$stealth_sat_time = (isset($userData['stealth_sat_time']) ? $userData['stealth_sat_time'][0] : 0);
 $backColor = "45, 67, 81";
 
 $headerText = 'Building a satellite requires 25 turns';
