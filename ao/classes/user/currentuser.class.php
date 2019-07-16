@@ -23,9 +23,6 @@ class CurrentUser extends User {
         if($this->isLoggedIn()) {
             $this->update('last_online', current_time('timestamp')); //@wp
 
-            // @todo: $this->count_all_stats(); On each request might be a big hit
-            $this->count_all_stats();
-
             // Fill our session with browser data
             if(!isset($_SESSION['user'])) {
                 $token = bin2hex(random_bytes(32));
@@ -42,6 +39,7 @@ class CurrentUser extends User {
 
             // Only really die when coming online
             $province = $this->getProvince();
+            $province->count_all_stats(); // @todo: On each request might be a big hit
             if(!Request::isAjax() && $province->isDead() && $province->get('times_killed') == 0) {
                 $province->afterDeath();
                 $province->update('status', 'nukeprotection');
@@ -113,11 +111,6 @@ class CurrentUser extends User {
                 else { die('Access denied'); }
             }
         }
-    }
-
-    public function count_all_stats() {
-        // @todo: move actual function code to here
-        if(isset($this->id)) count_all_stats($this->id);
     }
 
     //public function login() {}

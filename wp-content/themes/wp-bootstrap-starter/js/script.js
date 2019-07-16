@@ -20,13 +20,13 @@ function getCookie(name) {
 
 function updateHeaderData() {
     var $ = jQuery;
-    $.ajax({url:site_url+'/ajax/header',type:'post'}).done(function(response) { // ajax without loader
+    $.ajax({url:site_url+'/ajax/header',type:'post'}).done(function(response) { // ajax without loader, returns html in json
         var data = $.parseJSON(response);
         if(data.nonce) $('.nonce').val(data.nonce);
         for(var i in data) {
             if($('.'+i+'header').length) $('.'+i+'header').html(data[i]);
         }
-        $('.freeland').attr({'data-original-title': data.freeland});
+        $('header .freeland').attr({'data-original-title': data.freeland});
         $('.globalsBadge').text(data.globals).toggle((data.globals>0));
         $('.localsBadge').text(data.locals).toggle((data.locals>0));
         $('.inboxBadge').text(data.messages).toggle((data.messages>0));
@@ -58,23 +58,23 @@ function update_countdowns() {
     });
 }
 
-var requests={};
-function singleAjax(url,post,cb) {
-    var $ = jQuery;
-    if(!!requests[url]) requests[url].abort();
-    var serializedData = (post instanceof jQuery ? post.serialize() : post);
-    $('.pageLoader, #page-cover').show();
-    requests[url] = $.ajax({url:url,type:'post',data:serializedData}).done(function(response) {
-        $('.pageLoader, #page-cover').fadeOut("fast");
-        var data = $.parseJSON(response);
-        if(data.nonce) $('.nonce').val(data.nonce);
-        updateHeaderData(); // Something happened, so it probably costed money or something
-        if(!!data.status) $.notify({message:data.status},{type:'info',delay:5000,allow_dismiss:true,newest_on_top:true});
-        if(!!cb) cb.call(this, data);
-    });
-}
-
 jQuery(function($) {
+
+    var requests={};
+    function singleAjax(url,post,cb) {
+        //var $ = jQuery;
+        if(!!requests[url]) requests[url].abort();
+        var serializedData = (post instanceof jQuery ? post.serialize() : post);
+        $('.pageLoader, #page-cover').show();
+        requests[url] = $.ajax({url:url,type:'post',data:serializedData}).done(function(response) {
+            $('.pageLoader, #page-cover').fadeOut("fast");
+            var data = $.parseJSON(response);
+            if(data.nonce) $('.nonce').val(data.nonce);
+            updateHeaderData(); // Something happened, so it probably costed money or something
+            if(!!data.status) $.notify({message:data.status},{type:'info',delay:5000,allow_dismiss:true,newest_on_top:true});
+            if(!!cb) cb.call( (post instanceof jQuery ? post : this), data);
+        });
+    }
 
     var d=new Date();
     $('#footerTime').text(d.toLocaleString('nl-NL'));
@@ -110,6 +110,20 @@ jQuery(function($) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
+    function toggleDescriptions(type, s) {
+        setCookie(type+'_descriptions', s, 256);
+        $('#'+type+' .descriptionRow').toggle((s==1?true:false));
+        $('.descriptionToggle span').text((s==1?'Hide':'Show'));
+    }
+    if($('.descriptionToggle').length) {
+        var t = $('.descriptionToggle').data('type'), c = t+'_descriptions';
+        $('.descriptionToggle').on('click', function() {
+            var s = (getCookie(c)==1?0:1);
+            toggleDescriptions(t, s);
+        });
+        toggleDescriptions(t, getCookie(c)==1?1:0);
+    }
+
     $(document).on('keyup paste change', '.buy_spyplane, .buy_spy', function() {
         if(''+$(this).val() === '007') {
             $.notify({message:'The name is Bond, James Bond'},{type:'info', allow_dismiss:true, newest_on_top:true, delay:5000});
@@ -128,6 +142,7 @@ jQuery(function($) {
         $("#splashback,.splashmessage").delay(1500).fadeOut("slow");
     }
 
+    // Dashboard page
     $("#receiveFunds").on('submit', function(e) {
         e.preventDefault();
         singleAjax(site_url+'/ajax/devfunds', $(this));
@@ -145,11 +160,11 @@ jQuery(function($) {
     $(".retrieveBonusForm").on('submit', function(e) {
         e.preventDefault();
         if(!confirm('Are you sure you want to receive your bonus?')) return;
-        $(this).attr('disabled', true);
+        $(this).find('.mainSubmit').attr('disabled', true);
         singleAjax(site_url+'/ajax/clanbonus', $(this), function(response) {
             if(response.success) $(this).parent().hide(300);
-            $(this).attr('disabled', false);
-        }.bind(this));
+            $(this).find('.mainSubmit').attr('disabled', false);
+        });
     });
 
     $('#editClanMessage').on('click', function() {
@@ -180,6 +195,7 @@ jQuery(function($) {
         });
     });
 
+    // Research page
     $('#research').on('submit', function(e) {
         e.preventDefault();
         singleAjax(site_url+'/ajax/research',  $(this), function(data) {
@@ -199,11 +215,12 @@ jQuery(function($) {
 					$('#researchsubmit').remove();
 					$('.researchselector').html('<label class="mainSubmit disabled">No Selection Possible</label>');
 				}
-				$('#research').trigger('reset');
+				$(this).trigger('reset');
             }
         });
     });
 
+    // Explore land / sell land
     $(document).on('click', ".maxexp", function() {
         $("#turnsinput").val($(this).attr("data-max"));
     });
@@ -222,7 +239,7 @@ jQuery(function($) {
                 $(".maxexp").attr({"data-max": data.maxturns});
                 $(".maxsell").attr({"data-max": data.maxsell});
             }
-            $('#exploreform').trigger("reset");
+            $(this).trigger("reset");
         });
     });
     $('#sellform').on('submit', function(e) {
@@ -233,9 +250,72 @@ jQuery(function($) {
                 $("#landinput").attr({"max": data.maxsell});
                 $(".maxsell").attr({"data-max": data.maxsell});
             }
-            $('#sellform').trigger("reset");
+            $(this).trigger("reset");
         });
     });
+
+    // Buildings page
+    $('.demomax').on('click', function(e) {
+        e.preventDefault();
+        $(this).siblings('.demoBlock').find('.unitInput').val($(this).attr('data-amount'));
+        calculateBuildingsTotals();
+    });
+    $('.buildmax').on('click', function(e) {
+        e.preventDefault();
+        $(this).siblings('.buildBlock').find('.unitInput').val($(this).attr('data-amount'));
+        calculateBuildingsTotals();
+    });
+    function calculateBuildingsTotals() {
+        var totals = {build:0,demo:0,cost:0,turns:0,nw: parseInt($('#networth_new').data('oldnw')) };
+        var bpt=parseInt($('#buildingsPerTurn').text());
+		$('#buildings .unitRow:not(.headerRow)').each(function() {
+            var b = Math.abs($('.buildBlock .unitInput',this).val()), d = Math.abs($('.demoBlock .unitInput',this).val());
+			totals.build += b;
+            totals.demo += d;
+            totals.cost += (b*parseInt($(this).data('buildprice')))+(d*parseInt($(this).data('demoprice')));
+            totals.turns += Math.ceil(b/bpt);
+            totals.nw += (b*parseInt($(this).data('nw'))) - (d*parseInt($(this).data('nw')));
+        });
+        // Demolishing creates more space
+        var landpb = $('#buildings .landpb').data('amount');
+        var freeland = $('#buildings .freeland').data('amount') + (totals.demo*landpb) - (totals.build * landpb);
+        var turns = $('#buildings #turn_total').attr('data-turns') - totals.turns;
+        var money = $('#buildings #order_total').attr('data-money') - totals.cost;
+        $('#buildings .unitRow:not(.headerRow)').each(function() {
+            var nm = Math.min( Math.floor(money/$(this).data('buildprice')), turns*bpt, Math.floor(freeland / landpb));
+            $('.buildmax', this).attr('data-amount', Math.abs($('.buildBlock .unitInput', this).val()) + nm ).text(nm);
+        });
+		$('#total').text('+'+totals.build+' / -'+totals.demo);
+		$('#order_total').text(number_format(totals.cost, 0, ',', ' '));
+		$('#turn_total').text(totals.turns);
+		$('#networth_new').text(number_format(totals.nw, 0, ',', ' '));
+	}
+	$(document).on("keyup paste blur change", ".unitInput", function() {
+		calculateBuildingsTotals();
+	});
+    $('#buildings').on('submit', function(e) {
+        e.preventDefault();
+        singleAjax(site_url+'/ajax/buildings', $(this), function(data) {
+            $('.maxbuild', this).text(data.maxbuild);
+            $('.buildspace', this).text(data.buildspace);
+            $('#networth_new',this).attr('data-oldnw', data.networth);
+            $('#turn_total', this).attr('data-turns', data.turns);
+            $('#order_total', this).attr('data-money', data.money);
+            $('.freeland', this).attr('data-amount',data.freeland).html(data.freeland_formatted);
+            $('.power', this).html(data.power);
+            for(var key in data.buildmax) {
+                var bm = data.buildmax[key], dm = data.demomax[key], o = data.owned[key], r = $('.unitRow.'+key,this);
+                $('.buildmax', r).attr('data-amount', bm).text(bm);
+                $('.buildBlock .unitInput', r).attr('max', bm);
+                $('.demomax', r).attr('data-amount', dm).text(o);
+                $('.demoBlock .unitInput', r).attr('max', dm);
+            }
+            $(this).trigger("reset");
+            calculateBuildingsTotals();
+        });
+    });
+    calculateBuildingsTotals();
+
 });
 
 // Google Tag Manager

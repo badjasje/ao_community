@@ -1,15 +1,95 @@
 <?php
- /*
+/**
  * Template Name: Buildings build
-*/
+ */
 get_header();
-$activeTab = 'build';
-global $userData;
-global $userId;
-$user_ID = $userId;
 
-$PwrUsage = $userData['power'][0];
+$user = CurrentUser::make();
+$province = $user->getProvince();
 
+$buildingsPerTurn = $province->getBuildingsPerTurn();
+$buildings = $province->getBuildings();
+$freeLand = $province->getFreeLand();
+?>
+<div class="row pageRow">
+	<form class="form" name="build" id="buildings" method="post">
+		<div class="blockHeader spaceNotice">
+			<p>
+				You can build a maximum of <span class="maxbuild"><?=$province->getMaxBuild()?></span> buildings,
+				your unused land has room for <span class="buildspace"><?=$province->getBuildSpace()?></span> buildings.
+				(<span id="buildingsPerTurn"><?=$buildingsPerTurn?></span> buildings costs 1 turn,
+				each building uses
+				<span class="landpb" data-amount="<?=Settings::get('land_per_building')?>"><?=Format::land(Settings::get('land_per_building'))?></span>
+				of land)<br>
+				The cost to demolish a building is <?=(Settings::get('demolish_price_multi')*100)?>% of the original price.
+				You have <span class="freeland" data-amount="<?=$freeLand?>"><?=Format::land($freeLand)?></span> available land.
+				<span class="power"><?=$province->getPower(true)?></span> power used.
+				<? if($province->getPower() > 50) { ?>Keep your power level around 20% to survive attacks longer.<? } ?>
+			</p>
+			<div class="text-right small">
+				<a href="javascript:void(0);" class="descriptionToggle" data-type="buildings"><span>Show</span> descriptions &nbsp; <i class="fa fa-align-justify"></i></a>
+			</div>
+		</div>
+
+		<table>
+			<tr class="unitRow headerRow">
+				<th class="nameBlock">Name</th><th class="price">Price</th><th class="attacklife">Att / Life</th>
+				<th class="targets">Targets</th><th class="max">Max</th><th class="owned">Owned</th>
+				<th class="buildBlock">Build</th><th class="demoBlock">Demo<span class="d-none d-md-inline-block">lish</span></th>
+			</tr>
+			<?php $count=0;
+			foreach($buildings as $buildingKey => $building) {
+				$canAttack = is_array($building['attacks']) && count($building['attacks']) ? implode(', ', $building['attacks']) : 'N/A';
+				$count++;
+				?>
+				<tr class="unitRow <?=$buildingKey?>"
+					data-nw="<?=$building['networthPerUnit']?>"
+					data-buildprice="<?=$building['buildprice']?>"
+					data-demoprice="<?=$building['demoprice']?>"
+					data-key="<?=$buildingKey?>">
+					<td class="nameBlock buildings_heading"><?=$building['normalname']?></td>
+					<td class="price"><?=Format::money($building['price'])?></td>
+					<td class="attacklife"><?=$building['attack']?>/<?=$building['life']?></td>
+					<td class="targets"><?=$canAttack?></td>
+					<td class="maxBlock buildmax" data-amount="<?=$building['maxbuild']?>"><?=$building['maxbuild']?></td>
+					<td class="owned demomax" data-amount="<?=$building['maxdemo']?>"><?=$building['num']?></td>
+					<td class="inputBlock buildBlock">
+						<input class="unitInput"  tabindex="<?=$count?>" type="number" name="build[<?=$buildingKey?>]">
+						<?/*min="0" max="<?=$building['maxbuild']?>"*/?>
+					</div>
+					<td class="inputBlock demoBlock">
+						<input class="unitInput" tabindex="<?=($count+count($buildings))?>" type="number" name="demo[<?=$buildingKey?>]">
+						<?/* min="0" max="<?=$building['maxdemo']?>"*/?>
+					</div>
+				</tr>
+				<tr class="descriptionRow">
+					<td colspan="8">
+						<?=(isset($building['description'])?$building['description']:'')?>
+						It adds <?=$building['networth']?>% networth, <?=Format::money($building['networthPerUnit'])?> per building.
+						<? if($building['occupied']>0) {?>There are <span class="occupied"><?=$building['occupied']?></span> of them occupied.<? } ?>
+						<div class="d-block d-md-none">
+							Attack/life: <?=$building['attack']?>/<?=$building['life']?>, targets: <?=$canAttack?>
+						</div>
+					</td>
+				</tr>
+				<?
+			}
+			?>
+		</table>
+
+		<div class="row statusBlockButtons">
+			<div class="col-md-3 totalsField statCol-1">Buildings: <span id="total"></span></div>
+			<div class="col-md-3 totalsField statCol-2">Total cost: $ <span id="order_total" data-money="<?=$province->getMoney()?>"></span></div>
+			<div class="col-md-3 totalsField statCol-3">Turns required: <span id="turn_total" data-turns="<?=$province->getTurns()?>"></span></div>
+			<div class="col-md-3 totalsField statCol-4">New Nw.: $ <span id="networth_new" data-oldnw="<?=$province->getNetworth()?>"></span></div>
+		</div>
+
+		<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
+		<input type="submit" value="Build / Demolish" class="mainSubmit hoverEffect">
+	</form>
+</div>
+<?php
+/*
 include 'building_array.php';
 include 'units_array.php';
 
@@ -23,18 +103,10 @@ $seaspace = $userData['shipyard'][0] * 5;
 $vehspace = $userData['warfactory'][0] * 10;
 $infspace = $userData['baracks'][0] * 20;
 
-$EElevel = $userData['level_engineering_effectiveness'][0];
-
 $startingbonus = $userData['starting_bonus'][0];
 $defensive_multi = 1;
 if ($startingbonus == 'defensive') {
 	$defensive_multi = 1.25;
-}
-
-$PPE_level = get_user_meta($player_ID, 'level_powerplant_efficiency', true);
-$PPE_multi = 1;
-if ($PPE_level == 1) {
-    $PPE_multi = 1.5;
 }
 
 $totalspecial = 0;
@@ -68,38 +140,6 @@ foreach ($units as $key => $order) {
 		$totalveh += $units_ordered + $units_owned;
 	}
 }
-
-if ($EElevel == 0 || empty($EElevel)) {
-	$buildingsPerTurn = 5;
-	if ($EElevel == 1) $buildingsPerTurn = 10;
-	if ($EElevel >= 2) $buildingsPerTurn = 15;
-}
-?>
-
-<div class="row pageRow">
-	<div class="fw-row">
-		<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
-			<a class="nav-item nav-link navItem active" data-toggle="tab" data-target="#build" href="?tab=build">Build</a>
-			<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#demolish" href="?tab=demolish">Demolish</a>
-		</nav>
-	</div>
-
-	<div class="fw-row">
-        <div class="tab-content current tabbed-table">
-            <?php include('pages/buildings/type.php'); ?>
-        </div>
-    </form>
-	</div>
-</div> <!-- // End pageRow -->
-
-<?php
-if($PwrUsage > 50) {
-	helpText('Keep your power level around 20% to survive attacks longer', 'buildings', 'reminder');
-}
-if($userData['advancedpowerplant'][0] > $userData['powerplant'][0]) {
-	helpText('Normal powerplants survive attacks longer', 'buildings', 'reminder');
-}
-?>
 
 <script>
 (function($) {
@@ -282,4 +322,5 @@ if($userData['advancedpowerplant'][0] > $userData['powerplant'][0]) {
 })(jQuery);
 </script>
 <?php
+*/
 get_footer();

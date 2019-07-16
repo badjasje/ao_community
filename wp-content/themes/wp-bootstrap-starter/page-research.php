@@ -15,6 +15,19 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 
 ?>
 <div class="row pageRow">
+
+	<div class="blockHeader spaceNotice">
+		You may only research one science at a time. Each research takes different amount of time to complete and cost <?=Settings::get('turns_research')?> turns.
+		Queueing a research cost <?=Settings::get('turns_queue_research')?> turns.
+		Every hour of research adds <?=Format::money(Settings::get('nw_research'))?> to your networth.
+		<? if($province->hasStartingBonus('defensive')) { ?>
+		Your defensive startbonus gives <?=(1-Settings::get('startbonus_defensive_research_time'))*100?>% time deduction when researching.
+		<? } ?>
+		<!--You may cancel your research while researching. Aborting a research costs no additional turns but all research for the aborted science will be lost.
+		Your amount of Research Labs deducts the time it takes to research by 0%.
+		@todo: show current research & new research-->
+	</div>
+
 	<form id="research">
 		<div class="row unitRow headerRow">
 			<div class="col-md-3 celBlock nameBlock">Name</div>
@@ -79,15 +92,6 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 			<input id="researchsubmit" type="submit" value="<?=($researchInProgress!==false?'Queue research':'Research')?>" class="mainSubmit hoverEffect">
 		<? } ?>
 	</form>
-
-	<?
-	if($researchInProgress !== false && $researchQueued === false) {
-		helpText('Queueing research takes extra turns', 'research', 'warning');
-	}
-	else if(!$hasResearch) {
-		helpText('Every hour of research adds to your networth', 'research', 'reminder');
-	}
-	?>
 </div>
 <?
 get_footer();

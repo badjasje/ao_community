@@ -14,6 +14,7 @@ class Request {
         'research' => array('province','ajaxSetResearch'),
         'exploreland' => array('province','ajaxExploreLand'),
         'sellland' => array('province','ajaxSellLand'),
+        'buildings' => array('province','ajaxBuildings'),
         'clanmessage' => array('clan','ajaxSetMessage')
     );
     public static $page_links = array(

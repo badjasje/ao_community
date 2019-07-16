@@ -42,9 +42,11 @@ class Settings extends DataObject {
         'all_types' => array('sea', 'air', 'veh', 'inf', 'bld'),
         'unit_types' => array('sea', 'air', 'veh', 'inf'),
         'special_units' => array('spyplane', 'thief', 'spy','sniper','saboteur'),
+        'demolish_price_multi' => 0.15,
 
         // research constants
         'powerplant_efficiency_life_multi' => 1.5,
+        'powerplant_efficiency_power_multi' => 1.5,
         'satellite_construction_1_endlife' => 11,
         'satellite_construction_2_endlife' => 16,
         'satellite_construction_3_price_multi' => .8,

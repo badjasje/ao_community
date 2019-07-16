@@ -186,7 +186,7 @@ class Province extends DbObject {
         if($totalturns < $turn_cost) return array('status' => 'No enough turns');
 
         $this->update('turns', $totalturns - $turn_cost);
-        turn_spread( ($queueResearch ? 'research_queue' : 'research'), $turn_cost); //@wp
+        $this->turn_spread( ($queueResearch ? 'research_queue' : 'research'), $turn_cost); //@wp
 
         $return = array('success' => true,'started' => $new_key, 'status' => '', 'endtime' => 'queued');
         if($queueResearch === true) {
@@ -224,10 +224,8 @@ class Province extends DbObject {
         $this->update('turns', round($turns-$postedTurns));
         $this->update('land', round($ownedland + $postedLand));
         $this->update('explored_today', round($this->get('explored_today') + $postedLand));
-        turn_spread('exploring', $postedTurns); //@wp
-
-        // Recalculate NW
-        CurrentUser::make()->count_all_stats();
+        $this->turn_spread('exploring', $postedTurns); //@wp
+        $this->count_all_stats();
         $exploredToday = $this->get('explored_today');
 
         // Log it
@@ -268,9 +266,7 @@ class Province extends DbObject {
         $this->update('land', round($this->getLand() - $postedLand));
         $this->update('land_sold_today', round($this->get('land_sold_today') + $postedLand));
         $this->update('money', $this->getMoney() + round($postedLand * Settings::get('money_per_land')));
-
-        // Recalculate NW
-        CurrentUser::make()->count_all_stats();
+        $this->count_all_stats();
 
         // Log it
         $current = file_get_contents('landselllog.txt');
@@ -288,6 +284,77 @@ class Province extends DbObject {
                 <strong class="maxsell" data-max="'. $maxSell .'">'. Format::land($maxSell) .'</strong>'
         ));
         return $return;
+    }
+
+    public function ajaxBuildings($return) {
+        $buildings = $this->getBuildings();
+        if(!is_array($_POST['demo']) || !is_array($_POST['build'])) return array('status' => 'Not a valid request.');
+        $status = array('Done');
+
+        // Demo first, opens up land
+        $buildingsNum = $this->getBuildingsNum();
+        $money = $this->getMoney();
+        $demo = array();
+        $demo_num = $demo_price = 0;
+        foreach($_POST['demo'] as $key => $num) {
+            if(empty($num) || !is_numeric($num) || $num < 0 || !isset($buildings[$key])) continue;
+            $demo[$key] = min($num, $buildings[$key]['maxdemo']);
+            $demo_num += $demo[$key];
+            $demo_price += $demo[$key] * $buildings[$key]['demoprice'];
+        }
+        if($demo_num == $buildingsNum) return array('status' => 'Cannot demolish all your buildings');
+        if($demo_price > $money) return array('status' => 'Insufficient funds');
+        foreach ($demo as $key => $count) {
+            $this->update($key, $this->get($key) - $count);
+        }
+        $this->update('buildings_built', $this->get('buildings_built') - $demo_num);
+        $this->update('money', $money - $demo_price);
+        if($demo_num > 0) $status[] = $demo_num.' buildings demolished';
+
+        // Recalculate maxbuild and freeland for building
+        $this->calculateFreeLand();
+        $buildings = $this->getBuildings();
+        $freeland = $this->getFreeLand();
+        $money = $this->getMoney();
+        $turns = $this->getTurns();
+        $build = array();
+        $build_num = $build_price = 0;
+        foreach($_POST['build'] as $key => $num) {
+            if(empty($num) || !is_numeric($num) || $num < 0 || !isset($buildings[$key])) continue;
+            $build[$key] = min($num, $buildings[$key]['maxbuild']);
+            $build_num += $build[$key];
+            $build_price += $build[$key] * $buildings[$key]['buildprice'];
+        }
+        $turns_needed = ceil($build_num/$this->getBuildingsPerTurn());
+        if($build_price > $money) $status[] = 'insufficient funds to build';
+        else if($turns_needed > $turns) $status[] = 'not enough turns to build';
+        else if($build_num*Settings::get('land_per_building') > $freeland) $status[] = 'Not enough free land';
+        else {
+            foreach ($build as $key => $count) {
+                $this->update($key, $this->get($key) + $count);
+            }
+            $this->update('buildings_built', $this->get('buildings_built') + $build_num);
+            $this->update('money', $money - $build_price);
+            $this->update('turns', $turns - $turns_needed);
+            $this->turn_spread('buildings', $turns_needed); //@wp
+        }
+
+        // Recalculate maxes
+        $this->count_all_stats();
+        $buildings = $this->getBuildings();
+        $maxbuild = $maxdemo = $owned = array();
+        foreach($buildings as $key => $building) {
+            $maxbuild[$key] = $building['maxbuild'];
+            $maxdemo[$key] = $building['maxdemo'];
+            $owned[$key] = $building['num'];
+        }
+        return array_merge($return, array(
+            'success' => true, 'status' => implode(', ', $status),
+            'maxbuild' => $this->getMaxBuild(), 'buildspace' => $this->getBuildSpace(), 'turns' => $this->getTurns(),
+            'networth' => $this->getNetworth(), 'money' => $this->getMoney(), 'freeland' => $this->getFreeLand(),
+            'freeland_formatted' => $this->getFreeLand(true), 'power' => $this->getPower(true),
+            'buildmax' => $maxbuild, 'demomax' => $maxdemo, 'owned' => $owned
+        ));
     }
 
     /**
@@ -624,21 +691,47 @@ class Province extends DbObject {
      * Get all information of one or all buildings of this province
      */
     public function getBuildings($key=null) {
+        $totalMoney = $this->getMoney();
+        $totalturns = $this->getTurns();
+        $buildingsPerTurn = $this->getBuildingsPerTurn();
+        $freeTurns = floor($totalturns * $buildingsPerTurn);
+        $freeLand = $this->getFreeLand();
+        $freeSpace = $this->getBuildSpace();
+        $units = $this->getUnits();
+        $missiles = $this->getMissiles();
 
         $buildings = Buildings::get();
         foreach($buildings as $id => $building) {
             $buildings[$id]['num'] = (!!$this->get($id) ? intval($this->get($id)) : 0);
+            $buildings[$id]['buildprice'] = $building['price']; // Might become cheaper with research/startbonus
+            $buildings[$id]['demoprice'] = $building['price'] * Settings::get('demolish_price_multi');
+            $buildings[$id]['networthPerUnit'] = round($building['price'] * $building['networth']/100); // of original price!
+            $buildings[$id]['maxbuild'] = min(floor($totalMoney / $buildings[$id]['buildprice']), $freeTurns, $freeSpace);
+            $occupied = 0;
+            if(isset($building['houses'])) {
+                foreach($units as $unit) {
+                    if($unit['type'] == $building['houses'] || $unit['sectype'] == $building['houses']) $occupied += ($unit['ordered'] + $unit['num']);
+                }
+                foreach($missiles as $missile) {
+                    if($missile['type'] == $building['houses']) $occupied += ($missile['ordered'] + $missile['num']);
+                }
+            }
+            $buildings[$id]['occupied'] = ($occupied > 0 ? ceil($occupied / $building['housing']) : 0);
+            $buildings[$id]['maxdemo'] = $buildings[$id]['num'] - $buildings[$id]['occupied'];
+
             //Hooks::trigger('get_province_building', array($id, $buildings[$id])); // we might want to work with modifiers
             if($this->hasStartingBonus('defensive')) {
-                $buildings[$id]['life'] = $buildings[$id]['life'] * Settings::get('startbonus_defensive_building_life_multi');
+                $buildings[$id]['life'] = round($buildings[$id]['life'] * Settings::get('startbonus_defensive_building_life_multi'));
             }
         }
 
         if ($this->hasResearchMinimalLevel('powerplant_efficiency',1)) {
-            $buildings['powerplant']['life'] = $buildings['powerplant']['life'] * 1.5;
-            $buildings['powerplant']['description'] = 'Produces ' . (3000*1.5) .' power';
-            $buildings['advancedpowerplant']['life'] = $buildings['powerplant']['life'] * 1.5;
-            $buildings['advancedpowerplant']['description'] = 'Produces ' . (15000*1.5) .' power';
+            $buildings['powerplant']['powerprod'] = $buildings['powerplant']['powerprod'] * 1.5;
+            $buildings['powerplant']['life'] = round($buildings['powerplant']['life'] * 1.5);
+            $buildings['powerplant']['description'] = 'Produces ' . $buildings['powerplant']['powerprod'] .' power';
+            $buildings['advancedpowerplant']['powerprod'] = $buildings['advancedpowerplant']['powerprod'] * 1.5;
+            $buildings['advancedpowerplant']['life'] = round($buildings['advancedpowerplant']['life'] * 1.5);
+            $buildings['advancedpowerplant']['description'] = 'Produces ' . $buildings['advancedpowerplant']['powerprod'] .' power';
         }
 
         if($shootdown_chance = $this->getShootdownChance()) {
@@ -649,6 +742,23 @@ class Province extends DbObject {
         }
 
         return ($key != null && $buildings[$key] ? $buildings[$key] : $buildings);
+    }
+
+    public function getBuildingsPerTurn() {
+        $r = $this->getResearches('engineering_effectiveness');
+        switch($r['level']) {
+            case 1: return 10; break;
+            case 2: return 15; break;
+        }
+        return 5;
+    }
+
+    public function getBuildSpace() {
+        return floor($this->getFreeLand() / Settings::get('land_per_building'));
+    }
+
+    public function getMaxBuild() {
+        return min($this->getBuildSpace(), floor($this->getBuildingsPerTurn() * $this->getTurns()) );
     }
 
     /**
@@ -686,6 +796,8 @@ class Province extends DbObject {
         $units = Units::get();
         foreach($units as $id => $unit) {
             $units[$id]['num'] = (!!$this->get($id.'_owned') ? intval($this->get($id.'_owned')) : 0);
+            $units[$id]['ordered'] = (!!$this->get($id.'_ordered') ? intval($this->get($id.'_ordered')) : 0);
+            $units[$id]['original_price'] = $unit['price'];
             //Hooks::trigger('get_province_unit', array($id, $units[$id])); // we might want to work with modifiers
             if($this->hasStartingBonus('defensive')) {
                 $units[$id]['life'] = $units[$id]['life'] * Settings::get('startbonus_defensive_unit_life_multi');
@@ -722,7 +834,14 @@ class Province extends DbObject {
      * Get all information of one or all Missiles of this province
      */
     public function getMissiles($key=null) {
-
+        $missiles = Missiles::get();
+        foreach($missiles as $id => $missile) {
+            $missiles[$id]['num'] = (!!$this->get($id.'_owned') ? intval($this->get($id.'_owned')) : 0);
+            $missiles[$id]['ordered'] = (!!$this->get($id.'_ordered') ? intval($this->get($id.'_ordered')) : 0);
+            $missiles[$id]['original_price'] = $missile['price'];
+            //Hooks::trigger('get_province_missile', array($id, $missiles[$id])); // we might want to work with modifiers
+        }
+        return ($key != null && $missiles[$key] ? $missiles[$key] : $missiles);
     }
     public function getMissileNum() {
         $num = 0;
@@ -736,21 +855,18 @@ class Province extends DbObject {
      * Get all information of one or all Satellites of this province
      * WARNING: currently a province should be able to have only one sat
      */
-    public function getSattelites($key=null) {
-        if(!$this->hasResearchMinimalLevel('satellite_construction', 1)) return false;
-        if(!is_null($key) && $this->getSatelliteNum() == 0) return false;
-
+    public function getSatellites($key=null) {
         $satellites = Satellites::get();
         $sat = $this->get('sat_owned');
         foreach($satellites as $id => $satellite) {
             $satellites[$id]['num'] = ($sat == $id ? 1 : 0);
+            $satellites[$id]['original_price'] = $satellite['price'];
+            $satellites[$id]['status'] = ($id=='stealths' && $this->get('stealth_sat_status')=='active' ? 'active' : '');
             //Hooks::trigger('get_province_sattelite', array($id, $satellites[$id])); // we might want to work with modifiers
             if(!$this->hasResearchMinimalLevel('satellite_construction', 3)) {
                 $satellites[$id]['price'] = $satellites[$id]['price'] * Settings::get('satellite_construction_3_price_multi');
             }
         }
-        $satellites[$key]['status'] = ($this->get('stealth_sat_status')=='active' ? 'active' : '');
-
         return ($key != null && $satellites[$key] ? $satellites[$key] : $satellites);
     }
     // Acktually gets shortname (header.php)
@@ -774,22 +890,116 @@ class Province extends DbObject {
         return false;
     }
 
+    /**
+     * Keep track of turn usage
+     */
+    public function turn_spread($turntype, $addedturns) {
+        $turnSpread = maybe_unserialize($this->get('turn_spread'));
+        if(!is_array($turnSpread)) $turnSpread = array();
+        if(!isset($turnSpread[$turntype])) $turnSpread[$turntype] = 0;
+        $turnSpread[$turntype] += $addedturns;
+        $this->update('turn_spread', maybe_serialize($turnSpread));
+    }
+
+
+    public function calculateNw() {}
+
+    public function calculatePower() {
+
+        $used_power = $power_production = 0;
+        foreach ($this->getBuildings() as $key => $building) {
+            if($building['num'] == 0) continue;
+            $power_production += $building['powerprod'] * $building['num'];
+            $used_power += $building['power'] * $building['num'];
+        }
+
+        // @wp
+        $empReduction = 0;
+        $emps = get_posts(array('numberposts' => -1, 'post_type' => 'emp', 'meta_key' => 'defender_emp', 'meta_value' => $this->id));
+        $empReduction = 0;
+        foreach ($emps as $emp) {
+            $empReduction += get_post_meta($emp->ID, 'deduction_emp', true);
+        }
+        if($power_production == 0) $power_production=1;
+        $this->update('power', $used_power / $power_production * 100 + $empReduction);
+    }
+
+    public function calculateFreeLand() {
+        $totalbuildings = 0;
+        foreach ($this->getBuildings() as $key => $building) {
+            if($building['num'] == 0) continue;
+            $totalbuildings += $building['num'];
+        }
+        $this->update('builtland', $totalbuildings * Settings::get('land_per_building'));
+        return $totalbuildings;
+    }
+
+    /**
+     * Heavy shit
+     */
+    public function count_all_stats() {
+
+        // calculate unit NW
+        $unit_networth = 0;
+        foreach($this->getUnits() as $key => $unit) {
+            $unit_networth += $unit['num'] * $unit['price'] * ($unit['networth'] / 100);
+        }
+
+        // calculate missile NW
+        $missile_networth = 0;
+        foreach($this->getMissiles() as $key => $missile) {
+            $missile_networth += $missile['num'] * $missile['price'] * ($missile['networth'] / 100);
+        }
+
+        // calculate building NW (original price!)
+        $building_networth = 0;
+        foreach ($this->getBuildings() as $key => $building) {
+            if($building['num'] == 0) continue;
+            $building_networth += $building['num'] * $building['price'] * ($building['networth'] / 100);
+        }
+
+        // calculate research NW
+        $research_networth = 0;
+        foreach ($this->getResearches() as $key => $research) {
+            if($research['level']==0) continue;
+            $research_networth += $research['duration'] * Settings::get('nw_research') * $research['level'];
+        }
+
+        // calculate satellite NW (original price!)
+        $sat_networth = 0;
+        foreach ($this->getSatellites() as $key => $satellite) {
+            if($satellite['num'] == 0) continue;
+            $sat_networth += $satellite['num'] * $satellite['original_price'] * Settings::get('nw_sat');
+        }
+
+        // calculate land NW
+        $land = $this->getLand();
+        $land_networth = round($land * Settings::get('nw_land'));
+
+        $totalNW = round($unit_networth+$missile_networth+$building_networth+$research_networth+$sat_networth+$land_networth);
+        $this->update('networth', $totalNW);
+        $this->update('unit_nw', round($unit_networth));
+        $this->update('missile_nw', round($missile_networth));
+        $this->update('building_nw', round($building_networth));
+        $this->update('research_nw', round($research_networth));
+        $this->update('sat_nw', round($sat_networth));
+        $this->update('land_nw', round($land_networth));
+
+        $this->calculateFreeLand();
+
+        if($totalNW > $this->get('highest_networth')) $this->update('highest_networth', $totalNW);
+        if($land > $this->get('highest_land')) $this->update('highest_land', $land);
+
+        $this->calculatePower();
+    }
+
     /*
     invite(),
     kick(),
     getTrophies(),
-
-    calculateNw(),
-    calculatePower(),
-    calculateFreeLand()
-
     kill(),
     reset(),
-
     attack(),
     spy()
-
-    exploreLand()
-    sellLand()
     */
 }

@@ -27,18 +27,21 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'explore';
 
 	<div class="tab-content">
 		<div class="tab-pane <?=($activeTab == 'explore' ? 'active' : '')?>" id="explore" role="tabpanel">
-			<div class="blockHeader">
-				Current exploration rate is <span id="exprate"><?=Format::land($perturnm2)?></span> per turn
-			</div>
-			<div class="blockHeader spaceNotice explNotice">
-				<?php if($exploredToday == 0) {?>
-					You haven't explored any land today. You can explore
+			<div class="blockHeader spaceNotice">
+				You can explore <span id="exprate"><?=Format::land($perturnm2)?></span> of land each turn.
+				<? if($maxSell > 700) { ?>You will lose unused land when attacked.<? } ?>
+				<? if($province->getTurns() > 150 && $province->getMoney() < 70000) { ?>
+					Low on money? Use some turns to explore and sell.
+				<? } ?>
+				<div class="explNotice">
+					<?php if($exploredToday == 0) {?>
+						You haven't explored any land today. You can explore
+					<?php } else { ?>
+						You have explored <strong><?=Format::land($exploredToday)?></strong> today.
+						You can explore an additional
+					<?php } ?>
 					<span class="maxexp" data-max="<?=$maxAmount?>"><strong><?=Format::land($maxLand)?></strong> <i>(<?=$maxAmount?> turns)</i></span>
-				<?php } else { ?>
-					You have explored <strong><?=Format::land($exploredToday)?></strong> today.
-					You can explore an additional
-					<span class="maxexp" data-max="<?=$maxAmount?>"><strong><?=Format::land($maxLand)?></strong> <i>(<?=$maxAmount?> turns)</i></span>
-				<?php } ?>
+				</div>
 			</div>
 			<form id="exploreform">
 				<div class="row no-gutters">
@@ -46,12 +49,12 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'explore';
 						<span>Turns to explore</span>
 					</div>
 					<div class="col-md-4 no-gutters">
-						<input class="inputnr" min="0" max="<?=$maxAmount?>" placeholder="Enter amount" type="number" id="turnsinput" name="turns">
+						<input class="inputnr<?=($maxAmount==0?' disabled':'')?>" min="0" max="<?=$maxAmount?>" placeholder="Enter amount" type="number" id="turnsinput" name="turns">
 					</div>
-					<div class="col-md-4 no-gutters maxexp mainSubmit" data-max="<?=$maxAmount?>">ALL TURNS</div>
+					<div class="col-md-4 no-gutters maxexp mainSubmit<?=($maxAmount==0?' disabled':'')?>" data-max="<?=$maxAmount?>">ALL TURNS</div>
 				</div>
 				<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
-				<input type="submit" value="Explore" class="mainSubmit">
+				<input type="submit" value="Explore" class="mainSubmit<?=($maxAmount==0?' disabled':'')?>">
 			</form>
 		</div>
 		<div class="tab-pane <?=($activeTab === 'sell' ? 'active' : '')?>"  id="sell" role="tabpanel">
@@ -76,13 +79,6 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'explore';
 		</div>
 	</div>
 </div>
-
 <?php
-if($province->getTurns() > 150 && $province->getMoney() < 70000) {
-	helpText('Low on money? Use some turns to explore and sell', 'explore', 'reminder');
-}
-if($maxSell > 700) {
-	helpText('You will lose unused land when attacked', 'explore', 'reminder');
-}
 
 get_footer();
