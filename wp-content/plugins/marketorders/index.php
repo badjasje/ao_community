@@ -11,40 +11,6 @@ Copyright: Kevin Bogaard
  */
 require_once('telegrambot.class.php');
 
-function raid_protection($target_id) {
-    /*$raidProteectionLevel = get_user_meta($target_id, 'level_raid_protection', true);
-
-    if ($raidProteectionLevel >= 1) {
-        $timestamp = current_time('timestamp');
-        $raidProtectionTimestamp = get_user_meta($target_id, 'raid_protection_timestamp', true);
-
-        $raidTimeStamp = 0;
-        $raidTimeStamp = isset($raidProtectionTimestamp) ? $raidProtectionTimestamp : 0;
-        $raidTimeStamp = !empty($raidProtectionTimestamp) ? $raidProtectionTimestamp : 0;
-
-        if ($timestamp > $raidTimeStamp) {
-            $land = get_user_meta($target_id, 'land', true);
-
-            if ($land < 2000) {
-                update_user_meta($target_id, 'land', 2000);
-            }
-
-            update_user_meta($target_id, 'antimissile', 15);
-            update_user_meta($target_id, 'powerplant', 35);
-            update_user_meta($target_id, 'raid_protection_timestamp', $timestamp + 86400);
-
-            update_user_meta($target_id, 'status', 'nukeprotection');
-            update_user_meta($target_id, 'nuke_protection_timestamp', $timestamp + 1800); // 30 minutes protection
-            count_all_stats($target_id);
-
-            return 'yes';
-        } else {
-            return 'no';
-        }
-    }*/
-    return 'no';
-}
-
 function turn_spread($turntype, $addedturns) {
     global $userId;
 
@@ -57,84 +23,7 @@ function turn_spread($turntype, $addedturns) {
 }
 
 function get_user_ip_address() {
-    if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') > 0) {
-            $addr = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
-            return trim($addr[0]);
-        } else {
-            $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        }
-    } else {
-        $ip_address = $_SERVER['REMOTE_ADDR'];
-    }
-    return $ip_address;
-}
-
-function get_user_geo() {
-    $ip_address = get_user_ip_address();
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://tools.keycdn.com/geo.json?host=$ip_address");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $output = curl_exec($ch);
-    curl_close($ch);
-    return $output;
-}
-
-function is_multi($user_ID, $ip_array=false) {
-    if(isset($_GET['checkmulti'])) {
-        if(isset($_GET['userid'])) $user_ID = $_GET['userid'];
-    }
-    if(in_array($user_ID, array(1,2,6,2768,2957))) { // Admins may have multi's?
-        return false;
-    }
-
-    if(!$ip_array) {
-        $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
-    }
-
-    $ip_address = get_user_ip_address();
-    if(isset($_GET['checkmulti'])) {
-        if(isset($_GET['ip'])) $ip_address = $_GET['ip'];
-    }
-
-    if(!isset($ip_array[$ip_address])) $ip_array[$ip_address] = array();
-
-    // What was MY first login?
-    $firstlogin = time();
-    foreach($ip_array as $ip => $data) {
-        if(in_array($user_ID, array_keys($data))) {
-            if(strtotime($data[$user_ID][0]) < $firstlogin) $firstlogin = strtotime($data[$user_ID][0]);
-        }
-    }
-    if(isset($_GET['checkmulti'])) {
-        var_dump(date('Y-m-d H:i:s',$firstlogin), $user_ID, $ip_address, is_banned($user_ID), $ip_array[$ip_address]);
-    }
-
-    foreach($ip_array[$ip_address] as $uid => $data) {
-        if(!empty($uid) && $uid != $user_ID && !is_banned($uid)) { // Multi detected, this ip was previously used for another user
-            // If my first login was later than any other account on this ip, block the login attempt
-            if($firstlogin > strtotime($data[0])) {
-                if(isset($_GET['checkmulti'])) var_dump(strtotime($data[0]));
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-function is_vpn($geo=false) {
-    if(!$geo) $geo = get_user_geo();
-
-    $output = json_decode($output);
-    $currentIsp = $output->data->geo->isp;
-
-    $blocklist = array(
-        'Highwinds Network Group, Inc.','Highwinds Network Group','ZSCALER, INC.',
-        'Micfo, LLC.','M247 Ltd','StackPath LLC','M247 Ltd.'
-    );
-    if(in_array($currentIsp, $blocklist)) return true;
-    return false;
+    return Request::getIpAddress();
 }
 
 function is_banned($userId) {
@@ -143,70 +32,29 @@ function is_banned($userId) {
     return false;
 }
 
-function check_custom_authentication($username) {
-    if (!username_exists($username)) {
-        return;
-    }
-    $user = get_user_by('login', $username);
-    $user_ID = $user->ID;
-
-    if(is_multi($user_ID)) {
-        echo 'Please login with your own account. <a href="'. get_site_url() .'">Back</a>';
-        die();
-        return;
-    }
-    if(is_vpn()) {
-        echo 'Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.';
-        die();
-        return;
-    }
+// Before login hook
+function wp_authenticate_custom($username) {
+    return CurrentUser::login($username);
 }
-//add_action('wp_authenticate', 'check_custom_authentication');
+add_action('wp_authenticate', 'wp_authenticate_custom');
 
-function multi_register($login) {
-    $user = get_user_by('login', $login);
-    $user_ID = $user->ID;
-
-    $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
-    if(is_multi($user_ID, $ip_array)) {
-        echo 'Please login with your own account. <a href="'. get_site_url() .'">Back</a>';
-        die();
-        return;
-    }
-    $output = get_user_geo();
-    if(is_vpn($output)) {
-        echo 'Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.';
-        die();
-        return;
-    }
-
-    $useragent = $_SERVER['HTTP_USER_AGENT'];
-    $ip_address = get_user_ip_address();
-    if (!isset($ip_array[$ip_address])) $ip_array[$ip_address] = array();
-    $hostaddress = gethostbyaddr($ip_address);
-    $ip_array[$ip_address][$user_ID] = array(date('Y-m-d H:i:s'), $useragent, $hostaddress, $output);
-
-    update_post_meta(139664, 'login_array_general', $ip_array);
-
-    $logindata = maybe_unserialize(get_user_meta($user_ID, 'logindata', true));
-    if (!is_array($logindata)) {$logindata = array();}
-    $logindata[$ip_address] = array(date('Y-m-d H:i:s'), $useragent, $hostaddress, $output);
-
-    update_user_meta($user_ID, 'logindata', $logindata);
+// After login hook, but CurrentUser is not set yet
+function wp_login_custom($login) {
+    return CurrentUser::loggedin($login);
 }
-add_action('wp_login', 'multi_register');
+add_action('wp_login', 'wp_login_custom');
 
+// Redirect after login
 function my_login_redirect($redirect_to, $request, $user) {
     return get_site_url() . "/dashboard/";
 }
 add_filter('login_redirect', 'my_login_redirect', 10, 3);
 
+
 function filter_get_avatar_url($url, $userId, $args) {
     $avatar = get_user_meta($userId, 'avatar_user', true);
     return $avatar;
 };
-
-// add the filter
 add_filter('get_avatar_url', 'filter_get_avatar_url', 10, 3);
 
 // REMOVE WP EMOJI
@@ -239,40 +87,6 @@ function page_custom_column_views($column_name, $id) {
                 echo $template;
             }
         endforeach;
-    }
-}
-
-function ban_redirect($userId) {
-    if(is_banned($userId)) {
-        wp_redirect(get_permalink(702260));
-        exit;
-    }
-}
-
-function do_header_title($pageId, $userId) {
-    //Check if Dashboard
-    if ($pageId == 3486) {
-        return get_the_title() . ' <a href="/users/profile/?id=<?php echo $user->ID; ?>">' . get_user_name($userId) . '
-				<div style="position: relative;vertical-align: middle;display: inline-block;">' . small_avatar($userId, '') . '</div>';
-    }
-    //Check if Profile page
-    elseif ($pageId == 3520) {
-        $userId = $_GET['id'];
-        return get_the_title() . ' <a href="/users/profile/?id=<?php echo $user->ID; ?>">' . get_user_name($userId);
-    }
-    //Check if Spy report
-    elseif ($pageId == 47273) {
-        $userId = $_GET['id'];
-        return 'Spy reports for <a href="/users/profile/?id=<?php echo $user->ID; ?>">' . get_user_name($userId);
-    }
-    //Check if Spy report overview clan
-    elseif ($pageId == 95464) {
-        $clanId = $_GET['id'];
-        return 'Overview ' . get_the_title($clanId) . ' (#' . $clanId . ')';
-    }
-    //Return regular page title
-    else {
-        return get_the_title();
     }
 }
 
@@ -534,11 +348,6 @@ function plural_func($number) {
     }
 }
 
-function count_unit($user_ID, $unit_type) {
-    $units = get_user_meta($user_ID, $unit_type . '_owned', true);
-    return $units;
-}
-
 function small_avatar($user_ID, $type) {
     $addClass = '';
     if (!empty($type)) {
@@ -737,84 +546,6 @@ function clan_avatar($clan_ID, $type) {
     }
 }
 
-function alert_notification($message) {
-    ob_start();?>
-    <script>
-        (function($) {
-            $( document ).ready(function() {
-                $.notify({message: '<?php echo $message; ?>'},{
-                    type: 'minimalist',delay: 5000,allow_dismiss: true,newest_on_top: true,
-                });
-            })
-        })(jQuery);
-    </script>
-    <?php
-    return ob_get_clean();
-}
-
-function desktop_view($user_ID) {
-    $desktop = get_user_meta($user_ID, 'desktop_view', true);
-    if ($desktop == 'on') {
-        return '<meta name="viewport" content="width=1280">';
-    } else {
-        return '<meta name="viewport" content="width=device-width, initial-scale=1">';
-    }
-}
-
-function notify_user($user_ID, $type) {
-
-    $userData = get_user_meta($user_ID);
-
-    $phonenumber = $userData['phone_number'][0];
-    if (!empty(is_numeric($phonenumber))) {
-
-        $remove = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", "+");
-        $phonenumber = str_replace($remove, "", $phonenumber);
-
-        $message = '';
-
-        $LP_notified = $userData['low_power_notified'][0];
-        $LB_notified = $userData['low_buildings_notified'][0];
-
-        if ($LP_notified == 'no' && $type == 'power') {
-            $message = 'Assault.Online Warning! Your power is currently offline. Restore your power as soon as possible.';
-            update_user_meta($user_ID, 'low_power_notified', 'yes');
-        }
-
-        if ($LB_notified == 'no' && $type == 'buildings') {
-            $message = 'Assault.Online Warning! You have 50 buildings or less. Rebuild as soon as possible.';
-            update_user_meta($user_ID, 'low_buildings_notified', 'yes');
-        }
-
-        include 'messagebird/autoload.php';
-
-        $MessageBird = new \MessageBird\Client('rDfeaa4JedfVIxfPDM60gjMvh'); // Set your own API access key here.
-
-        $Message = new \MessageBird\Objects\Message();
-        $Message->originator = 'AO';
-        $Message->recipients = array($phonenumber);
-        $Message->body = $message;
-
-        try {
-            if ($message != '') {
-                $MessageResult = $MessageBird->messages->create($Message);
-            }
-
-        } catch (\MessageBird\Exceptions\AuthenticateException $e) {
-            // That means that your accessKey is unknown
-            echo 'wrong login';
-
-        } catch (\MessageBird\Exceptions\BalanceException $e) {
-            // That means that you are out of credits, so do something about it.
-            // echo 'no balance';
-
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-        }
-
-    } // end empty phone number check
-
-} // end notify user
 
 function wpse_76815_remove_publish_box() {
     remove_meta_box('submitdiv', 'clan', 'side');
@@ -962,9 +693,12 @@ function create_post_type() {
 
 add_action('init', 'create_post_type');
 
-add_action('user_register', 'myplugin_registration_save', 10, 1);
+// Hook immediately after user is added to the database
+add_action('user_register', 'user_register_custom', 10, 1);
 
-function myplugin_registration_save($user_id) {
+function user_register_custom($user_id) {
+
+    CurrentUser::make()->register($user_id);
 
     update_user_meta($user_id, 'clan_id_user', 0);
 
@@ -1106,7 +840,6 @@ function after_death($user_id) {
         update_user_meta($user_id, 'level_engineering_effectiveness', 0);
         update_user_meta($user_id, 'level_bank_management', 0);
         update_user_meta($user_id, 'level_powerplant_efficiency', 0);
-        update_user_meta($user_id, 'level_raid_protection', 0);
 
         update_user_meta($user_id, 'research_in_progress', 0);
         update_user_meta($user_id, 'queued_research', 0);
@@ -1293,324 +1026,6 @@ function count_all_stats($user_ID) {
     } // end empty user ID check
 } // end count stats
 
-add_shortcode('current-satellites', 'display_count_satellites');
-function display_count_satellites() {
-    include 'satellite_array.php';
-    global $userId;
-    $sat = get_user_meta($userId, 'sat_owned', true);
-    $sat_owned = 'none';
-    if ($sat != '0') {
-        $sat_owned = $satellites[$sat]['shortname'];
-    }
-    return '<span class="count_menu">' . $sat_owned . '</span>';
-}
-
-add_shortcode('current-missiles', 'display_count_missiles');
-function display_count_missiles() {
-    global $userId;
-    $missiles = count_missiles($userId);
-    return '<span class="count_menu">' . $missiles . '</span>';
-}
-
-function count_missiles($user_ID) {
-    include 'missiles_array.php';
-    $totalmissiles = 0;
-    foreach ($missiles as $key => $missile) {
-        if ($key != 'tomahawk') {
-            $missiles_owned = intval(get_user_meta($user_ID, $key . '_owned', true));
-            $totalmissiles += $missiles_owned;
-        }
-    }
-    return $totalmissiles;
-}
-
-add_shortcode('current-buildings', 'display_count_buildings');
-function display_count_buildings() {
-    global $userId;
-    $buildings = count_buildings($userId);
-    return '<span class="count_menu">' . $buildings . '</span>';
-}
-
-function count_buildings($user_ID) {
-    include 'building_array.php';
-    $totalbuildings = 0;
-    foreach ($buildings as $key => $building) {
-        $buildings_owned = get_user_meta($user_ID, $key)[0];
-        $totalbuildings += $buildings_owned;
-    }
-    return $totalbuildings;
-}
-
-add_shortcode('current-units', 'display_count_units');
-function display_count_units() {
-    global $userId;
-    $units = count_units($userId);
-    return '<span class="count_menu">' . $units . '</span>';
-}
-
-function count_units($user_ID) {
-    include 'units_array.php';
-    $totalunits = 0;
-    foreach ($units as $key => $unit) {
-        $units_owned = get_user_meta($user_ID, $key . '_owned', true);
-        $totalunits += $units_owned;
-    }
-    return $totalunits;
-}
-
-function count_units_by_type($type='air', $user_ID=null) {
-    include 'units_array.php';
-    global $userId;
-    if($user_ID == null) $user_ID = $userId;
-    $totalunits = 0;
-    foreach ($units as $key => $unit) {
-        if($unit['type'] != $type) continue;
-        $units_owned = get_user_meta($user_ID, $key . '_owned', true);
-        $totalunits += $units_owned;
-    }
-    return $totalunits;
-}
-
-function bonus_update() {
-    include 'bonus_array.php';
-    $timestamp = current_time('timestamp');
-    $args = array(
-        'post_type' => 'clan',
-        'posts_per_page' => -1,
-    );
-
-    $clans = get_posts($args);
-    foreach ($clans as $clan) {
-        $clan_ID = $clan->ID;
-
-        $clan_members = get_post_meta($clan_ID, 'clan_members');
-        $clan_points = get_post_meta($clan_ID, 'clan_points', true);
-        $bonus_level = get_post_meta($clan_ID, 'bonus_level', true);
-
-        if (empty($clan_points)) {
-            $clan_points = 0;
-        }
-
-        $level = "level_";
-
-        /* mini clan bonus level 1 */
-        if ($bonus_level == 0) {
-            if ((5000 <= $clan_points) && ($clan_points <= 9999)) {
-
-                $level .= 1;
-                update_post_meta($clan_ID, 'bonus_level', 1);
-
-                foreach ($clan_members[0] as $member) {
-                    $args = array(
-                        'post_title' => 'Bonus for: #' . $member,
-                        'post_status' => 'publish',
-                        'post_type' => 'event_local',
-                        'post_author' => $member,
-                    );
-
-                    $new_event_id = wp_insert_post($args);
-                    update_field('attacktype', 'bonus', $new_event_id);
-                    update_field('bonus_money', $bonus[$level]['money'], $new_event_id);
-                    update_field('bonus_turns', $bonus[$level]['turns'], $new_event_id);
-                    update_field('defender_id', $member, $new_event_id);
-                    update_field('time_attacked', $timestamp, $new_event_id);
-
-                    $event_count = get_user_meta($member, 'new_events')[0];
-                    update_user_meta($member, 'new_events', $event_count + 1);
-                }
-            }
-        }
-
-        /* regular clan bonus level 2*/
-        if ($bonus_level == 1) {
-            if ((10000 <= $clan_points) && ($clan_points <= 19999)) {
-                $level .= 2;
-                update_post_meta($clan_ID, 'bonus_level', 2);
-
-                foreach ($clan_members[0] as $member) {
-                    $args = array(
-                        'post_title' => 'Bonus for: #' . $member,
-                        'post_status' => 'publish',
-                        'post_type' => 'event_local',
-                        'post_author' => $member,
-                    );
-
-                    $new_event_id = wp_insert_post($args);
-                    update_field('attacktype', 'bonus', $new_event_id);
-                    update_field('bonus_money', $bonus[$level]['money'], $new_event_id);
-                    update_field('bonus_turns', $bonus[$level]['turns'], $new_event_id);
-                    update_field('defender_id', $member, $new_event_id);
-                    update_field('time_attacked', $timestamp, $new_event_id);
-
-                    $event_count = get_user_meta($member, 'new_events')[0];
-                    update_user_meta($member, 'new_events', $event_count + 1);
-                }
-            }
-        }
-
-        /* regular clan bonus level 3 */
-        if ($bonus_level == 2) {
-            if ((200000 <= $clan_points) && ($clan_points <= 29999)) {
-                $level .= 3;
-                update_post_meta($clan_ID, 'bonus_level', 3);
-
-                foreach ($clan_members[0] as $member) {
-                    $args = array(
-                        'post_title' => 'Bonus for: #' . $member,
-                        'post_status' => 'publish',
-                        'post_type' => 'event_local',
-                        'post_author' => $member,
-                    );
-
-                    $new_event_id = wp_insert_post($args);
-                    update_field('attacktype', 'bonus', $new_event_id);
-                    update_field('bonus_money', $bonus[$level]['money'], $new_event_id);
-                    update_field('bonus_turns', $bonus[$level]['turns'], $new_event_id);
-                    update_field('defender_id', $member, $new_event_id);
-                    update_field('time_attacked', $timestamp, $new_event_id);
-
-                    $event_count = get_user_meta($member, 'new_events')[0];
-                    update_user_meta($member, 'new_events', $event_count + 1);
-                }
-            }
-        }
-
-        /* regular clan bonus level 3 */
-        if ($bonus_level == 3) {
-            if ((30000 <= $clan_points) && ($clan_points <= 39999)) {
-                $level .= 4;
-                update_post_meta($clan_ID, 'bonus_level', 4);
-
-                foreach ($clan_members[0] as $member) {
-                    $args = array(
-                        'post_title' => 'Bonus for: #' . $member,
-                        'post_status' => 'publish',
-                        'post_type' => 'event_local',
-                        'post_author' => $member,
-                    );
-
-                    $new_event_id = wp_insert_post($args);
-                    update_field('attacktype', 'bonus', $new_event_id);
-                    update_field('bonus_money', $bonus[$level]['money'], $new_event_id);
-                    update_field('bonus_turns', $bonus[$level]['turns'], $new_event_id);
-                    update_field('defender_id', $member, $new_event_id);
-                    update_field('time_attacked', $timestamp, $new_event_id);
-
-                    $event_count = get_user_meta($member, 'new_events')[0];
-                    update_user_meta($member, 'new_events', $event_count + 1);
-                }
-            }
-        }
-
-        /* regular clan bonus level 4 */
-        if ($bonus_level == 4) {
-            if ((30000 <= $clan_points) && ($clan_points <= 39999)) {
-                $level .= 5;
-                update_post_meta($clan_ID, 'bonus_level', 5);
-
-                foreach ($clan_members[0] as $member) {
-                    $args = array(
-                        'post_title' => 'Bonus for: #' . $member,
-                        'post_status' => 'publish',
-                        'post_type' => 'event_local',
-                        'post_author' => $member,
-                    );
-
-                    $new_event_id = wp_insert_post($args);
-                    update_field('attacktype', 'bonus', $new_event_id);
-                    update_field('bonus_money', $bonus[$level]['money'], $new_event_id);
-                    update_field('bonus_turns', $bonus[$level]['turns'], $new_event_id);
-                    update_field('defender_id', $member, $new_event_id);
-                    update_field('time_attacked', $timestamp, $new_event_id);
-
-                    $event_count = get_user_meta($member, 'new_events')[0];
-                    update_user_meta($member, 'new_events', $event_count + 1);
-                }
-            }
-        }
-
-        /* regular clan bonus level 5 */
-        if ($bonus_level == 5) {
-            if ((40000 <= $clan_points) && ($clan_points <= 49999)) {
-                $level .= 6;
-                update_post_meta($clan_ID, 'bonus_level', 6);
-
-                foreach ($clan_members[0] as $member) {
-                    $args = array(
-                        'post_title' => 'Bonus for: #' . $member,
-                        'post_status' => 'publish',
-                        'post_type' => 'event_local',
-                        'post_author' => $member,
-                    );
-
-                    $new_event_id = wp_insert_post($args);
-                    update_field('attacktype', 'bonus', $new_event_id);
-                    update_field('bonus_money', $bonus[$level]['money'], $new_event_id);
-                    update_field('bonus_turns', $bonus[$level]['turns'], $new_event_id);
-                    update_field('defender_id', $member, $new_event_id);
-                    update_field('time_attacked', $timestamp, $new_event_id);
-
-                    $event_count = get_user_meta($member, 'new_events')[0];
-                    update_user_meta($member, 'new_events', $event_count + 1);
-                }
-            }
-        }
-
-        /* Mega clan bonus level 6 */
-        if ($bonus_level == 6) {
-            if ((50000 <= $clan_points) && ($clan_points <= 59999)) {
-                $level .= 7;
-                update_post_meta($clan_ID, 'bonus_level', 7);
-
-                foreach ($clan_members[0] as $member) {
-                    $args = array(
-                        'post_title' => 'Bonus for: #' . $member,
-                        'post_status' => 'publish',
-                        'post_type' => 'event_local',
-                        'post_author' => $member,
-                    );
-
-                    $new_event_id = wp_insert_post($args);
-                    update_field('attacktype', 'bonus', $new_event_id);
-                    update_field('bonus_money', $bonus[$level]['money'], $new_event_id);
-                    update_field('bonus_turns', $bonus[$level]['turns'], $new_event_id);
-                    update_field('defender_id', $member, $new_event_id);
-                    update_field('time_attacked', $timestamp, $new_event_id);
-
-                    $event_count = get_user_meta($member, 'new_events')[0];
-                    update_user_meta($member, 'new_events', $event_count + 1);
-                }}
-        }
-
-        /* Regular clan bonus level 7 */
-        if ($bonus_level == 7) {
-            if ((60000 <= $clan_points) && ($clan_points <= 69999)) {
-                $level .= 8;
-                update_post_meta($clan_ID, 'bonus_level', 8);
-
-                foreach ($clan_members[0] as $member) {
-                    $args = array(
-                        'post_title' => 'Bonus for: #' . $member,
-                        'post_status' => 'publish',
-                        'post_type' => 'event_local',
-                        'post_author' => $member,
-                    );
-
-                    $new_event_id = wp_insert_post($args);
-                    update_field('attacktype', 'bonus', $new_event_id);
-                    update_field('bonus_money', $bonus[$level]['money'], $new_event_id);
-                    update_field('bonus_turns', $bonus[$level]['turns'], $new_event_id);
-                    update_field('defender_id', $member, $new_event_id);
-                    update_field('time_attacked', $timestamp, $new_event_id);
-
-                    $event_count = get_user_meta($member, 'new_events')[0];
-                    update_user_meta($member, 'new_events', $event_count + 1);
-                }
-            }
-        }
-
-    }
-}
 
 /* Extra columns in user backend */
 function new_modify_user_table($column) {

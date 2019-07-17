@@ -441,16 +441,11 @@ $killed = false;
 if($result == 'success'){
 
 	if ($def_lostbuildings_tot >= $_total_bld_def) {
-		/*$protected = raid_protection($target_id);
-		if($protected == 'yes'){
-			$_total_bld_def = 999999; // just some bullshit number to stop dying
-		}else{*/
-			$killed = true;
-			update_user_meta($target_id, 'status', 'dead');
-			update_user_meta($target_id, 'networth', 0);
-			update_user_meta($target_id, 'land', 0);
-			after_death($target_id);
-		//}
+		$killed = true;
+		update_user_meta($target_id, 'status', 'dead');
+		update_user_meta($target_id, 'networth', 0);
+		update_user_meta($target_id, 'land', 0);
+		after_death($target_id);
 	}
 }
 

@@ -44,7 +44,7 @@ class Province extends DbObject {
         'total_deposits',
 
         // Research
-        'research_in_progress','queued_research','level_raid_protection',
+        'research_in_progress','queued_research',
         'level_money_production','level_missile_accuracy','level_sattelite_construction','level_shipping_time','level_market_discount',
         'level_thieving_effectiveness','level_engineering_effectiveness','level_bank_management','level_powerplant_efficiency',
 
@@ -174,6 +174,13 @@ class Province extends DbObject {
         return array('success' => true, 'status' => 'Protection removed');
     }
 
+    public function ajaxAddDeposit() {
+
+    }
+    public function ajaxWithdrawDeposit() {
+
+    }
+
     public function ajaxSetResearch($return) {
         if(!Round::isLive()) return array('status' => 'Game is paused.');
         $researchInProgress = $this->getCurrentResearch();
@@ -191,7 +198,7 @@ class Province extends DbObject {
 
         $totalturns = $this->getTurns();
         $turn_cost = ($queueResearch ? Settings::get('turns_queue_research') : Settings::get('turns_research'));
-        if($totalturns < $turn_cost) return array('status' => 'No enough turns');
+        if($totalturns < $turn_cost) return array('status' => 'Not enough turns');
 
         $this->update('turns', $totalturns - $turn_cost);
         $this->turn_spread( ($queueResearch ? 'research_queue' : 'research'), $turn_cost); //@wp
@@ -911,8 +918,60 @@ class Province extends DbObject {
     }
 
 
-    public function calculateNw() {}
+    /**
+     * Some stuff should not be calculated on the fly
+     * So we put it in DB and update only when needed
+     */
+    public function calculateNetworth() {
+        // calculate unit NW (using original price!)
+        $unit_networth = 0;
+        foreach($this->getUnits() as $key => $unit) {
+            $unit_networth += $unit['num'] * $unit['price'] * ($unit['networth'] / 100);
+        }
 
+        // calculate missile NW
+        $missile_networth = 0;
+        foreach($this->getMissiles() as $key => $missile) {
+            $missile_networth += $missile['num'] * $missile['price'] * ($missile['networth'] / 100);
+        }
+
+        // calculate building NW (using original price!)
+        $building_networth = 0;
+        foreach ($this->getBuildings() as $key => $building) {
+            if($building['num'] == 0) continue;
+            $building_networth += $building['num'] * $building['price'] * ($building['networth'] / 100);
+        }
+
+        // calculate research NW
+        $research_networth = 0;
+        foreach ($this->getResearches() as $key => $research) {
+            if($research['level']==0) continue;
+            $research_networth += $research['duration'] * Settings::get('nw_research') * $research['level'];
+        }
+
+        // calculate satellite NW (using original price!)
+        $sat_networth = 0;
+        foreach ($this->getSatellites() as $key => $satellite) {
+            if($satellite['num'] == 0) continue;
+            $sat_networth += $satellite['num'] * $satellite['original_price'] * Settings::get('nw_sat');
+        }
+
+        // calculate land NW
+        $land_networth = round($this->getLand() * Settings::get('nw_land'));
+
+        $totalNW = round($unit_networth+$missile_networth+$building_networth+$research_networth+$sat_networth+$land_networth);
+        $this->update('networth', $totalNW);
+        $this->update('unit_nw', round($unit_networth));
+        $this->update('missile_nw', round($missile_networth));
+        $this->update('building_nw', round($building_networth));
+        $this->update('research_nw', round($research_networth));
+        $this->update('sat_nw', round($sat_networth));
+        $this->update('land_nw', round($land_networth));
+    }
+
+    /**
+     *
+     */
     public function calculatePower() {
 
         $used_power = $power_production = 0;
@@ -933,6 +992,9 @@ class Province extends DbObject {
         $this->update('power', $used_power / $power_production * 100 + $empReduction);
     }
 
+    /**
+     *
+     */
     public function calculateFreeLand() {
         $totalbuildings = 0;
         foreach ($this->getBuildings() as $key => $building) {
@@ -948,55 +1010,14 @@ class Province extends DbObject {
      */
     public function count_all_stats() {
 
-        // calculate unit NW
-        $unit_networth = 0;
-        foreach($this->getUnits() as $key => $unit) {
-            $unit_networth += $unit['num'] * $unit['price'] * ($unit['networth'] / 100);
-        }
-
-        // calculate missile NW
-        $missile_networth = 0;
-        foreach($this->getMissiles() as $key => $missile) {
-            $missile_networth += $missile['num'] * $missile['price'] * ($missile['networth'] / 100);
-        }
-
-        // calculate building NW (original price!)
-        $building_networth = 0;
-        foreach ($this->getBuildings() as $key => $building) {
-            if($building['num'] == 0) continue;
-            $building_networth += $building['num'] * $building['price'] * ($building['networth'] / 100);
-        }
-
-        // calculate research NW
-        $research_networth = 0;
-        foreach ($this->getResearches() as $key => $research) {
-            if($research['level']==0) continue;
-            $research_networth += $research['duration'] * Settings::get('nw_research') * $research['level'];
-        }
-
-        // calculate satellite NW (original price!)
-        $sat_networth = 0;
-        foreach ($this->getSatellites() as $key => $satellite) {
-            if($satellite['num'] == 0) continue;
-            $sat_networth += $satellite['num'] * $satellite['original_price'] * Settings::get('nw_sat');
-        }
-
-        // calculate land NW
-        $land = $this->getLand();
-        $land_networth = round($land * Settings::get('nw_land'));
-
-        $totalNW = round($unit_networth+$missile_networth+$building_networth+$research_networth+$sat_networth+$land_networth);
-        $this->update('networth', $totalNW);
-        $this->update('unit_nw', round($unit_networth));
-        $this->update('missile_nw', round($missile_networth));
-        $this->update('building_nw', round($building_networth));
-        $this->update('research_nw', round($research_networth));
-        $this->update('sat_nw', round($sat_networth));
-        $this->update('land_nw', round($land_networth));
+        $this->calculateNetworth();
 
         $this->calculateFreeLand();
 
+        $totalNW = $this->get('networth');
         if($totalNW > $this->get('highest_networth')) $this->update('highest_networth', $totalNW);
+
+        $land = $this->getLand();
         if($land > $this->get('highest_land')) $this->update('highest_land', $land);
 
         $this->calculatePower();

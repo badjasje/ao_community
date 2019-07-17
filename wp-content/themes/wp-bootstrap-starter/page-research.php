@@ -23,9 +23,9 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 		<? if($province->hasStartingBonus('defensive')) { ?>
 		Your defensive startbonus gives <?=(1-Settings::get('startbonus_defensive_research_time'))*100?>% time deduction when researching.
 		<? } ?>
-		<!--You may cancel your research while researching. Aborting a research costs no additional turns but all research for the aborted science will be lost.
+		<?/*You may cancel your research while researching. Aborting a research costs no additional turns but all research for the aborted science will be lost.
 		Your amount of Research Labs deducts the time it takes to research by 0%.
-		@todo: show current research & new research-->
+		@todo: show current research & new research*/?>
 	</div>
 
 	<form id="research">
