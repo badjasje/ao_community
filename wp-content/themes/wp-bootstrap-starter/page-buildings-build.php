@@ -9,7 +9,7 @@ $province = $user->getProvince();
 
 $buildingsPerTurn = $province->getBuildingsPerTurn();
 $buildings = $province->getBuildings();
-$freeLand = $province->getFreeLand();
+
 ?>
 <div class="row pageRow">
 	<form class="form" name="build" id="buildings" method="post">
@@ -22,8 +22,8 @@ $freeLand = $province->getFreeLand();
 				<span class="landpb" data-amount="<?=Settings::get('land_per_building')?>"><?=Format::land(Settings::get('land_per_building'))?></span>
 				of land)<br>
 				The cost to demolish a building is <?=(Settings::get('demolish_price_multi')*100)?>% of the original price.
-				You have <span class="freeland" data-amount="<?=$freeLand?>"><?=Format::land($freeLand)?></span> available land.
-				<span class="power"><?=$province->getPower(true)?></span> power used.
+				You have <span class="freelandheader"><?=$province->getFreeLand(true)?></span> available land.
+				<span class="powerheader"><?=$province->getPower(true)?></span> power used.
 				<? if($province->getPower() > 50) { ?>Keep your power level around 20% to survive attacks longer.<? } ?>
 			</p>
 			<div class="text-right small">
@@ -54,12 +54,10 @@ $freeLand = $province->getFreeLand();
 					<td class="maxBlock buildmax" data-amount="<?=$building['maxbuild']?>"><?=$building['maxbuild']?></td>
 					<td class="owned demomax" data-amount="<?=$building['maxdemo']?>"><?=$building['num']?></td>
 					<td class="inputBlock buildBlock">
-						<input class="unitInput"  tabindex="<?=$count?>" type="number" name="build[<?=$buildingKey?>]">
-						<?/*min="0" max="<?=$building['maxbuild']?>"*/?>
+						<input class="unitInput" min="0" max="<?=$building['maxbuild']?>" tabindex="<?=$count?>" type="number" name="build[<?=$buildingKey?>]">
 					</div>
 					<td class="inputBlock demoBlock">
-						<input class="unitInput" tabindex="<?=($count+count($buildings))?>" type="number" name="demo[<?=$buildingKey?>]">
-						<?/* min="0" max="<?=$building['maxdemo']?>"*/?>
+						<input class="unitInput" min="0" max="<?=$building['maxdemo']?>" tabindex="<?=($count+count($buildings))?>" type="number" name="demo[<?=$buildingKey?>]">
 					</div>
 				</tr>
 				<tr class="descriptionRow">
@@ -79,9 +77,9 @@ $freeLand = $province->getFreeLand();
 
 		<div class="row statusBlockButtons">
 			<div class="col-md-3 totalsField statCol-1">Buildings: <span id="total"></span></div>
-			<div class="col-md-3 totalsField statCol-2">Total cost: $ <span id="order_total" data-money="<?=$province->getMoney()?>"></span></div>
-			<div class="col-md-3 totalsField statCol-3">Turns required: <span id="turn_total" data-turns="<?=$province->getTurns()?>"></span></div>
-			<div class="col-md-3 totalsField statCol-4">New Nw.: $ <span id="networth_new" data-oldnw="<?=$province->getNetworth()?>"></span></div>
+			<div class="col-md-3 totalsField statCol-2">Total cost: $ <span id="order_total"></span></div>
+			<div class="col-md-3 totalsField statCol-3">Turns required: <span id="turn_total"></span></div>
+			<div class="col-md-3 totalsField statCol-4">New Nw.: $ <span id="networth_new"></span></div>
 		</div>
 
 		<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">

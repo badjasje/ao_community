@@ -18,18 +18,21 @@ function getCookie(name) {
     return null;
 }
 
-function updateHeaderData() {
+var provinceData = {};
+function updateHeaderData(cb) {
     var $ = jQuery;
     $.ajax({url:site_url+'/ajax/header',type:'post'}).done(function(response) { // ajax without loader, returns html in json
         var data = $.parseJSON(response);
+        provinceData = data.clean;
         if(data.nonce) $('.nonce').val(data.nonce);
-        for(var i in data) {
-            if($('.'+i+'header').length) $('.'+i+'header').html(data[i]);
+        for(var i in data.formatted) {
+            if($('.'+i+'header').length) $('.'+i+'header').html(data.formatted[i]);
         }
-        $('header .freeland').attr({'data-original-title': data.freeland});
+        $('header .freeland').attr({'data-original-title': data.formatted.freeland});
         $('.globalsBadge').text(data.globals).toggle((data.globals>0));
         $('.localsBadge').text(data.locals).toggle((data.locals>0));
         $('.inboxBadge').text(data.messages).toggle((data.messages>0));
+        if(!!cb) cb.call();
     });
 }
 
@@ -60,6 +63,10 @@ function update_countdowns() {
 
 jQuery(function($) {
 
+    function standardNotify(msg) {
+        $.notify({message:msg},{type:'info',delay:5000,allow_dismiss:true,newest_on_top:true});
+    }
+
     var requests={};
     function singleAjax(url,post,cb) {
         //var $ = jQuery;
@@ -70,9 +77,10 @@ jQuery(function($) {
             $('.pageLoader, #page-cover').fadeOut("fast");
             var data = $.parseJSON(response);
             if(data.nonce) $('.nonce').val(data.nonce);
-            updateHeaderData(); // Something happened, so it probably costed money or something
-            if(!!data.status) $.notify({message:data.status},{type:'info',delay:5000,allow_dismiss:true,newest_on_top:true});
-            if(!!cb) cb.call( (post instanceof jQuery ? post : this), data);
+            updateHeaderData(function() {
+                if(!!cb) cb.call(this, data);
+            }.bind((post instanceof jQuery ? post : this))); // Something happened, so it probably costed money or something
+            if(!!data.status) standardNotify(data.status);
         });
     }
 
@@ -266,7 +274,8 @@ jQuery(function($) {
         calculateBuildingsTotals();
     });
     function calculateBuildingsTotals() {
-        var totals = {build:0,demo:0,cost:0,turns:0,nw: parseInt($('#networth_new').data('oldnw')) };
+        if(typeof provinceData.networth == 'undefined') return;
+        var totals = {build:0,demo:0,cost:0,turns:0,nw:provinceData.networth};
         var bpt=parseInt($('#buildingsPerTurn').text());
 		$('#buildings .unitRow:not(.headerRow)').each(function() {
             var b = Math.abs($('.buildBlock .unitInput',this).val()), d = Math.abs($('.demoBlock .unitInput',this).val());
@@ -278,16 +287,18 @@ jQuery(function($) {
         });
         // Demolishing creates more space
         var landpb = $('#buildings .landpb').data('amount');
-        var freeland = $('#buildings .freeland').data('amount') + (totals.demo*landpb) - (totals.build * landpb);
-        var turns = $('#buildings #turn_total').attr('data-turns') - totals.turns;
-        var money = $('#buildings #order_total').attr('data-money') - totals.cost;
+        var freeland = provinceData.freeland + (totals.demo*landpb) - (totals.build * landpb);
+        var turns = provinceData.turns - totals.turns;
+        var money = provinceData.money - totals.cost;
         $('#buildings .unitRow:not(.headerRow)').each(function() {
             var nm = Math.min( Math.floor(money/$(this).data('buildprice')), turns*bpt, Math.floor(freeland / landpb));
-            $('.buildmax', this).attr('data-amount', Math.abs($('.buildBlock .unitInput', this).val()) + nm ).text(nm);
+            var sm = Math.abs($('.buildBlock .unitInput', this).val()) + nm;
+            $('.buildmax', this).attr('data-amount', sm ).text(nm);
+            $('.buildBlock .unitInput', this).attr('max', sm);
         });
 		$('#total').text('+'+totals.build+' / -'+totals.demo);
-		$('#order_total').text(number_format(totals.cost, 0, ',', ' '));
-		$('#turn_total').text(totals.turns);
+		$('#order_total').attr('data-amount',totals.cost).text(number_format(totals.cost, 0, ',', ' '));
+		$('#turn_total').attr('data-amount',totals.turns).text(totals.turns);
 		$('#networth_new').text(number_format(totals.nw, 0, ',', ' '));
 	}
 	$(document).on("keyup paste blur change", ".unitInput", function() {
@@ -295,14 +306,11 @@ jQuery(function($) {
 	});
     $('#buildings').on('submit', function(e) {
         e.preventDefault();
+        if($('#order_total').attr('data-amount') > provinceData.money) return standardNotify('Insufficient funds');
+        if($('#turn_total').attr('data-amount') > provinceData.turns) return standardNotify('Not enough turns');
         singleAjax(site_url+'/ajax/buildings', $(this), function(data) {
             $('.maxbuild', this).text(data.maxbuild);
             $('.buildspace', this).text(data.buildspace);
-            $('#networth_new',this).attr('data-oldnw', data.networth);
-            $('#turn_total', this).attr('data-turns', data.turns);
-            $('#order_total', this).attr('data-money', data.money);
-            $('.freeland', this).attr('data-amount',data.freeland).html(data.freeland_formatted);
-            $('.power', this).html(data.power);
             for(var key in data.buildmax) {
                 var bm = data.buildmax[key], dm = data.demomax[key], o = data.owned[key], r = $('.unitRow.'+key,this);
                 $('.buildmax', r).attr('data-amount', bm).text(bm);

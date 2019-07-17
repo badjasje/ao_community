@@ -99,23 +99,28 @@ class Province extends DbObject {
         return parent::update($key, $value);
     }
 
-    // Returns formatted data
+    // Returns clean & formatted data
     public function ajaxHeader($return) {
-        $return['success']  = true;
-        $return['globals']  = $this->getGlobalNum();
-        $return['locals']   = $this->getLocalNum();
-        $return['messages'] = $this->getMessageNum();
-        $return['turns'] 	= $this->getTurns(true);
-        $return['networth'] = $this->getNetworth(true);
-        $return['money'] 	= $this->getMoney(true);
-        $return['morale'] 	= $this->getMorale(true);
-        $return['land'] 	= $this->getLand(true);
-        $return['freeland'] = $this->getFreeLand(true);
-        $return['power'] 	= $this->getPower(true);
-        return $return;
+        return array_merge($return, array(
+            'success' => true,
+            'globals' => $this->getGlobalNum(),
+            'locals' => $this->getLocalNum(),
+            'messages' => $this->getMessageNum(),
+            'formatted' => array(
+                'turns'	=> $this->getTurns(true), 'networth'=> $this->getNetworth(true), 'money'	=> $this->getMoney(true),
+                'morale' => $this->getMorale(true), 'land' => $this->getLand(true), 'freeland'=> $this->getFreeLand(true),
+                'power'	=> $this->getPower(true),
+            ),
+            'clean' => array(
+                'turns'	=> $this->getTurns(), 'networth'=> $this->getNetworth(), 'money'	=> $this->getMoney(),
+                'morale' => $this->getMorale(), 'land' => $this->getLand(), 'freeland'=> $this->getFreeLand(),
+                'power'	=> $this->getPower(),
+            )
+        ));
     }
 
     public function ajaxDevfunds($return) {
+        if(!Round::isLive()) return array('status' => 'Game is paused.');
         if(!Round::isDev() && !Round::isTest() && !Round::isSandbox()) return array('status' => 'Unavailable');
 
         $this->update('money', $this->getMoney() + Settings::get('devfunds_money'));
@@ -136,6 +141,7 @@ class Province extends DbObject {
     }
 
     public function ajaxStartingbonus($return) {
+        if(!Round::isLive()) return array('status' => 'Game is paused.');
         if(!empty($this->getStartingBonus())) return array('status' => 'You already have a startbonus.');
         $bonustype = Request::post('bonustype');
         if(!$this->setStartingBonus($bonustype)) return array('status' => 'No such startbonus.');
@@ -143,6 +149,7 @@ class Province extends DbObject {
     }
 
     public function ajaxClanBonus($return) {
+        if(!Round::isLive()) return array('status' => 'Game is paused.');
         $bonus = Bonus::make(intval(Request::post('id')));
         if($bonus->get('id')==0) return array('status' => 'No such bonus.');
         if($bonus->isUsed()) return array('status' => 'Bonus already used.');
@@ -152,7 +159,7 @@ class Province extends DbObject {
 
     public function ajaxRemoveNp($return) {
         // @todo: use new LocalEvent();
-
+        if(!Round::isLive()) return array('status' => 'Game is paused.');
         $new_event_id = wp_insert_post(array(
             'post_title' => 'Nukeprotection removed for '.$this->id,
             'post_status' => 'publish', 'post_type' => 'event_local', 'post_author' => $this->id
@@ -168,6 +175,7 @@ class Province extends DbObject {
     }
 
     public function ajaxSetResearch($return) {
+        if(!Round::isLive()) return array('status' => 'Game is paused.');
         $researchInProgress = $this->getCurrentResearch();
         $researchQueued = $this->getQueuedResearch();
         if($researchInProgress !== false && $researchQueued !== false) return array('status' => 'There is already a research in progress, and you already queued a research.');
@@ -210,6 +218,7 @@ class Province extends DbObject {
     }
 
     public function ajaxExploreLand($return) {
+        if(!Round::isLive()) return array('status' => 'Game is paused.');
         $postedTurns = abs(floor(Request::post('turns')));
         if ($postedTurns < 1 || !is_numeric(($postedTurns))) return array('status' => 'Not a valid number.');
         $perturnm2 = $this->getExplorationRate();
@@ -255,6 +264,7 @@ class Province extends DbObject {
     }
 
     public function ajaxSellLand($return) {
+        if(!Round::isLive()) return array('status' => 'Game is paused.');
         $postedLand = abs(floor(Request::post('land')));
         if($postedLand < 0 || !is_numeric($postedLand)) return array('status' => 'Not a valid number.');
         $freeland = $this->getFreeLand();
@@ -287,6 +297,7 @@ class Province extends DbObject {
     }
 
     public function ajaxBuildings($return) {
+        if(!Round::isLive()) return array('status' => 'Game is paused.');
         $buildings = $this->getBuildings();
         if(!is_array($_POST['demo']) || !is_array($_POST['build'])) return array('status' => 'Not a valid request.');
         $status = array('Done');
@@ -330,6 +341,7 @@ class Province extends DbObject {
         else if($turns_needed > $turns) $status[] = 'not enough turns to build';
         else if($build_num*Settings::get('land_per_building') > $freeland) $status[] = 'Not enough free land';
         else {
+            if($build_num > 0) $status[] = $build_num.' buildings build';
             foreach ($build as $key => $count) {
                 $this->update($key, $this->get($key) + $count);
             }
@@ -349,10 +361,7 @@ class Province extends DbObject {
             $owned[$key] = $building['num'];
         }
         return array_merge($return, array(
-            'success' => true, 'status' => implode(', ', $status),
-            'maxbuild' => $this->getMaxBuild(), 'buildspace' => $this->getBuildSpace(), 'turns' => $this->getTurns(),
-            'networth' => $this->getNetworth(), 'money' => $this->getMoney(), 'freeland' => $this->getFreeLand(),
-            'freeland_formatted' => $this->getFreeLand(true), 'power' => $this->getPower(true),
+            'success' => true, 'status' => implode(', ', $status), 'maxbuild' => $this->getMaxBuild(), 'buildspace' => $this->getBuildSpace(),
             'buildmax' => $maxbuild, 'demomax' => $maxdemo, 'owned' => $owned
         ));
     }
