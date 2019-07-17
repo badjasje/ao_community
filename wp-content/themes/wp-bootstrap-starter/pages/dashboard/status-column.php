@@ -14,7 +14,7 @@ $researchInProgress = false;
 if(!!$province && $r = $province->getCurrentResearch()) $researchInProgress = $r->get('name');
 
 ?>
-<div class="blockHeader npMessage<?=($province->isProtected()?' py-0 pr-0':'')?>">
+<div class="blockHeader npMessage<?=($province->isProtected() && $timer_left < 86400 ?' py-0 pr-0':'')?>">
 	<?php
 	echo $statusMessage;
 	if($province->isProtected() && $timer_left < 86400) {
