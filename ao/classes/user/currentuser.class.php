@@ -73,9 +73,9 @@ class CurrentUser extends User {
             if(isset($_SERVER['HTTP_USER_AGENT']) && $_SESSION['user']['useragent'] != $_SERVER['HTTP_USER_AGENT']) {
                 $error .= 'E02';
             }
-            if(isset($_SERVER['REMOTE_ADDR']) && $_SESSION['user']['ipaddr'] != $_SERVER['REMOTE_ADDR']) {
+            /*if(isset($_SERVER['REMOTE_ADDR']) && $_SESSION['user']['ipaddr'] != $_SERVER['REMOTE_ADDR']) {
                 $error .= 'E03';
-            }
+            }*/
             $login_check = hash('sha512', $_SESSION['user']['token'] . $_SESSION['user']['session_started'] . $_SERVER['HTTP_USER_AGENT']);
             if(!hash_equals($login_check, $_SESSION['user']['login_string'])) {
                 $error .= 'E04';
