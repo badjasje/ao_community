@@ -75,6 +75,38 @@ class Request {
         }
     }
 
+    static function getIpAddress() {
+        if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') > 0) {
+                $addr = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
+                return trim($addr[0]);
+            } return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } return $_SERVER['REMOTE_ADDR'];
+        return '';
+    }
+
+    static function isVPN($geo=false) {
+        if(!$geo) $geo = self::getGeo();
+        $output = json_decode($geo);
+        $currentIsp = $output->data->geo->isp;
+        $blocklist = array(
+            'Highwinds Network Group, Inc.','Highwinds Network Group','ZSCALER, INC.',
+            'Micfo, LLC.','M247 Ltd','StackPath LLC','M247 Ltd.'
+        );
+        if(in_array($currentIsp, $blocklist)) return true;
+        return false;
+    }
+
+    static function getGeo() {
+        $ip_address = self::getIpAddress();
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://tools.keycdn.com/geo.json?host=$ip_address");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
+
     // Some static pages have unique links
     static function link($key) {
         if(!isset(static::$page_links[$key])) return static::$site_url;

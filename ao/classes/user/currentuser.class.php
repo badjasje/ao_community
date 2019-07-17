@@ -5,11 +5,14 @@ class CurrentUser extends User {
     private static $instance = null;
     static $cache = 'users';
 
-    private function __construct($props=null) {
+    private function __construct($props=null,$fromCache=true) {
 
         // Initialization of current user
-        if(is_user_logged_in()) { //@wp
-            parent::__construct(wp_get_current_user()->ID); //@wp
+        if(is_numeric($props)) {
+            parent::__construct($props, $fromCache);
+            $this->loggedin=true;
+        } elseif(is_user_logged_in()) { //@wp
+            parent::__construct(wp_get_current_user()->ID, $fromCache); //@wp
             $this->loggedin=true;
         }
 
@@ -51,8 +54,8 @@ class CurrentUser extends User {
     private function __clone() {} // prevent cloning of the instance
     private function __wakeup() {} // prevent unserializing of the instance
 
-    public static function make($items=null) {
-        if (null === static::$instance) static::$instance = new CurrentUser();
+    public static function make($props=null,$fromCache=true) {
+        if (null === static::$instance) static::$instance = new CurrentUser($props,$fromCache);
         return static::$instance;
     }
 
@@ -113,7 +116,116 @@ class CurrentUser extends User {
         }
     }
 
-    //public function login() {}
+    /**
+     *  WP-hook, happends after registration was successful.
+     */
+    public function register() {
+        // @todo: We can set standards here, just like after_death
+    }
+
+    /**
+     * WP-hook, this SHOULD be executed before the WordPress authentication process.
+     * Only a die() or redirect works to disable actual logging in
+     */
+    public static function login($username) {
+        if (!username_exists($username)) return;
+        /* @todo: enable this at some point
+        $user = get_user_by('login', $username);
+        if(is_multi($user->ID)) {
+            echo 'Please login with your own account. <a href="'. get_site_url() .'">Back</a>';
+            die();
+            return;
+        }*/
+        if(Request::isVPN()) {
+            echo 'Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.';
+            die();
+            return;
+        }
+    }
+
+    /**
+     * WP-hook, when a user logs in by the wp_signon() function.
+     * It is the very last action taken in the function, immediately following the wp_set_auth_cookie() call
+     */
+    public static function loggedin($login) {
+        $wp_user = get_user_by('login', $login);
+        $user = new CurrentUser($wp_user->ID, false); //Not from cache, make a new user
+
+        $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
+        if($user->isMulti($ip_array)) {
+            $user->logout();
+            echo 'Please login with your own account. <a href="'. Request::siteUrl() .'">Back</a>';
+            die();
+            return false;
+        }
+        $output = Request::getGeo();
+        if(Request::isVPN($output)) {
+            $user->logout();
+            echo 'Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.';
+            die();
+            return false;
+        }
+
+        $useragent = $_SERVER['HTTP_USER_AGENT'];
+        $ip_address = Request::getIpAddress();
+        if(!isset($ip_array[$ip_address])) $ip_array[$ip_address] = array();
+        $hostaddress = gethostbyaddr($ip_address);
+        $ip_array[$ip_address][$user->get('id')] = array(date('Y-m-d H:i:s'), $useragent, $hostaddress, $output);
+        update_post_meta(139664, 'login_array_general', $ip_array);
+
+        $logindata = maybe_unserialize($user->get('logindata'));
+        if(!is_array($logindata)) $logindata = array();
+        $logindata[$ip_address] = array(date('Y-m-d H:i:s'), $useragent, $hostaddress, $output);
+        $user->update('logindata', $logindata);
+        return true;
+    }
+
+    /**
+     * @todo: these huge data-array's should be stored elsewhere
+     */
+    public function isMulti($ip_array=false) {
+        $user_ID = $this->get('id');
+        if(isset($_GET['checkmulti'])) {
+            if(isset($_GET['userid'])) $user_ID = $_GET['userid'];
+        }
+        if(in_array($user_ID, array(1,2,6,2768,2957))) { // Admins may have multi's?
+            return false;
+        }
+
+        if(!$ip_array) {
+            $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
+        }
+
+        $user = User::make($user_ID); //might no be me
+        $ip_address = Request::getIpAddress();
+        if(isset($_GET['checkmulti'])) {
+            if(isset($_GET['ip'])) $ip_address = $_GET['ip'];
+        }
+        if(!isset($ip_array[$ip_address])) $ip_array[$ip_address] = array();
+
+        // What was MY first login?
+        $firstlogin = time();
+        foreach($ip_array as $ip => $data) {
+            if(in_array($user_ID, array_keys($data))) {
+                if(strtotime($data[$user_ID][0]) < $firstlogin) $firstlogin = strtotime($data[$user_ID][0]);
+            }
+        }
+        if(isset($_GET['checkmulti'])) {
+            var_dump(date('Y-m-d H:i:s',$firstlogin), $user_ID, $ip_address, $user->isBanned(), $ip_array[$ip_address]);
+        }
+
+        foreach($ip_array[$ip_address] as $uid => $data) {
+            if(!empty($uid) && $uid != $user_ID && !$user->isBanned()) { // Multi detected, this ip was previously used for another user
+                // If my first login was later than any other account on this ip, block the login attempt
+                if($firstlogin > strtotime($data[0])) {
+                    if(isset($_GET['checkmulti'])) var_dump(strtotime($data[0]));
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public function logout() {
         wp_logout();
         unset($_SESSION['user']);

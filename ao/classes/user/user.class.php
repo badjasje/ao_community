@@ -15,9 +15,9 @@ class User extends DbObject {
     );
     public $province = false;
 
-    public function __construct($props=null) {
+    public function __construct($props=null,$fromCache=true) {
         if(is_numeric($props)) {
-            if(static::$cache && isset(static::$list[static::$cache][$props])) {
+            if(static::$cache && $fromCache==true && isset(static::$list[static::$cache][$props])) {
                 return parent::__construct(static::$list[static::$cache][$props]);
             }
             $props = $this->getUserDataFromWordpress($props);

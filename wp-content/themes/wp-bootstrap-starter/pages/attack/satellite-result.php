@@ -131,13 +131,6 @@ $land_stolen = 0;
 $money_stolen = 0;
 $attacker_lost = 0;
 
-/*if ($_total_bld_def <= 0) {
-	$protected = raid_protection($target_id);
-	if($protected == 'yes'){
-		$_total_bld_def = 35;
-	}
-}*/
-
 // CHECK IF PLAYER IS DEAD
 if ($_total_bld_def <= 0) {
     update_user_meta($target_id, 'status', 'dead');

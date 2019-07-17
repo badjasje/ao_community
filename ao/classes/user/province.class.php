@@ -44,7 +44,7 @@ class Province extends DbObject {
         'total_deposits',
 
         // Research
-        'research_in_progress','queued_research','level_raid_protection',
+        'research_in_progress','queued_research',
         'level_money_production','level_missile_accuracy','level_sattelite_construction','level_shipping_time','level_market_discount',
         'level_thieving_effectiveness','level_engineering_effectiveness','level_bank_management','level_powerplant_efficiency',
 
