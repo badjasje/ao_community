@@ -274,7 +274,7 @@ jQuery(function($) {
         calculateBuildingsTotals();
     });
     function calculateBuildingsTotals() {
-        if(typeof provinceData.networth == 'undefined') return;
+        if(typeof provinceData.networth == 'undefined' || $('#buildings').length==0) return;
         var totals = {build:0,demo:0,cost:0,turns:0,nw:provinceData.networth};
         var bpt=parseInt($('#buildingsPerTurn').text());
 		$('#buildings .unitRow:not(.headerRow)').each(function() {

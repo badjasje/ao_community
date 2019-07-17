@@ -22,6 +22,11 @@ class Settings extends DataObject {
         'start_morale_pool' => 100,
         'nuke_protection_length' => (48 * 3600),
 
+        // Default income
+        'income_turns' => 1,
+        'income_money' => 15000,
+        'income_morale' => 5,
+
         // devfunds
         'devfunds_money' => 250000,
         'devfunds_turns' => 50,
@@ -30,6 +35,24 @@ class Settings extends DataObject {
         'nw_land' => 0.85,
         'nw_sat' => 0.04,
         'nw_research' => 950,
+
+        // start bonus things
+        'startbonus_defensive_building_life_multi' => 1.25,
+        'startbonus_defensive_unit_life_multi' => 1.2,
+        'startbonus_finance_income_multi' => 1.1,
+        'startbonus_money_research_multi' => 1.1,
+        'startbonus_shipping_research_multi' => 10,
+        'startbonus_defensive_research_time' => 0.9,
+
+        // Bank
+        'bank_max_deposits' => 10,
+
+        // Research
+        'powerplant_efficiency_life_multi' => 1.5,
+        'powerplant_efficiency_power_multi' => 1.5,
+        'satellite_construction_1_endlife' => 11,
+        'satellite_construction_2_endlife' => 16,
+        'satellite_construction_3_price_multi' => .8,
 
         // Explore & sell
         'max_explore_land' => 20000,
@@ -43,21 +66,6 @@ class Settings extends DataObject {
         'unit_types' => array('sea', 'air', 'veh', 'inf'),
         'special_units' => array('spyplane', 'thief', 'spy','sniper','saboteur'),
         'demolish_price_multi' => 0.15,
-
-        // research constants
-        'powerplant_efficiency_life_multi' => 1.5,
-        'powerplant_efficiency_power_multi' => 1.5,
-        'satellite_construction_1_endlife' => 11,
-        'satellite_construction_2_endlife' => 16,
-        'satellite_construction_3_price_multi' => .8,
-
-        // start bonus things
-        'startbonus_defensive_building_life_multi' => 1.25,
-        'startbonus_defensive_unit_life_multi' => 1.2,
-        'startbonus_finance_income_multi' => 1.1,
-        'startbonus_money_research_multi' => 1.1,
-        'startbonus_shipping_research_multi' => 10,
-        'startbonus_defensive_research_time' => 0.9,
 
         // attack constants
         'attack_maintargets' => array(
@@ -86,7 +94,7 @@ class Settings extends DataObject {
         'attack_morale_tgt_below' => 25,
         'attack_morale_tgt_above' => 20,
 
-        // turn costs
+        // Turn costs
         'turns_missile' => 3,
         'turns_attack' => 3,
         'turns_thief' => 2,
@@ -94,7 +102,7 @@ class Settings extends DataObject {
         'turns_research' => 25,
         'turns_queue_research' => 30,
 
-        // morale costs
+        // Morale costs
         'morale_missile_tgt_below' => 40,
         'morale_missile_tgt_above' => 35,
         'morale_attack_tgt_below' => 25,
@@ -103,16 +111,11 @@ class Settings extends DataObject {
         'morale_saboteur' => 30,
         'morale_spy' => 0,
 
-        // default income
-        'income_turns' => 1,
-        'income_money' => 15000,
-        'income_morale' => 5,
-
-        // attack range multiplier
+        // Attack range multiplier
         'attack_range_mult' => 1.4,
         'average_declare_nw_allowed' => 1.6,
 
-        // clan stuff
+        // Clan stuff
         'clan_trustee_num' => 4,
     );
 
