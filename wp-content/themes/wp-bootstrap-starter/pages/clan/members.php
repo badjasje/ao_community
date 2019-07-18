@@ -184,7 +184,7 @@
 				<div class="col-md-3 celBlock">
 					<span class="columnDataLeft">Networth</span>
 					<span class="columnDataRight nw-sort">
-						<?php echo   get_user_meta($user_ID, 'networth', true) .' : '. networth_range($user_ID);?>
+						<?php echo networth_range($user_ID);?>
 					</span>
 				</div>
 
