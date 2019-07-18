@@ -20,14 +20,14 @@
 		$count = 0;
 		$reverse = false;
 		foreach ($clanMembers as $allUser) {
-			$userId = $allUser;
-			$clan_id = get_user_meta($userId, 'clan_id_user',true);
-			$member_data = get_userdata($userId);
+			$user_ID = $allUser;
+			$clan_id = get_user_meta($user_ID, 'clan_id_user',true);
+			$member_data = get_userdata($user_ID);
 
-			$land = get_user_meta($userId, 'land',true);
-			$last_online = get_user_meta($userId, 'last_online',true);
+			$land = get_user_meta($user_ID, 'land',true);
+			$last_online = get_user_meta($user_ID, 'last_online',true);
 
-			$status = get_user_meta($userId,'status',true);
+			$status = get_user_meta($user_ID,'status',true);
 			if(!empty($last_online)) $last_seen = $timestamp - $last_online;
 
 			if($count == 30) $reverse = true;
@@ -39,36 +39,36 @@
 			?>
 			<div class="row fw-row userRow userRow6 row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-($count/70);?>);">
 				<div class="col-md-1 col-no-padding sea_heading allUsersAvatarCol">
-					<?php echo small_avatar($userId,'allUsersAvatar');?>
+					<?php echo small_avatar($user_ID,'allUsersAvatar');?>
 					<span class="mobileUserName">
 						<div class="ctclField">
-							<?php if($userId == $clanleader) {
+							<?php if($user_ID == $clanleader) {
 								echo '<strong>CL</strong>';
 							} ?>
-							<?php if($userId == $ct_1 || $userId == $ct_2 || $userId == $ct_3 || $userId == $ct_4 ){
+							<?php if($user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4 ){
 								echo '<strong>CT</strong>';
 							} ?>
 						</div>
-						<span class="name-sort"><?php echo get_user_name($userId);?></span>
+						<span class="name-sort"><?php echo get_user_name($user_ID);?></span>
 					</span>
 				</div>
 
 				<div class="col-md-3 celBlock allUsersNameCol">
 					<div class="ctclField">
-						<?php if($userId == $clanleader) {
+						<?php if($user_ID == $clanleader) {
 							echo '<strong>CL</strong>';
 						} ?>
-						<?php if($userId == $ct_1 || $userId == $ct_2 || $userId == $ct_3 || $userId == $ct_4 ){
+						<?php if($user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4 ){
 							echo '<strong>CT</strong>';
 						} ?>
 					</div>
-					<span class="name-sort"><?php echo get_user_name($userId);?></span>
+					<span class="name-sort"><?php echo get_user_name($user_ID);?></span>
 				</div>
 
 				<div class="col-md-4 celBlock">
 					<span class="columnDataLeft">Networth</span>
 					<span class="columnDataRight nw-sort">
-						<?php echo networth_range($userId);?>
+						<?php echo networth_range($user_ID);?>
 					</span>
 				</div>
 
@@ -131,18 +131,18 @@
 		$reverse = false;
 		foreach ($clanMembers as $allUser) {
 
-			$userId = $allUser;
-			$clan_id = get_user_meta($userId, 'clan_id_user',true);
-			$member_data = get_userdata($userId);
+			$user_ID = $allUser;
+			$clan_id = get_user_meta($user_ID, 'clan_id_user',true);
+			$member_data = get_userdata($user_ID);
 
-			$land = get_user_meta($userId, 'land',true);
-			$last_online = get_user_meta($userId, 'last_online',true);
+			$land = get_user_meta($user_ID, 'land',true);
+			$last_online = get_user_meta($user_ID, 'last_online',true);
 
-			$userPts = get_user_meta($userId, 'current_clan_points',true);
+			$userPts = get_user_meta($user_ID, 'current_clan_points',true);
 			$pts = 0;
 			$pts = isset($userPts) ?  $userPts : 0;
 			$pts = !empty($userPts) ?  $userPts : 0;
-			$status = get_user_meta($userId,'status',true);
+			$status = get_user_meta($user_ID,'status',true);
 			if(!empty($last_online)) $last_seen = $timestamp - $last_online;
 
 			if($count == 30) $reverse = true;
@@ -155,36 +155,36 @@
 			?>
 			<div class="row fw-row userRow userRow6 row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-($count/70);?>);">
 				<div class="col-md-1 col-no-padding sea_heading allUsersAvatarCol">
-					<?php echo small_avatar($userId,'allUsersAvatar');?>
+					<?php echo small_avatar($user_ID,'allUsersAvatar');?>
 					<span class="mobileUserName">
 						<div class="ctclField">
-							<?php if($userId == $clanleader ){
+							<?php if($user_ID == $clanleader ){
 								echo '<strong>CL</strong>';
 							} ?>
-							<?php if($userId == $ct_1 || $userId == $ct_2 || $userId == $ct_3 || $userId == $ct_4 ){
+							<?php if($user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4 ){
 								echo '<strong>CT</strong>';
 							} ?>
 						</div>
-						<span class="name-sort"><?php echo get_user_name($userId);?></span>
+						<span class="name-sort"><?php echo get_user_name($user_ID);?></span>
 					</span>
 				</div>
 
 				<div class="col-md-4 celBlock allUsersNameCol">
 					<div class="ctclField">
-						<?php if($userId == $clanleader ){
+						<?php if($user_ID == $clanleader ){
 							echo '<strong>CL</strong>';
 						} ?>
-						<?php if($userId == $ct_1 || $userId == $ct_2 || $userId == $ct_3 || $userId == $ct_4 ){
+						<?php if($user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4 ){
 							echo '<strong>CT</strong>';
 						} ?>
 					</div>
-					<span class="name-sort"><?php echo get_user_name($userId);?></span>
+					<span class="name-sort"><?php echo get_user_name($user_ID);?></span>
 				</div>
 
 				<div class="col-md-3 celBlock">
 					<span class="columnDataLeft">Networth</span>
 					<span class="columnDataRight nw-sort">
-						<?php echo networth_range($userId);?>
+						<?php echo   get_user_meta($user_ID, 'networth', true) .' : '. networth_range($user_ID);?>
 					</span>
 				</div>
 
@@ -203,13 +203,13 @@
 				</div>
 
 				<div class="col-md-1 celBlock">
-					<?php if($declarer_ID == $clanleader && $declarer_ID != $userId){?>
-						<a href="/kick.php?id=<?php echo $userId;?>&clan=<?php echo $clan_id;?>"
-							onclick="return confirm('Are you sure you want to kick <?php echo $member_data->display_name.' (#'.$userId.')';?> from your clan? Your clan will lose <?php echo round($pts*0.25);?> clan points.')">Kick</a>
+					<?php if($declarer_ID == $clanleader && $declarer_ID != $user_ID){?>
+						<a href="/kick.php?id=<?php echo $user_ID;?>&clan=<?php echo $clan_id;?>"
+							onclick="return confirm('Are you sure you want to kick <?php echo $member_data->display_name.' (#'.$user_ID.')';?> from your clan? Your clan will lose <?php echo round($pts*0.25);?> clan points.')">Kick</a>
 					<?php } ?>
-					<?php if(in_array($declarer_ID, $ctArray) && !in_array($userId, $ctArray) && $userId != $clanleader){?>
-						<a href="/kick.php?id=<?php echo $userId;?>&clan=<?php echo $clan_id;?>"
-							onclick="return confirm('Are you sure you want to kick <?php echo $member_data->display_name.' (#'.$userId.')';?> from your clan? Your clan will lose <?php echo round($pts*0.25);?> clan points.)')">Kick</a>
+					<?php if(in_array($declarer_ID, $ctArray) && !in_array($user_ID, $ctArray) && $user_ID != $clanleader){?>
+						<a href="/kick.php?id=<?php echo $user_ID;?>&clan=<?php echo $clan_id;?>"
+							onclick="return confirm('Are you sure you want to kick <?php echo $member_data->display_name.' (#'.$user_ID.')';?> from your clan? Your clan will lose <?php echo round($pts*0.25);?> clan points.)')">Kick</a>
 					<?php } ?>
 				</div>
 			</div> <!-- // Close profile row -->
