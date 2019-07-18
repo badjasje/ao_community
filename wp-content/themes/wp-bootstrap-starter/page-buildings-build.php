@@ -34,7 +34,7 @@ $buildings = $province->getBuildings();
 		<table>
 			<tr class="unitRow headerRow">
 				<th class="nameBlock">Name</th><th class="price">Price</th><th class="attacklife">Att / Life</th>
-				<th class="targets">Targets</th><th class="max">Max</th><th class="owned">Owned</th>
+				<th class="targets">Targets</th><th class="owned">Owned</th><th class="max">Max</th>
 				<th class="buildBlock">Build</th><th class="demoBlock">Demo<span class="d-none d-md-inline-block">lish</span></th>
 			</tr>
 			<?php $count=0;
@@ -51,8 +51,8 @@ $buildings = $province->getBuildings();
 					<td class="price"><?=Format::money($building['price'])?></td>
 					<td class="attacklife"><?=$building['attack']?>/<?=$building['life']?></td>
 					<td class="targets"><?=$canAttack?></td>
-					<td class="maxBlock buildmax" data-amount="<?=$building['maxbuild']?>"><?=$building['maxbuild']?></td>
 					<td class="owned demomax" data-amount="<?=$building['maxdemo']?>"><?=$building['num']?></td>
+					<td class="maxBlock buildmax" data-amount="<?=$building['maxbuild']?>"><?=$building['maxbuild']?></td>
 					<td class="inputBlock buildBlock">
 						<input class="unitInput" min="0" max="<?=$building['maxbuild']?>" tabindex="<?=$count?>" type="number" name="build[<?=$buildingKey?>]">
 					</div>
