@@ -571,6 +571,7 @@ class Province extends DbObject {
         $finance_multi = ($this->hasStartingBonus('finance') ? Settings::get('startbonus_finance_income_multi') : 1);
         $income = Settings::get('income_money') * $finance_multi;
 
+        //Hooks::trigger('get_province_income', array($id, $income)); // we might want to work with modifiers
         $money_production = $this->getResearches('money_production');
         if($money_production['level'] == 1) $income = $money_production['level1_value'] * $finance_multi;
         elseif($money_production['level'] == 2) $income = $money_production['level2_value'] * $finance_multi;
@@ -672,6 +673,7 @@ class Province extends DbObject {
             $researches[$id]['level_description'] = str_replace('{value}', $value, $description);
             $researches[$id]['inProgress'] = ($this->get('research_in_progress') == $id ? true : false);
             $researches[$id]['queued'] = ($this->get('queued_research') == $id ?  true : false);
+            $researches[$id]['original_duration'] = $researches[$id]['duration']; // For nw calc
             if($this->hasStartingBonus('defensive')) {
                 $researches[$id]['duration'] = $researches[$id]['duration'] * Settings::get('startbonus_defensive_research_time');
             }
@@ -719,6 +721,7 @@ class Province extends DbObject {
         $buildings = Buildings::get();
         foreach($buildings as $id => $building) {
             $buildings[$id]['num'] = (!!$this->get($id) ? intval($this->get($id)) : 0);
+            $buildings[$id]['original_price'] = $building['price']; // For nw calc
             $buildings[$id]['buildprice'] = $building['price']; // Might become cheaper with research/startbonus
             $buildings[$id]['demoprice'] = $building['price'] * Settings::get('demolish_price_multi');
             $buildings[$id]['networthPerUnit'] = round($building['price'] * $building['networth']/100); // of original price!
@@ -813,7 +816,7 @@ class Province extends DbObject {
         foreach($units as $id => $unit) {
             $units[$id]['num'] = (!!$this->get($id.'_owned') ? intval($this->get($id.'_owned')) : 0);
             $units[$id]['ordered'] = (!!$this->get($id.'_ordered') ? intval($this->get($id.'_ordered')) : 0);
-            $units[$id]['original_price'] = $unit['price'];
+            $units[$id]['original_price'] = $unit['price']; // For nw calc
             //Hooks::trigger('get_province_unit', array($id, $units[$id])); // we might want to work with modifiers
             if($this->hasStartingBonus('defensive')) {
                 $units[$id]['life'] = $units[$id]['life'] * Settings::get('startbonus_defensive_unit_life_multi');
@@ -854,7 +857,7 @@ class Province extends DbObject {
         foreach($missiles as $id => $missile) {
             $missiles[$id]['num'] = (!!$this->get($id.'_owned') ? intval($this->get($id.'_owned')) : 0);
             $missiles[$id]['ordered'] = (!!$this->get($id.'_ordered') ? intval($this->get($id.'_ordered')) : 0);
-            $missiles[$id]['original_price'] = $missile['price'];
+            $missiles[$id]['original_price'] = $missile['price']; // For nw calc
             //Hooks::trigger('get_province_missile', array($id, $missiles[$id])); // we might want to work with modifiers
         }
         return ($key != null && $missiles[$key] ? $missiles[$key] : $missiles);
@@ -876,7 +879,7 @@ class Province extends DbObject {
         $sat = $this->get('sat_owned');
         foreach($satellites as $id => $satellite) {
             $satellites[$id]['num'] = ($sat == $id ? 1 : 0);
-            $satellites[$id]['original_price'] = $satellite['price'];
+            $satellites[$id]['original_price'] = $satellite['price']; // For nw calc
             $satellites[$id]['status'] = ($id=='stealths' && $this->get('stealth_sat_status')=='active' ? 'active' : '');
             //Hooks::trigger('get_province_sattelite', array($id, $satellites[$id])); // we might want to work with modifiers
             if(!$this->hasResearchMinimalLevel('satellite_construction', 3)) {
@@ -926,27 +929,27 @@ class Province extends DbObject {
         // calculate unit NW (using original price!)
         $unit_networth = 0;
         foreach($this->getUnits() as $key => $unit) {
-            $unit_networth += $unit['num'] * $unit['price'] * ($unit['networth'] / 100);
+            $unit_networth += $unit['num'] * $unit['original_price'] * ($unit['networth'] / 100);
         }
 
         // calculate missile NW
         $missile_networth = 0;
         foreach($this->getMissiles() as $key => $missile) {
-            $missile_networth += $missile['num'] * $missile['price'] * ($missile['networth'] / 100);
+            $missile_networth += $missile['num'] * $missile['original_price'] * ($missile['networth'] / 100);
         }
 
         // calculate building NW (using original price!)
         $building_networth = 0;
         foreach ($this->getBuildings() as $key => $building) {
             if($building['num'] == 0) continue;
-            $building_networth += $building['num'] * $building['price'] * ($building['networth'] / 100);
+            $building_networth += $building['num'] * $building['original_price'] * ($building['networth'] / 100);
         }
 
-        // calculate research NW
+        // calculate research NW (using original duration!)
         $research_networth = 0;
         foreach ($this->getResearches() as $key => $research) {
             if($research['level']==0) continue;
-            $research_networth += $research['duration'] * Settings::get('nw_research') * $research['level'];
+            $research_networth += $research['original_duration'] * Settings::get('nw_research') * $research['level'];
         }
 
         // calculate satellite NW (using original price!)

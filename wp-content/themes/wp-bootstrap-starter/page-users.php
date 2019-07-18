@@ -10,7 +10,7 @@ $backColor = "45, 67, 81";
 $timestamp = current_time('timestamp');
 
 $transient = get_transient( 'allusers_query' );
-  
+
 if( ! empty( $transient ) ) {
 	$allUsers = $transient;
 	} else {
@@ -20,7 +20,7 @@ $args = array(
 	'meta_value'	=> $timestamp-1728000,
 	'meta_compare'	=> '>',
 
-); 
+);
 
 
     $args = array(
@@ -47,7 +47,7 @@ $args = array(
             ),
 
 
-           
+
           )
        )
     );
@@ -70,31 +70,31 @@ include 'attack_functions.php';
 
  ?>
 
-<div class="row pageRow">	
-	
+<div class="row pageRow">
 
 
 
-	     
-	     
+
+
+
 <form class="fw-row">
 	<select id="clan" name="clan" class="searchusers" onchange="if (this.value) window.location.href=this.value">
 
 	<option></option>
 	<?php foreach ($allUsers as $user) {
-		$userId = $user->ID;
-		$member_data = get_userdata($userId);
+		$user_ID = $user->ID;
+		$member_data = get_userdata($user_ID);
 
 		?>
 
-  
-		<option name="clan" value="/users/profile/?id=<?php echo $userId;?>">
-			<a class="<?php echo get_user_meta($userId,'status',true);?>" href="/users/profile/?id=<?php echo $userId;?>">
-			<?php echo $member_data->display_name.' (#'.$userId.')';?></a></option>
+
+		<option name="clan" value="/users/profile/?id=<?php echo $user_ID;?>">
+			<a class="<?php echo get_user_meta($user_ID,'status',true);?>" href="/users/profile/?id=<?php echo $user_ID;?>">
+			<?php echo $member_data->display_name.' (#'.$user_ID.')';?></a></option>
 		<?php }?>
 	</select>
 </form>
-	
+
 <div class="pageSpacer"></div>
 <div class="fw-row">
 	<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
@@ -107,15 +107,15 @@ include 'attack_functions.php';
 
 <div class="tab-content tabbed-table">
 	<div class="tab-pane <?php echo $activeTab === 'all' ? 'active' : ''; ?>" id="all" role="tabpanel">
-				
+
 		<?php include 'pages/users/all.php'; ?>
-				
+
 	</div> <!-- // End tab pane 1 -->
 
 	<div class="tab-pane <?php echo $activeTab === 'in-range' ? 'active' : ''; ?>"  id="in-range" role="tabpanel">
-	
+
 		<?php include 'pages/users/inrange.php'; ?>
-	
+
 	</div> <!-- // End pane 2 -->
 
 	<div class="tab-pane <?php echo $activeTab === 'online' ? 'active' : ''; ?>"  id="online" role="tabpanel">
@@ -124,8 +124,8 @@ include 'attack_functions.php';
 
 	</div>
 </div>
-	
-	
+
+
 </div>
 <script type="text/javascript">
 	jQuery(document).ready(function() {

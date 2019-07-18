@@ -42,7 +42,7 @@ class User extends DbObject {
         return parent::update($key, $value);
     }
 
-    private function getUserDataFromWordpress($id) {
+    public function getUserDataFromWordpress($id) { // private, but also used in Province
         $user = get_userdata($id); //@wp
         $meta = array_map( function( $a ){ return $a[0]; }, get_user_meta($id)); //@wp
         $props = array_merge(array(

@@ -28,7 +28,7 @@ function updateHeaderData(cb) {
         for(var i in data.formatted) {
             if($('.'+i+'header').length) $('.'+i+'header').html(data.formatted[i]);
         }
-        $('header .freeland').attr({'data-original-title': data.formatted.freeland});
+        $('header .freeland').attr({'data-original-title': 'Free land: '+data.formatted.freeland});
         $('.globalsBadge').text(data.globals).toggle((data.globals>0));
         $('.localsBadge').text(data.locals).toggle((data.locals>0));
         $('.inboxBadge').text(data.messages).toggle((data.messages>0));

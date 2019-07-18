@@ -316,7 +316,7 @@ $timeLeft = Market::timeLeft();
 						<span class="float-right"><i class="fas fa-caret-down"></i></span></span>
 					</div>
 					<div class="col-6 statitem">
-						<span data-toggle="tooltip" data-placement="bottom" title="Free land: <?=$province->getFreeLand(true)?>" class="stattext freeland">
+						<span data-toggle="tooltip" data-placement="bottom" data-html="true" title="Free land: <?=$province->getFreeLand(true)?>" class="stattext freeland">
 						<strong>Land:</strong> <span class="landheader"><?=$province->getLand(true)?></span>
 						<span class="float-right"><i class="fas fa-caret-down"></i></span></span>
 					</div>
