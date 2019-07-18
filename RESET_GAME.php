@@ -181,5 +181,7 @@
 			UPDATE `${table_prefix}postmeta`
 			SET meta_value = ''
 			WHERE meta_key IN('cooldown_list','previous_members','24h_pts_list','open_invites','24h_nw_list','war_array')
-    ");
+	");
 
+	// Reset toplist
+	$wpdb->query("UPDATE `${table_prefix}options` SET `option_value` = '' WHERE `option_name` = 'options_toplistarray'");
