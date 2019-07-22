@@ -8,7 +8,7 @@ class User extends DbObject {
     //static $table = 'users';
     static $cache = 'users';
     public $fields = array(
-        'id','email','nicename','registered','display_name',
+        'id','email','nicename','registered','display_name','logindata',
         'nickname','name_change_counter','first_name','last_name','avatar_user','status',
         'description','phone_number','first_visit','last_online','user_lock',
         'telegram_key','high_power_notified','low_power_notified','low_buildings_notified','last_summary',
@@ -87,6 +87,10 @@ class User extends DbObject {
         return $return;
     }
 
+    public function getUsername() {
+        return $this->get('nicename');
+    }
+
     /*public function getUsernamelink() {
         return '<a href="'.Request::siteUrl().'/users/profile/?id='.$this->get('id').'" data-id="'.$this->get('id').'" class="user-link username-link">
             '.$this->get('username').'
@@ -94,6 +98,5 @@ class User extends DbObject {
     }
     public function getXP() {}
     public function getDisplayName() {}
-    public function getUsername() {}
     public function getEmail() {}*/
 }
