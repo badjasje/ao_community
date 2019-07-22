@@ -23,33 +23,6 @@ $changecount = get_post_meta($clan_ID, 'clan_name_change', true);
 if(get_field('game_status', 'option') != 'Live') $changecount = 0;
 $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
 
-/* UNUSED
-$autojoin = get_post_meta($clan_ID, 'autojoin_allowed', true);
-$autojoinDesc = get_post_meta($clan_ID, 'autojoin_description', true);
-$playstyle = get_post_meta($clan_ID, 'autojoin_playstyle', true);
-
-$casual = '';
-$points = '';
-$networth = '';
-$other = '';
-if($playstyle == 'Casual'){
-	$casual = 'selected="selected"';
-}
-if($playstyle == 'Points'){
-	$points = 'selected="selected"';
-}
-if($playstyle == 'Networth'){
-	$networth = 'selected="selected"';
-}
-if($playstyle == 'Other'){
-	$other = 'selected="selected"';
-}
-
-$autojoinYes = '';
-$autojoinNo = '';
-if($autojoin == 'yes') $autojoinYes = 'selected="selected"';
-if($autojoin == 'no') $autojoinNo = 'selected="selected"';*/
-
 $clan = get_post($clan_ID);
 $wp_upload_dir = wp_upload_dir();
 ?>
