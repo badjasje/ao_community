@@ -29,7 +29,7 @@ class User extends DbObject {
             }
         }
         parent::__construct($props);
-        if(isset($p_props)) $this->set('province', Province::make($p_props));
+        if(isset($p_props) && is_array($p_props)) $this->set('province', Province::make($p_props));
     }
 
     public function update($key, $value) {
@@ -44,7 +44,9 @@ class User extends DbObject {
 
     public function getUserDataFromWordpress($id) { // private, but also used in Province
         $user = get_userdata($id); //@wp
-        $meta = array_map( function( $a ){ return $a[0]; }, get_user_meta($id)); //@wp
+        if(!$user) return array('id' => $id);
+        $user_meta = get_user_meta($id);
+        $meta = (is_array($user_meta) ? array_map( function( $a ){ return $a[0]; }, $user_meta) : array()); //@wp
         $props = array_merge(array(
             'id' => $user->ID, 'email' => $user->data->user_email, 'nicename' => $user->data->user_nicename,
             'registered' => $user->data->user_registered, 'display_name' => $user->data->display_name

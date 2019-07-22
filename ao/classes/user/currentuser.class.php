@@ -16,6 +16,10 @@ class CurrentUser extends User {
             $this->loggedin=true;
         }
 
+        if(isset($_GET['checkmulti'])) {
+            $this->isMulti();
+        }
+
         // Validate session based on user-agent, ip-address and other stuff
         if(!$this->isAdmin()) $this->validateSession();
 
@@ -189,6 +193,7 @@ class CurrentUser extends User {
             if(isset($_GET['userid'])) $user_ID = $_GET['userid'];
         }
         if(in_array($user_ID, array(1,2,6,2768,2957))) { // Admins may have multi's?
+            if(isset($_GET['checkmulti'])) { die('Admin: not a multi'); }
             return false;
         }
 
@@ -211,18 +216,21 @@ class CurrentUser extends User {
             }
         }
         if(isset($_GET['checkmulti'])) {
-            var_dump(date('Y-m-d H:i:s',$firstlogin), $user_ID, $ip_address, $user->isBanned(), $ip_array[$ip_address]);
+            wtf(date('Y-m-d H:i:s',$firstlogin), $user_ID, $ip_address, $user->isBanned(), $ip_array[$ip_address]);
         }
 
         foreach($ip_array[$ip_address] as $uid => $data) {
-            if(!empty($uid) && $uid != $user_ID && !$user->isBanned()) { // Multi detected, this ip was previously used for another user
+            $tmpUser = User::make($uid);
+            if(isset($_GET['checkmulti'])) wtf($uid != $user_ID, $tmpUser->isBanned(), $data[0]);
+            if(!empty($uid) && $uid != $user_ID && !$tmpUser->isBanned()) { // Multi detected, this ip was previously used for another user
                 // If my first login was later than any other account on this ip, block the login attempt
                 if($firstlogin > strtotime($data[0])) {
-                    if(isset($_GET['checkmulti'])) var_dump(strtotime($data[0]));
+                    if(isset($_GET['checkmulti'])) { wtf('Multi!', strtotime($data[0])); die(); }
                     return true;
                 }
             }
         }
+        if(isset($_GET['checkmulti'])) { die('Not a multi'); }
         return false;
     }
 
