@@ -126,7 +126,7 @@ include('interest_array.php');
 			if($time_left < 0) $unlocked += $incl_interest;
 			if($banklevel >= 2 && $time_left > 0) {
 				$early_penalty = ($banklevel == 2 ? 0.5 : 0.75);
-				if($placedStamp+43200 <= $timestamp && $time_left > 0) $unlocked += ($incl_interest*$early_penalty);
+				if($placedStamp+43200 <= $timestamp && $time_left > 0) $unlocked += ($deposited*$early_penalty);
 			}
 		}
 
