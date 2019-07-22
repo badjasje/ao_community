@@ -34,9 +34,10 @@ foreach ($users as $user) {
 function AddSatPower($userId) {
 	$userData = get_user_meta($userId);
     $currentSatPower = $userData['sat_morale'][0];
-
     if ($currentSatPower < 100) {
         update_user_meta($userId, 'sat_morale', $currentSatPower + 5);
+        if($currentSatPower+5 >= 100) fcm_send_notification($userId, 'maxsatmorale');
+        else update_user_meta($userId, 'max_satmorale_notified', 'no');
     }
 }
 
@@ -52,6 +53,8 @@ function AddMorale($userId, $moraleIncome) {
 
         if ($currentMorale < 100) {
             update_user_meta($userId, 'morale', min($currentMorale + $moraleToAdd, 100));
+            if($currentMorale+$moraleToAdd >= 100) fcm_send_notification($userId, 'maxmorale');
+            else update_user_meta($userId, 'max_morale_notified', 'no');
         }
 
         if ($takeFromPool) {
