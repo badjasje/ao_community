@@ -84,7 +84,7 @@ include('interest_array.php');
 			$args = array('posts_per_page' => 1, 'author' => $member, 'post_type' => 'research');
 			$researches_in_progress = get_posts( $args );
 			$completionTime = $researches_in_progress[0]->post_title;
-			$timeLeft = human_time_diff($completionTime, $timestamp);
+			$timeLeft = $completionTime - $timestamp;
 		}
 
 		// Check how many open bonusses you have
@@ -125,7 +125,8 @@ include('interest_array.php');
 			$placedStamp = $depositData['deposit_placed'][0];
 			if($time_left < 0) $unlocked += $incl_interest;
 			if($banklevel >= 2 && $time_left > 0) {
-				if($placedStamp+43200 <= $timestamp && $time_left > 0) $unlocked += $incl_interest;
+				$early_penalty = ($banklevel == 2 ? 0.5 : 0.75);
+				if($placedStamp+43200 <= $timestamp && $time_left > 0) $unlocked += ($incl_interest*$early_penalty);
 			}
 		}
 
@@ -295,10 +296,10 @@ include('interest_array.php');
 
 			<div class="col-md-4 celBlock" style="padding:0px">
 				<button viewtype="research" member-id="<?php echo $member;?>"
-					class="cancelButton hoverEffect viewmemberinfo<?=(count($researches)||$inprogress!='0'?' active':'')?>" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);">
+					class="cancelButton hoverEffect viewmemberinfo<?=(count($researches)||!empty($inprogres)?' active':'')?>" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);">
 					<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Research
-					<?php if($inprogress != '0') {?>
-						<span class="badge" data-toggle="tooltip" data-placement="top" title="Research currently in progress: <?php echo $researches[$inprogress]['name'];?>, <?=$timeLeft?> left">
+					<?php if(!empty($inprogress)) {?>
+						<span class="badge" data-toggle="tooltip" data-placement="top" title="Research currently in progress: <?php echo $researches[$inprogress]['name'];?>">
 							<i class="fa fa-circle-o-notch fa-spin"></i>
 						</span>
 					<?php } ?>
@@ -312,10 +313,10 @@ include('interest_array.php');
 						<span class="dataVisibleRight">Level: <?php echo $level;?></span>
 						<br/>
 					<?php } ?>
-					<?php if($inprogress != '0'): ?>
+					<?php if(!empty($inprogress)) { ?>
 						<br/>
-						<strong>In progress: <?php echo $researches[$inprogress]['name'];?>, <?=$timeLeft?> left</strong>
-					<?php endif; ?>
+						<strong>In progress: <?php echo $researches[$inprogress]['name'];?>, <span data-countdown="<?=$timeLeft?>"></span> left</strong>
+					<?php } ?>
 				</div>
 			</div>
 
