@@ -282,9 +282,9 @@ jQuery(function($) {
 			totals.build += b;
             totals.demo += d;
             totals.cost += (b*parseInt($(this).data('buildprice')))+(d*parseInt($(this).data('demoprice')));
-            totals.turns += Math.ceil(b/bpt);
             totals.nw += (b*parseInt($(this).data('nw'))) - (d*parseInt($(this).data('nw')));
         });
+        totals.turns += Math.ceil(totals.build/bpt);
         // Demolishing creates more space
         var landpb = $('#buildings .landpb').data('amount');
         var freeland = provinceData.freeland + (totals.demo*landpb) - (totals.build * landpb);
