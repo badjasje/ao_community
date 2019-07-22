@@ -104,7 +104,7 @@ if($marketShippingLevel == 1){
 		var sum = 0;
 		var orderval = 0;
 		var nwlost = 0;
-		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
+		var oldnw = provinceData.networth != 'undefined' ? provinceData.networth : 0;
 
 		$(".sellInput").each(function(){
 			var inputkey = $(this).attr("data-key");
@@ -126,7 +126,7 @@ if($marketShippingLevel == 1){
 		var sum = 0;
 		var inputkey = $(this).attr("data-key");
 		var inputamount = parseInt($(this).text());
-		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
+		var oldnw = provinceData.networth != 'undefined' ? provinceData.networth : 0;
 		$("#sell_"+inputkey).val(inputamount);
 
 		var orderval = 0
