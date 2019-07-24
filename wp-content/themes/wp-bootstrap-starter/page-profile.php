@@ -28,7 +28,6 @@ if(empty($telegram_key)) {
 	update_user_meta($viewedId, 'telegram_key', $telegram_key);
 }
 
-include('country_array.php');
 $user_country_code = $profileData['user_country'][0];
 
 $last_online = $profileData['last_online'][0];
