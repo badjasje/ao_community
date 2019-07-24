@@ -25,7 +25,6 @@ User/Bonus extends PostObject {}    // Wp-post type, a clan bonus a user can act
 
 // Bank
 *Bank/Bank extends PhpObject {}     // Has rates?? Can open an accounts? Loans?
-Bank/BankAccount extends PhpObject  // We might create multiple bankaccounts per province or user someday
 Bank/Deposit extends PostObject {}  // A wp-post type. Has a limited time
 
 // Market

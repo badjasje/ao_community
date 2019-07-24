@@ -159,7 +159,7 @@ $timeLeft = Market::timeLeft();
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
 						<a href="<?=Request::siteUrl()?>/bank">Bank
-						<span class="badge badge-secondary"><?=$province->getBankAccount()->getDepositNum();?></span></a>
+						<span class="badge badge-secondary"><?=$province->getDepositNum()?></span></a>
 					</div>
 				</div>
 

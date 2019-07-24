@@ -3,8 +3,7 @@
 class Province extends DbObject {
     //static $table = 'provinces';
     public static $cache = 'provinces';
-    public static $bankAccount = false;
-    public static $researches = false;
+    public static $deposits = false;
 
     // @todo: add building, missile, sat, research, unit-fields from data objects instead of huge array
     public $fields = array(
@@ -174,11 +173,58 @@ class Province extends DbObject {
         return array('success' => true, 'status' => 'Protection removed');
     }
 
-    public function ajaxAddDeposit() {
+    public function ajaxDeposit($return) {
+        if(!Round::isLive()) return array('status' => 'Game is paused.');
+        $amount = round(Request::post('amount'));
+        $length = round(Request::post('days'));
+        if(!is_numeric($amount) || !is_numeric($length)) return array('status' => 'Enter a valid number');
+        if($amount <= 0 || $length <= 0) return array('status' => 'Enter a valid number');
+        if($amount < $this->getMinDeposit()) return array('status' => 'Deposit at least '.$this->getMinDeposit(true));
+        if($this->getDepositNum() >= $this->getMaxDeposits()) return array('status' => 'You already made '.$this->getMaxDeposits().' deposits');
+        $money = $this->getMoney();
+        if($amount > $money) return array('status' => 'Insufficient funds');
+        $max_dep = $this->getMaxDeposit();
+        if ($amount > $max_dep) return array('status' => 'Your research doesn\'t allow you to deposit this much');
+        $rate = $this->getBankInterestRate($length);
+        if(empty($rate)) return array('status' => 'Undefined length');
 
+        $deposit = Deposit::create(array('province_id' => $this->id, 'length' => $length, 'amount' => $amount));
+
+        return array(
+            'success' => true,
+            'status' => $deposit->deposited(true).' deposited for '. $deposit->get('days') .' days',
+            'deposited' => $deposit->deposited(true),
+            'finalamount' => $deposit->finalAmount(true),
+            'timeleft' => $deposit->timeLeft(),
+            'max_input' => floor(min($max_dep, $this->getMoney())),
+            'dep_num' => $this->getDepositNum(),
+            'total_amount' => $this->getDepositAmount(true),
+            'total_final' => $this->getDepositFinal(true),
+            'total_available' => $this->getDepositAvailable(true)
+        );
     }
-    public function ajaxWithdrawDeposit() {
-
+    public function ajaxWithdraw($return) {
+        if(!Round::isLive()) return array('status' => 'Game is paused');
+        $depositid = round(Request::post('depositid'));
+        if(!is_numeric($depositid) || $depositid <= 0) return array('status' => 'Not a valid deposit');
+        $deposit = Deposit::make($depositid);
+        if($deposit->get('id') != $depositid) return array('status' => 'Invalid deposit');
+        if($deposit->get('province_id') != $this->id) return array('status' => 'Not a deposit');
+        if($deposit->used()) return array('status' => 'Already withdrawn');
+        if($deposit->timeLeft() > 0 && !$deposit->unlocked()) return array('status' => 'Please wait');
+        if(!$deposit->unlocked()) return array('status' => 'Cannot withdraw this deposit');
+        $amount = $deposit->availableAmount(true);
+        $deposit->end();
+        $max_dep = $this->getMaxDeposit();
+        return array(
+            'success' => true,
+            'status' => ($deposit->timeLeft() > 0 ? 'You canceled your deposit. ':''). $amount.' withdrawn.',
+            'max_input' => floor(min($max_dep, $this->getMoney())),
+            'dep_num' => $this->getDepositNum(),
+            'total_amount' => $this->getDepositAmount(true),
+            'total_final' => $this->getDepositFinal(true),
+            'total_available' => $this->getDepositAvailable(true)
+        );
     }
 
     public function ajaxSetResearch($return) {
@@ -634,9 +680,72 @@ class Province extends DbObject {
     /**
      * Province bank account
      */
-    public function getBankAccount() {
-        if(static::$bankAccount==false) static::$bankAccount = BankAccount::make($this->id);
-        return static::$bankAccount;
+    public function getBankInterestRates() {
+        $rates = Bank::getRates(); // Array changes according to days left in this round
+        $bank_level = $this->getResearches('bank_management')['level'];
+        $extra_interest = ($bank_level > 0 ? Settings::get('bank_management_'.$bank_level.'_interest') : 0);
+        foreach($rates as $length => $rate) {
+            $rates[$length] = $rate + $extra_interest;
+        }
+        return $rates;
+    }
+    public function getBankInterestRate($length) {
+        $rates = $this->getBankInterestRates();
+        return (isset($rates[$length]) ? $rates[$length] : 0);
+    }
+
+    public function getDeposits() {
+        $posts = get_posts(array('posts_per_page' => -1, 'author' => $this->id, 'post_type' => 'deposit'));
+        self::$deposits = array();
+        foreach($posts as $post) {
+            self::$deposits[$post->ID] = Deposit::make($post);
+        }
+        return self::$deposits;
+    }
+    public function getDepositNum() {
+        if(!self::$deposits) self::$deposits = $this->getDeposits();
+        return count(self::$deposits);
+    }
+    public function getDepositAmount($format=false) {
+        if(!self::$deposits) self::$deposits = $this->getDeposits();
+        $n = 0;
+        foreach(self::$deposits as $deposit) $n += $deposit->deposited();
+        return ($format ? Format::money($n) : $n);
+    }
+    public function getDepositAvailable($format=false) {
+        if(!self::$deposits) self::$deposits = $this->getDeposits();
+        $n = 0;
+        foreach(self::$deposits as $deposit) $n += $deposit->availableAmount();
+        return ($format ? Format::money($n) : $n);
+    }
+    public function getDepositFinal($format=false) {
+        if(!self::$deposits) self::$deposits = $this->getDeposits();
+        $n = 0;
+        foreach(self::$deposits as $deposit) $n += $deposit->finalAmount();
+        return ($format ? Format::money($n) : $n);
+    }
+
+
+    public function getMaxDeposits() {
+        $n = Settings::get('bank_max_deposits');
+        // Hook
+        return $n;
+    }
+    public function getMinDeposit($format=false) {
+        $n = Settings::get('bank_min_deposit');
+        // Hook
+        return ($format ? Format::money($n) : $n);
+    }
+    public function getMaxDeposit($format=false) {
+        $max_dep = Settings::get('bank_max_deposit');
+
+        $bank_level = $this->getResearches('bank_management')['level'];
+        $max_dep = ($bank_level > 0 ? Settings::get('bank_management_'.$bank_level.'_deposit') : $max_dep);
+
+        $finance_multi = $this->hasStartingBonus('finance') ? Settings::get('startbonus_finance_deposit_multi') : 1;
+        $max_dep = $max_dep * $finance_multi;
+
+        return ($format ? Format::money($max_dep) : $max_dep);
     }
 
     /**

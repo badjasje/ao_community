@@ -40,12 +40,15 @@ class Settings extends DataObject {
         'startbonus_defensive_building_life_multi' => 1.25,
         'startbonus_defensive_unit_life_multi' => 1.2,
         'startbonus_finance_income_multi' => 1.1,
+        'startbonus_finance_deposit_multi' => 1.5,
         'startbonus_money_research_multi' => 1.1,
         'startbonus_shipping_research_multi' => 10,
         'startbonus_defensive_research_time' => 0.9,
 
         // Bank
         'bank_max_deposits' => 10,
+        'bank_max_deposit' => 250000,
+        'bank_min_deposit' => 5000,
 
         // Research
         'powerplant_efficiency_life_multi' => 1.5,
@@ -53,6 +56,15 @@ class Settings extends DataObject {
         'satellite_construction_1_endlife' => 11,
         'satellite_construction_2_endlife' => 16,
         'satellite_construction_3_price_multi' => .8,
+        'bank_management_1_interest' => .5,
+        'bank_management_2_interest' => .5,
+        'bank_management_3_interest' => .75,
+        'bank_management_1_deposit' => 350000,
+        'bank_management_2_deposit' => 450000,
+        'bank_management_3_deposit' => 500000,
+        'bank_management_2_time' => (60*60*24),
+        'bank_management_2_withdraw' => 0.5,
+        'bank_management_3_withdraw' => 0.75,
 
         // Explore & sell
         'max_explore_land' => 20000,

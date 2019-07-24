@@ -140,7 +140,7 @@ class Request {
         if(!$user->isLoggedIn()) $error = 'You must log in to perform this action (E06:LI)';
         if(isset($_SESSION['request_error_num']) && $_SESSION['request_error_num'] > Settings::get('max_request_errors')) {
             $error = 'Please login again and try again (E02:REN)';
-            $_SESSION['request_error_num']=0;
+            $_SESSION['request_error_num'] = 0;
             $user->logout();
         }
         if(static::part(1)!='header' && !static::validateNonce()) $error = 'Please refresh the page and try again (E01:VN)';
@@ -168,8 +168,9 @@ class Request {
             $province->update('user_lock', 0);
         }
 
-        if(!empty($error)) {
-            $return = array_merge($return, array('status' => $error, 'success' => false));
+        if(!empty($error)) $return['status'] = $error;
+        $return = array_merge(array('success' => false), $return);
+        if($return['success'] == false) {
             $_SESSION['request_error_num'] = (!isset($_SESSION['request_error_num']) ? 1 : $_SESSION['request_error_num']+1);
         }
 
