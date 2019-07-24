@@ -16,14 +16,12 @@ $buildings = $province->getBuildings();
 		<div class="blockHeader spaceNotice">
 			<p>
 				You can build a maximum of <span class="maxbuild"><?=$province->getMaxBuild()?></span> buildings,
-				your unused land has room for <span class="buildspace"><?=$province->getBuildSpace()?></span> buildings.
-				(<span id="buildingsPerTurn"><?=$buildingsPerTurn?></span> buildings costs 1 turn,
-				each building uses
+				your unused land of <span class="freelandheader"><?=$province->getFreeLand(true)?></span> has room for
+				<span class="buildspace"><?=$province->getBuildSpace()?></span> buildings.
+				(You build <span id="buildingsPerTurn"><?=$buildingsPerTurn?></span> buildings per turn,
 				<span class="landpb" data-amount="<?=Settings::get('land_per_building')?>"><?=Format::land(Settings::get('land_per_building'))?></span>
-				of land)<br>
+				of land per building)<br>
 				The cost to demolish a building is <?=(Settings::get('demolish_price_multi')*100)?>% of the original price.
-				You have <span class="freelandheader"><?=$province->getFreeLand(true)?></span> available land.
-				<span class="powerheader"><?=$province->getPower(true)?></span> power used.
 				<? if($province->getPower() > 50) { ?>Keep your power level around 20% to survive attacks longer.<? } ?>
 			</p>
 			<div class="text-right small">

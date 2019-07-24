@@ -11,6 +11,8 @@ class Request {
         'startingbonus' => array('province','ajaxStartingbonus'),
         'clanbonus' => array('province', 'ajaxClanBonus'),
         'removenp' => array('province','ajaxRemoveNp'),
+        'deposit' => array('province','ajaxDeposit'),
+        'withdraw' => array('province','ajaxWithdraw'),
         'research' => array('province','ajaxSetResearch'),
         'exploreland' => array('province','ajaxExploreLand'),
         'sellland' => array('province','ajaxSellLand'),
@@ -168,7 +170,7 @@ class Request {
 
         if(!empty($error)) {
             $return = array_merge($return, array('status' => $error, 'success' => false));
-            //$_SESSION['request_error_num'] = (!isset($_SESSION['request_error_num']) ? 1 : $_SESSION['request_error_num']+1);
+            $_SESSION['request_error_num'] = (!isset($_SESSION['request_error_num']) ? 1 : $_SESSION['request_error_num']+1);
         }
 
         $return = array_merge($return, array('nonce' => static::getNonce()));

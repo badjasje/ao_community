@@ -65,4 +65,7 @@ class Format extends PhpObject {
         else return $ends[$number % 10];
     }
 
+    public static function plural($n) {
+        return ($n == 0 || $n > 1 ? 's' : '');
+    }
 }

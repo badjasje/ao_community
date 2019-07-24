@@ -983,38 +983,15 @@ body:not(.theme-preset-active) footer#colophon {
     to { background-color: #17a2b8; }
 }
 
-.globalsBadge{
-	top: 3px;
-    position: absolute;
-    z-index: 99999;
-    left: 148px;
-    display: none;
-	-webkit-animation-name: globalsPulse;
-	-webkit-animation-duration: 2s;
+.menu-item { position:relative; }
+.globalsBadge { top: 3px; -webkit-animation-name: globalsPulse; }
+.localsBadge { top: 23px; -webkit-animation-name: localsPulse; }
+.inboxBadge { top: 23px; -webkit-animation-name: inboxPulse; }
+.inboxBadge, .localsBadge, .globalsBadge {
+    display:none; z-index: 99999; position: absolute;
+    -webkit-animation-duration: 2s;
 	-webkit-animation-iteration-count: infinite;
 }
-
-.localsBadge{
-	top: 23px;
-    position: absolute;
-    z-index: 99999;
-    left: 107px;
-    display: none;
-    -webkit-animation-name: localsPulse;
-	-webkit-animation-duration: 2s;
-	-webkit-animation-iteration-count: infinite;
-}
-.inboxBadge{
-	top: 23px;
-    position: absolute;
-    z-index: 99999;
-    left: 57px;
-    display: none;
-    -webkit-animation-name: inboxPulse;
-	-webkit-animation-duration: 2s;
-	-webkit-animation-iteration-count: infinite;
-}
-.inboxBadge, .localsBadge, .globalsBadge { display:none; }
 .activebadge { display:block; }
 .topbarButton { display: none; }
 .statheader{
@@ -1547,15 +1524,6 @@ input[type="radio"]:checked + label {
     .pageRow {
         margin: 10px 10px 0px 10px;
         width: calc(100% - 20px);
-	}
-	.localsBadge{
-		left: 148px;
-	}
-	.globalsBadge{
-		left: 189px;
-	}
-	.inboxBadge{
-		left: 98px;
 	}
 	.content-area{
 		padding:0px;
@@ -2107,7 +2075,16 @@ input[type="radio"]:checked + label {
 .wp-polls .pollbar { background: #46765d; border: none; }
 
 /* Bank page styling */
-
+#bank .label { padding: 10px 10px 10px 15px; text-transform: uppercase; }
+#bankform, #banklist, #banklist .withdraw { width:100%; }
+#bankform #days, #bankform #amount { width: 100%;min-height: 41px; border: none; text-transform: uppercase; }
+#bankform #days { padding: 10px 25px; }
+#bankform #amount { padding-left: 20px; box-shadow: inset 0px 0px 0px 1px #545454; }
+#bankform .maxdep { border:none; }
+#banklist .unitRow { border-bottom: 1px solid rgba(255,255,255,.2); }
+#banklist .unitRow .mainSubmit { border-top:none; }
+#banklist .headerRow { background: #3f525f; border-bottom: 1px solid #FFF; }
+#banklist { background: linear-gradient(rgba(45, 67, 81, 0.56), rgba(45, 67, 81, 0.24)); width: 100%; }
 
 /* Research page styling */
 #research { background: linear-gradient(rgba(45, 67, 81, 0.56), rgba(45, 67, 81, 0.24)); width: 100%; }
