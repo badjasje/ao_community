@@ -176,7 +176,7 @@ else $hours = 12;
 		var orderval = 0;
 		var addednw = 0;
 		var turntot = 0;
-		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
+		var oldnw = provinceData.networth != 'undefined' ? provinceData.networth : 0;
 
 		$(".buyInput").each(function(){
 			var inputval = $(this).val();
@@ -218,7 +218,7 @@ else $hours = 12;
 
 		var orderval = 0;
 		var addednw = 0;
-		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
+		var oldnw = provinceData.networth != 'undefined' ? provinceData.networth : 0;
 
 		$(".buyInput").each(function(){
 			var inputval = $(this).val();

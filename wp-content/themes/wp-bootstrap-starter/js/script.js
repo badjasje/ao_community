@@ -23,16 +23,18 @@ function updateHeaderData(cb) {
     var $ = jQuery;
     $.ajax({url:site_url+'/ajax/header',type:'post'}).done(function(response) { // ajax without loader, returns html in json
         var data = $.parseJSON(response);
-        provinceData = data.clean;
-        if(data.nonce) $('.nonce').val(data.nonce);
-        for(var i in data.formatted) {
-            if($('.'+i+'header').length) $('.'+i+'header').html(data.formatted[i]);
+        if(data.success) {
+            provinceData = data.clean;
+            if(data.nonce) $('.nonce').val(data.nonce);
+            for(var i in data.formatted) {
+                if($('.'+i+'header').length) $('.'+i+'header').html(data.formatted[i]);
+            }
+            $('header .freeland').attr({'data-original-title': 'Free land: '+data.formatted.freeland});
+            $('.globalsBadge').text(data.globals).toggle((data.globals>0));
+            $('.localsBadge').text(data.locals).toggle((data.locals>0));
+            $('.inboxBadge').text(data.messages).toggle((data.messages>0));
+            if(!!cb) cb.call();
         }
-        $('header .freeland').attr({'data-original-title': 'Free land: '+data.formatted.freeland});
-        $('.globalsBadge').text(data.globals).toggle((data.globals>0));
-        $('.localsBadge').text(data.locals).toggle((data.locals>0));
-        $('.inboxBadge').text(data.messages).toggle((data.messages>0));
-        if(!!cb) cb.call();
     });
 }
 
@@ -144,7 +146,7 @@ jQuery(function($) {
     start_countdowns();
 
     if($('.pageTitle').hasClass('.deadback')) {
-        $(".splashmessage").html('You died');
+        $(".splashmessage").text('You died');
         $("#splashback").addClass("failsplash");
         $("#splashback,.splashmessage").show();
         $("#splashback,.splashmessage").delay(1500).fadeOut("slow");
@@ -203,13 +205,57 @@ jQuery(function($) {
         });
     });
 
+    // BANK
+    $(document).on('click', ".maxdep", function() {
+        $("#amount").val($(this).attr("data-max"));
+    });
+    $('#bankform').on('submit', function(e) {
+        e.preventDefault();
+        if(Math.round($('#amount').val()) == 0) return standardNotify('Invalid amount');
+        singleAjax(site_url+'/ajax/deposit', $(this), function(data) {
+            if(data.success) {
+                $('.noDeposits').addClass('hidden');
+                $("#amount").attr({"max":data.max_input});
+                $(".maxdep").attr({"data-max":data.max_input});
+                $('.totaldeposits').text(data.dep_num);
+                $('.total_amount').text(data.total_amount);
+                $('.total_final').text(data.total_final);
+                $('.total_available').text(data.total_available);
+                var lastrow = $('.withdraw.hidden').clone();
+                lastrow.find('.deposited').text(data.deposited);
+                lastrow.find('.finalamount').text(data.finalamount);
+                lastrow.find('.timeleft').attr('data-countdown', data.timeleft);
+                lastrow.removeClass('hidden').insertAfter('.withdraw.hidden');
+                start_countdowns();
+                $(this).trigger("reset");
+            }
+        });
+    });
+    $('.withdraw').on('submit', function(e) {
+        e.preventDefault();
+        var bankvalue = $(this).find('.available').val();
+        if(!confirm("Are you sure? This deposit will return "+bankvalue)) return;
+        singleAjax(site_url+'/ajax/withdraw', $(this), function(data) {
+            if(data.success) {
+                $("#amount").attr({"max":data.max_input});
+                $(".maxdep").attr({"data-max":data.max_input});
+                $('.totaldeposits').text(data.dep_num);
+                $('.total_amount').text(data.total_amount);
+                $('.total_final').text(data.total_final);
+                $('.total_available').text(data.total_available);
+                $(this).remove();
+                if($('.withdraw:not(.hidden)').length == 0) $('.noDeposits').removeClass('hidden');
+            }
+        });
+    });
+
     // Research page
     $('#research').on('submit', function(e) {
         e.preventDefault();
         singleAjax(site_url+'/ajax/research',  $(this), function(data) {
             if(data.success) {
                 $('#researchsubmit').val('Queue research');
-                $('.researchlabel').html('Queue select');
+                $('.researchlabel').text('Queue select');
                 $(data.hidebutton).hide();
                 if(data.endtime!='queued') {
 					$(`<div class="blockHeader fw-row">
@@ -282,9 +328,9 @@ jQuery(function($) {
 			totals.build += b;
             totals.demo += d;
             totals.cost += (b*parseInt($(this).data('buildprice')))+(d*parseInt($(this).data('demoprice')));
-            totals.turns += Math.ceil(b/bpt);
             totals.nw += (b*parseInt($(this).data('nw'))) - (d*parseInt($(this).data('nw')));
         });
+        totals.turns += Math.ceil(totals.build/bpt);
         // Demolishing creates more space
         var landpb = $('#buildings .landpb').data('amount');
         var freeland = provinceData.freeland + (totals.demo*landpb) - (totals.build * landpb);

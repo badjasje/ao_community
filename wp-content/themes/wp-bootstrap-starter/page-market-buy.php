@@ -193,7 +193,7 @@ if(count($orders) == 0) {
 		var sum = 0;
 		var orderval = 0;
 		var addednw = 0;
-		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
+		var oldnw = provinceData.networth != 'undefined' ? provinceData.networth : 0;
 		$(".buyInput").each(function(){
 			var inputkey = $(this).attr("data-key");
 			var inputval = Math.abs(parseInt($(this).val()));
@@ -218,7 +218,7 @@ if(count($orders) == 0) {
 
 		var orderval = 0;
 		var addednw = 0;
-		var oldnw = parseInt($('#masthead .networthheader').text().replace(/\s/g,''));
+		var oldnw = provinceData.networth != 'undefined' ? provinceData.networth : 0;
 
 		$(".buyInput").each(function(){
 			var inputkey = $(this).attr("data-key");

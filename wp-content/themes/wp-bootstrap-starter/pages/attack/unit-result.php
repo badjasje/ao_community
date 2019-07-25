@@ -91,10 +91,10 @@ if (!$debug && $attack_cost_turns > $attack_curr_turns) {
 
 /* deduct attack cost */
 $attack_new_turns = $attack_curr_turns - $attack_cost_turns;
-if($debug) debug_update_user($userId, 'turn_cost', $attack_new_turns);
+if($debug) debug_update_user($userId, 'turn_cost', $attack_cost_turns);
 else update_user_meta($userId, 'turns', $attack_new_turns);
 $attack_new_morale = $attack_curr_morale - $attack_cost_morale;
-if($debug) debug_update_user($userId, 'morale_cost', $attack_new_morale);
+if($debug) debug_update_user($userId, 'morale_cost', $attack_cost_morale);
 else update_user_meta($userId, 'morale', $attack_new_morale);
 
 /* Calculate dragon extra attack power */

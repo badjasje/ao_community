@@ -16,6 +16,10 @@ class CurrentUser extends User {
             $this->loggedin=true;
         }
 
+        if(isset($_GET['checkmulti'])) {
+            $this->isMulti();
+        }
+
         // Validate session based on user-agent, ip-address and other stuff
         if(!$this->isAdmin()) $this->validateSession();
 
@@ -184,11 +188,12 @@ class CurrentUser extends User {
      * @todo: these huge data-array's should be stored elsewhere
      */
     public function isMulti($ip_array=false) {
-        $user_ID = $this->get('id');
+        $my_userid = $this->get('id');
         if(isset($_GET['checkmulti'])) {
-            if(isset($_GET['userid'])) $user_ID = $_GET['userid'];
+            if(isset($_GET['userid'])) $my_userid = $_GET['userid'];
         }
-        if(in_array($user_ID, array(1,2,6,2768,2957))) { // Admins may have multi's?
+        if(in_array($my_userid, array(1,2,6,2768,2957))) { // Admins may have multi's?
+            if(isset($_GET['checkmulti'])) { die('Admin: not a multi'); }
             return false;
         }
 
@@ -196,33 +201,56 @@ class CurrentUser extends User {
             $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
         }
 
-        $user = User::make($user_ID); //might no be me
-        $ip_address = Request::getIpAddress();
-        if(isset($_GET['checkmulti'])) {
-            if(isset($_GET['ip'])) $ip_address = $_GET['ip'];
+        $my_user = User::make($my_userid); //might no be me
+        if($my_user->isBanned()) {
+            if(isset($_GET['checkmulti'])) { die('Banned: I don\'t care'); }
+            return false;
         }
-        if(!isset($ip_array[$ip_address])) $ip_array[$ip_address] = array();
+        $my_ip = Request::getIpAddress();
+        if(isset($_GET['checkmulti'])) {
+            if(isset($_GET['ip'])) $my_ip = $_GET['ip'];
+        }
+        if(!isset($ip_array[$my_ip])) $ip_array[$my_ip] = array();
 
         // What was MY first login?
-        $firstlogin = time();
+        $my_firstlogin = time();
         foreach($ip_array as $ip => $data) {
-            if(in_array($user_ID, array_keys($data))) {
-                if(strtotime($data[$user_ID][0]) < $firstlogin) $firstlogin = strtotime($data[$user_ID][0]);
+            if(in_array($my_userid, array_keys($data))) {
+                if(strtotime($data[$my_userid][0]) < $my_firstlogin) $my_firstlogin = strtotime($data[$my_userid][0]);
             }
         }
         if(isset($_GET['checkmulti'])) {
-            var_dump(date('Y-m-d H:i:s',$firstlogin), $user_ID, $ip_address, $user->isBanned(), $ip_array[$ip_address]);
+            echo $my_user->getUsername() .' ('.$my_userid.')'. ($my_user->isBanned()?' BANNED!':'').' '.$my_ip.'<br>';
+            echo 'Firstlogin: '. date('Y-m-d H:i:s',$my_firstlogin);
+            wtf($ip_array[$my_ip]);
         }
 
-        foreach($ip_array[$ip_address] as $uid => $data) {
-            if(!empty($uid) && $uid != $user_ID && !$user->isBanned()) { // Multi detected, this ip was previously used for another user
+        // Are there other accounts on this IP (exclude banned)?
+        $other_accounts = array();
+        foreach($ip_array[$my_ip] as $uid => $data) {
+            $tmpUser = User::make($uid);
+            if(isset($_GET['checkmulti']) && !empty($uid) && $uid != $my_userid) echo $tmpUser->getUsername() .' ('.$uid.')'. ($tmpUser->isBanned()?' BANNED!':'').'<br>';
+            if(!empty($uid) && $uid != $my_userid && !$tmpUser->isBanned()) { // Multi detected, this ip also used by another user
+                $other_accounts[$uid] = maybe_unserialize($tmpUser->get('logindata'));
+            }
+        }
+
+        // Get first login of other (active) accounts that have shared this IP
+        if(count($other_accounts)) {
+            foreach($other_accounts as $uid => $logindata) {
+                $firstlogin = time();
+                foreach($logindata as $ip => $data) {
+                    if(strtotime($data[0]) < $firstlogin) $firstlogin = strtotime($data[0]);
+                }
                 // If my first login was later than any other account on this ip, block the login attempt
-                if($firstlogin > strtotime($data[0])) {
-                    if(isset($_GET['checkmulti'])) var_dump(strtotime($data[0]));
+                if($my_firstlogin > $firstlogin) {
+                    if(isset($_GET['checkmulti'])) { echo '<strong>Multi!</strong> ('. $uid .') '. date('Y-m-d H:i:s', $firstlogin).' <br>'; die(); }
                     return true;
                 }
             }
         }
+
+        if(isset($_GET['checkmulti'])) { die('Not a multi'); }
         return false;
     }
 

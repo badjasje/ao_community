@@ -3,8 +3,8 @@ class Order extends PostObject {
 
     function __construct($postData=null) {
         parent::__construct($postData);
-        if(is_object($postData)) {
-            $this->setPropertiesFromArray(array('province_id' => intval($postData->post_author)));
+        if(!empty($this->post_author)) {
+            $this->setPropertiesFromArray(array('province_id' => intval($this->post_author)));
         }
         $unit_type = $this->get('unit_type');
 

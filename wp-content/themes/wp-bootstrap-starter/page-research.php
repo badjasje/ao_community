@@ -30,7 +30,7 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 
 	<form id="research">
 		<div class="row unitRow headerRow">
-			<div class="col-md-3 celBlock nameBlock">Name</div>
+			<div class="col-md-3 celBlock">Name</div>
 			<div class="col-md-4 celBlock">Effect</div>
 			<div class="col-md-2 celBlock">Time</div>
 			<div class="col-md-3 celBlock"></div>

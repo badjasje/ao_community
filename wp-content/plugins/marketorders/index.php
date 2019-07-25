@@ -1295,16 +1295,36 @@ function fcm_send_notification($receiver, $type, $attacker=0) {
     if ($type == 'maxturns' && (empty($mt_notified) || $mt_notified == 'no')) {
         $avatar = get_user_meta($receiver, 'avatar_user', true);
         $body = 'Max turns reached, spend some on building, exploring or attacking';
-        $url = get_site_url() . '/dashboard/';
+        $url = get_site_url() . '/buildings/';
         update_user_meta($receiver, 'max_turns_notified', 'yes');
+    }
+
+    // Max morale -> /add_morale.php (cron)
+    $mm_notified = get_user_meta($receiver, 'max_morale_notified', true);
+    if ($type == 'maxmorale' && (empty($mm_notified) || $mm_notified == 'no')) {
+        $avatar = get_user_meta($receiver, 'avatar_user', true);
+        $body = 'Max morale reached, go attack someone';
+        $url = get_site_url() . '/users/?tab=in-range';
+        update_user_meta($receiver, 'max_morale_notified', 'yes');
+    }
+
+    // Max sat morale -> /add_morale.php (cron)
+    $msm_notified = get_user_meta($receiver, 'max_satmorale_notified', true);
+    $sat_owned = get_user_meta($receiver, 'sat_owned', true);
+    if ($type == 'maxsatmorale' && !empty($sat_owned) && (empty($msm_notified) || $msm_notified == 'no')) {
+        $avatar = get_user_meta($receiver, 'avatar_user', true);
+        $body = 'Max satellite morale reached, go fire that thing';
+        $url = get_site_url() . '/satellites/';
+        update_user_meta($receiver, 'max_satmorale_notified', 'yes');
     }
 
     if(!isset($body) || empty($body)) return;
 
     // No notifications to others on Dev!
     $gameType = get_field('game_type','option');
-    if(in_array($gameType, array('Development','Test')) && $receiver != 2768) {
-        return;
+    if(in_array($gameType, array('Development','Test'))) {
+        if($receiver != 2768) return;
+        wtf('<a href="'.$url.'">'.$body.'</a>');
     }
 
     $registrationIds = maybe_unserialize(get_user_meta($receiver, 'device_tokens', true));
