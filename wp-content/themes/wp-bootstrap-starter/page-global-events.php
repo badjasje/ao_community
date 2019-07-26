@@ -110,9 +110,9 @@ if($userId != 0){
             $eventData = get_post_meta($eventId);
             $defender_id = $eventData['defender_id'][0];
             $attacker_id = $eventData['attacker_id'][0];
-            $clan_points = $eventData['clan_points'][0];
+            $clan_points = (isset($eventData['clan_points']) ? $eventData['clan_points'][0] : 0);
 
-            $outcome = $eventData['outcome'][0];
+            $outcome = (isset($eventData['outcome']) ? $eventData['outcome'][0] : '');
             $defender_points = (isset($eventData['defender_points']) ? $eventData['defender_points'][0] : 0);
 
             $member_data = get_userdata($attacker_id);
@@ -141,7 +141,7 @@ if($userId != 0){
             $timeattacked = $eventData['time_attacked'][0];
             $timestamp = current_time('timestamp');
             $attack_type = $eventData['attacktype'][0];
-            $winner_id = $eventData['winner_id'][0];
+            $winner_id = (isset($eventData['winner_id']) ? $eventData['winner_id'][0] : 0);
 
             $reportHeader = '';
             if($attack_type == 'air_sea'){
@@ -158,7 +158,7 @@ if($userId != 0){
             }
             if($attack_type == 'war_declared'){
                 $icon = 'flaticon-star';
-                $outcome = $eventData['outcome'][0];
+                $outcome = (isset($eventData['outcome']) ? $eventData['outcome'][0] : '');
 
                 if($outcome == 'resume'){
                     $reportHeader = 'War resumed';
