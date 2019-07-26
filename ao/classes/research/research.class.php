@@ -13,8 +13,7 @@ class Research extends PostObject {
     }
 
     public function timeLeft($format=false) {
-        $diff = intval($this->get('end_time')) - current_time('timestamp');
-        return ($format ? Format::time_diff($diff) : $diff);
+        return ($format ? Format::time_diff(intval($this->get('end_time'))) : intval($this->get('end_time')) - current_time('timestamp'));
     }
 
     public function stop() { // maybe we want to stop a current research in the future?
