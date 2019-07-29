@@ -192,7 +192,7 @@ class CurrentUser extends User {
         if(isset($_GET['checkmulti'])) {
             if(isset($_GET['userid'])) $my_userid = $_GET['userid'];
         }
-        if(in_array($my_userid, array(1,2,6,2768,2957))) { // Admins may have multi's?
+        if(in_array($my_userid, array(1,2,6,2768))) { // Admins may have multi's?
             if(isset($_GET['checkmulti'])) { die('Admin: not a multi'); }
             return false;
         }
@@ -201,9 +201,13 @@ class CurrentUser extends User {
             $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
         }
 
-        $my_user = User::make($my_userid); //might no be me
+        $my_user = User::make($my_userid); //might no be "me" (currentuser)
         if($my_user->isBanned()) {
             if(isset($_GET['checkmulti'])) { die('Banned: I don\'t care'); }
+            return false;
+        }
+        if($my_user->get('multi_whitelist') == 1) {
+            if(isset($_GET['checkmulti'])) { die('Whitelisted: not a multi'); }
             return false;
         }
         $my_ip = Request::getIpAddress();

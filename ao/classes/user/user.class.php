@@ -8,7 +8,7 @@ class User extends DbObject {
     //static $table = 'users';
     static $cache = 'users';
     public $fields = array(
-        'id','email','nicename','registered','display_name','logindata',
+        'id','email','nicename','registered','display_name','logindata','multi_whitelist',
         'nickname','name_change_counter','first_name','last_name','avatar_user','status',
         'description','phone_number','first_visit','last_online','user_lock',
         'telegram_key','high_power_notified','low_power_notified','low_buildings_notified','last_summary',
@@ -89,6 +89,11 @@ class User extends DbObject {
 
     public function getUsername() {
         return $this->get('nicename');
+    }
+
+    public function getLoginData($format=false) {
+        $data = maybe_unserialize($this->get('logindata'));
+        return ($format==true ? '<pre>'. print_r($data,1) .'</pre>' : $data);
     }
 
     /*public function getUsernamelink() {
