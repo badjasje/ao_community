@@ -991,7 +991,7 @@ class Province extends DbObject {
             $satellites[$id]['original_price'] = $satellite['price']; // For nw calc
             $satellites[$id]['status'] = ($id=='stealths' && $this->get('stealth_sat_status')=='active' ? 'active' : '');
             //Hooks::trigger('get_province_sattelite', array($id, $satellites[$id])); // we might want to work with modifiers
-            if(!$this->hasResearchMinimalLevel('satellite_construction', 3)) {
+            if($this->hasResearchMinimalLevel('satellite_construction', 3)) {
                 $satellites[$id]['price'] = $satellites[$id]['price'] * Settings::get('satellite_construction_3_price_multi');
             }
         }
