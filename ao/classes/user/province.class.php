@@ -680,8 +680,8 @@ class Province extends DbObject {
     /**
      * Province bank account
      */
-    public function getBankInterestRates() {
-        $rates = Bank::getRates(); // Array changes according to days left in this round
+    public function getBankInterestRates($all=false) {
+        $rates = Bank::getRates($all); // Array changes according to days left in this round, we want all in case of Deposit calculation
         $bank_level = $this->getResearches('bank_management')['level'];
         $extra_interest = ($bank_level > 0 ? Settings::get('bank_management_'.$bank_level.'_interest') : 0);
         foreach($rates as $length => $rate) {
@@ -690,7 +690,7 @@ class Province extends DbObject {
         return $rates;
     }
     public function getBankInterestRate($length) {
-        $rates = $this->getBankInterestRates();
+        $rates = $this->getBankInterestRates(true);
         return (isset($rates[$length]) ? $rates[$length] : 0);
     }
 
@@ -991,7 +991,7 @@ class Province extends DbObject {
             $satellites[$id]['original_price'] = $satellite['price']; // For nw calc
             $satellites[$id]['status'] = ($id=='stealths' && $this->get('stealth_sat_status')=='active' ? 'active' : '');
             //Hooks::trigger('get_province_sattelite', array($id, $satellites[$id])); // we might want to work with modifiers
-            if(!$this->hasResearchMinimalLevel('satellite_construction', 3)) {
+            if($this->hasResearchMinimalLevel('satellite_construction', 3)) {
                 $satellites[$id]['price'] = $satellites[$id]['price'] * Settings::get('satellite_construction_3_price_multi');
             }
         }
