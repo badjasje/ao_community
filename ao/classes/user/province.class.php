@@ -680,8 +680,8 @@ class Province extends DbObject {
     /**
      * Province bank account
      */
-    public function getBankInterestRates() {
-        $rates = Bank::getRates(); // Array changes according to days left in this round
+    public function getBankInterestRates($all=false) {
+        $rates = Bank::getRates($all); // Array changes according to days left in this round, we want all in case of Deposit calculation
         $bank_level = $this->getResearches('bank_management')['level'];
         $extra_interest = ($bank_level > 0 ? Settings::get('bank_management_'.$bank_level.'_interest') : 0);
         foreach($rates as $length => $rate) {
@@ -690,7 +690,7 @@ class Province extends DbObject {
         return $rates;
     }
     public function getBankInterestRate($length) {
-        $rates = $this->getBankInterestRates();
+        $rates = $this->getBankInterestRates(true);
         return (isset($rates[$length]) ? $rates[$length] : 0);
     }
 

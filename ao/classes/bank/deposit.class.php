@@ -44,13 +44,13 @@ class Deposit extends PostObject {
                 $n = $this->deposited() * ($bank_level >= 2 ? Settings::get('bank_management_'.$bank_level.'_withdraw') : 1);
             }
         }
-        return ($format ? Format::money($n) : $n);
+        return ($format ? Format::money(round($n)) : round($n));
     }
     public function finalAmount($format=false) {
         $province = Province::make($this->get('province_id'));
         $length = round($this->get('days'));
         $rate = $province->getBankInterestRate($length);
-        $incl_interest = $this->deposited() * pow(1+($rate/100), $length);
+        $incl_interest = round( $this->deposited() * pow(1+($rate/100), $length) );
         return ($format ? Format::money($incl_interest) : $incl_interest);
     }
 
@@ -80,10 +80,10 @@ class Deposit extends PostObject {
 
     public function end() {
         $province = Province::make($this->get('province_id'));
-
-        $province->update('money', $province->getMoney() + $this->availableAmount());
+wtf($this->availableAmount());
+        /*$province->update('money', $province->getMoney() + $this->availableAmount());
         wp_trash_post($this->get('id'));
         $province->getDeposits();//refresh
-        $province->update('total_deposits', $province->getDepositNum());
+        $province->update('total_deposits', $province->getDepositNum());*/
     }
 }

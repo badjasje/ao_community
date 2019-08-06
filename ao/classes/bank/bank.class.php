@@ -14,7 +14,7 @@ class Bank extends PhpObject {
     }
 
     // We might make this dynamic like real banks >:-)
-    public static function getRates() {
+    public static function getRates($all=false) {
         $rates = array(
             '3' => 1,
             '4' => 1.5,
@@ -25,6 +25,7 @@ class Bank extends PhpObject {
             '9' => 4,
             '10' => 4.5
         );
+        if($all) return $rates; // When calculating final amount of a deposit, we want do want the 10 days rate
         $daysleft = floor(self::timeLeft()/60/60/24);
         if($daysleft < 3) return array();
         $return = array();
