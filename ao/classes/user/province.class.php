@@ -394,7 +394,7 @@ class Province extends DbObject {
         else if($turns_needed > $turns) $status[] = 'not enough turns to build';
         else if($build_num*Settings::get('land_per_building') > $freeland) $status[] = 'Not enough free land';
         else {
-            if($build_num > 0) $status[] = $build_num.' buildings build';
+            if($build_num > 0) $status[] = $build_num.' buildings built';
             foreach ($build as $key => $count) {
                 $this->update($key, $this->get($key) + $count);
             }

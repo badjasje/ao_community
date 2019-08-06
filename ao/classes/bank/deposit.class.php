@@ -80,10 +80,10 @@ class Deposit extends PostObject {
 
     public function end() {
         $province = Province::make($this->get('province_id'));
-wtf($this->availableAmount());
-        /*$province->update('money', $province->getMoney() + $this->availableAmount());
+
+        $province->update('money', $province->getMoney() + $this->availableAmount());
         wp_trash_post($this->get('id'));
         $province->getDeposits();//refresh
-        $province->update('total_deposits', $province->getDepositNum());*/
+        $province->update('total_deposits', $province->getDepositNum());
     }
 }
