@@ -107,8 +107,8 @@ if (get_field('game_status', 'option') == 'Live') {
 
     $array['attacktype'] = $_POST['attacktype'];
     $array['target_id'] = $target_id;
-    $array['attackmode'] = $_POST['attackmode'];
-    $array['maintarget'] = $_POST['maintarget'];
+    $array['attackmode'] = (isset($_POST['attackmode']) ? $_POST['attackmode'] : '');
+    $array['maintarget'] = (isset($_POST['maintarget']) ? $_POST['maintarget'] : '');
 
     echo json_encode($array);
     exit;
