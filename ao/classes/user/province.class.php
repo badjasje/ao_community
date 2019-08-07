@@ -571,11 +571,17 @@ class Province extends DbObject {
         $medals = Medals::get();
         foreach($medals as $id => $medal) {
             $medals[$id]['position'] = !empty($this->get($id.'_position')) ? intval($this->get($id.'_position')) : 0;
-            $medals[$id]['next'] = !empty($this->get($id.'_next')) ? intval($this->get($id.'_next')) : 0;
-            $medals[$id]['prev'] = !empty($this->get($id.'_prev')) ? intval($this->get($id.'_prev')) : 0;
+            if($id == 'modev') $medals[$id]['damage'] = !empty($this->get($id.'_damage')) ? intval($this->get($id.'_damage')) : 0;
+            else {
+                $medals[$id]['next'] = !empty($this->get($id.'_next')) ? intval($this->get($id.'_next')) : 0;
+                $medals[$id]['prev'] = !empty($this->get($id.'_prev')) ? intval($this->get($id.'_prev')) : 0;
+            }
             if($format == true && isset($medals[$id]['format'])) {
-                $medals[$id]['next'] = call_user_func(array('Format', $medals[$id]['format']), $medals[$id]['next']);
-                $medals[$id]['prev'] = call_user_func(array('Format', $medals[$id]['format']), $medals[$id]['prev']);
+                if($id == 'modev') $medals[$id]['damage'] = call_user_func(array('Format', $medals[$id]['format']), $medals[$id]['damage']);
+                else {
+                    $medals[$id]['next'] = call_user_func(array('Format', $medals[$id]['format']), $medals[$id]['next']);
+                    $medals[$id]['prev'] = call_user_func(array('Format', $medals[$id]['format']), $medals[$id]['prev']);
+                }
             }
             //Hooks::trigger('get_province_medal', array($id, $medals[$id])); // we might want to work with modifiers
         }
