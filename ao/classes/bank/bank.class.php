@@ -26,8 +26,9 @@ class Bank extends PhpObject {
             '10' => 4.5
         );
         if($all) return $rates; // When calculating final amount of a deposit, we want do want the 10 days rate
-        $daysleft = floor(self::timeLeft()/60/60/24);
-        if($daysleft < 3) return array();
+
+        $daysleft = floor(Round::timeLeft()/60/60/24);
+        if($daysleft <= 3) return array();
         $return = array();
         foreach(range(3, min($daysleft, 10)) as $length) {
             $return[$length] = $rates[$length];

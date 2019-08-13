@@ -22,6 +22,10 @@ class Round extends DataObject {
         return ($format ? Format::date(static::$data['end_date'],'d F Y') : static::$data['end_date']); // random time
     }
 
+    public static function timeLeft($format=false) {
+        return static::$data['time_left'];
+    }
+
     public static function nextRoundStartDate() {
         return static::$data['new_round_start']; // returns string "the 2nd of May @ 10:00 server time"
     }
