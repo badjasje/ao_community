@@ -16,7 +16,7 @@ class Province extends DbObject {
         'networth_cache','land_cache','cached_land','cached_nw',
 
         // Stats
-        'sold_land_today','land_sold_today','explored_today','special_sold_today',
+        'sold_land_today','land_sold_today','explored_today','special_sold_today','turn_spread',
         'builtland','units_sold','nuke_protection_timestamp','user_country',
         'sat_nw','research_nw','building_nw','unit_nw','land_nw','missile_nw','morale_lost',
         'highest_networth','highest_land','buildings_built',
@@ -571,11 +571,17 @@ class Province extends DbObject {
         $medals = Medals::get();
         foreach($medals as $id => $medal) {
             $medals[$id]['position'] = !empty($this->get($id.'_position')) ? intval($this->get($id.'_position')) : 0;
-            $medals[$id]['next'] = !empty($this->get($id.'_next')) ? intval($this->get($id.'_next')) : 0;
-            $medals[$id]['prev'] = !empty($this->get($id.'_prev')) ? intval($this->get($id.'_prev')) : 0;
+            if($id == 'modev') $medals[$id]['damage'] = !empty($this->get($id.'_damage')) ? intval($this->get($id.'_damage')) : 0;
+            else {
+                $medals[$id]['next'] = !empty($this->get($id.'_next')) ? intval($this->get($id.'_next')) : 0;
+                $medals[$id]['prev'] = !empty($this->get($id.'_prev')) ? intval($this->get($id.'_prev')) : 0;
+            }
             if($format == true && isset($medals[$id]['format'])) {
-                $medals[$id]['next'] = call_user_func(array('Format', $medals[$id]['format']), $medals[$id]['next']);
-                $medals[$id]['prev'] = call_user_func(array('Format', $medals[$id]['format']), $medals[$id]['prev']);
+                if($id == 'modev') $medals[$id]['damage'] = call_user_func(array('Format', $medals[$id]['format']), $medals[$id]['damage']);
+                else {
+                    $medals[$id]['next'] = call_user_func(array('Format', $medals[$id]['format']), $medals[$id]['next']);
+                    $medals[$id]['prev'] = call_user_func(array('Format', $medals[$id]['format']), $medals[$id]['prev']);
+                }
             }
             //Hooks::trigger('get_province_medal', array($id, $medals[$id])); // we might want to work with modifiers
         }
@@ -1028,7 +1034,10 @@ class Province extends DbObject {
         $turnSpread[$turntype] += $addedturns;
         $this->update('turn_spread', maybe_serialize($turnSpread));
     }
-
+    public function getTurnSpread() {
+        $turn_spread = maybe_unserialize(maybe_unserialize($this->get('turn_spread')));
+        return phpObject::make($turn_spread);
+    }
 
     /**
      * Some stuff should not be calculated on the fly

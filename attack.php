@@ -24,7 +24,7 @@ nocache_headers();
 
     include('units_array.php');
     include('attack_functions.php');
-    
+
 $array = array();
 
 
@@ -48,11 +48,11 @@ $array = array();
 		echo json_encode($array);
 		exit;
     }
-    
+
     $clan_id = $userData['clan_id_user'][0];
     $turns = $userData['turns'][0];
     $morale = $userData['morale'][0];
-	$maintarget = $_POST['maintarget'];
+	$maintarget = (isset($_POST['maintarget']) ? $_POST['maintarget'] : '');
 
 	if($userData['status'][0] == 'dead' || $userData['status'][0] == 'nukeprotection'){
 		$array['status'] = 'You cannot attack while dead or under protection';
@@ -68,11 +68,11 @@ $array = array();
 		$array['next'] = false;
 		echo json_encode($array);
 		exit;
-	    
+
     }*/
     //count_all_stats($target_id);
 
-	$attackmode = $_POST['attackmode'];
+	$attackmode = (isset($_POST['attackmode']) ? $_POST['attackmode'] : '');
     $attack_type = $_POST['attacktype'];
     $extra_morale_cost = 0;
     if ($attackmode == 'aggressive') {
@@ -149,7 +149,7 @@ $array = array();
     $networth_att = $userData['networth'][0];
     $networth_def = get_user_meta($target_id, 'networth')[0];
 
-  
+
 
 /* determine if target is in range */
 
@@ -182,7 +182,7 @@ $array = array();
 		$array['next'] = false;
 		echo json_encode($array);
 		exit;
-        
+
     }
 
 /* check satellite morale */
@@ -192,7 +192,7 @@ $array = array();
 			$array['next'] = false;
 			echo json_encode($array);
 			exit;
-           
+
         }
     }
 
@@ -211,12 +211,12 @@ $array = array();
 		$array['next'] = false;
 		echo json_encode($array);
 		exit;
-       
+
     }
 
 /* validations passed - advance to step 2 */
 
-    
+
     $array['next'] = true;
     $array['attacktype'] = $attacktype;
     $array['target_id'] = $target_id;

@@ -2,7 +2,7 @@
 
 ?>
 <div class="row row-no-padding fw-row">
-	<? foreach($province->getMedals(null, true) as $medal) { ?>
+	<? foreach($province->getMedals(null, true) as $id => $medal) { ?>
 		<div class="col-md-4 medal_col">
 			<div class="row medal_box">
 				<div class="col-md-12 medal_header">
@@ -13,10 +13,15 @@
 				</div>
 				<div class="col-md-6 col-xs-6 medal_row">Position:</div>
 				<div class="col-md-6 col-xs-6 medal_row"><?=$medal['position']?></div>
+<? if($id == 'modev') { ?>
+				<div class="col-md-6 col-xs-6 medal_row">Networth damage:</div>
+				<div class="col-md-6 col-xs-6 medal_row"><?=$medal['damage']?></div>
+<? } else { ?>
 				<div class="col-md-6 col-xs-6 medal_row">Next position:</div>
 				<div class="col-md-6 col-xs-6 medal_row"><?=$medal['next']?></div>
 				<div class="col-md-6 col-xs-6 medal_row">Previous position:</div>
 				<div class="col-md-6 col-xs-6 medal_row"><?=$medal['prev']?></div>
+<? } ?>
 			</div>
 		</div>
 	<? } ?>
