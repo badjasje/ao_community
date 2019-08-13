@@ -6,9 +6,7 @@ get_header();
 
 $user = CurrentUser::make();
 $province = $user->getProvince();
-
-$turnSpread = maybe_unserialize(maybe_unserialize($province->get('turn_spread')));
-
+$turnSpread = $province->getTurnSpread();
 ?>
 <div class="row pageRow no-gutters">
 <div class="col-md-6">
@@ -221,87 +219,87 @@ $turnSpread = maybe_unserialize(maybe_unserialize($province->get('turn_spread'))
 	<div class="row unitRow">
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Regular, Ground and Air & Sea attacks</span>
-			<span class="dataVisibleRight"><?=$turnSpread['unit_attack']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('unit_attack')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Thieving</span>
-			<span class="dataVisibleRight"><?=$turnSpread['thieving']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('thieving')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Spying</span>
-			<span class="dataVisibleRight"><?=$turnSpread['spying']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('spying')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Sending snipers</span>
-			<span class="dataVisibleRight"><?=$turnSpread['sniper']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('sniper')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Laser beam satellite</span>
-			<span class="dataVisibleRight"><?=$turnSpread['laser_sattelite']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('laser_sattelite')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">EMP satellite</span>
-			<span class="dataVisibleRight"><?=$turnSpread['emp_satellite']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('emp_satellite')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Activating stealth satellite</span>
-			<span class="dataVisibleRight"><?=$turnSpread['activate_sat']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('activate_sat')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Sending saboteurs</span>
-			<span class="dataVisibleRight"><?=$turnSpread['saboteur']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('saboteur')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Launching missiles</span>
-			<span class="dataVisibleRight"><?=$turnSpread['regular_missile']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('regular_missile')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Launching EMP missiles</span>
-			<span class="dataVisibleRight"><?=$turnSpread['emp_missile']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('emp_missile')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Unit turn build</span>
-			<span class="dataVisibleRight"><?=$turnSpread['unit_turn_build']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('unit_turn_build')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Building satellites</span>
-			<span class="dataVisibleRight"><?=$turnSpread['build_satellite']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('build_satellite')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Building missiles</span>
-			<span class="dataVisibleRight"><?=$turnSpread['missiles']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('missiles')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Buildings</span>
-			<span class="dataVisibleRight"><?=$turnSpread['buildings']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('buildings')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Exploring</span>
-			<span class="dataVisibleRight"><?=$turnSpread['exploring']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('exploring')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Research</span>
-			<span class="dataVisibleRight"><?=$turnSpread['research']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('research')?></span>
 		</div>
 
 		<div class="col-md-12 celBlock">
 			<span class="dataVisibleLeft">Queue research</span>
-			<span class="dataVisibleRight"><?=$turnSpread['research_queue']?></span>
+			<span class="dataVisibleRight"><?=$turnSpread->get('research_queue')?></span>
 		</div>
 
 	</div>

@@ -16,7 +16,7 @@ class Province extends DbObject {
         'networth_cache','land_cache','cached_land','cached_nw',
 
         // Stats
-        'sold_land_today','land_sold_today','explored_today','special_sold_today',
+        'sold_land_today','land_sold_today','explored_today','special_sold_today','turn_spread',
         'builtland','units_sold','nuke_protection_timestamp','user_country',
         'sat_nw','research_nw','building_nw','unit_nw','land_nw','missile_nw','morale_lost',
         'highest_networth','highest_land','buildings_built',
@@ -1034,7 +1034,10 @@ class Province extends DbObject {
         $turnSpread[$turntype] += $addedturns;
         $this->update('turn_spread', maybe_serialize($turnSpread));
     }
-
+    public function getTurnSpread() {
+        $turn_spread = maybe_unserialize(maybe_unserialize($this->get('turn_spread')));
+        return phpObject::make($turn_spread);
+    }
 
     /**
      * Some stuff should not be calculated on the fly
