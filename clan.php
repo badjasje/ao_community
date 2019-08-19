@@ -7,8 +7,8 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 }
 
 require(dirname(__FILE__) . '/wp-load.php');
-if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
-    $array['status'] = 'The round has ended';
+if (!defined('ABSPATH')) {
+    $array['status'] = 'Nope';
     $array['next'] = false;
     echo json_encode($array);
     exit;
