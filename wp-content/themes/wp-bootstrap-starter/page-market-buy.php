@@ -7,13 +7,8 @@ $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'air';
 global $userData;
 global $userId;
 
-$endDate = get_field('end_date','option');
-$endStamp = strtotime($endDate);
-$timestamp = current_time('timestamp');
-$timeLeft = $endStamp-$timestamp;
-
 $disableClass = '';
-if($timeLeft <= 0 || get_field('game_status', 'option') != 'Live') $disableClass = ' disabledDiv';
+if(!Market::isOpen()) $disableClass = ' disabledDiv';
 
 include 'units_array.php';
 include 'count_functions.php';
@@ -120,10 +115,9 @@ $marketShippingLevel = $userData['level_shipping_time'][0];
 				</div>
 			</div>
 
-
-			<?php if($timeLeft > 0):?>
-            	<input type="submit" value="Place order" class="mainSubmit hoverEffect">
-            <?php endif;?>
+			<? if(Market::isOpen()) { ?>
+            <input type="submit" value="Place order" class="mainSubmit hoverEffect">
+			<? } ?>
         </div>
     </form>
 	</div>

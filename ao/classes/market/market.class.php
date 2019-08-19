@@ -10,7 +10,7 @@ class Market extends PhpObject {
     }
 
     public static function isOpen() {
-        return static::timeLeft() > 0;
+        return (Round::isPaused() ? false : static::timeLeft() > 0);
     }
 
     public function buy() { // order
