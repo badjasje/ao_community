@@ -17,7 +17,7 @@ $disabled = (!Bank::isOpen() || $dep_num >= $province->getMaxDeposits() ? true :
 ?>
 <div id="bank" class="row pageRow">
 	<div class="blockHeader spaceNotice">
-		Your current interest rate starts at <?=current($rates)?>%.
+		<? if(count($rates)) {?>Your current interest rate starts at <?=current($rates)?>%.<?}?>
 		The maximum amount of simultaneous deposits is <?=$province->getMaxDeposits()?>.
 		Each single deposit has a minimum of <?=$province->getMinDeposit(true)?> and a maximum of
 		<span class="maxdep" data-max="<?=$max_input?>"><?=$province->getMaxDeposit(true)?></span>.
