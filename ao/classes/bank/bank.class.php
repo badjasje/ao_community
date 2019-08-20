@@ -10,7 +10,7 @@ class Bank extends PhpObject {
     }
 
     public static function isOpen() {
-        return static::timeLeft() > 0;
+        return  (Round::isPaused() ? false : static::timeLeft() > 0);
     }
 
     // We might make this dynamic like real banks >:-)

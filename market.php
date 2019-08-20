@@ -34,7 +34,7 @@ if (empty($userId) || !is_user_logged_in()) {
     exit;
 }
 
-if ($timeLeft <= 0) {
+if (!Market::isOpen()) {
     $array['status'] = 'The market is closed';
     $array['next'] = false;
     echo json_encode($array);
