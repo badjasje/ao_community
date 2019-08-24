@@ -1,11 +1,11 @@
 === Asgaros Forum ===
 Contributors: Asgaros
-Donate link: https://www.paypal.me/asgaros
+Donate link: https://www.asgaros.de/donate/
 Tags: forum, forums, discussion, multisite, community, bulletin, board, asgaros, support
-Requires at least: 4.8
+Requires at least: 4.9
 Tested up to: 5.2
 Requires PHP: 5.2
-Stable tag: 1.14.9
+Stable tag: 1.15.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,27 +21,24 @@ Asgaros Forum is the perfect WordPress plugin if you want to extend your website
 = Features =
 * Simple Content Management
 * Profiles & Members List
+* Notifications & Feeds
 * Powerful Editor
-* Notifications
 * SEO-friendly
 * Reactions
 * Uploads
 * Search
 * Polls
-* Approval
+* Widgets
 * Statistics
-* Who Is Online
 * Ads Management
 * Guest Postings
-* Reporting & Banning
+* Approval, Banning & Reporting
 * Moderators, Permissions & Usergroups
-* Widgets
-* RSS Feeds
-* Easy Appearance Customization
-* Mobile Theme & Theme Manager
+* Customizable Responsive Theme
 * Multilingualism
 * Multiple Instances
 * Multisite Compatibility
+* myCRED Integration
 
 = Installation =
 * A new forum-page is automatically created during the installation
@@ -90,6 +87,61 @@ You can find a list of available hooks and filters on this site:
 6. Manage general options.
 
 == Changelog ==
+= 1.15.0 =
+* Added: myCRED Integration
+* Added: Reputation system based on amount of posts
+* Added: Option to change login URL
+* Added: Option to change register URL
+* Added: asgarosforum_profile_row action
+* Added: asgarosforum_after_add_reaction action
+* Added: asgarosforum_after_remove_reaction action
+* Added: asgarosforum_after_update_reaction action
+* Fixed: Missing users in suggestions if their display name contains special characters
+* Fixed: Missing users in suggestions if their display name is not equal to their unique name
+* Fixed: Prevent that users react to their own posts
+* Fixed: Display issues with some themes
+* Updated: Font Awesome version 5.10.1
+* Performance improvements and code optimizations
+= 1.14.15 =
+* Fixed: Compatibility issues with certain editor plugins
+* Fixed: Display issues with some themes
+* Changed: Combined approval and closed options into a forum status option
+* Updated: Font Awesome version 5.10.0
+* Improved compatibility with Enlighter
+* Minor design changes
+* Performance improvements and code optimizations
+= 1.14.14 =
+* Added: Option to define general forum description
+* Fixed: Dont cut meta-tag description in the middle of a word
+* Fixed: Compatibility issues with certain editor plugins
+* Performance improvements and code optimizations
+= 1.14.13 =
+* Fixed: Problems when saving ads
+* Fixed: Fatal PHP error when processing mentionings
+* Changed: Default editor-buttons
+* Removed: Option for minimalistic editor
+= 1.14.12 =
+* Added: Options to hide certain filters from memberslist
+* Added: Code editor for custom-css and ad-code
+* Added: Time to elements in unread-view
+* Fixed: Display issues with Font Awesome icons
+* Minor design changes
+* Performance improvements and code optimizations
+* The required minimum WordPress version is now 4.9
+= 1.14.11 =
+* Fixed: Fatal PHP error in memberslist
+= 1.14.10 =
+* Added: Suggestions for mentioning-functionality
+* Added: Show uploaded files in notification-mails
+* Added: Option to define if poll-results are visible without vote
+* Added: asgarosforum_enqueue_css_js action
+* Fixed: PHP warnings during mentioning-processing when HTML 5 tags are used in posts
+* Fixed: Display issues with some themes
+* Fixed: Correctly embed iframe-media
+* Updated: Font Awesome version 5.9.0
+* Minor design changes
+* Extensive performance improvements in memberslist and online-logic
+* Performance improvements and code optimizations
 = 1.14.9 =
 * Added: Option to define number of activities per page
 * Added: asgarosforum_reactions filter
@@ -205,7 +257,7 @@ You can find a list of available hooks and filters on this site:
 * Changed: Dont notify users about a new post or topic when they already receive a mail because they got mentioned
 * Minor design changes
 * Performance improvements and code optimizations
-* The required version of WordPress is 4.8
+* The required minimum WordPress version is now 4.8
 = 1.12.1 =
 * Fixed: Ad code containing JavaScript could not be edited
 * Fixed: Allow activity-feed when using shortcode-parameters for categories

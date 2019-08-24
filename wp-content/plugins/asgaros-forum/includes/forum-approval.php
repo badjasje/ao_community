@@ -92,12 +92,16 @@ class AsgarosForumApproval {
         $author_name = $this->asgarosforum->getUsername($post->author_id);
         $notification_subject = __('New unapproved topic', 'asgaros-forum');
 
+        // Prepare message-content.
+        $message_content = wpautop(stripslashes($post->text));
+        $message_content .= $this->asgarosforum->uploads->show_uploaded_files($post->id, $post->uploads);
+
         // Prepare message-template.
         $replacements = array(
             '###AUTHOR###'  => $author_name,
             '###LINK###'    => '<a href="'.$topic_link.'">'.$topic_link.'</a>',
             '###TITLE###'   => $topic_name,
-            '###CONTENT###' => wpautop(stripslashes($post->text))
+            '###CONTENT###' => $message_content
         );
 
         $notification_message = __('Hello ###USERNAME###,<br><br>You received this message because there is a new unapproved forum-topic.<br><br>Topic:<br>###TITLE###<br><br>Author:<br>###AUTHOR###<br><br>Text:<br>###CONTENT###<br><br>Link:<br>###LINK###', 'asgaros-forum');
@@ -124,10 +128,10 @@ class AsgarosForumApproval {
         }
 
         // Check if the forum requires approval for new topics.
-        $approval = $this->asgarosforum->db->get_var("SELECT approval FROM {$this->asgarosforum->tables->forums} WHERE id = {$forum_id};");
+        $status = $this->asgarosforum->db->get_var("SELECT forum_status FROM {$this->asgarosforum->tables->forums} WHERE id = {$forum_id};");
 
         // Additional checks if forum requires approval.
-        if ($approval === '1') {
+        if ($status == 'approval') {
             // If the current user is a guest, approval is needed for sure.
             if (!is_user_logged_in()) {
                 return true;

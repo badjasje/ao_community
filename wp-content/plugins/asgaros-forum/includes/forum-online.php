@@ -106,24 +106,17 @@ class AsgarosForumOnline {
         $minimum_check_time = date_i18n('Y-m-d H:i:s', (strtotime($this->current_time_stamp) - $this->interval_online));
 
         // Get list of online users.
-        $this->online_users = get_users(
-            array(
-                'fields'        => 'ID',
-                'orderby'       => 'ID',
-                'meta_query'    => array(
-                    'relation'  => 'AND',
-                    array(
-                        'key'       => 'asgarosforum_online',
-                        'compare'   => 'EXISTS'
-                    ),
-                    array(
-                        'key'       => 'asgarosforum_online_timestamp',
-                        'value'     => $minimum_check_time,
-                        'compare'   => '>='
-                    )
-                )
-            )
-        );
+        $query = new AsgarosForumUserQuery(array('meta_key' => 'asgarosforum_online'));
+        $results_flag = $query->results;
+
+        $query = new AsgarosForumUserQuery(array('meta_key' => 'asgarosforum_online_timestamp', 'meta_value' => $minimum_check_time, 'meta_compare' => '>='));
+        $results_stamp = $query->results;
+
+        // Do an intersection by the keys of both arrays so we have all users with an online-flag and a valid timestamp.
+        $users_intersection = array_intersect_key($results_flag, $results_stamp);
+
+        // The array-keys are actually the user IDs.
+        $this->online_users = array_keys($users_intersection);
 
         // Get list of online guests.
         $this->online_guests = get_option('asgarosforum_guests_timestamps', array());
@@ -144,7 +137,7 @@ class AsgarosForumOnline {
 
             echo '<div id="statistics-online-users">';
             echo '<span class="online-users-icon fas fa-user"></span>';
-            echo __('Newest Member:', 'asgaros-forum').'&nbsp;<i>'.$this->asgarosforum->renderUsername($newest_member[0]).'</i></span>';
+            echo __('Newest Member:', 'asgaros-forum').'&nbsp;<i>'.$this->asgarosforum->renderUsername($newest_member[0]).'</i>';
             echo '&nbsp;&middot;&nbsp;';
             echo '<span class="online-users-icon fas fa-users"></span>';
 

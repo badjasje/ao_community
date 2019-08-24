@@ -40,7 +40,10 @@ echo '<div class="post-element '.$highlight_class.' '.$first_post_class.'" id="p
 
         if ($user_data != false) {
             echo '<div class="post-author-block-meta">';
-            // Show author posts counter if activated.
+                // Show reputation badges.
+                $this->render_reputation_badges($post->author_posts);
+
+                // Show author posts counter if activated.
                 if ($this->options['show_author_posts_counter']) {
                     $author_posts_i18n = number_format_i18n($post->author_posts);
                     echo '<small class="post-counter">'.sprintf(_n('%s Post', '%s Posts', $post->author_posts, 'asgaros-forum'), $author_posts_i18n).'</small>';
@@ -85,7 +88,9 @@ echo '<div class="post-element '.$highlight_class.' '.$first_post_class.'" id="p
         // Post message.
         echo '<div class="post-message">';
             // Initial escaping.
-            $post_content = wp_kses($post->text, 'post');
+            $allowed_html = wp_kses_allowed_html('post');
+            $allowed_html['iframe'] = array('width' => array(), 'height' => array(), 'src' => array(), 'frameborder' => array(), 'allowfullscreen' => array());
+            $post_content = wp_kses($post->text, $allowed_html);
             $post_content = stripslashes($post_content);
 
             echo '<div id="post-quote-container-'.$post->id.'" style="display: none;"><blockquote><div class="quotetitle">'.__('Quote from', 'asgaros-forum').' '.$this->getUsername($post->author_id).' '.sprintf(__('on %s', 'asgaros-forum'), $this->format_date($post->date)).'</div>'.wpautop($post_content).'</blockquote><br></div>';
@@ -112,7 +117,7 @@ echo '<div class="post-element '.$highlight_class.' '.$first_post_class.'" id="p
             $post_content = apply_filters('asgarosforum_filter_post_content', $post_content, $post->id);
 
             echo $post_content;
-            $this->uploads->show_uploaded_files($post);
+            echo $this->uploads->show_uploaded_files($post->id, $post->uploads);
 
             do_action('asgarosforum_after_post_message', $post->author_id, $post->id);
         echo '</div>';
@@ -120,7 +125,7 @@ echo '<div class="post-element '.$highlight_class.' '.$first_post_class.'" id="p
         // Show post footer when the topic is approved.
         if ($this->approval->is_topic_approved($this->current_topic)) {
             echo '<div class="post-footer">';
-                $this->reactions->render_reactions_area($post->id);
+                $this->reactions->render_reactions_area($post->id, $post->author_id);
 
                 echo '<div class="post-meta">';
                     if ($this->options['show_edit_date'] && (strtotime($post->date_edit) > strtotime($post->date))) {

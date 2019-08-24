@@ -75,34 +75,39 @@ class AsgarosForumReactions {
 
         // Ensure user is logged-in.
         if (is_user_logged_in()) {
-            // Load reactions for the topic.
+            // Get post object.
             $post_object = $this->asgarosforum->content->get_post($data['post_id']);
-            $this->load_reactions($post_object->parent_id);
 
-            // Change reaction.
-            $response['status'] = $this->reaction_change($data['post_id'], get_current_user_id(), $data['reaction']);
+            // Ensure that the current user is not the post-author.
+            if ($this->asgarosforum->get_post_author($post_object->id) != get_current_user_id()) {
+                // Load reactions.
+                $this->load_reactions($post_object->parent_id);
 
-            // Reload reactions.
-            $this->load_reactions($post_object->parent_id);
+                // Change reaction.
+                $response['status'] = $this->reaction_change($data['post_id'], get_current_user_id(), $data['reaction']);
 
-            // Build updated reactions for posts.
-            $response['data'] = $this->render_reactions($data['post_id']);
+                // Reload reactions.
+                $this->load_reactions($post_object->parent_id);
+
+                // Build updated reactions for posts.
+                $response['data'] = $this->render_reactions($data['post_id'], $post_object->author_id);
+            }
         }
 
         return new WP_REST_Response($response, 200);
     }
 
     // Renders reactions-area if the reactions-functionality is enabled.
-    public function render_reactions_area($post_id) {
+    public function render_reactions_area($post_id, $author_id) {
         if ($this->asgarosforum->options['enable_reactions']) {
             echo '<div class="post-reactions">';
-            echo $this->render_reactions($post_id);
+            echo $this->render_reactions($post_id, $author_id);
             echo '</div>';
         }
     }
 
     // Renders all reactions.
-    public function render_reactions($post_id) {
+    public function render_reactions($post_id, $author_id) {
         $reactions_output = '';
 
         // Load existing reaction of the current user.
@@ -124,9 +129,12 @@ class AsgarosForumReactions {
             $output .= '<span class="reaction-number">'.$counter.'</span>';
             $output .= '</span>';
 
-            // Wrap link around reaction if user is logged-in.
+            // Wrap link around reaction if user is logged-in ...
             if (is_user_logged_in()) {
-                $output = '<a data-post-id="'.$post_id.'" data-reaction="'.$key.'" href="#">'.$output.'</a>';
+                // ... and if the current user is not the post-author.
+                if ($this->asgarosforum->get_post_author($post_id) != get_current_user_id()) {
+                    $output = '<a data-post-id="'.$post_id.'" data-reaction="'.$key.'" href="#">'.$output.'</a>';
+                }
             }
 
             $reactions_output .= $output;
@@ -179,14 +187,20 @@ class AsgarosForumReactions {
 
     public function add_reaction($post_id, $user_id, $reaction) {
         $this->asgarosforum->db->insert($this->asgarosforum->tables->reactions, array('post_id' => $post_id, 'user_id' => $user_id, 'reaction' => $reaction), array('%d', '%d', '%s'));
+
+        do_action('asgarosforum_after_add_reaction', $post_id, $user_id, $reaction);
     }
 
     public function remove_reaction($post_id, $user_id, $reaction) {
         $this->asgarosforum->db->delete($this->asgarosforum->tables->reactions, array('post_id' => $post_id, 'user_id' => $user_id, 'reaction' => $reaction), array('%d', '%d', '%s'));
+
+        do_action('asgarosforum_after_remove_reaction', $post_id, $user_id, $reaction);
     }
 
     public function update_reaction($post_id, $user_id, $reaction) {
         $this->asgarosforum->db->update($this->asgarosforum->tables->reactions, array('reaction' => $reaction), array('post_id' => $post_id, 'user_id' => $user_id), array('%s'), array('%d', '%d'));
+
+        do_action('asgarosforum_after_update_reaction', $post_id, $user_id, $reaction);
     }
 
     // Removes all reactions from a specific post.

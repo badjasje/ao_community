@@ -7,12 +7,6 @@ class AsgarosForumStatistics {
 
     public function __construct($object) {
 		self::$asgarosforum = $object;
-
-        add_action('init', array($this, 'initialize'));
-    }
-
-    public function initialize() {
-        // Empty ...
     }
 
     public static function showStatistics() {
@@ -56,7 +50,7 @@ class AsgarosForumStatistics {
         }
 
         $data = self::$asgarosforum->db->get_row("SELECT ({$queryTopics}) AS topics, ({$queryPosts}) AS posts, ({$queryViews}) AS views");
-        $data->users = self::$asgarosforum->countUsers();
+        $data->users = self::$asgarosforum->count_users();
         return $data;
     }
 

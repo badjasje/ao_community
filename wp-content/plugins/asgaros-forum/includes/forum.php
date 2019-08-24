@@ -3,7 +3,7 @@
 if (!defined('ABSPATH')) exit;
 
 class AsgarosForum {
-    var $version = '1.14.9b';
+    var $version = '1.15.0';
     var $executePlugin = false;
     var $db = null;
     var $tables = null;
@@ -33,11 +33,11 @@ class AsgarosForum {
     var $options = array();
     var $options_default = array(
         'forum_title'                       => '',
+        'forum_description'                 => '',
         'location'                          => 0,
         'posts_per_page'                    => 10,
         'topics_per_page'                   => 20,
         'members_per_page'                  => 25,
-        'minimalistic_editor'               => true,
         'allow_shortcodes'                  => false,
         'embed_content'                     => true,
         'allow_guest_postings'              => false,
@@ -66,10 +66,15 @@ class AsgarosForum {
         'signatures_html_tags'              => '<br><a><i><b><u><s><img><strong>',
         'enable_avatars'                    => true,
         'enable_mentioning'                 => true,
+        'enable_mentioning_suggestions'     => true,
         'enable_reactions'                  => true,
         'enable_search'                     => true,
         'enable_profiles'                   => true,
         'enable_memberslist'                => true,
+        'memberslist_filter_normal'         => true,
+        'memberslist_filter_moderator'      => true,
+        'memberslist_filter_administrator'  => true,
+        'memberslist_filter_banned'         => true,
         'enable_rss'                        => false,
         'load_fontawesome'                  => true,
         'load_fontawesome_compat_v4'        => true,
@@ -109,9 +114,12 @@ class AsgarosForum {
         'activities_per_page'               => 50,
         'enable_polls'                      => true,
         'polls_permission'                  => 'loggedin',
+        'polls_results_visible'             => false,
         'enable_seo_urls'                   => true,
         'seo_url_mode_content'              => 'slug',
         'seo_url_mode_profile'              => 'slug',
+        'custom_url_login'                  => '',
+        'custom_url_register'               => '',
         'view_name_activity'                => 'activity',
         'view_name_subscriptions'           => 'subscriptions',
         'view_name_search'                  => 'search',
@@ -130,12 +138,18 @@ class AsgarosForum {
         'view_name_reports'                 => 'reports',
         'enable_spoilers'                   => true,
         'hide_spoilers_from_guests'         => false,
-        'subforums_location'                => 'above'
+        'subforums_location'                => 'above',
+        'enable_reputation'                 => true,
+        'reputation_level_1_posts'          => 10,
+        'reputation_level_2_posts'          => 25,
+        'reputation_level_3_posts'          => 100,
+        'reputation_level_4_posts'          => 250,
+        'reputation_level_5_posts'          => 1000
     );
     var $options_editor = array(
         'media_buttons' => false,
         'editor_height' => 250,
-        'teeny'         => true,
+        'teeny'         => false,
         'quicktags'     => false
     );
     var $cache          = array();   // Used to store selected database queries.
@@ -173,12 +187,12 @@ class AsgarosForum {
 
         $this->plugin_url = plugin_dir_url(dirname(__FILE__));
         $this->plugin_path = plugin_dir_path(dirname(__FILE__));
-        $this->loadOptions();
+        $this->load_options();
         $this->date_format = get_option('date_format');
         $this->time_format = get_option('time_format');
 
         add_action('wp', array($this, 'prepare'));
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_front_scripts'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_css_js'), 10);
 
         // Add filters for modifying the title of the page.
         add_filter('wp_title', array($this, 'change_wp_title'), 100, 3);
@@ -231,18 +245,10 @@ class AsgarosForum {
     // FUNCTIONS FOR GETTING AND SETTING OPTIONS.
     //======================================================================
 
-    function loadOptions() {
-        // Get current options.
+    function load_options() {
+        // Get options and merge them with the default ones.
 		$current_options = get_option('asgarosforum_options', array());
-
-		// Merge options if current options are present, otherwise use default-options.
-		if (!empty($current_options)) {
-			$this->options = array_merge($this->options_default, $current_options);
-		} else {
-			$this->options = $this->options_default;
-		}
-
-        $this->options_editor['teeny'] = $this->options['minimalistic_editor'];
+        $this->options = array_merge($this->options_default, $current_options);
 
         // Ensure default values if some needed files got deleted.
         if (empty($this->options['forum_title'])) {
@@ -286,11 +292,11 @@ class AsgarosForum {
         }
     }
 
-    function saveOptions($options) {
+    function save_options($options) {
         update_option('asgarosforum_options', $options);
 
         // Reload options after saving them.
-        $this->loadOptions();
+        $this->load_options();
     }
 
     //======================================================================
@@ -553,9 +559,27 @@ class AsgarosForum {
         }
     }
 
-    function enqueue_front_scripts() {
+    function enqueue_css_js() {
+        if ($this->options['load_fontawesome']) {
+			wp_enqueue_style('af-fontawesome', $this->plugin_url.'libs/fontawesome/css/all.min.css', array(), $this->version);
+		}
+
+		if ($this->options['load_fontawesome_compat_v4']) {
+			wp_enqueue_style('af-fontawesome-compat-v4', $this->plugin_url.'libs/fontawesome/css/v4-shims.min.css', array(), $this->version);
+		}
+
+        $themeurl = $this->appearance->get_current_theme_url();
+
+		wp_enqueue_style('af-widgets', $themeurl.'/widgets.css', array(), $this->version);
+
         if (!$this->executePlugin) {
             return;
+        }
+
+        wp_enqueue_style('af-style', $themeurl.'/style.css', array(), $this->version);
+
+        if (is_rtl()) {
+            wp_enqueue_style('af-rtl', $themeurl.'/rtl.css', array(), $this->version);
         }
 
         wp_enqueue_script('asgarosforum-js', $this->plugin_url.'js/script.js', array('jquery', 'wp-api'), $this->version);
@@ -564,6 +588,8 @@ class AsgarosForum {
         if ($this->options['enable_spoilers']) {
             wp_enqueue_script('asgarosforum-js-spoilers', $this->plugin_url.'js/script-spoilers.js', array('jquery'), $this->version);
         }
+
+        do_action('asgarosforum_enqueue_css_js');
     }
 
     // Gets the pages main title.
@@ -791,6 +817,65 @@ class AsgarosForum {
         require('views/forum.php');
     }
 
+    function render_forum_element($forum) {
+        // Get counters and format them.
+        $count_topics = $this->get_forum_topic_counter($forum->id);
+        $count_topics_i18n = number_format_i18n($count_topics);
+        $count_posts = $this->get_forum_post_counter($forum->id);
+        $count_posts_i18n = number_format_i18n($count_posts);
+
+        // Get the read/unread status of a forum.
+        $unread_status = $this->unread->get_status_forum($forum->id, $count_topics);
+
+        echo '<div class="content-element forum" id="forum-'.$forum->id.'">';
+            $forum_icon = trim(esc_html(stripslashes($forum->icon)));
+            $forum_icon = (empty($forum_icon)) ? 'fas fa-comments' : $forum_icon;
+
+            echo '<div class="forum-status '.$unread_status.'"><i class="'.$forum_icon.'"></i></div>';
+            echo '<div class="forum-name">';
+                echo '<a class="forum-title" href="'.$this->get_link('forum', $forum->id).'">'.esc_html(stripslashes($forum->name)).'</a>';
+
+                // Show the description of the forum when it is not empty.
+                $forum_description = stripslashes($forum->description);
+                if (!empty($forum_description)) {
+                    echo '<small class="forum-description">'.$forum_description.'</small>';
+                }
+
+                // Show forum stats.
+                echo '<small class="forum-stats">';
+                    echo sprintf(_n('%s Topic', '%s Topics', $count_topics, 'asgaros-forum'), $count_topics_i18n);
+                    echo '&nbsp;&middot;&nbsp;';
+                    echo sprintf(_n('%s Post', '%s Posts', $count_posts, 'asgaros-forum'), $count_posts_i18n);
+                echo '</small>';
+
+                echo '<small class="forum-lastpost-small">';
+                    echo $this->render_lastpost_in_forum($forum->id, true);
+                echo '</small>';
+
+                // Show subforums.
+                if ($forum->count_subforums > 0) {
+                    echo '<small class="forum-subforums">';
+                    echo '<b>'.__('Subforums', 'asgaros-forum').':</b>&nbsp;';
+
+                    $subforums = $this->get_forums($forum->parent_id, $forum->id);
+                    $subforumsFirstDone = false;
+
+                    foreach ($subforums as $subforum) {
+                        echo ($subforumsFirstDone) ? '&nbsp;&middot;&nbsp;' : '';
+                        echo '<a href="'.$this->get_link('forum', $subforum->id).'">'.esc_html(stripslashes($subforum->name)).'</a>';
+                        $subforumsFirstDone = true;
+                    }
+
+                    echo '</small>';
+                }
+            echo '</div>';
+            do_action('asgarosforum_custom_forum_column', $forum->id);
+            echo '<div class="forum-poster">'.$this->render_lastpost_in_forum($forum->id).'</div>';
+        echo '</div>';
+
+        do_action('asgarosforum_after_forum');
+    }
+
     function render_topic_element($topic_object, $topic_type = 'topic-normal', $show_topic_location = false) {
         $lastpost_data = $this->get_lastpost_in_topic($topic_object->id);
         $unread_status = $this->unread->get_status_topic($topic_object->id);
@@ -867,7 +952,7 @@ class AsgarosForum {
 
             echo '<div class="content-container">';
                 foreach ($subforums as $forum) {
-                    require('views/forum-element.php');
+                    $this->render_forum_element($forum);
                 }
             echo '</div>';
         }
@@ -1095,8 +1180,20 @@ class AsgarosForum {
         }
     }
 
-    function cut_string($string, $length = 33) {
+    function cut_string($string, $length = 33, $at_next_space = false) {
+        // Only cut string if it is longer than defined.
         if (strlen($string) > $length) {
+            // Try to find position of next space if necessary.
+            if ($at_next_space) {
+                $space_position = strpos($string, ' ', $length);
+
+                if ($space_position) {
+                    $length = $space_position;
+                } else {
+                    return $string;
+                }
+            }
+
             return mb_substr($string, 0, $length, 'UTF-8') . ' &#8230;';
         }
 
@@ -1310,7 +1407,7 @@ class AsgarosForum {
     }
 
     function get_topic_starter($topic_id) {
-        return $this->db->get_var($this->db->prepare("SELECT author_id FROM {$this->tables->posts} WHERE parent_id = %d ORDER BY id ASC LIMIT 1;", $topic_id));
+        return $this->db->get_var($this->db->prepare("SELECT author_id FROM {$this->tables->topics} WHERE id = %d;", $topic_id));
     }
 
     function format_date($date, $full = true) {
@@ -1335,35 +1432,11 @@ class AsgarosForum {
 
     // Returns the topics created by a user.
     function countTopicsByUser($user_id) {
-        return $this->db->get_var("SELECT COUNT(*) FROM {$this->tables->posts} WHERE id IN (SELECT MIN(id) FROM {$this->tables->posts} GROUP BY parent_id) AND author_id = {$user_id};");
+        return $this->db->get_var("SELECT COUNT(*) FROM {$this->tables->topics} WHERE author_id = {$user_id};");
     }
 
     function countPostsByUser($userID) {
         return $this->db->get_var("SELECT COUNT(*) FROM {$this->tables->posts} WHERE author_id = {$userID};");
-    }
-
-    /**
-     * Generating menus for forums, topics and posts.
-     */
-
-    function showForumMenu() {
-        $menu = '';
-
-        if ($this->forumIsOpen()) {
-            if ((is_user_logged_in() && !$this->permissions->isBanned('current')) || (!is_user_logged_in() && $this->options['allow_guest_postings'])) {
-                // New topic button.
-                $menu .= '<div class="forum-menu">';
-                $menu .= '<a class="button button-normal forum-editor-button" href="'.$this->get_link('addtopic', $this->current_forum).'">';
-                    $menu .= '<span class="menu-icon fas fa-plus-square"></span>';
-                    $menu .= __('New Topic', 'asgaros-forum');
-                $menu .= '</a>';
-                $menu .= '</div>';
-            }
-        }
-
-        $menu = apply_filters('asgarosforum_filter_forum_menu', $menu);
-
-        return $menu;
     }
 
     public function render_sticky_panel() {
@@ -1404,10 +1477,30 @@ class AsgarosForum {
                 echo '</form>';
             echo '</div>';
         echo '</div>';
-
-
     }
 
+    // Generate forum menu.
+    function showForumMenu() {
+        $menu = '';
+
+        if ($this->forumIsOpen()) {
+            if ((is_user_logged_in() && !$this->permissions->isBanned('current')) || (!is_user_logged_in() && $this->options['allow_guest_postings'])) {
+                // New topic button.
+                $menu .= '<div class="forum-menu">';
+                $menu .= '<a class="button button-normal forum-editor-button" href="'.$this->get_link('addtopic', $this->current_forum).'">';
+                    $menu .= '<span class="menu-icon fas fa-plus-square"></span>';
+                    $menu .= __('New Topic', 'asgaros-forum');
+                $menu .= '</a>';
+                $menu .= '</div>';
+            }
+        }
+
+        $menu = apply_filters('asgarosforum_filter_forum_menu', $menu);
+
+        return $menu;
+    }
+
+    // Generate topic menu.
     function show_topic_menu($show_all_buttons = true) {
         $menu = '';
 
@@ -1418,7 +1511,7 @@ class AsgarosForum {
             if ($this->permissions->can_create_post($current_user_id)) {
                 // Reply button.
                 $menu .= '<a class="button button-normal forum-editor-button" href="'.$this->get_link('addpost', $this->current_topic).'">';
-                    $menu .= '<span class="menu-icon fas fa-reply"></span>';
+                    $menu .= '<span class="menu-icon fas fa-comment-dots"></span>';
                     $menu .= __('Reply', 'asgaros-forum');
                 $menu .= '</a>';
             }
@@ -1484,6 +1577,7 @@ class AsgarosForum {
         return $menu;
     }
 
+    // Generate post menu.
     function show_post_menu($post_id, $author_id, $counter, $post_date) {
         $menu = '';
 
@@ -1565,13 +1659,25 @@ class AsgarosForum {
 
     function showLoginLink() {
         if (!is_user_logged_in() && $this->options['show_login_button']) {
-            echo '<a class="login-link" href="'.wp_login_url($this->get_link('current', false, false, '', false)).'">'.__('Login', 'asgaros-forum').'</a>';
+            $login_url = wp_login_url($this->get_link('current', false, false, '', false));
+
+            if (!empty($this->options['custom_url_login'])) {
+                $login_url = $this->options['custom_url_login'];
+            }
+
+            echo '<a class="login-link" href="'.$login_url.'">'.__('Login', 'asgaros-forum').'</a>';
         }
     }
 
     function showRegisterLink() {
         if (!is_user_logged_in() && $this->options['show_register_button']) {
-            echo '<a class="register-link" href="'.wp_registration_url().'">'.__('Register', 'asgaros-forum').'</a>';
+            $register_url = wp_registration_url();
+
+            if (!empty($this->options['custom_url_register'])) {
+                $register_url = $this->options['custom_url_register'];
+            }
+
+            echo '<a class="register-link" href="'.$register_url.'">'.__('Register', 'asgaros-forum').'</a>';
         }
     }
 
@@ -1709,9 +1815,9 @@ class AsgarosForum {
     // Returns TRUE if the forum is opened or the user has at least moderator rights.
     function forumIsOpen() {
         if (!$this->permissions->isModerator('current')) {
-            $closed = intval($this->db->get_var($this->db->prepare("SELECT closed FROM {$this->tables->forums} WHERE id = %d;", $this->current_forum)));
+            $status = $this->db->get_var($this->db->prepare("SELECT forum_status FROM {$this->tables->forums} WHERE id = %d;", $this->current_forum));
 
-            if ($closed === 1) {
+            if ($status == 'closed') {
                 return false;
             }
         }
@@ -1753,12 +1859,21 @@ class AsgarosForum {
 
             // When the element exists, set parents and exit function.
             if ($results) {
-                $this->current_description  = ($contentType === 'post' || $contentType === 'topic' || $contentType === 'forum') ? $this->cut_string(str_replace(array("\r", "\n"), '', esc_html(strip_tags($results->current_description))), 155) : false;
-                $this->current_category     = ($contentType === 'post' || $contentType === 'topic' || $contentType === 'forum') ? $results->current_category : false;
-                $this->parent_forum         = ($contentType === 'post' || $contentType === 'topic' || $contentType === 'forum') ? $results->parent_forum : false;
-                $this->parent_forum_name    = ($contentType === 'post' || $contentType === 'topic' || $contentType === 'forum') ? $results->parent_forum_name : false;
-                $this->current_forum        = ($contentType === 'post' || $contentType === 'topic' || $contentType === 'forum') ? $results->current_forum : false;
-                $this->current_forum_name   = ($contentType === 'post' || $contentType === 'topic' || $contentType === 'forum') ? $results->current_forum_name : false;
+                if ($contentType === 'post' || $contentType === 'topic' || $contentType === 'forum') {
+                    // Generate description.
+                    $description = $results->current_description;
+                    $description = strip_tags($description);
+                    $description = esc_html($description);
+                    $description = str_replace(array("\r", "\n"), '', $description);
+                    $this->current_description = $this->cut_string($description, 155, true);
+
+                    $this->current_category = $results->current_category;
+                    $this->parent_forum = $results->parent_forum;
+                    $this->parent_forum_name = $results->parent_forum_name;
+                    $this->current_forum = $results->current_forum;
+                    $this->current_forum_name = $results->current_forum_name;
+                }
+
                 $this->current_topic        = ($contentType === 'post' || $contentType === 'topic') ? $results->current_topic : false;
                 $this->current_topic_name   = ($contentType === 'post' || $contentType === 'topic') ? $results->current_topic_name : false;
                 $this->current_post         = ($contentType === 'post') ? $results->current_post : false;
@@ -1785,9 +1900,8 @@ class AsgarosForum {
     }
 
     // Returns the amount of users.
-    public function countUsers() {
-        $users = count_users('memory');
-        return $users['total_users'];
+    public function count_users() {
+        return $this->db->get_var("SELECT COUNT(u.ID) FROM {$this->db->users} u");
     }
 
     // Prevents oembed dataparsing for links which points to the own forum.
@@ -1872,10 +1986,14 @@ class AsgarosForum {
             return;
         }
 
-        // Check if users have posts.
+        // Check if users have posts or topics.
         $users_have_content = false;
 
 		if ($this->db->get_var("SELECT ID FROM {$this->tables->posts} WHERE author_id IN(".implode(',', $userids).") LIMIT 1;")) {
+			$users_have_content = true;
+		}
+
+        if ($this->db->get_var("SELECT ID FROM {$this->tables->topics} WHERE author_id IN(".implode(',', $userids).") LIMIT 1;")) {
 			$users_have_content = true;
 		}
 
@@ -1901,10 +2019,10 @@ class AsgarosForum {
         echo '</legend></p>';
 
 	    echo '<ul style="list-style: none;">';
-		echo '<li><input type="radio" id="forum_reassign0" name="forum_reassign" value="no" checked="checked" />';
+		echo '<li><input type="radio" id="forum_reassign0" name="forum_reassign" value="no" checked="checked">';
         echo '<label for="forum_reassign0">'.__('Do not reassign forum posts.', 'asgaros-forum').'</label></li>';
 
-		echo '<li><input type="radio" id="forum_reassign1" name="forum_reassign" value="yes" />';
+		echo '<li><input type="radio" id="forum_reassign1" name="forum_reassign" value="yes">';
 		echo '<label for="forum_reassign1">'.__('Reassign all forum posts to:', 'asgaros-forum').'</label>&nbsp;';
         wp_dropdown_users(array('name' => 'forum_reassign_user', 'exclude' => $userids, 'show' => 'display_name_with_login'));
 		echo '</li></ul></fieldset>';
@@ -1925,8 +2043,9 @@ class AsgarosForum {
             return;
         }
 
-        // Reassign forum posts.
+        // Reassign forum posts and topics.
         $this->db->update($this->tables->posts, array('author_id' => $_POST['forum_reassign_user']), array('author_id' => $id), array('%d'), array('%d'));
+        $this->db->update($this->tables->topics, array('author_id' => $_POST['forum_reassign_user']), array('author_id' => $id), array('%d'), array('%d'));
     }
 
     // Extract the first URL of an image from a given string.
@@ -2010,5 +2129,28 @@ class AsgarosForum {
         }
 
         return $signature;
+    }
+
+    public function render_reputation_badges($number) {
+        if ($this->options['enable_reputation']) {
+            echo '<small class="reputation-badges">';
+
+            if ($number < $this->options['reputation_level_1_posts']) {
+                echo '<i class="far fa-star-half"></i>';
+            } else {
+                echo '<i class="fas fa-star"></i>';
+
+                // Add an additional star for every remaining level.
+                for ($i = 2; $i <= 5; $i++) {
+                    if ($number >= $this->options['reputation_level_'.$i.'_posts']) {
+                        echo '<i class="fas fa-star"></i>';
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            echo '</small>';
+        }
     }
 }

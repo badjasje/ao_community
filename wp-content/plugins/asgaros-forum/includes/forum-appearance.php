@@ -40,7 +40,7 @@ class AsgarosForumAppearance {
 		$this->load_options();
 
 		add_filter('mce_css', array($this, 'add_editor_css'));
-		add_action('wp_enqueue_scripts', array($this, 'add_css'));
+		add_action('wp_enqueue_scripts', array($this, 'add_css'), 20);
 		add_action('wp_head', array($this, 'set_header'), 1);
 	}
 
@@ -120,7 +120,16 @@ class AsgarosForumAppearance {
 
 			$link = ($this->asgarosforum->current_page > 0) ? $this->asgarosforum->get_link('current') : esc_url(remove_query_arg('part', $this->asgarosforum->get_link('current', false, false, '', false)));
 			$title = ($this->asgarosforum->getMetaTitle()) ? $this->asgarosforum->getMetaTitle() : get_the_title();
-			$description = ($this->asgarosforum->current_description && $this->asgarosforum->error === false) ? $this->asgarosforum->current_description : $title;
+
+			// By default use the page title as description.
+			$description = $title;
+
+			// In forum overview use the forum description if available.
+			if ($this->asgarosforum->current_view === 'overview' && !empty($this->asgarosforum->options['forum_description'])) {
+				$description = $this->asgarosforum->options['forum_description'];
+			} else if ($this->asgarosforum->current_description && $this->asgarosforum->error === false) {
+				$description = $this->asgarosforum->current_description;
+			}
 
 			// Prevent indexing of some views, when there is an error or for other configurations.
 			$prevent_indexing = false;
@@ -175,25 +184,7 @@ class AsgarosForumAppearance {
 	}
 
 	public function add_css() {
-		$themeurl = $this->get_current_theme_url();
-
-		if ($this->asgarosforum->options['load_fontawesome']) {
-			wp_enqueue_style('af-fontawesome', $this->asgarosforum->plugin_url.'libs/fontawesome/css/all.min.css', array(), $this->asgarosforum->version);
-		}
-
-		if ($this->asgarosforum->options['load_fontawesome_compat_v4']) {
-			wp_enqueue_style('af-fontawesome-compat-v4', $this->asgarosforum->plugin_url.'libs/fontawesome/css/v4-shims.min.css', array(), $this->asgarosforum->version);
-		}
-
-		wp_enqueue_style('af-widgets', $themeurl.'/widgets.css', array(), $this->asgarosforum->version);
-
 		if ($this->asgarosforum->executePlugin) {
-			wp_enqueue_style('af-style', $themeurl.'/style.css', array(), $this->asgarosforum->version);
-
-			if (is_rtl()) {
-				wp_enqueue_style('af-rtl', $themeurl.'/rtl.css', array(), $this->asgarosforum->version);
-			}
-
 			// Set path to custom CSS file.
 			$custom_css_path = $this->asgarosforum->plugin_path.'skin/custom.css';
 
@@ -251,7 +242,7 @@ class AsgarosForumAppearance {
 						wp_add_inline_style('af-style', $custom_css);
 					} else {
 						// Load CSS as file.
-						wp_enqueue_style('af-custom-color', $themeurl.'/custom.css', array(), $this->asgarosforum->version);
+						wp_enqueue_style('af-custom-color', $this->get_current_theme_url().'/custom.css', array(), $this->asgarosforum->version);
 					}
 				}
 			} else {
@@ -291,7 +282,6 @@ class AsgarosForumAppearance {
 				$custom_css .= 'background-color: '.$this->options['custom_color'].' !important;'.PHP_EOL;
 			$custom_css .= '}'.PHP_EOL;
 
-			$custom_css .= '#af-wrapper #forum-search,'.PHP_EOL;
 			$custom_css .= '#af-wrapper input[type="radio"]:focus,'.PHP_EOL;
 			$custom_css .= '#af-wrapper input[type="checkbox"]:focus,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #profile-header {'.PHP_EOL;
@@ -302,7 +292,6 @@ class AsgarosForumAppearance {
 		if ($this->options['custom_accent_color'] != $this->options_default['custom_accent_color'] && preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $this->options['custom_accent_color'])) {
 			$custom_css .= '#af-wrapper .button-normal,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .title-element,'.PHP_EOL;
-			$custom_css .= '#af-wrapper #forum-header,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #forum-navigation a,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #forum-navigation-mobile a {'.PHP_EOL;
 				$custom_css .= 'border-color: '.$this->options['custom_accent_color'].' !important;'.PHP_EOL;
@@ -342,7 +331,8 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper .report-link,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .report-content:before,'.PHP_EOL;
 			$custom_css .= '#af-wrapper input::placeholder,'.PHP_EOL;
-			$custom_css .= '#af-wrapper .activity-time {'.PHP_EOL;
+			$custom_css .= '#af-wrapper .activity-time,'.PHP_EOL;
+			$custom_css .= '#af-wrapper .unread-time {'.PHP_EOL;
 			    $custom_css .= 'color: '.$this->options['custom_text_color_light'].' !important;'.PHP_EOL;
 			$custom_css .= '}'.PHP_EOL;
 		}
@@ -372,7 +362,6 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper .content-element:nth-child(even),'.PHP_EOL;
 			$custom_css .= '#af-wrapper .topic-sticky,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .topic-sticky .topic-poster,'.PHP_EOL;
-			$custom_css .= '#af-wrapper #forum-breadcrumbs,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .post-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .editor-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #statistics-online-users,'.PHP_EOL;
@@ -411,7 +400,6 @@ class AsgarosForumAppearance {
 			$custom_css .= '#af-wrapper #profile-content .profile-row,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .history-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper #memberslist-filter,'.PHP_EOL;
-			$custom_css .= '#af-wrapper #forum-breadcrumbs,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .content-element,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .ad-forum,'.PHP_EOL;
 			$custom_css .= '#af-wrapper .ad-topic,'.PHP_EOL;

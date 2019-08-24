@@ -23,6 +23,10 @@
 #af-wrapper div {
     border-radius: 0; /* comp */
 }
+#af-wrapper img {
+    border-radius: 0px; /* comp */
+    box-shadow: none; /* comp */
+}
 #af-wrapper .clear {
     clear: both;
     padding: 0; /* comp */
@@ -91,6 +95,15 @@
 #af-wrapper .af-usergroup-tag i {
     padding-right: 4px;
 }
+#af-wrapper .reputation-badges {
+    color: #ffb900;
+}
+#af-wrapper .reputation-badges i {
+    margin-right: 2px;
+}
+#af-wrapper .profile-forum-role .reputation-badges {
+    margin-right: 8px;
+}
 /* Text meant only for screen readers. */
 #af-wrapper .screen-reader-text {
     border: 0;
@@ -155,7 +168,7 @@
 }
 
 /* UPLOADS */
-#af-wrapper .uploaded-file {
+#af-wrapper .uploaded-file a {
     display: block;
     margin-bottom: 5px;
 }
@@ -552,6 +565,7 @@
 }
 #af-wrapper .menu-icon {
     padding-right: 6px;
+    display: inline-block; /* comp */
 }
 #af-wrapper .menu-icon:after {
     display: none; /* comp */
@@ -626,6 +640,9 @@
 #af-wrapper #read-unread .read {
     background-color: #a2a2a2;
 }
+#af-wrapper .unread-time {
+    color: #888;
+}
 
 /* PAGEING */
 #af-wrapper .pages-and-menu .pages {
@@ -689,6 +706,7 @@
     color: #fff;
     background-color: #2d89cc;
     border-bottom: 1px solid #2468af;
+    border-radius: 4px 4px 0px 0px;
 }
 #af-wrapper .title-element-dark {
     background-color: #999;
@@ -702,17 +720,16 @@
 #af-wrapper #forum-header {
     display: block;
     margin: 0;
-    padding: 0;
+    padding: 2px;
+    border: none;
+    border-radius: 4px;
     background-color: #2d89cc;
-    min-height: 48px;
-    border-bottom: 1px solid #2468af;
+    min-height: 44px;
 }
 #af-wrapper #forum-navigation,
 #af-wrapper #forum-navigation-mobile {
     display: block;
     float: left;
-    line-height: 48px;
-    min-height: 48px;
     text-align: left; /* comp */
 }
 #af-wrapper #forum-navigation a,
@@ -720,7 +737,7 @@
     padding: 0 24px;
     color: #fff !important;
     border-left: 1px solid #2468af;
-    line-height: 48px;
+    line-height: 44px;
     display: inline; /* comp */
     margin: 0; /* comp */
     text-align: left; /* comp */
@@ -782,11 +799,7 @@
     display: block;
     width: 100%;
     box-sizing: border-box;
-    background-color: #fafafa;
     line-height: 26px;
-    border-color: #eee;
-    border-width: 1px;
-    border-style: none solid solid solid;
     font-size: 11px;
     padding: 0 8px;
     margin: 0; /* comp */
@@ -816,13 +829,15 @@
 #af-wrapper #forum-search {
     float: right;
     width: 238px;
+    height: 44px;
+    line-height: 44px;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
     background-color: #fff;
     color: #444;
-    line-height: 43px;
-    border: 3px solid #2d89cc;
-    border-bottom-width: 2px;
-    height: 48px;
+    border: none;
+    border-radius: 3px;
     cursor: text;
 }
 #af-wrapper #forum-search form {
@@ -853,9 +868,9 @@
 }
 #af-wrapper #forum-search .search-icon {
     padding: 0;
-    line-height: 43px;
     width: 35px;
-    height: 43px;
+    height: 44px;
+    line-height: 44px;
     text-align: center;
 }
 @media screen and (max-width: 782px) {
@@ -868,11 +883,12 @@
 /* CONTENT WRAPPERS*/
 #af-wrapper .content-container,
 #af-wrapper .editor-element {
-    margin-bottom: 15px;
     background-color: #fff;
     border-color: #eee;
     border-style: solid;
     border-width: 0px 1px 3px;
+    margin: 0 0 15px 0; /* comp */
+    max-width: none; /* comp */
 }
 #af-wrapper .editor-element {
     background-color: #fafafa;
@@ -1004,15 +1020,10 @@
     border-color: #eee;
     padding: 0px 20px;
 }
-
 @media screen and (max-width: 782px) {
     #af-wrapper .post-wrapper {
         border-width: 1px 0px 0px 0px;
     }
-}
-/* Iphone fix */
-@media only screen and (max-device-width: 812px)  {
-    #af-wrapper .post-wrapper { display: block; }
 }
 
 /* POST HEADER */
@@ -1151,14 +1162,15 @@
     color: inherit; /* comp */
     float: none; /* comp */
     width: auto; /* comp */
+    left: 0; /* comp */
 }
 #af-wrapper blockquote:before {
     content: none; /* comp */
 }
 #af-wrapper .post-message > blockquote {
     max-height: 250px;
-    position: relative;
     overflow: hidden;
+    position: relative;
 }
 #af-wrapper .post-message > blockquote:after {
     content: "";
@@ -1562,6 +1574,14 @@
     font-style: italic;
     margin-right: 8px;
 }
+#af-wrapper .post-reactions a {
+    display: inline-block;
+}
+#af-wrapper .post-reactions a:hover {
+    transform: scale(1.3);
+    transform-origin: center;
+    transition: all 0.3s;
+}
 #af-wrapper .post-reactions a:hover .down,
 #af-wrapper .post-reactions .down .reaction-number,
 #af-wrapper .post-reactions .down .reaction-active {
@@ -1803,14 +1823,9 @@
 #af-wrapper #poll-panel #poll-headline span {
     padding-right: 8px;
 }
-#af-wrapper #poll-panel #poll-vote,
 #af-wrapper #poll-panel #poll-results {
     display: block;
     padding: 16px 0px;
-}
-#af-wrapper #poll-panel #poll-vote label {
-    display: block;
-    margin: 6px 0;
 }
 #af-wrapper #poll-panel .actions {
     display: block;
@@ -1826,6 +1841,7 @@
 }
 #af-wrapper #poll-results .poll-result-name {
     display: block;
+    margin: 6px 0;
     width: 100%;
 }
 #af-wrapper #poll-results .poll-result-numbers {

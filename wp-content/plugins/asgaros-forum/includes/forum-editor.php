@@ -8,38 +8,104 @@ class AsgarosForumEditor {
 	public function __construct($object) {
 		$this->asgarosforum = $object;
 
-		add_filter('teeny_mce_buttons', array($this, 'custom_mce_buttons'), 9999, 2);
-        add_filter('mce_buttons', array($this, 'custom_mce_buttons'), 9999, 2);
+        add_filter('mce_buttons', array($this, 'default_mce_buttons'), 1, 2);
+		add_filter('mce_buttons', array($this, 'add_mce_buttons'), 9999, 2);
+		add_filter('mce_buttons_2', array($this, 'remove_mce_buttons'), 1, 2);
+		add_filter('mce_buttons_3', array($this, 'remove_mce_buttons'), 1, 2);
+		add_filter('mce_buttons_4', array($this, 'remove_mce_buttons'), 1, 2);
         add_filter('disable_captions', array($this, 'disable_captions'));
 		add_filter('tiny_mce_before_init', array($this, 'toggle_editor'));
 	}
 
-	public function custom_mce_buttons($buttons, $editor_id) {
+	// Set the default TinyMCE buttons.
+	public function default_mce_buttons($buttons, $editor_id) {
+		// Array of default editor buttons of WordPress which should not get added automatically to the forum.
+		$default_buttons = array(
+			'aligncenter',
+			'alignleft',
+			'alignright',
+			'blockquote',
+			'bold',
+			'bullist',
+			'charmap',
+			'dfw',
+			'forecolor',
+			'formatselect',
+			'fullscreen',
+			'hr',
+			'indent',
+			'italic',
+			'link',
+			'numlist',
+			'outdent',
+			'pastetext',
+			'redo',
+			'removeformat',
+			'spellchecker',
+			'strikethrough',
+			'underline',
+			'undo',
+			'unlink',
+			'wp_add_media',
+			'wp_adv',
+			'wp_help',
+			'wp_more'
+		);
+
+
         if ($this->asgarosforum->executePlugin && $editor_id === 'message') {
-			// Add image button.
-            $buttons[] = 'image';
+			// Build array of available buttons.
+			$forum_buttons = array(
+				'bold',
+				'italic',
+				'underline',
+				'strikethrough',
+				'forecolor',
+				'bullist',
+				'numlist',
+				'outdent',
+				'indent',
+				'alignleft',
+				'aligncenter',
+				'alignright',
+				'pastetext',
+				'removeformat',
+				'undo',
+				'redo',
+				'blockquote',
+				'link'
+			);
 
-            // Remove the read-more button.
-            $searchKey = array_search('wp_more', $buttons);
+			// Find non-default editor buttons.
+			$unique_buttons = array_diff($buttons, $default_buttons);
 
-            if ($searchKey !== false) {
-                unset($buttons[$searchKey]);
-            }
+			// Merge forum and non-default editor buttons.
+			$buttons = array_merge($forum_buttons, $unique_buttons);
 
-			// Remove the toggle-button when we dont use the minimalistic editor.
-			if ($this->asgarosforum->options['minimalistic_editor'] === false) {
-				$searchKey = array_search('wp_adv', $buttons);
-
-				if ($searchKey !== false) {
-					unset($buttons[$searchKey]);
-				}
-			}
-
+			// Apply filters.
 			$buttons = apply_filters('asgarosforum_filter_editor_buttons', $buttons);
         }
 
 		return $buttons;
     }
+
+	// Add custom TinyMCE buttons.
+	public function add_mce_buttons($buttons, $editor_id) {
+		if ($this->asgarosforum->executePlugin && $editor_id === 'message') {
+			$buttons[] = 'image';
+		}
+
+		return $buttons;
+	}
+
+	// Remove TinyMCE buttons.
+	public function remove_mce_buttons($buttons, $editor_id) {
+		if ($this->asgarosforum->executePlugin && $editor_id === 'message') {
+			$buttons = array();
+		}
+
+		return $buttons;
+	}
 
 	public function disable_captions($args) {
         if ($this->asgarosforum->executePlugin) {
@@ -51,10 +117,8 @@ class AsgarosForumEditor {
 
 	public function toggle_editor($args) {
 		if ($this->asgarosforum->executePlugin) {
-			// Toggle editor when we dont use the minimalistic editor.
-			if ($this->asgarosforum->options['minimalistic_editor'] === false) {
-				 $args['wordpress_adv_hidden'] = false;
-			}
+			// Ensure that the editor is toggled.
+			$args['wordpress_adv_hidden'] = false;
 		}
 
 		return $args;
@@ -171,7 +235,7 @@ class AsgarosForumEditor {
 
 			// We need the tabindex attribute in the form for scrolling.
 			?>
-            <form id="forum-editor-form" tabindex="-1" name="addform" method="post" action="<?php echo $actionURL; ?>" enctype="multipart/form-data"<?php if ($inOtherView && !isset($_POST['subject']) && !isset($_POST['message'])) { echo ' style="display: none;"'; } ?>>
+            <form id="forum-editor-form" class="<?php echo $editor_view; ?>-editor" tabindex="-1" name="addform" method="post" action="<?php echo $actionURL; ?>" enctype="multipart/form-data"<?php if ($inOtherView && !isset($_POST['subject']) && !isset($_POST['message'])) { echo ' style="display: none;"'; } ?>>
                 <div class="title-element"><?php if ($inOtherView) { echo $editorTitle; } ?></div>
                 <div class="editor-element">
                     <?php if ($editor_view === 'addtopic' || ($editor_view == 'editpost' && $this->asgarosforum->is_first_post($post->id))) { ?>

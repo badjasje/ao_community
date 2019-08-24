@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) exit;
 
 class AsgarosForumDatabase {
     private $db;
-    private $db_version = 54;
+    private $db_version = 61;
     private $tables;
 
     public function __construct() {
@@ -119,8 +119,7 @@ class AsgarosForumDatabase {
             description varchar(255) NOT NULL default '',
             icon varchar(255) NOT NULL default '',
             sort int(11) NOT NULL default '0',
-            closed int(11) NOT NULL default '0',
-            approval int(11) NOT NULL default '0',
+            forum_status varchar(255) NOT NULL default 'normal',
             slug varchar(255) NOT NULL default '',
             PRIMARY KEY  (id),
             KEY parent_id (parent_id)
@@ -129,6 +128,7 @@ class AsgarosForumDatabase {
             $sql[] = "CREATE TABLE ".$this->tables->topics." (
             id int(11) NOT NULL auto_increment,
             parent_id int(11) NOT NULL default '0',
+            author_id int(11) NOT NULL default '0',
             views int(11) NOT NULL default '0',
             name varchar(255) NOT NULL default '',
             sticky int(1) NOT NULL default '0',
@@ -223,9 +223,9 @@ class AsgarosForumDatabase {
 
                 // If the page could get created, save it in the forum-options.
                 if ($page_id && !is_wp_error($page_id)) {
-                    $asgarosforum->loadOptions();
+                    $asgarosforum->load_options();
                     $asgarosforum->options['location'] = $page_id;
-                    $asgarosforum->saveOptions($asgarosforum->options);
+                    $asgarosforum->save_options($asgarosforum->options);
                 }
 
                 update_option('asgarosforum_db_version', 1);
@@ -290,7 +290,7 @@ class AsgarosForumDatabase {
             // Move appearance settings into its own options-array.
             if ($database_version_installed < 14 && !$first_time_installation) {
                 // Ensure that all options are loaded first.
-                $asgarosforum->loadOptions();
+                $asgarosforum->load_options();
                 $asgarosforum->appearance->load_options();
 
                 // Build the intersect.
@@ -301,7 +301,7 @@ class AsgarosForumDatabase {
 
                 // Save all options.
                 $asgarosforum->appearance->save_options($appearance_intersect);
-                $asgarosforum->saveOptions($options_cleaned);
+                $asgarosforum->save_options($options_cleaned);
 
                 update_option('asgarosforum_db_version', 14);
             }
@@ -338,7 +338,7 @@ class AsgarosForumDatabase {
                         $default_forum_name = __('First Forum', 'asgaros-forum');
                         $default_forum_description = __('My first forum.', 'asgaros-forum');
 
-                        $asgarosforum->content->insert_forum($new_category['term_id'], $default_forum_name, $default_forum_description, 0, 'fas fa-comments', 1, 0, 0);
+                        $asgarosforum->content->insert_forum($new_category['term_id'], $default_forum_name, $default_forum_description, 0, 'fas fa-comments', 1, 'normal');
                     }
                 }
 
@@ -443,6 +443,28 @@ class AsgarosForumDatabase {
                 @$this->db->query("ALTER TABLE {$this->tables->polls_options} DROP COLUMN `option`;");
 
                 update_option('asgarosforum_db_version', 54);
+            }
+
+            // Convert forum approval status.
+            if ($database_version_installed < 58 && !$first_time_installation) {
+                @$this->db->query("UPDATE {$this->tables->forums} SET forum_status = 'approval' WHERE approval = 1;");
+                @$this->db->query("ALTER TABLE {$this->tables->forums} DROP COLUMN approval;");
+
+                update_option('asgarosforum_db_version', 58);
+            }
+
+            // Convert forum closed status.
+            if ($database_version_installed < 59 && !$first_time_installation) {
+                @$this->db->query("UPDATE {$this->tables->forums} SET forum_status = 'closed' WHERE closed = 1;");
+                @$this->db->query("ALTER TABLE {$this->tables->forums} DROP COLUMN closed;");
+
+                update_option('asgarosforum_db_version', 59);
+            }
+
+            if ($database_version_installed < 61 && !$first_time_installation) {
+                $this->db->query("UPDATE {$this->tables->topics} AS t SET t.author_id = (SELECT p.author_id FROM {$this->tables->posts} AS p WHERE p.parent_id = t.id ORDER BY p.id ASC LIMIT 1);");
+
+                update_option('asgarosforum_db_version', 61);
             }
 
             update_option('asgarosforum_db_version', $this->db_version);

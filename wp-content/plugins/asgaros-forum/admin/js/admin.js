@@ -5,6 +5,15 @@ window.FontAwesomeConfig = {
 
 (function($) {
     $(document).ready(function() {
+        var editor = null;
+
+        if (wp && wp.codeEditor) {
+            if ($('textarea[data-code-editor-mode]').length) {
+                wp.codeEditor.defaultSettings.codemirror.mode = $('textarea[data-code-editor-mode]').attr('data-code-editor-mode');
+                var editor = wp.codeEditor.initialize($('textarea[data-code-editor-mode]'));
+            }
+        }
+
         // Settings-tabs toggle.
         $('#af-options #settings-tabs li').click(function() {
             // Get slug.
@@ -98,8 +107,7 @@ window.FontAwesomeConfig = {
             var forum_name              = '';
             var forum_description       = '';
             var forum_icon              = 'fas fa-comments';
-            var forum_closed            = '';
-            var forum_approval          = '';
+            var forum_status            = 'normal';
             var forum_order             = '1';
             var forum_count_subforums   = '0';
 
@@ -107,8 +115,7 @@ window.FontAwesomeConfig = {
                 forum_name              = $('#forum_'+forum_id+'_name').val();
                 forum_description       = $('#forum_'+forum_id+'_description').val();
                 forum_icon              = $('#forum_'+forum_id+'_icon').val();
-                forum_closed            = $('#forum_'+forum_id+'_closed').val();
-                forum_approval          = $('#forum_'+forum_id+'_approval').val();
+                forum_status            = $('#forum_'+forum_id+'_status').val();
                 forum_order             = $('#forum_'+forum_id+'_order').val();
                 forum_count_subforums   = $('#forum_'+forum_id+'_count_subforums').val();
             }
@@ -142,17 +149,11 @@ window.FontAwesomeConfig = {
             $('#forum-editor input[name=forum_description]').val(forum_description);
             $('#forum-editor input[name=forum_icon]').val(forum_icon);
 
-            if (forum_closed == 1) {
-                $('#forum-editor input[name=forum_closed]').prop('checked', true);
-            } else {
-                $('#forum-editor input[name=forum_closed]').prop('checked', false);
-            }
-
-            if (forum_approval == 1) {
-                $('#forum-editor input[name=forum_approval]').prop('checked', true);
-            } else {
-                $('#forum-editor input[name=forum_approval]').prop('checked', false);
-            }
+            $('#forum-editor select[name=forum_status] option').each(function() {
+                if ($(this).val() == forum_status) {
+                    $(this).prop('selected', true);
+                }
+            });
 
             $('#forum-editor input[name=forum_order]').val(forum_order);
 
@@ -262,6 +263,15 @@ window.FontAwesomeConfig = {
 
             setEditorTitle(this);
             showEditorInstance('#ad-editor');
+
+            // Try to update CodeMirror content. The content must get updated
+            // after the editor-instance is visible again. Otherwise the refresh
+            // is not working.
+            if (editor) {
+                editor.codemirror.doc.setValue(ad_code);
+                editor.codemirror.refresh();
+            }
+
             $('#ad-editor input[name=ad_name]').focus();
         });
 

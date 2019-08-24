@@ -3,12 +3,16 @@
 if (!defined('ABSPATH')) exit;
 
 class AsgarosForumAdmin {
+    private $asgarosforum = null;
     var $saved = false;
     var $error = false;
-    private $asgarosforum = null;
+    var $option_views = false;
 
     function __construct($object) {
         $this->asgarosforum = $object;
+
+        // Set the views for the available options.
+        $this->set_option_views();
 
         add_action('wp_loaded', array($this, 'save_settings'));
         add_action('admin_menu', array($this, 'add_admin_pages'));
@@ -19,6 +23,86 @@ class AsgarosForumAdmin {
         add_action('show_user_profile', array($this, 'user_profile_fields'));
         add_action('edit_user_profile_update', array($this, 'user_profile_fields_update'));
         add_action('personal_options_update', array($this, 'user_profile_fields_update'));
+    }
+
+    function set_option_views() {
+        $this->option_views = array(
+            'general' => array(
+                'label' => __('General', 'asgaros-forum'),
+                'icon' => 'fas fa-sliders-h'
+            ),
+            'features' => array(
+                'label' => __('Features', 'asgaros-forum'),
+                'icon' => 'fas fa-plug'
+            ),
+            'urls' => array(
+                'label' => __('URLs', 'asgaros-forum'),
+                'icon' => 'fas fa-link'
+            ),
+            'permissions' => array(
+                'label' => __('Permissions', 'asgaros-forum'),
+                'icon' => 'fas fa-user-shield'
+            ),
+            'breadcrumbs' => array(
+                'label' => __('Breadcrumbs', 'asgaros-forum'),
+                'icon' => 'fas fa-map-marked'
+            ),
+            'notifications' => array(
+                'label' => __('Notifications', 'asgaros-forum'),
+                'icon' => 'fas fa-envelope'
+            ),
+            'mentioning' => array(
+                'label' => __('Mentioning', 'asgaros-forum'),
+                'icon' => 'fas fa-at'
+            ),
+            'memberslist' => array(
+                'label' => __('Members List', 'asgaros-forum'),
+                'icon' => 'fas fa-users'
+            ),
+            'profiles' => array(
+                'label' => __('Profiles', 'asgaros-forum'),
+                'icon' => 'fas fa-user'
+            ),
+            'uploads' => array(
+                'label' => __('Uploads', 'asgaros-forum'),
+                'icon' => 'fas fa-upload'
+            ),
+            'reports' => array(
+                'label' => __('Reports', 'asgaros-forum'),
+                'icon' => 'fas fa-exclamation-triangle'
+            ),
+            'signatures' => array(
+                'label' => __('Signatures', 'asgaros-forum'),
+                'icon' => 'fas fa-signature'
+            ),
+            'activity' => array(
+                'label' => __('Activity', 'asgaros-forum'),
+                'icon' => 'fas fa-bullhorn'
+            ),
+            'ads' => array(
+                'label' => __('Ads', 'asgaros-forum'),
+                'icon' => 'fas fa-ad'
+            ),
+            'polls' => array(
+                'label' => __('Polls', 'asgaros-forum'),
+                'icon' => 'fas fa-poll-h'
+            ),
+            'spoilers' => array(
+                'label' => __('Spoilers', 'asgaros-forum'),
+                'icon' => 'fas fa-eye-slash'
+            ),
+            'reputation' => array(
+                'label' => __('Reputation', 'asgaros-forum'),
+                'icon' => 'fas fa-medal'
+            )
+        );
+    }
+
+    function render_options_header($option) {
+        echo '<div class="settings-header">';
+            echo '<span class="'.$this->option_views[$option]['icon'].'"></span>';
+            echo $this->option_views[$option]['label'];
+        echo '</div>';
     }
 
     function user_profile_fields($user) {
@@ -168,7 +252,8 @@ class AsgarosForumAdmin {
 
         if (strstr($hook, 'asgarosforum') !== false) {
             wp_enqueue_style('wp-color-picker');
-            wp_enqueue_script('asgarosforum-admin-js', $this->asgarosforum->plugin_url.'admin/js/admin.js', array('wp-color-picker'), $this->asgarosforum->version, true);
+            wp_enqueue_code_editor(array('type' => 'text/html'));
+            wp_enqueue_script('asgarosforum-admin-js', $this->asgarosforum->plugin_url.'admin/js/admin.js', array('jquery', 'wp-color-picker'), $this->asgarosforum->version, true);
         }
     }
 
@@ -295,7 +380,7 @@ class AsgarosForumAdmin {
             }
         }
 
-        $this->asgarosforum->saveOptions($saved_ops);
+        $this->asgarosforum->save_options($saved_ops);
         $this->saved = true;
     }
 
@@ -359,20 +444,19 @@ class AsgarosForumAdmin {
         $forum_description  = trim($_POST['forum_description']);
         $forum_icon         = trim($_POST['forum_icon']);
         $forum_icon         = (empty($forum_icon)) ? 'fas fa-comments' : $forum_icon;
-        $forum_closed       = (isset($_POST['forum_closed'])) ? 1 : 0;
-        $forum_approval     = (isset($_POST['forum_approval'])) ? 1 : 0;
+        $forum_status       = $_POST['forum_status'];
         $forum_order        = (is_numeric($_POST['forum_order'])) ? $_POST['forum_order'] : 0;
 
         if (!empty($forum_name)) {
             if ($forum_id === 'new') {
-                $this->asgarosforum->content->insert_forum($forum_category, $forum_name, $forum_description, $forum_parent_forum, $forum_icon, $forum_order, $forum_closed, $forum_approval);
+                $this->asgarosforum->content->insert_forum($forum_category, $forum_name, $forum_description, $forum_parent_forum, $forum_icon, $forum_order, $forum_status);
             } else {
                 // Update forum.
                 $this->asgarosforum->db->update(
                     $this->asgarosforum->tables->forums,
-                    array('name' => $forum_name, 'description' => $forum_description, 'icon' => $forum_icon, 'sort' => $forum_order, 'closed' => $forum_closed, 'approval' => $forum_approval, 'parent_id' => $forum_category, 'parent_forum' => $forum_parent_forum),
+                    array('name' => $forum_name, 'description' => $forum_description, 'icon' => $forum_icon, 'sort' => $forum_order, 'forum_status' => $forum_status, 'parent_id' => $forum_category, 'parent_forum' => $forum_parent_forum),
                     array('id' => $forum_id),
-                    array('%s', '%s', '%s', '%d', '%d', '%d', '%d'),
+                    array('%s', '%s', '%s', '%d', '%s', '%d', '%d'),
                     array('%d')
                 );
 
@@ -385,8 +469,8 @@ class AsgarosForumAdmin {
                     array('%d')
                 );
 
-                // Approve all unapproved topics in a forum if the approval-function is off.
-                if ($forum_approval === 0) {
+                // Approve all unapproved topics in a forum if its status is not set to approval.
+                if ($forum_status != 'approval') {
                     // Get all unapproved topics from this forum.
                     $unapproved_topics = $this->asgarosforum->approval->get_unapproved_topics($forum_id);
 
@@ -467,7 +551,7 @@ class AsgarosForumAdmin {
                         echo __('Documentation', 'asgaros-forum');
                     echo '</a>';
                     echo '&bull;';
-                    echo '<a href="https://www.paypal.me/asgaros" target="_blank">';
+                    echo '<a href="https://www.asgaros.de/donate/" target="_blank">';
                         echo '<span class="asgaros-panel-icon donate-icon fas fa-heart"></span>';
                         echo __('Donate', 'asgaros-forum');
                     echo '</a>';
