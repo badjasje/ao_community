@@ -46,6 +46,13 @@ if($defenderData['status'][0] == 'dead' || $defenderData['status'][0] == 'nukepr
 	exit;
 }
 
+if($defenderData['status'][0] == 'banned') {
+	$array['status'] = 'This player is banned';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
+}
+
 // Check if attacker is alive
 if($attackerData['status'][0] == 'dead' || $attackerData['status'][0] == 'nukeprotection'){
 	$array['status'] = 'You cannot attack while dead or under protection';
