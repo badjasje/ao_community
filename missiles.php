@@ -52,7 +52,7 @@ $totalordercost = 0;
 $totalturncost = 0;
 foreach ($missiles as $key => $order) {
     $price = $order['price'];
-    $ordered_missiles = abs(ceil($_POST["$key"]));
+    $ordered_missiles = abs(ceil( (isset($_POST["$key"]) ? $_POST["$key"] : 0) ));
 
     if (empty($_POST["$key"])) {
         $letter_check = 0;

@@ -18,7 +18,7 @@ if($missile_type == 'moab'){ $missile_name = 'MOAB'; }
 	<div class="col-xs-10 col-no-padding" style="flex: 100;">
 		<div class="eventMainMessage">
 			<?php if(in_array($attacker_id, $members[0])) { // Clanmember is attacker ?>
-				<?php if($eventData['shotdown'][0] == 'shotdown'){?>
+				<?php if(isset($eventData['shotdown']) && $eventData['shotdown'][0] == 'shotdown'){?>
 					<?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?> shot down the <?php echo $missile_name;?> of
 					<?php echo clan_tag($attacker_id);?> <?php echo get_user_name($attacker_id);?>
 				<?php }else {?>
@@ -38,7 +38,7 @@ if($missile_type == 'moab'){ $missile_name = 'MOAB'; }
 				<?php } ?>
 			<?php }?>
 			<?php if(in_array($defender_id, $members[0])) { // Clanmember is defender ?>
-				<?php if($eventData['shotdown'][0] == 'shotdown'){?>
+				<?php if(isset($eventData['shotdown']) && $eventData['shotdown'][0] == 'shotdown'){?>
 					<?php echo clan_tag($defender_id);?> <?php echo get_user_name($defender_id);?> shot down the <?php echo $missile_name;?> of
 					<?php echo clan_tag($attacker_id);?> <?php echo get_user_name($attacker_id);?>
 				<?php }else {?>
@@ -60,6 +60,7 @@ if($missile_type == 'moab'){ $missile_name = 'MOAB'; }
 				<?php if($winner_id == $attacker_id):?>
 					<?php
 					foreach ($units as $key => $order) {
+						if(!is_array($att_unitslost)) continue;
 						foreach ($att_unitslost as $att_unitlost) {
 							if (isset($att_unitlost[$key])) {
 								echo $order['normalname'] . ': ' . $att_unitlost[$key] . ', ';
@@ -70,6 +71,7 @@ if($missile_type == 'moab'){ $missile_name = 'MOAB'; }
 					<strong>Defender losses: <?php echo $def_tot_unitslost;?> units and <?php echo $def_tot_buildingslost;?> buildings</strong><br/>
 					<?php
 					foreach ($units as $key => $order) {
+						if(!is_array($def_unitslost)) continue;
 						foreach ($def_unitslost as $def_unitlost) {
 							if (isset($def_unitlost[$key])) {
 								echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
@@ -79,6 +81,7 @@ if($missile_type == 'moab'){ $missile_name = 'MOAB'; }
 					?>
 					<?php
 					foreach ($buildings as $key => $order) {
+						if(!is_array($def_unitslost)) continue;
 						foreach ($def_unitslost as $def_unitlost) {
 							if (isset($def_unitlost[$key])) {
 								echo $order['normalname'] . ': ' . $def_unitlost[$key] . ', ';
