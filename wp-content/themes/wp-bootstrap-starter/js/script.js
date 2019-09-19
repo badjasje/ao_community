@@ -146,9 +146,11 @@ jQuery(function($) {
     }).select2({placeholder:"Start typing to find a player"});
 
     // Tabs to url
-    $(document).on('shown.bs.tab', function (e) {
-        history.pushState(null, null, $(e.target).attr('href'));
-    });
+    if($('.searchusers').length) {
+        $(document).on('shown.bs.tab', function (e) {
+            history.pushState(null, null, $(e.target).attr('href'));
+        });
+    }
 
     var i = setInterval(function() { updateHeaderData(); }, 10000);
     updateHeaderData();
