@@ -1053,7 +1053,7 @@ class Province extends DbObject {
      * Keep track of turn usage
      */
     public function turn_spread($turntype, $addedturns) {
-        $turnSpread = maybe_unserialize($this->get('turn_spread'));
+        $turnSpread = maybe_unserialize(maybe_unserialize($this->get('turn_spread'))); // Do not make an object, keep it an array
         if(!is_array($turnSpread)) $turnSpread = array();
         if(!isset($turnSpread[$turntype])) $turnSpread[$turntype] = 0;
         $turnSpread[$turntype] += $addedturns;

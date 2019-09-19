@@ -96,6 +96,7 @@ else update_user_meta($userId, 'turns', $attack_new_turns);
 $attack_new_morale = $attack_curr_morale - $attack_cost_morale;
 if($debug) debug_update_user($userId, 'morale_cost', $attack_cost_morale);
 else update_user_meta($userId, 'morale', $attack_new_morale);
+turn_spread('unit_attack', $attack_cost_turns);
 
 /* Calculate dragon extra attack power */
 $dragons = 40 * (isset($attack_array['dragon']) ? intval($attack_array['dragon']) : 0); // each carries 40 vehs
