@@ -780,7 +780,7 @@ class Province extends DbObject {
     }
 
     /**
-     * Province market orders
+     * Province market/sattelite/missile orders
      */
     public function getOrders() {
         $orders = get_posts(array('posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'market_order', 'author' => $this->id));
