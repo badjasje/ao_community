@@ -19,16 +19,7 @@
 	$count = 0;
 	$reverse = false;
 	foreach ($allUsers as $allUser) {
-
-		$user_ID = $allUser->ID;
-		$clan_id = get_user_meta($user_ID, 'clan_id_user',true);
-		$member_data = get_userdata($user_ID);
-
-		$status = get_user_meta($user_ID,'status',true);
-		if($status == 'banned' ){ continue; }
-
-		$land = get_user_meta($user_ID, 'land',true);
-		$last_online = get_user_meta($user_ID, 'last_online',true);
+		$clan = $allUser->getClan();
 
 		if($count == 10) $reverse = true;
 		if($reverse == true){
@@ -37,32 +28,20 @@
 		}
 		if($reverse == false) $count++;
 		?>
-		<div class="row fw-row userRow userRow1 row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-($count/70);?>);">
+		<div class="row fw-row userRow userRow1 row-no-padding" style="background-color:rgba(<?=$backColor?>,<?=(0.35-($count/70))?>);">
 			<div class="col-md-1 col-no-padding sea_heading allUsersAvatarCol">
-				<?php echo small_avatar($user_ID,'allUsersAvatar');?><span class="mobileUserName"><?php echo get_user_name($user_ID);?></span>
+				<?=$allUser->getAvatar('clanAvatar')?><span class="mobileUserName"><?=$allUser->getName()?></span>
 			</div>
-			<div class="col-md-4 celBlock allUsersNameCol name-sort">
-				<?php echo get_user_name($user_ID);?>
-			</div>
+			<div class="col-md-4 celBlock allUsersNameCol name-sort"><?=$allUser->getLink(true)?></div>
 			<div class="col-md-2 celBlock">
 				<span class="columnDataLeft">Networth</span>
-				<span class="columnDataRight nw-sort">
-					<?php echo networth_range($user_ID);?>
-				</span>
+				<span class="columnDataRight nw-sort"><?=$allUser->getNetWorth(true)?></span>
 			</div>
 			<div class="col-md-2 celBlock">
 				<span class="columnDataLeft">Land</span>
-				<span class="columnDataRight land-sort">
-				<?php echo number_format($land, 0, ',', ' '); ?> m<sup>2</sup>
-				</span>
+				<span class="columnDataRight land-sort"><?=$allUser->getLand(true)?></span>
 			</div>
-			<div class="col-md-3 celBlock">
-				<?php if($clan_id == 0){
-					echo 'Clanless';
-				}else{
-					echo '<a href="'.get_the_permalink($clan_id).'">'.get_the_title($clan_id).' (#'.$clan_id.')</a>';
-				}?>
-			</div>
+			<div class="col-md-3 celBlock"><?=(!!$clan ? '<a href="'.$clan->getLink().'">'.$clan->getName().' (#'.$clan->get('id').')</a>' : 'Clanless')?></div>
 		</div>
 		<?php
 	}

@@ -1,13 +1,8 @@
 <?php
-/*
+/**
  * Template Name: Users
  */
-
 get_header();
-
-$user = CurrentUser::make();
-$province = $user->getProvince();
-
 
 $transient = get_transient('allusers_query');
 if(!empty($transient)) $users = $transient;
@@ -22,21 +17,22 @@ else {
 }
 
 $allUsers = array();
-foreach($users as $user) {
-	$allUsers[$user->ID] = Province::make($user->ID);
-	//$user_ID = ;
-	//$member_data = get_userdata($user_ID);
+foreach($users as $allUser) {
+	$userObj = User::make($allUser->ID);
+	if($userObj->isBanned()) continue;
+	$allUsers[$allUser->ID] = $userObj->getProvince();
 }
 
 $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'all';
+$backColor = "45, 67, 81";
 ?>
 <div class="row pageRow">
 	<form class="fw-row">
 		<select id="clan" name="clan" class="searchusers">
 			<option></option>
-			<? foreach ($allUsers as $user) { ?>
-			<option name="clan" value="/users/profile/?id=<?=$user->get('id')?>">
-				<?=$user->getName()?> (#<?=$user->get('id')?>)
+			<? foreach ($allUsers as $allUser) { ?>
+			<option name="clan" value="/users/profile/?id=<?=$allUser->get('id')?>">
+				<?=$allUser->getName()?> (#<?=$allUser->get('id')?>)
 			</option>
 			<?php }?>
 		</select>
