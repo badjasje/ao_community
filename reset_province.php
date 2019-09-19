@@ -33,6 +33,7 @@ if (empty($userId) || !is_user_logged_in()) {
 }
 
 $reset_status = get_user_meta($userId, 'reset_status', true);
+if(Round::isDev() || Round::isTest()) $reset_status = false; //You may reset more than once
 if(!empty($reset_status)) {
     $array['status'] = 'You have already reset this round';
     $array['next'] = false;
