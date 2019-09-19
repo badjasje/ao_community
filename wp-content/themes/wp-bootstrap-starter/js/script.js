@@ -140,6 +140,16 @@ jQuery(function($) {
         }
     });
 
+    // /users/ - page
+    $('.searchusers').on('change', function() {
+        if($(this).val()) window.location.href = $(this).val();
+    }).select2({placeholder:"Start typing to find a player"});
+
+    // Tabs to url
+    $(document).on('shown.bs.tab', function (e) {
+        history.pushState(null, null, $(e.target).attr('href'));
+    });
+
     var i = setInterval(function() { updateHeaderData(); }, 10000);
     updateHeaderData();
 

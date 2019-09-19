@@ -64,16 +64,5 @@ $backColor = "45, 67, 81";
 	</div>
 </div>
 
-<script type="text/javascript">
-	jQuery(function($) {
-		$(".searchusers").select2({placeholder: "Start typing to find a player"});
-		$(document).on('shown.bs.tab', function (event) {
-			history.pushState(null, null, $(event.target).attr('href'));
-		});
-		$('.searchusers').on('change', function() {
-			if($(this).val()) window.location.href = $(this).val();
-		});
-	});
-</script>
 <?php
 get_footer();

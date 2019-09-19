@@ -1,16 +1,16 @@
 <div class="sortMobile">
 	<center>
-	<strong>Sort by:</strong> <a href="?tab=online&sortby=name-sort-3" class="sort3" data-sort=".name-sort-3">Name</a> -
-	<a href="?tab=online&sortby=nw-sort-3" class="sort3 sort-number" data-sort=".nw-sort-3">Networth</a> -
-	<a href="?tab=online&sortby=land-sort-3" class="sort3 sort-number" data-sort=".land-sort-3">Land</a>
+	<strong>Sort by:</strong> <a href="javascript:void(0);" class="sort3" data-sort=".name-sort-3">Name</a> -
+	<a href="javascript:void(0);" class="sort3 sort-number" data-sort=".nw-sort-3">Networth</a> -
+	<a href="javascript:void(0);" class="sort3 sort-number" data-sort=".land-sort-3">Land</a>
 	</center>
 </div>
 
 <div class="row headerRow row-no-padding" style="border-bottom:1px solid #fff;background-color: rgba(<?=$backColor?>, 0.75);border-top:1px solid #fff;">
 	<div class="col-md-1 celBlock"></div>
-	<div class="col-md-4 celBlock"><strong><a href="?tab=online&sortby=name-sort-3" class="sort3" data-sort=".name-sort-3">Name <i class="fas fa-sort"></i></a></strong></div>
-	<div class="col-md-2 celBlock"><strong><a href="?tab=online&sortby=nw-sort-3" class="sort3 sort-number" data-sort=".nw-sort-3">Networth <i class="fas fa-sort"></i></a></strong></div>
-	<div class="col-md-2 celBlock"><strong><a href="?tab=online&sortby=land-sort-3" class="sort3 sort-number" data-sort=".land-sort-3">Land <i class="fas fa-sort"></i></a></strong></div>
+	<div class="col-md-4 celBlock"><strong><a href="javascript:void(0);" class="sort3" data-sort=".name-sort-3">Name <i class="fas fa-sort"></i></a></strong></div>
+	<div class="col-md-2 celBlock"><strong><a href="javascript:void(0);" class="sort3 sort-number" data-sort=".nw-sort-3">Networth <i class="fas fa-sort"></i></a></strong></div>
+	<div class="col-md-2 celBlock"><strong><a href="javascript:void(0);" class="sort3 sort-number" data-sort=".land-sort-3">Land <i class="fas fa-sort"></i></a></strong></div>
 	<div class="col-md-3 celBlock"><strong>Clan</strong></div>
 </div>
 
