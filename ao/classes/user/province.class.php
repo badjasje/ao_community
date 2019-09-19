@@ -509,7 +509,7 @@ class Province extends DbObject {
             'R'=>'#CEBE95','S'=>'#A79566','T'=>'#695728','U'=>'#4F3E12','V'=>'#7B5044','W'=>'#CEA195','X'=>'#A77366','Y'=>'#693528','Z'=>'#4F1F12');
             $firstletter = strtoupper(substr($this->getName(), 0, 1));
             $color = (isset($map[$firstletter]) ? $map[$firstletter] : '#2D434E');
-            $return .= '<div class="setAvatar menuAvatar" style="background-color:'. $color .';">'. $firstletter .'</div>';
+            $return .= '<div class="'. implode(' ', $classes) .'" style="background-color:'. $color .';">'. $firstletter .'</div>';
         }
         return $return .'</a>';
     }
