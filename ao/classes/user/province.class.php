@@ -9,7 +9,7 @@ class Province extends DbObject {
     public $fields = array(
         // Generic
         'id','display_name','avatar_user','status','starting_bonus','new_events','new_messages','new_global_events',
-        'user_lock','morale_lock','telegram_key',
+        'user_lock','morale_lock','telegram_key','last_online',
 
         // Resources
         'money','turns','networth','land','power','morale','morale_pool','sat_morale',
@@ -429,6 +429,9 @@ class Province extends DbObject {
         $province = $user->getProvince();
         return ($province->get('id') == $this->id);
     }
+    public function isBanned() {
+        return User::make($this->id)->isBanned();
+    }
 
     /**
      * Status: dead
@@ -455,13 +458,14 @@ class Province extends DbObject {
      * Other
      */
     public function inRange() {
+        // result should be cached
         if($this->isCurrentUser()) return false; // I am not in range of myself
         if($this->isDead()) return false;
         if($this->isProtected()) return false;
 
         $user = CurrentUser::make();
         $networth = $this->getNetworth();
-        $viewerNetworth = $user->getNetworth();
+        $viewerNetworth = $user->getProvince()->getNetworth();
         $range = Settings::get('attack_range_mult');
         return ($networth > $viewerNetworth / $range && $networth < $viewerNetworth * $range);
     }
@@ -469,20 +473,34 @@ class Province extends DbObject {
     /**
      * Public province data (viewable for everyone)
      */
-    public function getName() {
-        return $this->get('display_name');
+    public function isOnline() {
+        $timestamp = current_time('timestamp');
+        $last_online = $this->get('last_online');
+        return (!empty($last_online) ? ($timestamp - $last_online < Settings::get('online_status_time')) : false);
     }
 
-    public function getLink() { // @todo: make a permalink for users
-        return Request::siteUrl().'/users/profile/?id='.$this->id;
+    public function getName($format=false) {
+        if(!$format) return $this->get('display_name');
+        if($this->isBanned()) return '<strike>'.$this->get('display_name').'</strike> <strong>banned</strong>';
+
+        $icon = '';
+        if($this->isDead()) $icon = ' <span class="hover-tip" data-toggle="tooltip" data-title="This user is dead" data-placement="bottom"><i class="fas fa-skull"></i></span>';
+        if($this->isProtected()) $icon = ' <span class="hover-tip" data-toggle="tooltip" data-title="This user is under protection" data-placement="bottom"><i class="fas fa-umbrella"></i></span>';
+        return $this->getName(false).' (#'.$this->get('id').')' . $icon . ($this->isOnline()?' <span class="online">*</span>':'');
     }
 
-    public function getAvatar() {
+    public function getLink($format=false) { // @todo: make a permalink for users
+        if(!$format) return Request::siteUrl().'/users/profile/?id='.$this->id;
+        return '<a class="memberField" href="'.$this->getLink(false).'">'.$this->getName(true).'</a>';
+    }
+
+    public function getAvatar($classes='') {
         $avatar = $this->get('avatar_user');
+        $classes = array_merge( (!is_array($classes) ? array($classes) : array()), array('setAvatar'));
         $return = '<a href="'.$this->getLink().'" title="'.$this->getName().'">';
         if(!empty($avatar)) {
             $avatar = str_replace("http://", "https://", $avatar);
-            $return .= '<div class="setAvatar menuAvatar" style="background: url(\''.$avatar.'\');"></div>';
+            $return .= '<div class="'. implode(' ', $classes) .'" style="background: url(\''.$avatar.'\');"></div>';
         }
         else {
             // @todo Change this to classes to avoid inline css
@@ -496,15 +514,21 @@ class Province extends DbObject {
         return $return .'</a>';
     }
 
-    public function getNetworth($format=false) { // @todo: maybe we want to show if province is in range
+    public function getNetworth($format=false) {
         $n = intval($this->get('networth'));
-        return ($format ? Format::networth($n) : $n);
+        if(!$format) return $n;
+        $n = Format::networth($n);
+        if($this->isCurrentUser()) return $n;
+        if($this->inRange()) return '<strong>'. $n .' <span class="hover-tip" data-toggle="tooltip"
+        data-title="This user is in your networth range" data-placement="bottom"><i class="far fa-check-circle"></i></span></strong>';
+        return '<span>'. $n .'</span>';
     }
 
     public function getLand($format=false) {
         $n = intval($this->get('land'));
         return ($format ? Format::land($n) : $n);
     }
+
 
     /**
      * Private province data (viewable within clan)

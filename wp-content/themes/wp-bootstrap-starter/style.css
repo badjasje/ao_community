@@ -1867,6 +1867,7 @@ input[type="radio"]:checked + label {
 .userRow{
 	height:50px;
 }
+.memberField .online { color:#F00; }
 .ctclField{
 	display: inline-block;
 }
