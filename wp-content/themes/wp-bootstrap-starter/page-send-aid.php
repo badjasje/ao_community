@@ -1,30 +1,37 @@
 <?php
-/*
+/**
  * Template Name: Send aid
  */
 get_header();
-global $userData;
-global $userId;
 
-$clan_ID = $userData['clan_id_user'][0];
-$clanmembers = maybe_unserialize(get_post_meta( $clan_ID, 'clan_members', true ));
-$user_NW = $userData['networth'][0];
-$money = $userData['money'][0];
-$aid_sent = $userData['aid_sent_today'][0];
-$maxAmount = round(min(250000,$money));
+$user = CurrentUser::make();
+$province = $user->getProvince();
+
+$aid_sent = $province->get('aid_sent_today');
+$maxAmount = round(min(250000,$province->getMoney()));
+
+$clan = $province->getClan();
+$members = array();
+if($clan) {
+	$clanmembers = $clan->getMembers();//ID's
+	foreach($clanmembers as $member_id) {
+		$member = Province::make($member_id);
+		if($member_id != $province->get('id') && $member->getNetworth() <= $province->getNetworth()) $members[] = $member;
+	}
+}
 ?>
-
 <div class="row pageRow">
 	<div class="fw-row">
 		<form id="aid">
 
 			<div class="blockHeader" style="border-bottom:0px;">
-				You can send aid 3 times every 24 hours, with a maximum of $ 250 000 per aid.
+				You can send aid 3 times every 24 hours, with a maximum of <?=Format::money(250000)?> per aid.
 			</div>
 			<div class="blockHeader spaceNotice">
-				You have sent aid <span id="aidssent"><?php echo $aid_sent;?></span> times today
+				You have sent aid <span id="aidssent"><?=$aid_sent?></span> times today
 			</div>
 
+			<? if(count($members)) {?>
 			<div class="row no-gutters">
 				<div class="col-md-6 no-gutters">
 					<div class="row no-gutters">
@@ -33,16 +40,9 @@ $maxAmount = round(min(250000,$money));
 						</div>
 						<div style="padding:0px;" class="attackDropdown statCol-2 no-gutters">
 							<select name="receiver" class="attackTypeInput">
-								<?php
-								foreach ($clanmembers as $key => $member) {
-									$nw_user = get_user_meta($member, 'networth',true);
-									if($member != $userId && $user_NW > $nw_user){
-										$member_data = get_userdata($member);
-										?>
-										<option name="receiver" value="<?php echo $member;?>"><?php echo $member_data->display_name;?></option>
-										<?php
-									}
-								} ?>
+								<? foreach ($members as $member) { ?>
+									<option name="receiver" value="<?=$member->get('id')?>"><?=$member->getName()?></option>
+								<? } ?>
 							</select>
 						</div>
 					</div>
@@ -51,7 +51,7 @@ $maxAmount = round(min(250000,$money));
 				<div class="col-md-6 no-gutters">
 					<div class="row no-gutters">
 						<div class="col-sm-6 bankCol">
-							<input class="unitInput" min="0" max="<?php echo $maxAmount;?>" placeholder="Enter amount"type="number" id="amount" name="amount" style="border: none;"/>
+							<input class="unitInput" min="0" max="<?=$maxAmount?>" placeholder="Enter amount"type="number" id="amount" name="amount" style="border: none;"/>
 						</div>
 						<div id="maxaid" class="col-sm-6 bankCol mainSubmit" style="border-top:0px;background-color:rgba(70, 118, 94, 0.8);">
 							MAX
@@ -59,6 +59,14 @@ $maxAmount = round(min(250000,$money));
 					</div>
 				</div>
 			</div>
+			<? } else if($aid_sent < 3)  { ?>
+				<div class="blockHeader spaceNotice">
+				<?
+				if(!$clan || count($clanmembers)==1) echo 'Clanmates can help each other by sending aid.';
+				else echo 'You can only help clanmates who have a lower networth than you.';
+				?>
+				</div>
+			<? } ?>
 
 			<input type="submit" value="Send aid" class="mainSubmit">
 		</form>
@@ -71,9 +79,8 @@ $maxAmount = round(min(250000,$money));
 			});
 
 			var request;
-			$('form').submit(function( event ) {
+			$('form').submit(function(event) {
 				$('.pageLoader, #page-cover').show();
-				$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 
 				event.preventDefault();
 				if (request) request.abort();
@@ -84,6 +91,7 @@ $maxAmount = round(min(250000,$money));
 
 				request = $.ajax({url: "/send_aid.php",type: "post",data: serializedData});
 				request.done(function (response, textStatus, jqXHR){
+					$('.pageLoader, #page-cover').fadeOut("fast");
 					updateHeaderData();
 					var array = JSON.parse(response);
 					$.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
@@ -97,6 +105,6 @@ $maxAmount = round(min(250000,$money));
 		})(jQuery);
 	</script>
 
-</div> <!-- end .pageRow -->
+</div>
 <?php
 get_footer();
