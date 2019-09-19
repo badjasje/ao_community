@@ -69,8 +69,8 @@ $warcount = count($warcount);
 $timestamp = current_time('timestamp');
 
 // calculating total NW for declaring clan. Not sure if still needed.
+$dec_tot_networth = 0;
 if($declarer_clan_ID != 0) {
-	$dec_tot_networth = 0;
     foreach ($declaringClanMembers as $dec_member) {
         $dec_networth = get_user_meta($dec_member, 'networth',true);
         if(get_user_meta($dec_member, 'status',true) == 'dead'){
