@@ -281,7 +281,7 @@ $game_live = (get_field('game_status','option')=='Live');
 
 <?php
 // If I have spy units, and I can spy this person
-if($visiting_user != $viewedId && $clan_id != $clan_id_user && !in_array($status, array('dead','banned','nukeprotection'))) {
+if($visiting_user != $viewedId && ((empty($clan_id) && empty($clan_id_user)) || $clan_id != $clan_id_user) && !in_array($status, array('dead','banned','nukeprotection'))) {
 	$spiesOwned = get_spy_units($userId);
 	if(count($spiesOwned)) {
 		$btnClass = (count($spiesOwned)==2?'col-md-6':'col-md-12');
