@@ -382,6 +382,19 @@ jQuery(function($) {
     });
     calculateBuildingsTotals();
 
+    // Sending aid
+    $("#maxaid").click(function() {
+        $("#amount").val(parseInt($('#amount').attr('max')));
+    });
+    $('#aid').on('submit', function(e) {
+        e.preventDefault();
+        singleAjax(site_url+'/ajax/sendaid', $(this), function(data) {
+            $('#aidssent').html(data.noaids);
+            $('#amount').attr('max', data.max);
+            $('form').trigger("reset");
+        });
+    });
+
 });
 
 // Google Tag Manager

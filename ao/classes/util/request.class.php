@@ -17,6 +17,7 @@ class Request {
         'exploreland' => array('province','ajaxExploreLand'),
         'sellland' => array('province','ajaxSellLand'),
         'buildings' => array('province','ajaxBuildings'),
+        'sendaid' => array('province','ajaxSendAid'),
         'clanmessage' => array('clan','ajaxSetMessage')
     );
     public static $page_links = array(

@@ -82,7 +82,11 @@ class Settings extends DataObject {
         'special_units' => array('spyplane', 'thief', 'spy','sniper','saboteur'),
         'demolish_price_multi' => 0.15,
 
-        // attack constants
+        // Aid
+        'max_aid' => 250000,
+        'max_aid_times' => 3,
+
+        // Attack constants
         'attack_maintargets' => array(
             'power' => 'Power plants',
 		    'silo' => 'Missile silos',
