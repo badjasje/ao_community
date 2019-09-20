@@ -218,9 +218,9 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
                 update_field('bonus_turns', $bonusTurns, $new_event_id);
                 update_field('defender_id', $member, $new_event_id);
                 update_field('time_attacked', $timestamp, $new_event_id);
-
-                $event_count = get_user_meta($member, 'new_events')[0];
-                update_user_meta($member, 'new_events', $event_count + 1);
+                // There is no bonus-event yet.
+                //$event_count = get_user_meta($member, 'new_events')[0];
+                //update_user_meta($member, 'new_events', $event_count + 1);
             }
         }
     }
