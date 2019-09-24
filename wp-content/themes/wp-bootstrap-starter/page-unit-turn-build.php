@@ -1,255 +1,101 @@
 <?php
- /*
+/**
  * Template Name: Unit turn build
-*/
+ */
 get_header();
 
-global $userData;
-global $userId;
-$activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'air';
+$user = CurrentUser::make();
+$province = $user->getProvince();
 
-include 'units_array.php';
-include 'count_functions.php';
-
-$totalMoney = $userData['money'][0];
-$totalturns = $userData['turns'][0];
-
-// Calculate space for special units.
-$spies = $userData['spy_owned'][0];
-$spiesOrdered = $userData['spy_ordered'][0];
-$thieves = $userData['thief_owned'][0];
-$thievesOrdered = $userData['thief_ordered'][0];
-$planes = $userData['spyplane_owned'][0];
-$planesOrdered = $userData['spyplane_ordered'][0];
-$sniper = $userData['sniper_owned'][0];
-$snipersOrdered = $userData['sniper_ordered'][0];
-
-$commandCenters = $userData['command_centre'][0];
-$space = [
-    'air' => $userData['airfield'][0] * 10,
-    'sea' => $userData['shipyard'][0] * 5,
-    'veh' => $userData['warfactory'][0] * 10,
-    'inf' => $userData['baracks'][0] * 20,
-    'special' => ($commandCenters * 5) - $spies - $thieves - $planes - $spiesOrdered - $thievesOrdered - $planesOrdered - $sniper - $snipersOrdered
-];
-
-$usedSpace = [
-    'air' => count_airspace($userId),
-    'sea' => count_seaspace($userId),
-    'veh' => count_vehspace($userId),
-    'inf' => count_infspace($userId),
-];
-
-$unitsPerTurn = [
-    'air' => 10,
-    'sea' => 5,
-    'veh' => 10,
-    'inf' => 20,
-];
-
-$discountLevel = $userData['level_market_discount'][0];
-
-$discount = 1.0;
-
-if($discountLevel == 1){
-	$discount = $discount - 0.15;
-} elseif($discountLevel >= 2){
-	$discount = $discount - 0.3;
+$unitTypes = Settings::get('unit_types');
+$space = $province->getUnitTypeSpace();
+$usedSpace = $province->getUnitTypeUsedSpace();
+$units = $province->getUnits();
+$unitsPerTurn = $province->getUnitsPerTurn();
+$buildings = Buildings::get();
+$unitTypeBuildingNames = array();
+foreach($buildings as $building) {
+	if(!isset($building['houses'])) continue;
+	$unitTypeBuildingNames[$building['houses']] = $building['normalname'];
 }
 
-$startingBonus = $userData['starting_bonus'][0];
-if($startingBonus == 'shipping'){
-    $discount = $discount - 0.1;
-}
-
-$endDate = get_field('end_date','option');
-$endStamp = strtotime($endDate);
-$timestamp = current_time('timestamp');
-$timeLeft = $endStamp-$timestamp;
-
-$specialUnits = [
-    'spy',
-    'thief',
-    'sniper',
-    'saboteur',
-    'spyplane'
-];
-
-$unitTypes = [
-    'air' => 'Air',
-    'sea' => 'Sea',
-    'veh' => 'Vehicles',
-    'inf' => 'Infantry'
-];
-
-$marketShippingLevel = $userData['level_shipping_time'][0];
-if($marketShippingLevel == 1) $hours = 9;
-elseif($marketShippingLevel == 2) $hours = 6;
-else $hours = 12;
-
+$activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
 ?>
 <div class="row pageRow">
 
-	<div class="fw-row">
-		<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
-			<a class="nav-item nav-link navItem <?php echo $activeTab === 'air' ? 'active' : ''; ?>" data-toggle="tab" data-target="#air" href="?tab=air">Air units</a>
-			<a class="nav-item nav-link navItem <?php echo $activeTab === 'sea' ? 'active' : ''; ?>" data-toggle="tab" data-target="#sea" href="?tab=sea">Sea units</a>
-			<a class="nav-item nav-link navItem <?php echo $activeTab === 'veh' ? 'active' : ''; ?>" data-toggle="tab" data-target="#veh" href="?tab=veh">Vehicles</a>
-			<a class="nav-item nav-link navItem <?php echo $activeTab === 'inf' ? 'active' : ''; ?>" data-toggle="tab" data-target="#inf" href="?tab=inf">Infantry</a>
-		</nav>
-	</div>
+	<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
+		<?php foreach($unitTypes as $key => $unitType) { ?>
+		<a class="nav-item nav-link navItem <?=($activeTab==$key?'active':'')?>" data-toggle="tab" data-target="#<?=$key?>" href="?tab=<?=$key?>"><?=$unitType?></a>
+		<?php } ?>
+	</nav>
 
-	<div class="fw-row">
-		<form class="form" id="turnbuild">
-			<div class="tab-content current build_content tabbed-table">
-				<?php include('pages/units/type.php'); ?>
-				<div class="row statusBlockButtons">
-					<div class="col-md-2 totalsField statCol-1">
-						Units: <span id="total">0</span>
+	<form class="form" id="turnbuild">
+		<div class="tab-content current build_content tabbed-table">
+			<?php foreach($unitTypes as $key => $unitType) { ?>
+				<div class="tab-pane smallTable unitBuildTable <?=($activeTab == $key ? 'active' : '')?>" id="<?=$key?>" role="tabpanel">
+			        <div class="blockHeader spaceNotice">
+						<p>
+							Your empty <?=$unitTypeBuildingNames[$key]?> allow you to build a maximum of <span id="<?=$key?>spacecount"><?=($space[$key]-$usedSpace[$key])?></span>
+							<?=strtolower($unitType)?>. <strong><?=$unitsPerTurn[$key]?> units </strong>built per turn for <?=strtolower($unitType)?>
+						</p>
+						<div class="text-right small">
+							<a href="javascript:void(0);" class="descriptionToggle" data-type="turnbuild"><span>Show</span> descriptions &nbsp; <i class="fa fa-align-justify"></i></a>
+						</div>
 					</div>
-					<div class="col-md-3 totalsField statCol-2">
-						Total cost: $ <span id="order_total">0</span>
-					</div>
-					<div class="col-md-2 totalsField statCol-3">
-						Turns required: <span id="turn_total">0</span>
-					</div>
-					<div class="col-md-2 totalsField statCol-4">
-						Added Nw. : $ <span id="networth_total">0</span>
-					</div>
-					<div class="col-md-3 totalsField statCol-3">
-						New Nw. : $ <span id="networth_new"></span>
-					</div>
+					<table>
+						<tr class="unitRow headerRow">
+							<th class="nameBlock">Name</th><th class="price">Price</th><th class="attacklife">Att / Life</th>
+							<th class="targets">Targets</th><th class="owned">Owned</th><th class="max">Max</th><th class="buildBlock">Build</th>
+						</tr>
+						<? $count = 0;
+						foreach($units as $unitKey => $unit) {
+            				if ($unit['type'] == $key) {
+								$canAttack = is_array($unit['attacks']) && count($unit['attacks']) ? implode(', ', $unit['attacks']) : 'N/A';
+								$count++;
+								?>
+								<tr class="unitRow <?=$unitKey?>"
+									data-nw="<?=$unit['networthPerUnit']?>"
+									data-buildprice="<?=$unit['buildprice']?>"
+									data-key="<?=$unitKey?>"
+									data-bpt="<?=$unitsPerTurn[$key]?>"
+									data-space="<?=$unit['space']?>"
+									data-specialspace="<?=$unit['specialspace']?>">
+									<td class="nameBlock"><?=$unit['normalname']?></td>
+									<td class="price"><?=Format::money($unit['price'])?></td>
+									<td class="attacklife"><?=$unit['attack']?>/<?=$unit['life']?></td>
+									<td class="targets"><?=$canAttack?></td>
+									<td class="owned"><?=$unit['num']?></td>
+									<td class="maxBlock buildmax" data-amount="<?=$unit['maxbuild']?>"><?=$unit['maxbuild']?></td>
+									<td class="inputBlock buildBlock">
+										<input class="unitInput" min="0" max="<?=$unit['maxbuild']?>" tabindex="<?=$count?>" type="number" name="build[<?=$unitKey?>]">
+									</td>
+								</tr>
+								<tr class="descriptionRow<?=(empty($unit['description'])?' d-md-none':'')?>">
+									<td colspan="7">
+										<?=(isset($unit['description'])?$unit['description'].'<br>':'')?>
+										<div class="d-block d-md-none">
+											Attack: <?=$unit['attack']?>, Life: <?=$unit['life']?>, Targets: <?=$canAttack?>
+										</div>
+									</td>
+								</tr>
+							<? }
+						} ?>
+					</table>
 				</div>
-				<input type="submit" value="Turn build" class="mainSubmit hoverEffect">
+			<? } ?>
+
+			<div class="row statusBlockButtons">
+				<div class="col-md-3 totalsField statCol-1">Units: <span id="total"></span></div>
+				<div class="col-md-3 totalsField statCol-2">Total cost: $ <span id="order_total"></span></div>
+				<div class="col-md-3 totalsField statCol-3">Turns required: <span id="turn_total"></span></div>
+				<div class="col-md-3 totalsField statCol-4">New Nw.: $ <span id="networth_new"></span></div>
 			</div>
-		</form>
-	</div>
 
-</div> <!-- // End pageRow -->
+			<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
+			<input type="submit" value="Turn build" class="mainSubmit hoverEffect">
+		</div>
+	</form>
 
-<script>
-(function($) {
-
-	var request;
-	$(document).on('submit', '#turnbuild', function(event) {
-
-		var turn_total = parseInt($('#turn_total').text());
-		if(turn_total >= 50 && !confirm('This will cost a lot of turns, are you sure?')) {
-			event.preventDefault();
-			return;
-		}
-
-		$('.pageLoader, #page-cover').show();
-		$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
-
-	    event.preventDefault();
-    	if (request) { request.abort(); }
-		var serializedData = $(this).serialize();
-		request = $.ajax({url: "/turnbuild.php", type: "post", data: serializedData});
-		request.done(function (response, textStatus, jqXHR){
-			updateHeaderData();
-
-			// Log a message to the console
-			var array = JSON.parse(response);
-			$.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
-			$('#order_total').html('0');
-			$('#total').html('0');
-			$('#networth_total').html('0');
-			$('#turn_total').html('0');
-			if(array.next == true){
-				$.each( array.allowned, function( key, value ) {
-					$('#'+key+'_owned').html(value);
-				});
-				$.each( array.newmax, function( key, value ) {
-					$('#button'+key).html(value);
-				});
-				$.each( array.usedspace, function( key, value ) {
-					$('#'+key+'spacecount').html(number_format(value, 0, ',', ' '));
-				});
-			}
-			$('#turnbuild').trigger("reset");
-		});
-	});
-
-	$(document).on("keyup paste blur change", ".buyInput", function() {
-		var sum = 0;
-		var orderval = 0;
-		var addednw = 0;
-		var turntot = 0;
-		var oldnw = provinceData.networth != 'undefined' ? provinceData.networth : 0;
-
-		$(".buyInput").each(function(){
-			var inputval = $(this).val();
-			sum += +$(this).val();
-			if(inputval > 0){
-				orderval += +$(this).attr( "data-price" )*inputval;
-				addednw += +$(this).attr( "data-price" )*($(this).attr( "data-nw" )/100)*inputval;
-
-				var inputkey = $(this).attr( "type-key" );
-				if(inputkey == 'air'){
-					turntot += Math.ceil(inputval/10);
-				}
-				if(inputkey == 'sea'){
-					turntot += Math.ceil(inputval/5);
-				}
-				if(inputkey == 'inf'){
-					turntot += Math.ceil(inputval/20);
-				}
-				if(inputkey == 'veh'){
-					turntot += Math.ceil(inputval/10);
-				}
-			}
-		});
-
-		$("#total").html(sum);
-		$("#order_total").html(number_format(orderval, 0, ',', ' '));
-		$("#networth_total").html(number_format(addednw, 0, ',', ' '));
-		$("#turn_total").html(number_format(turntot, 0, ',', ' '));
-		$("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
-	});
-
-	$(document).on("click", ".allbutton", function() {
-		var sum = 0;
-		var inputkey = $(this).attr( "data-key" );
-		var inputamount = $(this).html();
-		var turntot = 0;
-
-		$(".buy_"+inputkey).val(inputamount);
-
-		var orderval = 0;
-		var addednw = 0;
-		var oldnw = provinceData.networth != 'undefined' ? provinceData.networth : 0;
-
-		$(".buyInput").each(function(){
-			var inputval = $(this).val();
-			sum += +$(this).val();
-			if(inputval > 0){
-				orderval += +$(this).attr( "data-price" )*inputval;
-				addednw += +$(this).attr( "data-price" )*($(this).attr( "data-nw" )/100)*inputval;
-
-				var typekey = $(this).attr( "type-key" );
-				if(typekey == 'air'){
-					turntot += Math.ceil(inputval/10);
-				}
-				if(typekey == 'sea'){
-					turntot += Math.ceil(inputval/5);
-				}
-				if(typekey == 'inf'){
-					turntot += Math.ceil(inputval/20);
-				}
-				if(typekey == 'veh'){
-					turntot += Math.ceil(inputval/10);
-				}
-			}
-		});
-
-		$("#total").html(sum);
-		$("#order_total").html(number_format(orderval, 0, ',', ' '));
-		$("#networth_total").html(number_format(addednw, 0, ',', ' '));
-		$("#turn_total").html(number_format(turntot, 0, ',', ' '));
-		$("#networth_new").html(number_format(addednw+oldnw, 0, ',', ' '));
-	});
-})(jQuery);
-</script>
-<?php
+</div>
+<?
 get_footer();

@@ -77,10 +77,18 @@ class Settings extends DataObject {
         // Building
         'land_per_building' => 20,
         'defensive_buildings' => array('torpedolauncher', 'samsite', 'missileturret', 'machinegunturret'),
-        'all_types' => array('sea', 'air', 'veh', 'inf', 'bld'),
-        'unit_types' => array('sea', 'air', 'veh', 'inf'),
+        //'all_types' => array('sea', 'air', 'veh', 'inf', 'bld'), // unused?
+        'unit_types' => array(
+            'air' => 'Air units',
+            'sea' => 'Sea units',
+            'veh' => 'Vehicles',
+            'inf' => 'Infantry'
+        ),
         'special_units' => array('spyplane', 'thief', 'spy','sniper','saboteur'),
         'demolish_price_multi' => 0.15,
+
+        // Units
+        'units_per_turn' => array('air' => 10, 'sea' => 5, 'veh' => 10, 'inf' => 20),
 
         // Aid
         'max_aid' => 250000,

@@ -115,7 +115,7 @@ class DbObject extends PhpObject {
     }
 
     public function get($key) {
-		if(!!static::$cache && isset(static::$list[static::$cache][$this->id])) {
+		if(!!static::$cache && isset($this->id) && isset(static::$list[static::$cache][$this->id])) {
             return (isset(static::$list[static::$cache][$this->id][$key]) ? static::$list[static::$cache][$this->id][$key] : false);
         }
         return parent::get($key);

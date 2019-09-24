@@ -326,11 +326,6 @@ jQuery(function($) {
         $(this).siblings('.demoBlock').find('.unitInput').val($(this).attr('data-amount'));
         calculateBuildingsTotals();
     });
-    $('.buildmax').on('click', function(e) {
-        e.preventDefault();
-        $(this).siblings('.buildBlock').find('.unitInput').val($(this).attr('data-amount'));
-        calculateBuildingsTotals();
-    });
     function calculateBuildingsTotals() {
         if(typeof provinceData.networth == 'undefined' || $('#buildings').length==0) return;
         var totals = {build:0,demo:0,cost:0,turns:0,nw:provinceData.networth};
@@ -359,9 +354,6 @@ jQuery(function($) {
 		$('#turn_total').attr('data-amount',totals.turns).text(totals.turns);
 		$('#networth_new').text(number_format(totals.nw, 0, ',', ' '));
 	}
-	$(document).on("keyup paste blur change", ".unitInput", function() {
-		calculateBuildingsTotals();
-	});
     $('#buildings').on('submit', function(e) {
         e.preventDefault();
         if($('#order_total').attr('data-amount') > provinceData.money) return standardNotify('Insufficient funds');
@@ -381,6 +373,65 @@ jQuery(function($) {
         });
     });
     calculateBuildingsTotals();
+
+    // Buildings & Units page
+    $(document).on("keyup paste blur change", ".unitInput", function() {
+        calculateBuildingsTotals();
+        calculateUnitsTotals();
+	});
+    $('.buildmax').on('click', function(e) {
+        e.preventDefault();
+        $(this).siblings('.buildBlock').find('.unitInput').val($(this).attr('data-amount'));
+        calculateBuildingsTotals();
+        calculateUnitsTotals();
+    });
+
+    // Units page
+    function calculateUnitsTotals() {
+        if(typeof provinceData.networth == 'undefined' || $('#turnbuild').length==0) return;
+        var totals = {build:0,specialbuild:0,cost:0,turns:0,nw:provinceData.networth};
+        $('#turnbuild .unitRow:not(.headerRow)').each(function() {
+            var b = Math.abs($('.buildBlock .unitInput',this).val()), bpt = parseInt($(this).data('bpt'));
+            totals.build += b;
+            totals.specialbuild += ($(this).data('specialspace')>0 ? b : 0);
+            totals.cost += (b * parseInt($(this).data('buildprice')));
+            totals.nw += (b * parseInt($(this).data('nw')));
+            totals.turns += b / bpt;
+        });
+        totals.turns = Math.ceil(totals.turns);
+        var turns = provinceData.turns - totals.turns;
+        var money = provinceData.money - totals.cost;
+        $('#turnbuild .unitRow:not(.headerRow)').each(function() {
+            var bpt = parseInt($(this).data('bpt')), space = parseInt($(this).data('space')), special_space = parseInt($(this).data('specialspace'));
+            var nm = Math.min( Math.floor(money/$(this).data('buildprice')), turns*bpt, Math.floor(space - totals.build));
+            nm = (special_space > 0 ? Math.min(nm, Math.floor(special_space - totals.specialbuild)) : nm);
+            var sm = Math.abs($('.buildBlock .unitInput', this).val()) + nm;
+            $('.buildmax', this).attr('data-amount', sm ).text(nm);
+            $('.buildBlock .unitInput', this).attr('max', sm);
+        });
+        $('#total').text(totals.build);
+        $('#order_total').attr('data-amount',totals.cost).text(number_format(totals.cost, 0, ',', ' '));
+        $('#turn_total').attr('data-amount',totals.turns).text(totals.turns);
+        $('#networth_new').text(number_format(totals.nw, 0, ',', ' '));
+    }
+    $('#turnbuild').on('submit', function(e) {
+        e.preventDefault();
+        if($('#order_total').attr('data-amount') > provinceData.money) return standardNotify('Insufficient funds');
+        if($('#turn_total').attr('data-amount') > provinceData.turns) return standardNotify('Not enough turns');
+		if($('#turn_total').attr('data-amount') >= 50 && !confirm('This will cost a lot of turns, are you sure?')) return;
+        singleAjax(site_url+'/ajax/units', $(this), function(data) {
+            for(var key in data.buildmax) {
+                var bm = data.buildmax[key], o = data.owned[key], sp = data.space[key], ssp = data.specialspace[key], r = $('.unitRow.'+key,this);
+                $('.buildmax', r).attr('data-amount', bm).text(bm);
+                $('.buildBlock .unitInput', r).attr('max', bm);
+                $('.owned', r).text(o);
+                r.data('space', sp).data('specialspace', ssp);
+            }
+            $(this).trigger("reset");
+            calculateBuildingsTotals();
+        });
+    });
+    calculateUnitsTotals();
 
     // Sending aid
     $("#maxaid").click(function() {

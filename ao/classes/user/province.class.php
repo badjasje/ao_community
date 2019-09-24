@@ -393,7 +393,7 @@ class Province extends DbObject {
         $turns_needed = ceil($build_num/$this->getBuildingsPerTurn());
         if($build_price > $money) $status[] = 'insufficient funds to build';
         else if($turns_needed > $turns) $status[] = 'not enough turns to build';
-        else if($build_num*Settings::get('land_per_building') > $freeland) $status[] = 'Not enough free land';
+        else if($build_num*Settings::get('land_per_building') > $freeland) $status[] = 'not enough free land';
         else {
             if($build_num > 0) $status[] = $build_num.' buildings built';
             foreach ($build as $key => $count) {
@@ -402,7 +402,7 @@ class Province extends DbObject {
             $this->update('buildings_built', $this->get('buildings_built') + $build_num);
             $this->update('money', $money - $build_price);
             $this->update('turns', $turns - $turns_needed);
-            $this->turn_spread('buildings', $turns_needed); //@wp
+            $this->turn_spread('buildings', $turns_needed);
         }
 
         // Recalculate maxes
@@ -418,6 +418,82 @@ class Province extends DbObject {
             'success' => true, 'status' => implode(', ', $status), 'maxbuild' => $this->getMaxBuild(), 'buildspace' => $this->getBuildSpace(),
             'buildmax' => $maxbuild, 'demomax' => $maxdemo, 'owned' => $owned
         ));
+    }
+
+    public function ajaxUnits($return) {
+        if(!Round::isLive()) return array('status' => 'Game is paused.');
+        if(!is_array($_POST['build'])) return array('status' => 'Not a valid request.');
+        $status = array('Done');
+        $units = $this->getUnits();
+        $money = $this->getMoney();
+        $turns = $this->getTurns();
+        $unitsPerTurn = $this->getUnitsPerTurn();
+        $build = array();
+        $build_num = $build_price = $turns_needed = 0;
+        foreach($_POST['build'] as $key => $num) {
+            if(empty($num) || !is_numeric($num) || $num < 0 || !isset($units[$key])) continue;
+            $build[$key] = min($num, $units[$key]['maxbuild']);
+            $build_num += $build[$key];
+            $build_price += $build[$key] * $units[$key]['buildprice'];
+            $turns_needed += $build[$key]/$unitsPerTurn[$units[$key]['type']];
+        }
+        $turns_needed = ceil($turns_needed);
+        if($build_price > $money) $status[] = 'insufficient funds';
+        else if($turns_needed > $turns) $status[] = 'not enough turns';
+        else {
+            if($build_num > 0) $status[] = $build_num.' units built';
+            foreach ($build as $key => $count) {
+                $this->update($key.'_owned', $this->get($key.'_owned') + $count);
+            }
+            $this->update('units_built_turns', $this->get('units_built_turns') + $build_num);
+            $this->update('money', $money - $build_price);
+            $this->update('turns', $turns - $turns_needed);
+            $this->turn_spread('unit_turn_build', $turns_needed);
+        }
+
+        // Recalculate maxes
+        $this->count_all_stats();
+        $units = $this->getUnits();
+        $maxbuild = $owned = $space = $specialspace = $typespace = $typespecialspace = array();
+        foreach($units as $key => $unit) {
+            $maxbuild[$key] = $unit['maxbuild'];
+            $owned[$key] = $unit['num'];
+            $space[$key] = $unit['space'];
+            $specialspace[$key] = $unit['specialspace'];
+            if(!isset($typespace[$unit['type']])) $typespace[$unit['type']] = $unit['space'];
+            if(!isset($typespecialspace[$unit['type']])) $typespecialspace[$unit['type']] = $unit['specialspace'];
+        }
+        return array_merge($return, array(
+            'success' => true, 'status' => implode(', ', $status), 'typespace' => $space, 'typespecialspace' => $typespecialspace,
+            'buildmax' => $maxbuild, 'owned' => $owned, 'space' => $space, 'specialspace' => $specialspace
+        ));
+        /*   $space = $this->getUnitTypeSpace();
+        $usedSpace = $this->getUnitTypeUsedSpace();
+        $totalMoney = $this->getMoney();
+        $totalturns = $this->getTurns();
+        $unitsPerTurn = $this->getUnitsPerTurn();
+        $special_units = Settings::get('special_units');
+        $units = Units::get();
+        foreach($units as $id => $unit) {
+            $units[$id]['num'] = (!!$this->get($id.'_owned') ? intval($this->get($id.'_owned')) : 0);
+            $units[$id]['ordered'] = (!!$this->get($id.'_ordered') ? intval($this->get($id.'_ordered')) : 0);
+            $units[$id]['original_price'] = $unit['price']; // For nw calc
+            $units[$id]['buildprice'] = $unit['price']; // Might become cheaper with research/startbonus
+            $units[$id]['networthPerUnit'] = round($unit['price'] * $unit['networth']/100); // of original price!
+
+            $maxMoney = floor($totalMoney / $units[$id]['buildprice']);
+            $maxTurns = floor($totalturns * $unitsPerTurn[$unit['type']]);
+            $maxSpace = $space[$unit['type']] - $usedSpace[$unit['type']];
+            $maxSpecial = (in_array($id, $special_units) ? $space['special'] - $usedSpace['special'] : $maxSpace);
+            $units[$id]['space'] = $maxSpace;
+            $units[$id]['specialspace'] = (in_array($id, $special_units) ? $space['special'] - $usedSpace['special'] : 0);
+            $units[$id]['maxbuild'] = min($maxSpecial, $maxMoney, $maxSpace, $maxTurns);
+
+            //Hooks::trigger('get_province_unit', array($id, $units[$id])); // we might want to work with modifiers
+            if($this->hasStartingBonus('defensive')) {
+                $units[$id]['life'] = $units[$id]['life'] * Settings::get('startbonus_defensive_unit_life_multi');
+            }
+        }*/
     }
 
     public function ajaxSendAid($return) {
@@ -908,9 +984,10 @@ class Province extends DbObject {
         $freeTurns = floor($totalturns * $buildingsPerTurn);
         $freeLand = $this->getFreeLand();
         $freeSpace = $this->getBuildSpace();
-        $units = $this->getUnits();
         $missiles = $this->getMissiles();
 
+        //$units = $this->getUnits();
+        $units = Units::get(); // we don't want to start an infinite loop
         $buildings = Buildings::get();
         foreach($buildings as $id => $building) {
             $buildings[$id]['num'] = (!!$this->get($id) ? intval($this->get($id)) : 0);
@@ -921,14 +998,17 @@ class Province extends DbObject {
             $buildings[$id]['maxbuild'] = min(floor($totalMoney / $buildings[$id]['buildprice']), $freeTurns, $freeSpace);
             $occupied = 0;
             if(isset($building['houses'])) {
-                foreach($units as $unit) {
-                    if($unit['type'] == $building['houses'] || $unit['sectype'] == $building['houses']) $occupied += ($unit['ordered'] + $unit['num']);
+                foreach($units as $unitKey => $unit) {
+                    if($unit['type'] == $building['houses'] || $unit['sectype'] == $building['houses']) {
+                        $occupied += (!!$this->get($unitKey.'_ordered') ? intval($this->get($unitKey.'_ordered')) : 0);
+                        $occupied += (!!$this->get($unitKey.'_owned') ? intval($this->get($unitKey.'_owned')) : 0);
+                    }
                 }
                 foreach($missiles as $missile) {
                     if($missile['type'] == $building['houses']) $occupied += ($missile['ordered'] + $missile['num']);
                 }
             }
-            $buildings[$id]['occupied'] = ($occupied > 0 ? ceil($occupied / $building['housing']) : 0);
+            $buildings[$id]['occupied'] = ($occupied > 0 ? $occupied : 0);
             $buildings[$id]['maxdemo'] = $buildings[$id]['num'] - $buildings[$id]['occupied'];
 
             //Hooks::trigger('get_province_building', array($id, $buildings[$id])); // we might want to work with modifiers
@@ -963,6 +1043,28 @@ class Province extends DbObject {
             case 2: return 15; break;
         }
         return 5;
+    }
+
+    public function getUnitTypeSpace() {
+        $buildings = $this->getBuildings();
+        $space = array();
+        foreach($buildings as $id => $building) {
+            if(!isset($building['houses'])) continue;
+            if(!isset($space[$building['houses']])) $space[$building['houses']] = 0;
+            $space[$building['houses']] += ($building['num'] * $building['housing']);
+        }
+        return $space;
+    }
+
+    public function getUnitTypeUsedSpace() {
+        $buildings = $this->getBuildings();
+        $usedSpace = array();
+        foreach($buildings as $id => $building) {
+            if(!isset($building['houses'])) continue;
+            if(!isset($usedSpace[$building['houses']])) $usedSpace[$building['houses']] = 0;
+            $usedSpace[$building['houses']] += $building['occupied'];
+        }
+        return $usedSpace;
     }
 
     public function getBuildSpace() {
@@ -1001,20 +1103,47 @@ class Province extends DbObject {
     }
 
     /**
+     * Build units per turn, might get modified by a research some day
+     */
+    public function getUnitsPerTurn($key=null) {
+        $unitsPerTurn = Settings::get('units_per_turn');
+        return ($key != null && $unitsPerTurn[$key] ? $unitsPerTurn[$key] : $unitsPerTurn);
+    }
+
+    /**
      * Get all information of one or all of one type, or all units of this province
      */
     public function getUnits($key=null,$type=null) {
 
+        $space = $this->getUnitTypeSpace();
+        $usedSpace = $this->getUnitTypeUsedSpace();
+        $totalMoney = $this->getMoney();
+        $totalturns = $this->getTurns();
+        $unitsPerTurn = $this->getUnitsPerTurn();
+        $special_units = Settings::get('special_units');
         $units = Units::get();
         foreach($units as $id => $unit) {
             $units[$id]['num'] = (!!$this->get($id.'_owned') ? intval($this->get($id.'_owned')) : 0);
             $units[$id]['ordered'] = (!!$this->get($id.'_ordered') ? intval($this->get($id.'_ordered')) : 0);
             $units[$id]['original_price'] = $unit['price']; // For nw calc
+            $units[$id]['buildprice'] = $unit['price']; // Might become cheaper with research/startbonus
+            $units[$id]['networthPerUnit'] = round($unit['price'] * $unit['networth']/100); // of original price!
+
+            $maxMoney = floor($totalMoney / $units[$id]['buildprice']);
+            $maxTurns = floor($totalturns * $unitsPerTurn[$unit['type']]);
+            $maxSpace = $space[$unit['type']] - $usedSpace[$unit['type']];
+            $maxSpecial = (in_array($id, $special_units) ? $space['special'] - $usedSpace['special'] : $maxSpace);
+            $units[$id]['space'] = $maxSpace;
+            $units[$id]['specialspace'] = (in_array($id, $special_units) ? $space['special'] - $usedSpace['special'] : 0);
+            $units[$id]['maxbuild'] = min($maxSpecial, $maxMoney, $maxSpace, $maxTurns);
+
             //Hooks::trigger('get_province_unit', array($id, $units[$id])); // we might want to work with modifiers
             if($this->hasStartingBonus('defensive')) {
                 $units[$id]['life'] = $units[$id]['life'] * Settings::get('startbonus_defensive_unit_life_multi');
             }
         }
+        /*wtf($units, $unitsPerTurn, $space, $usedSpace);
+        die();*/
 
         return ($key != null && $units[$key] ? $units[$key] : $units);
     }

@@ -53,16 +53,16 @@ $buildings = $province->getBuildings();
 					<td class="maxBlock buildmax" data-amount="<?=$building['maxbuild']?>"><?=$building['maxbuild']?></td>
 					<td class="inputBlock buildBlock">
 						<input class="unitInput" min="0" max="<?=$building['maxbuild']?>" tabindex="<?=$count?>" type="number" name="build[<?=$buildingKey?>]">
-					</div>
+					</td>
 					<td class="inputBlock demoBlock">
 						<input class="unitInput" min="0" max="<?=$building['maxdemo']?>" tabindex="<?=($count+count($buildings))?>" type="number" name="demo[<?=$buildingKey?>]">
-					</div>
+					</td>
 				</tr>
 				<tr class="descriptionRow">
 					<td colspan="8">
 						<?=(isset($building['description'])?$building['description']:'')?>
 						It adds <?=$building['networth']?>% networth, <?=Format::money($building['networthPerUnit'])?> per building.
-						<? if($building['occupied']>0) {?>There are <span class="occupied"><?=$building['occupied']?></span> of them occupied.<? } ?>
+						<? if($building['occupied']>0) {?>There are <span class="occupied"><?=ceil($building['occupied']/$building['housing'])?></span> of them occupied.<? } ?>
 						<div class="d-block d-md-none">
 							Attack/life: <?=$building['attack']?>/<?=$building['life']?>, targets: <?=$canAttack?>
 						</div>
