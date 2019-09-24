@@ -37,7 +37,11 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'explore';
 					<?php if($exploredToday == 0) {?>
 						You haven't explored any land today. You can explore
 					<?php } else { ?>
-						You have explored <strong><?=Format::land($exploredToday)?></strong> today.
+						<? if(!Round::isDev() && !Round::isTest()) { ?>
+							You have explored <strong><?=Format::land($exploredToday)?></strong> today.
+						<? } else { ?>
+							There is no maximum explore per day on test.
+						<? } ?>
 						You can explore an additional
 					<?php } ?>
 					<span class="maxexp" data-max="<?=$maxAmount?>"><strong><?=Format::land($maxLand)?></strong> <i>(<?=$maxAmount?> turns)</i></span>
@@ -60,7 +64,11 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'explore';
 		<div class="tab-pane <?=($activeTab === 'sell' ? 'active' : '')?>"  id="sell" role="tabpanel">
 			<div class="blockHeader spaceNotice sellNotice">
 				<?=Format::land(1)?> has a value of <?=Format::money(Settings::get('money_per_land'))?>. You have <?=$freeLand?> of free land.
-				You have sold <strong><?=Format::land($soldLandToday)?></strong> today.
+				<? if(!Round::isDev() && !Round::isTest()) { ?>
+					You have sold <strong><?=Format::land($soldLandToday)?></strong> today.
+				<? } else { ?>
+					There is no maximum sell per day on test.
+				<? } ?>
 				You can sell an additional <strong class="maxsell" data-max="<?=$maxSell?>"><?=Format::land($maxSell)?></strong>
 			</div>
 			<form id="sellform">

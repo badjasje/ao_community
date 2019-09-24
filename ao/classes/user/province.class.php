@@ -324,7 +324,7 @@ class Province extends DbObject {
         $freeland = $this->getFreeLand();
         if($freeland < 0) return array('status' => 'Cannot sell! Not enough free land');
         if($postedLand > $freeland) return array('status' => 'Not enough free land');
-        $maxSellLand = Settings::get('max_sell_land')-$this->get('land_sold_today');
+        $maxSellLand = $this->getMaxSellLand();
         if ($maxSellLand < $postedLand) return array('status' => 'Cannot sell any more land');
 
         $this->update('land', round($this->getLand() - $postedLand));
@@ -467,33 +467,6 @@ class Province extends DbObject {
             'success' => true, 'status' => implode(', ', $status), 'typespace' => $space, 'typespecialspace' => $typespecialspace,
             'buildmax' => $maxbuild, 'owned' => $owned, 'space' => $space, 'specialspace' => $specialspace
         ));
-        /*   $space = $this->getUnitTypeSpace();
-        $usedSpace = $this->getUnitTypeUsedSpace();
-        $totalMoney = $this->getMoney();
-        $totalturns = $this->getTurns();
-        $unitsPerTurn = $this->getUnitsPerTurn();
-        $special_units = Settings::get('special_units');
-        $units = Units::get();
-        foreach($units as $id => $unit) {
-            $units[$id]['num'] = (!!$this->get($id.'_owned') ? intval($this->get($id.'_owned')) : 0);
-            $units[$id]['ordered'] = (!!$this->get($id.'_ordered') ? intval($this->get($id.'_ordered')) : 0);
-            $units[$id]['original_price'] = $unit['price']; // For nw calc
-            $units[$id]['buildprice'] = $unit['price']; // Might become cheaper with research/startbonus
-            $units[$id]['networthPerUnit'] = round($unit['price'] * $unit['networth']/100); // of original price!
-
-            $maxMoney = floor($totalMoney / $units[$id]['buildprice']);
-            $maxTurns = floor($totalturns * $unitsPerTurn[$unit['type']]);
-            $maxSpace = $space[$unit['type']] - $usedSpace[$unit['type']];
-            $maxSpecial = (in_array($id, $special_units) ? $space['special'] - $usedSpace['special'] : $maxSpace);
-            $units[$id]['space'] = $maxSpace;
-            $units[$id]['specialspace'] = (in_array($id, $special_units) ? $space['special'] - $usedSpace['special'] : 0);
-            $units[$id]['maxbuild'] = min($maxSpecial, $maxMoney, $maxSpace, $maxTurns);
-
-            //Hooks::trigger('get_province_unit', array($id, $units[$id])); // we might want to work with modifiers
-            if($this->hasStartingBonus('defensive')) {
-                $units[$id]['life'] = $units[$id]['life'] * Settings::get('startbonus_defensive_unit_life_multi');
-            }
-        }*/
     }
 
     public function ajaxSendAid($return) {
@@ -703,12 +676,14 @@ class Province extends DbObject {
 
     public function getMaxExploreLand() {
         $turnMax = $this->getTurns() * $this->getExplorationRate();
+        if(Round::isDev() || Round::isTest()) return $turnMax;
         $maxExplore = round(Settings::get('max_explore_land') - $this->get('explored_today'));
         return $turnMax < $maxExplore ? $turnMax : $maxExplore;
     }
 
     public function getMaxSellLand() {
         $freeLand = $this->getFreeLand();
+        if(Round::isDev() || Round::isTest()) return $freeLand;
         $maxSellLand = (Settings::get('max_sell_land') - $this->get('land_sold_today'));
         return $freeLand < $maxSellLand ? $freeLand : $maxSellLand;
     }
