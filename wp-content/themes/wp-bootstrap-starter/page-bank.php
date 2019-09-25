@@ -126,7 +126,6 @@ $disabled = (!Bank::isOpen() || $dep_num >= $province->getMaxDeposits() ? true :
 			</div>
 		</div>
 	</div>
-	<? /*}*/ ?>
 </div>
 <?
 get_footer();

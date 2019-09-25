@@ -69,6 +69,14 @@ jQuery(function($) {
         $.notify({message:msg},{type:'info',delay:5000,allow_dismiss:true,newest_on_top:true});
     }
 
+    // Fixed html notifications may wanna fade out too
+    if($('[data-fade-out]').length) {
+        $('[data-fade-out]').each(function() {
+            setTimeout(function() { $(this).fadeOut('slow'); }.bind(this), parseInt($(this).data('fade-out')));
+        });
+    }
+
+    // Wrapper function for most ajaxCalls
     var requests={};
     function singleAjax(url,post,cb) {
         //var $ = jQuery;
@@ -86,6 +94,7 @@ jQuery(function($) {
         });
     }
 
+    // Extra footer data
     var d=new Date();
     $('#footerTime').text(d.toLocaleString('nl-NL'));
     $('#footerResolution').text(window.innerWidth +'x'+ window.innerHeight);
@@ -120,6 +129,7 @@ jQuery(function($) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
+    // Used on buildings and users page
     function toggleDescriptions(type, s) {
         setCookie(type+'_descriptions', s, 256);
         $('#'+type+' .descriptionRow').toggle((s==1?true:false));

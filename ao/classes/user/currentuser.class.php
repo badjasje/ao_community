@@ -269,7 +269,7 @@ class CurrentUser extends User {
     public function logout() {
         wp_logout();
         unset($_SESSION['user']);
-        session_destroy();
+        // session_destroy(); // Do not destory session because of rate-limiting
         // possible redirect? if(!Request::isAjax())
     }
 
