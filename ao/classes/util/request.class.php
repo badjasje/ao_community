@@ -41,7 +41,9 @@ class Request {
             static::$site_url = $parsed['scheme'].'://'.$parsed['host'];
             static::$path = trim($parsed['path'],'/'); // "/user/login/" becomes "user/login"
             static::$parts = explode('/', static::$path);
-            static::$query = (isset($parsed['query']) ? $parsed['query'] : array()); // please do not use this but use Request::get()
+            static::$query = (isset($parsed['query']) ? $parsed['query'] : array()); // please do not use this but use Request::get()\
+
+            // @todo Rate limiting based on path
         }
     }
 
@@ -143,7 +145,7 @@ class Request {
         if(isset($_SESSION['request_error_num']) && $_SESSION['request_error_num'] > Settings::get('max_request_errors')) {
             $error = 'Please login again and try again (E02:REN)';
             $_SESSION['request_error_num'] = 0;
-            $user->logout();
+            $user->logoutEverywhere();
         }
         if(static::part(1)!='header' && !static::validateNonce()) $error = 'Please refresh the page and try again (E01:VN)';
 
@@ -158,7 +160,6 @@ class Request {
             $province->update('user_lock', 1);
             if(!in_array(static::part(1), array_keys(static::$ajax_paths))) $error = 'Request failed successfully (E09:AP)';// Make sure we are in a valid path
             else {
-                // @todo make sure some calls aren't requested too often
                 $funcs = static::$ajax_paths[static::part(1)]; // Call function related to this path
                 if($funcs[0] == 'province') $return = call_user_func(array($province, $funcs[1]), $return);
                 else if($funcs[0] == 'clan') {
