@@ -267,7 +267,7 @@ class Units extends DataObject {
             'life'			=>	20
         ),
         'navy' 			=> array(
-            'price'			=>	'825',
+            'price'			=>	'815',
             'networth'		=>	11,
             'normalname'	=>	'Navy SEAL',
             'attacks'		=>  array('inf','bld'),
