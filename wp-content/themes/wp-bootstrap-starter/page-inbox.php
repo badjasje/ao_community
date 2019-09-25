@@ -63,8 +63,6 @@ $sender = get_userdata( get_the_author_meta('ID') );
 
 $messageData = get_post_meta($messageId);
 
-$parent_ID = $messageData['parent_message_id'][0];
-
 $receiver_id = $messageData['receiver_id'][0];
 $receiver = get_userdata( $receiver_id );
 $convoWith = $receiver_id;
