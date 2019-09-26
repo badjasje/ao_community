@@ -42,6 +42,9 @@ Round::init();
 $user = CurrentUser::make();
 if($user->isBanned() && !Request::isAjax()) { echo '<br/><br/><center>Your account is banned from Assault.Online.</center>'; exit; }
 
+// We check per path if you don't look it up too much
+Request::pathRateLimit();
+
 // Handle ajax requests privatly
 if(Request::isAjax()) {
     echo Request::ajax();
