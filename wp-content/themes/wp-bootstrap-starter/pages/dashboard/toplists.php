@@ -1,7 +1,7 @@
 <?php
 $toplistArray = maybe_unserialize(get_field('toplistarray','option'));
 
-if(count($toplistArray) && isset($toplistArray['clannetworth'])) {
+if(is_array($toplistArray) && isset($toplistArray['clannetworth'])) {
     $topPtsToday = '';
     foreach(array_slice($toplistArray['24h_pts'],0,3) as $topClanId) {
         if($clan = Clan::make($topClanId)) {

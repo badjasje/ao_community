@@ -27,18 +27,18 @@ $clanData = get_post_meta($clan_id);
 $clanMembers = maybe_unserialize(maybe_unserialize($clanData['clan_members'][0]));
 $membersCount = count($clanMembers);
 //Enemy clan avg nw is:
-$averageNw = $clanData['clan_networth'][0] / $membersCount;
+$averageNw = (isset($clanData['clan_networth']) ? $clanData['clan_networth'][0] : 1) / $membersCount;
 
 //Count the members in YOUR clan
 $declaringClanMembers = maybe_unserialize($declarerClanData['clan_members'][0]);
 $declaringMembersCount = (is_array($declaringClanMembers) ? count($declaringClanMembers) : 1);
-$declarerAverageNw = $declarerClanData['clan_networth'][0] / $declaringMembersCount;
+$declarerAverageNw = (isset($declarerClanData['clan_networth']) ? $declarerClanData['clan_networth'][0] : 1) / $declaringMembersCount;
 
 $average_OK = "false";
 if ($declarerAverageNw*$AVERAGE_DECLARE_NW_ALLOWED > $averageNw) {
   $average_OK = "true";
 }
-$cooldownlist = maybe_unserialize($declarerClanData['cooldown_list'][0]);
+$cooldownlist = (isset($declarerClanData['cooldown_list']) ? maybe_unserialize($declarerClanData['cooldown_list'][0]) : array());
 if(!is_array($cooldownlist) && !empty($cooldownlist)) $cooldownlist = maybe_unserialize($cooldownlist); // Temp fix double serialization
 if(!is_array($cooldownlist)) $cooldownlist = array();
 
