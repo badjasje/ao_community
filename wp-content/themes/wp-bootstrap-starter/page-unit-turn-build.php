@@ -29,7 +29,7 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
 		<?php } ?>
 	</nav>
 
-	<form class="form" id="turnbuild">
+	<form class="form" name="turnbuild" id="turnbuild">
 		<div class="tab-content current build_content tabbed-table">
 			<?php foreach($unitTypes as $key => $unitType) { ?>
 				<div class="tab-pane smallTable unitBuildTable <?=($activeTab == $key ? 'active' : '')?>" id="<?=$key?>" role="tabpanel">

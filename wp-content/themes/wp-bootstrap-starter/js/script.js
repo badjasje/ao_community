@@ -340,7 +340,7 @@ jQuery(function($) {
         if(typeof provinceData.networth == 'undefined' || $('#buildings').length==0) return;
         var totals = {build:0,demo:0,cost:0,turns:0,nw:provinceData.networth};
         var bpt=parseInt($('#buildingsPerTurn').text());
-		$('#buildings .unitRow:not(.headerRow)').each(function() {
+		$('#buildings .unitRow:not(.headerRow,.descriptionRow)').each(function() {
             var b = Math.abs($('.buildBlock .unitInput',this).val()), d = Math.abs($('.demoBlock .unitInput',this).val());
 			totals.build += b;
             totals.demo += d;
@@ -353,7 +353,7 @@ jQuery(function($) {
         var freeland = provinceData.freeland + (totals.demo*landpb) - (totals.build * landpb);
         var turns = provinceData.turns - totals.turns;
         var money = provinceData.money - totals.cost;
-        $('#buildings .unitRow:not(.headerRow)').each(function() {
+        $('#buildings .unitRow:not(.headerRow,.descriptionRow)').each(function() {
             var nm = Math.min( Math.floor(money/$(this).data('buildprice')), turns*bpt, Math.floor(freeland / landpb));
             var sm = Math.abs($('.buildBlock .unitInput', this).val()) + nm;
             $('.buildmax', this).attr('data-amount', sm ).text(nm);
@@ -400,7 +400,7 @@ jQuery(function($) {
     function calculateUnitsTotals() {
         if(typeof provinceData.networth == 'undefined' || $('#turnbuild').length==0) return;
         var totals = {build:0,specialbuild:0,cost:0,turns:0,nw:provinceData.networth};
-        $('#turnbuild .unitRow:not(.headerRow)').each(function() {
+        $('#turnbuild .unitRow:not(.headerRow,.descriptionRow)').each(function() {
             var b = Math.abs($('.buildBlock .unitInput',this).val()), bpt = parseInt($(this).data('bpt'));
             totals.build += b;
             totals.specialbuild += ($(this).data('specialspace')>0 ? b : 0);
@@ -411,10 +411,15 @@ jQuery(function($) {
         totals.turns = Math.ceil(totals.turns);
         var turns = provinceData.turns - totals.turns;
         var money = provinceData.money - totals.cost;
-        $('#turnbuild .unitRow:not(.headerRow)').each(function() {
+        $('#turnbuild .unitRow:not(.headerRow,.descriptionRow)').each(function() {
             var bpt = parseInt($(this).data('bpt')), space = parseInt($(this).data('space')), special_space = parseInt($(this).data('specialspace'));
-            var nm = Math.min( Math.floor(money/$(this).data('buildprice')), turns*bpt, Math.floor(space - totals.build));
-            nm = (special_space > 0 ? Math.min(nm, Math.floor(special_space - totals.specialbuild)) : nm);
+            var ttl = specialttl = 0;
+            $(this).siblings(':not(.headerRow,.descriptionRow)').add(this).each(function() {
+                if($(this).data('specialspace')>0) specialttl += 1*($('.buildBlock .unitInput',this).val());
+                ttl += 1*($('.buildBlock .unitInput',this).val());
+            });
+            var nm = Math.min( Math.floor(money/$(this).data('buildprice')), turns*bpt, Math.floor(space - ttl));
+            nm = (special_space > 0 ? Math.min(nm, Math.floor(special_space - specialttl)) : nm);
             var sm = Math.abs($('.buildBlock .unitInput', this).val()) + nm;
             $('.buildmax', this).attr('data-amount', sm ).text(nm);
             $('.buildBlock .unitInput', this).attr('max', sm);
@@ -426,6 +431,7 @@ jQuery(function($) {
     }
     $('#turnbuild').on('submit', function(e) {
         e.preventDefault();
+
         if($('#order_total').attr('data-amount') > provinceData.money) return standardNotify('Insufficient funds');
         if($('#turn_total').attr('data-amount') > provinceData.turns) return standardNotify('Not enough turns');
 		if($('#turn_total').attr('data-amount') >= 50 && !confirm('This will cost a lot of turns, are you sure?')) return;
