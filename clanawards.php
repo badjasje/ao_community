@@ -140,9 +140,6 @@ $count = 0;
 <?php
 
 if($_GET['add'] == 1) {
-    if(empty($_GET['round']) || !isset($_GET['round'])) {
-        die;
-    }
     foreach ($winnerArray as $key => $winners) {
         foreach ($winners as $position => $winner) {
             if($position == 1) {
@@ -161,7 +158,7 @@ if($_GET['add'] == 1) {
                 'post_author' => 1
             ];
             $newAwardId = wp_insert_post($args);
-            update_field('round', 'Beta round '.$_GET['round'], $newAwardId);
+            update_field('round', 'Beta round ' . Round::getRoundNr(), $newAwardId);
             update_field('winning_clan', $winner[0], $newAwardId);
             update_field('position_clan', $position, $newAwardId);
         }

@@ -11,7 +11,34 @@ class Round extends DataObject {
             'new_round_start' => get_field('new_round_start','option'), // plain text
             'type' => strtolower(get_field('game_type','option')), // regular, speed, test, development
             'status' => strtolower(get_field('game_status','option')), // live, pause
+            'golden_shotgun' => get_field('golden_shotgun','option'),
+            'round_nr' => get_field('round_nr','option'),
         );
+    }
+
+    public static function setGoldenShotgun($clan_id=0) {
+        update_field('golden_shotgun', $clan_id, 'option');
+        static::$data['golden_shotgun'] = $clan_id;
+        if($clan_id > 0) {
+            // @todo: use new Award()
+            $args = array('post_title' => 'Golden Shotgun', 'post_status' => 'publish', 'post_type' => 'award', 'post_author' => 1);
+            $newAwardId = wp_insert_post($args);
+            update_field('round', 'Beta round ' . Round::getRoundNr(), $newAwardId);
+            update_field('winning_clan', $clan_id, $newAwardId);
+            update_field('position_clan', 'Gold', $newAwardId);
+        }
+    }
+
+    public static function getGoldenShotgun() {
+        return static::$data['golden_shotgun'];
+    }
+
+    public static function getRoundNr() {
+        if(empty(static::$data['round_nr'])) {
+            update_field('round_nr', 28, 'option');
+            static::$data['round_nr'] = 28;
+        }
+        return static::$data['round_nr'];
     }
 
     public static function startDate($format=false) {

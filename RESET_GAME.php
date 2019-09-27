@@ -185,3 +185,10 @@
 
 	// Reset toplist
 	$wpdb->query("UPDATE `${table_prefix}options` SET `option_value` = '' WHERE `option_name` = 'options_toplistarray'");
+
+	// Reset Golden Shotgun
+	Round::setGoldenShotgun(0);
+
+	// Add roundnr
+	$round_nr = Round::getRoundNr();
+	update_field('round_nr', $round_nr+1, 'option');

@@ -222,6 +222,10 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
                 //$event_count = get_user_meta($member, 'new_events')[0];
                 //update_user_meta($member, 'new_events', $event_count + 1);
             }
+
+            if($level == 'level_2' && empty(Round::getGoldenShotgun())) {
+                Round::setGoldenShotgun($clan_ID);
+            }
         }
     }
 
