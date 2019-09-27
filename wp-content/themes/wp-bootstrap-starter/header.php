@@ -19,7 +19,7 @@ if($provinceDied) { // this also happens in currentuser construct, but only the 
 
 // Auto tab of unittype you have most of
 $tab = 'air'; $nums = array(); $max = 0;
-foreach(Settings::get('unit_types') as $type) $nums[$type] = (!!$province ? $province->getUnitTypeNum($type) : 0);
+foreach(array_keys(Settings::get('unit_types')) as $type) $nums[$type] = (!!$province ? $province->getUnitTypeNum($type) : 0);
 foreach($nums as $type => $num) {
 	if($num > $max) { $tab = $type; $max = $num; }
 }

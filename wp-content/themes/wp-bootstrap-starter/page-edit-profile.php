@@ -42,6 +42,7 @@ $CT_CL_array = array($ct_1,$ct_2,$ct_3,$ct_4,$cl_1);
 $members = $visitorClanData['clan_members'][0];
 
 $reset_status = get_user_meta($userId, 'reset_status', true);
+if(Round::isDev() || Round::isTest()) $reset_status = false; //You may reset more than once
 
 $disable_input = "";
 if($userData['name_change_counter'][0] == 1 && get_field('game_status', 'option') == 'Live') {
@@ -88,7 +89,9 @@ if($userData['name_change_counter'][0] == 1 && get_field('game_status', 'option'
     </form>
 
     <div class="pageSpacer"></div>
+    <? if(!Round::isDev() && !Round::isTest()) { ?>
     <div class="pageSpacer"><em>You can only reset once per round</em></div>
+    <? } ?>
 
     <? if(empty($reset_status)) { ?>
     <button id="resetaccount"style="background-color:#A00000;border:0px;" class="mainSubmit">
@@ -105,10 +108,10 @@ if($userData['name_change_counter'][0] == 1 && get_field('game_status', 'option'
 		$(document).on('click','#resetaccount',function(){
 	        if(confirm("Are you sure you want to reset your account? You will lose all your units, research and buildings!")){
 	            $('.pageLoader, #page-cover').show();
-	            $('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 	            var target = $(this).attr('data-target');
 		        resetaccount = $.ajax({url: "/reset_province.php",type: "post",data: ''});
                 resetaccount.done(function (response, textStatus, jqXHR){
+                    $('.pageLoader, #page-cover').fadeOut("fast");
 		    		var response = $.parseJSON(response);
 				    $.notify({message: response.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
 	        		if(response.next == true){
@@ -125,7 +128,6 @@ if($userData['name_change_counter'][0] == 1 && get_field('game_status', 'option'
         var request;
         $("#editprofile").submit(function(event){
         	$('.pageLoader, #page-cover').show();
-	        $('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 
             event.preventDefault();
             if (request) { request.abort();}
@@ -136,6 +138,7 @@ if($userData['name_change_counter'][0] == 1 && get_field('game_status', 'option'
 
             request = $.ajax({url: "/update_profile.php",type: "post",data: serializedData});
             request.done(function (response, textStatus, jqXHR){
+                $('.pageLoader, #page-cover').fadeOut("fast");
                 var array = JSON.parse(response);
         	    $.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
 			    if(array.imagechanged == true){

@@ -13,6 +13,9 @@ class Settings extends DataObject {
         'admin_ips' => array('87.209.229.255','213.125.228.34','217.121.5.245','213.125.228.34','83.80.24.164'),
         'max_request_errors' => 10,
 
+        // online
+        'online_status_time' => 7200,
+
         // When you die or start of new round
         'start_money' => 450000,
         'start_powerplant' => 50,
@@ -74,12 +77,24 @@ class Settings extends DataObject {
         // Building
         'land_per_building' => 20,
         'defensive_buildings' => array('torpedolauncher', 'samsite', 'missileturret', 'machinegunturret'),
-        'all_types' => array('sea', 'air', 'veh', 'inf', 'bld'),
-        'unit_types' => array('sea', 'air', 'veh', 'inf'),
+        //'all_types' => array('sea', 'air', 'veh', 'inf', 'bld'), // unused?
+        'unit_types' => array(
+            'air' => 'Air units',
+            'sea' => 'Sea units',
+            'veh' => 'Vehicles',
+            'inf' => 'Infantry'
+        ),
         'special_units' => array('spyplane', 'thief', 'spy','sniper','saboteur'),
         'demolish_price_multi' => 0.15,
 
-        // attack constants
+        // Units
+        'units_per_turn' => array('air' => 10, 'sea' => 5, 'veh' => 10, 'inf' => 20),
+
+        // Aid
+        'max_aid' => 250000,
+        'max_aid_times' => 3,
+
+        // Attack constants
         'attack_maintargets' => array(
             'power' => 'Power plants',
 		    'silo' => 'Missile silos',

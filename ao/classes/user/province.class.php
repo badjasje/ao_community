@@ -9,7 +9,7 @@ class Province extends DbObject {
     public $fields = array(
         // Generic
         'id','display_name','avatar_user','status','starting_bonus','new_events','new_messages','new_global_events',
-        'user_lock','morale_lock','telegram_key',
+        'user_lock','morale_lock','telegram_key','last_online',
 
         // Resources
         'money','turns','networth','land','power','morale','morale_pool','sat_morale',
@@ -24,7 +24,8 @@ class Province extends DbObject {
         'attacks_received','money_lost_combat','land_lost_combat','nw_damage_lost','units_lost','buildings_lost','attacks_lost',
         'attacks_made','money_gained_combat','land_gained_combat','in_war_attacks','units_killed','nw_damage_attacks',
         'buildings_killed','succesful_attacks','attacks_made_current','last_attacked','kills_made','times_killed',
-        'missiles_received','missiles_hit_rec','nw_damage_missiles_rec','money_gained_thieving','thieving_attempts',
+        'missiles_received','missiles_hit','missiles_hit_rec','missiles_launched','nw_damage_missiles','nw_damage_missiles_rec','money_gained_thieving',
+        'succesful_attempts','thieving_attempts','succesful_attempts_rec','turns_lost',
 
         // Market
         'units_ordered',
@@ -70,7 +71,7 @@ class Province extends DbObject {
         'points_position','networth_position','user_clan_points','current_clan_points',
         'moe_position','moe_prev','moe_next','mog_position','mog_prev','mog_next','moh_position','moh_prev','moh_next',
         'moc_position','moc_prev','moc_next','modev_position','modev_damage','mot_position','mot_prev','mot_next',
-        'mod_position','mod_prev','mod_next',
+        'mod_position','mod_prev','mod_next','modes_position','modes_prev','modes_next',
 
         // Clan
         'clan_id_user','clan_join_stamp','new_clan_timestamp','total_aid_sent','number_of_aids','aid_received','aid_sent_today',
@@ -323,7 +324,7 @@ class Province extends DbObject {
         $freeland = $this->getFreeLand();
         if($freeland < 0) return array('status' => 'Cannot sell! Not enough free land');
         if($postedLand > $freeland) return array('status' => 'Not enough free land');
-        $maxSellLand = Settings::get('max_sell_land')-$this->get('land_sold_today');
+        $maxSellLand = $this->getMaxSellLand();
         if ($maxSellLand < $postedLand) return array('status' => 'Cannot sell any more land');
 
         $this->update('land', round($this->getLand() - $postedLand));
@@ -392,7 +393,7 @@ class Province extends DbObject {
         $turns_needed = ceil($build_num/$this->getBuildingsPerTurn());
         if($build_price > $money) $status[] = 'insufficient funds to build';
         else if($turns_needed > $turns) $status[] = 'not enough turns to build';
-        else if($build_num*Settings::get('land_per_building') > $freeland) $status[] = 'Not enough free land';
+        else if($build_num*Settings::get('land_per_building') > $freeland) $status[] = 'not enough free land';
         else {
             if($build_num > 0) $status[] = $build_num.' buildings built';
             foreach ($build as $key => $count) {
@@ -401,7 +402,7 @@ class Province extends DbObject {
             $this->update('buildings_built', $this->get('buildings_built') + $build_num);
             $this->update('money', $money - $build_price);
             $this->update('turns', $turns - $turns_needed);
-            $this->turn_spread('buildings', $turns_needed); //@wp
+            $this->turn_spread('buildings', $turns_needed);
         }
 
         // Recalculate maxes
@@ -419,6 +420,108 @@ class Province extends DbObject {
         ));
     }
 
+    public function ajaxUnits($return) {
+        if(!Round::isLive()) return array('status' => 'Game is paused.');
+        if(!is_array($_POST['build'])) return array('status' => 'Not a valid request.');
+        $status = array('Done');
+        $units = $this->getUnits();
+        $money = $this->getMoney();
+        $turns = $this->getTurns();
+        $unitsPerTurn = $this->getUnitsPerTurn();
+        $build = array();
+        $build_num = $build_price = $turns_needed = 0;
+        foreach($_POST['build'] as $key => $num) {
+            if(empty($num) || !is_numeric($num) || $num < 0 || !isset($units[$key])) continue;
+            $build[$key] = min($num, $units[$key]['maxbuild']);
+            $build_num += $build[$key];
+            $build_price += $build[$key] * $units[$key]['buildprice'];
+            $turns_needed += $build[$key]/$unitsPerTurn[$units[$key]['type']];
+        }
+        $turns_needed = ceil($turns_needed);
+        if($build_price > $money) $status[] = 'insufficient funds';
+        else if($turns_needed > $turns) $status[] = 'not enough turns';
+        else {
+            if($build_num > 0) $status[] = $build_num.' units built';
+            foreach ($build as $key => $count) {
+                $this->update($key.'_owned', $this->get($key.'_owned') + $count);
+            }
+            $this->update('units_built_turns', $this->get('units_built_turns') + $build_num);
+            $this->update('money', $money - $build_price);
+            $this->update('turns', $turns - $turns_needed);
+            $this->turn_spread('unit_turn_build', $turns_needed);
+        }
+
+        // Recalculate maxes
+        $this->count_all_stats();
+        $units = $this->getUnits();
+        $maxbuild = $owned = $space = $specialspace = $typespace = $typespecialspace = array();
+        foreach($units as $key => $unit) {
+            $maxbuild[$key] = $unit['maxbuild'];
+            $owned[$key] = $unit['num'];
+            $space[$key] = $unit['space'];
+            $specialspace[$key] = $unit['specialspace'];
+            if(!isset($typespace[$unit['type']])) $typespace[$unit['type']] = $unit['space'];
+            if(!isset($typespecialspace[$unit['type']])) $typespecialspace[$unit['type']] = $unit['specialspace'];
+        }
+        return array_merge($return, array(
+            'success' => true, 'status' => implode(', ', $status), 'typespace' => $space, 'typespecialspace' => $typespecialspace,
+            'buildmax' => $maxbuild, 'owned' => $owned, 'space' => $space, 'specialspace' => $specialspace
+        ));
+    }
+
+    public function ajaxSendAid($return) {
+        if(!Round::isLive()) return array('status' => 'Game is paused.');
+        $receiver = Province::make(Request::post('receiver'));
+        $aid = abs(floor(Request::post('amount')));
+        if(!$receiver) return array('status' => 'Member not found');
+        if($receiver->get('id') == $this->get('id')) return array('status' => 'Yourself? Really!?');
+        $clan = $this->getClan();
+        if(!in_array($receiver->get('id'), $clan->getMembers())) return array('status' => 'Not a clan member');
+        if ($receiver->getNetworth() > $this->getNetworth())  return array('status' => 'You cannot aid a member larger in networth');
+        $aid_sent = $this->get('aid_sent_today');
+        if($aid_sent >= Settings::get('max_aid_times')) return array('status' => 'You already sent aid 3 times today');
+        if(!is_numeric($aid) || $aid < 0) return array('status' => 'That\'s a weird number');
+        if ($aid > $this->getMoney()) return array('status' => 'Insufficient funds');
+        if ($aid > Settings::get('max_aid')) $aid = Settings::get('max_aid');
+
+        $this->update('money', $this->getMoney() - $aid);
+        $receiver->update('money', $receiver->getMoney() + $aid);
+
+        $this->update('aid_sent_today', $this->get('aid_sent_today') + 1);
+        $receiver->update('new_events', $receiver->get('new_events') + 1);
+
+        // @todo: use new LocalEvent();
+        $timestamp = current_time('timestamp');
+        $args = array(
+            'post_title'    => 'Aid sent by '.$this->get('id').' Receiver: '.$receiver->get('id'),
+            'post_status'   => 'publish',
+            'post_type'     => 'event_local',
+            'post_author'   => $this->get('id')
+        );
+        $new_event_id = wp_insert_post($args);
+        update_post_meta($new_event_id, 'event_ip_address', get_user_ip_address());
+        update_field('defender_id', $receiver->get('id'), $new_event_id);
+        update_field('attacker_id', $this->get('id'), $new_event_id);
+        update_field('attacktype', 'aid', $new_event_id);
+        update_field('time_attacked', $timestamp, $new_event_id);
+        update_field('money_lost', $aid, $new_event_id);
+        update_field('attacker_clan_id', $clan->get('id'), $new_event_id);
+
+        foreach($clan->getMembers() as $member_id) {
+            $member = Province::make($member_id);
+            $member->update('new_global_events', $this->get('new_global_events') + 1);
+        }
+
+        $this->update('total_aid_sent', $this->get('total_aid_sent') + $aid);
+        $this->update('number_of_aids', $this->get('number_of_aids') + 1);
+        $receiver->update('aid_received', $receiver->get('aid_received') + $aid);
+
+        return array(
+            'success' => true, 'noaids' => $this->get('number_of_aids'), 'max' => round(min(Settings::get('max_aid'), $this->getMoney())),
+            'status' =>  Format::money($aid).' aid sent to '. $receiver->getName() .' (#'. $receiver->get('id') .')'
+        );
+    }
+
     /**
      * Helper function
      */
@@ -427,6 +530,9 @@ class Province extends DbObject {
         if(!$user->isLoggedIn()) return false;
         $province = $user->getProvince();
         return ($province->get('id') == $this->id);
+    }
+    public function isBanned() {
+        return User::make($this->id)->isBanned();
     }
 
     /**
@@ -454,13 +560,14 @@ class Province extends DbObject {
      * Other
      */
     public function inRange() {
+        // result should be cached
         if($this->isCurrentUser()) return false; // I am not in range of myself
         if($this->isDead()) return false;
         if($this->isProtected()) return false;
 
         $user = CurrentUser::make();
         $networth = $this->getNetworth();
-        $viewerNetworth = $user->getNetworth();
+        $viewerNetworth = $user->getProvince()->getNetworth();
         $range = Settings::get('attack_range_mult');
         return ($networth > $viewerNetworth / $range && $networth < $viewerNetworth * $range);
     }
@@ -468,20 +575,34 @@ class Province extends DbObject {
     /**
      * Public province data (viewable for everyone)
      */
-    public function getName() {
-        return $this->get('display_name');
+    public function isOnline() {
+        $timestamp = current_time('timestamp');
+        $last_online = $this->get('last_online');
+        return (!empty($last_online) ? ($timestamp - $last_online < Settings::get('online_status_time')) : false);
     }
 
-    public function getLink() { // @todo: make a permalink for users
-        return Request::siteUrl().'/users/profile/?id='.$this->id;
+    public function getName($format=false) {
+        if(!$format) return $this->get('display_name');
+        if($this->isBanned()) return '<strike>'.$this->get('display_name').'</strike> <strong>banned</strong>';
+
+        $icon = '';
+        if($this->isDead()) $icon = ' <span class="hover-tip" data-toggle="tooltip" data-title="This user is dead" data-placement="bottom"><i class="fas fa-skull"></i></span>';
+        if($this->isProtected()) $icon = ' <span class="hover-tip" data-toggle="tooltip" data-title="This user is under protection" data-placement="bottom"><i class="fas fa-umbrella"></i></span>';
+        return $this->getName(false).' (#'.$this->get('id').')' . $icon . ($this->isOnline()?' <span class="online">*</span>':'');
     }
 
-    public function getAvatar() {
+    public function getLink($format=false) { // @todo: make a permalink for users
+        if(!$format) return Request::siteUrl().'/users/profile/?id='.$this->id;
+        return '<a class="memberField" href="'.$this->getLink(false).'">'.$this->getName(true).'</a>';
+    }
+
+    public function getAvatar($classes='') {
         $avatar = $this->get('avatar_user');
+        $classes = array_merge( (!is_array($classes) ? array($classes) : array()), array('setAvatar'));
         $return = '<a href="'.$this->getLink().'" title="'.$this->getName().'">';
         if(!empty($avatar)) {
             $avatar = str_replace("http://", "https://", $avatar);
-            $return .= '<div class="setAvatar menuAvatar" style="background: url(\''.$avatar.'\');"></div>';
+            $return .= '<div class="'. implode(' ', $classes) .'" style="background: url(\''.$avatar.'\');"></div>';
         }
         else {
             // @todo Change this to classes to avoid inline css
@@ -490,20 +611,26 @@ class Province extends DbObject {
             'R'=>'#CEBE95','S'=>'#A79566','T'=>'#695728','U'=>'#4F3E12','V'=>'#7B5044','W'=>'#CEA195','X'=>'#A77366','Y'=>'#693528','Z'=>'#4F1F12');
             $firstletter = strtoupper(substr($this->getName(), 0, 1));
             $color = (isset($map[$firstletter]) ? $map[$firstletter] : '#2D434E');
-            $return .= '<div class="setAvatar menuAvatar" style="background-color:'. $color .';">'. $firstletter .'</div>';
+            $return .= '<div class="'. implode(' ', $classes) .'" style="background-color:'. $color .';">'. $firstletter .'</div>';
         }
         return $return .'</a>';
     }
 
-    public function getNetworth($format=false) { // @todo: maybe we want to show if province is in range
+    public function getNetworth($format=false) {
         $n = intval($this->get('networth'));
-        return ($format ? Format::networth($n) : $n);
+        if(!$format) return $n;
+        $n = Format::networth($n);
+        if($this->isCurrentUser()) return $n;
+        if($this->inRange()) return '<strong>'. $n .' <span class="hover-tip" data-toggle="tooltip"
+        data-title="This user is in your networth range" data-placement="bottom"><i class="far fa-check-circle"></i></span></strong>';
+        return '<span>'. $n .'</span>';
     }
 
     public function getLand($format=false) {
         $n = intval($this->get('land'));
         return ($format ? Format::land($n) : $n);
     }
+
 
     /**
      * Private province data (viewable within clan)
@@ -549,12 +676,14 @@ class Province extends DbObject {
 
     public function getMaxExploreLand() {
         $turnMax = $this->getTurns() * $this->getExplorationRate();
+        if(Round::isDev() || Round::isTest()) return $turnMax;
         $maxExplore = round(Settings::get('max_explore_land') - $this->get('explored_today'));
         return $turnMax < $maxExplore ? $turnMax : $maxExplore;
     }
 
     public function getMaxSellLand() {
         $freeLand = $this->getFreeLand();
+        if(Round::isDev() || Round::isTest()) return $freeLand;
         $maxSellLand = (Settings::get('max_sell_land') - $this->get('land_sold_today'));
         return $freeLand < $maxSellLand ? $freeLand : $maxSellLand;
     }
@@ -755,7 +884,7 @@ class Province extends DbObject {
     }
 
     /**
-     * Province market orders
+     * Province market/sattelite/missile orders
      */
     public function getOrders() {
         $orders = get_posts(array('posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'market_order', 'author' => $this->id));
@@ -830,9 +959,10 @@ class Province extends DbObject {
         $freeTurns = floor($totalturns * $buildingsPerTurn);
         $freeLand = $this->getFreeLand();
         $freeSpace = $this->getBuildSpace();
-        $units = $this->getUnits();
         $missiles = $this->getMissiles();
 
+        //$units = $this->getUnits();
+        $units = Units::get(); // we don't want to start an infinite loop
         $buildings = Buildings::get();
         foreach($buildings as $id => $building) {
             $buildings[$id]['num'] = (!!$this->get($id) ? intval($this->get($id)) : 0);
@@ -843,14 +973,17 @@ class Province extends DbObject {
             $buildings[$id]['maxbuild'] = min(floor($totalMoney / $buildings[$id]['buildprice']), $freeTurns, $freeSpace);
             $occupied = 0;
             if(isset($building['houses'])) {
-                foreach($units as $unit) {
-                    if($unit['type'] == $building['houses'] || $unit['sectype'] == $building['houses']) $occupied += ($unit['ordered'] + $unit['num']);
+                foreach($units as $unitKey => $unit) {
+                    if($unit['type'] == $building['houses'] || $unit['sectype'] == $building['houses']) {
+                        $occupied += (!!$this->get($unitKey.'_ordered') ? intval($this->get($unitKey.'_ordered')) : 0);
+                        $occupied += (!!$this->get($unitKey.'_owned') ? intval($this->get($unitKey.'_owned')) : 0);
+                    }
                 }
                 foreach($missiles as $missile) {
                     if($missile['type'] == $building['houses']) $occupied += ($missile['ordered'] + $missile['num']);
                 }
             }
-            $buildings[$id]['occupied'] = ($occupied > 0 ? ceil($occupied / $building['housing']) : 0);
+            $buildings[$id]['occupied'] = ($occupied > 0 ? $occupied : 0);
             $buildings[$id]['maxdemo'] = $buildings[$id]['num'] - $buildings[$id]['occupied'];
 
             //Hooks::trigger('get_province_building', array($id, $buildings[$id])); // we might want to work with modifiers
@@ -885,6 +1018,28 @@ class Province extends DbObject {
             case 2: return 15; break;
         }
         return 5;
+    }
+
+    public function getUnitTypeSpace() {
+        $buildings = $this->getBuildings();
+        $space = array();
+        foreach($buildings as $id => $building) {
+            if(!isset($building['houses'])) continue;
+            if(!isset($space[$building['houses']])) $space[$building['houses']] = 0;
+            $space[$building['houses']] += ($building['num'] * $building['housing']);
+        }
+        return $space;
+    }
+
+    public function getUnitTypeUsedSpace() {
+        $buildings = $this->getBuildings();
+        $usedSpace = array();
+        foreach($buildings as $id => $building) {
+            if(!isset($building['houses'])) continue;
+            if(!isset($usedSpace[$building['houses']])) $usedSpace[$building['houses']] = 0;
+            $usedSpace[$building['houses']] += $building['occupied'];
+        }
+        return $usedSpace;
     }
 
     public function getBuildSpace() {
@@ -923,20 +1078,47 @@ class Province extends DbObject {
     }
 
     /**
+     * Build units per turn, might get modified by a research some day
+     */
+    public function getUnitsPerTurn($key=null) {
+        $unitsPerTurn = Settings::get('units_per_turn');
+        return ($key != null && $unitsPerTurn[$key] ? $unitsPerTurn[$key] : $unitsPerTurn);
+    }
+
+    /**
      * Get all information of one or all of one type, or all units of this province
      */
     public function getUnits($key=null,$type=null) {
 
+        $space = $this->getUnitTypeSpace();
+        $usedSpace = $this->getUnitTypeUsedSpace();
+        $totalMoney = $this->getMoney();
+        $totalturns = $this->getTurns();
+        $unitsPerTurn = $this->getUnitsPerTurn();
+        $special_units = Settings::get('special_units');
         $units = Units::get();
         foreach($units as $id => $unit) {
             $units[$id]['num'] = (!!$this->get($id.'_owned') ? intval($this->get($id.'_owned')) : 0);
             $units[$id]['ordered'] = (!!$this->get($id.'_ordered') ? intval($this->get($id.'_ordered')) : 0);
             $units[$id]['original_price'] = $unit['price']; // For nw calc
+            $units[$id]['buildprice'] = $unit['price']; // Might become cheaper with research/startbonus
+            $units[$id]['networthPerUnit'] = round($unit['price'] * $unit['networth']/100); // of original price!
+
+            $maxMoney = floor($totalMoney / $units[$id]['buildprice']);
+            $maxTurns = floor($totalturns * $unitsPerTurn[$unit['type']]);
+            $maxSpace = $space[$unit['type']] - $usedSpace[$unit['type']];
+            $maxSpecial = (in_array($id, $special_units) ? $space['special'] - $usedSpace['special'] : $maxSpace);
+            $units[$id]['space'] = $maxSpace;
+            $units[$id]['specialspace'] = (in_array($id, $special_units) ? $space['special'] - $usedSpace['special'] : 0);
+            $units[$id]['maxbuild'] = min($maxSpecial, $maxMoney, $maxSpace, $maxTurns);
+
             //Hooks::trigger('get_province_unit', array($id, $units[$id])); // we might want to work with modifiers
             if($this->hasStartingBonus('defensive')) {
                 $units[$id]['life'] = $units[$id]['life'] * Settings::get('startbonus_defensive_unit_life_multi');
             }
         }
+        /*wtf($units, $unitsPerTurn, $space, $usedSpace);
+        die();*/
 
         return ($key != null && $units[$key] ? $units[$key] : $units);
     }
@@ -1028,7 +1210,7 @@ class Province extends DbObject {
      * Keep track of turn usage
      */
     public function turn_spread($turntype, $addedturns) {
-        $turnSpread = maybe_unserialize($this->get('turn_spread'));
+        $turnSpread = maybe_unserialize(maybe_unserialize($this->get('turn_spread'))); // Do not make an object, keep it an array
         if(!is_array($turnSpread)) $turnSpread = array();
         if(!isset($turnSpread[$turntype])) $turnSpread[$turntype] = 0;
         $turnSpread[$turntype] += $addedturns;

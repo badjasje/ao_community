@@ -7,6 +7,8 @@ class CurrentUser extends User {
 
     private function __construct($props=null,$fromCache=true) {
 
+        $time = current_time('timestamp'); //@wp
+
         // Initialization of current user
         if(is_numeric($props)) {
             parent::__construct($props, $fromCache);
@@ -28,12 +30,17 @@ class CurrentUser extends User {
 
         // After path validation
         if($this->isLoggedIn()) {
-            $this->update('last_online', current_time('timestamp')); //@wp
+            if($fromCache == true && $this->get('logouteverywhere') == true) {
+                $this->logout();
+                header("Location: ".Request::siteUrl()."/home/");
+                exit;
+            }
+
+            $this->update('last_online', $time);
 
             // Fill our session with browser data
             if(!isset($_SESSION['user'])) {
                 $token = bin2hex(random_bytes(32));
-                $time = current_time('timestamp');
                 $_SESSION['user'] = array(
                     'id' => preg_replace("/[^0-9]+/", "", $this->get('id')), // XSS protection as we might print this value
                     'ipaddr' => $_SERVER['REMOTE_ADDR'],
@@ -89,7 +96,7 @@ class CurrentUser extends User {
             }
         }
         if(!empty($error)) {
-            $this->logout();
+            $this->logoutEverywhere();
             die('You might be the victim of an XSS attack, session hijack or remote cookie copy. If this problem keeps happening, let us know (code: '.$error.')');
         }
         return true;
@@ -154,17 +161,18 @@ class CurrentUser extends User {
     public static function loggedin($login) {
         $wp_user = get_user_by('login', $login);
         $user = new CurrentUser($wp_user->ID, false); //Not from cache, make a new user
+        $user->update('logouteverywhere', false);
 
         $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
         if($user->isMulti($ip_array)) {
-            $user->logout();
+            $user->logoutEverywhere();
             echo 'Please login with your own account. <a href="'. Request::siteUrl() .'">Back</a>';
             die();
             return false;
         }
         $output = Request::getGeo();
         if(Request::isVPN($output)) {
-            $user->logout();
+            $user->logoutEverywhere();
             echo 'Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.';
             die();
             return false;
@@ -261,8 +269,13 @@ class CurrentUser extends User {
     public function logout() {
         wp_logout();
         unset($_SESSION['user']);
-        session_destroy();
+        // session_destroy(); // Do not destory session because of rate-limiting
         // possible redirect? if(!Request::isAjax())
+    }
+
+    public function logoutEverywhere() {
+        $this->update('logouteverywhere', true);
+        $this->logout();
     }
 
     /*public function changePassword() {}

@@ -364,16 +364,16 @@ $count = 0;
 				    <div class="col-md-2 celBlock inputBlock">
 						<div style="padding:0px; width:100%;" class="attackDropdown statCol-4 no-gutters">
 							<select name="nothiefs" class="attackTypeInput">
-								<option name="nothiefs" value="1">1</option>
-								<option name="nothiefs" value="2">2</option>
-								<option name="nothiefs" value="3">3</option>
-								<option name="nothiefs" value="4">4</option>
-								<option name="nothiefs" value="5">5</option>
-								<option name="nothiefs" value="6">6</option>
-								<option name="nothiefs" value="7">7</option>
-								<option name="nothiefs" value="8">8</option>
-								<option name="nothiefs" value="9">9</option>
-								<option name="nothiefs" value="10">10</option>
+								<option name="nothiefs" value="1"<?=($unitsOwned==1?' selected':'')?>>1</option>
+								<option name="nothiefs" value="2"<?=($unitsOwned==2?' selected':'')?>>2</option>
+								<option name="nothiefs" value="3"<?=($unitsOwned==3?' selected':'')?>>3</option>
+								<option name="nothiefs" value="4"<?=($unitsOwned==4?' selected':'')?>>4</option>
+								<option name="nothiefs" value="5"<?=($unitsOwned==5?' selected':'')?>>5</option>
+								<option name="nothiefs" value="6"<?=($unitsOwned==6?' selected':'')?>>6</option>
+								<option name="nothiefs" value="7"<?=($unitsOwned==7?' selected':'')?>>7</option>
+								<option name="nothiefs" value="8"<?=($unitsOwned==8?' selected':'')?>>8</option>
+								<option name="nothiefs" value="9"<?=($unitsOwned==9?' selected':'')?>>9</option>
+								<option name="nothiefs" value="10"<?=($unitsOwned>=10?' selected':'')?>>10</option>
 							</select>
 						</div>
 				    </div>

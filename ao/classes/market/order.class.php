@@ -16,6 +16,10 @@ class Order extends PostObject {
             $satellite = Satellites::get($unit_type);
             if(!!$satellite) $this->set('title', $satellite['name']);
         }
+        if($this->type() == 'missile') {
+            $missile = Missiles::get($unit_type);
+            if(!!$missile) $this->set('title', $missile['normalname']);
+        }
     }
 
     public function title($format=false) {
@@ -64,6 +68,18 @@ class Order extends PostObject {
             $province->update('sat_owned', $unit_type);
             $province->update('sat_in_progress', 0);
             $province->update('sat_endlife', current_time('timestamp') + ($days * 86400));
+            wp_trash_post($this->get('id'));
+        }
+
+        if($this->type() == 'missile') {
+            $missile = Missiles::get($unit_type);
+            if(!$missile) return false; // Missile does not exist
+
+            $ownedMissiles = $province->getMissiles($unit_type);
+            $missiles_in_this_order = $this->amount();
+            $total_missiles_on_order = intval($province->get($unit_type.'_ordered'));
+            $province->update($unit_type.'_ordered', $total_missiles_on_order - $missiles_in_this_order);
+            $province->update($unit_type.'_owned', $missiles_in_this_order + $ownedMissiles['num']);
             wp_trash_post($this->get('id'));
         }
 

@@ -17,8 +17,58 @@ class Request {
         'exploreland' => array('province','ajaxExploreLand'),
         'sellland' => array('province','ajaxSellLand'),
         'buildings' => array('province','ajaxBuildings'),
+        'units' => array('province','ajaxUnits'),
+        'sendaid' => array('province','ajaxSendAid'),
         'clanmessage' => array('clan','ajaxSetMessage')
     );
+    // Rate limiting per hour
+    public static $rate_limits = array(
+        'wp-login.php' => 10,
+
+        // Old ajax calls
+        'message.php' => 5,
+        'missiles.php' => 10,
+        'sell_missiles.php' => 10,
+        'activate_stealthsat.php' => 10,
+        'cancel_order.php' => 10,
+        'satellite.php' => 10,
+        'market.php' => 40,
+        'cancel_order.php' => 30,
+        'sell_units.php' => 60,
+        'attack.php' => 120,
+        'step-2.php' => 120,
+        'attack2.php' => 120,
+        'step-3.php' => 120,
+        'attack-result.php' => 120,
+        'update_profile.php' => 60,
+
+        //'dashboard' => 60, // DO NOT EVER UNCOMMENT THIS PLEASE
+        'toplists' => 60,
+        'all-clans' => 60,
+        'users' => 60,
+        'users/profile' => 240,
+        'clan' => 120,
+        'attack' => 120,
+        'spy-reports' => 120,
+        'spy-report-overview' => 120,
+        'send-message' => 120,
+        'military-overview' => 20,
+        'player-statistics' => 20,
+        'events' => 10,
+        'events/incoming' => 60,
+        'events/outgoing' => 60,
+        'events/global' => 60,
+        'ajax/devfunds' => 60,
+        'ajax/deposit' => 10,
+        'ajax/withdraw' => 10,
+        'ajax/research' => 5,
+        'ajax/exploreland' => 10,
+        'ajax/sellland' => 10,
+        'ajax/buildings' => 50,
+        'ajax/units' => 50,
+        'ajax/sendaid' => 20,
+    );
+
     public static $page_links = array(
         'marketBuy' => 3179, //market/buy
         'clanMemberInformation' => 50302, //clan-member-information
@@ -39,7 +89,32 @@ class Request {
             static::$site_url = $parsed['scheme'].'://'.$parsed['host'];
             static::$path = trim($parsed['path'],'/'); // "/user/login/" becomes "user/login"
             static::$parts = explode('/', static::$path);
-            static::$query = (isset($parsed['query']) ? $parsed['query'] : array()); // please do not use this but use Request::get()
+            static::$query = (isset($parsed['query']) ? $parsed['query'] : array()); // please do not use this but use Request::get()\
+        }
+    }
+
+    static function pathRateLimit() {
+         // Rate limiting per hour, based on path
+         if(in_array(static::$path, array_keys(static::$rate_limits))) {
+            if(!isset($_SESSION['path_num'])) $_SESSION['path_num'] = array(date('H') => array());
+            if(array_keys($_SESSION['path_num'])[0] != date('H')) $_SESSION['path_num'] = array(date('H') => array());
+            if(!isset($_SESSION['path_num'][date('H')][static::$path])) $_SESSION['path_num'][date('H')][static::$path] = 0;
+            $_SESSION['path_num'][date('H')][static::$path]++;
+            $num = $_SESSION['path_num'][date('H')][static::$path];
+            $limit = static::$rate_limits[static::$path];
+            if($num > $limit) {
+                $code = 'E'.array_search(static::$path, array_keys(static::$rate_limits)).':'.$num .'v'.$limit;
+                $error = 'Limit reached, you can do this again next hour ('.$code.')';
+                // CurrentUser::make()->logoutEverywhere();
+                if(Request::isAjax() || substr(static::$path, -4) == '.php') {
+                    $_SESSION['request_error_num'] = (!isset($_SESSION['request_error_num']) ? 1 : $_SESSION['request_error_num']+1);
+                    echo json_encode(array('success' => false, 'status' => $error));
+                } else {
+                    $_SESSION['showError'] = $error;
+                    header("Location: ".Request::siteUrl().'/dashboard');
+                }
+                die();
+            }
         }
     }
 
@@ -141,7 +216,7 @@ class Request {
         if(isset($_SESSION['request_error_num']) && $_SESSION['request_error_num'] > Settings::get('max_request_errors')) {
             $error = 'Please login again and try again (E02:REN)';
             $_SESSION['request_error_num'] = 0;
-            $user->logout();
+            $user->logoutEverywhere();
         }
         if(static::part(1)!='header' && !static::validateNonce()) $error = 'Please refresh the page and try again (E01:VN)';
 
@@ -156,7 +231,6 @@ class Request {
             $province->update('user_lock', 1);
             if(!in_array(static::part(1), array_keys(static::$ajax_paths))) $error = 'Request failed successfully (E09:AP)';// Make sure we are in a valid path
             else {
-                // @todo make sure some calls aren't requested too often
                 $funcs = static::$ajax_paths[static::part(1)]; // Call function related to this path
                 if($funcs[0] == 'province') $return = call_user_func(array($province, $funcs[1]), $return);
                 else if($funcs[0] == 'clan') {

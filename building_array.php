@@ -98,7 +98,7 @@ $buildings = array(
             'type'          =>  'bds',
             'powerprod'     =>  0,
             'power'         =>  500,
-            'life'          =>  80),
+            'life'          =>  85),
 
     'powerplant'     => array(
             'price'         =>  '600',

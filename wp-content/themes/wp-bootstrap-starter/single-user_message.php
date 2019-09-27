@@ -107,7 +107,7 @@ if(!in_array($userId, $messagearray)){
         }
 
         if($invite_status == 'accept') { ?>
-            <div class="blockHeader">You have already used this clan invite</div>
+            <div class="blockHeader">You have used the clan invite</div>
         <?php } else { ?>
             <div class="blockHeader" style="border-bottom:0px;">You've been invited to join <?php echo get_the_title($clan_ID);?> (# <?php echo $clan_ID;?>). If you wish to accept this invite, hit the accept button.</div>
             <? if($userId != $author_id) { ?>
@@ -133,7 +133,7 @@ if(!in_array($userId, $messagearray)){
                         });
                         accept.done(function (response, textStatus, jqXHR){
                             $('.profileButtonRow').remove();
-                            $('.blockHeader').html('You have already used this clan invite');
+                            $('.blockHeader').html('You have used the clan invite');
                             var response = $.parseJSON(response);
                             $.notify({message: response.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
                         });

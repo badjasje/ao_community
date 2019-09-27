@@ -54,7 +54,7 @@
 
 		<div class="col-md-6 col-lg-4 no-gutters">
 			<input class="hidden" type="radio" name="attacktype" id="sniper" value="sniper">
-			<label class="secundarySubmit hoverEffect attackSelect bg-7 <?=($province->getUnitAttackTypeNum('sniper') > 0 && $province->getMorale() >= Settings::get('sniper_morale_cost')?'" for="sniper':'')?>">
+			<label class="secundarySubmit hoverEffect attackSelect bg-7 <?=($province->getUnitAttackTypeNum('sniper') > 0 && $province->getMorale() >= Settings::get('sniper_morale_cost')?'" for="sniper':'disabled')?>">
 				<i class="flaticon-bullet"></i> Send sniper
 			</label>
 		</div>

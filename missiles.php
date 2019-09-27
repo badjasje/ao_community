@@ -52,7 +52,7 @@ $totalordercost = 0;
 $totalturncost = 0;
 foreach ($missiles as $key => $order) {
     $price = $order['price'];
-    $ordered_missiles = abs(ceil($_POST["$key"]));
+    $ordered_missiles = abs(ceil( (isset($_POST["$key"]) ? $_POST["$key"] : 0) ));
 
     if (empty($_POST["$key"])) {
         $letter_check = 0;
@@ -107,7 +107,7 @@ foreach ($missiles as $key => $order) {
         $missile_name = $key.'_ordered';
         $normalname = $order['normalname'];
         $price = $order['price'];
-        $ordered_missiles = abs(ceil($_POST["$key"]));
+        $ordered_missiles = isset($_POST[$key]) ? abs(ceil($_POST[$key])) : 0;
         $mis+=$ordered_missiles;
 
         $owned_missiles = get_user_meta($userId, $key.'_owned', true);
@@ -133,7 +133,7 @@ foreach ($missiles as $key => $order) {
         $owned_tomahawks = (!empty($owned_tomahawks) ? $owned_tomahawks : 0);
         $tomahawks_already_on_order = (!empty($tomahawks_already_on_order) ? $tomahawks_already_on_order : 0);
 
-        $ordered_tomahawks = ceil($_POST["$key"]);
+        $ordered_tomahawks = isset($_POST[$key]) ? ceil($_POST[$key]) : 0;
 
         $total_tomahawks_ordered = $ordered_tomahawks + $tomahawks_already_on_order + $owned_tomahawks;
 
