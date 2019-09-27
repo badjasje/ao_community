@@ -86,7 +86,7 @@ class Units extends DataObject {
             'type'			=>	'air',
             'sectype'		=>	'bk',
             'attacktype'	=>	array('air_sea','regular'),
-            'life'			=>	89
+            'life'			=>	93
         ),
 
         /// VEHICLES ///
@@ -160,7 +160,7 @@ class Units extends DataObject {
             'type'			=>	'veh',
             'sectype'		=>	'bk',
             'attacktype'	=>	array('ground','regular'),
-            'life'			=>	82
+            'life'			=>	85
         ),
 
         /// INFANTRY ///
@@ -222,11 +222,11 @@ class Units extends DataObject {
             'normalname'	=>	'Conscript',
             'attacks'		=>  array('veh'),
             'defends'		=>  array('veh'),
-            'attack'		=>	24,
+            'attack'		=>	30,
             'type'			=>	'inf',
             'sectype'		=>	'normal',
             'attacktype'	=>	array('ground','regular'),
-            'life'			=>	30
+            'life'			=>	24
         ),
         'rifle' 		=> array(
             'price'			=>	'810',
@@ -274,7 +274,7 @@ class Units extends DataObject {
             'type'			=>	'inf',
             'sectype'		=>	'bk',
             'attacktype'	=>	array('ground','regular'),
-            'life'			=>	58
+            'life'			=>	63
         ),
         'armoured' 		=> array(
             'price'			=>	'660',
