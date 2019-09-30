@@ -23,7 +23,7 @@ foreach($users as $allUser) {
 	$allUsers[$allUser->ID] = $userObj->getProvince();
 }
 
-$activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'all';
+$activeTab = isset($_GET['tab']) ? Request::get('tab') : 'all';
 $backColor = "45, 67, 81";
 ?>
 <div class="row pageRow">
