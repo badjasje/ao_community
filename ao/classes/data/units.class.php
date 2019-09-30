@@ -42,7 +42,7 @@ class Units extends DataObject {
         ),
         'typhoon' 			=> array(
             'price'			=>	'690',
-            'networth'		=>	10,
+            'networth'		=>	11,
             'normalname'	=>	'Harrier',
             'attacks'		=>  array('air'),
             'defends'		=>  array('air'),
@@ -54,7 +54,7 @@ class Units extends DataObject {
         ),
         'seahawk' 		=> array(
             'price'			=>	'840',
-            'networth'		=>	10,
+            'networth'		=>	11,
             'normalname'	=>	'Hind',
             'attacks'		=>  array('sea'),
             'defends'		=>  array('sea'),
@@ -78,7 +78,7 @@ class Units extends DataObject {
         ),
         'b2_bomber' 	=> array(
             'price'			=>	'1800',
-            'networth'		=>	13,
+            'networth'		=>	11,
             'normalname'	=>	'B-52 Stratofortress',
             'attacks'		=>  array('bld'),
             'defends'		=>  array(),
@@ -128,7 +128,7 @@ class Units extends DataObject {
         ),
         'humvee' 		=> array(
             'price'			=>	'680',
-            'networth'		=>	10,
+            'networth'		=>	11,
             'normalname'	=>	'I.F.V',
             'attacks'		=>  array('veh'),
             'defends'		=>  array('veh'),
@@ -140,7 +140,7 @@ class Units extends DataObject {
         ),
         'm70mlrs' 			=> array(
             'price'			=>	'755',
-            'networth'		=>	10,
+            'networth'		=>	11,
             'normalname'	=>	'Apocalypse Tank',
             'attacks'		=>  array('air'),
             'defends'		=>  array('air'),
@@ -152,7 +152,7 @@ class Units extends DataObject {
         ),
         'artillery' 		=> array(
             'price'			=>	'1650',
-            'networth'		=>	13,
+            'networth'		=>	11,
             'normalname'	=>	'Paladin',
             'attacks'		=>  array('bld'),
             'defends'		=>  array(''),
@@ -218,7 +218,7 @@ class Units extends DataObject {
         ),
         'grenade' 		=> array(
             'price'			=>	'430',
-            'networth'		=>	10,
+            'networth'		=>	11,
             'normalname'	=>	'Conscript',
             'attacks'		=>  array('veh'),
             'defends'		=>  array('veh'),
@@ -230,7 +230,7 @@ class Units extends DataObject {
         ),
         'rifle' 		=> array(
             'price'			=>	'810',
-            'networth'		=>	10,
+            'networth'		=>	11,
             'normalname'	=>	'Rifle infantry',
             'attacks'		=>  array('inf'),
             'defends'		=>  array('inf'),
@@ -266,7 +266,7 @@ class Units extends DataObject {
         ),
         'paratrooper' 		=> array(
             'price'			=>	'1250',
-            'networth'		=>	13,
+            'networth'		=>	11,
             'normalname'	=>	'G.I',
             'attacks'		=>  array('bld'),
             'defends'		=>  array(),
@@ -292,7 +292,7 @@ class Units extends DataObject {
         /// SEA ///
         'submarine' 		=> array(
             'price'			=>	'950',
-            'networth'		=>	10,
+            'networth'		=>	11,
             'normalname'	=>	'Submarine',
             'attacks'		=>  array('sea'),
             'defends'		=>  array('sea'),
@@ -316,7 +316,7 @@ class Units extends DataObject {
         ),
         'frigate' 		=> array(
             'price'			=>	'875',
-            'networth'		=>	10,
+            'networth'		=>	11,
             'normalname'	=>	'Sea Scorpion',
             'attacks'		=>  array('inf'),
             'defends'		=>  array('inf'),
@@ -352,7 +352,7 @@ class Units extends DataObject {
         ),
         'battleship' 		=> array(
             'price'			=>	'2350',
-            'networth'		=>	13,
+            'networth'		=>	11,
             'normalname'	=>	'Battleship',
             'attacks'		=>  array('bld'),
             'defends'		=>  array(),
