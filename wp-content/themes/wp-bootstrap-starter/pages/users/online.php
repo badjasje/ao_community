@@ -35,7 +35,7 @@
 			?>
 			<div class="row fw-row userRow userRow3 row-no-padding" style="background-color: rgba(<?=$backColor?>,<?=(0.35-($count/70));?>)">
 				<div class="col-md-1 col-no-padding sea_heading allUsersAvatarCol">
-					<?=$allUser->getAvatar('allUsersAvatar')?><span class="mobileUserName name-sort-3"><?=$allUser->getName()?></span>
+					<?=$allUser->getAvatar('allUsersAvatar')?><span class="mobileUserName name-sort-3"><?=$allUser->getLink(true)?></span>
 				</div>
 				<div class="col-md-4 celBlock allUsersNameCol"><?=$allUser->getLink(true)?></div>
 				<div class="col-md-2 celBlock">
