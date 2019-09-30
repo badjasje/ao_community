@@ -957,6 +957,7 @@ class Province extends DbObject {
         $totalturns = $this->getTurns();
         $buildingsPerTurn = $this->getBuildingsPerTurn();
         $freeTurns = floor($totalturns * $buildingsPerTurn);
+        $unitsPerTurn = $this->getUnitsPerTurn();
         $freeLand = $this->getFreeLand();
         $freeSpace = $this->getBuildSpace();
         $missiles = $this->getMissiles();
@@ -984,7 +985,10 @@ class Province extends DbObject {
                 }
             }
             $buildings[$id]['occupied'] = ($occupied > 0 ? $occupied : 0);
-            $buildings[$id]['maxdemo'] = $buildings[$id]['num'] - $buildings[$id]['occupied'];
+            $buildings[$id]['maxdemo'] = $buildings[$id]['num'];
+            if($buildings[$id]['occupied']>0 && isset($unitsPerTurn[$building['houses']])) {
+                $buildings[$id]['maxdemo'] -= ceil($buildings[$id]['occupied'] / $unitsPerTurn[$building['houses']]);
+            }
 
             //Hooks::trigger('get_province_building', array($id, $buildings[$id])); // we might want to work with modifiers
             if($this->hasStartingBonus('defensive')) {
