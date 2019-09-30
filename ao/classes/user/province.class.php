@@ -473,7 +473,7 @@ class Province extends DbObject {
         if(!Round::isLive()) return array('status' => 'Game is paused.');
         $receiver = Province::make(Request::post('receiver'));
         $aid = abs(floor(Request::post('amount')));
-        if(!$receiver) return array('status' => 'Member not found');
+        if(!$receiver->get('aid')) return array('status' => 'Member not found');
         if($receiver->get('id') == $this->get('id')) return array('status' => 'Yourself? Really!?');
         $clan = $this->getClan();
         if(!in_array($receiver->get('id'), $clan->getMembers())) return array('status' => 'Not a clan member');
@@ -520,6 +520,39 @@ class Province extends DbObject {
             'success' => true, 'noaids' => $this->get('number_of_aids'), 'max' => round(min(Settings::get('max_aid'), $this->getMoney())),
             'status' =>  Format::money($aid).' aid sent to '. $receiver->getName() .' (#'. $receiver->get('id') .')'
         );
+    }
+
+    // @todo: use Message-class
+    public function ajaxMessage($return) {
+        $receiver_ID = Request::post('receiver');
+        $receiver = Province::make($receiver_ID);
+        if($receiver->get('id') == false) return array('status' => 'Not a user');
+        $message_ID = Request::post('main_message');
+        $message_text = Request::post('message');
+        if(ctype_space($message_text) || $message_text == '') return array('status' => 'Message is empty');
+        $timestamp = current_time('timestamp');
+
+        if($message_ID == 'first') {
+            $title = Request::post('title');
+            if(ctype_space($title) || $title == '') return array('status' => 'Title is empty');
+            $args = array(
+                'post_title' => $title, 'post_content' => $message_text, 'post_author' => $this->get('id'),
+                'post_status' => 'publish', 'post_type' => 'user_message', 'post_name' => md5(uniqid(rand(), true)),
+            );
+            $message_ID = wp_insert_post($args);
+            update_post_meta($message_ID, 'receiver_id', $receiver->get('id'));
+            update_post_meta($message_ID, 'sender_id', $this->get('id'));
+        }
+        update_post_meta($message_ID, 'general_status', 'New');
+        update_post_meta($message_ID, 'last_update_stamp', $timestamp);
+
+        $row = array('field_5b5ef267154f1' => $this->get('id'), 'field_5b5ef27b154f2' => $message_text, 'field_5b5f0429b56ca' => $receiver->get('id'));
+        $i = add_row('field_5b5ef246154f0', $row, $message_ID);
+
+        $receiver->update('new_messages', $receiver->get('new_messages')+1);
+        fcm_send_notification($receiver->get('id'), 'message', $this->get('id'));
+        $link = get_the_permalink($message_ID);
+        return array_merge($return, array('success' => true, 'status' => 'Message sent to '.$receiver->getName(), 'redirect' => $link));
     }
 
     /**
@@ -1118,7 +1151,7 @@ class Province extends DbObject {
 
             //Hooks::trigger('get_province_unit', array($id, $units[$id])); // we might want to work with modifiers
             if($this->hasStartingBonus('defensive')) {
-                $units[$id]['life'] = $units[$id]['life'] * Settings::get('startbonus_defensive_unit_life_multi');
+                $units[$id]['life'] = round($units[$id]['life'] * Settings::get('startbonus_defensive_unit_life_multi'));
             }
         }
         /*wtf($units, $unitsPerTurn, $space, $usedSpace);
