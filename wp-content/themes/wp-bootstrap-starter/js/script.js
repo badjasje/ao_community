@@ -162,8 +162,10 @@ jQuery(function($) {
         });
     }
 
-    var i = setInterval(function() { updateHeaderData(); }, 10000);
-    updateHeaderData();
+    if($('body').hasClass('logged-in')) {
+        var i = setInterval(function() { updateHeaderData(); }, 10000);
+        updateHeaderData();
+    }
 
     start_countdowns();
 
@@ -458,9 +460,10 @@ jQuery(function($) {
         singleAjax(site_url+'/ajax/sendaid', $(this), function(data) {
             $('#aidssent').html(data.noaids);
             $('#amount').attr('max', data.max);
-            $('form').trigger("reset");
+            $('#aid').trigger("reset");
         });
     });
+
 
 });
 
