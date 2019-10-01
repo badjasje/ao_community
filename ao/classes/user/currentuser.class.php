@@ -205,6 +205,10 @@ class CurrentUser extends User {
             if(isset($_GET['checkmulti'])) { die('Admin: not a multi'); }
             return false;
         }
+        if(Round::isDev() || Round::isTest()) {
+            if(isset($_GET['checkmulti'])) { die('Dev or Test, multi is ok'); }
+            return false;
+        }
 
         if(!$ip_array) {
             $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
