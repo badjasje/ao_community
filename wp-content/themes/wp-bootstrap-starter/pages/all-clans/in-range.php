@@ -56,7 +56,7 @@
 
 			?>
 
-	<div class="row fw-row userRow clanrow2 row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-($count/70);?>);">
+	<div class="row fw-row userRow userRow5 row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-($count/70);?>);">
 		<div class="col-md-1 col-no-padding sea_heading allUsersAvatarCol">
 			<?php echo clan_avatar($clanId,'allUsersAvatar');?>
 			<span class="mobileClanName name-sort-5">
