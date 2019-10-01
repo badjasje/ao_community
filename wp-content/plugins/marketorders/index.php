@@ -1324,7 +1324,7 @@ function fcm_send_notification($receiver, $type, $attacker=0) {
     $gameType = get_field('game_type','option');
     if(in_array($gameType, array('Development','Test'))) {
         if($receiver != 2768) return;
-        wtf('<a href="'.$url.'">'.$body.'</a>');
+        //wtf('<a href="'.$url.'">'.$body.'</a>');
     }
 
     $registrationIds = maybe_unserialize(get_user_meta($receiver, 'device_tokens', true));

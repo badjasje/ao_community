@@ -111,7 +111,8 @@ class CurrentUser extends User {
             $pathArray = array(
                 'dashboard', 'events', 'buildings', 'spy-report-overview', 'units', 'clan', 'clan-wars', 'satellites',
                 'buy', 'clan-information', 'player-statistics', 'users', 'clan-member-information', 'conversations',
-                'explore', 'bank', 'sell', 'missiles', 'orders', 'research', 'send-aid', 'all-clans', 'forum',''
+                'explore', 'bank', 'sell', 'missiles', 'orders', 'research', 'send-aid', 'all-clans', 'forum',
+                'send-message', ''
             );
             if(in_array(Request::part(0), $pathArray)) {
                 header("HTTP/1.0 401 Unauthorized");

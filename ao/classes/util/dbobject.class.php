@@ -15,12 +15,11 @@ class DbObject extends PhpObject {
      * Example 2: new User($results); // fills everything from result
      */
     public function __construct($props=null) {
-        $this->db = Database::make();
 		if(!!static::$cache && !isset(static::$list[static::$cache])) static::$list[static::$cache] = array();
 		if(is_numeric($props)) $props = $this->getOne($props);
 		if(is_array($props)) {
             $this->setPropertiesFromArray($props);
-            if(isset($this->id)) $this->setCache($props);
+            if(!!static::$cache && isset($this->id) && !isset(static::$list[static::$cache][$this->id])) $this->setCache($props);
         }
     }
 
@@ -99,7 +98,7 @@ class DbObject extends PhpObject {
     public function update($key,$value) {
         $data = array('id' => $this->get('id'));
         $data[$key] = $value;
-        if(!!static::$table) $this->db->changeTable($data, static::$table, array('id'));
+        if(!!static::$table) Database::make()->changeTable($data, static::$table, array('id'));
         $this->setPropertiesFromArray($data);
         $this->setCache(array($key => $value));
         return true;
@@ -109,7 +108,7 @@ class DbObject extends PhpObject {
     public function delete() {
         if(!static::$table) return;
 		if($this->get('id')) {
-			return $this->db->query('DELETE FROM `'. static::$table .'` WHERE `id`="'.$this->get('id').'"');
+			return Database::make()->query('DELETE FROM `'. static::$table .'` WHERE `id`="'.$this->get('id').'"');
 		}
 		return false;
     }

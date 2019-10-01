@@ -144,6 +144,7 @@ class Settings extends DataObject {
 
         // Clan stuff
         'clan_trustee_num' => 4,
+        'clan_member_num' => 6,
     );
 
 }

@@ -1558,18 +1558,6 @@ input[type="radio"]:checked + label {
 	width:100%;
 }
 
-.statCol-1{
-	background-color: rgba(84, 84, 84, 0.10);
-}
-.statCol-2{
-	background-color: rgba(84, 84, 84, 0.20);
-}
-.statCol-3{
-	background-color: rgba(84, 84, 84, 0.30);
-}
-.statCol-4{
-	background-color: rgba(84, 84, 84, 0.40);
-}
 .statusInsideCol{
 	width: 49%;
     display: inline-block;
@@ -1867,7 +1855,7 @@ input[type="radio"]:checked + label {
 .userRow{
 	height:50px;
 }
-.memberField .online { color:#F00; }
+.memberField .online, .red-text { color:#F00; }
 .ctclField{
 	display: inline-block;
 }
@@ -2099,13 +2087,19 @@ input[type="radio"]:checked + label {
 }
 
 /* Explore+sell page styling */
-#exploresell .collabel {
+#exploresell .maxexp, #exploresell .maxsell { border-top:none; }
+
+/* explore+sell, messages */
+.collabel {
     padding: 10px 10px 10px 15px; text-transform: uppercase; background-color: rgba(84, 84, 84, 0.10);
     display: flex; align-items:center;
 }
-#exploresell .inputnr { width: 100%; box-shadow: none; border-radius:0; padding-left: 20px; min-height: 41px; border:none; }
-#exploresell .inputnr.disabled { background:#CCC; }
-#exploresell .maxexp, #exploresell .maxsell { border-top:none; }
+.inputnr, .inputtxt { width: 100%; box-shadow: none; border-radius:0; padding-left: 20px; min-height: 41px; height:41px; border:none; }
+.inputnr.disabled, .inputtxt.disabled { background:#CCC; }
+.statCol-1 { background-color: rgba(84, 84, 84, 0.10); }
+.statCol-2 { background-color: rgba(84, 84, 84, 0.20); }
+.statCol-3 { background-color: rgba(84, 84, 84, 0.30); }
+.statCol-4 { background-color: rgba(84, 84, 84, 0.40); }
 
 /* Buildings page */
 #buildings { background: linear-gradient(rgba(81, 81, 81, 0.56), rgba(81, 81, 81, 0.08)); width: 100%; }
