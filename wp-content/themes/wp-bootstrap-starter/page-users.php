@@ -4,6 +4,7 @@
  */
 get_header();
 
+$timestamp = current_time('timestamp');
 $transient = get_transient('allusers_query');
 if(!empty($transient)) $users = $transient;
 else {
