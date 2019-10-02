@@ -1,6 +1,6 @@
 <?php
 require_once("../../../../../wp-load.php");
-include("../../../../../units_array.php");
+$units = Units::get();
 include("../../../../../missiles_array.php");
 include("../../../../../satellite_array.php");
 

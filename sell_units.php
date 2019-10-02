@@ -48,7 +48,7 @@ if ($userLock == 1) {
 }
 
 update_user_meta($userId, 'user_lock', 1);
-include 'units_array.php';
+$units = Units::get();
 
 $specialSelling = 0;
 foreach ($units as $key => $order) {

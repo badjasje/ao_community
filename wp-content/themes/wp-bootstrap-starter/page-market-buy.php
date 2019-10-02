@@ -10,7 +10,7 @@ global $userId;
 $disableClass = '';
 if(!Market::isOpen()) $disableClass = ' disabledDiv';
 
-include 'units_array.php';
+$units = Units::get();
 include 'count_functions.php';
 
 $totalMoney = $userData['money'][0];

@@ -35,7 +35,7 @@ $args = array(
 
 $clans = get_posts($args);
 
-include('units_array.php');
+$units = Units::get();
 include('building_array.php');
 ?>
 <div class="row pageRow">

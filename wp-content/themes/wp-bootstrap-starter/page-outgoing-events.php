@@ -8,7 +8,7 @@ global $userId;
 
 $array_for_filter = array('empsat','empmissile','satellite','regular','air_sea','ground','missile','thief','aid','user_kicked','sniper','killed');
 
-include('units_array.php');
+$units = Units::get();
 include('building_array.php');
 include('research_array.php');
 

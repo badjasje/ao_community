@@ -1,5 +1,5 @@
 <?php
-include(ABSPATH."/units_array.php");
+$units = Units::get();
 include(ABSPATH."/building_array.php");
 
 $defender_networth_lost = 0;

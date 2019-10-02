@@ -2,7 +2,7 @@
 require_once("wp-load.php");
 
 function count_tot_units($user_id) {
-    include 'units_array.php';
+    $units = Units::get();
     $units_owned = 0;
     $units_ordered = 0;
     foreach ($units as $key => $order) {
@@ -24,7 +24,7 @@ function count_tot_buildings($user_id) {
 
 function count_airspace($user_id)
 {
-    include 'units_array.php';
+    $units = Units::get();
     $totalair = 0;
 
     foreach ($units as $key => $order) {
@@ -39,7 +39,7 @@ function count_airspace($user_id)
 }
 function count_allunits($user_id)
 {
-    include 'units_array.php';
+    $units = Units::get();
     $totalunits = 0;
 
     foreach ($units as $key => $order) {
@@ -54,7 +54,7 @@ function count_allunits($user_id)
 
 function count_vehspace($user_id)
 {
-    include 'units_array.php';
+    $units = Units::get();
     $totalveh = 0;
 
     foreach ($units as $key => $order) {
@@ -70,7 +70,7 @@ function count_vehspace($user_id)
 
 function count_infspace($user_id)
 {
-    include 'units_array.php';
+    $units = Units::get();
     $totalinf = 0;
 
     foreach ($units as $key => $order) {
@@ -85,7 +85,7 @@ function count_infspace($user_id)
 }
 function count_seaspace($user_id)
 {
-    include 'units_array.php';
+    $units = Units::get();
     $totalsea = 0;
 
     foreach ($units as $key => $order) {

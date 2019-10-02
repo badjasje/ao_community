@@ -206,7 +206,7 @@ background-repeat: no-repeat;
 add_action( 'login_enqueue_scripts', 'my_login_logo' );
  */
 function unit_types($user_ID) {
-    include 'units_array.php';
+    $units = Units::get();
     $userData = get_user_meta($user_ID);
     $type_array = array();
     foreach ($units as $key => $unit) {
@@ -221,7 +221,7 @@ function unit_types($user_ID) {
 }
 
 function can_attack($user_ID) {
-    include 'units_array.php';
+    $units = Units::get();
     $userData = get_user_meta($user_ID);
     $attack_array = array();
     foreach ($units as $key => $unit) {
@@ -293,7 +293,7 @@ function clan_networth_range($clanId) {
 function get_spy_units($user_ID) {
     $userData = get_user_meta($user_ID);
     $spiesOwned = array();
-	@include("units_array.php");
+	$units = Units::get();
 	foreach ($units as $unitKey => $unit) {
 		if(in_array($unitKey,array('spy','spyplane'))) {
 			$unitsOwned = $userData[$unitKey.'_owned'][0];
@@ -774,7 +774,7 @@ function user_register_custom($user_id) {
     update_user_meta($user_id, 'queued_research', 0);
     update_user_meta($user_id, 'first_visit', 0);
 
-    include 'units_array.php';
+    $units = Units::get();
 
     foreach ($units as $key => $unit) {
         update_user_meta($user_id, $key . '_owned', 0);
@@ -881,7 +881,7 @@ function after_death($user_id) {
             wp_trash_post($order->ID);
         }
 
-        include 'units_array.php';
+        $units = Units::get();
 
         foreach ($units as $key => $unit) {
             update_user_meta($user_id, $key . '_owned', 0);
@@ -900,7 +900,7 @@ function count_all_stats($user_ID) {
 
     if (!empty($user_ID) && $status != 'banned') {
 
-        include ABSPATH . 'units_array.php';
+        $units = Units::get();
         include ABSPATH . 'missiles_array.php';
         include ABSPATH . 'building_array.php';
         include ABSPATH . 'research_array.php';
@@ -1144,7 +1144,7 @@ function display_all_buildings() {
 add_shortcode('units-manual', 'display_all_units');
 
 function display_all_units() {
-    include 'units_array.php';
+    $units = Units::get();
     $allunits = '<div class="row">';
     foreach ($units as $unit) {
         $name = $unit['normalname'];

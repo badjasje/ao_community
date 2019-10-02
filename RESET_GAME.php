@@ -1,7 +1,7 @@
 <?php
-	/*
+/*
     require_once("wp-load.php");
-    include('units_array.php');
+    $units = Units::get();
 	include('building_array.php');
 	include('missiles_array.php');
 
@@ -192,3 +192,4 @@
 	// Add roundnr
 	$round_nr = Round::getRoundNr();
 	update_field('round_nr', $round_nr+1, 'option');
+/* */

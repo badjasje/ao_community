@@ -1,5 +1,5 @@
 <?php
-include("../../../../../units_array.php");
+$units = Units::get();
 
 $moralecost = Settings::get('sniper_morale_cost');
 $attSnipers = $attackerData['sniper_owned'][0];

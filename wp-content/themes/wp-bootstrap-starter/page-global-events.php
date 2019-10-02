@@ -6,7 +6,7 @@ get_header();
 global $userId;
 global $userData;
 
-include('units_array.php');
+$units = Units::get();
 include('building_array.php');
 include('research_array.php');
 

@@ -15,7 +15,7 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
     exit;
 }
 
-include 'units_array.php';
+$units = Units::get();
 include 'satellite_array.php';
 $orderId = $_POST['order'];
 $array = array();

@@ -28,7 +28,7 @@ if(!in_array($viewerID, $clanmembers)){
 	wp_redirect(get_permalink(3486));
 }
 
-include 'units_array.php';
+$units = Units::get();
 include 'building_array.php';
 include 'missiles_array.php';
 include 'interest_array.php';

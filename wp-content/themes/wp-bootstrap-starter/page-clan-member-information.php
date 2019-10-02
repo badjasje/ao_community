@@ -25,7 +25,7 @@ $ct_3 = $clanData['ct_3'][0];
 $ct_4 = $clanData['ct_4'][0];
 include('count_functions.php');
 include('research_array.php');
-include('units_array.php');
+$units = Units::get();
 include('building_array.php');
 include('interest_array.php');
 ?>

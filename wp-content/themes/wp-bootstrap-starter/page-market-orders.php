@@ -7,7 +7,7 @@ global $userData;
 global $userId;
 
 update_user_meta($userId, 'user_lock', 0);
-include 'units_array.php';
+$units = Units::get();
 include 'missiles_array.php';
 include 'satellite_array.php';
 $backColor = "45, 67, 81";

@@ -23,7 +23,7 @@ if (!defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
 
 nocache_headers();
 $array = array();
-include 'units_array.php';
+$units = Units::get();
 
 global $userId;
 global $userData;

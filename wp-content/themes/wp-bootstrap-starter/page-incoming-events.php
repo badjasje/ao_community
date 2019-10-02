@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Template Name: Local events
  */
 
@@ -11,7 +11,7 @@ $array_for_filter = array(
 	'empsat', 'empmissile', 'satellite', 'regular', 'air_sea', 'ground', 'missile',
 	'thief', 'nukeprotection', 'aid', 'research_ready', 'user_kicked', 'sat_crash', 'sniper', 'killed', 'spy');
 
-include('units_array.php');
+$units = Units::get();
 include('building_array.php');
 
 update_user_meta($userId,'new_events',0);
@@ -83,12 +83,8 @@ if($userId != 0){
 			$def_tot_unitslost = (isset($eventData['def_total_units_lost']) ? $eventData['def_total_units_lost'][0] : 0);
 			$att_tot_unitslost = (isset($eventData['att_total_units_lost']) ? $eventData['att_total_units_lost'][0] : 0);
 
-			if(empty($def_tot_unitslost)){
-				$def_tot_unitslost = 0;
-			}
-			if(empty($att_tot_unitslost)){
-				$att_tot_unitslost = 0;
-			}
+			if(empty($def_tot_unitslost)) $def_tot_unitslost = 0;
+			if(empty($att_tot_unitslost)) $att_tot_unitslost = 0;
 
 			$def_tot_buildingslost = (isset($eventData['total_buildings_lost']) ? $eventData['total_buildings_lost'][0] : 0);
 			$landlost = (isset($eventData['land_lost']) ? $eventData['land_lost'][0] : 0);
@@ -107,110 +103,102 @@ if($userId != 0){
 			$attack_type = $eventData['attacktype'][0];
 			$winner_id = (isset($eventData['winner_id']) ? $eventData['winner_id'][0] : 0);
 
+			// We will be putting this in an Event-object, so the other pages use the same code
 			$reportHeader = '';
-			if($attack_type == 'air_sea'){
-				$icon = 'flaticon-ship';
-				$reportHeader = 'Air & Sea attack battle report';
-			}
-			if($attack_type == 'regular'){
-				$icon = 'flaticon-fighter-plane';
-				$reportHeader = 'Regular attack battle report';
-			}
-			if($attack_type == 'ground'){
-				$icon = 'flaticon-tank';
-				$reportHeader = 'Ground attack battle report';
-			}
-			if($attack_type == 'nukeprotection'){
-				$icon = 'flaticon-compass';
-				$reportHeader = 'Protection removed';
-			}
-			if($attack_type == 'aid'){
-				$icon = 'flaticon-compass';
-				$reportHeader = 'Aid received';
-			}
-			if($attack_type == 'research_ready'){
-				$icon = 'flaticon-compass';
-				$reportHeader = 'Research completed';
-			}
-			if($attack_type == 'missile'){
-				$icon = 'flaticon-radioactive';
-				$reportHeader = 'Missile attack report';
-			}
-			if($attack_type == 'satellite'){
-				$icon = 'flaticon-objective';
-				$reportHeader = 'Satellite attack report';
-			}
-			if($attack_type == 'empsat'){
-				$icon = 'flaticon-objective';
-				$reportHeader = 'EMP satellite attack report';
-			}
-			if($attack_type == 'sat_crash'){
-				$icon = 'flaticon-objective';
-				$reportHeader = 'Satellite crash report';
-			}
-			if($attack_type == 'empmissile'){
-				$icon = 'flaticon-objective';
-				$reportHeader = 'EMP missile attack report';
-			}
-			if($attack_type == 'sniper'){
-				$icon = 'flaticon-bullet';
-				$reportHeader = 'Sniper attack report';
-			}
-			if($attack_type == 'spy'){
-				$icon = 'flaticon-fighter-plane-1';
-				$reportHeader = 'Spy infiltration report';
-			}
-			if($attack_type == 'thief'){
-				$icon = 'flaticon-secret-agent';
-				$reportHeader = 'Thief infiltration report';
-			}
-			if($attack_type == 'user_kicked'){
-				$icon = 'flaticon-boots';
-				$reportHeader = 'You were kicked from your clan';
-			}
-			if($attack_type == 'killed'){
-				$icon = 'flaticon-badge';
-				$reportHeader = 'You died';
+			switch($attack_type) {
+				case 'air_sea':
+					$icon = 'flaticon-ship';
+					$reportHeader = 'Air & Sea attack battle report';
+				break;
+				case 'regular':
+					$icon = 'flaticon-fighter-plane';
+					$reportHeader = 'Regular attack battle report';
+				break;
+				case 'ground':
+					$icon = 'flaticon-tank';
+					$reportHeader = 'Ground attack battle report';
+				break;
+				case 'nukeprotection':
+					$icon = 'flaticon-compass';
+					$reportHeader = 'Protection removed';
+				break;
+				case 'aid':
+					$icon = 'flaticon-compass';
+					$reportHeader = 'Aid received';
+				break;
+				case 'research_ready':
+					$icon = 'flaticon-compass';
+					$reportHeader = 'Research completed';
+				break;
+				case 'missile':
+					$icon = 'flaticon-radioactive';
+					$reportHeader = 'Missile attack report';
+				break;
+				case 'satellite':
+					$icon = 'flaticon-objective';
+					$reportHeader = 'Satellite attack report';
+				break;
+				case 'empsat':
+					$icon = 'flaticon-objective';
+					$reportHeader = 'EMP satellite attack report';
+				break;
+				case 'sat_crash':
+					$icon = 'flaticon-objective';
+					$reportHeader = 'Satellite crash report';
+				break;
+				case 'empmissile':
+					$icon = 'flaticon-objective';
+					$reportHeader = 'EMP missile attack report';
+				break;
+				case 'sniper':
+					$icon = 'flaticon-bullet';
+					$reportHeader = 'Sniper attack report';
+				break;
+				case 'spy':
+					$icon = 'flaticon-fighter-plane-1';
+					$reportHeader = 'Spy infiltration report';
+				break;
+				case 'thief':
+					$icon = 'flaticon-secret-agent';
+					$reportHeader = 'Thief infiltration report';
+				break;
+				case 'user_kicked':
+					$icon = 'flaticon-boots';
+					$reportHeader = 'You were kicked from your clan';
+				break;
+				case 'killed':
+					$icon = 'flaticon-badge';
+					$reportHeader = 'You died';
+				break;
 			}
 			?>
 			<div class="fw-row" id="event-<?=$eventId?>">
-				<div class="iconBlockHeader">
-					<i class="<?php echo $icon;?>"></i>
-				</div>
-				<div class="blockHeader"><?php echo $reportHeader;?></div>
+				<div class="iconBlockHeader"><i class="<?=$icon?>"></i></div>
+				<div class="blockHeader"><?=$reportHeader?></div>
 			</div>
+			<?
+			// We will be putting this in an Event-object, so the other pages use the same code
+			switch($attack_type) {
+				case 'ground':
+				case 'air_sea':
+				case 'regular':
+					include('pages/events/incoming/attack.php');
+					break;
+				case 'missile': include('pages/events/incoming/missile.php'); break;
+				case 'empmissile': include('pages/events/incoming/emp-missile.php'); break;
+				case 'satellite': include('pages/events/incoming/satellite.php'); break;
+				case 'empsat': include('pages/events/incoming/emp-sat.php'); break;
+				case 'sniper': include('pages/events/incoming/sniper.php'); break;
+				case 'thief': include('pages/events/incoming/thief.php'); break;
+				case 'aid': include('pages/events/incoming/aid.php'); break;
+				case 'research_ready': include('pages/events/incoming/research_ready.php'); break;
+				case 'nukeprotection': include('pages/events/incoming/protection-removed.php'); break;
+				case 'user_kicked': include('pages/events/incoming/kicked.php'); break;
+				case 'sat_crash': include('pages/events/incoming/satellite-crashed.php'); break;
+				case 'killed': include('pages/events/incoming/killed.php'); break;
+				case 'spy': include('pages/events/incoming/spy.php'); break;
+			}
 
-			<?php if($attack_type == 'ground' || $attack_type == 'air_sea' || $attack_type == 'regular'): ?>
-				<?php include('pages/events/incoming/attack.php'); ?>
-			<?php elseif($attack_type == 'missile'): ?>
-				<?php include('pages/events/incoming/missile.php'); ?>
-			<?php elseif($attack_type == 'empmissile'): ?>
-				<?php include('pages/events/incoming/emp-missile.php'); ?>
-			<?php elseif($attack_type == 'satellite'): ?>
-				<?php include('pages/events/incoming/satellite.php'); ?>
-			<?php elseif($attack_type == 'empsat'): ?>
-				<?php include('pages/events/incoming/emp-sat.php'); ?>
-			<?php elseif($attack_type == 'sniper'): ?>
-				<?php include('pages/events/incoming/sniper.php'); ?>
-			<?php elseif($attack_type == 'thief'): ?>
-				<?php include('pages/events/incoming/thief.php'); ?>
-			<?php elseif($attack_type == 'aid'): ?>
-				<?php include('pages/events/incoming/aid.php'); ?>
-			<?php elseif($attack_type == 'research_ready'): ?>
-				<?php include('pages/events/incoming/research_ready.php'); ?>
-			<?php elseif($attack_type == 'nukeprotection'): ?>
-				<?php include('pages/events/incoming/protection-removed.php'); ?>
-			<?php elseif($attack_type == 'user_kicked'): ?>
-				<?php include('pages/events/incoming/kicked.php'); ?>
-			<?php elseif($attack_type == 'sat_crash'): ?>
-				<?php include('pages/events/incoming/satellite-crashed.php'); ?>
-			<?php elseif($attack_type == 'killed'): ?>
-				<?php include('pages/events/incoming/killed.php'); ?>
-			<?php elseif($attack_type == 'spy'): ?>
-				<?php include('pages/events/incoming/spy.php'); ?>
-			<?php endif;?>
-
-			<?php
 		endwhile;
 	endif; ?>
 
@@ -220,10 +208,10 @@ if($userId != 0){
 	</div>
 
 	<?php
-	wp_reset_postdata(); // fixes bug where below ACF fields wont display
+	wp_reset_postdata();
 	$wp_query = NULL;
 	$wp_query = $temp_query;
 	?>
-</div> <!-- End pageRow -->
+</div>
 <?php
 get_footer();
