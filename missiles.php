@@ -45,7 +45,7 @@ $turns = get_user_meta($userId, 'turns', true);
 $missilespace = get_user_meta($userId, 'silo', true);
 $tomahawkspace = get_user_meta($userId, 'submarine_owned', true)*2;
 
-include 'missiles_array.php';
+$missiles = Missiles::get();
 include 'count_functions.php';
 
 $totalordercost = 0;

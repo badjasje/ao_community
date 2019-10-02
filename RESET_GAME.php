@@ -3,7 +3,7 @@
     require_once("wp-load.php");
     $units = Units::get();
 	include('building_array.php');
-	include('missiles_array.php');
+	$missiles = Missiles::get();
 
 	global $wpdb;
 

@@ -1,5 +1,5 @@
 <?php
-include("../../../../../missiles_array.php");
+$missiles = Missiles::get();
 include("../../../../../building_array.php");
 $units = Units::get();
 

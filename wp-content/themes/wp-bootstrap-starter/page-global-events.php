@@ -8,7 +8,7 @@ global $userData;
 
 $units = Units::get();
 include('building_array.php');
-include('research_array.php');
+$researches = Researches::get();
 
 update_user_meta($userId, 'new_global_events', 0);
 $clan_ID = get_user_meta($userId, 'clan_id_user',true);

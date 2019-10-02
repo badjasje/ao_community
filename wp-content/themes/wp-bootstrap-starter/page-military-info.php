@@ -30,9 +30,9 @@ if(!in_array($viewerID, $clanmembers)){
 
 $units = Units::get();
 include 'building_array.php';
-include 'missiles_array.php';
-include 'interest_array.php';
-include 'research_array.php';
+$missiles = Missiles::get();
+$rates = Bank::getAllRates();
+$researches = Researches::get();
 
 // Get orders
 $args = array(

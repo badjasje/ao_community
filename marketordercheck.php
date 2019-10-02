@@ -116,7 +116,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
                 $queued_research = get_user_meta($user_ID, 'queued_research', true);
 
                 if (!empty($queued_research) || $queued_research != 0) {
-                    include 'research_array.php';
+                    $researches = Researches::get();
                     $time = $researches[$queued_research]['duration'];
                     $args = array(
                         'post_title'    => $timestamp+($time*60*60),  /* Receive research timestamp */
@@ -161,7 +161,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
     }
 
 
-    include 'bonus_array.php';
+    $bonus = Bonuses::get();
     $args = array(
         'post_type'     =>  'clan',
         'posts_per_page' => -1,

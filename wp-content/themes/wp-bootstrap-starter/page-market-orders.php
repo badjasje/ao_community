@@ -8,8 +8,8 @@ global $userId;
 
 update_user_meta($userId, 'user_lock', 0);
 $units = Units::get();
-include 'missiles_array.php';
-include 'satellite_array.php';
+$missiles = Missiles::get();
+$satellites = Satellites::get();
 $backColor = "45, 67, 81";
 $buttonColor = "70, 118, 94";
 

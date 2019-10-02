@@ -33,7 +33,7 @@ if (strlen(implode("",$_POST)) <= 0) {
 }
 
 $totalmoney = get_user_meta($userId, 'money', true);
-include 'missiles_array.php';
+$missiles = Missiles::get();
 
 $totalordercost = 0;
 $total_missiles_ordered = 0;

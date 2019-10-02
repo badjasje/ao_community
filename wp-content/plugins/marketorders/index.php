@@ -901,11 +901,11 @@ function count_all_stats($user_ID) {
     if (!empty($user_ID) && $status != 'banned') {
 
         $units = Units::get();
-        include ABSPATH . 'missiles_array.php';
+        $missiles = Missiles::get();
         include ABSPATH . 'building_array.php';
-        include ABSPATH . 'research_array.php';
+        $researches = Researches::get();
         include ABSPATH . 'constants.php';
-        include ABSPATH . 'satellite_array.php';
+        $satellites = Satellites::get();
 
 /* calculate unit NW */
         $unit_networth = 0;

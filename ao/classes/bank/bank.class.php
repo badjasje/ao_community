@@ -13,20 +13,26 @@ class Bank extends PhpObject {
         return  (Round::isPaused() ? false : static::timeLeft() > 0);
     }
 
+    public static function getAllRates() {
+        return array(
+            '3' => array('interest' =>  1.010),
+            '4' => array('interest' =>  1.015),
+            '5' => array('interest' =>  1.02),
+            '6' => array('interest' =>  1.025),
+            '7' => array('interest' =>  1.03),
+            '8' => array('interest' =>  1.035),
+            '9' => array('interest' =>  1.04),
+            '10' => array('interest' =>  1.045),
+        );
+    }
+
     // We might make this dynamic like real banks >:-)
     public static function getRates($all=false) {
-        $rates = array(
-            '3' => 1,
-            '4' => 1.5,
-            '5' => 2,
-            '6' => 2.5,
-            '7' => 3,
-            '8' => 3.5,
-            '9' => 4,
-            '10' => 4.5
-        );
+        $rates = array();
+        foreach(self::getAllRates() as $k => $r) {
+            $rates[$k] = ($r['interest']-1)*100;
+        }
         if($all) return $rates; // When calculating final amount of a deposit, we want do want the 10 days rate
-
         $daysleft = floor(Round::timeLeft()/60/60/24);
         if($daysleft <= 3) return array();
         $return = array();

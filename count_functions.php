@@ -100,7 +100,7 @@ function count_seaspace($user_id)
 }
 function count_missilespace($user_id)
 {
-    include 'missiles_array.php';
+    $missiles = Missiles::get();
     $totalmissiles = 0;
 
     foreach ($missiles as $key => $missile) {

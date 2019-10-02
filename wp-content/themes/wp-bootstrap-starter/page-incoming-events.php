@@ -6,7 +6,7 @@
 get_header();
 global $userData;
 global $userId;
-include('research_array.php');
+$researches = Researches::get();
 $array_for_filter = array(
 	'empsat', 'empmissile', 'satellite', 'regular', 'air_sea', 'ground', 'missile',
 	'thief', 'nukeprotection', 'aid', 'research_ready', 'user_kicked', 'sat_crash', 'sniper', 'killed', 'spy');
