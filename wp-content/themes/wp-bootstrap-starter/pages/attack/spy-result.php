@@ -1,5 +1,5 @@
 <?php
-include("../../../../../units_array.php");
+$units = Units::get();
 include("../../../../../building_array.php");
 
 $clan_defender_id = $defenderData['clan_id_user'][0];

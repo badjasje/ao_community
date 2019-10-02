@@ -1,7 +1,7 @@
 <?php
-include("../../../../../missiles_array.php");
+$missiles = Missiles::get();
 include("../../../../../building_array.php");
-include("../../../../../units_array.php");
+$units = Units::get();
 
 $winner_ID = $userId;
 $maintarget = ($debug ? $_POST['maintarget'] : filter_input(INPUT_POST, 'maintarget', FILTER_SANITIZE_STRING));

@@ -1,8 +1,8 @@
 <?php
 require_once("../../../../../wp-load.php");
-include("../../../../../units_array.php");
-include("../../../../../missiles_array.php");
-include("../../../../../satellite_array.php");
+$units = Units::get();
+$missiles = Missiles::get();
+$satellites = Satellites::get();
 
 $attackType = filter_input(INPUT_POST, 'attacktype', FILTER_SANITIZE_STRING);
 $target_id = filter_input(INPUT_POST, 'target_id', FILTER_VALIDATE_INT);

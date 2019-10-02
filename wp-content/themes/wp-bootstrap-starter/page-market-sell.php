@@ -7,7 +7,7 @@ $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'air';
 global $userData;
 global $userId;
 $marketSellMultiplier = (2.2 * 0.5);
-include 'units_array.php';
+$units = Units::get();
 include 'count_functions.php';
 
 $specialSold = $userData['special_sold_today'][0];

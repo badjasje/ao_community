@@ -1,7 +1,7 @@
 <?php
 include("../../../../../building_array.php");
-include("../../../../../units_array.php");
-include("../../../../../satellite_array.php");
+$units = Units::get();
+$satellites = Satellites::get();
 
 $target_id = $_POST['target_id'];
 $maintarget = ($debug ? $_POST['maintarget'] : filter_input(INPUT_POST, 'maintarget', FILTER_SANITIZE_STRING));

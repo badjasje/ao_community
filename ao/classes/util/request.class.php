@@ -19,14 +19,16 @@ class Request {
         'buildings' => array('province','ajaxBuildings'),
         'units' => array('province','ajaxUnits'),
         'sendaid' => array('province','ajaxSendAid'),
+        'message' => array('province','ajaxMessage'),
+        'claninvite' => array('province','ajaxClanInvite'),
         'clanmessage' => array('clan','ajaxSetMessage')
     );
     // Rate limiting per hour
     public static $rate_limits = array(
         'wp-login.php' => 10,           //0
+        'ajax/message' => 5,            //1
 
         // Old ajax calls
-        'message.php' => 5,             //1
         'missiles.php' => 10,           //2
         'sell_missiles.php' => 10,      //3
         'activate_stealthsat.php' => 10,//4

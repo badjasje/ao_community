@@ -297,7 +297,7 @@ function get_attack_cost_turns($attack_type) {
 function create_defender_array($target_id, $type_array) {
 
     global $debug;
-    include('units_array.php');
+    $units = Units::get();
     include('building_array.php');
     include('constants.php');
 
@@ -387,7 +387,7 @@ function create_defender_array($target_id, $type_array) {
 		attacker_array[$type][$key,'total_life','total_count']['life','count']
 */
 function create_attacker_array($attack_array) {
-    include('units_array.php');
+    $units = Units::get();
     include('building_array.php');
 
     $stat_array = array();
@@ -445,7 +445,7 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
 
     global $overall_bld_total;
     global $debug;
-    include('units_array.php');
+    $units = Units::get();
     include('building_array.php');
     include('constants.php');
 
@@ -566,7 +566,7 @@ function return_overall_blds_for_defender () {
 
 function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray) {
     global $debug;
-    include('units_array.php');
+    $units = Units::get();
     include('building_array.php');
     include('constants.php');
 
@@ -796,7 +796,7 @@ function resource_dice_roll() {
 function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$target_id,$life_deduct) {
     global $debug;
     global $userId;
-    include('units_array.php');
+    $units = Units::get();
     include('building_array.php');
     include('constants.php');
 
@@ -937,7 +937,7 @@ function kill_player($user_id) {
 		$networth_damage
 */
 function calculate_losses($damage_array) {
-    include('units_array.php');
+    $units = Units::get();
     include('building_array.php');
 
     $losses = array();

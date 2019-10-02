@@ -1,3 +1,0 @@
-<?php
-
-$units = Units::get();

@@ -1,6 +1,6 @@
 <?php
 require_once("../../../../../wp-load.php");
-include("../../../../../satellite_array.php");
+$satellites = Satellites::get();
 global $userId;
 $userData = get_user_meta($userId);
 

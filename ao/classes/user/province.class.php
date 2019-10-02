@@ -80,6 +80,9 @@ class Province extends DbObject {
 
     public function __construct($props=null) {
         if(is_numeric($props)) {
+            /*if($props==2) {
+                wtf($props, static::$cache, isset(static::$list[static::$cache][$props]));
+            }*/
             if(static::$cache && isset(static::$list[static::$cache][$props])) {
                 return parent::__construct(static::$list[static::$cache][$props]);
             }
@@ -522,7 +525,34 @@ class Province extends DbObject {
         );
     }
 
+    public function ajaxMessage($return) {
+        $receiver_ID = Request::post('receiver');
+        $receiver = Province::make($receiver_ID);
+        if($receiver->get('id') == false) return array('status' => 'Not a user');
+        $message_ID = Request::post('main_message');
+        $message_text = Request::post('message');
+        if(ctype_space($message_text) || $message_text == '') return array('status' => 'Message is empty');
+        if($message_ID == 'first') {
+            $title = Request::post('title');
+            if(ctype_space($title) || $title == '') return array('status' => 'Title is empty');
+            $conv = Conversation::create($this->get('id'), $receiver->get('id'), $title, $message_text);
+            $link = Request::siteUrl().'/conversations';
+        } else {
+            $conv = Conversation::make($message_ID);
+            $link = $conv->getLink();
+        }
+        $conv->addMessage($this->get('id'), $receiver->get('id'), $message_text);
+        return array_merge($return, array('success' => true, 'status' => 'Message sent to '.$receiver->getName(), 'redirect' => $link));
+    }
 
+    public function ajaxClanInvite($return) {
+        if(!empty($this->get('clan_id_user'))) return array('status' => 'You are already a member of a clan');
+        $inviteKey = Request::post('hash');
+        $clan_id = Request::post('clan');
+        $clan = Clan::make($clan_id);
+        if(empty($clan->get('id'))) return array('status' => 'No such clan');
+        return array_merge($return, $clan->handleInvite($this->get('id'), $inviteKey, Request::post('target')));
+    }
 
     /**
      * Helper function
@@ -1210,6 +1240,23 @@ class Province extends DbObject {
             return in_array($this->id, $clan->getMembers());
         }
         return false;
+    }
+
+    /**
+     * Messages
+     */
+    public function getInbox() {
+        $this->update('new_messages', 0);
+        $convos = array();
+        $posts = get_posts(array(
+            'numberposts' => -1, 'post_type' => 'user_message', 'meta_key' => 'last_update_stamp', 'orderby' => 'meta_value', 'order' =>  'DESC',
+            'meta_query' => array('relation' => 'OR',
+                array('key' => 'receiver_id', 'value' => $this->get('id')),
+                array('key' => 'sender_id', 'value' => $this->get('id'))
+            ),
+        ));
+        foreach($posts as $post) $convos[] = Conversation::make($post->ID);
+        return $convos;
     }
 
     /**

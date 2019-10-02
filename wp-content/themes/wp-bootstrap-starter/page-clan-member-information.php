@@ -24,10 +24,10 @@ $ct_2 = $clanData['ct_2'][0];
 $ct_3 = $clanData['ct_3'][0];
 $ct_4 = $clanData['ct_4'][0];
 include('count_functions.php');
-include('research_array.php');
-include('units_array.php');
+$researches = Researches::get();
+$units = Units::get();
 include('building_array.php');
-include('interest_array.php');
+$rates = Bank::getAllRates();
 ?>
 
 <div class="row pageRow">

@@ -1,0 +1,192 @@
+<?php
+class Bonuses extends DataObject {
+
+    static $data = array(
+        'level_0'   => array(
+            'points'    =>  '500',
+            'range'     =>  '0',
+            'money'     =>  1750000,
+            'turns'     =>  350
+        ),
+        'level_1'   => array(
+                'points'    =>  '1000',
+                'range'     =>  '501',
+                'money'     =>  3500000,
+                'turns'     =>  525
+            ),
+        'level_2'   => array(
+                'points'    =>  '2000',
+                'range'     =>  '1001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_3'   => array(
+                'points'    =>  '3000',
+                'range'     =>  '2001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_4'   => array(
+                'points'    =>  '4000',
+                'range'     =>  '3001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_5'   => array(
+                'points'    =>  '5000',
+                'range'     =>  '4001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_6'   => array(
+                'points'    =>  '6000',
+                'range'     =>  '5001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_7'   => array(
+                'points'    =>  '7000',
+                'range'     =>  '6001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_8'   => array(
+                'points'    =>  '8000',
+                'range'     =>  '7001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_9'   => array(
+                'points'    =>  '9000',
+                'range'     =>  '8001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_10'  => array(
+                'points'    =>  '10000',
+                'range'     =>  '9001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_11'  => array(
+                'points'    =>  '11000',
+                'range'     =>  '10001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_12'  => array(
+                'points'    =>  '12000',
+                'range'     =>  '11001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_13'  => array(
+                'points'    =>  '13000',
+                'range'     =>  '12001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_14'  => array(
+                'points'    =>  '14000',
+                'range'     =>  '13001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_15'  => array(
+                'points'    =>  '15000',
+                'range'     =>  '14001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_16'  => array(
+                'points'    =>  '16000',
+                'range'     =>  '15001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_17'  => array(
+                'points'    =>  '17000',
+                'range'     =>  '16001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_18'  => array(
+                'points'    =>  '18000',
+                'range'     =>  '17001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_19'  => array(
+                'points'    =>  '19000',
+                'range'     =>  '18001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_20'  => array(
+                'points'    =>  '20000',
+                'range'     =>  '19001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_21'  => array(
+                'points'    =>  '21000',
+                'range'     =>  '20001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_22'  => array(
+                'points'    =>  '22000',
+                'range'     =>  '21001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_23'  => array(
+                'points'    =>  '23000',
+                'range'     =>  '22001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_24'  => array(
+                'points'    =>  '24000',
+                'range'     =>  '23001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_25'  => array(
+                'points'    =>  '25000',
+                'range'     =>  '24001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_26'  => array(
+                'points'    =>  '26000',
+                'range'     =>  '25001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_27'  => array(
+                'points'    =>  '27000',
+                'range'     =>  '26001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_28'  => array(
+                'points'    =>  '28000',
+                'range'     =>  '27001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_29'  => array(
+                'points'    =>  '29000',
+                'range'     =>  '28001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+        'level_30'  => array(
+                'points'    =>  '30000',
+                'range'     =>  '29001',
+                'money'     =>  3500000,
+                'turns'     =>  525
+        ),
+    );
+}

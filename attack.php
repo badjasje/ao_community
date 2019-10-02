@@ -22,8 +22,7 @@ if (! defined('ABSPATH') || get_field('game_status', 'option') != 'Live') {
 
 nocache_headers();
 
-    include('units_array.php');
-    include('attack_functions.php');
+include('attack_functions.php');
 
 $array = array();
 

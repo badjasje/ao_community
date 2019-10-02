@@ -464,6 +464,24 @@ jQuery(function($) {
         });
     });
 
+    // Sending message
+    $("#message").on('submit', function(e) {
+        e.preventDefault();
+        singleAjax(site_url+'/ajax/message', $(this), function(data) {
+            if(!!data.redirect) location.href=data.redirect;
+            $('#message').trigger("reset");
+        });
+    });
+    $("#claninvite").on('submit', function(e) {
+        e.preventDefault();
+        singleAjax(site_url+'/ajax/claninvite', $(this), function(data) {
+            $('.inviteButtonRow').remove();
+            $('.blockHeader').html('You have used the clan invite');
+        });
+    });
+    $('#claninvite .mainSubmit').on('click', function() {
+        $('#claninvite .target').val($(this).val());
+    });
 
 });
 

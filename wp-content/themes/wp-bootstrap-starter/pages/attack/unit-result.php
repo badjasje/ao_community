@@ -1,5 +1,5 @@
 <?php
-include(ABSPATH."/units_array.php");
+$units = Units::get();
 include(ABSPATH."/building_array.php");
 
 $defender_networth_lost = 0;
@@ -98,89 +98,6 @@ if($debug) debug_update_user($userId, 'morale_cost', $attack_cost_morale);
 else update_user_meta($userId, 'morale', $attack_new_morale);
 turn_spread('unit_attack', $attack_cost_turns);
 
-/* Calculate dragon extra attack power */
-$dragons = 40 * (isset($attack_array['dragon']) ? intval($attack_array['dragon']) : 0); // each carries 40 vehs
-if($dragons < 0) {
-	$array['status'] = 'How to train your dragon.. Pause.. NOOOT';
-	$array['next'] = false;
-	echo json_encode($array);
-	exit;
-}
-
-$veh_att_power = 0;
-$veh_total = 0;
-foreach ($attack_array as $key => $count) {
-	/*calculate dragon extra attack power */
-	if($key != 'tomahawk'){
-		if($units[$key]['type'] == 'veh'){
-			$veh_att_power += $count * $units[$key]['attack'];
-			$veh_total += $count;
-		}
-	}
-}
-if($veh_total > $dragons){
-    $added_dragon_damage = ($veh_att_power/$veh_total)*$dragons*0.20;
-}else{
-    $added_dragon_damage = $veh_att_power*0.20;
-}
-if($debug) debug_var('added_dragon_damage', $added_dragon_damage);
-
-/* Calculate dragon extra attack power */
-$apcs = 0;
-if(array_key_exists('apc', $attack_array)){
-	$apcs = 75 * intval($attack_array['apc']); // each carriers 50 infs
-}
-if($apcs < 0) {
-    $array['status'] = "Don't talk so negative about those APCs!";
-	$array['next'] = false;
-	echo json_encode($array);
-	exit;
-}
-$inf_att_power = 0;
-$inf_total = 0;
-foreach ($attack_array as $key => $count) {
-	/*calculate dragon extra attack power */
-	if($key != 'tomahawk'){
-		if($units[$key]['type'] == 'inf'){
-			$inf_att_power += $count * $units[$key]['attack'];
-			$inf_total += $count;
-		}
-	}
-}
-if($inf_total > $apcs){
-    $added_apc_damage = ($inf_att_power/$inf_total)*$apcs*0.20;
-}else{
-    $added_apc_damage = $inf_att_power*0.20;
-}
-if($debug) debug_var('added_apc_damage', $added_apc_damage);
-
-/* Calculate carrier extra attack power */
-$carriers = 40 * (isset($attack_array['carrier']) ? intval($attack_array['carrier']) : 0);
-if($carriers < 0) {
-    $array['status'] = "Did you just got carried away?";
-	$array['next'] = false;
-	echo json_encode($array);
-	exit;
-}
-$air_att_power = 0;
-$air_total = 0;
-foreach ($attack_array as $key => $count) {
-	/* calculate carrier extra attack power */
-	if($key != 'tomahawk'){
-		if($units[$key]['type'] == 'air'){
-			$air_att_power += $count * $units[$key]['attack'];
-			$air_total += $count;
-		}
-	}
-}
-if($air_total > $carriers){
-    $added_carrier_damage = ($air_att_power/$air_total)*$carriers*0.20;
-
-}else{
-    $added_carrier_damage = $air_att_power*0.20;
-}
-if($debug) debug_var('added_carrier_damage', $added_carrier_damage);
-
 /* start checking for damage split */
 $defAirTot = 0;
 $defSeaTot = 0;
@@ -265,7 +182,7 @@ foreach ($attack_array as $key => $count) {
 		$type_count 	= count($atk_types);
 
 		if($units[$key]['type'] == 'veh'){
-			$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti)+$added_dragon_damage;
+			$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti);
 			$typeMulti = 1;
 			$typeDif = $type_count-$typecountInit;
 
@@ -278,7 +195,7 @@ foreach ($attack_array as $key => $count) {
 			$atk_power_distrib = $atk_power_total*$typeMulti / max($type_count,1);
 		}
 		elseif($units[$key]['type'] == 'inf'){
-			$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti)+$added_apc_damage;
+			$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti);
 			$typeMulti = 1;
 			$typeDif = $type_count-$typecountInit;
 
@@ -291,7 +208,7 @@ foreach ($attack_array as $key => $count) {
 			$atk_power_distrib = $atk_power_total*$typeMulti / max($type_count,1);
 		}
 		elseif($units[$key]['type'] == 'air'){
-			$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti)+$added_carrier_damage;
+			$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti);
 			$typeMulti = 1;
 			$typeDif = $type_count-$typecountInit;
 
@@ -388,16 +305,6 @@ if($war_type == 'none') {
 		$attacker_type_damage[$type] = scaled_power_pvp($dmg, $userId, $target_id);
 	}
 }
-
-/* Building killer defense, half BK damage if land is lower than 10k * /
-if($defenderData['land'][0] < 7500){
-	$reduction = $defenderData['land'][0]/7500;
-	if($reduction <= 0.5){
-		$reduction = 0.5;
-	}
-	$attacker_type_damage['bld'] = $attacker_type_damage['bld']*$reduction;
-	if($debug) debug_var('Killer defense', true);
-}/* */
 
 // Scale building damage on clan size difference
 if($debug) debug_var('attacker_type_damage', print_r($attacker_type_damage,1));
@@ -702,15 +609,6 @@ if($result == 'success'){
 	    $land_stolen   = max(ceil($freeland * $STOLEN_LAND_RATIO * $resourceMulti * $aggressive_multi * $extraLandKill * resource_dice_roll()), 0);
 	    $money_stolen  = max(ceil($money * ($STOLEN_MONEY_RATIO * $resourceMulti*$extraLandKill) * resource_dice_roll()*$aggressive_multi), 0);
 	}
-    /*MEGA
-    //Divide land and money stolen if users clan is opting out of wars
-    $userclan = get_user_meta($userId, 'clan_id_user', true);
-    $useroptoutstatus=get_post_meta($userclan, 'optout_status',true);
-    if ($useroptoutstatus == "1") {
-        $land_stolen = ceil($land_stolen/2);
-        $money_stolen = ceil($money_stolen/2);
-    }
-	//Done*/
 
 	// Jaap, resources stolen based on clansize and nw-losses
 	$land_stolen = scaled_land_to_clansize($land_stolen, $userId, $target_id, $attacker_networth_lost, $defender_networth_lost);

@@ -13,7 +13,7 @@ if ('POST' != $_SERVER['REQUEST_METHOD']) {
 }
 
 require(dirname(__FILE__) . '/wp-load.php');
-include 'satellite_array.php';
+$satellites = Satellites::get();
 nocache_headers();
 
 
@@ -75,7 +75,7 @@ if($satInProgress != '0'){
     $array['next'] = false;
     echo json_encode($array);
     exit;
-	
+
 }
 if ($totalturns < 25) {
     $array['status'] = 'Not enough turns';
@@ -91,7 +91,7 @@ $args = array(
                 'post_author'   => $userId
                 );
                 $timestamp = current_time('timestamp');
-            
+
             $new_order_id = wp_insert_post($args);
             update_field('unit_type', $ordered, $new_order_id);
             update_field('user_placed_id', $userId, $new_order_id);
@@ -105,7 +105,7 @@ $args = array(
             update_user_meta($userId, 'sat_in_progress', $ordered);
             update_user_meta($userId, 'money', $totalmoney-$satcost);
             update_user_meta($userId, 'turns', $totalturns-25);
-            
+
 $array['status'] = $satellites[$ordered]['name'].' ordered';
 $array['money'] = $totalmoney-$satcost;
 $array['turns'] = $totalturns-25;

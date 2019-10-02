@@ -111,7 +111,8 @@ class CurrentUser extends User {
             $pathArray = array(
                 'dashboard', 'events', 'buildings', 'spy-report-overview', 'units', 'clan', 'clan-wars', 'satellites',
                 'buy', 'clan-information', 'player-statistics', 'users', 'clan-member-information', 'conversations',
-                'explore', 'bank', 'sell', 'missiles', 'orders', 'research', 'send-aid', 'all-clans', 'forum',''
+                'explore', 'bank', 'sell', 'missiles', 'orders', 'research', 'send-aid', 'all-clans', 'forum',
+                'send-message', ''
             );
             if(in_array(Request::part(0), $pathArray)) {
                 header("HTTP/1.0 401 Unauthorized");
@@ -202,6 +203,10 @@ class CurrentUser extends User {
         }
         if(in_array($my_userid, array(1,2,6,2768))) { // Admins may have multi's?
             if(isset($_GET['checkmulti'])) { die('Admin: not a multi'); }
+            return false;
+        }
+        if(Round::isDev() || Round::isTest()) {
+            if(isset($_GET['checkmulti'])) { die('Dev or Test, multi is ok'); }
             return false;
         }
 

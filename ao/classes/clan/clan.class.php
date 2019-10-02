@@ -19,6 +19,71 @@ class Clan extends PostObject {
         return array('success' => true, 'status' => 'Clan message updated', 'clanmessage' => $this->getMessage(true));
     }
 
+    function handleInvite($userId, $inviteKey, $target='Decline') {
+        $timestamp = current_time('timestamp');
+        $open_invites = $this->getOpenInvites();
+        if(!count($open_invites)) return array('status' => 'No invites found');
+        $province = Province::make($userId);
+        if(empty($province->get('id'))) return array('status' => 'No user found');
+
+        if($target == 'Accept') {
+            if(Round::isLive() && Round::timeLeft() < 172800) {
+                return array('status' => 'Cannot join a clan the last 48 hours of a round');
+            }
+            if($this->isFull()) {
+                return array('status' => 'Maximum number of clan members reached');
+            }
+            $clanMembers = $this->getMembers(); // user ids
+            $clanLeader = $this->getLeader(); // user id
+            foreach ($open_invites as $key => $invite) {
+                if($invite['invite'] == $inviteKey && $invite['clan'] == $this->get('id')) {
+                    if($invite['user'] != $userId) return array('status' => 'This is not the invite you\'re looking for');
+
+                    $province->update('clan_id_user', $this->get('id'));
+                    $province->update('clan_join_stamp', $timestamp+86400);
+                    $clanMembers[] = $userId;
+                    unset($open_invites[$key]);
+                    $this->update('clan_members', $clanMembers);
+                    $this->update('open_invites', $open_invites);
+                    update_post_meta($invite['invite_id'], 'invite_status', 'accept');
+
+                    $args = [
+                        'post_title' => 'Clan member joined a clan: '.$userId, 'post_status' => 'publish',
+                        'post_type' => 'event_local', 'post_author' => $clanLeader
+                    ];
+                    $newEventId = wp_insert_post( $args );
+                    update_field('attacktype', 'user_change', $newEventId);
+                    update_field('outcome', 'joined', $newEventId);
+                    update_field('attacker_id', $clanLeader, $newEventId);
+                    update_field('defender_id', $userId, $newEventId);
+                    update_field('attacker_clan_id', $this->get('id'), $newEventId);
+                    update_field('time_attacked', $timestamp, $newEventId);
+                    foreach ($clanMembers as $member_id) {
+                        $member = Province::make($member_id);
+                        $member->update('new_global_events', $member->get('new_global_events') + 1);
+                    }
+                    return array('success' => true, 'status' => "You are now a member of ".$this->getName());
+                }
+            }
+        }
+        else { // decline
+            foreach ($open_invites as $key => $invite) {
+                if ($invite['invite'] == $inviteKey && $invite['clan'] == $this->get('id')) {
+                    if($invite['user'] != $userId) return array('status' => 'This is not the invite you\'re looking for');
+                    unset($open_invites[$key]);
+                    update_post_meta($invite['invite_id'], 'invite_status', 'accept');
+                    $this->update('open_invites', $open_invites);
+                    return array('success' => true, 'status' => "You declined the invite of ".$this->getName());
+                }
+            }
+        }
+        return array('status' => 'Undefined error');
+    }
+
+    public function isFull() {
+        return count($this->getMembers()) >= Settings::get('clan_member_num');
+    }
+
     public function getLink() {
         return $this->get('link');
     }
@@ -65,6 +130,12 @@ class Clan extends PostObject {
         $members = $this->get('clan_members');
         if(!empty($members)) $members = unserialize($members);
         return (is_array($members) && count($members) ? $members : array());
+    }
+
+    public function getOpenInvites() {
+        $open_invites = maybe_unserialize(maybe_unserialize($this->get('open_invites')));
+        if(!is_array($open_invites)) $open_invites = array();
+        return $open_invites;
     }
 
     public function canEditMessage($user=null) {

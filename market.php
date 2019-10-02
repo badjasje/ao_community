@@ -105,7 +105,7 @@ if ($marketShippingLevel >= 2) {
     $hours = 6;
 }
 
-include 'units_array.php';
+$units = Units::get();
 
 // Collect totals from POST request.
 $totals = [];

@@ -1,13 +1,10 @@
 <?php
     require_once("wp-load.php");
-    
+
 global $userId;
 global $userData;
-    
-include 'satellite_array.php';
 
-
-
+$satellites = Satellites::get();
 
 if (empty($userId)) {
     wp_redirect(get_permalink(3582));
@@ -18,9 +15,9 @@ if (!is_user_logged_in()) {
     wp_redirect(get_permalink(3582));
     exit;
 }
-    
-    
-    
+
+
+
 $sat_owned = get_user_meta($userId, 'sat_owned', true);
 $demolishCost = $satellites[$sat_owned]['price'] * 0.2;
 
@@ -35,14 +32,14 @@ if ($demolishCost > $totalmoney) {
 
 update_user_meta($userId, 'sat_owned', 0);
 update_user_meta($userId, 'sat_endlife', 0);
-            
+
     $args = array(
         'post_title'    => 'Sat crash: '.$userId,
         'post_status'   => 'publish',
         'post_type'     => 'event_local',
         'post_author'   => $userId
         );
-        
+
     $new_event_id = wp_insert_post($args);
     update_field('attacktype', 'sat_crash', $new_event_id);
 
@@ -56,7 +53,7 @@ update_user_meta($userId, 'sat_endlife', 0);
     $event_count = get_user_meta($userId, 'new_events', true);
     update_user_meta($userId, 'new_events', $event_count + 1);
     update_user_meta($userId, 'money', $totalmoney - $demolishCost);
-    
+
     $_SESSION['status'] = 'Satellite demolished';
     wp_redirect(get_permalink(8578));
     exit;

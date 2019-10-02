@@ -3,7 +3,7 @@
  * Template Name: Satellite
 */
 get_header();
-include 'satellite_array.php';
+$satellites = Satellites::get();
 global $userId;
 global $userData;
 

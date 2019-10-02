@@ -1,149 +1,81 @@
 <?php
+/**
+ * Template Name: Read message
+ */
 get_header();
-global $userId;
 
-$backColor = "45, 67, 81";
-$author_id = $post->post_author;
+$user = CurrentUser::make();
+$conv = Conversation::make($post->ID);
+if(empty($conv->get('id'))) die('nope1');
 
-$mainmessage_ID = get_the_ID();
-$invite_hash = get_post_meta($mainmessage_ID,'invite_hash',true);
-
-$receiver_main 	= get_post_meta($mainmessage_ID, 'receiver_id', true);
-$sender_main	= get_post_meta($mainmessage_ID, 'sender_id', true);
-$messagearray = array($receiver_main,$sender_main,1);
-if(!in_array($userId, $messagearray)){
-	wp_redirect(get_permalink(3656));exit;
+if(!in_array($user->get('id'), array($conv->get('receiver_id'), $conv->get('sender_id'), 1))) {
+    wp_redirect(get_permalink(3656)); exit;
 }
+
+$messages = $conv->getMessages();
+$lastMsg = end($messages);
+if($lastMsg->getSender() != $user->get('id')) $conv->update('general_status', 'Read');
+$invite_hash = $conv->getInviteKey();
 ?>
 <div class="row pageRow">
     <?php
     if(empty($invite_hash)) {
-        $repeater = get_field('sub_messages_rep',$mainmessage_ID);
-        $noRows = count($repeater);
-        $last_row = end($repeater);
-        if($last_row['sender_id_rep'] != $userId){
-            update_post_meta($mainmessage_ID, 'general_status', 'Read');
-        }
-        $firstRow = $repeater[0];
-        if($firstRow['sender_id_rep'] != $userId){
-            $receiver_id = $firstRow['sender_id_rep'];
-        }
-        $count = 0;
-        while ( have_rows('sub_messages_rep') ) : the_row();
-            $sender_ID = get_sub_field('sender_id_rep');
-            $messageId = get_the_id();
-            $count++;
-            $idAdd = '';
-            if($count == $noRows) $idAdd = 'id="lastrow"';
-            $messageData = get_post_meta($messageId);
+
+        foreach($messages as $message) {
+            $sender = Province::make($message->getSender());
             ?>
-            <div <?php echo $idAdd;?> class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.75-(1/100);?>);">
-                <div class="col-md-1 col-no-padding sea_heading allUsersAvatarCol">
-                    <?php echo small_avatar($sender_ID,'allUsersAvatar');?>
-                    <span class="mobileUserName"><?php echo get_user_name($sender_ID);?></span>
-                    <span class="mobileUserName float-right"><?php echo date('H:i | d-m-Y', $messageData['last_update_stamp'][0]); ?></span>
+            <div class="blockHeader d-flex p-0">
+                <div class="d-none d-md-block">
+                    <?=$sender->getAvatar('allUsersAvatar')?>
+                    <span class="mobileUserName"><?=$sender->getLink(true)?></span>
                 </div>
-                <div class="col-md-9 celBlock allUsersNameCol">
-                    <?php echo get_user_name($sender_ID);?>
-                </div>
-                <div class="col-md-2 celBlock allUsersNameCol text-right">
-                    <?php echo date('H:i | d-m-Y', $messageData['last_update_stamp'][0]); ?>
-                </div>
+                <div class="col-7 px-3 py-2"><?=$sender->getLink(true)?></div>
+                <div class="col-5 col-md-4 px-3 py-2 text-right"><?=$message->getDate(true)?></div>
             </div>
-            <div class="row fw-row row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.35-(1/40);?>);">
-                <div class="col-md-12 celBlock">
-                    <?php echo str_replace("\r", "<br />", get_sub_field('message_rep'));?>
-                </div>
-            </div>
+            <div class="blockHeader spaceNotice"><?=$message->getText(true)?></div>
             <div class="pageSpacer"></div>
             <?php
-	    endwhile;
+        }
         ?>
+        <div id="lastrow"></div>
         <form class="form fw-row" id="message" method="post">
-            <input type="hidden" name="main_message" value="<?php echo $mainmessage_ID;?>">
-            <input type="hidden" name="receiver" value="<?php echo $receiver_id;?>">
+            <input type="hidden" name="receiver" value="<?=$conv->with($user->get('id'))?>">
+            <input type="hidden" name="main_message" value="<?=$conv->get('id')?>">
+            <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
             ​<textarea id="message" required rows="10" name="message" class="fw-row" placeholder="Your message..."></textarea>
             <input class="mainSubmit hoverEffect" type="submit" value="Send">
         </form>
-        <script>
-            (function($) {
-                var request;
-                $("#message").submit(function(event){
-                    $('.pageLoader, #page-cover').show();
-                    $('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
-
-                    event.preventDefault();
-                    if (request) { request.abort(); }
-
-                    var $form = $(this);
-                    var $inputs = $form.find("input, select, button, textarea");
-                    var serializedData = $form.serialize();
-
-                    request = $.ajax({url: "/message.php",type: "post",data: serializedData});
-                    request.done(function (response, textStatus, jqXHR){
-                        var array = JSON.parse(response);
-                        $.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
-                        if(array.next == true){
-                            $(".form").prepend(array.newmsg);
-                        }
-                        $('#message').trigger("reset");
-                    });
-                });
-            })(jQuery);
-        </script>
-    <?php } ?>
-
-    <?php
-    if(!empty($invite_hash)) {
-
-        $clan_ID = get_post_meta($mainmessage_ID,'clan_id_invited',true);
-        $invite_status = get_post_meta($mainmessage_ID,'invite_status',true);
-
-        if($userId == $author_id) {
-            $receiver_id = get_post_meta($mainmessage_ID,'receiver_id',true);
+        <?php
+    } else {
+        $clan_id = $conv->getClanId();
+        if($user->get('id') == $conv->get('author_id')) {
+            $receiver = Province::make($conv->get('receiver_id'));
             ?>
-            <div class="blockHeader">You sent this invite to <?php echo get_user_name($receiver_id);?></div>
+            <div class="blockHeader">You sent this invite to <?=$receiver->getLink(true)?></div>
             <?php
         }
+        else {
+            if($conv->get('invite_status') == 'accept') { ?>
+                <div class="blockHeader">You have used the clan invite</div>
+            <?php } else { ?>
+                <div class="blockHeader">You've been invited to join <?=Clan::make($clan_id)->getName()?> (# <?=$clan_id?>).</div>
+                <div class="fw-row px-3 py-2 statCol-1">If you wish to accept this invite, hit the accept button.</div>
+                <? if($user->get('id') != $conv->get('author_id')) { ?>
+                <form class="form fw-row" id="claninvite" method="post">
+                    <div class="row fw-row no-gutters inviteButtonRow">
+                        <input type="submit" class="col-md-6 mainSubmit secondButton" value="Accept">
+                        <input type="submit" class="col-md-6 mainSubmit fourthButton" value="Decline">
+                    </div>
+                    <input type="hidden" name="target" value="" class="target">
+                    <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
+                    <input type="hidden" name="hash" value="<?=$invite_hash?>">
+                    <input type="hidden" name="clan" value="<?=$clan_id?>">
+                </form>
+                <? }
+            }
+        }
+    } ?>
 
-        if($invite_status == 'accept') { ?>
-            <div class="blockHeader">You have used the clan invite</div>
-        <?php } else { ?>
-            <div class="blockHeader" style="border-bottom:0px;">You've been invited to join <?php echo get_the_title($clan_ID);?> (# <?php echo $clan_ID;?>). If you wish to accept this invite, hit the accept button.</div>
-            <? if($userId != $author_id) { ?>
-                <div class="row fw-row no-gutters profileButtonRow">
-                    <a class="col-md-6 profileButton invitebutton" style="background-color: rgba(70, 118, 94, 1);" data-target="accept" href="#">
-                        Accept
-                    </a>
-                    <a class="col-md-6 profileButton invitebutton" style="background-color: rgba(70, 118, 94, 0.9);" data-target="decline" href="#">
-                        Decline
-                    </a>
-                </div>
-                <script>
-                (function($) {
-                    var accept;
-                    $(document).on('click','.invitebutton',function(){
-                        $('.pageLoader, #page-cover').show();
-                        $('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
-                        var target = $(this).attr('data-target');
-                        accept = $.ajax({
-                            url: "/handleinvite.php",
-                            type: "post",
-                            data: '&hash=<?php echo $invite_hash;?>&target='+target+'&clan=<?php echo $clan_ID;?>'
-                        });
-                        accept.done(function (response, textStatus, jqXHR){
-                            $('.profileButtonRow').remove();
-                            $('.blockHeader').html('You have used the clan invite');
-                            var response = $.parseJSON(response);
-                            $.notify({message: response.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
-                        });
-                    });
-                })(jQuery);
-                </script>
-            <? } ?>
-        <?php } ?>
-    <?php } ?>
-
-</div> <!-- end .pageRow -->
+</div>
 <?php
 get_footer();
