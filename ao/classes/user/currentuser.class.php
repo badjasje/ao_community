@@ -47,8 +47,15 @@ class CurrentUser extends User {
                     'useragent' => $_SERVER['HTTP_USER_AGENT'],
                     'login_string' => hash('sha512', $token . $time . $_SERVER['HTTP_USER_AGENT']),
                     'token' => $token,
-                    'session_started' => $time
+                    'session_started' => $time,
+                    'is_multi' => $this->isMulti()
                 );
+            }
+
+            if(isset($_SESSION['user']['is_multi']) && $_SESSION['user']['is_multi']==true) {
+                $this->logoutEverywhere();
+                echo 'Please login with your own account. <a href="'. Request::siteUrl() .'">Back</a>';
+                die();
             }
 
             // Only really die when coming online
