@@ -72,14 +72,7 @@ if ($specialUnitSpace < 0) {
     $specialUnitSpace = 0;
 }
 
-$specialUnitsArray = [
-    'spyplane',
-    'sniper',
-    'thief',
-    'saboteur',
-    'spy'
-];
-
+$specialUnitsArray = Settings::get('special_units');
 
 // Determine market discount multiplier
 $marketDiscountLevel = $userData['level_market_discount'][0];
@@ -108,33 +101,19 @@ if ($marketShippingLevel >= 2) {
 $units = Units::get();
 
 // Collect totals from POST request.
-$totals = [];
+$totals = array(
+    'special' => array('order' => 0, 'already_ordered' => 0, 'owned' => 0)
+);
 $totalUnitsOrdered = 0;
 $totalOrderAmount = 0.0;
 foreach ($units as $key => $order) {
     $type = $order['type'];
-    if (!isset($totals[$type])) {
-        $totals[$type] = [
-            'order' => 0,
-            'already_ordered' => 0,
-            'owned' => 0
-        ];
-    }
-    if (!isset($totals['special'])) {
-        $totals['special'] = [
-            'order' => 0,
-            'already_ordered' => 0,
-            'owned' => 0
-        ];
-    }
+    if (!isset($totals[$type])) $totals[$type] = array('order' => 0, 'already_ordered' => 0, 'owned' => 0);
 
     if (isset($_POST[$key])) {
         $orderedUnits = abs(ceil($_POST[$key]));
         $totalUnitsOrdered += $orderedUnits;
-
-        if (in_array($key, $specialUnitsArray)) {
-            $totals['special']['order'] += $orderedUnits;
-        }
+        if (in_array($key, $specialUnitsArray)) $totals['special']['order'] += $orderedUnits;
         $totals[$type]['order'] += $orderedUnits;
     }
 
@@ -144,7 +123,7 @@ foreach ($units as $key => $order) {
     $totals[$type]['owned'] = $userData[$key.'_owned'][0];
     if (in_array($key, $specialUnitsArray)) {
         $totals['special']['already_ordered'] += is_numeric($ordered) ? $ordered : 0;
-        $totals['special']['owned'] = $orderedUnits;
+        $totals['special']['owned'] = $userData[$key.'_owned'][0];
     }
 
     $totalOrderAmount += ceil(($order['price'] * 2.2) * $discount) * $orderedUnits;

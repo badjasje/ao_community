@@ -64,7 +64,7 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
 									<td class="price"><?=Format::money($unit['price'])?></td>
 									<td class="attacklife"><?=$unit['attack']?>/<?=$unit['life']?></td>
 									<td class="targets"><?=$canAttack?></td>
-									<td class="owned"><?=$unit['num']?></td>
+									<td class="owned"><?=$unit['num']?><?=($unit['ordered']>0?' ('.$unit['ordered'].')':'')?></td>
 									<td class="maxBlock buildmax" data-amount="<?=$unit['maxbuild']?>"><?=$unit['maxbuild']?></td>
 									<td class="inputBlock buildBlock">
 										<input class="unitInput" min="0" max="<?=$unit['maxbuild']?>" tabindex="<?=$count?>" type="number" name="build[<?=$unitKey?>]">
