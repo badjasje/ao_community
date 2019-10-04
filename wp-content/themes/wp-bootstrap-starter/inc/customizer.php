@@ -240,11 +240,11 @@ add_action( 'customize_register', 'wp_bootstrap_starter_customize_register' );
 add_action( 'wp_head', 'wp_bootstrap_starter_customizer_css');
 function wp_bootstrap_starter_customizer_css()
 {
-    ?>
+    /* NO INLINE STYLES! BAH ?>
     <style type="text/css">
         #page-sub-header { background: <?php echo get_theme_mod('header_bg_color_setting', '#fff'); ?>; }
     </style>
-    <?php
+    <?php*/
 }
 
 

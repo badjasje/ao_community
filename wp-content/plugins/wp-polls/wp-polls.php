@@ -181,7 +181,7 @@ function poll_scripts() {
 			wp_enqueue_style('wp-polls-rtl', plugins_url('wp-polls/polls-css-rtl.css'), false, WP_POLLS_VERSION, 'all');
 		}
 	}
-	$pollbar = get_option( 'poll_bar' );
+	/*$pollbar = get_option( 'poll_bar' );
 	if( $pollbar['style'] === 'use_css' ) {
 		$pollbar_css = '.wp-polls .pollbar {'."\n";
 		$pollbar_css .= "\t".'margin: 1px;'."\n";
@@ -201,7 +201,7 @@ function poll_scripts() {
 		$pollbar_css .= "\t".'border: 1px solid #'.$pollbar['border'].';'."\n";
 		$pollbar_css .= '}'."\n";
 	}
-	wp_add_inline_style( 'wp-polls', $pollbar_css );
+	wp_add_inline_style( 'wp-polls', $pollbar_css );*/
 	$poll_ajax_style = get_option('poll_ajax_style');
 	wp_enqueue_script('wp-polls', plugins_url('wp-polls/polls-js.js'), array('jquery'), WP_POLLS_VERSION, true);
 	wp_localize_script('wp-polls', 'pollsL10n', array(

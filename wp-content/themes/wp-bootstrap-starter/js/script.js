@@ -63,7 +63,10 @@ function update_countdowns() {
     });
 }
 
+var site_url;
 jQuery(function($) {
+
+    site_url = $('body').data('siteurl');
 
     function standardNotify(msg) {
         $.notify({message:msg},{type:'info',delay:5000,allow_dismiss:true,newest_on_top:true});
@@ -78,6 +81,7 @@ jQuery(function($) {
 
     // Wrapper function for most ajaxCalls
     var requests={};
+    jQuery.ajaxSetup({cache: false});
     function singleAjax(url,post,cb) {
         //var $ = jQuery;
         if(!!requests[url]) requests[url].abort();
