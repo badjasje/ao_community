@@ -14,8 +14,9 @@ nocache_headers();
 $array['imagechanged'] = false;
 $array['usernamechanged'] = false;
 $userId = get_current_user_id();
+$username = trim(preg_replace('/[^A-Za-z0-9\- ]/', '', $_POST['username'])); // maybe?
 
-if(!empty($_POST['newuserimage'])){
+if(!empty($_POST['newuserimage'])) {
 	$wp_upload_dir = wp_upload_dir();
 	$newuserimage = $wp_upload_dir['url'] . '/' . $_POST['newuserimage'];
 	update_user_meta($userId, 'avatar_user', $newuserimage);
@@ -23,23 +24,19 @@ if(!empty($_POST['newuserimage'])){
 	$array['imagechanged'] = true;
 }
 
-if (!empty($_POST['username'])) {
+if (!empty($username)) {
     if (get_user_meta($userId, 'name_change_counter', true) != 1 || get_field('game_status', 'option') == 'Pause') {
-		$username = trim($_POST['username']);
-
 		$args= array('search' => $username, 'search_fields' => array('display_name'));
 		$user = new WP_User_Query($args);
-	    $users = count($user->results);
-	    if ($user->results[0]->data->ID != $userId) {
-	        if ($users >= 1) $message = 'Username already exists';
+	    if (count($user->results)) {
+			if($user->results[0]->data->ID != $userId) $message = 'Username already exists';
 	    }
-
-	    if (strtolower($username) != strtolower($user->results[0]->data->display_name)) {
+		else {
 			wp_update_user(array( 'ID' => $userId, 'display_name' => $username ));
 			update_user_meta($userId, 'name_change_counter', 1);
 			$message = 'Username updated';
 			if(get_field('game_status', 'option') == 'Live') $array['usernamechanged'] = true;
-	    }
+		}
     } else $message = 'Username already changed this round';
 }
 

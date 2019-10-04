@@ -22,7 +22,7 @@ $changecount = isset( $clanData['clan_name_change']) ? $clanData['clan_name_chan
 if(get_field('game_status', 'option') != 'Live') $changecount = 0;
 $data = maybe_unserialize( $_POST );
 $clanTag = trim($data['clantag']);
-$clanName = trim($data['clanname']);
+$clanName = trim(preg_replace('/[^A-Za-z0-9\- ]/', '', $data['clanname']));
 $array = array('clan_updated' => false, 'status' => 'Unknown error');
 
 if ($userId == $clanleader && $clan_ID == $data['id'] && (empty($changecount) || $changecount != 1)) {
