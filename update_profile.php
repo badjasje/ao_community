@@ -25,7 +25,7 @@ if(!empty($_POST['newuserimage'])){
 
 if (!empty($_POST['username'])) {
     if (get_user_meta($userId, 'name_change_counter', true) != 1 || get_field('game_status', 'option') == 'Pause') {
-		$args= array('search' => ctype_space($_POST['username']), 'search_fields' => array('display_name'));
+		$args= array('search' => trim($_POST['username']), 'search_fields' => array('display_name'));
 
 		$user = new WP_User_Query($args);
 	    $users = count($user->results);

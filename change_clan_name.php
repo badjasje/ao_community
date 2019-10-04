@@ -18,11 +18,11 @@ global $userData;
 $clan_ID = $userData['clan_id_user'][0];
 $clanData = get_post_meta($clan_ID);
 $clanleader = $clanData['clan_leader'][0];
-$changecount = $clanData['clan_name_change'][0];
+$changecount = isset( $clanData['clan_name_change']) ? $clanData['clan_name_change'][0] : 0;
 if(get_field('game_status', 'option') != 'Live') $changecount = 0;
 $data = maybe_unserialize( $_POST );
-$clanTag = ctype_space($data['clantag']);
-$clanName = ctype_space($data['clanname']);
+$clanTag = trim($data['clantag']);
+$clanName = trim($data['clanname']);
 $array = array('clan_updated' => false, 'status' => 'Unknown error');
 
 if ($userId == $clanleader && $clan_ID == $data['id'] && (empty($changecount) || $changecount != 1)) {
@@ -33,13 +33,13 @@ if ($userId == $clanleader && $clan_ID == $data['id'] && (empty($changecount) ||
         // Check if tag or name exists.
         $clans = get_posts(['numberposts' => -1, 'post_type' => 'clan', 'meta_key' => 'clan_tag', 'meta_value' => $clanTag]);
         if(count($clans) > 0 && $clans[0]->ID != $clan_ID) {
-            $array['status'] = 'This clan tag already exists';
+            $array['status'] = 'This clan tag already exists1';
         }
         else {
             $slug = strtolower($clanName);
             $clans = get_posts(array('post_type' => 'clan', 'posts_per_page' => -1, 'name' => $slug));
             if(count($clans) > 0&& $clans[0]->ID != $clan_ID) {
-                $array['status'] = 'This clan name already exists';
+                $array['status'] = 'This clan name already exists2';
             }
             else {
                 $my_post = array('ID' => $clan_ID, 'post_title' => $clanName);
