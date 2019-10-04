@@ -1,0 +1,26 @@
+
+@import url('https://fonts.googleapis.com/css?family=Cormorant+Upright|Libre+Baskerville&display=swap');
+
+.titleBackWrapper {
+    background:url(../img/ice.png) repeat-x center top;
+    background-size: auto;
+}
+
+.pageTitle  { font-family:'Cormorant Upright', serif; background: none; }
+#content.site-content {
+    background-image: url(../img/bg.jpg);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-color: #122239;
+}
+
+.page-template-page-dashboard .pageRow  { background:none; }
+
+.blockHeader, .successHeader, .medal_header strong {
+    font-family:'Libre Baskerville', serif; background-color: #2d4350; font-weight:normal;
+}
+.blockHeader.spaceNotice, .clanMessage { font-family: 'Source Sans Pro', sans-serif; background: #cfcfcf; }
+.clanMessage { background: #313d43; }
+
+body:not(.theme-preset-active) footer#colophon { background-color: #7b0c00; }
+.footer-nav h4 { color: #FFF; font-family: 'Cormorant Upright', serif; }

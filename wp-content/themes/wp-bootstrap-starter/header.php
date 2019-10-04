@@ -44,6 +44,9 @@ $timeLeft = Market::timeLeft();
 	<link rel="icon" type="image/png" href="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/img/favicon.png">
 	<link rel="manifest" href="<?=Request::siteUrl()?>/manifest.json">
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-40825301-45"></script>
+	<? if(in_array(date('d-m'), array('24-12','25-12','26-12'))) { ?>
+	<link href="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/css/hohoho.css" rel="stylesheet" />
+	<? } ?>
 </head>
 
 <body <?php body_class(array(($menuOpen?'menuOpen':''),'game-type-'.Round::get('type'))) ?> data-siteurl="<?=Request::siteUrl()?>">
