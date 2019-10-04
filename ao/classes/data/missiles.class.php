@@ -1,6 +1,10 @@
 <?php
 class Missiles extends DataObject {
 
+    static public function get($key=null) {
+        return (date('d-m')=='01-04' ? shuffle_assoc(parent::get($key)) : parent::get($key));
+    }
+
     static $data = array(
         'nuke'      => array(
             'price'         =>  '125000',

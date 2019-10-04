@@ -3,6 +3,10 @@ class Buildings extends DataObject {
 
     // The province specific description for powerplants and AMS is in Province::getBuildings
 
+    static public function get($key=null) {
+        return (date('d-m')=='01-04' ? shuffle_assoc(parent::get($key)) : parent::get($key));
+    }
+
     static $data = array(
         'silo'          => array(
             'price'         =>  '22000',
