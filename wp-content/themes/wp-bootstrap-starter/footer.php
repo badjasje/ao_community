@@ -78,6 +78,22 @@ if(!is_page_template('blank-page.php') && !is_page_template('blank-page-with-con
 </div>
 <?php $_SESSION['showError']=false; } ?>
 
+<link href="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/css/select2.min.css" rel="stylesheet" />
+<script src="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/js/select2.min.js"></script>
+
+<link href="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/css/dropzone.css" rel="stylesheet">
+<script src="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/js/dropzone.js"></script>
+
+<?/* Unused
+<script type='text/javascript' src='<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/js/jquery.countdown.min.js?ver=4.9.4'></script>
+*/?>
+<script type='text/javascript' src='<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/js/sortingdivs.js'></script>
+<?/* Crap ass Google crap */ ?>
+<script src="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/js/firebase-app.js"></script>
+<script src="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/js/firebase-messaging.js"></script>
+<script src="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/js/firebase-functions.js"></script>
+<? /* */ ?>
+
 <?php wp_footer(); ?>
 </body>
 </html>

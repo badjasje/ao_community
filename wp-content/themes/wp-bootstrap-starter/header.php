@@ -36,31 +36,26 @@ $timeLeft = Market::timeLeft();
     <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>">
 	<?php
 	wp_head();
-	?>
-	<script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
-	<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-	<script type='text/javascript' src='<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/js/jquery.countdown.min.js?ver=4.9.4'></script>
-	<script type='text/javascript' src='<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/js/sortingdivs.js'></script>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+	/* not needed because of fontawesome 4 from forum
 	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" data-auto-add-css="false" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
 	<link href="https://use.fontawesome.com/releases/v5.0.13/css/svg-with-js.css" rel="stylesheet" />
-	<script>jQuery.ajaxSetup({cache: false});var site_url = '<?=Request::siteUrl()?>';</script>
+	*/?>
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 	<link rel="icon" type="image/png" href="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/img/favicon.png">
 	<link rel="manifest" href="<?=Request::siteUrl()?>/manifest.json">
-	<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1603414756640075&ev=PageView&noscript=1" /></noscript>
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-40825301-45"></script>
-	<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-messaging.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-functions.js"></script>
+	<? if(in_array(date('d-m'), array('24-12','25-12','26-12'))) { ?>
+	<link href="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/css/hohoho.css" rel="stylesheet" />
+	<? } ?>
 </head>
 
-<body <?php body_class(array(($menuOpen?'menuOpen':''),'game-type-'.Round::get('type'))) ?>>
-
+<body <?php body_class(array(($menuOpen?'menuOpen':''),'game-type-'.Round::get('type'))) ?> data-siteurl="<?=Request::siteUrl()?>">
+	<?/* noscript? really?
 	<!-- Google Tag Manager (noscript) -->
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXGKNL3" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	<!-- End Google Tag Manager (noscript) -->
+	<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1603414756640075&ev=PageView&noscript=1" /></noscript>
+	*/?>
 	<script>fbq('track', 'ViewContent', {value: 1,content_ids: '<?php echo get_the_title();?>'});</script>
 
 	<div id="splashback" class=""></div>

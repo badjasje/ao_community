@@ -1,6 +1,11 @@
 <?php
 class Researches extends DataObject {
 
+    static public function get($key=null) {
+        return (date('d-m')=='01-04' ? shuffle_assoc(parent::get($key)) : parent::get($key));
+    }
+
+
     static $data = array(
         'money_production'          => array(
             'name'                  => 'Money production',

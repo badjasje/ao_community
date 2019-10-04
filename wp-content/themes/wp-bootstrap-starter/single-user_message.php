@@ -13,8 +13,10 @@ if(!in_array($user->get('id'), array($conv->get('receiver_id'), $conv->get('send
 }
 
 $messages = $conv->getMessages();
-$lastMsg = end($messages);
-if($lastMsg->getSender() != $user->get('id')) $conv->update('general_status', 'Read');
+if(count($messages)) {
+    $lastMsg = end($messages);
+    if($lastMsg->getSender() != $user->get('id')) $conv->update('general_status', 'Read');
+}
 $invite_hash = $conv->getInviteKey();
 ?>
 <div class="row pageRow">

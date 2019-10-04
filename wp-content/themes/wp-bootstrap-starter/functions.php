@@ -158,8 +158,8 @@ add_action( 'widgets_init', 'wp_bootstrap_starter_widgets_init' );
 function wp_bootstrap_starter_scripts() {
 	wp_register_script('hullabaloo', get_template_directory_uri().'/js/bootstrap-notify.js','','',true);
 	wp_enqueue_script('hullabaloo');
-	wp_register_script('countdown', get_template_directory_uri().'/js/jquery.countdown.min.js','','',true);
-	wp_enqueue_script('countdown');
+	//wp_register_script('countdown', get_template_directory_uri().'/js/jquery.countdown.min.js','','',true);
+	//wp_enqueue_script('countdown');
 	wp_register_script('numberformat', get_template_directory_uri().'/js/number_format.js','','',true);
 	wp_enqueue_script('numberformat');
 	wp_enqueue_style('flaticons', get_template_directory_uri() . '/inc/assets/fonts/flaticon.css');
@@ -177,8 +177,8 @@ function wp_bootstrap_starter_scripts() {
 	wp_enqueue_script('jquery');
 
     // Internet Explorer HTML5 support
-    wp_enqueue_script('html5hiv', get_template_directory_uri().'/inc/assets/js/html5.js', array(), '3.7.0', false );
-    wp_script_add_data('html5hiv', 'conditional', 'lt IE 9');
+    //wp_enqueue_script('html5hiv', get_template_directory_uri().'/inc/assets/js/html5.js', array(), '3.7.0', false );
+    //wp_script_add_data('html5hiv', 'conditional', 'lt IE 9');
 
 	// load bootstrap js
     wp_enqueue_script('wp-bootstrap-starter-popper', get_template_directory_uri() . '/inc/assets/js/popper.min.js', array() );
@@ -186,7 +186,7 @@ function wp_bootstrap_starter_scripts() {
 	wp_enqueue_script('wp-bootstrap-starter-themejs', get_template_directory_uri() . '/inc/assets/js/theme-script.js', array() );
 	wp_enqueue_script('wp-bootstrap-starter-scriptjs', get_template_directory_uri() . '/js/script.js', array(),
 		filemtime(get_theme_file_path().'/js/script.js'));
-	wp_enqueue_script('wp-bootstrap-starter-skip-link-focus-fix', get_template_directory_uri() . '/inc/assets/js/skip-link-focus-fix.js', array(), '20151215', true );
+	//wp_enqueue_script('wp-bootstrap-starter-skip-link-focus-fix', get_template_directory_uri() . '/inc/assets/js/skip-link-focus-fix.js', array(), '20151215', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );

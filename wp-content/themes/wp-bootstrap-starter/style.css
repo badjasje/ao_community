@@ -292,7 +292,7 @@ header#masthead {
     z-index: 3;
     top:0;
 }
-.logged-in header#masthead { background-color: #ddd; }
+.logged-in header#masthead { background-color: #000; }
 .navbar-brand > a {
     color: rgba(0, 0, 0, 0.9);
     font-size: 1.1rem;
@@ -1008,7 +1008,6 @@ body:not(.theme-preset-active) footer#colophon {
 	margin-left:41px;
 	margin-right:0px;
 	height: 41px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 .menuAvatar,.eventAvatar {
     border-radius: 0px;
@@ -1030,7 +1029,6 @@ body:not(.theme-preset-active) footer#colophon {
 }
 .statitem{
 	text-align: center;
-    background-color: #ccc;
     padding-left: 5px;
     padding-right: 5px;
     white-space: nowrap;
@@ -1115,7 +1113,8 @@ input[type="radio"]:checked + label {
 }
 .pageRow{
 	margin: 25px;
-	width: 100%;
+    width: 100%;
+    background: #CCC;
 }
 .contentRow,.mainContainer {
     margin:0px;
@@ -1551,7 +1550,8 @@ input[type="radio"]:checked + label {
   color: #fff;
 }
 .clanMessageRow{
-	padding:0px;
+    padding:0;
+    background: #b3b3b3;
 }
 .pageSpacer{
 	padding: 12.5px;
