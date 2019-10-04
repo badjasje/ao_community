@@ -193,10 +193,6 @@ update_post_meta($clan_id, 'clan_networth', ceil($tot_networth));
 
     <?php include('pages/clan/members.php'); ?>
 
-    <script type="text/javascript">
-        initReadMore("awardlist",   "awardlistExpandBtn",   164);
-    </script>
-
     <div class="pageSpacer"></div>
 
 </div> <!-- // pageRow -->
