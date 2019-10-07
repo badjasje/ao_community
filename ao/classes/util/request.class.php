@@ -169,8 +169,8 @@ class Request {
         $output = json_decode($geo);
         $currentIsp = $output->data->geo->isp;
         $blocklist = array(
-            'Highwinds Network Group, Inc.','Highwinds Network Group','ZSCALER, INC.',
-            'Micfo, LLC.','M247 Ltd','StackPath LLC','M247 Ltd.'
+            'Highwinds Network Group, Inc.', 'Highwinds Network Group', 'ZSCALER, INC.',
+            'Micfo, LLC.', 'M247 Ltd', 'StackPath LLC', 'M247 Ltd.'
         );
         if(in_array($currentIsp, $blocklist)) return true;
         return false;
