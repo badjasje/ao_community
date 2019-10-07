@@ -153,9 +153,7 @@ class Province extends DbObject {
      * Public province data (viewable for everyone)
      */
     public function isOnline() {
-        $timestamp = current_time('timestamp');
-        $last_online = $this->get('last_online');
-        return (!empty($last_online) ? ($timestamp - $last_online < Settings::get('online_status_time')) : false);
+        return User::make($this->id)->isOnline();
     }
 
     public function getName($format=false) {
@@ -168,29 +166,12 @@ class Province extends DbObject {
         return $this->getName(false).' (#'.$this->get('id').')' . $icon . ($this->isOnline()?' <span class="online">*</span>':'');
     }
 
-    public function getLink($format=false) { // @todo: make a permalink for users
-        if(!$format) return Request::siteUrl().'/users/profile/?id='.$this->id;
-        return '<a class="memberField" href="'.$this->getLink(false).'">'.$this->getName(true).'</a>';
+    public function getLink($format=false) {
+        return User::make($this->id)->getLink($format);
     }
 
     public function getAvatar($classes='') {
-        $avatar = $this->get('avatar_user');
-        $classes = array_merge( (!is_array($classes) ? array($classes) : array()), array('setAvatar'));
-        $return = '<a href="'.$this->getLink().'" title="'.$this->getName().'">';
-        if(!empty($avatar)) {
-            $avatar = str_replace("http://", "https://", $avatar);
-            $return .= '<div class="'. implode(' ', $classes) .'" style="background: url(\''.$avatar.'\');"></div>';
-        }
-        else {
-            // @todo Change this to classes to avoid inline css
-            $map = array('A'=>'#2D434E','B'=>'#607782','C'=>'#425D69','D'=>'#1B3642','E'=>'#0D2632','F'=>'#343855','G'=>'#6C708E','H'=>'#4C5173',
-            'I'=>'#212648','J'=>'#121636','K'=>'#315842','L'=>'#6A937C','M'=>'#49775D','N'=>'#1C4B31','O'=>'#0D3820','P'=>'#7B6C44','Q'=>'#CEBE95',
-            'R'=>'#CEBE95','S'=>'#A79566','T'=>'#695728','U'=>'#4F3E12','V'=>'#7B5044','W'=>'#CEA195','X'=>'#A77366','Y'=>'#693528','Z'=>'#4F1F12');
-            $firstletter = strtoupper(substr($this->getName(), 0, 1));
-            $color = (isset($map[$firstletter]) ? $map[$firstletter] : '#2D434E');
-            $return .= '<div class="'. implode(' ', $classes) .'" style="background-color:'. $color .';">'. $firstletter .'</div>';
-        }
-        return $return .'</a>';
+        return User::make($this->id)->getAvatar($classes);
     }
 
     public function getNetworth($format=false) {
@@ -309,18 +290,7 @@ class Province extends DbObject {
         return ($format ? Format::position($n) : $n); // dynamic format
     }
 
-    /**
-     *  Event functions
-     */
-    public function getGlobalNum($format=false) {
-        return intval($this->get('new_global_events'));
-    }
-    public function getLocalNum($format=false) {
-        return intval($this->get('new_events'));
-    }
-    public function getMessageNum($format=false) {
-        return intval($this->get('new_messages'));
-    }
+
 
     /**
      * Used on dashboard

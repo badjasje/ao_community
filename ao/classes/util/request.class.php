@@ -6,7 +6,9 @@ class Request {
     public static $parts;
     public static $query;
     public static $ajax_paths = array(
-        'header' => array('province','header'),
+        'header' => array('user','header'),
+        'message' => array('user','message'),
+
         'devfunds' => array('province','devfunds'),
         'startingbonus' => array('province','startingbonus'),
         'removenp' => array('province','removenp'),
@@ -18,7 +20,7 @@ class Request {
         'buildings' => array('province','buildings'),
         'units' => array('province','units'),
         'sendaid' => array('province','sendaid'),
-        'message' => array('province','message'),
+
         'clanbonus' => array('clan', 'bonus'),
         'claninvite' => array('clan','invite'),
         'clanmessage' => array('clan','setmessage'),

@@ -12,6 +12,7 @@ class User extends DbObject {
         'nickname','name_change_counter','first_name','last_name','avatar_user','status',
         'description','phone_number','first_visit','last_online','user_lock',
         'telegram_key','high_power_notified','low_power_notified','low_buildings_notified','last_summary',
+        'new_global_events','new_events','new_messages',
     );
     public $province = false;
 
@@ -60,6 +61,12 @@ class User extends DbObject {
     public function isAdmin() {
         return (isset($this->id) && in_array($this->id, Settings::get('admin_ids'))); // can this even BE more ugly?
     }
+    public function isOnline() {
+        $timestamp = current_time('timestamp');
+        $last_online = $this->get('last_online');
+        return (!empty($last_online) ? ($timestamp - $last_online < Settings::get('online_status_time')) : false);
+    }
+
     public function getProvince() {
         return $this->get('province');
     }
@@ -91,9 +98,54 @@ class User extends DbObject {
         return $this->get('nicename');
     }
 
+    public function getName($format=false) {
+        if(!$format) return $this->get('display_name');
+        if($this->isBanned()) return '<strike>'.$this->get('display_name').'</strike> <strong>banned</strong>';
+
+        return $this->getName(false).' (#'.$this->get('id').')' . ($this->isOnline()?' <span class="online">*</span>':'');
+    }
+
+    public function getLink($format=false) { // @todo: make a permalink for users
+        if(!$format) return Request::siteUrl().'/users/profile/?id='.$this->id;
+        return '<a class="memberField" href="'.$this->getLink(false).'">'.$this->getName(true).'</a>';
+    }
+
+    public function getAvatar($classes='') {
+        $avatar = $this->get('avatar_user');
+        $classes = array_merge( (!is_array($classes) ? array($classes) : array()), array('setAvatar'));
+        $return = '<a href="'.$this->getLink().'" title="'.$this->getName().'">';
+        if(!empty($avatar)) {
+            $avatar = str_replace("http://", "https://", $avatar);
+            $return .= '<div class="'. implode(' ', $classes) .'" style="background: url(\''.$avatar.'\');"></div>';
+        }
+        else {
+            // @todo Change this to classes to avoid inline css
+            $map = array('A'=>'#2D434E','B'=>'#607782','C'=>'#425D69','D'=>'#1B3642','E'=>'#0D2632','F'=>'#343855','G'=>'#6C708E','H'=>'#4C5173',
+            'I'=>'#212648','J'=>'#121636','K'=>'#315842','L'=>'#6A937C','M'=>'#49775D','N'=>'#1C4B31','O'=>'#0D3820','P'=>'#7B6C44','Q'=>'#CEBE95',
+            'R'=>'#CEBE95','S'=>'#A79566','T'=>'#695728','U'=>'#4F3E12','V'=>'#7B5044','W'=>'#CEA195','X'=>'#A77366','Y'=>'#693528','Z'=>'#4F1F12');
+            $firstletter = strtoupper(substr($this->getName(), 0, 1));
+            $color = (isset($map[$firstletter]) ? $map[$firstletter] : '#2D434E');
+            $return .= '<div class="'. implode(' ', $classes) .'" style="background-color:'. $color .';">'. $firstletter .'</div>';
+        }
+        return $return .'</a>';
+    }
+
     public function getLoginData($format=false) {
         $data = maybe_unserialize($this->get('logindata'));
         return ($format==true ? '<pre>'. print_r($data,1) .'</pre>' : $data);
+    }
+
+    /**
+     *  Event functions
+     */
+    public function getGlobalNum($format=false) {
+        return intval($this->get('new_global_events'));
+    }
+    public function getLocalNum($format=false) {
+        return intval($this->get('new_events'));
+    }
+    public function getMessageNum($format=false) {
+        return intval($this->get('new_messages'));
     }
 
     /*public function getUsernamelink() {
