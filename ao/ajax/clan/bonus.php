@@ -1,6 +1,6 @@
 <?php
 
-function ajax_clanbonus($province, $return) {
+function ajax_bonus($province, $return) {
     if(!Round::isLive()) return array('status' => 'Game is paused.');
     $bonus = Bonus::make(intval(Request::post('id')));
     if($bonus->get('id')==0) return array('status' => 'No such bonus.');

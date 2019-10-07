@@ -1,6 +1,6 @@
 <?php
 
-function ajax_claninvite($province, $return) {
+function ajax_invite($province, $return) {
     if(!empty($province->get('clan_id_user'))) return array('status' => 'You are already a member of a clan');
     $inviteKey = Request::post('hash');
     $clan_id = Request::post('clan');

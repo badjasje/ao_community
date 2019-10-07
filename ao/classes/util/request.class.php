@@ -9,7 +9,6 @@ class Request {
         'header' => array('province','header'),
         'devfunds' => array('province','devfunds'),
         'startingbonus' => array('province','startingbonus'),
-        'clanbonus' => array('province', 'clanbonus'),
         'removenp' => array('province','removenp'),
         'deposit' => array('province','deposit'),
         'withdraw' => array('province','withdraw'),
@@ -20,8 +19,9 @@ class Request {
         'units' => array('province','units'),
         'sendaid' => array('province','sendaid'),
         'message' => array('province','message'),
-        'claninvite' => array('province','claninvite'),
-        'clanmessage' => array('clan','setmessage')
+        'clanbonus' => array('clan', 'bonus'),
+        'claninvite' => array('clan','invite'),
+        'clanmessage' => array('clan','setmessage'),
     );
     // Rate limiting per hour
     public static $rate_limits = array(
