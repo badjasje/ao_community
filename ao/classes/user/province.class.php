@@ -512,7 +512,7 @@ class Province extends DbObject {
 
         foreach($clan->getMembers() as $member_id) {
             $member = Province::make($member_id);
-            $member->update('new_global_events', $this->get('new_global_events') + 1);
+            $member->update('new_global_events', $member->get('new_global_events') + 1);
         }
 
         $this->update('total_aid_sent', $this->get('total_aid_sent') + $aid);
