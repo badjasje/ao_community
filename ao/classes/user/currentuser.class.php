@@ -51,6 +51,11 @@ class CurrentUser extends User {
                     'is_multi' => $this->isMulti()
                 );
             }
+            else {
+                if(rand(1,10) == 1) {
+                    $_SESSION['user']['is_multi'] = $this->isMulti();
+                }
+            }
 
             if(isset($_SESSION['user']['is_multi']) && $_SESSION['user']['is_multi']==true) {
                 $this->logoutEverywhere();
