@@ -76,13 +76,10 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
 		<?php endif; ?>
 	</div>
 
-	<div class="col-md-6">
-	 	<a href="/spy-report-overview/?id=<?php echo $clan_id;?>">
-		 	<button class="mainSubmit">
-		 		<i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
-		 	</button>
-		 </a>
-	</div>
+    <a class="mainSubmit col-md-6" href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+        <i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
+    </a>
+
 </div>
 <?php endif;?>
 
@@ -94,12 +91,10 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
                 <i class="fas fa-dove" aria-hidden="true"></i> &nbsp;Declare peace
             </button>
         </div>
-        <div class="col-md-6">
-            <button class="mainSubmit" href="/spy-report-overview/?id=<?php echo $clan_id;?>">
-            <i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports</button>
-        </div>
+        <a class="mainSubmit col-md-6" href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+            <i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
+        </a>
     </div>
-
 
     <div class="modal fade" id="declarePeaceModal" tabindex="-1" role="dialog" aria-labelledby="declarePeaceModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -145,18 +140,12 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
 <?php
 if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $cooldownlist) &&  $inRange == 'no' && $canPeace == false):?>
     <div class="row fw-row no-gutters">
-        <div class="col-md-6">
-            <button class="mainSubmit">
-                <i class="fas fa-fire" aria-hidden="true"></i> &nbsp;<?=($peaceID!=0?'You are at war with this clan':'Currently not in range')?>
-            </button>
-        </div>
-        <div class="col-md-6">
-            <a href="/spy-report-overview/?id=<?php echo $clan_id;?>">
-                <button class="mainSubmit">
-                    <i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
-                </button>
-            </a>
-        </div>
+        <button class="mainSubmit col-md-6">
+            <i class="fas fa-fire" aria-hidden="true"></i> &nbsp;<?=($peaceID!=0?'You are at war with this clan':'Currently not in range')?>
+        </button>
+        <a class="mainSubmit col-md-6" href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+            <i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
+        </a>
     </div>
 <?php endif;?>
 
@@ -192,21 +181,16 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
             </script>
         <?php endif;?>
 
-        <div class="col-md-6">
-			<a href="/spy-report-overview/?id=<?php echo $clan_id;?>">
-				<button class="mainSubmit">
-			 		<i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
-				</button>
-			 </a>
-		</div>
+        <a class="mainSubmit col-md-6" href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+            <i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
+        </a>
+
 	<?php else:?>
-		<div class="col-md-12">
-			<a href="/spy-report-overview/?id=<?php echo $clan_id;?>">
-				<button class="mainSubmit">
-			 		<i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
-				</button>
-			 </a>
-		</div>
+
+        <a class="mainSubmit col-md-12" href="/spy-report-overview/?id=<?php echo $clan_id;?>">
+            <i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
+        </a>
+
 	<?php endif;?>
 </div>
 <?php endif;?>
