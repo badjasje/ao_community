@@ -18,13 +18,13 @@ Util/Request {}                     // The current called page with post and get
 User/CurrentUser extends User {}    // The Current User for this request, logs in and out
 User/User extends DbObject {}       // User entity, this is purely a login, person, has messages. Nothing gameplay related
 User/Province extends User? {}      // Most used entity. Has land, units, buildings, etc. Attacks and defends.
+User/Conversation extends PostObject// Between two users, not provinces
+User/Message extends PostObject     // Part of a conversation
 // A user could also have an "outpost", a "research station", or a second province on another planet.
-User/Bonus extends PostObject {}    // Wp-post type, a clan bonus a user can activate
 *User/UserMedal extends PostObject  // wp-post type = medal
 
-
 // Bank
-*Bank/Bank extends PhpObject {}     // Has rates?? Can open an accounts? Loans?
+Bank/Bank extends PhpObject {}      // Has rates?? Can open an accounts? Loans?
 Bank/Deposit extends PostObject {}  // A wp-post type. Has a limited time
 
 // Market
@@ -40,6 +40,7 @@ Research/Research extends PostObject// Wp-post type that starts and ends
 Clan/Clan extends PostObject {}     // Wp-post type with provinces, networth and data
 *Clan/ClanWar extends PostObject
 *Clan/ClanAward extends PostObject
+Clan/Bonus extends PostObject {}    // Wp-post type, a clan bonus a user can activate
 
 // Attacks
 *Attack/Attack extends PostObject   // Wp-post type
@@ -65,15 +66,14 @@ Data/Satellites extends DataObject
 Data/Settings extends DataObject    // Balancing is very important, here we can easily change the "nw range" for instance
 Data/StartBonuses extends DataObject
 Data/Units extends DataObject
-*Data/Bonusses extends DataObject
-*Data/Trophies extends DataObject
+Data/Bonuses extends DataObject
+Data/Trophies extends DataObject
 
 // Round
 Round/Round extends DataObject  // Start- and Endtime, type (dev,test) and status (pause, live)
 
 // Other (todo)
 *Event extends PostObject       // Locals, globals etc. We might create
-*Message extends PostObject     // Could be in User/Message?
 *SpyReport extends PostObject
 *EMP extends PostObject
 *Trophy extends PostObject      // Could be in User/Trophy?

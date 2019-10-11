@@ -25,18 +25,22 @@ if(!empty($_POST['newuserimage'])) {
 }
 
 if (!empty($username)) {
-    if (get_user_meta($userId, 'name_change_counter', true) != 1 || get_field('game_status', 'option') == 'Pause') {
-		$args= array('search' => $username, 'search_fields' => array('display_name'));
+    if (get_user_meta($userId, 'name_change_counter', true) != 1 || get_field('game_status', 'option') == 'Pause' || $username == 'Minion') {
+
+		$args = array('search' => $username, 'search_fields' => array('display_name'), 'meta_query'=> array(array(
+			array('key' => 'last_online', 'value' => $timestamp-1728000, 'compare' => ">", 'type' => 'numeric'),
+		)));
 		$user = new WP_User_Query($args);
-	    if (count($user->results)) {
-			if($user->results[0]->data->ID != $userId) $message = 'Username already exists';
+	    if (count($user->results) && $username != 'Minion' && $user->results[0]->data->ID != $userId) {
+			$message = 'Username already exists';
 	    }
 		else {
 			wp_update_user(array( 'ID' => $userId, 'display_name' => $username ));
 			update_user_meta($userId, 'name_change_counter', 1);
 			$message = 'Username updated';
-			if(get_field('game_status', 'option') == 'Live') $array['usernamechanged'] = true;
+			//if(get_field('game_status', 'option') == 'Live') $array['usernamechanged'] = true;
 		}
+
     } else $message = 'Username already changed this round';
 }
 

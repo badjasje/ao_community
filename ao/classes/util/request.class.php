@@ -6,22 +6,24 @@ class Request {
     public static $parts;
     public static $query;
     public static $ajax_paths = array(
-        'header' => array('province','ajaxHeader'),
-        'devfunds' => array('province','ajaxDevfunds'),
-        'startingbonus' => array('province','ajaxStartingbonus'),
-        'clanbonus' => array('province', 'ajaxClanBonus'),
-        'removenp' => array('province','ajaxRemoveNp'),
-        'deposit' => array('province','ajaxDeposit'),
-        'withdraw' => array('province','ajaxWithdraw'),
-        'research' => array('province','ajaxSetResearch'),
-        'exploreland' => array('province','ajaxExploreLand'),
-        'sellland' => array('province','ajaxSellLand'),
-        'buildings' => array('province','ajaxBuildings'),
-        'units' => array('province','ajaxUnits'),
-        'sendaid' => array('province','ajaxSendAid'),
-        'message' => array('province','ajaxMessage'),
-        'claninvite' => array('province','ajaxClanInvite'),
-        'clanmessage' => array('clan','ajaxSetMessage')
+        'header' => array('user','header'),
+        'message' => array('user','message'),
+
+        'devfunds' => array('province','devfunds'),
+        'startingbonus' => array('province','startingbonus'),
+        'removenp' => array('province','removenp'),
+        'deposit' => array('province','deposit'),
+        'withdraw' => array('province','withdraw'),
+        'research' => array('province','setresearch'),
+        'exploreland' => array('province','exploreland'),
+        'sellland' => array('province','sellland'),
+        'buildings' => array('province','buildings'),
+        'units' => array('province','units'),
+        'sendaid' => array('province','sendaid'),
+
+        'clanbonus' => array('clan', 'bonus'),
+        'claninvite' => array('clan','invite'),
+        'clanmessage' => array('clan','setmessage'),
     );
     // Rate limiting per hour
     public static $rate_limits = array(
@@ -169,8 +171,8 @@ class Request {
         $output = json_decode($geo);
         $currentIsp = $output->data->geo->isp;
         $blocklist = array(
-            'Highwinds Network Group, Inc.','Highwinds Network Group','ZSCALER, INC.',
-            'Micfo, LLC.','M247 Ltd','StackPath LLC','M247 Ltd.'
+            'Highwinds Network Group, Inc.', 'Highwinds Network Group', 'ZSCALER, INC.',
+            'Micfo, LLC.', 'M247 Ltd', 'StackPath LLC', 'M247 Ltd.'
         );
         if(in_array($currentIsp, $blocklist)) return true;
         return false;
@@ -234,12 +236,11 @@ class Request {
             if(!in_array(static::part(1), array_keys(static::$ajax_paths))) $error = 'Request failed successfully (E09:AP)';// Make sure we are in a valid path
             else {
                 $funcs = static::$ajax_paths[static::part(1)]; // Call function related to this path
-                if($funcs[0] == 'province') $return = call_user_func(array($province, $funcs[1]), $return);
-                else if($funcs[0] == 'clan') {
-                    if($clan = $province->getClan()) {
-                        $return = call_user_func(array($clan, $funcs[1]), $return);
-                    } else $error = 'Request failed successfully (E10:GC)';
-                }
+                if(file_exists(AJAX_PATH.'/'.implode('/', $funcs).'.php')) {
+                    require_once(AJAX_PATH.'/'.implode('/', $funcs).'.php');
+                    if(function_exists('ajax_'.$funcs[1])) $return = call_user_func('ajax_'.$funcs[1], $province, $return);
+                    else $error = 'Request failed successfully (E11:FNE)';
+                } else $error = 'Request failed successfully (E10:FE)';
             }
             $province->update('user_lock', 0);
         }

@@ -51,11 +51,22 @@ class CurrentUser extends User {
                     'is_multi' => $this->isMulti()
                 );
             }
+            else {
+                if(rand(1,10) == 1) {
+                    $_SESSION['user']['is_multi'] = $this->isMulti();
+                }
+            }
+
+            if(rand(1,20) == 1) {
+                if(Request::isVPN()) {
+                    $this->logoutEverywhere();
+                    die('Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.');
+                }
+            }
 
             if(isset($_SESSION['user']['is_multi']) && $_SESSION['user']['is_multi']==true) {
                 $this->logoutEverywhere();
-                echo 'Please login with your own account. <a href="'. Request::siteUrl() .'">Back</a>';
-                die();
+                die('Please login with your own account. <a href="'. Request::siteUrl() .'">Back</a>');
             }
 
             // Only really die when coming online
@@ -151,13 +162,11 @@ class CurrentUser extends User {
         /* @todo: enable this at some point
         $user = get_user_by('login', $username);
         if(is_multi($user->ID)) {
-            echo 'Please login with your own account. <a href="'. get_site_url() .'">Back</a>';
-            die();
+            die('Please login with your own account. <a href="'. get_site_url() .'">Back</a>');
             return;
         }*/
         if(Request::isVPN()) {
-            echo 'Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.';
-            die();
+            die('Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.');
             return;
         }
     }
@@ -174,15 +183,13 @@ class CurrentUser extends User {
         $ip_array = maybe_unserialize(get_post_meta(139664, 'login_array_general', true));
         if($user->isMulti($ip_array)) {
             $user->logoutEverywhere();
-            echo 'Please login with your own account. <a href="'. Request::siteUrl() .'">Back</a>';
-            die();
+            die('Please login with your own account. <a href="'. Request::siteUrl() .'">Back</a>');
             return false;
         }
         $output = Request::getGeo();
         if(Request::isVPN($output)) {
             $user->logoutEverywhere();
-            echo 'Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.';
-            die();
+            die('Your current Internet Service Provider has been blocked. You are not allowed to use Virtual Private Networks playing Assault.Online.');
             return false;
         }
 

@@ -44,10 +44,6 @@ $members = $visitorClanData['clan_members'][0];
 $reset_status = get_user_meta($userId, 'reset_status', true);
 if(Round::isDev() || Round::isTest()) $reset_status = false; //You may reset more than once
 
-$disable_input = "";
-if($userData['name_change_counter'][0] == 1 && get_field('game_status', 'option') == 'Live') {
-	 $disable_input = "disabled";
-}
 
 ?>
 <div class="row pageRow">
@@ -65,21 +61,21 @@ if($userData['name_change_counter'][0] == 1 && get_field('game_status', 'option'
                 <div class="col-12 attackingRow statCol-2">
                     <div class="editProfileColumn">
                         <label>Player name</label>
-                        <input style="border:0px;" <?php echo $disable_input;?> maxlength="25" value="<?php echo $user->display_name;?>" type="text" class="unitInput playername" placeholder="Username" name="username">
+                        <input style="border:0;" maxlength="25" value="<?=$user->display_name;?>" type="text" class="unitInput playername" placeholder="Username" name="username">
                     </div>
                 </div>
 
                 <div class="col-12 attackingRow statCol-4">
                     <div class="editProfileColumn">
                         <label>Phone number</label>
-                        <input style="border:0px;"  maxlength="25" value="<?php echo $userData['phone_number'][0];?>" type="numbers" class="unitInput" placeholder="Phone number" name="phone">
+                        <input style="border:0;"  maxlength="25" value="<?=$userData['phone_number'][0];?>" type="numbers" class="unitInput" placeholder="Phone number" name="phone">
                     </div>
                 </div>
 
                 <div class="col-12 attackingRow statCol-3">
                     <div class="editProfileColumn">
                         <label>Email address</label>
-                        <input style="border:0px;"  value="<?php echo $user->user_email;?>" type="text" class="unitInput" placeholder="Username" name="email">
+                        <input style="border:0;"  value="<?=$user->user_email;?>" type="text" class="unitInput" placeholder="Username" name="email">
                     </div>
                 </div>
 

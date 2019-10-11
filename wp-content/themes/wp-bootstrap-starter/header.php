@@ -68,8 +68,9 @@ $timeLeft = Market::timeLeft();
 
 		<header id="masthead" class="site-header navbar-static-top <?php echo wp_bootstrap_starter_bg_class(); ?>" role="banner">
 			<?php if($user->isLoggedIn()) { ?>
-				<button id="nextbt" class="toggle-menu-open hamburger hamburger--collapse<?=($menuOpen?' is-active':'')?>" type="button">
-					<span class="hamburger-box"><span class="hamburger-inner"></span></span>
+				<button id="nextbt" class="toggle-menu-open" type="button">
+					<span class="fa fa-fw fa-bars open-icon"></span>
+					<span class="fa fa-fw fa-times close-icon"></span>
 				</button>
 
 				<a href="/dashboard/">

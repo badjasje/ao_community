@@ -163,7 +163,7 @@ function wp_bootstrap_starter_scripts() {
 	wp_register_script('numberformat', get_template_directory_uri().'/js/number_format.js','','',true);
 	wp_enqueue_script('numberformat');
 	wp_enqueue_style('flaticons', get_template_directory_uri() . '/inc/assets/fonts/flaticon.css');
-	wp_enqueue_style('burger', get_template_directory_uri() . '/css/hamburger.min.css');
+	// wp_enqueue_style('burger', get_template_directory_uri() . '/css/hamburger.min.css');
 	// load bootstrap css
 	wp_enqueue_style('wp-bootstrap-starter-bootstrap-css', get_template_directory_uri() . '/inc/assets/css/bootstrap.min.css' );
 	// load bootstrap css

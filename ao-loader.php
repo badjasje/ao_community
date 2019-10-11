@@ -12,6 +12,7 @@ session_start();
 // Get configs needed for classes
 $assaultOnlineDir = __DIR__.'/ao';
 define('CLASS_PATH', $assaultOnlineDir."/classes");
+define('AJAX_PATH', $assaultOnlineDir."/ajax");
 
 // Often used functions
 require_once($assaultOnlineDir .'/functions.inc.php');
