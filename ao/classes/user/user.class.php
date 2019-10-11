@@ -12,7 +12,7 @@ class User extends DbObject {
         'nickname','name_change_counter','first_name','last_name','avatar_user','status',
         'description','phone_number','first_visit','last_online','user_lock',
         'telegram_key','high_power_notified','low_power_notified','low_buildings_notified','last_summary',
-        'new_global_events','new_events','new_messages',
+        'new_global_events','new_events','new_messages','clan_id_user',
     );
     public $province = false;
 
@@ -148,12 +148,54 @@ class User extends DbObject {
         return intval($this->get('new_messages'));
     }
 
-    /*public function getUsernamelink() {
-        return '<a href="'.Request::siteUrl().'/users/profile/?id='.$this->get('id').'" data-id="'.$this->get('id').'" class="user-link username-link">
-            '.$this->get('username').'
-        </a>';
+    public function getEvents($category='global') {
+        $events = array();
+
+        // Make query according to event-category
+        $paged = get_query_var('paged', 1);
+        $eventTypes = Event::getPossibleEventTypes($category);
+        $args = array(
+            'posts_per_page' => 20, 'orderby' => 'date', 'order' => 'DESC', 'paged' => $paged, 'post_type' => 'event_local',
+            'meta_query' => array(
+                'relation' => 'AND',
+                array('key' => 'attacktype', 'value' => $eventTypes, 'compare' => 'IN'),
+            )
+        );
+        if(in_array($category,array('incoming','outgoing'))) {
+            $args['post_status'] = 'publish'; // why can global events be trashed?
+        }
+        switch($category) {
+            case 'incoming':
+                $args['meta_query'][] = array('key' => 'defender_id', 'value' => $this->id, 'compare' => '=');
+            break;
+            case 'outgoing':
+                $args['meta_query'][] = array('key' => 'attacker_id', 'value' => $this->id, 'compare' => '=');
+            break;
+            case 'global':
+                $clan = (!empty($this->get('clan_id_user')) ? Clan::make($this->get('clan_id_user')) : false);
+                if(empty($clan->id)) return array();
+                $members = $clan->getMembers();
+                $args['meta_query'][] = array('relation' => 'OR',
+                    array('key' => 'attacker_id', 'value' => $members[0], 'compare' => 'IN'),
+                    array('key' => 'defender_id', 'value' => $members[0], 'compare' => 'IN')
+                );
+                $args['meta_query'][] = array('relation' => 'OR',
+                    array('key' => 'attacker_clan_id', 'value' => $clan->id, 'compare' => 'IN'),
+                    array('key' => 'defender_clan_id', 'value' => $clan->id, 'compare' => 'IN'),
+                );
+            break;
+        }
+
+        // Run query
+        $wp_query = new WP_Query($args);
+        if($wp_query->have_posts()) {
+            foreach($wp_query->get_posts() as $post) {
+                $post->category = $category;
+                $events[] = new Event($post);
+            }
+        }
+
+        return $events;
     }
-    public function getXP() {}
-    public function getDisplayName() {}
-    public function getEmail() {}*/
+
 }

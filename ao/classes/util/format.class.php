@@ -65,7 +65,12 @@ class Format extends PhpObject {
         else return $ends[$number % 10];
     }
 
-    public static function plural($n) {
-        return ($n == 0 || $n > 1 ? 's' : '');
+    // 12 units: Format::plural(12, 'unit');
+    // 1 unit: Format::plural(1, 'unit');
+    // 12 spies: Format::plural(12, 'spy', 'spies');
+    // 1 spy: Format::plural(1, 'spy', 'spies');
+    public static function plural($n=0, $str='', $pluralstr='') {
+        if(empty($pluralstr)) return $n.' '. $str . ($n == 0 || $n > 1 ? 's' : '');
+        return $n .' '. ($n == 0 || $n > 1 ? $pluralstr : $str);
     }
 }

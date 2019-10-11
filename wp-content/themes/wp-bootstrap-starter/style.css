@@ -889,12 +889,14 @@ input[type="radio"]:checked + label {
 .game-type-test .titleBackWrapper{
     background-image: url('/wp-content/themes/wp-bootstrap-starter/img/header_test.png');
 }
-.clanMessageButton{
+.clanMessageButton, .profileButton{
+    background-color: #46765E;
+}
+.clanMessageButton {
 	padding: 13px 25px;
 	text-align:left;
 	text-transform: uppercase;
 	color:#fff;
-	background-color: #46765E;
 	cursor:pointer;
 }
 .clanMessageButton.disabled,.profileButton.disabled {
@@ -905,8 +907,9 @@ input[type="radio"]:checked + label {
 .clanMessageButton a{
 	color:#fff;
 }
-.secondButton,.fourthbutton { background-color: rgba(70, 118, 94, 0.95); }
+.secondButton,.fourthbutton { background-color: rgba(70, 118, 94, 0.9); }
 .secondButton { border-width: 1px 0px 1px 1px; }
+.thirdButton { background-color: rgba(70, 118, 94, 0.8); }
 .fourthbutton { border-width: 1px 0px 0px 1px; }
 
 .statusRow{

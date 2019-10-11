@@ -16,12 +16,19 @@ class Clan extends PostObject {
         return count($this->getMembers()) >= Settings::get('clan_member_num');
     }
 
-    public function getLink() {
-        return $this->get('link');
+    public function getTag($format=false) {
+        $clantag = $this->get('clan_tag');
+        if(!empty($clantag)) $clantag = '['.str_replace(array('[', ']'), '', $clantag).']';
+        return ($format ? '<strong>' . $clantag . '</strong>' : $clantag);
     }
 
-    public function getName() {
+    public function getName($format=false) {
         return $this->get('name');
+    }
+
+    public function getLink($format=false) {
+        if(!$format) return $this->get('link');
+        return '<a href="'.$this->getLink(false).'">'.$this->getName(true).'</a>';
     }
 
     public function getAvatar() {

@@ -38,7 +38,6 @@ if (!empty($username)) {
 			wp_update_user(array( 'ID' => $userId, 'display_name' => $username ));
 			update_user_meta($userId, 'name_change_counter', 1);
 			$message = 'Username updated';
-			//if(get_field('game_status', 'option') == 'Live') $array['usernamechanged'] = true;
 		}
 
     } else $message = 'Username already changed this round';
