@@ -114,18 +114,16 @@ jQuery(function($) {
     if(getCookie('menuOpen') === null) setCookie('menuOpen', 0, 256);
     else { setCookie('menuOpen', getCookie('menuOpen'), 256); } // Remember forever
 
-    $("#nextbt, #nextbt2").on('click', function(e) {
+    $("#nextbt").on('click', function(e) {
         e.preventDefault();
         if($('body').hasClass('menuOpen')) {
             $('body').removeClass('menuOpen');
             $('.menuText').hide(500);
-            $(".hamburger").removeClass("is-active");
             $('[data-toggle=tooltip]').tooltip('enable');
             setCookie('menuOpen', 0, 256);
         } else {
             $('body').addClass('menuOpen');
             $('.menuText').show(750);
-            $(".hamburger").addClass("is-active");
             $('[data-toggle=tooltip]').tooltip('disable');
             if($(window).width() >= 1400) setCookie('menuOpen', 1, 256);
         }
