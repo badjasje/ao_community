@@ -39,7 +39,7 @@ if($clan) {
 							<div class="attackDropdown statCol-2 no-gutters p-0">
 								<select name="receiver" class="attackTypeInput">
 									<? foreach ($members as $member) { ?>
-										<option name="receiver" value="<?=$member->get('id')?>"><?=$member->getName()?></option>
+										<option name="receiver" value="<?=$member->get('id')?>"><?=$member->getName()?> (#<?=$member->get('id')?>)</option>
 									<? } ?>
 								</select>
 							</div>
