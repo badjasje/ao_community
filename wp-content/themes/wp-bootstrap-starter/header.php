@@ -184,7 +184,8 @@ $timeLeft = Market::timeLeft();
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?=Request::siteUrl()?>/explore">Explore</a>
+						<a href="<?=Request::siteUrl()?>/explore?tab=explore" class="marketMenu">Explore</a>
+						<a href="<?=Request::siteUrl()?>/explore?tab=sell" class="marketMenu">Sell</a>
 					</div>
 				</div>
 
