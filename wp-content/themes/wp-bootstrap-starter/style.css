@@ -889,6 +889,9 @@ input[type="radio"]:checked + label {
 .game-type-test .titleBackWrapper{
     background-image: url('/wp-content/themes/wp-bootstrap-starter/img/header_test.png');
 }
+.clanMessage {
+    line-height: 18px; height: 30vh; overflow: auto;
+}
 .clanMessageButton, .profileButton{
     background-color: #46765E;
 }
