@@ -228,7 +228,7 @@ $timeLeft = Market::timeLeft();
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
 						<a href="<?=Request::siteUrl()?>/satellites">
-							<button class="menu-item" type="button"><i class="fas fa-bullseye"></i></button>
+							<button class="menu-item" type="button"><i class="fas fa-satellite"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">

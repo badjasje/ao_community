@@ -4,7 +4,7 @@ class Event extends PostObject {
 
     static $data = array(
         'aid' => array(
-            'icon' => 'flaticon-compass', 'header' => array('incoming' => 'Aid received', 'outgoing' => 'Aid sent', 'global' => 'Aid report'),
+            'icon' => 'fas fa-money-bill-wave', 'header' => array('incoming' => 'Aid received', 'outgoing' => 'Aid sent', 'global' => 'Aid report'),
             'title' => array(
                 'incoming' => 'You received <strong>{money}</strong> aid from {attacker}',
                 'outgoing' => 'You sent <strong>{money}</strong> to {defender}',
@@ -12,17 +12,17 @@ class Event extends PostObject {
             ),
         ),
         'nukeprotection' => array(
-            'icon' => 'flaticon-compass', 'header' => 'Protection removed', 'avatar' => 'attacker_id',
+            'icon' => 'fas fa-umbrella', 'header' => 'Protection removed', 'avatar' => 'attacker_id',
             'title' => 'Your protection has been removed',
             'body' => 'You are now able to attack',
         ),
         'research_ready' => array(
-            'icon' => 'flaticon-compass', 'header' => 'Research completed',
+            'icon' => 'fas fa-flask', 'header' => 'Research completed',
             'title' => '{research_name} completed',
             'body' => 'You can now start a new research',
         ),
         'air_sea' => array(
-            'icon' => 'flaticon-ship', 'header' => 'Air & Sea attack battle report',
+            'icon' => 'fas fa-ship', 'header' => 'Air & Sea attack battle report',
             'title' => array(
                 'incoming' => 'You were attacked by {attacker} and {youdied}{won}{lost}.{defender_points}', //won/lost the battle
                 'outgoing' => 'You attacked {defender} and you {killed}{won}{lost}.',
@@ -31,7 +31,7 @@ class Event extends PostObject {
             'body' => '{attack_body}'
         ),
         'regular' => array(
-            'icon' => 'flaticon-fighter-plane', 'header' => 'Regular attack battle report',
+            'icon' => 'fas fa-fighter-jet', 'header' => 'Regular attack battle report',
             'title' => array(
                 'incoming' => 'You were attacked by {attacker} and {youdied}{won}{lost}.{defender_points}', //won/lost the battle
                 'outgoing' => 'You attacked {defender} and you {killed}{won}{lost}.',
@@ -40,7 +40,7 @@ class Event extends PostObject {
             'body' => '{attack_body}'
         ),
         'ground' => array(
-            'icon' => 'flaticon-tank', 'header' => 'Ground attack battle report',
+            'icon' => 'fas fa-truck-pickup', 'header' => 'Ground attack battle report',
             'title' => array(
                 'incoming' => 'You were attacked by {attacker} and {youdied}{won}{lost}.{defender_points}', //won/lost the battle
                 'outgoing' => 'You attacked {defender} and you {killed}{won}{lost}.',
@@ -49,7 +49,7 @@ class Event extends PostObject {
             'body' => '{attack_body}'
         ),
         'missile' => array(
-            'icon' => 'flaticon-radioactive', 'header' => 'Missile attack report',
+            'icon' => 'fas fa-rocket', 'header' => 'Missile attack report',
             'title' => array(
                 'incoming' => '{attacker} launched a {missile_name} and {youdied}{shotdown}{missed}{hit}.', //you shot down the missile
                 'outgoing' => 'You launched a missile at {defender} and {shotdown}{killed}{missed}{hit}.',
@@ -58,7 +58,7 @@ class Event extends PostObject {
             'body' => '{attack_body}'
         ),
         'satellite' => array(
-            'icon' => 'flaticon-objective', 'header' => 'Satellite attack report',
+            'icon' => 'fas fa-satellite', 'header' => 'Satellite attack report',
             'title' => array(
                 'incoming' => '{attacker} used a satellite and {youdied}{missed}{hit}.',
                 'outgoing' => 'You fired a Laser Beam Satellite at {defender} and you {killed}{missed}{hit}.', //you killed {defender}
@@ -67,7 +67,7 @@ class Event extends PostObject {
             'body' => '{attack_body}'
         ),
         'empsat' => array(
-            'icon' => 'flaticon-objective', 'header' => 'EMP missile attack report',
+            'icon' => 'fas fa-satellite', 'header' => 'EMP missile attack report',
             'title' => array(
                 'incoming' => '{attacker} used an EMP satellite and {missed}{hit}.',// your base
                 'outgoing' => 'You fired an EMP sat at {defender} and you {missed}{hit}.',// the enemy base
@@ -76,12 +76,12 @@ class Event extends PostObject {
             'body' => 'Power decreased by {nw_damage_defender}% for 6 hours',//if winner:
         ),
         'sat_crash' => array(
-            'icon' => 'flaticon-objective', 'header' => 'Satellite crash report', 'avatar' => 'defender_id',
+            'icon' => 'fas fa-satellite', 'header' => 'Satellite crash report', 'avatar' => 'defender_id',
             'title' => 'Your satellite crashed and burned up in the atmosphere.',
             'body' => 'You can now order a new satellite',
         ),
         'empmissile' => array(
-            'icon' => 'flaticon-objective', 'header' => 'EMP missile attack report',
+            'icon' => 'fas fa-rocket', 'header' => 'EMP missile attack report',
             'title' => array(
                 'incoming' => '{attacker} launched an EMP missile and {shotdown}{missed}{hit}.',
                 'outgoing' => 'You launched an EMP missile at {defender} and you {missed}{hit}.',
@@ -90,7 +90,7 @@ class Event extends PostObject {
             'body' => 'Power decreased by 15% for 6 hours',//if winner:
         ),
         'sniper' => array(
-            'icon' => 'flaticon-bullet', 'header' => 'Sniper attack report',
+            'icon' => 'fas fa-bullseye', 'header' => 'Sniper attack report',
             'title' => array(
                 'incoming' => 'You were attacked by {attacker} and {youdied}{won}{lost}.{defender_points}',
                 'outgoing' => 'You sent snipers to {defender} and you {won}{lost}',
@@ -98,11 +98,11 @@ class Event extends PostObject {
             'body' => '{attack_body}'
         ),
         'spy' => array(
-            'icon' => 'flaticon-fighter-plane-1', 'header' => 'Spy infiltration report',
+            'icon' => 'fas fa-binoculars', 'header' => 'Spy infiltration report',
             'title' => '{attacker} sent a {spy}{spyplane}{shot}', // Someone or attacker, killed or shotdown
         ),
         'thief' => array(
-            'icon' => 'flaticon-secret-agent', 'header' => 'Thief infiltration report',
+            'icon' => 'fas fa-user-ninja', 'header' => 'Thief infiltration report',
             'title' => array(
                 'incoming' => '{attacker} sent thieves and {stolemoney}{killedthieves}', // Someone or attacker, you killed X, stole {money}
                 'outgoing' => 'You sent {thieves} to {defender} and {stolemoney}{caught}.',
@@ -110,11 +110,11 @@ class Event extends PostObject {
             'body' => '{money} stolen',
         ),
         'user_kicked' => array(
-            'icon' => 'flaticon-boots', 'header' => 'You were kicked from your clan', 'avatar' => 'attacker_id',
+            'icon' => 'fas fa-shoe-prints', 'header' => 'You were kicked from your clan', 'avatar' => 'attacker_id',
             'title' => '{defender}{kicked}{joined}{left}{clan_points}', // Sorry :-(
         ),
         'killed' => array(
-            'icon' => 'flaticon-badge', 'header' => 'You died, Kill report, Kill report',
+            'icon' => 'fas fa-skull-crossbones', 'header' => 'Kill report',
             'title' => array(
                 'incoming' => 'You were killed by {attacker}',
                 'outgoing' => 'You killed {defender}',
@@ -122,22 +122,22 @@ class Event extends PostObject {
             ),
         ),
         'war_declared' => array(
-            'icon' => 'flaticon-star', 'header' => 'War declared',
+            'icon' => 'fas fa-bomb', 'header' => 'War declared',
             'title' => '{declaring_clan} declared war on {declared_clan}',
             'body' => '{dec_message}',
         ),
         'peace_declared' => array(
-            'icon' => 'flaticon-star', 'header' => 'Peace declared',
+            'icon' => 'fas fa-peace', 'header' => 'Peace declared',
             'title' => '{declaring_clan} declared peace on {declared_clan}',
             'body' => '{dec_message}',
         ),
         'user_change' => array(
-            'icon' => 'flaticon-soldier', 'header' => 'User change', 'avatar' => 'defender_id',
+            'icon' => 'fas fa-shoe-prints', 'header' => 'User change', 'avatar' => 'defender_id',
             'title' => '{defender} {kicked}{joined}{left}{clan_points}',
         ),
         /* TODO:
         - clanbonus
-        - market close?
+        - market close - fas fa-shopping-cart
         */
     );
 
