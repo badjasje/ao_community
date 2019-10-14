@@ -229,7 +229,9 @@ class Event extends PostObject {
         if(empty($body)) return '';
 
         // This is heavy
-        $body = strtr($body, array('{attack_body}' => $this->getAttackBody($format)));
+        if(strpos($body,'{attack_body}') !== false) {
+            $body = strtr($body, array('{attack_body}' => $this->getAttackBody($format)));
+        }
 
         return $this->parseEventVariables($body, $format);
     }
@@ -318,6 +320,7 @@ class Event extends PostObject {
             '{kicked}' => 'Kicked from '.($attacker_clan ? $attacker_clan->getLink($format) : 'unknown').' by '.$attacker_name,
             '{declaring_clan}' => ($attacker_clan ? $attacker_clan->getLink($format) : ''),
             '{declared_clan}' => ($defender_clan ? $defender_clan->getLink($format) : ''),
+            '{dec_message}' => $this->get('dec_message'),
         );
 
         // Incoming
