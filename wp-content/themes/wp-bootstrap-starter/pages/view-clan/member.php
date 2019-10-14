@@ -10,13 +10,6 @@
 				<button class="cancelButton hoverEffect" style="background-color:rgba(66, 92, 107,0.95)"><i class="fa fa-wrench"></i> Edit clan</button>
 			</a>
 		</div>
-			<?php /*if($userId == $clan_leader):?>
-			<div class="col-md-6 col-lg-4 celBlock" style="padding:0px;">
-				<a href="/clan-wars-opt-in-or-out">
-					<button class="cancelButton hoverEffect" style="background-color:rgba(66, 92, 107,0.95)"><i class="fas fa-check"></i> Opt In or Out of Clan Wars</button>
-				</a>
-			</div>
-			<?php endif;*/ ?>
 		<div class="col-md-6 col-lg-4 celBlock" style="padding:0px;">
 			<a href="/open-invites">
 				<button class="cancelButton hoverEffect" style="background-color:rgba(66, 92, 107,0.9)"><i class="fa fa-envelope-open"></i> Open invites</button>
