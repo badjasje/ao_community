@@ -47,6 +47,10 @@ if(Round::isDev() || Round::isTest()) $reset_status = false; //You may reset mor
 
 ?>
 <div class="row pageRow">
+    <div class="blockHeader spaceNotice">
+        You can only change your username once per round, and it has to be unique among active players. Changing your username to "minion" is free of limitations.
+        You can only reset your province once per round, outside of wars. You will reset back to the starting state.
+    </div>
     <div class="blockHeader">
         <?php echo get_user_name($userId); ?>
     </div>
