@@ -120,7 +120,7 @@ if (count($warcheck) == 0) {
     //exit;
     if ($recWN > $decNW/1.4 && $recWN < $decNW*1.4) {
     } else {
-        $array['status'] = 'You can not do that';
+        $array['status'] = 'Clan out of range';
 		$array['next'] = false;
 		echo json_encode($array);
 		update_user_meta($declarer_ID, 'user_lock', 0);

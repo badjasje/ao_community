@@ -485,6 +485,15 @@ jQuery(function($) {
         $('#claninvite .target').val($(this).val());
     });
 
+    // Edit profile
+    $('#resetprofile').on('submit', function(e) {
+        e.preventDefault();
+        if(!confirm("Are you sure you want to reset your account? You will lose all your units, research and buildings!")) return;
+        singleAjax(site_url+'/ajax/reset', $(this), function(data) {
+
+        });
+    });
+
 });
 
 // Google Tag Manager

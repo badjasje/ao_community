@@ -830,7 +830,7 @@ body:not(.theme-preset-active) footer#colophon {
 
 .mainSubmit.disabled, .secundarySubmit.disabled { background-color: #BBB; border-bottom-color: #999; color: #444; cursor:default; }
 
-.receiveFunds { background-color:#A00000; border:0; }
+.receiveFunds, .redBg { background-color:#A00000; border:0; }
 .chooseFile{
 	background-color:#ddd;
 	border:0px;

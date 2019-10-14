@@ -894,12 +894,21 @@ class Province extends DbObject {
         $this->calculatePower();
     }
 
+    public function reset() {
+        $this->update('status', 'dead');
+        $this->update('reset_status', 1);
+        $moneyThieved = $this->get('money_gained_thieving');
+        if(($moneyThieved-20000000) <= 0) $newValue = 0;
+        else $newValue = $moneyThieved-20000000;
+        $this->update('money_gained_thieving', $newValue);
+        return true;
+    }
+
     /*
     invite(),
     kick(),
     getTrophies(),
     kill(),
-    reset(),
     attack(),
     spy()
     */

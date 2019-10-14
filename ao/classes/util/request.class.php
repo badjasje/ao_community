@@ -20,6 +20,7 @@ class Request {
         'buildings' => array('province','buildings'),
         'units' => array('province','units'),
         'sendaid' => array('province','sendaid'),
+        'reset' => array('province','reset'),
 
         'clanbonus' => array('clan', 'bonus'),
         'claninvite' => array('clan','invite'),

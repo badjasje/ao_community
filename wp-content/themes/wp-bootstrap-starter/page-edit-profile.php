@@ -90,36 +90,16 @@ if(Round::isDev() || Round::isTest()) $reset_status = false; //You may reset mor
     <? } ?>
 
     <? if(empty($reset_status)) { ?>
-    <button id="resetaccount"style="background-color:#A00000;border:0px;" class="mainSubmit">
-        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> &nbsp;RESET ACCOUNT
-    </button>
+        <form class="fw-row" id="resetprofile">
+            <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
+            <button type="submit" class="mainSubmit redBg"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> RESET ACCOUNT</button>
+        </form>
     <? } ?>
 
 </div> <!-- end pageRow --->
 
 <script>
 	(function($) {
-
-        var resetaccount;
-		$(document).on('click','#resetaccount',function(){
-	        if(confirm("Are you sure you want to reset your account? You will lose all your units, research and buildings!")){
-	            $('.pageLoader, #page-cover').show();
-	            var target = $(this).attr('data-target');
-		        resetaccount = $.ajax({url: "/reset_province.php",type: "post",data: ''});
-                resetaccount.done(function (response, textStatus, jqXHR){
-                    $('.pageLoader, #page-cover').fadeOut("fast");
-		    		var response = $.parseJSON(response);
-				    $.notify({message: response.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
-	        		if(response.next == true){
-                        $('#money').html(number_format(450000, 0, ',', ' '));
-                        $('#turns').html(number_format(200, 0, ',', ' '));
-                        $('#land').html(number_format(2000, 0, ',', ' '));
-                        $('#moralepool').html(number_format(0, 0, ',', ' '));
-                        $('#power').html(number_format(0, 0, ',', ' '));
-			        }
-	            });
-            }
-        });
 
         var request;
         $("#editprofile").submit(function(event){
