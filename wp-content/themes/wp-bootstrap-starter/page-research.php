@@ -52,7 +52,7 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 						<? if($research['level'] < $research['maxlevel']) { ?>
 							<span class="hover-tip" data-toggle="tooltip" data-original-title="<?=$research['nw']?> networth added when completing this research" data-placement="bottom">
 								<span class="mobileSpan">Time: </span>
-								<?=$research['duration']?> hours <i class="fa fa-info-circle" aria-hidden="true"></i>
+								<?=Format::plural($research['duration'], 'hour')?> <i class="fa fa-info-circle" aria-hidden="true"></i>
 							</span>
 						<? } ?>
 					</div>
@@ -74,7 +74,7 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 
 				<? if($research['inProgress']) {?>
 					<div class="blockHeader fw-row">
-						<i class="fa fa-circle-notch fa-spin"></i> Time left:&nbsp;
+						<i class="fa fa-circle-notch fa-spin"></i> Time left:
 						<div class="timeLeft" id="countdown_time" data-countdown="<?=$researchTimeLeft?>"></div>
 					</div>
 				<? } ?>

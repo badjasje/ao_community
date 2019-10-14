@@ -18,13 +18,13 @@ $disabled = (!Bank::isOpen() || $dep_num >= $province->getMaxDeposits() ? true :
 <div id="bank" class="row pageRow">
 	<div class="blockHeader spaceNotice">
 		<? if(count($rates)) {?>Your current interest rate starts at <?=current($rates)?>%.<?}?>
-		The maximum amount of simultaneous deposits is <?=$province->getMaxDeposits()?>.
-		Each single deposit has a minimum of <?=$province->getMinDeposit(true)?> and a maximum of
+		You can have a maximum of <?=Format::plural($province->getMaxDeposits(),'deposit')?>.
+		Each deposit has a minimum of <?=$province->getMinDeposit(true)?> and a maximum of
 		<span class="maxdep" data-max="<?=$max_input?>"><?=$province->getMaxDeposit(true)?></span>.
 		<? if($province->hasStartingBonus('finance')) { ?>
 		Your finance startbonus gives 50% more deposit.
 		<? } ?>
-		You currently have <span class="totaldeposits"><?=$dep_num?></span> deposits.
+		You currently have <span class="totaldeposits"><?=$dep_num?></span> <?=($dep_num==1?'deposit':'deposits')?>.
 	</div>
 
 	<form id="bankform" method="post">

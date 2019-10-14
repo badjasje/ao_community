@@ -67,7 +67,7 @@ if(!!$province && $r = $province->getCurrentResearch()) $researchInProgress = $r
 			</div>
 			<div class="statusInsideCol">
 				<a href="/conversations/">
-					<?=$user->getMessageNum()?> new message<?=plural_func($user->getMessageNum());?>
+					<?=Format::plural($user->getMessageNum(), 'new message')?>
 				</a>
 			</div>
 
