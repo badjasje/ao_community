@@ -149,8 +149,32 @@ class Event extends PostObject {
         $this->eventtime = $this->get('time_attacked');
     }
 
-    public static function create($data) {
-        // create a new event
+    public static function create($data, $notify=array()) {
+
+        // make wp post
+        $current_user = CurrentUser::make();
+        $args = array_merge(array(
+            'post_title' => $data['title'], 'post_status' => 'publish', 'post_type' => 'event_local',  'post_title' => '',
+            'post_author' => $current_user->get('id'), 'attacker_id' => $province->get('id'), 'time_attacked' => current_time('timestamp')
+        ), $data);
+        if(isset($data['author'])) $args['post_author'] = $data['author'];
+        $eventId = wp_insert_post($args);
+
+        // fill wp post
+        foreach($data as $key => $value) {
+            if(in_array($key, array('title','author'))) continue;
+            if($key == 'type') $key = 'attacktype';
+            update_field($key, $value, $eventId);
+        }
+
+        // let people know
+        if(!is_array($notify)) $notify = array($notify);
+        foreach($notify as $member_id) {
+            $member = Province::make($member_id);
+            if(!!$member) $member->update('new_global_events', $member->get('new_global_events') + 1);
+        }
+
+        return Event::make($eventId);
     }
 
     public static function getPossibleEventTypes($category='') {

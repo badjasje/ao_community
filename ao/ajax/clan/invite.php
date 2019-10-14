@@ -35,21 +35,16 @@ function ajax_invite($province, $return) {
                 $clan->update('open_invites', $open_invites);
                 update_post_meta($invite['invite_id'], 'invite_status', 'accept');
 
-                $args = [
-                    'post_title' => 'Clan member joined a clan: '.$province->get('id'), 'post_status' => 'publish',
-                    'post_type' => 'event_local', 'post_author' => $clanLeader
-                ];
-                $newEventId = wp_insert_post( $args );
-                update_field('attacktype', 'user_change', $newEventId);
-                update_field('outcome', 'joined', $newEventId);
-                update_field('attacker_id', $clanLeader, $newEventId);
-                update_field('defender_id', $province->get('id'), $newEventId);
-                update_field('attacker_clan_id', $clan->get('id'), $newEventId);
-                update_field('time_attacked', $timestamp, $newEventId);
-                foreach ($clanMembers as $member_id) {
-                    $member = Province::make($member_id);
-                    $member->update('new_global_events', $member->get('new_global_events') + 1);
-                }
+                $ev = Event::create(array(
+                    'title' => 'Clan member joined a clan: ' . $province->get('id'),
+                    'author' => $clanLeader,
+                    'type' => 'user_change',
+                    'outcome' => 'joined',
+                    'attacker_id' => $clanLeader,
+                    'defender_id' => $province->get('id'),
+                    'attacker_clan_id' => $clan->get('id')
+                ), $clanMembers);
+
                 return array('success' => true, 'status' => "You are now a member of ".$clan->getName());
             }
         }
