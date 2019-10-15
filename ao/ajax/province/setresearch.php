@@ -16,7 +16,7 @@ function ajax_setresearch($province, $return) {
     $queueResearch = ($researchInProgress !== false);
 
     $totalturns = $province->getTurns();
-    $turn_cost = ($queueResearch ? Settings::get('turns_queue_research') : Settings::get('turns_research'));
+    $turn_cost = $new_research['turns'];
     if($totalturns < $turn_cost) return array('status' => 'Not enough turns');
 
     $province->update('turns', $totalturns - $turn_cost);
@@ -29,7 +29,7 @@ function ajax_setresearch($province, $return) {
     }
     else {
         // set up arguments for creating research post
-        // @todo use new Research-object
+        // @todo $research = Research::create();
         $endTime = current_time('timestamp') + ($new_research['duration']*60*60);
         $args = array('post_title' => $endTime, 'post_status' => 'publish', 'post_content' => $new_key, 'post_type' => 'research', 'post_author' => $province->id);
         $new_research_id = wp_insert_post($args);

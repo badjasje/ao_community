@@ -17,8 +17,8 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 <div class="row pageRow">
 
 	<div class="blockHeader spaceNotice">
-		You may only research one science at a time. Each research takes different amount of time to complete and cost <?=Settings::get('turns_research')?> turns.
-		Queueing a research cost <?=Settings::get('turns_queue_research')?> turns.
+		You may only research one science at a time. Each research takes different amount of time and turns to complete.
+		Queueing a research cost extra turns.
 		Every hour of research adds <?=Format::money(Settings::get('nw_research'))?> to your networth.
 		<? if($province->hasStartingBonus('defensive')) { ?>
 		Your defensive startbonus gives <?=(1-Settings::get('startbonus_defensive_research_time'))*100?>% time deduction when researching.
@@ -30,10 +30,10 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 
 	<form id="research">
 		<div class="row unitRow headerRow">
-			<div class="col-md-3 celBlock">Name</div>
-			<div class="col-md-4 celBlock">Effect</div>
-			<div class="col-md-2 celBlock">Time</div>
-			<div class="col-md-3 celBlock"></div>
+			<div class="col-md-6 celBlock">Name</div>
+			<div class="col-md-1 celBlock">Level</div>
+			<div class="col-md-3 celBlock">Time & turns</div>
+			<div class="col-md-2 celBlock">Start</div>
 		</div>
 		<? foreach ($researches as $key => $research) {
 			if($research['level']>0) $hasResearch=true;
@@ -41,22 +41,23 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 			<div id="research_<?=$key?>" class="itemRow">
 
 				<div class="row unitRow <?=($research['inProgress']?' loader':'')?>">
-					<div class="col-md-3 celBlock nameBlock">
-						<?=$research['name']?>
-						<sup>Current level: <?=$research['level']?> / <?=$research['maxlevel']?></sup>
+					<div class="col-md-6 nopadding py-md-2">
+						<div class="celBlock nameBlock py-md-0"><?=$research['name']?></div>
+						<div class="celBlock py-md-0"><?=($research['level'] < $research['maxlevel'] ? $research['level_description'] : '<em>Maximum level reached.</em>')?></div>
 					</div>
-					<div class="col-md-4 celBlock">
-						<?=($research['level'] < $research['maxlevel'] ? $research['level_description'] : '<strong>Maximum level reached.</strong>')?>
+					<div class="col-md-1 celBlock">
+						<?=$research['level']?> / <?=$research['maxlevel']?>
 					</div>
-					<div class="col-md-2 celBlock">
+					<div class="col-md-3 celBlock">
 						<? if($research['level'] < $research['maxlevel']) { ?>
 							<span class="hover-tip" data-toggle="tooltip" data-original-title="<?=$research['nw']?> networth added when completing this research" data-placement="bottom">
 								<span class="mobileSpan">Time: </span>
-								<?=Format::plural($research['duration'], 'hour')?> <i class="fa fa-info-circle" aria-hidden="true"></i>
+								<?=Format::plural($research['duration'], 'hour')?>, <?=Format::plural($research['turns'], 'turn')?>
+								<i class="fa fa-info-circle" aria-hidden="true"></i>
 							</span>
 						<? } ?>
 					</div>
-					<div class="col-md-3 celBlock nopadding">
+					<div class="col-md-2 celBlock nopadding">
 						<?php if($researchQueued == false || $researchInProgress == false) {?>
 							<div class="researchselector">
 								<input class="hidden" type="radio" name="research" id="<?=$key?>" value="<?=$key?>">

@@ -12,6 +12,10 @@ class Research extends PostObject {
         }
     }
 
+    public static function create($data=array()) {
+
+    }
+
     public function timeLeft($format=false) {
         return ($format ? Format::time_diff(intval($this->get('end_time'))) : intval($this->get('end_time')) - current_time('timestamp'));
     }

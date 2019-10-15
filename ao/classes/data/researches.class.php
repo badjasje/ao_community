@@ -15,7 +15,7 @@ class Researches extends DataObject {
             'level2'                => 'Income increased to {value} per hour',
             'level2_value'          => 35000,
             'maxlevel'              => 2,
-            'duration'              =>  '15'
+            'duration'              => 15,
         ),
         'engineering_effectiveness' => array(
             'name'                  => 'Engineering effectiveness',
@@ -23,7 +23,7 @@ class Researches extends DataObject {
             'level2'                => '15 buildings built per turn.',
             'maxlevel'              => 2,
             'description'           => 'Increases the amount of buildings built per turn',
-            'duration'              =>  '10'
+            'duration'              => 10,
         ),
         'bank_management'           => array(
             'name'                  => 'Bank management',
@@ -32,14 +32,14 @@ class Researches extends DataObject {
             'level3'                => 'Bank stores up to $ 5 000 000 and bank interest increased by 0,75% + the fee for early withdrawals is now 25%',
             'maxlevel'              => 3,
             'description'           => 'Increases the amount of money you can bank',
-            'duration'              =>  '10'
+            'duration'              => 10,
         ),
         'powerplant_efficiency'     => array(
             'name'                  => 'Powerplant efficiency',
             'level1'                => 'Power Plants life and power produced increased by 50%',
             'maxlevel'              => 1,
             'description'           => 'Power Plants life and power produced increased by 50%',
-            'duration'              =>  '5'
+            'duration'              => 5,
         ),
         'missile_accuracy'          => array(
             'name'                  => 'Missile accuracy',
@@ -48,7 +48,7 @@ class Researches extends DataObject {
             'level3'                => 'Only 1 missile silo can be sabotaged by a saboteur. Decreases the chance of sabotaging your missile silo by 10%.',
             'maxlevel'              => 3,
             'description'           => 'Increases missile accuracy',
-            'duration'              =>  '10'
+            'duration'              => 10,
         ),
         'satellite_construction'    => array(
             'name'                  => 'Satellite technology',
@@ -57,7 +57,7 @@ class Researches extends DataObject {
             'level3'                => 'Construction cost of satellites reduced by 20%',
             'maxlevel'              => 3,
             'description'           => 'Enables you to build sattelites',
-            'duration'              =>  '10'
+            'duration'              => 10,
         ),
         'thieving_effectiveness'    => array(
             'name'                  => 'Thief education',
@@ -66,7 +66,7 @@ class Researches extends DataObject {
             'level3'                => 'Thieves steal four times the amount of money',
             'maxlevel'              => 3,
             'description'           => 'Enables your thieves to steal more money',
-            'duration'              =>  '5'
+            'duration'              => 5,
         ),
 
         'shipping_time'             => array(
@@ -75,7 +75,7 @@ class Researches extends DataObject {
             'level2'                => 'Shipping time reduced to 6 hours',
             'maxlevel'              => 2,
             'description'           => 'Decreases shipping time from the market',
-            'duration'              =>  '5'
+            'duration'              => 5,
         ),
         'market_discount'           => array(
             'name'                  => 'Market discount',
@@ -85,7 +85,7 @@ class Researches extends DataObject {
             'level2_value'          => '30',
             'maxlevel'              => 2,
             'description'           => 'Decreases market prices',
-            'duration'              =>  '5'
+            'duration'              => 5,
         ),
 
     );

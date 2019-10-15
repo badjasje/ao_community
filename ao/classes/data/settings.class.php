@@ -126,8 +126,8 @@ class Settings extends DataObject {
         'turns_attack' => 3,
         'turns_thief' => 2,
         'turns_spy' => 1,
-        'turns_research' => 25,
-        'turns_queue_research' => 30,
+        'turns_research' => 2, // duration times 2
+        'turns_queue_research' => 3, // duration times 3
 
         // Morale costs
         'morale_missile_tgt_below' => 40,

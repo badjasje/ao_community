@@ -446,6 +446,7 @@ class Province extends DbObject {
      * Province Research
      */
     public function getResearches($key=null) {
+        $researchInProgress = $this->getCurrentResearch();
         $researches = Researches::get();
         foreach($researches as $id => $research) {
             $level = !empty($this->get('level_'.$id)) ? intval($this->get('level_'.$id)) : 0;
@@ -467,6 +468,10 @@ class Province extends DbObject {
             $researches[$id]['original_duration'] = $researches[$id]['duration']; // For nw calc
             if($this->hasStartingBonus('defensive')) {
                 $researches[$id]['duration'] = $researches[$id]['duration'] * Settings::get('startbonus_defensive_research_time');
+            }
+            $researches[$id]['turns'] = round($researches[$id]['duration'] * Settings::get('turns_research'));
+            if($researchInProgress != false) { // Queued research cost more turns
+                $researches[$id]['turns'] = round($researches[$id]['duration'] * Settings::get('turns_queue_research'));
             }
             $researches[$id]['nw'] = Format::networth($researches[$id]['duration'] * Settings::get('nw_research'));
             //Hooks::trigger('get_province_research', array($id, $researches[$id])); // we might want to work with modifiers
