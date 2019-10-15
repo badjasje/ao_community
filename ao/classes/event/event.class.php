@@ -122,12 +122,12 @@ class Event extends PostObject {
             ),
         ),
         'war_declared' => array(
-            'icon' => 'fas fa-bomb', 'header' => 'War declared',
+            'icon' => 'fas fa-bomb', 'header' => 'War declared', 'avatar' => 'attacker_clan_id',
             'title' => '{declaring_clan} declared war on {declared_clan}',
             'body' => '{dec_message}',
         ),
         'peace_declared' => array(
-            'icon' => 'fas fa-peace', 'header' => 'Peace declared',
+            'icon' => 'fas fa-peace', 'header' => 'Peace declared', 'avatar' => 'attacker_clan_id',
             'title' => '{declaring_clan} declared peace on {declared_clan}',
             'body' => '{dec_message}',
         ),
@@ -135,6 +135,11 @@ class Event extends PostObject {
             'icon' => 'fas fa-shoe-prints', 'header' => 'User change', 'avatar' => 'defender_id',
             'title' => '{defender} {kicked}{joined}{left}{clan_points}',
         ),
+        'bonus' => array(
+            'icon' => 'fas fa-award', 'header' => 'Bonus received', 'avatar' => 'attacker_clan_id',
+            'title' => 'Whoop! We got bonus',
+            'body' => 'You can now receive {bonus_money} and {bonus_turns} turns',
+        )
         /* TODO:
         - clanbonus
         - market close - fas fa-shopping-cart
@@ -154,14 +159,16 @@ class Event extends PostObject {
         // make wp post
         $current_user = CurrentUser::make();
         $args = array_merge(array(
-            'post_title' => $data['title'], 'post_status' => 'publish', 'post_type' => 'event_local',  'post_title' => '',
-            'post_author' => $current_user->get('id'), 'attacker_id' => $province->get('id'), 'time_attacked' => current_time('timestamp')
+            'post_title' => $data['title'], 'post_status' => 'publish', 'post_type' => 'event_local',
+            'post_author' => (!!$current_user ? $current_user->get('id') : 0),
+            'attacker_id' => (!!$current_user ? $current_user->get('id') : 0),
+            'time_attacked' => current_time('timestamp')
         ), $data);
         if(isset($data['author'])) $args['post_author'] = $data['author'];
         $eventId = wp_insert_post($args);
 
         // fill wp post
-        foreach($data as $key => $value) {
+        foreach($args as $key => $value) {
             if(in_array($key, array('title','author'))) continue;
             if($key == 'type') $key = 'attacktype';
             update_field($key, $value, $eventId);
@@ -182,7 +189,7 @@ class Event extends PostObject {
         switch($category) {
             case 'incoming': $eventTypes = array_merge($eventTypes, array('thief','nukeprotection','research_ready','user_kicked','sat_crash','sniper','spy')); break;
             case 'outgoing': $eventTypes = array_merge($eventTypes, array('thief', 'user_kicked', 'sniper')); break;
-            case 'global':   $eventTypes = array_merge($eventTypes, array('war_declared', 'peace_declared', 'user_change')); break;
+            case 'global':   $eventTypes = array_merge($eventTypes, array('war_declared', 'peace_declared', 'user_change', 'bonus')); break;
         }
         return $eventTypes;
     }
@@ -222,12 +229,16 @@ class Event extends PostObject {
             if($this->get('show_spy_sender') == 'no' || $this->get('event_spy_type') == 'spyplane') return $avatar;
         }
 
-        $avatar_user = false;
+        $avatar_user = $avatar_clan = false;
         if($this->eventcategory == 'outgoing') $avatar_user = (!empty($this->get('defender_id')) ? $this->get('defender_id') : false);
         else $avatar_user = (!empty($this->get('attacker_id')) ? $this->get('attacker_id') : false);
 
         $et = $this->getEventTypeData();
-        if(isset($et['avatar'])) $avatar_user = $this->get($et['avatar']);
+        if(isset($et['avatar'])) {
+            if(in_array($et['avatar'], array('attacker_clan_id','defender_clan_id'))) {
+                if($clan = Clan::make($this->get($et['avatar']))) return $clan->getAvatar('eventAvatar');
+            } else $avatar_user = $this->get($et['avatar']);
+        }
 
         if(!empty($avatar_user)) {
             $avatar = User::make($avatar_user)->getAvatar('eventAvatar');
@@ -345,6 +356,8 @@ class Event extends PostObject {
             '{declaring_clan}' => ($attacker_clan ? $attacker_clan->getLink($format) : ''),
             '{declared_clan}' => ($defender_clan ? $defender_clan->getLink($format) : ''),
             '{dec_message}' => $this->get('dec_message'),
+            '{bonus_money}' => ($format == true ? Format::money($this->get('bonus_money')) : $this->get('bonus_money')),
+            '{bonus_turns}' => ($format == true ? Format::turns($this->get('bonus_turns')) : $this->get('bonus_turns')),
         );
 
         // Incoming

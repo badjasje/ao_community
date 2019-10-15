@@ -31,8 +31,23 @@ class Clan extends PostObject {
         return '<a href="'.$this->getLink(false).'">'.$this->getName(true).'</a>';
     }
 
-    public function getAvatar() {
-
+    public function getAvatar($classes='') {
+        $avatar = $this->get('clan_thumb');
+        $classes = array_merge( (!is_array($classes) ? array($classes) : array()), array('setAvatar clan_avatar'));
+        $return = '<a href="'.$this->getLink().'" title="'.$this->getName().'">';
+        if(!empty($avatar)) {
+            $avatar = str_replace("http://", "https://", $avatar);
+            $return .= '<div class="'. implode(' ', $classes) .'" style="background: url(\''.$avatar.'\');"></div>';
+        }
+        else {
+            $map = array('A'=>'#2D434E','B'=>'#607782','C'=>'#425D69','D'=>'#1B3642','E'=>'#0D2632','F'=>'#343855','G'=>'#6C708E','H'=>'#4C5173',
+                'I'=>'#212648','J'=>'#121636','K'=>'#315842','L'=>'#6A937C','M'=>'#49775D','N'=>'#1C4B31','O'=>'#0D3820','P'=>'#7B6C44','Q'=>'#CEBE95',
+                'R'=>'#CEBE95','S'=>'#A79566','T'=>'#695728','U'=>'#4F3E12','V'=>'#7B5044','W'=>'#CEA195','X'=>'#A77366','Y'=>'#693528','Z'=>'#4F1F12');
+            $firstletter = strtoupper(substr($this->getName(), 0, 1));
+            $color = (isset($map[$firstletter]) ? $map[$firstletter] : '#2D434E');
+            $return .= '<div class="'. implode(' ', $classes) .'" style="background-color:'. $color .';">'. $firstletter .'</div>';
+        }
+        return $return .'</a>';
     }
 
     public function getMessage($format=false) {

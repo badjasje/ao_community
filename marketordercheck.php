@@ -205,22 +205,10 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
             $bonusTurns = round($bonus[$level]['turns']/count($clan_members[0]));
 
             foreach ($clan_members[0] as $member) {
-                $args = array(
-                    'post_title'    => 'Bonus for: #'.$member,
-                    'post_status'   => 'publish',
-                    'post_type'     => 'event_local',
-                    'post_author'   => $member
-                );
-
-                $new_event_id = wp_insert_post($args);
-                update_field('attacktype', 'bonus', $new_event_id);
-                update_field('bonus_money', $bonusMoney, $new_event_id);
-                update_field('bonus_turns', $bonusTurns, $new_event_id);
-                update_field('defender_id', $member, $new_event_id);
-                update_field('time_attacked', $timestamp, $new_event_id);
-                // There is no bonus-event yet.
-                //$event_count = get_user_meta($member, 'new_events')[0];
-                //update_user_meta($member, 'new_events', $event_count + 1);
+                $evt = Event::create(array(
+                    'title' => 'Bonus for: #'.$member, 'author' => $member, 'type' => 'bonus', 'defender_id' => $member,
+                    'bonus_money' => $bonusMoney, 'bonus_turns' => $bonusTurns, 'attacker_clan_id' => $clan_ID
+                ), $member);
             }
 
             if($level == 'level_2' && empty(Round::getGoldenShotgun())) {
