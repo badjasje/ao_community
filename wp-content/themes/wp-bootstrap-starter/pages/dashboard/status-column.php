@@ -1,7 +1,9 @@
 <?php
 $statusMessage = 'Status: online';
+$canRemove = false;
 if($province->isProtected()) {
 	$timer_left = $province->getProtectionTimeLeft();
+	$canRemove = ($timer_left < Settings::get('nuke_protection_removal') || Round::isTest() || Round::isDev());
 	$statusMessage = 'Protection time left: <span id="countdown_time" data-countdown="'.$timer_left.'"></span>';
 }
 else if($province->isDead()) {
@@ -14,18 +16,14 @@ $researchInProgress = false;
 if(!!$province && $r = $province->getCurrentResearch()) $researchInProgress = $r->get('name');
 
 ?>
-<div class="blockHeader npMessage<?=($province->isProtected() && $timer_left < 86400 ?' py-0 pr-0':'')?>">
-	<?php
-	echo $statusMessage;
-	if($province->isProtected() && $timer_left < 86400) {
-		?>
+<div class="blockHeader npMessage<?=($canRemove ?' py-0 pr-0':'')?>">
+	<?=$statusMessage?>
+	<? if($canRemove) { ?>
 		<form method="post" id="removeProtection" class="removeProtection">
 			<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
 			<button type="submit" name="submit" class="mainSubmit hoverEffect"><i class="fas fa-times"></i> Remove Protection</button>
 		</form>
-		<?
-	}
-	?>
+	<? } ?>
 </div>
 
 <div class="statusBlock">
