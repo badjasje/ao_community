@@ -73,7 +73,7 @@ if(!is_page_template('blank-page.php') && !is_page_template('blank-page-with-con
 </div>
 
 <?php if(!empty($_SESSION['showError'])) {  ?>
-<div class="col-xs-11 col-sm-4 alert alert-info animated fadeInDown" data-fade-out="5000" style="margin:0px auto;position:fixed;z-index:1031;right:20px;">
+<div class="col-xs-11 col-sm-4 alert alert-info animated fadeInDown sessionAlert" data-fade-out="5000">
     <span><?=$_SESSION['showError']?></span>
 </div>
 <?php $_SESSION['showError']=false; } ?>

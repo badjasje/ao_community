@@ -58,7 +58,7 @@ function ajax_update($province, $return) {
         $msgs[] = 'profile picture';
     }
 
-    $_SESSION['showError'] = (count($msgs)==0 ? 'nothing' : ucfirst(implode(', ', $msgs)).' updated');
+    $_SESSION['showError'] = (count($msgs)==0 ? 'Nothing' : ucfirst(implode(', ', $msgs))).' updated';
 
     return array('success' => true, 'status' => '', 'redirect' => Request::siteUrl().'/users/profile/edit');
 }

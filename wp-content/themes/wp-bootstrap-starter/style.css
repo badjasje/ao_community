@@ -1098,6 +1098,7 @@ input[type="radio"]:checked + label {
 .logged-in .permaNotification { top: 40px; left: 40px; }
 .alert { top:60px!important; border-radius:0; padding:8px 12px; font-size:14px; box-shadow:1px 1px 4px rgba(0,0,0,.15); }
 .alert-help { color: #111;background-color: #EEE;border-color: #EEE; top:auto!important; bottom:15px; }
+.sessionAlert { margin:0px auto;position:fixed;z-index:1031;right:20px; }
 
 @media only screen and (max-width: 1000px) {
 	.startingbonus {
