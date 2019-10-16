@@ -666,33 +666,18 @@ body:not(.theme-preset-active) footer#colophon {
 .tooltip { z-index: 2080; }
 .menuOpen .sidenav { width: 36%; min-width: 400px; }
 
-.smallAvatar{
-    border-radius: 50%;
-    height: 40px;
-    width: 40px;
-    text-align: center;
-    line-height: 40px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #fff;
+.smallAvatar { height: 40px; width: 40px; background: #000; }
+.setAvatar { position:relative; height:40px; width:40px; overflow:hidden; background: #000; }
+.setAvatar img {  width:100%; }
+.setAvatar.uploaded img { position:absolute; top:50%; left:50%; transform: translate(-50%,-50%); }
+.setAvatar.letter:after {
+    content: ''; display: block; position: absolute; width: 100%; height: 100%; z-index: 2; top: 0; left: 0;
+    background: linear-gradient(rgba(255,255,255,.1), rgba(0,0,0,.3));
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 }
-.setAvatar{
-	border-radius:100%;
-	height:40px;
-	background-size: cover !important;
-	width:40px;
-}
-.leftAvatar{
-	float: left;
-    margin-right: 10px;
-}
-.largeAvatar{
-	margin-bottom:20px;
-	height:120px;
-	width:120px;
-	line-height: 120px;
-	font-size: 66px;
-}
+.leftAvatar { float: left; margin-right: 10px; }
+.largeAvatar { margin-bottom:20px; height:120px; width:120px; }
+
 .attack-profile-image{
 	width:82px;
 	height:82px;
@@ -756,24 +741,15 @@ body:not(.theme-preset-active) footer#colophon {
 	margin-right:0px;
 	height: 41px;
 }
-.menuAvatar,.eventAvatar {
-    border-radius: 0px;
+.menuAvatar, .eventAvatar {
     height: 41px;
     width: 41px;
-    text-align: center;
-    line-height: 41px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #fff;
     float: right;
-    background:#DDD;
 }
-.eventAvatar{
+.eventAvatar {
 	float:left;
 	width:100px;
 	height:100px;
-	line-height: 100px;
-    font-size: 41px;
 }
 .statitem{
 	text-align: center;
@@ -1450,15 +1426,9 @@ input[type="radio"]:checked + label {
 	height:50px;
 	background-color:#ddd;
 }
-.attackAvatar,.profileAvatar{
-	border-radius:0px;;
+.attackAvatar, .profileAvatar {
     height: 100px;
     width: 100px;
-    text-align: center;
-    line-height: 100px;
-    font-size: 50px;
-    font-weight: bold;
-    color: #fff;
 }
 .profileAvatar{
 	border-right:1px solid #fff;
@@ -1525,12 +1495,6 @@ input[type="radio"]:checked + label {
 .allUsersAvatar {
     height: 50px;
     width: 50px;
-    text-align: center;
-    line-height: 50px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #fff;
-    border-radius: 0;
     display: block;
 }
 .cancelButton{
@@ -1930,17 +1894,14 @@ input[type="radio"]:checked + label {
     .attackAvatar {
         height: 82px;
         width: 82px;
-        line-height:82px;
     }
     .profileAvatar{
         height: 82px;
         width: 82px;
-        line-height:82px;
     }
     .allUsersAvatar {
         height: 41px;
         width: 41px;
-        line-height: 41px;
     }
     .iconBlockHeader{
         font-size:23px;

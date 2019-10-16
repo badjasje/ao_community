@@ -8,7 +8,7 @@ class User extends DbObject {
     //static $table = 'users';
     static $cache = 'users';
     public $fields = array(
-        'id','email','nicename','registered','display_name','logindata','multi_whitelist',
+        'id','email','nicename','registered','display_name','username','logindata','multi_whitelist',
         'nickname','name_change_counter','first_name','last_name','avatar_user','status',
         'description','phone_number','first_visit','last_online','user_lock',
         'telegram_key','high_power_notified','low_power_notified','low_buildings_notified','last_summary',
@@ -49,7 +49,7 @@ class User extends DbObject {
         $user_meta = get_user_meta($id);
         $meta = (is_array($user_meta) ? array_map( function( $a ){ return $a[0]; }, $user_meta) : array()); //@wp
         $props = array_merge(array(
-            'id' => $user->ID, 'email' => $user->data->user_email, 'nicename' => $user->data->user_nicename,
+            'id' => $user->ID, 'username' => $user->data->user_login, 'email' => $user->data->user_email, 'nicename' => $user->data->user_nicename,
             'registered' => $user->data->user_registered, 'display_name' => $user->data->display_name
         ), $meta);
         return $props;
@@ -95,7 +95,7 @@ class User extends DbObject {
     }
 
     public function getUsername() {
-        return $this->get('user_login');
+        return $this->get('username');
     }
 
     public function getName($format=false) {
@@ -113,21 +113,18 @@ class User extends DbObject {
     public function getAvatar($classes='', $link=true) {
         $avatar = $this->get('avatar_user');
         $classes = array_merge( (!is_array($classes) ? array($classes) : array()), array('setAvatar'));
+        $classes[] = !empty($avatar) ? 'uploaded' : 'letter';
         $return = (!!$link ? '<a href="'.$this->getLink().'" title="'.$this->getName().'">' : '');
+        $return .= '<div class="'. implode(' ', $classes) .'">';
         if(!empty($avatar)) {
-            $avatar = str_replace("http://", "https://", $avatar);
-            $return .= '<div class="'. implode(' ', $classes) .'" style="background: url(\''.$avatar.'\');"></div>';
+            $return .= '<img src="'. str_replace("http://", "https://", $avatar) .'">';
         }
         else {
-            // @todo Change this to classes to avoid inline css
-            $map = array('A'=>'#2D434E','B'=>'#607782','C'=>'#425D69','D'=>'#1B3642','E'=>'#0D2632','F'=>'#343855','G'=>'#6C708E','H'=>'#4C5173',
-            'I'=>'#212648','J'=>'#121636','K'=>'#315842','L'=>'#6A937C','M'=>'#49775D','N'=>'#1C4B31','O'=>'#0D3820','P'=>'#7B6C44','Q'=>'#CEBE95',
-            'R'=>'#CEBE95','S'=>'#A79566','T'=>'#695728','U'=>'#4F3E12','V'=>'#7B5044','W'=>'#CEA195','X'=>'#A77366','Y'=>'#693528','Z'=>'#4F1F12');
             $firstletter = strtoupper(substr($this->getName(), 0, 1));
-            $color = (isset($map[$firstletter]) ? $map[$firstletter] : '#2D434E');
-            $return .= '<div class="'. implode(' ', $classes) .'" style="background-color:'. $color .';">'. $firstletter .'</div>';
+            if(!preg_match('/[A-Z]/', $firstletter)) $firstletter = '_';
+            $return .= '<img src="'. get_stylesheet_directory_uri().'/img/avatars/'. $firstletter .'.png' .'">';
         }
-        return $return .  (!!$link ? '</a>' : '');
+        return $return . '</div>' . (!!$link ? '</a>' : '');
     }
 
     public function getLoginData($format=false) {
