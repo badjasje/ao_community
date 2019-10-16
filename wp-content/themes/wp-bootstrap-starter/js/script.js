@@ -88,8 +88,9 @@ jQuery(function($) {
         var serializedData = (post instanceof jQuery ? post.serialize() : post);
         $('.pageLoader, #page-cover').show();
         requests[url] = $.ajax({url:url,type:'post',data:serializedData}).done(function(response) {
-            $('.pageLoader, #page-cover').fadeOut("fast");
             var data = $.parseJSON(response);
+            if(!!data.redirect) { location.href=data.redirect; return; }
+            $('.pageLoader, #page-cover').fadeOut("fast");
             if(data.nonce) $('.nonce').val(data.nonce);
             updateHeaderData(function() {
                 if(!!cb) cb.call(this, data);
@@ -470,7 +471,6 @@ jQuery(function($) {
     $("#message").on('submit', function(e) {
         e.preventDefault();
         singleAjax(site_url+'/ajax/message', $(this), function(data) {
-            if(!!data.redirect) location.href=data.redirect;
             $('#message').trigger("reset");
         });
     });
@@ -486,14 +486,40 @@ jQuery(function($) {
     });
 
     // Edit profile
+    $('#referralInput').on('click', function() { $(this)[0].select(); });
+    $("#editprofile").on('submit', function(e){
+        e.preventDefault();
+        singleAjax(site_url+'/ajax/userupdate', $(this));
+    });
     $('#resetprofile').on('submit', function(e) {
         e.preventDefault();
         if(!confirm("Are you sure you want to reset your account? You will lose all your units, research and buildings!")) return;
-        singleAjax(site_url+'/ajax/reset', $(this), function(data) {
-
-        });
+        singleAjax(site_url+'/ajax/reset', $(this));
     });
-
+    if($('#editprofile').length) {
+        Dropzone.autoDiscover = false;
+        $("#user_avatar_dz").dropzone({
+            url: $('#user_avatar_dz').attr('data-url'),
+            addRemoveLinks: true,
+            init: function() {
+                $("#user_avatar_dz").addClass('dropzone');
+                this.on("sending", function(file, xhr, formData){
+                    formData.append("my_nonce_field", $('.nonce').val());
+                    formData.append("action", "submit_dropzonejs");
+                });
+                this.on("removedfile", function(file, xhr, formData) {
+                    console.log(file.previewTemplate.getAttribute('rel'));
+                });
+            },
+            success: function (file, response) {
+                $('input[name="newuserimage"]').attr('value',response);
+                file.previewElement.classList.add("dz-success");
+            },
+            error: function (file, response) {
+                file.previewElement.classList.add("dz-error");
+            }
+        });
+    }
 });
 
 // Google Tag Manager

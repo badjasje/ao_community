@@ -112,6 +112,9 @@ class User extends DbObject {
 
     public function getAvatar($classes='', $link=true) {
         $avatar = $this->get('avatar_user');
+        if(strtolower($this->getName()) == 'minion') {
+            $avatar = get_stylesheet_directory_uri().'/img/avatars/Minion.png';
+        }
         $classes = array_merge( (!is_array($classes) ? array($classes) : array()), array('setAvatar'));
         $classes[] = !empty($avatar) ? 'uploaded' : 'letter';
         $return = (!!$link ? '<a href="'.$this->getLink().'" title="'.$this->getName().'">' : '');

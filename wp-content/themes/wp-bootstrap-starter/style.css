@@ -1631,20 +1631,6 @@ input[type="radio"]:checked + label {
     top: 1px;
     border: 1px solid #fff;
 }
-.dropzone {
-    min-height: 50px !important;
-    border: 0px !important;
-    background: white;
-    padding: 0px !important;
-}
-.dropzone .dz-preview{
-	margin:0px !important;
-}
-.dropzone .dz-preview .dz-image{
-	border-radius:0px !important;
-	width:unset !important;
-	height:unset !important;
-}
 .pageLoader{
 	font-size:150px;
 	width:150px;

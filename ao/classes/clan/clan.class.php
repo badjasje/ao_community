@@ -84,6 +84,12 @@ class Clan extends PostObject {
         return (is_array($members) && count($members) ? $members : array());
     }
 
+    public function getPreviousMembers() {
+        $previous_members = maybe_unserialize($this->get('previous_members'));
+        if(!is_array($previous_members) || Round::isPaused()) $previous_members = array();
+        return $previous_members;
+    }
+
     public function getOpenInvites() {
         $open_invites = maybe_unserialize(maybe_unserialize($this->get('open_invites')));
         if(!is_array($open_invites)) $open_invites = array();
