@@ -95,7 +95,7 @@ class User extends DbObject {
     }
 
     public function getUsername() {
-        return $this->get('nicename');
+        return $this->get('user_login');
     }
 
     public function getName($format=false) {
@@ -110,10 +110,10 @@ class User extends DbObject {
         return '<a class="memberField" href="'.$this->getLink(false).'">'.$this->getName(true).'</a>';
     }
 
-    public function getAvatar($classes='') {
+    public function getAvatar($classes='', $link=true) {
         $avatar = $this->get('avatar_user');
         $classes = array_merge( (!is_array($classes) ? array($classes) : array()), array('setAvatar'));
-        $return = '<a href="'.$this->getLink().'" title="'.$this->getName().'">';
+        $return = (!!$link ? '<a href="'.$this->getLink().'" title="'.$this->getName().'">' : '');
         if(!empty($avatar)) {
             $avatar = str_replace("http://", "https://", $avatar);
             $return .= '<div class="'. implode(' ', $classes) .'" style="background: url(\''.$avatar.'\');"></div>';
@@ -127,7 +127,7 @@ class User extends DbObject {
             $color = (isset($map[$firstletter]) ? $map[$firstletter] : '#2D434E');
             $return .= '<div class="'. implode(' ', $classes) .'" style="background-color:'. $color .';">'. $firstletter .'</div>';
         }
-        return $return .'</a>';
+        return $return .  (!!$link ? '</a>' : '');
     }
 
     public function getLoginData($format=false) {
