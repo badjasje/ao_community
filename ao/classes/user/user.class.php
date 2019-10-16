@@ -116,7 +116,7 @@ class User extends DbObject {
         $classes[] = !empty($avatar) ? 'uploaded' : 'letter';
         $return = (!!$link ? '<a href="'.$this->getLink().'" title="'.$this->getName().'">' : '');
         $return .= '<div class="'. implode(' ', $classes) .'">';
-        if(!empty($avatar)) {
+        if(!empty($avatar) && in_array(substr($avatar, -3), array('jpg','png','gif'))) {
             $return .= '<img src="'. str_replace("http://", "https://", $avatar) .'">';
         }
         else {

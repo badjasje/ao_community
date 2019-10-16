@@ -27,9 +27,7 @@ function get_user_ip_address() {
 }
 
 function is_banned($userId) {
-    $status = get_user_meta($userId, 'status', true);
-    if($status == 'banned') return true;
-    return false;
+    return User::make($userId)->isBanned();
 }
 
 // Before login hook

@@ -37,13 +37,13 @@ class Clan extends PostObject {
         $classes[] = !empty($avatar) ? 'uploaded' : 'letter';
         $return = (!!$link ? '<a href="'.$this->getLink().'" title="'.$this->getName().'">' : '');
         $return .= '<div class="'. implode(' ', $classes) .'">';
-        if(!empty($avatar)) {
-            $return .= '<img class="uploaded" src="'. str_replace("http://", "https://", $avatar) .'">';
+        if(!empty($avatar) && in_array(substr($avatar, -3), array('jpg','png','gif'))) {
+            $return .= '<img src="'. str_replace("http://", "https://", $avatar) .'">';
         }
         else {
             $firstletter = strtoupper(substr($this->getName(), 0, 1));
             if(!preg_match('/[A-Z]/', $firstletter)) $firstletter = '_';
-            $return .= '<img class="letter" src="'. get_stylesheet_directory_uri().'/img/avatars/'. $firstletter .'.png' .'">';
+            $return .= '<img src="'. get_stylesheet_directory_uri().'/img/avatars/'. $firstletter .'.png' .'">';
         }
         return $return . (!!$link ? '</div>' : '') . '</a>';
     }
