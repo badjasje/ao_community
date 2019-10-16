@@ -29,10 +29,21 @@ function updateHeaderData(cb) {
             for(var i in data.formatted) {
                 if($('.'+i+'header').length) $('.'+i+'header').html(data.formatted[i]);
             }
+            $('.globalsBadge,.localsBadge,.messagesBadge').off('click');
+            if(!!data.ghost) {
+                data[data.ghost]++;
+                $('.'+data.ghost+'Button').on('click', function(e) {
+                    e.preventDefault();
+                    $('#ghost').animate({width:'100vw',opacity:0}, 300, function() {
+                        $(this).css({width:'0vw',opacity:1});
+                    });
+                    $(this).off('click').find('.badge').text(0).hide();
+                });
+            }
             $('header .freeland').attr({'data-original-title': 'Free land: '+data.formatted.freeland});
             $('.globalsBadge').text(data.globals).toggle((data.globals>0));
             $('.localsBadge').text(data.locals).toggle((data.locals>0));
-            $('.inboxBadge').text(data.messages).toggle((data.messages>0));
+            $('.messagesBadge').text(data.messages).toggle((data.messages>0));
             if(!!cb) cb.call();
         }
     });

@@ -47,6 +47,9 @@ $timeLeft = Market::timeLeft();
 	<? if(in_array(date('d-m'), array('24-12','25-12','26-12'))) { ?>
 	<link href="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/css/hohoho.css" rel="stylesheet" />
 	<? } ?>
+	<? if(in_array(date('d-m'), array('31-10'))) { ?>
+	<link href="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/css/boe.css" rel="stylesheet" />
+	<? } ?>
 </head>
 
 <body <?php body_class(array(($menuOpen?'menuOpen':''),'game-type-'.Round::get('type'))) ?> data-siteurl="<?=Request::siteUrl()?>">
@@ -80,19 +83,19 @@ $timeLeft = Market::timeLeft();
 				<div><?=$province->getAvatar('menuAvatar')?></div>
 
 				<a href="<?=Request::siteUrl()?>/conversations">
-					<button class="menu-item inboxButton" type="button" >
+					<button class="menu-item messagesButton" type="button" >
 						<i class="fas fa-envelope"></i>
-						<span class="badge badge-pill badge-info inboxBadge">0</span>
+						<span class="badge badge-pill badge-info messagesBadge">0</span>
 					</button>
 				</a>
 				<a href="<?=Request::siteUrl()?>/events/incoming">
-					<button class="menu-item" type="button" >
+					<button class="menu-item localsButton" type="button" >
 						<i class="fas fa-arrow-circle-down"></i>
 						<span class="badge badge-pill badge-primary localsBadge">0</span>
 					</button>
 				</a>
 				<a href="<?=Request::siteUrl()?>/events/global">
-					<button class="menu-item" type="button" >
+					<button class="menu-item globalsButton" type="button" >
 						<i class="fas fa-globe"></i>
 						<span class="badge badge-pill badge-danger globalsBadge">0</span>
 					</button>

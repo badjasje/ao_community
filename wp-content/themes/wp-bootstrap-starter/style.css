@@ -635,6 +635,9 @@ body:not(.theme-preset-active) footer#colophon {
         padding-top: 0.938rem;
     }
 }
+#ghost { position: fixed; top: 50%; left: 50%; width: 0vw; transform: translate(-50%,-50%); }
+#ghost path { fill: white; }
+
 /*--------------------------------------------------------------
 # Media Query
 --------------------------------------------------------------*/
@@ -718,8 +721,8 @@ body:not(.theme-preset-active) footer#colophon {
 .menu-item { position:relative; }
 .globalsBadge { top: 3px; animation-name: globalsPulse; }
 .localsBadge { top: 23px; animation-name: localsPulse; }
-.inboxBadge { top: 23px; animation-name: inboxPulse; }
-.inboxBadge, .localsBadge, .globalsBadge {
+.messagesBadge { top: 23px; animation-name: inboxPulse; }
+.messagesBadge, .localsBadge, .globalsBadge {
     display:none; z-index: 99999; position: absolute;
     animation-duration: 2s;
 	animation-iteration-count: infinite;
@@ -964,7 +967,7 @@ input[type="radio"]:checked + label {
         margin-left: 70px;
         margin-top: -41px;
     }
-    .inboxButton {
+    .messagesButton {
         margin-left: 41px;
     }
 }
