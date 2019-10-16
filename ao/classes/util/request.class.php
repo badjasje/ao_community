@@ -100,6 +100,7 @@ class Request {
 
     static function pathRateLimit() {
          // Rate limiting per hour, based on path
+         if(Round::isTest() || Round::isDev()) return;
          if(in_array(static::$path, array_keys(static::$rate_limits))) {
             if(!isset($_SESSION['path_num'])) $_SESSION['path_num'] = array(date('H') => array());
             if(array_keys($_SESSION['path_num'])[0] != date('H')) $_SESSION['path_num'] = array(date('H') => array());
