@@ -33,6 +33,8 @@ class Clan extends PostObject {
 
     public function getAvatar($classes='', $link=true) {
         $avatar = $this->get('clan_thumb');
+        $firstletter = strtoupper(substr($this->getName(), 0, 1));
+        if(!preg_match('/[A-Z]/', $firstletter)) $firstletter = '_';
         $classes = array_merge( (!is_array($classes) ? array($classes) : array()), array('setAvatar clan_avatar'));
         $classes[] = !empty($avatar) ? 'uploaded' : 'letter';
         $return = (!!$link ? '<a href="'.$this->getLink().'" title="'.$this->getName().'">' : '');
@@ -41,8 +43,6 @@ class Clan extends PostObject {
             $return .= '<img src="'. str_replace("http://", "https://", $avatar) .'">';
         }
         else {
-            $firstletter = strtoupper(substr($this->getName(), 0, 1));
-            if(!preg_match('/[A-Z]/', $firstletter)) $firstletter = '_';
             $return .= '<img src="'. get_stylesheet_directory_uri().'/img/avatars/'. $firstletter .'.png' .'">';
         }
         return $return . (!!$link ? '</div>' : '') . '</a>';

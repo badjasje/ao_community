@@ -112,6 +112,11 @@ class User extends DbObject {
 
     public function getAvatar($classes='', $link=true) {
         $avatar = $this->get('avatar_user');
+        $firstletter = strtoupper(substr($this->getName(), 0, 1));
+        if(!preg_match('/[A-Z]/', $firstletter)) $firstletter = '_';
+        if(in_array(date('d-m'), array('31-10'))) {
+            $avatar = get_stylesheet_directory_uri().'/img/boe/'.$firstletter.'.png';
+        }
         if(strtolower($this->getName()) == 'minion') {
             $avatar = get_stylesheet_directory_uri().'/img/avatars/Minion.png';
         }
@@ -123,8 +128,6 @@ class User extends DbObject {
             $return .= '<img src="'. str_replace("http://", "https://", $avatar) .'">';
         }
         else {
-            $firstletter = strtoupper(substr($this->getName(), 0, 1));
-            if(!preg_match('/[A-Z]/', $firstletter)) $firstletter = '_';
             $return .= '<img src="'. get_stylesheet_directory_uri().'/img/avatars/'. $firstletter .'.png' .'">';
         }
         return $return . '</div>' . (!!$link ? '</a>' : '');
