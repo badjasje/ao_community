@@ -216,7 +216,9 @@ class Event extends PostObject {
     }
 
     public function getAvatar($format=false) {
-        $avatar = '<div class="clan_avatar smallAvatar eventAvatar">?</div>';
+        $avatar = '<div class="eventAvatar setAvatar letter">
+            <img src="'.get_stylesheet_directory_uri().'/img/avatars/_.png">
+        </div>';
 
         // Sabotaged silo's
         if($this->eventcategory == 'global' && empty($this->get('defender_id'))) return $avatar;
