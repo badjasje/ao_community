@@ -787,7 +787,7 @@ if ($result == 'success') {
 
 	//defender
 	$attacks_lost = $defenderData['attacks_lost'][0];
-	update_user_meta($target_id, 'attacks_lost', $attacks_received+1);
+	update_user_meta($target_id, 'attacks_lost', $attacks_lost+1);
 	?>
 	<script>
 		jQuery(document).ready(function() {
