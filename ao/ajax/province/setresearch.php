@@ -29,11 +29,7 @@ function ajax_setresearch($province, $return) {
     }
     else {
         // set up arguments for creating research post
-        // @todo $research = Research::create();
-        $endTime = current_time('timestamp') + ($new_research['duration']*60*60);
-        $args = array('post_title' => $endTime, 'post_status' => 'publish', 'post_content' => $new_key, 'post_type' => 'research', 'post_author' => $province->id);
-        $new_research_id = wp_insert_post($args);
-        $province->update('research_in_progress', $new_key);
+        $researchPost = Research::create($province->get('id'), $new_key);
         return array_merge($return, array(
             'status' => $new_research['name'].' research started',
             'hidebutton' => ($new_research['level']+1) >= $new_research['maxlevel'] ? $new_key.'_button' : '',

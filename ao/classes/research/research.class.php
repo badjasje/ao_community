@@ -12,8 +12,17 @@ class Research extends PostObject {
         }
     }
 
-    public static function create($data=array()) {
-
+    public static function create($province_id, $research_key) {
+        $province = Province::make($province_id);
+        if($province->get('id')) {
+            $new_research = $province->getResearches($research_key);
+            if($new_research) {
+                $endTime = current_time('timestamp') + ($new_research['duration']*60*60);
+                $args = array('post_title' => $endTime, 'post_status' => 'publish', 'post_content' => $research_key, 'post_type' => 'research', 'post_author' => $province_id);
+                $new_research_id = wp_insert_post($args);
+                $province->update('research_in_progress', $research_key);
+            }
+        }
     }
 
     public function timeLeft($format=false) {

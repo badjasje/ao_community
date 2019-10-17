@@ -476,7 +476,7 @@ class Province extends DbObject {
             $researches[$id]['nw'] = Format::networth($researches[$id]['duration'] * Settings::get('nw_research'));
             //Hooks::trigger('get_province_research', array($id, $researches[$id])); // we might want to work with modifiers
         }
-        return  ($key != null && $researches[$key] ? $researches[$key] : $researches);
+        return  ($key != null ? (!!$researches[$key] ? $researches[$key] : false) : $researches);
     }
     public function getCurrentResearch() {
         if(!empty($this->get('research_in_progress'))) {
