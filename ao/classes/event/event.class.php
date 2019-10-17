@@ -350,8 +350,8 @@ class Event extends PostObject {
             '{money}' => $money,
             '{spy}' => ($this->get('event_spy_type') == 'spy' ? 'spy' : ''),
             '{spyplane}' => ($this->get('event_spy_type') == 'spyplane' ? 'spyplane' : ''),
-            '{shot}' => ($winner_id == $defender_id ? 'and you '.($this->get('event_spy_type') == 'spy' ? 'killed it' : 'shot it down') : ''),
-            '{defender_points}' => ($this->get('defender_points')>0 ? $this->get('defender_points').' clan point(s) gained for successful base defense.' : ''),
+            '{shot}' => ($winner_id == $defender_id ? 'and you '.($this->get('event_spy_type') == 'spy' ? ' killed it' : ' shot it down') : ''),
+            '{defender_points}' => ($this->get('defender_points')>0 ? ' '.$this->get('defender_points').' clan point(s) gained for successful base defense.' : ''),
             '{youdied}' => ($this->get('status_defender') == 'death' ? ($format == true ? '<strong>you died</strong>' : 'you died') : ''), // incoming
             '{killed}' => ($this->get('status_defender') == 'death' ? 'killed this player' : ''),// outgoing
             '{kicked}' => 'Kicked from '.($attacker_clan ? $attacker_clan->getLink($format) : 'unknown').' by '.$attacker_name,
@@ -406,7 +406,7 @@ class Event extends PostObject {
                 $replace = array_merge($replace, array(
                     '{won}' => ($winner_id == $attacker_id ? 'won the battle' : ''),
                     '{lost}' => ($winner_id == $defender_id ? 'lost the battle' : ''),
-                    '{clan_points}' => ($winner_id == $attacker_id && $this->get('clan_points') > 0 ? Format::plural($this->get('clan_points'), 'clan point') .' gained.' : ''),
+                    '{clan_points}' => ($winner_id == $attacker_id && $this->get('clan_points') > 0 ? ' '. Format::plural($this->get('clan_points'), 'clan point') .' gained.' : ''),
                     '{hit}' => ($this->get('shotdown') != 'shotdown' && $winner_id == $attacker_id ? 'hit the enemy base' : ''),
                     '{missed}' => ($this->get('shotdown') != 'shotdown' && $winner_id == $defender_id ? 'missed the enemy base' : ''),
                 ));
@@ -416,7 +416,7 @@ class Event extends PostObject {
                 $replace = array_merge($replace, array(
                     '{won}' => ($winner_id == $defender_id ? 'lost the battle' : ''),
                     '{lost}' => ($winner_id == $attacker_id ? 'won the battle' : ''),
-                    '{clan_points}' => ($winner_id == $defender_id && $this->get('defender_points') > 0 ? Format::plural($this->get('defender_points'), 'clan point') .' gained for successful base defense.' : ''),
+                    '{clan_points}' => ($winner_id == $defender_id && $this->get('defender_points') > 0 ? ' '. Format::plural($this->get('defender_points'), 'clan point') .' gained for successful base defense.' : ''),
                     '{hit}' => ($this->get('shotdown') != 'shotdown' && $winner_id == $attacker_id ? 'hit the base' : ''),
                     '{missed}' => ($this->get('shotdown') != 'shotdown' && $winner_id == $defender_id ? 'missed the base' : ''),
                 ));
