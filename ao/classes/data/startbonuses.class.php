@@ -1,6 +1,54 @@
 <?php
 class Startbonuses extends DataObject {
 
+    public static function init() {
+
+        Hooks::on('set_province_startbonus', 10, function($bonustype, $province) {
+            switch($bonustype) {
+                case 'offensive': $province->update('turns', $province->getTurns() + 75); break;
+                case 'defensive': $province->update('land', $province->getLand() + 3500); break;
+                case 'finance': $province->update('money', $province->getMoney() + 400000); break;
+                case 'shipping':
+                    $province->update('land', $province->getLand() + 2500);
+                    $province->update('money', $province->getMoney() + 250000);
+                break;
+            }
+        });
+        Hooks::on('get_province_building', 10, function(&$buildings, $id, $province) {
+            if($province->hasStartingBonus('defensive')) {
+                $buildings[$id]['life'] = round($buildings[$id]['life'] * 1.25);
+            }
+        });
+        Hooks::on('get_province_unit', 10, function(&$units, $id, $province) {
+            if($province->hasStartingBonus('defensive')) {
+                $units[$id]['life'] = round($units[$id]['life'] * 1.2);
+            }
+        });
+        Hooks::on('get_province_income', 20, function(&$income, $province) {
+            if($province->hasStartingBonus('finance')) {
+                $income = $income * 1.1;
+            }
+        });
+        Hooks::on('get_province_max_deposit', 20, function(&$max_dep, $province) {
+            if($province->hasStartingBonus('finance')) {
+                $max_dep = $max_dep * 1.5;
+            }
+        });
+        Hooks::on('get_province_research', 20, function(&$researches, $id, $province) {
+            if($id == 'money_production' && $province->hasStartingBonus('finance')) {
+                $researches[$id]['level_value'] = round($researches[$id]['level_value'] * 1.1);
+            }
+            if($id == 'market_discount' && $province->hasStartingBonus('shipping')) {
+                $researches[$id]['level_value'] = $researches[$id]['level_value'] + 10;
+            }
+            if($province->hasStartingBonus('defensive')) {
+                $researches[$id]['duration'] = round($researches[$id]['duration'] * 0.9);
+            }
+        });
+        // @todo: shipping: Market hooks
+        // @todo: offensive: Unit attack hooks
+    }
+
     static $data = array(
         'offensive' => array(
             'icon' => 'fa fa-fire',

@@ -270,7 +270,7 @@ class Province extends DbObject {
                     $medals[$id]['prev'] = call_user_func(array('Format', $medals[$id]['format']), $medals[$id]['prev']);
                 }
             }
-            //Hooks::trigger('get_province_medal', array($id, $medals[$id])); // we might want to work with modifiers
+            Hooks::trigger('get_province_medal', null, $medals, $id, $this);
         }
         return  ($key != null && $medals[$key] ? $medals[$key] : $medals);
     }
@@ -296,14 +296,8 @@ class Province extends DbObject {
      * Used on dashboard
      */
     public function getIncome($format=false) {
-        $finance_multi = ($this->hasStartingBonus('finance') ? Settings::get('startbonus_finance_income_multi') : 1);
-        $income = Settings::get('income_money') * $finance_multi;
-
-        //Hooks::trigger('get_province_income', array($id, $income)); // we might want to work with modifiers
-        $money_production = $this->getResearches('money_production');
-        if($money_production['level'] == 1) $income = $money_production['level1_value'] * $finance_multi;
-        elseif($money_production['level'] == 2) $income = $money_production['level2_value'] * $finance_multi;
-
+        $income = Settings::get('income_money');
+        Hooks::trigger('get_province_income', null, $income, $this);
         return ($format ? Format::money($income) : $income);
     }
 
@@ -346,15 +340,7 @@ class Province extends DbObject {
         if(!empty($this->getStartingBonus())) return false; // Province already has a bonus
         $bonus = Startbonuses::get($bonustype);
         if(empty($bonus)) return false; // No such bonus
-        switch($bonustype) {
-            case 'offensive': $this->update('turns', $this->getTurns() + 75); break;
-            case 'defensive': $this->update('land', $this->getLand() + 3500); break;
-            case 'finance': $this->update('money', $this->getMoney() + 400000); break;
-            case 'shipping':
-                $this->update('land', $this->getLand() + 2500);
-                $this->update('money', $this->getMoney() + 250000);
-            break;
-        }
+        Hooks::trigger('set_province_startbonus', null, $bonustype, $this);
         $this->update('starting_bonus', $bonustype);
         return true;
     }
@@ -364,11 +350,7 @@ class Province extends DbObject {
      */
     public function getBankInterestRates($all=false) {
         $rates = Bank::getRates($all); // Array changes according to days left in this round, we want all in case of Deposit calculation
-        $bank_level = $this->getResearches('bank_management')['level'];
-        $extra_interest = ($bank_level > 0 ? Settings::get('bank_management_'.$bank_level.'_interest') : 0);
-        foreach($rates as $length => $rate) {
-            $rates[$length] = $rate + $extra_interest;
-        }
+        Hooks::trigger('get_province_interest_rates', null, $rates, $this);
         return $rates;
     }
     public function getBankInterestRate($length) {
@@ -420,13 +402,7 @@ class Province extends DbObject {
     }
     public function getMaxDeposit($format=false) {
         $max_dep = Settings::get('bank_max_deposit');
-
-        $bank_level = $this->getResearches('bank_management')['level'];
-        $max_dep = ($bank_level > 0 ? Settings::get('bank_management_'.$bank_level.'_deposit') : $max_dep);
-
-        $finance_multi = $this->hasStartingBonus('finance') ? Settings::get('startbonus_finance_deposit_multi') : 1;
-        $max_dep = $max_dep * $finance_multi;
-
+        Hooks::trigger('get_province_max_deposit', null, $max_dep, $this);
         return ($format ? Format::money($max_dep) : $max_dep);
     }
 
@@ -453,28 +429,23 @@ class Province extends DbObject {
             $value = (isset($research['level'.($level+1).'_value']) ? $research['level'.($level+1).'_value'] : 0); // next 'value'
             $description = (isset($research['level'.($level+1)]) ? $research['level'.($level+1)] : 'Unknown research level');
 
-            if($id == 'money_production') {
-                $value = Format::money($value * ($this->hasStartingBonus('finance') ? Settings::get('startbonus_money_research_multi') : 1));
-            }
-            if($id == 'market_discount' && $this->hasStartingBonus('shipping')) {
-                $value = $value + Settings::get('startbonus_shipping_research_multi');
-            }
-
             $researches[$id]['level'] = $level;
             $researches[$id]['level_value'] = $value;
-            $researches[$id]['level_description'] = str_replace('{value}', $value, $description);
             $researches[$id]['inProgress'] = ($this->get('research_in_progress') == $id ? true : false);
             $researches[$id]['queued'] = ($this->get('queued_research') == $id ?  true : false);
             $researches[$id]['original_duration'] = $researches[$id]['duration']; // For nw calc
-            if($this->hasStartingBonus('defensive')) {
-                $researches[$id]['duration'] = $researches[$id]['duration'] * Settings::get('startbonus_defensive_research_time');
-            }
+            $researches[$id]['nw'] = Format::networth($researches[$id]['original_duration'] * Settings::get('nw_research'));
+
+            Hooks::trigger('get_province_research', null, $researches, $id, $this);
+
+            // Show stuff after hooks fired
+            $researches[$id]['level_description'] = str_replace('{value}', $researches[$id]['level_value'], $description);
+
+            // Turns based on possible adjust duration
             $researches[$id]['turns'] = round($researches[$id]['duration'] * Settings::get('turns_research'));
             if($researchInProgress != false) { // Queued research cost more turns
                 $researches[$id]['turns'] = round($researches[$id]['duration'] * Settings::get('turns_queue_research'));
             }
-            $researches[$id]['nw'] = Format::networth($researches[$id]['duration'] * Settings::get('nw_research'));
-            //Hooks::trigger('get_province_research', array($id, $researches[$id])); // we might want to work with modifiers
         }
         return  ($key != null ? (!!$researches[$key] ? $researches[$key] : false) : $researches);
     }
@@ -542,19 +513,7 @@ class Province extends DbObject {
                 $buildings[$id]['maxdemo'] -= ceil($buildings[$id]['occupied'] / $unitsPerTurn[$building['houses']]);
             }
 
-            //Hooks::trigger('get_province_building', array($id, $buildings[$id])); // we might want to work with modifiers
-            if($this->hasStartingBonus('defensive')) {
-                $buildings[$id]['life'] = round($buildings[$id]['life'] * Settings::get('startbonus_defensive_building_life_multi'));
-            }
-        }
-
-        if ($this->hasResearchMinimalLevel('powerplant_efficiency',1)) {
-            $buildings['powerplant']['powerprod'] = $buildings['powerplant']['powerprod'] * 1.5;
-            $buildings['powerplant']['life'] = round($buildings['powerplant']['life'] * 1.5);
-            $buildings['powerplant']['description'] = 'Produces ' . $buildings['powerplant']['powerprod'] .' power';
-            $buildings['advancedpowerplant']['powerprod'] = $buildings['advancedpowerplant']['powerprod'] * 1.5;
-            $buildings['advancedpowerplant']['life'] = round($buildings['advancedpowerplant']['life'] * 1.5);
-            $buildings['advancedpowerplant']['description'] = 'Produces ' . $buildings['advancedpowerplant']['powerprod'] .' power';
+            Hooks::trigger('get_province_building', null, $buildings, $id, $this);
         }
 
         if($shootdown_chance = $this->getShootdownChance()) {
@@ -568,12 +527,9 @@ class Province extends DbObject {
     }
 
     public function getBuildingsPerTurn() {
-        $r = $this->getResearches('engineering_effectiveness');
-        switch($r['level']) {
-            case 1: return 10; break;
-            case 2: return 15; break;
-        }
-        return 5;
+        $bbt = 5;
+        Hooks::trigger('get_province_buildings_per_turn', null, $bbt, $this);
+        return $bbt;
     }
 
     public function getUnitTypeSpace() {
@@ -638,6 +594,7 @@ class Province extends DbObject {
      */
     public function getUnitsPerTurn($key=null) {
         $unitsPerTurn = Settings::get('units_per_turn');
+        Hooks::trigger('get_province_units_per_turn', null, $unitsPerTurn, $this);
         return ($key != null && $unitsPerTurn[$key] ? $unitsPerTurn[$key] : $unitsPerTurn);
     }
 
@@ -668,13 +625,8 @@ class Province extends DbObject {
             $units[$id]['specialspace'] = (in_array($id, $special_units) ? $space['special'] - $usedSpace['special'] : 0);
             $units[$id]['maxbuild'] = min($maxSpecial, $maxMoney, $maxSpace, $maxTurns);
 
-            //Hooks::trigger('get_province_unit', array($id, $units[$id])); // we might want to work with modifiers
-            if($this->hasStartingBonus('defensive')) {
-                $units[$id]['life'] = round($units[$id]['life'] * Settings::get('startbonus_defensive_unit_life_multi'));
-            }
+            Hooks::trigger('get_province_unit', null, $units, $id, $this);
         }
-        /*wtf($units, $unitsPerTurn, $space, $usedSpace);
-        die();*/
 
         return ($key != null && $units[$key] ? $units[$key] : $units);
     }
@@ -711,7 +663,7 @@ class Province extends DbObject {
             $missiles[$id]['num'] = (!!$this->get($id.'_owned') ? intval($this->get($id.'_owned')) : 0);
             $missiles[$id]['ordered'] = (!!$this->get($id.'_ordered') ? intval($this->get($id.'_ordered')) : 0);
             $missiles[$id]['original_price'] = $missile['price']; // For nw calc
-            //Hooks::trigger('get_province_missile', array($id, $missiles[$id])); // we might want to work with modifiers
+            Hooks::trigger('get_province_missile', null, $missiles, $id, $this);
         }
         return ($key != null && $missiles[$key] ? $missiles[$key] : $missiles);
     }
@@ -734,10 +686,8 @@ class Province extends DbObject {
             $satellites[$id]['num'] = ($sat == $id ? 1 : 0);
             $satellites[$id]['original_price'] = $satellite['price']; // For nw calc
             $satellites[$id]['status'] = ($id=='stealths' && $this->get('stealth_sat_status')=='active' ? 'active' : '');
-            //Hooks::trigger('get_province_sattelite', array($id, $satellites[$id])); // we might want to work with modifiers
-            if($this->hasResearchMinimalLevel('satellite_construction', 3)) {
-                $satellites[$id]['price'] = $satellites[$id]['price'] * Settings::get('satellite_construction_3_price_multi');
-            }
+            $satellites[$id]['days'] = 0; // This will be set in research-class
+            Hooks::trigger('get_province_sattelite', null, $satellites, $id, $this);
         }
         return ($key != null && $satellites[$key] ? $satellites[$key] : $satellites);
     }

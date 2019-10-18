@@ -40,35 +40,10 @@ class Settings extends DataObject {
         'nw_sat' => 0.04,
         'nw_research' => 950,
 
-        // start bonus things
-        'startbonus_defensive_building_life_multi' => 1.25,
-        'startbonus_defensive_unit_life_multi' => 1.2,
-        'startbonus_finance_income_multi' => 1.1,
-        'startbonus_finance_deposit_multi' => 1.5,
-        'startbonus_money_research_multi' => 1.1,
-        'startbonus_shipping_research_multi' => 10,
-        'startbonus_defensive_research_time' => 0.9,
-
         // Bank
         'bank_max_deposits' => 10,
         'bank_max_deposit' => 250000,
         'bank_min_deposit' => 5000,
-
-        // Research
-        'powerplant_efficiency_life_multi' => 1.5,
-        'powerplant_efficiency_power_multi' => 1.5,
-        'satellite_construction_1_endlife' => 11,
-        'satellite_construction_2_endlife' => 16,
-        'satellite_construction_3_price_multi' => .8,
-        'bank_management_1_interest' => .5,
-        'bank_management_2_interest' => .5,
-        'bank_management_3_interest' => .75,
-        'bank_management_1_deposit' => 350000,
-        'bank_management_2_deposit' => 450000,
-        'bank_management_3_deposit' => 500000,
-        'bank_management_2_time' => (60*60*24),
-        'bank_management_2_withdraw' => 0.5,
-        'bank_management_3_withdraw' => 0.75,
 
         // Explore & sell
         'max_explore_land' => 20000,
@@ -117,6 +92,14 @@ class Settings extends DataObject {
         'sniper_morale_cost' => 10,
         'thief_morale_cost' => 5,
         'spy_morale_cost' => 0,
+            // Morale costs
+            'morale_missile_tgt_below' => 40,
+            'morale_missile_tgt_above' => 35,
+            'morale_attack_tgt_below' => 25,
+            'morale_attack_tgt_above' => 20,
+            'morale_thief' => 5,
+            'morale_saboteur' => 30,
+            'morale_spy' => 0,
         'missile_morale_tgt_below' => 40,
         'missile_morale_tgt_above' => 35,
         'attack_morale_tgt_below' => 25,
@@ -130,14 +113,7 @@ class Settings extends DataObject {
         'turns_research' => 2, // duration times 2
         'turns_queue_research' => 3, // duration times 3
 
-        // Morale costs
-        'morale_missile_tgt_below' => 40,
-        'morale_missile_tgt_above' => 35,
-        'morale_attack_tgt_below' => 25,
-        'morale_attack_tgt_above' => 20,
-        'morale_thief' => 5,
-        'morale_saboteur' => 30,
-        'morale_spy' => 0,
+
 
         // Attack range multiplier
         'attack_range_mult' => 1.4,

@@ -11,8 +11,10 @@ $deposits = $province->getDeposits();
 $dep_num = $province->getDepositNum();
 $max_dep = $province->getMaxDeposit();
 $max_input = floor(min($max_dep,$province->getMoney()));
-$bank_level = $province->getResearches('bank_management')['level'];
-$withdraw_penalty = ($bank_level >= 2 ? (Settings::get('bank_management_'.$bank_level.'_withdraw')*100) : 0);
+$bm = $province->getResearches('bank_management');
+$bank_level = $bm['level'];
+$withdraw_penalty = ($bank_level >= 2 ? ($bm['level'.$bank_level.'_withdraw'] * 100) : 0);
+
 $disabled = (!Bank::isOpen() || $dep_num >= $province->getMaxDeposits() ? true : false);
 ?>
 <div id="bank" class="row pageRow">

@@ -105,7 +105,7 @@ class User extends DbObject {
         return $this->getName(false).' (#'.$this->get('id').')' . ($this->isOnline()?' <span class="online">*</span>':'');
     }
 
-    public function getLink($format=false) { // @todo: make a permalink for users
+    public function getLink($format=false) { // @todo: make a permalink for users?
         if(!$format) return Request::siteUrl().'/users/profile/?id='.$this->id;
         return '<a class="memberField" href="'.$this->getLink(false).'">'.$this->getName(true).'</a>';
     }

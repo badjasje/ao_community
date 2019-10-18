@@ -35,16 +35,13 @@ class Deposit extends PostObject {
         return ($format ? Format::money($n) : $n);
     }
     public function availableAmount($format=false) {
-        $n = 0;
+        $amount = 0;
         if($this->unlocked()) {
-            if($this->timeLeft() <= 0) $n = $this->finalAmount();
-            else {
-                $province = Province::make($this->get('province_id'));
-                $bank_level = $province->getResearches('bank_management')['level'];
-                $n = $this->deposited() * ($bank_level >= 2 ? Settings::get('bank_management_'.$bank_level.'_withdraw') : 1);
-            }
+            if($this->timeLeft() <= 0) $amount = $this->finalAmount();
+            else $amount = $this->deposited();
         }
-        return ($format ? Format::money(round($n)) : round($n));
+        Hooks::trigger('get_deposit_available_amount', null, $amount, $this);
+        return ($format ? Format::money(round($amount)) : round($amount));
     }
     public function finalAmount($format=false) {
         $province = Province::make($this->get('province_id'));
@@ -66,12 +63,9 @@ class Deposit extends PostObject {
 
     public function unlocked() {
         if($this->timeLeft() <= 0) return true;
-        $province = Province::make($this->get('province_id'));
-        $bank_level = $province->getResearches('bank_management')['level'];
-        if($bank_level >= 2 && $this->get('deposit_placed')+Settings::get('bank_management_2_time') <= current_time('timestamp')) {
-            return true;
-        }
-        return false;
+        $return = false;
+        Hooks::trigger('get_deposit_unlocked', null, $return, $this);
+        return $return;
     }
 
     public function used() {

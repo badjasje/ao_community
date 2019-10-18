@@ -44,7 +44,6 @@ class Order extends PostObject {
 
         $province = Province::make($this->get('province_id'));
         $unit_type = $this->get('unit_type');
-
         if($this->type() == 'units') {
             $unit = Units::get($unit_type);
             if(!$unit) return false; // Unit does not exist
@@ -59,15 +58,12 @@ class Order extends PostObject {
 
         if($this->type() == 'satellite') {
             if(!$province->hasResearchMinimalLevel('satellite_construction', 1)) return false; // User cannot build sats
-            if($province->getSatelliteNum() > 0) return false; // Province can only have one sattelite (for now)
-            $satellite = Satellites::get($unit_type);
+            if($province->getSatelliteNum() != 0) return false; // Province can only have one sattelite (for now)
+            $satellite = $province->getSatellites($unit_type);
             if(!$satellite) return false; // Satellite does not exist
-
-            $days = Settings::get('satellite_construction_1_endlife');
-            if ($province->hasResearchMinimalLevel('satellite_construction', 2)) $days = Settings::get('satellite_construction_2_endlife');
             $province->update('sat_owned', $unit_type);
             $province->update('sat_in_progress', 0);
-            $province->update('sat_endlife', current_time('timestamp') + ($days * 86400));
+            $province->update('sat_endlife', current_time('timestamp') + ($satellite['days'] * 86400));
             wp_trash_post($this->get('id'));
         }
 

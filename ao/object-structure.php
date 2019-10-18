@@ -6,7 +6,7 @@
 Util/DataObject {}                  // High level parent class for all fixed game data
 Util/DbObject extends PhpObject {}  // A database object, could be used for own database tables per object someday
 Util/Format extends PhpObject {}    // Type formatting like money, networth and dates
-Util/Hooks extends PhpObject {      // Event system so at some point we can make everything more modulair
+Util/Hooks extends PhpObject {      // Event system so we can make everything more modulair
     on($action, $callback)
     trigger($action, $args..)
 }
@@ -39,7 +39,7 @@ Research/Research extends PostObject// Wp-post type that starts and ends
 // Clan
 Clan/Clan extends PostObject {}     // Wp-post type with provinces, networth and data
 *Clan/ClanWar extends PostObject
-*Clan/ClanAward extends PostObject
+*Clan/Award extends PostObject
 Clan/Bonus extends PostObject {}    // Wp-post type, a clan bonus a user can activate
 
 // Attacks

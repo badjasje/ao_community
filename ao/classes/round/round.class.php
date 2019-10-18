@@ -20,7 +20,7 @@ class Round extends DataObject {
         update_field('golden_shotgun', $clan_id, 'option');
         static::$data['golden_shotgun'] = $clan_id;
         if($clan_id > 0) {
-            // @todo: use new Award()
+            // @todo: use Award::create()
             $args = array('post_title' => 'Golden Shotgun', 'post_status' => 'publish', 'post_type' => 'award', 'post_author' => 1);
             $newAwardId = wp_insert_post($args);
             update_field('round', 'Beta round ' . Round::getRoundNr(), $newAwardId);
