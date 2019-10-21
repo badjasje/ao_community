@@ -1771,6 +1771,17 @@ input[type="radio"]:checked + label {
     #research .itemRow { border-bottom: 10px solid #ccc; }
 }
 
+/* Satellites page styling */
+#satellites { background: linear-gradient(rgba(45, 67, 81, 0.56), rgba(45, 67, 81, 0.24)); width: 100%; }
+#satellites .unitRow { border-bottom: 1px solid rgba(255,255,255,.2); width: 100%; margin: 0px; }
+#satellites .nameBlock { font-weight: bold; }
+#satellites .headerRow { background: #3f525f; border-bottom: 1px solid #FFF; }
+#satellites .mainSubmit { border: 0; }
+@media only screen and (max-width: 768px) {
+    #satellites .nameBlock { font-weight: normal; background-color: rgba(45, 67, 81, 0.75); }
+    #satellites .itemRow { border-bottom: 10px solid #ccc; }
+}
+
 /* Explore+sell page styling */
 #exploresell .maxexp, #exploresell .maxsell { border-top:none; }
 

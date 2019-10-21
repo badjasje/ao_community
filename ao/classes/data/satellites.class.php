@@ -5,7 +5,6 @@ class Satellites extends DataObject {
         return (date('d-m')=='01-04' ? shuffle_assoc(parent::get($key)) : parent::get($key));
     }
 
-
     static $data = array(
         'laser'     => array(
             'price'         =>  '1000000',
@@ -28,7 +27,7 @@ class Satellites extends DataObject {
             'networth'      =>  4,
             'name'          =>  'Stealth satellite',
             'shortname'     =>  'STE',
-            'desc'          =>  'When activated, the Stealth Satellite will hide your base from enemy spies, thieves, saboteurs, snipers, laser beam satellites and EMP satellites.  It hides your base for 3.5 hours.'),
+            'desc'          =>  'Hides your base from enemy spies, thieves, saboteurs, snipers, laser beam satellites and EMP satellites for 3.5 hours.'),
         /*'attack'		=>	0
         ),
         'spysat' 		=> array(
@@ -52,7 +51,7 @@ class Satellites extends DataObject {
             'targets'       => 'Power',
             'shortname'     =>  'EMP',
             'name'          =>  'EMP satellite',
-            'desc'          =>  'Disables 20% of the target power production',
+            'desc'          =>  'Disables 20% of the target power production.',
             'attack'        =>  'n.a'
         ),
     );

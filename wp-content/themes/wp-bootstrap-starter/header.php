@@ -352,7 +352,7 @@ $timeLeft = Market::timeLeft();
 	<div id="content" class="site-content">
 
 		<div class="container mainContainer">
-			<div class="titleBackWrapper<?=(!!$province && $province->getSatellites('stealths')['status']=='active'?' stealthsatactive':'')?>">
+			<div class="titleBackWrapper<?=(!!$province && $province->getSatellites('stealths')['active']?' stealthsatactive':'')?>">
 				<div class="pageTitle <?=($provinceDied ? ' deadback':'')?>">
 					<?=($provinceDied ? t('You died') : get_the_title()) ?>
 				</div>

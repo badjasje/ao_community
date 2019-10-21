@@ -20,6 +20,7 @@ class Request {
         'sellland' => array('province','sellland'),
         'buildings' => array('province','buildings'),
         'units' => array('province','units'),
+        'satellite' => array('province','satellite'),
         'sendaid' => array('province','sendaid'),
         'reset' => array('province','reset'),
 
@@ -35,9 +36,9 @@ class Request {
         // Old ajax calls
         'missiles.php' => 10,           //2
         'sell_missiles.php' => 10,      //3
-        'activate_stealthsat.php' => 10,//4
+        'ajax/satellite' => 10,         //4
         'cancel_order.php' => 10,       //5
-        'satellite.php' => 10,          //6
+        'ajax/satellite' => 10,         //6
         'market.php' => 40,             //7
         'cancel_order.php' => 30,       //8
         'sell_units.php' => 60,         //9

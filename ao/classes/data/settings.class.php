@@ -113,7 +113,14 @@ class Settings extends DataObject {
         'turns_research' => 2, // duration times 2
         'turns_queue_research' => 3, // duration times 3
 
-
+        // Market, Satellite & Missile
+        'sat_turn_cost' => 25,
+        'sat_demo_price' => .2,
+        'sat_delivery_time' => (12 * 3600),
+        'stealthsat_turn_cost' => 3,
+        'stealthsat_time' => (3600 * 3.5),
+        'stealthsat_morale_cost' => 100,
+        'order_cancel_cashback' => 0.75,
 
         // Attack range multiplier
         'attack_range_mult' => 1.4,

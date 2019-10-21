@@ -39,7 +39,7 @@ class Province extends DbObject {
         'tomahawk_ordered','tomahawk_owned',
 
         // Sats
-        'sat_in_progress','sat_owned','stealth_sat_status','level_satellite_construction','sat_endlife',
+        'sat_in_progress','sat_owned','stealth_sat_status','level_satellite_construction','sat_endlife','stealth_sat_time',
         // Bank
         'total_deposits',
 
@@ -523,7 +523,7 @@ class Province extends DbObject {
                 Every Anti-Missile System has a 25% chance to shoot down tomahawk missiles.';
         }
 
-        return ($key != null && $buildings[$key] ? $buildings[$key] : $buildings);
+        return ($key != null ? (!!$buildings[$key] ? $buildings[$key] : false) : $buildings);
     }
 
     public function getBuildingsPerTurn() {
@@ -595,7 +595,7 @@ class Province extends DbObject {
     public function getUnitsPerTurn($key=null) {
         $unitsPerTurn = Settings::get('units_per_turn');
         Hooks::trigger('get_province_units_per_turn', null, $unitsPerTurn, $this);
-        return ($key != null && $unitsPerTurn[$key] ? $unitsPerTurn[$key] : $unitsPerTurn);
+        return ($key != null ? (!!$unitsPerTurn[$key] ? $unitsPerTurn[$key] : false) : $unitsPerTurn);
     }
 
     /**
@@ -628,7 +628,7 @@ class Province extends DbObject {
             Hooks::trigger('get_province_unit', null, $units, $id, $this);
         }
 
-        return ($key != null && $units[$key] ? $units[$key] : $units);
+        return ($key != null ? (!!$units[$key] ? $units[$key] : false) : $units);
     }
     public function getUnitAttackTypeNum($attacktype=null) {
         $num = 0;
@@ -665,7 +665,7 @@ class Province extends DbObject {
             $missiles[$id]['original_price'] = $missile['price']; // For nw calc
             Hooks::trigger('get_province_missile', null, $missiles, $id, $this);
         }
-        return ($key != null && $missiles[$key] ? $missiles[$key] : $missiles);
+        return ($key != null ? (!!$missiles[$key] ? $missiles[$key] : false) : $missiles);
     }
     public function getMissileNum() {
         $num = 0;
@@ -680,24 +680,44 @@ class Province extends DbObject {
      * WARNING: currently a province should be able to have only one sat
      */
     public function getSatellites($key=null) {
+        $timestamp = current_time('timestamp');
         $satellites = Satellites::get();
-        $sat = $this->get('sat_owned');
+        $orders = $this->getOrderedSatellites();
+        $sat_owned = $this->get('sat_owned');
+        $sat_endlife = intval(trim($this->get('sat_endlife')));
         foreach($satellites as $id => $satellite) {
-            $satellites[$id]['num'] = ($sat == $id ? 1 : 0);
+            $satellites[$id]['timeleft'] = $satellites[$id]['stealthtime'] = 0;
+            $satellites[$id]['in_progress'] = false;
+            $satellites[$id]['num'] = ($sat_owned == $id ? 1 : 0);
+            if($satellites[$id]['num']>0) $satellites[$id]['timeleft'] = floor($sat_endlife-$timestamp);
+            $satellites[$id]['active'] = ($id=='stealths' && $satellites[$id]['num']>0 && $this->get('stealth_sat_status')=='active' ? true : false);
+            if($satellites[$id]['active']) $satellites[$id]['stealthtime'] = intval($this->get('stealth_sat_time')) - current_time('timestamp');
+            foreach($orders as $satorder) {
+                if($satorder->title() == $satellite['name']) {
+                    $satellites[$id]['in_progress'] = true;
+                    $satellites[$id]['timeleft'] = $satorder->timeLeft();
+                }
+            }
             $satellites[$id]['original_price'] = $satellite['price']; // For nw calc
-            $satellites[$id]['status'] = ($id=='stealths' && $this->get('stealth_sat_status')=='active' ? 'active' : '');
             $satellites[$id]['days'] = 0; // This will be set in research-class
             Hooks::trigger('get_province_sattelite', null, $satellites, $id, $this);
         }
-        return ($key != null && $satellites[$key] ? $satellites[$key] : $satellites);
+        return ($key != null ? (!!$satellites[$key] ? $satellites[$key] : false) : $satellites);
     }
-    // Acktually gets shortname (header.php)
+    public function getOrderedSatellites($key=null) {
+        $orders = array();
+        foreach ($this->getOrders() as $order) {
+            if($order->type() == 'satellite') $orders[$order->get('unit_type')] = $order;
+        }
+        return ($key != null ? (!!$orders[$key] ? $orders[$key] : false) : $orders);
+    }
     public function getSatelliteNum() {
         if(!$this->hasResearchMinimalLevel('satellite_construction', 1)) return 0;
         $sat = $this->get('sat_owned');
         if(empty($sat)) return 0;
-        return (!!Satellites::get($sat) ? Satellites::get($sat)['shortname'] : 0);
+        return (!!Satellites::get($sat) ? 1 : 0);
     }
+
 
     /**
      * Get Clan

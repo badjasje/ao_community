@@ -160,8 +160,8 @@ class Event extends PostObject {
         $current_user = CurrentUser::make();
         $args = array_merge(array(
             'post_title' => $data['title'], 'post_status' => 'publish', 'post_type' => 'event_local',
-            'post_author' => (!!$current_user ? $current_user->get('id') : 0),
-            'attacker_id' => (!!$current_user ? $current_user->get('id') : 0),
+            'post_author' => (!isset($data['author']) && !!$current_user ? $current_user->get('id') : 0),
+            'attacker_id' => (!isset($data['attacker_id']) && !!$current_user ? $current_user->get('id') : 0),
             'time_attacked' => current_time('timestamp')
         ), $data);
         if(isset($data['author'])) $args['post_author'] = $data['author'];

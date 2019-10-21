@@ -265,7 +265,7 @@ jQuery(function($) {
                 lastrow.find('.timeleft').attr('data-countdown', data.timeleft);
                 lastrow.removeClass('hidden').insertAfter('.withdraw.hidden');
                 start_countdowns();
-                $(this).trigger("reset");
+                $(this).trigger('reset');
             }
         });
     });
@@ -331,7 +331,7 @@ jQuery(function($) {
                 $(".maxexp").attr({"data-max": data.maxturns});
                 $(".maxsell").attr({"data-max": data.maxsell});
             }
-            $(this).trigger("reset");
+            $(this).trigger('reset');
         });
     });
     $('#sellform').on('submit', function(e) {
@@ -342,7 +342,7 @@ jQuery(function($) {
                 $("#landinput").attr({"max": data.maxsell});
                 $(".maxsell").attr({"data-max": data.maxsell});
             }
-            $(this).trigger("reset");
+            $(this).trigger('reset');
         });
     });
 
@@ -394,7 +394,7 @@ jQuery(function($) {
                 $('.demomax', r).attr('data-amount', dm).text(o);
                 $('.demoBlock .unitInput', r).attr('max', dm);
             }
-            $(this).trigger("reset");
+            $(this).trigger('reset');
             calculateBuildingsTotals();
         });
     });
@@ -459,11 +459,22 @@ jQuery(function($) {
                 $('.owned', r).text(o);
                 r.data('space', sp).data('specialspace', ssp);
             }
-            $(this).trigger("reset");
+            $(this).trigger('reset');
             calculateBuildingsTotals();
         });
     });
     calculateUnitsTotals();
+
+    // satelliteForm
+    $('.activateSatellite').on('click', function() {
+        $('input[name="action"]').val('activate');
+    });
+    $('.satelliteForm').on('submit', function(e) {
+        e.preventDefault(); // this orders, activates and crashes satellites
+        singleAjax(site_url+'/ajax/satellite', $(this), function(data) {
+            $('.satelliteForm').trigger('reset');
+        });
+    });
 
     // Sending aid
     $("#maxaid").click(function() {
@@ -474,7 +485,7 @@ jQuery(function($) {
         singleAjax(site_url+'/ajax/sendaid', $(this), function(data) {
             $('#aidssent').html(data.noaids);
             $('#amount').attr('max', data.max);
-            $('#aid').trigger("reset");
+            $('#aid').trigger('reset');
         });
     });
 
@@ -482,7 +493,7 @@ jQuery(function($) {
     $("#message").on('submit', function(e) {
         e.preventDefault();
         singleAjax(site_url+'/ajax/message', $(this), function(data) {
-            $('#message').trigger("reset");
+            $('#message').trigger('reset');
         });
     });
     $("#claninvite").on('submit', function(e) {
