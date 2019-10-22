@@ -304,7 +304,7 @@ function get_spy_units($user_ID) {
 }
 
 function get_user_name($user_ID) {
-    return User::make($user_ID)->getName(true);
+    return User::make($user_ID)->getLink(true);
 }
 
 function plural_func($number) {
