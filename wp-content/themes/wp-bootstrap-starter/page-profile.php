@@ -93,9 +93,9 @@ $visiting_user = $province->get('id');
 $visiting_clan = $province->getClan();
 $clan_id_user = ($visiting_clan ? $visiting_clan->get('id') : 0);
 $clan_id = ($viewed_clan ? $viewed_clan->get('id') : 0);
-$members = $visiting_clan->getMembers();
-$previous_members = $visiting_clan->getPreviousMembers();
-$CT_CL_array = array_merge($visiting_clan->getTrustees(), array($visiting_clan->getLeader()));
+$members = ($visiting_clan ? $visiting_clan->getMembers() : array());
+$previous_members = ($visiting_clan ? $visiting_clan->getPreviousMembers() : array());
+$CT_CL_array = ($visiting_clan ? array_merge($visiting_clan->getTrustees(), array($visiting_clan->getLeader())) : array());
 $game_live = (get_field('game_status','option')=='Live');
 
 $count = 0;
