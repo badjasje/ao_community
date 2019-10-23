@@ -48,18 +48,20 @@
 
 	<?php if($clan_leader == $userId):?>
 		<div class="col-md-6 col-lg-4 celBlock" style="padding:0px;">
-			<button onclick="return confirm('Are you sure you want to delete your clan?')" class="cancelButton deleteClan hoverEffect" style="background-color:rgba(66, 92, 107,0.65)"><i class="fa fa-trash"></i> Delete clan</button>
+			<button class="cancelButton deleteClan hoverEffect" style="background-color:rgba(66, 92, 107,0.65)"><i class="fa fa-trash"></i> Delete clan</button>
 		</div>
 		<script>
 		(function($) {
 			var deleteclan;
-
-			$(document).on('click','.deleteClan',function(){
-
-			$('.pageLoader, #page-cover').show();
-			$('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
+			$(document).on('click','.deleteClan',function(e) {
+				if(!confirm('Are you sure you want to delete your clan?')) {
+					e.preventDefault();
+					return;
+				}
+				$('.pageLoader, #page-cover').show();
 				deleteclan = $.ajax({url: "/deleteclan.php",type: "post",data: '&clan=<?php echo $clan_id_user;?>'});
 				deleteclan.done(function (response, textStatus, jqXHR){
+					$('.pageLoader, #page-cover').fadeOut( "fast");
 					var response = $.parseJSON(response);
 					$.notify({message: response.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
 					if(response.next == true){
@@ -67,7 +69,6 @@
 					}
 				});
 			});
-
 		})(jQuery);
 		</script>
 	<?php endif;?>
