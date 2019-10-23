@@ -17,7 +17,7 @@ $has_ordered_satellites = (count($province->getOrderedSatellites()) > 0);
 		<?
 		if($sc['level']==0) echo '<i class="fas fa-exclamation-triangle"></i> Research satellite construction to build satellites';
 		else echo 'Building a satellite requires ' . Settings::get('sat_turn_cost') . ' turns.';
-		if($sc['level']>=0) echo ' Satelite costs reduced by 20% because of your research level.';
+		if($sc['level']>=0) echo ' Satellite costs reduced by 20% because of your research level.';
 		if($has_satellite) echo ' Demolishing a satellite costs 20% of it\'s price.';
 		if($has_ordered_satellites) echo ' Cancelling a satellite order returns 75% of it\'s price.';
 		?>
@@ -56,9 +56,9 @@ $has_ordered_satellites = (count($province->getOrderedSatellites()) > 0);
 								<input type="hidden" name="action" value="cancel">
 								<input type="submit" value="Cancel order" class="mainSubmit hoverEffect">
 							<? } elseif($has_ordered_satellites) { // other sat in progress?>
-								<button class="mainSubmit hoverEffect disabled">Disabled</button>
+								<button class="mainSubmit hoverEffect disabled" disabled>Disabled</button>
 							<? } elseif($has_satellite && $satellite['num']==0) { // other sat owned?>
-								<button class="mainSubmit hoverEffect disabled">Disabled</button>
+								<button class="mainSubmit hoverEffect disabled" disabled>Disabled</button>
 							<? } elseif($satellite['num']>0) { ?>
 								<input type="hidden" name="action" value="demolish">
 								<? if($key=='stealths' && !$satellite['active']) { ?>
@@ -69,7 +69,7 @@ $has_ordered_satellites = (count($province->getOrderedSatellites()) > 0);
 								<input type="submit" value="Demolish" class="mainSubmit hoverEffect redBg">
 							<? } else { ?>
 								<input type="hidden" name="action" value="order">
-								<input type="submit" value="Order" class="mainSubmit hoverEffect">
+								<input type="submit" value="Order" class="mainSubmit hoverEffect orderSubmit">
 							<? } ?>
 
 						<? } ?>

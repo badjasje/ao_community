@@ -139,10 +139,6 @@ hr {
 button {
     overflow: visible;
 }
-button:disabled {
-	background: #545454 !important;
-    opacity: 0.4;
-}
 button,select {
     text-transform: none;
 }

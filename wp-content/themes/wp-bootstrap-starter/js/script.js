@@ -466,6 +466,12 @@ jQuery(function($) {
     calculateUnitsTotals();
 
     // satelliteForm
+    $('.satelliteForm .orderSubmit').on('click', function(e) {
+        if(!confirm('Are you sure you want to order this satellite?')) {
+            e.preventDefault();
+            return;
+        }
+    });
     $('.activateSatellite').on('click', function() {
         $('input[name="action"]').val('activate');
     });
