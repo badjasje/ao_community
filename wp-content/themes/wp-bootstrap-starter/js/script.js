@@ -428,14 +428,16 @@ jQuery(function($) {
         var turns = provinceData.turns - totals.turns;
         var money = provinceData.money - totals.cost;
         $('#turnbuild .unitRow:not(.headerRow,.descriptionRow)').each(function() {
-            var bpt = parseInt($(this).data('bpt')), space = parseInt($(this).data('space')), special_space = parseInt($(this).data('specialspace'));
+            var bpt = parseInt($(this).data('bpt')), space = parseInt($(this).data('space'));
+            var special_space = ($(this).data('specialspace') != undefined ? parseInt($(this).data('specialspace')) : false);
             var ttl = specialttl = 0;
             $(this).siblings(':not(.headerRow,.descriptionRow)').add(this).each(function() {
-                if($(this).data('specialspace')>0) specialttl += 1*($('.buildBlock .unitInput',this).val());
-                ttl += 1*($('.buildBlock .unitInput',this).val());
+                if($(this).data('specialspace') != undefined) specialttl += Math.abs($('.buildBlock .unitInput',this).val());
+                ttl += Math.abs($('.buildBlock .unitInput',this).val());
             });
             var nm = Math.min( Math.floor(money/$(this).data('buildprice')), turns*bpt, Math.floor(space - ttl));
-            nm = (special_space > 0 ? Math.min(nm, Math.floor(special_space - specialttl)) : nm);
+            nm = (special_space !== false ? Math.min(nm, Math.floor(special_space - specialttl)) : nm);
+            /*console.log(special_space, specialttl, Math.abs($('.buildBlock .unitInput',this).val()));*/
             var sm = Math.abs($('.buildBlock .unitInput', this).val()) + nm;
             $('.buildmax', this).attr('data-amount', sm ).text(nm);
             $('.buildBlock .unitInput', this).attr('max', sm);

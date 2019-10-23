@@ -509,8 +509,8 @@ class Province extends DbObject {
             }
             $buildings[$id]['occupied'] = ($occupied > 0 ? $occupied : 0);
             $buildings[$id]['maxdemo'] = $buildings[$id]['num'];
-            if($buildings[$id]['occupied']>0 && isset($unitsPerTurn[$building['houses']])) {
-                $buildings[$id]['maxdemo'] -= ceil($buildings[$id]['occupied'] / $unitsPerTurn[$building['houses']]);
+            if($buildings[$id]['occupied']>0) {
+                $buildings[$id]['maxdemo'] -= ceil($buildings[$id]['occupied'] / $building['housing']);
             }
 
             Hooks::trigger('get_province_building', null, $buildings, $id, $this);

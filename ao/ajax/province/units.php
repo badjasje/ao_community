@@ -3,11 +3,13 @@
 function ajax_units($province, $return) {
     if(!Round::isLive()) return array('status' => 'Game is paused.');
     if(!is_array($_POST['build'])) return array('status' => 'Not a valid request.');
+
     $status = array('Done');
     $units = $province->getUnits();
     $money = $province->getMoney();
     $turns = $province->getTurns();
     $unitsPerTurn = $province->getUnitsPerTurn();
+
     $build = array();
     $build_num = $build_price = $turns_needed = 0;
     foreach($_POST['build'] as $key => $num) {
@@ -17,6 +19,22 @@ function ajax_units($province, $return) {
         $build_price += $build[$key] * $units[$key]['buildprice'];
         $turns_needed += $build[$key]/$unitsPerTurn[$units[$key]['type']];
     }
+
+    // Check space per unit type
+    $space = $province->getUnitTypeSpace();
+    $usedSpace = $province->getUnitTypeUsedSpace();
+    $type_num = array('special' => 0);
+    foreach($units as $key => $unit) {
+        if(!isset($build[$key])) continue;
+        if(!isset($type_num[$unit['type']])) $type_num[$unit['type']] = 0;
+        $type_num[$unit['type']] += $build[$key];
+        if($unit['sectype']=='special') $type_num['special'] += $build[$key];
+    }
+    foreach($space as $type => $num) {
+        if(isset($type_num[$type]) && $type_num[$type] > ($num-$usedSpace[$type])) return array('status' => 'Too many '.$type.' units (max '.$num.').');
+    }
+
+    // Check
     $turns_needed = ceil($turns_needed);
     if($build_price > $money) $status[] = 'insufficient funds';
     else if($turns_needed > $turns) $status[] = 'not enough turns';
@@ -39,7 +57,7 @@ function ajax_units($province, $return) {
         $maxbuild[$key] = $unit['maxbuild'];
         $owned[$key] = $unit['num'];
         $space[$key] = $unit['space'];
-        $specialspace[$key] = $unit['specialspace'];
+        if($unit['sectype']=='special') $specialspace[$key] = $unit['specialspace'];
         if(!isset($typespace[$unit['type']])) $typespace[$unit['type']] = $unit['space'];
         if(!isset($typespecialspace[$unit['type']])) $typespecialspace[$unit['type']] = $unit['specialspace'];
     }

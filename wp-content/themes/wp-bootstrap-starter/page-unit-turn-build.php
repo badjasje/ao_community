@@ -59,7 +59,7 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
 									data-key="<?=$unitKey?>"
 									data-bpt="<?=$unitsPerTurn[$key]?>"
 									data-space="<?=$unit['space']?>"
-									data-specialspace="<?=$unit['specialspace']?>">
+									<?=($unit['sectype']=='special' ? ' data-specialspace="'.$unit['specialspace'].'"' : '')?>>
 									<td class="nameBlock"><?=$unit['normalname']?></td>
 									<td class="price"><?=Format::money($unit['price'])?></td>
 									<td class="attacklife"><?=$unit['attack']?>/<?=$unit['life']?></td>
