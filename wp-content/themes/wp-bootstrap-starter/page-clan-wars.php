@@ -13,11 +13,16 @@ $declarer_clan_ID = $userData['clan_id_user'][0];
 $clanData = get_post_meta($declarer_clan_ID);
 $clan_leader = $clanData['clan_leader'][0];
 $timestamp = current_time('timestamp');
-$war_array = maybe_unserialize(maybe_unserialize($clanData['war_array'][0]));
 
-$cooldownlist = maybe_unserialize($clanData['cooldown_list'][0]);
-if(!is_array($cooldownlist) && !empty($cooldownlist)) $cooldownlist = maybe_unserialize($cooldownlist); // Temp fix double serialization
-if(!is_array($cooldownlist)) $cooldownlist = array();
+$war_array = array();
+if(isset($clanData['war_array'])) {
+	$war_array = maybe_unserialize(maybe_unserialize($clanData['war_array'][0]));
+}
+
+$cooldownlist = array();
+if(isset($clanData['cooldown_list'])) {
+	$cooldownlist = maybe_unserialize(maybe_unserialize($clanData['cooldown_list'][0]));
+}
 
 $backColorDecOn = "45, 67, 81";
 $backColorDecBy = "127, 82, 67";
@@ -31,12 +36,12 @@ $ct_4 = $clanData['ct_4'][0];
 
 $clan_networth = $clanData['clan_networth'][0];
 
- //MEGA 20171106 Count the members in YOUR clan
- $declaringClanMembers = maybe_unserialize($clanData['clan_members'][0]);
- $declaringMembersCount = count($declaringClanMembers);
- $declarerAverageNw = ($declaringMembersCount>0 ? $clan_networth / $declaringMembersCount : 0);
+//MEGA 20171106 Count the members in YOUR clan
+$declaringClanMembers = maybe_unserialize($clanData['clan_members'][0]);
+$declaringMembersCount = count($declaringClanMembers);
+$declarerAverageNw = ($declaringMembersCount>0 ? $clan_networth / $declaringMembersCount : 0);
 
- $wars_on = get_posts(array(
+$wars_on = get_posts(array(
 	'numberposts'	=> -1,
 	'post_type'		=> 'wars',
 	'meta_key'		=> 'declared_by',
@@ -73,7 +78,7 @@ $wars_by = get_posts(array(
 	foreach ($wars_on as $war){
 		$declared_on_ID = get_post_meta($war->ID, 'declared_on',true);
 		?>
-		<div id="war-<?=$war->ID?>" class="row unitRow fw-row" style="background-color: rgba(<?php echo $backColorDecOn;?>, <?php echo 0.6-($count/25);?>);">
+		<div id="on-<?=$war->ID?>" class="row unitRow fw-row" style="background-color: rgba(<?php echo $backColorDecOn;?>, <?php echo 0.6-($count/25);?>);">
 			<div class="col-md-4 celBlock nameBlock sea_heading">
 				<a href="<?php echo get_the_permalink($declared_on_ID);?>"><?php echo get_the_title($declared_on_ID).' (#'.$declared_on_ID;?>)</a>
 			</div>
@@ -115,7 +120,7 @@ $wars_by = get_posts(array(
 	foreach ($wars_by as $war){
 		$declared_on_ID = get_post_meta($war->ID, 'declared_by',true);
 		?>
-		<div class="row unitRow fw-row" style="background-color: rgba(<?php echo $backColorDecBy;?>, <?php echo 0.6-($count/25);?>);">
+		<div id="by<?=$war->ID?>" class="row unitRow fw-row" style="background-color: rgba(<?php echo $backColorDecBy;?>, <?php echo 0.6-($count/25);?>);">
 			<div class="col-md-4 celBlock nameBlock air_heading">
 				<a href="<?php echo get_the_permalink($declared_on_ID);?>"><?php echo get_the_title($declared_on_ID).' (#'.$declared_on_ID;?>)</a>
 			</div>

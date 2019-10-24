@@ -2,11 +2,6 @@
 if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $cooldownlist) && $inRange == 'yes' && $canPeace == false):?>
 
 <div class="row fw-row no-gutters">
-	<?php
-	//$optoutstatus=get_post_meta($clan_id,'optout_status',true);
-	//$user_clan_ID= get_user_meta($declarer_ID, 'clan_id_user',true);
-	//$useroptoutstatus=get_post_meta($user_clan_ID, 'optout_status',true);
-	?>
 	<br/><br/>
 
  	<div class="col-md-6">
@@ -15,22 +10,9 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
 		 		<i class="fas fa-fire" aria-hidden="true"></i> &nbsp;You are at war with this clan
 		 	</button>
 		<?php else:?>
-			<?php /*if ($average_OK == "false" && $warcount != 1) { ?>
-			    <i class="fa fa-fire" aria-hidden="true"></i> &nbsp;Your average NW is too low to declare on this clan</span>
-			<?php } else {?>
-            <?php if ($optoutstatus == 1 ) { ?>
-                <button class="mainSubmit" disabled>
-                    <i class="fas fa-fire" aria-hidden="true"></i> &nbsp;This clan has opted out of incoming war declarations
-                </button>
-            <?php } elseif ($useroptoutstatus == "1" ) { ?>
-                <button class="mainSubmit" disabled>
-                    <i class="fas fa-fire" aria-hidden="true"></i> &nbsp;Your clan has opted out of clan wars this round.
-                </button>
-            <?php } else { */ ?>
-                <button class="mainSubmit warDecSubmit" data-toggle="modal" data-target="#declareWarModal">
-                    <i class="fas fa-fire" aria-hidden="true"></i> &nbsp;Declare <?php echo $warText;?>
-                </button>
-            <?php //} ?>
+            <button class="mainSubmit warDecSubmit" data-toggle="modal" data-target="#declareWarModal">
+                <i class="fas fa-fire" aria-hidden="true"></i> &nbsp;Declare <?php echo $warText;?>
+            </button>
 
             <!-- Modal -->
             <div class="modal fade" id="declareWarModal" tabindex="-1" role="dialog" aria-labelledby="declareWarModalLabel" aria-hidden="true">
@@ -55,12 +37,12 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
                 var declare;
                 $(document).on('click','.declarewar',function(event){
                     $('.pageLoader, #page-cover').show();
-                    $('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 
                     var message = $(".unitInput").val();
                     var declare = $.ajax({url: "/declare_war.php", type: "post", data: '&clan=<?php echo $clan_id;?>&dec_msg='+message});
                     // Callback handler that will be called on success
                     declare.done(function (response, textStatus, jqXHR){
+                        $('.pageLoader, #page-cover').fadeOut( "fast");
                         var json = $.parseJSON(response);
                         if(json.next == true){
                             $('.warDecSubmit').html('<i class="fas fa-fire" aria-hidden="true"></i> You are at war with this clan');
@@ -119,10 +101,10 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
         var declare;
         $(document).on('click','.peaceDecSubmit',function(event){
             $('.pageLoader, #page-cover').show();
-            $('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
             var message = $(".unitInput").val();
             var declare = $.ajax({url: "/declare_peace.php",type: "post",data: '&war=<?php echo $peaceID;?>&clan=<?php echo $clan_id;?>&dec_msg='+message});
             declare.done(function (response, textStatus, jqXHR){
+                $('.pageLoader, #page-cover').fadeOut( "fast");
                 var json = $.parseJSON(response);
                 if(json.next == true){
                     $("#peacecontainer").addClass("col-md-3");
@@ -163,18 +145,17 @@ if(in_array($declarer_ID, $allowed_to_declare) && !array_key_exists($clan_id, $c
             (function($) {
                 $(document).on('click','.resumewar',function(event){
                     $('.pageLoader, #page-cover').show();
-                    $('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
-
                     var declare = $.ajax({url: "/resumewar.php",type: "post",data: '&declaredon=<?php echo $clan_id;?>'});
                     declare.done(function (response, textStatus, jqXHR){
+                        $('.pageLoader, #page-cover').fadeOut( "fast");
                         var json = $.parseJSON(response);
                         if(json.next == true){
                             $('.warDecSubmit').html('<i class="fas fa-fire" aria-hidden="true"></i> You are at war with this clan');
                             $(".warDecSubmit").attr("disabled", "disabled");
                             $('#declareWarModal').remove();
+                            location.reload();
                         }
                         $.notify({message: json.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
-                        location.reload();
                     });
                 });
             })(jQuery);

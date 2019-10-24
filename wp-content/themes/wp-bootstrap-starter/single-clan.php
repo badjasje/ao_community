@@ -133,7 +133,7 @@ update_post_meta($clan_id, 'clan_networth', ceil($tot_networth));
     <?php while ( have_posts() ) : the_post();
 
         $clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
-        <div class="blockHeader">
+        <div id="clan-<?=$clan_id?>" class="blockHeader">
             <?php echo get_the_title($clan_id) ?>
         </div>
 
