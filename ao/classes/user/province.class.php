@@ -442,10 +442,11 @@ class Province extends DbObject {
             $researches[$id]['level_description'] = str_replace('{value}', $researches[$id]['level_value'], $description);
 
             // Turns based on possible adjust duration
-            $researches[$id]['turns'] = round($researches[$id]['duration'] * Settings::get('turns_research'));
+            /*$researches[$id]['turns'] = round($researches[$id]['duration'] * Settings::get('turns_research'));
             if($researchInProgress != false) { // Queued research cost more turns
                 $researches[$id]['turns'] = round($researches[$id]['duration'] * Settings::get('turns_queue_research'));
-            }
+            }*/
+            $researches[$id]['turns'] = 25; // Temp for this round
         }
         return  ($key != null ? (!!$researches[$key] ? $researches[$key] : false) : $researches);
     }

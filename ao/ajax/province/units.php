@@ -34,7 +34,7 @@ function ajax_units($province, $return) {
         if(isset($type_num[$type]) && $type_num[$type] > ($num-$usedSpace[$type])) return array('status' => 'Too many '.$type.' units (max '.$num.').');
     }
 
-    // Check
+    // Check other stuff
     $turns_needed = ceil($turns_needed);
     if($build_price > $money) $status[] = 'insufficient funds';
     else if($turns_needed > $turns) $status[] = 'not enough turns';
