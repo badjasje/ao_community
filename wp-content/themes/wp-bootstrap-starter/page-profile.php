@@ -21,7 +21,7 @@ if(empty($telegram_key)) {
 ?>
 <div class="row pageRow">
 
-	<div class="blockHeader"><?=$viewed->getName(true)?></div>
+	<div class="blockHeader"><?=$viewed_province->getLink(true)?></div>
 
 	<div class="d-flex fw-row">
 		<div class="eventImageCol">
