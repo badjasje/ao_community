@@ -1854,6 +1854,7 @@ input[type="radio"]:checked + label {
 /* Events */
 .event { width:100%; }
 .event .eventHeader { display:flex; background-color: #545454; color: #FFF; }
+.event.killed .eventHeader, .event.killed .blockHeader { background-color: #A30000; }
 .event .eventHeader i { font-size: 23px; border-bottom: 1px solid #fff; width: 50px; text-align: center; line-height: 36px; }
 @media only screen and (min-width: 768px) {
     .event .eventHeader i { line-height: 42px; }

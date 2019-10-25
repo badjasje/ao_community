@@ -12,7 +12,7 @@ get_header();
     <div class="pageSpacer"></div>
 
     <? foreach($events as $event) { ?>
-        <div id="event-<?=$event->get('id')?>" class="event">
+        <div id="event-<?=$event->get('id')?>" class="event <?=$event->get('eventtype')?>">
             <div class="eventHeader">
                 <?=$event->getIcon(true)?><div class="blockHeader"><?=$event->getHeader(true)?></div>
             </div>
