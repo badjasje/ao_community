@@ -167,7 +167,8 @@ class Province extends DbObject {
     }
 
     public function getLink($format=false) {
-        return User::make($this->id)->getLink($format);
+        if(!$format) return Request::siteUrl().'/users/profile/?id='.$this->id;
+        return '<a class="memberField" href="'.$this->getLink(false).'">'. $this->getName($format).'</a>';;
     }
 
     public function getAvatar($classes='') {
