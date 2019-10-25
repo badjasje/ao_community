@@ -152,6 +152,7 @@ class User extends DbObject {
     }
 
     public function getEvents($category='global') {
+        global $paged, $wp_query;
         $events = array();
 
         // Make query according to event-category
