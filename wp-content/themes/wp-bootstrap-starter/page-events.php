@@ -1,6 +1,8 @@
 <?php
 get_header();
 
+$prev = get_previous_posts_link('<i class="fas fa-arrow-left"></i> Previous');
+$next = get_next_posts_link('Next <i class="fas fa-arrow-right"></i>');
 ?>
 <div class="row pageRow">
     <div class="row no-gutters fw-row profileButtonRow">
@@ -31,6 +33,13 @@ get_header();
             </div>
         </div>
     <? } ?>
+
+    <div class="pageSpacer"></div>
+
+    <div class="row fw-row no-gutters">
+        <?=(!empty($prev)?$prev:'<div class="col-sm-6 statCol-1"></div>')?>
+        <?=(!empty($next)?$next:'<div class="col-sm-6 statCol-1"></div>')?>
+    </div>
 </div>
 <?php
 
