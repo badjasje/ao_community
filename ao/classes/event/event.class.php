@@ -40,7 +40,7 @@ class Event extends PostObject {
             'body' => '{attack_body}'
         ),
         'ground' => array(
-            'icon' => 'fas fa-truck-pickup', 'header' => 'Ground attack battle report',
+            'icon' => 'fas fa-truck-monster', 'header' => 'Ground attack battle report',
             'title' => array(
                 'incoming' => 'You were attacked by {attacker} and {youdied}{won}{lost}.{defender_points}', //won/lost the battle
                 'outgoing' => 'You attacked {defender} and you {killed}{won}{lost}.',

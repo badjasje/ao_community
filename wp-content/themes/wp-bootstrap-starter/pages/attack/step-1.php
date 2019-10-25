@@ -27,7 +27,7 @@
 		<div class="col-md-6 col-lg-4 no-gutters">
 			<input class="hidden" type="radio" name="attacktype" id="ground" value="ground">
 			<label class="secundarySubmit hoverEffect attackSelect bg-3 <?=($province->getUnitAttackTypeNum('ground') > 0  && $province->getMorale() >= Settings::get('attack_morale_tgt_above')?'" for="ground':'disabled')?>">
-				<i class="fas fa-truck-pickup"></i> Ground Attack
+				<i class="fas fa-truck-monster"></i> Ground Attack
 			</label>
 		</div>
 
