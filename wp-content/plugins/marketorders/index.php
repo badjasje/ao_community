@@ -304,7 +304,9 @@ function get_spy_units($user_ID) {
 }
 
 function get_user_name($user_ID) {
-    return User::make($user_ID)->getLink(true);
+    $prv = Province::make($user_ID);
+    if($prv->get('id')) return $prv->getLink(true);
+    return false;
 }
 
 function plural_func($number) {
