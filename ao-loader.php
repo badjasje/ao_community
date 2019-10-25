@@ -27,6 +27,11 @@ Request::init();
 // Get round status, round type, round dates, etc
 Round::init();
 
+// Get some hooks fired
+Startbonuses::init();
+Researches::init();
+Trophies::init();
+
 // Instead of the $userId and $userData globals everywhere
 // We can use "$user = CurrentUser::make()" everywhere without extra loads
 $user = CurrentUser::make();

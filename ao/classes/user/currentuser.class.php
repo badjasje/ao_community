@@ -251,7 +251,7 @@ class CurrentUser extends User {
             }
         }
         if(isset($_GET['checkmulti'])) {
-            echo $my_user->getUsername() .' ('.$my_userid.')'. ($my_user->isBanned()?' BANNED!':'').' '.$my_ip.'<br>';
+            echo $my_user->getName().' ('.$my_userid.')'. ($my_user->isBanned()?' BANNED!':'').' '.$my_ip.'<br>';
             echo 'Firstlogin: '. date('Y-m-d H:i:s',$my_firstlogin);
             wtf($ip_array[$my_ip]);
         }
@@ -260,7 +260,7 @@ class CurrentUser extends User {
         $other_accounts = array();
         foreach($ip_array[$my_ip] as $uid => $data) {
             $tmpUser = User::make($uid);
-            if(isset($_GET['checkmulti']) && !empty($uid) && $uid != $my_userid) echo $tmpUser->getUsername() .' ('.$uid.')'. ($tmpUser->isBanned()?' BANNED!':'').'<br>';
+            if(isset($_GET['checkmulti']) && !empty($uid) && $uid != $my_userid) echo $tmpUser->getName() .' ('.$uid.')'. ($tmpUser->isBanned()?' BANNED!':'').'<br>';
             if(!empty($uid) && $uid != $my_userid && !$tmpUser->isBanned()) { // Multi detected, this ip also used by another user
                 $other_accounts[$uid] = maybe_unserialize($tmpUser->get('logindata'));
             }

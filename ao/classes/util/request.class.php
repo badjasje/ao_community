@@ -8,6 +8,7 @@ class Request {
     public static $ajax_paths = array(
         'header' => array('user','header'),
         'message' => array('user','message'),
+        'userupdate' => array('user','update'),
 
         'devfunds' => array('province','devfunds'),
         'startingbonus' => array('province','startingbonus'),
@@ -19,7 +20,9 @@ class Request {
         'sellland' => array('province','sellland'),
         'buildings' => array('province','buildings'),
         'units' => array('province','units'),
+        'satellite' => array('province','satellite'),
         'sendaid' => array('province','sendaid'),
+        'reset' => array('province','reset'),
 
         'clanbonus' => array('clan', 'bonus'),
         'claninvite' => array('clan','invite'),
@@ -33,9 +36,9 @@ class Request {
         // Old ajax calls
         'missiles.php' => 10,           //2
         'sell_missiles.php' => 10,      //3
-        'activate_stealthsat.php' => 10,//4
+        'ajax/satellite' => 10,         //4
         'cancel_order.php' => 10,       //5
-        'satellite.php' => 10,          //6
+        'ajax/satellite' => 10,         //6
         'market.php' => 40,             //7
         'cancel_order.php' => 30,       //8
         'sell_units.php' => 60,         //9
@@ -44,9 +47,9 @@ class Request {
         'attack2.php' => 120,           //12
         'step-3.php' => 120,            //13
         'attack-result.php' => 120,     //14
-        'update_profile.php' => 60,     //15
 
         //'dashboard' => 60, // DO NOT EVER UNCOMMENT THIS PLEASE
+        'ajax/userupdate' => 10,        //15
         'toplists' => 60,               //16
         'all-clans' => 60,              //17
         'users' => 60,                  //18
@@ -63,8 +66,8 @@ class Request {
         'events/outgoing' => 60,        //29
         'events/global' => 60,          //30
         'ajax/devfunds' => 60,          //31
-        'ajax/deposit' => 10,           //32
-        'ajax/withdraw' => 10,          //33
+        'ajax/deposit' => 12,           //32
+        'ajax/withdraw' => 12,          //33
         'ajax/research' => 5,           //34
         'ajax/exploreland' => 10,       //35
         'ajax/sellland' => 10,          //36
@@ -99,6 +102,7 @@ class Request {
 
     static function pathRateLimit() {
          // Rate limiting per hour, based on path
+         if(Round::isTest() || Round::isDev()) return;
          if(in_array(static::$path, array_keys(static::$rate_limits))) {
             if(!isset($_SESSION['path_num'])) $_SESSION['path_num'] = array(date('H') => array());
             if(array_keys($_SESSION['path_num'])[0] != date('H')) $_SESSION['path_num'] = array(date('H') => array());
@@ -115,11 +119,16 @@ class Request {
                     echo json_encode(array('success' => false, 'status' => $error));
                 } else {
                     $_SESSION['showError'] = $error;
-                    header("Location: ".Request::siteUrl().'/dashboard');
+                    Request::redirect('/dashboard');
                 }
                 die();
             }
         }
+    }
+
+    static function redirect($rel_url='') {
+        header("Location: ".Request::siteUrl().$rel_url);
+        exit;
     }
 
     // Returns site url, usage: Request::siteUrl()

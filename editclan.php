@@ -47,7 +47,9 @@ if(!empty($data['newclanavatar'])){
 }
 
 if (in_array($userId, $allowed)) {
-    $my_post = array('ID' => $clan_ID, 'post_content' => wp_strip_all_tags($data['publicmessage']));
+	$content = wp_strip_all_tags($data['publicmessage']);
+	if(preg_match('/^.{1,260}\b/s', $content, $match)) $content = $match[0]; // word break after 260 characters
+    $my_post = array('ID' => $clan_ID, 'post_content' => $content);
     wp_update_post($my_post);
 }
 

@@ -1,203 +1,166 @@
 <?php
- /*
+/**
  * Template Name: Profile page
-*/
+ */
 get_header();
-$viewedId = $_GET['id'];
-global $userId;
-$visiting_user = $userId;
-if(empty($viewedId)){
-	wp_redirect(get_permalink(3486));
-}
-$user = get_userdata($viewedId);
-if ( $user === false ) {
-	wp_redirect(get_permalink(3486));
-}
-count_all_stats($viewedId);
 
-$profileData = get_user_meta($viewedId);
-$user_NW = $profileData['networth'][0];
-$status = $profileData['status'][0];
-$user_land = $profileData['land'][0];
-$clan_id = $profileData['clan_id_user'][0];
-$timestamp = current_time('timestamp');
-$clan_timestamp = isset($profileData['new_clan_timestamp']) ? $profileData['new_clan_timestamp'][0] : 0;
-$telegram_key = $profileData['telegram_key'][0];
+$user = CurrentUser::make();
+$province = $user->getProvince();
+
+$viewed_id = Request::get('id');
+if(empty($viewed_id)) Request::redirect('/dashboard');
+$viewed = User::make($viewed_id);
+$viewed_province = $viewed->getProvince();
+$viewed_province->count_all_stats();
+$viewed_clan = $viewed_province->getClan();
+$telegram_key = $viewed_province->get('telegram_key');
 if(empty($telegram_key)) {
 	$telegram_key = uniqid();
-	update_user_meta($viewedId, 'telegram_key', $telegram_key);
+	$viewed_province->update('telegram_key', $telegram_key);
 }
-
-$user_country_code = $profileData['user_country'][0];
-
-$last_online = $profileData['last_online'][0];
-if(!empty($last_online)){
-	$last_seen = $timestamp - $last_online;
-}
-
-$visitorData = get_user_meta($visiting_user);
-
-$clan_id_user = $visitorData['clan_id_user'][0];
-
-$visitorClanData = get_post_meta($clan_id_user);
-
-$previous_members = maybe_unserialize(get_post_meta($clan_id_user, 'previous_members', true));
-if(!is_array($previous_members) || get_field('game_status', 'option') == 'Pause') $previous_members = array();
-
-$ct_1 = $visitorClanData['ct_1'][0];
-$ct_2 = $visitorClanData['ct_2'][0];
-$ct_3 = $visitorClanData['ct_3'][0];
-$ct_4 = $visitorClanData['ct_4'][0];
-$cl_1 = $visitorClanData['clan_leader'][0];
-
-$CT_CL_array = array($ct_1,$ct_2,$ct_3,$ct_4,$cl_1);
-$members = $visitorClanData['clan_members'][0];
-if(!is_array($members)) $members = array();
-
-$game_live = (get_field('game_status','option')=='Live');
 ?>
-
 <div class="row pageRow">
 
-	<div class="blockHeader">
-		<?php echo get_user_name($viewedId); ?>
-	</div>
+	<div class="blockHeader"><?=$viewed->getName(true)?></div>
 
-	<div class="row row-no-padding fw-row">
-		<div class="col-xs-2 col-no-padding eventImageCol" style="border-right: 1px solid #fff;">
-			<?php echo small_avatar($viewedId,'profileAvatar');?>
+	<div class="d-flex fw-row">
+		<div class="eventImageCol">
+			<?=$viewed->getAvatar('profileAvatar')?>
 		</div>
 
-		<div class="col-xs-10 col-no-padding" style="flex:100">
-			<div class="col-12 attackingRow statCol-1">
-				<div class="profileColumn">ID</div> <?php echo $viewedId;?>
+		<div class="w-100">
+			<div class="attackingRow statCol-1">
+				<div class="profileColumn">ID</div> <?=$viewed->get('id')?>
 			</div>
 
-			<div class="col-12 attackingRow statCol-2 elipOverflow">
-				<div class="profileColumn">Player name</div> <?php echo $user->display_name;?>
+			<div class="attackingRow statCol-2 elipOverflow">
+				<div class="profileColumn">Player name</div> <?=$viewed->getName()?>
 			</div>
 
-			<div class="col-12 attackingRow statCol-3">
-				<?php if($status != 'banned'):?>
-					<?php
-						$aw_args = array(
-							'post_type'		=>	'medal',
-							'numberposts' 	=> 	-1,
-							'meta_key' 		=> 	'winning_user',
-							'meta_value'    => 	$viewedId
-						);
-
-						$medals = get_posts($aw_args);
-
-						if(count($medals) == 0): ?>
-							<div class="profileColumn">Medals</div> none
-						<?php else:?>
-							<h3>Medals</h3>
-							<?php foreach ($medals as $medal) {
-								$round = get_post_meta($medal->ID, 'medal_round', true);
-								?>
-								<i class="fa fa-star fa-lg" aria-hidden="true"></i> &nbsp;<?php echo $round;?>:
-								<strong><?php echo $medal->post_title;?></strong><br/>
-							<?php } ?>
-						<?php endif;?>
-				<?php else:?>
-					<br/>n.a
-				<?php endif;?>
+			<div class="attackingRow statCol-3">
+				<?
+				if(!$viewed->isBanned()) {
+					$aw_args = array('post_type' =>	'medal', 'numberposts' => -1, 'meta_key' => 'winning_user', 'meta_value' => $viewed->get('id'));
+					$medals = get_posts($aw_args);
+					if(count($medals) == 0) {
+						echo '<div class="profileColumn">Medals</div> none';
+					} else { ?>
+						<h3>Medals</h3>
+						<? foreach($medals as $medal) {
+							$round = get_post_meta($medal->ID, 'medal_round', true);
+							?>
+							<i class="fa fa-star fa-lg" aria-hidden="true"></i> &nbsp;<?=$round?>:
+							<strong><?=$medal->post_title?></strong><br/>
+						<? }
+					}
+				} else echo '<br/>n.a';
+				?>
 			</div>
-			<div class="col-12 attackingRow statCol-4">
-				<div class="profileColumn">Registered</div> <?php echo date( "d M Y", strtotime( $user->user_registered ));?>
+			<div class="attackingRow statCol-4">
+				<div class="profileColumn">Registered</div> <?=date("d M Y", strtotime($viewed->get('registered')))?>
 			</div>
-			<div class="col-12 attackingRow statCol-3">
-				<div class="profileColumn">Networth</div> <?php echo networth_range($viewedId);?>
+			<div class="attackingRow statCol-3">
+				<div class="profileColumn">Networth</div> <?=networth_range($viewed->get('id'))?>
 			</div>
-			<div class="col-12 attackingRow statCol-2">
-				<div class="profileColumn">Land</div> <?php echo number_format($user_land, 0, ',', ' ')?>m<sup>2</sup>
+			<div class="attackingRow statCol-2">
+				<div class="profileColumn">Land</div> <?=$viewed_province->getLand(true)?>
 			</div>
-			<div class="col-12 attackingRow statCol-1 elipOverflow">
+			<div class="attackingRow statCol-1 elipOverflow">
 				<div class="profileColumn">Clan</div>
-				<?php if($clan_id == 0):?>
-					None
-				<?php else:?>
-					<a href="<?php echo get_the_permalink($clan_id);?>"><?php echo get_the_title($clan_id);?> (#<?php echo $clan_id;?>)</a>
-				<?php endif;?>
+				<?
+				if(!$viewed_clan) echo 'None';
+				else {?>
+					<a href="<?=$viewed_clan->getLink()?>"><?=$viewed_clan->getName()?> (#<?=$viewed_clan->get('id')?>)</a>
+				<? } ?>
 			</div>
-			<?php if($viewedId == $visiting_user) { ?>
-			<div class="col-12 attackingRow statCol-2">
+			<?php if($viewed->get('id') == $user->get('id')) { ?>
+			<div class="attackingRow statCol-2">
 				<div class="profileColumn">Push notifications</div>
 				Install <a href="https://t.me/assaultonlinebot" style="text-decoration:underline;" target="_blank">Telegram</a> on your mobile
-				device and use this code <strong><?php echo $telegram_key ?></strong> to get instant notifications.</a>
+				device and use this code <strong><?=$telegram_key?></strong> to get instant notifications.</a>
 			</div>
-			<div class="col-12 attackingRow statCol-1">
+			<div class="attackingRow statCol-1">
 				<div class="profileColumn">Recruitment link</div>
-				<input type="text" onclick="this.select()" value="<?=get_site_url()?>/register/?referral_userid=<?=$viewedId?>" style="width:50%;">
+				<input type="text" id="referralInput" class="w-50" value="<?=Request::siteUrl()?>/register/?referral_userid=<?=$viewed->get('id')?>">
 			</div>
 			<?php } ?>
 		</div>
 	</div>
+<?php
+// I am not ready yet to change all the code below, so we fix it by setting some used variables
+$status = $viewed_province->get('status');
+$visiting_user = $province->get('id');
+$visiting_clan = $province->getClan();
+$clan_id_user = ($visiting_clan ? $visiting_clan->get('id') : 0);
+$clan_id = ($viewed_clan ? $viewed_clan->get('id') : 0);
+$members = ($visiting_clan ? $visiting_clan->getMembers() : array());
+$previous_members = ($visiting_clan ? $visiting_clan->getPreviousMembers() : array());
+$CT_CL_array = ($visiting_clan ? array_merge($visiting_clan->getTrustees(), array($visiting_clan->getLeader())) : array());
+$game_live = (get_field('game_status','option')=='Live');
 
-
-<?php $count = 0;?>
-<?php if($visiting_user != $viewedId && ($clan_id != $clan_id_user || $clan_id == 0) && !in_array($visiting_user, $CT_CL_array)):?>
+$count = 0;
+?>
+<?php if($visiting_user != $viewed_id && ($clan_id != $clan_id_user || $clan_id == 0) && !in_array($visiting_user, $CT_CL_array)):?>
 <?php $count = 1;?>
 
 <!-- Visiting non-clanmember as non CT/CL -->
 <div class="row fw-row no-gutters profileButtonRow">
  	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
-	 	href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewedId)?>">
+	 	href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewed_id)?>">
 		<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
 	</a>
 
  	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 0.9);"
-	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewedId)?>">
+	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewed_id)?>">
  		<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
  	</a>
 
- 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewedId;?>">
+ 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewed_id;?>">
  		<i class="fas fa-envelope" aria-hidden="true"></i> &nbsp;Send message
 	</a>
 </div>
 <?php endif;?>
 
-<?php if($visiting_user != $viewedId && $clan_id != $clan_id_user && in_array($visiting_user, $CT_CL_array) && count($members) == 7):?>
+<?php if($visiting_user != $viewed_id && $clan_id != $clan_id_user && in_array($visiting_user, $CT_CL_array) && count($members) == 7):?>
 <?php $count = 1;?>
 <!-- Visiting non-clanmember as non CT/CL -->
 <div class="row fw-row no-gutters profileButtonRow">
  	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
-	 	href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewedId)?>">
+	 	href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewed_id)?>">
 		<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
 	</a>
 
  	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 0.9);"
-	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewedId)?>">
+	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewed_id)?>">
  		<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
  	</a>
 
- 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewedId;?>">
+ 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewed_id;?>">
  		<i class="fas fa-envelope" aria-hidden="true"></i> &nbsp;Send message
 	</a>
 </div>
 <?php endif;?>
 
 
-<?php if($visiting_user != $viewedId && $clan_id != $clan_id_user && $clan_id == 0 && in_array($visiting_user, $CT_CL_array) && count($members) < 6):?>
+<?php if($visiting_user != $viewed_id && $clan_id != $clan_id_user && $clan_id == 0 && in_array($visiting_user, $CT_CL_array) && count($members) < 6):?>
 <?php $count = 1;?>
 
 <div class="row no-gutters fw-row profileButtonRow">
 	<a class="col-md-3 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
-		href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewedId)?>">
+		href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewed_id)?>">
 		<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
 	</a>
 
  	<a class="col-md-3 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 0.9);"
-	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewedId)?>">
+	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewed_id)?>">
  		<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
  	</a>
 
- 	<a class="col-md-3 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewedId;?>">
+ 	<a class="col-md-3 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewed_id;?>">
  		<i class="fas fa-envelope" aria-hidden="true"></i> &nbsp;Send message
 	</a>
 
-	<?php if(in_array($viewedId, $previous_members)):?>
+	<?php if(in_array($viewed_id, $previous_members)):?>
 		<a class="col-md-3 profileButton" style="background-color: rgba(70, 118, 94, 0.7);" href="#">
 			<i class="fa fa-user-plus" aria-hidden="true"></i> &nbsp;Cannot invite
 		</a>
@@ -212,8 +175,8 @@ $game_live = (get_field('game_status','option')=='Live');
 			$('.inviteButton').on('click', function(event) {
 				event.preventDefault();
 				if (request) request.abort();
-				if(confirm('Are you sure you want to invite <?php echo $user->display_name;?> (#<?php echo $viewedId;?>)?')) {
-					request = $.ajax({url: '/invite.php?user=<?php echo $viewedId;?>', type: "get"});
+				if(confirm('Are you sure you want to invite <?php echo $user->display_name;?> (#<?php echo $viewed_id;?>)?')) {
+					request = $.ajax({url: '/invite.php?user=<?php echo $viewed_id;?>', type: "get"});
 					request.done(function (response, textStatus, jqXHR) {
 						var array = JSON.parse(response);
 						$.notify({message: array.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
@@ -228,44 +191,44 @@ $game_live = (get_field('game_status','option')=='Live');
 </div>
 <?php endif;?>
 
-<?php if($visiting_user != $viewedId && $clan_id != $clan_id_user && $count != 1 && in_array($visiting_user, $CT_CL_array)):?>
+<?php if($visiting_user != $viewed_id && $clan_id != $clan_id_user && $count != 1 && in_array($visiting_user, $CT_CL_array)):?>
 <!-- Visiting non-clanmember as non CT/CL -->
 <div class="row fw-row no-gutters profileButtonRow">
  	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
-	 	href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewedId)?>">
+	 	href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewed_id)?>">
 		<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
 	</a>
 
  	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 0.9);"
-	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewedId)?>">
+	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewed_id)?>">
  		<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
  	</a>
 
- 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewedId;?>">
+ 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewed_id;?>">
  		<i class="fas fa-envelope" aria-hidden="true"></i> &nbsp;Send message
 	</a>
 </div>
 <?php endif;?>
 
-<?php if($clan_id == $clan_id_user && $count != 1 && $visiting_user != $viewedId):?>
+<?php if($clan_id == $clan_id_user && $count != 1 && $visiting_user != $viewed_id):?>
 <!-- Visiting clanmember profile -->
 <div class="row fw-row no-gutters profileButtonRow">
 	<a class="col-md-6 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
-		href="<?=(!$game_live?'javascript:void(0);':'/military-overview/?id='.$viewedId)?>">
+		href="<?=(!$game_live?'javascript:void(0);':'/military-overview/?id='.$viewed_id)?>">
 		<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Military overview
 	</a>
 
-	<a class="col-md-6 profileButton" style="background-color: rgba(70, 118, 94, 0.9);" href="/send-message/?id=<?php echo $viewedId;?>">
+	<a class="col-md-6 profileButton" style="background-color: rgba(70, 118, 94, 0.9);" href="/send-message/?id=<?php echo $viewed_id;?>">
 		<i class="fas fa-envelope" aria-hidden="true"></i> &nbsp;Send message
 	</a>
 </div>
 <?php endif;?>
 
-<?php if($visiting_user == $viewedId):?>
+<?php if($visiting_user == $viewed_id):?>
 <!-- visiting own profile -->
 <div class="row no-gutters fw-row profileButtonRow">
 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
-		href="<?=(!$game_live?'javascript:void(0);':'/military-overview/?id='.$viewedId)?>">
+		href="<?=(!$game_live?'javascript:void(0);':'/military-overview/?id='.$viewed_id)?>">
 		<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Military overview
 	</a>
 
@@ -281,13 +244,13 @@ $game_live = (get_field('game_status','option')=='Live');
 
 <?php
 // If I have spy units, and I can spy this person
-if($visiting_user != $viewedId && ((empty($clan_id) && empty($clan_id_user)) || $clan_id != $clan_id_user) && !in_array($status, array('dead','banned','nukeprotection'))) {
+if($visiting_user != $viewed_id && ((empty($clan_id) && empty($clan_id_user)) || $clan_id != $clan_id_user) && !in_array($status, array('dead','banned','nukeprotection'))) {
 	$spiesOwned = get_spy_units($userId);
 	if(count($spiesOwned)) {
 		$btnClass = (count($spiesOwned)==2?'col-md-6':'col-md-12');
 		echo '<div class="row no-gutters fw-row profileButtonRow">';
 		foreach($spiesOwned as $key => $name) {
-			$url = get_site_url().'/attack/?id='.$viewedId.'&attacktype=spy&attackmode=normal&maintarget=none&spytype='.$key;
+			$url = get_site_url().'/attack/?id='.$viewed_id.'&attacktype=spy&attackmode=normal&maintarget=none&spytype='.$key;
 			?>
 			<a class="<?=$btnClass?> profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="<?=$url?>">
 				<i class="fas fa-binoculars"></i> &nbsp;Send <?=$name?>
@@ -298,12 +261,12 @@ if($visiting_user != $viewedId && ((empty($clan_id) && empty($clan_id_user)) || 
 }
 
 if(CurrentUser::make()->isAdmin()) {
-	$viewedUser = User::make($viewedId);
+	$viewedUser = User::make($viewed_id);
 	if(isset($_GET['makewhitelist'])) $viewedUser->update('multi_whitelist', $_GET['makewhitelist']);
 	$referral_code = $viewedUser->get('referral_code');
 	$multi_whitelist = $viewedUser->get('multi_whitelist');
 	?>
-	<center><a target="_blank" href="/wp-admin/user-edit.php?user_id=<?php echo $viewedId;?>&wp_http_referer=%2Fwp-admin%2Fusers.php">Backend edit</a></center>
+	<center><a target="_blank" href="/wp-admin/user-edit.php?user_id=<?php echo $viewed_id;?>&wp_http_referer=%2Fwp-admin%2Fusers.php">Backend edit</a></center>
 	<?php
 	echo '<p>Referral: '.$viewedUser->get('referral_userid').',
 		score: '.$viewedUser->get('referral_score').', '.(is_array($referral_code)?implode(', ',$referral_code):'none').' </p>';

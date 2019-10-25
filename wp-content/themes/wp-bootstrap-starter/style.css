@@ -139,10 +139,6 @@ hr {
 button {
     overflow: visible;
 }
-button:disabled {
-	background: #545454 !important;
-    opacity: 0.4;
-}
 button,select {
     text-transform: none;
 }
@@ -635,6 +631,9 @@ body:not(.theme-preset-active) footer#colophon {
         padding-top: 0.938rem;
     }
 }
+#ghost { position: fixed; top: 50%; left: 50%; width: 0vw; transform: translate(-50%,-50%); }
+#ghost path { fill: white; }
+
 /*--------------------------------------------------------------
 # Media Query
 --------------------------------------------------------------*/
@@ -666,33 +665,18 @@ body:not(.theme-preset-active) footer#colophon {
 .tooltip { z-index: 2080; }
 .menuOpen .sidenav { width: 36%; min-width: 400px; }
 
-.smallAvatar{
-    border-radius: 50%;
-    height: 40px;
-    width: 40px;
-    text-align: center;
-    line-height: 40px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #fff;
+.smallAvatar { height: 40px; width: 40px; background: #000; }
+.setAvatar { position:relative; height:40px; width:40px; overflow:hidden; background: #000; }
+.setAvatar img {  width:100%; }
+.setAvatar.uploaded img { position:absolute; top:50%; left:50%; transform: translate(-50%,-50%); }
+.setAvatar.letter:after {
+    content: ''; display: block; position: absolute; width: 100%; height: 100%; z-index: 2; top: 0; left: 0;
+    background: linear-gradient(rgba(255,255,255,.1), rgba(0,0,0,.3));
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 }
-.setAvatar{
-	border-radius:100%;
-	height:40px;
-	background-size: cover !important;
-	width:40px;
-}
-.leftAvatar{
-	float: left;
-    margin-right: 10px;
-}
-.largeAvatar{
-	margin-bottom:20px;
-	height:120px;
-	width:120px;
-	line-height: 120px;
-	font-size: 66px;
-}
+.leftAvatar { float: left; margin-right: 10px; }
+.largeAvatar { margin-bottom:20px; height:120px; width:120px; }
+
 .attack-profile-image{
 	width:82px;
 	height:82px;
@@ -733,8 +717,8 @@ body:not(.theme-preset-active) footer#colophon {
 .menu-item { position:relative; }
 .globalsBadge { top: 3px; animation-name: globalsPulse; }
 .localsBadge { top: 23px; animation-name: localsPulse; }
-.inboxBadge { top: 23px; animation-name: inboxPulse; }
-.inboxBadge, .localsBadge, .globalsBadge {
+.messagesBadge { top: 23px; animation-name: inboxPulse; }
+.messagesBadge, .localsBadge, .globalsBadge {
     display:none; z-index: 99999; position: absolute;
     animation-duration: 2s;
 	animation-iteration-count: infinite;
@@ -756,24 +740,15 @@ body:not(.theme-preset-active) footer#colophon {
 	margin-right:0px;
 	height: 41px;
 }
-.menuAvatar,.eventAvatar {
-    border-radius: 0px;
+.menuAvatar, .eventAvatar {
     height: 41px;
     width: 41px;
-    text-align: center;
-    line-height: 41px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #fff;
     float: right;
-    background:#DDD;
 }
-.eventAvatar{
+.eventAvatar {
 	float:left;
 	width:100px;
 	height:100px;
-	line-height: 100px;
-    font-size: 41px;
 }
 .statitem{
 	text-align: center;
@@ -830,7 +805,7 @@ body:not(.theme-preset-active) footer#colophon {
 
 .mainSubmit.disabled, .secundarySubmit.disabled { background-color: #BBB; border-bottom-color: #999; color: #444; cursor:default; }
 
-.receiveFunds { background-color:#A00000; border:0; }
+.receiveFunds, .redBg { background-color:#A00000; border:0; }
 .chooseFile{
 	background-color:#ddd;
 	border:0px;
@@ -889,12 +864,17 @@ input[type="radio"]:checked + label {
 .game-type-test .titleBackWrapper{
     background-image: url('/wp-content/themes/wp-bootstrap-starter/img/header_test.png');
 }
-.clanMessageButton{
+#clanMessage {
+    line-height: 18px; height: 30vh; overflow: auto;
+}
+.clanMessageButton, .profileButton{
+    background-color: #46765E;
+}
+.clanMessageButton {
 	padding: 13px 25px;
 	text-align:left;
 	text-transform: uppercase;
 	color:#fff;
-	background-color: #46765E;
 	cursor:pointer;
 }
 .clanMessageButton.disabled,.profileButton.disabled {
@@ -905,8 +885,9 @@ input[type="radio"]:checked + label {
 .clanMessageButton a{
 	color:#fff;
 }
-.secondButton,.fourthbutton { background-color: rgba(70, 118, 94, 0.95); }
+.secondButton,.fourthbutton { background-color: rgba(70, 118, 94, 0.9); }
 .secondButton { border-width: 1px 0px 1px 1px; }
+.thirdButton { background-color: rgba(70, 118, 94, 0.8); }
 .fourthbutton { border-width: 1px 0px 0px 1px; }
 
 .statusRow{
@@ -982,7 +963,7 @@ input[type="radio"]:checked + label {
         margin-left: 70px;
         margin-top: -41px;
     }
-    .inboxButton {
+    .messagesButton {
         margin-left: 41px;
     }
 }
@@ -1116,6 +1097,7 @@ input[type="radio"]:checked + label {
 .logged-in .permaNotification { top: 40px; left: 40px; }
 .alert { top:60px!important; border-radius:0; padding:8px 12px; font-size:14px; box-shadow:1px 1px 4px rgba(0,0,0,.15); }
 .alert-help { color: #111;background-color: #EEE;border-color: #EEE; top:auto!important; bottom:15px; }
+.sessionAlert { margin:0px auto;position:fixed;z-index:1031;right:20px; }
 
 @media only screen and (max-width: 1000px) {
 	.startingbonus {
@@ -1150,9 +1132,6 @@ input[type="radio"]:checked + label {
 	.pageSpacer{
 		padding:5px !important;
 		width:100%;
-	}
-	.loader{
-		height: unset !important;
 	}
 	.mobileUserName{
 		display: inline-block;
@@ -1447,19 +1426,9 @@ input[type="radio"]:checked + label {
 	height:50px;
 	background-color:#ddd;
 }
-.attackAvatar,.profileAvatar{
-	border-radius:0px;;
+.attackAvatar, .profileAvatar {
     height: 100px;
     width: 100px;
-    text-align: center;
-    line-height: 100px;
-    font-size: 50px;
-    font-weight: bold;
-    color: #fff;
-}
-.profileAvatar{
-	border-right:1px solid #fff;
-	border-bottom:1px solid #fff;
 }
 .attackingRow{
 	padding: 13px 25px;
@@ -1522,12 +1491,6 @@ input[type="radio"]:checked + label {
 .allUsersAvatar {
     height: 50px;
     width: 50px;
-    text-align: center;
-    line-height: 50px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #fff;
-    border-radius: 0;
     display: block;
 }
 .cancelButton{
@@ -1539,7 +1502,6 @@ input[type="radio"]:checked + label {
     text-transform: uppercase;
 }
 .loader {
-    height: 41px;
     width: 100%;
     position: relative;
     overflow: hidden;
@@ -1551,7 +1513,7 @@ input[type="radio"]:checked + label {
     content: "";
     left: -200px;
     width: 200px;
-    height: 50px;
+    height: 100px;
     background-color: rgba(222, 222, 222, 0.3);
     animation: loading 2s linear infinite;
 }
@@ -1668,20 +1630,6 @@ input[type="radio"]:checked + label {
     left: 1px;
     top: 1px;
     border: 1px solid #fff;
-}
-.dropzone {
-    min-height: 50px !important;
-    border: 0px !important;
-    background: white;
-    padding: 0px !important;
-}
-.dropzone .dz-preview{
-	margin:0px !important;
-}
-.dropzone .dz-preview .dz-image{
-	border-radius:0px !important;
-	width:unset !important;
-	height:unset !important;
 }
 .pageLoader{
 	font-size:150px;
@@ -1819,6 +1767,17 @@ input[type="radio"]:checked + label {
     #research .itemRow { border-bottom: 10px solid #ccc; }
 }
 
+/* Satellites page styling */
+#satellites { background: linear-gradient(rgba(45, 67, 81, 0.56), rgba(45, 67, 81, 0.24)); width: 100%; }
+#satellites .unitRow { border-bottom: 1px solid rgba(255,255,255,.2); width: 100%; margin: 0px; }
+#satellites .nameBlock { font-weight: bold; }
+#satellites .headerRow { background: #3f525f; border-bottom: 1px solid #FFF; }
+#satellites .mainSubmit { border: 0; }
+@media only screen and (max-width: 768px) {
+    #satellites .nameBlock { font-weight: normal; background-color: rgba(45, 67, 81, 0.75); }
+    #satellites .itemRow { border-bottom: 10px solid #ccc; }
+}
+
 /* Explore+sell page styling */
 #exploresell .maxexp, #exploresell .maxsell { border-top:none; }
 
@@ -1928,17 +1887,14 @@ input[type="radio"]:checked + label {
     .attackAvatar {
         height: 82px;
         width: 82px;
-        line-height:82px;
     }
     .profileAvatar{
         height: 82px;
         width: 82px;
-        line-height:82px;
     }
     .allUsersAvatar {
         height: 41px;
         width: 41px;
-        line-height: 41px;
     }
     .iconBlockHeader{
         font-size:23px;

@@ -11,20 +11,22 @@ $deposits = $province->getDeposits();
 $dep_num = $province->getDepositNum();
 $max_dep = $province->getMaxDeposit();
 $max_input = floor(min($max_dep,$province->getMoney()));
-$bank_level = $province->getResearches('bank_management')['level'];
-$withdraw_penalty = ($bank_level >= 2 ? (Settings::get('bank_management_'.$bank_level.'_withdraw')*100) : 0);
+$bm = $province->getResearches('bank_management');
+$bank_level = $bm['level'];
+$withdraw_penalty = ($bank_level >= 2 ? ($bm['level'.$bank_level.'_withdraw'] * 100) : 0);
+
 $disabled = (!Bank::isOpen() || $dep_num >= $province->getMaxDeposits() ? true : false);
 ?>
 <div id="bank" class="row pageRow">
 	<div class="blockHeader spaceNotice">
 		<? if(count($rates)) {?>Your current interest rate starts at <?=current($rates)?>%.<?}?>
-		The maximum amount of simultaneous deposits is <?=$province->getMaxDeposits()?>.
-		Each single deposit has a minimum of <?=$province->getMinDeposit(true)?> and a maximum of
+		You can have a maximum of <?=Format::plural($province->getMaxDeposits(),'deposit')?>.
+		Each deposit has a minimum of <?=$province->getMinDeposit(true)?> and a maximum of
 		<span class="maxdep" data-max="<?=$max_input?>"><?=$province->getMaxDeposit(true)?></span>.
 		<? if($province->hasStartingBonus('finance')) { ?>
 		Your finance startbonus gives 50% more deposit.
 		<? } ?>
-		You currently have <span class="totaldeposits"><?=$dep_num?></span> deposits.
+		You currently have <span class="totaldeposits"><?=$dep_num?></span> <?=($dep_num==1?'deposit':'deposits')?>.
 	</div>
 
 	<form id="bankform" method="post">

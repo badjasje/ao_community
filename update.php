@@ -13,8 +13,34 @@ function setWpOption($key,$value) {
     global $wpdb;
     return $wpdb->query("UPDATE `{$wpdb->prefix}options` SET `option_value` = '". serialize($value) ."' WHERE `option_name` = '".$key."'");
 }
+function giveEditorRole($userId) {
+    global $wpdb;
+    $wpdb->query("UPDATE {$wpdb->prefix}usermeta SET meta_value='7' WHERE `meta_key`='23zx_user_level' AND `user_id` = ".$userId);
+    $wpdb->query("UPDATE {$wpdb->prefix}usermeta SET meta_value='a:1:{s:6:\"editor\";b:1;}' WHERE `meta_key`='23zx_capabilities' AND `user_id` = ".$userId);
+}
+function setPageEditor($pageName, $userId) {
+    global $wpdb;
+    $data = $wpdb->get_row("SELECT ID FROM `{$wpdb->prefix}posts` WHERE `post_status`='publish' AND `post_name`='".$pageName."' AND `post_type`='page'", ARRAY_A);
+    if(isset($data['ID'])) {
+        $wpdb->query("UPDATE {$wpdb->prefix}posts SET `post_author` = ".$userId." WHERE `ID` = ".$data['ID']);
+        echo '<p>'.$pageName.' edit link: '. Request::siteUrl() .'/wp-admin/post.php?post='.$data['ID'].'&action=edit&classic-editor</p>';
+    }
+}
 
 if(isset($_GET['secret']) && isset($_GET['v']) && $_GET['secret']=='kutcloudflare') {
+
+    if($_GET['v'] == '3') {
+        $userForRules = (isset($_GET['userForRules']) ? $_GET['userForRules'] : 0);
+        if($userForRules > 0) {
+            giveEditorRole($userForRules);
+            setPageEditor('rules', $userForRules);
+        }
+        $userForGettingStarted = (isset($_GET['userForGettingStarted']) ? $_GET['userForGettingStarted'] : 0);
+        if($userForGettingStarted > 0) {
+            giveEditorRole($userForGettingStarted);
+            setPageEditor('getting-started', $userForGettingStarted);
+        }
+    }
 
     if($_GET['v'] == '2') {
         $data = $wpdb->get_row("SELECT `ID` FROM `{$wpdb->prefix}posts` WHERE `post_type` = 'acf-field' AND `post_title` = 'sub_messages_rep'", ARRAY_A);
@@ -85,16 +111,8 @@ if(isset($_GET['secret']) && isset($_GET['v']) && $_GET['secret']=='kutcloudflar
         $userForManual = (isset($_GET['userForManual']) ? $_GET['userForManual'] : 0);
         if(Round::isDev()) $userForManual = 2;
         if($userForManual > 0) {
-            // Give -SOMEONE- editor role
-            $wpdb->query("UPDATE {$wpdb->prefix}usermeta SET meta_value='7' WHERE `meta_key`='23zx_user_level' AND `user_id` = ".$userForManual);
-            $wpdb->query("UPDATE {$wpdb->prefix}usermeta SET meta_value='a:1:{s:6:\"editor\";b:1;}' WHERE `meta_key`='23zx_capabilities' AND `user_id` = ".$userForManual);
-
-            // Give -SOMEONE- access to the manual page
-            $data = $wpdb->get_row("SELECT ID FROM `{$wpdb->prefix}posts` WHERE `post_status`='publish' AND `post_name`='manual' AND `post_type`='page'", ARRAY_A);
-            if(isset($data['ID'])) {
-                $wpdb->query("UPDATE {$wpdb->prefix}posts SET `post_author` = ".$userForManual." WHERE `ID` = ".$data['ID']);
-                echo '<p>Manual edit link: '. Request::siteUrl() .'/wp-admin/post.php?post='.$data['ID'].'&action=edit&classic-editor</p>';
-            }
+            giveEditorRole($userForManual);
+            setPageEditor('manual', $userForManual);
         }
     }
 

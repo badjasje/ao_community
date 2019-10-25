@@ -94,33 +94,9 @@ if (count($warcheck) == 0) {
     $decNW = get_post_meta($declarer_clan_ID, 'clan_networth', true);
     $recWN = get_post_meta($_POST['clan'], 'clan_networth', true);
 
-    //MEGA dropboost fix 20171106
-    //Count the members in the clan
-    $clanMembers = get_post_meta($_POST['clan'], 'clan_members', true);
-    $membersCount = count($clanMembers);
-    //Enemy clan avg nw is:
-    $averageNw = $recWN / $membersCount;
-
-    //Count the members in YOUR clan
-    $declaringClanMembers = get_post_meta($declarer_clan_ID, 'clan_members', true);
-    $declaringMembersCount = count($declaringClanMembers);
-    $declarerAverageNw = $decNW / $declaringMembersCount;
-
-    //If enemy average is more than 1.6x your average, you cannot declare!
-    /*
-    if ($declarerAverageNw*$AVERAGE_DECLARE_NW_ALLOWED < $averageNw) {
-      $_SESSION['status'] = "DECLARING CLAN Average Networth is not in range! Are you trying to drop boost some n00bs? Shame!";
-      wp_redirect(get_permalink($_GET['clan']));
-      exit;
-    } */
-    //END dropBoost fix!
-
-    //$_SESSION['status'] = 'DAVEi'.count($clanMembers).".Avg:".$averageNw."DeclAvg:".$declarerAverageNw;
-    //wp_redirect(get_permalink($_GET['clan']));
-    //exit;
     if ($recWN > $decNW/1.4 && $recWN < $decNW*1.4) {
     } else {
-        $array['status'] = 'You can not do that';
+        $array['status'] = 'Clan out of range';
 		$array['next'] = false;
 		echo json_encode($array);
 		update_user_meta($declarer_ID, 'user_lock', 0);

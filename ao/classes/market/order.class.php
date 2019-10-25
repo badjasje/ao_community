@@ -22,6 +22,18 @@ class Order extends PostObject {
         }
     }
 
+    static function create($data) {
+        $timestamp = current_time('timestamp');
+        $new_order_id = wp_insert_post(array(
+            'post_title' => $data['title'], 'post_status' => 'publish', 'post_type' => 'market_order', 'post_author' => $data['province_id']
+        ));
+        foreach($data as $key => $value) {
+            if(in_array($key, array('title', 'province_id'))) continue;
+            update_field($key, $value, $new_order_id);
+        }
+        return self::make($new_order_id);
+    }
+
     public function title($format=false) {
         return $this->get('title');
     }
@@ -39,12 +51,40 @@ class Order extends PostObject {
         return ($format ? Format::time_diff($diff) : $diff);
     }
 
+    public function cashback($format=false) {
+        $n = round(intval($this->get('order_value')) * Settings::get('order_cancel_cashback'));
+        if ($this->type() == 'satellite') {
+            $sat = Satellites::get($this->get('unit_type'));
+            $n = (!!$sat ? round($sat['price'] * Settings::get('order_cancel_cashback')) : 0);
+        }
+        return ($format ? Format::money($n) : $n);
+    }
+
+    // Used by market, missile and satellite
+    public function cancel() {
+        if($this->get('post_status') != 'publish') return 'Order is not active';
+
+        $province = Province::make($this->get('province_id'));
+        if(empty($province->get('id'))) return 'Province not found';
+
+        $unit_type = $this->get('unit_type');
+        $units_ordered = $this->amount();
+        $total_units_ordered = $province->get($unit_type.'_ordered');
+        if($total_units_ordered < $units_ordered) $units_ordered = $total_units_ordered;
+        $province->update($unit_type.'_ordered', $total_units_ordered - $units_ordered);
+        if ($this->type() == 'satellite') {
+            $province->update('sat_in_progress', 0);
+        }
+        $province->update('money', $province->getMoney() + $this->cashback());
+        wp_trash_post($this->get('id'));
+        return true;
+    }
+
     // Used by market-cronjob and devfunds ajax call
     public function end() {
 
         $province = Province::make($this->get('province_id'));
         $unit_type = $this->get('unit_type');
-
         if($this->type() == 'units') {
             $unit = Units::get($unit_type);
             if(!$unit) return false; // Unit does not exist
@@ -59,15 +99,12 @@ class Order extends PostObject {
 
         if($this->type() == 'satellite') {
             if(!$province->hasResearchMinimalLevel('satellite_construction', 1)) return false; // User cannot build sats
-            if($province->getSatelliteNum() > 0) return false; // Province can only have one sattelite (for now)
-            $satellite = Satellites::get($unit_type);
+            if($province->getSatelliteNum() != 0) return false; // Province can only have one sattelite (for now)
+            $satellite = $province->getSatellites($unit_type);
             if(!$satellite) return false; // Satellite does not exist
-
-            $days = Settings::get('satellite_construction_1_endlife');
-            if ($province->hasResearchMinimalLevel('satellite_construction', 2)) $days = Settings::get('satellite_construction_2_endlife');
             $province->update('sat_owned', $unit_type);
             $province->update('sat_in_progress', 0);
-            $province->update('sat_endlife', current_time('timestamp') + ($days * 86400));
+            $province->update('sat_endlife', current_time('timestamp') + ($satellite['days'] * 86400));
             wp_trash_post($this->get('id'));
         }
 

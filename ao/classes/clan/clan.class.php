@@ -16,16 +16,36 @@ class Clan extends PostObject {
         return count($this->getMembers()) >= Settings::get('clan_member_num');
     }
 
-    public function getLink() {
-        return $this->get('link');
+    public function getTag($format=false) {
+        $clantag = $this->get('clan_tag');
+        if(!empty($clantag)) $clantag = '['.str_replace(array('[', ']'), '', $clantag).']';
+        return ($format ? '<strong>' . $clantag . '</strong>' : $clantag);
     }
 
-    public function getName() {
+    public function getName($format=false) {
         return $this->get('name');
     }
 
-    public function getAvatar() {
+    public function getLink($format=false) {
+        if(!$format) return $this->get('link');
+        return '<a href="'.$this->getLink(false).'">'.$this->getName(true).'</a>';
+    }
 
+    public function getAvatar($classes='', $link=true) {
+        $avatar = $this->get('clan_thumb');
+        $firstletter = strtoupper(substr($this->getName(), 0, 1));
+        if(!preg_match('/[A-Z]/', $firstletter)) $firstletter = '_';
+        $classes = array_merge( (!is_array($classes) ? array($classes) : array()), array('setAvatar clan_avatar'));
+        $classes[] = !empty($avatar) ? 'uploaded' : 'letter';
+        $return = (!!$link ? '<a href="'.$this->getLink().'" title="'.$this->getName().'">' : '');
+        $return .= '<div class="'. implode(' ', $classes) .'">';
+        if(!empty($avatar) && in_array(substr($avatar, -3), array('jpg','png','gif'))) {
+            $return .= '<img src="'. str_replace("http://", "https://", $avatar) .'">';
+        }
+        else {
+            $return .= '<img src="'. get_stylesheet_directory_uri().'/img/avatars/'. $firstletter .'.png' .'">';
+        }
+        return $return . (!!$link ? '</div>' : '') . '</a>';
     }
 
     public function getMessage($format=false) {
@@ -62,6 +82,12 @@ class Clan extends PostObject {
         $members = $this->get('clan_members');
         if(!empty($members)) $members = unserialize($members);
         return (is_array($members) && count($members) ? $members : array());
+    }
+
+    public function getPreviousMembers() {
+        $previous_members = maybe_unserialize($this->get('previous_members'));
+        if(!is_array($previous_members) || Round::isPaused()) $previous_members = array();
+        return $previous_members;
     }
 
     public function getOpenInvites() {

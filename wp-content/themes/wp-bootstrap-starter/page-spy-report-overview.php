@@ -235,15 +235,22 @@ include('building_array.php');
 				</span>
 			</div>
 			<div class="col-md-3 celBlock">
+				<span class="dataVisibleLeft">Land registered</span>
+				<span class="dataVisibleRight">
+					<?php echo number_format($regLand, 0, ',', ' '); ?> m<sup>2</sup>
+				</span>
+			</div>
+
+		</div> <!-- //Close Row 1 -->
+
+		<!-- Row 2 -->
+		<div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.4-($count/70);?>);">
+			<div class="col-md-3 celBlock">
 				<span class="dataVisibleLeft">Units spied date</span>
 				<span class="dataVisibleRight store-pop-span2">
 					<?php echo $unitRep_date; ?>
 				</span>
 			</div>
-		</div> <!-- //Close Row 1 -->
-
-		<!-- Row 2 -->
-		<div class="row fw-row userRow row-no-padding" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.4-($count/70);?>);">
 			<div class="col-md-3 celBlock">
 				<span class="dataVisibleLeft">Buildings spied date</span>
 				<span class="dataVisibleRight store-pop-span2">
@@ -260,11 +267,6 @@ include('building_array.php');
 				<span class="dataVisibleLeft">Can attack</span>
 				<span class="dataVisibleRight store-pop-span2">
 					<?php echo implode(", ", array_values($attack_array));?>
-				</span>
-			</div>
-			<div class="col-md-3 celBlock">
-				<span class="dataVisibleLeft"></span>
-				<span class="dataVisibleRight store-pop-span2">
 				</span>
 			</div>
 		</div><!-- //Close Row 2 -->

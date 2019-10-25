@@ -8,11 +8,11 @@ class User extends DbObject {
     //static $table = 'users';
     static $cache = 'users';
     public $fields = array(
-        'id','email','nicename','registered','display_name','logindata','multi_whitelist',
+        'id','email','nicename','registered','display_name','username','logindata','multi_whitelist',
         'nickname','name_change_counter','first_name','last_name','avatar_user','status',
         'description','phone_number','first_visit','last_online','user_lock',
         'telegram_key','high_power_notified','low_power_notified','low_buildings_notified','last_summary',
-        'new_global_events','new_events','new_messages',
+        'new_global_events','new_events','new_messages','clan_id_user',
     );
     public $province = false;
 
@@ -49,7 +49,7 @@ class User extends DbObject {
         $user_meta = get_user_meta($id);
         $meta = (is_array($user_meta) ? array_map( function( $a ){ return $a[0]; }, $user_meta) : array()); //@wp
         $props = array_merge(array(
-            'id' => $user->ID, 'email' => $user->data->user_email, 'nicename' => $user->data->user_nicename,
+            'id' => $user->ID, 'username' => $user->data->user_login, 'email' => $user->data->user_email, 'nicename' => $user->data->user_nicename,
             'registered' => $user->data->user_registered, 'display_name' => $user->data->display_name
         ), $meta);
         return $props;
@@ -95,7 +95,7 @@ class User extends DbObject {
     }
 
     public function getUsername() {
-        return $this->get('nicename');
+        return $this->get('username');
     }
 
     public function getName($format=false) {
@@ -105,29 +105,32 @@ class User extends DbObject {
         return $this->getName(false).' (#'.$this->get('id').')' . ($this->isOnline()?' <span class="online">*</span>':'');
     }
 
-    public function getLink($format=false) { // @todo: make a permalink for users
+    public function getLink($format=false) { // @todo: make a permalink for users?
         if(!$format) return Request::siteUrl().'/users/profile/?id='.$this->id;
         return '<a class="memberField" href="'.$this->getLink(false).'">'.$this->getName(true).'</a>';
     }
 
-    public function getAvatar($classes='') {
+    public function getAvatar($classes='', $link=true) {
         $avatar = $this->get('avatar_user');
+        $firstletter = strtoupper(substr($this->getName(), 0, 1));
+        if(!preg_match('/[A-Z]/', $firstletter)) $firstletter = '_';
+        if(in_array(date('d-m'), array('31-10'))) {
+            $avatar = get_stylesheet_directory_uri().'/img/boe/'.$firstletter.'.png';
+        }
+        if(strtolower($this->getName()) == 'minion') {
+            $avatar = get_stylesheet_directory_uri().'/img/avatars/Minion.png';
+        }
         $classes = array_merge( (!is_array($classes) ? array($classes) : array()), array('setAvatar'));
-        $return = '<a href="'.$this->getLink().'" title="'.$this->getName().'">';
-        if(!empty($avatar)) {
-            $avatar = str_replace("http://", "https://", $avatar);
-            $return .= '<div class="'. implode(' ', $classes) .'" style="background: url(\''.$avatar.'\');"></div>';
+        $classes[] = !empty($avatar) ? 'uploaded' : 'letter';
+        $return = (!!$link ? '<a href="'.$this->getLink().'" title="'.$this->getName().'">' : '');
+        $return .= '<div class="'. implode(' ', $classes) .'">';
+        if(!empty($avatar) && in_array(substr($avatar, -3), array('jpg','png','gif'))) {
+            $return .= '<img src="'. str_replace("http://", "https://", $avatar) .'">';
         }
         else {
-            // @todo Change this to classes to avoid inline css
-            $map = array('A'=>'#2D434E','B'=>'#607782','C'=>'#425D69','D'=>'#1B3642','E'=>'#0D2632','F'=>'#343855','G'=>'#6C708E','H'=>'#4C5173',
-            'I'=>'#212648','J'=>'#121636','K'=>'#315842','L'=>'#6A937C','M'=>'#49775D','N'=>'#1C4B31','O'=>'#0D3820','P'=>'#7B6C44','Q'=>'#CEBE95',
-            'R'=>'#CEBE95','S'=>'#A79566','T'=>'#695728','U'=>'#4F3E12','V'=>'#7B5044','W'=>'#CEA195','X'=>'#A77366','Y'=>'#693528','Z'=>'#4F1F12');
-            $firstletter = strtoupper(substr($this->getName(), 0, 1));
-            $color = (isset($map[$firstletter]) ? $map[$firstletter] : '#2D434E');
-            $return .= '<div class="'. implode(' ', $classes) .'" style="background-color:'. $color .';">'. $firstletter .'</div>';
+            $return .= '<img src="'. get_stylesheet_directory_uri().'/img/avatars/'. $firstletter .'.png' .'">';
         }
-        return $return .'</a>';
+        return $return . '</div>' . (!!$link ? '</a>' : '');
     }
 
     public function getLoginData($format=false) {
@@ -148,12 +151,54 @@ class User extends DbObject {
         return intval($this->get('new_messages'));
     }
 
-    /*public function getUsernamelink() {
-        return '<a href="'.Request::siteUrl().'/users/profile/?id='.$this->get('id').'" data-id="'.$this->get('id').'" class="user-link username-link">
-            '.$this->get('username').'
-        </a>';
+    public function getEvents($category='global') {
+        $events = array();
+
+        // Make query according to event-category
+        $paged = get_query_var('paged', 1);
+        $eventTypes = Event::getPossibleEventTypes($category);
+        $args = array(
+            'posts_per_page' => 20, 'orderby' => 'date', 'order' => 'DESC', 'paged' => $paged, 'post_type' => 'event_local',
+            'meta_query' => array(
+                'relation' => 'AND',
+                array('key' => 'attacktype', 'value' => $eventTypes, 'compare' => 'IN'),
+            )
+        );
+        if(in_array($category,array('incoming','outgoing'))) {
+            $args['post_status'] = 'publish'; // why can global events be trashed?
+        }
+        switch($category) {
+            case 'incoming':
+                $args['meta_query'][] = array('key' => 'defender_id', 'value' => $this->id, 'compare' => '=');
+            break;
+            case 'outgoing':
+                $args['meta_query'][] = array('key' => 'attacker_id', 'value' => $this->id, 'compare' => '=');
+            break;
+            case 'global':
+                $clan = (!empty($this->get('clan_id_user')) ? Clan::make($this->get('clan_id_user')) : false);
+                if(empty($clan->id)) return array();
+                $members = $clan->getMembers();
+                $args['meta_query'][] = array('relation' => 'OR',
+                    array('key' => 'attacker_id', 'value' => $members[0], 'compare' => 'IN'),
+                    array('key' => 'defender_id', 'value' => $members[0], 'compare' => 'IN')
+                );
+                $args['meta_query'][] = array('relation' => 'OR',
+                    array('key' => 'attacker_clan_id', 'value' => $clan->id, 'compare' => 'IN'),
+                    array('key' => 'defender_clan_id', 'value' => $clan->id, 'compare' => 'IN'),
+                );
+            break;
+        }
+
+        // Run query
+        $wp_query = new WP_Query($args);
+        if($wp_query->have_posts()) {
+            foreach($wp_query->get_posts() as $post) {
+                $post->category = $category;
+                $events[] = new Event($post);
+            }
+        }
+
+        return $events;
     }
-    public function getXP() {}
-    public function getDisplayName() {}
-    public function getEmail() {}*/
+
 }

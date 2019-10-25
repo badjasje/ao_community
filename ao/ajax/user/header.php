@@ -3,7 +3,8 @@
 // Returns clean & formatted data
 function ajax_header($province, $return) {
     $user = CurrentUser::make();
-    return array(
+
+    $return = array(
         'success' => true,
         'globals' => $user->getGlobalNum(),
         'locals' => $user->getLocalNum(),
@@ -19,4 +20,12 @@ function ajax_header($province, $return) {
             'power'	=> $province->getPower(),
         )
     );
+    if(rand(1,30) == 1 && in_array(date('d-m'), array('31-10'))) {
+        $a = array();
+        if($user->getGlobalNum() == 0) $a[] = 'globals';
+        if($user->getLocalNum() == 0) $a[] = 'locals';
+        if($user->getMessageNum() == 0) $a[] = 'messages';
+        if(count($a)>0) $return['ghost'] = $a[mt_rand(0, count($a) - 1)];
+    }
+    return $return;
 }

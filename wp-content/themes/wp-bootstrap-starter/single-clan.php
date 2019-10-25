@@ -133,7 +133,7 @@ update_post_meta($clan_id, 'clan_networth', ceil($tot_networth));
     <?php while ( have_posts() ) : the_post();
 
         $clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
-        <div class="blockHeader">
+        <div id="clan-<?=$clan_id?>" class="blockHeader">
             <?php echo get_the_title($clan_id) ?>
         </div>
 
@@ -154,10 +154,9 @@ update_post_meta($clan_id, 'clan_networth', ceil($tot_networth));
 
             <div class="col-12 attackingRow statCol-3">
                 <h3>Awards (<?php echo count($awards);?>)</h3>
-                <div id="awardlist" class="fw-row" style="overflow: hidden;">
+                <div id="awardlist" class="fw-row">
                     <?php include 'pages/clan/awardlist.php'; ?>
                 </div>
-                <a id="awardlistExpandBtn" style="display: none">Show more</a>
             </div>
 
             <div class="col-12 attackingRow statCol-4">
@@ -179,7 +178,7 @@ update_post_meta($clan_id, 'clan_networth', ceil($tot_networth));
 
             <div class="col-12 attackingRow statCol-1 elipOverflow">
                 <h3>Message</h3>
-                <div id="clanMessage" style="line-height: 18px;">
+                <div id="clanMessage">
                     <?php echo str_replace("\r", "<br />", wp_strip_all_tags(get_the_content($clan_id))); ?>
                 </div>
             </div>

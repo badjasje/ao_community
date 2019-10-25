@@ -29,10 +29,21 @@ function updateHeaderData(cb) {
             for(var i in data.formatted) {
                 if($('.'+i+'header').length) $('.'+i+'header').html(data.formatted[i]);
             }
+            $('.globalsBadge,.localsBadge,.messagesBadge').off('click');
+            if(!!data.ghost) {
+                data[data.ghost]++;
+                $('.'+data.ghost+'Button').on('click', function(e) {
+                    e.preventDefault();
+                    $('#ghost').animate({width:'100vw',opacity:0}, 300, function() {
+                        $(this).css({width:'0vw',opacity:1});
+                    });
+                    $(this).off('click').find('.badge').text(0).hide();
+                });
+            }
             $('header .freeland').attr({'data-original-title': 'Free land: '+data.formatted.freeland});
             $('.globalsBadge').text(data.globals).toggle((data.globals>0));
             $('.localsBadge').text(data.locals).toggle((data.locals>0));
-            $('.inboxBadge').text(data.messages).toggle((data.messages>0));
+            $('.messagesBadge').text(data.messages).toggle((data.messages>0));
             if(!!cb) cb.call();
         }
     });
@@ -88,8 +99,9 @@ jQuery(function($) {
         var serializedData = (post instanceof jQuery ? post.serialize() : post);
         $('.pageLoader, #page-cover').show();
         requests[url] = $.ajax({url:url,type:'post',data:serializedData}).done(function(response) {
-            $('.pageLoader, #page-cover').fadeOut("fast");
             var data = $.parseJSON(response);
+            if(!!data.redirect) { location.href=data.redirect; return; }
+            $('.pageLoader, #page-cover').fadeOut("fast");
             if(data.nonce) $('.nonce').val(data.nonce);
             updateHeaderData(function() {
                 if(!!cb) cb.call(this, data);
@@ -253,7 +265,7 @@ jQuery(function($) {
                 lastrow.find('.timeleft').attr('data-countdown', data.timeleft);
                 lastrow.removeClass('hidden').insertAfter('.withdraw.hidden');
                 start_countdowns();
-                $(this).trigger("reset");
+                $(this).trigger('reset');
             }
         });
     });
@@ -319,7 +331,7 @@ jQuery(function($) {
                 $(".maxexp").attr({"data-max": data.maxturns});
                 $(".maxsell").attr({"data-max": data.maxsell});
             }
-            $(this).trigger("reset");
+            $(this).trigger('reset');
         });
     });
     $('#sellform').on('submit', function(e) {
@@ -330,7 +342,7 @@ jQuery(function($) {
                 $("#landinput").attr({"max": data.maxsell});
                 $(".maxsell").attr({"data-max": data.maxsell});
             }
-            $(this).trigger("reset");
+            $(this).trigger('reset');
         });
     });
 
@@ -382,7 +394,7 @@ jQuery(function($) {
                 $('.demomax', r).attr('data-amount', dm).text(o);
                 $('.demoBlock .unitInput', r).attr('max', dm);
             }
-            $(this).trigger("reset");
+            $(this).trigger('reset');
             calculateBuildingsTotals();
         });
     });
@@ -416,14 +428,16 @@ jQuery(function($) {
         var turns = provinceData.turns - totals.turns;
         var money = provinceData.money - totals.cost;
         $('#turnbuild .unitRow:not(.headerRow,.descriptionRow)').each(function() {
-            var bpt = parseInt($(this).data('bpt')), space = parseInt($(this).data('space')), special_space = parseInt($(this).data('specialspace'));
+            var bpt = parseInt($(this).data('bpt')), space = parseInt($(this).data('space'));
+            var special_space = ($(this).data('specialspace') != undefined ? parseInt($(this).data('specialspace')) : false);
             var ttl = specialttl = 0;
             $(this).siblings(':not(.headerRow,.descriptionRow)').add(this).each(function() {
-                if($(this).data('specialspace')>0) specialttl += 1*($('.buildBlock .unitInput',this).val());
-                ttl += 1*($('.buildBlock .unitInput',this).val());
+                if($(this).data('specialspace') != undefined) specialttl += Math.abs($('.buildBlock .unitInput',this).val());
+                ttl += Math.abs($('.buildBlock .unitInput',this).val());
             });
             var nm = Math.min( Math.floor(money/$(this).data('buildprice')), turns*bpt, Math.floor(space - ttl));
-            nm = (special_space > 0 ? Math.min(nm, Math.floor(special_space - specialttl)) : nm);
+            nm = (special_space !== false ? Math.min(nm, Math.floor(special_space - specialttl)) : nm);
+            /*console.log(special_space, specialttl, Math.abs($('.buildBlock .unitInput',this).val()));*/
             var sm = Math.abs($('.buildBlock .unitInput', this).val()) + nm;
             $('.buildmax', this).attr('data-amount', sm ).text(nm);
             $('.buildBlock .unitInput', this).attr('max', sm);
@@ -447,11 +461,28 @@ jQuery(function($) {
                 $('.owned', r).text(o);
                 r.data('space', sp).data('specialspace', ssp);
             }
-            $(this).trigger("reset");
+            $(this).trigger('reset');
             calculateBuildingsTotals();
         });
     });
     calculateUnitsTotals();
+
+    // satelliteForm
+    $('.satelliteForm .orderSubmit').on('click', function(e) {
+        if(!confirm('Are you sure you want to order this satellite?')) {
+            e.preventDefault();
+            return;
+        }
+    });
+    $('.activateSatellite').on('click', function() {
+        $('input[name="action"]').val('activate');
+    });
+    $('.satelliteForm').on('submit', function(e) {
+        e.preventDefault(); // this orders, activates and crashes satellites
+        singleAjax(site_url+'/ajax/satellite', $(this), function(data) {
+            $('.satelliteForm').trigger('reset');
+        });
+    });
 
     // Sending aid
     $("#maxaid").click(function() {
@@ -462,7 +493,7 @@ jQuery(function($) {
         singleAjax(site_url+'/ajax/sendaid', $(this), function(data) {
             $('#aidssent').html(data.noaids);
             $('#amount').attr('max', data.max);
-            $('#aid').trigger("reset");
+            $('#aid').trigger('reset');
         });
     });
 
@@ -470,8 +501,7 @@ jQuery(function($) {
     $("#message").on('submit', function(e) {
         e.preventDefault();
         singleAjax(site_url+'/ajax/message', $(this), function(data) {
-            if(!!data.redirect) location.href=data.redirect;
-            $('#message').trigger("reset");
+            $('#message').trigger('reset');
         });
     });
     $("#claninvite").on('submit', function(e) {
@@ -485,6 +515,41 @@ jQuery(function($) {
         $('#claninvite .target').val($(this).val());
     });
 
+    // Edit profile
+    $('#referralInput').on('click', function() { $(this)[0].select(); });
+    $("#editprofile").on('submit', function(e){
+        e.preventDefault();
+        singleAjax(site_url+'/ajax/userupdate', $(this));
+    });
+    $('#resetprofile').on('submit', function(e) {
+        e.preventDefault();
+        if(!confirm("Are you sure you want to reset your account? You will lose all your units, research and buildings!")) return;
+        singleAjax(site_url+'/ajax/reset', $(this));
+    });
+    if($('#editprofile').length) {
+        Dropzone.autoDiscover = false;
+        $("#user_avatar_dz").dropzone({
+            url: $('#user_avatar_dz').attr('data-url'),
+            addRemoveLinks: true,
+            init: function() {
+                $("#user_avatar_dz").addClass('dropzone');
+                this.on("sending", function(file, xhr, formData){
+                    formData.append("my_nonce_field", $('.nonce').val());
+                    formData.append("action", "submit_dropzonejs");
+                });
+                this.on("removedfile", function(file, xhr, formData) {
+                    console.log(file.previewTemplate.getAttribute('rel'));
+                });
+            },
+            success: function (file, response) {
+                $('input[name="newuserimage"]').attr('value',response);
+                file.previewElement.classList.add("dz-success");
+            },
+            error: function (file, response) {
+                file.previewElement.classList.add("dz-error");
+            }
+        });
+    }
 });
 
 // Google Tag Manager
