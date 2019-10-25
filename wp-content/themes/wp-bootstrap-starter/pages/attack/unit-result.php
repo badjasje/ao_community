@@ -715,6 +715,7 @@ if($war_type != 'none' && $result == 'success') {
 	update_post_meta($attack_clan_id,'clan_points',$starting_points+$clan_points);
 	/* add attacks for UA */
 	$starting_attacks = get_post_meta($attack_clan_id,'ua_total',true);
+	if(empty($starting_attacks)) $starting_attacks = 0;
 	update_post_meta($attack_clan_id,'ua_total',$starting_attacks+1);
 
 	/* 24H pts update */
@@ -937,7 +938,7 @@ $clan_members = get_post_meta($clan,'clan_members');
 
 if(!empty($clan) || $clan != 0){
 	// Update attacks for current clan
-	$attRec = $defenderData['attacks_rec_current'][0];
+	$attRec = (isset($defenderData['attacks_rec_current']) ? $defenderData['attacks_rec_current'][0] : 0);
 	update_user_meta($target_id, 'attacks_rec_current', $attRec+1);
 	foreach ($clan_members[0] as $member) {
 		$globals = get_user_meta($member, 'new_global_events', true);

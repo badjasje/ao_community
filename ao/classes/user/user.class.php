@@ -35,7 +35,7 @@ class User extends DbObject {
 
     public function update($key, $value) {
         if(in_array($key,$this->fields)) update_user_meta($this->id, $key, $value); //@wp
-        else {
+        elseif(isset($this->id)) {
             $_userdata = array('ID'=>$this->id);
             $_userdata['user_'.$key] = $value;
             wp_update_user($_userdata); //@wp
