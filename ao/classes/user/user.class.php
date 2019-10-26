@@ -35,7 +35,7 @@ class User extends DbObject {
 
     public function update($key, $value) {
         if(in_array($key,$this->fields)) update_user_meta($this->id, $key, $value); //@wp
-        else {
+        elseif(isset($this->id)) {
             $_userdata = array('ID'=>$this->id);
             $_userdata['user_'.$key] = $value;
             wp_update_user($_userdata); //@wp
@@ -179,10 +179,10 @@ class User extends DbObject {
                 $clan = (!empty($this->get('clan_id_user')) ? Clan::make($this->get('clan_id_user')) : false);
                 if(empty($clan->id)) return array();
                 $members = $clan->getMembers();
-                if(isset($members[0])) {
+                if(count($members)) {
                     $args['meta_query'][] = array('relation' => 'OR',
-                        array('key' => 'attacker_id', 'value' => $members[0], 'compare' => 'IN'),
-                        array('key' => 'defender_id', 'value' => $members[0], 'compare' => 'IN')
+                        array('key' => 'attacker_id', 'value' => $members, 'compare' => 'IN'),
+                        array('key' => 'defender_id', 'value' => $members, 'compare' => 'IN')
                     );
                 }
                 $args['meta_query'][] = array('relation' => 'OR',
