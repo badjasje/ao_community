@@ -50,6 +50,7 @@ $timeLeft = Market::timeLeft();
 	<? if(in_array(date('d-m'), array('31-10'))) { ?>
 	<link href="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/css/boe.css" rel="stylesheet" />
 	<? } ?>
+	<meta name="google-site-verification" content="SkamiBCpY328MooWRMZNQN5_DshHSBeAp_4de8oiLpU" />
 </head>
 
 <body <?php body_class(array(($menuOpen?'menuOpen':''),'game-type-'.Round::get('type'))) ?> data-siteurl="<?=Request::siteUrl()?>">

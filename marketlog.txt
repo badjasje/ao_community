@@ -15588,3 +15588,1018 @@ ID: 1953
 Value: 294525
 Units ordered: 105
 
+11:16:10 | 25-10-2019
+ID: 3244
+Value: 123046
+Units ordered: 34
+
+11:17:28 | 25-10-2019
+ID: 1744
+Value: 315448
+Units ordered: 301
+
+11:22:18 | 25-10-2019
+ID: 1744
+Value: 58212
+Units ordered: 42
+
+11:27:23 | 25-10-2019
+ID: 3239
+Value: 2471392
+Units ordered: 1888
+
+11:35:48 | 25-10-2019
+ID: 1343
+Value: 207900
+Units ordered: 150
+
+11:35:48 | 25-10-2019
+ID: 1343
+Value: 365100
+Units ordered: 150
+
+11:35:48 | 25-10-2019
+ID: 1343
+Value: 506100
+Units ordered: 150
+
+11:36:44 | 25-10-2019
+ID: 1343
+Value: 157200
+Units ordered: 150
+
+11:50:22 | 25-10-2019
+ID: 2078
+Value: 2402136
+Units ordered: 1011
+
+12:08:37 | 25-10-2019
+ID: 1298
+Value: 169776
+Units ordered: 216
+
+12:13:28 | 25-10-2019
+ID: 1947
+Value: 336700
+Units ordered: 100
+
+12:18:27 | 25-10-2019
+ID: 2742
+Value: 157100
+Units ordered: 100
+
+12:45:16 | 25-10-2019
+ID: 3230
+Value: 74250
+Units ordered: 27
+
+12:50:09 | 25-10-2019
+ID: 2078
+Value: 3739824
+Units ordered: 1574
+
+12:53:35 | 25-10-2019
+ID: 1744
+Value: 35720
+Units ordered: 38
+
+13:03:13 | 25-10-2019
+ID: 2339
+Value: 1065020
+Units ordered: 206
+
+13:10:15 | 25-10-2019
+ID: 43
+Value: 104975
+Units ordered: 85
+
+13:35:00 | 25-10-2019
+ID: 73
+Value: 1089000
+Units ordered: 396
+
+13:43:44 | 25-10-2019
+ID: 60
+Value: 493680
+Units ordered: 440
+
+13:45:14 | 25-10-2019
+ID: 713
+Value: 1552320
+Units ordered: 560
+
+13:45:53 | 25-10-2019
+ID: 713
+Value: 238392
+Units ordered: 86
+
+14:01:21 | 25-10-2019
+ID: 1744
+Value: 69560
+Units ordered: 74
+
+14:23:43 | 25-10-2019
+ID: 615
+Value: 428206
+Units ordered: 251
+
+14:50:16 | 25-10-2019
+ID: 1201
+Value: 230384
+Units ordered: 176
+
+15:21:20 | 25-10-2019
+ID: 3215
+Value: 249380
+Units ordered: 185
+
+15:23:51 | 25-10-2019
+ID: 2440
+Value: 2643680
+Units ordered: 3280
+
+15:29:30 | 25-10-2019
+ID: 2319
+Value: 209600
+Units ordered: 200
+
+15:49:59 | 25-10-2019
+ID: 115
+Value: 1073406
+Units ordered: 899
+
+16:19:38 | 25-10-2019
+ID: 1947
+Value: 437710
+Units ordered: 130
+
+16:20:07 | 25-10-2019
+ID: 1343
+Value: 207900
+Units ordered: 150
+
+16:20:08 | 25-10-2019
+ID: 1343
+Value: 365100
+Units ordered: 150
+
+16:20:08 | 25-10-2019
+ID: 1343
+Value: 506100
+Units ordered: 150
+
+16:20:29 | 25-10-2019
+ID: 1343
+Value: 69300
+Units ordered: 50
+
+16:20:29 | 25-10-2019
+ID: 1343
+Value: 121700
+Units ordered: 50
+
+16:20:29 | 25-10-2019
+ID: 1343
+Value: 168700
+Units ordered: 50
+
+16:35:20 | 25-10-2019
+ID: 3056
+Value: 675906
+Units ordered: 266
+
+16:48:37 | 25-10-2019
+ID: 2617
+Value: 32340
+Units ordered: 15
+
+16:55:14 | 25-10-2019
+ID: 25
+Value: 103400
+Units ordered: 110
+
+16:56:27 | 25-10-2019
+ID: 25
+Value: 235000
+Units ordered: 250
+
+16:57:30 | 25-10-2019
+ID: 522
+Value: 767250
+Units ordered: 465
+
+17:00:43 | 25-10-2019
+ID: 2741
+Value: 132600
+Units ordered: 200
+
+17:00:43 | 25-10-2019
+ID: 2741
+Value: 756600
+Units ordered: 500
+
+17:00:43 | 25-10-2019
+ID: 2741
+Value: 1228200
+Units ordered: 600
+
+17:18:54 | 25-10-2019
+ID: 165
+Value: 731500
+Units ordered: 500
+
+17:27:10 | 25-10-2019
+ID: 43
+Value: 137942
+Units ordered: 59
+
+17:30:37 | 25-10-2019
+ID: 2768
+Value: 236412
+Units ordered: 198
+
+17:31:26 | 25-10-2019
+ID: 2768
+Value: 59700
+Units ordered: 50
+
+17:32:36 | 25-10-2019
+ID: 3234
+Value: 111088
+Units ordered: 106
+
+17:33:04 | 25-10-2019
+ID: 313
+Value: 577656
+Units ordered: 568
+
+18:01:52 | 25-10-2019
+ID: 1799
+Value: 287496
+Units ordered: 132
+
+18:02:06 | 25-10-2019
+ID: 1799
+Value: 217800
+Units ordered: 100
+
+18:02:09 | 25-10-2019
+ID: 1799
+Value: 217800
+Units ordered: 100
+
+18:02:12 | 25-10-2019
+ID: 1799
+Value: 217800
+Units ordered: 100
+
+18:02:14 | 25-10-2019
+ID: 1799
+Value: 167706
+Units ordered: 77
+
+18:06:29 | 25-10-2019
+ID: 1744
+Value: 140060
+Units ordered: 149
+
+18:08:09 | 25-10-2019
+ID: 1947
+Value: 404040
+Units ordered: 120
+
+18:08:23 | 25-10-2019
+ID: 43
+Value: 35070
+Units ordered: 15
+
+18:08:32 | 25-10-2019
+ID: 43
+Value: 1235
+Units ordered: 1
+
+18:08:59 | 25-10-2019
+ID: 1799
+Value: 124146
+Units ordered: 57
+
+18:11:55 | 25-10-2019
+ID: 2078
+Value: 475200
+Units ordered: 200
+
+18:36:58 | 25-10-2019
+ID: 12
+Value: 94700
+Units ordered: 100
+
+18:49:14 | 25-10-2019
+ID: 3230
+Value: 522500
+Units ordered: 190
+
+18:54:37 | 25-10-2019
+ID: 1799
+Value: 432698
+Units ordered: 434
+
+18:55:04 | 25-10-2019
+ID: 1799
+Value: 49850
+Units ordered: 50
+
+18:59:04 | 25-10-2019
+ID: 1744
+Value: 52400
+Units ordered: 50
+
+18:59:04 | 25-10-2019
+ID: 1744
+Value: 99400
+Units ordered: 50
+
+19:03:56 | 25-10-2019
+ID: 2973
+Value: 1616088
+Units ordered: 408
+
+19:18:50 | 25-10-2019
+ID: 1314
+Value: 291060
+Units ordered: 135
+
+19:20:47 | 25-10-2019
+ID: 1298
+Value: 68139
+Units ordered: 67
+
+19:24:27 | 25-10-2019
+ID: 1799
+Value: 34895
+Units ordered: 35
+
+19:26:31 | 25-10-2019
+ID: 12
+Value: 118375
+Units ordered: 125
+
+19:27:59 | 25-10-2019
+ID: 43
+Value: 35815
+Units ordered: 29
+
+19:33:44 | 25-10-2019
+ID: 2491
+Value: 202429
+Units ordered: 73
+
+19:41:28 | 25-10-2019
+ID: 3244
+Value: 554400
+Units ordered: 200
+
+19:49:59 | 25-10-2019
+ID: 713
+Value: 138600
+Units ordered: 50
+
+19:50:54 | 25-10-2019
+ID: 12
+Value: 71025
+Units ordered: 75
+
+19:55:07 | 25-10-2019
+ID: 1314
+Value: 683452
+Units ordered: 317
+
+19:55:36 | 25-10-2019
+ID: 1314
+Value: 387849
+Units ordered: 219
+
+20:43:56 | 25-10-2019
+ID: 433
+Value: 206427
+Units ordered: 67
+
+20:44:36 | 25-10-2019
+ID: 3023
+Value: 57681
+Units ordered: 87
+
+20:44:36 | 25-10-2019
+ID: 3023
+Value: 200733
+Units ordered: 182
+
+20:44:36 | 25-10-2019
+ID: 3023
+Value: 229209
+Units ordered: 28
+
+20:55:43 | 25-10-2019
+ID: 1744
+Value: 104800
+Units ordered: 100
+
+20:59:17 | 25-10-2019
+ID: 457
+Value: 1231769
+Units ordered: 941
+
+20:59:55 | 25-10-2019
+ID: 457
+Value: 725186
+Units ordered: 554
+
+21:00:16 | 25-10-2019
+ID: 457
+Value: 789327
+Units ordered: 603
+
+21:00:56 | 25-10-2019
+ID: 457
+Value: 790634
+Units ordered: 611
+
+21:01:31 | 25-10-2019
+ID: 14
+Value: 198100
+Units ordered: 100
+
+21:02:14 | 25-10-2019
+ID: 457
+Value: 790020
+Units ordered: 285
+
+21:02:45 | 25-10-2019
+ID: 457
+Value: 523600
+Units ordered: 400
+
+21:12:39 | 25-10-2019
+ID: 1799
+Value: 424710
+Units ordered: 195
+
+21:17:00 | 25-10-2019
+ID: 12
+Value: 142050
+Units ordered: 150
+
+21:17:11 | 25-10-2019
+ID: 1201
+Value: 192423
+Units ordered: 147
+
+21:25:00 | 25-10-2019
+ID: 1298
+Value: 76275
+Units ordered: 75
+
+21:32:05 | 25-10-2019
+ID: 12
+Value: 23675
+Units ordered: 25
+
+21:39:39 | 25-10-2019
+ID: 3227
+Value: 68761
+Units ordered: 19
+
+21:50:35 | 25-10-2019
+ID: 13
+Value: 47949
+Units ordered: 33
+
+21:59:22 | 25-10-2019
+ID: 1255
+Value: 132600
+Units ordered: 200
+
+21:59:25 | 25-10-2019
+ID: 1255
+Value: 1259700
+Units ordered: 1900
+
+22:00:06 | 25-10-2019
+ID: 1343
+Value: 69300
+Units ordered: 50
+
+22:00:06 | 25-10-2019
+ID: 1343
+Value: 121700
+Units ordered: 50
+
+22:00:06 | 25-10-2019
+ID: 1343
+Value: 168700
+Units ordered: 50
+
+22:03:37 | 25-10-2019
+ID: 1799
+Value: 187308
+Units ordered: 86
+
+22:06:30 | 25-10-2019
+ID: 2491
+Value: 58233
+Units ordered: 21
+
+22:12:37 | 25-10-2019
+ID: 1799
+Value: 387684
+Units ordered: 178
+
+22:12:53 | 25-10-2019
+ID: 1799
+Value: 54450
+Units ordered: 25
+
+22:16:39 | 25-10-2019
+ID: 713
+Value: 221760
+Units ordered: 80
+
+22:18:35 | 25-10-2019
+ID: 3056
+Value: 205821
+Units ordered: 81
+
+22:31:22 | 25-10-2019
+ID: 615
+Value: 899062
+Units ordered: 527
+
+23:04:14 | 25-10-2019
+ID: 1775
+Value: 2560092
+Units ordered: 1346
+
+23:07:34 | 25-10-2019
+ID: 1744
+Value: 56400
+Units ordered: 60
+
+23:07:52 | 25-10-2019
+ID: 1203
+Value: 398796
+Units ordered: 334
+
+23:19:51 | 25-10-2019
+ID: 1799
+Value: 34848
+Units ordered: 16
+
+23:28:11 | 25-10-2019
+ID: 1314
+Value: 1144836
+Units ordered: 531
+
+23:28:48 | 25-10-2019
+ID: 1314
+Value: 426811
+Units ordered: 241
+
+23:34:49 | 25-10-2019
+ID: 1799
+Value: 21780
+Units ordered: 10
+
+23:38:18 | 25-10-2019
+ID: 1225
+Value: 261800
+Units ordered: 200
+
+23:38:23 | 25-10-2019
+ID: 1225
+Value: 228054
+Units ordered: 191
+
+23:52:38 | 25-10-2019
+ID: 3062
+Value: 301840
+Units ordered: 140
+
+0:01:35 | 26-10-2019
+ID: 1799
+Value: 34848
+Units ordered: 16
+
+0:02:24 | 26-10-2019
+ID: 25
+Value: 127050
+Units ordered: 50
+
+0:02:29 | 26-10-2019
+ID: 25
+Value: 50820
+Units ordered: 20
+
+0:04:08 | 26-10-2019
+ID: 3253
+Value: 550000
+Units ordered: 200
+
+0:04:10 | 26-10-2019
+ID: 2491
+Value: 133104
+Units ordered: 48
+
+0:04:27 | 26-10-2019
+ID: 1799
+Value: 47916
+Units ordered: 22
+
+0:52:44 | 26-10-2019
+ID: 2440
+Value: 2433024
+Units ordered: 2048
+
+0:55:15 | 26-10-2019
+ID: 1421
+Value: 396100
+Units ordered: 100
+
+1:11:32 | 26-10-2019
+ID: 1947
+Value: 336700
+Units ordered: 100
+
+1:18:14 | 26-10-2019
+ID: 1799
+Value: 34848
+Units ordered: 16
+
+1:31:51 | 26-10-2019
+ID: 2951
+Value: 353925
+Units ordered: 143
+
+1:49:53 | 26-10-2019
+ID: 3023
+Value: 2652
+Units ordered: 4
+
+1:49:53 | 26-10-2019
+ID: 3023
+Value: 8940
+Units ordered: 8
+
+2:13:54 | 26-10-2019
+ID: 2046
+Value: 1415765
+Units ordered: 1495
+
+2:17:32 | 26-10-2019
+ID: 2046
+Value: 92806
+Units ordered: 98
+
+2:19:04 | 26-10-2019
+ID: 3213
+Value: 760800
+Units ordered: 400
+
+2:19:09 | 26-10-2019
+ID: 3213
+Value: 488565
+Units ordered: 135
+
+2:32:34 | 26-10-2019
+ID: 3235
+Value: 1894000
+Units ordered: 2000
+
+2:43:33 | 26-10-2019
+ID: 1744
+Value: 138600
+Units ordered: 100
+
+2:45:35 | 26-10-2019
+ID: 2491
+Value: 49914
+Units ordered: 18
+
+3:07:21 | 26-10-2019
+ID: 2045
+Value: 280500
+Units ordered: 250
+
+3:07:27 | 26-10-2019
+ID: 2045
+Value: 280500
+Units ordered: 250
+
+3:07:36 | 26-10-2019
+ID: 2045
+Value: 280500
+Units ordered: 250
+
+3:08:12 | 26-10-2019
+ID: 2045
+Value: 280500
+Units ordered: 250
+
+3:08:22 | 26-10-2019
+ID: 2045
+Value: 512000
+Units ordered: 500
+
+3:08:33 | 26-10-2019
+ID: 2045
+Value: 434176
+Units ordered: 424
+
+3:10:53 | 26-10-2019
+ID: 2355
+Value: 385000
+Units ordered: 200
+
+3:54:29 | 26-10-2019
+ID: 2187
+Value: 30800
+Units ordered: 5
+
+3:57:57 | 26-10-2019
+ID: 1799
+Value: 87120
+Units ordered: 40
+
+4:03:42 | 26-10-2019
+ID: 2078
+Value: 5075136
+Units ordered: 2136
+
+5:05:20 | 26-10-2019
+ID: 3227
+Value: 1179794
+Units ordered: 326
+
+5:16:39 | 26-10-2019
+ID: 1775
+Value: 237750
+Units ordered: 125
+
+5:35:07 | 26-10-2019
+ID: 428
+Value: 99435
+Units ordered: 105
+
+5:35:07 | 26-10-2019
+ID: 428
+Value: 152925
+Units ordered: 30
+
+5:35:07 | 26-10-2019
+ID: 428
+Value: 186585
+Units ordered: 30
+
+5:43:29 | 26-10-2019
+ID: 3235
+Value: 2609750
+Units ordered: 949
+
+5:47:23 | 26-10-2019
+ID: 3230
+Value: 2037750
+Units ordered: 741
+
+5:47:28 | 26-10-2019
+ID: 3230
+Value: 1894
+Units ordered: 2
+
+5:48:09 | 26-10-2019
+ID: 3230
+Value: 390500
+Units ordered: 142
+
+5:48:14 | 26-10-2019
+ID: 3230
+Value: 947
+Units ordered: 1
+
+5:57:43 | 26-10-2019
+ID: 1298
+Value: 282174
+Units ordered: 359
+
+6:29:18 | 26-10-2019
+ID: 713
+Value: 313236
+Units ordered: 113
+
+7:54:46 | 26-10-2019
+ID: 2045
+Value: 140250
+Units ordered: 125
+
+8:03:28 | 26-10-2019
+ID: 3056
+Value: 475167
+Units ordered: 187
+
+8:06:57 | 26-10-2019
+ID: 1314
+Value: 104489
+Units ordered: 59
+
+8:11:51 | 26-10-2019
+ID: 1052
+Value: 394192
+Units ordered: 694
+
+8:12:15 | 26-10-2019
+ID: 1052
+Value: 131776
+Units ordered: 232
+
+8:14:44 | 26-10-2019
+ID: 3230
+Value: 222750
+Units ordered: 81
+
+8:14:51 | 26-10-2019
+ID: 3230
+Value: 947
+Units ordered: 1
+
+8:15:14 | 26-10-2019
+ID: 433
+Value: 338910
+Units ordered: 110
+
+8:16:53 | 26-10-2019
+ID: 3235
+Value: 591250
+Units ordered: 215
+
+8:17:31 | 26-10-2019
+ID: 1201
+Value: 422807
+Units ordered: 323
+
+8:50:07 | 26-10-2019
+ID: 1799
+Value: 50094
+Units ordered: 23
+
+8:50:37 | 26-10-2019
+ID: 1799
+Value: 544500
+Units ordered: 250
+
+9:09:18 | 26-10-2019
+ID: 1201
+Value: 6545000
+Units ordered: 5000
+
+9:09:23 | 26-10-2019
+ID: 1201
+Value: 4550334
+Units ordered: 3811
+
+9:10:33 | 26-10-2019
+ID: 1201
+Value: 574651
+Units ordered: 439
+
+9:13:36 | 26-10-2019
+ID: 1418
+Value: 2957570
+Units ordered: 1670
+
+9:14:39 | 26-10-2019
+ID: 1418
+Value: 407330
+Units ordered: 230
+
+9:15:51 | 26-10-2019
+ID: 1203
+Value: 3892966
+Units ordered: 2974
+
+9:16:40 | 26-10-2019
+ID: 1203
+Value: 1412502
+Units ordered: 1183
+
+9:18:50 | 26-10-2019
+ID: 2617
+Value: 481712
+Units ordered: 272
+
+9:19:03 | 26-10-2019
+ID: 1203
+Value: 1570800
+Units ordered: 1200
+
+9:19:43 | 26-10-2019
+ID: 1421
+Value: 198050
+Units ordered: 50
+
+9:20:25 | 26-10-2019
+ID: 1203
+Value: 466854
+Units ordered: 391
+
+9:20:52 | 26-10-2019
+ID: 1203
+Value: 1251312
+Units ordered: 1048
+
+9:21:45 | 26-10-2019
+ID: 2491
+Value: 929480
+Units ordered: 380
+
+9:27:26 | 26-10-2019
+ID: 2491
+Value: 978400
+Units ordered: 400
+
+10:09:39 | 26-10-2019
+ID: 313
+Value: 5873175
+Units ordered: 5775
+
+10:09:57 | 26-10-2019
+ID: 1775
+Value: 176886
+Units ordered: 93
+
+10:10:24 | 26-10-2019
+ID: 313
+Value: 698679
+Units ordered: 687
+
+10:11:30 | 26-10-2019
+ID: 313
+Value: 1131921
+Units ordered: 1113
+
+10:12:40 | 26-10-2019
+ID: 313
+Value: 1301760
+Units ordered: 1280
+
+10:12:54 | 26-10-2019
+ID: 2973
+Value: 1223750
+Units ordered: 445
+
+10:14:40 | 26-10-2019
+ID: 2355
+Value: 385000
+Units ordered: 200
+
+10:37:21 | 26-10-2019
+ID: 2440
+Value: 2128260
+Units ordered: 2370
+
+10:37:24 | 26-10-2019
+ID: 2973
+Value: 250250
+Units ordered: 91
+
+11:14:26 | 26-10-2019
+ID: 2078
+Value: 572616
+Units ordered: 241
+
+11:29:50 | 26-10-2019
+ID: 713
+Value: 409640
+Units ordered: 190
+
+12:09:29 | 26-10-2019
+ID: 1201
+Value: 114624
+Units ordered: 96
+
+12:15:56 | 26-10-2019
+ID: 13
+Value: 435900
+Units ordered: 300
+
+12:16:45 | 26-10-2019
+ID: 141
+Value: 748500
+Units ordered: 500
+
+12:16:46 | 26-10-2019
+ID: 13
+Value: 145300
+Units ordered: 100
+
+12:40:17 | 26-10-2019
+ID: 1744
+Value: 423940
+Units ordered: 451
+

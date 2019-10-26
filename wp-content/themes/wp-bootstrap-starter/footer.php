@@ -52,7 +52,48 @@ if(!is_page_template('blank-page.php') && !is_page_template('blank-page-with-con
             </div>
 
             <hr size="1">
-            <? } ?>
+            <? } else{?>
+            
+            <div class="row no-gutters footer-nav">
+                <div class="col-xs-6 col-md-3">
+                    <h4>Beginners</h4>
+                    <ul class="footer-list">
+                        <li><a href="http://bit.ly/2US8Dh0" target="_blank"><strong>Join discord channel!</strong></a></li>
+                        <li><a href="<?=Request::siteUrl()?>/getting-started">Getting started manual</a></li>
+                        <li><a href="<?=Request::siteUrl()?>/manual">Complete Manual</a></li>
+                        <li><a href="<?=Request::siteUrl()?>/rules">Rules</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <h4>Toplists</h4>
+                    <ul class="footer-list">
+                        <li><a href="<?=Request::siteUrl()?>/toplists/">Highest nw</a></li>
+                        <li><a href="<?=Request::siteUrl()?>/toplists/?tab=clanpoints">Clan points</a></li>
+                        <li><a href="<?=Request::siteUrl()?>/toplists/?tab=clannw">Clan nw</a></li>
+                        <li><a href="<?=Request::siteUrl()?>/toplists/?tab=clanpointstoday">Clan pts today</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <h4>Information</h4>
+                    <ul class="footer-list">
+                        <li><a href="<?=Request::siteUrl()?>/category/awards-medals/">Awards & Medals</a></li>
+                        <li><a href="<?=Request::siteUrl()?>/all-clans">Clan list</a></li>
+                        <li><a href="<?=Request::siteUrl()?>/users">User list</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <h4>Additional</h4>
+                    <ul class="footer-list">
+                        <li><a href="<?=Request::siteUrl()?>/browser-games/">Browser games</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr size="1">
+            
+            
+            
+            <? }?>
 
             <div class="site-info">
 	            <center>
