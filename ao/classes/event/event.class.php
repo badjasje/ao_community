@@ -228,7 +228,10 @@ class Event extends PostObject {
 
         // Spy
         if($this->eventcategory == 'incoming' && $this->eventtype == 'spy') {
-            if($this->get('show_spy_sender') == 'no' || $this->get('event_spy_type') == 'spyplane') return $avatar;
+            if(
+                $this->get('winner_id') == $this->get('attacker_id') &&
+                ($this->get('show_spy_sender') == 'no' || $this->get('event_spy_type') == 'spyplane'
+            )) return $avatar;
         }
 
         $avatar_user = $avatar_clan = false;
@@ -268,6 +271,10 @@ class Event extends PostObject {
         // This is heavy
         if(strpos($body,'{attack_body}') !== false) {
             $body = strtr($body, array('{attack_body}' => $this->getAttackBody($format)));
+        }
+
+        if(in_array($this->eventtype, array('empmissile','empsat')) && $this->get('winner_id') != $this->get('attacker_id')) {
+            $body = ''; // Missed, no effect
         }
 
         return $this->parseEventVariables($body, $format);
@@ -350,7 +357,7 @@ class Event extends PostObject {
             '{money}' => $money,
             '{spy}' => ($this->get('event_spy_type') == 'spy' ? 'spy' : ''),
             '{spyplane}' => ($this->get('event_spy_type') == 'spyplane' ? 'spyplane' : ''),
-            '{shot}' => ($winner_id == $defender_id ? 'and you '.($this->get('event_spy_type') == 'spy' ? ' killed it' : ' shot it down') : ''),
+            '{shot}' => ($winner_id == $defender_id ? ' and you '.($this->get('event_spy_type') == 'spy' ? ' killed it' : ' shot it down') : ''),
             '{defender_points}' => ($this->get('defender_points')>0 ? ' '.$this->get('defender_points').' clan point(s) gained for successful base defense.' : ''),
             '{youdied}' => ($this->get('status_defender') == 'death' ? ($format == true ? '<strong>you died</strong>' : 'you died') : ''), // incoming
             '{killed}' => ($this->get('status_defender') == 'death' ? 'killed this player' : ''),// outgoing
@@ -360,6 +367,7 @@ class Event extends PostObject {
             '{dec_message}' => $this->get('dec_message'),
             '{bonus_money}' => ($format == true ? Format::money($this->get('bonus_money')) : $this->get('bonus_money')),
             '{bonus_turns}' => ($format == true ? Format::turns($this->get('bonus_turns')) : $this->get('bonus_turns')),
+            '{nw_damage_defender}' => $this->get('nw_damage_defender'),
         );
 
         // Incoming
@@ -376,7 +384,7 @@ class Event extends PostObject {
 
             // Thief & spy may confuscate attacker
             if($this->eventtype == 'thief' && $winner_id != $defender_id) $replace['{attacker}'] = 'Someone';
-            if($this->eventtype == 'spy') {
+            if($this->eventtype == 'spy' && $winner_id != $defender_id) {
                 if($this->get('show_spy_sender') == 'no' || $this->get('event_spy_type') == 'spyplane') $replace['{attacker}'] = 'Someone';
             }
         }

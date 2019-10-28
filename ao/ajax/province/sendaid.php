@@ -35,7 +35,7 @@ function ajax_sendaid($province, $return) {
     $receiver->update('aid_received', $receiver->get('aid_received') + $aid);
 
     return array(
-        'success' => true, 'noaids' => $province->get('number_of_aids'), 'max' => round(min(Settings::get('max_aid'), $province->getMoney())),
+        'success' => true, 'noaids' => $province->get('aid_sent_today'), 'max' => round(min(Settings::get('max_aid'), $province->getMoney())),
         'status' =>  Format::money($aid).' aid sent to '. $receiver->getName() .' (#'. $receiver->get('id') .')'
     );
 }
