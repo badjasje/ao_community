@@ -273,6 +273,10 @@ class Event extends PostObject {
             $body = strtr($body, array('{attack_body}' => $this->getAttackBody($format)));
         }
 
+        if(in_array($this->eventtype, array('empmissile','empsat')) && $this->get('winner_id') != $this->get('attacker_id')) {
+            $body = ''; // Missed, no effect
+        }
+
         return $this->parseEventVariables($body, $format);
     }
 
@@ -363,6 +367,7 @@ class Event extends PostObject {
             '{dec_message}' => $this->get('dec_message'),
             '{bonus_money}' => ($format == true ? Format::money($this->get('bonus_money')) : $this->get('bonus_money')),
             '{bonus_turns}' => ($format == true ? Format::turns($this->get('bonus_turns')) : $this->get('bonus_turns')),
+            '{nw_damage_defender}' => $this->get('nw_damage_defender'),
         );
 
         // Incoming
