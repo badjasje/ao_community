@@ -4,7 +4,7 @@ class Event extends PostObject {
 
     static $data = array(
         'aid' => array(
-            'icon' => 'fas fa-money-bill-wave', 'header' => array('incoming' => 'Aid received', 'outgoing' => 'Aid sent', 'global' => 'Aid report'),
+            'icon' => 'fas fa-hand-holding-usd', 'header' => array('incoming' => 'Aid received', 'outgoing' => 'Aid sent', 'global' => 'Aid report'),
             'title' => array(
                 'incoming' => 'You received <strong>{money}</strong> aid from {attacker}',
                 'outgoing' => 'You sent <strong>{money}</strong> to {defender}',
