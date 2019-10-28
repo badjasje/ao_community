@@ -25,7 +25,7 @@ $clanMembers = maybe_unserialize( $clanData['clan_members'][0]);
 
 $clanTrustees = array();
 if(count($clanMembers) > 1){
-	$clanTrustees = $data['clantrustees'];
+	$clanTrustees = isset($data['clantrustees']) ? $data['clantrustees'] : array();
 }
 
 $allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
