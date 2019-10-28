@@ -350,7 +350,7 @@ class Event extends PostObject {
             '{money}' => $money,
             '{spy}' => ($this->get('event_spy_type') == 'spy' ? 'spy' : ''),
             '{spyplane}' => ($this->get('event_spy_type') == 'spyplane' ? 'spyplane' : ''),
-            '{shot}' => ($winner_id == $defender_id ? 'and you '.($this->get('event_spy_type') == 'spy' ? ' killed it' : ' shot it down') : ''),
+            '{shot}' => ($winner_id == $defender_id ? ' and you '.($this->get('event_spy_type') == 'spy' ? ' killed it' : ' shot it down') : ''),
             '{defender_points}' => ($this->get('defender_points')>0 ? ' '.$this->get('defender_points').' clan point(s) gained for successful base defense.' : ''),
             '{youdied}' => ($this->get('status_defender') == 'death' ? ($format == true ? '<strong>you died</strong>' : 'you died') : ''), // incoming
             '{killed}' => ($this->get('status_defender') == 'death' ? 'killed this player' : ''),// outgoing
