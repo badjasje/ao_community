@@ -865,7 +865,7 @@ input[type="radio"]:checked + label {
     background-image: url('/wp-content/themes/wp-bootstrap-starter/img/header_test.png');
 }
 #clanMessage {
-    line-height: 18px; height: 30vh; overflow: auto;
+    line-height: 18px; max-height: 30vh; overflow: auto;
 }
 .clanMessageButton, .profileButton{
     background-color: #46765E;
