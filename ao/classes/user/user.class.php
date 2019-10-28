@@ -114,12 +114,14 @@ class User extends DbObject {
         $avatar = $this->get('avatar_user');
         $firstletter = strtoupper(substr($this->getName(), 0, 1));
         if(!preg_match('/[A-Z]/', $firstletter)) $firstletter = '_';
-        if(in_array(date('d-m'), array('31-10'))) {
+
+        if(in_array(date('d-m'), array('29-10','30-10','31-10'))) {
             $avatar = get_stylesheet_directory_uri().'/img/boe/'.$firstletter.'.png';
         }
         if(strtolower($this->getName()) == 'minion') {
             $avatar = get_stylesheet_directory_uri().'/img/avatars/Minion.png';
         }
+
         $classes = array_merge( (!is_array($classes) ? array($classes) : array()), array('setAvatar'));
         $classes[] = !empty($avatar) ? 'uploaded' : 'letter';
         $return = (!!$link ? '<a href="'.$this->getLink().'" title="'.$this->getName().'">' : '');

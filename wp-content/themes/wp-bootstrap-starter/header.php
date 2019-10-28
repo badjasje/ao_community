@@ -47,7 +47,7 @@ $timeLeft = Market::timeLeft();
 	<? if(in_array(date('d-m'), array('24-12','25-12','26-12'))) { ?>
 	<link href="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/css/hohoho.css" rel="stylesheet" />
 	<? } ?>
-	<? if(in_array(date('d-m'), array('31-10'))) { ?>
+	<? if(in_array(date('d-m'), array('28-10','29-10','30-10','31-10'))) { ?>
 	<link href="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/css/boe.css" rel="stylesheet" />
 	<? } ?>
 </head>

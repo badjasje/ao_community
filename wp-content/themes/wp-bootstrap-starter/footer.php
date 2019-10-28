@@ -78,7 +78,7 @@ if(!is_page_template('blank-page.php') && !is_page_template('blank-page-with-con
 </div>
 <?php $_SESSION['showError']=false; } ?>
 
-<?php if(in_array(date('d-m'), array('31-10'))) { ?>
+<?php if(in_array(date('d-m'), array('30-10','31-10'))) { ?>
 <div id="ghost">
     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	     viewBox="0 0 490.75 490.75" style="enable-background:new 0 0 490.75 490.75;" xml:space="preserve">
