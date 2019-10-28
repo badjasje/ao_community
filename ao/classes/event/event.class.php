@@ -228,7 +228,10 @@ class Event extends PostObject {
 
         // Spy
         if($this->eventcategory == 'incoming' && $this->eventtype == 'spy') {
-            if($this->get('show_spy_sender') == 'no' || $this->get('event_spy_type') == 'spyplane') return $avatar;
+            if(
+                $this->get('winner_id') == $this->get('attacker_id') &&
+                ($this->get('show_spy_sender') == 'no' || $this->get('event_spy_type') == 'spyplane'
+            )) return $avatar;
         }
 
         $avatar_user = $avatar_clan = false;
@@ -376,7 +379,7 @@ class Event extends PostObject {
 
             // Thief & spy may confuscate attacker
             if($this->eventtype == 'thief' && $winner_id != $defender_id) $replace['{attacker}'] = 'Someone';
-            if($this->eventtype == 'spy') {
+            if($this->eventtype == 'spy' && $winner_id != $defender_id) {
                 if($this->get('show_spy_sender') == 'no' || $this->get('event_spy_type') == 'spyplane') $replace['{attacker}'] = 'Someone';
             }
         }
