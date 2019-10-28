@@ -30,7 +30,7 @@ function ajax_units($province, $return) {
         if($unit['sectype']=='special') $type_num['special'] = $usedSpace['special'] + (isset($build[$key]) ? $build[$key] : 0);
     }
     foreach($space as $type => $num) {
-        if(isset($type_num[$type]) && $type_num[$type] > $num) return array('status' => 'Too many '.$type.' units (max '.$num.').');
+        if(isset($type_num[$type]) && $type_num[$type] > $num) return array('status' => ''.($type_num[$type]-$num).' '.$type.' units have no housing, fix that first.');
     }
 
     // Check other stuff
