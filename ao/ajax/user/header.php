@@ -20,7 +20,7 @@ function ajax_header($province, $return) {
             'power'	=> $province->getPower(),
         )
     );
-    if(rand(1,30) == 1 && in_array(date('d-m'), array('31-10'))) {
+    if(rand(1,30) == 1 && in_array(date('d-m'), array('30-10','31-10'))) {
         $a = array();
         if($user->getGlobalNum() == 0) $a[] = 'globals';
         if($user->getLocalNum() == 0) $a[] = 'locals';
