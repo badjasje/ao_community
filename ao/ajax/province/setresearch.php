@@ -1,23 +1,37 @@
 <?php
 
 function ajax_setresearch($province, $return) {
-    if(!Round::isLive()) return array('status' => 'Game is paused.');
+    if(!Round::isLive()) {
+        return array('status' => 'Game is paused.');
+    }
     $researchInProgress = $province->getCurrentResearch();
     $researchQueued = $province->getQueuedResearch();
-    if($researchInProgress !== false && $researchQueued !== false) return array('status' => 'There is already a research in progress, and you already queued a research.');
+    if($researchInProgress !== false && $researchQueued !== false) {
+        return array('status' => 'There is already a research in progress, and you already queued a research.');
+    }
 
     $new_key = Request::post('research');
-    if(!Researches::get($new_key)) return array('status' => 'No such research');
+    if(!Researches::get($new_key)) {
+        return array('status' => 'No such research');
+    }
     $new_research = $province->getResearches($new_key);
-    if($new_research['level']>=$new_research['maxlevel']) return array('status' => 'Max reached');
-    if($new_research['queued']) return array('status' => 'Already queued');
-    if($new_research['inProgress'] && ($new_research['level']+1)>=$new_research['maxlevel']) return array('status' => 'Already in progress');
+    if($new_research['level']>=$new_research['maxlevel']) {
+        return array('status' => 'Max reached');
+    }
+    if($new_research['queued']) {
+        return array('status' => 'Already queued');
+    }
+    if($new_research['inProgress'] && ($new_research['level']+1)>=$new_research['maxlevel']) {
+        return array('status' => 'Already in progress');
+    }
 
     $queueResearch = ($researchInProgress !== false);
 
     $totalturns = $province->getTurns();
     $turn_cost = $new_research['turns'];
-    if($totalturns < $turn_cost) return array('status' => 'Not enough turns');
+    if($totalturns < $turn_cost) {
+        return array('status' => 'Not enough turns');
+    }
 
     $province->update('turns', $totalturns - $turn_cost);
     $province->turn_spread( ($queueResearch ? 'research_queue' : 'research'), $turn_cost); //@wp

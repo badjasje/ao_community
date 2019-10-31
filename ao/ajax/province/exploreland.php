@@ -3,14 +3,26 @@
 function ajax_exploreland($province, $return) {
     if(!Round::isLive()) return array('status' => 'Game is paused.');
     $postedTurns = abs(floor(Request::post('turns')));
-    if ($postedTurns < 1 || !is_numeric(($postedTurns))) return array('status' => 'Not a valid number.');
+
+    if ($postedTurns < 1 || !is_numeric(($postedTurns))) {
+        return array('status' => 'Not a valid number.');
+    }
+
     $perturnm2 = $province->getExplorationRate();
-    if($perturnm2 < 0) return array('status' => 'No more exploring possible');
+    if($perturnm2 < 0) {
+        return array('status' => 'No more exploring possible');
+    }
+
     $turns = $province->getTurns();
-    if($turns < $postedTurns) return array('status' => 'Not enough turns');
+    if($turns < $postedTurns) {
+        return array('status' => 'Not enough turns');
+    }
+
     $maxLand = $province->getMaxExploreLand();
     $postedLand = ($postedTurns*$perturnm2);
-    if ($maxLand < $postedLand) return array('status' => 'You can only explore '. Format::land($maxLand).'</strong> more land.');
+    if ($maxLand < $postedLand) {
+        return array('status' => 'You can only explore '. Format::land($maxLand).'</strong> more land.');
+    }
 
     $ownedland = $province->getLand();
     $province->update('turns', round($turns-$postedTurns));

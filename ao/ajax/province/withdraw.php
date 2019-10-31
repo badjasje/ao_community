@@ -1,15 +1,31 @@
 <?php
 
 function ajax_withdraw($province, $return) {
-    if(!Round::isLive()) return array('status' => 'Game is paused');
+    if(!Round::isLive()) {
+        return array('status' => 'Game is paused');
+    }
+
     $depositid = round(Request::post('depositid'));
-    if(!is_numeric($depositid) || $depositid <= 0) return array('status' => 'Not a valid deposit');
+    if(!is_numeric($depositid) || $depositid <= 0) {
+        return array('status' => 'Not a valid deposit');
+    }
+
     $deposit = Deposit::make($depositid);
-    if($deposit->get('id') != $depositid) return array('status' => 'Invalid deposit');
-    if($deposit->get('province_id') != $province->id) return array('status' => 'Not a deposit');
-    if($deposit->used()) return array('status' => 'Already withdrawn');
-    if($deposit->timeLeft() > 0 && !$deposit->unlocked()) return array('status' => 'Please wait');
-    if(!$deposit->unlocked()) return array('status' => 'Cannot withdraw this deposit');
+    if($deposit->get('id') != $depositid) {
+        return array('status' => 'Invalid deposit');
+    }
+    if($deposit->get('province_id') != $province->id) {
+        return array('status' => 'Not a deposit');
+    }
+    if($deposit->used()) {
+        return array('status' => 'Already withdrawn');
+    }
+    if($deposit->timeLeft() > 0 && !$deposit->unlocked()) {
+        return array('status' => 'Please wait');
+    }
+    if(!$deposit->unlocked()) {
+        return array('status' => 'Cannot withdraw this deposit');
+    }
     $amount = $deposit->availableAmount(true);
     $deposit->end();
     $max_dep = $province->getMaxDeposit();
