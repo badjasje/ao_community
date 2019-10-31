@@ -39,7 +39,29 @@ if (count($posts) == 0) {
     exit;
 }
 
+// Look for peace event to get peace-time
+$peacetime = 0;
+$eventposts = get_posts(array(
+    'numberposts' => 1, 'post_title' => 'PEACE', 'post_status'   => 'publish', 'post_type'     => 'event_local',
+    'meta_query' => array(
+        'relation' => 'AND',
+        array('key' => 'attacker_clan_id', 'value' => $declaredbyID),
+        array('key' => 'defender_clan_id', 'value' => $declaredonID),
+    ),
+));
+if(count($eventposts)) {
+    $peacetime = get_post_meta($eventposts[0]->ID,'time_attacked', true);
+}
+
 $timestamp = current_time('timestamp');
+$resume_time = Settings::get('resume_after_hours');
+if($timestamp - $peacetime < (60*60* $resume_time ) ) {
+    $array['status'] = 'You can only resume after '.$resume_time.' hours of peace';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
+
 $my_post = array('ID' => $posts[0]->ID,'post_status' => 'publish','post_title' => $timestamp);
 
 // Update the post into the database

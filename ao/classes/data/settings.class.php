@@ -129,6 +129,9 @@ class Settings extends DataObject {
         // Clan stuff
         'clan_trustee_num' => 4,
         'clan_member_num' => 6,
+
+        // War
+        'resume_after_hours' => 12,
     );
 
 }
