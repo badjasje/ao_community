@@ -438,7 +438,7 @@ class Event extends PostObject {
             ));
 
             if($this->eventtype == 'user_change' && in_array($this->get('outcome'), array('kicked','left'))) {
-                $replace['{clan_points}'] = ', ' .  Format::plural($this->get('clan_points'), 'clan point') .' gained.';
+                $replace['{clan_points}'] = ', ' .  Format::plural($this->get('clan_points'), 'clan point') .' lost.';
             }
 
             // Sabotaged silo's
