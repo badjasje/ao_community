@@ -121,7 +121,7 @@ class Settings extends DataObject {
         'stealthsat_morale_cost' => 100,
         'order_cancel_cashback' => 0.75,
         'missile_sell_multi' => 0.75,
-        'unit_sell_multi' => 1.1, // of unit buy price
+        'unit_sell_multi' => 0.9, // of unit buy price
 
         // Attack range multiplier
         'attack_range_mult' => 1.4,
