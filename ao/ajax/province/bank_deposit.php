@@ -1,6 +1,6 @@
 <?php
 
-function ajax_deposit($province, $return) {
+function ajax_bank_deposit($province, $return) {
     if(!Round::isLive()) return array('status' => 'Game is paused.');
 
     $amount = round(Request::post('amount'));

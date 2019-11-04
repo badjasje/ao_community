@@ -250,7 +250,7 @@ jQuery(function($) {
     $('#bankform').on('submit', function(e) {
         e.preventDefault();
         if(Math.round($('#amount').val()) == 0) return standardNotify('Invalid amount');
-        singleAjax(site_url+'/ajax/deposit', $(this), function(data) {
+        singleAjax(site_url+'/ajax/bank_deposit', $(this), function(data) {
             if(data.success) {
                 $('.noDeposits').addClass('hidden');
                 $("#amount").attr({"max":data.max_input});
@@ -273,7 +273,7 @@ jQuery(function($) {
         e.preventDefault();
         var bankvalue = $(this).find('.available').val();
         if(!confirm("Are you sure? This deposit will return "+bankvalue)) return;
-        singleAjax(site_url+'/ajax/withdraw', $(this), function(data) {
+        singleAjax(site_url+'/ajax/bank_withdraw', $(this), function(data) {
             if(data.success) {
                 $("#amount").attr({"max":data.max_input});
                 $(".maxdep").attr({"data-max":data.max_input});
@@ -321,7 +321,7 @@ jQuery(function($) {
     });
     $('#exploreform').on('submit', function(e) {
         e.preventDefault();
-        singleAjax(site_url+'/ajax/exploreland', $(this), function(data) {
+        singleAjax(site_url+'/ajax/land_explore', $(this), function(data) {
             if(data.success) {
                 $(".explNotice").html(data.exploredtoday);
                 $(".sellNotice").html(data.soldtoday);
@@ -336,7 +336,7 @@ jQuery(function($) {
     });
     $('#sellform').on('submit', function(e) {
         e.preventDefault();
-        singleAjax(site_url+'/ajax/sellland', $(this), function(data) {
+        singleAjax(site_url+'/ajax/land_sell', $(this), function(data) {
             if(data.success) {
                 $(".sellNotice").html(data.soldtoday);
                 $("#landinput").attr({"max": data.maxsell});

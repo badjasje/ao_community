@@ -1,6 +1,6 @@
 <?php
 
-function ajax_exploreland($province, $return) {
+function ajax_land_explore($province, $return) {
     if(!Round::isLive()) return array('status' => 'Game is paused.');
     $postedTurns = abs(floor(Request::post('turns')));
 

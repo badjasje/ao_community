@@ -1,6 +1,6 @@
 <?php
 
-function ajax_withdraw($province, $return) {
+function ajax_bank_withdraw($province, $return) {
     if(!Round::isLive()) {
         return array('status' => 'Game is paused');
     }

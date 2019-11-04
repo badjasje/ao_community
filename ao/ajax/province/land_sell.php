@@ -1,6 +1,6 @@
 <?php
 
-function ajax_sellland($province, $return) {
+function ajax_land_sell($province, $return) {
     if(!Round::isLive()) {
         return array('status' => 'Game is paused.');
     }
