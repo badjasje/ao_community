@@ -557,13 +557,6 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
     return $defense_array;
 }
 
-
-function return_overall_blds_for_defender () {
-    global $overall_bld_total;
-    return $overall_bld_total;
-}
-
-
 function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray) {
     global $debug;
     $units = Units::get();
@@ -704,57 +697,6 @@ function calculate_power($target_id) {
         return 1000;
 }
 
-
-/*
-	sum_arrays
-	Params:
-		$master_array
-		$unit_array
-	Returns:
-		$master_array : values from $unit_array added to $master_array
-*/
-function sum_arrays($master_array, $unit_array) {
-    foreach($unit_array as $unit => $damage) {
-        if (array_key_exists($unit, $master_array)) {
-            $master_array[$unit] += $damage;
-        }
-        else {
-            $master_array[$unit] = $damage;
-        }
-    }
-    return $master_array;
-}
-
-
-/*
-	get_idle_mult
-	Params:
-		$attack_type : type of attack
-		$unit_key : unit being attacked
-	Return:
-		$idle_mult : damage multiplier based on idle status
-*/
-function get_idle_multiplier($attack_type, $unit_key) {
-    //echo $unit_key;
-    $idle_multiplier = 1.0;
-
-    return $idle_multiplier;
-}
-
-/*
-	get_attack_type_multiplier($attack_type)
-	Params:
-		$attack_type
-	Return:
-		$atk_type_mult
-*/
-function get_attack_type_multiplier($attack_type) {
-    $atk_type_mult = 1.0;
-    /* TODO - hook point for attack type multiplier */
-    return $atk_type_mult;
-}
-
-
 /*
 	attack_dice_roll
 	Params:
@@ -796,6 +738,7 @@ function resource_dice_roll() {
 function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$target_id,$life_deduct) {
     global $debug;
     global $userId;
+    global $maintarget;
     $units = Units::get();
     include('building_array.php');
     include('constants.php');
@@ -824,12 +767,7 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
             $attack_power = $attacker_type_power[$type];
 
         /* ensure we can attack this type */
-        if ($attack_power < 1)
-            continue;
-
-        /* adjust attack power for attack type multiplier */
-        $atk_type_mult = get_attack_type_multiplier($attack_type);
-        $attack_power = $attack_power * $atk_type_mult;
+        if ($attack_power < 1) continue;
 
         /* get total life for this type */
         $total_units = $unit_array[$type]['total_count'];
@@ -837,12 +775,7 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
         foreach($type_stats as $unit_key => $unit_stats) {
 
             /* ignore totals */
-            if ($unit_key == 'total_life' || $unit_key == 'total_count')
-                continue;
-
-            /* account for idle rule */
-            $idle_multiplier = get_idle_multiplier($attack_type, $unit_key);
-            $attack_power = $attack_power * $idle_multiplier;
+            if ($unit_key == 'total_life' || $unit_key == 'total_count') continue;
 
             /* get count for this unit */
             $unit_count = $unit_stats['count'];
@@ -863,13 +796,15 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
                 }
                 $unit_life = $buildings[$unit_key]['life'] * $defensive_multi;
 
+                if($maintarget != 'none') {
+                    if($buildings[$unit_key]['targetname'] == $maintarget) $multi = Settings::get('maintarget_target_multi');
+                    else $multi = Settings::get('maintarget_notarget_multi');
+                    $unit_life = $unit_life * $multi;
+                }
+
                 if($debug) debug_var($unit_key, $unit_life);
 
                 $dmg_reduction = $DAMAGE_REDUCTION_FACTOR_BLD;
-                //MEGA 20180219 make buildings harder to kill if less than 300 remain
-                if (return_overall_blds_for_defender() < 300) {
-                    $dmg_reduction = $DAMAGE_REDUCTION_FACTOR_BLD*1.2;
-                }
             }
             else {
                 $unit_life = $units[$unit_key]['life'] * $defensive_multi_units;
@@ -896,23 +831,6 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
     }
     return $losses;
 }
-
-
-/*
-	is_player_dead
-	Params:
-		$user_id : user id of target
-	Return:
-		$is_dead : is target dead
-*/
-function is_player_dead($user_id) {
-    $bld_total = 0;
-    foreach($buildings as $key => $data) {
-        $bld_total += get_user_meta($user_id, $key)[0];
-    }
-    return $bld_total < 1;
-}
-
 
 /*
 	kill_player

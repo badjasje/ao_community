@@ -106,33 +106,17 @@ $defVehTot = 0;
 
 $removeArray = array('air','sea','inf','veh');
 foreach ($units as $key => $unit) {
-	if($units[$key]['type'] == 'air'){
-		$defAirTot += $defenderData[$key.'_owned'][0];
-	}
-	if($units[$key]['type'] == 'sea'){
-		$defSeaTot += $defenderData[$key.'_owned'][0];
-	}
-	if($units[$key]['type'] == 'inf'){
-		$defInfTot += $defenderData[$key.'_owned'][0];
-	}
-	if($units[$key]['type'] == 'veh'){
-		$defVehTot += $defenderData[$key.'_owned'][0];
-	}
+	if($units[$key]['type'] == 'air') $defAirTot += $defenderData[$key.'_owned'][0];
+	if($units[$key]['type'] == 'sea') $defSeaTot += $defenderData[$key.'_owned'][0];
+	if($units[$key]['type'] == 'inf') $defInfTot += $defenderData[$key.'_owned'][0];
+	if($units[$key]['type'] == 'veh') $defVehTot += $defenderData[$key.'_owned'][0];
 }
 
 /* If defender has unit type, unset from remove array */
-if($defAirTot > 0){
-	unset($removeArray[0]);
-}
-if($defSeaTot > 0){
-	unset($removeArray[1]);
-}
-if($defInfTot > 0){
-	unset($removeArray[2]);
-}
-if($defVehTot > 0){
-	unset($removeArray[3]);
-}
+if($defAirTot > 0) unset($removeArray[0]);
+if($defSeaTot > 0) unset($removeArray[1]);
+if($defInfTot > 0) unset($removeArray[2]);
+if($defVehTot > 0) unset($removeArray[3]);
 
 /* iterate over attack array */
 /* damage by type */
@@ -146,93 +130,37 @@ $attackerRemoveArray = array('air','sea','inf','veh');
 foreach ($attack_array as $key => $count) {
 	if($key != 'tomahawk'){
 		if($count > 0){
-			if($units[$key]['type'] == 'air'){
-				$attAirTot = 1;
-			}
-			if($units[$key]['type'] == 'sea'){
-				$attSeaTot = 1;
-			}
-			if($units[$key]['type'] == 'inf'){
-				$attInfTot = 1;
-			}
-			if($units[$key]['type'] == 'veh'){
-				$attVehTot = 1;
-    		}
+			if($units[$key]['type'] == 'air') $attAirTot = 1;
+			if($units[$key]['type'] == 'sea') $attSeaTot = 1;
+			if($units[$key]['type'] == 'inf') $attInfTot = 1;
+			if($units[$key]['type'] == 'veh') $attVehTot = 1;
 	    }
 	}
 }
 
 foreach ($attack_array as $key => $count) {
 	$owned_units = $attackerData[$key.'_owned'][0];
-	if($count > $owned_units){
-		$count = $owned_units;
-	}
-	else{
-		$count = $owned_units*$count;
-	}
+	if($count > $owned_units) $count = $owned_units;
+	else $count = $owned_units*$count;
 
 	/* distribute attack power equally across types */
 	if($key != 'tomahawk'){
-
 		$atk_types 		= $units[$key]['attacks'];
 		$typecountInit 	= count($atk_types);
 
 		/* removing attack types defender does not have */
 		$atk_types 		= array_diff($atk_types, $removeArray);
 		$type_count 	= count($atk_types);
-
-		if($units[$key]['type'] == 'veh'){
-			$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti);
-			$typeMulti = 1;
-			$typeDif = $type_count-$typecountInit;
-
-			if($typeDif == -1){
-				$typeMulti = 0.8;
-			}
-			if($typeDif == -2){
-				$typeMulti = 0.7;
-			}
-			$atk_power_distrib = $atk_power_total*$typeMulti / max($type_count,1);
+		$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti);
+		$typeMulti = 1;
+		$typeDif = $type_count-$typecountInit;
+		if($typeDif == -1){
+			$typeMulti = 0.9;
 		}
-		elseif($units[$key]['type'] == 'inf'){
-			$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti);
-			$typeMulti = 1;
-			$typeDif = $type_count-$typecountInit;
-
-			if($typeDif == -1){
-				$typeMulti = 0.8;
-			}
-			if($typeDif == -2){
-				$typeMulti = 0.7;
-			}
-			$atk_power_distrib = $atk_power_total*$typeMulti / max($type_count,1);
+		if($typeDif == -2){
+			$typeMulti = 0.8;
 		}
-		elseif($units[$key]['type'] == 'air'){
-			$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti);
-			$typeMulti = 1;
-			$typeDif = $type_count-$typecountInit;
-
-			if($typeDif == -1){
-				$typeMulti = 0.8;
-			}
-			if($typeDif == -2){
-				$typeMulti = 0.7;
-			}
-			$atk_power_distrib = $atk_power_total*$typeMulti / max($type_count,1);
-		}
-		else{
-			$atk_power_total = $count * $units[$key]['attack']*$dmgMulti;
-			$typeMulti = 1;
-			$typeDif = $type_count-$typecountInit;
-
-			if($typeDif == -1){
-				$typeMulti = 0.8;
-			}
-			if($typeDif == -2){
-				$typeMulti = 0.7;
-			}
-			$atk_power_distrib = $atk_power_total*$typeMulti / max($type_count,1);
-		}
+		$atk_power_distrib = $atk_power_total*$typeMulti / max($type_count,1);
 	}
 
 	/* damage per unit */
@@ -241,26 +169,16 @@ foreach ($attack_array as $key => $count) {
 		$one_type = array($type);
 
 		/* calculate attack totals by type */
-		if (array_key_exists($type, $attacker_type_damage))
-			$attacker_type_damage[$type] += $atk_power_distrib;
-		else
-			$attacker_type_damage[$type] = $atk_power_distrib;
+		if (array_key_exists($type, $attacker_type_damage)) $attacker_type_damage[$type] += $atk_power_distrib;
+		else $attacker_type_damage[$type] = $atk_power_distrib;
 	}
 }
 
 /* If defender has unit type, unset from remove array */
-if($attAirTot > 0){
-	unset($attackerRemoveArray[0]);
-}
-if($attSeaTot > 0){
-	unset($attackerRemoveArray[1]);
-}
-if($attInfTot > 0){
-	unset($attackerRemoveArray[2]);
-}
-if($attVehTot > 0){
-	unset($attackerRemoveArray[3]);
-}
+if($attAirTot > 0) unset($attackerRemoveArray[0]);
+if($attSeaTot > 0) unset($attackerRemoveArray[1]);
+if($attInfTot > 0) unset($attackerRemoveArray[2]);
+if($attVehTot > 0) unset($attackerRemoveArray[3]);
 $tomahawksSent = 0;
 $shotdown = 0;
 if(array_key_exists('tomahawk', $attack_array)){
@@ -280,13 +198,8 @@ if(array_key_exists('tomahawk', $attack_array)){
 	$defPower = $defenderData['power'][0];
 	$shotdown = ceil(($samSites*(mt_rand(120,135)/1000))+($ams*(mt_rand(190,250)/1000)));
 
-	if($shotdown > $tomahawksSent){
-		$shotdown = ceil($tomahawksSent*0.75);
-	}
-
-	if($defPower > 100){
-		$shotdown = 0;
-	}
+	if($shotdown > $tomahawksSent) $shotdown = ceil($tomahawksSent*0.75);
+	if($defPower > 100) $shotdown = 0;
 
 	if($tomahawksSent > 0){
 		$tomahawkDamage = ($tomahawksSent-$shotdown)*1850*(mt_rand(90,110)/100);
@@ -481,16 +394,7 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 			$type = 'bld';
 			$count_key = $key;
 
-			if($maintarget != 'none') {
-				if($buildings[$key]['targetname'] == $maintarget){
-					$multi = ($maintarget == 'power' ? Settings::get('maintarget_power_multi') : Settings::get('maintarget_target_multi'));
-					$killed = round($killed * $defender_loss_decrease * $multi);
-				}else{
-					$killed = round($killed * $defender_loss_decrease * Settings::get('maintarget_notarget_multi'));
-				}
-			}else{
-				$killed = round($killed*$defender_loss_decrease);
-			}
+			$killed = round($killed*$defender_loss_decrease);
 
 			//Reduce lost buildings to just 40% if the attack was not successful
 			//MEGA 20170531
@@ -676,7 +580,7 @@ if($war_type != 'none' && $result == 'success') {
 	if ($killed != true) {
 		$clan_points = calculate_pts($defender_building_NW_lost,$defender_unit_NW_lost,$aggressive_multi);
         if ($networth_def > 290000) {
-            $reductionFactor =  (sqrt(($networth_def)/1.5/65)/2)-25;
+            $reductionFactor = (0.05 * sqrt($networth_def)) - 25; // Jaap: (sqrt(($networth_def)/1.5/65)/2)-25;
             $reductionPc = 1+$reductionFactor/100;
             $clan_points = $clan_points/$reductionPc;
         }

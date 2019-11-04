@@ -141,7 +141,6 @@ class Event extends PostObject {
             'body' => 'You can now receive {bonus_money} and {bonus_turns} turns',
         )
         /* TODO:
-        - clanbonus
         - market close - fas fa-shopping-cart
         */
     );

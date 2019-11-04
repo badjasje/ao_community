@@ -90,23 +90,20 @@ function resize_crop_image($max_width, $max_height, $source_file, $dst_dir, $qua
         case 'image/gif':
             $image_create = "imagecreatefromgif";
             $image = "imagegif";
-            break;
-
+        break;
         case 'image/png':
             $image_create = "imagecreatefrompng";
             $image = "imagepng";
             $quality = 7;
-            break;
-
+        break;
         case 'image/jpeg':
             $image_create = "imagecreatefromjpeg";
             $image = "imagejpeg";
             $quality = 80;
-            break;
-
+        break;
         default:
             return false;
-            break;
+        break;
     }
 
     $dst_img = imagecreatetruecolor($max_width, $max_height);
