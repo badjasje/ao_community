@@ -217,6 +217,10 @@ if($war_type != 'none' && $result == 'success') {
 
 	// Jaap, points based on clansize
 	$clan_points = scaled_points_to_clansize($clan_points, $userId, $target_id);
+	// Jaap, points based on difference between clanpoints totals
+	$clan_points = scaled_points_to_clanpoints($clan_points, $userId, $target_id);
+
+	if($debug) debug_var('Clan points', $clan_points);
 }
 
 /* add points */

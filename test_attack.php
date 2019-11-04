@@ -11,7 +11,7 @@ global $debug;
 $debug = true;
 $_POST = array(
     'attackarray' => array('paratrooper' => 1),
-    'attacktype' => 'ground',
+    'attacktype' => 'regular',
     'target_id' => 2768,
     'attackmode' => (isset($_GET['attackmode']) ? $_GET['attackmode'] : 'normal'), //aggressive
     'maintarget' => (isset($_GET['maintarget']) ? $_GET['maintarget'] : 'none')

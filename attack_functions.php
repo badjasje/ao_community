@@ -12,32 +12,23 @@
 include('constants.php');
 
 
-function calculate_pts($unit_damage, $bld_damage, $aggressive_multi) {
-    //MEGA 2017-07-18
-
+function calculate_pts($bld_damage, $unit_damage, $aggressive_multi) {
     global $POINTS_CAP;
-    if ($unit_damage == 0) {
-        //As you cant sqrt 0
-        $unit_damage = 0.01;
-    }
-    if ($bld_damage == 0) {
-        //As you cant sqrt 0
-        $bld_damage = 0.01;
-    }
+    global $debug;
 
     //Because log(10)+log(10) is more than log(20), we need to merge the damage from uk and bk at the outset!
-	$unit_damage = $unit_damage*1.2; // Increase unit damage by 20% to even out the 20% increase in life
+    $unit_damage = $unit_damage * 1.2; // Increase unit damage by 20% to even out the 20% increase in life
     $damage = $bld_damage + $unit_damage;
 
-    //MEGA reduce bld damage multiplier for damage attacks 20180219
+    //MEGA (and Jaap) reduce bld damage multiplier for damage attacks
+    if($debug) debug_var('damage', $damage);
     if ($damage < 3000) {
-        $bld_damage = $bld_damage * 0.9;
-        $unit_damage = $unit_damage * 1.1;
+        $bld_damage = $bld_damage * 0.7;
+        $unit_damage = $unit_damage * 1.3;
     }
-    else if ($damage < 5000) {
-        $bld_damage = $bld_damage * 0.95;
-        $unit_damage = $unit_damage * 1.05;
-
+    else if ($damage < 9000) {
+        $bld_damage = $bld_damage * 0.85;
+        $unit_damage = $unit_damage * 1.2;
     }
     //End MEGA
 
@@ -59,20 +50,20 @@ function calculate_pts($unit_damage, $bld_damage, $aggressive_multi) {
 
     $random_factor = (mt_rand(96,108)/100); //Set randomness
 
+    if($damage == 0) $damage = 0.01;
     $pts_gained =  ((((sqrt($damage)*log($damage))/100)*$multiplier)*$random_factor);
     if ($aggressive_multi > 1) {
         $pts_gained = $pts_gained *1.2;
     }
-
     //MEGA new change - scale damage at high NW down by small amounts
     //END
-    $pts = ceil ($pts_gained);	 //Round to higher number
+
+    $pts = ceil($pts_gained); // Round to higher number
     if($pts > $POINTS_CAP) {
         $pts = $POINTS_CAP;  // If more than max, set to max!
     }
 
     return $pts;
-
 }
 
 
@@ -929,6 +920,39 @@ function scaled_power_pvp($power, $attacker_ID, $defender_ID) {
     ));
     $power = $power * (1 / max(1, $out_of_war_attacks - 5) );*/
     return $power;
+}
+
+
+/**
+ * Helper function to get difference in clan points
+ */
+function get_clan_points_difference($attacker_ID, $defender_ID) {
+    $attacker = Province::make($attacker_ID);
+    $defender = Province::make($defender_ID);
+    $attClan = $attacker->getClan();
+    $defClan = $defender->getClan();
+
+    // If attacker or defender is not in a clan, no difference
+    if(empty($attClan)) return 0;
+    if(empty($defClan)) return 0;
+    if($attClan->getPoints() < 500 && $defClan->getPoints() < 500) return 0; // start of round, don't do crazy shit yet
+
+    // In a mutual war you always get full points,damage,etc
+    $war_type = get_war_type($attClan->get('id'),$defClan->get('id'));
+    if($war_type == 'mutual') return 0;
+
+    return $defClan->getPoints() / $attClan->getPoints();
+}
+
+/**
+ * Clan points scaled to the difference between the points of two clans.
+ * An attacking clan with higher points than defending clan will receive less points
+ */
+function scaled_points_to_clanpoints($clan_points, $attacker_ID, $defender_ID) {
+    $diff = get_clan_points_difference($attacker_ID, $defender_ID);
+    if($diff < 500) return $clan_points;
+    $multi = floor(($diff * 0.65) + 0.35);
+    return $clan_points * min($multi, 1.65);
 }
 
 /**

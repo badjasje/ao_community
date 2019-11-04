@@ -487,7 +487,7 @@ if($war_type != 'none' && $result == 'success') {
 
 		/* MORE MEGA HAXXX. Reduce pts earned above a certain NW also*/
 		if ($networth_def > 290000) {
-			$reductionFactor =  (sqrt(($networth_def)/1.5/65)/2)-25;
+			$reductionFactor =  (0.05 * sqrt($networth_def)) - 25; // Jaap: (sqrt(($networth_def)/1.5/65)/2)-25;
 			$reductionPc = 1+$reductionFactor/100;
 			$clan_points = $clan_points/$reductionPc;
 		}
@@ -515,6 +515,10 @@ if($war_type != 'none' && $result == 'success') {
 
 	// Jaap, points based on clansize
 	$clan_points = scaled_points_to_clansize($clan_points, $userId, $target_id);
+	// Jaap, points based on difference between clanpoints totals
+	$clan_points = scaled_points_to_clanpoints($clan_points, $userId, $target_id);
+
+	if($debug) debug_var('Clan points', $clan_points);
 }
 // End MEGA 20180215
 
