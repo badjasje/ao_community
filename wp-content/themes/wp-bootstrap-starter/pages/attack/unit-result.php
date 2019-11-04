@@ -600,15 +600,9 @@ if($war_type != 'none' && $result == 'success') {
 		$times_killed = $defenderData['times_killed'][0];
 		update_user_meta($target_id, 'times_killed', $times_killed+1);
 
-		if($war_type == 'mutual') {
-			$clan_points = 50;
-		}
-		elseif($war_type == 'incoming') {
-			$clan_points = 25;
-		}
-		elseif($war_type == 'outgoing') {
-			$clan_points = 25;
-		}
+		if($war_type == 'mutual') $clan_points += Settings::get('points_kill_mutual');
+		elseif($war_type == 'incoming') $clan_points += Settings::get('points_kill_incoming');
+		elseif($war_type == 'outgoing') $clan_points += Settings::get('points_kill_outgoing');
 	}
 
 	// Jaap, points based on clansize

@@ -505,10 +505,9 @@ if($war_type != 'none' && $result == 'success') {
 
 	//MEGA changed block to stop 1-sided also awarding 50p 20180215 -->
 	if ($killed == true) {
-		$clan_points = 25;
-		if($war_type == 'mutual'){
-			$clan_points = 50;
-		}
+		if($war_type == 'mutual') $clan_points += Settings::get('points_kill_mutual');
+		elseif($war_type == 'incoming') $clan_points += Settings::get('points_kill_incoming');
+		elseif($war_type == 'outgoing') $clan_points += Settings::get('points_kill_outgoing');
 	}
 	if($clan_points < 1){
 		$clan_points = 1;
