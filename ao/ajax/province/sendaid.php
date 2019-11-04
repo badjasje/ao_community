@@ -49,6 +49,7 @@ function ajax_sendaid($province, $return) {
     $ev = Event::create(array(
         'title' => 'Aid sent by '.$province->get('id').' Receiver: '.$receiver->get('id'),
         'type' => 'aid',
+        'post_type' => 'event_global',
         'money_lost' => $aid,
         'defender_id' => $receiver->get('id'),
         'attacker_clan_id' => $clan->get('id')

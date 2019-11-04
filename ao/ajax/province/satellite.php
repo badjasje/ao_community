@@ -56,7 +56,6 @@ function ajax_satellite_demolish($province) {
     Event::create(array(
         'title' => 'Sat crash: ' . $province->get('id'), 'type' => 'sat_crash', 'attacker_id' => 0, 'defender_id' => $province->get('id')
     ));
-    $province->update('new_events', $province->get('new_events') + 1);
     return array('success' => true, 'status' => $satellite['name'] . ' demolished');
 }
 

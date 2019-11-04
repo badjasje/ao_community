@@ -177,7 +177,8 @@ class Event extends PostObject {
         if(!is_array($notify)) $notify = array($notify);
         foreach($notify as $member_id) {
             $member = Province::make($member_id);
-            if(!!$member) $member->update('new_global_events', $member->get('new_global_events') + 1);
+            if(!!$member && $args['post_type']=='event_local') $member->update('new_events', $member->get('new_events') + 1);
+            if(!!$member && $args['post_type']=='event_global') $member->update('new_global_events', $member->get('new_global_events') + 1);
         }
 
         return Event::make($eventId);
@@ -186,9 +187,9 @@ class Event extends PostObject {
     public static function getPossibleEventTypes($category='') {
         $eventTypes = array('aid','air_sea','empmissile', 'empsat', 'ground', 'killed', 'missile', 'regular', 'satellite');
         switch($category) {
-            case 'incoming': $eventTypes = array_merge($eventTypes, array('thief','nukeprotection','research_ready','user_kicked','sat_crash','sniper','spy')); break;
+            case 'incoming': $eventTypes = array_merge($eventTypes, array('thief','nukeprotection','research_ready','user_kicked','sat_crash','sniper','spy', 'bonus')); break;
             case 'outgoing': $eventTypes = array_merge($eventTypes, array('thief', 'user_kicked', 'sniper')); break;
-            case 'global':   $eventTypes = array_merge($eventTypes, array('war_declared', 'peace_declared', 'user_change', 'bonus')); break;
+            case 'global':   $eventTypes = array_merge($eventTypes, array('war_declared', 'peace_declared', 'user_change')); break;
         }
         return $eventTypes;
     }
