@@ -795,11 +795,11 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
 
                 if($debug) debug_var($unit_key, $unit_life);
 
-                $dmg_reduction = $DAMAGE_REDUCTION_FACTOR_BLD;
+                $dmg_reduction = Settings::get('damage_reduction_building');
             }
             else {
                 $unit_life = $units[$unit_key]['life'] * $defensive_multi_units;
-                $dmg_reduction = $DAMAGE_REDUCTION_FACTOR_UNIT;
+                $dmg_reduction = Settings::get('damage_reduction_unit');
             }
 
             /* reduce damage by factor determined in constants */

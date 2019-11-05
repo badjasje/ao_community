@@ -60,10 +60,6 @@ $ALL_TYPES = array('sea', 'air', 'veh', 'inf', 'bld');
 $UNIT_TYPES = array('sea', 'air', 'veh', 'inf');
 $SPECIAL_UNITS = array('spyplane', 'thief', 'spy','sniper','saboteur');
 
-/* damage reduction factor */
-$DAMAGE_REDUCTION_FACTOR_UNIT = 25;
-$DAMAGE_REDUCTION_FACTOR_BLD = 25;
-
 /* points calculation constants */
 $POINTS_NET_WEIGHT = 200;
 $POINTS_UNITS_WEIGHT = 100;

@@ -103,6 +103,8 @@ class Settings extends DataObject {
         'missile_morale_tgt_above' => 35,
         'attack_morale_tgt_below' => 25,
         'attack_morale_tgt_above' => 20,
+        'damage_reduction_unit' => 25, // DAMAGE_REDUCTION_FACTOR_UNIT
+        'damage_reduction_building' => 20, // DAMAGE_REDUCTION_FACTOR_BLD
 
         // Turn costs
         'turns_missile' => 3,
