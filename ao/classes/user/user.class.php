@@ -61,10 +61,15 @@ class User extends DbObject {
     public function isAdmin() {
         return (isset($this->id) && in_array($this->id, Settings::get('admin_ids'))); // can this even BE more ugly?
     }
+
+    public function lastSeen($format=false) {
+        $last_online = $this->get('last_online');
+        if(!empty($last_online)) return $last_online;
+        return 0;
+    }
     public function isOnline() {
         $timestamp = current_time('timestamp');
-        $last_online = $this->get('last_online');
-        return (!empty($last_online) ? ($timestamp - $last_online < Settings::get('online_status_time')) : false);
+        return ($timestamp - $this->lastSeen()) < Settings::get('online_status_time') ? true : false;
     }
 
     public function getProvince() {
