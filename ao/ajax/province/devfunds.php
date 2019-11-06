@@ -3,7 +3,9 @@
 
 function ajax_devfunds($province, $return) {
     if(!Round::isLive()) return array('status' => 'Game is paused.');
-    if(!Round::isDev() && !Round::isTest() && !Round::isSandbox()) return array('status' => 'Unavailable');
+    if(!Round::isDev() && !Round::isTest() && !Round::isSandbox()) {
+        return array('status' => 'Unavailable');
+    }
 
     $province->update('money', $province->getMoney() + Settings::get('devfunds_money'));
     $province->update('turns', $province->getTurns() + Settings::get('devfunds_turns'));

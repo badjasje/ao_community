@@ -487,7 +487,7 @@ if($war_type != 'none' && $result == 'success') {
 
 		/* MORE MEGA HAXXX. Reduce pts earned above a certain NW also*/
 		if ($networth_def > 290000) {
-			$reductionFactor =  (sqrt(($networth_def)/1.5/65)/2)-25;
+			$reductionFactor =  (0.05 * sqrt($networth_def)) - 25; // Jaap: (sqrt(($networth_def)/1.5/65)/2)-25;
 			$reductionPc = 1+$reductionFactor/100;
 			$clan_points = $clan_points/$reductionPc;
 		}
@@ -505,10 +505,9 @@ if($war_type != 'none' && $result == 'success') {
 
 	//MEGA changed block to stop 1-sided also awarding 50p 20180215 -->
 	if ($killed == true) {
-		$clan_points = 25;
-		if($war_type == 'mutual'){
-			$clan_points = 50;
-		}
+		if($war_type == 'mutual') $clan_points += Settings::get('points_kill_mutual');
+		elseif($war_type == 'incoming') $clan_points += Settings::get('points_kill_incoming');
+		elseif($war_type == 'outgoing') $clan_points += Settings::get('points_kill_outgoing');
 	}
 	if($clan_points < 1){
 		$clan_points = 1;
@@ -516,6 +515,10 @@ if($war_type != 'none' && $result == 'success') {
 
 	// Jaap, points based on clansize
 	$clan_points = scaled_points_to_clansize($clan_points, $userId, $target_id);
+	// Jaap, points based on difference between clanpoints totals
+	$clan_points = scaled_points_to_clanpoints($clan_points, $userId, $target_id);
+
+	if($debug) debug_var('Clan points', $clan_points);
 }
 // End MEGA 20180215
 

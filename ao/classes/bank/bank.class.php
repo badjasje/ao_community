@@ -10,7 +10,7 @@ class Bank extends PhpObject {
     }
 
     public static function isOpen() {
-        return  (Round::isPaused() ? false : static::timeLeft() > 0);
+        return  (Round::isPaused() ? false : floor(static::timeLeft()/60/60/24) > 0);
     }
 
     public static function getAllRates() {

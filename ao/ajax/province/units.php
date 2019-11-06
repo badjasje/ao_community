@@ -1,8 +1,12 @@
 <?php
 
 function ajax_units($province, $return) {
-    if(!Round::isLive()) return array('status' => 'Game is paused.');
-    if(!is_array($_POST['build'])) return array('status' => 'Not a valid request.');
+    if(!Round::isLive()) {
+        return array('status' => 'Game is paused.');
+    }
+    if(!is_array($_POST['build'])) {
+        return array('status' => 'Not a valid request.');
+    }
 
     $status = array('Done');
     $units = $province->getUnits();
@@ -30,13 +34,19 @@ function ajax_units($province, $return) {
         if($unit['sectype']=='special') $type_num['special'] = $usedSpace['special'] + (isset($build[$key]) ? $build[$key] : 0);
     }
     foreach($space as $type => $num) {
-        if(isset($type_num[$type]) && $type_num[$type] > $num) return array('status' => ''.($type_num[$type]-$num).' '.$type.' units have no housing, fix that first.');
+        if(isset($type_num[$type]) && $type_num[$type] > $num) {
+            return array('status' => ''.($type_num[$type]-$num).' '.$type.' units have no housing, fix that first.');
+        }
     }
 
     // Check other stuff
     $turns_needed = ceil($turns_needed);
-    if($build_price > $money) $status[] = 'insufficient funds';
-    else if($turns_needed > $turns) $status[] = 'not enough turns';
+    if($build_price > $money) {
+        $status[] = 'insufficient funds';
+    }
+    else if($turns_needed > $turns) {
+        $status[] = 'not enough turns';
+    }
     else {
         if($build_num > 0) $status[] = $build_num.' units built';
         foreach ($build as $key => $count) {

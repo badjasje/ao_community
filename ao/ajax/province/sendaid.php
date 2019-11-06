@@ -1,19 +1,43 @@
 <?php
 
 function ajax_sendaid($province, $return) {
-    if(!Round::isLive()) return array('status' => 'Game is paused.');
+    if(!Round::isLive()) {
+        return array('status' => 'Game is paused.');
+    }
+
     $receiver = Province::make(Request::post('receiver'));
     $aid = abs(floor(Request::post('amount')));
-    if(!$receiver->get('id')) return array('status' => 'Member not found');
-    if($receiver->get('id') == $province->get('id')) return array('status' => 'Yourself? Really!?');
+    if(!$receiver->get('id')) {
+        return array('status' => 'Member not found');
+    }
+
+    if($receiver->get('id') == $province->get('id')) {
+        return array('status' => 'Yourself? Really!?');
+    }
+
     $clan = $province->getClan();
     $clan_members = $clan->getMembers();
-    if(!in_array($receiver->get('id'), $clan_members)) return array('status' => 'Not a clan member');
-    if ($receiver->getNetworth() > $province->getNetworth())  return array('status' => 'You cannot aid a member larger in networth');
+    if(!in_array($receiver->get('id'), $clan_members)) {
+        return array('status' => 'Not a clan member');
+    }
+
+    if ($receiver->getNetworth() > $province->getNetworth()) {
+        return array('status' => 'You cannot aid a member larger in networth');
+    }
+
     $aid_sent = $province->get('aid_sent_today');
-    if($aid_sent >= Settings::get('max_aid_times')) return array('status' => 'You already sent aid 3 times today');
-    if(!is_numeric($aid) || $aid < 0) return array('status' => 'That\'s a weird number');
-    if ($aid > $province->getMoney()) return array('status' => 'Insufficient funds');
+    if($aid_sent >= Settings::get('max_aid_times')) {
+        return array('status' => 'You already sent aid 3 times today');
+    }
+
+    if(!is_numeric($aid) || $aid < 0) {
+        return array('status' => 'That\'s a weird number');
+    }
+
+    if ($aid > $province->getMoney()) {
+        return array('status' => 'Insufficient funds');
+    }
+
     if ($aid > Settings::get('max_aid')) $aid = Settings::get('max_aid');
 
     $province->update('money', $province->getMoney() - $aid);
@@ -25,6 +49,7 @@ function ajax_sendaid($province, $return) {
     $ev = Event::create(array(
         'title' => 'Aid sent by '.$province->get('id').' Receiver: '.$receiver->get('id'),
         'type' => 'aid',
+        'post_type' => 'event_global',
         'money_lost' => $aid,
         'defender_id' => $receiver->get('id'),
         'attacker_clan_id' => $clan->get('id')

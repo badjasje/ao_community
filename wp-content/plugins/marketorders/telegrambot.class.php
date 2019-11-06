@@ -62,7 +62,7 @@ class TelegramBot {
 
     public function sendMessage($msg, $params = array()) {
         if(empty($this->chatID)) return false;
-        $params += array('chat_id' => $this->chatID,'text' => $msg);
+        $params += array('chat_id' => $this->chatID, 'text' => $msg, 'disable_web_page_preview' => 1);
         return $this->request('sendMessage', $params);
     }
 

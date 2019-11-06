@@ -175,7 +175,7 @@ $count = 0;
 			$('.inviteButton').on('click', function(event) {
 				event.preventDefault();
 				if (request) request.abort();
-				if(confirm('Are you sure you want to invite <?php echo $user->display_name;?> (#<?php echo $viewed_id;?>)?')) {
+				if(confirm('Are you sure you want to invite <?php echo $viewed->display_name;?> (#<?php echo $viewed_id;?>)?')) {
 					request = $.ajax({url: '/invite.php?user=<?php echo $viewed_id;?>', type: "get"});
 					request.done(function (response, textStatus, jqXHR) {
 						var array = JSON.parse(response);

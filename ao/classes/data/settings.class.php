@@ -82,12 +82,12 @@ class Settings extends DataObject {
 		    'defense' => 'Defense buildings',
 		    'ams' => 'Anti-Missile System',
         ),
-        'points_kill_outgoing' => 25,
-        'points_kill_incoming' => 25,
-        'points_kill_mutual' => 50,
-        'maintarget_target_multi' => 1.5,
-        'maintarget_power_multi' => 1.2,
-        'maintarget_notarget_multi' => 0.5,
+        'points_cap' => 25, // POINTS_CAP
+        'points_kill_outgoing' => 10,
+        'points_kill_incoming' => 10,
+        'points_kill_mutual' => 20,
+        'maintarget_target_multi' => 0.8,
+        'maintarget_notarget_multi' => 1.2,
         'saboteur_morale_cost' => 30,
         'sniper_morale_cost' => 10,
         'thief_morale_cost' => 5,
@@ -104,6 +104,8 @@ class Settings extends DataObject {
         'missile_morale_tgt_above' => 35,
         'attack_morale_tgt_below' => 25,
         'attack_morale_tgt_above' => 20,
+        'damage_reduction_unit' => 25, // DAMAGE_REDUCTION_FACTOR_UNIT
+        'damage_reduction_building' => 20, // DAMAGE_REDUCTION_FACTOR_BLD
 
         // Turn costs
         'turns_missile' => 3,
@@ -121,6 +123,8 @@ class Settings extends DataObject {
         'stealthsat_time' => (3600 * 3.5),
         'stealthsat_morale_cost' => 100,
         'order_cancel_cashback' => 0.75,
+        'missile_sell_multi' => 0.75,
+        'unit_sell_multi' => 0.9, // of unit buy price
 
         // Attack range multiplier
         'attack_range_mult' => 1.4,
@@ -129,6 +133,9 @@ class Settings extends DataObject {
         // Clan stuff
         'clan_trustee_num' => 4,
         'clan_member_num' => 6,
+
+        // War
+        'resume_after_hours' => 12,
     );
 
 }

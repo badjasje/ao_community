@@ -41,7 +41,8 @@ class Research extends PostObject {
         $province->update('research_in_progress', 0);
         $province->update('level_'.$this->get('key'), min( ($current_level+1), $this->get('maxlevel')));
         wp_trash_post($this->get('ID'));
-        Hooks::trigger('set_province_research', null, $this->get('key'), $province);
+        $key = $this->get('key');
+        Hooks::trigger('set_province_research', null, $key, $province);
 
         // If a research is queued, we start it here
         $queued_research = $province->get('queued_research'); // returns research key

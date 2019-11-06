@@ -1,19 +1,41 @@
 <?php
 
-function ajax_deposit($province, $return) {
+function ajax_bank_deposit($province, $return) {
     if(!Round::isLive()) return array('status' => 'Game is paused.');
+
     $amount = round(Request::post('amount'));
     $length = round(Request::post('days'));
-    if(!is_numeric($amount) || !is_numeric($length)) return array('status' => 'Enter a valid number');
-    if($amount <= 0 || $length <= 0) return array('status' => 'Enter a valid number');
-    if($amount < $province->getMinDeposit()) return array('status' => 'Deposit at least '.$province->getMinDeposit(true));
-    if($province->getDepositNum() >= $province->getMaxDeposits()) return array('status' => 'You already made '.$province->getMaxDeposits().' deposits');
+
+    if(!is_numeric($amount) || !is_numeric($length)) {
+        return array('status' => 'Enter a valid number');
+    }
+
+    if($amount <= 0 || $length <= 0) {
+        return array('status' => 'Enter a valid number');
+    }
+
+    if($amount < $province->getMinDeposit()) {
+        return array('status' => 'Deposit at least '.$province->getMinDeposit(true));
+    }
+
+    if($province->getDepositNum() >= $province->getMaxDeposits()) {
+        return array('status' => 'You already made '.$province->getMaxDeposits().' deposits');
+    }
+
     $money = $province->getMoney();
-    if($amount > $money) return array('status' => 'Insufficient funds');
+    if($amount > $money) {
+        return array('status' => 'Insufficient funds');
+    }
+
     $max_dep = $province->getMaxDeposit();
-    if ($amount > $max_dep) return array('status' => 'Your research doesn\'t allow you to deposit this much');
+    if ($amount > $max_dep) {
+        return array('status' => 'Your research doesn\'t allow you to deposit this much');
+    }
+
     $rate = $province->getBankInterestRate($length);
-    if(empty($rate)) return array('status' => 'Undefined length');
+    if(empty($rate)) {
+        return array('status' => 'Undefined length');
+    }
 
     $deposit = Deposit::create(array('province_id' => $province->id, 'length' => $length, 'amount' => $amount));
 

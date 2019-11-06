@@ -1,14 +1,28 @@
 <?php
 
-function ajax_sellland($province, $return) {
-    if(!Round::isLive()) return array('status' => 'Game is paused.');
+function ajax_land_sell($province, $return) {
+    if(!Round::isLive()) {
+        return array('status' => 'Game is paused.');
+    }
+
     $postedLand = abs(floor(Request::post('land')));
-    if($postedLand < 0 || !is_numeric($postedLand)) return array('status' => 'Not a valid number.');
+    if($postedLand < 0 || !is_numeric($postedLand)) {
+        return array('status' => 'Not a valid number.');
+    }
+
     $freeland = $province->getFreeLand();
-    if($freeland < 0) return array('status' => 'Cannot sell! Not enough free land');
-    if($postedLand > $freeland) return array('status' => 'Not enough free land');
+    if($freeland < 0) {
+        return array('status' => 'Cannot sell! Not enough free land');
+    }
+
+    if($postedLand > $freeland) {
+        return array('status' => 'Not enough free land');
+    }
+
     $maxSellLand = $province->getMaxSellLand();
-    if ($maxSellLand < $postedLand) return array('status' => 'Cannot sell any more land');
+    if ($maxSellLand < $postedLand) {
+        return array('status' => 'Cannot sell any more land');
+    }
 
     $province->update('land', round($province->getLand() - $postedLand));
     $province->update('land_sold_today', round($province->get('land_sold_today') + $postedLand));

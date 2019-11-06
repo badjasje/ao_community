@@ -3,7 +3,11 @@
 function ajax_buildings($province, $return) {
     if(!Round::isLive()) return array('status' => 'Game is paused.');
     $buildings = $province->getBuildings();
-    if(!is_array($_POST['demo']) || !is_array($_POST['build'])) return array('status' => 'Not a valid request.');
+
+    if(!is_array($_POST['demo']) || !is_array($_POST['build'])) {
+        return array('status' => 'Not a valid request.');
+    }
+
     $status = array('Done');
 
     // Demo first, opens up land
@@ -17,8 +21,15 @@ function ajax_buildings($province, $return) {
         $demo_num += $demo[$key];
         $demo_price += $demo[$key] * $buildings[$key]['demoprice'];
     }
-    if($demo_num == $buildingsNum) return array('status' => 'Cannot demolish all your buildings');
-    if($demo_price > $money) return array('status' => 'Insufficient funds');
+
+    if($demo_num == $buildingsNum) {
+        return array('status' => 'Cannot demolish all your buildings');
+    }
+
+    if($demo_price > $money) {
+        return array('status' => 'Insufficient funds');
+    }
+
     foreach ($demo as $key => $count) {
         $province->update($key, $province->get($key) - $count);
     }
@@ -40,10 +51,17 @@ function ajax_buildings($province, $return) {
         $build_num += $build[$key];
         $build_price += $build[$key] * $buildings[$key]['buildprice'];
     }
+
     $turns_needed = ceil($build_num/$province->getBuildingsPerTurn());
-    if($build_price > $money) $status[] = 'insufficient funds to build';
-    else if($turns_needed > $turns) $status[] = 'not enough turns to build';
-    else if($build_num*Settings::get('land_per_building') > $freeland) $status[] = 'not enough free land';
+    if($build_price > $money) {
+        $status[] = 'insufficient funds to build';
+    }
+    else if($turns_needed > $turns) {
+        $status[] = 'not enough turns to build';
+    }
+    else if($build_num*Settings::get('land_per_building') > $freeland) {
+        $status[] = 'not enough free land';
+    }
     else {
         if($build_num > 0) $status[] = $build_num.' buildings built';
         foreach ($build as $key => $count) {
@@ -64,6 +82,7 @@ function ajax_buildings($province, $return) {
         $maxdemo[$key] = $building['maxdemo'];
         $owned[$key] = $building['num'];
     }
+
     return array_merge($return, array(
         'success' => true, 'status' => implode(', ', $status), 'maxbuild' => $province->getMaxBuild(), 'buildspace' => $province->getBuildSpace(),
         'buildmax' => $maxbuild, 'demomax' => $maxdemo, 'owned' => $owned

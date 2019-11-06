@@ -67,7 +67,7 @@ foreach ($missiles as $key => $order) {
     $price = $order['price'];
     $ordered_missiles = (empty($_POST["$key"])) ? 0 : ceil($_POST["$key"]);
     if ($ordered_missiles > 0) {
-        update_user_meta($userId, 'money', $totalmoney + ($totalordercost*0.75));
+        update_user_meta($userId, 'money', $totalmoney + ($totalordercost * Settings::get('missile_sell_multi') ));
         $missilesOwned = get_user_meta($userId, $key.'_owned', true);
         update_user_meta($userId, $key.'_owned', $missilesOwned-$ordered_missiles);
     }

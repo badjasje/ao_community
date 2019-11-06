@@ -6,26 +6,43 @@ function ajax_update($province, $return) {
 
     $playername = Request::post('playername');
     if(!empty($playername)) $playername = trim(preg_replace('/[^A-Za-z0-9\- ]/', '', $playername));
-    if(empty($playername)) return array('status' => 'Invalid player name');
+    if(empty($playername)) {
+        return array('status' => 'Invalid player name');
+    }
 
     $email = Request::post('email');
-    if(empty($email) || !is_email($email)) return array('status' => 'Invalid email address');
+    if(empty($email) || !is_email($email)) {
+        return array('status' => 'Invalid email address');
+    }
     $email_id = email_exists($email);
-    if($email_id != $user->get('id')) return array('status' => 'Email address already used');
+    if($email_id != $user->get('id')) {
+        return array('status' => 'Email address already used');
+    }
 
     $phone = Request::post('phone');
-    if(!empty($phone) && strlen($phone) < 9) return array('status' => 'Invalid phone number');
+    if(!empty($phone) && strlen($phone) < 9) {
+        return array('status' => 'Invalid phone number');
+    }
 
     $username = Request::post('username');
-    if(!empty($username) && !validate_username($username)) return array('status' => 'Invalid username');
+    if(!empty($username) && !validate_username($username)) {
+        return array('status' => 'Invalid username');
+    }
+
     $username_id = username_exists($username);
-    if(!empty($username) && $username_id != $user->get('id')) return array('status' => 'Username already in use');
+    if(!empty($username) && $username_id != $user->get('id')) {
+        return array('status' => 'Username already in use');
+    }
 
     $password = Request::post('password');
-    if(!empty($password) && strlen($password) < 4) return array('status' => 'Invalid password');
+    if(!empty($password) && strlen($password) < 4) {
+        return array('status' => 'Invalid password');
+    }
 
     if($user->getName() != $playername) { // counts as a playername change
-        if(Round::isLive() && $user->get('name_change_counter') == 1 && $playername != 'Minion') return array('status' => 'Username already changed this round ');
+        if(Round::isLive() && $user->get('name_change_counter') == 1 && $playername != 'Minion') {
+            return array('status' => 'Username already changed this round ');
+        }
 
         $search_player = new WP_User_Query(array('search' => $playername, 'search_fields' => array('display_name'), 'meta_query'=> array(array(
 			array('key' => 'last_online', 'value' => current_time('timestamp')-1728000, 'compare' => ">", 'type' => 'numeric'),
@@ -73,23 +90,20 @@ function resize_crop_image($max_width, $max_height, $source_file, $dst_dir, $qua
         case 'image/gif':
             $image_create = "imagecreatefromgif";
             $image = "imagegif";
-            break;
-
+        break;
         case 'image/png':
             $image_create = "imagecreatefrompng";
             $image = "imagepng";
             $quality = 7;
-            break;
-
+        break;
         case 'image/jpeg':
             $image_create = "imagecreatefromjpeg";
             $image = "imagejpeg";
             $quality = 80;
-            break;
-
+        break;
         default:
             return false;
-            break;
+        break;
     }
 
     $dst_img = imagecreatetruecolor($max_width, $max_height);

@@ -141,7 +141,6 @@ class Event extends PostObject {
             'body' => 'You can now receive {bonus_money} and {bonus_turns} turns',
         )
         /* TODO:
-        - clanbonus
         - market close - fas fa-shopping-cart
         */
     );
@@ -178,7 +177,8 @@ class Event extends PostObject {
         if(!is_array($notify)) $notify = array($notify);
         foreach($notify as $member_id) {
             $member = Province::make($member_id);
-            if(!!$member) $member->update('new_global_events', $member->get('new_global_events') + 1);
+            if(!!$member && $args['post_type']=='event_local') $member->update('new_events', $member->get('new_events') + 1);
+            if(!!$member && $args['post_type']=='event_global') $member->update('new_global_events', $member->get('new_global_events') + 1);
         }
 
         return Event::make($eventId);
@@ -187,9 +187,9 @@ class Event extends PostObject {
     public static function getPossibleEventTypes($category='') {
         $eventTypes = array('aid','air_sea','empmissile', 'empsat', 'ground', 'killed', 'missile', 'regular', 'satellite');
         switch($category) {
-            case 'incoming': $eventTypes = array_merge($eventTypes, array('thief','nukeprotection','research_ready','user_kicked','sat_crash','sniper','spy')); break;
+            case 'incoming': $eventTypes = array_merge($eventTypes, array('thief','nukeprotection','research_ready','user_kicked','sat_crash','sniper','spy', 'bonus')); break;
             case 'outgoing': $eventTypes = array_merge($eventTypes, array('thief', 'user_kicked', 'sniper')); break;
-            case 'global':   $eventTypes = array_merge($eventTypes, array('war_declared', 'peace_declared', 'user_change', 'bonus')); break;
+            case 'global':   $eventTypes = array_merge($eventTypes, array('war_declared', 'peace_declared', 'user_change')); break;
         }
         return $eventTypes;
     }
@@ -438,7 +438,7 @@ class Event extends PostObject {
             ));
 
             if($this->eventtype == 'user_change' && in_array($this->get('outcome'), array('kicked','left'))) {
-                $replace['{clan_points}'] = ', ' .  Format::plural($this->get('clan_points'), 'clan point') .' gained.';
+                $replace['{clan_points}'] = ', ' .  Format::plural($this->get('clan_points'), 'clan point') .' lost.';
             }
 
             // Sabotaged silo's

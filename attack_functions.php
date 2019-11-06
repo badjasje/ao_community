@@ -12,149 +12,30 @@
 include('constants.php');
 
 
-function calculate_pts($unit_damage, $bld_damage, $aggressive_multi) {
-    //MEGA 2017-07-18
+function calculate_pts($bld_damage, $unit_damage, $aggressive_multi) {
+    global $debug;
 
-    global $POINTS_CAP;
-    if ($unit_damage == 0) {
-        //As you cant sqrt 0
-        $unit_damage = 0.01;
-    }
-    if ($bld_damage == 0) {
-        //As you cant sqrt 0
-        $bld_damage = 0.01;
-    }
-
-    //Because log(10)+log(10) is more than log(20), we need to merge the damage from uk and bk at the outset!
-	$unit_damage = $unit_damage*1.2; // Increase unit damage by 20% to even out the 20% increase in life
+    $unit_damage = $unit_damage * 1.2; // We rather have UK than BK
+    $bld_damage = $bld_damage * 0.6;
     $damage = $bld_damage + $unit_damage;
+    if($debug) debug_var('damage', $damage);
 
-    //MEGA reduce bld damage multiplier for damage attacks 20180219
-    if ($damage < 3000) {
-        $bld_damage = $bld_damage * 0.9;
-        $unit_damage = $unit_damage * 1.1;
-    }
-    else if ($damage < 5000) {
-        $bld_damage = $bld_damage * 0.95;
-        $unit_damage = $unit_damage * 1.05;
-
-    }
-    //End MEGA
-
-    $damage = $bld_damage + $unit_damage;
-
-    if ($damage < 1101) {
-        $multiplier = 0.4;
-        // To award 1 pt, not 2, for very low attacks. Slowly tiers up to when the normal numbers take over.
-    }
-    elseif ($damage < 1501) {
-        $multiplier = 0.58;
-    }
-    elseif ($damage < 1901) {
-        $multiplier = 0.78;
-    }
-    else {
-        $multiplier = 1.17;
-    }
-
+    $multiplier = 1; // maybe use this later
     $random_factor = (mt_rand(96,108)/100); //Set randomness
 
+    if($damage == 0) $damage = 0.01; // You cant sqrt 0
     $pts_gained =  ((((sqrt($damage)*log($damage))/100)*$multiplier)*$random_factor);
-    if ($aggressive_multi > 1) {
-        $pts_gained = $pts_gained *1.2;
-    }
 
-    //MEGA new change - scale damage at high NW down by small amounts
-    //END
-    $pts = ceil ($pts_gained);	 //Round to higher number
-    if($pts > $POINTS_CAP) {
-        $pts = $POINTS_CAP;  // If more than max, set to max!
-    }
+    if ($aggressive_multi > 1) $pts_gained = $pts_gained * 1.2;
 
+    $pts = min(ceil($pts_gained), Settings::get('points_cap')); // Round to higher number, If more than max, set to max!
     return $pts;
-
 }
 
 
 function get_war_type($attack_clan_id, $defend_clan_id) {
-    /* check for clan war to determine points multiplier */
-    $outgoing_war = false;
-    $incoming_war = false;
-    $mutual_war = false;
-    $war_type = "none";
-
-    /* if both players are in a clan */
-    if($defend_clan_id != 0 && $attack_clan_id != 0) {
-        /* check if attacker declared on defender */
-        $outgoing_wars = get_posts(
-            array(
-                'numberposts'	=> -1,
-                'post_type'		=> 'wars',
-                'meta_query'	=> array(
-                    'relation'		=> 'AND',
-                    array(
-                        'key'	 	=> 'declared_on',
-                        'value'	  	=> $defend_clan_id,
-                        'compare' 	=> '=',
-                    ),
-                    array(
-                        'key'	 	=> 'declared_by',
-                        'value'	  	=> $attack_clan_id,
-                        'compare' 	=> '=',
-                    ),
-                ),
-            )
-        );
-
-        if(count($outgoing_wars) > 0) {
-            $outgoing_war = true;
-        }
-
-        /* check if defender has declared on attacker */
-        $incoming_wars = get_posts(
-            array(
-                'numberposts'	=> -1,
-                'post_type'		=> 'wars',
-                'meta_query'	=> array(
-                    'relation'		=> 'AND',
-                    array(
-                        'key'	 	=> 'declared_on',
-                        'value'	  	=> $attack_clan_id,
-                        'compare' 	=> '=',
-                    ),
-                    array(
-                        'key'	 	=> 'declared_by',
-                        'value'	  	=> $defend_clan_id,
-                        'compare' 	=> '=',
-                    ),
-                ),
-            )
-        );
-
-        if(count($incoming_wars) > 0) {
-            $incoming_war = true;
-        }
-
-        /* calculate war multiplier and determine mutual */
-        if ($outgoing_war && $incoming_war) {
-            /* mutual war */
-            $war_type = "mutual";
-        }
-        elseif ($outgoing_war) {
-            /* outgoing only */
-            $war_type = "outgoing";
-        }
-        elseif ($incoming_war) {
-            /* incoming only */
-            $war_type = "incoming";
-        }
-        else {
-            /* no war */
-            $war_type = "none";
-        }
-    }
-    /* return war type */
-    return $war_type;
+    $attClan = Clan::make($attack_clan_id);
+    return (!!$attClan ? $attClan->getWarType($defend_clan_id) : 'none');
 }
 
 
@@ -557,13 +438,6 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
     return $defense_array;
 }
 
-
-function return_overall_blds_for_defender () {
-    global $overall_bld_total;
-    return $overall_bld_total;
-}
-
-
 function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray) {
     global $debug;
     $units = Units::get();
@@ -704,57 +578,6 @@ function calculate_power($target_id) {
         return 1000;
 }
 
-
-/*
-	sum_arrays
-	Params:
-		$master_array
-		$unit_array
-	Returns:
-		$master_array : values from $unit_array added to $master_array
-*/
-function sum_arrays($master_array, $unit_array) {
-    foreach($unit_array as $unit => $damage) {
-        if (array_key_exists($unit, $master_array)) {
-            $master_array[$unit] += $damage;
-        }
-        else {
-            $master_array[$unit] = $damage;
-        }
-    }
-    return $master_array;
-}
-
-
-/*
-	get_idle_mult
-	Params:
-		$attack_type : type of attack
-		$unit_key : unit being attacked
-	Return:
-		$idle_mult : damage multiplier based on idle status
-*/
-function get_idle_multiplier($attack_type, $unit_key) {
-    //echo $unit_key;
-    $idle_multiplier = 1.0;
-
-    return $idle_multiplier;
-}
-
-/*
-	get_attack_type_multiplier($attack_type)
-	Params:
-		$attack_type
-	Return:
-		$atk_type_mult
-*/
-function get_attack_type_multiplier($attack_type) {
-    $atk_type_mult = 1.0;
-    /* TODO - hook point for attack type multiplier */
-    return $atk_type_mult;
-}
-
-
 /*
 	attack_dice_roll
 	Params:
@@ -796,6 +619,7 @@ function resource_dice_roll() {
 function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$target_id,$life_deduct) {
     global $debug;
     global $userId;
+    global $maintarget;
     $units = Units::get();
     include('building_array.php');
     include('constants.php');
@@ -824,12 +648,7 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
             $attack_power = $attacker_type_power[$type];
 
         /* ensure we can attack this type */
-        if ($attack_power < 1)
-            continue;
-
-        /* adjust attack power for attack type multiplier */
-        $atk_type_mult = get_attack_type_multiplier($attack_type);
-        $attack_power = $attack_power * $atk_type_mult;
+        if ($attack_power < 1) continue;
 
         /* get total life for this type */
         $total_units = $unit_array[$type]['total_count'];
@@ -837,12 +656,7 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
         foreach($type_stats as $unit_key => $unit_stats) {
 
             /* ignore totals */
-            if ($unit_key == 'total_life' || $unit_key == 'total_count')
-                continue;
-
-            /* account for idle rule */
-            $idle_multiplier = get_idle_multiplier($attack_type, $unit_key);
-            $attack_power = $attack_power * $idle_multiplier;
+            if ($unit_key == 'total_life' || $unit_key == 'total_count') continue;
 
             /* get count for this unit */
             $unit_count = $unit_stats['count'];
@@ -863,17 +677,19 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
                 }
                 $unit_life = $buildings[$unit_key]['life'] * $defensive_multi;
 
+                if($maintarget != 'none') {
+                    if($buildings[$unit_key]['targetname'] == $maintarget) $multi = Settings::get('maintarget_target_multi');
+                    else $multi = Settings::get('maintarget_notarget_multi');
+                    $unit_life = $unit_life * $multi;
+                }
+
                 if($debug) debug_var($unit_key, $unit_life);
 
-                $dmg_reduction = $DAMAGE_REDUCTION_FACTOR_BLD;
-                //MEGA 20180219 make buildings harder to kill if less than 300 remain
-                if (return_overall_blds_for_defender() < 300) {
-                    $dmg_reduction = $DAMAGE_REDUCTION_FACTOR_BLD*1.2;
-                }
+                $dmg_reduction = Settings::get('damage_reduction_building');
             }
             else {
                 $unit_life = $units[$unit_key]['life'] * $defensive_multi_units;
-                $dmg_reduction = $DAMAGE_REDUCTION_FACTOR_UNIT;
+                $dmg_reduction = Settings::get('damage_reduction_unit');
             }
 
             /* reduce damage by factor determined in constants */
@@ -896,23 +712,6 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
     }
     return $losses;
 }
-
-
-/*
-	is_player_dead
-	Params:
-		$user_id : user id of target
-	Return:
-		$is_dead : is target dead
-*/
-function is_player_dead($user_id) {
-    $bld_total = 0;
-    foreach($buildings as $key => $data) {
-        $bld_total += get_user_meta($user_id, $key)[0];
-    }
-    return $bld_total < 1;
-}
-
 
 /*
 	kill_player
@@ -1013,29 +812,62 @@ function scaled_power_pvp($power, $attacker_ID, $defender_ID) {
     return $power;
 }
 
+
+/**
+ * Helper function to get difference in clan points
+ */
+function get_clan_points_difference($attacker_ID, $defender_ID) {
+    $attacker = Province::make($attacker_ID);
+    $defender = Province::make($defender_ID);
+    $attClan = $attacker->getClan();
+    $defClan = $defender->getClan();
+
+    // If attacker or defender is not in a clan, no difference
+    if(empty($attClan)) return 0;
+    if(empty($defClan)) return 0;
+    if($attClan->getPoints() < 500 && $defClan->getPoints() < 500) return 0; // start of round, don't do crazy shit yet
+
+    // In a mutual war you always get full points,damage,etc
+    $war_type = $attClan->getWarType($defClan->get('id'));
+    if($war_type == 'mutual') return 0;
+
+    return $defClan->getPoints() / $attClan->getPoints();
+}
+
+/**
+ * Clan points scaled to the difference between the points of two clans.
+ * An attacking clan with higher points than defending clan will receive less points
+ */
+function scaled_points_to_clanpoints($clan_points, $attacker_ID, $defender_ID) {
+    $diff = get_clan_points_difference($attacker_ID, $defender_ID);
+    if($diff < 500) return $clan_points;
+    $multi = floor(($diff * 0.65) + 0.35);
+    return $clan_points * min($multi, 1.65);
+}
+
 /**
  * Helper function in an attempt to avoid big clans completely raiding smaller clans or single provinces
  */
 function get_clan_member_difference($attacker_ID, $defender_ID) {
-    $attackerData = get_user_meta($attacker_ID);
-    $defenderData = get_user_meta($defender_ID);
-    $attacker_clan_ID = $attackerData['clan_id_user'][0];
-    $defender_clan_ID = $defenderData['clan_id_user'][0];
+    $attacker = Province::make($attacker_ID);
+    $defender = Province::make($defender_ID);
+    $attClan = $attacker->getClan();
+    $defClan = $defender->getClan();
 
     // If attacker is not in a clan, no difference
-    if(empty($attacker_clan_ID)) return 0;
+    if(empty($attClan)) return 0;
 
     // In a mutual war you always get full points,damage,etc
-    $war_type = get_war_type($attacker_clan_ID,$defender_clan_ID);
+    $war_type = $attClan->getWarType((!!$defClan ? $defClan->get('id') : 0));
     if($war_type == 'mutual') return 0;
 
     // Failsafe on clan
-    $attacker_clan_size = count(maybe_unserialize(get_post_meta($attacker_clan_ID, 'clan_members', true)));
+    $attacker_clan_size = count($attClan->getMembers());
     if(empty($attacker_clan_size)) return 0;
 
     // If the defender is not in a clan, clansize is also 1
-    if(empty($defender_clan_ID)) $defender_clan_size = 1;
-    else $defender_clan_size = count(maybe_unserialize(get_post_meta($defender_clan_ID, 'clan_members', true)));
+    if(!$defClan) $defender_clan_size = 1;
+    else $defender_clan_size = count($defClan->getMembers());
 
     // But if the attackers clan is bigger than the defender, than we get in some reduction (finally)
     return $attacker_clan_size-$defender_clan_size;

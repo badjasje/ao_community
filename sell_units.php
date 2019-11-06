@@ -29,7 +29,7 @@ $userData = get_user_meta($userId);
 include 'count_functions.php';
 $totalMoney = $userData['money'][0];
 $userLock = $userData['user_lock'][0];
-$marketSellMultiplier = (2.2 * 0.5);
+$marketSellMultiplier = Settings::get('unit_sell_multi');
 
 $specialUnitsArray = [
     'spyplane',
