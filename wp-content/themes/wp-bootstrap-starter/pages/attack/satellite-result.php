@@ -181,7 +181,7 @@ $clan_points = 0;
 $unit_points = 0;
 
 if($war_type != 'none' && $result == 'success') {
-	if ($killed != true) {
+	//if ($killed != true) {
 		$clan_points = 7.8 * log($def_NW_lost/1.4 / 400);
 
 		if($clan_points < 1) $clan_points = 1;
@@ -190,7 +190,7 @@ if($war_type != 'none' && $result == 'success') {
 		if($war_type == 'incoming') {
 			$clan_points = ceil($clan_points/2);
 		}
-	}
+	//}
 
 	/* determine points multiplier due to war */
 	if ($killed == true) {

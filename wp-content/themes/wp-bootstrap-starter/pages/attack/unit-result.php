@@ -577,18 +577,21 @@ if($war_type != 'none' && $result == 'success') {
 	}
 
 	$defender_networth = $defenderData['networth'][0];
-	if ($killed != true) {
+	//if ($killed != true) {
 		$clan_points = calculate_pts($defender_building_NW_lost,$defender_unit_NW_lost,$aggressive_multi);
         if ($networth_def > 290000) {
             $reductionFactor = (0.05 * sqrt($networth_def)) - 25; // Jaap: (sqrt(($networth_def)/1.5/65)/2)-25;
             $reductionPc = 1+$reductionFactor/100;
             $clan_points = $clan_points/$reductionPc;
         }
-	}
+	//}
+	if($debug) debug_var('Clan points1', $clan_points);
 
 	/* determine points multiplier due to war */
 	$war_multiplier = get_war_multiplier($war_type);
 	$clan_points = ceil($clan_points * $war_multiplier);
+
+	if($debug) debug_var('Clan points2', $clan_points);
 
 	if ($killed == true) {
 		/* add stats */
@@ -605,12 +608,15 @@ if($war_type != 'none' && $result == 'success') {
 		elseif($war_type == 'outgoing') $clan_points += Settings::get('points_kill_outgoing');
 	}
 
+	if($debug) debug_var('Clan points3', $clan_points);
+
 	// Jaap, points based on clansize
 	$clan_points = scaled_points_to_clansize($clan_points, $userId, $target_id);
+	if($debug) debug_var('Clan points4', $clan_points);
 	// Jaap, points based on difference between clanpoints totals
 	$clan_points = scaled_points_to_clanpoints($clan_points, $userId, $target_id);
 
-	if($debug) debug_var('Clan points', $clan_points);
+	if($debug) debug_var('Clan points5', $clan_points);
 
 	/* add points */
 	$starting_points = get_post_meta($attack_clan_id,'clan_points',true);
