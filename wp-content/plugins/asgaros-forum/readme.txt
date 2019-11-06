@@ -3,9 +3,9 @@ Contributors: Asgaros
 Donate link: https://www.asgaros.de/donate/
 Tags: forum, forums, discussion, multisite, community, bulletin, board, asgaros, support
 Requires at least: 4.9
-Tested up to: 5.2
+Tested up to: 5.3
 Requires PHP: 5.2
-Stable tag: 1.15.1
+Stable tag: 1.15.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -87,6 +87,15 @@ You can find a list of available hooks and filters on this site:
 6. Manage general options.
 
 == Changelog ==
+= 1.15.2 =
+* Added: Option to hide newest member
+* Added: Option to let users open their own topics
+* Added: Option to let users close their own topics
+* Fixed: Only show meta-box for creating topics when user can publish a page/post
+* Fixed: Errors in Google Search Console for breadcrumbs
+* Updated: Font Awesome version 5.11.2
+* Minor design changes
+* Compatibility with WordPress 5.3
 = 1.15.1 =
 * Added: Widget option to filter output by forums
 * Added: Meta box to create topics for WordPress pages and posts

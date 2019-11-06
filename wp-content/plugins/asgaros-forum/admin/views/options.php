@@ -240,6 +240,10 @@ if (!defined('ABSPATH')) exit;
                             <td><input type="checkbox" name="show_who_is_online" id="show_who_is_online" <?php checked(!empty($this->asgarosforum->options['show_who_is_online'])); ?>></td>
                         </tr>
                         <tr>
+                            <th><label for="show_newest_member"><?php _e('Show newest member', 'asgaros-forum'); ?></label></th>
+                            <td><input type="checkbox" name="show_newest_member" id="show_newest_member" <?php checked(!empty($this->asgarosforum->options['show_newest_member'])); ?>></td>
+                        </tr>
+                        <tr>
                             <th><label for="show_statistics"><?php _e('Show statistics', 'asgaros-forum'); ?></label></th>
                             <td><input type="checkbox" name="show_statistics" id="show_statistics" <?php checked(!empty($this->asgarosforum->options['show_statistics'])); ?>></td>
                         </tr>
@@ -442,6 +446,16 @@ if (!defined('ABSPATH')) exit;
                                 <input type="number" name="time_limit_delete_topics" id="time_limit_delete_topics" value="<?php echo stripslashes($this->asgarosforum->options['time_limit_delete_topics']); ?>" size="3" min="0">
                                 <span class="description"><?php _e('(0 = No limitation)', 'asgaros-forum'); ?></span>
                             </td>
+                        </tr>
+
+                        <tr>
+                            <th><label for="enable_open_topic"><?php _e('Users can open their own topics', 'asgaros-forum'); ?></label></th>
+                            <td><input type="checkbox" name="enable_open_topic" id="enable_open_topic" <?php checked(!empty($this->asgarosforum->options['enable_open_topic'])); ?>></td>
+                        </tr>
+
+                        <tr>
+                            <th><label for="enable_close_topic"><?php _e('Users can close their own topics', 'asgaros-forum'); ?></label></th>
+                            <td><input type="checkbox" name="enable_close_topic" id="enable_close_topic" <?php checked(!empty($this->asgarosforum->options['enable_close_topic'])); ?>></td>
                         </tr>
                     </table>
                 </div>

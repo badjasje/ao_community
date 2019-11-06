@@ -3,7 +3,7 @@
 if (!defined('ABSPATH')) exit;
 
 class AsgarosForum {
-    var $version = '1.15.1';
+    var $version = '1.15.2';
     var $executePlugin = false;
     var $db = null;
     var $tables = null;
@@ -86,6 +86,7 @@ class AsgarosForum {
         'show_logout_button'                => true,
         'show_register_button'              => true,
         'show_who_is_online'                => true,
+        'show_newest_member'                => true,
         'show_statistics'                   => true,
         'enable_breadcrumbs'                => true,
         'breadcrumbs_show_category'         => true,
@@ -99,6 +100,8 @@ class AsgarosForum {
         'time_limit_delete_posts'           => 3,
         'enable_delete_topic'               => false,
         'time_limit_delete_topics'          => 3,
+        'enable_open_topic'                 => false,
+        'enable_close_topic'                => false,
         'show_description_in_forum'         => false,
         'require_login'                     => false,
         'require_login_posts'               => false,
@@ -1516,39 +1519,45 @@ class AsgarosForum {
                 $menu .= '</a>';
             }
 
-            if ($this->permissions->isModerator('current') && $show_all_buttons) {
-                // Move button.
-                $menu .= '<a class="button button-normal" href="'.$this->get_link('movetopic', $this->current_topic).'">';
-                    $menu .= '<span class="menu-icon fas fa-random"></span>';
-                    $menu .= __('Move', 'asgaros-forum');
-                $menu .= '</a>';
+            if ($show_all_buttons) {
+                if ($this->permissions->isModerator('current')) {
+                    // Move button.
+                    $menu .= '<a class="button button-normal" href="'.$this->get_link('movetopic', $this->current_topic).'">';
+                        $menu .= '<span class="menu-icon fas fa-random"></span>';
+                        $menu .= __('Move', 'asgaros-forum');
+                    $menu .= '</a>';
 
-                if ($this->is_topic_sticky($this->current_topic)) {
-                    // Undo sticky button.
-                    $menu .= '<a class="button button-normal topic-button-unsticky" href="'.$this->get_link('topic', $this->current_topic, array('unsticky_topic' => 1)).'">';
-                        $menu .= '<span class="menu-icon fas fa-thumbtack"></span>';
-                        $menu .= __('Unsticky', 'asgaros-forum');
-                    $menu .= '</a>';
-                } else {
-                    // Sticky button.
-                    $menu .= '<a class="button button-normal topic-button-sticky" href="'.$this->get_link('topic', $this->current_topic, array('sticky_topic' => 1)).'">';
-                        $menu .= '<span class="menu-icon fas fa-thumbtack"></span>';
-                        $menu .= __('Sticky', 'asgaros-forum');
-                    $menu .= '</a>';
+                    if ($this->is_topic_sticky($this->current_topic)) {
+                        // Undo sticky button.
+                        $menu .= '<a class="button button-normal topic-button-unsticky" href="'.$this->get_link('topic', $this->current_topic, array('unsticky_topic' => 1)).'">';
+                            $menu .= '<span class="menu-icon fas fa-thumbtack"></span>';
+                            $menu .= __('Unsticky', 'asgaros-forum');
+                        $menu .= '</a>';
+                    } else {
+                        // Sticky button.
+                        $menu .= '<a class="button button-normal topic-button-sticky" href="'.$this->get_link('topic', $this->current_topic, array('sticky_topic' => 1)).'">';
+                            $menu .= '<span class="menu-icon fas fa-thumbtack"></span>';
+                            $menu .= __('Sticky', 'asgaros-forum');
+                        $menu .= '</a>';
+                    }
                 }
 
                 if ($this->is_topic_closed($this->current_topic)) {
                     // Open button.
-                    $menu .= '<a class="button button-normal" href="'.$this->get_link('topic', $this->current_topic, array('open_topic' => 1)).'">';
-                        $menu .= '<span class="menu-icon fas fa-unlock"></span>';
-                        $menu .= __('Open', 'asgaros-forum');
-                    $menu .= '</a>';
+                    if ($this->permissions->can_open_topic($current_user_id, $this->current_topic)) {
+                        $menu .= '<a class="button button-normal" href="'.$this->get_link('topic', $this->current_topic, array('open_topic' => 1)).'">';
+                            $menu .= '<span class="menu-icon fas fa-unlock"></span>';
+                            $menu .= __('Open', 'asgaros-forum');
+                        $menu .= '</a>';
+                    }
                 } else {
                     // Close button.
-                    $menu .= '<a class="button button-normal" href="'.$this->get_link('topic', $this->current_topic, array('close_topic' => 1)).'">';
-                        $menu .= '<span class="menu-icon fas fa-lock"></span>';
-                        $menu .= __('Close', 'asgaros-forum');
-                    $menu .= '</a>';
+                    if ($this->permissions->can_close_topic($current_user_id, $this->current_topic)) {
+                        $menu .= '<a class="button button-normal" href="'.$this->get_link('topic', $this->current_topic, array('close_topic' => 1)).'">';
+                            $menu .= '<span class="menu-icon fas fa-lock"></span>';
+                            $menu .= __('Close', 'asgaros-forum');
+                        $menu .= '</a>';
+                    }
                 }
             }
         } else {
@@ -1763,12 +1772,20 @@ class AsgarosForum {
     }
 
     function change_status($property) {
-        if ($this->permissions->isModerator('current')) {
-            if ($property == 'closed') {
-                $this->db->update($this->tables->topics, array('closed' => 1), array('id' => $this->current_topic), array('%d'), array('%d'));
-            } else if ($property == 'open') {
-                $this->db->update($this->tables->topics, array('closed' => 0), array('id' => $this->current_topic), array('%d'), array('%d'));
+        $user_id = get_current_user_id();
+
+        if ($property == 'closed') {
+            if (!$this->permissions->can_close_topic($user_id, $this->current_topic)) {
+                return false;
             }
+
+            $this->db->update($this->tables->topics, array('closed' => 1), array('id' => $this->current_topic), array('%d'), array('%d'));
+        } else if ($property == 'open') {
+            if (!$this->permissions->can_open_topic($user_id, $this->current_topic)) {
+                return false;
+            }
+
+            $this->db->update($this->tables->topics, array('closed' => 0), array('id' => $this->current_topic), array('%d'), array('%d'));
         }
     }
 
@@ -2168,11 +2185,15 @@ class AsgarosForum {
     }
 
     public function add_topic_meta_box_setup() {
-        add_action('add_meta_boxes', array($this, 'add_topic_meta_box'));
+        add_action('add_meta_boxes', array($this, 'add_topic_meta_box'), 10, 2);
         add_action('save_post', array($this, 'process_topic_meta_box'), 10, 2);
     }
 
-    public function add_topic_meta_box() {
+    public function add_topic_meta_box($post_type, $post) {
+        if (!current_user_can('publish_post', $post->ID)) {
+            return;
+        }
+
         add_meta_box(
             'asgaros-forum-topic-meta-box',
             __('Create Forum Topic', 'asgaros-forum'),
@@ -2216,6 +2237,10 @@ class AsgarosForum {
     }
 
     public function process_topic_meta_box($post_id, $post) {
+        if (!current_user_can('publish_post', $post_id)) {
+            return;
+        }
+
         if (isset($_POST['add_topic_in_forum']) && $_POST['add_topic_in_forum'] > 0) {
             $this->create_blog_topic($_POST['add_topic_in_forum'], $post);
         }
