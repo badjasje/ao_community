@@ -184,15 +184,9 @@ if($war_type != 'none' && $result == 'success') {
 	if ($killed != true) {
 		$clan_points = 7.8 * log($def_NW_lost/1.4 / 400);
 
-		if($clan_points < 1) {
-			$clan_points = 1;
-		}
-		$clan_points = ceil($clan_points);
+		if($clan_points < 1) $clan_points = 1;
+		$clan_points = min(ceil($clan_points), Settings::get('points_cap')); // points cap
 
-		/* points cap */
-		if($clan_points > $POINTS_CAP) {
-			$clan_points = $POINTS_CAP;
-		}
 		if($war_type == 'incoming') {
 			$clan_points = ceil($clan_points/2);
 		}

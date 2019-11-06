@@ -63,7 +63,6 @@ $SPECIAL_UNITS = array('spyplane', 'thief', 'spy','sniper','saboteur');
 /* points calculation constants */
 $POINTS_NET_WEIGHT = 200;
 $POINTS_UNITS_WEIGHT = 100;
-$POINTS_CAP = 25;
 
 /* land per building */
 $LAND_PER_BUILDING = 20;

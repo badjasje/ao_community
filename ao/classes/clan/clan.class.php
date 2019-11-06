@@ -102,4 +102,29 @@ class Clan extends PostObject {
         if(in_array($user->get('id'), $this->getTrustees())) return true;
         return false;
     }
+
+    public function getWarType($defend_clan_id) {
+        if(empty($defend_clan_id)) return 'none';
+
+        $outgoing_wars = get_posts(
+            array('numberposts'	=> -1, 'post_type' => 'wars', 'meta_query' => array('relation' => 'AND',
+                array('key' => 'declared_on', 'value' => $defend_clan_id, 'compare' => '='),
+                array('key' => 'declared_by', 'value' => $this->get('id'), 'compare' => '='),
+            ))
+        );
+        $outgoing_war = (count($outgoing_wars) > 0);
+
+        $incoming_wars = get_posts(
+            array('numberposts'	=> -1, 'post_type' => 'wars', 'meta_query' => array('relation' => 'AND',
+                array('key' => 'declared_on', 'value' => $this->get('id'), 'compare' => '='),
+                array('key' => 'declared_by', 'value' => $defend_clan_id, 'compare' => '='),
+            ))
+        );
+        $incoming_war = (count($incoming_wars) > 0);
+
+        if ($outgoing_war && $incoming_war) return 'mutual';
+        elseif ($outgoing_war) return 'outgoing';
+        elseif ($incoming_war) return 'incoming';
+        else return 'none';
+    }
 }

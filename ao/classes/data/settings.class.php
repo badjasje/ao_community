@@ -82,6 +82,7 @@ class Settings extends DataObject {
 		    'defense' => 'Defense buildings',
 		    'ams' => 'Anti-Missile System',
         ),
+        'points_cap' => 25, // POINTS_CAP
         'points_kill_outgoing' => 10,
         'points_kill_incoming' => 10,
         'points_kill_mutual' => 20,
