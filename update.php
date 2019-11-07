@@ -29,6 +29,22 @@ function setPageEditor($pageName, $userId) {
 
 if(isset($_GET['secret']) && isset($_GET['v']) && $_GET['secret']=='kutcloudflare') {
 
+    if($_GET['v'] == '4') {
+        $users = get_users(array(
+            'meta_key' => 'last_online', 'orderby' => 'meta_value_num', 'meta_value' => current_time('timestamp') - 1728000, 'meta_compare' => '>'
+        ));
+        foreach ($users as $user) {
+            $userId = $user->data->ID;
+            $userData = get_user_meta($userId);
+            if(isset($userData['display_name'])) {
+                if($user->data->display_name != $userData['display_name'][0]) {
+                    wp_update_user(array('ID' => $userId, 'display_name' => $userData['display_name'][0]));
+                    wtf($user->data->display_name .' renamed to '. $userData['display_name'][0]);
+                }
+            }
+        }
+    }
+
     if($_GET['v'] == '3') {
         $userForRules = (isset($_GET['userForRules']) ? $_GET['userForRules'] : 0);
         if($userForRules > 0) {
