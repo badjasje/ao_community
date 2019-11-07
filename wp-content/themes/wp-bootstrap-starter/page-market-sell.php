@@ -6,7 +6,7 @@ get_header();
 $activeTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'air';
 global $userData;
 global $userId;
-$marketSellMultiplier = (2.2 * 0.5);
+$marketSellMultiplier = Settings::get('unit_sell_multi');
 $units = Units::get();
 include 'count_functions.php';
 
