@@ -185,12 +185,14 @@ if($war_type != 'none' && $result == 'success') {
 		$clan_points = 7.8 * log($def_NW_lost/1.4 / 400);
 
 		if($clan_points < 1) $clan_points = 1;
-		$clan_points = min(ceil($clan_points), Settings::get('points_cap')); // points cap
 
 		if($war_type == 'incoming') {
 			$clan_points = ceil($clan_points/2);
 		}
 	//}
+
+	// Points cap
+	$clan_points = min(ceil($clan_points), Settings::get('points_cap'));
 
 	/* determine points multiplier due to war */
 	if ($killed == true) {
@@ -204,15 +206,17 @@ if($war_type != 'none' && $result == 'success') {
 		$times_killed = $defenderData['times_killed'][0];
 		update_user_meta($target_id, 'times_killed', $times_killed+1);
 
-		if($war_type == 'mutual') $clan_points += Settings::get('points_kill_mutual');
-		elseif($war_type == 'incoming') $clan_points += Settings::get('points_kill_incoming');
-		elseif($war_type == 'outgoing') $clan_points += Settings::get('points_kill_outgoing');
+		if($war_type == 'mutual') $clan_points = Settings::get('points_kill_mutual');
+		elseif($war_type == 'incoming') $clan_points = Settings::get('points_kill_incoming');
+		elseif($war_type == 'outgoing') $clan_points = Settings::get('points_kill_outgoing');
 	}
 
 	// Jaap, points based on clansize
 	$clan_points = scaled_points_to_clansize($clan_points, $userId, $target_id);
 	// Jaap, points based on difference between clanpoints totals
 	$clan_points = scaled_points_to_clanpoints($clan_points, $userId, $target_id);
+
+
 
 	if($debug) debug_var('Clan points', $clan_points);
 }

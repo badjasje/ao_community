@@ -593,6 +593,9 @@ if($war_type != 'none' && $result == 'success') {
 
 	if($debug) debug_var('Clan points2', $clan_points);
 
+	// Points cap
+	$clan_points = min(ceil($clan_points), Settings::get('points_cap'));
+
 	if ($killed == true) {
 		/* add stats */
 		// attacker
@@ -603,9 +606,9 @@ if($war_type != 'none' && $result == 'success') {
 		$times_killed = $defenderData['times_killed'][0];
 		update_user_meta($target_id, 'times_killed', $times_killed+1);
 
-		if($war_type == 'mutual') $clan_points += Settings::get('points_kill_mutual');
-		elseif($war_type == 'incoming') $clan_points += Settings::get('points_kill_incoming');
-		elseif($war_type == 'outgoing') $clan_points += Settings::get('points_kill_outgoing');
+		if($war_type == 'mutual') $clan_points = Settings::get('points_kill_mutual');
+		elseif($war_type == 'incoming') $clan_points = Settings::get('points_kill_incoming');
+		elseif($war_type == 'outgoing') $clan_points = Settings::get('points_kill_outgoing');
 	}
 
 	if($debug) debug_var('Clan points3', $clan_points);
@@ -615,7 +618,6 @@ if($war_type != 'none' && $result == 'success') {
 	if($debug) debug_var('Clan points4', $clan_points);
 	// Jaap, points based on difference between clanpoints totals
 	$clan_points = scaled_points_to_clanpoints($clan_points, $userId, $target_id);
-
 	if($debug) debug_var('Clan points5', $clan_points);
 
 	/* add points */

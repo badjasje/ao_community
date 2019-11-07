@@ -476,7 +476,7 @@ if($war_type != 'none' && $result == 'success') {
 		$unit_points = $def_lostunits_tot/$def_total_units;
 	}
 
-	if ($killed != true) {
+	//if ($killed != true) {
 		/* MEGA logic to make nuke NW account also for province NW, reducing it's reward at very low Networth.
 			The division on NW lost will increase the difference between low and high nw done in terms of pts. HIGHER division = more range
 			The division on the defender NW will decrease the overall points which nukes offer. HIGHER division = less pts */
@@ -492,25 +492,18 @@ if($war_type != 'none' && $result == 'success') {
 			$clan_points = $clan_points/$reductionPc;
 		}
 		/* HAX END */
+	//}
 
-		$clan_points = ceil($clan_points);
-		if($clan_points > 25){
-			$clan_points = 25;
-		}
-	}
+	if($war_type == 'incoming') $clan_points = round($clan_points/2);
 
-	if($war_type == 'incoming'){
-		$clan_points = round($clan_points/2);
-	}
+	// points cap
+	if($clan_points < 1) $clan_points = 1;
+	$clan_points = min(ceil($clan_points), Settings::get('points_cap'));
 
-	//MEGA changed block to stop 1-sided also awarding 50p 20180215 -->
 	if ($killed == true) {
-		if($war_type == 'mutual') $clan_points += Settings::get('points_kill_mutual');
-		elseif($war_type == 'incoming') $clan_points += Settings::get('points_kill_incoming');
-		elseif($war_type == 'outgoing') $clan_points += Settings::get('points_kill_outgoing');
-	}
-	if($clan_points < 1){
-		$clan_points = 1;
+		if($war_type == 'mutual') $clan_points = Settings::get('points_kill_mutual');
+		elseif($war_type == 'incoming') $clan_points = Settings::get('points_kill_incoming');
+		elseif($war_type == 'outgoing') $clan_points = Settings::get('points_kill_outgoing');
 	}
 
 	// Jaap, points based on clansize
