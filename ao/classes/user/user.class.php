@@ -34,6 +34,11 @@ class User extends DbObject {
     }
 
     public function update($key, $value) {
+        if(in_array($key, array('display_name'))) {
+            $_userdata = array('ID'=>$this->id);
+            $_userdata[$key] = $value;
+            wp_update_user($_userdata);
+        }
         if(in_array($key,$this->fields)) update_user_meta($this->id, $key, $value); //@wp
         elseif(isset($this->id)) {
             $_userdata = array('ID'=>$this->id);
@@ -183,6 +188,7 @@ class User extends DbObject {
                 $args['meta_query'][] = array('key' => 'attacker_id', 'value' => $this->id, 'compare' => '=');
             break;
             case 'global':
+                $args['post_type'] = 'event_global';
                 $clan = (!empty($this->get('clan_id_user')) ? Clan::make($this->get('clan_id_user')) : false);
                 if(empty($clan->id)) return array();
                 $members = $clan->getMembers();

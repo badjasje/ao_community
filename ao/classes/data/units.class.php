@@ -269,16 +269,16 @@ class Units extends DataObject {
             'life'			=>	28
         ),
         'paratrooper' 		=> array(
-            'price'			=>	'1250',
+            'price'			=>	'880',
             'networth'		=>	11,
             'normalname'	=>	'G.I',
             'attacks'		=>  array('bld'),
             'defends'		=>  array(),
-            'attack'		=>	85,
+            'attack'		=>	60,
             'type'			=>	'inf',
             'sectype'		=>	'bk',
             'attacktype'	=>	array('ground','regular'),
-            'life'			=>	63
+            'life'			=>	41
         ),
         'armoured' 		=> array(
             'price'			=>	'660',
