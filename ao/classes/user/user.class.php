@@ -188,6 +188,7 @@ class User extends DbObject {
                 $args['meta_query'][] = array('key' => 'attacker_id', 'value' => $this->id, 'compare' => '=');
             break;
             case 'global':
+                $args['post_type'] = 'event_global';
                 $clan = (!empty($this->get('clan_id_user')) ? Clan::make($this->get('clan_id_user')) : false);
                 if(empty($clan->id)) return array();
                 $members = $clan->getMembers();
