@@ -15,7 +15,7 @@ function ajax_update($province, $return) {
         return array('status' => 'Invalid email address');
     }
     $email_id = email_exists($email);
-    if($email_id != $user->get('id')) {
+    if($email_id != false && $email_id != $user->get('id')) {
         return array('status' => 'Email address already used');
     }
 
