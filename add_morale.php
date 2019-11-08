@@ -53,7 +53,7 @@ function AddMorale($userId, $moraleIncome) {
 
         if ($currentMorale < 100) {
             update_user_meta($userId, 'morale', min($currentMorale + $moraleToAdd, 100));
-            if($currentMorale+$moraleToAdd >= 100) fcm_send_notification($userId, 'maxmorale');
+            if($currentMorale+$moraleToAdd >= 100 && $userData['status'][0]=='online') fcm_send_notification($userId, 'maxmorale');
             else update_user_meta($userId, 'max_morale_notified', 'no');
         }
 
