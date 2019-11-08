@@ -51,7 +51,7 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 					<div class="col-md-3 celBlock">
 						<? if($research['level'] < $research['maxlevel']) { ?>
 							<span class="hover-tip" data-toggle="tooltip" data-original-title="<?=$research['nw']?> networth added when completing this research" data-placement="bottom">
-								<span class="mobileSpan">Time: </span>
+								<span class="mobileSpan">Cost: </span>
 								<?=Format::plural($research['duration'], 'hour')?>, <?=Format::plural($research['turns'], 'turn')?>
 								<i class="fa fa-info-circle" aria-hidden="true"></i>
 							</span>
