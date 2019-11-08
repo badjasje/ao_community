@@ -50,7 +50,7 @@ function ajax_invite($province, $return) {
                     'title' => 'Clan member joined a clan: ' . $province->get('id'),
                     'author' => $clanLeader,
                     'type' => 'user_change',
-                    'post_type' => 'event_global',
+                    'send' => 'global',
                     'outcome' => 'joined',
                     'attacker_id' => $clanLeader,
                     'defender_id' => $province->get('id'),

@@ -177,8 +177,8 @@ class Event extends PostObject {
         if(!is_array($notify)) $notify = array($notify);
         foreach($notify as $member_id) {
             $member = Province::make($member_id);
-            if(!!$member && $args['post_type']=='event_local') $member->update('new_events', $member->get('new_events') + 1);
-            if(!!$member && $args['post_type']=='event_global') $member->update('new_global_events', $member->get('new_global_events') + 1);
+            if(isset($data['send']) && $data['send']=='global') $member->update('new_global_events', $member->get('new_global_events') + 1);
+            else  $member->update('new_events', $member->get('new_events') + 1);
         }
 
         return Event::make($eventId);
