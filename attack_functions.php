@@ -15,8 +15,8 @@ include('constants.php');
 function calculate_pts($bld_damage, $unit_damage, $aggressive_multi) {
     global $debug;
 
-    $unit_damage = $unit_damage * 1.1; // We rather have UK than BK
-    $bld_damage = $bld_damage * 1;
+    $unit_damage = $unit_damage * 1.2; // We rather have UK than BK
+    $bld_damage = $bld_damage * 0.6;
     $damage = $bld_damage + $unit_damage;
     if($debug) debug_var('damage', $damage);
 
