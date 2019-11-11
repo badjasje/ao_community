@@ -1,6 +1,6 @@
 <?php
 $missiles = Missiles::get();
-include("../../../../../building_array.php");
+$buildings = Buildings::get();
 $units = Units::get();
 
 $winner_ID = $userId;

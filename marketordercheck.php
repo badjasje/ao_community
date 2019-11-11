@@ -2,7 +2,7 @@
 require(dirname(__FILE__) . '/wp-load.php');
 if (get_field('game_status', 'option') != 'Live') { exit; }
 
-    include 'building_array.php';
+    $buildings = Buildings::get();
 
     $timestamp = current_time('timestamp');
 

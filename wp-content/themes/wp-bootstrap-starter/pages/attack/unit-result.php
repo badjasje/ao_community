@@ -1,6 +1,6 @@
 <?php
 $units = Units::get();
-include(ABSPATH."/building_array.php");
+$buildings = Buildings::get();
 
 $defender_networth_lost = 0;
 $defender_building_NW_lost = 0;

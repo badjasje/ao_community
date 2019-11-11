@@ -179,7 +179,7 @@ function create_defender_array($target_id, $type_array) {
 
     global $debug;
     $units = Units::get();
-    include('building_array.php');
+    $buildings = Buildings::get(); // @todo: get it from province to automatically get life with ppe-research and/or defensive startbonus
     include('constants.php');
 
     // Check for starting bonus
@@ -269,8 +269,6 @@ function create_defender_array($target_id, $type_array) {
 */
 function create_attacker_array($attack_array) {
     $units = Units::get();
-    include('building_array.php');
-
     $stat_array = array();
 
     /* calculate unit stats */
@@ -327,7 +325,7 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
     global $overall_bld_total;
     global $debug;
     $units = Units::get();
-    include('building_array.php');
+    $buildings = Buildings::get(); // @todo: get it from province to automatically get life with ppe-research and/or defensive startbonus
     include('constants.php');
 
     // Check for starting bonus
@@ -378,7 +376,7 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
 
             /* moved to kill code */
             $dice_roll = attack_dice_roll();
-            $db_atk_power = $bld_count * $attack_power * 2.38 * 0.8; // 2.38 to counter reduction factors implemented. 0.8 to decrease strength a bit
+            $db_atk_power = $bld_count * $attack_power * 1.904;
             $attack_array[$target_type] += $db_atk_power;
         }
 
@@ -441,7 +439,7 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
 function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray) {
     global $debug;
     $units = Units::get();
-    include('building_array.php');
+    $buildings = Buildings::get(); // @todo: get it from province to automatically get life with ppe-research and/or defensive startbonus
     include('constants.php');
 
     // Check for starting bonus
@@ -558,7 +556,9 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
 		$power_usage : % power used
 */
 function calculate_power($target_id) {
-    include('building_array.php');
+
+    $buildings = Buildings::get();  // @todo: get it from province to automatically get life with ppe-research
+
     /* check if target has PPE researched */
     $PPE_level = get_user_meta($target_id, 'level_powerplant_efficiency')[0];
     $PPE_multi = 1;
@@ -621,7 +621,7 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
     global $userId;
     global $maintarget;
     $units = Units::get();
-    include('building_array.php');
+    $buildings = Buildings::get(); // @todo: get it from province to automatically get life with ppe-research and/or defensive startbonus
     include('constants.php');
 
     // Check for starting bonus
@@ -737,7 +737,7 @@ function kill_player($user_id) {
 */
 function calculate_losses($damage_array) {
     $units = Units::get();
-    include('building_array.php');
+    $buildings = Buildings::get(); // Using original values, not discounted from PPE-research or Defensive startbonus?
 
     $losses = array();
     $networth_damage = 0;

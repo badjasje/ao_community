@@ -13,7 +13,7 @@ function count_tot_units($user_id) {
 }
 
 function count_tot_buildings($user_id) {
-    include 'building_array.php';
+    $buildings = Buildings::get();
     $buildings_owned = 0;
     foreach ($buildings as $key => $order) {
         $buildings_owned += get_user_meta($user_id, $key)[0];

@@ -1,6 +1,6 @@
 <?php
 $units = Units::get();
-include("../../../../../building_array.php");
+$buildings = Buildings::get();
 
 $clan_defender_id = $defenderData['clan_id_user'][0];
 $clan_ID = $userData['clan_id_user'][0];
