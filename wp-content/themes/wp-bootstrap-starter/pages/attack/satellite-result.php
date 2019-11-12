@@ -1,6 +1,6 @@
 <?php
-include("../../../../../building_array.php");
 $units = Units::get();
+$buildings = Buildings::get();
 $satellites = Satellites::get();
 
 $target_id = $_POST['target_id'];

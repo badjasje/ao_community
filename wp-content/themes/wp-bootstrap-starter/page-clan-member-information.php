@@ -26,7 +26,7 @@ $ct_4 = $clanData['ct_4'][0];
 include('count_functions.php');
 $researches = Researches::get();
 $units = Units::get();
-include('building_array.php');
+$buildings = Buildings::get();
 $rates = Bank::getAllRates();
 ?>
 

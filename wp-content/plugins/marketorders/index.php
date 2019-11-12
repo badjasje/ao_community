@@ -679,7 +679,7 @@ function count_all_stats($user_ID) {
 
         $units = Units::get();
         $missiles = Missiles::get();
-        include ABSPATH . 'building_array.php';
+        $buildings = Buildings::get();
         $researches = Researches::get();
         include ABSPATH . 'constants.php';
         $satellites = Satellites::get();
@@ -903,7 +903,7 @@ function custom_award_column($column, $post_id) {
 
 add_shortcode('buildings-manual', 'display_all_buildings');
 function display_all_buildings() {
-    include 'building_array.php';
+    $buildings = Buildings::get();
     $allBDS = '<div class="row">';
     foreach ($buildings as $building) {
         $name = $building['normalname'];

@@ -2,8 +2,6 @@
 require(dirname(__FILE__) . '/wp-load.php');
 if (get_field('game_status', 'option') != 'Live') { exit; }
 
-    include 'building_array.php';
-
     $timestamp = current_time('timestamp');
 
     $args = array();
@@ -15,147 +13,54 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
     $users = get_users($args);
     foreach ($users as $user) {
         $user_ID = $user->ID;
-        $userData = get_user_meta($user_ID);
+        $province = Province::make($user_ID);
 
         // Check power level
-        $power = isset($userData['power'][0]) ? $userData['power'][0] : 0;
-        $plants = (isset($userData['powerplant'][0]) ? $userData['powerplant'][0] : 0);
-        $plants += (isset($userData['advancedpowerplant'][0]) ? $userData['advancedpowerplant'][0] : 0);
+        $power = $province->getPower();
+        $buildings = $province->getBuildings();
+        $plants = $buildings['powerplant']['num'] + $buildings['advancedpowerplant']['num'];
         if($plants > 0 && $power >= 100) {
-            fcm_send_notification($user_ID, 'lowpower', $user_ID);
+            $province->notify('lowpower', $user_ID);
         }
         if($plants > 0 && $power > 50) {
-            fcm_send_notification($user_ID, 'highpower', $user_ID);
+            $province->notify('highpower', $user_ID);
         }
 
-        // Count total buildings
-        $total = 0;
-        foreach($buildings as $key => $value) {
-            $num = isset($userData[$key][0]) ? $userData[$key][0] : 0;
-            if($num > 0) $total += $num;
-        }
-        if($total > 0 && $total < 50) {
-            fcm_send_notification($user_ID, 'buildings', $user_ID);
+        // Total buildings error
+        if($province->getBuildingsNum() < 50) {
+            $province->notify('buildings', $user_ID);
         }
 
         /* sat crash */
-        $sat_owned = $userData['sat_owned'][0];
-        $sat_endlife = 0;
-		$sat_endlife = !empty( $userData['sat_endlife'][0]) ?  $userData['sat_endlife'][0] : 0;
-
-        $timeleft = $sat_endlife-$timestamp;
-        if ($timeleft <= 0 && $sat_owned != '0') {
-            update_user_meta($user_ID, 'sat_owned', 0);
-            update_user_meta($user_ID, 'sat_endlife', 0);
-
-            $args = array(
-                'post_title'    => 'Sat crash: '.$user_ID,
-                'post_status'   => 'publish',
-                'post_type'     => 'event_local',
-                'post_author'   => $user_ID
-            );
-            $new_event_id = wp_insert_post($args);
-            update_field('attacktype', 'sat_crash', $new_event_id);
-            update_field('attacker_id', 0, $new_event_id);
-            update_field('defender_id', $user_ID, $new_event_id);
-            update_field('time_attacked', $timestamp, $new_event_id);
-
-            /* update event count */
-            $event_count = $userData['new_events'][0];
-            update_user_meta($user_ID, 'new_events', $event_count + 1);
-            fcm_send_notification($user_ID,'satcrash',$user_ID);
-        } // End sat crash
-
-        /* deactivate stealth sat */
-        $stealth_sat_time = 0;
-		$stealth_sat_time = isset($userData['stealth_sat_time'][0]) ?  $userData['stealth_sat_time'][0] : 0;
-		$stealth_sat_time = !empty( $userData['stealth_sat_time'][0]) ?  $userData['stealth_sat_time'][0] : 0;
-        $timeleft = $stealth_sat_time-$timestamp;
-        if ($timeleft <= 0) {
-            update_user_meta($user_ID, 'stealth_sat_status', 'inactive');
-        }
-
-        $args = array(
-            'posts_per_page'   => -1,
-            'author'            => $user_ID,
-            'post_type'        => 'research',
-        );
-        $researches = get_posts($args);
-        foreach ($researches as $research) {
-            $researchtime_left = $research->post_title-$timestamp;
-            $research_in_progress = $research->post_content;
-
-            /* Check research time left */
-            if ($researchtime_left <= 0) {
-
-                /* Update user */
-                update_user_meta($user_ID, 'research_in_progress', 0);
-                $current_level = get_user_meta($user_ID, 'level_'.$research_in_progress);
-                update_user_meta($user_ID, 'level_'.$research_in_progress, $current_level[0]+1);
-				fcm_send_notification($user_ID,'research',$user_ID);
-
-                /* Create research event */
-                $args = array(
-                    'post_title'    => 'Research done for '.$user_ID,
-                    'post_status'   => 'publish',
-                    'post_type'     => 'event_local',
-                    'post_author'   => $user_ID
-                );
-                $new_event_id = wp_insert_post($args);
-                update_field('outcome', $research_in_progress, $new_event_id);
-                update_field('attacktype', 'research_ready', $new_event_id);
-
-                update_user_meta($user_ID, 'new_events', get_user_meta($user_ID, 'new_events')[0]+1);
-                update_field('defender_id', $user_ID, $new_event_id);
-                update_field('attacker_id', $user_ID, $new_event_id);
-                update_field('time_attacked', $timestamp, $new_event_id);
-
-                /* Delete research post */
-                wp_trash_post($research->ID);
-
-                $queued_research = get_user_meta($user_ID, 'queued_research', true);
-
-                if (!empty($queued_research) || $queued_research != 0) {
-                    $researches = Researches::get();
-                    $time = $researches[$queued_research]['duration'];
-                    $args = array(
-                        'post_title'    => $timestamp+($time*60*60),  /* Receive research timestamp */
-                        'post_status'   => 'publish',
-                        'post_content'  => $queued_research,
-                        'post_type'     => 'research',
-                        'post_author'   => $user_ID
-                    );
-                    $new_research_id = wp_insert_post($args);
-
-                    update_user_meta($user_ID, 'research_in_progress', $queued_research);
-                    update_user_meta($user_ID, 'queued_research', 0);
-                }
+        $sat_owned = $province->get('sat_owned');
+        if(!empty($sat_owned)) {
+            $sat = $province->getSatellites($sat_owned);
+            $timeleft = (!!$sat && $sat['num'] > 0 ? $sat['timeleft'] : 0);
+            if ($timeleft <= 0) {
+                $province->crashSatellite($sat_owned);
+                $province->notify('satcrash', $user_ID);
             }
         }
 
-        $status = get_user_meta($user_ID, 'status');
-        if ($status[0] == 'nukeprotection') {
-            $nuke_protection_timestamp = get_user_meta($user_ID, 'nuke_protection_timestamp');
-            $nuke_protection_timeleft = $nuke_protection_timestamp[0]-$timestamp;
+        /* deactivate stealth sat */
+        if(($province->get('stealth_sat_time') - $timestamp) <= 0) {
+            $province->update('stealth_sat_status', 'inactive');
+        }
 
-            if ($nuke_protection_timeleft < 0) {
-                update_user_meta($user_ID, 'status', 'online');
-                fcm_send_notification($user_ID,'nukeprotectremoved',$user_ID);
+        /* finish research */
+        if($research = $province->getCurrentResearch()) {
+            if($research->timeLeft() <= 0) $research->end(); // starts queued research too, sends notification
+        }
 
-                /* Create nuke protection event */
-                $args = array(
-                    'post_title'    => 'Nukeprotection removed for '.$user_ID,
-                    'post_status'   => 'publish',
-                    'post_type'     => 'event_local',
-                    'post_author'   => $user_ID
-                );
-
-                $new_event_id = wp_insert_post($args);
-                update_field('attacktype', 'nukeprotection', $new_event_id);
-                update_user_meta($user_ID, 'new_events', get_user_meta($user_ID, 'new_events')[0]+1);
-                update_field('defender_id', $user_ID, $new_event_id);
-                update_field('attacker_id', $user_ID, $new_event_id);
-                update_field('time_attacked', $timestamp, $new_event_id);
+        /* remove NP */
+        if ($province->isProtected()) {
+            if(($province->get('nuke_protection_timestamp') - $timestamp) < 0) {
+                $province->update('status', 'online');
+                $province->notify('nukeprotectremoved', $user_ID);
+                Event::create(array(
+                    'title' => 'Nukeprotection removed for '.$user_ID, 'author' => $user_ID, 'type' => 'nukeprotection',
+                    'defender_id' => $user_ID, 'attacker_id' => $user_ID
+                ), $this->get('id'));
             }
         }
     }

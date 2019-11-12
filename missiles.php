@@ -155,7 +155,7 @@ foreach ($missiles as $key => $order) {
 
     $normalname = $order['normalname'];
     $price = $order['price'];
-    $ordered_missiles = ceil($_POST["$key"]);
+    $ordered_missiles = (isset($_POST["$key"]) ? ceil($_POST["$key"]) : 0);
     $total_missiles_ordered+=$ordered_missiles;
 
     if ($ordered_missiles > 0) {

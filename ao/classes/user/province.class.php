@@ -719,6 +719,19 @@ class Province extends DbObject {
         return (!!Satellites::get($sat) ? 1 : 0);
     }
 
+    public function crashSatellite($key,$cost=0) {
+
+        $this->update('sat_owned', 0);
+        $this->update('sat_endlife', 0);
+        $this->update('stealth_sat_status', 0);
+        $this->update('stealth_sat_time', 0);
+        $this->update('money', $this->getMoney() - $demo_cost);
+        Event::create(array(
+            'title' => 'Sat crash: ' . $this->get('id'), 'type' => 'sat_crash', 'attacker_id' => 0, 'defender_id' => $this->get('id')
+        ), $this->get('id'));
+        return true;
+    }
+
 
     /**
      * Get Clan
@@ -878,6 +891,10 @@ class Province extends DbObject {
         else $newValue = $moneyThieved-20000000;
         $this->update('money_gained_thieving', $newValue);
         return true;
+    }
+
+    public function notify($type, $attacker=0) {
+        fcm_send_notification($this->get('id'), $type, $attacker);
     }
 
     /*

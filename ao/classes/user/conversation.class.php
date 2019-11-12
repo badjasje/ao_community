@@ -38,7 +38,7 @@ class Conversation extends PostObject {
         add_row('field_5b5ef246154f0', $row, $this->get('id'));
         $receiver = Province::make($to);
         $receiver->update('new_messages', $receiver->get('new_messages')+1);
-        fcm_send_notification($to, 'message', $from);
+        $receiver->notify('message', $from);
     }
 
     function with($userId) { // Convo with the other user

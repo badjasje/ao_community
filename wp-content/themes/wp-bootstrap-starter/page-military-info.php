@@ -29,7 +29,7 @@ if(!in_array($viewerID, $clanmembers)){
 }
 
 $units = Units::get();
-include 'building_array.php';
+$buildings = Buildings::get();
 $missiles = Missiles::get();
 $rates = Bank::getAllRates();
 $researches = Researches::get();

@@ -36,17 +36,27 @@ class Research extends PostObject {
     // Used by research-cronjob and devfunds ajax call
     public function end() {
         // Research is done via user-meta and seperate wp-posts
-        $province = Province::make($this->get('province_id'));
+        $user_ID = $this->get('province_id');
+        $province = Province::make($user_ID);
         $current_level = intval($province->get('level_'.$this->get('key')));
+
         $province->update('research_in_progress', 0);
         $province->update('level_'.$this->get('key'), min( ($current_level+1), $this->get('maxlevel')));
+        $province->notify('research', $user_ID);
         wp_trash_post($this->get('ID'));
+
+        // Let user know
+        Event::create(array(
+            'title' => 'Research done for '.$user_ID, 'author' => $user_ID, 'outcome' => $this->get('key'), 'type' => 'research_ready',
+            'defender_id' => $user_ID, 'attacker_id' => $user_ID
+        ), $user_ID);
+
         $key = $this->get('key');
         Hooks::trigger('set_province_research', null, $key, $province);
 
         // If a research is queued, we start it here
         $queued_research = $province->get('queued_research'); // returns research key
-        if (!empty($queued_research) && $research = Researches::get($queued_research)) {
+        if (!empty($queued_research) && $research = $province->getResearches($queued_research)) {
             $time = $research['duration'];
             $new_research_id = wp_insert_post(array(
                 'post_title' => current_time('timestamp') + ($time*60*60), 'post_status' => 'publish',

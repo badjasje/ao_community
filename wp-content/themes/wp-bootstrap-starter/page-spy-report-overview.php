@@ -36,7 +36,7 @@ $args = array(
 $clans = get_posts($args);
 
 $units = Units::get();
-include('building_array.php');
+$buildings = Buildings::get();
 ?>
 <div class="row pageRow">
 

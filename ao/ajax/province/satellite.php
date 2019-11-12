@@ -47,15 +47,7 @@ function ajax_satellite_demolish($province) {
     if($demo_cost > $province->getMoney()) {
         return array('status' => 'Insufficient funds');
     }
-
-    $province->update('sat_owned', 0);
-    $province->update('sat_endlife', 0);
-    $province->update('stealth_sat_status', 0);
-    $province->update('stealth_sat_time', 0);
-    $province->update('money', $province->getMoney() - $demo_cost);
-    Event::create(array(
-        'title' => 'Sat crash: ' . $province->get('id'), 'type' => 'sat_crash', 'attacker_id' => 0, 'defender_id' => $province->get('id')
-    ));
+    $province->crashSatellite($sat, $demo_cost);
     return array('success' => true, 'status' => $satellite['name'] . ' demolished');
 }
 
