@@ -53,7 +53,7 @@ class Event extends PostObject {
             'title' => array(
                 'incoming' => '{attacker} launched a {missile_name} and {youdied}{shotdown}{missed}{hit}.', //you shot down the missile
                 'outgoing' => 'You launched a missile at {defender} and {shotdown}{killed}{missed}{hit}.',
-                'global' => '{attacker} launched a {missile_name} at {defender} and {shotdown}{missed}{hit}.{clan_points}', //was shotdown
+                'global' => '{attacker} launched a {missile_name} at {defender} and {shotdown}{missed}{hit}{sabotaged}.{clan_points}', //was shotdown
             ),
             'body' => '{attack_body}'
         ),
@@ -442,6 +442,7 @@ class Event extends PostObject {
             }
 
             // Sabotaged silo's
+            $replace['{sabotaged}'] = (empty($defender_id) ? ' it was sabotaged' : '');
             if(empty($defender_id)) $replace['{defender}'] = 'Someone';
         }
 
