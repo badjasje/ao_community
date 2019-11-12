@@ -129,8 +129,8 @@ update_user_meta($userId, 'turns', $turns - 3);
 update_user_meta($userId, $key.'_owned',$owned_miss-1);
 
 // Check if silos have been sabotaged
-$silo1Status = $attackerData['silo_disable_1'][0];
-$silo2Status = $attackerData['silo_disable_2'][0];
+$silo1Status = (isset($attackerData['silo_disable_1']) ? $attackerData['silo_disable_1'][0] : '');
+$silo2Status = (isset($attackerData['silo_disable_2']) ? $attackerData['silo_disable_2'][0] : '');
 $disabled = false;
 
 if($silo1Status == 'active' || $silo2Status == 'active'){
@@ -393,7 +393,7 @@ if($result == 'success'){
 	/* add stats */
 
 	// attacker
-	$missiles_hit = $attackerData['missiles_hit'][0];
+	$missiles_hit = (isset($attackerData['missiles_hit']) ? $attackerData['missiles_hit'][0] : 0);
 	update_user_meta($userId, 'missiles_hit', $missiles_hit+1);
 
 	// defender
@@ -527,7 +527,7 @@ if($result == 'success'):
 
 	/* add stats */
 	// attacker
-	$nw_damage_missiles = $attackerData['nw_damage_missiles'][0];
+	$nw_damage_missiles = (isset($attackerData['nw_damage_missiles']) ? $attackerData['nw_damage_missiles'][0] : 0);
 	update_user_meta($userId, 'nw_damage_missiles', $nw_damage_missiles+$def_NW_lost);
 
 
@@ -734,57 +734,58 @@ $warcheck = get_posts(
 		),
 	)
 );
-if(is_array($warcheck)) {
+if(is_array($warcheck) && count($warcheck)) {
 	$warstatID = get_post_meta($warcheck[0]->ID, 'war_array_id', true);
+
+	// Update war stats array for defender clan
+	$war_array_def = maybe_unserialize(get_post_meta($defender_clan_ID, 'war_array', true));
+
+	if(!is_array($war_array_def)){
+		$war_array_def = array();
+	}
+
+
+	$war_array_def[$warstatID]['nw_dmg_rec'] += $def_NW_lost;
+	if(!isset($war_array_def[$warstatID]['missiles_received'])) $war_array_def[$warstatID]['missiles_received'] = 0;
+	$war_array_def[$warstatID]['missiles_received'] += 1;
+	if($result == 'success'){
+		if(!isset($war_array_def[$warstatID]['missiles_hit_def'])) $war_array_def[$warstatID]['missiles_hit_def'] = 0;
+		$war_array_def[$warstatID]['missiles_hit_def'] += 1;
+	}
+
+	if($killed == true){
+		$war_array_def[$warstatID]['deaths'] += 1;
+	}
+
+	$war_array_def[$warstatID]['bds_lost'] += $def_lostbuildings_tot;
+	$war_array_def[$warstatID]['units_lost'] += $def_lostunits_tot;
+
+	update_post_meta($defender_clan_ID, 'war_array', maybe_serialize($war_array_def));
+
+	// Update war stats array for attacker clan
+	$war_array_att = maybe_unserialize(get_post_meta($attacker_clan_ID, 'war_array', true));
+
+	if(!is_array($war_array_att)){
+		$war_array_att = array();
+	}
+
+	$war_array_att[$warstatID]['nw_dmg_done'] += $def_NW_lost;
+	$war_array_att[$warstatID]['clan_points'] += $clan_points;
+	if(!isset($war_array_def[$warstatID]['missiles_sent'])) $war_array_def[$warstatID]['missiles_sent'] = 0;
+	$war_array_att[$warstatID]['missiles_sent'] += 1;
+	if($result == 'success'){
+		if(!isset($war_array_def[$warstatID]['missiles_hit_att'])) $war_array_def[$warstatID]['missiles_hit_att'] = 0;
+		$war_array_att[$warstatID]['missiles_hit_att'] += 1;
+	}
+	$war_array_att[$warstatID]['bds_killed'] += $def_lostbuildings_tot;
+	$war_array_att[$warstatID]['units_killed'] += $def_lostunits_tot;
+
+	if($killed == true){
+		$war_array_def[$warstatID]['kills'] += 1;
+	}
+
+	update_post_meta($attacker_clan_ID, 'war_array', maybe_serialize($war_array_att));
 }
-
-// Update war stats array for defender clan
-$war_array_def = maybe_unserialize(get_post_meta($defender_clan_ID, 'war_array', true));
-
-if(!is_array($war_array_def)){
-	$war_array_def = array();
-}
-
-$war_array_def[$warstatID]['nw_dmg_rec'] += $def_NW_lost;
-if(!isset($war_array_def[$warstatID]['missiles_received'])) $war_array_def[$warstatID]['missiles_received'] = 0;
-$war_array_def[$warstatID]['missiles_received'] += 1;
-if($result == 'success'){
-	if(!isset($war_array_def[$warstatID]['missiles_hit_def'])) $war_array_def[$warstatID]['missiles_hit_def'] = 0;
-	$war_array_def[$warstatID]['missiles_hit_def'] += 1;
-}
-
-if($killed == true){
-	$war_array_def[$warstatID]['deaths'] += 1;
-}
-
-$war_array_def[$warstatID]['bds_lost'] += $def_lostbuildings_tot;
-$war_array_def[$warstatID]['units_lost'] += $def_lostunits_tot;
-
-update_post_meta($defender_clan_ID, 'war_array', maybe_serialize($war_array_def));
-
-// Update war stats array for attacker clan
-$war_array_att = maybe_unserialize(get_post_meta($attacker_clan_ID, 'war_array', true));
-
-if(!is_array($war_array_att)){
-	$war_array_att = array();
-}
-
-$war_array_att[$warstatID]['nw_dmg_done'] += $def_NW_lost;
-$war_array_att[$warstatID]['clan_points'] += $clan_points;
-if(!isset($war_array_def[$warstatID]['missiles_sent'])) $war_array_def[$warstatID]['missiles_sent'] = 0;
-$war_array_att[$warstatID]['missiles_sent'] += 1;
-if($result == 'success'){
-	if(!isset($war_array_def[$warstatID]['missiles_hit_att'])) $war_array_def[$warstatID]['missiles_hit_att'] = 0;
-	$war_array_att[$warstatID]['missiles_hit_att'] += 1;
-}
-$war_array_att[$warstatID]['bds_killed'] += $def_lostbuildings_tot;
-$war_array_att[$warstatID]['units_killed'] += $def_lostunits_tot;
-
-if($killed == true){
-	$war_array_def[$warstatID]['kills'] += 1;
-}
-
-update_post_meta($attacker_clan_ID, 'war_array', maybe_serialize($war_array_att));
 
 count_all_stats($target_id);
 count_all_stats($userId);
