@@ -161,56 +161,58 @@ $wars_by = get_posts(array(
 	</div>
 
 	<?php
-	foreach ($war_array as $key => $war) {
-		if(!is_array($war) || !isset($war['receiver_id']) || empty($war['receiver_id'])) continue;
-		$aDiff = array_diff(array($war['declarer_id'],$war['receiver_id']), array($declarer_clan_ID));
-		$warred_clan =  array_shift($aDiff);
-		?>
-		<div class="row unitRow fw-row" style="background-color: rgba(<?php echo $backColorStats;?>, <?php echo 0.6-($count/25);?>);">
-			<div class="col-md-3 celBlock nameBlock veh_heading">
-				<span class="columnDataLeft">War against</span>
-				<span class="columnDataRight">
-					<a href="<?php echo get_the_permalink($warred_clan);?>"><?php echo get_the_title($warred_clan);?></a>
-				</span>
-			</div>
+	if(is_array($war_array) && count($war_array)) {
+		foreach ($war_array as $key => $war) {
+			if(!is_array($war) || !isset($war['receiver_id']) || empty($war['receiver_id'])) continue;
+			$aDiff = array_diff(array($war['declarer_id'],$war['receiver_id']), array($declarer_clan_ID));
+			$warred_clan =  array_shift($aDiff);
+			?>
+			<div class="row unitRow fw-row" style="background-color: rgba(<?php echo $backColorStats;?>, <?php echo 0.6-($count/25);?>);">
+				<div class="col-md-3 celBlock nameBlock veh_heading">
+					<span class="columnDataLeft">War against</span>
+					<span class="columnDataRight">
+						<a href="<?php echo get_the_permalink($warred_clan);?>"><?php echo get_the_title($warred_clan);?></a>
+					</span>
+				</div>
 
-			<div class="col celBlock">
-				<span class="columnDataLeft">Date</span>
-				<span class="columnDataRight">
-					<?php echo date('H:i | d-m', $war['date']);?>
-				</span>
-			</div>
+				<div class="col celBlock">
+					<span class="columnDataLeft">Date</span>
+					<span class="columnDataRight">
+						<?php echo date('H:i | d-m', $war['date']);?>
+					</span>
+				</div>
 
-			<div class="col celBlock">
-				<span class="columnDataLeft">Cooldown</span>
-				<span class="columnDataRight">
-				<?php if(isset($cooldownlist[$warred_clan]) && $cooldownlist[$warred_clan] > $timestamp) {
-			 		echo human_time_diff($timestamp, $cooldownlist[$warred_clan]);
-				} ?>
-				</span>
-			</div>
+				<div class="col celBlock">
+					<span class="columnDataLeft">Cooldown</span>
+					<span class="columnDataRight">
+					<?php if(isset($cooldownlist[$warred_clan]) && $cooldownlist[$warred_clan] > $timestamp) {
+						echo human_time_diff($timestamp, $cooldownlist[$warred_clan]);
+					} ?>
+					</span>
+				</div>
 
-			<div class="col-md-3 celBlock">
-				<span class="columnDataLeft">First declared</span>
-				<span class="columnDataRight">
-					<a href="<?php echo get_the_permalink($war['declarer_id']);?>"><?php echo get_the_title($war['declarer_id']);?></a>
-				</span>
-			</div>
+				<div class="col-md-3 celBlock">
+					<span class="columnDataLeft">First declared</span>
+					<span class="columnDataRight">
+						<a href="<?php echo get_the_permalink($war['declarer_id']);?>"><?php echo get_the_title($war['declarer_id']);?></a>
+					</span>
+				</div>
 
-			<div class="col celBlock">
-				<span class="columnDataLeft">Mutual?</span>
-				<span class="columnDataRight">
-					<?=($war['mutual_date']!=0?'Yes':'No')?>
-				</span>
-			</div>
+				<div class="col celBlock">
+					<span class="columnDataLeft">Mutual?</span>
+					<span class="columnDataRight">
+						<?=($war['mutual_date']!=0?'Yes':'No')?>
+					</span>
+				</div>
 
-			<div class="col-md-2 celBlock" style="padding:0px;">
-				<a href="/war-statistics/?id=<?php echo $key;?>">
-					<button class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);" type="submit"><i class="fa fa-chart-line" aria-hidden="true"></i> &nbsp;View statistics</button>
-				</a>
+				<div class="col-md-2 celBlock" style="padding:0px;">
+					<a href="/war-statistics/?id=<?php echo $key;?>">
+						<button class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);" type="submit"><i class="fa fa-chart-line" aria-hidden="true"></i> &nbsp;View statistics</button>
+					</a>
+				</div>
 			</div>
-		</div>
-		<?php
+			<?php
+		}
 	}
 	?>
 
