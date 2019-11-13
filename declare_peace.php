@@ -41,7 +41,7 @@ $ct_2 = get_post_meta($declarer_clan_ID, 'ct_2', true);
 $ct_3 = get_post_meta($declarer_clan_ID, 'ct_3', true);
 $ct_4 = get_post_meta($declarer_clan_ID, 'ct_4', true);
 
-if ($declarer_ID == $clan_leader || $ct_1 || $ct_2 || $ct_3 || $ct_4) {
+if (in_array($declarer_ID, array($clan_leader, $ct_1, $ct_2, $ct_3, $ct_4))) {
     $declared_on = get_post_meta($_POST['war'], 'declared_on', true);
     $def_clan_leader = get_post_meta($declared_on, 'clan_leader', true);
 
