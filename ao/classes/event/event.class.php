@@ -60,9 +60,9 @@ class Event extends PostObject {
         'satellite' => array(
             'icon' => 'fas fa-satellite', 'header' => 'Satellite attack report',
             'title' => array(
-                'incoming' => '{attacker} used a satellite and {youdied}{missed}{hit}.',
-                'outgoing' => 'You fired a Laser Beam Satellite at {defender} and you {killed}{missed}{hit}.', //you killed {defender}
-                'global' => '{attacker} fired a satellite at {defender} and {missed}{hit}.{clan_points}',
+                'incoming' => '{attacker} used a satellite and {youdied}{sat_missed}{sat_hit}.',
+                'outgoing' => 'You fired a Laser Beam Satellite at {defender} and you {killed}{sat_missed}{sat_hit}.', //you killed {defender}
+                'global' => '{attacker} fired a satellite at {defender} and {sat_missed}{sat_hit}.{clan_points}',
             ),
             'body' => '{attack_body}'
         ),
@@ -378,6 +378,8 @@ class Event extends PostObject {
                 '{shotdown}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id && $this->get('shotdown') == 'shotdown' ? 'you shot down the missile' : ''),
                 '{missed}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id && $this->get('shotdown') != 'shotdown' ? '<strong>missed</strong> your base' : ''),
                 '{hit}' => ($this->get('status_defender') != 'death' && $winner_id == $attacker_id ? '<strong>hit</strong> your base' : ''),
+                '{sat_hit}' => ($this->get('outcome') == 'success' ? '<strong>hit</strong> your base' : ''),
+                '{sat_missed}' => ($this->get('outcome') == 'failure' ? '<strong>missed</strong> your base' : ''),
                 '{killedthieves}' => ($winner_id == $defender_id ? 'you killed '. Format::plural($this->get('thiefs_lost'), 'thief', 'thieves') : ''),
                 '{stolemoney}' => ($winner_id == $attacker_id ? 'stole '.$money : ''),
             ));
@@ -397,6 +399,8 @@ class Event extends PostObject {
                 '{shotdown}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id && $this->get('shotdown') == 'shotdown' ? ' it was shot down' : ''),
                 '{missed}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id && $this->get('shotdown') != 'shotdown' ? 'you missed the enemy base' : ''),
                 '{hit}' => ($this->get('status_defender') != 'death' && $winner_id == $attacker_id ? 'you hit the enemy base' : ''),
+                '{sat_hit}' => ($this->get('outcome') == 'success' ? '<strong>hit</strong> the base' : ''),
+                '{sat_missed}' => ($this->get('outcome') == 'failure' ? '<strong>missed</strong> the base' : ''),
                 '{thieves}' => ($this->get('thiefs_lost') > 0 ? Format::plural($this->get('thiefs_lost'), 'thief', 'thieves') : 'thieves'),
                 '{stolemoney}' => ($winner_id != $defender_id ? 'stole '.$money : ''),
                 '{caught}' => ($winner_id == $defender_id ? 'but you were caught' : ''),
@@ -435,6 +439,8 @@ class Event extends PostObject {
                 '{kicked}' => ($this->get('outcome') == 'kicked' ? 'was kicked by '.$attacker_name : ''),
                 '{joined}' => ($this->get('outcome') == 'joined' ? 'joined your clan' : ''),
                 '{left}' => ($this->get('outcome') == 'left' ? 'left your clan' : ''),
+                '{sat_hit}' => ($this->get('outcome') == 'success' ? '<strong>hit</strong> the base' : ''),
+                '{sat_missed}' => ($this->get('outcome') == 'failure' ? '<strong>missed</strong> the base' : ''),
             ));
 
             if($this->eventtype == 'user_change' && in_array($this->get('outcome'), array('kicked','left'))) {
