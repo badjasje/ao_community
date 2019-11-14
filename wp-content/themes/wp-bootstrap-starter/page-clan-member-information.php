@@ -58,9 +58,9 @@ $rates = Bank::getAllRates();
 		$startingbonus = $memberData['starting_bonus'][0];
 		if(empty($startingbonus)) $startingbonus = '<em>none</em>';
 
-		$totAidSent = $memberData['total_aid_sent'][0];
-		$noAids = $memberData['number_of_aids'][0];
-		$aidRec = $memberData['aid_received'][0];
+		$totAidSent = (isset($memberData['total_aid_sent']) ? $memberData['total_aid_sent'][0] : 0);
+		$noAids = (isset($memberData['number_of_aids']) ? $memberData['number_of_aids'][0] : 0);
+		$aidRec = (isset($memberData['aid_received']) ? $memberData['aid_received'][0] : 0);
 		$inprogress = $memberData['research_in_progress'][0];
 		$attMade = $memberData['attacks_made_current'][0];
 		$attRec = $memberData['attacks_rec_current'][0];
@@ -139,7 +139,7 @@ $rates = Bank::getAllRates();
 
 		$member_data = get_userdata($member);
 		$last_online = $memberData['last_online'][0];
-		$spiednr = intval($memberData['spied_current_clan'][0]);
+		$spiednr = (isset($memberData['spied_current_clan']) ? intval($memberData['spied_current_clan'][0]) : 0);
 
 		if(!empty($last_online)) $last_seen = $timestamp - $last_online;
 		?>

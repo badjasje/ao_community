@@ -22,6 +22,7 @@ function calculate_pts($bld_damage, $unit_damage, $aggressive_multi) {
 
     $multiplier = 1; // maybe use this later
     $random_factor = (mt_rand(96,108)/100); //Set randomness
+    if(Round::isDev() || Round::isTest()) $random_factor = 1;
 
     if($damage == 0) $damage = 0.01; // You cant sqrt 0
     $pts_gained =  ((((sqrt($damage)*log($damage))/100)*$multiplier)*$random_factor);
@@ -420,6 +421,7 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
         $divided_atk_power = $atk_power / $unit_def_count;
 
         foreach($unit_def_types as $type) {
+            if(!isset($attack_array[$type])) $attack_array[$type] = 0;
             $attack_array[$type] += $divided_atk_power;
         }
 
@@ -530,6 +532,7 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
         $divided_atk_power = $atk_power / $unit_def_count;
 
         foreach($unit_def_types as $type) {
+            if(!isset($attack_array[$type])) $attack_array[$type] = 0;
             $attack_array[$type] += $divided_atk_power;
         }
 

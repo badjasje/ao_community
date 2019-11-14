@@ -20,6 +20,7 @@ global $userData;
 
 $declaredonID = $_POST['declaredon'];
 $declaredbyID = $userData['clan_id_user'][0];
+$message = (!empty($_POST['resume_msg']) ? $_POST['resume_msg'] : '');
 
 $def_clan_leader = get_post_meta($declaredonID, 'clan_leader', true);
 
@@ -42,7 +43,7 @@ if (count($posts) == 0) {
 // Look for peace event to get peace-time
 $peacetime = 0;
 $eventposts = get_posts(array(
-    'numberposts' => 1, 'post_title' => 'PEACE', 'post_status'   => 'publish', 'post_type'     => 'event_local',
+    'numberposts' => 1, 'post_title' => 'PEACE', 'post_status' => 'publish', 'post_type' => 'event_local',
     'meta_query' => array(
         'relation' => 'AND',
         array('key' => 'attacker_clan_id', 'value' => $declaredbyID),
@@ -56,7 +57,7 @@ if(count($eventposts)) {
 $timestamp = current_time('timestamp');
 $resume_time = Settings::get('resume_after_hours');
 if($timestamp - $peacetime < (60*60* $resume_time ) ) {
-    $array['status'] = 'You can only resume after '.$resume_time.' hours of peace';
+    $array['status'] = 'You can only resume after '.$resume_time.' hours of peace, peaced at '.date('d-m-Y H:i:s', $peacetime);
     $array['next'] = false;
     echo json_encode($array);
     exit;
@@ -82,7 +83,7 @@ update_field('defender_clan_id', $declaredonID, $new_event_id);
 
 update_field('attacker_id', $userId, $new_event_id);
 update_field('defender_id', $def_clan_leader, $new_event_id);
-update_field('dec_message', $_POST['resume_msg'], $new_event_id);
+update_field('dec_message', $message, $new_event_id);
 update_field('outcome', 'resume', $new_event_id);
 update_field('time_attacked', $timestamp, $new_event_id);
 
@@ -92,9 +93,9 @@ foreach ($clan_members[0] as $member) {
     update_user_meta($member, 'new_global_events', $globals+1);
 }
 
-$clan_members = get_post_meta($declaredbyID, 'clan_members');
-foreach ($clan_members2 as $member) {
-    $globals = get_user_meta($member, 'new_global_events', true);
+$clan_members2 = get_post_meta($declaredbyID, 'clan_members');
+foreach ($clan_members2[0] as $member2) {
+    $globals = get_user_meta($member2, 'new_global_events', true);
     update_user_meta($member2, 'new_global_events', $globals+1);
 }
 
