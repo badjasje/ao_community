@@ -192,7 +192,7 @@ if($war_type != 'none' && $result == 'success') {
 	//}
 
 	// Points cap
-	$clan_points = min(ceil($clan_points), Settings::get('points_cap'));
+	$clan_points = min($clan_points, Settings::get('points_cap'));
 
 	/* determine points multiplier due to war */
 	if ($killed == true) {
@@ -216,7 +216,7 @@ if($war_type != 'none' && $result == 'success') {
 	// Jaap, points based on difference between clanpoints totals
 	$clan_points = scaled_points_to_clanpoints($clan_points, $userId, $target_id);
 
-
+	$clan_points = ceil($clan_points);
 
 	if($debug) debug_var('Clan points', $clan_points);
 }
