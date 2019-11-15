@@ -30,14 +30,8 @@ if($turns < 2) {
 $successCount = mt_rand(1,100);
 $result = 'success';
 
-if($missileLevel == 3) {
-	if($successCount > 40) {
-		$result = 'failure';
-	} else {
-		if($successCount > 50) {
-			$result = 'failure';
-		}
-	}
+if($missileLevel == 3 && $successCount > 40) {
+	$result = 'failure';
 }
 
 if($sat_status == 'active'){
