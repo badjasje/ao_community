@@ -49,37 +49,36 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
 						</tr>
 						<? $count = 0;
 						foreach($units as $unitKey => $unit) {
-            				if ($unit['type'] == $key) {
-								$canAttack = is_array($unit['attacks']) && count($unit['attacks']) ? implode(', ', $unit['attacks']) : 'N/A';
-								$count++;
-								?>
-								<tr class="unitRow <?=$unitKey?>"
-									data-nw="<?=$unit['networthPerUnit']?>"
-									data-buildprice="<?=$unit['buildprice']?>"
-									data-key="<?=$unitKey?>"
-									data-bpt="<?=$unitsPerTurn[$key]?>"
-									data-space="<?=$unit['space']?>"
-									<?=($unit['sectype']=='special' ? ' data-specialspace="'.$unit['specialspace'].'"' : '')?>>
-									<td class="nameBlock"><?=$unit['normalname']?></td>
-									<td class="price"><?=Format::money($unit['price'])?></td>
-									<td class="attacklife"><?=$unit['attack']?>/<?=$unit['life']?></td>
-									<td class="targets"><?=$canAttack?></td>
-									<td class="owned"><?=$unit['num']?><?=($unit['ordered']>0?' ('.$unit['ordered'].')':'')?></td>
-									<td class="maxBlock buildmax" data-amount="<?=$unit['maxbuild']?>"><?=$unit['maxbuild']?></td>
-									<td class="inputBlock buildBlock">
-										<input class="unitInput" min="0" max="<?=$unit['maxbuild']?>" tabindex="<?=$count?>" type="number" name="build[<?=$unitKey?>]">
-									</td>
-								</tr>
-								<tr class="descriptionRow<?=(empty($unit['description'])?' d-md-none':'')?>">
-									<td colspan="7">
-										<?=(isset($unit['description'])?$unit['description'].'<br>':'')?>
-										<div class="d-block d-md-none">
-											Attack: <?=$unit['attack']?>, Life: <?=$unit['life']?>, Targets: <?=$canAttack?>
-										</div>
-									</td>
-								</tr>
-							<? }
-						} ?>
+            				if ($unit['type'] != $key) continue;
+							$canAttack = is_array($unit['attacks']) && count($unit['attacks']) ? implode(', ', $unit['attacks']) : 'N/A';
+							$count++;
+							?>
+							<tr class="unitRow <?=$unitKey?>"
+								data-nw="<?=$unit['networthPerUnit']?>"
+								data-buildprice="<?=$unit['buildprice']?>"
+								data-key="<?=$unitKey?>"
+								data-bpt="<?=$unitsPerTurn[$key]?>"
+								data-space="<?=$unit['space']?>"
+								<?=($unit['sectype']=='special' ? ' data-specialspace="'.$unit['specialspace'].'"' : '')?>>
+								<td class="nameBlock"><?=$unit['normalname']?></td>
+								<td class="price"><?=Format::money($unit['buildprice'])?></td>
+								<td class="attacklife"><?=$unit['attack']?>/<?=$unit['life']?></td>
+								<td class="targets"><?=$canAttack?></td>
+								<td class="owned"><?=$unit['num']?><?=($unit['ordered']>0?' ('.$unit['ordered'].')':'')?></td>
+								<td class="maxBlock buildmax" data-amount="<?=$unit['maxbuild']?>"><?=$unit['maxbuild']?></td>
+								<td class="inputBlock buildBlock">
+									<input class="unitInput" min="0" max="<?=$unit['maxbuild']?>" tabindex="<?=$count?>" type="number" name="build[<?=$unitKey?>]">
+								</td>
+							</tr>
+							<tr class="descriptionRow<?=(empty($unit['description'])?' d-md-none':'')?>">
+								<td colspan="7">
+									<?=(isset($unit['description'])?$unit['description'].'<br>':'')?>
+									<div class="d-block d-md-none">
+										Attack: <?=$unit['attack']?>, Life: <?=$unit['life']?>, Targets: <?=$canAttack?>
+									</div>
+								</td>
+							</tr>
+						<? } ?>
 					</table>
 				</div>
 			<? } ?>

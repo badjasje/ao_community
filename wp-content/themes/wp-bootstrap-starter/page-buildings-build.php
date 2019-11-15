@@ -46,7 +46,7 @@ $buildings = $province->getBuildings();
 					data-demoprice="<?=$building['demoprice']?>"
 					data-key="<?=$buildingKey?>">
 					<td class="nameBlock buildings_heading"><?=$building['normalname']?></td>
-					<td class="price"><?=Format::money($building['price'])?></td>
+					<td class="price"><?=Format::money($building['buildprice'])?></td>
 					<td class="attacklife"><?=$building['attack']?>/<?=$building['life']?></td>
 					<td class="targets"><?=$canAttack?></td>
 					<td class="owned demomax" data-amount="<?=$building['maxdemo']?>"><?=$building['num']?></td>
