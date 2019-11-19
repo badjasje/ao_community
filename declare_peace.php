@@ -10,6 +10,7 @@ require(dirname(__FILE__) . '/wp-load.php');
 global $userId;
 global $userData;
 $declarer_ID = $userId;
+$timestamp = current_time('timestamp');
 
 if (! defined('ABSPATH')) {
     $array['status'] = 'You must be logged in to perform this action';
@@ -33,6 +34,25 @@ if (!is_user_logged_in()) {
     exit;
 }
 
+$war_status = get_post_status($_POST['war']);
+if($war_status == 'trash') {
+    $array['status'] = 'Already peaced';
+    $array['next'] = false;
+    echo json_encode($array);
+    update_user_meta($declarer_ID, 'user_lock', 0);
+    exit;
+}
+
+$warTime = get_the_title($_POST['war']);
+$canPeace = (!!$warTime && $timestamp-$warTime > 86400);
+if(!$canPeace) {
+    $array['status'] = 'You cannot peace yet!';
+    $array['next'] = false;
+    echo json_encode($array);
+    update_user_meta($declarer_ID, 'user_lock', 0);
+    exit;
+}
+
 $declarer_clan_ID = $userData['clan_id_user'][0];
 $clan_leader = get_post_meta($declarer_clan_ID, 'clan_leader', true);
 
@@ -45,7 +65,6 @@ if (in_array($declarer_ID, array($clan_leader, $ct_1, $ct_2, $ct_3, $ct_4))) {
     $declared_on = get_post_meta($_POST['war'], 'declared_on', true);
     $def_clan_leader = get_post_meta($declared_on, 'clan_leader', true);
 
-    $timestamp = current_time('timestamp');
     $args = array(
         'post_title'    => 'PEACE',
         'post_status'   => 'publish',
