@@ -18,7 +18,8 @@ $_POST = array(
 );
 if(isset($_GET['attackarray'])) {
     $_POST['attackarray'] = array();
-    $_POST['attackarray'][$_GET['attackarray']] = 1;
+    if(!is_array($_GET['attackarray'])) $_POST['attackarray'][$_GET['attackarray']] = 1;
+    else $_POST['attackarray'] = $_GET['attackarray'];
 }
 if(isset($_GET['defender'])) {
     $_POST['target_id'] = $_GET['defender'];

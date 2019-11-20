@@ -125,7 +125,7 @@ $attSeaTot = 0;
 $attInfTot = 0;
 $attVehTot = 0;
 
-$attacker_type_damage = array();
+$attacker_type_damage = array('bld'=>0);
 $attackerRemoveArray = array('air','sea','inf','veh');
 foreach ($attack_array as $key => $count) {
 	if($key != 'tomahawk'){
@@ -141,7 +141,7 @@ foreach ($attack_array as $key => $count) {
 foreach ($attack_array as $key => $count) {
 	$owned_units = $attackerData[$key.'_owned'][0];
 	if($count > $owned_units) $count = $owned_units;
-	else $count = $owned_units*$count;
+	else $count = $owned_units * $count;
 
 	/* distribute attack power equally across types */
 	if($key != 'tomahawk'){
@@ -151,7 +151,7 @@ foreach ($attack_array as $key => $count) {
 		/* removing attack types defender does not have */
 		$atk_types 		= array_diff($atk_types, $removeArray);
 		$type_count 	= count($atk_types);
-		$atk_power_total = ($count * $units[$key]['attack']*$dmgMulti);
+		$atk_power_total = ($count * $units[$key]['attack'] * $dmgMulti);
 		$typeMulti = 1;
 		$typeDif = $type_count-$typecountInit;
 		if($typeDif == -1){
@@ -161,18 +161,19 @@ foreach ($attack_array as $key => $count) {
 			$typeMulti = 0.8;
 		}
 		$atk_power_distrib = $atk_power_total*$typeMulti / max($type_count,1);
-	}
 
-	/* damage per unit */
-	$attacker_single_unit_damage = array();
-	foreach($atk_types as $type) {
-		$one_type = array($type);
+		/* damage per unit */
+		$attacker_single_unit_damage = array();
+		foreach($atk_types as $type) {
+			$one_type = array($type);
 
-		/* calculate attack totals by type */
-		if (array_key_exists($type, $attacker_type_damage)) $attacker_type_damage[$type] += $atk_power_distrib;
-		else $attacker_type_damage[$type] = $atk_power_distrib;
+			/* calculate attack totals by type */
+			if (array_key_exists($type, $attacker_type_damage)) $attacker_type_damage[$type] += $atk_power_distrib;
+			else $attacker_type_damage[$type] = $atk_power_distrib;
+		}
 	}
 }
+if($debug) debug_var('attacker_type_damage0', print_r($attacker_type_damage,1));
 
 /* If defender has unit type, unset from remove array */
 if($attAirTot > 0) unset($attackerRemoveArray[0]);
