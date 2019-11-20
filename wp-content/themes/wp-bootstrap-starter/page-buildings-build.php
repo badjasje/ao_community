@@ -73,6 +73,12 @@ $buildings = $province->getBuildings();
 			?>
 		</table>
 
+		<div class="blockHeader spaceNotice">
+			<div class="text-right small">
+				<a href="javascript:void(0);" class="descriptionToggle" data-type="buildings"><span>Show</span> descriptions &nbsp; <i class="fa fa-align-justify"></i></a>
+			</div>
+		</div>
+
 		<div class="row statusBlockButtons">
 			<div class="col-md-3 totalsField statCol-1">Buildings: <span id="total"></span></div>
 			<div class="col-md-3 totalsField statCol-2">Total cost: $ <span id="order_total"></span></div>
