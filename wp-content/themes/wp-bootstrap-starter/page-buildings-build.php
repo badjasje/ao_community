@@ -38,6 +38,7 @@ $buildings = $province->getBuildings();
 			<?php $count=0;
 			foreach($buildings as $buildingKey => $building) {
 				$canAttack = is_array($building['attacks']) && count($building['attacks']) ? implode(', ', $building['attacks']) : 'N/A';
+				$occupied = $building['occupied']>0 ? ceil($building['occupied']/$building['housing']) : 0;
 				$count++;
 				?>
 				<tr class="unitRow <?=$buildingKey?>"
@@ -61,9 +62,11 @@ $buildings = $province->getBuildings();
 				<tr class="descriptionRow">
 					<td colspan="8">
 						<?=(isset($building['description'])?$building['description']:'')?>
+						<? if($building['occupied']>0) {?>Occupied: <span class="occupied"><?=$occupied?></span>.<? } ?>
 						It adds <?=$building['networth']?>% networth, <?=Format::money($building['networthPerUnit'])?> per building.
 						<? if(!empty($building['power'])) { ?> Power consumption: <?=$building['power']?>. <? } ?>
-						<? if($building['occupied']>0) {?>There are <span class="occupied"><?=ceil($building['occupied']/$building['housing'])?></span> of them occupied.<? } ?>
+
+
 						<div class="d-block d-md-none">
 							Attack/life: <?=$building['attack']?>/<?=$building['life']?>, targets: <?=$canAttack?>
 						</div>
