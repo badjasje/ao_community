@@ -62,6 +62,7 @@ $buildings = $province->getBuildings();
 					<td colspan="8">
 						<?=(isset($building['description'])?$building['description']:'')?>
 						It adds <?=$building['networth']?>% networth, <?=Format::money($building['networthPerUnit'])?> per building.
+						<? if(!empty($building['power'])) { ?> Power consumption: <?=$building['power']?>. <? } ?>
 						<? if($building['occupied']>0) {?>There are <span class="occupied"><?=ceil($building['occupied']/$building['housing'])?></span> of them occupied.<? } ?>
 						<div class="d-block d-md-none">
 							Attack/life: <?=$building['attack']?>/<?=$building['life']?>, targets: <?=$canAttack?>
