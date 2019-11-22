@@ -56,17 +56,14 @@ function ajax_units($province, $return) {
     // Recalculate maxes
     $province->count_all_stats();
     $units = $province->getUnits();
-    $maxbuild = $owned = $space = $specialspace = $typespace = $typespecialspace = array();
+    $maxbuild = $owned = $space = $specialspace = array();
     foreach($units as $key => $unit) {
         $maxbuild[$key] = $unit['maxbuild'];
         $owned[$key] = $unit['num'];
         $space[$key] = $unit['space'];
         if($unit['sectype']=='special') $specialspace[$key] = $unit['specialspace'];
-        if(!isset($typespace[$unit['type']])) $typespace[$unit['type']] = $unit['space'];
-        if(!isset($typespecialspace[$unit['type']])) $typespecialspace[$unit['type']] = $unit['specialspace'];
     }
     return array_merge($return, array(
-        'success' => true, 'status' => implode(', ', $status), 'typespace' => $space, 'typespecialspace' => $typespecialspace,
-        'buildmax' => $maxbuild, 'owned' => $owned, 'space' => $space, 'specialspace' => $specialspace
+        'success' => true, 'status' => implode(', ', $status), 'buildmax' => $maxbuild, 'owned' => $owned, 'space' => $space, 'specialspace' => $specialspace
     ));
 }

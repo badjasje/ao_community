@@ -21,6 +21,7 @@ class Request {
         'buildings' => array('province','buildings'),
         'units' => array('province','units'),
         'satellite' => array('province','satellite'),
+        'market' => array('province','market'),
         'sendaid' => array('province','sendaid'),
         'reset' => array('province','reset'),
 
@@ -33,15 +34,15 @@ class Request {
         'wp-login.php' => 10,           //0
         'ajax/message' => 5,            //1
 
-        // Old ajax calls
+        // Old&new ajax calls
         'missiles.php' => 10,           //2
         'sell_missiles.php' => 10,      //3
         'ajax/satellite' => 10,         //4
         'cancel_order.php' => 10,       //5
         'ajax/satellite' => 10,         //6
-        'market.php' => 40,             //7
+        'ajax/market' => 60,            //7
         'cancel_order.php' => 30,       //8
-        'sell_units.php' => 60,         //9
+        'ajax/market' => 60,            //9
         'attack.php' => 120,            //10
         'step-2.php' => 120,            //11
         'attack2.php' => 120,           //12
