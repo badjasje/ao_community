@@ -12,7 +12,7 @@ class Researches extends DataObject {
             if ($province->hasResearchMinimalLevel('powerplant_efficiency',1)) {
                 $buildings[$id]['life'] = round($buildings[$id]['life'] * 1.5);
                 $buildings[$id]['powerprod'] = round($buildings[$id]['powerprod'] * 1.5);
-                $buildings[$id]['description'] = 'Produces ' . $buildings[$id]['powerprod'] .' power';
+                $buildings[$id]['description'] = 'Produces ' . $buildings[$id]['powerprod'] .' power.';
             }
         });
         Hooks::on('get_province_buildings_per_turn', 20, function(&$bbt, $province) {
@@ -37,7 +37,7 @@ class Researches extends DataObject {
             $bm = $province->getResearches('bank_management');
             if($bm['level']>0) $max_dep = $bm['level'.$bm['level'].'_deposit'];
         });
-        Hooks::on('get_province_sattelite', 10, function(&$satellites, $id, $province) {
+        Hooks::on('get_province_satellite', 10, function(&$satellites, $id, $province) {
             $satellites[$id]['days'] = 11;
             if($province->hasResearchMinimalLevel('satellite_construction', 2)) {
                 $satellites[$id]['days'] = 16;
@@ -63,10 +63,20 @@ class Researches extends DataObject {
                 $return = true;
             }
         });
+
         // @todo: missile_accuracy
         // @todo: thieving_effectiveness
-        // @todo: shipping_time
-        // @todo: market_discount
+
+        Hooks::on('get_province_shipping_discount', 10, function(&$return, $province) {
+            $md = $province->getResearches('market_discount');
+            if($md['level'] == 1) $return += ($md['level1_value']/100);
+            if($md['level'] == 2) $return += ($md['level2_value']/100);
+        });
+        Hooks::on('get_province_shipping_time', 10, function(&$return, $province) {
+            $st = $province->getResearches('shipping_time');
+            if($st['level'] == 1) $return = 9;
+            if($st['level'] == 2) $return = 6;
+        });
     }
 
     static $data = array(
@@ -161,9 +171,9 @@ class Researches extends DataObject {
         'market_discount'           => array(
             'name'                  => 'Market discount',
             'level1'                => '{value}% discount on all units purchased from the market',
-            'level1_value'          => '15',
+            'level1_value'          => 15,
             'level2'                => '{value}% discount on all units purchased from the market',
-            'level2_value'          => '30',
+            'level2_value'          => 30,
             'maxlevel'              => 2,
             'description'           => 'Decreases market prices',
             'duration'              => 5,
