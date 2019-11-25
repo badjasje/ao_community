@@ -168,7 +168,7 @@ class User extends DbObject {
         $events = array();
 
         // Make query according to event-category
-        $paged = get_query_var('paged', 1);
+        $paged = (isset($_GET['page']) ? Request::get('page') : get_query_var('paged', 1));
         $eventTypes = Event::getPossibleEventTypes($category);
         $args = array(
             'posts_per_page' => 20, 'orderby' => 'date', 'order' => 'DESC', 'paged' => $paged, 'post_type' => 'event_local',

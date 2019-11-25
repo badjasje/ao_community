@@ -1,12 +1,8 @@
 <?php
 
-function api_info($province_id, $return) {
+function api_info($province, $return) {
 
-    $user = User::make($province_id);
-    $province = $user->getProvince();
-    if($province->get('id') == false) {
-        return array('status' => 'Not a user');
-    }
+    $user = User::make($province->get('id'));
 
     $startbonus = $province->getStartingBonus();
 

@@ -283,13 +283,16 @@ class Request {
 
         $province_id = Request::get('id');
         if(empty($province_id) || !is_numeric($province_id) || ceil($province_id)!=$province_id || $province_id<0) $error = 'Invalid id';
-        else if(!in_array($province_id, array(2,3083,3084,3085,3086))) $error = 'Not a bot';
+        else if(!in_array($province_id, array(2,2768,3083,3084,3085,3086))) $error = 'Not a bot';
+
+        $province = Province::make($province_id);
+        if($province->get('id') == false) $error = 'Not a user';
 
         if(empty($error)) {
             $funcs = array(static::part(1),static::part(2));
             if(file_exists(API_PATH.'/'.implode('/', $funcs).'.php')) {
                 require_once(API_PATH.'/'.implode('/', $funcs).'.php');
-                if(function_exists('api_'.$funcs[1])) $return = call_user_func('api_'.$funcs[1], $province_id, $return);
+                if(function_exists('api_'.$funcs[1])) $return = call_user_func('api_'.$funcs[1], $province, $return);
                 else $error = 'Request failed successfully (E11:FNE)';
             } else $error = 'Request failed successfully (E10:FE)';
         }
