@@ -515,7 +515,8 @@ class Province extends DbObject {
                         $occupied += (!!$this->get($unitKey.'_owned') ? intval($this->get($unitKey.'_owned')) : 0);
                     }
                 }
-                foreach($missiles as $missile) {
+                foreach($missiles as $missile_key => $missile) {
+                    if($missile_key == 'tomahawk') continue; // are not housed in buildings
                     if($missile['type'] == $building['houses']) $occupied += ($missile['ordered'] + $missile['num']);
                 }
             }
