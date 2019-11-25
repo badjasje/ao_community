@@ -19,7 +19,9 @@ class Log {
         if(!isset(self::$logs[$key])) self::$logs[$key] = array();
         self::$logs[$key][] = $data;
         if(isset(self::$files[$key])) {
-            self::write(self::$files[$key], http_build_query($data, ': ', PHP_EOL) );
+            $content = '';
+            foreach($data as $data_key => $data_value) $content .= $data_key.': '.$data_value.PHP_EOL;
+            self::write(self::$files[$key], $content);
         }
     }
 

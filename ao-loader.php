@@ -14,6 +14,7 @@ define('SERVER_ROOT', __DIR__);
 define('AO_PATH', SERVER_ROOT.'/ao');
 define('CLASS_PATH', AO_PATH."/classes");
 define('AJAX_PATH', AO_PATH."/ajax");
+define('API_PATH', AO_PATH."/api");
 
 // Often used functions
 require_once(AO_PATH .'/functions.inc.php');
@@ -44,5 +45,11 @@ Request::pathRateLimit();
 // Handle ajax requests privatly
 if(Request::isAjax()) {
     echo Request::ajax();
+    die();
+}
+
+// Handle API-requests privately
+if(Request::isApi()) {
+    echo Request::api();
     die();
 }
