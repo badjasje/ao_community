@@ -3,6 +3,7 @@
 function api_globals($province, $return) {
 
     $user = User::make($province->get('id'));
+    $user->update('new_global_events', 0);
     $events = $user->getEvents('global');
 
     $keys = array(
