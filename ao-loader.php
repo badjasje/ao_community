@@ -10,12 +10,13 @@ if(!empty($_SERVER['SERVER_NAME'])) session_set_cookie_params(0, '/', '.'.$_SERV
 session_start();
 
 // Get configs needed for classes
-$assaultOnlineDir = __DIR__.'/ao';
-define('CLASS_PATH', $assaultOnlineDir."/classes");
-define('AJAX_PATH', $assaultOnlineDir."/ajax");
+define('SERVER_ROOT', __DIR__);
+define('AO_PATH', SERVER_ROOT.'/ao');
+define('CLASS_PATH', AO_PATH."/classes");
+define('AJAX_PATH', AO_PATH."/ajax");
 
 // Often used functions
-require_once($assaultOnlineDir .'/functions.inc.php');
+require_once(AO_PATH .'/functions.inc.php');
 
 // Autoload classes: When using "new Class()" (or static) it requires automatically
 require_once(CLASS_PATH.'/util/autoloader.class.php');

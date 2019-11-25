@@ -113,12 +113,7 @@ function ajax_market($province, $return) {
     // Actually sell
     foreach($sell as $key => $num) {
         $province->update($key.'_owned', $province->get($key.'_owned') - $num);
-        // Add log entry
-        /* $file = 'marketselllog.txt';
-        $current = file_get_contents($file);
-        $current .= current_time('G:i:s | d-m-Y')."\n" . "ID: ".$province->get('id')."\n";
-        $current .= "Units sold: ".$num."\nType: ".$key."\n\n";
-        file_put_contents($file, $current);*/
+        Log::add('market sell', array('id' => $province->get('id'), 'Units sold' => $num, 'Type' => $key));
     }
     $province->update('units_sold', $province->get('units_sold') + $totalSell);
     if($specialSell > 0) $province->update('special_sold_today', $province->get('special_sold_today') + $specialSell);
@@ -126,7 +121,6 @@ function ajax_market($province, $return) {
 
     // Actually order
     $hours = $province->getShippingTime(); // hours
-    //wtf($delay, $_POST['delay']);
     foreach($order as $key => $num) {
         $unit = $units[$key];
         // Instant order ;-) $province->update($key.'_owned', $province->get($key.'_owned') + $num);
@@ -137,12 +131,7 @@ function ajax_market($province, $return) {
             'unit_type' => $key, 'user_placed_id' => $province->get('id'), 'time_placed' => $timestamp,
             'delivery_time' => $timestamp + ($hours * 3600) + ($delay * 60), 'amount_ordered' => $num,
         ));
-        /* Add log entry
-        $file = 'marketlog.txt';
-        $current = file_get_contents($file);
-        $current .= current_time('G:i:s | d-m-Y')."\n" . "ID: ".$province->get('id')."\n";
-        $current .= "Units ordered: ".$num."\nType: ".$key."\n\n";
-        file_put_contents($file, $current);*/
+        Log::add('market order', array('id' => $province->get('id'), 'Units ordered' => $num, 'Type' => $key));
     }
     $province->update('units_ordered', $province->get('units_ordered') + $totalOrder);
     if($totalOrder > 0) $status[] = Format::plural($totalOrder, 'unit').' ordered';
