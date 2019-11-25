@@ -4,7 +4,7 @@ function api_locals($province, $return) {
 
     $user = User::make($province->get('id'));
     $user->update('new_events', 0);
-    $events = $user->getEvents('local');
+    $events = $user->getEvents('incoming');
 
     $keys = array(
         'attacker_id','defender_id','winner_id',
