@@ -97,6 +97,11 @@ class Event extends PostObject {
             ),
             'body' => '{attack_body}'
         ),
+        'saboteur' => array(
+            'icon' => 'fas fa-bomb', 'header' => 'Saboteur sent',
+            'title' => 'You sent a saboteur to {defender} and he was {succesfull}{killed}',
+            'body' => '{silos} disabled'
+        ),
         'spy' => array(
             'icon' => 'fas fa-binoculars', 'header' => 'Spy infiltration report',
             'title' => '{attacker} sent a {spy}{spyplane}{shot}', // Someone or attacker, killed or shotdown
@@ -188,7 +193,7 @@ class Event extends PostObject {
         $eventTypes = array('aid','air_sea','empmissile', 'empsat', 'ground', 'killed', 'missile', 'regular', 'satellite');
         switch($category) {
             case 'incoming': $eventTypes = array_merge($eventTypes, array('thief','nukeprotection','research_ready','user_kicked','sat_crash','sniper','spy', 'bonus')); break;
-            case 'outgoing': $eventTypes = array_merge($eventTypes, array('thief', 'user_kicked', 'sniper')); break;
+            case 'outgoing': $eventTypes = array_merge($eventTypes, array('thief', 'user_kicked', 'sniper','saboteur')); break;
             case 'global':   $eventTypes = array_merge($eventTypes, array('war_declared', 'peace_declared', 'user_change')); break;
         }
         return $eventTypes;
@@ -370,6 +375,9 @@ class Event extends PostObject {
             '{bonus_money}' => ($format == true ? Format::money($this->get('bonus_money')) : $this->get('bonus_money')),
             '{bonus_turns}' => ($format == true ? Format::turns($this->get('bonus_turns')) : $this->get('bonus_turns')),
             '{nw_damage_defender}' => $this->get('nw_damage_defender'),
+            '{succesfull}' => ($winner_id != $defender_id ? 'lived' : ''),
+            '{killed}' => ($winner_id == $defender_id ? 'killed in action' : ''),
+            '{silos}' => (!empty($this->get('silos')) ? Format::plural($this->get('silos'), 'silo') : 'no silos'),
         );
 
         // Incoming
