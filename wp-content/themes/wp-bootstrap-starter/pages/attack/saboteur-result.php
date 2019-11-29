@@ -108,6 +108,7 @@ update_field('attacker_id',$userId, $new_event_id);
 update_field('attacktype','saboteur', $new_event_id);
 update_field('winner_id',$winner_id, $new_event_id);
 update_field('moralecost', $moralecost, $new_event_id);
+update_field('silos', $silos, $new_event_id);
 
 update_user_meta($userId,'turns',$turns-2);
 turn_spread('saboteur',2);

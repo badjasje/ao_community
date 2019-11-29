@@ -9,6 +9,7 @@ global $userId;
 
 $clan_id_user = $userData['clan_id_user'][0];
 $clanCreate = $userData['clan_create_counter'][0];
+if(Round::isDev() || Round::isTest()) $clanCreate = 0;
 
 $clanData = get_post_meta($clan_id_user);
 

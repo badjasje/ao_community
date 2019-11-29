@@ -26,6 +26,7 @@ if(!empty($clan_id_user)) {
 }
 
 $clanCreate = $userData['clan_create_counter'][0];
+if(Round::isDev() || Round::isTest()) $clanCreate = 0;
 if(!empty($clanCreate)) {
     $array['status'] = 'You cannot create a clan';
     $array['next'] = false;
