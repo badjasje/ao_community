@@ -18,10 +18,10 @@ global $userData;
 
 $visiting_user = $userId;
 $clanleader = $clanData['clan_leader'][0];
-$ct_1 = $clanData['ct_1'][0];
-$ct_2 = $clanData['ct_2'][0];
-$ct_3 = $clanData['ct_3'][0];
-$ct_4 = $clanData['ct_4'][0];
+$cts=array();
+for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
+    $cts[$i] = $clanData['ct_'.$i][0];
+}
 
 $visiting_clan = $userData['clan_id_user'][0];
 if($visiting_clan != 0){

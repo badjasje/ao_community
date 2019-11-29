@@ -1567,12 +1567,7 @@ input[type="radio"]:checked + label {
     padding: 15px;
 }
 .editClanCol{
-	height:321px;
 	background-color:#ddd;
-}
-.ctselect{
-	height: 118px;
-    border-radius: 0px;
 }
 .clanMessage h1{
 	color: #fff !important;

@@ -26,12 +26,11 @@ $clan_id_user = $userData['clan_id_user'][0];
 $clanData = get_post_meta($clan_id_user);
 $clan_leader = $clanData['clan_leader'][0];
 
-$ct_1 = $clanData['ct_1'][0];
-$ct_2 = $clanData['ct_2'][0];
-$ct_3 = $clanData['ct_3'][0];
-$ct_4 = $clanData['ct_4'][0];
-
-$allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clan_leader);
+$cts=array();
+for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
+    $cts[$i] = $clanData['ct_'.$i][0];
+}
+$allowed = array_merge($cts, array($clan_leader));
 
 if(!in_array($userId, $allowed)):
  	$array['status'] = 'You are not allowed to do that';
