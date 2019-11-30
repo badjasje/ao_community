@@ -1,5 +1,5 @@
 <div class="blockHeader">You are currently not in a clan! <?php if($clanCreate != 1):?>Create a clan or join one<?php endif;?></div>
-<? if() { ?>
+<? if(!Round::isTest() && !Round::isDev()) { ?>
 <div class="blockHeader spaceNotice">You can only create one clan per round</div>
 <? } ?>
 

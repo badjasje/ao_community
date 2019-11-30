@@ -136,7 +136,7 @@ class Settings extends DataObject {
         'average_declare_nw_allowed' => 1.6,
 
         // Clan stuff
-        'clan_trustee_num' => 4,
+        'clan_trustee_num' => 5,
         'clan_member_num' => 6,
 
         // War
