@@ -107,7 +107,7 @@ if(is_array($declaringClanMembers) && in_array($declarer_ID, $declaringClanMembe
 
 $cts=array();
 for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
-    $cts[$i] = $clanData['ct_'.$i][0];
+    $cts[$i] = (isset($clanData['ct_'.$i]) ? $clanData['ct_'.$i][0]: 0);
 }
 $ctArray=$cts;
 

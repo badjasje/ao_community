@@ -31,7 +31,7 @@ $buttonColor = "70, 118, 94";
 
 $cts=array();
 for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
-    $cts[$i] = $clanData['ct_'.$i][0];
+    $cts[$i] = (isset($clanData['ct_'.$i]) ? $clanData['ct_'.$i][0] : 0);
 }
 
 $clan_networth = $clanData['clan_networth'][0];

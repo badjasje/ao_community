@@ -20,7 +20,7 @@ $visiting_user = $userId;
 $clanleader = $clanData['clan_leader'][0];
 $cts=array();
 for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
-    $cts[$i] = $clanData['ct_'.$i][0];
+    $cts[$i] = (isset($clanData['ct_'.$i]) ? $clanData['ct_'.$i][0] : 0);
 }
 
 $visiting_clan = $userData['clan_id_user'][0];
