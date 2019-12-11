@@ -452,7 +452,7 @@ jQuery(function($) {
     // Market page
     function calculateMarketTotals() {
         if(typeof provinceData.networth == 'undefined' || $('#market').length==0) return;
-        var totals = {build:0,demo:0,buy:0,cost:0,sell:0,nw:provinceData.networth};
+        var totals = {build:0,demo:0,buy:0,buytotal:0,cost:0,sell:0,trade:0,nw:provinceData.networth};
         $('#market .unitRow:not(.headerRow,.descriptionRow)').each(function() {
             var b = Math.abs($('.buildBlock .unitInput',this).val()), d = Math.abs($('.demoBlock .unitInput',this).val());
             totals.build += b;
@@ -460,6 +460,7 @@ jQuery(function($) {
             totals.buy += (b * parseInt($(this).data('buyprice')));
             totals.nw += (b * parseInt($(this).data('nw'))) - (d * parseInt($(this).data('nw')));
         });
+        totals.buytotal = totals.buy; 
         if(totals.demo > 0) { // Trading is cheaper than selling / buying
             $('#market .unitRow:not(.headerRow,.descriptionRow)').each(function() {
                 var d = Math.abs($('.demoBlock .unitInput',this).val()), tp=parseInt($(this).data('tradeprice')), sp=parseInt($(this).data('sellprice'));
@@ -469,6 +470,7 @@ jQuery(function($) {
                         totals.buy -= tradenum * tp;
                         totals.sell += ((d-tradenum) > 0 ? (d-tradenum) * sp : 0);
                     } else totals.sell += d * sp;
+                    totals.trade += d * tp; // how much WOULD we like to trade?
                 }
             });
         }
@@ -478,7 +480,7 @@ jQuery(function($) {
         }
         totals.cost = totals.sell - totals.buy;
 
-        var money = provinceData.money + totals.cost, space = {'special':-1};
+        var space = {'special':-1}; //money = provinceData.money + totals.cost,
         $('#market .unitBuildTable').each(function() {
             var type = $(this).attr('id');
             space[type] = parseInt($('#'+type+'spacecount').text());
@@ -489,18 +491,21 @@ jQuery(function($) {
                 space[type] += d - b;
             });
         });
+
+        var money = provinceData.money;
         $('#market .unitRow:not(.headerRow,.descriptionRow)').each(function() {
             var type = $(this).parents('.unitBuildTable').attr('id');
-
-            var nm = Math.min( Math.floor(money/$(this).data('tradeprice')), space[type]);
+            var nm = space[type];
             nm = ($(this).data('specialspace') != undefined ? Math.min(nm, space.special) : nm);
+            var tradeMax = Math.floor( ((money-totals.buytotal)+totals.trade) / $(this).data('buyprice')); // max we can trade
+            nm = Math.min( tradeMax, nm);
             var sm = Math.abs($('.buildBlock .unitInput', this).val()) + nm;
             $('.buildmax', this).attr('data-amount', sm ).text(nm);
             $('.buildBlock .unitInput', this).attr('max', sm);
         });
         $('#total').text('+'+totals.build+' / -'+totals.demo);
         $('#cost_total').attr('data-amount', totals.cost).text(number_format(totals.cost, 0, ',', ' '))
-        $('#cost_total').parent().toggleClass('red-text', totals.cost < 0).toggleClass('green-text', totals.cost > 0);
+        //$('#cost_total').parent().toggleClass('red-text', totals.cost < 0).toggleClass('green-text', totals.cost > 0);
         $('#networth_new').text(number_format(totals.nw, 0, ',', ' '));
     }
     $('#market').on('submit', function(e) {
