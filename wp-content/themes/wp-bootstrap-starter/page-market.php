@@ -21,6 +21,7 @@ foreach($buildings as $building) {
 	if(!isset($building['houses'])) continue;
 	$unitTypeBuildingNames[$building['houses']] = $building['normalname'];
 }
+$disabled = Market::isOpen() ? '' : ' disabled';
 
 $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
 ?>
@@ -52,7 +53,7 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
                         </div>
                     </div>
 
-                    <table>
+                    <table class="<?=(Market::isOpen()?'':'disabledDiv')?>">
                         <tr class="unitRow headerRow">
                             <th class="nameBlock">Name</th><th class="price">Price</th><th class="attacklife">Att / Life</th>
                             <th class="targets">Targets</th><th class="owned">Owned</th><th class="max">Max</th>
@@ -127,7 +128,7 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
             </div>
 
             <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
-            <input type="submit" value="Order / Sell / Trade" class="mainSubmit hoverEffect">
+            <input type="submit" value="<?=(Market::isOpen()?'Order / Sell / Trade':'Market is closed')?>" class="mainSubmit hoverEffect<?=$disabled?>">
 
         </div>
     </form>
