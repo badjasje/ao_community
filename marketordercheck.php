@@ -202,19 +202,20 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
 
             /* update events */
             $clan_members = get_post_meta($declared_on, 'clan_members');
-
-            foreach ($clan_members[0] as $member) {
-                $globals = get_user_meta($member, 'new_global_events', true);
-                update_user_meta($member, 'new_global_events', $globals+1);
+            if(isset($clan_members[0])) {
+                foreach ($clan_members[0] as $member) {
+                    $globals = get_user_meta($member, 'new_global_events', true);
+                    update_user_meta($member, 'new_global_events', $globals+1);
+                }
             }
 
             $clan_members2 = get_post_meta($declarer_clan_ID, 'clan_members');
-
-            foreach ($clan_members2[0] as $member2) {
-                $globals = get_user_meta($member2, 'new_global_events', true);
-                update_user_meta($member2, 'new_global_events', $globals+1);
+            if(isset($clan_members2[0])) {
+                foreach ($clan_members2[0] as $member2) {
+                    $globals = get_user_meta($member2, 'new_global_events', true);
+                    update_user_meta($member2, 'new_global_events', $globals+1);
+                }
             }
-
             wp_trash_post($war->ID);
         }
     }
