@@ -16,10 +16,11 @@ $clan_ID = $userData['clan_id_user'][0];
 $clanData = get_post_meta($clan_ID);
 
 $clanleader = $clanData['clan_leader'][0];
-$ct_1 = $clanData['ct_1'][0];
-$ct_2 = $clanData['ct_2'][0];
-$ct_3 = $clanData['ct_3'][0];
-$ct_4 = $clanData['ct_4'][0];
+$cts=array();
+for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
+    $cts[$i] = (isset($clanData['ct_'.$i]) ? $clanData['ct_'.$i][0] : false);
+}
+$allowed = array_merge($cts, array($clanleader));
 
 $clanMembers = maybe_unserialize( $clanData['clan_members'][0]);
 
@@ -27,8 +28,6 @@ $clanTrustees = array();
 if(count($clanMembers) > 1){
 	$clanTrustees = isset($data['clantrustees']) ? $data['clantrustees'] : array();
 }
-
-$allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
 
 $array['imagechanged'] = false;
 
@@ -55,26 +54,18 @@ if (in_array($userId, $allowed)) {
 
 if ($userId == $clanleader) {
 	update_post_meta($clan_ID, 'clan_leader', $data['new_leader']);
-	if($data['new_leader'] == $ct_1){
-		update_post_meta($clan_ID, 'ct_1', $userId);
-	}
-	if($data['new_leader'] == $ct_2){
-		update_post_meta($clan_ID, 'ct_2', $userId);
-	}
-	if($data['new_leader'] == $ct_3){
-		update_post_meta($clan_ID, 'ct_3', $userId);
-	}
-	if($data['new_leader'] == $ct_4){
-		update_post_meta($clan_ID, 'ct_4', $userId);
+	for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
+		if($data['new_leader'] == $cts[$i]){
+			update_post_meta($clan_ID, 'ct_'.$i, $userId);
+		}
 	}
 }
 
-update_post_meta($clan_ID, 'ct_1', 0);
-update_post_meta($clan_ID, 'ct_2', 0);
-update_post_meta($clan_ID, 'ct_3', 0);
-update_post_meta($clan_ID, 'ct_4', 0);
+for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
+	update_post_meta($clan_ID, 'ct_'.$i, 0);
+}
 
-$clanTrustees = array_slice($clanTrustees, 0, 4);
+$clanTrustees = array_slice($clanTrustees, 0, Settings::get('clan_trustee_num'));
 $count = 1;
 foreach ($clanTrustees as $trustee) {
 	update_post_meta($clan_ID, 'ct_'.$count, $trustee);

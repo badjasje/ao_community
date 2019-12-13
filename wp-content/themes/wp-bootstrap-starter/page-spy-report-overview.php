@@ -18,10 +18,10 @@ global $userData;
 
 $visiting_user = $userId;
 $clanleader = $clanData['clan_leader'][0];
-$ct_1 = $clanData['ct_1'][0];
-$ct_2 = $clanData['ct_2'][0];
-$ct_3 = $clanData['ct_3'][0];
-$ct_4 = $clanData['ct_4'][0];
+$cts=array();
+for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
+    $cts[$i] = (isset($clanData['ct_'.$i]) ? $clanData['ct_'.$i][0] : 0);
+}
 
 $visiting_clan = $userData['clan_id_user'][0];
 if($visiting_clan != 0){
@@ -81,6 +81,9 @@ $buildings = Buildings::get();
 	foreach ($clan_members as $key => $member):
 		$unitarray = array();
 		$bldarray = array();
+		$type_array = array();
+		$attack_array = $attacks = array();
+
 		// Get latest unit report
 		$unitargs = array(
 			'posts_per_page'   => 1,
@@ -109,12 +112,12 @@ $buildings = Buildings::get();
 		$unitRep = get_posts( $unitargs );
 		$unitRep_ID = $unitRep[0]->ID;
 
+
 		if(count($unitRep) > 0){
 			$unitRep_date = get_the_date('G:i | d-m-Y',$unitRep_ID);
 			$unitrepStamp = get_the_time('U',$unitRep_ID);
 			$unitarray = maybe_unserialize(get_post_meta($unitRep_ID, 'spy_array', true));
 
-			$attack_array = $attacks = array();
 			if(is_array($units)) {
 				foreach ($units as $unit) {
 					foreach ($unitarray as $unitname => $amount) {
@@ -131,7 +134,6 @@ $buildings = Buildings::get();
 			$attack_array = array_diff($attack_array,array('n.a',''));
 			$attack_array = array_unique($attack_array);
 
-			$type_array = array();
 			if(is_array($units)) {
 				foreach ($units as $unit) {
 					foreach ($unitarray as $unitname => $amount) {

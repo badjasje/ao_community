@@ -29,10 +29,10 @@ $backColorDecBy = "127, 82, 67";
 $backColorStats = "86, 113, 61";
 $buttonColor = "70, 118, 94";
 
-$ct_1 = $clanData['ct_1'][0];
-$ct_2 = $clanData['ct_2'][0];
-$ct_3 = $clanData['ct_3'][0];
-$ct_4 = $clanData['ct_4'][0];
+$cts=array();
+for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
+    $cts[$i] = (isset($clanData['ct_'.$i]) ? $clanData['ct_'.$i][0] : 0);
+}
 
 $clan_networth = $clanData['clan_networth'][0];
 

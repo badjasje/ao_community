@@ -1,6 +1,9 @@
 <?php
 
 $pageId = get_the_id();
+$pageTitle = get_the_title();
+if(in_array($pageTitle, array('Market Buy','Market Sell'))) $pageTitle = 'Market';
+
 $user = CurrentUser::make();
 $province = ($user->isLoggedIn() ? $user->getProvince() : false);
 
@@ -60,7 +63,7 @@ $timeLeft = Market::timeLeft();
 	<!-- End Google Tag Manager (noscript) -->
 	<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1603414756640075&ev=PageView&noscript=1" /></noscript>
 	*/?>
-	<script>fbq('track', 'ViewContent', {value: 1,content_ids: '<?php echo get_the_title();?>'});</script>
+	<script>fbq('track','ViewContent',{value:1,content_ids:'<?=$pageTitle?>'});</script>
 
 	<div id="splashback" class=""></div>
 	<div class="splashmessage"></div>
@@ -248,8 +251,7 @@ $timeLeft = Market::timeLeft();
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?=Request::siteUrl()?>/buy/?tab=<?=$tab?>" class="marketMenu">Buy</a>
-						<a href="<?=Request::siteUrl()?>/sell/?tab=<?=$tab?>" class="marketMenu">Sell</a>
+						<a href="<?=Request::siteUrl()?>/buy/?tab=<?=$tab?>" class="marketMenu">Market</a>
 						<a href="<?=Request::siteUrl()?>/orders/" class="marketMenu">Orders</a>
 					</div>
 				</div>
@@ -355,7 +357,7 @@ $timeLeft = Market::timeLeft();
 		<div class="container mainContainer">
 			<div class="titleBackWrapper<?=(!!$province && $province->getSatellites('stealths')['active']?' stealthsatactive':'')?>">
 				<div class="pageTitle <?=($provinceDied ? ' deadback':'')?>">
-					<?=($provinceDied ? t('You died') : get_the_title()) ?>
+					<?=($provinceDied ? t('You died') : $pageTitle) ?>
 				</div>
 			</div>
 			<div class="row contentRow">

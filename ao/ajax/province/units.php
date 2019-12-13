@@ -24,19 +24,21 @@ function ajax_units($province, $return) {
         $turns_needed += $build[$key]/$unitsPerTurn[$units[$key]['type']];
     }
 
+
     // Check space per unit type
     $space = $province->getUnitTypeSpace();
     $usedSpace = $province->getUnitTypeUsedSpace();
-    $type_num = array('special' => 0);
-    foreach($units as $key => $unit) {
-        if(!isset($type_num[$unit['type']])) $type_num[$unit['type']] = 0;
-        $type_num[$unit['type']] = $usedSpace[$unit['type']] + (isset($build[$key]) ? $build[$key] : 0);
-        if($unit['sectype']=='special') $type_num['special'] = $usedSpace['special'] + (isset($build[$key]) ? $build[$key] : 0);
-    }
     foreach($space as $type => $num) {
-        if(isset($type_num[$type]) && $type_num[$type] > $num) {
-            return array('status' => ''.($type_num[$type]-$num).' '.$type.' units have no housing, fix that first.');
+        if(isset($usedSpace[$type]) && $usedSpace[$type] > $num) {
+            return array('status' => ''.($usedSpace[$type]-$num).' '.$type.' units have no housing, fix that first.');
         }
+    }
+
+    // Check tomahawk space
+    if(empty($build['submarine'])) {
+        $totalmissiles = ($province->get('tomahawk_owned') + $province->get('tomahawk_ordered'));
+        $minSubs = ($totalmissiles > 0 ? ceil($totalmissiles/2) : -1);
+        if($minSubs > -1 && $units['submarine']['num'] < $minSubs) return array('status' => 'Too many tomahawks, sell them or buy submarines');
     }
 
     // Check other stuff
@@ -61,17 +63,14 @@ function ajax_units($province, $return) {
     // Recalculate maxes
     $province->count_all_stats();
     $units = $province->getUnits();
-    $maxbuild = $owned = $space = $specialspace = $typespace = $typespecialspace = array();
+    $maxbuild = $owned = $space = $specialspace = array();
     foreach($units as $key => $unit) {
         $maxbuild[$key] = $unit['maxbuild'];
         $owned[$key] = $unit['num'];
         $space[$key] = $unit['space'];
         if($unit['sectype']=='special') $specialspace[$key] = $unit['specialspace'];
-        if(!isset($typespace[$unit['type']])) $typespace[$unit['type']] = $unit['space'];
-        if(!isset($typespecialspace[$unit['type']])) $typespecialspace[$unit['type']] = $unit['specialspace'];
     }
     return array_merge($return, array(
-        'success' => true, 'status' => implode(', ', $status), 'typespace' => $space, 'typespecialspace' => $typespecialspace,
-        'buildmax' => $maxbuild, 'owned' => $owned, 'space' => $space, 'specialspace' => $specialspace
+        'success' => true, 'status' => implode(', ', $status), 'buildmax' => $maxbuild, 'owned' => $owned, 'space' => $space, 'specialspace' => $specialspace
     ));
 }

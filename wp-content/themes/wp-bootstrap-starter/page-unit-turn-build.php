@@ -80,6 +80,12 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
 							</tr>
 						<? } ?>
 					</table>
+
+					<div class="blockHeader spaceNotice">
+						<div class="text-right small">
+							<a href="javascript:void(0);" class="descriptionToggle" data-type="turnbuild"><span>Show</span> descriptions &nbsp; <i class="fa fa-align-justify"></i></a>
+						</div>
+					</div>
 				</div>
 			<? } ?>
 

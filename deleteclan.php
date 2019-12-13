@@ -49,8 +49,14 @@ if ($userId != $clan_leader) {
     echo json_encode($array);
     exit;
 }
+if($clan_ID_deleter != $clan) {
+    $array['status'] = 'Not your clan';
+    $array['next'] = false;
+    echo json_encode($array);
+    exit;
+}
 
-if ($clan_ID_deleter == $clan && $userId == $clan_leader) {
+if (Round::isLive() && !Round::isTest() && !Round::isDev()) {
     $wars_on = get_posts(array(
         'numberposts'  => -1,
         'post_type'    => 'wars',
@@ -75,26 +81,31 @@ if ($clan_ID_deleter == $clan && $userId == $clan_leader) {
 		echo json_encode($array);
 		exit;
     }
-
-    $clan_members = get_post_meta($clan, 'clan_members');
-    foreach ($clan_members as $member) {
-        update_user_meta($member[0], 'clan_id_user', 0);
-    }
-
-    wp_trash_post($clan);
-    update_user_meta($userId, 'clan_id_user', 0);
-    update_user_meta($userId, 'clan_create_counter', 1);
-
-    $array['status'] = 'Your clan was deleted';
-    $array['next'] = true;
-    echo json_encode($array);
-
-    foreach ($wars_on as $war) {
-        wp_delete_post($war->ID);
-    }
-
-    foreach ($wars_by as $war) {
-        wp_delete_post($war->ID);
-    }
-    exit;
 }
+
+$array['status'] = 'Your clan was deleted';
+$array['next'] = true;
+echo json_encode($array);
+exit;
+
+$clan_members = get_post_meta($clan, 'clan_members');
+foreach ($clan_members as $member) {
+    update_user_meta($member[0], 'clan_id_user', 0);
+}
+
+wp_trash_post($clan);
+update_user_meta($userId, 'clan_id_user', 0);
+update_user_meta($userId, 'clan_create_counter', 1);
+
+$array['status'] = 'Your clan was deleted';
+$array['next'] = true;
+echo json_encode($array);
+
+foreach ($wars_on as $war) {
+    wp_delete_post($war->ID);
+}
+
+foreach ($wars_by as $war) {
+    wp_delete_post($war->ID);
+}
+exit;

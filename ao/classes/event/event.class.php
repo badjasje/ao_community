@@ -6,9 +6,9 @@ class Event extends PostObject {
         'aid' => array(
             'icon' => 'fas fa-hand-holding-usd', 'header' => array('incoming' => 'Aid received', 'outgoing' => 'Aid sent', 'global' => 'Aid report'),
             'title' => array(
-                'incoming' => 'You received <strong>{money}</strong> aid from {attacker}',
-                'outgoing' => 'You sent <strong>{money}</strong> to {defender}',
-                'global' => '{defender} received <strong>{money}</strong> aid from {attacker}',
+                'incoming' => 'You received {money} aid from {attacker}',
+                'outgoing' => 'You sent {money} to {defender}',
+                'global' => '{defender} received {money} aid from {attacker}',
             ),
         ),
         'nukeprotection' => array(
@@ -96,6 +96,11 @@ class Event extends PostObject {
                 'outgoing' => 'You sent snipers to {defender} and you {won}{lost}',
             ),
             'body' => '{attack_body}'
+        ),
+        'saboteur' => array(
+            'icon' => 'fas fa-bomb', 'header' => 'Saboteur sent',
+            'title' => 'You sent a saboteur to {defender} and he was {succesfull}{killed}',
+            'body' => '{silos} disabled'
         ),
         'spy' => array(
             'icon' => 'fas fa-binoculars', 'header' => 'Spy infiltration report',
@@ -188,7 +193,7 @@ class Event extends PostObject {
         $eventTypes = array('aid','air_sea','empmissile', 'empsat', 'ground', 'killed', 'missile', 'regular', 'satellite');
         switch($category) {
             case 'incoming': $eventTypes = array_merge($eventTypes, array('thief','nukeprotection','research_ready','user_kicked','sat_crash','sniper','spy', 'bonus')); break;
-            case 'outgoing': $eventTypes = array_merge($eventTypes, array('thief', 'user_kicked', 'sniper')); break;
+            case 'outgoing': $eventTypes = array_merge($eventTypes, array('thief', 'user_kicked', 'sniper','saboteur')); break;
             case 'global':   $eventTypes = array_merge($eventTypes, array('war_declared', 'peace_declared', 'user_change')); break;
         }
         return $eventTypes;
@@ -289,18 +294,18 @@ class Event extends PostObject {
         // Attackmode, target and morale
         if($this->eventcategory == 'outgoing') {
             $attackSettings = array();
-            if(!empty($this->get('attackmode'))) $attackSettings[] = 'attackmode: <em>'. $this->get('attackmode') .'</em>';
-            if(!empty($this->get('maintarget'))) $attackSettings[] = 'maintarget: <em>'. $this->get('maintarget') .'</em>';
-            if(!empty($this->get('moralecost'))) $attackSettings[] = 'morale: <em>'. Format::morale($this->get('moralecost')) .'</em>';
-            if(count($attackSettings)) $body .= '<p>'. implode(', ', $attackSettings) .'</p>';
+            if(!empty($this->get('attackmode'))) $attackSettings[] = 'attackmode: '.($format == true ? '<em>'. $this->get('attackmode') .'</em>' : $this->get('attackmode'));
+            if(!empty($this->get('maintarget'))) $attackSettings[] = 'maintarget: '.($format == true ? '<em>'. $this->get('maintarget') .'</em>' : $this->get('maintarget'));
+            if(!empty($this->get('moralecost'))) $attackSettings[] = 'morale: '.($format == true ? '<em>'. Format::morale($this->get('moralecost')) .'</em>' : $this->get('moralecost'));
+            if(count($attackSettings)) $body .= ($format == true ? '<p>'. implode(', ', $attackSettings) .'</p>' : implode(', ', $attackSettings).'. ');
         }
 
         // Land and money
-        $money = ($format == true ? Format::money($this->get('money_lost')) : $this->get('money_lost'));
-        $land = ($format == true ? Format::land($this->get('land_lost')) : $this->get('land_lost'));
+        $money = ($format == true ? '<strong>'.Format::money($this->get('money_lost')).'</strong>' : $this->get('money_lost'));
+        $land = ($format == true ? '<strong>'.Format::land($this->get('land_lost')).'</strong>' : $this->get('land_lost'));
         $tomahawkHit = (!empty($this->get('tomahawk_hit')) ? $this->get('tomahawk_hit') : 0);
-        $body .= '<p>In this attack <strong>'. $land .'</strong> and <strong>'. $money .'</strong> was stolen';
-        $body .= ($tomahawkHit>0 ? ', ' . Format::plural($tomahawkHit, 'tomahawk') .' hit the base' : '') . '</p>';
+        $body .= ($format==true?'<p>':'').'In this attack '. $land .' and '. $money .' was stolen';
+        $body .= ($tomahawkHit>0 ? ', ' . Format::plural($tomahawkHit, 'tomahawk') .' hit the base' : '') . ($format==true?'</p>':'. ');
 
         // Attacker losses
 		$tomahawkDown = (!empty($this->get('tomahawk_down')) ? $this->get('tomahawk_down') : 0);
@@ -312,9 +317,11 @@ class Event extends PostObject {
             $num = array_values($item)[1];
             if($item['type']=='unit' && isset($units[$key])) $unit_losses[] = $units[$key]['normalname'].': '.$num;
         }
-        $body .= '<p>'. (count($att_lost)>0 || $tomahawkDown>0?'<strong>':'').'Attacker losses: ' . Format::plural($att_num_losses, 'unit');
+        $body .= ($format==true?'<p>':''). ($format==true && (count($att_lost)>0 || $tomahawkDown>0)?'<strong>':'');
+        $body .= 'Attacker losses: ' . Format::plural($att_num_losses, 'unit');
         $body .= ($tomahawkDown>0?', '. Format::plural($tomahawkDown, 'tomahawk').' shot down':'');
-        $body .= (count($att_lost)>0 || $tomahawkDown>0?'</strong><br>':'').implode(', ', $unit_losses) . '</p>';
+        $body .= ($format==true && (count($att_lost)>0 || $tomahawkDown>0)? '</strong><br>':'');
+        $body .= implode(', ', $unit_losses) . ($format==true?'</p>':'. ');
 
         // Defender losses
         $bld_losses = $unit_losses = array();
@@ -327,9 +334,9 @@ class Event extends PostObject {
             if($item['type']=='unit' && isset($units[$key])) $unit_losses[] = $units[$key]['normalname'].': '.$num;
             else if($item['type']=='bld' && isset($buildings[$key])) $bld_losses[] = $buildings[$key]['normalname'].': '.$num;
         }
-        $body .= '<p>'.(count($def_lost)>0?'<strong>':'').'Defender losses: ' . Format::plural($def_unit_num_losses, 'unit');
-        $body .= ' and ' . Format::plural($def_buildings_num_lost, 'building').''.(count($def_lost)>0?'</strong><br>':'');
-        $body .= implode(', ', $unit_losses) . (count($unit_losses)>0?'<br>':'') . implode(', ', $bld_losses) . '</p>';
+        $body .= ($format==true?'<p>':''). ($format==true&&count($def_lost)>0?'<strong>':'').'Defender losses: ' . Format::plural($def_unit_num_losses, 'unit');
+        $body .= ' and ' . Format::plural($def_buildings_num_lost, 'building').''. (count($def_lost)>0 ? ($format==true?'</strong><br>':': ') : '');
+        $body .= implode(', ', $unit_losses) . (count($unit_losses)&&$format==true>0?'<br>':' ') . implode(', ', $bld_losses) . ($format==true?'</p>':'. ');
 
         return $body;
     }
@@ -339,12 +346,12 @@ class Event extends PostObject {
         // Often used
         $attacker_id = $this->get('attacker_id');
         $attacker = (!empty($attacker_id) ? User::make($attacker_id) : false);
-        $attacker_name = ($attacker ? $attacker->getLink($format) : 'unknown');
+        $attacker_name = ($attacker ? ($format==true ? $attacker->getLink(true) : $attacker->getName()) : 'unknown');
         $defender_id = $this->get('defender_id');
         $defender = (!empty($defender_id) ? User::make($defender_id) : false);
-        $defender_name = ($defender ? $defender->getLink($format) : 'unknown');
+        $defender_name = ($defender ? ($format==true ? $defender->getLink(true) : $defender->getName()) : 'unknown');
         $winner_id = $this->get('winner_id');
-        $money = ($format == true ? Format::money($this->get('money_lost')) : $this->get('money_lost'));
+        $money = ($format == true ? '<strong>'.Format::money($this->get('money_lost')).'</strong>' : $this->get('money_lost'));
         $attacker_clan = (!empty($this->get('attacker_clan_id')) ? Clan::make($this->get('attacker_clan_id')) : false);
         $defender_clan = (!empty($this->get('defender_clan_id')) ? Clan::make($this->get('defender_clan_id')) : false);
         if(!$attacker_clan && !!$attacker) $attacker_clan = $attacker->getProvince()->getClan();
@@ -362,24 +369,27 @@ class Event extends PostObject {
             '{youdied}' => ($this->get('status_defender') == 'death' ? ($format == true ? '<strong>you died</strong>' : 'you died') : ''), // incoming
             '{killed}' => ($this->get('status_defender') == 'death' ? 'killed this player' : ''),// outgoing
             '{kicked}' => 'Kicked from '.($attacker_clan ? $attacker_clan->getLink($format) : 'unknown').' by '.$attacker_name,
-            '{declaring_clan}' => ($attacker_clan ? $attacker_clan->getLink($format) : ''),
-            '{declared_clan}' => ($defender_clan ? $defender_clan->getLink($format) : ''),
+            '{declaring_clan}' => ($attacker_clan ? ($format==true ? $attacker_clan->getLink(true) : $attacker_clan->getName())  : ''),
+            '{declared_clan}' => ($defender_clan ? ($format==true ? $defender_clan->getLink(true) : $defender_clan->getName()) : ''),
             '{dec_message}' => $this->get('dec_message'),
             '{bonus_money}' => ($format == true ? Format::money($this->get('bonus_money')) : $this->get('bonus_money')),
             '{bonus_turns}' => ($format == true ? Format::turns($this->get('bonus_turns')) : $this->get('bonus_turns')),
             '{nw_damage_defender}' => $this->get('nw_damage_defender'),
+            '{succesfull}' => ($winner_id != $defender_id ? 'lived' : ''),
+            '{killed}' => ($winner_id == $defender_id ? 'killed in action' : ''),
+            '{silos}' => (!empty($this->get('silos')) ? Format::plural($this->get('silos'), 'silo') : 'no silos'),
         );
 
         // Incoming
         if($this->eventcategory == 'incoming') {
             $replace = array_merge($replace, array(
-                '{won}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id ? '<strong>won</strong> the battle' : ''),
-                '{lost}' => ($this->get('status_defender') != 'death' && $winner_id == $attacker_id ? '<strong>lost</strong> the battle' : ''),
+                '{won}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id ? ($format == true ? '<strong>won</strong>' : 'won').' the battle' : ''),
+                '{lost}' => ($this->get('status_defender') != 'death' && $winner_id == $attacker_id ? ($format == true ? '<strong>lost</strong>' : 'lost').' the battle' : ''),
                 '{shotdown}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id && $this->get('shotdown') == 'shotdown' ? 'you shot down the missile' : ''),
-                '{missed}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id && $this->get('shotdown') != 'shotdown' ? '<strong>missed</strong> your base' : ''),
-                '{hit}' => ($this->get('status_defender') != 'death' && $winner_id == $attacker_id ? '<strong>hit</strong> your base' : ''),
-                '{sat_hit}' => ($this->get('outcome') == 'success' ? '<strong>hit</strong> your base' : ''),
-                '{sat_missed}' => ($this->get('outcome') == 'failure' ? '<strong>missed</strong> your base' : ''),
+                '{missed}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id && $this->get('shotdown') != 'shotdown' ? ($format == true ? '<strong>missed</strong>' : 'missed').' your base' : ''),
+                '{hit}' => ($this->get('status_defender') != 'death' && $winner_id == $attacker_id ? ($format == true ? '<strong>hit</strong>' : 'hit').' your base' : ''),
+                '{sat_hit}' => ($this->get('outcome') == 'success' ? ($format == true ? '<strong>hit</strong>' : 'hit').' your base' : ''),
+                '{sat_missed}' => ($this->get('outcome') == 'failure' ? ($format == true ? '<strong>missed</strong>' : 'missed').' your base' : ''),
                 '{killedthieves}' => ($winner_id == $defender_id ? 'you killed '. Format::plural($this->get('thiefs_lost'), 'thief', 'thieves') : ''),
                 '{stolemoney}' => ($winner_id == $attacker_id ? 'stole '.$money : ''),
             ));
@@ -399,8 +409,8 @@ class Event extends PostObject {
                 '{shotdown}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id && $this->get('shotdown') == 'shotdown' ? ' it was shot down' : ''),
                 '{missed}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id && $this->get('shotdown') != 'shotdown' ? 'you missed the enemy base' : ''),
                 '{hit}' => ($this->get('status_defender') != 'death' && $winner_id == $attacker_id ? 'you hit the enemy base' : ''),
-                '{sat_hit}' => ($this->get('outcome') == 'success' ? '<strong>hit</strong> the base' : ''),
-                '{sat_missed}' => ($this->get('outcome') == 'failure' ? '<strong>missed</strong> the base' : ''),
+                '{sat_hit}' => ($this->get('outcome') == 'success' ? ($format == true ? '<strong>hit</strong>' : 'hit').' the base' : ''),
+                '{sat_missed}' => ($this->get('outcome') == 'failure' ? ($format == true ? '<strong>missed</strong>' : 'missed').' the base' : ''),
                 '{thieves}' => ($this->get('thiefs_lost') > 0 ? Format::plural($this->get('thiefs_lost'), 'thief', 'thieves') : 'thieves'),
                 '{stolemoney}' => ($winner_id != $defender_id ? 'stole '.$money : ''),
                 '{caught}' => ($winner_id == $defender_id ? 'but you were caught' : ''),
@@ -439,8 +449,8 @@ class Event extends PostObject {
                 '{kicked}' => ($this->get('outcome') == 'kicked' ? 'was kicked by '.$attacker_name : ''),
                 '{joined}' => ($this->get('outcome') == 'joined' ? 'joined your clan' : ''),
                 '{left}' => ($this->get('outcome') == 'left' ? 'left your clan' : ''),
-                '{sat_hit}' => ($this->get('outcome') == 'success' ? '<strong>hit</strong> the base' : ''),
-                '{sat_missed}' => ($this->get('outcome') == 'failure' ? '<strong>missed</strong> the base' : ''),
+                '{sat_hit}' => ($this->get('outcome') == 'success' ? ($format == true ? '<strong>hit</strong>' : 'hit').' the base' : ''),
+                '{sat_missed}' => ($this->get('outcome') == 'failure' ? ($format == true ? '<strong>missed</strong>' : 'missed').' the base' : ''),
             ));
 
             if($this->eventtype == 'user_change' && in_array($this->get('outcome'), array('kicked','left'))) {

@@ -27,10 +27,10 @@ if (empty($userID) || !is_user_logged_in()) {
 $user = round($_GET['user']);
 $clan = get_user_meta($user, 'clan_id_user', true);
 
-$ct_1 = get_post_meta($clan, 'ct_1', true);
-$ct_2 = get_post_meta($clan, 'ct_2', true);
-$ct_3 = get_post_meta($clan, 'ct_3', true);
-$ct_4 = get_post_meta($clan, 'ct_4', true);
+$cts=array();
+for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
+    $cts[$i] = get_post_meta($clan, 'ct_'.$i, true);
+}
 
 if ($user == $userID) {
     $previousMembers = maybe_unserialize(get_post_meta($clan, 'previous_members',true));
@@ -49,10 +49,9 @@ if ($user == $userID) {
         }
     }
 
-    if ($user == $ct_1) update_post_meta($clan, 'ct_1', 0);
-    if ($user == $ct_2) update_post_meta($clan, 'ct_2', 0);
-    if ($user == $ct_3) update_post_meta($clan, 'ct_3', 0);
-    if ($user == $ct_4) update_post_meta($clan, 'ct_4', 0);
+    for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
+        if ($user == $cts[$i]) update_post_meta($clan, 'ct_'.$i, 0);
+    }
 
     update_post_meta($clan, 'clan_members', $clan_members);
     update_user_meta($user, 'clan_id_user', 0);

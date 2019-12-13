@@ -40,27 +40,39 @@ if (count($posts) == 0) {
     exit;
 }
 
-// Look for peace event to get peace-time
-$peacetime = 0;
-$eventposts = get_posts(array(
-    'numberposts' => 1, 'post_title' => 'PEACE', 'post_status' => 'publish', 'post_type' => 'event_local',
-    'meta_query' => array(
+// Do we have an incoming war? It's allowed to resume to mutual no matter the peace time
+$warcount = get_posts(array(
+	'numberposts' => -1, 'post_type' => 'wars', 'post_status' => 'publish',
+	'meta_query' => array(
         'relation' => 'AND',
-        array('key' => 'attacker_clan_id', 'value' => $declaredbyID),
-        array('key' => 'defender_clan_id', 'value' => $declaredonID),
-    ),
+        array('key' => 'declared_by', 'value' => $declaredonID),
+        array('key' => 'declared_on', 'value' => $declaredbyID)
+    )
 ));
-if(count($eventposts)) {
-    $peacetime = get_post_meta($eventposts[0]->ID,'time_attacked', true);
-}
+$warcount = count($warcount);
 
-$timestamp = current_time('timestamp');
-$resume_time = Settings::get('resume_after_hours');
-if($timestamp - $peacetime < (60*60* $resume_time ) ) {
-    $array['status'] = 'You can only resume after '.$resume_time.' hours of peace, peaced at '.date('d-m-Y H:i:s', $peacetime);
-    $array['next'] = false;
-    echo json_encode($array);
-    exit;
+// Look for peace event to get peace-time
+if($warcount == 0) {
+    $peacetime = 0;
+    $eventposts = get_posts(array(
+        'numberposts' => 1, 'post_title' => 'PEACE', 'post_status' => 'publish', 'post_type' => 'event_local',
+        'meta_query' => array(
+            'relation' => 'AND',
+            array('key' => 'attacker_clan_id', 'value' => $declaredbyID),
+            array('key' => 'defender_clan_id', 'value' => $declaredonID),
+        ),
+    ));
+    if(count($eventposts)) {
+        $peacetime = get_post_meta($eventposts[0]->ID,'time_attacked', true);
+    }
+    $timestamp = current_time('timestamp');
+    $resume_time = Settings::get('resume_after_hours');
+    if($timestamp - $peacetime < (60*60* $resume_time ) ) {
+        $array['status'] = 'You can only resume after '.$resume_time.' hours of peace, peaced at '.date('d-m-Y H:i:s', $peacetime);
+        $array['next'] = false;
+        echo json_encode($array);
+        exit;
+    }
 }
 
 $my_post = array('ID' => $posts[0]->ID,'post_status' => 'publish','post_title' => $timestamp);

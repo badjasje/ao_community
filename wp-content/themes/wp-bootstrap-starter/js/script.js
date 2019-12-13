@@ -347,11 +347,6 @@ jQuery(function($) {
     });
 
     // Buildings page
-    $('.demomax').on('click', function(e) {
-        e.preventDefault();
-        $(this).siblings('.demoBlock').find('.unitInput').val($(this).attr('data-amount'));
-        calculateBuildingsTotals();
-    });
     function calculateBuildingsTotals() {
         if(typeof provinceData.networth == 'undefined' || $('#buildings').length==0) return;
         var totals = {build:0,demo:0,cost:0,turns:0,nw:provinceData.networth};
@@ -400,26 +395,13 @@ jQuery(function($) {
     });
     calculateBuildingsTotals();
 
-    // Buildings & Units page
-    $(document).on("keyup paste blur change", ".unitInput", function() {
-        calculateBuildingsTotals();
-        calculateUnitsTotals();
-	});
-    $('.buildmax').on('click', function(e) {
-        e.preventDefault();
-        $(this).siblings('.buildBlock').find('.unitInput').val($(this).attr('data-amount'));
-        calculateBuildingsTotals();
-        calculateUnitsTotals();
-    });
-
     // Units page
     function calculateUnitsTotals() {
         if(typeof provinceData.networth == 'undefined' || $('#turnbuild').length==0) return;
-        var totals = {build:0,specialbuild:0,cost:0,turns:0,nw:provinceData.networth};
+        var totals = {build:0,cost:0,turns:0,nw:provinceData.networth};
         $('#turnbuild .unitRow:not(.headerRow,.descriptionRow)').each(function() {
             var b = Math.abs($('.buildBlock .unitInput',this).val()), bpt = parseInt($(this).data('bpt'));
             totals.build += b;
-            totals.specialbuild += ($(this).data('specialspace')>0 ? b : 0);
             totals.cost += (b * parseInt($(this).data('buildprice')));
             totals.nw += (b * parseInt($(this).data('nw')));
             totals.turns += b / bpt;
@@ -459,13 +441,124 @@ jQuery(function($) {
                 $('.buildmax', r).attr('data-amount', bm).text(bm);
                 $('.buildBlock .unitInput', r).attr('max', bm);
                 $('.owned', r).text(o);
-                r.data('space', sp).data('specialspace', ssp);
+                r.attr('data-space', sp).attr('data-specialspace', ssp);
             }
             $(this).trigger('reset');
-            calculateBuildingsTotals();
+            calculateUnitsTotals();
         });
     });
     calculateUnitsTotals();
+
+    // Market page
+    function calculateMarketTotals() {
+        if(typeof provinceData.networth == 'undefined' || $('#market').length==0) return;
+        var totals = {build:0,demo:0,buy:0,buytotal:0,cost:0,sell:0,trade:0,nw:provinceData.networth};
+        $('#market .unitRow:not(.headerRow,.descriptionRow)').each(function() {
+            var b = Math.abs($('.buildBlock .unitInput',this).val()), d = Math.abs($('.demoBlock .unitInput',this).val());
+            totals.build += b;
+            totals.demo += d;
+            totals.buy += (b * parseInt($(this).data('buyprice')));
+            totals.nw += (b * parseInt($(this).data('nw'))) - (d * parseInt($(this).data('nw')));
+        });
+        totals.buytotal = totals.buy; 
+        if(totals.demo > 0) { // Trading is cheaper than selling / buying
+            $('#market .unitRow:not(.headerRow,.descriptionRow)').each(function() {
+                var d = Math.abs($('.demoBlock .unitInput',this).val()), tp=parseInt($(this).data('tradeprice')), sp=parseInt($(this).data('sellprice'));
+                if(d > 0) {
+                    if(totals.buy > 0) {
+                        var tradenum = Math.min(d, Math.ceil(totals.buy/tp)); // how many do we need?
+                        totals.buy -= tradenum * tp;
+                        totals.sell += ((d-tradenum) > 0 ? (d-tradenum) * sp : 0);
+                    } else totals.sell += d * sp;
+                    totals.trade += d * tp; // how much WOULD we like to trade?
+                }
+            });
+        }
+        if(totals.buy < 0) {
+            totals.sell += -totals.buy;
+            totals.buy = 0;
+        }
+        totals.cost = totals.sell - totals.buy;
+
+        var space = {'special':-1}; //money = provinceData.money + totals.cost,
+        $('#market .unitBuildTable').each(function() {
+            var type = $(this).attr('id');
+            space[type] = parseInt($('#'+type+'spacecount').text());
+            $('.unitRow:not(.headerRow,.descriptionRow)', this).each(function() {
+                var b = Math.abs($('.buildBlock .unitInput',this).val()), d = Math.abs($('.demoBlock .unitInput',this).val());
+                if($(this).data('specialspace') != undefined && space.special == -1) space.special = parseInt($(this).data('specialspace'));
+                if($(this).data('specialspace') != undefined) space.special += d - b;
+                space[type] += d - b;
+            });
+        });
+
+        var money = provinceData.money;
+        $('#market .unitRow:not(.headerRow,.descriptionRow)').each(function() {
+            var type = $(this).parents('.unitBuildTable').attr('id');
+            var nm = space[type];
+            nm = ($(this).data('specialspace') != undefined ? Math.min(nm, space.special) : nm);
+            var tradeMax = Math.floor( ((money-totals.buytotal)+totals.trade) / $(this).data('buyprice')); // max we can trade
+            nm = Math.min( tradeMax, nm);
+            var sm = Math.abs($('.buildBlock .unitInput', this).val()) + nm;
+            $('.buildmax', this).attr('data-amount', sm ).text(nm);
+            $('.buildBlock .unitInput', this).attr('max', sm);
+        });
+        $('#total').text('+'+totals.build+' / -'+totals.demo);
+        $('#cost_total').attr('data-amount', totals.cost).text(number_format(totals.cost, 0, ',', ' '))
+        //$('#cost_total').parent().toggleClass('red-text', totals.cost < 0).toggleClass('green-text', totals.cost > 0);
+        $('#networth_new').text(number_format(totals.nw, 0, ',', ' '));
+    }
+    $('#market').on('submit', function(e) {
+        e.preventDefault();
+        if($('#cost_total').attr('data-amount')*-1 > provinceData.money) return standardNotify('Insufficient funds');
+        var specialttl = 0;
+        $('#market .unitRow:not(.headerRow,.descriptionRow)').each(function() {
+            if($(this).data('specialspace') != undefined) specialttl += Math.abs($('.demoBlock .unitInput',this).val());
+        });
+        if(specialttl > $('.maxSpecialSell').data('amount')) {
+            return standardNotify('You cannot sell more than '+$('.maxSpecialSell').data('amount')+' special units per day');
+        }
+        singleAjax(site_url+'/ajax/market', $(this), function(data) {
+            $('.specialSold', this).text(data.specialsold);
+            for(var key in data.buildmax) {
+                var bm = data.buildmax[key], dm = data.demomax[key], o = data.owned[key], b = data.ordered[key],
+                sp = data.space[key], ssp = data.specialspace[key], r = $('.unitRow.'+key,this);
+                $('.buildmax', r).attr('data-amount', bm).text(bm);
+                $('.buildBlock .unitInput', r).attr('max', bm);
+                $('.demomax', r).attr('data-amount', dm).find('.num_owned').text(o);
+                $('.demomax', r).find('.num_ordered').text( (b>0 ? ' ('+b+')' : '') );
+                $('.demoBlock .unitInput', r).attr('max', dm);
+                r.attr('data-space', sp).attr('data-specialspace', ssp);
+            }
+            for(var key in data.typespace) {
+                $('#'+key+'spacecount', this).text(data.typespace[key] - data.usedtypespace[key]);
+            }
+            $(this).trigger('reset');
+            calculateMarketTotals();
+        });
+    });
+    calculateMarketTotals();
+
+
+    // Buildings, Units & Market page
+    $(document).on("keyup paste blur change", ".unitInput", function() {
+        calculateBuildingsTotals();
+        calculateUnitsTotals();
+        calculateMarketTotals();
+	});
+    $('.buildmax').on('click', function(e) {
+        e.preventDefault();
+        $(this).siblings('.buildBlock').find('.unitInput').val($(this).attr('data-amount'));
+        calculateBuildingsTotals();
+        calculateUnitsTotals();
+        calculateMarketTotals();
+    });
+    $('.demomax').on('click', function(e) {
+        e.preventDefault();
+        $(this).siblings('.demoBlock').find('.unitInput').val($(this).attr('data-amount'));
+        calculateBuildingsTotals();
+        calculateMarketTotals();
+    });
 
     // satelliteForm
     $('.satelliteForm .orderSubmit').on('click', function(e) {

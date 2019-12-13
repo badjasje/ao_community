@@ -45,7 +45,7 @@
 							<?php if($user_ID == $clanleader) {
 								echo '<strong>CL</strong>';
 							} ?>
-							<?php if($user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4 ){
+							<?php if(in_array($user_ID, $cts)){
 								echo '<strong>CT</strong>';
 							} ?>
 						</div>
@@ -58,7 +58,7 @@
 						<?php if($user_ID == $clanleader) {
 							echo '<strong>CL</strong>';
 						} ?>
-						<?php if($user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4 ){
+						<?php if(in_array($user_ID, $cts)){
 							echo '<strong>CT</strong>';
 						} ?>
 					</div>
@@ -161,7 +161,7 @@
 							<?php if($user_ID == $clanleader ){
 								echo '<strong>CL</strong>';
 							} ?>
-							<?php if($user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4 ){
+							<?php if(in_array($user_ID, $cts)){
 								echo '<strong>CT</strong>';
 							} ?>
 						</div>
@@ -174,7 +174,7 @@
 						<?php if($user_ID == $clanleader ){
 							echo '<strong>CL</strong>';
 						} ?>
-						<?php if($user_ID == $ct_1 || $user_ID == $ct_2 || $user_ID == $ct_3 || $user_ID == $ct_4 ){
+						<?php if(in_array($user_ID, $cts)){
 							echo '<strong>CT</strong>';
 						} ?>
 					</div>

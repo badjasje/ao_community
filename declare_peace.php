@@ -56,12 +56,13 @@ if(!$canPeace) {
 $declarer_clan_ID = $userData['clan_id_user'][0];
 $clan_leader = get_post_meta($declarer_clan_ID, 'clan_leader', true);
 
-$ct_1 = get_post_meta($declarer_clan_ID, 'ct_1', true);
-$ct_2 = get_post_meta($declarer_clan_ID, 'ct_2', true);
-$ct_3 = get_post_meta($declarer_clan_ID, 'ct_3', true);
-$ct_4 = get_post_meta($declarer_clan_ID, 'ct_4', true);
+$cts=array();
+for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
+    $cts[$i] = get_post_meta($declarer_clan_ID, 'ct_'.$i, true);
+}
+$allowed = array_merge($cts, array($clan_leader));
 
-if (in_array($declarer_ID, array($clan_leader, $ct_1, $ct_2, $ct_3, $ct_4))) {
+if(in_array($declarer_ID, $allowed)) {
     $declared_on = get_post_meta($_POST['war'], 'declared_on', true);
     $def_clan_leader = get_post_meta($declared_on, 'clan_leader', true);
 

@@ -113,7 +113,7 @@ class Settings extends DataObject {
         'turns_thief' => 2,
         'turns_spy' => 1,
         'turns_research' => 2, // duration times 2
-        'turns_queue_research' => 3, // duration times 3
+        'turns_queue_research' => 2.5, // duration times 3
 
         // Market, Satellite & Missile
         'sat_turn_cost' => 25,
@@ -124,14 +124,19 @@ class Settings extends DataObject {
         'stealthsat_morale_cost' => 100,
         'order_cancel_cashback' => 0.75,
         'missile_sell_multi' => 0.75,
-        'unit_sell_multi' => 0.9, // of unit buy price
+        'unit_order_multi' => 2.2,
+        'unit_sell_multi' => 0.8, // of unit buy price
+        'unit_trade_multi' => 1, // of unit buy price
+        'max_special_sell' => 50,
+        'max_special_order' => 500,
+        'max_market_delay' => 360,
 
         // Attack range multiplier
         'attack_range_mult' => 1.4,
         'average_declare_nw_allowed' => 1.6,
 
         // Clan stuff
-        'clan_trustee_num' => 4,
+        'clan_trustee_num' => 5,
         'clan_member_num' => 6,
 
         // War

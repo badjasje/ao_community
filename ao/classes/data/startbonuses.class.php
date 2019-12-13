@@ -19,7 +19,7 @@ class Startbonuses extends DataObject {
                 $buildings[$id]['life'] = round($buildings[$id]['life'] * 1.25);
             }
         });
-        Hooks::on('get_province_unit', 10, function(&$units, $id, $province) {
+        Hooks::on('get_province_unit', 20, function(&$units, $id, $province) {
             if($province->hasStartingBonus('defensive')) {
                 $units[$id]['life'] = round($units[$id]['life'] * 1.2);
             }
@@ -45,7 +45,11 @@ class Startbonuses extends DataObject {
                 $researches[$id]['duration'] = round($researches[$id]['duration'] * 0.9);
             }
         });
-        // @todo: shipping: Market hooks
+        Hooks::on('get_province_shipping_discount', 20, function(&$return, $province) {
+            if($province->hasStartingBonus('shipping')) {
+                $return += .1;
+            }
+        });
         // @todo: offensive: Unit attack hooks
     }
 

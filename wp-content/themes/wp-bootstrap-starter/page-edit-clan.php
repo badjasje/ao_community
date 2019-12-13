@@ -14,21 +14,21 @@ $clanData = get_post_meta($clan_ID);
 $clanleader = $clanData['clan_leader'][0];
 $leader_data = get_userdata($clanleader);
 $clanmembers = maybe_unserialize(get_post_meta( $clan_ID, 'clan_members', true ));
-$ct_1 = get_post_meta($clan_ID,'ct_1',true);
-$ct_2 = get_post_meta($clan_ID,'ct_2',true);
-$ct_3 = get_post_meta($clan_ID,'ct_3',true);
-$ct_4 = get_post_meta($clan_ID,'ct_4',true);
+$cts=array();
+for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
+    $cts[$i] = get_post_meta($clan_ID, 'ct_'.$i, true);
+}
 //$settings = array( 'media_buttons' => false );
 $changecount = get_post_meta($clan_ID, 'clan_name_change', true);
 if(get_field('game_status', 'option') != 'Live') $changecount = 0;
-$allowed = array($ct_1,$ct_2,$ct_3,$ct_4,$clanleader);
+$allowed = array_merge($cts,array($clanleader));
 
 $clan = get_post($clan_ID);
 $wp_upload_dir = wp_upload_dir();
 ?>
 <style>
 .dropzone .dz-preview.dz-image-preview { display: none; }
-.dropzone { background:none; border:1px solid #999!important; overflow: hidden; }
+.dropzone { min-width: 150px; background-size:cover!important; border:1px solid #999!important; overflow: hidden; }
 </style>
 <div class="row pageRow clanContentRow">
     <form id="editclan" method="post">
@@ -52,43 +52,46 @@ $wp_upload_dir = wp_upload_dir();
 
             <div class="pageSpacer"></div>
 
-            <div class="col-md-12 col-lg-12 col-no-padding editClanCol">
+            <div class="col-md-12 col-no-padding">
                 <div class="blockHeader">
                     Clan leader & Clan trustee management
                 </div>
-                <div class="blockHeader" style="background-color:#fff;color:#545454">
-                    Switch clan leader
-                </div>
-                <div style="padding: 0px 9px;width:100%;" class="attackDropdown statCol-2 no-gutters">
-                    <select id="clanleader" name="new_leader" class="attackTypeInput">
-                        <option value="<?php echo $clanleader;?>" selected="selected">
-                            <?php echo $leader_data->display_name;?>
-                        </option>
-                        <?php foreach($clanmembers as $key => $member) {
-                            if($member != $clanleader) {
-                                $member_data = get_userdata($member);?>
-                                <option name="new_leader" value="<?php echo $member;?>"><?php echo $member_data->display_name;?></option>
-                                <?php
-                            }
-                        } ?>
-                    </select>
+            </div>
+            <div class="col-md-12 editClanCol">
+                <div class="row mt-3">
+                    <div class="col-md-4">Switch clan leader</div>
+                    <div class="col-md-8">
+                        <select id="clanleader" name="new_leader" class="form-control">
+                            <option value="<?php echo $clanleader;?>" selected="selected">
+                                <?php echo $leader_data->display_name;?>
+                            </option>
+                            <?php foreach($clanmembers as $key => $member) {
+                                if($member != $clanleader) {
+                                    $member_data = get_userdata($member);?>
+                                    <option name="new_leader" value="<?php echo $member;?>"><?php echo $member_data->display_name;?></option>
+                                    <?php
+                                }
+                            } ?>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="blockHeader" style="background-color:#fff;color:#545454">
-                        Pick clan trustees
+                <div class="row mt-3 mb-4">
+                    <div class="col-md-4">
+                        <span id="clan_trustee_num" data-value="<?=Settings::get('clan_trustee_num')?>">Pick clan trustees (max <?=Settings::get('clan_trustee_num')?>)</span>
                     </div>
-                    <select name="clantrustees[]" multiple class="form-control ctselect" id="clantrustees">
-                        <?php foreach ($clanmembers as $key => $member) {
-                            if($member != $clanleader) {
-                                $member_data = get_userdata($member);?>
-                                <option name="clantrustee" value="<?php echo $member;?>"><?php echo $member_data->display_name;?> (#<?php echo $member;?>)</option>
-                                <?php
-                            }
-                        } ?>
-                    </select>
+                    <div class="col-md-8">
+                    <?php foreach ($clanmembers as $key => $member) {
+                        if($member != $clanleader) {
+                            $member_data = get_userdata($member); ?>
+                            <label><input type="checkbox" name="clantrustees[]" value="<?=$member?>"<?=(in_array($member,$cts)?'checked':'')?>> <?=$member_data->display_name?> (#<?=$member?>)</label><br>
+                            <?php
+                        }
+                    } ?>
+                    </div>
                 </div>
             </div>
+
             <input type="hidden" name="id" value="<?php echo $clan_ID;?>">
             <input class="mainSubmit" type="submit" value="Edit clan" name="submit">
 	    </div>
@@ -124,13 +127,13 @@ $wp_upload_dir = wp_upload_dir();
         var request;
         $("#editclan").submit(function(event){
             $('.pageLoader, #page-cover').show();
-            $('.pageLoader, #page-cover').delay(250).fadeOut( "fast");
 
             event.preventDefault();
             if (request) request.abort();
             var serializedData = $(this).serialize();
             request = $.ajax({url: "/editclan.php",type: "post",data: serializedData});
             request.done(function (response, textStatus, jqXHR){
+                $('.pageLoader, #page-cover').fadeOut("fast");
                 var array = JSON.parse(response);
                 if(array.imagechanged == true) {
                     var myDropzone = Dropzone.forElement(".clanUpload");
@@ -155,15 +158,9 @@ $wp_upload_dir = wp_upload_dir();
             });
         });
 
-        $(function() {
-            $('select[name="clantrustees[]"]').children('[value="<?php echo $ct_1;?>"],[value="<?php echo $ct_2;?>"],[value="<?php echo $ct_3;?>"],[value="<?php echo $ct_4;?>"]').attr('selected', 'selected');
-        });
-
-        $("select").on('change', function(e) {
-            if (Object.keys($(this).val()).length > 4) {
-                $('option[value="' +$(this).val().toString().split(',')[4] + '"]').prop('selected', false);
-                $.notify({message: "Only four clan trustees allowed"},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
-            }
+        var maxTrustee = parseInt($('#clan_trustee_num').data('value'));
+        $("[name='clantrustees[]']").on('change click', function(e) {
+            if($("[name='clantrustees[]']:checked").length > maxTrustee) e.preventDefault();
         });
 
         $(window).on('load', function() {

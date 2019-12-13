@@ -21,6 +21,7 @@ class Request {
         'buildings' => array('province','buildings'),
         'units' => array('province','units'),
         'satellite' => array('province','satellite'),
+        'market' => array('province','market'),
         'sendaid' => array('province','sendaid'),
         'reset' => array('province','reset'),
 
@@ -33,15 +34,15 @@ class Request {
         'wp-login.php' => 10,           //0
         'ajax/message' => 5,            //1
 
-        // Old ajax calls
+        // Old&new ajax calls
         'missiles.php' => 10,           //2
         'sell_missiles.php' => 10,      //3
         'ajax/satellite' => 10,         //4
         'cancel_order.php' => 10,       //5
         'ajax/satellite' => 10,         //6
-        'market.php' => 40,             //7
+        'ajax/market' => 60,            //7
         'cancel_order.php' => 30,       //8
-        'sell_units.php' => 60,         //9
+        'ajax/market' => 60,            //9
         'attack.php' => 120,            //10
         'step-2.php' => 120,            //11
         'attack2.php' => 120,           //12
@@ -155,6 +156,10 @@ class Request {
         return (static::part(0) == 'ajax');
     }
 
+    static function isApi() {
+        return (static::part(0) == 'api');
+    }
+
     // Return headers so ajax calls aren't cached
     static function noCache() {
         foreach(array(
@@ -259,6 +264,41 @@ class Request {
         if($return['success'] == false) {
             $_SESSION['request_error_num'] = (!isset($_SESSION['request_error_num']) ? 1 : $_SESSION['request_error_num']+1);
         }
+
+        $return = array_merge($return, array('nonce' => static::getNonce()));
+        return json_encode($return);
+    }
+
+    // wrapper for api calls
+    static function api() {
+        static::noCache();
+
+        $error = '';
+        $return = array('success' => false, 'status' => '', 'nonce' => '');
+
+        if(!in_array($_SERVER['REQUEST_METHOD'], array('GET'))) $error = 'Request failed successfully (E03:P)';
+        if(!defined('ABSPATH')) $error = 'Request failed successfully (E04:ABS)';
+        if(!isset($_GET['key'])) $error = 'Request failed successfully (E02:KEY)';
+        if(!in_array($_GET['key'], array('P4N1CbotsAP1info4Pr0v1nC3s'))) $error = 'Request failed successfully (E01:KEY)';
+
+        $province_id = Request::get('id');
+        if(empty($province_id) || !is_numeric($province_id) || ceil($province_id)!=$province_id || $province_id<0) $error = 'Invalid id';
+        else if(!in_array($province_id, array(2,3083,3084,3085,3086))) $error = 'Not a bot';
+
+        $province = Province::make($province_id);
+        if($province->get('id') == false) $error = 'Not a user';
+
+        if(empty($error)) {
+            $funcs = array(static::part(1),static::part(2));
+            if(file_exists(API_PATH.'/'.implode('/', $funcs).'.php')) {
+                require_once(API_PATH.'/'.implode('/', $funcs).'.php');
+                if(function_exists('api_'.$funcs[1])) $return = call_user_func('api_'.$funcs[1], $province, $return);
+                else $error = 'Request failed successfully (E11:FNE)';
+            } else $error = 'Request failed successfully (E10:FE)';
+        }
+
+        if(!empty($error)) $return['status'] = $error;
+        $return = array_merge(array('success' => false), $return);
 
         $return = array_merge($return, array('nonce' => static::getNonce()));
         return json_encode($return);

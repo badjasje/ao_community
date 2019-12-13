@@ -418,6 +418,17 @@ class Province extends DbObject {
         }
         return $return;
     }
+    public function getShippingTime($format=false) {
+        $hours = 12;
+        Hooks::trigger('get_province_shipping_time', null, $hours, $this);
+        return $hours;
+    }
+    // We need the discount sepperatly because: 100 * 0.7 * 0.1 works differently then 100 * 0.6
+    public function getShippingDiscount($format=false) {
+        $discount = 0;
+        Hooks::trigger('get_province_shipping_discount', null, $discount, $this);
+        return $discount;
+    }
 
     /**
      * Province Research
@@ -442,7 +453,7 @@ class Province extends DbObject {
             // Show stuff after hooks fired
             $researches[$id]['level_description'] = str_replace('{value}', $researches[$id]['level_value'], $description);
 
-            // Turns based on possible adjust duration
+            // Turns based on possible adjusted duration
             $researches[$id]['turns'] = round($researches[$id]['duration'] * Settings::get('turns_research'));
             if($researchInProgress != false) { // Queued research cost more turns
                 $researches[$id]['turns'] = round($researches[$id]['duration'] * Settings::get('turns_queue_research'));
@@ -504,7 +515,8 @@ class Province extends DbObject {
                         $occupied += (!!$this->get($unitKey.'_owned') ? intval($this->get($unitKey.'_owned')) : 0);
                     }
                 }
-                foreach($missiles as $missile) {
+                foreach($missiles as $missile_key => $missile) {
+                    if($missile_key == 'tomahawk') continue; // are not housed in buildings
                     if($missile['type'] == $building['houses']) $occupied += ($missile['ordered'] + $missile['num']);
                 }
             }
@@ -610,21 +622,44 @@ class Province extends DbObject {
         $totalturns = $this->getTurns();
         $unitsPerTurn = $this->getUnitsPerTurn();
         $special_units = Settings::get('special_units');
+        $max_special_sell = Settings::get('max_special_sell');
+        $max_special_order = Settings::get('max_special_order');
+        $max_special_space = $space['special'] - $usedSpace['special'];
         $units = Units::get();
+        $discount = $this->getShippingDiscount();
+
+        // You cannot sell subs when having tommy's
+        $totalmissiles = ($this->get('tomahawk_owned') + $this->get('tomahawk_ordered'));
+        $maxSellSubs = ($totalmissiles > 0 ? ceil($totalmissiles/2) : -1);
+
         foreach($units as $id => $unit) {
             $units[$id]['num'] = (!!$this->get($id.'_owned') ? intval($this->get($id.'_owned')) : 0);
             $units[$id]['ordered'] = (!!$this->get($id.'_ordered') ? intval($this->get($id.'_ordered')) : 0);
             $units[$id]['original_price'] = $unit['price']; // For nw calc
             $units[$id]['buildprice'] = $unit['price']; // Might become cheaper with research/startbonus
+            $units[$id]['orderprice'] = round($unit['price'] * Settings::get('unit_order_multi') * (1-$discount));
+            $units[$id]['sellprice'] = round($unit['price'] * Settings::get('unit_sell_multi'));
+            $units[$id]['tradeprice'] = round($unit['price'] * Settings::get('unit_trade_multi'));
             $units[$id]['networthPerUnit'] = round($unit['price'] * $unit['networth']/100); // of original price!
 
-            $maxMoney = floor($totalMoney / $units[$id]['buildprice']);
+            $maxBuy = floor($totalMoney / $units[$id]['buildprice']);
+            $maxOrder = floor($totalMoney / $units[$id]['orderprice']);
+            $maxSell = $units[$id]['num'];
             $maxTurns = floor($totalturns * $unitsPerTurn[$unit['type']]);
-            $maxSpace = $space[$unit['type']] - $usedSpace[$unit['type']];
-            $maxSpecial = (in_array($id, $special_units) ? $space['special'] - $usedSpace['special'] : $maxSpace);
+            $maxSpace = max($space[$unit['type']] - $usedSpace[$unit['type']], 0);
+            $maxSpecialSpace = (in_array($id, $special_units) ? $max_special_space : $maxSpace);
+            $maxSpecialBuy = (in_array($id, $special_units) ? $space['special'] - $usedSpace['special'] : $maxBuy);
+            $maxSpecialSell = (in_array($id, $special_units) ? ($max_special_sell-$this->get('special_sold_today')) : $maxSell);
+            $maxSpecialOrder = (in_array($id, $special_units) ? $max_special_order : $maxOrder);
+
             $units[$id]['space'] = $maxSpace;
             $units[$id]['specialspace'] = (in_array($id, $special_units) ? $space['special'] - $usedSpace['special'] : 0);
-            $units[$id]['maxbuild'] = min($maxSpecial, $maxMoney, $maxSpace, $maxTurns);
+            $units[$id]['maxbuild'] = min($maxSpecialBuy, $maxBuy, $maxSpace, $maxTurns);
+            $units[$id]['maxorder'] = min($maxOrder, $maxSpace, $maxSpecialSpace, $maxSpecialOrder);
+            $units[$id]['maxsell'] = min($maxSell, $maxSpecialSell);
+            if($id == 'submarine' && $maxSellSubs > -1) {
+                $units[$id]['maxsell'] = min($units[$id]['maxsell'], ($units[$id]['num']-$maxSellSubs));
+            }
 
             Hooks::trigger('get_province_unit', null, $units, $id, $this);
         }
@@ -701,7 +736,7 @@ class Province extends DbObject {
             }
             $satellites[$id]['original_price'] = $satellite['price']; // For nw calc
             $satellites[$id]['days'] = 0; // This will be set in research-class
-            Hooks::trigger('get_province_sattelite', null, $satellites, $id, $this);
+            Hooks::trigger('get_province_satellite', null, $satellites, $id, $this);
         }
         return ($key != null ? (!!$satellites[$key] ? $satellites[$key] : false) : $satellites);
     }
