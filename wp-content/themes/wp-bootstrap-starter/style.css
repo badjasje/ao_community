@@ -1589,6 +1589,9 @@ input[type="radio"]:checked + label {
 	padding:13px 25px;
 	background-color:#ddd;
 }
+.memberinfo-main { background: linear-gradient(rgba(45, 67, 81, 0.56), rgba(45, 67, 81, 0.24)); width:100%; }
+.memberinfo-buttons { margin-bottom:20px; }
+
 .bonusCompleted{
 	position:absolute;
     padding: 13px 25px

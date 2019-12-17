@@ -689,7 +689,7 @@ class Province extends DbObject {
         }
         return $num;
     }
-    function get_spy_units() {
+    function getSpyUnits() {
         $spiesOwned = array();
         foreach(Units::get() as $k => $unit) {
             if(in_array('spy', $unit['attacktype']) && !!$this->get($k.'_owned')) {
@@ -703,7 +703,7 @@ class Province extends DbObject {
         if($this->isFellowClanMember($target_id)) return;
         $target = Province::make($target_id);
         if($target->isDead() || $target->isProtected() || $target->isBanned()) return;
-        $spiesOwned = $this->get_spy_units();
+        $spiesOwned = $this->getSpyUnits();
         if(!count($spiesOwned)) return;
         $_SESSION['token'] = uniqid();
         $btnClass = (count($spiesOwned)==2?'col-md-6':'col-md-12');
@@ -811,6 +811,11 @@ class Province extends DbObject {
             return in_array($target_id, $clan->getMembers());
         }
         return false;
+    }
+    public function getPPA($format=false) {
+        $attacksMade = $this->get('in_war_attacks');
+		$pts = $this->get('user_clan_points');
+		return ($pts > 0 ? ($attacksMade > 0 ? round($pts / $attacksMade, 1) : 0) : 0);
     }
 
     /**
