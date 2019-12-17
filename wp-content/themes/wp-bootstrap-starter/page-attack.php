@@ -31,14 +31,19 @@ if ($attackUserId == $userId) {
 $attackUserData = get_userdata($attackUserId);
 
 $attackArray = array('target_id' => $attackUserId, 'attackarray' => array());
-$attacktype = filter_input(INPUT_GET, 'attacktype', FILTER_SANITIZE_STRING);
-if(!empty($attacktype)) $attackArray['attacktype'] = $attacktype;
-$attackmode = filter_input(INPUT_GET, 'attackmode', FILTER_SANITIZE_STRING);
-if(!empty($attackmode)) $attackArray['attackmode'] = $attackmode;
-$maintarget = filter_input(INPUT_GET, 'maintarget', FILTER_SANITIZE_STRING);
-if(!empty($maintarget)) $attackArray['maintarget'] = $maintarget;
-$spytype = filter_input(INPUT_GET, 'spytype', FILTER_SANITIZE_STRING);
-if(!empty($spytype)) $attackArray['spytype'] = $spytype;
+if(isset($_SESSION['token']) && isset($_POST['token'])) {
+	$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
+	if(!empty($token)) $attackArray['token'] = $token;
+	$attacktype = filter_input(INPUT_POST, 'attacktype', FILTER_SANITIZE_STRING);
+	if(!empty($attacktype)) $attackArray['attacktype'] = $attacktype;
+	$attackmode = filter_input(INPUT_POST, 'attackmode', FILTER_SANITIZE_STRING);
+	if(!empty($attackmode)) $attackArray['attackmode'] = $attackmode;
+	$maintarget = filter_input(INPUT_POST, 'maintarget', FILTER_SANITIZE_STRING);
+	if(!empty($maintarget)) $attackArray['maintarget'] = $maintarget;
+	$spytype = filter_input(INPUT_POST, 'spytype', FILTER_SANITIZE_STRING);
+	if(!empty($spytype)) $attackArray['spytype'] = $spytype;
+}
+
 
 $sat_morale = $userData['sat_morale'][0];
 $last_attacked = rtrim($userData['last_attacked'][0], ',');
@@ -117,7 +122,13 @@ else {
 			});
 			attackresult.done(function (attackresultresponse, textStatus, jqXHR){
 				$('.pageLoader, #page-cover').fadeOut("fast");
-				$("#attack-result").empty().append(attackresultresponse);
+				try {
+					json = $.parseJSON(attackresultresponse);
+					$.notify({message: json.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
+					return false;
+				} catch (e) {
+					$("#attack-result").empty().append(attackresultresponse);
+				}
 				$('#strikeagain').hide();// Not on quick-spy
 			});
 		<? } ?>
@@ -192,7 +203,13 @@ else {
 										});
 										$( "#step-3" ).empty();
 										attackresult.done(function (attackresultresponse, textStatus, jqXHR){
-											$( "#attack-result" ).empty().append( attackresultresponse );
+											try {
+												json = $.parseJSON(attackresultresponse);
+												$.notify({message: json.status},{type: 'info',delay: 5000,allow_dismiss: true,newest_on_top: true});
+												return false;
+											} catch (e) {
+												$( "#attack-result" ).empty().append( attackresultresponse );
+											}
 											$('#strikeagain').show(); // if hidden
 											var strikeagain;
 											$(document).on('click','#strikeagain',function(strikeevent){

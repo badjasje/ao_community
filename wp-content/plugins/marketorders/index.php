@@ -288,21 +288,6 @@ function clan_networth_range($clanId) {
     }
 }
 
-function get_spy_units($user_ID) {
-    $userData = get_user_meta($user_ID);
-    $spiesOwned = array();
-	$units = Units::get();
-	foreach ($units as $unitKey => $unit) {
-		if(in_array($unitKey,array('spy','spyplane'))) {
-			$unitsOwned = $userData[$unitKey.'_owned'][0];
-			if($unitsOwned > 0) {
-				$spiesOwned[$unitKey] = $unit['normalname'];
-			}
-		}
-    }
-    return $spiesOwned;
-}
-
 function get_user_name($user_ID) {
     $prv = Province::make($user_ID);
     if($prv->get('id')) return $prv->getLink(true);

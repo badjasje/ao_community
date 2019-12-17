@@ -6,6 +6,9 @@ if(!is_user_logged_in()) {
 	exit(wp_redirect(home_url('/')));
 }
 
+$user = CurrentUser::make();
+$province = $user->getProvince();
+
 get_header();
 
 global $userId;
@@ -37,27 +40,14 @@ $status = $profileData['status'][0];
 	</div>
 
 	<?
-	if($target_id != $userId && $clan_ID != $target_clan_ID && !in_array($status, array('dead','banned','nukeprotection'))) {
-		$spiesOwned = get_spy_units($userId);
-		if(count($spiesOwned)) {
-			$btnClass = (count($spiesOwned)==2?'col-md-6':'col-md-12');
-			echo '<div class="row no-gutters fw-row profileButtonRow">';
-			foreach($spiesOwned as $key => $name) {
-				$url = get_site_url().'/attack/?id='.$target_id.'&attacktype=spy&attackmode=normal&maintarget=none&spytype='.$key;
-				?>
-				<a class="<?=$btnClass?> profileButton" style="background-color: rgba(70, 118, 94, 1);" href="<?=$url?>">
-					<i class="fas fa-binoculars"></i> &nbsp;Send <?=$name?>
-				</a><?
-			}
-			echo '</div>';
-		}
-	} ?>
+	echo $province->get_spy_buttons($target_id);
+	?>
 
 	<div class="pageSpacer"></div>
 	<div class="fw-row">
 		<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
-			<a class="nav-item nav-link navItem active" data-toggle="tab" data-target="#buildings" href="?tab=buildings">Buildings</a>
-			<a class="nav-item nav-link navItem" data-toggle="tab" data-target="#units" href="?tab=units">Units</a>
+			<a class="nav-item nav-link navItem w-50 active" data-toggle="tab" data-target="#buildings" href="?tab=buildings">Buildings</a>
+			<a class="nav-item nav-link navItem w-50" data-toggle="tab" data-target="#units" href="?tab=units">Units</a>
 		</nav>
 	</div>
 
