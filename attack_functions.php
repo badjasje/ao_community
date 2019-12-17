@@ -852,10 +852,12 @@ function get_clan_points_difference($attacker_ID, $defender_ID) {
  * An attacking clan with higher points than defending clan will receive less points
  */
 function scaled_points_to_clanpoints($clan_points, $attacker_ID, $defender_ID) {
+    return $clan_points;
     $diff = get_clan_points_difference($attacker_ID, $defender_ID);
     if($diff == 0) return $clan_points;
-    $multi = floor(($diff * 0.65) + 0.35);
-    return $clan_points * min($multi, 1.65);
+    $multi = (($diff * 0.65) + 0.35);
+    $clan_points = $clan_points * min($multi, 1.65);
+    return min(ceil($clan_points), Settings::get('points_cap'));
 }
 
 /**
