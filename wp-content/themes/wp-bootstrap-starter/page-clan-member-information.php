@@ -180,7 +180,7 @@ $clan = $province->getClan();
 		</div>
 		<div class="row fw-row no-gutters memberinfo-buttons">
 
-			<div class="col-md-4 celBlock" style="padding:0px">
+			<div class="col-md-4 celBlock py-0">
 				<button viewtype="research" member-id="<?=$member?>" 
 					class="cancelButton viewmemberinfo mainSubmit<?=($totalResearch['owned']+$totalResearch['ordered']>0?' active':'')?>">
 					<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Research <?=$totalResearch['owned']?>
@@ -203,7 +203,7 @@ $clan = $province->getClan();
 				</div>
 			</div>
 
-			<div class="col-md-4 celBlock" style="padding:0px">
+			<div class="col-md-4 celBlock py-0">
 				<button viewtype="units" member-id="<?=$member?>"
 					class="cancelButton viewmemberinfo mainSubmit secondButton<?=($totalUnits['owned']+$totalUnits['ordered']>0?' active':'')?>">
 					<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Units <?=$totalUnits['owned']?> (<?=$totalUnits['ordered']?>)
@@ -218,7 +218,7 @@ $clan = $province->getClan();
 				</div>
 			</div>
 
-			<div class="col-md-4 celBlock" style="padding:0px">
+			<div class="col-md-4 celBlock py-0">
 				<button viewtype="buildings" member-id="<?=$member?>"
 					class="cancelButton viewmemberinfo mainSubmit<?=($totalBuildings['owned']>0?' active':'')?>">
 					<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Buildings <?=$totalBuildings['owned']?>
