@@ -56,6 +56,7 @@ if($clan_ID_deleter != $clan) {
     exit;
 }
 
+$wars_on = $wars_by = array();
 if (Round::isLive() && !Round::isTest() && !Round::isDev()) {
     $wars_on = get_posts(array(
         'numberposts'  => -1,
@@ -82,11 +83,6 @@ if (Round::isLive() && !Round::isTest() && !Round::isDev()) {
 		exit;
     }
 }
-
-$array['status'] = 'Your clan was deleted';
-$array['next'] = true;
-echo json_encode($array);
-exit;
 
 $clan_members = get_post_meta($clan, 'clan_members');
 foreach ($clan_members as $member) {
