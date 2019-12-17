@@ -15,7 +15,16 @@ $missiles = Missiles::get();
 $missilespace = $userData['silo'][0];
 $totalMoney = $userData['money'][0];
 $totalturns = $userData['turns'][0];
-$totalmissiles = count_missilespace($userId);
+
+$totalmissiles = 0;
+foreach ($missiles as $key => $missile) {
+    if ($key != 'tomahawk') {
+        $missiles_owned = intval(get_user_meta($userId, $key.'_owned', true));
+        $missiles_ordered = intval(get_user_meta($userId, $key.'_ordered', true));
+        $totalmissiles +=($missiles_owned+$missiles_ordered);
+    }
+}
+
 $tomahawkspace = $userData['submarine_owned'][0]*2;
 $missileAccLevel = $userData['level_missile_accuracy'][0];
 $buyBackColor = "45, 67, 81";
