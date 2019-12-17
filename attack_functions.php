@@ -856,7 +856,8 @@ function scaled_points_to_clanpoints($clan_points, $attacker_ID, $defender_ID) {
     $diff = get_clan_points_difference($attacker_ID, $defender_ID);
     if($diff == 0) return $clan_points;
     $multi = (($diff * 0.65) + 0.35);
-    return $clan_points * min($multi, 1.65);
+    $clan_points = $clan_points * min($multi, 1.65);
+    return min(ceil($clan_points), Settings::get('points_cap'));
 }
 
 /**
