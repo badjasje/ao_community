@@ -7,17 +7,9 @@ get_header();
 $user = CurrentUser::make();
 $province = $user->getProvince();
 $clan = $province->getClan();
-
-$buttonColor = "70, 118, 94";
-
-$units = Units::get();
-$buildings = Buildings::get();
-$rates = Bank::getAllRates();
 ?>
 <div class="row pageRow">
 	<?php
-	$timestamp = current_time('timestamp');
-
 	foreach($clan->getMembers() as $key => $member) {
 		$province = Province::make($member);
 
