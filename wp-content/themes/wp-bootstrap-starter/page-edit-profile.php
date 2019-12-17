@@ -22,8 +22,6 @@ if(Round::isDev() || Round::isTest()) $reset_status = false; //You may reset mor
     <form action="#" class="fw-row statCol-2" id="editprofile">
         <div class="mx-4 py-4">
 
-
-
             <div class="form-group row">
                 <label for="username" class="col-md-4 col-form-label">Username</label>
                 <div class="col-md-8">
@@ -58,6 +56,9 @@ if(Round::isDev() || Round::isTest()) $reset_status = false; //You may reset mor
                 <label for="playername" class="col-md-4 col-form-label">Player name</label>
                 <div class="col-md-8">
                     <input value="<?=$province->get('display_name')?>" type="text" class="unitInput playername" placeholder="Name to use in game" name="playername" id="playername">
+                    <div class="form-text text-dark">
+                        Your playername can only contain letters, numbers, spaces and a hyphen. It must not contain special characters or emoji.
+                    </div>
                 </div>
             </div>
 
