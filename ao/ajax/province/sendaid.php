@@ -30,7 +30,7 @@ function ajax_sendaid($province, $return) {
         return array('status' => 'You already sent aid 3 times today');
     }
 
-    if(!is_numeric($aid) || $aid < 0) {
+    if(!is_numeric($aid) || $aid < 1) {
         return array('status' => 'That\'s a weird number');
     }
 
