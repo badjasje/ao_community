@@ -31,7 +31,7 @@ if ($attackUserId == $userId) {
 $attackUserData = get_userdata($attackUserId);
 
 $attackArray = array('target_id' => $attackUserId, 'attackarray' => array());
-if(isset($_SESSION['token']) && isset($_POST['token'])) {
+if(isset($_SESSION['tokens']) && isset($_POST['token'])) {
 	$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
 	if(!empty($token)) $attackArray['token'] = $token;
 	$attacktype = filter_input(INPUT_POST, 'attacktype', FILTER_SANITIZE_STRING);
