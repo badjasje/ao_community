@@ -11,9 +11,9 @@ $backColor = "45, 67, 81";
 $attack_type = ($debug ? $_POST['attacktype'] : filter_input(INPUT_POST, 'attacktype', FILTER_SANITIZE_STRING));
 $target_id = ($debug ? $_POST['target_id'] : filter_input(INPUT_POST, 'target_id', FILTER_VALIDATE_INT));
 $token = ($debug ? $_POST['token'] : filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING));
-if(!empty($token) && isset($_SESSION['token'])) { // Auto spy
-	if($_SESSION['token'] == $token) {
-		$_SESSION['token'] = false;
+if(!empty($token) && isset($_SESSION['tokens'][$target_id])) { // Auto spy
+	if($_SESSION['tokens'][$target_id] == $token) {
+		$_SESSION['token'][$target_id] = false;
 	} else {
 		$array['status'] = 'Back button used, no worries, no extra spies were sent.';
 		$array['next'] = false;
