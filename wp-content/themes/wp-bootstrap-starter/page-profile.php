@@ -243,24 +243,9 @@ $count = 0;
 <?php endif;?>
 
 <?php
-// If I have spy units, and I can spy this person
-if($visiting_user != $viewed_id && ((empty($clan_id) && empty($clan_id_user)) || $clan_id != $clan_id_user) && !in_array($status, array('dead','banned','nukeprotection'))) {
-	$spiesOwned = get_spy_units($userId);
-	if(count($spiesOwned)) {
-		$btnClass = (count($spiesOwned)==2?'col-md-6':'col-md-12');
-		echo '<div class="row no-gutters fw-row profileButtonRow">';
-		foreach($spiesOwned as $key => $name) {
-			$url = get_site_url().'/attack/?id='.$viewed_id.'&attacktype=spy&attackmode=normal&maintarget=none&spytype='.$key;
-			?>
-			<a class="<?=$btnClass?> profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="<?=$url?>">
-				<i class="fas fa-binoculars"></i> &nbsp;Send <?=$name?>
-			</a><?
-		}
-		echo '</div>';
-	}
-}
+echo $province->get_spy_buttons($viewed_id);
 
-if(CurrentUser::make()->isAdmin()) {
+if($user->isAdmin()) {
 	$viewedUser = User::make($viewed_id);
 	if(isset($_GET['makewhitelist'])) $viewedUser->update('multi_whitelist', $_GET['makewhitelist']);
 	$referral_code = $viewedUser->get('referral_code');

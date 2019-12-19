@@ -189,51 +189,6 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
     }
 }
 
-/*
-function my_login_logo() { ?>
-<style type="text/css">
-#login h1 a, .login h1 a {
-background-image: url("/wp-content/uploads/2016/03/AO_logo.png");
-height:30px;
-width:320px;
-background-size: 320px;
-background-repeat: no-repeat;
-}
-</style>
-<?php }
-add_action( 'login_enqueue_scripts', 'my_login_logo' );
- */
-function unit_types($user_ID) {
-    $units = Units::get();
-    $userData = get_user_meta($user_ID);
-    $type_array = array();
-    foreach ($units as $key => $unit) {
-        if(!isset($type_array[$unit['type']])) $type_array[$unit['type']] = 0;
-        $units = $userData[$key . '_owned'][0];
-        if ($units > 0 && $unit['sectype'] != 'special') {
-            $type_array[$unit['type']] += $units;
-        }
-
-    }
-    return $type_array;
-}
-
-function can_attack($user_ID) {
-    $units = Units::get();
-    $userData = get_user_meta($user_ID);
-    $attack_array = array();
-    foreach ($units as $key => $unit) {
-        $units = $userData[$key . '_owned'][0];
-        if ($units > 0) {
-            $attacks = $unit['attacks'];
-            $attack_array = array_merge($attack_array, $attacks);
-        }
-
-    }
-    $attack_array = array_unique($attack_array);
-    return $attack_array;
-}
-
 function networth_range($user_ID) {
     global $userId;
     global $userData;
@@ -288,21 +243,6 @@ function clan_networth_range($clanId) {
     }
 }
 
-function get_spy_units($user_ID) {
-    $userData = get_user_meta($user_ID);
-    $spiesOwned = array();
-	$units = Units::get();
-	foreach ($units as $unitKey => $unit) {
-		if(in_array($unitKey,array('spy','spyplane'))) {
-			$unitsOwned = $userData[$unitKey.'_owned'][0];
-			if($unitsOwned > 0) {
-				$spiesOwned[$unitKey] = $unit['normalname'];
-			}
-		}
-    }
-    return $spiesOwned;
-}
-
 function get_user_name($user_ID) {
     $prv = Province::make($user_ID);
     if($prv->get('id')) return $prv->getLink(true);
@@ -323,31 +263,10 @@ function clan_avatar($clan_ID, $type) {
     return Clan::make($clan_ID)->getAvatar($type);
 }
 
-
 function wpse_76815_remove_publish_box() {
     remove_meta_box('submitdiv', 'clan', 'side');
 }
 add_action('admin_menu', 'wpse_76815_remove_publish_box');
-
-function count_deposits($user_ID) {
-    $args = array(
-        'posts_per_page' => -1,
-        'author' => $user_ID,
-        'post_type' => 'deposit',
-    );
-    $deposits = get_posts($args);
-    return count($deposits);
-}
-
-function clan_tag($user_ID) {
-    $clanId = get_user_meta($user_ID, 'clan_id_user', true);
-    if ($clanId != 0) {
-        $clantag = get_post_meta($clanId, 'clan_tag', true);
-        $chars = array("[", "]");
-        $clantag = str_replace($chars, "", $clantag);
-        return '<strong>[' . $clantag . ']</strong>';
-    }
-}
 
 function wpse66094_no_admin_access() {
     if(defined('DOING_AJAX')) return;
@@ -1140,14 +1059,4 @@ function fcm_send_notification($receiver, $type, $attacker=0) {
     if($bot->getChatByUserId($receiver)) {
         $bot->sendMessage('<a href="'.$url.'">'.$body.'</a>', array('parse_mode' => 'html'));
     }
-}
-
-/**
- * @todo: check if user wants these help-texts
- * @todo: find a way to "stack" these texts
- */
-function helpText($message, $source='generic', $type='tip') {
-    echo "<script>(function($) { setTimeout(function() {
-        $.notify({message:'".ucfirst($type).": ".$message."'},{type:'help',newest_on_top:true});
-    },200); })(jQuery);</script>";
 }

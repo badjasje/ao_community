@@ -2,7 +2,11 @@
 class Format extends PhpObject {
 
     public static function money($n) { // @todo: We could put an euro here sometime for fun
-        return sprintf('$ %s', number_format($n, 0, ',', ' '));
+        return sprintf('$ %s', self::number($n));
+    }
+
+    public static function number($n) {
+        return number_format($n, 0, ',', ' ');
     }
 
     public static function networth($networth) {
@@ -10,19 +14,19 @@ class Format extends PhpObject {
     }
 
     public static function power($n) {
-        return number_format($n, 0, ',', ' ') .'%';
+        return self::number($n) .'%';
     }
 
     public static function morale($n) {
-        return number_format($n, 0, ',', ' ') .'%';
+        return self::number($n) .'%';
     }
 
     public static function land($n) {
-        return number_format($n, 0, ',', ' ') .'m<sup>2</sup>';
+        return self::number($n) .'m<sup>2</sup>';
     }
 
     public static function turns($n) {
-        return number_format($n, 0, ',', ' ');
+        return self::number($n);
     }
 
     public static function points($n) {
@@ -30,7 +34,7 @@ class Format extends PhpObject {
     }
 
     public static function position($n) {
-        return number_format($n, 0, ',', ' ');
+        return self::number($n);
     }
 
     public static function date($timestamp, $format='H:i:s d F Y') {
@@ -41,10 +45,10 @@ class Format extends PhpObject {
         return human_time_diff($timestamp1, (!!$timestamp2 ? $timestamp2 : current_time('timestamp')));
     }
 
-    public static function time_elapsed($datetime, $level = 1) {
-        if(!$datetime) { return 'never'; }
+    public static function time_elapsed($timestamp, $level = 1) {
+        if(!$timestamp) return 'never';
         $now = new DateTime;
-        $diff = $now->diff(date_create($datetime));
+        $diff = $now->diff(date_create('@'.$timestamp));
 
         $diff->w = floor($diff->d / 7);
         $diff->d -= $diff->w * 7;

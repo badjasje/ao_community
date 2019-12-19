@@ -64,21 +64,23 @@ function ajax_market($province, $return) {
     }
 
     // Check if you have enough space to buy, minus sell
-    $space = $province->getUnitTypeSpace();
-    $usedSpace = $province->getUnitTypeUsedSpace();
-    foreach($units as $key => $unit) {
-        $order_n = (!empty($order[$key]) ? intval($order[$key]) : 0);
-        $sell_n = (!empty($sell[$key]) ? intval($sell[$key]) : 0);
-        if(!empty($order_n)) $usedSpace[$unit['type']] += $order_n;
-        if(!empty($sell_n)) $usedSpace[$unit['type']] -= $sell_n;
-        if($unit['sectype']=='special') {
-            if(!empty($order_n)) $usedSpace['special'] += $order_n;
-            if(!empty($sell_n)) $usedSpace['special'] -= $sell_n;
+    if($totalOrder > 0) {
+        $space = $province->getUnitTypeSpace();
+        $usedSpace = $province->getUnitTypeUsedSpace();
+        foreach($units as $key => $unit) {
+            $order_n = (!empty($order[$key]) ? intval($order[$key]) : 0);
+            $sell_n = (!empty($sell[$key]) ? intval($sell[$key]) : 0);
+            if(!empty($order_n)) $usedSpace[$unit['type']] += $order_n;
+            if(!empty($sell_n)) $usedSpace[$unit['type']] -= $sell_n;
+            if($unit['sectype']=='special') {
+                if(!empty($order_n)) $usedSpace['special'] += $order_n;
+                if(!empty($sell_n)) $usedSpace['special'] -= $sell_n;
+            }
         }
-    }
-    foreach($space as $type => $num) {
-        if(isset($usedSpace[$type]) && $usedSpace[$type] > $num) {
-            return array('status' => ''.($usedSpace[$type]-$num).' '.$type.' units have no housing, fix that first.');
+        foreach($space as $type => $num) {
+            if(isset($usedSpace[$type]) && $usedSpace[$type] > $num) {
+                return array('status' => ''.($usedSpace[$type]-$num).' '.$type.' units have no housing, fix that first.');
+            }
         }
     }
 

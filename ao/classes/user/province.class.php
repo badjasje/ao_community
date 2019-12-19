@@ -689,6 +689,38 @@ class Province extends DbObject {
         }
         return $num;
     }
+    function getSpyUnits() {
+        $spiesOwned = array();
+        foreach(Units::get() as $k => $unit) {
+            if(in_array('spy', $unit['attacktype']) && !!$this->get($k.'_owned')) {
+                $spiesOwned[$k] = $unit['normalname'];
+            }
+        }
+        return $spiesOwned;       
+    }
+    function get_spy_buttons($target_id) {
+        if($this->get('id') == $target_id) return;
+        if($this->isFellowClanMember($target_id)) return;
+        $target = Province::make($target_id);
+        if($target->isDead() || $target->isProtected() || $target->isBanned()) return;
+        $spiesOwned = $this->getSpyUnits();
+        if(!count($spiesOwned)) return;
+        $_SESSION['token'] = uniqid();
+        $btnClass = (count($spiesOwned)==2?'col-md-6':'col-md-12');
+        $return = '<form action="'.Request::siteUrl().'/attack/?id='. $target_id .'&token='. $_SESSION['token'] .'" method="post" class="row no-gutters fw-row profileButtonRow">';
+        $return .= '<input type="hidden" name="id" value="'. $target_id .'">';
+        $return .= '<input type="hidden" name="attacktype" value="spy">';
+        $return .= '<input type="hidden" name="attackmode" value="normal">';
+        $return .= '<input type="hidden" name="maintarget" value="none">';
+        $return .= '<input type="hidden" name="token" value="'. $_SESSION['token'] .'">';
+        foreach($spiesOwned as $key => $name) {
+            $return .= '<button type="submit" name="spytype" value="'. $key .'" class="'. $btnClass .' '.($key=='spy'?'secondButton ':'').'cancelButton profileButton">
+                <i class="fas fa-binoculars"></i> &nbsp;Send '. $name .'
+            </button>';
+        }
+        $return .= '</form>';
+        return $return;
+    }   
 
     /**
      * Get all information of one or all Missiles of this province
@@ -774,11 +806,16 @@ class Province extends DbObject {
     public function getClan() {
         return (!empty($this->get('clan_id_user')) ? Clan::make($this->get('clan_id_user')) : false);
     }
-    public function isFellowClanMember() {
+    public function isFellowClanMember($target_id) {
         if($clan = $this->getClan()) {
-            return in_array($this->id, $clan->getMembers());
+            return in_array($target_id, $clan->getMembers());
         }
         return false;
+    }
+    public function getPPA($format=false) {
+        $attacksMade = $this->get('in_war_attacks');
+		$pts = $this->get('user_clan_points');
+		return ($pts > 0 ? ($attacksMade > 0 ? round($pts / $attacksMade, 1) : 0) : 0);
     }
 
     /**

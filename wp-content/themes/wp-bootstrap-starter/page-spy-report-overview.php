@@ -6,6 +6,9 @@ if(!is_user_logged_in()) {
 	exit(wp_redirect(home_url('/')));
 }
 
+$user = CurrentUser::make();
+$province = $user->getProvince();
+
 get_header();
 $backColor = "45, 67, 81";
 $buttonColor = "70, 118, 94";
@@ -110,9 +113,7 @@ $buildings = Buildings::get();
 		);
 
 		$unitRep = get_posts( $unitargs );
-		$unitRep_ID = $unitRep[0]->ID;
-
-
+		$unitRep_ID = (isset($unitRep[0]) ? $unitRep[0]->ID : array());
 		if(count($unitRep) > 0){
 			$unitRep_date = get_the_date('G:i | d-m-Y',$unitRep_ID);
 			$unitrepStamp = get_the_time('U',$unitRep_ID);
@@ -176,7 +177,7 @@ $buildings = Buildings::get();
 		);
 
 		$bldRep = get_posts( $buildingargs );
-		$bldRep_ID = $bldRep[0]->ID;
+		$bldRep_ID = (isset($bldRep[0]) ? $bldRep[0]->ID : array());
 
 		if(count($bldRep) > 0){
 			$bldRep_date = get_the_date('G:i | d-m-Y',$bldRep_ID);
@@ -310,23 +311,8 @@ $buildings = Buildings::get();
 		<!-- // Button row -->
 
 		<?
-		if($member != $userId && $visiting_clan != $clan_ID && !in_array($status, array('dead','banned','nukeprotection'))) {
-			$spiesOwned = get_spy_units($userId);
-			if(count($spiesOwned)) {
-				$btnClass = (count($spiesOwned)==2?'col-md-6':'col-md-12');
-				echo '<div class="row fw-row no-gutters">';
-				foreach($spiesOwned as $key => $name) {
-					$url = get_site_url().'/attack/?id='.$member.'&attacktype=spy&attackmode=normal&maintarget=none&spytype='.$key;
-					?>
-					<div class="<?=$btnClass?> celBlock" style="padding:0px"><a href="<?=$url?>">
-						<button class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);">
-							<i class="fas fa-binoculars"></i> &nbsp;Send <?=$name?>
-						</button>
-					</a></div><?
-				}
-				echo '</div>';
-			}
-		} ?>
+		echo $province->get_spy_buttons($member);
+		?>
 
 		<div class="pageSpacer"></div>
 		<?php
