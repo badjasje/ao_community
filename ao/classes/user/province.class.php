@@ -3,7 +3,6 @@
 class Province extends DbObject {
     //static $table = 'provinces';
     public static $cache = 'provinces';
-    public static $deposits = false;
 
     // @todo: add building, missile, sat, research, unit-fields from data objects instead of huge array
     public $fields = array(
@@ -361,32 +360,33 @@ class Province extends DbObject {
 
     public function getDeposits() {
         $posts = get_posts(array('posts_per_page' => -1, 'author' => $this->id, 'post_type' => 'deposit'));
-        self::$deposits = array();
+        $deposits = array();
         foreach($posts as $post) {
-            self::$deposits[$post->ID] = Deposit::make($post);
+            $deposits[$post->ID] = Deposit::make($post);
         }
-        return self::$deposits;
+        $this->set('deposits', $deposits); // Set in static cache
+        return $deposits;
     }
     public function getDepositNum() {
-        if(!self::$deposits) self::$deposits = $this->getDeposits();
-        return count(self::$deposits);
+        if(!$this->get('deposits')) $this->getDeposits();
+        return count($this->get('deposits'));
     }
     public function getDepositAmount($format=false) {
-        if(!self::$deposits) self::$deposits = $this->getDeposits();
+        if(!$this->get('deposits')) $this->getDeposits();
         $n = 0;
-        foreach(self::$deposits as $deposit) $n += $deposit->deposited();
+        foreach($this->get('deposits') as $deposit) $n += $deposit->deposited();
         return ($format ? Format::money($n) : $n);
     }
     public function getDepositAvailable($format=false) {
-        if(!self::$deposits) self::$deposits = $this->getDeposits();
+        if(!$this->get('deposits')) $this->getDeposits();
         $n = 0;
-        foreach(self::$deposits as $deposit) $n += $deposit->availableAmount();
+        foreach($this->get('deposits') as $deposit) $n += $deposit->availableAmount();
         return ($format ? Format::money($n) : $n);
     }
     public function getDepositFinal($format=false) {
-        if(!self::$deposits) self::$deposits = $this->getDeposits();
+        if(!$this->get('deposits')) $this->getDeposits();
         $n = 0;
-        foreach(self::$deposits as $deposit) $n += $deposit->finalAmount();
+        foreach($this->get('deposits') as $deposit) $n += $deposit->finalAmount();
         return ($format ? Format::money($n) : $n);
     }
 

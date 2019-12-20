@@ -75,7 +75,7 @@ $clan = $province->getClan();
 			Format::money($open_money).', turns: '. Format::turns($open_turns) .'" data-placement="bottom">'. $open_bonusses .'</span>' : 0);
 		?>
 		<div id="member-<?=$member?>" class="memberinfo-main">
-			<div class="blockHeader memberField"><?=$province->getName(true)?></div>
+			<div class="blockHeader"><?=$province->getLink(true)?></div>
 
 			<div class="row fw-row userRow row-no-padding">
 				<div class="col-md-3 col-xs-6 celBlock">
