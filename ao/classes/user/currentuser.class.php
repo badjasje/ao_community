@@ -5,7 +5,7 @@ class CurrentUser extends User {
     private static $instance = null;
     static $cache = 'users';
 
-    private function __construct($props=null,$fromCache=true) {
+    public function __construct($props=null,$fromCache=true) {
 
         $time = current_time('timestamp'); //@wp
 
