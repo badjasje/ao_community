@@ -4,15 +4,26 @@ class Round extends DataObject {
     static $data = false;
 
     public static function init() { // @wp
+        global $wpdb;
+        
+        $config = array();
+        $fields = array('starting_date','end_date','new_round_start','game_type','game_status','golden_shotgun','round_nr');
+        foreach($fields as $key) $config[$key] = false; // prefill
+
+        $options = $wpdb->get_results("SELECT `option_name`,`option_value` FROM `{$wpdb->prefix}options` WHERE `option_name` IN ('options_".implode("','options_",$fields)."')", ARRAY_A);
+        foreach ($options as $option) {
+            $config[str_replace('options_','', $option['option_name'])] = $option['option_value'];
+        }
+
         static::$data = array(
-            'start_date' => strtotime(get_field('starting_date','options')),
-            'end_date' => strtotime(get_field('end_date','option')),
-            'time_left' => strtotime(get_field('end_date','option')) - current_time('timestamp'),
-            'new_round_start' => get_field('new_round_start','option'), // plain text
-            'type' => strtolower(get_field('game_type','option')), // regular, speed, test, development
-            'status' => strtolower(get_field('game_status','option')), // live, pause
-            'golden_shotgun' => get_field('golden_shotgun','option'),
-            'round_nr' => get_field('round_nr','option'),
+            'start_date' => strtotime($config['starting_date']),
+            'end_date' => strtotime($config['end_date']),
+            'time_left' => strtotime($config['end_date']) - current_time('timestamp'),
+            'new_round_start' => $config['new_round_start'], // plain text
+            'type' => strtolower($config['game_type']), // regular, speed, test, development
+            'status' => strtolower($config['game_status']), // live, pause
+            'golden_shotgun' => $config['golden_shotgun'],
+            'round_nr' => $config['round_nr'],
         );
     }
 
