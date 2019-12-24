@@ -24,7 +24,7 @@ class Province extends DbObject {
         'attacks_made','money_gained_combat','land_gained_combat','in_war_attacks','units_killed','nw_damage_attacks',
         'buildings_killed','succesful_attacks','attacks_made_current','last_attacked','kills_made','times_killed',
         'missiles_received','missiles_hit','missiles_hit_rec','missiles_launched','nw_damage_missiles','nw_damage_missiles_rec','money_gained_thieving',
-        'succesful_attempts','thieving_attempts','succesful_attempts_rec','turns_lost',
+        'succesful_attempts','thieving_attempts','succesful_attempts_rec','turns_lost', 'attacks_rec_current',
 
         // Market
         'units_ordered',

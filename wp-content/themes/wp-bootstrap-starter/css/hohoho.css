@@ -5,6 +5,7 @@
     background:url(../img/ice.png) repeat-x center top;
     background-size: auto;
 }
+.statusTotalRow { background:#DDD; }
 
 .pageTitle  { font-family:'Cormorant Upright', serif; background: none; }
 #content.site-content {
