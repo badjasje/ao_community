@@ -32,7 +32,7 @@ $clan = $province->getClan();
 		$researches = $province->getResearches();
 		$inprogress = $province->getCurrentResearch();
 		foreach($researches as $research) {
-			if($research['level'] > 0) $totalResearch['owned']++;
+			if($research['level'] > 0) $totalResearch['owned'] += $research['level'];
 			if($research['inProgress']) $totalResearch['ordered']++;
 		}
 
