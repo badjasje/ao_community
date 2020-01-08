@@ -39,13 +39,11 @@ $cooldownlist = (isset($declarerClanData['cooldown_list']) ? maybe_unserialize($
 if(!is_array($cooldownlist) && !empty($cooldownlist)) $cooldownlist = maybe_unserialize($cooldownlist); // Temp fix double serialization
 if(!is_array($cooldownlist)) $cooldownlist = array();
 
-
-$decct_1 = $declarerClanData['ct_1'][0];
-$decct_2 = $declarerClanData['ct_2'][0];
-$decct_3 = $declarerClanData['ct_3'][0];
-$decct_4 = $declarerClanData['ct_4'][0];
-
-$allowed_to_declare = array($declarer_clanleader,$decct_1,$decct_2,$decct_3,$decct_4);
+$deccts=array();
+for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
+    $deccts[$i] = (isset($declarerClanData['ct_'.$i]) ? $declarerClanData['ct_'.$i][0]: 0);
+}
+$allowed_to_declare = array_merge($deccts, array($declarer_clanleader));
 
 $warcount = get_posts(array(
 	'numberposts'	=> -1,
