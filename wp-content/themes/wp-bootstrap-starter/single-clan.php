@@ -1,6 +1,7 @@
 <?php
 get_header();
 include('constants.php');
+
 global $userId;
 global $userData;
 $declarer_ID = $userId;
@@ -12,11 +13,7 @@ $clan_id = get_the_ID();
 
 $backColor = "45, 67, 81";
 
-$aw_args = array(
-    'post_type'   => 'award',
-    'numberposts' => -1,
-    'meta_key'    => 'winning_clan',
-    'meta_value'  => $clan_id);
+$aw_args = array('post_type' => 'award','numberposts' => -1, 'meta_key' => 'winning_clan', 'meta_value' => $clan_id);
 $awards = get_posts($aw_args);
 
 $declarerClanData = get_post_meta($declarer_clan_ID); // Get all postmeta linked to declarer clan ID
@@ -42,6 +39,7 @@ $cooldownlist = (isset($declarerClanData['cooldown_list']) ? maybe_unserialize($
 if(!is_array($cooldownlist) && !empty($cooldownlist)) $cooldownlist = maybe_unserialize($cooldownlist); // Temp fix double serialization
 if(!is_array($cooldownlist)) $cooldownlist = array();
 
+
 $decct_1 = $declarerClanData['ct_1'][0];
 $decct_2 = $declarerClanData['ct_2'][0];
 $decct_3 = $declarerClanData['ct_3'][0];
@@ -52,16 +50,10 @@ $allowed_to_declare = array($declarer_clanleader,$decct_1,$decct_2,$decct_3,$dec
 $warcount = get_posts(array(
 	'numberposts'	=> -1,
 	'post_type'		=> 'wars',
-	'post_status'      => 'publish',
+	'post_status'   => 'publish',
 	'meta_query'	=> array( 'relation' => 'AND',
-        array(
-                'key' => 'declared_by',
-                'value' => $clan_id
-        ),
-        array(
-                'key' => 'declared_on',
-                'value' => $declarer_clan_ID
-        )
+        array('key' => 'declared_by','value' => $clan_id),
+        array('key' => 'declared_on','value' => $declarer_clan_ID)
     )
 ));
 $warcount = count($warcount);
