@@ -33,7 +33,7 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
 		<?php } ?>
 	</nav>
 
-	<form class="form" name="market" id="market" method="post">
+	<form class="form aoPage grey" name="market" id="market" method="post">
         <div class="tab-content current build_content tabbed-table">
 			<?php foreach($unitTypes as $key => $unitType) { ?>
                 <div class="tab-pane smallTable unitBuildTable <?=($activeTab == $key ? 'active' : '')?>" id="<?=$key?>" role="tabpanel">
@@ -53,7 +53,7 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
                         </div>
                     </div>
 
-                    <table class="<?=(Market::isOpen()?'':'disabledDiv')?>">
+                    <table class="aoTable grey<?=(Market::isOpen()?'':' disabledDiv')?>">
                         <tr class="unitRow headerRow">
                             <th class="nameBlock">Name</th><th class="price">Price</th><th class="attacklife">Att / Life</th>
                             <th class="targets">Targets</th><th class="owned">Owned</th><th class="max">Max</th>

@@ -1744,6 +1744,49 @@ input[type="radio"]:checked + label {
 .wp-polls ul, .wp-polls-ul, .wp-polls-ans ul { margin:0; }
 .wp-polls .pollbar { background: #46765d; border: none; }
 
+/* global table lists, used in Bank, Research, Buildings, Units, Sattelites, Market */
+.aoPage { width: 100%; }
+.aoPage .blockHeader p { margin-bottom:10px;}
+.aoPage .blockHeader a { color: #000!important; }
+.aoPage #air .headerRow { background: rgba(127, 82, 67, 0.75); }
+.aoPage #sea .headerRow { background: rgba(45, 67, 81, 0.75); }
+.aoPage #veh .headerRow { background: rgba(86, 113, 61, 0.75); }
+.aoPage #inf .headerRow { background: rgba(126, 100, 68, 0.75); }
+.aoTable { background: linear-gradient(rgba(45, 67, 81, 0.56), rgba(45, 67, 81, 0.24)); width: 100%; margin:0; }
+.aoTable.grey { background: linear-gradient(rgba(81, 81, 81, 0.56), rgba(81, 81, 81, 0.08)); }
+.aoTable .unitRow { width: 100%; margin: 0; border-bottom: 1px solid rgba(255,255,255,.2); }
+.aoTable .unitRow a { color:#FFF; }
+.aoTable .unitRow.loader { background: rgba(255,255,255,.1); }
+.aoTable .headerRow { background: #3f525f; border-bottom: 1px solid #FFF; color:#FFF; }
+.aoTable.grey .headerRow { background: rgba(81, 81, 81, 0.75); }
+.aoTable .headerRow th { font-weight:normal; border-bottom: 1px solid #FFF; }
+.aoTable .headerRow th, .aoTable .unitRow td { padding: 10px 10px 10px 15px; }
+.aoTable .headerRow .buildBlock { background: #3f525f; width: 15%; }
+.aoTable .headerRow .demoBlock { background: #927065; width: 15%; }
+.aoTable .unitRow .mainSubmit { border:none; }
+.aoTable .unitRow td { border-bottom: 1px solid rgba(255,255,255,.2); }
+.aoTable .buildBlock { background: rgba(45,67,81,.3); }
+.aoTable .buildBlock .unitInput { box-shadow: inset 0px 0px 0px 1px #468; }
+.aoTable .demoBlock { background: rgba(127,82,67,.3); }
+.aoTable .demoBlock .unitInput { box-shadow: inset 0px 0px 0px 1px #B86; }
+.aoTable .descriptionRow td { background: #CCC; padding: 2px 10px 11px; color: #333; }
+.aoTable .demomax, .aoTable .buildmax { cursor: pointer; display: table-cell; }
+.aoTable .totalsField { cursor:default; }
+.aoTable .nameBlock { font-weight: bold; }
+@media only screen and (max-width: 768px) {
+    .aoTable .nameBlock { font-weight: normal; }
+    .aoTable div.nameBlock { background-color: rgba(45, 67, 81, 0.75); }
+    .aoTable .itemRow { border-bottom: 10px solid #ccc; }
+    .aoTable tr.headerRow { display:table-row; }
+    .aoTable .headerRow th, .aoTable .unitRow td { padding: 4px; font-size: 11px; text-align: center; }
+    .aoTable .unitRow td.nameBlock { font-size: 12px; text-align: left; color: #000; background: rgba(0,0,0,.15); }
+    .aoTable .unitRow .inputBlock { font-size: 11px; padding: 4px!important; }
+    .aoTable .unitInput { padding: 0 4px; width:40px; }
+    .aoTable .descriptionRow td { background: #B1B1B1; font-size: 11px;  }
+    .aoTable .totalsField { padding: 4px 5px; font-size: 13px; }
+    .aoTable .attacklife, .aoTable .targets { display:none }
+}
+
 /* Bank page styling */
 #bank .label { padding: 10px 10px 10px 15px; text-transform: uppercase; }
 #bankform, #banklist, #banklist .withdraw { width:100%; }
@@ -1751,37 +1794,9 @@ input[type="radio"]:checked + label {
 #bankform #days { padding: 10px 25px; height:41px; }
 #bankform #amount { padding-left: 20px; box-shadow: inset 0px 0px 0px 1px #545454; }
 #bankform .maxdep { border:none; }
-#banklist .unitRow { border-bottom: 1px solid rgba(255,255,255,.2); }
-#banklist .unitRow .mainSubmit { border-top:none; }
-#banklist .headerRow { background: #3f525f; border-bottom: 1px solid #FFF; }
-#banklist { background: linear-gradient(rgba(45, 67, 81, 0.56), rgba(45, 67, 81, 0.24)); width: 100%; }
-
-/* Research page styling */
-#research { background: linear-gradient(rgba(45, 67, 81, 0.56), rgba(45, 67, 81, 0.24)); width: 100%; }
-#research .unitRow { border-bottom: 1px solid rgba(255,255,255,.2); width: 100%; margin: 0px; }
-#research .unitRow.loader { background: rgba(255,255,255,.1); }
-#research .headerRow { background: #3f525f; border-bottom: 1px solid #FFF; }
-#research .mainSubmit { border: 0; }
-@media only screen and (max-width: 768px) {
-    #research .nameBlock { background-color: rgba(45, 67, 81, 0.75); }
-    #research .itemRow { border-bottom: 10px solid #ccc; }
-}
-
-/* Satellites page styling */
-#satellites { background: linear-gradient(rgba(45, 67, 81, 0.56), rgba(45, 67, 81, 0.24)); width: 100%; }
-#satellites .unitRow { border-bottom: 1px solid rgba(255,255,255,.2); width: 100%; margin: 0px; }
-#satellites .nameBlock { font-weight: bold; }
-#satellites .headerRow { background: #3f525f; border-bottom: 1px solid #FFF; }
-#satellites .mainSubmit { border: 0; }
-@media only screen and (max-width: 768px) {
-    #satellites .nameBlock { font-weight: normal; background-color: rgba(45, 67, 81, 0.75); }
-    #satellites .itemRow { border-bottom: 10px solid #ccc; }
-}
 
 /* Explore+sell page styling */
 #exploresell .maxexp, #exploresell .maxsell { border-top:none; }
-
-/* explore+sell, messages */
 .collabel {
     padding: 10px 10px 10px 15px; text-transform: uppercase; background-color: rgba(84, 84, 84, 0.10);
     display: flex; align-items:center;
@@ -1792,99 +1807,6 @@ input[type="radio"]:checked + label {
 .statCol-2 { background-color: rgba(84, 84, 84, 0.20); }
 .statCol-3 { background-color: rgba(84, 84, 84, 0.30); }
 .statCol-4 { background-color: rgba(84, 84, 84, 0.40); }
-
-/* Buildings page */
-#buildings { background: linear-gradient(rgba(81, 81, 81, 0.56), rgba(81, 81, 81, 0.08)); width: 100%; }
-#buildings table { margin:0; }
-#buildings .blockHeader p { margin-bottom:10px;}
-#buildings .blockHeader a { color: #000!important; }
-#buildings .headerRow { background: rgba(81, 81, 81, 0.75); }
-#buildings .headerRow th { font-weight:normal; border-bottom: 1px solid #FFF; }
-#buildings .headerRow th, #buildings .unitRow td {  padding: 10px 10px 10px 15px; }
-#buildings .headerRow .buildBlock { background: #3f525f; width: 15%; }
-#buildings .headerRow .demoBlock { background: #927065; width: 15%; }
-#buildings .unitRow td { border-bottom: 1px solid rgba(255,255,255,.2); }
-#buildings .unitRow td.nameBlock { font-weight:bold; }
-#buildings .buildBlock { background: rgba(45,67,81,.3); }
-#buildings .buildBlock .unitInput { box-shadow: inset 0px 0px 0px 1px #468; }
-#buildings .demoBlock { background: rgba(127,82,67,.3); }
-#buildings .demoBlock .unitInput { box-shadow: inset 0px 0px 0px 1px #B86; }
-#buildings .descriptionRow td { background: #CCC; padding: 2px 10px 11px; color: #333; }
-#buildings .demomax, #buildings .buildmax { cursor: pointer; }
-#buildings .totalsField { cursor:default; }
-@media only screen and (max-width: 768px) {
-    #buildings .attacklife, #buildings .targets { display:none }
-    #buildings .headerRow { display:table-row; }
-    #buildings .headerRow th, #buildings .unitRow td { padding: 4px; font-size: 11px; text-align: center; }
-    #buildings .unitRow td.nameBlock { font-size: 12px; text-align: left; font-weight: normal; color: #000; background: rgba(0,0,0,.15); }
-    #buildings .unitRow .inputBlock { font-size: 11px; padding: 4px!important; }
-    #buildings .unitInput { padding: 0 4px; width:40px; }
-    #buildings .descriptionRow td { background: #B1B1B1; font-size: 11px;  }
-    #buildings .totalsField { padding: 4px 5px; font-size: 13px; }
-}
-
-/* Units page, sorry for copying above */
-#turnbuild { background: linear-gradient(rgba(81, 81, 81, 0.56), rgba(81, 81, 81, 0.08)); width: 100%; }
-#turnbuild table { margin:0; }
-#turnbuild .blockHeader p { margin-bottom:10px;}
-#turnbuild .blockHeader a { color: #000!important; }
-#turnbuild .headerRow { background: rgba(81, 81, 81, 0.75); }
-#turnbuild #air .headerRow { background: rgba(127, 82, 67, 0.75); }
-#turnbuild #sea .headerRow { background: rgba(45, 67, 81, 0.75); }
-#turnbuild #veh .headerRow { background: rgba(86, 113, 61, 0.75); }
-#turnbuild #inf .headerRow { background: rgba(126, 100, 68, 0.75); }
-#turnbuild .headerRow th { font-weight:normal; border-bottom: 1px solid #FFF; }
-#turnbuild .headerRow th, #turnbuild .unitRow td {  padding: 10px 10px 10px 15px; }
-#turnbuild .unitRow td { border-bottom: 1px solid rgba(255,255,255,.2); }
-#turnbuild .unitRow td.nameBlock { font-weight:bold; }
-#turnbuild .descriptionRow td { background: #CCC; padding: 2px 10px 11px; color: #333; }
-#turnbuild .buildmax { cursor: pointer; display: table-cell; }
-#turnbuild .totalsField { cursor:default; }
-@media only screen and (max-width: 768px) {
-    #turnbuild .attacklife, #turnbuild .targets { display:none }
-    #turnbuild .headerRow { display:table-row; }
-    #turnbuild .headerRow th, #turnbuild .unitRow td { padding: 4px; font-size: 11px; text-align: center; }
-    #turnbuild .unitRow td.nameBlock { font-size: 12px; text-align: left; font-weight: normal; color: #000; background: rgba(0,0,0,.15); }
-    #turnbuild .unitRow .inputBlock { font-size: 11px; padding: 4px!important; }
-    #turnbuild .unitInput { padding: 0 4px; width:40px; }
-    #turnbuild .descriptionRow td { background: #B1B1B1; font-size: 11px;  }
-    #turnbuild .totalsField { padding: 4px 5px; font-size: 13px; }
-}
-
-
-/* Units page, sorry for copying above */
-#market { background: linear-gradient(rgba(81, 81, 81, 0.56), rgba(81, 81, 81, 0.08)); width: 100%; }
-#market table { margin:0; }
-#market .blockHeader p { margin-bottom:10px;}
-#market .blockHeader a { color: #000!important; }
-#market .headerRow { background: rgba(81, 81, 81, 0.75); }
-#market #air .headerRow { background: rgba(127, 82, 67, 0.75); }
-#market #sea .headerRow { background: rgba(45, 67, 81, 0.75); }
-#market #veh .headerRow { background: rgba(86, 113, 61, 0.75); }
-#market #inf .headerRow { background: rgba(126, 100, 68, 0.75); }
-#market .headerRow th { font-weight:normal; border-bottom: 1px solid #FFF; }
-#market .headerRow th, #market .unitRow td {  padding: 10px 10px 10px 15px; }
-#market .headerRow .buildBlock { background: #3f525f; width: 15%; }
-#market .headerRow .demoBlock { background: #927065; width: 15%; }
-#market .unitRow td { border-bottom: 1px solid rgba(255,255,255,.2); }
-#market .unitRow td.nameBlock { font-weight:bold; }
-#market .descriptionRow td { background: #CCC; padding: 2px 10px 11px; color: #333; }
-#market .buildBlock { background: rgba(45,67,81,.3); }
-#market .buildBlock .unitInput { box-shadow: inset 0px 0px 0px 1px #468; }
-#market .demoBlock { background: rgba(127,82,67,.3); }
-#market .demoBlock .unitInput { box-shadow: inset 0px 0px 0px 1px #B86; }
-#market .demomax, #market .buildmax { cursor: pointer; }
-#market .totalsField { cursor:default; }
-@media only screen and (max-width: 768px) {
-    #market .attacklife, #market .targets { display:none }
-    #market .headerRow { display:table-row; }
-    #market .headerRow th, #market .unitRow td { padding: 4px; font-size: 11px; text-align: center; }
-    #market .unitRow td.nameBlock { font-size: 12px; text-align: left; font-weight: normal; color: #000; background: rgba(0,0,0,.15); }
-    #market .unitRow .inputBlock { font-size: 11px; padding: 4px!important; }
-    #market .unitInput { padding: 0 4px; width:40px; }
-    #market .descriptionRow td { background: #B1B1B1; font-size: 11px;  }
-    #market .totalsField { padding: 4px 5px; font-size: 13px; }
-}
 
 /* Events */
 .event { width:100%; }
@@ -1975,13 +1897,14 @@ input[type="radio"]:checked + label {
     .smallTable .columnDataLeft, .smallTable .attacklife, .smallTable .targets { display:none; }
     .smallTable .columnDataRight { float:none; display:block; }
     .smallTable .maxBlock, .smallTable .sellall, .smallTable .allbutton { display:block; }
+    .smallTable td.maxBlock { display: table-cell; }
     .smallTable .inputBlock input {
         box-shadow:none; padding: 0 4px; border-radius:0;
         border-left: none!important; border-top: none!important; border-right: none!important; border-bottom-width: 1px!important;
     }
     .smallTable .totalsField {  padding: 4px; font-size: 11px; text-transform:none; }
 
-    .unitBuildTable .attacklife, .marketBuyTable .attacklife { display: block; }
+    .unitBuildTable .attacklife, .marketBuyTable .attacklife { display: table-cell; }
     .unitBuildTable .celBlock, .marketBuyTable .celBlock { width: calc(69% / 5); }
     .marketBuyTable.withDelay .celBlock { width: calc(69% / 6); }
     .unitBuildTable .nameBlock, .marketBuyTable .nameBlock, .marketBuyTable.withDelay .nameBlock { width: 31%; }

@@ -29,7 +29,7 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
 		<?php } ?>
 	</nav>
 
-	<form class="form" name="turnbuild" id="turnbuild">
+	<form class="form aoPage" name="turnbuild" id="turnbuild">
 		<div class="tab-content current build_content tabbed-table">
 			<?php foreach($unitTypes as $key => $unitType) { ?>
 				<div class="tab-pane smallTable unitBuildTable <?=($activeTab == $key ? 'active' : '')?>" id="<?=$key?>" role="tabpanel">
@@ -42,7 +42,7 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
 							<a href="javascript:void(0);" class="descriptionToggle" data-type="turnbuild"><span>Show</span> descriptions &nbsp; <i class="fa fa-align-justify"></i></a>
 						</div>
 					</div>
-					<table>
+					<table class="aoTable grey">
 						<tr class="unitRow headerRow">
 							<th class="nameBlock">Name</th><th class="price">Price</th><th class="attacklife">Att / Life</th>
 							<th class="targets">Targets</th><th class="owned">Owned</th><th class="max">Max</th><th class="buildBlock">Build</th>

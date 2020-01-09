@@ -22,7 +22,7 @@ $has_ordered_satellites = (count($province->getOrderedSatellites()) > 0);
 		if($has_ordered_satellites) echo 'Cancelling a satellite order returns 75% of it\'s price. ';
 		?>
 	</div>
-	<div id="satellites">
+	<div id="satellites" class="aoTable">
 		<div class="row unitRow headerRow">
 			<div class="col-md-2 celBlock nameBlock">Name</div>
 			<div class="col-md-6 celBlock">Effect</div>

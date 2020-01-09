@@ -12,7 +12,7 @@ $buildings = $province->getBuildings();
 
 ?>
 <div class="row pageRow">
-	<form class="form" name="build" id="buildings" method="post">
+	<form class="form aoPage" name="build" id="buildings" method="post">
 		<div class="blockHeader spaceNotice">
 			<p>
 				You can build a maximum of <span class="maxbuild"><?=$province->getMaxBuild()?></span> buildings,
@@ -29,7 +29,7 @@ $buildings = $province->getBuildings();
 			</div>
 		</div>
 
-		<table>
+		<table class="aoTable grey">
 			<tr class="unitRow headerRow">
 				<th class="nameBlock">Name</th><th class="price">Price</th><th class="attacklife">Att / Life</th>
 				<th class="targets">Targets</th><th class="owned">Owned</th><th class="max">Max</th>
