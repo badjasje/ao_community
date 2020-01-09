@@ -176,6 +176,7 @@ class Province extends DbObject {
 
     public function getNetworth($format=false) {
         $n = intval($this->get('networth'));
+        if($this->isDead() || $this->isProtected()) $n = 0;
         if(!$format) return $n;
         $n = Format::networth($n);
         if($this->isCurrentUser()) return $n;
@@ -812,6 +813,10 @@ class Province extends DbObject {
             return in_array($target_id, $clan->getMembers());
         }
         return false;
+    }
+    public function getClanPoints($format=false) {
+        $n = $this->get('user_clan_points');
+        return ($format ? Format::points($n) : $n);
     }
     public function getPPA($format=false) {
         $attacksMade = $this->get('in_war_attacks');
