@@ -1,7 +1,6 @@
 jQuery(function($) {
 
-	function sortValues(nr, sortSelector, sortOrder) {
-		var sortNumber = $('.sort'+(nr>1?nr:'')).hasClass('sort-number') ? true:false;
+	function sortValues(nr, sortSelector, sortOrder, sortNumber) {
 		$('.userRow'+nr).sort(function(a,b){
 			var order = sortOrder == 'asc'?1:-1;
 			if (sortNumber){
@@ -26,9 +25,10 @@ jQuery(function($) {
 			e.preventDefault();
 			var el = $(this);
 			if(!!el.data('sort')) {
+				var sortNumber = el.hasClass('sort-number') ? true:false;
 				var sortOrder = el.data('sort-order')=='desc' ? 'desc':'asc';
 				el.data('sort-order', (sortOrder=='desc' ? 'asc' : 'desc'));
-				sortValues(el.data('nr'), el.data('sort'), sortOrder);
+				sortValues(el.data('nr'), el.data('sort'), sortOrder, sortNumber);
 			}
 		});
 	}
