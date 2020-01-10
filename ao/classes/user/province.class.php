@@ -161,7 +161,7 @@ class Province extends DbObject {
 
         $icon = '';
         if($this->isDead()) $icon = ' <span class="hover-tip" data-toggle="tooltip" data-title="This user is dead" data-placement="bottom"><i class="fas fa-skull"></i></span>';
-        if($this->isProtected()) $icon = ' <span class="hover-tip" data-toggle="tooltip" data-title="This user is under protection" data-placement="bottom"><i class="fas fa-umbrella"></i></span>';
+        if($this->isProtected()) $icon = ' <span class="hover-tip" data-toggle="tooltip" data-title="This user is under assault protection" data-placement="bottom"><i class="fas fa-umbrella"></i></span>';
         return $this->getName(false).' (#'.$this->get('id').')' . $icon . ($this->isOnline()?' <span class="online">*</span>':'');
     }
 

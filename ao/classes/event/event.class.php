@@ -12,7 +12,7 @@ class Event extends PostObject {
             ),
         ),
         'nukeprotection' => array(
-            'icon' => 'fas fa-umbrella', 'header' => 'Protection removed', 'avatar' => 'attacker_id',
+            'icon' => 'fas fa-umbrella', 'header' => 'Assault protection removed', 'avatar' => 'attacker_id',
             'title' => 'Your protection has been removed',
             'body' => 'You are now able to attack',
         ),

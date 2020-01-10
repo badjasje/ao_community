@@ -915,7 +915,7 @@ function fcm_send_notification($receiver, $type, $attacker=0) {
     // Nukeprotection removed -> /marketordercheck.php (cron)
     if ($type == 'nukeprotectremoved') {
         $avatar = get_user_meta($receiver, 'avatar_user', true);
-        $body = 'Your protection has been removed';
+        $body = 'Your assault protection has been removed';
         $url = get_site_url() . '/dashboard/';
     }
 

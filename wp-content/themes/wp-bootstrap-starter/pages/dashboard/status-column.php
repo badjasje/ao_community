@@ -4,7 +4,7 @@ $canRemove = false;
 if($province->isProtected()) {
 	$timer_left = $province->getProtectionTimeLeft();
 	$canRemove = ($timer_left < Settings::get('nuke_protection_removal') || Round::isTest() || Round::isDev());
-	$statusMessage = 'Protection time left: <span id="countdown_time" data-countdown="'.$timer_left.'"></span>';
+	$statusMessage = 'Assault protection time left: <span id="countdown_time" data-countdown="'.$timer_left.'"></span>';
 }
 else if($province->isDead()) {
 	$statusMessage = 'Status: Dead';

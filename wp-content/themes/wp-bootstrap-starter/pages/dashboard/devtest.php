@@ -22,7 +22,7 @@ if(Round::isTest() || Round::isDev() || Round::isSandbox()) {
     ?>
 	<div class="blockHeader spaceNotice">
 		To receive turns/money/morale/research/orders, hit the button below!<br>
-		If you are dead or under protection, hitting this button will revive you as well.
+		If you are dead or under assault protection, hitting this button will revive you as well.
 	</div>
 	<form method="post" id="receiveFunds" class="fw-row">
 		<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
