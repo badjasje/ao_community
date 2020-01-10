@@ -142,8 +142,15 @@ class Province extends DbObject {
         if($this->isProtected()) return false;
 
         $user = (!$user_id ? CurrentUser::make() : User::make($user_id));
+        $province = $user->getProvince();
+        if($clan = $this->getClan()) {
+            if($my_clan = $province->getClan()) {
+                if($clan->getWarType($my_clan->get('id')) == 'mutual') return true;
+            }
+        }
+
         $networth = $this->getNetworth();
-        $viewerNetworth = $user->getProvince()->getNetworth();
+        $viewerNetworth = $province->getNetworth();
         $range = Settings::get('attack_range_mult');
         return ($networth > $viewerNetworth / $range && $networth < $viewerNetworth * $range);
     }
@@ -181,12 +188,22 @@ class Province extends DbObject {
         $fn = Format::networth($n);
         if($this->isCurrentUser() || $n == 0) return '<span>'. $fn .'</span>';
 
+        $showRange = true;
+        $viewer = CurrentUser::make();
+        if($clan = $this->getClan()) {
+            if($my_clan = $viewer->getProvince()->getClan()) {
+                if($clan->getWarType($my_clan->get('id')) == 'mutual') $showRange = false;
+            }
+        }
+
         $min_nw = Format::networth($n / Settings::get('attack_range_mult'));
         $max_nw = Format::networth($n * Settings::get('attack_range_mult'));
         $inRange = $this->inRange();
-        $fn = $fn . ' <span class="hover-tip" data-toggle="tooltip"  data-placement="bottom"
-            data-title="'.($inRange?'In range':'Out of range').", min ".$min_nw.', max '.$max_nw.'"><i class="far fa-'.($inRange?'check':'times').'-circle"></i>
-        </span>';
+        $fn .= ' <span class="hover-tip" data-toggle="tooltip"  data-placement="bottom"
+            data-title="'.($inRange?'In range':'Out of range');
+        if($showRange) $fn .= ", min ".$min_nw.', max '.$max_nw;
+        else $fn .= ', mutual';
+        $fn .= '"><i class="far fa-'.($inRange?'check':'times').'-circle"></i></span>';
         if($inRange) return '<strong>'. $fn .' </strong>';
         return '<span>'. $fn .'</span>';
     }
