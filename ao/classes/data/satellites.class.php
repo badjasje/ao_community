@@ -8,7 +8,7 @@ class Satellites extends DataObject {
     static $data = array(
         'laser'     => array(
             'price'         =>  '1000000',
-            'networth'      =>  4,
+            'networth'      =>  5,
             'targets'       => 'Buildings',
             'name'          =>  'Laser Beam Satellite',
             'shortname'     =>  'LBS',
