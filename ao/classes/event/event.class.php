@@ -25,7 +25,7 @@ class Event extends PostObject {
             'icon' => 'fas fa-ship', 'header' => 'Air & Sea attack battle report',
             'title' => array(
                 'incoming' => 'You were attacked by {attacker} and {youdied}{won}{lost}.{defender_points}', //won/lost the battle
-                'outgoing' => 'You attacked {defender} and you {killed}{won}{lost}.',
+                'outgoing' => 'You attacked {defender} and you {killed}{won}{lost}.{clan_points}',
                 'global' => '{attacker} attacked {defender} and {won}{lost}.{clan_points}',
             ),
             'body' => '{attack_body}'
@@ -34,7 +34,7 @@ class Event extends PostObject {
             'icon' => 'fas fa-fighter-jet', 'header' => 'Regular attack battle report',
             'title' => array(
                 'incoming' => 'You were attacked by {attacker} and {youdied}{won}{lost}.{defender_points}', //won/lost the battle
-                'outgoing' => 'You attacked {defender} and you {killed}{won}{lost}.',
+                'outgoing' => 'You attacked {defender} and you {killed}{won}{lost}.{clan_points}',
                 'global' => '{attacker} attacked {defender} and {won}{lost}.{clan_points}',
             ),
             'body' => '{attack_body}'
@@ -43,7 +43,7 @@ class Event extends PostObject {
             'icon' => 'fas fa-truck-monster', 'header' => 'Ground attack battle report',
             'title' => array(
                 'incoming' => 'You were attacked by {attacker} and {youdied}{won}{lost}.{defender_points}', //won/lost the battle
-                'outgoing' => 'You attacked {defender} and you {killed}{won}{lost}.',
+                'outgoing' => 'You attacked {defender} and you {killed}{won}{lost}.{clan_points}',
                 'global' => '{attacker} attacked {defender} and {won}{lost}.{clan_points}',
             ),
             'body' => '{attack_body}'
@@ -52,7 +52,7 @@ class Event extends PostObject {
             'icon' => 'fas fa-rocket', 'header' => 'Missile attack report',
             'title' => array(
                 'incoming' => '{attacker} launched a {missile_name} and {youdied}{shotdown}{missed}{hit}.', //you shot down the missile
-                'outgoing' => 'You launched a missile at {defender} and {shotdown}{killed}{missed}{hit}.',
+                'outgoing' => 'You launched a missile at {defender} and {shotdown}{killed}{missed}{hit}.{clan_points}',
                 'global' => '{attacker} launched a {missile_name} at {defender} and {shotdown}{missed}{hit}{sabotaged}.{clan_points}', //was shotdown
             ),
             'body' => '{attack_body}'
@@ -61,7 +61,7 @@ class Event extends PostObject {
             'icon' => 'fas fa-satellite', 'header' => 'Satellite attack report',
             'title' => array(
                 'incoming' => '{attacker} used a satellite and {youdied}{sat_missed}{sat_hit}.',
-                'outgoing' => 'You fired a Laser Beam Satellite at {defender} and you {killed}{sat_missed}{sat_hit}.', //you killed {defender}
+                'outgoing' => 'You fired a Laser Beam Satellite at {defender} and you {killed}{sat_missed}{sat_hit}.{clan_points}', //you killed {defender}
                 'global' => '{attacker} fired a satellite at {defender} and {sat_missed}{sat_hit}.{clan_points}',
             ),
             'body' => '{attack_body}'
@@ -375,7 +375,7 @@ class Event extends PostObject {
             '{bonus_money}' => ($format == true ? Format::money($this->get('bonus_money')) : $this->get('bonus_money')),
             '{bonus_turns}' => ($format == true ? Format::turns($this->get('bonus_turns')) : $this->get('bonus_turns')),
             '{nw_damage_defender}' => $this->get('nw_damage_defender'),
-            '{succesfull}' => ($winner_id != $defender_id ? 'lived' : ''),
+            '{succesfull}' => ($winner_id != $defender_id ? 'not killed' : ''),
             '{sabokilled}' => ($winner_id == $defender_id ? 'killed in action' : ''),
             '{silos}' => (!empty($this->get('silos')) ? Format::plural($this->get('silos'), 'silo') : 'no silos'),
         );
@@ -406,6 +406,7 @@ class Event extends PostObject {
             $replace = array_merge($replace, array(
                 '{won}' => ($this->get('status_defender') != 'death' && $winner_id == $attacker_id ? 'won the battle' : ''),
                 '{lost}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id ? 'lost the battle' : ''),
+                '{clan_points}' => ($winner_id == $attacker_id && $this->get('clan_points') > 0 ? ' '. Format::plural($this->get('clan_points'), 'clan point') .' gained.' : ''),
                 '{shotdown}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id && $this->get('shotdown') == 'shotdown' ? ' it was shot down' : ''),
                 '{missed}' => ($this->get('status_defender') != 'death' && $winner_id == $defender_id && $this->get('shotdown') != 'shotdown' ? 'you missed the enemy base' : ''),
                 '{hit}' => ($this->get('status_defender') != 'death' && $winner_id == $attacker_id ? 'you hit the enemy base' : ''),
