@@ -135,13 +135,13 @@ class Province extends DbObject {
     /**
      * Other
      */
-    public function inRange() {
+    public function inRange($user_id=false) {
         // result should be cached
         if($this->isCurrentUser()) return false; // I am not in range of myself
         if($this->isDead()) return false;
         if($this->isProtected()) return false;
 
-        $user = CurrentUser::make();
+        $user = (!$user_id ? CurrentUser::make() : User::make($user_id));
         $networth = $this->getNetworth();
         $viewerNetworth = $user->getProvince()->getNetworth();
         $range = Settings::get('attack_range_mult');
@@ -178,11 +178,17 @@ class Province extends DbObject {
         $n = intval($this->get('networth'));
         if($this->isDead() || $this->isProtected()) $n = 0;
         if(!$format) return $n;
-        $n = Format::networth($n);
-        if($this->isCurrentUser()) return $n;
-        if($this->inRange()) return '<strong>'. $n .' <span class="hover-tip" data-toggle="tooltip"
-        data-title="This user is in your networth range" data-placement="bottom"><i class="far fa-check-circle"></i></span></strong>';
-        return '<span>'. $n .'</span>';
+        $fn = Format::networth($n);
+        if($this->isCurrentUser() || $n == 0) return '<span>'. $fn .'</span>';
+
+        $min_nw = Format::networth($n / Settings::get('attack_range_mult'));
+        $max_nw = Format::networth($n * Settings::get('attack_range_mult'));
+        $inRange = $this->inRange();
+        $fn = $fn . ' <span class="hover-tip" data-toggle="tooltip"  data-placement="bottom"
+            data-title="'.($inRange?'In range':'Out of range').", min ".$min_nw.', max '.$max_nw.'"><i class="far fa-'.($inRange?'check':'times').'-circle"></i>
+        </span>';
+        if($inRange) return '<strong>'. $fn .' </strong>';
+        return '<span>'. $fn .'</span>';
     }
 
     public function getLand($format=false) {

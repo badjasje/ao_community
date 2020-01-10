@@ -190,27 +190,9 @@ function do_thief($level, $thieves, $snipers, $defender_money) {
 }
 
 function networth_range($user_ID) {
-    global $userId;
-    global $userData;
-    $viewerID = $userId;
-    $userStatus = get_user_meta($user_ID, 'status', true);
-    $networth = get_user_meta($user_ID, 'networth', true);
-    $viewerNetworth = $userData['networth'][0];
-    if ($userStatus == 'dead') {
-        $networth = 0;
-    }
-
-    if (($networth > $viewerNetworth / 1.4 && $networth < $viewerNetworth * 1.4)) {
-        return '<strong>$ ' . number_format($networth, 0, ',', ' ') . ' <span class="hover-tip"  data-toggle="tooltip" data-original-title="This user is in your networth range" data-placement="bottom"><i class="far fa-check-circle"></i></span></strong>';
-    } else {
-        return '<span>$ ' . number_format($networth, 0, ',', ' ') . '</span>';
-    }
-    /*
-    if(($viewerNetworth/1.4 <= $networth) && ($networth <= $viewerNetworth*1.4)){
-    return '<strong>$ '.number_format($networth, 0, ',', ' ').' <span class="hover-tip"  data-toggle="tooltip" data-original-title="This user is in your networth range" data-placement="bottom"><i class="far fa-check-circle"></i></span></strong>';
-    }else{
-    return '<span>$ '.number_format($networth, 0, ',', ' ').'</span>';
-    }            */
+    $user = User::make($user_ID);
+    if(!$province = $user->getProvince()) return false;
+    return $province->getNetworth(true);
 }
 
 function clan_avg_networth_range($clanId) {

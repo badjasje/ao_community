@@ -60,7 +60,7 @@ if(empty($telegram_key)) {
 				<div class="profileColumn">Registered</div> <?=date("d M Y", strtotime($viewed->get('registered')))?>
 			</div>
 			<div class="attackingRow statCol-3">
-				<div class="profileColumn">Networth</div> <?=networth_range($viewed->get('id'))?>
+				<div class="profileColumn">Networth</div> <?=$viewed_province->getNetworth(true)?>
 			</div>
 			<div class="attackingRow statCol-2">
 				<div class="profileColumn">Land</div> <?=$viewed_province->getLand(true)?>
