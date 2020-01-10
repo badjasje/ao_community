@@ -578,14 +578,8 @@ if($war_type != 'none' && $result == 'success') {
 	}
 
 	$defender_networth = $defenderData['networth'][0];
-	//if ($killed != true) {
-		$clan_points = calculate_pts($defender_building_NW_lost,$defender_unit_NW_lost,$aggressive_multi);
-        if ($networth_def > 290000) {
-            $reductionFactor = (0.05 * sqrt($networth_def)) - 25; // Jaap: (sqrt(($networth_def)/1.5/65)/2)-25;
-            $reductionPc = 1+$reductionFactor/100;
-            $clan_points = $clan_points/$reductionPc;
-        }
-	//}
+
+	$clan_points = calculate_pts($defender_building_NW_lost,$defender_unit_NW_lost,$aggressive_multi);
 	if($debug) debug_var('Clan points1', $clan_points);
 
 	/* determine points multiplier due to war */

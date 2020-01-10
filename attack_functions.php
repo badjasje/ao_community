@@ -14,20 +14,8 @@ include('constants.php');
 
 function calculate_pts($bld_damage, $unit_damage, $aggressive_multi) {
     global $debug;
-    /*$unit_damage = $unit_damage * 1.2; // We rather have UK than BK
-    $bld_damage = $bld_damage * 0.6;
-    $damage = $bld_damage + $unit_damage;
-    if($debug) debug_var('damage', $damage);
-    $multiplier = 1; // maybe use this later
-    $random_factor = (mt_rand(96,108)/100); //Set randomness
-    if(Round::isDev() || Round::isTest()) $random_factor = 1;
-    if($damage == 0) $damage = 0.01; // You cant sqrt 0
-    $pts_gained =  ((((sqrt($damage)*log($damage))/100)*$multiplier)*$random_factor);
-    if ($aggressive_multi > 1) $pts_gained = $pts_gained * 1.2;
-    $pts = min(ceil($pts_gained), Settings::get('points_cap')); // Round to higher number, If more than max, set to max!
-    return $pts;*/
-    $bld_pts = ($bld_damage > 0 ? log($bld_damage) * sqrt($bld_damage/10000) : 0);
-    $unit_pts = ($unit_damage > 0 ? log($unit_damage)/2.2 * sqrt($unit_damage/1000) : 0);
+    $bld_pts = ($bld_damage > 0 ? log($bld_damage)*1.5 * sqrt($bld_damage/10000) : 0);
+    $unit_pts = ($unit_damage > 0 ? log($unit_damage)/1.8 * sqrt($unit_damage/1000) : 0);
     $pts = $bld_pts + $unit_pts;
     if($bld_pts > 0 && $unit_pts > 0) { // UBK needs a little adjustment
         $pts = ($bld_pts*0.7) + ($unit_pts*0.8);
@@ -852,7 +840,6 @@ function get_clan_points_difference($attacker_ID, $defender_ID) {
  * An attacking clan with higher points than defending clan will receive less points
  */
 function scaled_points_to_clanpoints($clan_points, $attacker_ID, $defender_ID) {
-    return $clan_points;
     $diff = get_clan_points_difference($attacker_ID, $defender_ID);
     if($diff == 0) return $clan_points;
     $multi = (($diff * 0.65) + 0.35);
