@@ -173,24 +173,12 @@ if($spytype == 'spy'):?>
         </div> <!-- //Close Unit row -->
         <?php
         $count=0;
+        $spy_effectiveness = Settings::get('spy_effectiveness');
         foreach ($amountArray as $unit => $amount) {
             $count++;
-            $rangeDamp = 1 - sqrt(($amount)*1.4)/100;
-            if($rangeDamp < 0){
-                $rangeDamp = 0.2;
-            }
-
-            $displayamount = max(round($amount/(1+(mt_rand(20*$rangeDamp, 30*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(36*$rangeDamp, 72*$rangeDamp)/100)))));
-
-            if($enhanceSpy == 1){
-                $displayamount = max(round($amount/(1+(mt_rand(10*$rangeDamp, 20*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(12*$rangeDamp, 36*$rangeDamp)/100)))));
-            }
-            if($enhanceSpy == 2){
-                $displayamount = max(round($amount/(1+(mt_rand(6*$rangeDamp, 12*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(6*$rangeDamp, 12*$rangeDamp)/100)))));
-            }
-            if($enhanceSpy >= 3){
-                $displayamount = max(round($amount/(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)))));
-            }
+            $min = round($amount * (1-(($spy_effectiveness[$enhanceSpy]*(rand(8,12)/10))/100)));
+	        $max = round($amount * (1+(($spy_effectiveness[$enhanceSpy]*(rand(8,12)/10))/100)));
+            $displayamount = max($min,0).' - '.max($max,0);
             $spy_array[$unit] = $displayamount;
 			?>
 			<div class="row unitRow" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
@@ -201,7 +189,7 @@ if($spytype == 'spy'):?>
 				    <span class="columnDataLeft">Owned</span>
 					<span class="columnDataRight"><?php echo $displayamount;?></span>
 			    </div>
-			</div> <!-- //Close Unit row -->
+			</div>
 			<?php
 			$spy_array['enhance'] = $enhanceSpy;
         }
@@ -297,23 +285,12 @@ if($spytype == 'spy'):?>
         </div> <!-- //Close Unit row -->
         <?php
         $count=0;
+        $spy_effectiveness = Settings::get('spy_effectiveness');
 	    foreach ($amountArray as $unit => $amount) {
 		    $count++;
-		    $rangeDamp = 1 - sqrt(($amount)*1.4)/100;
-			if($rangeDamp < 0){
-				$rangeDamp = 0.2;
-			}
-            $displayamount = max(round($amount/(1+(mt_rand(20*$rangeDamp, 30*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(36*$rangeDamp, 72*$rangeDamp)/100)))));
-
-            if($enhanceSpy == 1){
-                $displayamount = max(round($amount/(1+(mt_rand(10*$rangeDamp, 20*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(12*$rangeDamp, 36*$rangeDamp)/100)))));
-            }
-            if($enhanceSpy == 2){
-                $displayamount = max(round($amount/(1+(mt_rand(6*$rangeDamp, 12*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(6*$rangeDamp, 12*$rangeDamp)/100)))));
-            }
-            if($enhanceSpy >= 3){
-                $displayamount = max(round($amount/(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)),-1),0) . ' - ' . (ceil(($amount*(1+(mt_rand(3*$rangeDamp, 6*$rangeDamp)/100)))));
-            }
+            $min = round($amount * (1-(($spy_effectiveness[$enhancePlane]*(rand(8,12)/10))/100)));
+	        $max = round($amount * (1+(($spy_effectiveness[$enhancePlane]*(rand(8,12)/10))/100)));
+            $displayamount = max($min,0).' - '.max($max,0);
             $spy_array[$unit] = $displayamount;
 			?>
 			<div class="row unitRow" style="background-color: rgba(<?php echo $backColor;?>, <?php echo 0.6-($count/25);?>);">
@@ -326,7 +303,7 @@ if($spytype == 'spy'):?>
 			    </div>
 			</div> <!-- //Close Unit row -->
 			<?php
-			$spy_array['enhance'] = $enhanceSpy;
+			$spy_array['enhance'] = $enhancePlane;
         }
 
         $args = array(
