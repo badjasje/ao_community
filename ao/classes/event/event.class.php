@@ -99,7 +99,7 @@ class Event extends PostObject {
         ),
         'saboteur' => array(
             'icon' => 'fas fa-bomb', 'header' => 'Saboteur sent',
-            'title' => 'You sent a saboteur to {defender} and he was {succesfull}{killed}',
+            'title' => 'You sent a saboteur to {defender} and he was {succesfull}{sabokilled}',
             'body' => '{silos} disabled'
         ),
         'spy' => array(
@@ -376,7 +376,7 @@ class Event extends PostObject {
             '{bonus_turns}' => ($format == true ? Format::turns($this->get('bonus_turns')) : $this->get('bonus_turns')),
             '{nw_damage_defender}' => $this->get('nw_damage_defender'),
             '{succesfull}' => ($winner_id != $defender_id ? 'lived' : ''),
-            '{killed}' => ($winner_id == $defender_id ? 'killed in action' : ''),
+            '{sabokilled}' => ($winner_id == $defender_id ? 'killed in action' : ''),
             '{silos}' => (!empty($this->get('silos')) ? Format::plural($this->get('silos'), 'silo') : 'no silos'),
         );
 
