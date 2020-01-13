@@ -587,6 +587,34 @@ jQuery(function($) {
         });
     });
 
+    // clan page
+    $('#declareWar').on('submit', function(e) {
+        e.preventDefault();
+        singleAjax(site_url+'/declare_war.php', $(this), function(data) {
+            if(data.next == true) {
+                $('.warDecSubmit').html('You are at war with this clan').addClass("disabled");
+                $('#declareWarModal,.modal-backdrop').remove();
+            }
+        });
+    });
+    $('#declarePeace').on('submit', function(e) {
+        e.preventDefault();
+        singleAjax(site_url+'/declare_peace.php', $(this), function(data) {
+            if(data.next == true){
+                $('.declarePeaceButton').addClass('disabled');
+                $('#declarePeaceModal,.modal-backdrop').remove();
+            }
+        });
+    });
+    $('#resumeWar').on('submit', function(e) {
+        e.preventDefault();
+        singleAjax(site_url+'/resumewar.php', $(this), function(data) {
+            if(data.next == true){
+                $('.resumeWarButton').html('You are at war with this clan').addClass("disabled");
+            }
+        });
+    });
+
     // Sending aid
     $("#maxaid").click(function() {
         $("#amount").val(parseInt($('#amount').attr('max')));

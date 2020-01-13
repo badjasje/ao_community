@@ -1,188 +1,265 @@
 <?php
+/**
+ * Template Name: Single Clan
+ */
 get_header();
-include('constants.php');
 
-global $userId;
-global $userData;
-$declarer_ID = $userId;
-update_user_meta($declarer_ID, 'user_lock', 0);
-
-$nw_att = $userData['networth'][0];
-$declarer_clan_ID = $userData['clan_id_user'][0];
 $clan_id = get_the_ID();
+$clan = Clan::make($clan_id);
+$clanImg = $clan->getImage();
+$clanMembers = $clan->getMembers();
+$clanAwards = $clan->getAwards();
 
-$backColor = "45, 67, 81";
-
-$aw_args = array('post_type' => 'award','numberposts' => -1, 'meta_key' => 'winning_clan', 'meta_value' => $clan_id);
-$awards = get_posts($aw_args);
-
-$declarerClanData = get_post_meta($declarer_clan_ID); // Get all postmeta linked to declarer clan ID
-
-$declarer_clanleader = $declarerClanData['clan_leader'][0];
-
-$clanData = get_post_meta($clan_id);
-$clanMembers = maybe_unserialize(maybe_unserialize($clanData['clan_members'][0]));
-$membersCount = count($clanMembers);
-//Enemy clan avg nw is:
-$averageNw = (isset($clanData['clan_networth']) ? $clanData['clan_networth'][0] : 1) / $membersCount;
-
-//Count the members in YOUR clan
-$declaringClanMembers = maybe_unserialize($declarerClanData['clan_members'][0]);
-$declaringMembersCount = (is_array($declaringClanMembers) ? count($declaringClanMembers) : 1);
-$declarerAverageNw = (isset($declarerClanData['clan_networth']) ? $declarerClanData['clan_networth'][0] : 1) / $declaringMembersCount;
-
-$average_OK = "false";
-if ($declarerAverageNw*$AVERAGE_DECLARE_NW_ALLOWED > $averageNw) {
-  $average_OK = "true";
-}
-$cooldownlist = (isset($declarerClanData['cooldown_list']) ? maybe_unserialize($declarerClanData['cooldown_list'][0]) : array());
-if(!is_array($cooldownlist) && !empty($cooldownlist)) $cooldownlist = maybe_unserialize($cooldownlist); // Temp fix double serialization
-if(!is_array($cooldownlist)) $cooldownlist = array();
-
-$deccts=array();
-for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
-    $deccts[$i] = (isset($declarerClanData['ct_'.$i]) ? $declarerClanData['ct_'.$i][0]: 0);
-}
-$allowed_to_declare = array_merge($deccts, array($declarer_clanleader));
-
-$warcount = get_posts(array(
-	'numberposts'	=> -1,
-	'post_type'		=> 'wars',
-	'post_status'   => 'publish',
-	'meta_query'	=> array( 'relation' => 'AND',
-        array('key' => 'declared_by','value' => $clan_id),
-        array('key' => 'declared_on','value' => $declarer_clan_ID)
-    )
-));
-$warcount = count($warcount);
-
-$timestamp = current_time('timestamp');
-
-// calculating total NW for declaring clan. Not sure if still needed.
-$dec_tot_networth = 0;
-if($declarer_clan_ID != 0) {
-    foreach ($declaringClanMembers as $dec_member) {
-        $dec_networth = get_user_meta($dec_member, 'networth',true);
-        if(get_user_meta($dec_member, 'status',true) == 'dead'){
-            $dec_networth = 0;
-        }
-        $dec_tot_networth+=$dec_networth;
-    }
-}
-
- $wars_on = get_posts(array(
-	'numberposts'	=> -1,
-	'post_type'		=> 'wars',
-	'post_status'   => 'publish',
-	'meta_key'		=> 'declared_by',
-	'meta_value'	=> $declarer_clan_ID
-));
-
-$declared_on = array();
-$peaceID = 0;
-foreach ($wars_on as $war) {
-	$defClanID = get_post_meta($war->ID,'declared_on',true);
-	$att_ClanID = get_post_meta($war->ID,'declared_by',true);
-
-	if($defClanID == $clan_id){
-		$peaceID = $war->ID;
-	}
-	$declared_on[] = $defClanID;
-}
-$_member = false;
-
-if(is_array($declaringClanMembers) && in_array($declarer_ID, $declaringClanMembers)){
-	$_member = true;
-}
-
-$cts=array();
-for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
-    $cts[$i] = (isset($clanData['ct_'.$i]) ? $clanData['ct_'.$i][0]: 0);
-}
-$ctArray=$cts;
-
-$clanleader = $clanData['clan_leader'][0];
-$clan_points = $clanData['clan_points'][0];
-$clantag = $clanData['clan_tag'][0];
-
-$tot_networth = 0;
-foreach ($clanMembers as $member) {
-    count_all_stats($member);
-    $networth = get_user_meta($member, 'networth',true);
-    if(get_user_meta($member, 'status',true) == 'dead'){
-        $networth = 0;
-    }
-    $tot_networth+=$networth;
-}
-
-update_post_meta($clan_id, 'clan_networth', ceil($tot_networth));
+$user = CurrentUser::make();
+$province = $user->getProvince();
+$userIsMember = $clan->isMember();
 ?>
-
 <div class="row pageRow clanContentRow">
-
-    <?php while ( have_posts() ) : the_post();
-
-        $clanImg = get_post_meta($clan_id, 'clan_image', true); ?>
-        <div id="clan-<?=$clan_id?>" class="blockHeader">
-            <?php echo get_the_title($clan_id) ?>
-        </div>
+    <? while (have_posts()) { the_post(); ?>
+        <div id="clan-<?=$clan->get('id')?>" class="blockHeader"><?=$clan->getName()?></div>
 
         <div class="row row-no-padding fw-row">
-            <?php if(!empty($clanImg)):?>
+            <? if(!empty($clanImg)) { ?>
                 <div class="col-12 attackingRow statCol-2 row-no-padding">
-                    <div class="clanImage" style="background:url(<?php echo $clanImg;?>)"></div>
+                    <div class="clanImage" style="background:url(<?=$clanImg?>)"></div>
                 </div>
-            <?php endif;?>
+            <? } ?>
 
             <div class="col-12 attackingRow statCol-1">
-                <div class="profileColumn">Members</div> <?php echo count($clanMembers);?>
+                <div class="profileColumn">Members</div> <?=count($clanMembers)?>
             </div>
-
+            
             <div class="col-12 attackingRow statCol-2 elipOverflow">
-                <div class="profileColumn">Tag</div> <?php echo $clantag;?>
+                <div class="profileColumn">Tag</div> <?=$clan->getTag(true,false)?>
             </div>
-
+            
             <div class="col-12 attackingRow statCol-3">
-                <h3>Awards (<?php echo count($awards);?>)</h3>
+                <h3>Awards (<?=count($clanAwards)?>)</h3>
                 <div id="awardlist" class="fw-row">
-                    <?php include 'pages/clan/awardlist.php'; ?>
+                    <? include 'pages/clan/awardlist.php'; ?>
                 </div>
             </div>
-
+            
             <div class="col-12 attackingRow statCol-4">
-                <div class="profileColumn">Total networth</div> $ <?php echo number_format($tot_networth, 0, ',', ' ');?>
+                <div class="profileColumn">Total networth</div> <?=$clan->getNetworth(true)?>
             </div>
 
             <div class="col-12 attackingRow statCol-3">
-                <div class="profileColumn">Average networth</div> $ <?php echo number_format($averageNw, 0, ',', ' ');?>
+                <div class="profileColumn">Average networth</div> <?=$clan->getAvgNetworth(true)?>
             </div>
 
             <div class="col-12 attackingRow statCol-2">
                 <div class="profileColumn">Points</div>
-                <?php if(!empty($clan_points)){
-                    echo number_format($clan_points, 0, ',', ' ');
-                } else {
-                    echo '0';
-                }?>pts <sup><?php echo (isset($clanData['24h_pts'])?$clanData['24h_pts'][0]:0);?>pts today</sup>
+                <?=$clan->getPoints(true)?>pts <sup><?=$clan->get24hPoints()?>pts today</sup>
             </div>
 
             <div class="col-12 attackingRow statCol-1 elipOverflow">
                 <h3>Message</h3>
-                <div id="clanMessage">
-                    <?php echo str_replace("\r", "<br />", wp_strip_all_tags(get_the_content($clan_id))); ?>
-                </div>
+                <div id="clanMessage"><?=$clan->getPublicMessage(true)?></div>
             </div>
 
         </div>
-
-        <?php
-    endwhile;?>
+    <? } ?>
 
     <div class="pageSpacer"></div>
 
-    <?php include('pages/clan/members.php'); ?>
+    <div id="clanMembers" class="aoPage">
+        <table id="values6" class="aoTable">
+			<tr class="unitRow headerRow">
+                <th></th>
+	            <th><a href="javascript:void(0);" class="sort6" data-sort=".name-sort">Name <i class="fas fa-sort"></i></a></th>
+	            <th><a href="javascript:void(0);" class="sort6 sort-number" data-sort=".nw-sort">Networth <i class="fas fa-sort"></i></a></th>
+	            <th><a href="javascript:void(0);" class="sort6 sort-number" data-sort=".land-sort">Land <i class="fas fa-sort"></i></a></th>
+                <? if($userIsMember) { ?>
+                    <th><a href="javascript:void(0);" class="sort6 sort-number" data-sort=".pts-sort">Points <i class="fas fa-sort"></i></a></th>
+                    <th></th>
+                <? } ?>
+			</tr>
+            <? foreach($clanMembers as $member_id) { 
+                $member = Province::make($member_id); 
+                $pts = $member->getClanPoints(true);
+                ?>
+                <tr class="unitRow userRow6">
+                    <td class="col-no-padding"><?=$member->getAvatar('allUsersAvatar')?></td>
+                    <td>
+                        <?=($member_id == $clan->getLeader() ? '<strong>CL</strong>' : '')?>
+                        <?=(in_array($member_id, $clan->getTrustees()) ? '<strong>CT</strong>' : '')?>
+                        <span class="name-sort"><?=$member->getLink(true)?></span>
+                    </td>
+                    <td class="nw-sort"><?=$member->getNetworth(true)?></td>
+                    <td class="land-sort"><?=$member->getLand(true)?></td>
+                    <? if($userIsMember) { ?>
+                        <td class="pts-sort"><?=$pts?> pts</td>
+                        <td>
+                            <? if($clan->canKick() && $province->get('id') != $member_id) {
+                                echo '<a href="'.Request::siteUrl().'/kick.php?id='.$member_id.'&clan='.$clan_id.'" '.
+                                    'onclick="return confirm(\'Are you sure you want to kick '.$member->getName(false).' (#'.$member_id.') from your clan? '.
+                                    ' Your clan will lose '.round($pts * Settings::get('clan_kick_penalty')).' clan points.\')" '.
+                                    '>kick</a>';
+                            } ?>
+                        </td>
+                    <? } ?>
+                </tr>
+            <? } ?>
+        </table>
+    </div>
+
+    <?php 
+    if(!$userIsMember) {
+        $timestamp = current_time('timestamp');
+
+        $userClan = $province->getClan();
+        $userCooldownlist = (!!$userClan ? $userClan->getCooldownList() : array());
+        $userCanDeclare = (!!$userClan ? $userClan->isCLT() : false);
+
+        $warType = (!!$userClan ? $clan->getWarType($userClan->get('id')) : 'none');
+        $incomingWar = (!!$userClan ? $clan->getIncomingWars($userClan->get('id')) : false);
+        $outgoingWar = (!!$userClan ? $clan->getOutgoingWars($userClan->get('id')) : false);
+        $inCooldown = array_key_exists($clan_id, $userCooldownlist);
+        $inRange = $clan->inRange() || $warType == 'outgoing';
+        $canPeace = (!!$userClan ? $clan->canPeace($userClan->get('id')) : false);
+        $canResume = (!!$userClan ? $clan->canResume($userClan->get('id')) : false);
+
+        /*?>
+        <div class="fw-row blockHeader">
+            <strong>Current modifiers</strong><br>
+            <?
+            if($warType == 'mutual') {
+                echo '<em>In a mutual war: no modifiers</em>';
+            }
+            if($warType == 'incoming') {
+
+            }
+            if($canPeace) {
+                echo '<strong>If you peace</strong><br>';
+            }
+            // SHOW MODIFIERS HERE:
+            // if no outgoing war with this clan: show modifiers if you declare
+            // if outgoing war: show current modifiers
+            // when mutual -> no modifiers
+            // when no mutual:
+                // -> clansizediff points modifier
+                // -> pointsdiff modifier
+                // -> land & money gains modifier
+                // -> nwdiff modifier?
+
+                // Missile, satellite, unit
+                //$attacker_type_damage['bld'] = scaled_damage_to_clansize($attacker_type_damage['bld'], $userId, $target_id);
+                // $blddamage = scaled_damage_to_clansize($blddamage, $userId, $target_id);
+                // $diff = get_clan_member_difference($attacker_ID, $defender_ID);
+                //if($diff < 1) return $damage; // If attacker no clan, mutual war or the attacker clan size is smaller or equal, no reduction
+                //$damage = ceil($damage * ((100-(($diff*2)/5))/100));
+
+                // Units: land stolen  
+                //$land_stolen = scaled_land_to_clansize($land_stolen, $userId, $target_id, $attacker_networth_lost, $defender_networth_lost);
+
+                // Units: money stolen 
+                //$money_stolen = scaled_money_to_clansize($money_stolen, $userId, $target_id, $attacker_networth_lost, $defender_networth_lost);
+
+                // Satellite, missile, unit: points based on clansize
+                //$clan_points = scaled_points_to_clansize($clan_points, $userId, $target_id);
+                
+                // Satellite, missile, unit: points based on difference between clanpoints totals
+                //$clan_points = scaled_points_to_clanpoints($clan_points, $userId, $target_id);
+            ?>
+        </div><? */ ?>
+        <div class="row fw-row no-gutters">
+            <?
+            if($userCanDeclare) {
+                echo '<div class="col">'.PHP_EOL;
+                if($canPeace) {
+                    echo '<button class="mainSubmit declarePeaceButton" data-toggle="modal" data-target="#declarePeaceModal">
+                        <i class="fas fa-dove" aria-hidden="true"></i> Declare peace
+                    </button>'.PHP_EOL;
+                }
+                elseif(in_array($warType, array('incoming','mutual'))) {
+                    echo '<button class="mainSubmit disabled">You are at war with this clan</button>'.PHP_EOL;
+                }
+                elseif($inCooldown) {
+                    if($canResume==false) {
+                        echo '<button class="mainSubmit disabled">
+                            Cooldown: <span data-countdown="'.($userCooldownlist[$clan_id]-$timestamp).'"></span>
+                        </button>'.PHP_EOL;
+                    }
+                    else { ?>
+                        <form id="resumeWar" method="POST">
+                            <input type="hidden" name="declaredon" value="<?=$clan_id?>">
+                            <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
+                            <button type="submit" name="submit" class="mainSubmit resumeWarButton">
+                                <i class="fas fa-fire" aria-hidden="true"></i> Resume war
+                            </button>
+                        </form>
+                    <? }
+                }  
+                else if($inRange) {
+                    echo '<button class="mainSubmit warDecSubmit" data-toggle="modal" data-target="#declareWarModal">
+                        <i class="fas fa-fire" aria-hidden="true"></i> Declare'.($warType=='outgoing'?' mutual':'').' war
+                    </button>'.PHP_EOL; 
+                }
+                else echo '<button class="mainSubmit disabled">Currently not in range</button>'.PHP_EOL;
+                echo '</div>'.PHP_EOL;
+            }       
+            ?>
+            <a class="col mainSubmit" href="<?=Request::siteUrl()?>/spy-report-overview/?id=<?=$clan_id?>">
+                <i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
+            </a>
+        </div>
+    <? 
+        wtf(array(
+            'clan_id' => $clan_id,
+            'userclan' => (!!$userClan ? $userClan->get('id') : '-'),
+            'wartype' => $warType,
+            'cooldown' => $userCooldownlist,
+            'inrange' => $inRange,
+            'canpeace' => $canPeace,
+            'canResume' => $canResume,
+            'incoming' => !!$incomingWar,
+            'outgoing' => !!$outgoingWar,
+        ));
+    } 
+    ?>
 
     <div class="pageSpacer"></div>
+</div>
 
-</div> <!-- // pageRow -->
-<?php get_footer();
+<div class="modal fade" id="declareWarModal" tabindex="-1" role="dialog" aria-labelledby="declareWarModalLabel" aria-hidden="true">
+    <form method="POST" id="declareWar" class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel">Are you sure?</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <label>Declaration message</label>
+                <input placeholder="Max. 50 characters." class="unitInput" type="text" name="dec_msg" maxlength="50" style="border:none;">
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
+                <input type="hidden" name="clan" value="<?=$clan_id?>">
+                <button type="submit" class="mainSubmit">Declare war</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal fade" id="declarePeaceModal" tabindex="-1" role="dialog" aria-labelledby="declarePeaceModalLabel" aria-hidden="true">
+    <form method="POST" id="declarePeace" class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel">Are you sure?</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <label>Peace message</label>
+                <input placeholder="Max. 50 characters." class="unitInput" type="text" name="dec_msg" maxlength="50" style="border:none;">
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
+                <input type="hidden" name="war" value="<?=(!!$incomingWar?$incomingWar->ID:0)?>">
+                <input type="hidden" name="clan" value="<?=$clan_id?>">
+                <button type="submit" class="mainSubmit">Declare peace</button>
+            </div>
+        </div>
+    </form>
+</div>
+<?
+get_footer();

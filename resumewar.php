@@ -41,7 +41,10 @@ if (count($posts) == 0) {
 }
 
 // Do we have an incoming war? It's allowed to resume to mutual no matter the peace time
-$warcount = get_posts(array(
+// FALSE, manual:
+// "After peace there is a 72 hour cooldown before you can declare war on that clan again, 
+// unless that clan has a war declared on you, then there will be a 12h cooldown before you can resume war."
+/*$warcount = get_posts(array(
 	'numberposts' => -1, 'post_type' => 'wars', 'post_status' => 'publish',
 	'meta_query' => array(
         'relation' => 'AND',
@@ -49,10 +52,10 @@ $warcount = get_posts(array(
         array('key' => 'declared_on', 'value' => $declaredbyID)
     )
 ));
-$warcount = count($warcount);
+$warcount = count($warcount);*/
 
 // Look for peace event to get peace-time
-if($warcount == 0) {
+//if($warcount == 0) {
     $peacetime = 0;
     $eventposts = get_posts(array(
         'numberposts' => 1, 'post_title' => 'PEACE', 'post_status' => 'publish', 'post_type' => 'event_local',
@@ -73,7 +76,7 @@ if($warcount == 0) {
         echo json_encode($array);
         exit;
     }
-}
+//}
 
 $my_post = array('ID' => $posts[0]->ID,'post_status' => 'publish','post_title' => $timestamp);
 
