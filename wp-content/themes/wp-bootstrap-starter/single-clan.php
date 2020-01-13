@@ -205,17 +205,19 @@ $userIsMember = $clan->isMember();
             </a>
         </div>
     <? 
-        wtf(array(
-            'clan_id' => $clan_id,
-            'userclan' => (!!$userClan ? $userClan->get('id') : '-'),
-            'wartype' => $warType,
-            'cooldown' => $userCooldownlist,
-            'inrange' => $inRange,
-            'canpeace' => $canPeace,
-            'canResume' => $canResume,
-            'incoming' => !!$incomingWar,
-            'outgoing' => !!$outgoingWar,
-        ));
+        if(Round::isDev() || isset($_GET['claninfo'])) {
+            wtf(array(
+                'clan_id' => $clan_id,
+                'userclan' => (!!$userClan ? $userClan->get('id') : '-'),
+                'wartype' => $warType,
+                'cooldown' => $userCooldownlist,
+                'inrange' => $inRange,
+                'canpeace' => $canPeace,
+                'canResume' => $canResume,
+                'incoming' => !!$incomingWar,
+                'outgoing' => !!$outgoingWar,
+            ));
+        }
     } 
     ?>
 
