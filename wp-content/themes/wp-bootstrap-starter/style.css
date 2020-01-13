@@ -864,6 +864,9 @@ input[type="radio"]:checked + label {
 .game-type-test .titleBackWrapper{
     background-image: url('/wp-content/themes/wp-bootstrap-starter/img/header_test.png');
 }
+.game-type-test #content.site-content { background-color:#e6bcbc; }
+.game-type-development #content.site-content { background-color: #bce6bf; }
+
 #clanMessage {
     line-height: 18px; max-height: 30vh; overflow: auto;
 }
