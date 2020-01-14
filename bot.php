@@ -32,14 +32,26 @@ function get_user_by_authkey($key) {
 // Receive message from user
 if(isset($_GET['path']) && $_GET['path']=='Chiricahua1829Goyahkla') {
     $bot = new TelegramBot();
+    $message = array();
 
-    /*if($_GET['debug']==1) {
-        $message['text'] = '/claninfo';
-        $bot->getChatByUserId(2768);
+    if(isset($_GET['admin'])) {
+        global $wpdb;
+        switch($_GET['admin']) {
+            case 'stats':
+                var_dump($wpdb->get_row("SELECT COUNT(id) AS num FROM `telegram_chat`", ARRAY_A));
+            break;
+            case 'reset':
+                if(isset($_GET['userid'])) var_dump($wpdb->query("DELETE FROM `telegram_chat` WHERE `user_id` = ".$_GET['userid']));
+            break;
+            case 'test':
+                $message = array('text' => $_GET['command']);
+                $bot->getChatByUserId($_GET['userid']);
+            break;
+        }
     }
-    else {*/
+    else {
         $message = $bot->receiveMessage();
-    //}
+    }
     $telegramChat = $bot->getChat();
 
     if($message['text']) {

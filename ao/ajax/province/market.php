@@ -2,9 +2,8 @@
 
 function ajax_market($province, $return) {
     if(!Round::isLive()) return array('status' => 'Game is paused.');
-    if(!Market::isOpen()) return array('status' => 'The market is closed');
 
-    if(!is_array($_POST['demo']) || !is_array($_POST['build'])) {
+    if((isset($_POST['demo']) && !is_array($_POST['demo'])) || (isset($_POST['build']) && !is_array($_POST['build']))) {
         return array('status' => 'Not a valid request.');
     }
     $delay = 0;
@@ -22,15 +21,21 @@ function ajax_market($province, $return) {
 
     // Check for numbers
     $sell = array();
-    foreach($_POST['demo'] as $key => $num) {
-        if(!empty($num) && (!is_numeric($num) || $num < 0 || ceil($num)!=$num || !isset($units[$key]))) return array('status' => $key.': enter a valid number');
-        if(!empty($num)) $sell[$key] = ceil($num);
-    }
+    if(isset($_POST['demo'])) {
+        foreach($_POST['demo'] as $key => $num) {
+            if(!empty($num) && (!is_numeric($num) || $num < 0 || ceil($num)!=$num || !isset($units[$key]))) return array('status' => $key.': enter a valid number');
+            if(!empty($num)) $sell[$key] = ceil($num);
+        }
+}
     $order = array();
-    foreach($_POST['build'] as $key => $num) {
-        if(!empty($num) && (!is_numeric($num) || $num < 0 || ceil($num)!=$num || !isset($units[$key]))) return array('status' => $key.': enter a valid number');
-        if(!empty($num)) $order[$key] = ceil($num);
+    if(isset($_POST['build'])) {
+        foreach($_POST['build'] as $key => $num) {
+            if(!empty($num) && (!is_numeric($num) || $num < 0 || ceil($num)!=$num || !isset($units[$key]))) return array('status' => $key.': enter a valid number');
+            if(!empty($num)) $order[$key] = ceil($num);
+        }
     }
+
+    if(!Market::isOpen() && count($order)) return array('status' => 'The market is closed');
 
     // Special units
     $specialSell = $specialOrder = $totalSell = $totalOrder = 0;

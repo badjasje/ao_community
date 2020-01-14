@@ -28,7 +28,7 @@ $researchTimeLeft = $province->getResearchTimeLeft();
 		@todo: show current research & new research*/?>
 	</div>
 
-	<form id="research">
+	<form id="research" class="aoTable">
 		<div class="row unitRow headerRow">
 			<div class="col-md-6 celBlock">Name</div>
 			<div class="col-md-1 celBlock">Level</div>

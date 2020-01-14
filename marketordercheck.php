@@ -58,7 +58,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
                 $province->update('status', 'online');
                 $province->notify('nukeprotectremoved', $user_ID);
                 Event::create(array(
-                    'title' => 'Nukeprotection removed for '.$user_ID, 'author' => $user_ID, 'type' => 'nukeprotection',
+                    'title' => 'Assault protection removed for '.$user_ID, 'author' => $user_ID, 'type' => 'nukeprotection',
                     'defender_id' => $user_ID, 'attacker_id' => $user_ID
                 ), $this->get('id'));
             }

@@ -59,7 +59,7 @@ $disabled = (!Bank::isOpen() || $dep_num >= $province->getMaxDeposits() ? true :
 		Because of Bank Management research level 2 or higher, your locked deposits may be withdrawn for a <?=$withdraw_penalty?>% fee and no interest.
 		<? } ?>
 	</div>
-	<div id="banklist">
+	<div id="banklist" class="aoTable">
 		<div class="row unitRow headerRow">
 			<div class="col-md-3 celBlock">Deposited</div>
 			<div class="col-md-3 celBlock">Including interest</div>

@@ -135,15 +135,22 @@ class Province extends DbObject {
     /**
      * Other
      */
-    public function inRange() {
+    public function inRange($user_id=false) {
         // result should be cached
         if($this->isCurrentUser()) return false; // I am not in range of myself
         if($this->isDead()) return false;
         if($this->isProtected()) return false;
 
-        $user = CurrentUser::make();
+        $user = (!$user_id ? CurrentUser::make() : User::make($user_id));
+        $province = $user->getProvince();
+        if($clan = $this->getClan()) {
+            if($my_clan = $province->getClan()) {
+                if($clan->getWarType($my_clan->get('id')) == 'mutual') return true;
+            }
+        }
+
         $networth = $this->getNetworth();
-        $viewerNetworth = $user->getProvince()->getNetworth();
+        $viewerNetworth = $province->getNetworth();
         $range = Settings::get('attack_range_mult');
         return ($networth > $viewerNetworth / $range && $networth < $viewerNetworth * $range);
     }
@@ -161,7 +168,7 @@ class Province extends DbObject {
 
         $icon = '';
         if($this->isDead()) $icon = ' <span class="hover-tip" data-toggle="tooltip" data-title="This user is dead" data-placement="bottom"><i class="fas fa-skull"></i></span>';
-        if($this->isProtected()) $icon = ' <span class="hover-tip" data-toggle="tooltip" data-title="This user is under protection" data-placement="bottom"><i class="fas fa-umbrella"></i></span>';
+        if($this->isProtected()) $icon = ' <span class="hover-tip" data-toggle="tooltip" data-title="This user is under assault protection" data-placement="bottom"><i class="fas fa-umbrella"></i></span>';
         return $this->getName(false).' (#'.$this->get('id').')' . $icon . ($this->isOnline()?' <span class="online">*</span>':'');
     }
 
@@ -176,12 +183,29 @@ class Province extends DbObject {
 
     public function getNetworth($format=false) {
         $n = intval($this->get('networth'));
+        if($this->isDead() || $this->isProtected()) $n = 0;
         if(!$format) return $n;
-        $n = Format::networth($n);
-        if($this->isCurrentUser()) return $n;
-        if($this->inRange()) return '<strong>'. $n .' <span class="hover-tip" data-toggle="tooltip"
-        data-title="This user is in your networth range" data-placement="bottom"><i class="far fa-check-circle"></i></span></strong>';
-        return '<span>'. $n .'</span>';
+        $fn = Format::networth($n);
+        if($this->isCurrentUser() || $n == 0) return '<span>'. $fn .'</span>';
+
+        $showRange = true;
+        $viewer = CurrentUser::make();
+        if($clan = $this->getClan()) {
+            if($my_clan = $viewer->getProvince()->getClan()) {
+                if($clan->getWarType($my_clan->get('id')) == 'mutual') $showRange = false;
+            }
+        }
+
+        $min_nw = Format::networth($n / Settings::get('attack_range_mult'));
+        $max_nw = Format::networth($n * Settings::get('attack_range_mult'));
+        $inRange = $this->inRange();
+        $fn .= ' <span class="hover-tip" data-toggle="tooltip"  data-placement="bottom"
+            data-title="'.($inRange?'In range':'Out of range');
+        if($showRange) $fn .= ", min ".$min_nw.', max '.$max_nw;
+        else $fn .= ', mutual';
+        $fn .= '"><i class="far fa-'.($inRange?'check':'times').'-circle"></i></span>';
+        if($inRange) return '<strong>'. $fn .' </strong>';
+        return '<span>'. $fn .'</span>';
     }
 
     public function getLand($format=false) {
@@ -812,6 +836,10 @@ class Province extends DbObject {
             return in_array($target_id, $clan->getMembers());
         }
         return false;
+    }
+    public function getClanPoints($format=false) {
+        $n = $this->get('user_clan_points');
+        return ($format ? Format::points($n) : $n);
     }
     public function getPPA($format=false) {
         $attacksMade = $this->get('in_war_attacks');

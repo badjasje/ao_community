@@ -476,23 +476,7 @@ if($war_type != 'none' && $result == 'success') {
 		$unit_points = $def_lostunits_tot/$def_total_units;
 	}
 
-	//if ($killed != true) {
-		/* MEGA logic to make nuke NW account also for province NW, reducing it's reward at very low Networth.
-			The division on NW lost will increase the difference between low and high nw done in terms of pts. HIGHER division = more range
-			The division on the defender NW will decrease the overall points which nukes offer. HIGHER division = less pts */
-
-		/* New function MEGA should award reasonable points */
-		/* 5-1-2019 Kevin edit, just 90% awarded as per suggestions yo */
-		$clan_points = (($def_NW_lost/1100)+((sqrt($def_NW_lost)/25) * ((sqrt($networth_def*1.5)/4.1)/100)))*0.9;
-
-		/* MORE MEGA HAXXX. Reduce pts earned above a certain NW also*/
-		if ($networth_def > 290000) {
-			$reductionFactor =  (0.05 * sqrt($networth_def)) - 25; // Jaap: (sqrt(($networth_def)/1.5/65)/2)-25;
-			$reductionPc = 1+$reductionFactor/100;
-			$clan_points = $clan_points/$reductionPc;
-		}
-		/* HAX END */
-	//}
+	$clan_points = (($def_NW_lost/1100)+((sqrt($def_NW_lost)/25) * ((sqrt($networth_def*1.5)/4.1)/100)))*0.9;
 
 	if($war_type == 'incoming') $clan_points = round($clan_points/2);
 

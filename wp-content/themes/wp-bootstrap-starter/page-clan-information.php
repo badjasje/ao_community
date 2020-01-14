@@ -1,7 +1,7 @@
 <?php
- /*
+/**
  * Template Name: Clan Information
-*/
+ */
 get_header();
 
 global $userData;

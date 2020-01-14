@@ -15,12 +15,12 @@ function ajax_removenp($province, $return) {
     }
 
     $ev = Event::create(array(
-        'title' => 'Nukeprotection removed for '.$province->get('id'),
+        'title' => 'Assault protection removed for '.$province->get('id'),
         'type' => 'nukeprotection',
         'defender_id' => $province->get('id')
     ), $province->get('id'));
 
     $province->update('status', 'online');
 
-    return array('success' => true, 'status' => 'Protection removed');
+    return array('success' => true, 'status' => 'Assault protection removed');
 }

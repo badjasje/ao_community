@@ -54,7 +54,7 @@ $array = array();
 	$maintarget = (isset($_POST['maintarget']) ? $_POST['maintarget'] : '');
 
 	if($userData['status'][0] == 'dead' || $userData['status'][0] == 'nukeprotection'){
-		$array['status'] = 'You cannot attack while dead or under protection';
+		$array['status'] = 'You cannot attack while dead or under assault protection';
 		$array['next'] = false;
 		echo json_encode($array);
 		exit;

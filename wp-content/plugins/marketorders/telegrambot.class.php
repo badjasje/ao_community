@@ -61,6 +61,9 @@ class TelegramBot {
     }
 
     public function sendMessage($msg, $params = array()) {
+        if(Round::isDev()) $msg = 'DEV: '.$msg;
+        if(Round::isTest()) $msg = 'TEST: '.$msg;
+        if(isset($_GET['admin'])) var_dump($msg, $params);
         if(empty($this->chatID)) return false;
         $params += array('chat_id' => $this->chatID, 'text' => $msg, 'disable_web_page_preview' => 1);
         return $this->request('sendMessage', $params);

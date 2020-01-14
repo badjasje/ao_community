@@ -106,6 +106,7 @@ class Settings extends DataObject {
         'attack_morale_tgt_above' => 20,
         'damage_reduction_unit' => 25, // DAMAGE_REDUCTION_FACTOR_UNIT
         'damage_reduction_building' => 20, // DAMAGE_REDUCTION_FACTOR_BLD
+        'spy_effectiveness' => array(60, 35, 10, 5),
 
         // Turn costs
         'turns_missile' => 3,
@@ -138,9 +139,11 @@ class Settings extends DataObject {
         // Clan stuff
         'clan_trustee_num' => 5,
         'clan_member_num' => 6,
+        'clan_kick_penalty' => 0.25,
 
         // War
         'resume_after_hours' => 12,
+        'peace_after_time' => (24 * 3600),
     );
 
 }
