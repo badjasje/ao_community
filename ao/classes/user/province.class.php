@@ -189,10 +189,14 @@ class Province extends DbObject {
         if($this->isCurrentUser() || $n == 0) return '<span>'. $fn .'</span>';
 
         $showRange = true;
+        $timestamp = current_time('timestamp');
         $viewer = CurrentUser::make();
         if($clan = $this->getClan()) {
             if($my_clan = $viewer->getProvince()->getClan()) {
-                if($clan->getWarType($my_clan->get('id')) == 'mutual') $showRange = false;
+                if($clan->getWarType($my_clan->get('id')) == 'mutual') {
+                    $join_timestamp = $viewer->get('clan_join_stamp');
+                    if($timestamp >= $join_timestamp) $showRange = false;
+                }
             }
         }
 

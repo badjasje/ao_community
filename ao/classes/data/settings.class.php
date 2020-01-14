@@ -140,6 +140,7 @@ class Settings extends DataObject {
         'clan_trustee_num' => 5,
         'clan_member_num' => 6,
         'clan_kick_penalty' => 0.25,
+        'clan_join_mutual_delay' =>  (24 * 3600),
 
         // War
         'resume_after_hours' => 12,
