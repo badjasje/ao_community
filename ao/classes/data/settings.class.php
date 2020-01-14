@@ -106,7 +106,12 @@ class Settings extends DataObject {
         'attack_morale_tgt_above' => 20,
         'damage_reduction_unit' => 25, // DAMAGE_REDUCTION_FACTOR_UNIT
         'damage_reduction_building' => 20, // DAMAGE_REDUCTION_FACTOR_BLD
-        'spy_effectiveness' => array(60, 35, 10, 5),
+        'spy_effectiveness' => array( // per spy enhance level
+            0 => array(20,30,36,72), 
+            1 => array(10,20,12,36),
+            2 => array(6,12,6,12),
+            3 => array(3,6,3,6),
+        ),
 
         // Turn costs
         'turns_missile' => 3,
@@ -145,6 +150,12 @@ class Settings extends DataObject {
         // War
         'resume_after_hours' => 12,
         'peace_after_time' => (24 * 3600),
+        'war_type_multi' => array(
+            'mutual' => 1,
+            'outgoing' => 1,
+            'incoming' => .5,
+            'none' => 0,
+        ),
     );
 
 }
