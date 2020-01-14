@@ -22,6 +22,7 @@ foreach($buildings as $building) {
 	$unitTypeBuildingNames[$building['houses']] = $building['normalname'];
 }
 $disabled = Market::isOpen() ? '' : ' disabled';
+$disabledDiv = Market::isOpen() ? '' : ' disabledDiv';
 
 $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
 ?>
@@ -53,7 +54,7 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
                         </div>
                     </div>
 
-                    <table class="aoTable grey<?=(Market::isOpen()?'':' disabledDiv')?>">
+                    <table class="aoTable grey">
                         <tr class="unitRow headerRow">
                             <th class="nameBlock">Name</th><th class="price">Price</th><th class="attacklife">Att / Life</th>
                             <th class="targets">Targets</th><th class="owned">Owned</th><th class="max">Max</th>
@@ -83,8 +84,8 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
                                     <span class="num_ordered"><?=($unit['ordered']>0 ? ' ('.$unit['ordered'].')' : '')?></span>
                                 </td>
                                 <td class="maxBlock buildmax" data-amount="<?=$unit['maxorder']?>"><?=$unit['maxorder']?></td>
-                                <td class="inputBlock buildBlock">
-                                    <input class="unitInput" min="0" max="<?=$unit['maxorder']?>" tabindex="<?=$count?>" type="number" name="build[<?=$unitKey?>]">
+                                <td class="inputBlock buildBlock<?=$disabledDiv?>">
+                                    <input class="unitInput<?=$disabled?>"<?=$disabled?> min="0" max="<?=$unit['maxorder']?>" tabindex="<?=$count?>" type="number" name="build[<?=$unitKey?>]">
                                 </td>
                                 <td class="inputBlock demoBlock">
                                     <input class="unitInput" min="0" max="<?=$unit['maxsell']?>" tabindex="<?=($count+count($units))?>" type="number" name="demo[<?=$unitKey?>]">
@@ -128,7 +129,7 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
             </div>
 
             <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
-            <input type="submit" value="<?=(Market::isOpen()?'Order / Sell / Trade':'Market is closed')?>" class="mainSubmit hoverEffect<?=$disabled?>">
+            <input type="submit" value="<?=(Market::isOpen()?'Order / Sell / Trade':'Sell')?>" class="mainSubmit hoverEffect<?=$disabled?>">
 
         </div>
     </form>
