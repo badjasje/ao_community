@@ -183,7 +183,7 @@ class Province extends DbObject {
 
     public function getNetworth($format=false) {
         $n = intval($this->get('networth'));
-        if($this->isDead() || $this->isProtected()) $n = 0;
+        if($this->isDead()) $n = 0;
         if(!$format) return $n;
         $fn = Format::networth($n);
         if($this->isCurrentUser() || $n == 0) return '<span>'. $fn .'</span>';
