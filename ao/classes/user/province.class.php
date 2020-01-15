@@ -923,7 +923,7 @@ class Province extends DbObject {
         $sat_networth = 0;
         foreach ($this->getSatellites() as $key => $satellite) {
             if($satellite['num'] == 0) continue;
-            $sat_networth += $satellite['num'] * $satellite['original_price'] * Settings::get('nw_sat');
+            $sat_networth += $satellite['num'] * $satellite['original_price'] * ($satellite['networth'] / 100);
         }
 
         // calculate land NW
