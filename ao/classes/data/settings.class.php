@@ -110,7 +110,7 @@ class Settings extends DataObject {
             0 => array(20,30,36,72),
             1 => array(10,20,12,36),
             2 => array(6,12,6,12),
-            3 => array(3,6,3,6),
+            3 => array(1,3,1,3),
         ),
 
         // Turn costs
