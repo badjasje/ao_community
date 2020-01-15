@@ -176,8 +176,13 @@ if($spytype == 'spy'):?>
         $spy_effectiveness = Settings::get('spy_effectiveness');
         foreach ($amountArray as $unit => $amount) {
             $count++;
-            $min = round($amount * (1-(($spy_effectiveness[$enhanceSpy]*(rand(8,12)/10))/100)));
-	        $max = round($amount * (1+(($spy_effectiveness[$enhanceSpy]*(rand(8,12)/10))/100)));
+            $rangeDamp = 1 - sqrt(($amount)*1.4)/100;
+            if($rangeDamp < 0) $rangeDamp = 0.15;
+            $t = $spy_effectiveness[$enhanceSpy];
+		    $min = mt_rand($t[0]*$rangeDamp, $t[1]*$rangeDamp);
+		    $max = mt_rand($t[2]*$rangeDamp, $t[3]*$rangeDamp);
+            $min = round($amount/(1+($min/100)));
+		    $max = ceil(($amount*(1+($max/100))));
             $displayamount = max($min,0).' - '.max($max,0);
             $spy_array[$unit] = $displayamount;
 			?>
