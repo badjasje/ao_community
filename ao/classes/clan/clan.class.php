@@ -24,12 +24,29 @@ class Clan extends PostObject {
         $user_id = (!$user_id ? CurrentUser::make()->get('id') : $user_id);
         return in_array($user_id, $this->getCLTs());
     }
+    public function isCL($user_id=false) {
+        $user_id = (!$user_id ? CurrentUser::make()->get('id') : $user_id);
+        return $user_id == $this->getLeader();
+    }
+    public function isCT($user_id=false) {
+        $user_id = (!$user_id ? CurrentUser::make()->get('id') : $user_id);
+        return in_array($user_id, $this->getTrustees());
+    }
 
-    public function canKick($user_id=false) {
-        $user = (!$user_id ? CurrentUser::make() : User::make($user_id));
-        if(!$province = $user->getProvince()) return false;
-        if($clan = $province->getClan()) {
-            return ($clan->get('id') == $this->id && $clan->isCLT($user->get('id')));
+    public function canKick($viewer_id, $member_id) {
+        if($viewer_id == $member_id) return false; // You can't kick yourself
+        $user = User::make($viewer_id);
+        if(!$viewer = $user->getProvince()) return false;
+        $user = User::make($member_id);
+        if(!$member = $user->getProvince()) return false;
+
+        $viewer_clan = $viewer->getClan();
+        $member_clan = $member->getClan();
+        if($viewer_clan && $member_clan) {
+            if($viewer_clan->get('id') != $this->id) return false;
+            if($member_clan->get('id') != $this->id) return false;
+            if($this->isCLT($viewer_id) && !$this->isCLT($member_id)) return true; // CT can kick nonCTL
+            if($this->isCL($viewer_id) && $this->isCT($member_id)) return true; // CL can kick CT
         }
         return false;
     }
@@ -206,46 +223,47 @@ class Clan extends PostObject {
         return true;
     }
 
-    public function getIncomingWars($defend_clan_id=false) {
+    public function getIncomingWars($viewer_clan_id=false) {
         $incoming_wars = get_posts(
             array('numberposts'	=> -1, 'post_type' => 'wars', 'post_status' => 'publish', 'meta_query' => array('relation' => 'AND',
                 array('key' => 'declared_on', 'value' => $this->get('id'), 'compare' => '='),
             ))
         );
-        if(!empty($defend_clan_id)) {
+        if(!empty($viewer_clan_id)) {
             foreach($incoming_wars as $war) {
                 $defClanID = get_post_meta($war->ID, 'declared_by', true);
-                if($defClanID == $defend_clan_id) return $war;
+                if($defClanID == $viewer_clan_id) return $war;
             }
             return false;
         }
         return $incoming_wars;      
     }
 
-    public function getOutgoingWars($defend_clan_id=false) {
+    public function getOutgoingWars($viewer_clan_id=false) {
         $outgoing_wars = get_posts(
             array('numberposts'	=> -1, 'post_type' => 'wars', 
                 'post_status'   => 'publish', 'meta_query' => array('relation' => 'AND',
                 array('key' => 'declared_by', 'value' => $this->get('id'), 'compare' => '='),
             ))
         );
-        if(!empty($defend_clan_id)) {
+        if(!empty($viewer_clan_id)) {
             foreach($outgoing_wars as $war) {
                 $attClanID = get_post_meta($war->ID, 'declared_on', true);
-                if($attClanID == $defend_clan_id) return $war;
+                if($attClanID == $viewer_clan_id) return $war;
             }
             return false;
         }
         return $outgoing_wars;
     }
 
-    public function getWarType($defend_clan_id) {
-        if(empty($defend_clan_id)) return 'none';
-        $outgoing_war = (!!$this->getOutgoingWars($defend_clan_id));
-        $incoming_war = (!!$this->getIncomingWars($defend_clan_id));
+    public function getWarType($viewer_clan_id) {
+        if(empty($viewer_clan_id)) return 'none';
+        $outgoing_war = (!!$this->getOutgoingWars($viewer_clan_id));
+        $incoming_war = (!!$this->getIncomingWars($viewer_clan_id));
         if ($outgoing_war && $incoming_war) return 'mutual';
         elseif ($outgoing_war) return 'outgoing';
         elseif ($incoming_war) return 'incoming';
         else return 'none';
-    }    
+    }   
+
 }
