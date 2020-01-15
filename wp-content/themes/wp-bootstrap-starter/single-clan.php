@@ -41,7 +41,7 @@ $userIsMember = $clan->isMember();
             </div>
 
             <div class="col-12 attackingRow statCol-4">
-                <div class="profileColumn">Total networth</div> <?=$clan->getNetworth(true)?>
+                <div class="profileColumn">Total networth</div> <?=$clan->getNetworth(true, true)?>
             </div>
 
             <div class="col-12 attackingRow statCol-3">
@@ -111,6 +111,7 @@ $userIsMember = $clan->isMember();
         $userClan = $province->getClan();
         $userCooldownlist = (!!$userClan ? $userClan->getCooldownList() : array());
         $userCanDeclare = (!!$userClan ? $userClan->isCLT() : false);
+        if($userCanDeclare) $userClan->getNetworth(false, true); // update my own clan's nw
 
         $warType = (!!$userClan ? $clan->getWarType($userClan->get('id')) : 'none');
         $incomingWar = (!!$userClan ? $clan->getIncomingWars($userClan->get('id')) : false);

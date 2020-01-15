@@ -10,8 +10,11 @@ global $userId;
 $declarer_ID = $userId;
 
 $declarer_clan_ID = $userData['clan_id_user'][0];
+$clan = new Clan($declarer_clan_ID);
+$clan_networth = $clan->getNetworth(false, true);
+$min_nw = $clan_networth/Settings::get('attack_range_mult');
+$max_nw = $clan_networth*Settings::get('attack_range_mult');
 $clanData = get_post_meta($declarer_clan_ID);
-$clan_leader = $clanData['clan_leader'][0];
 $timestamp = current_time('timestamp');
 
 $war_array = array();
@@ -29,18 +32,6 @@ $backColorDecBy = "127, 82, 67";
 $backColorStats = "86, 113, 61";
 $buttonColor = "70, 118, 94";
 
-$cts=array();
-for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
-    $cts[$i] = (isset($clanData['ct_'.$i]) ? $clanData['ct_'.$i][0] : 0);
-}
-
-$clan_networth = $clanData['clan_networth'][0];
-
-//MEGA 20171106 Count the members in YOUR clan
-$declaringClanMembers = maybe_unserialize($clanData['clan_members'][0]);
-$declaringMembersCount = count($declaringClanMembers);
-$declarerAverageNw = ($declaringMembersCount>0 ? $clan_networth / $declaringMembersCount : 0);
-
 $wars_on = get_posts(array(
 	'numberposts'	=> -1,
 	'post_type'		=> 'wars',
@@ -57,8 +48,8 @@ $wars_by = get_posts(array(
 
 <div class="row pageRow">
 
-	<div class="blockHeader">You can target clans with a networth between
-		$ <?=number_format(($clan_networth/1.4), 0, ',', ' ')?> and $ <?=number_format(($clan_networth*1.4), 0, ',', ' ');?>
+	<div class="blockHeader">
+		You can target clans with a networth between <?=Format::networth($min_nw)?> and <?=Format::networth($max_nw)?>
 	</div>
 	<div class="blockHeader spaceNotice">After 24 hours you are able to declare peace with a clan. A war will auto peace after 72 hours.</div>
 

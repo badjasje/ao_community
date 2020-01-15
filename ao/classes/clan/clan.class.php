@@ -120,7 +120,16 @@ class Clan extends PostObject {
         return $content;
     }
 
-    public function getNetworth($format=false) {
+    public function getNetworth($format=false, $update=false) {
+        if($update) {
+            $total = 0;
+            foreach($this->getMembers() as $member_id) {
+                $province = Province::make($member_id);
+                $province->calculateNetworth();
+                $total += $province->getNetworth(false);
+            }
+            $this->update('clan_networth', round($total));
+        }
         $n = intval($this->get('clan_networth'));
         return ($format ? Format::networth($n) : $n);
     }
