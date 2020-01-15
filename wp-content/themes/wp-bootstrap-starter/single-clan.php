@@ -91,7 +91,7 @@ $userIsMember = $clan->isMember();
                     <? if($userIsMember) { ?>
                         <td class="pts-sort"><?=$pts?> pts</td>
                         <td>
-                            <? if($clan->canKick() && $province->get('id') != $member_id) {
+                            <? if($clan->canKick($province->get('id'), $member_id)) {
                                 echo '<a href="'.Request::siteUrl().'/kick.php?id='.$member_id.'&clan='.$clan_id.'" '.
                                     'onclick="return confirm(\'Are you sure you want to kick '.$member->getName(false).' (#'.$member_id.') from your clan? '.
                                     ' Your clan will lose '.round($pts * Settings::get('clan_kick_penalty')).' clan points.\')" '.
@@ -120,49 +120,7 @@ $userIsMember = $clan->isMember();
         $canPeace = (!!$userClan ? $clan->canPeace($userClan->get('id')) : false);
         $canResume = (!!$userClan ? $clan->canResume($userClan->get('id')) : false);
 
-        /*?>
-        <div class="fw-row blockHeader">
-            <strong>Current modifiers</strong><br>
-            <?
-            if($warType == 'mutual') {
-                echo '<em>In a mutual war: no modifiers</em>';
-            }
-            if($warType == 'incoming') {
-
-            }
-            if($canPeace) {
-                echo '<strong>If you peace</strong><br>';
-            }
-            // SHOW MODIFIERS HERE:
-            // if no outgoing war with this clan: show modifiers if you declare
-            // if outgoing war: show current modifiers
-            // when mutual -> no modifiers
-            // when no mutual:
-                // -> clansizediff points modifier
-                // -> pointsdiff modifier
-                // -> land & money gains modifier
-                // -> nwdiff modifier?
-
-                // Missile, satellite, unit
-                //$attacker_type_damage['bld'] = scaled_damage_to_clansize($attacker_type_damage['bld'], $userId, $target_id);
-                // $blddamage = scaled_damage_to_clansize($blddamage, $userId, $target_id);
-                // $diff = get_clan_member_difference($attacker_ID, $defender_ID);
-                //if($diff < 1) return $damage; // If attacker no clan, mutual war or the attacker clan size is smaller or equal, no reduction
-                //$damage = ceil($damage * ((100-(($diff*2)/5))/100));
-
-                // Units: land stolen  
-                //$land_stolen = scaled_land_to_clansize($land_stolen, $userId, $target_id, $attacker_networth_lost, $defender_networth_lost);
-
-                // Units: money stolen 
-                //$money_stolen = scaled_money_to_clansize($money_stolen, $userId, $target_id, $attacker_networth_lost, $defender_networth_lost);
-
-                // Satellite, missile, unit: points based on clansize
-                //$clan_points = scaled_points_to_clansize($clan_points, $userId, $target_id);
-                
-                // Satellite, missile, unit: points based on difference between clanpoints totals
-                //$clan_points = scaled_points_to_clanpoints($clan_points, $userId, $target_id);
-            ?>
-        </div><? */ ?>
+        ?>
         <div class="row fw-row no-gutters">
             <?
             if($userCanDeclare) {
@@ -205,20 +163,20 @@ $userIsMember = $clan->isMember();
             </a>
         </div>
     <? 
-        if(Round::isDev() || isset($_GET['claninfo'])) {
-            wtf(array(
-                'clan_id' => $clan_id,
-                'userclan' => (!!$userClan ? $userClan->get('id') : '-'),
-                'wartype' => $warType,
-                'cooldown' => $userCooldownlist,
-                'inrange' => $inRange,
-                'canpeace' => $canPeace,
-                'canResume' => $canResume,
-                'incoming' => !!$incomingWar,
-                'outgoing' => !!$outgoingWar,
-            ));
-        }
     } 
+    if(isset($_GET['claninfo'])) {
+        wtf(array(
+            'clan_id' => $clan_id,
+            'userclan' => (!!$userClan ? $userClan->get('id') : '-'),
+            'wartype' => $warType,
+            'cooldown' => $userCooldownlist,
+            'inrange' => $inRange,
+            'canpeace' => $canPeace,
+            'canResume' => $canResume,
+            'incoming' => !!$incomingWar,
+            'outgoing' => !!$outgoingWar,
+        ));
+    }
     ?>
 
     <div class="pageSpacer"></div>

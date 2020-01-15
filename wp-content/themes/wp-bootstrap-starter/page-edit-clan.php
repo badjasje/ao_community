@@ -49,48 +49,51 @@ $wp_upload_dir = wp_upload_dir();
                 <textarea rows="10" class="messageBox" type="text" name="publicmessage" id="clanmessager"><?php echo $clan->post_content;?></textarea>
             </div>
 
+            <? if($user_ID == $clanleader) { ?>
+                <div class="pageSpacer"></div>
 
-            <div class="pageSpacer"></div>
-
-            <div class="col-md-12 col-no-padding">
-                <div class="blockHeader">
-                    Clan leader & Clan trustee management
-                </div>
-            </div>
-            <div class="col-md-12 editClanCol">
-                <div class="row mt-3">
-                    <div class="col-md-4">Switch clan leader</div>
-                    <div class="col-md-8">
-                        <select id="clanleader" name="new_leader" class="form-control">
-                            <option value="<?php echo $clanleader;?>" selected="selected">
-                                <?php echo $leader_data->display_name;?>
-                            </option>
-                            <?php foreach($clanmembers as $key => $member) {
-                                if($member != $clanleader) {
-                                    $member_data = get_userdata($member);?>
-                                    <option name="new_leader" value="<?php echo $member;?>"><?php echo $member_data->display_name;?></option>
-                                    <?php
-                                }
-                            } ?>
-                        </select>
+                <div class="col-md-12 col-no-padding">
+                    <div class="blockHeader">
+                        Clan leader & Clan trustee management
                     </div>
                 </div>
-
-                <div class="row mt-3 mb-4">
-                    <div class="col-md-4">
-                        <span id="clan_trustee_num" data-value="<?=Settings::get('clan_trustee_num')?>">Pick clan trustees (max <?=Settings::get('clan_trustee_num')?>)</span>
+                <div class="col-md-12 editClanCol">
+                    <div class="row mt-3">
+                        <div class="col-md-4">Switch clan leader</div>
+                        <div class="col-md-8">
+                            <select id="clanleader" name="new_leader" class="form-control">
+                                <option value="<?php echo $clanleader;?>" selected="selected">
+                                    <?php echo $leader_data->display_name;?>
+                                </option>
+                                <?php foreach($clanmembers as $key => $member) {
+                                    if($member != $clanleader) {
+                                        $member_data = get_userdata($member);?>
+                                        <option name="new_leader" value="<?php echo $member;?>"><?php echo $member_data->display_name;?></option>
+                                        <?php
+                                    }
+                                } ?>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                    <?php foreach ($clanmembers as $key => $member) {
-                        if($member != $clanleader) {
-                            $member_data = get_userdata($member); ?>
-                            <label><input type="checkbox" name="clantrustees[]" value="<?=$member?>"<?=(in_array($member,$cts)?'checked':'')?>> <?=$member_data->display_name?> (#<?=$member?>)</label><br>
-                            <?php
-                        }
-                    } ?>
+
+                    <div class="row mt-3 mb-4">
+                        <div class="col-md-4">
+                            <span id="clan_trustee_num" data-value="<?=Settings::get('clan_trustee_num')?>">Pick clan trustees (max <?=Settings::get('clan_trustee_num')?>)</span>
+                        </div>
+                        <div class="col-md-8">
+                        <?php foreach ($clanmembers as $key => $member) {
+                            if($member != $clanleader) {
+                                $member_data = get_userdata($member); ?>
+                                <label>
+                                    <input type="checkbox" name="clantrustees[]" value="<?=$member?>"<?=(in_array($member,$cts)?'checked':'')?>> <?=$member_data->display_name?> (#<?=$member?>)
+                                </label><br>
+                                <?php
+                            }
+                        } ?>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <? } ?>
 
             <input type="hidden" name="id" value="<?php echo $clan_ID;?>">
             <input class="mainSubmit" type="submit" value="Edit clan" name="submit">

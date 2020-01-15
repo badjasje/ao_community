@@ -140,6 +140,7 @@ class Province extends DbObject {
         if($this->isCurrentUser()) return false; // I am not in range of myself
         if($this->isDead()) return false;
         if($this->isProtected()) return false;
+        if($this->isFellowClanMember($user_id)) return false;
 
         $user = (!$user_id ? CurrentUser::make() : User::make($user_id));
         $province = $user->getProvince();
@@ -189,10 +190,15 @@ class Province extends DbObject {
         if($this->isCurrentUser() || $n == 0) return '<span>'. $fn .'</span>';
 
         $showRange = true;
+        $timestamp = current_time('timestamp');
         $viewer = CurrentUser::make();
+        if($this->isFellowClanMember($viewer->get('id'))) return '<span>'. $fn .'</span>';
         if($clan = $this->getClan()) {
             if($my_clan = $viewer->getProvince()->getClan()) {
-                if($clan->getWarType($my_clan->get('id')) == 'mutual') $showRange = false;
+                if($clan->getWarType($my_clan->get('id')) == 'mutual') {
+                    $join_timestamp = $viewer->get('clan_join_stamp');
+                    if($timestamp >= $join_timestamp) $showRange = false;
+                }
             }
         }
 

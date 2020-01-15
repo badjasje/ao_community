@@ -39,7 +39,7 @@ function ajax_invite($province, $return) {
                 }
 
                 $province->update('clan_id_user', $clan->get('id'));
-                $province->update('clan_join_stamp', $timestamp+86400);
+                $province->update('clan_join_stamp', $timestamp + Settings::get('clan_join_mutual_delay'));
                 $clanMembers[] = $province->get('id');
                 unset($open_invites[$key]);
                 $clan->update('clan_members', $clanMembers);
