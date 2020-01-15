@@ -40,11 +40,11 @@ class Clan extends PostObject {
         $user = User::make($member_id);
         if(!$member = $user->getProvince()) return false;
 
-        $viewer_clan = $viewer->getClan();
-        $member_clan = $member->getClan();
-        if($viewer_clan && $member_clan) {
-            if($viewer_clan->get('id') != $this->id) return false;
-            if($member_clan->get('id') != $this->id) return false;
+        $viewer_clan_id = $viewer->getClanId();
+        $member_clan_id = $member->getClanId();
+        if($viewer_clan_id && $member_clan_id) {
+            if($viewer_clan_id != $this->id) return false;
+            if($member_clan_id != $this->id) return false;
             if($this->isCLT($viewer_id) && !$this->isCLT($member_id)) return true; // CT can kick nonCTL
             if($this->isCL($viewer_id) && $this->isCT($member_id)) return true; // CL can kick CT
         }
@@ -63,8 +63,7 @@ class Clan extends PostObject {
         if(!$my_clan_id) {
             $user = CurrentUser::make();
             if(!$province = $user->getProvince()) return false;
-            if(!$my_clan = $province->getClan()) return false; // I have no clan
-            $my_clan_id = $my_clan->get('id');
+            if(!$my_clan_id = $province->getClanId()) return false; // I have no clan
         }
         if($this->id == $my_clan_id) return false;
         $my_clan = Clan::make($my_clan_id);
@@ -236,12 +235,12 @@ class Clan extends PostObject {
             }
             return false;
         }
-        return $incoming_wars;      
+        return $incoming_wars;
     }
 
     public function getOutgoingWars($viewer_clan_id=false) {
         $outgoing_wars = get_posts(
-            array('numberposts'	=> -1, 'post_type' => 'wars', 
+            array('numberposts'	=> -1, 'post_type' => 'wars',
                 'post_status'   => 'publish', 'meta_query' => array('relation' => 'AND',
                 array('key' => 'declared_by', 'value' => $this->get('id'), 'compare' => '='),
             ))
@@ -264,6 +263,81 @@ class Clan extends PostObject {
         elseif ($outgoing_war) return 'outgoing';
         elseif ($incoming_war) return 'incoming';
         else return 'none';
-    }   
+    }
 
+    public function getWarTypeMultiplier($warType) {
+        $warTypeMulti = Settings::get('war_type_multi');
+        return (isset($warTypeMulti[$warType]) ? $warTypeMulti[$warType] : 0);
+    }
+
+    public function getClanMemberSizeDiff($viewer_clan_id) {
+        $viewer_clan_count = 1;
+        if($viewer_clan = Clan::make($viewer_clan_id)) {
+            if($this->getWarType($viewer_clan_id) == 'mutual') return 0;
+            $viewer_clan_count = count($viewer_clan->getMembers());
+        }
+        return count($this->getMembers()) - $viewer_clan_count ;
+    }
+
+    public function getClanPointsTotalDiff($viewer_clan_id) {
+        if($viewer_clan = Clan::make($viewer_clan_id)) {
+            if($this->getPoints() < 500 && $viewer_clan->getPoints() < 500) return 0;
+            if($this->getWarType($viewer_clan_id) == 'mutual') return 0;
+            return round($viewer_clan->getPoints() / $this->getPoints(),2);
+        }
+        return 0;
+    }
+
+    // Building damage modifier based on clan member size difference
+    // diff 5 = 2% damage reduction
+    public function getClanSizeDamageMultiplier($viewer_clan_id) {
+        $diff = $this->getClanMemberSizeDiff($viewer_clan_id);
+        //if($diff < 1) return 100;
+        return 100-(($diff*2)/5);
+    }
+
+    // Clanpoint modifier based on clanmembersize difference
+    // diff 5 = 30% pts reduction
+    public function getClanSizePointsMultiplier($viewer_clan_id) {
+        $diff = $this->getClanMemberSizeDiff($viewer_clan_id);
+        //if($diff < 1) return 100;
+        return 100-(($diff*30)/5);
+    }
+
+    // Clan points scaled to the difference between the points of two clans.
+    // An attacking clan with higher points than defending clan will receive less points
+    public function getClanTotalPointsMultiplier($viewer_clan_id) {
+        $diff = $this->getClanPointsTotalDiff($viewer_clan_id);
+        if($diff == 0) return 100;
+        $multi = (($diff * 0.65) + 0.35);
+        $multi = min($multi, 1.65);
+        return round($multi * 100, 2);
+    }
+
+    public function getWarModifiers($viewer_clan_id, $warType=false) { // send wartype to see what WOULD BE the modifiers
+        require_once('attack_functions.php');
+        $mods = array();
+        if($warType == 'incoming') {
+            $n = $this->getWarTypeMultiplier($warType);
+            $mods[] = '<strong>Incoming war:</strong>';
+            $mods[] = '<i class="fa fa-crosshairs"></i> '.($n*100).'% pts';
+        }
+        if($warType != 'mutual' && $warType != 'none') {
+            $mods[] = '<strong>Clan member difference: '.$this->getClanMemberSizeDiff($viewer_clan_id).'</strong>';
+            //<span class="hover-tip" data-toggle="tooltip" data-placement="bottom" title=""></span>
+            $mods[] = '<i class="fas fa-industry"></i> '. $this->getClanSizeDamageMultiplier($viewer_clan_id) .'% damage on buildings';
+            $mods[] = '<i class="fa fa-crosshairs"></i> '. $this->getClanSizePointsMultiplier($viewer_clan_id) .'% pts';
+            $mods[] = '<strong>Clan points total difference: '.$this->getPoints() .' vs '. Clan::make($viewer_clan_id)->getPoints().'</strong>';
+            $mods[] = '<i class="fa fa-crosshairs"></i> '. $this->getClanTotalPointsMultiplier($viewer_clan_id) .'% pts';
+        }
+        if($warType == 'none') {
+            $mods[] = '<strong>Out of war attacks</strong>';
+            $mods[] = '<i class="fas fa-industry"></i> todo';
+        }
+        if($warType == 'mutual') {
+            $mods[] = '<strong>Mutual</strong>';
+            $mods[] = 'No modifiers!';
+        }
+        return (count($mods) ? $mods : array());
+    }
 }

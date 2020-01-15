@@ -145,8 +145,8 @@ class Province extends DbObject {
         $user = (!$user_id ? CurrentUser::make() : User::make($user_id));
         $province = $user->getProvince();
         if($clan = $this->getClan()) {
-            if($my_clan = $province->getClan()) {
-                if($clan->getWarType($my_clan->get('id')) == 'mutual') return true;
+            if($my_clan_id = $province->getClanId()) {
+                if($clan->getWarType($my_clan_id) == 'mutual') return true;
             }
         }
 
@@ -194,8 +194,8 @@ class Province extends DbObject {
         $viewer = CurrentUser::make();
         if($this->isFellowClanMember($viewer->get('id'))) return '<span>'. $fn .'</span>';
         if($clan = $this->getClan()) {
-            if($my_clan = $viewer->getProvince()->getClan()) {
-                if($clan->getWarType($my_clan->get('id')) == 'mutual') {
+            if($my_clan_id = $viewer->getProvince()->getClanId()) {
+                if($clan->getWarType($my_clan_id) == 'mutual') {
                     $join_timestamp = $viewer->get('clan_join_stamp');
                     if($timestamp >= $join_timestamp) $showRange = false;
                 }
@@ -726,7 +726,7 @@ class Province extends DbObject {
                 $spiesOwned[$k] = $unit['normalname'];
             }
         }
-        return $spiesOwned;       
+        return $spiesOwned;
     }
     function get_spy_buttons($target_id) {
         if($this->get('id') == $target_id) return;
@@ -751,7 +751,7 @@ class Province extends DbObject {
         }
         $return .= '</form>';
         return $return;
-    }   
+    }
 
     /**
      * Get all information of one or all Missiles of this province
@@ -834,6 +834,9 @@ class Province extends DbObject {
     /**
      * Get Clan
      */
+    public function getClanId() {
+        return (!empty($this->get('clan_id_user')) ? $this->get('clan_id_user') : false);
+    }
     public function getClan() {
         return (!empty($this->get('clan_id_user')) ? Clan::make($this->get('clan_id_user')) : false);
     }

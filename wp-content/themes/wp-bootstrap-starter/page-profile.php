@@ -6,6 +6,8 @@ get_header();
 
 $user = CurrentUser::make();
 $province = $user->getProvince();
+$province_clan = $province->getClan();
+$province_clan_id = (!!$province_clan ? $province_clan->get('id') : 0);
 
 $viewed_id = Request::get('id');
 if(empty($viewed_id)) Request::redirect('/dashboard');
@@ -13,6 +15,7 @@ $viewed = User::make($viewed_id);
 $viewed_province = $viewed->getProvince();
 $viewed_province->count_all_stats();
 $viewed_clan = $viewed_province->getClan();
+$viewed_clan_id = (!!$viewed_clan ? $viewed_clan->get('id') : 0);
 $telegram_key = $viewed_province->get('telegram_key');
 if(empty($telegram_key)) {
 	$telegram_key = uniqid();
@@ -70,7 +73,7 @@ if(empty($telegram_key)) {
 				<?
 				if(!$viewed_clan) echo 'None';
 				else {?>
-					<a href="<?=$viewed_clan->getLink()?>"><?=$viewed_clan->getName()?> (#<?=$viewed_clan->get('id')?>)</a>
+					<a href="<?=$viewed_clan->getLink()?>"><?=$viewed_clan->getName()?> (#<?=$viewed_clan_id?>)</a>
 				<? } ?>
 			</div>
 			<?php if($viewed->get('id') == $user->get('id')) { ?>
@@ -86,6 +89,17 @@ if(empty($telegram_key)) {
 			<?php } ?>
 		</div>
 	</div>
+	<?
+	if($viewed->get('id') != $user->get('id') && !$province->isFellowClanMember($viewed->get('id')) && !!$viewed_clan && !!$province_clan) {
+		$newWarType = $province_clan->getWarType($viewed_clan->get('id'));
+		if($newWarType != 'none') {
+			$modifiers = $province_clan->getWarModifiers($viewed_clan->get('id'), $newWarType);
+			echo '<div class="attackingRow statCol-3"><strong>Current modifiers:</strong></div><div class="px-3 py-2">';
+			foreach($modifiers as $mod) echo $mod.'<br>';
+			echo '</div>';
+		}
+	}
+	?>
 <?php
 // I am not ready yet to change all the code below, so we fix it by setting some used variables
 $status = $viewed_province->get('status');
@@ -97,6 +111,7 @@ $members = ($visiting_clan ? $visiting_clan->getMembers() : array());
 $previous_members = ($visiting_clan ? $visiting_clan->getPreviousMembers() : array());
 $CT_CL_array = ($visiting_clan ? array_merge($visiting_clan->getTrustees(), array($visiting_clan->getLeader())) : array());
 $game_live = (get_field('game_status','option')=='Live');
+$clan_member_num = Settings::get('clan_member_num');
 
 $count = 0;
 ?>
@@ -121,7 +136,7 @@ $count = 0;
 </div>
 <?php endif;?>
 
-<?php if($visiting_user != $viewed_id && $clan_id != $clan_id_user && in_array($visiting_user, $CT_CL_array) && count($members) == 7):?>
+<?php if($visiting_user != $viewed_id && $clan_id != $clan_id_user && in_array($visiting_user, $CT_CL_array) && count($members) == $clan_member_num):?>
 <?php $count = 1;?>
 <!-- Visiting non-clanmember as non CT/CL -->
 <div class="row fw-row no-gutters profileButtonRow">
@@ -142,7 +157,7 @@ $count = 0;
 <?php endif;?>
 
 
-<?php if($visiting_user != $viewed_id && $clan_id != $clan_id_user && $clan_id == 0 && in_array($visiting_user, $CT_CL_array) && count($members) < 6):?>
+<?php if($visiting_user != $viewed_id && $clan_id != $clan_id_user && $clan_id == 0 && in_array($visiting_user, $CT_CL_array) && count($members) < $clan_member_num):?>
 <?php $count = 1;?>
 
 <div class="row no-gutters fw-row profileButtonRow">

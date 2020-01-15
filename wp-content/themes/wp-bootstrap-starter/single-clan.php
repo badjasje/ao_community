@@ -28,18 +28,18 @@ $userIsMember = $clan->isMember();
             <div class="col-12 attackingRow statCol-1">
                 <div class="profileColumn">Members</div> <?=count($clanMembers)?>
             </div>
-            
+
             <div class="col-12 attackingRow statCol-2 elipOverflow">
                 <div class="profileColumn">Tag</div> <?=$clan->getTag(true,false)?>
             </div>
-            
+
             <div class="col-12 attackingRow statCol-3">
                 <h3>Awards (<?=count($clanAwards)?>)</h3>
                 <div id="awardlist" class="fw-row">
                     <? include 'pages/clan/awardlist.php'; ?>
                 </div>
             </div>
-            
+
             <div class="col-12 attackingRow statCol-4">
                 <div class="profileColumn">Total networth</div> <?=$clan->getNetworth(true)?>
             </div>
@@ -75,8 +75,8 @@ $userIsMember = $clan->isMember();
                     <th></th>
                 <? } ?>
 			</tr>
-            <? foreach($clanMembers as $member_id) { 
-                $member = Province::make($member_id); 
+            <? foreach($clanMembers as $member_id) {
+                $member = Province::make($member_id);
                 $pts = $member->getClanPoints(true);
                 ?>
                 <tr class="unitRow userRow6">
@@ -104,7 +104,7 @@ $userIsMember = $clan->isMember();
         </table>
     </div>
 
-    <?php 
+    <?php
     if(!$userIsMember) {
         $timestamp = current_time('timestamp');
 
@@ -120,6 +120,44 @@ $userIsMember = $clan->isMember();
         $canPeace = (!!$userClan ? $clan->canPeace($userClan->get('id')) : false);
         $canResume = (!!$userClan ? $clan->canResume($userClan->get('id')) : false);
 
+        if(!!$userClan) {
+            ?>
+            <div class="fw-row d-md-flex">
+                <div class="col-md-6 px-0 order-md-2">
+                    <div class="attackingRow statCol-3"><strong>Current modifiers:</strong></div>
+                    <div class="px-3 py-2">
+                        <?
+                        $newWarType = $userClan->getWarType($clan->get('id')); // Look, we switched it around
+                        if($newWarType != 'none') {
+                            $modifiers = $userClan->getWarModifiers($clan->get('id'), $newWarType);
+                            foreach($modifiers as $mod) echo $mod.'<br>';
+                        } else echo '<em>none</em>';
+                        ?>
+                    </div>
+                </div>
+                <div class="col-md-6 px-0 order-md-1">
+                    <div class="attackingRow statCol-3"><strong>
+                        <?=(!$incomingWar?'Modifiers if you declare:':(!!$canPeace?'Modifiers if you peace:':''))?>
+                    </strong></div>
+                    <div class="px-3 py-2">
+                        <?
+                        $newWarType=false;
+                        if($incomingWar == false) {
+                            $newWarType = (!!$outgoingWar ? 'mutual' : 'outgoing');
+                        }
+                        else if($canPeace) {
+                            $newWarType = (!!$outgoingWar ? 'outgoing' : 'none');
+                        }
+                        if(!!$newWarType) {
+                            $modifiers = $clan->getWarModifiers($userClan->get('id'), $newWarType);
+                            foreach($modifiers as $mod) echo $mod.'<br>';
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <?
+        }
         ?>
         <div class="row fw-row no-gutters">
             <?
@@ -148,22 +186,22 @@ $userIsMember = $clan->isMember();
                             </button>
                         </form>
                     <? }
-                }  
+                }
                 else if($inRange) {
                     echo '<button class="mainSubmit warDecSubmit" data-toggle="modal" data-target="#declareWarModal">
                         <i class="fas fa-fire" aria-hidden="true"></i> Declare'.($warType=='outgoing'?' mutual':'').' war
-                    </button>'.PHP_EOL; 
+                    </button>'.PHP_EOL;
                 }
                 else echo '<button class="mainSubmit disabled">Currently not in range</button>'.PHP_EOL;
                 echo '</div>'.PHP_EOL;
-            }       
+            }
             ?>
             <a class="col mainSubmit" href="<?=Request::siteUrl()?>/spy-report-overview/?id=<?=$clan_id?>">
                 <i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
             </a>
         </div>
-    <? 
-    } 
+    <?
+    }
     if(isset($_GET['claninfo'])) {
         wtf(array(
             'clan_id' => $clan_id,

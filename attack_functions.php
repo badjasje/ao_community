@@ -813,85 +813,37 @@ function scaled_power_pvp($power, $attacker_ID, $defender_ID) {
     return $power;
 }
 
-
-/**
- * Helper function to get difference in clan points
- */
-function get_clan_points_difference($attacker_ID, $defender_ID) {
-    $attacker = Province::make($attacker_ID);
-    $defender = Province::make($defender_ID);
-    $attClan = $attacker->getClan();
-    $defClan = $defender->getClan();
-
-    // If attacker or defender is not in a clan, no difference
-    if(empty($attClan)) return 0;
-    if(empty($defClan)) return 0;
-    if($attClan->getPoints() < 500 && $defClan->getPoints() < 500) return 0; // start of round, don't do crazy shit yet
-
-    // In a mutual war you always get full points,damage,etc
-    $war_type = $attClan->getWarType($defClan->get('id'));
-    if($war_type == 'mutual') return 0;
-
-    return $defClan->getPoints() / $attClan->getPoints();
-}
-
 /**
  * Clan points scaled to the difference between the points of two clans.
  * An attacking clan with higher points than defending clan will receive less points
  */
 function scaled_points_to_clanpoints($clan_points, $attacker_ID, $defender_ID) {
-    $diff = get_clan_points_difference($attacker_ID, $defender_ID);
-    if($diff == 0) return $clan_points;
-    $multi = (($diff * 0.65) + 0.35);
-    $clan_points = $clan_points * min($multi, 1.65);
+    $attacker = Province::make($attacker_ID);
+    $defender = Province::make($defender_ID);
+    $attClan = $attacker->getClan();
+    if(!$attClan) return $clan_points;
+    $multi = $attClan->getClanTotalPointsMultiplier($defender->getClanId());// Returns percentage
+    $clan_points = $clan_points * ($multi/100);
     return min(ceil($clan_points), Settings::get('points_cap'));
 }
 
 /**
- * Helper function in an attempt to avoid big clans completely raiding smaller clans or single provinces
+ * Clanpoint gain reduction based on clanmembersize difference
  */
-function get_clan_member_difference($attacker_ID, $defender_ID) {
+function scaled_points_to_clansize($clan_points, $attacker_ID, $defender_ID) {
     $attacker = Province::make($attacker_ID);
     $defender = Province::make($defender_ID);
     $attClan = $attacker->getClan();
-    $defClan = $defender->getClan();
-
-    // If attacker is not in a clan, no difference
-    if(empty($attClan)) return 0;
-
-    // In a mutual war you always get full points,damage,etc
-    $war_type = $attClan->getWarType((!!$defClan ? $defClan->get('id') : 0));
-    if($war_type == 'mutual') return 0;
-
-    // Failsafe on clan
-    $attacker_clan_size = count($attClan->getMembers());
-    if(empty($attacker_clan_size)) return 0;
-
-    // If the defender is not in a clan, clansize is also 1
-    if(!$defClan) $defender_clan_size = 1;
-    else $defender_clan_size = count($defClan->getMembers());
-
-    // But if the attackers clan is bigger than the defender, than we get in some reduction (finally)
-    return $attacker_clan_size-$defender_clan_size;
-}
-
-/**
- * Clanpoint gain reduction based on clanmembersize difference
- * diff 5 = 50% pts reduction
- */
-function scaled_points_to_clansize($clan_points, $attacker_ID, $defender_ID) {
-    $diff = get_clan_member_difference($attacker_ID, $defender_ID);
-    if($diff < 1) return $clan_points; // If attacker no clan, mutual war or the attacker clan size is smaller or equal, no reduction
-    $clan_points = ceil($clan_points * ((100-(($diff*50)/5))/100) );
-    return $clan_points;
+    if(!$attClan) return $clan_points;
+    $multi = $attClan->getClanSizePointsMultiplier($defender->getClanId());
+    $clan_points = $clan_points * ($multi/100);
+    return min(ceil($clan_points), Settings::get('points_cap'));
 }
 
 /**
  * Stolen land reduction based on nw loss difference
  */
 function scaled_land_to_clansize($land_stolen, $attacker_ID, $defender_ID, $attacker_networth_lost, $defender_networth_lost) {
-    //$diff = get_clan_member_difference($attacker_ID, $defender_ID);
-    //if($diff > 0 && $attacker_networth_lost > ($defender_networth_lost*1.5)) $land_stolen = ceil( $land_stolen * ((100-(($diff*55)/5))/100) );
     $land_stolen = $land_stolen / max(1, ($attacker_networth_lost / $defender_networth_lost));
     return $land_stolen;
 }
@@ -900,8 +852,6 @@ function scaled_land_to_clansize($land_stolen, $attacker_ID, $defender_ID, $atta
  * Stolen money reduction based on nw loss difference
  */
 function scaled_money_to_clansize($money_stolen, $attacker_ID, $defender_ID, $attacker_networth_lost, $defender_networth_lost) {
-    //$diff = get_clan_member_difference($attacker_ID, $defender_ID);
-    //if($diff > 0 && $attacker_networth_lost > ($defender_networth_lost*1.5)) $money_stolen = ceil( $money_stolen * ((100-(($diff*75)/5))/100) );
     $money_stolen = $money_stolen / max(1, ($attacker_networth_lost / $defender_networth_lost));
     return $money_stolen;
 }
@@ -909,11 +859,13 @@ function scaled_money_to_clansize($money_stolen, $attacker_ID, $defender_ID, $at
 /**
  * Building damage reduction based on clan member size difference
  * Only used for buildings for now
- * diff 5 = 2% damage reduction
  */
 function scaled_damage_to_clansize($damage, $attacker_ID, $defender_ID) {
-    $diff = get_clan_member_difference($attacker_ID, $defender_ID);
-    if($diff < 1) return $damage; // If attacker no clan, mutual war or the attacker clan size is smaller or equal, no reduction
-    $damage = ceil($damage * ((100-(($diff*2)/5))/100));
+    $attacker = Province::make($attacker_ID);
+    $defender = Province::make($defender_ID);
+    $attClan = $attacker->getClan();
+    if(!$attClan) return $damage;
+    $multi = $attClan->getClanSizeDamageMultiplier($defender->getClanId());
+    $damage = $damage * ($multi/100);
     return $damage;
 }

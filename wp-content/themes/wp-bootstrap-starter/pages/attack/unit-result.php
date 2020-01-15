@@ -7,6 +7,7 @@ $defender_building_NW_lost = 0;
 
 $attack_nw = $attackerData['networth'][0];
 $attack_clan_id = $attackerData['clan_id_user'][0];
+$attack_clan = new Clan($attack_clan_id);
 
 $attack_cost_turns = 0;
 $attack_cost_morale = 0;
@@ -32,6 +33,7 @@ if($attackmode == 'aggressive'){
 
 $defend_nw = $defenderData['networth'][0];
 $defend_clan_id = $defenderData['clan_id_user'][0];
+$defend_clan = new Clan($defend_clan_id);
 
 /* retrieve attack info */
 $attack_type = $_POST['attacktype'];
@@ -223,6 +225,7 @@ if($war_type == 'none') {
 // Scale building damage on clan size difference
 if($debug) debug_var('attacker_type_damage', print_r($attacker_type_damage,1));
 if(isset($attacker_type_damage['bld'])) {
+	//$defend_clan->getClanSizeDamageMultiplier($attack_clan);
 	$attacker_type_damage['bld'] = scaled_damage_to_clansize($attacker_type_damage['bld'], $userId, $target_id);
 }
 if($debug) debug_var('scaled_attacker_type_damage', print_r($attacker_type_damage,1));
@@ -585,6 +588,7 @@ if($war_type != 'none' && $result == 'success') {
 	/* determine points multiplier due to war */
 	$war_multiplier = get_war_multiplier($war_type);
 	$clan_points = ceil($clan_points * $war_multiplier);
+	//$clan_points = ceil($clan_points * $defend_clan->getWarTypeMultiplier($war_type));
 
 	if($debug) debug_var('Clan points2', $clan_points);
 
@@ -921,6 +925,8 @@ $war_array_att = maybe_unserialize(get_post_meta($attack_clan_id, 'war_array', t
 if(!is_array($war_array_att)){
 	$war_array_att = array();
 }
+if(!isset($war_array_att[$warstatID]['money_gained'])) $war_array_att[$warstatID]['money_gained'] = 0;
+if(!isset($war_array_att[$warstatID]['clan_points'])) $war_array_att[$warstatID]['clan_points'] = 0;
 
 foreach(array('attacks_made','successfull_att','nw_dmg_done','highest_nw_dmg','highest_dmg_id',
 	'bds_killed','units_killed','land_gained') as $key) {
