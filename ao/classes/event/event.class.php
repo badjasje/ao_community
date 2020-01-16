@@ -264,6 +264,25 @@ class Event extends PostObject {
             else $title = $et['title'];
         }
         if(empty($title)) return '';
+        if(date('d-m', $this->eventtime) == '14-02') {
+            $from = array('attacked', 'launched', 'sent a');
+            $to = array();
+            $to[0] = array_rand_item(array( // "you were [attacked] by {user}", "you [attacked] {user}"
+                'tenderly kissed', 'softly stroked', 'fondly massaged', 'caressed', 'uncomfortably hugged', 'squeezed', 'patted on the head',
+                'accidentally grazed', 'felt up', 'intimately touched', 'heavily embraced', 'golden showered','offensively licked','niple-pinched',
+                'double-fisted','man-handled','pussy-licked','netflixed and chilled','pored honey all over'
+            ));
+            $to[1] = array_rand_item(array( // "{attacker} [launched] a {missile_name}", "you [launched] a missile"
+                'erected', 'stroked', 'sent a kiss and', 'sent disgusting selfies and','sent an erotic poem and', 'loved'
+            ));
+            $to[2] = array_rand_item(array( // "you [sent a] saboteur", "{attacker} [sent a] {spy}{spyplane}"
+                'blew a kiss and a','nestled and sent a','found evidence for rule 43 and sent a','made a sexy selfie and sent a',
+                'rubbed one out and a','revealed some private parts to a','improved the kamasutra with a','secretly slowdanced with a',
+                'became a member of the mile high club with a','did some kinky bondage with a','shouted the safe word "foliage" with a',
+                'bravely came out the closet to a'
+            ));
+            $title = str_replace($from, $to, $title);
+        }
         return $this->parseEventVariables($title, $format);
     }
 
