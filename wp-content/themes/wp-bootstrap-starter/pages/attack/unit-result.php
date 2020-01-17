@@ -262,7 +262,7 @@ $attacks_made = $attackerData['attacks_made'][0];
 update_user_meta($userId, 'attacks_made', $attacks_made+1);
 
 //defender
-$attacks_received = $defenderData['attacks_received'][0];
+$attacks_received = (isset($defenderData['attacks_received']) ? $defenderData['attacks_received'][0] : 0);
 update_user_meta($target_id, 'attacks_received', $attacks_received+1);
 
 /* calculate power usage */
@@ -646,13 +646,13 @@ update_user_meta($userId, 'buildings_killed', $buildings_killed+$defender_buildi
 
 
 // defender
-$nw_damage_lost = $defenderData['nw_damage_lost'][0];
+$nw_damage_lost = (isset($defenderData['nw_damage_lost']) ? $defenderData['nw_damage_lost'][0] : 0);
 update_user_meta($target_id, 'nw_damage_lost', $nw_damage_lost+$defender_networth_lost);
 
-$units_lost = $defenderData['units_lost'][0];
+$units_lost = (isset($defenderData['units_lost']) ? $defenderData['units_lost'][0] : 0);
 update_user_meta($target_id, 'units_lost', $units_lost+$defender_units_lost);
 
-$buildings_lost = $defenderData['buildings_lost'][0];
+$buildings_lost = (isset($defenderData['buildings_lost']) ? $defenderData['buildings_lost'][0] : 0);
 update_user_meta($target_id, 'buildings_lost', $buildings_lost+$defender_buildings_lost);
 
 
@@ -671,11 +671,11 @@ if($result == 'failure' && $war_type != 'none'){
 		$defender_points = 5;
 	}
 
-    $defPts = $defenderData['user_clan_points'][0];
+    $defPts = (isset($defenderData['user_clan_points']) ? $defenderData['user_clan_points'][0] : 0);
     update_user_meta($target_id,'user_clan_points',$defPts+$defender_points);
 
     // Update points for current clan
-    $userDefPts = $defenderData['current_clan_points'][0];
+    $userDefPts = (isset($defenderData['current_clan_points']) ? $defenderData['current_clan_points'][0] : 0);
     update_user_meta($target_id, 'current_clan_points', $userDefPts+$defender_points);
 
 
