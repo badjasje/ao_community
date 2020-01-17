@@ -544,10 +544,10 @@ if($result == 'success'){
 	update_user_meta($userId, 'land_gained_combat', $land_gained_combat+$land_stolen);
 
 	// defender
-	$money_lost_combat = $defenderData['money_lost_combat'][0];
+	$money_lost_combat = (isset($defenderData['money_lost_combat']) ? $defenderData['money_lost_combat'][0] : 0);
 	update_user_meta($target_id, 'money_lost_combat', $money_lost_combat+$money_stolen);
 
-	$land_lost_combat = $defenderData['land_lost_combat'][0];
+	$land_lost_combat = (isset($defenderData['land_lost_combat']) ? $defenderData['land_lost_combat'][0] : 0);
 	update_user_meta($target_id, 'land_lost_combat', $land_lost_combat+$land_stolen);
 }
 
@@ -696,7 +696,7 @@ if ($result == 'success') {
 	}
 
 	//defender
-	$attacks_lost = $defenderData['attacks_lost'][0];
+	$attacks_lost = (isset($defenderData['attacks_lost']) ? $defenderData['attacks_lost'][0] : 0);
 	update_user_meta($target_id, 'attacks_lost', $attacks_lost+1);
 	?>
 	<script>
