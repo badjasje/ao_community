@@ -331,10 +331,11 @@ class Clan extends PostObject {
             $mods[] = '<strong>Incoming war:</strong>';
             $mods[] = '<i class="fa fa-crosshairs"></i> '.($n*100).'% pts';
         }
-        if($warType != 'mutual' && $warType != 'none') {
+        if($warType != 'mutual') {
             $mods[] = '<strong>Clan member difference: '.$this->getClanMemberSizeDiff($viewer_clan_id).'</strong>';
-            //<span class="hover-tip" data-toggle="tooltip" data-placement="bottom" title=""></span>
             $mods[] = '<i class="fas fa-industry"></i> '. $this->getClanSizeDamageMultiplier($viewer_clan_id) .'% damage on buildings';
+        }
+        if($warType != 'mutual' && $warType != 'none') {
             $mods[] = '<i class="fa fa-crosshairs"></i> '. $this->getClanSizePointsMultiplier($viewer_clan_id) .'% pts';
             $mods[] = '<strong>Clan points total difference: '.$this->getPoints() .' vs '. Clan::make($viewer_clan_id)->getPoints().'</strong>';
             $mods[] = '<i class="fa fa-crosshairs"></i> '. $this->getClanTotalPointsMultiplier($viewer_clan_id) .'% pts';

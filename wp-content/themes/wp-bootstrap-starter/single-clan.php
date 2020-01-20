@@ -150,7 +150,7 @@ $userIsMember = $clan->isMember();
                             $newWarType = (!!$outgoingWar ? 'outgoing' : 'none');
                         }
                         if(!!$newWarType) {
-                            $modifiers = $clan->getWarModifiers($userClan->get('id'), $newWarType);
+                            $modifiers = $userClan->getWarModifiers($clan->get('id'), $newWarType);
                             foreach($modifiers as $mod) echo $mod.'<br>';
                         }
                         ?>
