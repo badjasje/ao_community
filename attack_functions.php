@@ -14,8 +14,8 @@ include('constants.php');
 
 function calculate_pts($bld_damage, $unit_damage, $aggressive_multi) {
     global $debug;
-    $bld_pts = ($bld_damage > 0 ? log($bld_damage)*1.5 * sqrt($bld_damage/10000) : 0);
-    $unit_pts = ($unit_damage > 0 ? log($unit_damage)/1.8 * sqrt($unit_damage/1000) : 0);
+    $bld_pts = ($bld_damage > 0 ? log($bld_damage)*1.3 * sqrt($bld_damage/10000) : 0);
+    $unit_pts = ($unit_damage > 0 ? log($unit_damage)/1.9 * sqrt($unit_damage/1000) : 0);
     $pts = $bld_pts + $unit_pts;
     if($bld_pts > 0 && $unit_pts > 0) { // UBK needs a little adjustment
         $pts = ($bld_pts*0.7) + ($unit_pts*0.8);
