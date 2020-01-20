@@ -295,7 +295,7 @@ if($spytype == 'spy'):?>
             $count++;
             $rangeDamp = 1 - sqrt(($amount)*1.4)/100;
             if($rangeDamp < 0) $rangeDamp = 0.15;
-            $t = $spy_effectiveness[$enhanceSpy];
+            $t = $spy_effectiveness[$enhancePlane];
 		    $min = mt_rand($t[0]*$rangeDamp, $t[1]*$rangeDamp);
 		    $max = mt_rand($t[2]*$rangeDamp, $t[3]*$rangeDamp);
             $min = round($amount/(1+($min/100)));
