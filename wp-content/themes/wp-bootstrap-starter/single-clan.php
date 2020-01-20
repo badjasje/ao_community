@@ -81,7 +81,7 @@ $userIsMember = $clan->isMember();
                 ?>
                 <tr class="unitRow userRow6">
                     <td class="col-no-padding"><?=$member->getAvatar('allUsersAvatar')?></td>
-                    <td class="text-left">
+                    <td class="provinceName">
                         <?=($member_id == $clan->getLeader() ? '<strong>CL</strong>' : '')?>
                         <?=(in_array($member_id, $clan->getTrustees()) ? '<strong>CT</strong>' : '')?>
                         <span class="name-sort"><?=$member->getLink(true)?></span>
