@@ -470,7 +470,7 @@ jQuery(function($) {
             totals.buy += (b * parseInt($(this).data('buyprice')));
             totals.nw += (b * parseInt($(this).data('nw'))) - (d * parseInt($(this).data('nw')));
         });
-        totals.buytotal = totals.buy; 
+        totals.buytotal = totals.buy;
         if(totals.demo > 0) { // Trading is cheaper than selling / buying
             $('#market .unitRow:not(.headerRow,.descriptionRow)').each(function() {
                 var d = Math.abs($('.demoBlock .unitInput',this).val()), tp=parseInt($(this).data('tradeprice')), sp=parseInt($(this).data('sellprice'));
@@ -573,6 +573,12 @@ jQuery(function($) {
     // satelliteForm
     $('.satelliteForm .orderSubmit').on('click', function(e) {
         if(!confirm('Are you sure you want to order this satellite?')) {
+            e.preventDefault();
+            return;
+        }
+    });
+    $('.satelliteForm .demoSubmit').on('click', function(e) {
+        if(!confirm('Are you sure you want to demolish this satellite?')) {
             e.preventDefault();
             return;
         }

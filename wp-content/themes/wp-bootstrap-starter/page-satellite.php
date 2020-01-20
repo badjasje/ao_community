@@ -66,7 +66,7 @@ $has_ordered_satellites = (count($province->getOrderedSatellites()) > 0);
 									<i class="fa fa-power-off" aria-hidden="true"></i> Activate
 								</button>
 								<? } ?>
-								<input type="submit" value="Demolish" class="mainSubmit hoverEffect redBg">
+								<input type="submit" value="Demolish" class="mainSubmit hoverEffect redBg demoSubmit">
 							<? } else { ?>
 								<input type="hidden" name="action" value="order">
 								<input type="submit" value="Order" class="mainSubmit hoverEffect orderSubmit">
