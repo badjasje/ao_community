@@ -24,3 +24,9 @@ function shuffle_assoc($list) {
     }
     return $new;
 }
+
+function array_rand_item($array) {
+    $randomIndex = array_rand($array);
+    $randomElement = $array[$randomIndex];
+    return $randomElement;
+}

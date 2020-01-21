@@ -28,6 +28,7 @@ $attackUserId = sanitize_text_field($_GET['id']);
 if ($attackUserId == $userId) {
 	exit(wp_redirect(home_url('/')));
 }
+$attackUser = Province::make($attackUserId);
 $attackUserData = get_userdata($attackUserId);
 
 $attackArray = array('target_id' => $attackUserId, 'attackarray' => array());
@@ -70,15 +71,15 @@ if(!empty($attacker_clan_ID) && !empty($defender_clan_ID)) {
 	$war_type = get_war_type($attacker_clan_ID,$defender_clan_ID);
 }
 if($war_type == 'mutual') {
-	$range_msg = '<i class="fa fa-check-circle" aria-hidden="true"></i> In a mutual war';
+	$range_msg = 'In a mutual war';
 }
 else {
 	$attackUserNW = get_user_meta($attackUserId, 'networth',true);
 	if (($attackUserNW > $networth/1.4 && $attackUserNW < $networth*1.4)){
-		$range_msg = '<i class="fa fa-check-circle" aria-hidden="true"></i> Target in range';
+		$range_msg = 'In range';
 	}
 	else {
-		$range_msg = '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Target out of range';
+		$range_msg = 'Out of range';
 	}
 }
 ?>
@@ -93,7 +94,7 @@ else {
 		<div class="col-xs-10 col-no-padding" style="flex:100">
 			<div class="col-12 attackingRow statCol-2">Attacking <?php echo get_user_name($attackUserId); ?>
 			</div>
-			<div class="col-12 attackingRow statCol-3"><?php echo $range_msg;?>
+			<div class="col-12 attackingRow statCol-3"><?=$range_msg.': '.$attackUser->getNetworth(true)?>
 			</div>
 		</div>
 	</div>

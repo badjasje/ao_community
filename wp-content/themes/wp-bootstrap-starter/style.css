@@ -1788,6 +1788,7 @@ input[type="radio"]:checked + label {
     .aoTable .descriptionRow td { background: #B1B1B1; font-size: 11px;  }
     .aoTable .totalsField { padding: 4px 5px; font-size: 13px; }
     .aoTable .attacklife, .aoTable .targets { display:none }
+    .aoTable .unitRow td.provinceName { text-align:left; max-width: 150px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 }
 
 /* Bank page styling */

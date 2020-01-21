@@ -139,6 +139,7 @@ $array = array();
 /* determine war type and war points multiplier */
     $attacker_clan_ID = $userData['clan_id_user'][0];
     $defender_clan_ID = get_user_meta($target_id, 'clan_id_user')[0];
+    $war_type = get_war_type($attacker_clan_ID,$defender_clan_ID);
 
 /* determine if target is in range */
     $attacktype = $_POST['attacktype'];

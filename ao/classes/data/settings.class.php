@@ -37,8 +37,8 @@ class Settings extends DataObject {
 
         // Nw costs multipliers for types without nw
         'nw_land' => 0.85,
-        'nw_sat' => 0.04,
         'nw_research' => 950,
+        // Satellite has their personal settings, just like buildings and units
 
         // Bank
         'bank_max_deposits' => 10,
@@ -107,10 +107,10 @@ class Settings extends DataObject {
         'damage_reduction_unit' => 25, // DAMAGE_REDUCTION_FACTOR_UNIT
         'damage_reduction_building' => 20, // DAMAGE_REDUCTION_FACTOR_BLD
         'spy_effectiveness' => array( // per spy enhance level
-            0 => array(20,30,36,72), 
+            0 => array(20,30,36,72),
             1 => array(10,20,12,36),
             2 => array(6,12,6,12),
-            3 => array(3,6,3,6),
+            3 => array(1,3,1,3),
         ),
 
         // Turn costs
