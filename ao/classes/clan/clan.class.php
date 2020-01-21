@@ -319,7 +319,7 @@ class Clan extends PostObject {
         $diff = $this->getClanPointsTotalDiff($viewer_clan_id);
         if($diff == 0) return 100;
         $multi = (($diff * 0.65) + 0.35);
-        $multi = min($multi, 1.65);
+        $multi = min($multi, 1.35);
         return round($multi * 100, 2);
     }
 
@@ -341,8 +341,8 @@ class Clan extends PostObject {
             $mods[] = '<i class="fa fa-crosshairs"></i> '. $this->getClanTotalPointsMultiplier($viewer_clan_id) .'% pts';
         }
         if($warType == 'none') {
-            $mods[] = '<strong>Out of war attacks</strong>';
-            $mods[] = '<i class="fas fa-industry"></i> todo';
+            //$mods[] = '<strong>Out of war attacks</strong>';
+            //$mods[] = '<i class="fas fa-industry"></i> todo';
         }
         if($warType == 'mutual') {
             $mods[] = '<strong>Mutual</strong>';
