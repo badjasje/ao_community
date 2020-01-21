@@ -329,12 +329,11 @@ class Clan extends PostObject {
 
         $user = CurrentUser::make();
         $province = $user->getProvince();
-        if($bonus = $province->getStartingBonus()) {
-            if($bonus['name'] == 'Offensive') {
-                $mods[] = '<strong>Offensive startbonus:</strong>';
-                $mods[] = '<i class="fa fa-crosshairs"></i> 200% land and money';
-            }
+        if($province->hasStartingBonus('offensive')) {
+            $mods[] = '<strong>Offensive startbonus:</strong>';
+            $mods[] = '<i class="fa fa-crosshairs"></i> 200% land and money';
         }
+
 //Thief education
 // Thieves steal two times the amount of money
 // Thieves steal three times the amount of money
