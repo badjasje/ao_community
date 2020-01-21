@@ -334,7 +334,7 @@ class Clan extends PostObject {
             $mods[] = '<i class="fa fa-crosshairs"></i> 200% land and money';
         }
 
-//Thief education
+// Thief education
 // Thieves steal two times the amount of money
 // Thieves steal three times the amount of money
 // Thieves steal four times the amount of money
