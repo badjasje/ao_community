@@ -1553,6 +1553,9 @@ input[type="radio"]:checked + label {
 .userRow{
 	height:50px;
 }
+.memberField { display: inline-flex; }
+.memberField .nameId { margin:0 3px; }
+
 .memberField .online { color:#F00; }
 .red-text { color:#a70202; }
 .green-text { color:#359007; }
@@ -1788,7 +1791,8 @@ input[type="radio"]:checked + label {
     .aoTable .descriptionRow td { background: #B1B1B1; font-size: 11px;  }
     .aoTable .totalsField { padding: 4px 5px; font-size: 13px; }
     .aoTable .attacklife, .aoTable .targets { display:none }
-    .aoTable .unitRow td.provinceName { text-align:left; max-width: 150px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .aoTable .unitRow td.provinceName { text-align:left; }
+    .aoTable .memberField .name { display: inline-block; max-width: 100px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 }
 
 /* Bank page styling */

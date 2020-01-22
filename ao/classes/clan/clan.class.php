@@ -326,6 +326,23 @@ class Clan extends PostObject {
     public function getWarModifiers($viewer_clan_id, $warType=false) { // send wartype to see what WOULD BE the modifiers
         require_once('attack_functions.php');
         $mods = array();
+
+        $user = CurrentUser::make();
+        $province = $user->getProvince();
+        if($province->hasStartingBonus('offensive')) {
+            $mods[] = '<strong>Offensive startbonus:</strong>';
+            $mods[] = '<i class="fa fa-crosshairs"></i> 200% land and money';
+        }
+
+// Thief education
+// Thieves steal two times the amount of money
+// Thieves steal three times the amount of money
+// Thieves steal four times the amount of money
+
+// Missile accuracy
+// 45% chance to hit target
+// 90% chance to hit target
+
         if($warType == 'incoming') {
             $n = $this->getWarTypeMultiplier($warType);
             $mods[] = '<strong>Incoming war:</strong>';

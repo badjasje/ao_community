@@ -70,9 +70,13 @@ function ajax_update($province, $return) {
     $newuserimage = Request::post('newuserimage');
     if(!empty($newuserimage)) {
         $wp_upload_dir = wp_upload_dir();
-        resize_crop_image(120, 120, $wp_upload_dir['path'] . '/' . $newuserimage, $wp_upload_dir['path'] . '/' . $newuserimage);
-        $user->update('avatar_user', $wp_upload_dir['url'] . '/' . $newuserimage);
-        $msgs[] = 'profile picture';
+        $path_parts = pathinfo($wp_upload_dir['path'] . '/' . $newuserimage);
+        if(in_array($path_parts['extension'], array('png','jpg','gif'))) {
+            $destimage = 'user-'.$user->get('id').'_'.trim(preg_replace('/[^A-Za-z0-9\- ]/', '', $path_parts['filename'])).'.'.$path_parts['extension'];
+            resize_crop_image(120, 120, $wp_upload_dir['path'] . '/' . $newuserimage, $wp_upload_dir['path'] . '/' . $destimage);
+            $user->update('avatar_user', $wp_upload_dir['url'] . '/' . $destimage);
+            $msgs[] = 'profile picture';
+        } else return array('status' => 'Invalid file extension');
     }
 
     $_SESSION['showError'] = (count($msgs)==0 ? 'Nothing' : ucfirst(implode(', ', $msgs))).' updated';
@@ -85,6 +89,16 @@ function resize_crop_image($max_width, $max_height, $source_file, $dst_dir, $qua
     $width = $imgsize[0];
     $height = $imgsize[1];
     $mime = $imgsize['mime'];
+
+    if(extension_loaded('imagick')) {
+        if($mime == 'image/gif') {
+            system("convert ".$source_file." -coalesce -repage 0x0 -gravity center -crop ".$max_width."x".$max_height."+0+0 +repage -layers optimize ".$dst_dir);
+        }
+        else {
+            system("convert ".$source_file." -resize ".$max_width."x".$max_height."^ -gravity center -extent ".$max_width."x".$max_height." ".$dst_dir);
+        }
+        return;
+    }
 
     switch($mime){
         case 'image/gif':
@@ -101,9 +115,7 @@ function resize_crop_image($max_width, $max_height, $source_file, $dst_dir, $qua
             $image = "imagejpeg";
             $quality = 80;
         break;
-        default:
-            return false;
-        break;
+        default: return false;
     }
 
     $dst_img = imagecreatetruecolor($max_width, $max_height);
