@@ -72,6 +72,9 @@ function ajax_update($province, $return) {
         $wp_upload_dir = wp_upload_dir();
         $path_parts = pathinfo($wp_upload_dir['path'] . '/' . $newuserimage);
         if(in_array($path_parts['extension'], array('png','jpg','gif'))) {
+            /*if(is_ani($wp_upload_dir['path'] . '/' . $newuserimage)) {
+                return array('status' => 'Only for AO gold users');
+            }*/
             $destimage = 'user-'.$user->get('id').'_'.trim(preg_replace('/[^A-Za-z0-9\- ]/', '', $path_parts['filename'])).'.'.$path_parts['extension'];
             resize_crop_image(120, 120, $wp_upload_dir['path'] . '/' . $newuserimage, $wp_upload_dir['path'] . '/' . $destimage);
             $user->update('avatar_user', $wp_upload_dir['url'] . '/' . $destimage);
@@ -82,6 +85,25 @@ function ajax_update($province, $return) {
     $_SESSION['showError'] = (count($msgs)==0 ? 'Nothing' : ucfirst(implode(', ', $msgs))).' updated';
 
     return array('success' => true, 'status' => '', 'redirect' => Request::siteUrl().'/users/profile/edit');
+}
+
+function is_ani($filename) {
+    if(!($fh = @fopen($filename, 'rb'))) return false;
+    $count = 0;
+    //an animated gif contains multiple "frames", with each frame having a header made up of:
+    // * a static 4-byte sequence (\x00\x21\xF9\x04)
+    // * 4 variable bytes
+    // * a static 2-byte sequence (\x00\x2C)
+
+    // We read through the file til we reach the end of the file, or we've found
+    // at least 2 frame headers
+    while(!feof($fh) && $count < 2) {
+        $chunk = fread($fh, 1024 * 100); //read 100kb at a time
+        $count += preg_match_all('#\x00\x21\xF9\x04.{4}\x00[\x2C\x21]#s', $chunk, $matches);
+    }
+
+    fclose($fh);
+    return $count > 1;
 }
 
 function resize_crop_image($max_width, $max_height, $source_file, $dst_dir, $quality = 80){
