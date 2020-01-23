@@ -60,7 +60,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
                 Event::create(array(
                     'title' => 'Assault protection removed for '.$user_ID, 'author' => $user_ID, 'type' => 'nukeprotection',
                     'defender_id' => $user_ID, 'attacker_id' => $user_ID
-                ), $this->get('id'));
+                ), $user_ID);
             }
         }
     }
