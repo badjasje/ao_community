@@ -214,13 +214,14 @@ class Paper {
 		}
 		$this->validate_robots();
 		$this->respect_settings_for_robots();
-		$this->advanced_robots();
+
 		/**
 		 * Allows filtering of the meta robots.
 		 *
 		 * @param array $robots The meta robots directives to be echoed.
 		 */
 		$this->robots = $this->do_filter( 'frontend/robots', array_unique( $this->robots ) );
+		$this->advanced_robots();
 
 		return $this->robots;
 	}
@@ -230,10 +231,11 @@ class Paper {
 	 */
 	private function validate_robots() {
 		if ( empty( $this->robots ) || ! is_array( $this->robots ) ) {
-			return [
+			$this->robots = [
 				'index'  => 'index',
 				'follow' => 'follow',
 			];
+			return;
 		}
 
 		// Add Index and Follow.
@@ -256,9 +258,25 @@ class Paper {
 		}
 
 		$advanced_robots = $this->paper->advanced_robots();
-		if ( empty( $advanced_robots ) ) {
-			$advanced_robots = self::advanced_robots_combine( Helper::get_settings( 'titles.advanced_robots_global' ) );
+		if ( ! is_array( $advanced_robots ) ) {
+			$advanced_robots = wp_parse_args(
+				Helper::get_settings( 'titles.advanced_robots_global' ),
+				[
+					'max-snippet'       => -1,
+					'max-video-preview' => -1,
+					'max-image-preview' => 'large',
+				]
+			);
+
+			$advanced_robots = self::advanced_robots_combine( $advanced_robots );
 		}
+
+		/**
+		 * Allows filtering of the advanced meta robots.
+		 *
+		 * @param array $robots The meta robots directives to be echoed.
+		 */
+		$advanced_robots = $this->do_filter( 'frontend/advanced_robots', array_unique( $advanced_robots ) );
 
 		$this->robots = ! empty( $advanced_robots ) ? $this->robots + $advanced_robots : $this->robots;
 	}
@@ -484,5 +502,21 @@ class Paper {
 			}
 		}
 		return $robots;
+	}
+
+	/**
+	 * Should apply shortcode on content.
+	 *
+	 * @return bool
+	 */
+	public static function should_apply_shortcode() {
+		if (
+			Post::is_woocommerce_page() ||
+			( function_exists( 'is_wcfm_page' ) && is_wcfm_page() )
+		) {
+			return false;
+		}
+
+		return apply_filters( 'rank_math/paper/auto_generated_description/apply_shortcode', false );
 	}
 }

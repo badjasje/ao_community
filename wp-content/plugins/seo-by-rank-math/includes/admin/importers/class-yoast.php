@@ -243,7 +243,8 @@ class Yoast extends Plugin_Importer {
 			}
 
 			$this->set_post_robots( $post_id );
-			$this->set_post_social_media( $post_id );
+			$this->replace_image( get_post_meta( $post_id, '_yoast_wpseo_opengraph-image', true ), 'post', 'rank_math_facebook_image', 'rank_math_facebook_image_id', $post_id );
+			$this->replace_image( get_post_meta( $post_id, '_yoast_wpseo_twitter-image', true ), 'post', 'rank_math_twitter_image', 'rank_math_twitter_image_id', $post_id );
 			$this->set_post_focus_keyword( $post_id );
 			$this->is_twitter_using_facebook( 'post', $post_id );
 		}
@@ -300,23 +301,6 @@ class Yoast extends Plugin_Importer {
 		}
 
 		return 1 === $robots_noindex ? 'noindex' : 'index';
-	}
-
-	/**
-	 * Set post social media.
-	 *
-	 * @param int $post_id Post id.
-	 */
-	private function set_post_social_media( $post_id ) {
-		$og_thumb = get_post_meta( $post_id, '_yoast_wpseo_opengraph-image', true );
-		if ( ! empty( $og_thumb ) ) {
-			$this->replace_image( $og_thumb, 'post', 'rank_math_facebook_image', 'rank_math_facebook_image_id', $post_id );
-		}
-
-		$twitter_thumb = get_post_meta( $post_id, '_yoast_wpseo_twitter-image', true );
-		if ( ! empty( $twitter_thumb ) ) {
-			$this->replace_image( $twitter_thumb, 'post', 'rank_math_twitter_image', 'rank_math_twitter_image_id', $post_id );
-		}
 	}
 
 	/**
@@ -456,10 +440,8 @@ class Yoast extends Plugin_Importer {
 			$this->replace_meta( $hash, null, $userid, 'user', 'convert_variables' );
 
 			// Early bail if robots data is set in Rank Math plugin.
-			if ( empty( $this->get_meta( 'user', $userid, 'rank_math_robots' ) ) ) {
-				$noindex_user = get_user_meta( $userid, 'wpseo_noindex_author', true );
-				$noindex_user = $noindex_user ? 'noindex' : 'index';
-				update_user_meta( $userid, 'rank_math_robots', [ $noindex_user ] );
+			if ( empty( $this->get_meta( 'user', $userid, 'rank_math_robots' ) ) && get_user_meta( $userid, 'wpseo_noindex_author', true ) ) {
+				update_user_meta( $userid, 'rank_math_robots', [ 'noindex' ] );
 			}
 		}
 
@@ -472,12 +454,13 @@ class Yoast extends Plugin_Importer {
 	 * @return array
 	 */
 	protected function redirections() {
+		$count        = 0;
 		$redirections = get_option( 'wpseo-premium-redirects-base' );
+
 		if ( ! $redirections ) {
-			return false;
+			return compact( 'count' );
 		}
 
-		$count = 0;
 		Helper::update_modules( [ 'redirections' => 'on' ] );
 		foreach ( $redirections as $redirection ) {
 			if ( false !== $this->save_redirection( $redirection ) ) {

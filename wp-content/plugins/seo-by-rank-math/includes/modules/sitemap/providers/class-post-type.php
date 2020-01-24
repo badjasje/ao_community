@@ -281,11 +281,11 @@ class Post_Type implements Provider {
 			$links[]       = array( 'loc' => $this->get_home_url() );
 		} elseif ( $this->get_page_on_front_id() && 'post' === $post_type && $this->get_page_for_posts_id() ) {
 			$needs_archive = false;
-			$links[]       = array( 'loc' => get_permalink( $this->get_page_for_posts_id() ) );
+			$links[]       = Helper::is_post_indexable( $this->get_page_for_posts_id() ) ? array( 'loc' => get_permalink( $this->get_page_for_posts_id() ) ) : '';
 		}
 
 		if ( ! $needs_archive ) {
-			return $links;
+			return array_filter( $links );
 		}
 
 		$archive_url = $this->get_post_type_archive_link( $post_type );
@@ -443,7 +443,7 @@ class Post_Type implements Provider {
 		unset( $canonical );
 
 		if ( 'post' !== $post->post_type ) {
-			$url['loc'] = trailingslashit( $url['loc'] );
+			$url['loc'] = user_trailingslashit( $url['loc'] );
 		}
 		$url['images'] = ! is_null( $this->get_image_parser() ) ? $this->get_image_parser()->get_images( $post ) : [];
 
@@ -512,7 +512,7 @@ class Post_Type implements Provider {
 	 */
 	protected function get_home_url() {
 		if ( is_null( $this->home_url ) ) {
-			$this->home_url = get_home_url();
+			$this->home_url = user_trailingslashit( get_home_url() );
 		}
 
 		return $this->home_url;

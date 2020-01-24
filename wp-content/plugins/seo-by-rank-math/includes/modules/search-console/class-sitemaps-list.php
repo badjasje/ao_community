@@ -27,8 +27,8 @@ class Sitemaps_List extends List_Table {
 
 		parent::__construct(
 			[
-				'singular' => esc_html__( 'sitemap', 'rank-math' ),
-				'plural'   => esc_html__( 'sitemaps', 'rank-math' ),
+				'singular' => 'sitemap',
+				'plural'   => 'sitemaps',
 				'no_items' => esc_html__( 'No sitemaps submitted.', 'rank-math' ),
 			]
 		);
@@ -45,7 +45,7 @@ class Sitemaps_List extends List_Table {
 
 		$this->set_pagination_args(
 			[
-				'total_items' => count( $this->items ),
+				'total_items' => is_array( $this->items ) ? count( $this->items ) : 0,
 				'per_page'    => 100,
 			]
 		);

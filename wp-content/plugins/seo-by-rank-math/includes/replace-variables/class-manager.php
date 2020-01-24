@@ -58,24 +58,11 @@ class Manager extends Post_Variables {
 	private $is_setup = false;
 
 	/**
-	 * Default post data.
+	 * Hold arguments.
 	 *
 	 * @var array
 	 */
-	protected $defaults = array(
-		'ID'            => '',
-		'name'          => '',
-		'post_author'   => 'Author Name',
-		'post_content'  => 'Post content',
-		'post_date'     => '',
-		'post_excerpt'  => '',
-		'post_modified' => '',
-		'post_title'    => 'Post Title',
-		'taxonomy'      => '',
-		'term_id'       => '',
-		'term404'       => '',
-		'filename'      => '',
-	);
+	protected $args = [];
 
 	/**
 	 * Class constructor.
@@ -198,6 +185,26 @@ class Manager extends Post_Variables {
 	}
 
 	/**
+	 * Set arguments.
+	 *
+	 * @param array $args The object some of the replacement values might come from,
+	 *                    could be a post, taxonomy or term.
+	 */
+	public function set_arguments( $args = [] ) {
+		if ( ! empty( $args ) ) {
+			$this->tmp_args = $this->args;
+			$this->args     = $args;
+		}
+	}
+
+	/**
+	 * Reset arguments.
+	 */
+	public function reset_arguments() {
+		$this->args = $this->tmp_args;
+	}
+
+	/**
 	 * Get custom fields.
 	 *
 	 * @return array
@@ -212,7 +219,7 @@ class Manager extends Post_Variables {
 
 		$json = [];
 		foreach ( $metas as $meta_key => $meta_value ) {
-			if ( substr( $meta_key, 0, 1 ) === '_' ) {
+			if ( Str::starts_with( '_', $meta_key ) || Str::starts_with( 'rank_math_', $meta_key ) ) {
 				continue;
 			}
 

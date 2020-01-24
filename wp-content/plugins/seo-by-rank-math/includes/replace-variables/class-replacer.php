@@ -25,7 +25,7 @@ class Replacer {
 	 *
 	 * @var array
 	 */
-	protected $defaults = array(
+	public static $defaults = array(
 		'ID'            => '',
 		'name'          => '',
 		'post_author'   => '',
@@ -94,7 +94,7 @@ class Replacer {
 	 */
 	private function pre_replace( $args, $exclude ) {
 		// Setup arguments.
-		$this->args = (object) wp_parse_args( $args, $this->defaults );
+		$this->args = (object) wp_parse_args( $args, self::$defaults );
 		if ( ! empty( $this->args->post_content ) ) {
 			$this->args->post_content = WordPress::strip_shortcodes( $this->args->post_content );
 		}
@@ -150,14 +150,14 @@ class Replacer {
 
 		$has_args = ! empty( $matches[2][ $index ] ) && ! empty( $matches[3][ $index ] );
 		$id       = $has_args ? $matches[2][ $index ] : $id;
-		$args     = $has_args ? $this->normalize_args( $matches[3][ $index ] ) : [];
-		$variable = $this->get_variable_by_id( $id, $args );
+		$var_args = $has_args ? $this->normalize_args( $matches[3][ $index ] ) : [];
+		$variable = $this->get_variable_by_id( $id, $var_args );
 
 		if ( is_null( $variable ) ) {
 			return rank_math()->variables->remove_non_replaced ? '' : false;
 		}
 
-		return $variable->run_callback( $args );
+		return $variable->run_callback( $var_args, $this->args );
 	}
 
 	/**

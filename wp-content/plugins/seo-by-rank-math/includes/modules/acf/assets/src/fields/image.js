@@ -1,29 +1,40 @@
-var attachmentCache = require( './cache.attachments.js' )
-var getAttachmentContent = require( './getAttachmentContent' )
+/**
+ * External dependencies
+ */
+import { map } from 'lodash'
 
-var Image = function( fields ) {
-	var attachment_ids = []
+/**
+ * Internal dependencies
+ */
+import { attachmentCache } from '../attachmentCache'
 
-	fields = _.map( fields, function( field ) {
+/**
+ * Parse image fields.
+ *
+ * @param {Array} fields Array of fields.
+ *
+ * @return {Array} Array of fields with content.
+ */
+export default ( fields ) => {
+	const attachments = []
+
+	fields = map( fields, ( field ) => {
 		if ( 'image' !== field.type ) {
 			return field
 		}
 
 		field.content = ''
 
-		var attachment_id = field.$el.find( 'input[type=hidden]' ).val()
+		const attachmentID = field.$el.find( 'input[type=hidden]' ).val()
+		attachments.push( attachmentID )
 
-		attachment_ids.push( attachment_id )
-		if ( attachmentCache.get( attachment_id, 'attachment' ) ) {
-			field.content += getAttachmentContent( attachment_id )
-		}
+		// If we have the attachment data in the cache we can return a useful value
+		field.content += attachmentCache.getAttachmentContent( attachmentID )
 
 		return field
-	})
+	} )
 
-	attachmentCache.refresh( attachment_ids )
+	attachmentCache.refresh( attachments )
 
 	return fields
 }
-
-module.exports = Image

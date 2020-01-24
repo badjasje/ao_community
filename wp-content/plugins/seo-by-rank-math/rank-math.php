@@ -9,7 +9,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Rank Math SEO
- * Version:           1.0.34.2
+ * Version:           1.0.37.2
  * Plugin URI:        https://s.rankmath.com/home
  * Description:       Rank Math is a revolutionary SEO product that combines the features of many SEO tools and lets you multiply your traffic in the easiest way possible.
  * Author:            Rank Math
@@ -34,7 +34,7 @@ final class RankMath {
 	 *
 	 * @var string
 	 */
-	public $version = '1.0.34.2';
+	public $version = '1.0.37.2';
 
 	/**
 	 * Rank Math database version.
@@ -48,7 +48,7 @@ final class RankMath {
 	 *
 	 * @var string
 	 */
-	private $wordpress_version = '4.6';
+	private $wordpress_version = '4.9';
 
 	/**
 	 * Minimum version of PHP required to run Rank Math.
@@ -305,6 +305,7 @@ final class RankMath {
 
 		// Frontend SEO Score.
 		$this->container['frontend_seo_score'] = new \RankMath\Frontend_SEO_Score;
+		$this->load_3rd_party();
 	}
 
 	/**
@@ -322,6 +323,7 @@ final class RankMath {
 		// Booting.
 		add_action( 'plugins_loaded', [ $this, 'init' ], 14 );
 		add_action( 'rest_api_init', [ $this, 'init_rest_api' ] );
+		add_action( 'wp_login', [ $this, 'on_login' ] );
 
 		// Load admin-related functionality.
 		if ( is_admin() ) {
@@ -346,6 +348,7 @@ final class RankMath {
 		$controllers = [
 			new \RankMath\Rest\Admin,
 			new \RankMath\Rest\Front,
+			new \RankMath\Rest\Post,
 		];
 
 		foreach ( $controllers as $controller ) {
@@ -361,7 +364,7 @@ final class RankMath {
 		if ( $this->container['registration']->invalid ) {
 			return;
 		}
-		new \RankMath\Admin\Engine;
+		new \RankMath\Admin\Admin_Init;
 	}
 
 	/**
@@ -376,10 +379,27 @@ final class RankMath {
 	}
 
 	/**
+	 * Load 3rd party modules.
+	 */
+	private function load_3rd_party() {
+
+		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+			new \RankMath\Elementor\Elementor;
+		}
+	}
+
+	/**
 	 * Add our custom WP-CLI commands.
 	 */
 	public function init_wp_cli() {
 		WP_CLI::add_command( 'rankmath sitemap generate', [ '\RankMath\CLI\Commands', 'sitemap_generate' ] );
+	}
+
+	/**
+	 * Add functionality on succeessful login.
+	 */
+	public function on_login() {
+		\RankMath\Search_Console\Client::get()->refresh_auth_token_on_login();
 	}
 
 	/**
@@ -389,11 +409,20 @@ final class RankMath {
 	 * @return array
 	 */
 	public function plugin_action_links( $links ) {
-
-		$plugin_links = [
-			'<a href="' . RankMath\Helper::get_admin_url( 'options-general' ) . '">' . esc_html__( 'Settings', 'rank-math' ) . '</a>',
-			'<a href="' . RankMath\Helper::get_admin_url( 'wizard' ) . '">' . esc_html__( 'Setup Wizard', 'rank-math' ) . '</a>',
+		$options = [
+			'options-general' => esc_html__( 'Settings', 'rank-math' ),
+			'wizard'          => esc_html__( 'Setup Wizard', 'rank-math' ),
 		];
+
+		if ( $this->container['registration']->invalid ) {
+			$options = [
+				'registration' => esc_html__( 'Setup Wizard', 'rank-math' ),
+			];
+		}
+
+		foreach ( $options as $link => $label ) {
+			$plugin_links[] = '<a href="' . RankMath\Helper::get_admin_url( $link ) . '">' . $label . '</a>';
+		}
 
 		return array_merge( $links, $plugin_links );
 	}
@@ -438,11 +467,13 @@ final class RankMath {
 		}
 		load_plugin_textdomain( 'rank-math', false, rank_math()->plugin_dir() . '/languages/' );
 
-		if ( is_user_logged_in() ) {
+		if ( is_user_logged_in() && is_admin_bar_showing() ) {
 			$this->container['json']->add( 'version', $this->version, 'rankMath' );
 			$this->container['json']->add( 'ajaxurl', admin_url( 'admin-ajax.php' ), 'rankMath' );
 			$this->container['json']->add( 'adminurl', admin_url( 'admin.php' ), 'rankMath' );
+			$this->container['json']->add( 'endpoint', esc_url_raw( rest_url( 'rankmath/v1' ) ), 'rankMath' );
 			$this->container['json']->add( 'security', wp_create_nonce( 'rank-math-ajax-nonce' ), 'rankMath' );
+			$this->container['json']->add( 'restNonce', ( wp_installing() && ! is_multisite() ) ? '' : wp_create_nonce( 'wp_rest' ), 'rankMath' );
 		}
 	}
 

@@ -72,9 +72,15 @@ class JsonLD {
 		 * @param array  $unsigned An array of data to output in json-ld.
 		 * @param JsonLD $unsigned JsonLD instance.
 		 */
-		$data = $this->do_filter( 'json_ld', [], $this );
-		if ( is_array( $data ) && ! empty( $data ) ) {
-			echo '<script type="application/ld+json">' . wp_json_encode( array_values( array_filter( $data ) ) ) . '</script>' . "\n";
+		$json = $this->do_filter( 'json_ld', [], $this );
+		if ( is_array( $json ) && ! empty( $json ) ) {
+			foreach ( $json as $context => $data ) {
+				if ( empty( $data ) ) {
+					continue;
+				}
+
+				echo '<script type="application/ld+json">' . wp_json_encode( $data ) . '</script>' . "\n";
+			}
 		}
 	}
 
@@ -212,12 +218,19 @@ class JsonLD {
 			return;
 		}
 
-		$entity['aggregateRating'] = [
-			'@type'       => 'AggregateRating',
-			'ratingValue' => $rating,
-			'bestRating'  => Helper::get_post_meta( "snippet_{$schema}_rating_max" ),
-			'worstRating' => Helper::get_post_meta( "snippet_{$schema}_rating_min" ),
-			'ratingCount' => 1,
+		$entity['review'] = [
+			'author'        => [
+				'@type' => 'Person',
+				'name'  => get_the_author_meta( 'display_name' ),
+			],
+			'datePublished' => get_post_time( 'Y-m-d\TH:i:sP', false ),
+			'dateModified'  => get_post_modified_time( 'Y-m-d\TH:i:sP', false ),
+			'reviewRating'  => [
+				'@type'       => 'Rating',
+				'ratingValue' => $rating,
+				'bestRating'  => Helper::get_post_meta( "snippet_{$schema}_rating_max" ),
+				'worstRating' => Helper::get_post_meta( "snippet_{$schema}_rating_min" ),
+			],
 		];
 	}
 
@@ -273,8 +286,8 @@ class JsonLD {
 			'name'             => $title,
 			'url'              => $url,
 			'mainEntityOfPage' => $url,
-			'dateModified'     => get_post_modified_time( 'Y-m-d\TH:i:sP', true ),
-			'datePublished'    => get_post_time( 'Y-m-d\TH:i:sP', true ),
+			'dateModified'     => get_post_modified_time( 'Y-m-d\TH:i:sP', false ),
+			'datePublished'    => get_post_time( 'Y-m-d\TH:i:sP', false ),
 			'author'           => $this->get_author(),
 			'publisher'        => $this->get_publisher( $data ),
 			'image'            => $this->get_post_thumbnail( $post_id ),
@@ -502,13 +515,14 @@ class JsonLD {
 			'title'     => $this->get_post_title(),
 			'url'       => $this->get_post_url(),
 			'canonical' => Paper::get()->get_canonical(),
-			'modified'  => get_post_modified_time( 'Y-m-d\TH:i:sP', true ),
-			'published' => get_post_time( 'Y-m-d\TH:i:sP', true ),
+			'modified'  => mysql2date( DATE_W3C, $this->post->post_modified, false ),
+			'published' => mysql2date( DATE_W3C, $this->post->post_date, false ),
 			'excerpt'   => Helper::replace_vars( '%excerpt%', $this->post ),
 		];
 
 		// Description.
 		$desc = Helper::get_post_meta( 'snippet_desc' );
+
 		if ( ! $desc ) {
 			$desc = Helper::replace_vars( Helper::get_settings( "titles.pt_{$this->post->post_type}_default_snippet_desc" ), $this->post );
 		}
@@ -529,6 +543,7 @@ class JsonLD {
 	 */
 	public function get_post_title( $post_id = 0 ) {
 		$title = Helper::get_post_meta( 'snippet_name', $post_id );
+
 		if ( ! $title && ! empty( $this->post ) ) {
 			$title = Helper::replace_vars( Helper::get_settings( "titles.pt_{$this->post->post_type}_default_snippet_name" ), $this->post );
 		}

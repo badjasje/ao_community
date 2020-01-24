@@ -12,7 +12,6 @@ namespace RankMath\Admin;
 
 use RankMath\Helper;
 use RankMath\Runner;
-use RankMath\Traits\Ajax;
 use RankMath\Traits\Hooker;
 use MyThemeShop\Helpers\Param;
 
@@ -23,14 +22,13 @@ defined( 'ABSPATH' ) || exit;
  */
 class Post_Columns implements Runner {
 
-	use Hooker, Ajax;
+	use Hooker;
 
 	/**
 	 * Register hooks.
 	 */
 	public function hooks() {
 		$this->action( 'admin_init', 'init' );
-		$this->ajax( 'bulk_edit_columns', 'save' );
 	}
 
 	/**
@@ -52,76 +50,11 @@ class Post_Columns implements Runner {
 	}
 
 	/**
-	 * Save rows.
-	 */
-	public function save() {
-		check_ajax_referer( 'rank-math-ajax-nonce', 'security' );
-		$this->has_cap_ajax( 'onpage_general' );
-		$rows = Param::post( 'rows', '', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-		if ( ! $rows ) {
-			$this->error( esc_html__( 'No data found.', 'rank-math' ) );
-		}
-
-		foreach ( $rows as $post_id => $data ) {
-			$post_id = absint( $post_id );
-			if ( ! $post_id ) {
-				continue;
-			}
-
-			$this->save_row( $post_id, $data );
-		}
-
-		$this->success( 'done' );
-	}
-
-	/**
-	 * Save single row.
-	 *
-	 * @param int   $post_id Post id.
-	 * @param array $data    Post data.
-	 */
-	private function save_row( $post_id, $data ) {
-		foreach ( $data as $key => $value ) {
-			$this->save_column( $post_id, $key, $value );
-		}
-	}
-
-	/**
-	 * Save row columns.
-	 *
-	 * @param int    $post_id Post id.
-	 * @param string $column  Column name.
-	 * @param string $value   Column value.
-	 */
-	private function save_column( $post_id, $column, $value ) {
-		if ( ! in_array( $column, [ 'focus_keyword', 'title', 'description', 'image_alt', 'image_title' ], true ) ) {
-			return;
-		}
-
-		if ( 'image_title' === $column ) {
-			wp_update_post([
-				'ID'         => $post_id,
-				'post_title' => $value,
-			]);
-			return;
-		}
-
-		if ( 'focus_keyword' === $column ) {
-			$focus_keyword    = get_post_meta( $post_id, 'rank_math_' . $column, true );
-			$focus_keyword    = explode( ',', $focus_keyword );
-			$focus_keyword[0] = $value;
-			$value            = implode( ',', $focus_keyword );
-		}
-
-		$column = 'image_alt' === $column ? '_wp_attachment_image_alt' : 'rank_math_' . $column;
-		update_post_meta( $post_id, $column, $value );
-	}
-
-	/**
 	 * Register post column hooks.
 	 */
 	private function register_post_columns() {
 		foreach ( Helper::get_allowed_post_types() as $post_type ) {
+			$this->filter( 'edd_download_columns', 'add_columns', 11 );
 			$this->filter( "manage_{$post_type}_posts_columns", 'add_columns', 11 );
 			$this->action( "manage_{$post_type}_posts_custom_column", 'columns_contents', 11, 2 );
 			$this->filter( "manage_edit-{$post_type}_sortable_columns", 'sortable_columns', 11 );
@@ -163,30 +96,28 @@ class Post_Columns implements Runner {
 
 		$allowed_post_types   = Helper::get_allowed_post_types();
 		$allowed_post_types[] = 'attachment';
-		if ( ( 'edit' !== $screen->base && 'upload' !== $screen->base ) || ! in_array( $screen->post_type, $allowed_post_types, true ) ) {
+		if ( ! in_array( $screen->post_type, $allowed_post_types, true ) ) {
 			return;
 		}
 
 		wp_enqueue_style( 'rank-math-post-bulk-edit', rank_math()->plugin_url() . 'assets/admin/css/post-list.css', null, rank_math()->version );
 
-		$allow_editing = Helper::get_settings( 'titles.pt_' . $screen->post_type . '_bulk_editing' );
+		$allow_editing = Helper::get_settings( 'titles.pt_' . $screen->post_type . '_bulk_editing', true );
 		if ( ! $allow_editing || 'readonly' === $allow_editing ) {
 			return;
 		}
 
 		wp_enqueue_script( 'rank-math-post-bulk-edit', rank_math()->plugin_url() . 'assets/admin/js/post-list.js', null, rank_math()->version, true );
-		wp_localize_script( 'rank-math-post-bulk-edit', 'rankMath', [
-			'security'      => wp_create_nonce( 'rank-math-ajax-nonce' ),
-			'bulkEditTitle' => esc_attr__( 'Bulk Edit This Field', 'rank-math' ),
-			'buttonSaveAll' => esc_attr__( 'Save All Edits', 'rank-math' ),
-			'buttonCancel'  => esc_attr__( 'Cancel', 'rank-math' ),
-		]);
+		Helper::add_json( 'bulkEditTitle', esc_attr__( 'Bulk Edit This Field', 'rank-math' ) );
+		Helper::add_json( 'buttonSaveAll', esc_attr__( 'Save All Edits', 'rank-math' ) );
+		Helper::add_json( 'buttonCancel', esc_attr__( 'Cancel', 'rank-math' ) );
 	}
 
 	/**
 	 * Add new columns for SEO title, description and focus keywords.
 	 *
-	 * @param  array $columns Array of column names.
+	 * @param array $columns Array of column names.
+	 *
 	 * @return array
 	 */
 	public function add_columns( $columns ) {
@@ -194,7 +125,7 @@ class Post_Columns implements Runner {
 
 		$columns['rank_math_seo_details'] = esc_html__( 'SEO Details', 'rank-math' );
 
-		if ( Helper::get_settings( 'titles.pt_' . $post_type . '_bulk_editing' ) ) {
+		if ( Helper::get_settings( 'titles.pt_' . $post_type . '_bulk_editing', true ) ) {
 			$columns['rank_math_title']       = esc_html__( 'SEO Title', 'rank-math' );
 			$columns['rank_math_description'] = esc_html__( 'SEO Desc', 'rank-math' );
 		}
@@ -205,7 +136,8 @@ class Post_Columns implements Runner {
 	/**
 	 * Make the SEO Score column sortable.
 	 *
-	 * @param  array $columns Array of column names.
+	 * @param array $columns Array of column names.
+	 *
 	 * @return array
 	 */
 	public function sortable_columns( $columns ) {
@@ -217,7 +149,8 @@ class Post_Columns implements Runner {
 	/**
 	 * Add new columns for Media Alt & Title.
 	 *
-	 * @param  array $columns An array of column names.
+	 * @param array $columns Array of column names.
+	 *
 	 * @return array
 	 */
 	public function add_media_columns( $columns ) {
@@ -292,7 +225,6 @@ class Post_Columns implements Runner {
 		$keyword   = get_post_meta( $post_id, 'rank_math_focus_keyword', true );
 		$keyword   = explode( ',', $keyword )[0];
 		$is_pillar = get_post_meta( $post_id, 'rank_math_pillar_content', true );
-		$schema    = get_post_meta( $post_id, 'rank_math_rich_snippet', true );
 		$score     = $score ? $score : 0;
 		$class     = $this->get_seo_score_class( $score );
 
@@ -304,7 +236,7 @@ class Post_Columns implements Runner {
 		?>
 		<span class="rank-math-column-display seo-score <?php echo $class; ?> <?php echo ! $score ? 'disabled' : ''; ?>">
 			<strong><?php echo $score; ?></strong>
-			<?php if ( $is_pillar ) : ?>
+			<?php if ( 'on' === $is_pillar ) : ?>
 				<img class="is-pillar" src="<?php echo esc_url( rank_math()->plugin_url() . 'assets/admin/img/pillar.svg' ); ?>" alt="<?php _e( 'Is Pillar', 'rank-math' ); ?>" title="<?php _e( 'Is Pillar', 'rank-math' ); ?>" width="25" />
 			<?php endif; ?>
 		</span>
@@ -319,12 +251,7 @@ class Post_Columns implements Runner {
 			<span><?php echo $keyword; ?></span>
 		</span>
 
-		<?php if ( $schema ) : ?>
-			<span class="rank-math-column-display schema-type">
-				<strong><?php _e( 'Schema', 'rank-math' ); ?>:</strong>
-				<?php echo ucfirst( $schema ); ?>
-			</span>
-		<?php endif; ?>
+		<?php $this->do_action( 'post/column/seo_details', $post_id ); ?>
 
 		<div class="rank-math-column-edit">
 			<a href="#" class="rank-math-column-save"><?php esc_html_e( 'Save', 'rank-math' ); ?></a>

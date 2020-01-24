@@ -163,9 +163,9 @@ class Singular implements IPaper {
 
 		// 3. Description template set in the Titles & Meta.
 		$post_type   = isset( $object->post_type ) ? $object->post_type : $object->query_var;
-		$description = Paper::get_from_options( "pt_{$post_type}_description", $object );
+		$description = '%excerpt%' !== Helper::get_settings( "titles.pt_{$post_type}_description" ) ? Paper::get_from_options( "pt_{$post_type}_description", $object ) : '';
 
-		return '' !== $description ? $description : $this->get_post_description_auto_generated( $object );
+		return '' !== $description ? $description : wp_html_excerpt( $this->get_post_description_auto_generated( $object ), 160 );
 	}
 
 	/**
@@ -182,7 +182,8 @@ class Singular implements IPaper {
 		}
 
 		$keywords     = Post::get_meta( 'focus_keyword', $object->ID );
-		$post_content = $this->should_apply_shortcode() ? do_shortcode( $object->post_content ) : $object->post_content;
+		$post_content = Paper::should_apply_shortcode() ? do_shortcode( $object->post_content ) : $object->post_content;
+		$post_content = \preg_replace( '/<!--[\s\S]*?-->/iu', '', $post_content );
 		$post_content = wpautop( WordPress::strip_shortcodes( $post_content ) );
 		$post_content = wp_kses( $post_content, [ 'p' => [] ] );
 
@@ -244,25 +245,10 @@ class Singular implements IPaper {
 
 		$post_type = $this->object->post_type;
 		$robots    = Paper::advanced_robots_combine( Post::get_meta( 'advanced_robots', $this->object->ID ) );
-		if ( empty( $robots ) && Helper::get_settings( "titles.pt_{$post_type}_custom_robots" ) ) {
+		if ( ! is_array( $robots ) && Helper::get_settings( "titles.pt_{$post_type}_custom_robots" ) ) {
 			$robots = Paper::advanced_robots_combine( Helper::get_settings( "titles.pt_{$post_type}_advanced_robots" ), true );
 		}
 
 		return $robots;
-	}
-
-	/**
-	 * Should apply shortcode on content.
-	 *
-	 * @return bool
-	 */
-	private function should_apply_shortcode() {
-		$is_woocommerce_page = Post::is_woocommerce_page();
-		$is_wcfm_page        = function_exists( 'is_wcfm_page' ) && is_wcfm_page();
-		if ( $is_woocommerce_page || $is_wcfm_page ) {
-			return false;
-		}
-
-		return apply_filters( 'rank_math/paper/auto_generated_description/apply_shortcode', false );
 	}
 }

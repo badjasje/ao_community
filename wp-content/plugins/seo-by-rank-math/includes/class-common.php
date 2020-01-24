@@ -37,22 +37,21 @@ class Common {
 		$this->action( 'loginout', 'nofollow_link' );
 		$this->filter( 'register', 'nofollow_link' );
 		$this->filter( 'rank_math/excluded_taxonomies', 'exclude_taxonomies' );
+		$this->filter( 'rank_math/excluded_post_types', 'excluded_post_types' );
 
 		// Change Permalink for primary term.
 		$this->filter( 'post_type_link', 'post_type_link', 9, 2 );
 		$this->filter( 'post_link_category', 'post_link_category', 10, 3 );
 
-		// Strip stopwords from slugs.
-		if ( Helper::get_settings( 'general.url_strip_stopwords' ) ) {
-			$this->filter( 'get_sample_permalink', 'strip_stopwords_permalink', 10, 3 );
-			Helper::add_json( 'stopwords', $this->get_stopwords() );
-		}
+		// Reorder categories listing: put primary at the beginning.
+		$this->filter( 'get_the_terms', 'reorder_the_terms', 10, 3 );
 
 		add_action( 'wp_ajax_nopriv_rank_math_overlay_thumb', [ $this, 'generate_overlay_thumbnail' ] );
 
 		// Auto-update the plugin.
 		if ( Helper::get_settings( 'general.enable_auto_update' ) ) {
 			$this->filter( 'auto_update_plugin', 'auto_update_plugin', 10, 2 );
+			new Auto_Updater;
 		}
 
 		new Admin_Bar_Menu;
@@ -87,6 +86,21 @@ class Common {
 		unset( $taxonomies['product_shipping_class'] );
 
 		return $taxonomies;
+	}
+
+	/**
+	 * Exclude post_types.
+	 *
+	 * @param array $post_types Excluded post_types.
+	 *
+	 * @return array
+	 */
+	public function excluded_post_types( $post_types ) {
+		if ( isset( $post_types['elementor_library'] ) ) {
+			unset( $post_types['elementor_library'] );
+		}
+
+		return $post_types;
 	}
 
 	/**
@@ -187,19 +201,47 @@ class Common {
 	}
 
 	/**
-	 * Get stop words.
+	 * Reorder terms for a post to put primary category to the beginning.
 	 *
-	 * @return array List of stop words.
+	 * @param array|WP_Error $terms    List of attached terms, or WP_Error on failure.
+	 * @param int            $post_id  Post ID.
+	 * @param string         $taxonomy Name of the taxonomy.
+	 *
+	 * @return array
 	 */
-	private function get_stopwords() {
+	public function reorder_the_terms( $terms, $post_id, $taxonomy ) {
+		/**
+		 * Filter: Allow disabling the primary term feature.
+		 *
+		 * @param bool $return True to disable.
+		 */
+		if ( true === $this->do_filter( 'primary_term', false ) ) {
+			return $terms;
+		}
 
-		/* translators: this should be an array of stop words for your language, separated by comma's. */
-		$stopwords = explode( ',', esc_html__( "a,about,above,after,again,against,all,am,an,and,any,are,as,at,be,because,been,before,being,below,between,both,but,by,could,did,do,does,doing,down,during,each,few,for,from,further,had,has,have,having,he,he'd,he'll,he's,her,here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,into,is,it,it's,its,itself,let's,me,more,most,my,myself,nor,of,on,once,only,or,other,ought,our,ours,ourselves,out,over,own,same,she,she'd,she'll,she's,should,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,there,there's,these,they,they'd,they'll,they're,they've,this,those,through,to,too,under,until,up,very,was,we,we'd,we'll,we're,we've,were,what,what's,when,when's,where,where's,which,while,who,who's,whom,why,why's,with,would,you,you'd,you'll,you're,you've,your,yours,yourself,yourselves", 'rank-math' ) );
+		$post_id = empty( $post_id ) ? $GLOBALS['post']->ID : $post_id;
 
-		$custom = Helper::get_settings( 'general.stopwords' );
-		$custom = Str::to_arr_no_empty( $custom );
+		// Get Primary Term.
+		$primary = absint( Helper::get_post_meta( "primary_{$taxonomy}", $post_id ) );
+		if ( ! $primary ) {
+			return $terms;
+		}
 
-		return array_unique( array_merge( $stopwords, $custom ) );
+		if ( empty( $terms ) || is_wp_error( $terms ) ) {
+			return [ $primary ];
+		}
+
+		$primary_term = null;
+		foreach ( $terms as $index => $term ) {
+			if ( $primary === $term->term_id ) {
+				$primary_term = $term;
+				unset( $terms[ $index ] );
+				array_unshift( $terms, $primary_term );
+				break;
+			}
+		}
+
+		return $terms;
 	}
 
 	/**
@@ -283,6 +325,10 @@ class Common {
 		$imagecreatef = 'imagecreatefrom' . $image_format;
 		$stamp        = imagecreatefrompng( $overlay_image );
 		$image        = $imagecreatef( $image_file );
+
+		if ( ! $image ) {
+			return;
+		}
 
 		// Set the margins for the stamp and get the height/width of the stamp image.
 		$img_width     = imagesx( $stamp );

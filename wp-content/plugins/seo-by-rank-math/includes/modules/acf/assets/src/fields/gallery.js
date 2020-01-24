@@ -1,10 +1,25 @@
-var attachmentCache = require( './cache.attachments.js' )
-var getAttachmentContent = require( './getAttachmentContent' )
+/**
+ * External dependencies
+ */
+import jQuery from 'jquery'
+import { map } from 'lodash'
 
-var Gallery = function( fields ) {
-	var attachment_ids = []
+/**
+ * Internal dependencies
+ */
+import { attachmentCache } from '../attachmentCache'
 
-	fields = _.map( fields, function( field ) {
+/**
+ * Parse gallery fields.
+ *
+ * @param {Array} fields Array of fields.
+ *
+ * @return {Array} Array of fields with content.
+ */
+export default ( fields ) => {
+	const attachments = []
+
+	fields = map( fields, ( field ) => {
 		if ( 'gallery' !== field.type ) {
 			return field
 		}
@@ -12,17 +27,17 @@ var Gallery = function( fields ) {
 		field.content = ''
 
 		field.$el.find( '.acf-gallery-attachment input[type=hidden]' ).each( function() {
-			var attachment_id = jQuery( this ).val()
-			attachment_ids.push( attachment_id )
-			field.content += new getAttachmentContent( attachment_id )
-		})
+			const attachmentID = jQuery( this ).val()
+			attachments.push( attachmentID )
+
+			// If we have the attachment data in the cache we can return a useful value
+			field.content += attachmentCache.getAttachmentContent( attachmentID )
+		} )
 
 		return field
-	})
+	} )
 
-	attachmentCache.refresh( attachment_ids )
+	attachmentCache.refresh( attachments )
 
 	return fields
 }
-
-module.exports = Gallery

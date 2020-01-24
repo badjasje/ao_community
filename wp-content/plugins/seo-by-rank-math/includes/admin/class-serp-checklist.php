@@ -13,6 +13,7 @@ namespace RankMath\Admin;
 use RankMath\KB;
 use RankMath\CMB2;
 use RankMath\Helper;
+use RankMath\Helpers\Locale;
 use RankMath\Traits\Hooker;
 
 defined( 'ABSPATH' ) || exit;
@@ -73,7 +74,7 @@ class Serp_Checklist {
 					'fail'    => esc_html__( 'Focus Keyword does not appear in the SEO title.', 'rank-math' ),
 					'empty'   => esc_html__( 'Add Focus Keyword to the SEO title.', 'rank-math' ),
 					'tooltip' => esc_html__( 'Make sure the focus keyword appears in the SEO post title too.', 'rank-math' ),
-					'score'   => 'en' === substr( get_locale(), 0, 2 ) ? 30 : 32,
+					'score'   => 'en' === Locale::get_site_language() ? 36 : 38,
 				],
 				'keywordInMetaDescription' => [
 					'ok'      => esc_html__( 'Focus Keyword used inside SEO Meta Description.', 'rank-math' ),
@@ -191,9 +192,9 @@ class Serp_Checklist {
 				'titleHasPowerWords'    => [
 					'ok'      => esc_html__( 'Your title contains {0} power word(s). Booyah!', 'rank-math' ),
 					/* translators: link to kb article */
-					'fail'    => sprintf( esc_html__( 'Your title doesn\'t contain a %s. Add at least one.', 'rank-math' ), '<a href="https://sumo.com/stories/power-words" target="_blank">power word</a>' ),
+					'fail'    => sprintf( esc_html__( 'Your title doesn\'t contain a %s. Add at least one.', 'rank-math' ), '<a href="https://rankmath.com/blog/power-words/" target="_blank">power word</a>' ),
 					/* translators: link to kb article */
-					'empty'   => sprintf( esc_html__( 'Add %s to your title to increase CTR.', 'rank-math' ), '<a href="https://sumo.com/stories/power-words" target="_blank">power words</a>' ),
+					'empty'   => sprintf( esc_html__( 'Add %s to your title to increase CTR.', 'rank-math' ), '<a href="https://rankmath.com/blog/power-words/" target="_blank">power words</a>' ),
 					/* translators: link to registration screen */
 					'tooltip' => esc_html__( 'Power Words are tried-and-true words that copywriters use to attract more clicks.', 'rank-math' ),
 					'score'   => 1,
@@ -215,14 +216,6 @@ class Serp_Checklist {
 					'empty'   => esc_html__( 'Use Table of Content to break-down your text.', 'rank-math' ),
 					'tooltip' => esc_html__( ' Table of Contents help break down content into smaller, digestible chunks. It makes reading easier which in turn results in better rankings.', 'rank-math' ),
 					'score'   => 2,
-				],
-				'calculateFleschReading'    => [
-					/* translators: Link to kb article */
-					'ok'      => esc_html__( 'Your Flesch Readability score is {1} and is regarded as {0}', 'rank-math' ),
-					'fail'    => esc_html__( 'Your Flesch Readability score is {1} and is regarded as {0}.', 'rank-math' ),
-					'empty'   => esc_html__( 'Add some content to calculate Flesch Readability score.', 'rank-math' ),
-					'tooltip' => esc_html__( 'Try to make shorter sentences, using less difficult words to improve readability.', 'rank-math' ),
-					'score'   => 6,
 				],
 				'contentHasShortParagraphs' => [
 					'ok'      => esc_html__( 'Kudos! You are using short paragraphs.', 'rank-math' ),
@@ -423,7 +416,9 @@ class Serp_Checklist {
 	 * @return bool
 	 */
 	private function is_invalid( $id ) {
-		return 'en' !== substr( get_locale(), 0, 2 ) && in_array( $id, [ 'titleSentiment', 'titleHasPowerWords' ], true );
+		$locale = Locale::get_site_language();
+		return ( ! in_array( $locale, [ 'en', 'de' ], true ) && in_array( $id, [ 'titleSentiment', 'titleHasPowerWords' ], true ) ) ||
+			( 'de' === $locale && 'titleSentiment' === $id );
 	}
 
 	/**

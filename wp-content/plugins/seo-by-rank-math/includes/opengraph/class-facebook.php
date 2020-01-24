@@ -312,8 +312,8 @@ class Facebook extends OpenGraph {
 	 */
 	public function publish_date() {
 		$post = get_post();
-		$pub  = mysql2date( DATE_W3C, $post->post_date_gmt, false );
-		$mod  = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
+		$pub  = mysql2date( DATE_W3C, $post->post_date, false );
+		$mod  = mysql2date( DATE_W3C, $post->post_modified, false );
 
 		if ( 'article' === $this->schema ) {
 			$this->tag( 'article:published_time', $pub );
@@ -337,7 +337,7 @@ class Facebook extends OpenGraph {
 		$this->tag( 'product:brand', Helper::get_post_meta( 'snippet_product_brand' ) );
 		$this->tag( 'product:price:amount', Helper::get_post_meta( 'snippet_product_price' ) );
 		$this->tag( 'product:price:currency', Helper::get_post_meta( 'snippet_product_currency' ) );
-		if ( Helper::get_post_meta( 'snippet_product_instock', false ) ) {
+		if ( Helper::get_post_meta( 'snippet_product_instock' ) ) {
 			$this->tag( 'product:availability', 'instock' );
 		}
 	}

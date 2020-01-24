@@ -1,37 +1,10 @@
-var Text = function( fields ) {
-	var that = this
+/**
+ * External dependencies
+ */
+import { find, map } from 'lodash'
 
-	fields = _.map( fields, function( field ) {
-		if ( 'text' !== field.type ) {
-			return field
-		}
-
-		field.content = field.$el.find( 'input[type=text][id^=acf]' ).val()
-		field = that.wrapInHeadline( field )
-
-		return field
-	})
-
-	return fields
-}
-
-Text.prototype.wrapInHeadline = function( field ) {
-	var level = this.isHeadline( field )
-
-	if ( level ) {
-		field.content = '<h' + level + '>' + field.content + '</h' + level + '>'
-	} else {
-		field.content = '<p>' + field.content + '</p>'
-	}
-
-	return field
-}
-
-Text.prototype.isHeadline = function( field ) {
-
-	var level = _.find( rankMath.acf.headlines, function( value, key ) {
-		return field.key === key
-	})
+const isHeadline = function( field ) {
+	let level = find( rankMath.acf.headlines, ( value, key ) => field.key === key )
 
 	// It has to be an integer
 	if ( level ) {
@@ -46,4 +19,33 @@ Text.prototype.isHeadline = function( field ) {
 	return level
 }
 
-module.exports = Text
+const wrapInHeadline = function( field ) {
+	const level = isHeadline( field )
+
+	field.content = level ? '<h' + level + '>' + field.content + '</h' + level + '>' :
+		'<p>' + field.content + '</p>'
+
+	return field
+}
+
+/**
+ * Parse text fields.
+ *
+ * @param {Array} fields Array of fields.
+ *
+ * @return {Array} Array of fields with content.
+ */
+export default ( fields ) => {
+	fields = map( fields, ( field ) => {
+		if ( 'text' !== field.type ) {
+			return field
+		}
+
+		field.content = field.$el.find( 'input[type=text][id^=acf]' ).val()
+		field = wrapInHeadline( field )
+
+		return field
+	} )
+
+	return fields
+}

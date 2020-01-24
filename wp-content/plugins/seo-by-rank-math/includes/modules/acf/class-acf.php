@@ -37,12 +37,16 @@ class ACF {
 	 * Enqueue styles and scripts for the metabox.
 	 */
 	public function enqueue() {
+		if ( Helper::is_elementor_editor() ) {
+			return;
+		}
+
 		if ( Admin_Helper::is_post_edit() ) {
-			wp_enqueue_script( 'rank-math-acf-post-analysis', rank_math()->plugin_url() . 'assets/admin/js/acf-analysis.js', [ 'rank-math-post-metabox' ], rank_math()->version, true );
+			wp_enqueue_script( 'rank-math-acf-post-analysis', rank_math()->plugin_url() . 'assets/admin/js/acf-analysis.js', [ 'wp-hooks', 'rank-math-analyzer' ], rank_math()->version, true );
 		}
 
 		if ( Admin_Helper::is_term_edit() ) {
-			wp_enqueue_script( 'rank-math-acf-term-analysis', rank_math()->plugin_url() . 'assets/admin/js/acf-analysis.js', [ 'rank-math-term-metabox' ], rank_math()->version, true );
+			wp_enqueue_script( 'rank-math-acf-term-analysis', rank_math()->plugin_url() . 'assets/admin/js/acf-analysis.js', [ 'wp-hooks', 'rank-math-term-metabox' ], rank_math()->version, true );
 		}
 
 		Helper::add_json( 'acf', $this->get_config() );
@@ -54,47 +58,63 @@ class ACF {
 	 * @return array The config data.
 	 */
 	private function get_config() {
-		$config = [
-			'pluginName'      => 'rank-math-acf',
-			'refreshRate'     => 1000,
-			'headlines'       => [],
-			'enableReload'    => true,
-			'blacklistFields' => $this->get_blacklist_fields(),
-		];
-
-		return $this->do_filter( 'acf/config', $config );
+		return $this->do_filter(
+			'acf/config',
+			[
+				'pluginName'     => 'rank-math-acf',
+				'headlines'      => [],
+				'names'          => [],
+				'refreshRate'    => $this->get_refresh_rate(),
+				'blacklistTypes' => $this->get_blacklist_type(),
+			]
+		);
 	}
 
 	/**
-	 * Get blacklisted fields.
+	 * Retrieves the default blacklist.
 	 *
-	 * @return array The Blacklisted fields.
+	 * @return array The blacklist field types.
 	 */
-	private function get_blacklist_fields() {
-		$blacklist_type = [
-			'number',
-			'password',
-			'file',
-			'select',
-			'checkbox',
-			'radio',
-			'true_false',
-			'post_object',
-			'page_link',
-			'relationship',
-			'user',
-			'date_picker',
-			'color_picker',
-			'message',
-			'tab',
-			'repeater',
-			'flexible_content',
-			'group',
-		];
+	private function get_blacklist_type() {
+		return $this->do_filter(
+			'acf/blacklist/types',
+			[
+				'number',
+				'password',
+				'file',
+				'select',
+				'checkbox',
+				'radio',
+				'true_false',
+				'post_object',
+				'page_link',
+				'relationship',
+				'user',
+				'date_picker',
+				'color_picker',
+				'message',
+				'tab',
+				'repeater',
+				'flexible_content',
+				'group',
+			]
+		);
+	}
 
-		return [
-			'type' => $blacklist_type,
-			'name' => [],
-		];
+	/**
+	 * Get refresh rate to be used.
+	 *
+	 * @return int The number of milliseconds between runs.
+	 */
+	private function get_refresh_rate() {
+		/**
+		 * Refresh rate for changes to ACF fields
+		 *
+		 * @param int $refresh_rate Refresh rates in milliseconds
+		 */
+		$refresh_rate = $this->do_filter( 'acf/refresh_rate', 1000 );
+		$refresh_rate = intval( $refresh_rate, 10 );
+
+		return max( 200, $refresh_rate );
 	}
 }
