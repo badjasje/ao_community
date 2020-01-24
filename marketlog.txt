@@ -22941,3 +22941,15 @@ Type: paratrooper
 time: 11:50:28 | 24-01-2020
 
 
+id: 2245
+Units ordered: 100
+Type: cruiser
+time: 12:11:22 | 24-01-2020
+
+
+id: 2245
+Units ordered: 100
+Type: sparrow
+time: 12:11:32 | 24-01-2020
+
+
