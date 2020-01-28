@@ -28,11 +28,7 @@ function ajax_land_sell($province, $return) {
     $province->update('land_sold_today', round($province->get('land_sold_today') + $postedLand));
     $province->update('money', $province->getMoney() + round($postedLand * Settings::get('money_per_land')));
     $province->count_all_stats();
-
-    // Log it
-    //$current = file_get_contents('landselllog.txt');
-    //$current .= current_time('G:i:s | d-m-Y')."\n" . "ID: ".$province->id."\n" . "Sold land: ".$postedLand."\n";
-    //file_put_contents('landselllog.txt', $current . "Land sold today: ". $province->get('land_sold_today') ."\n\n");
+    Log::add('land sell',array('id'=>$province->get('id'),'Sold land'=>$postedLand, 'Land sold today' => $province->get('land_sold_today')));
 
     $maxSell = $province->getMaxSellLand();
     $return = array_merge($return, array(

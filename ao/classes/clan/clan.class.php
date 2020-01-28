@@ -213,6 +213,21 @@ class Clan extends PostObject {
     }
 
     public function canResume($defend_clan_id=false) {
+        // Do we have an "incoming" war? (flipped because how this function is called)
+        if(!$this->getOutgoingWars($defend_clan_id)) return false;
+
+        // Is there an old outgoing war to resume?
+        $posts = get_posts(array(
+            'numberposts' => 1, 'post_type' => 'wars', 'post_status' => 'trash',
+            'meta_query' => array(
+                'relation' => 'AND',
+                array('key' => 'declared_by', 'value' => $this->id),
+                array('key' => 'declared_on', 'value' => $defend_clan_id),
+            ),
+        ));
+        if(count($posts) == 0) return false;
+
+        // Look for peace event to get peace-time
         $peacetime = 0;
         $eventposts = get_posts(array(
             'numberposts' => 1, 'post_title' => 'PEACE', 'orderby' => 'post_Date', 'order' =>  'DESC',
@@ -292,7 +307,9 @@ class Clan extends PostObject {
         if($viewer_clan = Clan::make($viewer_clan_id)) {
             if($this->getPoints() < 500 && $viewer_clan->getPoints() < 500) return 0;
             if($this->getWarType($viewer_clan_id) == 'mutual') return 0;
-            return round($viewer_clan->getPoints() / $this->getPoints(),2);
+            $vp = max($viewer_clan->getPoints(),1);
+            $mp = max($this->getPoints(),1); // devision by zero and all
+            return $vp / $mp; // do not round because of huge differences
         }
         return 0;
     }
@@ -320,6 +337,7 @@ class Clan extends PostObject {
         if($diff == 0) return 100;
         $multi = (($diff * 0.65) + 0.35);
         $multi = min($multi, 1.35);
+        $multi = max($multi, 0.65); // max diff is 0.35 down and up
         return round($multi * 100, 2);
     }
 

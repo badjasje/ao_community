@@ -14,7 +14,6 @@ function ajax_market($province, $return) {
         $delay = ceil($_POST['delay']);
     }
 
-
     $status = array('Done');
     $timestamp = current_time('timestamp');
     $units = $province->getUnits();
@@ -26,7 +25,7 @@ function ajax_market($province, $return) {
             if(!empty($num) && (!is_numeric($num) || $num < 0 || ceil($num)!=$num || !isset($units[$key]))) return array('status' => $key.': enter a valid number');
             if(!empty($num)) $sell[$key] = ceil($num);
         }
-}
+    }
     $order = array();
     if(isset($_POST['build'])) {
         foreach($_POST['build'] as $key => $num) {

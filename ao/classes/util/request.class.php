@@ -98,13 +98,18 @@ class Request {
             static::$path = trim($parsed['path'],'/'); // "/user/login/" becomes "user/login"
             static::$parts = explode('/', static::$path);
             static::$query = (isset($parsed['query']) ? $parsed['query'] : array()); // please do not use this but use Request::get()\
+
         }
     }
 
     static function pathRateLimit() {
-         // Rate limiting per hour, based on path
-         if(Round::isTest() || Round::isDev()) return;
-         if(in_array(static::$path, array_keys(static::$rate_limits))) {
+        // Rate limiting per hour, based on path
+        if($user = CurrentUser::make()) {
+            $id = (!!$user->get('id') ? $user->get('id') : 0);
+            //Log::add('path log', array('id' => $id, 'ip' => static::getIpAddress(), 'path' => static::$path), true);
+        }
+        if(Round::isTest() || Round::isDev()) return;
+        if(in_array(static::$path, array_keys(static::$rate_limits))) {
             if(!isset($_SESSION['path_num'])) $_SESSION['path_num'] = array(date('H') => array());
             if(array_keys($_SESSION['path_num'])[0] != date('H')) $_SESSION['path_num'] = array(date('H') => array());
             if(!isset($_SESSION['path_num'][date('H')][static::$path])) $_SESSION['path_num'][date('H')][static::$path] = 0;
