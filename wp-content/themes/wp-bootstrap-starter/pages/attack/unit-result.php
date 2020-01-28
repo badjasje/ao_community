@@ -609,15 +609,14 @@ if($war_type != 'none' && $result == 'success') {
 		elseif($war_type == 'incoming') $clan_points = Settings::get('points_kill_incoming');
 		elseif($war_type == 'outgoing') $clan_points = Settings::get('points_kill_outgoing');
 	}
-
-	if($debug) debug_var('Clan points3', $clan_points);
-
-	// Jaap, points based on clansize
-	$clan_points = scaled_points_to_clansize($clan_points, $userId, $target_id);
-	if($debug) debug_var('Clan points4', $clan_points);
-	// Jaap, points based on difference between clanpoints totals
-	$clan_points = scaled_points_to_clanpoints($clan_points, $userId, $target_id);
-	if($debug) debug_var('Clan points5', $clan_points);
+	else {
+		// Jaap, points based on clansize
+		$clan_points = scaled_points_to_clansize($clan_points, $userId, $target_id);
+		if($debug) debug_var('Clan points4', $clan_points);
+		// Jaap, points based on difference between clanpoints totals
+		$clan_points = scaled_points_to_clanpoints($clan_points, $userId, $target_id);
+		if($debug) debug_var('Clan points5', $clan_points);
+	}
 
 	/* add points */
 	$starting_points = get_post_meta($attack_clan_id,'clan_points',true);
