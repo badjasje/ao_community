@@ -31,11 +31,7 @@ function ajax_land_explore($province, $return) {
     $province->turn_spread('exploring', $postedTurns); //@wp
     $province->count_all_stats();
     $exploredToday = $province->get('explored_today');
-
-    // Log it
-    //$current = file_get_contents('explorelog.txt');
-    //$current .= current_time('G:i:s | d-m-Y')."\n". "ID: ".$province->id."\n" . "Turns used: ".$postedTurns."\n" . "New land: ".($ownedland+$postedLand)."\n";
-    //file_put_contents('explorelog.txt', $current."Explored today: ".$exploredToday."\n\n");
+    Log::add('land explore',array('id' => $province->get('id'),'Turns used' => $postedTurns, 'New land' => ($ownedland+$postedLand), 'Explored today' => $exploredToday));
 
     $perturnm2 = $province->getExplorationRate();
     $maxLand = $province->getMaxExploreLand();

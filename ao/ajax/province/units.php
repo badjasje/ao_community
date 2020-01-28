@@ -53,6 +53,7 @@ function ajax_units($province, $return) {
         if($build_num > 0) $status[] = $build_num.' units built';
         foreach ($build as $key => $count) {
             $province->update($key.'_owned', $province->get($key.'_owned') + $count);
+            Log::add('turn build', array('id' => $province->get('id'), 'type' => $key, 'num' => $count, 'new amount' => $province->get($key.'_owned') ));
         }
         $province->update('units_built_turns', $province->get('units_built_turns') + $build_num);
         $province->update('money', $money - $build_price);

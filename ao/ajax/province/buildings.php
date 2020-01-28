@@ -66,6 +66,7 @@ function ajax_buildings($province, $return) {
         if($build_num > 0) $status[] = $build_num.' buildings built';
         foreach ($build as $key => $count) {
             $province->update($key, $province->get($key) + $count);
+            Log::add('turn build', array('id' => $province->get('id'), 'type' => $key, 'num' => $count, 'new amount' => $province->get($key) ));
         }
         $province->update('buildings_built', $province->get('buildings_built') + $build_num);
         $province->update('money', $money - $build_price);
