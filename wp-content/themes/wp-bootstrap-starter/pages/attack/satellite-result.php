@@ -167,10 +167,7 @@ foreach ($buildings as $buildingkey => $order) {
 $killed = false;
 if ($def_lostbuildings_tot >= $_total_bld_def) {
     $killed = true;
-    update_user_meta($target_id, 'status', 'dead');
-    update_user_meta($target_id, 'networth', 0);
-    update_user_meta($target_id, 'land', 0);
-    after_death($target_id);
+	kill_player($target_id);
 }
 
 ////// CALCULATE CLAN POINTS //////
@@ -400,7 +397,10 @@ update_field('attackmode', $attackmode, $new_event_id);
 if($killed == true){
 	kill_event($userId,$target_id,$result,$defender_clan_ID,$attacker_clan_ID);
 	update_field('status_defender','death', $new_event_id);
-	update_field('attacktype','death', $new_event_id);
+	update_user_meta($target_id, 'status', 'dead');
+	update_user_meta($target_id, 'networth', 0);
+	update_user_meta($target_id, 'land', 0);
+	after_death($target_id);
 }
 
 update_field('defender_clan_id',$defender_clan_ID, $new_event_id);
