@@ -27,7 +27,7 @@ class Satellites extends DataObject {
             'networth'      =>  4,
             'name'          =>  'Stealth satellite',
             'shortname'     =>  'STE',
-            'desc'          =>  'Hides your base from enemy spies, thieves, saboteurs, snipers, laser beam satellites and EMP satellites for 3.5 hours.'),
+            'desc'          =>  'Hides your base from enemy spies, thieves, saboteurs, laser beam satellites and EMP satellites for 3.5 hours.'),
         /*'attack'		=>	0
         ),
         'spysat' 		=> array(
