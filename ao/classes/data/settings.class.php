@@ -94,7 +94,7 @@ class Settings extends DataObject {
         'sniper_morale_cost' => 10,
         'thief_morale_cost' => 5,
         'spy_morale_cost' => 0,
-        'morale_missile_tgt_below' => 40,
+        'morale_missile_tgt_below' => 35,
         'morale_missile_tgt_above' => 35,
         'morale_attack_tgt_below' => 25,
         'morale_attack_tgt_above' => 20,
