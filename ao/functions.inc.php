@@ -25,8 +25,15 @@ function shuffle_assoc($list) {
     return $new;
 }
 
+// Get one random item out of an array
 function array_rand_item($array) {
     $randomIndex = array_rand($array);
     $randomElement = $array[$randomIndex];
     return $randomElement;
+}
+
+function implode_assoc($glue, $array, $format='%s (%s)') {
+    return implode(', ', array_map(function ($k, $v) use ($format) {
+        return sprintf($format, $k, $v);
+    }, array_keys($array), array_values($array)));
 }

@@ -122,37 +122,48 @@ $userIsMember = $clan->isMember();
         $canResume = (!!$userClan ? $clan->canResume($userClan->get('id')) : false);
 
         if(!!$userClan) {
+            $current_modifiers = $current_totals = array();
+            $newWarType = $userClan->getWarType($clan->get('id')); // Look, we switched it around
+            if($newWarType != 'none') {
+                list($current_modifiers,$current_totals) = $userClan->getWarModifiers($clan->get('id'), $newWarType);
+            }
+
+            $action_modifiers = $action_totals = array();
+            $newWarType=false;
+            if($incomingWar == false) {
+                $newWarType = (!!$outgoingWar ? 'mutual' : 'outgoing');
+            }
+            else if($canPeace) {
+                $newWarType = (!!$outgoingWar ? 'outgoing' : 'none');
+            }
+            if(!!$newWarType) {
+                list($action_modifiers,$action_totals) = $userClan->getWarModifiers($clan->get('id'), $newWarType);
+            }
             ?>
             <div class="fw-row d-md-flex">
                 <div class="col-md-6 px-0 order-md-2">
-                    <div class="attackingRow statCol-3"><strong>Current modifiers:</strong></div>
-                    <div class="px-3 py-2">
+                    <div class="attackingRow statCol-3" data-toggle="collapse" data-target="#currentDiff">
+                        <strong>Current modifiers:</strong><br>
+                        <?=(count($current_totals)?implode_assoc(', ', $current_totals, '%s: %s%%'):'<em>none</em>')?>
+                    </div>
+                    <div id="currentDiff" class="px-3 py-2 collapse">
                         <?
-                        $newWarType = $userClan->getWarType($clan->get('id')); // Look, we switched it around
-                        if($newWarType != 'none') {
-                            $modifiers = $userClan->getWarModifiers($clan->get('id'), $newWarType);
-                            foreach($modifiers as $mod) echo $mod.'<br>';
+                        if(count($current_modifiers)) {
+                            foreach($current_modifiers as $mod) echo $mod.'<br>';
                         } else echo '<em>none</em>';
                         ?>
                     </div>
                 </div>
                 <div class="col-md-6 px-0 order-md-1">
-                    <div class="attackingRow statCol-3"><strong>
-                        <?=(!$incomingWar?'Modifiers if you declare:':(!!$canPeace?'Modifiers if you peace:':''))?>
-                    </strong></div>
-                    <div class="px-3 py-2">
+                    <div class="attackingRow statCol-3" data-toggle="collapse" data-target="#actionDiff">
+                        <strong><?=(!$incomingWar?'Modifiers if you declare:':(!!$canPeace?'Modifiers if you peace:':''))?></strong><br>
+                        <?=(count($action_totals)?implode_assoc(', ', $action_totals, '%s: %s%%'):'<em>none</em>')?>
+                    </div>
+                    <div id="actionDiff" class="px-3 py-2 collapse">
                         <?
-                        $newWarType=false;
-                        if($incomingWar == false) {
-                            $newWarType = (!!$outgoingWar ? 'mutual' : 'outgoing');
-                        }
-                        else if($canPeace) {
-                            $newWarType = (!!$outgoingWar ? 'outgoing' : 'none');
-                        }
-                        if(!!$newWarType) {
-                            $modifiers = $userClan->getWarModifiers($clan->get('id'), $newWarType);
-                            foreach($modifiers as $mod) echo $mod.'<br>';
-                        }
+                        if(count($action_modifiers)) {
+                            foreach($action_modifiers as $mod) echo $mod.'<br>';
+                        } else echo '<em>none</em>';
                         ?>
                     </div>
                 </div>

@@ -91,10 +91,10 @@ if(empty($telegram_key)) {
 	</div>
 	<?
 	if($viewed->get('id') != $user->get('id') && !$province->isFellowClanMember($viewed->get('id'))) {
-		$modifiers = array();
+		$modifiers = $totals = array();
 		if(!!$province_clan) {
 			$newWarType = $province_clan->getWarType((!!$viewed_clan ? $viewed_clan->get('id') : 0));
-			$modifiers = array_merge($modifiers, $province_clan->getWarModifiers((!!$viewed_clan ? $viewed_clan->get('id') : 0), $newWarType));
+			list($modifiers,$totals) = $province_clan->getWarModifiers((!!$viewed_clan ? $viewed_clan->get('id') : 0), $newWarType);
 		}
 		if(count($modifiers)) {
 			echo '<div class="attackingRow statCol-3"><strong>Current modifiers:</strong></div><div class="px-3 py-2">';
