@@ -35,6 +35,7 @@ if($no_snipers > 10){
 	exit;
 }
 
+$sat_status = (isset($defenderData['stealth_sat_status']) ? $defenderData['stealth_sat_status'][0] : 0);
 $defender_thiefs = $defenderData['thief_owned'][0];
 $defender_spies = $defenderData['spy_owned'][0];
 $defender_snipers = $defenderData['sniper_owned'][0];
@@ -47,6 +48,9 @@ $loseRatio = $no_snipers*(1+(mt_rand(95,140)/100))+$defender_snipers/(mt_rand(27
 
 if($loseRatio < 64){
 	$result = 'success';
+}
+if($sat_status == 'active') {
+	$result = 'failure';
 }
 
 if($result == 'success'){
