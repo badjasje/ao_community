@@ -112,58 +112,32 @@ function target_in_range($attack_type, $attack_nw, $defend_nw, $war_type) {
 
 // Function for calculating morale cost of the attack.
 function get_attack_cost_morale($attack_type, $attack_nw, $defend_nw) {
-    global $MORALE_SABOTEUR, $MORALE_ATTACK_TGT_ABOVE, $MORALE_ATTACK_TGT_BELOW, $MORALE_MISSILE_TGT_ABOVE, $MORALE_MISSILE_TGT_BELOW,
-           $MORALE_THIEF, $MORALE_SPY;
-
     $targetIsBigger = $attack_nw < $defend_nw;
-
     switch (strtolower($attack_type)) {
         case 'missile':
-            return $targetIsBigger ? $MORALE_MISSILE_TGT_ABOVE : $MORALE_MISSILE_TGT_BELOW;
-            break;
+            return Settings::get($targetIsBigger ? 'morale_missile_tgt_above' : 'morale_missile_tgt_below');
         case 'thief':
-            return $MORALE_THIEF;
-            break;
+            return Settings::get('thief_morale_cost');
         case 'saboteur':
-            return $MORALE_SABOTEUR;
-            break;
+            return Settings::get('saboteur_morale_cost');
         case 'spy':
-            return $MORALE_SPY;
-            break;
-        case 'air_sea':
-            return $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
-            break;
+            return Settings::get('spy_morale_cost');
         case 'sniper':
-            return 10;
-            break;
+            return Settings::get('sniper_morale_cost');
+        case 'air_sea':
         case 'regular':
-            return $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
-            break;
         case 'ground':
-            return $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
-            break;
-        case 'regular':
-            return $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
-            break;
-        case 'ground':
-            return $targetIsBigger ? $MORALE_ATTACK_TGT_ABOVE : $MORALE_ATTACK_TGT_BELOW;
-            break;
+            return Settings::get($targetIsBigger ? 'morale_attack_tgt_above' : 'morale_attack_tgt_below');
     }
 };
 
-
 function get_attack_cost_turns($attack_type) {
-    global $TURNS_MISSILE, $TURNS_SPY, $TURNS_THIEF, $TURNS_ATTACK;
-    if (strtolower($attack_type) == 'thief')
-        return $TURNS_THIEF;
-    if (strtolower($attack_type) == 'saboteur')
-        return 2;
-    if (strtolower($attack_type) == 'spy')
-        return $TURNS_SPY;
-    if (strtolower($attack_type) == 'missile')
-        return $TURNS_MISSILE;
-    if (strtolower($attack_type) == 'air_sea' || 'regular' || 'ground')
-        return $TURNS_ATTACK;
+    if (strtolower($attack_type) == 'thief') return Settings::get('turns_thief');
+    if (strtolower($attack_type) == 'saboteur') return Settings::get('turns_saboteur');
+    if (strtolower($attack_type) == 'spy') return Settings::get('turns_spy');
+    if (strtolower($attack_type) == 'missile') return Settings::get('turns_missile');
+    if (in_array(strtolower($attack_type), array('air_sea','regular','ground'))) return Settings::get('turns_attack');
+    return 0;
 };
 
 /*

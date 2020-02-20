@@ -88,22 +88,17 @@ class Settings extends DataObject {
         'points_kill_mutual' => 50,
         'maintarget_target_multi' => 0.8,
         'maintarget_notarget_multi' => 1.2,
+
+        // Morale costs
         'saboteur_morale_cost' => 30,
         'sniper_morale_cost' => 10,
         'thief_morale_cost' => 5,
         'spy_morale_cost' => 0,
-            // Morale costs
-            'morale_missile_tgt_below' => 40,
-            'morale_missile_tgt_above' => 35,
-            'morale_attack_tgt_below' => 25,
-            'morale_attack_tgt_above' => 20,
-            'morale_thief' => 5,
-            'morale_saboteur' => 30,
-            'morale_spy' => 0,
-        'missile_morale_tgt_below' => 40,
-        'missile_morale_tgt_above' => 35,
-        'attack_morale_tgt_below' => 25,
-        'attack_morale_tgt_above' => 20,
+        'morale_missile_tgt_below' => 40,
+        'morale_missile_tgt_above' => 35,
+        'morale_attack_tgt_below' => 25,
+        'morale_attack_tgt_above' => 20,
+
         'damage_reduction_unit' => 25, // DAMAGE_REDUCTION_FACTOR_UNIT
         'damage_reduction_building' => 20, // DAMAGE_REDUCTION_FACTOR_BLD
         'spy_effectiveness' => array( // per spy enhance level
@@ -118,6 +113,7 @@ class Settings extends DataObject {
         'turns_attack' => 3,
         'turns_thief' => 2,
         'turns_spy' => 1,
+        'turns_saboteur' => 2,
         'turns_research' => 2, // duration times 2
         'turns_queue_research' => 2.5, // duration times 3
 
