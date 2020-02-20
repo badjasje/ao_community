@@ -305,7 +305,7 @@ class Clan extends PostObject {
 
     public function getClanPointsTotalDiff($viewer_clan_id) {
         if($viewer_clan = Clan::make($viewer_clan_id)) {
-            if($this->getPoints() < 500 && $viewer_clan->getPoints() < 500) return 0;
+            if($this->getPoints() < 2000 && $viewer_clan->getPoints() < 2000) return 0;
             if($this->getWarType($viewer_clan_id) == 'mutual') return 0;
             $vp = max($viewer_clan->getPoints(),1);
             $mp = max($this->getPoints(),1); // devision by zero and all
@@ -336,8 +336,8 @@ class Clan extends PostObject {
         $diff = $this->getClanPointsTotalDiff($viewer_clan_id);
         if($diff == 0) return 100;
         $multi = (($diff * 0.65) + 0.35);
-        $multi = min($multi, 1.35);
-        $multi = max($multi, 0.65); // max diff is 0.35 down and up
+        $multi = min($multi, 1.25);
+        $multi = max($multi, 0.75); // max diff is 0.35 down and up
         return round($multi * 100, 2);
     }
 
