@@ -62,6 +62,7 @@
 	$resetArray[] = "'missiles_launched'";
 	$resetArray[] = "'missiles_hit'";
 	$resetArray[] = "'nw_damage_missiles'";
+	$resetArray[] = "'nw_damage_missiles_war'";
 	$resetArray[] = "'thieving_attempts'";
 	$resetArray[] = "'succesful_attempts'";
 	$resetArray[] = "'money_gained_thieving'";

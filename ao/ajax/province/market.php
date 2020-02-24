@@ -40,7 +40,6 @@ function ajax_market($province, $return) {
     $specialSell = $specialOrder = $totalSell = $totalOrder = 0;
     foreach($sell as $key => $num) {
         if($units[$key]['sectype'] == 'special') $specialSell += $num;
-        $totalSell += $num;
     }
     if($specialSell > Settings::get('max_special_sell')) {
         return array('status' => 'You cannot sell more than '.Settings::get('max_special_sell').' special units');
@@ -64,7 +63,8 @@ function ajax_market($province, $return) {
 
     // You cannot sell more than you have
     foreach($sell as $key => $num) {
-        if($num > $units[$key]['maxsell']) return array('status' => 'You cannot sell more than you have');
+        if($num > $units[$key]['maxsell']) $sell[$key] = $units[$key]['maxsell'];
+        $totalSell += $sell[$key];
     }
 
     // Check if you have enough space to buy, minus sell

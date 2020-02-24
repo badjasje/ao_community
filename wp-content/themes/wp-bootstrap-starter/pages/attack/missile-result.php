@@ -509,12 +509,16 @@ $_pts = get_post_meta($attacker_clan_ID, '24h_pts', true);
 update_post_meta($attacker_clan_ID,'24h_pts',$_pts+$clan_points);
 
 if($result == 'success'):
+	// Modes
+	if($war_type != 'none') {
+		$nw_damage_missiles_war = (isset($attackerData['nw_damage_missiles_war']) ? $attackerData['nw_damage_missiles_war'][0] : 0);
+		update_user_meta($userId, 'nw_damage_missiles_war', $nw_damage_missiles_war+$def_NW_lost);
+	}
 
 	/* add stats */
 	// attacker
 	$nw_damage_missiles = (isset($attackerData['nw_damage_missiles']) ? $attackerData['nw_damage_missiles'][0] : 0);
 	update_user_meta($userId, 'nw_damage_missiles', $nw_damage_missiles+$def_NW_lost);
-
 
 	//defender
 	$nw_damage_missiles_rec = $defenderData['nw_damage_missiles_rec'][0];

@@ -305,7 +305,7 @@ class Clan extends PostObject {
 
     public function getClanPointsTotalDiff($viewer_clan_id) {
         if($viewer_clan = Clan::make($viewer_clan_id)) {
-            if($this->getPoints() < 500 && $viewer_clan->getPoints() < 500) return 0;
+            if($this->getPoints() < 2000 && $viewer_clan->getPoints() < 2000) return 0;
             if($this->getWarType($viewer_clan_id) == 'mutual') return 0;
             $vp = max($viewer_clan->getPoints(),1);
             $mp = max($this->getPoints(),1); // devision by zero and all
@@ -336,20 +336,22 @@ class Clan extends PostObject {
         $diff = $this->getClanPointsTotalDiff($viewer_clan_id);
         if($diff == 0) return 100;
         $multi = (($diff * 0.65) + 0.35);
-        $multi = min($multi, 1.35);
-        $multi = max($multi, 0.65); // max diff is 0.35 down and up
+        $multi = min($multi, 1.25);
+        $multi = max($multi, 0.75); // max diff is 0.35 down and up
         return round($multi * 100, 2);
     }
 
     public function getWarModifiers($viewer_clan_id, $warType=false) { // send wartype to see what WOULD BE the modifiers
         require_once('attack_functions.php');
         $mods = array();
+        $totals = array('points' => 100, 'damage' => 100, 'gains' => 100);
 
         $user = CurrentUser::make();
         $province = $user->getProvince();
         if($province->hasStartingBonus('offensive')) {
             $mods[] = '<strong>Offensive startbonus:</strong>';
             $mods[] = '<i class="fa fa-crosshairs"></i> 200% land and money';
+            $totals['gains'] = $totals['gains'] * 2;
         }
 
 // Thief education
@@ -363,17 +365,23 @@ class Clan extends PostObject {
 
         if($warType == 'incoming') {
             $n = $this->getWarTypeMultiplier($warType);
+            $totals['points'] = $totals['points'] * $n;
             $mods[] = '<strong>Incoming war:</strong>';
             $mods[] = '<i class="fa fa-crosshairs"></i> '.($n*100).'% pts';
         }
         if($warType != 'mutual') {
+            $dmgDiff = $this->getClanSizeDamageMultiplier($viewer_clan_id);
+            $totals['damage'] = $totals['damage'] * ($dmgDiff/100);
             $mods[] = '<strong>Clan member difference: '.$this->getClanMemberSizeDiff($viewer_clan_id).'</strong>';
-            $mods[] = '<i class="fas fa-industry"></i> '. $this->getClanSizeDamageMultiplier($viewer_clan_id) .'% damage on buildings';
+            $mods[] = '<i class="fas fa-industry"></i> '. $dmgDiff .'% damage on buildings';
         }
         if($warType != 'mutual' && $warType != 'none') {
-            $mods[] = '<i class="fa fa-crosshairs"></i> '. $this->getClanSizePointsMultiplier($viewer_clan_id) .'% pts';
+            $sizeDiff = $this->getClanSizePointsMultiplier($viewer_clan_id);
+            $ptsDiff = $this->getClanTotalPointsMultiplier($viewer_clan_id);
+            $totals['points'] = ($totals['points'] * ($sizeDiff/100)) * ($ptsDiff/100);
+            $mods[] = '<i class="fa fa-crosshairs"></i> '. $sizeDiff .'% pts';
             $mods[] = '<strong>Clan points total difference: '.$this->getPoints() .' vs '. Clan::make($viewer_clan_id)->getPoints().'</strong>';
-            $mods[] = '<i class="fa fa-crosshairs"></i> '. $this->getClanTotalPointsMultiplier($viewer_clan_id) .'% pts';
+            $mods[] = '<i class="fa fa-crosshairs"></i> '. $ptsDiff .'% pts';
         }
         if($warType == 'none') {
             //$mods[] = '<strong>Out of war attacks</strong>';
@@ -383,6 +391,6 @@ class Clan extends PostObject {
             $mods[] = '<strong>Mutual</strong>';
             $mods[] = 'No modifiers!';
         }
-        return (count($mods) ? $mods : array());
+        return array($mods, $totals);
     }
 }

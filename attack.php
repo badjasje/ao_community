@@ -69,7 +69,7 @@ $array = array();
 		exit;
 
     }*/
-    //count_all_stats($target_id);
+    Province::make($target_id)->count_all_stats();
 
 	$attackmode = (isset($_POST['attackmode']) ? $_POST['attackmode'] : '');
     $attack_type = $_POST['attacktype'];

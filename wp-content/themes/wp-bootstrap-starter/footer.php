@@ -12,7 +12,6 @@ if(!is_page_template('blank-page.php') && !is_page_template('blank-page-with-con
 	<footer id="colophon" class="site-footer <?=wp_bootstrap_starter_bg_class()?>" role="contentinfo">
 
         <div class="container-fluid p-2 p-md-5">
-            <?php if($user->isLoggedIn()) { ?>
             <div class="row no-gutters footer-nav">
                 <div class="col-xs-6 col-md-3">
                     <h4>Beginners</h4>
@@ -42,58 +41,23 @@ if(!is_page_template('blank-page.php') && !is_page_template('blank-page-with-con
                     </ul>
                 </div>
                 <div class="col-xs-6 col-md-3">
-                    <h4><?php echo $province->getName(); ?></h4>
-                    <ul class="footer-list">
-                        <li><a href="<?=$province->getLink()?>">Profile</a></li>
-                        <li><a href="<?=Request::siteUrl()?>/player-statistics">Statistics</a></li>
-                        <li><a href="<?=$province->getLink()?>">Set push notifications</a></li>
-                    </ul>
+                    <?php if($user->isLoggedIn()) { ?>
+                        <h4><?php echo $province->getName(); ?></h4>
+                        <ul class="footer-list">
+                            <li><a href="<?=$province->getLink()?>">Profile</a></li>
+                            <li><a href="<?=Request::siteUrl()?>/player-statistics">Statistics</a></li>
+                            <li><a href="<?=$province->getLink()?>">Set push notifications</a></li>
+                        </ul>
+                    <? } else{?>
+                        <h4>Additional</h4>
+                        <ul class="footer-list">
+                            <li><a href="<?=Request::siteUrl()?>/browser-games/">Browser games</a></li>
+                        </ul>
+                    <? }?>
                 </div>
             </div>
 
             <hr size="1">
-            <? } else{?>
-            
-            <div class="row no-gutters footer-nav">
-                <div class="col-xs-6 col-md-3">
-                    <h4>Beginners</h4>
-                    <ul class="footer-list">
-                        <li><a href="http://bit.ly/2US8Dh0" target="_blank"><strong>Join discord channel!</strong></a></li>
-                        <li><a href="<?=Request::siteUrl()?>/getting-started">Getting started manual</a></li>
-                        <li><a href="<?=Request::siteUrl()?>/manual">Complete Manual</a></li>
-                        <li><a href="<?=Request::siteUrl()?>/rules">Rules</a></li>
-                    </ul>
-                </div>
-                <div class="col-xs-6 col-md-3">
-                    <h4>Toplists</h4>
-                    <ul class="footer-list">
-                        <li><a href="<?=Request::siteUrl()?>/toplists/">Highest nw</a></li>
-                        <li><a href="<?=Request::siteUrl()?>/toplists/?tab=clanpoints">Clan points</a></li>
-                        <li><a href="<?=Request::siteUrl()?>/toplists/?tab=clannw">Clan nw</a></li>
-                        <li><a href="<?=Request::siteUrl()?>/toplists/?tab=clanpointstoday">Clan pts today</a></li>
-                    </ul>
-                </div>
-                <div class="col-xs-6 col-md-3">
-                    <h4>Information</h4>
-                    <ul class="footer-list">
-                        <li><a href="<?=Request::siteUrl()?>/category/awards-medals/">Awards & Medals</a></li>
-                        <li><a href="<?=Request::siteUrl()?>/all-clans">Clan list</a></li>
-                        <li><a href="<?=Request::siteUrl()?>/users">User list</a></li>
-                    </ul>
-                </div>
-                <div class="col-xs-6 col-md-3">
-                    <h4>Additional</h4>
-                    <ul class="footer-list">
-                        <li><a href="<?=Request::siteUrl()?>/browser-games/">Browser games</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <hr size="1">
-            
-            
-            
-            <? }?>
 
             <div class="site-info">
 	            <center>
@@ -103,6 +67,7 @@ if(!is_page_template('blank-page.php') && !is_page_template('blank-page-with-con
                     Current server date/time is
                     <strong><?=date("d-m-Y G:i:s", strtotime('+1 hours'))?></strong>
                     | Resolution <span id="footerResolution"></span><br>
+                    Current round date: <?=Round::startDate(true)?> - <?=Round::endDate(true)?><br>
                     <? if($user->isLoggedIn()) { ?>
                         <a href="<?=wp_logout_url( Request::siteUrl()."/home/")?>">Logout</a>
                     <? } ?>

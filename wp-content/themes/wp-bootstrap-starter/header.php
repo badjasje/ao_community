@@ -20,13 +20,6 @@ if($provinceDied) { // this also happens in currentuser construct, but only the 
 	$province->update('nuke_protection_timestamp', current_time('timestamp') + Settings::get('nuke_protection_length'));
 }
 
-// Auto tab of unittype you have most of
-$tab = 'air'; $nums = array(); $max = 0;
-foreach(array_keys(Settings::get('unit_types')) as $type) $nums[$type] = (!!$province ? $province->getUnitTypeNum($type) : 0);
-foreach($nums as $type => $num) {
-	if($num > $max) { $tab = $type; $max = $num; }
-}
-
 $timeLeft = Market::timeLeft();
 ?>
 <!DOCTYPE html>
@@ -123,7 +116,7 @@ $timeLeft = Market::timeLeft();
 					</div>
 					<div class="col-md-2 statitem">
 						<? if($province->getSatelliteNum()) { ?>
-						<span data-toggle="tooltip" data-placement="bottom" 
+						<span data-toggle="tooltip" data-placement="bottom"
 							data-html="true" title="Satellite power: <?=$province->getSatMorale(true)?>" class="satpower stattext">
 						<? } else echo '<span class="stattext">'; ?>
 							<strong>Morale:</strong> <span class="moraleheader"><?=$province->getMorale(true)?></span>
@@ -216,12 +209,12 @@ $timeLeft = Market::timeLeft();
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?=Request::siteUrl()?>/units?tab=<?=$tab?>">
+						<a href="<?=Request::siteUrl()?>/units">
 							<button class="menu-item" type="button"><i class="fas fa-fighter-jet"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?=Request::siteUrl()?>/units?tab=<?=$tab?>">Units
+						<a href="<?=Request::siteUrl()?>/units">Units
 						<span class="badge badge-secondary"><?=$province->getUnitsNum()?></span></a>
 					</div>
 				</div>
@@ -252,12 +245,12 @@ $timeLeft = Market::timeLeft();
 
 				<div class="row menuRow ">
 					<div class="col-md-2 col-xs-2 buttonItem">
-						<a href="<?=Request::siteUrl()?>/buy/?tab=<?=$tab?>">
+						<a href="<?=Request::siteUrl()?>/buy">
 							<button class="menu-item" type="button"><i class="fas fa-shopping-cart"></i></button>
 						</a>
 					</div>
 					<div class="col-md-10 col-xs-10 menuText">
-						<a href="<?=Request::siteUrl()?>/buy/?tab=<?=$tab?>" class="marketMenu">Market</a>
+						<a href="<?=Request::siteUrl()?>/buy" class="marketMenu">Market</a>
 						<a href="<?=Request::siteUrl()?>/orders/" class="marketMenu">Orders</a>
 					</div>
 				</div>

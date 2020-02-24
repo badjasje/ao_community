@@ -19,7 +19,8 @@ foreach($buildings as $building) {
 	$unitTypeBuildingNames[$building['houses']] = $building['normalname'];
 }
 
-$activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
+// Auto tab of unittype you have most of
+$activeTab = isset($_GET['tab']) ? Request::get('tab') : $province->getMostUsedUnitType();
 ?>
 <div class="row pageRow">
 

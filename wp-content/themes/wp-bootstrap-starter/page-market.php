@@ -24,7 +24,8 @@ foreach($buildings as $building) {
 $disabled = Market::isOpen() ? '' : ' disabled';
 $disabledDiv = Market::isOpen() ? '' : ' disabledDiv';
 
-$activeTab = isset($_GET['tab']) ? Request::get('tab') : 'air';
+
+$activeTab = isset($_GET['tab']) ? Request::get('tab') : $province->getMostUsedUnitType();
 ?>
 <div class="row pageRow">
 
