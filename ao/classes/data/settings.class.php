@@ -86,8 +86,8 @@ class Settings extends DataObject {
         'points_kill_outgoing' => 25,
         'points_kill_incoming' => 25,
         'points_kill_mutual' => 50,
-        'maintarget_target_multi' => 0.8,
-        'maintarget_notarget_multi' => 1.2,
+        'maintarget_target_multi' => 0.75,
+        'maintarget_notarget_multi' => 1.25,
 
         // Morale costs
         'saboteur_morale_cost' => 30,
