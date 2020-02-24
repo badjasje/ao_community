@@ -21,7 +21,7 @@ class Units extends DataObject {
             'life'			=>	200
         ),
         'f22_raptors' 		=> array(
-            'price'			=>	'795',
+            'price'			=>	'730',
             'networth'		=>	11,
             'normalname'	=>	'Black Eagle',
             'attacks'		=>  array('veh','bld'),
@@ -30,7 +30,7 @@ class Units extends DataObject {
             'type'			=>	'air',
             'sectype'		=>	'normal',
             'attacktype'	=>	array('air_sea','regular'),
-            'life'			=>	47
+            'life'			=>	53
         ),
         'jsf' 		=> array(
             'price'			=>	'795',
