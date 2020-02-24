@@ -713,6 +713,19 @@ class Province extends DbObject {
         }
         return $num;
     }
+
+    public function getMostUsedUnitType() {
+        $nums = array(); $max = 0; $bestType = 'air';
+        foreach(Units::get() as $k => $unit) {
+            if(!isset($nums[$unit['type']])) $nums[$unit['type']] = 0;
+            $nums[$unit['type']] += (!!$this->get($k.'_owned') ? intval($this->get($k.'_owned')) : 0);
+        }
+        foreach($nums as $type => $num) {
+            if($num > $max) { $bestType = $type; $max = $num; }
+        }
+        return $bestType;
+    }
+
     public function getUnitsNum($key=null) {
         $num = 0;
         foreach(Units::get() as $k => $unit) {
