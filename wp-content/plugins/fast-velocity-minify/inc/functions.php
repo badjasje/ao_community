@@ -110,6 +110,11 @@ function fastvelocity_plugin_uninstall() {
 }
 
 
+# try catch wrapper for merged javascript
+function fastvelocity_try_catch_wrap($js) {
+	return 'try{'.PHP_EOL . $js . PHP_EOL . '}' . PHP_EOL . 'catch(e){console.error("An error has occurred: "+e.message);}'.PHP_EOL;
+}
+
 
 # detect external or internal scripts
 function fvm_is_local_domain($src) {
@@ -351,9 +356,14 @@ global $wp_domain, $fvm_debug;
 $css = fastvelocity_min_remove_utf8_bom($css); 
 
 # fix url paths
-if(!empty($url)) { 
+if(!empty($url)) {
+	$matches = array(); preg_match_all("/url\(\s*['\"]?(?!data:)(?!http)(?![\/'\"])(.+?)['\"]?\s*\)/ui", $css, $matches);
+    foreach($matches[1] as $a) { $b = trim($a); if($b != $a) { $css = str_replace($a, $b, $css); } }
 	$css = preg_replace("/url\(\s*['\"]?(?!data:)(?!http)(?![\/'\"])(.+?)['\"]?\s*\)/ui", "url(".dirname($url)."/$1)", $css); 
-} 
+}
+
+# no utf8 garbage
+$css = str_ireplace('@charset "UTF-8";', '', $css);
 
 # remove query strings from fonts (for better seo, but add a small cache buster based on most recent updates)
 $ctime = get_option('fvm-last-cache-update', '0'); # last update or zero
@@ -748,7 +758,7 @@ function fvm_safename($str, $noname=NULL) {
 	}
 	
 	# fallback
-	return 'noname-'.hash('adler32', $str); 
+	return 'noname-'.hash('sha1', $str); 
 }
 
 
@@ -862,8 +872,8 @@ if(is_array($ignore)) {
 
 	# make sure it's unique and not empty
 	$uniq = array();
-	foreach ($ignore as $i) { $k = hash('adler32', $i); if(!empty($i)) { $uniq[$k] = $i; } }
-	foreach ($exc as $e) { $k = hash('adler32', $e); if(!empty($e)) { $uniq[$k] = $e; } }
+	foreach ($ignore as $i) { $k = hash('sha1', $i); if(!empty($i)) { $uniq[$k] = $i; } }
+	foreach ($exc as $e) { $k = hash('sha1', $e); if(!empty($e)) { $uniq[$k] = $e; } }
 
 	# merge and return
 	return $uniq;

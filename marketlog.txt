@@ -22953,3 +22953,2565 @@ Type: sparrow
 time: 12:11:32 | 24-01-2020
 
 
+id: 1799
+Units ordered: 141
+Type: m270_rocket
+time: 13:29:54 | 24-01-2020
+
+
+id: 2440
+Units ordered: 373
+Type: humvee
+time: 13:52:48 | 24-01-2020
+
+
+id: 1052
+Units ordered: 13
+Type: cruiser
+time: 15:07:56 | 24-01-2020
+
+
+id: 1052
+Units ordered: 10
+Type: cruiser
+time: 15:08:11 | 24-01-2020
+
+
+id: 60
+Units ordered: 105
+Type: sparrow
+time: 15:18:43 | 24-01-2020
+
+
+id: 60
+Units ordered: 33
+Type: sparrow
+time: 15:26:47 | 24-01-2020
+
+
+id: 1799
+Units ordered: 38
+Type: m270_rocket
+time: 15:44:35 | 24-01-2020
+
+
+id: 60
+Units ordered: 237
+Type: f22_raptors
+time: 15:50:13 | 24-01-2020
+
+
+id: 522
+Units ordered: 1050
+Type: m70mlrs
+time: 16:44:04 | 24-01-2020
+
+
+id: 2200
+Units ordered: 16
+Type: rah66_commanches
+time: 17:13:34 | 24-01-2020
+
+
+id: 2046
+Units ordered: 155
+Type: cruiser
+time: 17:16:04 | 24-01-2020
+
+
+id: 1052
+Units ordered: 32
+Type: cruiser
+time: 17:40:00 | 24-01-2020
+
+
+id: 1383
+Units ordered: 115
+Type: paratrooper
+time: 18:11:06 | 24-01-2020
+
+
+id: 2951
+Units ordered: 100
+Type: f22_raptors
+time: 18:14:31 | 24-01-2020
+
+
+id: 1799
+Units ordered: 55
+Type: m270_rocket
+time: 18:38:07 | 24-01-2020
+
+
+id: 1799
+Units ordered: 11
+Type: m270_rocket
+time: 18:38:16 | 24-01-2020
+
+
+id: 1799
+Units ordered: 27
+Type: m270_rocket
+time: 19:42:51 | 24-01-2020
+
+
+id: 2951
+Units ordered: 500
+Type: f22_raptors
+time: 20:50:05 | 24-01-2020
+
+
+id: 2951
+Units ordered: 300
+Type: f22_raptors
+time: 20:50:21 | 24-01-2020
+
+
+id: 2951
+Units ordered: 75
+Type: f22_raptors
+time: 20:50:39 | 24-01-2020
+
+
+id: 2951
+Units ordered: 25
+Type: f22_raptors
+time: 20:50:54 | 24-01-2020
+
+
+id: 3356
+Units ordered: 50
+Type: b2_bomber
+time: 22:09:44 | 24-01-2020
+
+
+id: 1383
+Units ordered: 880
+Type: paratrooper
+time: 22:24:56 | 24-01-2020
+
+
+id: 1383
+Units ordered: 880
+Type: paratrooper
+time: 22:25:10 | 24-01-2020
+
+
+id: 3241
+Units ordered: 201
+Type: battleship
+time: 23:41:23 | 24-01-2020
+
+
+id: 3241
+Units ordered: 25
+Type: battleship
+time: 23:43:05 | 24-01-2020
+
+
+id: 3241
+Units ordered: 13
+Type: battleship
+time: 23:44:21 | 24-01-2020
+
+
+id: 260
+Units ordered: 560
+Type: abraham
+time: 23:49:35 | 24-01-2020
+
+
+id: 260
+Units ordered: 100
+Type: abraham
+time: 23:50:47 | 24-01-2020
+
+
+id: 1052
+Units ordered: 700
+Type: cruiser
+time: 23:55:11 | 24-01-2020
+
+
+id: 1251
+Units ordered: 690
+Type: typhoon
+time: 0:00:57 | 25-01-2020
+
+
+id: 1251
+Units ordered: 430
+Type: typhoon
+time: 0:01:46 | 25-01-2020
+
+
+id: 1251
+Units ordered: 430
+Type: typhoon
+time: 0:01:51 | 25-01-2020
+
+
+id: 1251
+Units ordered: 230
+Type: typhoon
+time: 0:02:26 | 25-01-2020
+
+
+id: 1251
+Units ordered: 100
+Type: typhoon
+time: 0:02:51 | 25-01-2020
+
+
+id: 475
+Units ordered: 620
+Type: cruiser
+time: 0:03:42 | 25-01-2020
+
+
+id: 475
+Units ordered: 100
+Type: cruiser
+time: 0:05:01 | 25-01-2020
+
+
+id: 487
+Units ordered: 1000
+Type: sam
+time: 0:05:08 | 25-01-2020
+
+
+id: 475
+Units ordered: 100
+Type: cruiser
+time: 0:05:11 | 25-01-2020
+
+
+id: 25
+Units ordered: 734
+Type: rifle
+time: 0:05:28 | 25-01-2020
+
+
+id: 25
+Units ordered: 424
+Type: rifle
+time: 0:05:34 | 25-01-2020
+
+
+id: 301
+Units ordered: 400
+Type: seahawk
+time: 0:05:36 | 25-01-2020
+
+
+id: 475
+Units ordered: 50
+Type: cruiser
+time: 0:05:42 | 25-01-2020
+
+
+id: 301
+Units ordered: 350
+Type: seahawk
+time: 0:05:45 | 25-01-2020
+
+
+id: 301
+Units ordered: 359
+Type: seahawk
+time: 0:05:50 | 25-01-2020
+
+
+id: 25
+Units ordered: 500
+Type: rifle
+time: 0:06:03 | 25-01-2020
+
+
+id: 464
+Units ordered: 1130
+Type: f22_raptors
+time: 0:10:33 | 25-01-2020
+
+
+id: 2337
+Units ordered: 500
+Type: m270_rocket
+time: 0:10:36 | 25-01-2020
+
+
+id: 2337
+Units ordered: 400
+Type: m270_rocket
+time: 0:11:09 | 25-01-2020
+
+
+id: 2337
+Units ordered: 520
+Type: m270_rocket
+time: 0:11:40 | 25-01-2020
+
+
+id: 3062
+Units ordered: 500
+Type: humvee
+time: 0:13:57 | 25-01-2020
+
+
+id: 3062
+Units ordered: 506
+Type: humvee
+time: 0:14:28 | 25-01-2020
+
+
+id: 3062
+Units ordered: 334
+Type: humvee
+time: 0:14:36 | 25-01-2020
+
+
+id: 3062
+Units ordered: 118
+Type: humvee
+time: 0:15:21 | 25-01-2020
+
+
+id: 2337
+Units ordered: 200
+Type: m270_rocket
+time: 0:15:38 | 25-01-2020
+
+
+id: 1744
+Units ordered: 2
+Type: spyplane
+time: 0:22:01 | 25-01-2020
+
+
+id: 1744
+Units ordered: 2
+Type: spy
+time: 0:22:07 | 25-01-2020
+
+
+id: 3241
+Units ordered: 2
+Type: battleship
+time: 0:25:57 | 25-01-2020
+
+
+id: 402
+Units ordered: 500
+Type: rocket
+time: 0:39:49 | 25-01-2020
+
+
+id: 2245
+Units ordered: 75
+Type: cruiser
+time: 0:51:13 | 25-01-2020
+
+
+id: 1383
+Units ordered: 798
+Type: paratrooper
+time: 0:51:19 | 25-01-2020
+
+
+id: 2245
+Units ordered: 15
+Type: typhoon
+time: 0:51:38 | 25-01-2020
+
+
+id: 2245
+Units ordered: 1
+Type: spyplane
+time: 0:51:54 | 25-01-2020
+
+
+id: 522
+Units ordered: 1050
+Type: m270_rocket
+time: 1:04:01 | 25-01-2020
+
+
+id: 1799
+Units ordered: 262
+Type: artillery
+time: 1:31:19 | 25-01-2020
+
+
+id: 1799
+Units ordered: 17
+Type: artillery
+time: 1:31:59 | 25-01-2020
+
+
+id: 2951
+Units ordered: 505
+Type: f22_raptors
+time: 1:53:38 | 25-01-2020
+
+
+id: 3297
+Units ordered: 223
+Type: humvee
+time: 1:59:51 | 25-01-2020
+
+
+id: 385
+Units ordered: 65
+Type: sam
+time: 3:56:25 | 25-01-2020
+
+
+id: 1799
+Units ordered: 29
+Type: artillery
+time: 4:16:08 | 25-01-2020
+
+
+id: 464
+Units ordered: 400
+Type: typhoon
+time: 4:36:33 | 25-01-2020
+
+
+id: 464
+Units ordered: 120
+Type: typhoon
+time: 4:47:47 | 25-01-2020
+
+
+id: 3241
+Units ordered: 160
+Type: paratrooper
+time: 7:26:30 | 25-01-2020
+
+
+id: 385
+Units ordered: 101
+Type: sam
+time: 7:27:01 | 25-01-2020
+
+
+id: 2200
+Units ordered: 280
+Type: rah66_commanches
+time: 8:25:36 | 25-01-2020
+
+
+id: 2200
+Units ordered: 100
+Type: rah66_commanches
+time: 8:29:46 | 25-01-2020
+
+
+id: 25
+Units ordered: 150
+Type: rifle
+time: 9:07:10 | 25-01-2020
+
+
+id: 2337
+Units ordered: 50
+Type: m270_rocket
+time: 9:07:47 | 25-01-2020
+
+
+id: 2200
+Units ordered: 9
+Type: b2_bomber
+time: 9:10:51 | 25-01-2020
+
+
+id: 301
+Units ordered: 239
+Type: seahawk
+time: 9:13:43 | 25-01-2020
+
+
+id: 1052
+Units ordered: 120
+Type: cruiser
+time: 9:18:05 | 25-01-2020
+
+
+id: 2245
+Units ordered: 125
+Type: cruiser
+time: 9:19:52 | 25-01-2020
+
+
+id: 2245
+Units ordered: 119
+Type: sparrow
+time: 9:20:13 | 25-01-2020
+
+
+id: 385
+Units ordered: 51
+Type: sam
+time: 9:29:16 | 25-01-2020
+
+
+id: 2951
+Units ordered: 280
+Type: f22_raptors
+time: 9:59:45 | 25-01-2020
+
+
+id: 2951
+Units ordered: 160
+Type: f22_raptors
+time: 10:00:04 | 25-01-2020
+
+
+id: 1799
+Units ordered: 99
+Type: m70mlrs
+time: 10:03:13 | 25-01-2020
+
+
+id: 3062
+Units ordered: 266
+Type: humvee
+time: 10:14:31 | 25-01-2020
+
+
+id: 2951
+Units ordered: 900
+Type: f22_raptors
+time: 10:34:56 | 25-01-2020
+
+
+id: 2951
+Units ordered: 108
+Type: f22_raptors
+time: 10:35:03 | 25-01-2020
+
+
+id: 3356
+Units ordered: 130
+Type: b2_bomber
+time: 10:44:43 | 25-01-2020
+
+
+id: 25
+Units ordered: 739
+Type: rifle
+time: 10:56:35 | 25-01-2020
+
+
+id: 464
+Units ordered: 993
+Type: f22_raptors
+time: 11:01:39 | 25-01-2020
+
+
+id: 487
+Units ordered: 879
+Type: sam
+time: 11:06:05 | 25-01-2020
+
+
+id: 1052
+Units ordered: 857
+Type: m70mlrs
+time: 11:29:30 | 25-01-2020
+
+
+id: 1052
+Units ordered: 167
+Type: m70mlrs
+time: 11:29:49 | 25-01-2020
+
+
+id: 2951
+Units ordered: 615
+Type: armoured
+time: 11:39:40 | 25-01-2020
+
+
+id: 2951
+Units ordered: 344
+Type: armoured
+time: 11:43:02 | 25-01-2020
+
+
+id: 3241
+Units ordered: 863
+Type: grenade
+time: 11:58:46 | 25-01-2020
+
+
+id: 522
+Units ordered: 640
+Type: grenade
+time: 12:24:28 | 25-01-2020
+
+
+id: 522
+Units ordered: 460
+Type: grenade
+time: 12:27:33 | 25-01-2020
+
+
+id: 402
+Units ordered: 1729
+Type: rocket
+time: 12:29:01 | 25-01-2020
+
+
+id: 1799
+Units ordered: 43
+Type: m70mlrs
+time: 12:53:16 | 25-01-2020
+
+
+id: 2200
+Units ordered: 12
+Type: b2_bomber
+time: 12:56:10 | 25-01-2020
+
+
+id: 2046
+Units ordered: 845
+Type: rifle
+time: 13:01:57 | 25-01-2020
+
+
+id: 3192
+Units ordered: 100
+Type: battleship
+time: 13:13:32 | 25-01-2020
+
+
+id: 2337
+Units ordered: 300
+Type: m270_rocket
+time: 13:31:03 | 25-01-2020
+
+
+id: 3297
+Units ordered: 133
+Type: humvee
+time: 13:48:22 | 25-01-2020
+
+
+id: 1383
+Units ordered: 400
+Type: paratrooper
+time: 14:33:43 | 25-01-2020
+
+
+id: 3343
+Units ordered: 71
+Type: f22_raptors
+time: 15:17:02 | 25-01-2020
+
+
+id: 1383
+Units ordered: 92
+Type: paratrooper
+time: 15:24:03 | 25-01-2020
+
+
+id: 1383
+Units ordered: 85
+Type: paratrooper
+time: 15:24:21 | 25-01-2020
+
+
+id: 1383
+Units ordered: 45
+Type: paratrooper
+time: 15:25:10 | 25-01-2020
+
+
+id: 3297
+Units ordered: 124
+Type: humvee
+time: 15:27:05 | 25-01-2020
+
+
+id: 2245
+Units ordered: 100
+Type: cruiser
+time: 15:29:15 | 25-01-2020
+
+
+id: 1799
+Units ordered: 171
+Type: abraham
+time: 15:33:13 | 25-01-2020
+
+
+id: 3302
+Units ordered: 133
+Type: grenade
+time: 15:37:12 | 25-01-2020
+
+
+id: 2245
+Units ordered: 90
+Type: battleship
+time: 16:10:54 | 25-01-2020
+
+
+id: 3297
+Units ordered: 126
+Type: humvee
+time: 16:47:22 | 25-01-2020
+
+
+id: 475
+Units ordered: 399
+Type: cruiser
+time: 16:59:41 | 25-01-2020
+
+
+id: 464
+Units ordered: 766
+Type: f22_raptors
+time: 17:03:16 | 25-01-2020
+
+
+id: 1383
+Units ordered: 143
+Type: paratrooper
+time: 18:15:45 | 25-01-2020
+
+
+id: 1383
+Units ordered: 73
+Type: paratrooper
+time: 18:16:03 | 25-01-2020
+
+
+id: 1383
+Units ordered: 5
+Type: paratrooper
+time: 18:16:19 | 25-01-2020
+
+
+id: 2245
+Units ordered: 28
+Type: cruiser
+time: 19:17:16 | 25-01-2020
+
+
+id: 1744
+Units ordered: 2
+Type: spy
+time: 19:25:32 | 25-01-2020
+
+
+id: 3343
+Units ordered: 80
+Type: f22_raptors
+time: 19:30:39 | 25-01-2020
+
+
+id: 3348
+Units ordered: 126
+Type: f22_raptors
+time: 19:30:56 | 25-01-2020
+
+
+id: 3192
+Units ordered: 150
+Type: submarine
+time: 19:33:01 | 25-01-2020
+
+
+id: 2046
+Units ordered: 972
+Type: armoured
+time: 19:37:23 | 25-01-2020
+
+
+id: 2951
+Units ordered: 230
+Type: f22_raptors
+time: 20:02:35 | 25-01-2020
+
+
+id: 2951
+Units ordered: 93
+Type: armoured
+time: 20:02:53 | 25-01-2020
+
+
+id: 2046
+Units ordered: 254
+Type: armoured
+time: 20:31:35 | 25-01-2020
+
+
+id: 1086
+Units ordered: 400
+Type: sam
+time: 21:27:56 | 25-01-2020
+
+
+id: 3317
+Units ordered: 730
+Type: m270_rocket
+time: 21:34:39 | 25-01-2020
+
+
+id: 3317
+Units ordered: 300
+Type: m270_rocket
+time: 21:35:24 | 25-01-2020
+
+
+id: 1383
+Units ordered: 171
+Type: paratrooper
+time: 22:03:25 | 25-01-2020
+
+
+id: 1383
+Units ordered: 300
+Type: paratrooper
+time: 22:03:37 | 25-01-2020
+
+
+id: 260
+Units ordered: 140
+Type: abraham
+time: 23:45:41 | 25-01-2020
+
+
+id: 2245
+Units ordered: 100
+Type: cruiser
+time: 23:57:57 | 25-01-2020
+
+
+id: 2245
+Units ordered: 40
+Type: typhoon
+time: 0:07:50 | 26-01-2020
+
+
+id: 2245
+Units ordered: 40
+Type: b2_bomber
+time: 0:07:50 | 26-01-2020
+
+
+id: 2245
+Units ordered: 35
+Type: battleship
+time: 0:08:22 | 26-01-2020
+
+
+id: 487
+Units ordered: 1058
+Type: m70mlrs
+time: 0:47:30 | 26-01-2020
+
+
+id: 1052
+Units ordered: 689
+Type: m70mlrs
+time: 0:57:11 | 26-01-2020
+
+
+id: 1052
+Units ordered: 251
+Type: m70mlrs
+time: 0:57:35 | 26-01-2020
+
+
+id: 1052
+Units ordered: 150
+Type: m70mlrs
+time: 0:58:01 | 26-01-2020
+
+
+id: 1799
+Units ordered: 252
+Type: abraham
+time: 1:15:27 | 26-01-2020
+
+
+id: 1799
+Units ordered: 24
+Type: abraham
+time: 2:29:00 | 26-01-2020
+
+
+id: 60
+Units ordered: 134
+Type: f22_raptors
+time: 2:29:44 | 26-01-2020
+
+
+id: 2046
+Units ordered: 146
+Type: armoured
+time: 3:21:11 | 26-01-2020
+
+
+id: 475
+Units ordered: 80
+Type: cruiser
+time: 5:28:36 | 26-01-2020
+
+
+id: 1799
+Units ordered: 79
+Type: abraham
+time: 5:31:25 | 26-01-2020
+
+
+id: 2052
+Units ordered: 256
+Type: typhoon
+time: 6:27:25 | 26-01-2020
+
+
+id: 60
+Units ordered: 52
+Type: f22_raptors
+time: 6:37:08 | 26-01-2020
+
+
+id: 385
+Units ordered: 53
+Type: artillery
+time: 6:37:16 | 26-01-2020
+
+
+id: 3356
+Units ordered: 79
+Type: b2_bomber
+time: 7:40:30 | 26-01-2020
+
+
+id: 1383
+Units ordered: 327
+Type: paratrooper
+time: 8:47:54 | 26-01-2020
+
+
+id: 1383
+Units ordered: 109
+Type: paratrooper
+time: 8:48:24 | 26-01-2020
+
+
+id: 2052
+Units ordered: 77
+Type: typhoon
+time: 8:54:54 | 26-01-2020
+
+
+id: 2078
+Units ordered: 949
+Type: sparrow
+time: 9:02:57 | 26-01-2020
+
+
+id: 2052
+Units ordered: 38
+Type: typhoon
+time: 9:15:57 | 26-01-2020
+
+
+id: 2046
+Units ordered: 134
+Type: armoured
+time: 9:16:54 | 26-01-2020
+
+
+id: 475
+Units ordered: 28
+Type: cruiser
+time: 9:40:22 | 26-01-2020
+
+
+id: 2245
+Units ordered: 200
+Type: sparrow
+time: 10:35:58 | 26-01-2020
+
+
+id: 1383
+Units ordered: 285
+Type: paratrooper
+time: 10:49:25 | 26-01-2020
+
+
+id: 1799
+Units ordered: 129
+Type: abraham
+time: 11:03:24 | 26-01-2020
+
+
+id: 2729
+Units ordered: 13
+Type: cruiser
+time: 11:36:35 | 26-01-2020
+
+
+id: 3356
+Units ordered: 66
+Type: b2_bomber
+time: 11:37:44 | 26-01-2020
+
+
+id: 467
+Units ordered: 171
+Type: artillery
+time: 11:44:29 | 26-01-2020
+
+
+id: 1799
+Units ordered: 11
+Type: m70mlrs
+time: 11:52:57 | 26-01-2020
+
+
+id: 1799
+Units ordered: 326
+Type: m70mlrs
+time: 11:53:19 | 26-01-2020
+
+
+id: 475
+Units ordered: 3
+Type: cruiser
+time: 11:59:39 | 26-01-2020
+
+
+id: 2337
+Units ordered: 90
+Type: m270_rocket
+time: 12:05:31 | 26-01-2020
+
+
+id: 3241
+Units ordered: 126
+Type: paratrooper
+time: 12:05:47 | 26-01-2020
+
+
+id: 1052
+Units ordered: 400
+Type: cruiser
+time: 12:37:42 | 26-01-2020
+
+
+id: 1418
+Units ordered: 94
+Type: flamethrower
+time: 13:01:14 | 26-01-2020
+
+
+id: 1052
+Units ordered: 20
+Type: cruiser
+time: 13:32:02 | 26-01-2020
+
+
+id: 467
+Units ordered: 41
+Type: artillery
+time: 14:00:39 | 26-01-2020
+
+
+id: 1799
+Units ordered: 64
+Type: m70mlrs
+time: 14:11:44 | 26-01-2020
+
+
+id: 2245
+Units ordered: 30
+Type: battleship
+time: 14:30:42 | 26-01-2020
+
+
+id: 1418
+Units ordered: 106
+Type: grenade
+time: 15:15:14 | 26-01-2020
+
+
+id: 1383
+Units ordered: 89
+Type: paratrooper
+time: 15:44:16 | 26-01-2020
+
+
+id: 1383
+Units ordered: 483
+Type: paratrooper
+time: 15:44:32 | 26-01-2020
+
+
+id: 1383
+Units ordered: 783
+Type: paratrooper
+time: 15:44:57 | 26-01-2020
+
+
+id: 1383
+Units ordered: 783
+Type: paratrooper
+time: 15:45:05 | 26-01-2020
+
+
+id: 1383
+Units ordered: 759
+Type: paratrooper
+time: 15:53:09 | 26-01-2020
+
+
+id: 2052
+Units ordered: 79
+Type: typhoon
+time: 16:09:10 | 26-01-2020
+
+
+id: 60
+Units ordered: 55
+Type: f22_raptors
+time: 16:22:52 | 26-01-2020
+
+
+id: 60
+Units ordered: 66
+Type: f22_raptors
+time: 16:23:27 | 26-01-2020
+
+
+id: 60
+Units ordered: 13
+Type: f22_raptors
+time: 16:43:31 | 26-01-2020
+
+
+id: 3192
+Units ordered: 135
+Type: battleship
+time: 17:23:38 | 26-01-2020
+
+
+id: 2243
+Units ordered: 250
+Type: b2_bomber
+time: 17:47:35 | 26-01-2020
+
+
+id: 2243
+Units ordered: 125
+Type: cruiser
+time: 17:48:06 | 26-01-2020
+
+
+id: 60
+Units ordered: 59
+Type: f22_raptors
+time: 17:59:44 | 26-01-2020
+
+
+id: 1799
+Units ordered: 71
+Type: m70mlrs
+time: 18:02:08 | 26-01-2020
+
+
+id: 1418
+Units ordered: 159
+Type: rocket
+time: 18:48:00 | 26-01-2020
+
+
+id: 60
+Units ordered: 39
+Type: f22_raptors
+time: 18:50:42 | 26-01-2020
+
+
+id: 1799
+Units ordered: 112
+Type: artillery
+time: 18:54:25 | 26-01-2020
+
+
+id: 2245
+Units ordered: 90
+Type: cruiser
+time: 18:58:29 | 26-01-2020
+
+
+id: 1418
+Units ordered: 44
+Type: flamethrower
+time: 19:00:55 | 26-01-2020
+
+
+id: 475
+Units ordered: 107
+Type: cruiser
+time: 19:02:34 | 26-01-2020
+
+
+id: 2339
+Units ordered: 10
+Type: sniper
+time: 19:07:50 | 26-01-2020
+
+
+id: 475
+Units ordered: 112
+Type: cruiser
+time: 19:10:25 | 26-01-2020
+
+
+id: 60
+Units ordered: 31
+Type: f22_raptors
+time: 19:10:44 | 26-01-2020
+
+
+id: 1251
+Units ordered: 250
+Type: typhoon
+time: 19:15:06 | 26-01-2020
+
+
+id: 1251
+Units ordered: 150
+Type: typhoon
+time: 19:15:12 | 26-01-2020
+
+
+id: 1251
+Units ordered: 50
+Type: typhoon
+time: 19:15:17 | 26-01-2020
+
+
+id: 1251
+Units ordered: 75
+Type: typhoon
+time: 19:15:24 | 26-01-2020
+
+
+id: 2337
+Units ordered: 500
+Type: m270_rocket
+time: 19:18:12 | 26-01-2020
+
+
+id: 2337
+Units ordered: 649
+Type: m270_rocket
+time: 19:19:02 | 26-01-2020
+
+
+id: 2337
+Units ordered: 100
+Type: m270_rocket
+time: 19:19:22 | 26-01-2020
+
+
+id: 2951
+Units ordered: 568
+Type: f22_raptors
+time: 19:20:55 | 26-01-2020
+
+
+id: 3062
+Units ordered: 80
+Type: humvee
+time: 19:21:07 | 26-01-2020
+
+
+id: 487
+Units ordered: 499
+Type: f22_raptors
+time: 19:51:24 | 26-01-2020
+
+
+id: 60
+Units ordered: 25
+Type: f22_raptors
+time: 20:05:39 | 26-01-2020
+
+
+id: 3241
+Units ordered: 315
+Type: paratrooper
+time: 20:14:14 | 26-01-2020
+
+
+id: 1418
+Units ordered: 106
+Type: grenade
+time: 21:00:58 | 26-01-2020
+
+
+id: 2078
+Units ordered: 240
+Type: sparrow
+time: 21:07:24 | 26-01-2020
+
+
+id: 2245
+Units ordered: 200
+Type: f22_raptors
+time: 21:11:14 | 26-01-2020
+
+
+id: 1052
+Units ordered: 950
+Type: m70mlrs
+time: 21:48:56 | 26-01-2020
+
+
+id: 1052
+Units ordered: 135
+Type: m70mlrs
+time: 21:51:39 | 26-01-2020
+
+
+id: 3291
+Units ordered: 74
+Type: artillery
+time: 22:00:50 | 26-01-2020
+
+
+id: 2729
+Units ordered: 2
+Type: thief
+time: 22:09:29 | 26-01-2020
+
+
+id: 464
+Units ordered: 1200
+Type: m70mlrs
+time: 22:17:50 | 26-01-2020
+
+
+id: 60
+Units ordered: 17
+Type: f22_raptors
+time: 22:24:44 | 26-01-2020
+
+
+id: 1759
+Units ordered: 32
+Type: b2_bomber
+time: 22:27:43 | 26-01-2020
+
+
+id: 3279
+Units ordered: 591
+Type: m270_rocket
+time: 22:29:20 | 26-01-2020
+
+
+id: 1799
+Units ordered: 88
+Type: artillery
+time: 22:31:59 | 26-01-2020
+
+
+id: 1799
+Units ordered: 43
+Type: artillery
+time: 22:32:43 | 26-01-2020
+
+
+id: 3279
+Units ordered: 79
+Type: m270_rocket
+time: 22:36:22 | 26-01-2020
+
+
+id: 1383
+Units ordered: 709
+Type: paratrooper
+time: 22:36:36 | 26-01-2020
+
+
+id: 1383
+Units ordered: 141
+Type: paratrooper
+time: 22:37:20 | 26-01-2020
+
+
+id: 301
+Units ordered: 34
+Type: seahawk
+time: 22:53:10 | 26-01-2020
+
+
+id: 3323
+Units ordered: 247
+Type: battleship
+time: 23:06:13 | 26-01-2020
+
+
+id: 1799
+Units ordered: 1
+Type: spyplane
+time: 23:12:31 | 26-01-2020
+
+
+id: 1799
+Units ordered: 10
+Type: m70mlrs
+time: 23:28:10 | 26-01-2020
+
+
+id: 2951
+Units ordered: 1300
+Type: armoured
+time: 23:38:58 | 26-01-2020
+
+
+id: 2078
+Units ordered: 91
+Type: sparrow
+time: 23:52:11 | 26-01-2020
+
+
+id: 60
+Units ordered: 45
+Type: f22_raptors
+time: 23:52:36 | 26-01-2020
+
+
+id: 2078
+Units ordered: 40
+Type: sparrow
+time: 23:52:40 | 26-01-2020
+
+
+id: 2078
+Units ordered: 30
+Type: sparrow
+time: 23:53:10 | 26-01-2020
+
+
+id: 1799
+Units ordered: 11
+Type: m70mlrs
+time: 23:55:36 | 26-01-2020
+
+
+id: 2440
+Units ordered: 79
+Type: rifle
+time: 0:08:02 | 27-01-2020
+
+
+id: 2440
+Units ordered: 431
+Type: rifle
+time: 0:09:06 | 27-01-2020
+
+
+id: 1799
+Units ordered: 21
+Type: m70mlrs
+time: 0:09:25 | 27-01-2020
+
+
+id: 60
+Units ordered: 16
+Type: f22_raptors
+time: 0:16:20 | 27-01-2020
+
+
+id: 3241
+Units ordered: 53
+Type: paratrooper
+time: 0:27:31 | 27-01-2020
+
+
+id: 2243
+Units ordered: 125
+Type: f22_raptors
+time: 0:36:31 | 27-01-2020
+
+
+id: 2243
+Units ordered: 125
+Type: jsf
+time: 0:36:31 | 27-01-2020
+
+
+id: 1799
+Units ordered: 1
+Type: m70mlrs
+time: 0:39:53 | 27-01-2020
+
+
+id: 2052
+Units ordered: 1091
+Type: typhoon
+time: 1:08:12 | 27-01-2020
+
+
+id: 2052
+Units ordered: 117
+Type: typhoon
+time: 1:42:47 | 27-01-2020
+
+
+id: 1799
+Units ordered: 20
+Type: m70mlrs
+time: 1:57:48 | 27-01-2020
+
+
+id: 487
+Units ordered: 810
+Type: m70mlrs
+time: 2:03:14 | 27-01-2020
+
+
+id: 60
+Units ordered: 33
+Type: f22_raptors
+time: 2:11:23 | 27-01-2020
+
+
+id: 60
+Units ordered: 729
+Type: flamethrower
+time: 3:25:43 | 27-01-2020
+
+
+id: 60
+Units ordered: 82
+Type: flamethrower
+time: 3:40:42 | 27-01-2020
+
+
+id: 60
+Units ordered: 14
+Type: flamethrower
+time: 4:11:34 | 27-01-2020
+
+
+id: 2052
+Units ordered: 115
+Type: typhoon
+time: 4:13:50 | 27-01-2020
+
+
+id: 464
+Units ordered: 1120
+Type: m70mlrs
+time: 4:19:26 | 27-01-2020
+
+
+id: 2052
+Units ordered: 280
+Type: typhoon
+time: 5:53:16 | 27-01-2020
+
+
+id: 2052
+Units ordered: 75
+Type: typhoon
+time: 5:55:16 | 27-01-2020
+
+
+id: 2052
+Units ordered: 76
+Type: typhoon
+time: 5:55:30 | 27-01-2020
+
+
+id: 2052
+Units ordered: 220
+Type: typhoon
+time: 6:01:24 | 27-01-2020
+
+
+id: 1383
+Units ordered: 1051
+Type: paratrooper
+time: 6:01:59 | 27-01-2020
+
+
+id: 3241
+Units ordered: 69
+Type: paratrooper
+time: 6:16:25 | 27-01-2020
+
+
+id: 2200
+Units ordered: 37
+Type: b2_bomber
+time: 6:23:03 | 27-01-2020
+
+
+id: 3356
+Units ordered: 72
+Type: b2_bomber
+time: 6:31:09 | 27-01-2020
+
+
+id: 2052
+Units ordered: 166
+Type: typhoon
+time: 7:55:27 | 27-01-2020
+
+
+id: 487
+Units ordered: 715
+Type: m270_rocket
+time: 8:12:09 | 27-01-2020
+
+
+id: 1251
+Units ordered: 191
+Type: typhoon
+time: 8:33:16 | 27-01-2020
+
+
+id: 1052
+Units ordered: 165
+Type: m70mlrs
+time: 8:40:11 | 27-01-2020
+
+
+id: 1052
+Units ordered: 793
+Type: m70mlrs
+time: 8:40:47 | 27-01-2020
+
+
+id: 1052
+Units ordered: 236
+Type: m70mlrs
+time: 9:17:53 | 27-01-2020
+
+
+id: 3279
+Units ordered: 222
+Type: m270_rocket
+time: 9:49:59 | 27-01-2020
+
+
+id: 2951
+Units ordered: 1000
+Type: armoured
+time: 9:52:02 | 27-01-2020
+
+
+id: 2951
+Units ordered: 434
+Type: armoured
+time: 9:52:42 | 27-01-2020
+
+
+id: 2768
+Units ordered: 2
+Type: spyplane
+time: 9:57:51 | 27-01-2020
+
+
+id: 2768
+Units ordered: 20
+Type: sniper
+time: 9:57:51 | 27-01-2020
+
+
+id: 2768
+Units ordered: 3
+Type: spy
+time: 9:57:51 | 27-01-2020
+
+
+id: 2337
+Units ordered: 100
+Type: m270_rocket
+time: 10:20:58 | 27-01-2020
+
+
+id: 2337
+Units ordered: 70
+Type: m270_rocket
+time: 10:21:24 | 27-01-2020
+
+
+id: 3062
+Units ordered: 180
+Type: humvee
+time: 10:21:52 | 27-01-2020
+
+
+id: 475
+Units ordered: 30
+Type: cruiser
+time: 10:22:52 | 27-01-2020
+
+
+id: 475
+Units ordered: 1
+Type: cruiser
+time: 10:22:56 | 27-01-2020
+
+
+id: 475
+Units ordered: 1
+Type: cruiser
+time: 10:23:01 | 27-01-2020
+
+
+id: 3279
+Units ordered: 89
+Type: m270_rocket
+time: 10:31:49 | 27-01-2020
+
+
+id: 487
+Units ordered: 1147
+Type: m70mlrs
+time: 10:39:20 | 27-01-2020
+
+
+id: 3323
+Units ordered: 100
+Type: submarine
+time: 10:47:32 | 27-01-2020
+
+
+id: 3323
+Units ordered: 60
+Type: battleship
+time: 10:47:32 | 27-01-2020
+
+
+id: 2200
+Units ordered: 200
+Type: rah66_commanches
+time: 10:51:07 | 27-01-2020
+
+
+id: 1799
+Units ordered: 23
+Type: artillery
+time: 10:58:56 | 27-01-2020
+
+
+id: 1799
+Units ordered: 32
+Type: artillery
+time: 10:59:25 | 27-01-2020
+
+
+id: 2245
+Units ordered: 180
+Type: battleship
+time: 11:03:55 | 27-01-2020
+
+
+id: 2243
+Units ordered: 450
+Type: b2_bomber
+time: 11:29:09 | 27-01-2020
+
+
+id: 2729
+Units ordered: 76
+Type: cruiser
+time: 11:37:02 | 27-01-2020
+
+
+id: 2200
+Units ordered: 34
+Type: b2_bomber
+time: 11:49:38 | 27-01-2020
+
+
+id: 1799
+Units ordered: 4
+Type: artillery
+time: 11:56:41 | 27-01-2020
+
+
+id: 3230
+Units ordered: 400
+Type: battleship
+time: 12:15:55 | 27-01-2020
+
+
+id: 464
+Units ordered: 883
+Type: m70mlrs
+time: 12:22:22 | 27-01-2020
+
+
+id: 1799
+Units ordered: 10
+Type: artillery
+time: 12:55:34 | 27-01-2020
+
+
+id: 457
+Units ordered: 1000
+Type: paratrooper
+time: 13:08:56 | 27-01-2020
+
+
+id: 1799
+Units ordered: 12
+Type: artillery
+time: 13:43:27 | 27-01-2020
+
+
+id: 475
+Units ordered: 20
+Type: cruiser
+time: 14:21:54 | 27-01-2020
+
+
+id: 475
+Units ordered: 5
+Type: cruiser
+time: 14:21:59 | 27-01-2020
+
+
+id: 475
+Units ordered: 2
+Type: cruiser
+time: 14:22:02 | 27-01-2020
+
+
+id: 475
+Units ordered: 1
+Type: cruiser
+time: 14:22:06 | 27-01-2020
+
+
+id: 2702
+Units ordered: 200
+Type: f22_raptors
+time: 14:34:05 | 27-01-2020
+
+
+id: 1052
+Units ordered: 295
+Type: humvee
+time: 14:45:21 | 27-01-2020
+
+
+id: 1052
+Units ordered: 669
+Type: humvee
+time: 14:45:29 | 27-01-2020
+
+
+id: 1052
+Units ordered: 153
+Type: humvee
+time: 14:46:09 | 27-01-2020
+
+
+id: 1052
+Units ordered: 133
+Type: humvee
+time: 14:46:30 | 27-01-2020
+
+
+id: 1052
+Units ordered: 62
+Type: humvee
+time: 14:46:57 | 27-01-2020
+
+
+id: 1052
+Units ordered: 238
+Type: humvee
+time: 14:47:20 | 27-01-2020
+
+
+id: 2245
+Units ordered: 35
+Type: battleship
+time: 15:03:39 | 27-01-2020
+
+
+id: 475
+Units ordered: 6
+Type: cruiser
+time: 15:13:54 | 27-01-2020
+
+
+id: 475
+Units ordered: 1
+Type: cruiser
+time: 15:14:00 | 27-01-2020
+
+
+id: 60
+Units ordered: 163
+Type: rocket
+time: 15:45:01 | 27-01-2020
+
+
+id: 2951
+Units ordered: 1800
+Type: grenade
+time: 15:55:20 | 27-01-2020
+
+
+id: 3279
+Units ordered: 161
+Type: sam
+time: 15:55:49 | 27-01-2020
+
+
+id: 2729
+Units ordered: 94
+Type: cruiser
+time: 16:08:50 | 27-01-2020
+
+
+id: 2729
+Units ordered: 8
+Type: thief
+time: 16:14:20 | 27-01-2020
+
+
+id: 2729
+Units ordered: 2
+Type: sniper
+time: 16:14:20 | 27-01-2020
+
+
+id: 2729
+Units ordered: 1
+Type: sniper
+time: 16:16:04 | 27-01-2020
+
+
+id: 2200
+Units ordered: 80
+Type: b2_bomber
+time: 16:48:42 | 27-01-2020
+
+
+id: 1383
+Units ordered: 99
+Type: paratrooper
+time: 16:54:22 | 27-01-2020
+
+
+id: 1383
+Units ordered: 99
+Type: paratrooper
+time: 16:54:32 | 27-01-2020
+
+
+id: 475
+Units ordered: 2
+Type: cruiser
+time: 17:12:36 | 27-01-2020
+
+
+id: 475
+Units ordered: 5
+Type: cruiser
+time: 17:12:40 | 27-01-2020
+
+
+id: 475
+Units ordered: 5
+Type: cruiser
+time: 17:12:45 | 27-01-2020
+
+
+id: 475
+Units ordered: 1
+Type: cruiser
+time: 17:12:48 | 27-01-2020
+
+
+id: 2245
+Units ordered: 140
+Type: battleship
+time: 17:17:17 | 27-01-2020
+
+
+id: 2245
+Units ordered: 375
+Type: seahawk
+time: 17:56:56 | 27-01-2020
+
+
+id: 2245
+Units ordered: 200
+Type: cruiser
+time: 17:57:38 | 27-01-2020
+
+
+id: 1383
+Units ordered: 49
+Type: paratrooper
+time: 18:06:03 | 27-01-2020
+
+
+id: 1383
+Units ordered: 211
+Type: paratrooper
+time: 18:06:20 | 27-01-2020
+
+
+id: 2243
+Units ordered: 340
+Type: b2_bomber
+time: 18:06:43 | 27-01-2020
+
+
+id: 2243
+Units ordered: 80
+Type: b2_bomber
+time: 18:08:19 | 27-01-2020
+
+
+id: 1383
+Units ordered: 180
+Type: paratrooper
+time: 18:15:20 | 27-01-2020
+
+
+id: 2729
+Units ordered: 2
+Type: sniper
+time: 18:37:40 | 27-01-2020
+
+
+id: 2951
+Units ordered: 300
+Type: armoured
+time: 19:25:46 | 27-01-2020
+
+
+id: 2052
+Units ordered: 435
+Type: typhoon
+time: 19:29:04 | 27-01-2020
+
+
+id: 3241
+Units ordered: 525
+Type: artillery
+time: 20:10:35 | 27-01-2020
+
+
+id: 475
+Units ordered: 25
+Type: cruiser
+time: 20:31:45 | 27-01-2020
+
+
+id: 385
+Units ordered: 130
+Type: artillery
+time: 20:45:21 | 27-01-2020
+
+
+id: 2243
+Units ordered: 300
+Type: b2_bomber
+time: 20:46:31 | 27-01-2020
+
+
+id: 2729
+Units ordered: 33
+Type: cruiser
+time: 20:46:43 | 27-01-2020
+
+
+id: 3317
+Units ordered: 108
+Type: artillery
+time: 20:55:50 | 27-01-2020
+
+
+id: 3241
+Units ordered: 52
+Type: artillery
+time: 20:57:42 | 27-01-2020
+
+
+id: 1799
+Units ordered: 16
+Type: artillery
+time: 21:01:01 | 27-01-2020
+
+
+id: 1799
+Units ordered: 719
+Type: sam
+time: 21:06:43 | 27-01-2020
+
+
+id: 1799
+Units ordered: 133
+Type: sam
+time: 21:07:01 | 27-01-2020
+
+
+id: 1799
+Units ordered: 944
+Type: m270_rocket
+time: 21:08:26 | 27-01-2020
+
+
+id: 2243
+Units ordered: 80
+Type: b2_bomber
+time: 21:11:59 | 27-01-2020
+
+
+id: 1799
+Units ordered: 571
+Type: m70mlrs
+time: 21:13:21 | 27-01-2020
+
+
+id: 301
+Units ordered: 20
+Type: seahawk
+time: 21:19:23 | 27-01-2020
+
+
+id: 3241
+Units ordered: 124
+Type: artillery
+time: 21:29:18 | 27-01-2020
+
+
+id: 1383
+Units ordered: 500
+Type: paratrooper
+time: 21:36:25 | 27-01-2020
+
+
+id: 1383
+Units ordered: 595
+Type: paratrooper
+time: 21:37:17 | 27-01-2020
+
+
+id: 1383
+Units ordered: 270
+Type: paratrooper
+time: 21:37:55 | 27-01-2020
+
+
+id: 487
+Units ordered: 872
+Type: sam
+time: 21:49:22 | 27-01-2020
+
+
+id: 2491
+Units ordered: 43
+Type: sniper
+time: 21:49:51 | 27-01-2020
+
+
+id: 60
+Units ordered: 63
+Type: flamethrower
+time: 21:55:34 | 27-01-2020
+
+
+id: 464
+Units ordered: 1190
+Type: sam
+time: 21:56:42 | 27-01-2020
+
+
+id: 3291
+Units ordered: 93
+Type: artillery
+time: 21:59:43 | 27-01-2020
+
+
+id: 3241
+Units ordered: 107
+Type: artillery
+time: 22:01:24 | 27-01-2020
+
+
+id: 60
+Units ordered: 69
+Type: rocket
+time: 22:11:59 | 27-01-2020
+
+
+id: 2951
+Units ordered: 590
+Type: armoured
+time: 22:16:35 | 27-01-2020
+
+
+id: 2951
+Units ordered: 190
+Type: armoured
+time: 22:17:07 | 27-01-2020
+
+
+id: 2951
+Units ordered: 165
+Type: armoured
+time: 22:17:34 | 27-01-2020
+
+
+id: 2951
+Units ordered: 484
+Type: armoured
+time: 22:18:43 | 27-01-2020
+
+
+id: 2200
+Units ordered: 230
+Type: rah66_commanches
+time: 22:37:47 | 27-01-2020
+
+
+id: 3279
+Units ordered: 519
+Type: humvee
+time: 23:02:56 | 27-01-2020
+
+
+id: 1799
+Units ordered: 43
+Type: m70mlrs
+time: 23:03:36 | 27-01-2020
+
+
+id: 1251
+Units ordered: 443
+Type: typhoon
+time: 23:05:09 | 27-01-2020
+
+
+id: 2951
+Units ordered: 591
+Type: armoured
+time: 23:05:52 | 27-01-2020
+
+
+id: 475
+Units ordered: 50
+Type: cruiser
+time: 23:07:41 | 27-01-2020
+
+
+id: 475
+Units ordered: 35
+Type: cruiser
+time: 23:10:11 | 27-01-2020
+
+
+id: 2729
+Units ordered: 29
+Type: cruiser
+time: 23:35:32 | 27-01-2020
+
+
+id: 2243
+Units ordered: 345
+Type: b2_bomber
+time: 23:48:14 | 27-01-2020
+
+
+id: 2702
+Units ordered: 150
+Type: f22_raptors
+time: 23:51:54 | 27-01-2020
+
+
+id: 2245
+Units ordered: 375
+Type: typhoon
+time: 0:04:27 | 28-01-2020
+
+
+id: 2245
+Units ordered: 260
+Type: cruiser
+time: 0:05:48 | 28-01-2020
+
+
+id: 60
+Units ordered: 28
+Type: flamethrower
+time: 0:22:09 | 28-01-2020
+
+
+id: 1799
+Units ordered: 230
+Type: artillery
+time: 1:08:46 | 28-01-2020
+
+
+id: 2052
+Units ordered: 109
+Type: typhoon
+time: 1:20:43 | 28-01-2020
+
+
+id: 2729
+Units ordered: 40
+Type: cruiser
+time: 1:27:04 | 28-01-2020
+
+
+id: 60
+Units ordered: 19
+Type: flamethrower
+time: 1:48:13 | 28-01-2020
+
+
+id: 1799
+Units ordered: 10
+Type: artillery
+time: 2:17:07 | 28-01-2020
+
+
+id: 464
+Units ordered: 100
+Type: sam
+time: 4:39:14 | 28-01-2020
+
+
+id: 464
+Units ordered: 100
+Type: sam
+time: 4:42:10 | 28-01-2020
+
+
+id: 2052
+Units ordered: 115
+Type: typhoon
+time: 4:43:18 | 28-01-2020
+
+
+id: 3317
+Units ordered: 128
+Type: artillery
+time: 5:11:49 | 28-01-2020
+
+
+id: 60
+Units ordered: 278
+Type: f22_raptors
+time: 5:14:45 | 28-01-2020
+
+
+id: 60
+Units ordered: 39
+Type: f22_raptors
+time: 5:15:27 | 28-01-2020
+
+
+id: 475
+Units ordered: 25
+Type: cruiser
+time: 5:36:25 | 28-01-2020
+
+
+id: 475
+Units ordered: 48
+Type: cruiser
+time: 5:37:42 | 28-01-2020
+
+
+id: 475
+Units ordered: 2
+Type: cruiser
+time: 5:38:06 | 28-01-2020
+
+
+id: 475
+Units ordered: 3
+Type: cruiser
+time: 5:38:26 | 28-01-2020
+
+
+id: 464
+Units ordered: 372
+Type: artillery
+time: 5:44:31 | 28-01-2020
+
+
+id: 487
+Units ordered: 430
+Type: f22_raptors
+time: 5:44:50 | 28-01-2020
+
+
+id: 487
+Units ordered: 219
+Type: f22_raptors
+time: 5:45:07 | 28-01-2020
+
+
+id: 464
+Units ordered: 333
+Type: humvee
+time: 5:49:28 | 28-01-2020
+
+
+id: 464
+Units ordered: 552
+Type: humvee
+time: 5:49:46 | 28-01-2020
+
+
+id: 1383
+Units ordered: 816
+Type: paratrooper
+time: 5:52:56 | 28-01-2020
+
+
+id: 2702
+Units ordered: 160
+Type: f22_raptors
+time: 6:05:31 | 28-01-2020
+
+
+id: 3279
+Units ordered: 150
+Type: artillery
+time: 6:06:47 | 28-01-2020
+
+
+id: 2052
+Units ordered: 76
+Type: typhoon
+time: 6:23:37 | 28-01-2020
+
+
+id: 475
+Units ordered: 15
+Type: cruiser
+time: 6:25:28 | 28-01-2020
+
+
+id: 475
+Units ordered: 29
+Type: cruiser
+time: 6:26:01 | 28-01-2020
+
+
+id: 475
+Units ordered: 7
+Type: cruiser
+time: 6:26:33 | 28-01-2020
+
+
+id: 1418
+Units ordered: 700
+Type: flamethrower
+time: 6:28:03 | 28-01-2020
+
+
+id: 464
+Units ordered: 163
+Type: humvee
+time: 6:41:30 | 28-01-2020
+
+
+id: 60
+Units ordered: 10
+Type: f22_raptors
+time: 6:42:58 | 28-01-2020
+
+
+id: 475
+Units ordered: 13
+Type: cruiser
+time: 6:44:57 | 28-01-2020
+
+
+id: 475
+Units ordered: 7
+Type: cruiser
+time: 6:45:09 | 28-01-2020
+
+
+id: 475
+Units ordered: 6
+Type: cruiser
+time: 6:45:21 | 28-01-2020
+
+
+id: 475
+Units ordered: 15
+Type: cruiser
+time: 6:45:47 | 28-01-2020
+
+
+id: 1799
+Units ordered: 40
+Type: artillery
+time: 6:46:36 | 28-01-2020
+
+
+id: 385
+Units ordered: 215
+Type: artillery
+time: 6:49:23 | 28-01-2020
+
+
+id: 1418
+Units ordered: 53
+Type: grenade
+time: 7:02:30 | 28-01-2020
+
+
+id: 2243
+Units ordered: 477
+Type: b2_bomber
+time: 8:01:31 | 28-01-2020
+
+
+id: 2243
+Units ordered: 434
+Type: b2_bomber
+time: 8:02:10 | 28-01-2020
+
+
+id: 1799
+Units ordered: 19
+Type: artillery
+time: 8:57:14 | 28-01-2020
+
+
+id: 3062
+Units ordered: 200
+Type: humvee
+time: 9:16:02 | 28-01-2020
+
+
+id: 3317
+Units ordered: 78
+Type: artillery
+time: 9:18:33 | 28-01-2020
+
+

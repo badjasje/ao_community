@@ -143,6 +143,11 @@ class Installer {
 		update_option( 'rank_math_version', rank_math()->version );
 		update_option( 'rank_math_db_version', rank_math()->db_version );
 
+		// Clear rollback option if necessary.
+		if ( rank_math()->version !== get_option( 'rank_math_rollback_version' ) ) {
+			delete_option( 'rank_math_rollback_version' );
+		}
+
 		// Save install date.
 		if ( false === boolval( get_option( 'rank_math_install_date' ) ) ) {
 			update_option( 'rank_math_install_date', current_time( 'timestamp' ) );
@@ -463,9 +468,10 @@ class Installer {
 	 */
 	private function get_post_type_defaults( $post_type ) {
 		$rich_snippets = [
-			'post'    => 'article',
-			'page'    => 'article',
-			'product' => 'product',
+			'post'     => 'article',
+			'page'     => 'article',
+			'product'  => 'product',
+			'download' => 'product',
 		];
 
 		$defaults = [

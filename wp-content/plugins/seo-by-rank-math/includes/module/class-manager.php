@@ -105,8 +105,8 @@ class Manager {
 		];
 
 		$modules['rich-snippet'] = [
-			'title'    => esc_html__( 'Rich Snippets', 'rank-math' ),
-			'desc'     => esc_html__( 'Enable support for the Rich Snippets, which adds metadata to your website, resulting in rich search results and more traffic.', 'rank-math' ),
+			'title'    => esc_html__( 'Schema (Structured Data)', 'rank-math' ),
+			'desc'     => esc_html__( 'Enable support for the structured data, which adds metadata to your website, resulting in rich search results and more traffic.', 'rank-math' ),
 			'class'    => 'RankMath\RichSnippet\RichSnippet',
 			'icon'     => 'dashicons-awards',
 			'settings' => Helper::get_admin_url( 'options-titles' ) . '#setting-panel-post-type-post',
@@ -182,6 +182,12 @@ class Manager {
 			'title' => esc_html__( 'Robotx Txt', 'rank-math' ),
 			'only'  => 'internal',
 			'class' => 'RankMath\Robots_Txt',
+		];
+
+		$modules['version-control'] = [
+			'title' => esc_html__( 'Version Control', 'rank-math' ),
+			'only'  => 'internal',
+			'class' => 'RankMath\Version_Control',
 		];
 
 		$modules['status'] = [
@@ -295,7 +301,7 @@ class Manager {
 
 							<h3><?php echo $module->get( 'title' ); ?></h3>
 
-							<p><em><?php echo $module->get( 'desc' ); ?></em></p>
+							<p><?php echo $module->get( 'desc' ); ?></p>
 
 							<?php $module->the_link(); ?>
 
