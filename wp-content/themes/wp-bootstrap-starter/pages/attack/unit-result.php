@@ -518,7 +518,7 @@ if($result == 'success'){
 	    $money_stolen  = max(ceil($money * ($STOLEN_MONEY_RATIO * $resourceMulti*$extraLandKill) * resource_dice_roll()*$aggressive_multi), 0);
 	}
 
-	// Jaap, resources stolen based on clansize and nw-losses
+	// Jaap, resources stolen based on nw-losses
 	$land_stolen = scaled_land_to_clansize($land_stolen, $userId, $target_id, $attacker_networth_lost, $defender_networth_lost);
 	$money_stolen = scaled_money_to_clansize($money_stolen, $userId, $target_id, $attacker_networth_lost, $defender_networth_lost);
 

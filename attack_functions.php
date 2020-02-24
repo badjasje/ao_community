@@ -818,7 +818,7 @@ function scaled_points_to_clansize($clan_points, $attacker_ID, $defender_ID) {
  * Stolen land reduction based on nw loss difference
  */
 function scaled_land_to_clansize($land_stolen, $attacker_ID, $defender_ID, $attacker_networth_lost, $defender_networth_lost) {
-    $land_stolen = $land_stolen / max(1, ($attacker_networth_lost / $defender_networth_lost));
+    $land_stolen = $land_stolen / max(1, (($attacker_networth_lost*0.75) / $defender_networth_lost));
     return $land_stolen;
 }
 
@@ -826,7 +826,7 @@ function scaled_land_to_clansize($land_stolen, $attacker_ID, $defender_ID, $atta
  * Stolen money reduction based on nw loss difference
  */
 function scaled_money_to_clansize($money_stolen, $attacker_ID, $defender_ID, $attacker_networth_lost, $defender_networth_lost) {
-    $money_stolen = $money_stolen / max(1, ($attacker_networth_lost / $defender_networth_lost));
+    $money_stolen = $money_stolen / max(1, (($attacker_networth_lost*0.75) / $defender_networth_lost));
     return $money_stolen;
 }
 
