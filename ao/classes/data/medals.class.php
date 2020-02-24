@@ -47,7 +47,7 @@ class Medals extends DataObject {
             'code' => 'modes',
             'icon' => '',
             'name' => 'Medal of Destruction',
-            'description' => 'Most networth damage made using missiles',
+            'description' => 'Most networth damage made using missiles during war',
             'format' => 'networth',
         ),
         'modev' => array(

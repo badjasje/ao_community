@@ -165,7 +165,7 @@ $users = get_users($args);
 <br/>
 <?php
 
-$args = array('meta_key' => 'nw_damage_missiles', 'number' => 10, 'orderby' => 'meta_value_num', 'order' => 'DESC');
+$args = array('meta_key' => 'nw_damage_missiles_war', 'number' => 10, 'orderby' => 'meta_value_num', 'order' => 'DESC');
 $count = 0;
 $users = get_users($args);
 ?>
@@ -175,7 +175,7 @@ $users = get_users($args);
 	foreach ($users as $user) {
 		$user_ID = $user->ID;
 		$member_data = get_userdata($user_ID);
-		$damage = get_user_meta($user_ID, 'nw_damage_missiles', true);
+		$damage = get_user_meta($user_ID, 'nw_damage_missiles_war', true);
 		$count++;
 		if($count == 1){
 			$winnerArray['Medal of Destruction'] = array($user_ID,'Damage: $ '.number_format($damage, 0, ',', ' '));

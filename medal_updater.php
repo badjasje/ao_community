@@ -158,7 +158,7 @@ foreach ($users as $key => $user) {
 }
 
 
-$args = array_merge($extra_args, array('meta_key' => 'nw_damage_missiles', 'orderby' => 'meta_value_num', 'order' => 'DESC'));
+$args = array_merge($extra_args, array('meta_key' => 'nw_damage_missiles_war', 'orderby' => 'meta_value_num', 'order' => 'DESC'));
 $users = get_users($args);
 $position = 0;
 foreach ($users as $key => $user) {
@@ -168,10 +168,10 @@ foreach ($users as $key => $user) {
     $next_ID = (isset($users[$key-1]) ? $users[$key-1]->ID : false);
     $prev_ID = (isset($users[$key+1]) ? $users[$key+1]->ID : false);
 
-    $damage = get_user_meta($user_ID, 'nw_damage_missiles', true);
+    $damage = get_user_meta($user_ID, 'nw_damage_missiles_war', true);
     $prev_damage = $next_damage = 0;
-    if($next_ID) $next_damage = get_user_meta($next_ID, 'nw_damage_missiles', true);
-    if($prev_ID) $prev_damage = get_user_meta($prev_ID, 'nw_damage_missiles', true);
+    if($next_ID) $next_damage = get_user_meta($next_ID, 'nw_damage_missiles_war', true);
+    if($prev_ID) $prev_damage = get_user_meta($prev_ID, 'nw_damage_missiles_war', true);
 
     update_user_meta($user_ID, 'modes_position', $position);
     update_user_meta($user_ID, 'modes_prev', $damage-$prev_damage);
@@ -376,7 +376,7 @@ update_medal('mog','networth');
 update_medal('moc','in_war_attacks');
 update_medal('mod','kills_made');
 update_medal('mot','money_gained_thieving');
-update_medal('modes','nw_damage_missiles');
+update_medal('modes','nw_damage_missiles_war');
 
 
 $args = array(
