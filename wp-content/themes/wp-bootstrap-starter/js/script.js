@@ -331,6 +331,7 @@ jQuery(function($) {
     });
     $('#exploreform').on('submit', function(e) {
         e.preventDefault();
+        if($('#turnsinput').val() >= 50 && !confirm('This will cost a lot of turns, are you sure?')) return;
         singleAjax(site_url+'/ajax/land_explore', $(this), function(data) {
             if(data.success) {
                 $(".explNotice").html(data.exploredtoday);
