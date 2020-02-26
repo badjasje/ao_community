@@ -2,28 +2,28 @@
 $toplistArray = maybe_unserialize(get_field('toplistarray','option'));
 
 if(is_array($toplistArray) && isset($toplistArray['clannetworth'])) {
-    $topPtsToday = '';
-    foreach(array_slice($toplistArray['24h_pts'],0,3) as $topClanId) {
-        if($clan = Clan::make($topClanId)) {
-            if($clan->get24hPoints() == 0) continue;
-            $topPtsToday .= '<div class="col-xs-6 col-sm-7 celBlock"><a href="'. $clan->getLink() .'">'. $clan->getName() .'</a></div>'.
-                '<div class="col-xs-6 col-sm-5 celBlock">'. $clan->get24hPoints(true) .'</div>';
+    $topPtsToday = $topClanNw = $topPts = '';
+    if(Round::isLive()) {
+        foreach(array_slice($toplistArray['24h_pts'],0,3) as $topClanId) {
+            if($clan = Clan::make($topClanId)) {
+                if($clan->get24hPoints() == 0) continue;
+                $topPtsToday .= '<div class="col-xs-6 col-sm-7 celBlock"><a href="'. $clan->getLink() .'">'. $clan->getName() .'</a></div>'.
+                    '<div class="col-xs-6 col-sm-5 celBlock">'. $clan->get24hPoints(true) .'</div>';
+            }
         }
-    }
-    $topClanNw = '';
-    foreach(array_slice($toplistArray['clannetworth'],0,3) as $topClanId) {
-        if($clan = Clan::make($topClanId)) {
-            if($clan->getNetworth() == 0) continue;
-            $topClanNw .= '<div class="col-xs-6 col-sm-7 celBlock"><a href="'.  $clan->getLink() .'">'. $clan->getName() .'</a></div>'.
-                '<div class="col-xs-6 col-sm-5 celBlock">'. $clan->getNetworth(true) .'</div>';
+        foreach(array_slice($toplistArray['clannetworth'],0,3) as $topClanId) {
+            if($clan = Clan::make($topClanId)) {
+                if($clan->getNetworth() == 0) continue;
+                $topClanNw .= '<div class="col-xs-6 col-sm-7 celBlock"><a href="'.  $clan->getLink() .'">'. $clan->getName() .'</a></div>'.
+                    '<div class="col-xs-6 col-sm-5 celBlock">'. $clan->getNetworth(true) .'</div>';
+            }
         }
-    }
-    $topPts = '';
-    foreach(array_slice($toplistArray['clanpoints'],0,3) as $topClanId) {
-        if($clan = Clan::make($topClanId)) {
-            if($clan->getPoints() == 0) continue;
-            $topPts .= '<div class="col-xs-6 col-sm-7 celBlock"><a href="'. $clan->getLink() .'">'. $clan->getName() .'</a></div>'.
-                '<div class="col-xs-6 col-sm-5 celBlock">'. $clan->getPoints(true) .'</div>';
+        foreach(array_slice($toplistArray['clanpoints'],0,3) as $topClanId) {
+            if($clan = Clan::make($topClanId)) {
+                if($clan->getPoints() == 0) continue;
+                $topPts .= '<div class="col-xs-6 col-sm-7 celBlock"><a href="'. $clan->getLink() .'">'. $clan->getName() .'</a></div>'.
+                    '<div class="col-xs-6 col-sm-5 celBlock">'. $clan->getPoints(true) .'</div>';
+            }
         }
     }
     ///if(!empty($topPtsToday) && !empty($topClanNw) && !empty($topPts)) {

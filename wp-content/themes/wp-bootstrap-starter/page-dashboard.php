@@ -22,8 +22,9 @@ echo '<div class="row pageRow">';
 	if(Round::isLive()) {
 		require_once('pages/dashboard/pick-startingbonus.php');
 		require_once('pages/dashboard/bonus-receive.php');
-		require_once('pages/dashboard/toplists.php');
 	}
+
+	require_once('pages/dashboard/toplists.php'); // poll in breaks too
 
 	if(!!$province->getClan()) {
 		require_once('pages/dashboard/clan-message.php');
