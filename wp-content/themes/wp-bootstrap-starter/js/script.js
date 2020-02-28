@@ -168,7 +168,7 @@ jQuery(function($) {
         toggleDescriptions(t, getCookie(c)==1?1:0);
     }
 
-    $(document).on('keyup paste change', '.buy_spyplane, .buy_spy', function() {
+    $(document).on('keyup paste change', '[name="build[spyplane]"],[name="build[spy]"]', function() {
         if(''+$(this).val() === '007') {
             $.notify({message:'The name is Bond, James Bond'},{type:'info', allow_dismiss:true, newest_on_top:true, delay:5000});
         }
