@@ -13,10 +13,10 @@ get_header(); ?>
 
 		endwhile; // End of the loop.
 	?>
-	<div class="blockHeader noticeBlock">
+	<?/*<div class="blockHeader noticeBlock">
 		<strong>Help & Fun?</strong>
 		Join us on <a href="http://bit.ly/2US8Dh0" style="text-decoration:underline" target="_blank">discord</a> where the community really thrives!
-	</div>
+	</div>*/?>
 </div> <!-- end .pageRow forum -->
 
 <?php

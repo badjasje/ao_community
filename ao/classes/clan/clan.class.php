@@ -337,7 +337,7 @@ class Clan extends PostObject {
         if($diff == 0) return 100;
         $multi = (($diff * 0.65) + 0.35);
         $multi = min($multi, 1.25);
-        $multi = max($multi, 0.75); // max diff is 0.35 down and up
+        $multi = max($multi, 0.75); // max diff is 0.25 down and up
         return round($multi * 100, 2);
     }
 
