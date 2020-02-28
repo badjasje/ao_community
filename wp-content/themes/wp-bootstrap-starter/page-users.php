@@ -5,19 +5,9 @@
 get_header();
 
 $timestamp = current_time('timestamp');
-$transient = get_transient('allusers_query');
-if(!empty($transient)) $users = $transient;
-else {
-    $args = array('meta_query'=> array(array(
-		'relation' => 'AND',
-		array('key' => 'last_online', 'value' => $timestamp-1728000, 'compare' => ">", 'type' => 'numeric'),
-		array('key' => 'networth', 'value' => 10, 'compare' => ">", 'type' => 'numeric'),
-	)));
-	$users = get_users($args);
-	set_transient('allusers_query', $users, 12 * 60 * 60);
-}
 
 $allUsers = array();
+$users = get_users(array('fields'=>array('ID'),'meta_key'=>'last_online','meta_value'=>$timestamp-1728000,'meta_compare'=>'>'));
 foreach($users as $allUser) {
 	$userObj = User::make($allUser->ID);
 	if($userObj->isBanned()) continue;
