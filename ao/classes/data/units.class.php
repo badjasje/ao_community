@@ -5,6 +5,14 @@ class Units extends DataObject {
         return (date('d-m')=='01-04' ? shuffle_assoc(parent::get($key)) : parent::get($key));
     }
 
+    static public function getByType($type='air') {
+        $return = array();
+        foreach(static::$data as $key => $unit) {
+            if($unit['type'] == $type) $return[$key] = $unit;
+        }
+        return $return;
+    }
+
     static $data = array(
         /// AIR UNITS ///
         'spyplane' 		=> array(

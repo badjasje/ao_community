@@ -15,7 +15,7 @@ class Province extends DbObject {
         'networth_cache','land_cache','cached_land','cached_nw',
 
         // Stats
-        'sold_land_today','land_sold_today','explored_today','special_sold_today','turn_spread',
+        'sold_land_today','land_sold_today','explored_today','special_sold_today','turn_spread','treasures_today',
         'builtland','units_sold','nuke_protection_timestamp','user_country',
         'sat_nw','research_nw','building_nw','unit_nw','land_nw','missile_nw','morale_lost',
         'highest_networth','highest_land','buildings_built',

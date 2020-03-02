@@ -47,9 +47,23 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : 'explore';
 					<span class="maxexp" data-max="<?=$maxAmount?>"><strong><?=Format::land($maxLand)?></strong> <i>(<?=$maxAmount?> turns)</i></span>
 				</div>
 			</div>
+			<? if(Format::isEaster()) { ?>
+			<div class="blockHeader text-dark bg-warning">
+				<div class="d-flex w-100">
+					<div class="w-100"><strong><i class="fas fa-egg"></i> Egg hunt!</strong> Explore to find some hidden treasures...</i></div>
+					<a href="#expDescription" data-toggle="collapse"><i class="fas fa-info-circle text-dark"></i></a>
+				</div>
+				<div id="expResult" class="text-danger"></div>
+				<div id="expDescription" class="small text-muted pt-2 pb-1 collapse"><ul class="mb-0 pl-3">
+					<li>You may discover turns, money, morale, land, buildings and units</li>
+					<li>You can find max 5 treasures per day</li>
+					<li>Only during the two days of Easter</li>
+				</ul><em>Idea borrowed with permission from www.idlebase.com</em></div>
+			</div>
+			<? } ?>
 			<form id="exploreform">
 				<div class="row no-gutters">
-					<div class="col-md-4 no-gutters collabel">
+					<div class="col-md-4 no-gutters collabel pl-2">
 						<span>Turns to explore</span>
 					</div>
 					<div class="col-md-4 no-gutters">

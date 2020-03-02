@@ -45,6 +45,12 @@ class Format extends PhpObject {
         return human_time_diff($timestamp1, (!!$timestamp2 ? $timestamp2 : current_time('timestamp')));
     }
 
+    public static function isEaster() {
+        $easter = strtotime('21-03-'.date('Y').' +'.easter_days().' day');
+        if(in_array(date('d-m-Y'), array(date('d-m-Y', $easter), date('d-m-Y', strtotime('+1 day', $easter))))) return true;
+        return false;
+    }
+
     public static function time_elapsed($timestamp, $level = 1) {
         if(!$timestamp) return 'never';
         $now = new DateTime;

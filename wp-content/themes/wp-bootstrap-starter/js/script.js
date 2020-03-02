@@ -341,6 +341,7 @@ jQuery(function($) {
                 $("#landinput").attr({"max": data.maxsell});
                 $(".maxexp").attr({"data-max": data.maxturns});
                 $(".maxsell").attr({"data-max": data.maxsell});
+                if(data.expResult) $('#expResult').html(data.expResult);
             }
             $(this).trigger('reset');
         });
