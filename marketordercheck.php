@@ -197,7 +197,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
             if(!is_array($cooldownlist) && !empty($cooldownlist)) $cooldownlist = maybe_unserialize($cooldownlist); // Temp fix double serialization
             if(!is_array($cooldownlist)) $cooldownlist = array();
             $clan_ID = $declared_on;
-            $cooldownlist[$clan_ID] = $timestamp+(72 * 3600);
+            $cooldownlist[$clan_ID] = $timestamp + Settings::get('cooldown_time');
             update_post_meta($declarer_clan_ID, 'cooldown_list', $cooldownlist);
 
             /* update events */

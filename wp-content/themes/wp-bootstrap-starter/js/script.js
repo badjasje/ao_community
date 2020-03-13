@@ -614,14 +614,6 @@ jQuery(function($) {
             }
         });
     });
-    $('#resumeWar').on('submit', function(e) {
-        e.preventDefault();
-        singleAjax(site_url+'/resumewar.php', $(this), function(data) {
-            if(data.next == true){
-                $('.resumeWarButton').html('You are at war with this clan').addClass("disabled");
-            }
-        });
-    });
 
     // Sending aid
     $("#maxaid").click(function() {

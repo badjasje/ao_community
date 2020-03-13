@@ -212,40 +212,6 @@ class Clan extends PostObject {
         return false;
     }
 
-    public function canResume($defend_clan_id=false) {
-        // Do we have an "incoming" war? (flipped because how this function is called)
-        if(!$this->getOutgoingWars($defend_clan_id)) return false;
-
-        // Is there an old outgoing war to resume?
-        $posts = get_posts(array(
-            'numberposts' => 1, 'post_type' => 'wars', 'post_status' => 'trash',
-            'meta_query' => array(
-                'relation' => 'AND',
-                array('key' => 'declared_by', 'value' => $this->id),
-                array('key' => 'declared_on', 'value' => $defend_clan_id),
-            ),
-        ));
-        if(count($posts) == 0) return false;
-
-        // Look for peace event to get peace-time
-        $peacetime = 0;
-        $eventposts = get_posts(array(
-            'numberposts' => 1, 'post_title' => 'PEACE', 'orderby' => 'post_Date', 'order' =>  'DESC',
-            'post_status' => 'publish', 'post_type' => 'event_local',
-            'meta_query' => array('relation' => 'AND',
-                array('key' => 'attacker_clan_id', 'value' => $defend_clan_id),
-                array('key' => 'defender_clan_id', 'value' => $this->id),
-            ),
-        ));
-        if(count($eventposts)) {
-            $peacetime = get_post_meta($eventposts[0]->ID, 'time_attacked', true);
-        }
-        $timestamp = current_time('timestamp');
-        $resume_time = Settings::get('resume_after_hours');
-        if($timestamp - $peacetime < (60*60* $resume_time) ) return false;
-        return true;
-    }
-
     public function getIncomingWars($viewer_clan_id=false) {
         $incoming_wars = get_posts(
             array('numberposts'	=> -1, 'post_type' => 'wars', 'post_status' => 'publish', 'meta_query' => array('relation' => 'AND',
