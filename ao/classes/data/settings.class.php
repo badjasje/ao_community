@@ -149,7 +149,7 @@ class Settings extends DataObject {
         'war_type_multi' => array(
             'mutual' => 1,
             'outgoing' => 1,
-            'incoming' => .5,
+            'incoming' => 1,
             'none' => 0,
         ),
     );

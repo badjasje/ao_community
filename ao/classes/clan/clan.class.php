@@ -332,12 +332,12 @@ class Clan extends PostObject {
 // 45% chance to hit target
 // 90% chance to hit target
 
-        if($warType == 'incoming') {
+        /*if($warType == 'incoming') {
             $n = $this->getWarTypeMultiplier($warType);
             $totals['points'] = $totals['points'] * $n;
             $mods[] = '<strong>Incoming war:</strong>';
             $mods[] = '<i class="fa fa-crosshairs"></i> '.($n*100).'% pts';
-        }
+        }*/
         if($warType != 'mutual') {
             $dmgDiff = $this->getClanSizeDamageMultiplier($viewer_clan_id);
             $totals['damage'] = $totals['damage'] * ($dmgDiff/100);
