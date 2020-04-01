@@ -15,6 +15,10 @@ function ajax_sendaid($province, $return) {
         return array('status' => 'Yourself? Really!?');
     }
 
+    if($province->isProtected()) {
+        return array('status' => 'You cannot send aid while in Assault Protection');
+    }
+
     $clan = $province->getClan();
     $clan_members = $clan->getMembers();
     if(!in_array($receiver->get('id'), $clan_members)) {

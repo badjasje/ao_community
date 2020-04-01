@@ -168,7 +168,7 @@ jQuery(function($) {
         toggleDescriptions(t, getCookie(c)==1?1:0);
     }
 
-    $(document).on('keyup paste change', '.buy_spyplane, .buy_spy', function() {
+    $(document).on('keyup paste change', '[name="build[spyplane]"],[name="build[spy]"]', function() {
         if(''+$(this).val() === '007') {
             $.notify({message:'The name is Bond, James Bond'},{type:'info', allow_dismiss:true, newest_on_top:true, delay:5000});
         }
@@ -341,6 +341,7 @@ jQuery(function($) {
                 $("#landinput").attr({"max": data.maxsell});
                 $(".maxexp").attr({"data-max": data.maxturns});
                 $(".maxsell").attr({"data-max": data.maxsell});
+                if(data.expResult) $('#expResult').html(data.expResult);
             }
             $(this).trigger('reset');
         });
@@ -610,14 +611,6 @@ jQuery(function($) {
             if(data.next == true){
                 $('.declarePeaceButton').addClass('disabled');
                 $('#declarePeaceModal,.modal-backdrop').remove();
-            }
-        });
-    });
-    $('#resumeWar').on('submit', function(e) {
-        e.preventDefault();
-        singleAjax(site_url+'/resumewar.php', $(this), function(data) {
-            if(data.next == true){
-                $('.resumeWarButton').html('You are at war with this clan').addClass("disabled");
             }
         });
     });

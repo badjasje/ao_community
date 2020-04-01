@@ -276,7 +276,7 @@ class Event extends PostObject {
                 'erected', 'stroked', 'sent a kiss and', 'sent disgusting selfies and','sent an erotic poem and', 'loved'
             ));
             $to[2] = array_rand_item(array( // "you [sent a] saboteur", "{attacker} [sent a] {spy}{spyplane}"
-                'blew a kiss and a','nestled and sent a','found evidence for rule 43 and sent a','made a sexy selfie and sent a',
+                'blew a kiss and a','nestled and sent a','found evidence for rule 34 and sent a','made a sexy selfie and sent a',
                 'rubbed one out and a','revealed some private parts to a','improved the kamasutra with a','secretly slowdanced with a',
                 'became a member of the mile high club with a','did some kinky bondage with a','shouted the safe word "foliage" with a',
                 'bravely came out the closet to a'

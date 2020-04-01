@@ -119,7 +119,6 @@ $userIsMember = $clan->isMember();
         $inCooldown = array_key_exists($clan_id, $userCooldownlist);
         $inRange = $clan->inRange() || $warType == 'outgoing';
         $canPeace = (!!$userClan ? $clan->canPeace($userClan->get('id')) : false);
-        $canResume = (!!$userClan ? $clan->canResume($userClan->get('id')) : false);
 
         if(!!$userClan) {
             $current_modifiers = $current_totals = array();
@@ -184,20 +183,9 @@ $userIsMember = $clan->isMember();
                     echo '<button class="mainSubmit disabled">You are at war with this clan</button>'.PHP_EOL;
                 }
                 elseif($inCooldown) {
-                    if($canResume==false) {
-                        echo '<button class="mainSubmit disabled">
-                            Cooldown: <span data-countdown="'.($userCooldownlist[$clan_id]-$timestamp).'"></span>
-                        </button>'.PHP_EOL;
-                    }
-                    else { ?>
-                        <form id="resumeWar" method="POST">
-                            <input type="hidden" name="declaredon" value="<?=$clan_id?>">
-                            <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
-                            <button type="submit" name="submit" class="mainSubmit resumeWarButton">
-                                <i class="fas fa-fire" aria-hidden="true"></i> Resume war
-                            </button>
-                        </form>
-                    <? }
+                    echo '<button class="mainSubmit disabled">
+                        Cooldown: <span data-countdown="'.($userCooldownlist[$clan_id]-$timestamp).'"></span>
+                    </button>'.PHP_EOL;
                 }
                 else if($inRange) {
                     echo '<button class="mainSubmit warDecSubmit" data-toggle="modal" data-target="#declareWarModal">
@@ -222,7 +210,6 @@ $userIsMember = $clan->isMember();
             'cooldown' => $userCooldownlist,
             'inrange' => $inRange,
             'canpeace' => $canPeace,
-            'canResume' => $canResume,
             'incoming' => !!$incomingWar,
             'outgoing' => !!$outgoingWar,
         ));

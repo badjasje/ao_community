@@ -212,40 +212,6 @@ class Clan extends PostObject {
         return false;
     }
 
-    public function canResume($defend_clan_id=false) {
-        // Do we have an "incoming" war? (flipped because how this function is called)
-        if(!$this->getOutgoingWars($defend_clan_id)) return false;
-
-        // Is there an old outgoing war to resume?
-        $posts = get_posts(array(
-            'numberposts' => 1, 'post_type' => 'wars', 'post_status' => 'trash',
-            'meta_query' => array(
-                'relation' => 'AND',
-                array('key' => 'declared_by', 'value' => $this->id),
-                array('key' => 'declared_on', 'value' => $defend_clan_id),
-            ),
-        ));
-        if(count($posts) == 0) return false;
-
-        // Look for peace event to get peace-time
-        $peacetime = 0;
-        $eventposts = get_posts(array(
-            'numberposts' => 1, 'post_title' => 'PEACE', 'orderby' => 'post_Date', 'order' =>  'DESC',
-            'post_status' => 'publish', 'post_type' => 'event_local',
-            'meta_query' => array('relation' => 'AND',
-                array('key' => 'attacker_clan_id', 'value' => $defend_clan_id),
-                array('key' => 'defender_clan_id', 'value' => $this->id),
-            ),
-        ));
-        if(count($eventposts)) {
-            $peacetime = get_post_meta($eventposts[0]->ID, 'time_attacked', true);
-        }
-        $timestamp = current_time('timestamp');
-        $resume_time = Settings::get('resume_after_hours');
-        if($timestamp - $peacetime < (60*60* $resume_time) ) return false;
-        return true;
-    }
-
     public function getIncomingWars($viewer_clan_id=false) {
         $incoming_wars = get_posts(
             array('numberposts'	=> -1, 'post_type' => 'wars', 'post_status' => 'publish', 'meta_query' => array('relation' => 'AND',
@@ -305,7 +271,7 @@ class Clan extends PostObject {
 
     public function getClanPointsTotalDiff($viewer_clan_id) {
         if($viewer_clan = Clan::make($viewer_clan_id)) {
-            if($this->getPoints() < 2000 && $viewer_clan->getPoints() < 2000) return 0;
+            if($this->getPoints() < 500 && $viewer_clan->getPoints() < 500) return 0;
             if($this->getWarType($viewer_clan_id) == 'mutual') return 0;
             $vp = max($viewer_clan->getPoints(),1);
             $mp = max($this->getPoints(),1); // devision by zero and all
@@ -335,9 +301,12 @@ class Clan extends PostObject {
     public function getClanTotalPointsMultiplier($viewer_clan_id) {
         $diff = $this->getClanPointsTotalDiff($viewer_clan_id);
         if($diff == 0) return 100;
-        $multi = (($diff * 0.65) + 0.35);
-        $multi = min($multi, 1.25);
-        $multi = max($multi, 0.75); // max diff is 0.25 down and up
+        //(a) + (b*x) + (c*x^2) + (d*x^3)
+        //where x is "Clan A / Clan B", a=0.776, b=0.543, c=(-0.485), d=0.166
+        $multi = 0.776 + (0.543*$diff) + (-0.485*pow($diff,2)) + (0.166*pow($diff,3));
+        // old: $multi = (($diff * 0.65) + 0.35);
+        $multi = min($multi, 1.25);// max diff is 0.25 up
+        $multi = max($multi, 0.9); // max diff is 0.1 down
         return round($multi * 100, 2);
     }
 
@@ -363,12 +332,12 @@ class Clan extends PostObject {
 // 45% chance to hit target
 // 90% chance to hit target
 
-        if($warType == 'incoming') {
+        /*if($warType == 'incoming') {
             $n = $this->getWarTypeMultiplier($warType);
             $totals['points'] = $totals['points'] * $n;
             $mods[] = '<strong>Incoming war:</strong>';
             $mods[] = '<i class="fa fa-crosshairs"></i> '.($n*100).'% pts';
-        }
+        }*/
         if($warType != 'mutual') {
             $dmgDiff = $this->getClanSizeDamageMultiplier($viewer_clan_id);
             $totals['damage'] = $totals['damage'] * ($dmgDiff/100);

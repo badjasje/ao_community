@@ -9,7 +9,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
     $wpdb->query("
 			UPDATE ${table_prefix}usermeta
 			SET meta_value = 0
-			WHERE meta_key IN('explored_today', 'land_sold_today','aid_sent_today','special_sold_today')
+			WHERE meta_key IN('explored_today', 'land_sold_today','aid_sent_today','special_sold_today','treasures_today')
             ");
 	$wpdb->query("
 			UPDATE ${table_prefix}usermeta

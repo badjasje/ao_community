@@ -8,6 +8,10 @@ function ajax_reset($province, $return) {
         return array('status' => 'You have already reset this round');
     }
 
+    if($province->isProtected()) {
+        return array('status' => 'You cannot reset while in Assault Protection');
+    }
+
     if($clan = $province->getClan()) {
         $incomingWars = get_posts(array('numberposts' => -1, 'post_type' => 'wars', 'meta_key' => 'declared_on', 'meta_value' => $clan->get('id')));
         if(count($incomingWars) > 0) {

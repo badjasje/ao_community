@@ -144,12 +144,12 @@ class Settings extends DataObject {
         'clan_join_mutual_delay' =>  (24 * 3600),
 
         // War
-        'resume_after_hours' => 12,
+        'cooldown_time' => (36 * 3600),
         'peace_after_time' => (24 * 3600),
         'war_type_multi' => array(
             'mutual' => 1,
             'outgoing' => 1,
-            'incoming' => .5,
+            'incoming' => 1,
             'none' => 0,
         ),
     );
