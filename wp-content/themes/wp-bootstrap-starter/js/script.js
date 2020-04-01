@@ -115,14 +115,6 @@ jQuery(function($) {
     $('#footerTime').text(d.toLocaleString('nl-NL'));
     $('#footerResolution').text(window.innerWidth +'x'+ window.innerHeight);
 
-    // Help in icon menu
-    $('.menuRow').each(function(i1) {
-        var t = $('.menuText>a',this).html();
-        if(!!t) {
-            $('.buttonItem>a', this).wrapInner('<div data-toggle="tooltip" data-html="true" data-placement="right" title="'+t.replace(/"/g, "'")+'"></div>');
-        }
-    });
-
     if(getCookie('menuOpen') === null) setCookie('menuOpen', 0, 256);
     else { setCookie('menuOpen', getCookie('menuOpen'), 256); } // Remember forever
 

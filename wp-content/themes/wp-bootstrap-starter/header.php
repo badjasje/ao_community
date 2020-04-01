@@ -20,71 +20,74 @@ if($provinceDied) { // this also happens in currentuser construct, but only the 
 	$province->update('nuke_protection_timestamp', current_time('timestamp') + Settings::get('nuke_protection_length'));
 }
 
-$stats = array(
-	0 => array('title' => 'Money', 'value' => $province->getMoney(true)), //moneyheader
-	1 => array('title' => 'Networth', 'short' => 'Net.', 'value' => $province->getNetworth(true)), //networthheader
-	2 => array('title' => 'Turns', 'value' => $province->getTurns(true)), //turnsheader
-	3 => array('title' => 'Morale', 'value' => $province->getMorale(true), 'sup' => $province->getMoralePool(true)),
-	4 => array('title' => 'Land', 'value' => $province->getLand(true), 'tooltip' => 'Free land: '.$province->getFreeLand(true)),
-	5 => array('title' => 'Power usage', 'value' => $province->getPower(true)),
-);
-if($province->getSatelliteNum()) {
-	$stats[3]['tooltip'] = 'Satellite power: '.$province->getSatMorale(true);
-}
-$stats = (date('d-m')=='01-04' ? shuffle_assoc($stats) : $stats);
+$stats = $menu = array();
+if(!!$province) {
+	$stats = array(
+		0 => array('title' => 'Money', 'value' => $province->getMoney(true)), //moneyheader
+		1 => array('title' => 'Networth', 'short' => 'Net.', 'value' => $province->getNetworth(true)), //networthheader
+		2 => array('title' => 'Turns', 'value' => $province->getTurns(true)), //turnsheader
+		3 => array('title' => 'Morale', 'value' => $province->getMorale(true), 'sup' => $province->getMoralePool(true)),
+		4 => array('title' => 'Land', 'value' => $province->getLand(true), 'tooltip' => 'Free land: '.$province->getFreeLand(true)),
+		5 => array('title' => 'Power usage', 'value' => $province->getPower(true)),
+	);
+	if($province->getSatelliteNum()) {
+		$stats[3]['tooltip'] = 'Satellite power: '.$province->getSatMorale(true);
+	}
+	$stats = (date('d-m')=='01-04' ? shuffle_assoc($stats) : $stats);
 
-$menu = array(
-	0 => array('icon' => 'fas fa-tachometer-alt', 'links' => array(
-		array('url' => 'dashboard', 'title' => 'Dashboard'),
-	)), // => + .hide-menu-icon
-	1 => array('icon' => 'fas fa-university', 'links' => array(
-		array('url' => 'bank', 'title' => 'Bank',  'badge' => $province->getDepositNum()),
-	)),
-	2 => array('icon' => 'fas fa-flask', 'links' => array(
-		0 => array('url' => 'research', 'title' => 'Research'),
-	)),
-	3 => array('icon' => 'fas fa-map', 'url' => 'explore', 'links' => array(
-		array('url' => 'explore?tab=explore', 'title' => 'Explore'),
-		array('url' => 'explore?tab=sell', 'title' => 'Sell'),
-	)),
-	4 => array('icon' => 'fas fa-industry', 'links' => array(
-		array('url' => 'buildings', 'title' => 'Buildings', 'badge' => $province->getBuildingsNum()),
-	)),
-	5 => array('icon' => 'fas fa-fighter-jet', 'links' => array(
-		array('url' => 'units', 'title' => 'Units', 'badge' => $province->getUnitsNum()),
-	)),
-	6 => array('icon' => 'fas fa-rocket', 'links' => array(
-		array('url' => 'missiles', 'title' => 'Missiles', 'badge' => $province->getMissileNum()),
-	)),
-	7 => array('icon' => 'fas fa-satellite', 'links' => array(
-		array('url' => 'satellites', 'title' => 'Satellites', 'badge' => $province->getSatelliteNum()),
-	)),
-	8 => array('icon' => 'fas fa-shopping-cart', 'links' => array(
-		array('url' => 'buy', 'title' => 'Market'),
-		array('url' => 'orders', 'title' => 'Orders'),
-	)),
-	9 => array('icon' => 'fas fa-users', 'links' => array(
-		array('url' => 'clan-information', 'title' => 'Clan'),
-		array('url' => 'clan-wars', 'title' => 'Wars'),
-		array('url' => 'send-aid', 'title' => 'Send aid'),
-	)),
-	10 => array('icon' => 'fas fa-search', 'links' => array(
-		array('url' => 'users', 'title' => 'All users'),
-		array('url' => 'all-clans', 'title' => 'All clans'),
-	)),
-	11 => array('icon' => 'fas fa-trophy', 'links' => array(
-		array('url' => 'toplists', 'title' => 'Toplists (nw)'),
-		array('url' => 'toplists/?tab=clanpoints', 'title' => 'Clan points'),
-		array('url' => 'toplists/?tab=clannw', 'title' => 'Clan nw'),
-	)),
-);
-if(!!$researchInProgress) {
-	$menu[2]['links'][0] = array_merge($menu[2]['links'][0], array(
-		'badge' => '<i class="fas fa-circle-notch fa-spin"></i>',
-		'tooltip' => 'Research currently in progress: '.$researchInProgress.', '.$province->getResearchTimeLeft(true).' left'
-	));
+	$menu = array(
+		0 => array('icon' => 'fas fa-tachometer-alt', 'links' => array(
+			array('url' => 'dashboard', 'title' => 'Dashboard'),
+		)), // => + .hide-menu-icon
+		1 => array('icon' => 'fas fa-university', 'links' => array(
+			array('url' => 'bank', 'title' => 'Bank',  'badge' => $province->getDepositNum()),
+		)),
+		2 => array('icon' => 'fas fa-flask', 'links' => array(
+			0 => array('url' => 'research', 'title' => 'Research'),
+		)),
+		3 => array('icon' => 'fas fa-map', 'url' => 'explore', 'links' => array(
+			array('url' => 'explore?tab=explore', 'title' => 'Explore'),
+			array('url' => 'explore?tab=sell', 'title' => 'Sell'),
+		)),
+		4 => array('icon' => 'fas fa-industry', 'links' => array(
+			array('url' => 'buildings', 'title' => 'Buildings', 'badge' => $province->getBuildingsNum()),
+		)),
+		5 => array('icon' => 'fas fa-fighter-jet', 'links' => array(
+			array('url' => 'units', 'title' => 'Units', 'badge' => $province->getUnitsNum()),
+		)),
+		6 => array('icon' => 'fas fa-rocket', 'links' => array(
+			array('url' => 'missiles', 'title' => 'Missiles', 'badge' => $province->getMissileNum()),
+		)),
+		7 => array('icon' => 'fas fa-satellite', 'links' => array(
+			array('url' => 'satellites', 'title' => 'Satellites', 'badge' => $province->getSatelliteNum()),
+		)),
+		8 => array('icon' => 'fas fa-shopping-cart', 'links' => array(
+			array('url' => 'buy', 'title' => 'Market'),
+			array('url' => 'orders', 'title' => 'Orders'),
+		)),
+		9 => array('icon' => 'fas fa-users', 'links' => array(
+			array('url' => 'clan-information', 'title' => 'Clan'),
+			array('url' => 'clan-wars', 'title' => 'Wars'),
+			array('url' => 'send-aid', 'title' => 'Send aid'),
+		)),
+		10 => array('icon' => 'fas fa-search', 'links' => array(
+			array('url' => 'users', 'title' => 'All users'),
+			array('url' => 'all-clans', 'title' => 'All clans'),
+		)),
+		11 => array('icon' => 'fas fa-trophy', 'links' => array(
+			array('url' => 'toplists', 'title' => 'Toplists (nw)'),
+			array('url' => 'toplists/?tab=clanpoints', 'title' => 'Clan points'),
+			array('url' => 'toplists/?tab=clannw', 'title' => 'Clan nw'),
+		)),
+	);
+	if(!!$researchInProgress) {
+		$menu[2]['links'][0] = array_merge($menu[2]['links'][0], array(
+			'badge' => '<i class="fas fa-circle-notch fa-spin"></i>',
+			'tooltip' => 'Research currently in progress: '.$researchInProgress.', '.$province->getResearchTimeLeft(true).' left'
+		));
+	}
+	$menu = (date('d-m')=='01-04' ? shuffle_assoc($menu) : $menu);
 }
-$menu = (date('d-m')=='01-04' ? shuffle_assoc($menu) : $menu);
 
 $timeLeft = Market::timeLeft();
 ?>
@@ -184,11 +187,17 @@ $timeLeft = Market::timeLeft();
 			<?php if($user->isLoggedIn()) { ?>
 				<? foreach($menu as $i => $row) {
 					$row['url'] = (!isset($row['url']) ? $row['links'][0]['url'] : $row['url']);
+					$firstLink = $row['links'][0];
 					?>
 					<div class="row menuRow <?=($i==0?'hide-menu-icon':'')?>">
 						<div class="col-md-2 col-xs-2 buttonItem">
 							<a href="<?=Request::siteUrl().'/'.$row['url']?>">
-								<button class="menu-item" type="button"><i class="<?=$row['icon']?>"></i></button>
+								<div data-toggle="tooltip" data-html="true" data-placement="right" title="<?=$firstLink['title']?> <?
+								if(!empty($firstLink['badge'])) {
+									echo '<span class=\'badge badge-secondary\'>'.str_replace('"','\'', $firstLink['badge']).'</span>';
+								} ?>">
+									<button class="menu-item" type="button"><i class="<?=$row['icon']?>"></i></button>
+								</div>
 							</a>
 						</div>
 						<div class="col-md-10 col-xs-10 menuText">
