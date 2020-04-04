@@ -46,26 +46,8 @@ function get_war_type($attack_clan_id, $defend_clan_id) {
 		war_multiplier : retrieved from constants
 */
 function get_war_multiplier($war_type) {
-    /* determine multiplier by type */
-    include('constants.php');
-
-    switch ($war_type) {
-        case 'mutual':
-            $war_multiplier = $WAR_POINTS_MULT_MUTUAL;
-            break;
-        case 'outgoing':
-            $war_multiplier = $WAR_POINTS_MULT_OUTGOING;
-            break;
-        case 'incoming':
-            $war_multiplier = $WAR_POINTS_MULT_INCOMING;
-            break;
-        case 'none':
-            $war_multiplier = $WAR_POINTS_MULT_NONE;
-            break;
-        default:
-            $war_multiplier = 0;
-    }
-    return $war_multiplier;
+    $warTypeMulti = Settings::get('war_type_multi');
+    return (isset($warTypeMulti[$war_type]) ? $warTypeMulti[$war_type] : 0);
 }
 
 
