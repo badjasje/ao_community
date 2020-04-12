@@ -70,19 +70,22 @@ function ajax_land_explore($province, $return) {
         }
         if(strpos($return['expResult'], '[random money]') !== false) {
             $money = rand(1,10) * 500;
-            $province->update('money', $money);
+            $province->update('money', $province->get('money') + $money);
             $return['expResult'] = str_replace('[random money]', Format::money($money), $return['expResult']);
         }
         if(strpos($return['expResult'], '[random land]') !== false) {
             $land = rand(1,5) * 500;
+            $province->update('land', $province->get('land') + $land);
             $return['expResult'] = str_replace('[random land]', Format::land($land), $return['expResult']);
         }
         if(strpos($return['expResult'], '[random turns]') !== false) {
             $turns = rand(5,10);
+            $province->update('turns', $province->get('turns') + $turns);
             $return['expResult'] = str_replace('[random turns]', Format::turns($turns), $return['expResult']);
         }
         if(strpos($return['expResult'], '[random morale]') !== false) {
             $morale = rand(1,3) * 10;
+            $province->update('morale', $province->get('morale') + $morale);
             $return['expResult'] = str_replace('[random morale]', Format::morale($morale), $return['expResult']);
         }
         if(strpos($return['expResult'], '[random building]') !== false) {
