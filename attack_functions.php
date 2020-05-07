@@ -192,7 +192,7 @@ function create_defender_array($target_id, $type_array) {
     foreach($units as $key => $data) {
         $unit_type = $data['type'];
         $unit_count = $target_data[$key."_owned"][0];
-        if ($unit_count > 0 && !in_array($key, $SPECIAL_UNITS)) {
+        if ($unit_count > 0 && $data['sectype'] != 'special') {
             $unit_life = $data['life'];
             $unit_sum_life = $unit_life * $unit_count;
             $stat_array[$unit_type][$key]['life'] = $unit_sum_life;
