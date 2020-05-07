@@ -108,6 +108,7 @@ $defVehTot = 0;
 
 $removeArray = array('air','sea','inf','veh');
 foreach ($units as $key => $unit) {
+	if($unit['sectype'] == 'special') continue;
 	if($units[$key]['type'] == 'air') $defAirTot += $defenderData[$key.'_owned'][0];
 	if($units[$key]['type'] == 'sea') $defSeaTot += $defenderData[$key.'_owned'][0];
 	if($units[$key]['type'] == 'inf') $defInfTot += $defenderData[$key.'_owned'][0];
