@@ -467,7 +467,9 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
         /* if defender has none of this unit continue */
         if ($unit_count < 1)
             continue;
-
+		if($units[$key]['sectype'] == 'special')
+			continue;
+			
         /* calculate attack power per type */
         $unit_def_types = $units[$key]['defends'];
 
