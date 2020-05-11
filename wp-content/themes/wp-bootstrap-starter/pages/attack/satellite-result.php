@@ -183,9 +183,9 @@ if($war_type != 'none' && $result == 'success') {
 
 		if($clan_points < 1) $clan_points = 1;
 
-		if($war_type == 'incoming') {
-			$clan_points = ceil($clan_points/2);
-		}
+		/* determine points multiplier due to war */
+		$war_multiplier = get_war_multiplier($war_type);
+		$clan_points = ceil($clan_points * $war_multiplier);
 	//}
 
 	// Points cap
