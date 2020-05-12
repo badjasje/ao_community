@@ -24,7 +24,7 @@ $stats = $menu = array();
 if(!!$province) {
 	$stats = array(
 		0 => array('title' => 'Money', 'value' => $province->getMoney(true)), //moneyheader
-		1 => array('title' => 'Networth', 'short' => 'Net.', 'value' => $province->getNetworth(true)), //networthheader
+		1 => array('title' => 'Networth', 'short' => 'Net.', 'class' => 'networth', 'value' => $province->getNetworth(true)), //networthheader
 		2 => array('title' => 'Turns', 'value' => $province->getTurns(true)), //turnsheader
 		3 => array('title' => 'Morale', 'value' => $province->getMorale(true), 'sup' => $province->getMoralePool(true)),
 		4 => array('title' => 'Land', 'value' => $province->getLand(true), 'tooltip' => 'Free land: '.$province->getFreeLand(true)),
@@ -221,7 +221,7 @@ $timeLeft = Market::timeLeft();
 					<div class="row statheader">
 						<? foreach($stats as $i => $stat) {
 							$stat['title'] = (!empty($stat['short']) ? $stat['short'] : $stat['title']);
-							$stat['class'] = strtolower($stat['title']);
+							$stat['class'] = (!empty($stat['class']) ? $stat['class'] : strtolower($stat['title']));
 							?>
 							<div class="col-6 statitem">
 								<span class="stattext"<?=(!empty($stat['tooltip'])?' data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.$stat['tooltip'].'"':'')?>>
