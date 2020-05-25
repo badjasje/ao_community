@@ -183,8 +183,9 @@ $timeLeft = Market::timeLeft();
 			<?php } ?>
 		</header>
 
-		<div id="mySidenav" class="sidenav">
-			<?php if($user->isLoggedIn()) { ?>
+
+		<?php if($user->isLoggedIn()) { ?>
+			<div id="mySidenav" class="sidenav">
 				<? foreach($menu as $i => $row) {
 					$row['url'] = (!isset($row['url']) ? $row['links'][0]['url'] : $row['url']);
 					$firstLink = $row['links'][0];
@@ -233,8 +234,8 @@ $timeLeft = Market::timeLeft();
 						<? } ?>
 					</div>
 				</div>
-			<?php } ?>
-		</div>
+			</div>
+		<?php } ?>
 
 		<?php if(Round::isPaused()) { ?>
 			<div class="permaNotification">
