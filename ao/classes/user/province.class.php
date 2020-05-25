@@ -110,6 +110,9 @@ class Province extends DbObject {
     public function isBanned() {
         return User::make($this->id)->isBanned();
     }
+    public function isBot() {
+        return false;
+    }
 
     /**
      * Status: dead
@@ -154,6 +157,21 @@ class Province extends DbObject {
         $viewerNetworth = $province->getNetworth();
         $range = Settings::get('attack_range_mult');
         return ($networth > $viewerNetworth / $range && $networth < $viewerNetworth * $range);
+    }
+
+    public function isAttackable($user_id=false) {
+        if(!$this->inRange($user_id)) return false;
+        if($this->isBot()) return true; // bots in range are always attackable
+
+        $clan = $this->getClan();
+        $user = (!$user_id ? CurrentUser::make() : User::make($user_id));
+        $province = $user->getProvince();
+        $my_clan_id = $province->getClanId();
+        if($clan == false && $my_clan_id == false) return true; // clanless vs clanless (in range)
+        elseif($clan != false && $my_clan_id != false) { // both in clan
+            if($clan->getWarType($my_clan_id) != 'none') return true; // some type of war
+        }
+        return false; // either out of war, or clan vs clanless
     }
 
     /**

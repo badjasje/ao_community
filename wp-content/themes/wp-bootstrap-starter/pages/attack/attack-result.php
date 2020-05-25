@@ -26,6 +26,7 @@ global $userId;
 global $userData;
 $attackerData = $userData;
 $defenderData = get_user_meta($target_id);
+$defender = Province::make($target_id);
 
 // LOCK
 $userLock = ($debug ? 0 : intval($attackerData['user_lock'][0]));
@@ -75,6 +76,13 @@ if($attackerData['status'][0] == 'dead' || $attackerData['status'][0] == 'nukepr
 /* check if target isn't under protection, else redirect */
 if($defenderData['status'][0] == 'nukeprotection'){
 	$array['status'] = 'This player is under assault protection';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
+}
+
+if(!$defender->isAttackable()) {
+	$array['status'] = 'No out of war attacks possible.';
 	$array['next'] = false;
 	echo json_encode($array);
 	exit;
