@@ -42,12 +42,17 @@ if ($userId == $clanleader && $clan_ID == $data['id'] && (empty($changecount) ||
                 $array['status'] = 'This clan name already exists2';
             }
             else {
-                $my_post = array('ID' => $clan_ID, 'post_title' => $clanName);
-                wp_update_post($my_post);
-                update_post_meta($clan_ID, 'clan_tag', $clanTag);
-                update_post_meta($clan_ID, 'clan_name_change', 1);
-                $array['status'] = 'Clan name and tag updated';
-                $array['clan_updated']  = true;
+                if(Format::strHasProfanity($data['clanname'])) {
+                    $array['status'] = 'Not a good clan name';
+                }
+                else {
+                    $my_post = array('ID' => $clan_ID, 'post_title' => $clanName);
+                    wp_update_post($my_post);
+                    update_post_meta($clan_ID, 'clan_tag', $clanTag);
+                    update_post_meta($clan_ID, 'clan_name_change', 1);
+                    $array['status'] = 'Clan name and tag updated';
+                    $array['clan_updated']  = true;
+                }
             }
         }
     }

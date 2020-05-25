@@ -5,6 +5,9 @@ function ajax_update($province, $return) {
     $user = User::make($province->get('id'));
 
     $playername = Request::post('playername');
+    if(Format::strHasProfanity($playername)) {
+        return array('status' => 'Please use another playername');
+    }
     if(!empty($playername)) $playername = trim(preg_replace('/[^A-Za-z0-9\- ]/', '', $playername));
     if(empty($playername)) {
         return array('status' => 'Invalid player name');
