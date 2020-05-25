@@ -284,14 +284,18 @@ class Request {
         if(!in_array($_SERVER['REQUEST_METHOD'], array('GET'))) $error = 'Request failed successfully (E03:P)';
         if(!defined('ABSPATH')) $error = 'Request failed successfully (E04:ABS)';
         if(!isset($_GET['key'])) $error = 'Request failed successfully (E02:KEY)';
-        if(!in_array($_GET['key'], array('P4N1CbotsAP1info4Pr0v1nC3s'))) $error = 'Request failed successfully (E01:KEY)';
+        else if(!in_array($_GET['key'], array('P4N1CbotsAP1info4Pr0v1nC3s'))) $error = 'Request failed successfully (E01:KEY)';
 
-        $province_id = Request::get('id');
-        if(empty($province_id) || !is_numeric($province_id) || ceil($province_id)!=$province_id || $province_id<0) $error = 'Invalid id';
-        else if(!in_array($province_id, array(2,3083,3084,3085,3086))) $error = 'Not a bot';
+        if(empty($error)) {
+            $province_id = Request::get('id');
+            if(empty($province_id) || !is_numeric($province_id) || ceil($province_id)!=$province_id || $province_id<0) $error = 'Invalid id';
+            else if(!in_array($province_id, array(2,3083,3084,3085,3086))) $error = 'Not a bot';
+        }
 
-        $province = Province::make($province_id);
-        if($province->get('id') == false) $error = 'Not a user';
+        if(empty($error) && !!$province_id) {
+            $province = Province::make($province_id);
+            if($province->get('id') == false) $error = 'Not a user';
+        }
 
         if(empty($error)) {
             $funcs = array(static::part(1),static::part(2));

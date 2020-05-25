@@ -50,6 +50,7 @@ if(Request::isAjax()) {
 
 // Handle API-requests privately
 if(Request::isApi()) {
+    header('Content-Type: application/json');
     echo Request::api();
     die();
 }
