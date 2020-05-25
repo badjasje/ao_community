@@ -851,7 +851,7 @@ class Province extends DbObject {
         return (!!Satellites::get($sat) ? 1 : 0);
     }
 
-    public function crashSatellite($key,$cost=0) {
+    public function crashSatellite($key, $demo_cost=0) {
 
         $this->update('sat_owned', 0);
         $this->update('sat_endlife', 0);
