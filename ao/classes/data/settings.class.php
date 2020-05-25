@@ -148,6 +148,7 @@ class Settings extends DataObject {
         // War
         'cooldown_time' => (36 * 3600),
         'peace_after_time' => (24 * 3600),
+        'max_incoming_wars' => 3,
         'war_type_multi' => array(
             'mutual' => 1,
             'outgoing' => 1,
