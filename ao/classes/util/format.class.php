@@ -51,6 +51,17 @@ class Format extends PhpObject {
         return false;
     }
 
+    public static function strHasProfanity($text) {
+        $blacklist = file(SERVER_ROOT.'/wordpress-comment-blacklist-words-list.txt');
+        if(is_array($blacklist)) {
+            foreach($blacklist as $word) {
+                if(empty($word) || trim($word) == '' || substr($word,0,2) == '##') continue;
+                if(preg_match('^\b'.trim($word).'\b^mi', $text)) return true;
+            }
+        }
+        return false;
+    }
+
     public static function time_elapsed($timestamp, $level = 1) {
         if(!$timestamp) return 'never';
         $now = new DateTime;
