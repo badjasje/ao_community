@@ -94,8 +94,8 @@ class Settings extends DataObject {
         'sniper_morale_cost' => 10,
         'thief_morale_cost' => 5,
         'spy_morale_cost' => 0,
-        'morale_missile_tgt_below' => 35,
-        'morale_missile_tgt_above' => 35,
+        'morale_missile_tgt_below' => 30,
+        'morale_missile_tgt_above' => 30,
         'morale_attack_tgt_below' => 25,
         'morale_attack_tgt_above' => 20,
 
@@ -109,6 +109,8 @@ class Settings extends DataObject {
         ),
 
         // Turn costs
+        'turns_order_missile' => 3,
+        'turns_order_tomahawk' => (1/3),
         'turns_missile' => 3,
         'turns_attack' => 3,
         'turns_thief' => 2,

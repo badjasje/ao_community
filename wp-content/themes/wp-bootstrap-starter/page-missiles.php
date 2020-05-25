@@ -66,9 +66,9 @@ $sellBackColor = "127, 82, 67"
 				addednw += +$(this).attr( "data-nw" )/100*orderval;
 				var inputkey = $(this).attr( "data-key" );
 				if(inputkey == 'tomahawk'){
-					turntot += Math.ceil(inputval/3);
+					turntot += Math.ceil(inputval * <?=Settings::get('turns_order_tomahawk')?>);
 				}else{
-					turntot += Math.ceil(inputval*5);
+					turntot += Math.ceil(inputval * <?=Settings::get('turns_order_missile')?>);
 				}
 			}
 		});
@@ -98,9 +98,9 @@ $sellBackColor = "127, 82, 67"
 				addednw += +$(this).attr( "data-nw" )/100 * orderval;
 				var inputkey = $(this).attr( "data-key" );
 				if(inputkey == 'tomahawk'){
-					turntot += Math.ceil(inputval/3);
+					turntot += Math.ceil(inputval * <?=Settings::get('turns_order_tomahawk')?>);
 				}else{
-					turntot += Math.ceil(inputval*5);
+					turntot += Math.ceil(inputval * <?=Settings::get('turns_order_missile')?>);
 				}
 			}
 		});

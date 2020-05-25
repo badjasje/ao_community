@@ -70,12 +70,12 @@ foreach ($missiles as $key => $order) {
     if ($key != 'tomahawk') {
         $orderamount = $price*$ordered_missiles;
         $totalordercost+=$orderamount;
-        $totalturncost+=$ordered_missiles*5;
+        $totalturncost += $ordered_missiles * Settings::get('turns_order_missile');
     }
     if ($key == 'tomahawk') {
         $orderamount = $price*$ordered_missiles;
         $totalordercost += $orderamount;
-        $totalturncost += abs(ceil($ordered_missiles/3));
+        $totalturncost += abs(ceil($ordered_missiles * Settings::get('turns_order_tomahawk') ));
     }
 }
 if ($totalordercost > $totalmoney) {
@@ -208,11 +208,11 @@ foreach ($missiles as $key => $missile) {
 foreach ($missiles as $key => $missile) {
 	if($key != 'tomahawk'){
 		$max_money = floor($totalMoney/($missile['price']));
-		$max_turns = floor($totalturns*5);
+		$max_turns = floor($totalturns * Settings::get('turns_order_missile'));
 		$max_space = $missilespace-$totalmissiles;
 	}else{
 		$max_money = floor($totalMoney/($missile['price']));
-		$max_turns = round($totalturns/3);
+		$max_turns = round($totalturns * Settings::get('turns_order_tomahawk'));
 		$max_space = $tomahawkspace-$userData['tomahawk_owned'][0]-$userData['tomahawk_ordered'][0];
 	}
 
