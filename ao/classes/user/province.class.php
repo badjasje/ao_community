@@ -159,9 +159,10 @@ class Province extends DbObject {
         return ($networth > $viewerNetworth / $range && $networth < $viewerNetworth * $range);
     }
 
-    public function isAttackable($user_id=false) {
+    public function isAttackable($attack_type='regular', $user_id=false) {
         if(!$this->inRange($user_id)) return false;
         if($this->isBot()) return true; // bots in range are always attackable
+        if(in_array($attack_type, array('spy','thief'))) return true; // You can always spy and thief
 
         $clan = $this->getClan();
         $user = (!$user_id ? CurrentUser::make() : User::make($user_id));

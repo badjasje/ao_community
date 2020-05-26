@@ -51,7 +51,8 @@ $array = array();
     $clan_id = $userData['clan_id_user'][0];
     $turns = $userData['turns'][0];
     $morale = $userData['morale'][0];
-	$maintarget = (isset($_POST['maintarget']) ? $_POST['maintarget'] : '');
+    $maintarget = (isset($_POST['maintarget']) ? $_POST['maintarget'] : '');
+    $attacktype = $_POST['attacktype'];
 
 	if($userData['status'][0] == 'dead' || $userData['status'][0] == 'nukeprotection'){
 		$array['status'] = 'You cannot attack while dead or under assault protection';
@@ -137,7 +138,7 @@ $array = array();
         }
     }
 
-    if(!$defender->isAttackable()) {
+    if(!$defender->isAttackable($attacktype)) {
         $array['status'] = 'No out of war attacks possible.';
         $array['next'] = false;
         echo json_encode($array);
@@ -150,7 +151,6 @@ $array = array();
     $war_type = get_war_type($attacker_clan_ID,$defender_clan_ID);
 
 /* determine if target is in range */
-    $attacktype = $_POST['attacktype'];
     $networth_att = $userData['networth'][0];
     $networth_def = get_user_meta($target_id, 'networth')[0];
 
