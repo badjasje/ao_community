@@ -138,13 +138,6 @@ $array = array();
         }
     }
 
-    if(!$defender->isAttackable($attacktype)) {
-        $array['status'] = 'No out of war attacks possible.';
-        $array['next'] = false;
-        echo json_encode($array);
-        exit;
-    }
-
 /* determine war type and war points multiplier */
     $attacker_clan_ID = $userData['clan_id_user'][0];
     $defender_clan_ID = get_user_meta($target_id, 'clan_id_user')[0];
@@ -219,6 +212,12 @@ $array = array();
 
     }
 
+    if(!$defender->isAttackable($attacktype)) {
+        $array['status'] = 'No out of war attacks possible.';
+        $array['next'] = false;
+        echo json_encode($array);
+        exit;
+    }
 /* validations passed - advance to step 2 */
 
 
