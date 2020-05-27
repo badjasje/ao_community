@@ -581,14 +581,13 @@ class Province extends DbObject {
             Hooks::trigger('get_province_building', null, $buildings, $id, $this);
         }
 
-        if($shootdown_chance = $this->getShootdownChance()) {
-            $buildings['antimissile']['shootdown_chance'] = $shootdown_chance;
-            $buildings['antimissile']['description'] = '
-                For max protection you currently need '. $this->getMaxAMS().' ams.
-                Every Anti-Missile System has a 25% chance to shoot down tomahawk missiles.';
-                /* Each Anti-Missile System protects 100m2 of your built land.
-                Chance to shoot down missiles is currently '. $shootdown_chance .'%.*/
-        }
+        $shootdown_chance = $this->getShootdownChance();
+        $buildings['antimissile']['shootdown_chance'] = $shootdown_chance;
+        $buildings['antimissile']['description'] = '
+            For max protection you currently need '. $this->getMaxAMS(true).' ams.
+            Every Anti-Missile System has a 25% chance to shoot down tomahawk missiles.';
+            /* Each Anti-Missile System protects 100m2 of your built land.
+            Chance to shoot down missiles is currently '. $shootdown_chance .'%.*/
 
         return ($key != null ? (!!$buildings[$key] ? $buildings[$key] : false) : $buildings);
     }
@@ -636,15 +635,25 @@ class Province extends DbObject {
         $shootdown_chance = 0;
         $AMS = intval($this->get('antimissile'));
         if($AMS > 0) {
-            $def_land = intval($this->get('builtland'));
-            $shootdown_chance = round( (($AMS*100)/$def_land)*100, 2 );
-            if ($shootdown_chance >= 75) $shootdown_chance = 75;
+            //$def_land = intval($this->get('builtland'));
+            //$shootdown_chance = round( (($AMS*100)/$def_land)*100, 2 );
+            //if ($shootdown_chance >= 75) $shootdown_chance = 75;
+            $g = $this->getMaxAMS(false);
+            $shootdown_chance = min(round(1/( (1/75) * (1/$AMS) * $g),2), 75);
         }
         return ($format ? $shootdown_chance.'%' : $shootdown_chance);
     }
     public function getMaxAMS($format=false) {
         $def_land = intval($this->get('builtland'));
-        return ($def_land > 0 ? ceil(($def_land/100)*0.75) : 0);
+        if($def_land == 0) return 0;
+        $g = (1.508427518 * pow(10,-24) * pow($def_land,5)) -
+            (1.621601531 * pow(10,-18) * pow($def_land,4)) +
+            (6.342827634 * pow(10,-13) * pow($def_land,3)) -
+            (1.112051958 * pow(10,-7) * pow($def_land,2))  +
+            (9.145346415 * pow(10,-3) * $def_land) +
+            7.346489612;
+        return ($format ? ceil($g) : $g);
+        //return ($def_land > 0 ? ceil(($def_land/100)*0.75) : 0);
     }
 
     /**
