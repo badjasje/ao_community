@@ -9,7 +9,7 @@ global $userData;
 global $userId;
 
 $activeTab = 'buy';
-include 'count_functions.php';
+//include 'count_functions.php';
 $missiles = Missiles::get();
 
 $missilespace = $userData['silo'][0];

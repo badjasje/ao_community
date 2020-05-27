@@ -583,9 +583,11 @@ class Province extends DbObject {
 
         if($shootdown_chance = $this->getShootdownChance()) {
             $buildings['antimissile']['shootdown_chance'] = $shootdown_chance;
-            $buildings['antimissile']['description'] = 'Each Anti-Missile System protects 100m2 of your built land.
-                Chance to shoot down missiles is currently '. $shootdown_chance .'%.
+            $buildings['antimissile']['description'] = '
+                For max protection you currently need '. $this->getMaxAMS().' ams.
                 Every Anti-Missile System has a 25% chance to shoot down tomahawk missiles.';
+                /* Each Anti-Missile System protects 100m2 of your built land.
+                Chance to shoot down missiles is currently '. $shootdown_chance .'%.*/
         }
 
         return ($key != null ? (!!$buildings[$key] ? $buildings[$key] : false) : $buildings);
@@ -639,6 +641,10 @@ class Province extends DbObject {
             if ($shootdown_chance >= 75) $shootdown_chance = 75;
         }
         return ($format ? $shootdown_chance.'%' : $shootdown_chance);
+    }
+    public function getMaxAMS($format=false) {
+        $def_land = intval($this->get('builtland'));
+        return ($def_land > 0 ? ceil(($def_land/100)*0.75) : 0);
     }
 
     /**
