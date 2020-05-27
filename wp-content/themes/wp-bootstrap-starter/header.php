@@ -171,7 +171,7 @@ $timeLeft = Market::timeLeft();
 					<? foreach($stats as $i => $stat) {
 						$stat['class'] = strtolower($stat['title']);
 						?>
-						<div class="col-md-2 statitem">
+						<div class="col-md-2 statitem <?=$stat['class']?>wrapper">
 							<span class="stattext"<?=(!empty($stat['tooltip'])?' data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.$stat['tooltip'].'"':'')?>>
 								<strong><?=$stat['title']?>:</strong> <span class="<?=$stat['class']?>header"><?=$stat['value']?></span>
 								<?=(!empty($stat['sup'])?'<sup><span class="'.$stat['class'].'sup">'.$stat['sup'].'</span></sup>':'')?>
@@ -224,7 +224,7 @@ $timeLeft = Market::timeLeft();
 							$stat['title'] = (!empty($stat['short']) ? $stat['short'] : $stat['title']);
 							$stat['class'] = (!empty($stat['class']) ? $stat['class'] : strtolower($stat['title']));
 							?>
-							<div class="col-6 statitem">
+							<div class="col-6 statitem <?=$stat['class']?>wrapper">
 								<span class="stattext"<?=(!empty($stat['tooltip'])?' data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.$stat['tooltip'].'"':'')?>>
 									<strong><?=$stat['title']?>:</strong> <span class="<?=$stat['class']?>header"><?=$stat['value']?></span>
 									<?=(!empty($stat['sup'])?'<sup><span class="'.$stat['class'].'sup">'.$stat['sup'].'</span></sup>':'')?>
