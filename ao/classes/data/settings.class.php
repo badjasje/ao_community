@@ -138,6 +138,7 @@ class Settings extends DataObject {
         // Attack range multiplier
         'attack_range_mult' => 1.4,
         'average_declare_nw_allowed' => 1.6,
+        'oow_attack_minimum' => 500000,
 
         // Clan stuff
         'clan_trustee_num' => 5,
