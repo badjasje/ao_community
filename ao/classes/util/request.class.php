@@ -191,7 +191,7 @@ class Request {
         $currentIsp = $output->data->geo->isp;
         $blocklist = array(
             'Highwinds Network Group, Inc.', 'Highwinds Network Group', 'ZSCALER, INC.',
-            'Micfo, LLC.', 'M247 Ltd', 'StackPath LLC', 'M247 Ltd.'
+            'Micfo, LLC.', 'M247 Ltd', 'StackPath LLC', 'M247 Ltd.', 'Linode'
         );
         if(in_array($currentIsp, $blocklist)) return true;
         return false;
