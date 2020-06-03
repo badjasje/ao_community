@@ -163,11 +163,13 @@ class Province extends DbObject {
         if(!$this->inRange($user_id)) return false;
         if($this->isBot()) return true; // bots in range are always attackable
         if(in_array($attack_type, array('spy','thief'))) return true; // You can always spy and thief
-        if($this->getNetworth() >= Settings::get('oow_attack_minimum')) return true; // Big solo & clan players are attackable OOW
 
-        $clan = $this->getClan();
         $user = (!$user_id ? CurrentUser::make() : User::make($user_id));
         $province = $user->getProvince();
+        $min = Settings::get('oow_attack_minimum');
+        if($province->getNetworth() >= $min && $this->getNetworth() >= $min) return true; // Big solo & clan players are attackable OOW
+
+        $clan = $this->getClan();
         $my_clan_id = $province->getClanId();
         if($clan == false && $my_clan_id == false) return true; // clanless vs clanless (in range)
         elseif($clan != false && $my_clan_id != false) { // both in clan
