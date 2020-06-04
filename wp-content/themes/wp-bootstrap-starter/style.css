@@ -862,7 +862,7 @@ input[type="radio"]:checked + label {
     z-index:-999999;
 }
 .game-type-test .titleBackWrapper{
-    background-image: url('/wp-content/themes/wp-bootstrap-starter/img/header_test.png');
+    background-image: url('/wp-content/themes/wp-bootstrap-starter/img/header_minion.png');
 }
 .game-type-test #content.site-content { background-color:#e6bcbc; }
 .game-type-development #content.site-content { background-color: #bce6bf; }
