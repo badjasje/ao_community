@@ -72,8 +72,10 @@ Data/Trophies extends DataObject
 // Round
 Round/Round extends DataObject  // Start- and Endtime, type (dev,test) and status (pause, live)
 
+// Events
+Event extends PostObject       // Locals, globals etc. We might create
+
 // Other (todo)
-*Event extends PostObject       // Locals, globals etc. We might create
 *SpyReport extends PostObject
 *EMP extends PostObject
 *Trophy extends PostObject      // Could be in User/Trophy?

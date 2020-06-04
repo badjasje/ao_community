@@ -94,6 +94,11 @@ class Province extends DbObject {
 
     // As long as we are using WP, we re-use this function
     public function update($key, $value) {
+        if(in_array($key, array('display_name'))) {
+            $_userdata = array('ID'=>$this->id);
+            $_userdata[$key] = $value;
+            wp_update_user($_userdata);
+        }
         if(in_array($key,$this->fields)) update_user_meta($this->id, $key, $value); //@wp
         return parent::update($key, $value);
     }
@@ -111,7 +116,7 @@ class Province extends DbObject {
         return User::make($this->id)->isBanned();
     }
     public function isBot() {
-        return false;
+        return ($this->get('user_country') == 'skaro');
     }
 
     /**

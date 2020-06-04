@@ -58,6 +58,7 @@ function api_info($province, $return) {
         'deposits_available' => $province->getDepositAvailable(),
         'deposits_final' => $province->getDepositFinal(),
     );
+    if($province->isProtected()) $data['ap_time_left'] = $province->getProtectionTimeLeft();
     if(count($researches)) $data['researches'] = $researches;
     if(count($buildings)) $data['buildings'] = $buildings;
     if(count($units)) $data['units'] = $units;

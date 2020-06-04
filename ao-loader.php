@@ -54,3 +54,6 @@ if(Request::isApi()) {
     echo Request::api();
     die();
 }
+else if(!isset($_GET['action']) && Province::make($user->get('id'))->isBot()) {
+    die('Bot\'s do not use browsers, <a href="/wp-login.php?action=logout">logout</a>');
+}
