@@ -28,7 +28,7 @@ if(!!$province) {
 		2 => array('title' => 'Turns', 'value' => $province->getTurns(true)), //turnsheader
 		3 => array('title' => 'Morale', 'value' => $province->getMorale(true), 'sup' => $province->getMoralePool(true)),
 		4 => array('title' => 'Land', 'value' => $province->getLand(true), 'tooltip' => 'Free land: '.$province->getFreeLand(true)),
-		5 => array('title' => 'Power usage', 'value' => $province->getPower(true)),
+		5 => array('title' => 'Power usage', 'value' => $province->getPower(true), 'class' => 'power'),
 	);
 	if($province->getSatelliteNum()) {
 		$stats[3]['tooltip'] = 'Satellite power: '.$province->getSatMorale(true);
@@ -169,7 +169,7 @@ $timeLeft = Market::timeLeft();
 
 				<div class="row topstatheader">
 					<? foreach($stats as $i => $stat) {
-						$stat['class'] = strtolower($stat['title']);
+						$stat['class'] = (!empty($stat['class']) ? $stat['class'] : strtolower($stat['title']));
 						?>
 						<div class="col-md-2 statitem <?=$stat['class']?>wrapper">
 							<span class="stattext"<?=(!empty($stat['tooltip'])?' data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.$stat['tooltip'].'"':'')?>>
