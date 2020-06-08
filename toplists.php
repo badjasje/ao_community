@@ -246,6 +246,7 @@ $users = get_users($args);
 		$member_data = get_userdata($user_ID);
 		$referrals = get_user_meta($user_ID, 'referral_num', true);
 		$count++;
+		if(intval($referrals) < 1) continue;
 		if($count == 1){
 			$winnerArray['Medal of Recruitment'] = array($user_ID, $referrals);
 		}
