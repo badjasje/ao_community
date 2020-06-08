@@ -2,7 +2,28 @@
 
 function api_info($province, $return) {
 
-    $user = User::make($province->get('id'));
+    $target_id = Request::get('target','int');
+    if(!empty($target_id)) {
+        $target_user = User::make($target_id);
+        if(!!$target_user) $target = $target_user->getProvince();
+        if(!$target->getName()) return array_merge($return, array('success' => false, 'status' => 'Not a user'));
+
+        $clan = $target->getClan();
+        $data = array(
+            'name' => $target->getName(),
+            'status' => $target->get('status'),
+            'clan' => (!!$clan ? $clan->getName() : ''),
+            'networth' => $target->getNetworth(),
+            'land' => $target->getLand(),
+            'is_online' => $target->isOnline(),
+            'in_range' => $target->inRange($province->get('id')),
+            'is_attackable' => $target->isAttackable('regular', $province->get('id')),
+        );
+        return array_merge($return, array('success' => true, 'data' => $data, 'status' => 'Data from province #'.$target_id));
+    }
+    else {
+        $user = User::make($province->get('id'));
+    }
 
     $startbonus = $province->getStartingBonus();
 
