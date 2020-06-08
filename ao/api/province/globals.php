@@ -12,7 +12,7 @@ function api_globals($province, $return) {
         'defender_points','clan_points','status_defender',
         'money_lost','land_lost',
         'shotdown','thiefs_lost','event_spy_type',
-        'outcome','missile_type','tomahawk_hit','tomahawk_down',
+        'outcome','missile_type',
         'dec_message',
         'bonus_money','bonus_turns',
         'attackmode','maintarget','moralecost',

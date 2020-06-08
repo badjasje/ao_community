@@ -66,18 +66,6 @@ class Missiles extends DataObject {
             'type'          =>  'mis',
             'life'          =>  0
         ),
-        'tomahawk'      => array(
-            'price'         =>  '1500',
-            'networth'      =>  10,
-            'normalname'    =>  'Tomahawk',
-            'shortname'     =>  'TOM',
-            'shortatt'      =>  array('b'),
-            'attacks'       =>  array('bld'),
-            'defends'       =>  array(''),
-            'attack'        =>  1850,
-            'type'          =>  'mis',
-            'life'          =>  0
-        ),
     );
 
 }

@@ -35,7 +35,6 @@ class Province extends DbObject {
 
         // Missiles
         'nuke_owned','nuke_ordered','chemical_owned','chemical_ordered','bio_owned','bio_ordered','moab_owned','moab_ordered',
-        'tomahawk_ordered','tomahawk_owned',
 
         // Sats
         'sat_in_progress','sat_owned','stealth_sat_status','level_satellite_construction','sat_endlife','stealth_sat_time',
@@ -576,7 +575,6 @@ class Province extends DbObject {
                     }
                 }
                 foreach($missiles as $missile_key => $missile) {
-                    if($missile_key == 'tomahawk') continue; // are not housed in buildings
                     if($missile['type'] == $building['houses']) $occupied += ($missile['ordered'] + $missile['num']);
                 }
             }
@@ -591,11 +589,7 @@ class Province extends DbObject {
 
         $shootdown_chance = $this->getShootdownChance();
         $buildings['antimissile']['shootdown_chance'] = $shootdown_chance;
-        $buildings['antimissile']['description'] = '
-            For max protection you currently need '. $this->getMaxAMS(true).' ams.
-            Every Anti-Missile System has a 25% chance to shoot down tomahawk missiles.';
-            /* Each Anti-Missile System protects 100m2 of your built land.
-            Chance to shoot down missiles is currently '. $shootdown_chance .'%.*/
+        $buildings['antimissile']['description'] = 'For max protection you currently need '. $this->getMaxAMS(true).' ams.';
 
         return ($key != null ? (!!$buildings[$key] ? $buildings[$key] : false) : $buildings);
     }
@@ -703,10 +697,6 @@ class Province extends DbObject {
         $units = Units::get();
         $discount = $this->getShippingDiscount();
 
-        // You cannot sell subs when having tommy's
-        $totalmissiles = ($this->get('tomahawk_owned') + $this->get('tomahawk_ordered'));
-        $maxSellSubs = ($totalmissiles > 0 ? ceil($totalmissiles/2) : -1);
-
         foreach($units as $id => $unit) {
             $units[$id]['num'] = (!!$this->get($id.'_owned') ? intval($this->get($id.'_owned')) : 0);
             $units[$id]['ordered'] = (!!$this->get($id.'_ordered') ? intval($this->get($id.'_ordered')) : 0);
@@ -732,9 +722,6 @@ class Province extends DbObject {
             $units[$id]['maxbuild'] = min($maxSpecialBuy, $maxBuy, $maxSpace, $maxTurns);
             $units[$id]['maxorder'] = min($maxOrder, $maxSpace, $maxSpecialSpace, $maxSpecialOrder);
             $units[$id]['maxsell'] = min($maxSell, $maxSpecialSell);
-            if($id == 'submarine' && $maxSellSubs > -1) {
-                $units[$id]['maxsell'] = min($units[$id]['maxsell'], ($units[$id]['num']-$maxSellSubs));
-            }
 
             Hooks::trigger('get_province_unit', null, $units, $id, $this);
         }
