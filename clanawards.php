@@ -11,7 +11,7 @@ foreach ($clans as $clan) {
     $tot_attacks = 0;
     foreach ($clan_members[0] as $member) {
         $land = get_user_meta($member, 'land', true);
-        $attacks = get_user_meta($member, 'attacks_made', true);
+        $attacks = get_user_meta($member, 'succesful_attacks', true);
         $tot_land+=$land;
         $tot_attacks+=$attacks;
     }
