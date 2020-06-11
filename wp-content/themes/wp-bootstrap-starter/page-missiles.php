@@ -18,14 +18,10 @@ $totalturns = $userData['turns'][0];
 
 $totalmissiles = 0;
 foreach ($missiles as $key => $missile) {
-    if ($key != 'tomahawk') {
-        $missiles_owned = intval(get_user_meta($userId, $key.'_owned', true));
-        $missiles_ordered = intval(get_user_meta($userId, $key.'_ordered', true));
-        $totalmissiles +=($missiles_owned+$missiles_ordered);
-    }
+	$missiles_owned = intval(get_user_meta($userId, $key.'_owned', true));
+	$missiles_ordered = intval(get_user_meta($userId, $key.'_ordered', true));
+	$totalmissiles +=($missiles_owned+$missiles_ordered);
 }
-
-$tomahawkspace = $userData['submarine_owned'][0]*2;
 $missileAccLevel = $userData['level_missile_accuracy'][0];
 $buyBackColor = "45, 67, 81";
 $sellBackColor = "127, 82, 67"
@@ -65,11 +61,7 @@ $sellBackColor = "127, 82, 67"
 				orderval += parseInt($(this).attr("data-price")) * inputval;
 				addednw += +$(this).attr( "data-nw" )/100*orderval;
 				var inputkey = $(this).attr( "data-key" );
-				if(inputkey == 'tomahawk'){
-					turntot += Math.ceil(inputval * <?=Settings::get('turns_order_tomahawk')?>);
-				}else{
-					turntot += Math.ceil(inputval * <?=Settings::get('turns_order_missile')?>);
-				}
+				turntot += Math.ceil(inputval * <?=Settings::get('turns_order_missile')?>);
 			}
 		});
 
@@ -97,11 +89,7 @@ $sellBackColor = "127, 82, 67"
 				orderval += parseInt($(this).attr("data-price")) * inputval;
 				addednw += +$(this).attr( "data-nw" )/100 * orderval;
 				var inputkey = $(this).attr( "data-key" );
-				if(inputkey == 'tomahawk'){
-					turntot += Math.ceil(inputval * <?=Settings::get('turns_order_tomahawk')?>);
-				}else{
-					turntot += Math.ceil(inputval * <?=Settings::get('turns_order_missile')?>);
-				}
+				turntot += Math.ceil(inputval * <?=Settings::get('turns_order_missile')?>);
 			}
 		});
 

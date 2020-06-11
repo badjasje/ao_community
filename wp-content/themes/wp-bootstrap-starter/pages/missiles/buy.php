@@ -7,8 +7,7 @@ $ordered = (!empty($userData['tomahawk_ordered'][0]) ? $userData['tomahawk_order
 
 <form class="form" id="ordermissiles" method="post">
 	<div class="blockHeader spaceNotice">
-		Your empty missile silo's allow you to build a maximum of <strong><?php echo $missilespace-$totalmissiles;?></strong> missiles,
-		your submarines allow you to build a maximum of <strong><? echo $tomahawkspace - $owned - $ordered; ?></strong> tomahawks.<br>
+		Your empty missile silo's allow you to build a maximum of <strong><?php echo $missilespace-$totalmissiles;?></strong> missiles.
 	</div>
 
 	<div class="row unitRow headerRow" style="border-bottom:1px solid #fff;background-color: rgba(45, 67, 81, 0.75);">
