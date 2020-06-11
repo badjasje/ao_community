@@ -140,7 +140,7 @@ $array = array();
 
 /* determine war type and war points multiplier */
     $attacker_clan_ID = $userData['clan_id_user'][0];
-    $defender_clan = $defender->getClanId();
+    $defender_clan = $defender->getClan();
     $war_type = (!!$defender_clan ? $defender_clan->getWarType($attacker_clan_ID) : '');
 
 /* determine if target is in range */
