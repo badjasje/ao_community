@@ -47,6 +47,7 @@ function ajax_buildings($province, $return) {
     $build_num = $build_price = 0;
     foreach($_POST['build'] as $key => $num) {
         if(empty($num) || !is_numeric($num) || $num < 0 || !isset($buildings[$key])) continue;
+        // add to status if num > maxbuild
         $build[$key] = min($num, $buildings[$key]['maxbuild']);
         $build_num += $build[$key];
         $build_price += $build[$key] * $buildings[$key]['buildprice'];
@@ -56,7 +57,7 @@ function ajax_buildings($province, $return) {
     if($build_price > $money) {
         $status[] = 'insufficient funds to build';
     }
-    else if($turns_needed > $turns) {
+    else if($turns_needed > $turns || $turns == 0) {
         $status[] = 'not enough turns to build';
     }
     else if($build_num*Settings::get('land_per_building') > $freeland) {

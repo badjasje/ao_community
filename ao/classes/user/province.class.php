@@ -114,6 +114,9 @@ class Province extends DbObject {
     public function isBanned() {
         return User::make($this->id)->isBanned();
     }
+    public function isAdmin() {
+        return (isset($this->id) && in_array($this->id, Settings::get('admin_ids'))); // can this even BE more ugly?
+    }
     public function isBot() {
         return ($this->get('user_country') == 'skaro');
     }
@@ -916,6 +919,42 @@ class Province extends DbObject {
         ));
         foreach($posts as $post) $convos[] = Conversation::make($post->ID);
         return $convos;
+    }
+
+    /**
+     * Spy Reports
+     */
+    public function getReports($target_id) {
+        if($this->get('id') == $target_id) return false;
+        if($this->isFellowClanMember($target_id)) return false;
+        $target = Province::make($target_id);
+        if(!$target->getName()) return false;
+
+        $members = array($this->get('id'));
+        if($clan = $this->getClan()) $members = $clan->getMembers();
+
+        // Only latest post per type
+        $reports = array();
+        $args = array(
+            'posts_per_page' => 1, 'author__in'	=> $members, 'post_type' => 'spy_rep',
+            'meta_query' => array(
+                'relation' => 'AND',
+                array('key' => 'spied_id', 'value' => $target_id, 'compare' => '='),
+                array('key'	=> 'spy_type', 'value' => 'spyplane', 'compare' => '='),
+                //array('key' => 'clan_id_report', 'value' => $visiting_clan, 'compare' => '='),
+            )
+        );
+        $posts = get_posts($args);
+        foreach($posts as $post) {
+            $reports['buildings'] = new Report($post);
+        }
+
+        $args['meta_query'][1]['value'] = 'spy';
+        $posts = get_posts($args);
+        foreach($posts as $post) {
+            $reports['units'] = new Report($post);
+        }
+        return $reports;
     }
 
     /**

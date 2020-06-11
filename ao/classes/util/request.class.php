@@ -299,7 +299,7 @@ class Request {
             $province = Province::make($province_id);
             if($province->get('id') == false) $error = 'Not a user (E06:NU)';
         }
-        if(empty($error) && !$province->isBot()) {
+        if(empty($error) && !Round::isDev() && !$province->isBot()) {
             $error = 'Not a bot (E08:UC)';
         }
         if(empty($error)) {
