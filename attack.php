@@ -140,8 +140,8 @@ $array = array();
 
 /* determine war type and war points multiplier */
     $attacker_clan_ID = $userData['clan_id_user'][0];
-    $defender_clan_ID = get_user_meta($target_id, 'clan_id_user')[0];
-    $war_type = get_war_type($attacker_clan_ID,$defender_clan_ID);
+    $defender_clan = $defender->getClanId();
+    $war_type = (!!$defender_clan ? $defender_clan->getWarType($attacker_clan_ID) : '');
 
 /* determine if target is in range */
     $networth_att = $userData['networth'][0];
@@ -213,7 +213,7 @@ $array = array();
     }
 
     if(!$defender->isAttackable($attacktype)) {
-        $array['status'] = 'No out of war attacks possible.';
+        $array['status'] = 'You cannot attack this player';
         $array['next'] = false;
         echo json_encode($array);
         exit;

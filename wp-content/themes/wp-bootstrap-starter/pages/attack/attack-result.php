@@ -82,7 +82,7 @@ if($defenderData['status'][0] == 'nukeprotection'){
 }
 
 if(!$defender->isAttackable($attack_type)) {
-	$array['status'] = 'No out of war attacks possible.';
+	$array['status'] = 'You cannot attack this player.';
 	$array['next'] = false;
 	echo json_encode($array);
 	exit;
