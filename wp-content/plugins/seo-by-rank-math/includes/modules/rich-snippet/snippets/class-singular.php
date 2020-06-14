@@ -78,13 +78,12 @@ class Singular implements Snippet {
 			return false;
 		}
 
-		$pages = array_map( 'absint', array_filter( [ Helper::get_settings( 'titles.local_seo_about_page' ), Helper::get_settings( 'titles.local_seo_contact_page' ) ] ) );
-		if ( in_array( $jsonld->post_id, $pages, true ) ) {
-			return false;
-		}
-
 		if ( metadata_exists( 'post', $jsonld->post_id, 'rank_math_rich_snippet' ) ) {
 			return Helper::get_post_meta( 'rich_snippet' );
+		}
+
+		if ( ! Helper::can_use_default_schema( $jsonld->post_id ) ) {
+			return false;
 		}
 
 		return $this->get_default_schema( $jsonld );
@@ -98,17 +97,20 @@ class Singular implements Snippet {
 	 * @return string
 	 */
 	private function get_default_schema( $jsonld ) {
-
 		$schema = Helper::get_settings( "titles.pt_{$jsonld->post->post_type}_default_rich_snippet" );
 		if ( ! $schema ) {
-			return '';
+			return false;
 		}
 
-		$use_default = Conditional::is_woocommerce_active() && is_product() ||
-					Conditional::is_edd_active() && is_singular( 'download' ) ||
-					'article' === $schema;
+		if (
+			'article' === $schema ||
+			( Conditional::is_woocommerce_active() && is_singular( 'product' ) ) ||
+			( Conditional::is_edd_active() && is_singular( 'download' ) )
+		) {
+			return $schema;
+		}
 
-		return $use_default ? $schema : '';
+		return false;
 	}
 
 	/**

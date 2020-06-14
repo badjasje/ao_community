@@ -16,6 +16,7 @@ use WP_Error;
 use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Controller;
+use RankMath\Helper;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -65,6 +66,11 @@ class Post extends WP_REST_Controller {
 				continue;
 			}
 
+			$post_type = get_post_type( $post_id );
+			if ( ! Helper::is_post_type_accessible( $post_type ) && 'attachment' !== $post_type ) {
+				continue;
+			}
+
 			$this->save_row( $post_id, $data );
 		}
 
@@ -97,10 +103,12 @@ class Post extends WP_REST_Controller {
 
 		$sanitizer = Sanitize::get();
 		if ( 'image_title' === $column ) {
-			wp_update_post([
-				'ID'         => $post_id,
-				'post_title' => $sanitizer->sanitize( 'image_title', $value ),
-			]);
+			wp_update_post(
+				[
+					'ID'         => $post_id,
+					'post_title' => $sanitizer->sanitize( 'image_title', $value ),
+				]
+			);
 			return;
 		}
 

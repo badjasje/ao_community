@@ -1,5 +1,7 @@
 <?php
 
+use NSL\Notices;
+
 class NextendSocialProviderAdmin {
 
     /** @var string path to global /admin folder */
@@ -167,7 +169,7 @@ class NextendSocialProviderAdmin {
             include(self::$globalPath . '/templates-provider/menu.php');
         }
 
-        \NSL\Notices::displayNotices();
+        Notices::displayNotices();
 
         if ($view == 'buttons') {
             include(self::$globalPath . '/templates-provider/buttons.php');
@@ -198,7 +200,7 @@ class NextendSocialProviderAdmin {
 
                 <p id="nsl-test-configuration">
                     <a id="nsl-test-button" href="#"
-                       onclick="NSLPopupCenter('<?php echo add_query_arg('test', '1', $provider->getLoginUrl()); ?>', 'test-window', <?php echo $provider->getPopupWidth(); ?>, <?php echo $provider->getPopupHeight(); ?>); return false;"
+                       onclick="NSLPopup('<?php echo add_query_arg('test', '1', $provider->getLoginUrl()); ?>', 'test-window', <?php echo $provider->getPopupWidth(); ?>, <?php echo $provider->getPopupHeight(); ?>); return false;"
                        class="button button-primary"><?php _e('Verify Settings', 'nextend-facebook-connect'); ?></a>
                     <span id="nsl-test-please-save"><?php _e('Please save your changes to verify settings.', 'nextend-facebook-connect'); ?></span>
                 </p>
@@ -235,7 +237,7 @@ class NextendSocialProviderAdmin {
 
                 <p id="nsl-test-configuration">
                     <a id="nsl-test-button" href="#"
-                       onclick="NSLPopupCenter('<?php echo add_query_arg('test', '1', $provider->getLoginUrl()); ?>', 'test-window', <?php echo $provider->getPopupWidth(); ?>, <?php echo $provider->getPopupHeight(); ?>); return false"
+                       onclick="NSLPopup('<?php echo add_query_arg('test', '1', $provider->getLoginUrl()); ?>', 'test-window', <?php echo $provider->getPopupWidth(); ?>, <?php echo $provider->getPopupHeight(); ?>); return false"
                        class="button button-secondary"><?php _e('Verify Settings Again', 'nextend-facebook-connect'); ?></a>
                     <span id="nsl-test-please-save"><?php _e('Please save your changes before verifying settings.', 'nextend-facebook-connect'); ?></span>
                     <?php
@@ -244,7 +246,7 @@ class NextendSocialProviderAdmin {
                             ?>
                             <a href="<?php echo wp_nonce_url(add_query_arg('provider', $provider->getId(), NextendSocialLoginAdmin::getAdminUrl('sub-enable')), 'nextend-social-login_enable_' . $provider->getId()); ?>"
                                class="button button-primary">
-								<?php _e('Enable', 'nextend-facebook-connect'); ?>
+                                <?php _e('Enable', 'nextend-facebook-connect'); ?>
                             </a>
                             <?php
                             break;
@@ -252,7 +254,7 @@ class NextendSocialProviderAdmin {
                             ?>
                             <a href="<?php echo wp_nonce_url(add_query_arg('provider', $provider->getId(), NextendSocialLoginAdmin::getAdminUrl('sub-disable')), 'nextend-social-login_disable_' . $provider->getId()); ?>"
                                class="button button-secondary">
-								<?php _e('Disable', 'nextend-facebook-connect'); ?>
+                                <?php _e('Disable', 'nextend-facebook-connect'); ?>
                             </a>
                             <?php
                             break;
@@ -265,7 +267,7 @@ class NextendSocialProviderAdmin {
 
         <script type="text/javascript">
 
-			jQuery(document).on('ready', function () {
+            jQuery(document).on('ready', function () {
                 var $test = jQuery('#nsl-test-configuration');
                 if ($test.length) {
                     jQuery(<?php echo wp_json_encode('#' . implode(',#', array_keys($provider->getRequiredFields()))); ?>)

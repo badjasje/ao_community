@@ -5,7 +5,7 @@ Plugin URI: http://fastvelocity.com
 Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations. 
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.7.9
+Version: 2.8.8
 License: GPL2
 
 ------------------------------------------------------------------------
@@ -1226,7 +1226,7 @@ foreach( $scripts->to_do as $handle ) :
 
 # is it a footer script?
 $is_footer = 0; 
-if (isset($wp_scripts->registered[$handle]->extra["group"]) || isset($wp_scripts->registered[$handle]->args)) { 
+if (isset($wp_scripts->registered[$handle]->extra["group"]) || isset($wp_scripts->registered[$handle]->args)) {
 	$is_footer = 1; 
 }
 
@@ -1347,20 +1347,26 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 					}
 					
 					# Add extra data from wp_add_inline_script before
-					if (!empty( $wp_scripts->registered[$handle]->extra)) {
-						if (!empty( $wp_scripts->registered[$handle]->extra['before'])){
-							$code.= PHP_EOL . fastvelocity_try_catch_wrap(implode(PHP_EOL, $wp_scripts->registered[$handle]->extra['before']));
+					if (!empty($wp_scripts->registered[$handle]->extra)){
+						if (isset($wp_scripts->registered[$handle]->extra['before'])){
+							if(is_array($wp_scripts->registered[$handle]->extra['before'])) {
+								$arr = array_filter($wp_scripts->registered[$handle]->extra['before']);
+								$code.= PHP_EOL . fastvelocity_try_catch_wrap(implode(PHP_EOL, $arr));
+							}
 						}
-					}				
-					
+					}
+										
 					# append code to merged file
-					$code.= fastvelocity_try_catch_wrap($res['code']);
+					$code.= "/* $hurl */". PHP_EOL . fastvelocity_try_catch_wrap($res['code']);
 					$log.= $res['log'];
 					
 					# Add extra data from wp_add_inline_script after
-					if (!empty( $wp_scripts->registered[$handle]->extra)) {
-						if (!empty( $wp_scripts->registered[$handle]->extra['after'])){
-							$code.= PHP_EOL . fastvelocity_try_catch_wrap(implode(PHP_EOL, $wp_scripts->registered[$handle]->extra['after']));
+					if (!empty($wp_scripts->registered[$handle]->extra)){
+						if (isset($wp_scripts->registered[$handle]->extra['after'])){
+							if(is_array($wp_scripts->registered[$handle]->extra['after'])) {
+								$arr = array_filter($wp_scripts->registered[$handle]->extra['after']);
+								$code.= PHP_EOL . fastvelocity_try_catch_wrap(implode(PHP_EOL, $arr));
+							}
 						}
 					}	
 
@@ -1546,23 +1552,29 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 					if($res['status'] != true) {
 						$log.= $res['log'];
 						continue;
-					}
+					}			
 					
 					# Add extra data from wp_add_inline_script before
 					if (!empty($wp_scripts->registered[$handle]->extra)){
-						if (!empty($wp_scripts->registered[$handle]->extra['before'])){
-							$code.= PHP_EOL . fastvelocity_try_catch_wrap(implode(PHP_EOL, $wp_scripts->registered[$handle]->extra['before']));
+						if (isset($wp_scripts->registered[$handle]->extra['before'])){
+							if(is_array($wp_scripts->registered[$handle]->extra['before'])) {
+								$arr = array_filter($wp_scripts->registered[$handle]->extra['before']);
+								$code.= PHP_EOL . fastvelocity_try_catch_wrap(implode(PHP_EOL, $arr));
+							}
 						}
 					}
 					
 					# append code to merged file
-					$code.= fastvelocity_try_catch_wrap($res['code']);
+					$code.= "/* $hurl */". PHP_EOL . fastvelocity_try_catch_wrap($res['code']);
 					$log.= $res['log'];
 
 					# Add extra data from wp_add_inline_script after
 					if (!empty($wp_scripts->registered[$handle]->extra)){
-						if (!empty($wp_scripts->registered[$handle]->extra['after'])){
-							$code.= PHP_EOL . fastvelocity_try_catch_wrap(implode(PHP_EOL, $wp_scripts->registered[$handle]->extra['after']));
+						if (isset($wp_scripts->registered[$handle]->extra['after'])){
+							if(is_array($wp_scripts->registered[$handle]->extra['after'])) {
+								$arr = array_filter($wp_scripts->registered[$handle]->extra['after']);
+								$code.= PHP_EOL . fastvelocity_try_catch_wrap(implode(PHP_EOL, $arr));
+							}
 						}
 					}
 			

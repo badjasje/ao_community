@@ -60,14 +60,17 @@ class DB {
 	 * @return array
 	 */
 	public static function get_redirections( $args = [] ) {
-		$args = wp_parse_args( $args, [
-			'orderby' => 'id',
-			'order'   => 'DESC',
-			'limit'   => 10,
-			'paged'   => 1,
-			'search'  => '',
-			'status'  => 'any',
-		]);
+		$args = wp_parse_args(
+			$args,
+			[
+				'orderby' => 'id',
+				'order'   => 'DESC',
+				'limit'   => 10,
+				'paged'   => 1,
+				'search'  => '',
+				'status'  => 'any',
+			]
+		);
 
 		$status = self::is_valid_status( $args['status'] ) ? [ $args['status'], null ] : [ '!=', 'trashed' ];
 
@@ -121,10 +124,12 @@ class DB {
 
 		// Generate where clause.
 		$where  = [];
-		$source = maybe_serialize([
-			'pattern'    => $uri,
-			'comparison' => 'exact',
-		]);
+		$source = maybe_serialize(
+			[
+				'pattern'    => $uri,
+				'comparison' => 'exact',
+			]
+		);
 
 		$where[] = [ 'sources', 'like', $table->esc_like( $source ) ];
 		foreach ( $words as $word ) {
@@ -167,12 +172,16 @@ class DB {
 	 *
 	 * @return bool
 	 */
-	private static function compare_sources( $sources, $uri ) {
+	public static function compare_sources( $sources, $uri ) {
 		if ( ! is_array( $sources ) || empty( $sources ) ) {
 			return false;
 		}
 
 		foreach ( $sources as $source ) {
+			if ( 'exact' === $source['comparison'] && isset( $source['ignore'] ) && 'case' === $source['ignore'] && strtolower( $source['pattern'] ) === strtolower( $uri ) ) {
+				return true;
+			}
+
 			if ( Str::comparison( self::get_clean_pattern( $source['pattern'], $source['comparison'] ), $uri, $source['comparison'] ) ) {
 				return true;
 			}
@@ -261,15 +270,22 @@ class DB {
 			return false;
 		}
 
-		$args = wp_parse_args( $args, [
-			'sources'     => '',
-			'url_to'      => '',
-			'header_code' => '301',
-			'hits'        => '0',
-			'status'      => 'active',
-			'created'     => current_time( 'mysql' ),
-			'updated'     => current_time( 'mysql' ),
-		]);
+		$args = wp_parse_args(
+			$args,
+			[
+				'sources'     => '',
+				'url_to'      => '',
+				'header_code' => '301',
+				'hits'        => '0',
+				'status'      => 'active',
+				'created'     => current_time( 'mysql' ),
+				'updated'     => current_time( 'mysql' ),
+			]
+		);
+
+		if ( in_array( $args['header_code'], [ 410, 451 ] ) ) {
+			$args['url_to'] = '';
+		}
 
 		$args['sources'] = maybe_serialize( $args['sources'] );
 
@@ -288,14 +304,17 @@ class DB {
 			return false;
 		}
 
-		$args = wp_parse_args( $args, [
-			'id'          => '',
-			'sources'     => '',
-			'url_to'      => '',
-			'header_code' => '301',
-			'status'      => 'active',
-			'updated'     => current_time( 'mysql' ),
-		]);
+		$args = wp_parse_args(
+			$args,
+			[
+				'id'          => '',
+				'sources'     => '',
+				'url_to'      => '',
+				'header_code' => '301',
+				'status'      => 'active',
+				'updated'     => current_time( 'mysql' ),
+			]
+		);
 
 		$id = absint( $args['id'] );
 		if ( 0 === $id ) {
@@ -304,6 +323,10 @@ class DB {
 
 		$args['sources'] = maybe_serialize( $args['sources'] );
 		unset( $args['id'] );
+
+		if ( in_array( $args['header_code'], [ 410, 451 ] ) ) {
+			$args['url_to'] = '';
+		}
 
 		Cache::purge( $id );
 		return self::table()->set( $args )->where( 'id', $id )->update();

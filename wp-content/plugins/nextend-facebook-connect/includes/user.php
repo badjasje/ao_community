@@ -1,4 +1,8 @@
 <?php
+
+use NSL\Notices;
+use NSL\Persistent\Persistent;
+
 require_once(NSL_PATH . '/includes/userData.php');
 
 class NextendSocialUser {
@@ -40,7 +44,8 @@ class NextendSocialUser {
      * - and has no linked social data (in wp_social_users table), prepare them for register.
      * - but if has linked social data, log them in.
      * If the user is logged in, retrieve the user data,
-     * - if the user has no linked social data with the selected provider and there is no other user who linked that id , link them and sync the access_token.
+     * - if the user has no linked social data with the selected provider and there is no other user who linked that id
+     * , link them and sync the access_token.
      */
     public function liveConnectGetUserProfile() {
 
@@ -66,15 +71,15 @@ class NextendSocialUser {
 
                     $this->provider->syncProfile($current_user->ID, $this->provider, $this->access_token);
 
-                    \NSL\Notices::addSuccess(sprintf(__('Your %1$s account is successfully linked with your account. Now you can sign in with %2$s easily.', 'nextend-facebook-connect'), $this->provider->getLabel(), $this->provider->getLabel()));
+                    Notices::addSuccess(sprintf(__('Your %1$s account is successfully linked with your account. Now you can sign in with %2$s easily.', 'nextend-facebook-connect'), $this->provider->getLabel(), $this->provider->getLabel()));
                 } else {
 
-                    \NSL\Notices::addError(sprintf(__('You have already linked a(n) %s account. Please unlink the current and then you can link other %s account.', 'nextend-facebook-connect'), $this->provider->getLabel(), $this->provider->getLabel()));
+                    Notices::addError(sprintf(__('You have already linked a(n) %s account. Please unlink the current and then you can link other %s account.', 'nextend-facebook-connect'), $this->provider->getLabel(), $this->provider->getLabel()));
                 }
 
             } else if ($current_user->ID != $user_id) {
 
-                \NSL\Notices::addError(sprintf(__('This %s account is already linked to other user.', 'nextend-facebook-connect'), $this->provider->getLabel()));
+                Notices::addError(sprintf(__('This %s account is already linked to other user.', 'nextend-facebook-connect'), $this->provider->getLabel()));
             }
         }
     }
@@ -107,14 +112,15 @@ class NextendSocialUser {
                 $this->register($providerUserID, $email);
             } else {
                 //unset the persistent data, so if an error happened, the user can re-authenticate with providers (Google) that offer account selector screen
-                \NSL\Persistent\Persistent::delete($this->provider->getId() . '_at');
-                \NSL\Persistent\Persistent::delete($this->provider->getId() . '_state');
+                Persistent::delete($this->provider->getId() . '_at');
+                Persistent::delete($this->provider->getId() . '_state');
 
 
-                if (!empty(NextendSocialLogin::$settings->get('proxy-page'))) {
+                $proxyPage = NextendSocialLogin::getProxyPage();
+                if ($proxyPage) {
                     $errors = new WP_Error();
                     $errors->add('registerdisabled', __('User registration is currently not allowed.'));
-                    \NSL\Notices::addError($errors->get_error_message());
+                    Notices::addError($errors->get_error_message());
                 }
 
 
@@ -268,7 +274,11 @@ class NextendSocialUser {
             do_action('register_post', $userData['username'], $userData['email'], $errors);
 
             if ($errors->get_error_code()) {
-                \NSL\Notices::addError($errors);
+                //unset the persistent data, so if an error happened, the user can re-authenticate with providers (Google) that offer account selector screen
+                Persistent::delete($this->provider->getId() . '_at');
+                Persistent::delete($this->provider->getId() . '_state');
+
+                Notices::addError($errors);
                 $this->redirectToLastLocationLogin();
             }
         }
@@ -329,7 +339,7 @@ class NextendSocialUser {
 
         if (is_wp_error($error)) {
 
-            \NSL\Notices::addError($error);
+            Notices::addError($error);
             $this->redirectToLastLocationLogin();
 
         } else if ($error === 0) {
@@ -353,8 +363,8 @@ class NextendSocialUser {
      * @param $user_id
      * Retrieves the name, first_name, last_name and update the user data.
      * Also set a reminder to change the generated password.
-     * Links the user with the provider. Set their roles. Send notification about the registration to the selected roles.
-     * Logs the user in.
+     * Links the user with the provider. Set their roles. Send notification about the registration to the selected
+     * roles. Logs the user in.
      *
      * @return bool
      */
@@ -382,7 +392,7 @@ class NextendSocialUser {
 
         update_user_option($user_id, 'default_password_nag', true, true);
 
-        $this->provider->linkUserToProviderIdentifier($user_id, $this->getAuthUserData('id'));
+        $this->provider->linkUserToProviderIdentifier($user_id, $this->getAuthUserData('id'), true);
 
         do_action('nsl_registration_store_extra_input', $user_id, $this->userExtraData);
 
@@ -393,6 +403,16 @@ class NextendSocialUser {
 
         do_action('register_new_user', $user_id);
 
+        //BuddyPress - add register activity to accounts registered with social login
+        if (class_exists('BuddyPress', false)) {
+            if (bp_is_active('activity')) {
+                if (!function_exists('bp_core_new_user_activity')) {
+                    require_once(buddypress()->plugin_dir . '/bp-members/bp-members-activity.php');
+                }
+                bp_core_new_user_activity($user_id);
+            }
+        }
+
         /*Ultimate Member Registration integration -> Registration notificationhoz*/
         $loginRestriction = NextendSocialLogin::$settings->get('login_restriction');
         if (class_exists('UM', false) && $loginRestriction) {
@@ -400,6 +420,10 @@ class NextendSocialUser {
             UM()
                 ->user()
                 ->remove_cache($user_id);
+            add_filter('um_get_current_page_url', array(
+                $this,
+                'um_get_loginpage'
+            ));
             do_action('um_user_register', $user_id, array());
         }
 
@@ -416,7 +440,7 @@ class NextendSocialUser {
 
 
     private function registerError() {
-        global $wpdb;
+        /** @var $wpdb WPDB */ global $wpdb;
 
         $isDebug = NextendSocialLogin::$settings->get('debug') == 1;
         if ($isDebug) {
@@ -433,13 +457,14 @@ class NextendSocialUser {
     }
 
     protected function login($user_id) {
+        /** @var $wpdb WPDB */ global $wpdb;
 
         $loginRestriction = NextendSocialLogin::$settings->get('login_restriction');
         if ($loginRestriction) {
             $user = new WP_User($user_id);
             $user = apply_filters('authenticate', $user, $user->get('user_login'), null);
             if (is_wp_error($user)) {
-                \NSL\Notices::addError($user);
+                Notices::addError($user);
                 $this->provider->redirectToLoginForm();
 
                 return $user;
@@ -450,7 +475,7 @@ class NextendSocialUser {
              */
             $user = apply_filters('wp_authenticate_user', $user, null);
             if (is_wp_error($user)) {
-                \NSL\Notices::addError($user);
+                Notices::addError($user);
                 $this->provider->redirectToLoginForm();
 
                 return $user;
@@ -478,6 +503,8 @@ class NextendSocialUser {
             $auth_secure_cookie = $secure_cookie;
             wp_set_auth_cookie($user_id, true, $secure_cookie);
             $user_info = get_userdata($user_id);
+
+            $this->provider->logLoginDate($user_id);
 
             $addStrongerRedirect = NextendSocialLogin::$settings->get('redirect_prevent_external') == 1 || $this->provider->hasFixedRedirect();
             if ($addStrongerRedirect) {
@@ -621,5 +648,9 @@ class NextendSocialUser {
 
     public function syncProfileUser($user_id) {
         $this->provider->syncProfile($user_id, $this->provider, $this->access_token);
+    }
+
+    public function um_get_loginpage($page_url) {
+        return um_get_core_page('login');
     }
 }

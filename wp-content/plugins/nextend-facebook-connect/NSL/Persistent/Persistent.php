@@ -2,9 +2,10 @@
 
 namespace NSL\Persistent;
 
+use NSL\Persistent\Storage\Session;
 use NSL\Persistent\Storage\StorageAbstract;
 use NSL\Persistent\Storage\Transient;
-use NSL\Persistent\Storage\Session;
+use WP_User;
 
 require_once dirname(__FILE__) . '/Storage/Abstract.php';
 require_once dirname(__FILE__) . '/Storage/Session.php';
@@ -56,7 +57,7 @@ class Persistent {
 
     /**
      * @param          $user_login
-     * @param \WP_User $user
+     * @param WP_User  $user
      */
     public function transferSessionToUser($user_login, $user = null) {
 

@@ -1,5 +1,7 @@
 <?php
 
+use NSL\Notices;
+
 class NextendSocialProviderTwitter extends NextendSocialProvider {
 
     /** @var NextendSocialProviderTwitterClient */
@@ -90,7 +92,7 @@ class NextendSocialProviderTwitter extends NextendSocialProvider {
                     }
 
                     if (empty($newData[$key])) {
-                        \NSL\Notices::addError(sprintf(__('The %1$s entered did not appear to be a valid. Please enter a valid %2$s.', 'nextend-facebook-connect'), $this->requiredFields[$key], $this->requiredFields[$key]));
+                        Notices::addError(sprintf(__('The %1$s entered did not appear to be a valid. Please enter a valid %2$s.', 'nextend-facebook-connect'), $this->requiredFields[$key], $this->requiredFields[$key]));
                     }
                     break;
                 case 'profile_image_size':
@@ -172,6 +174,29 @@ class NextendSocialProviderTwitter extends NextendSocialProvider {
                 $name = explode(' ', $this->getAuthUserData('name'), 2);
 
                 return isset($name[1]) ? $name[1] : '';
+            case 'picture':
+                $profile_image_size = $this->settings->get('profile_image_size');
+                $profile_image      = $this->authUserData['profile_image_url_https'];
+                $avatar_url         = '';
+                if (!empty($profile_image)) {
+                    switch ($profile_image_size) {
+                        case 'mini':
+                            $avatar_url = str_replace('_normal.', '_' . $profile_image_size . '.', $profile_image);
+                            break;
+                        case 'normal':
+                            $avatar_url = $profile_image;
+                            break;
+                        case 'bigger':
+                            $avatar_url = str_replace('_normal.', '_' . $profile_image_size . '.', $profile_image);
+                            break;
+                        case 'original':
+                            $avatar_url = str_replace('_normal.', '.', $profile_image);
+                            break;
+
+                    }
+                }
+
+                return $avatar_url;
         }
 
         return parent::getAuthUserData($key);
@@ -180,23 +205,9 @@ class NextendSocialProviderTwitter extends NextendSocialProvider {
     public function syncProfile($user_id, $provider, $access_token) {
 
         if ($this->needUpdateAvatar($user_id)) {
-            $profile_image_size = $this->settings->get('profile_image_size');
-            $profile_image      = $this->authUserData['profile_image_url_https'];
-            if (!empty($profile_image)) {
-                switch ($profile_image_size) {
-                    case 'mini':
-                        $profile_image = str_replace('_normal.', '_' . $profile_image_size . '.', $profile_image);
-                        break;
-                    case 'bigger':
-                        $profile_image = str_replace('_normal.', '_' . $profile_image_size . '.', $profile_image);
-                        break;
-                    case 'original':
-                        $profile_image = str_replace('_normal.', '.', $profile_image);
-                        break;
-
-                }
+            if ($this->getAuthUserData('picture')) {
+                $this->updateAvatar($user_id, $this->getAuthUserData('picture'));
             }
-            $this->updateAvatar($user_id, $profile_image);
         }
 
         $this->storeAccessToken($user_id, $access_token);

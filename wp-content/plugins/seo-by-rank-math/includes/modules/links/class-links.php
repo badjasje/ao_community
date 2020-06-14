@@ -43,8 +43,8 @@ class Links {
 	 * @param int     $post_id The post ID to check.
 	 * @param WP_Post $post    The post object.
 	 */
-	public function save_post( $post_id, WP_Post $post ) {
-		if ( ! $this->is_processable( $post ) ) {
+	public function save_post( $post_id, $post ) {
+		if ( ! $post instanceof WP_Post || ! $this->is_processable( $post ) ) {
 			return;
 		}
 
@@ -57,6 +57,10 @@ class Links {
 	 * @param int $post_id The post ID.
 	 */
 	public function delete_post( $post_id ) {
+		if ( ! $this->is_processable( get_post( $post_id ) ) ) {
+			return;
+		}
+
 		$processor = new ContentProcessor;
 
 		// Get links to update linked objects.
@@ -90,7 +94,7 @@ class Links {
 			<span class="divider"></span>
 			<span title="<?php esc_html_e( 'External Links', 'rank-math' ); ?>" class="dashicons dashicons-external"></span> <span><?php echo isset( $counts->external_link_count ) ? $counts->external_link_count : ''; ?></span>
 			<span class="divider"></span>
-			<span title="<?php esc_html_e( 'Incoming Links', 'rank-math' ); ?>" class="dashicons dashicons-randomize"></span> <span><?php echo isset( $counts->incoming_link_count ) ? $counts->incoming_link_count : ''; ?></span>
+			<span title="<?php esc_html_e( 'Incoming Links', 'rank-math' ); ?>" class="dashicons dashicons-external internal"></span> <span><?php echo isset( $counts->incoming_link_count ) ? $counts->incoming_link_count : ''; ?></span>
 		</span>
 		<?php
 	}

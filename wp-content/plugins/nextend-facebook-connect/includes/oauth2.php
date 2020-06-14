@@ -1,5 +1,7 @@
 <?php
 
+use NSL\Persistent\Persistent;
+
 require_once NSL_PATH . '/includes/auth.php';
 
 
@@ -161,7 +163,7 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
     }
 
     public function deleteLoginPersistentData() {
-        \NSL\Persistent\Persistent::delete($this->providerID . '_state');
+        Persistent::delete($this->providerID . '_state');
     }
 
     /**
@@ -170,7 +172,7 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
      * @return bool
      */
     protected function validateState() {
-        $this->state = \NSL\Persistent\Persistent::get($this->providerID . '_state');
+        $this->state = Persistent::get($this->providerID . '_state');
         if ($this->state === false) {
             return false;
         }
@@ -192,11 +194,11 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
      * @return bool|mixed|null|string
      */
     protected function getState() {
-        $this->state = \NSL\Persistent\Persistent::get($this->providerID . '_state');
+        $this->state = Persistent::get($this->providerID . '_state');
         if ($this->state === null) {
             $this->state = $this->generateRandomState();
 
-            \NSL\Persistent\Persistent::set($this->providerID . '_state', $this->state);
+            Persistent::set($this->providerID . '_state', $this->state);
         }
 
         return $this->state;

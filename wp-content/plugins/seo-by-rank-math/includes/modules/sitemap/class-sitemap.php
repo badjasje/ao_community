@@ -11,8 +11,8 @@
 namespace RankMath\Sitemap;
 
 use RankMath\Helper;
+use RankMath\Helpers\Sitepress;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -34,10 +34,14 @@ class Sitemap {
 		}
 
 		new Router;
-		$this->filter( 'robots_txt', 'add_sitemap_directive', 99 );
-		add_filter( 'rank_math/admin/notice/new_post_type', array( $this, 'new_post_type_notice' ) );
+		$this->index = new Sitemap_Index;
+		$this->index->hooks();
+
 		add_action( 'rank_math/sitemap/hit_index', array( __CLASS__, 'hit_sitemap_index' ) );
 		add_action( 'rank_math/sitemap/ping_search_engines', array( __CLASS__, 'ping_search_engines' ) );
+
+		$this->filter( 'rank_math/admin/notice/new_post_type', 'new_post_type_notice' );
+
 		if ( class_exists( 'SitePress' ) ) {
 			$this->filter( 'rank_math/sitemap/build_type', 'rank_math_build_sitemap_filter' );
 			$this->filter( 'rank_math/sitemap/xml_post_url', 'exclude_hidden_language_posts', 10, 2 );
@@ -90,35 +94,16 @@ class Sitemap {
 	 * @return string
 	 */
 	public function rank_math_build_sitemap_filter( $type ) {
-		global $sitepress, $sitepress_settings;
+		global $sitepress_settings;
 		// Before to build the sitemap and as we are on front-end just make sure the links won't be translated. The setting should not be updated in DB.
 		$sitepress_settings['auto_adjust_ids'] = 0;
 
-		if ( WPML_LANGUAGE_NEGOTIATION_TYPE_DOMAIN === (int) $sitepress->get_setting( 'language_negotiation_type' ) ) {
-			remove_filter( 'terms_clauses', array( $sitepress, 'terms_clauses' ) );
-		}
-
-		remove_filter( 'category_link', array( $sitepress, 'category_link_adjust_id' ), 1 );
-		remove_filter( 'get_terms_args', array( $sitepress, 'get_terms_args_filter' ) );
-		remove_filter( 'get_term', array( $sitepress, 'get_term_adjust_id' ) );
-		remove_filter( 'terms_clauses', array( $sitepress, 'terms_clauses' ) );
+		/**
+		 * Remove WPML filters while getting terms, to get all languages
+		 */
+		Sitepress::get()->remove_term_filters();
 
 		return $type;
-	}
-
-	/**
-	 * Add sitemap directive in robots.txt
-	 *
-	 * @param  string $output Robots.txt output.
-	 * @return string
-	 */
-	public function add_sitemap_directive( $output ) {
-
-		if ( Str::contains( 'Sitemap:', $output ) || Str::contains( 'sitemap:', $output ) ) {
-			return $output;
-		}
-
-		return $output . "\n" . 'Sitemap: ' . Router::get_base_url( 'sitemap_index.xml' );
 	}
 
 	/**
@@ -287,5 +272,31 @@ class Sitemap {
 		 */
 		$xml_sitemap_caching = apply_filters( 'rank_math/sitemap/enable_caching', true );
 		return $xml_sitemap_caching;
+	}
+
+	/**
+	 * Check if Object is indexable.
+	 *
+	 * @param int/object $object Post|Term Object.
+	 * @param string     $type   Object Type.
+	 *
+	 * @return boolean
+	 */
+	public static function is_object_indexable( $object, $type = 'post' ) {
+		/**
+		 * Filter: 'rank_math/sitemap/include_noindex' - Include noindex data in Sitemap.
+		 *
+		 * @param bool   $value Whether to include noindex terms in Sitemap.
+		 * @param string $type  Object Type.
+		 *
+		 * @return boolean
+		 */
+		if ( apply_filters( 'rank_math/sitemap/include_noindex', false, $type ) ) {
+			return true;
+		}
+
+		$method = 'post' === $type ? 'is_post_indexable' : 'is_term_indexable';
+
+		return Helper::$method( $object );
 	}
 }

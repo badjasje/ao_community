@@ -15,6 +15,7 @@ use RankMath\Helper;
 use RankMath\Module\Base;
 use RankMath\Admin\Options;
 use MyThemeShop\Helpers\Str;
+use MyThemeShop\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -29,21 +30,22 @@ class Admin extends Base {
 	public function __construct() {
 
 		$directory = dirname( __FILE__ );
-		$this->config(array(
-			'id'        => 'sitemap',
-			'directory' => $directory,
-			'help'      => array(
-				'title' => esc_html__( 'Sitemap', 'rank-math' ),
-				'view'  => $directory . '/views/help.php',
-			),
-		));
+		$this->config(
+			[
+				'id'        => 'sitemap',
+				'directory' => $directory,
+				'help'      => array(
+					'title' => esc_html__( 'Sitemap', 'rank-math' ),
+					'view'  => $directory . '/views/help.php',
+				),
+			]
+		);
 		parent::__construct();
 
 		$this->action( 'init', 'register_setting_page', 999 );
-		$this->filter( 'rank_math/sitemap/settings', 'post_type_settings' );
-		$this->filter( 'rank_math/sitemap/settings', 'taxonomy_settings' );
-		$this->filter( 'rank_math/sitemap/settings', 'special_seprator' );
-		$this->action( 'rank_math/metabox/settings/advanced', 'metabox_settings_advanced', 9 );
+		$this->filter( 'rank_math/settings/sitemap', 'post_type_settings' );
+		$this->filter( 'rank_math/settings/sitemap', 'taxonomy_settings' );
+		$this->filter( 'rank_math/settings/sitemap', 'special_seprator' );
 
 		// Attachment.
 		$this->filter( 'media_send_to_editor', 'media_popup_html', 10, 2 );
@@ -57,38 +59,40 @@ class Admin extends Base {
 	public function register_setting_page() {
 		$sitemap_url = Router::get_base_url( 'sitemap_index.xml' );
 
-		$tabs = array(
-			'general' => array(
-				'icon'  => 'fa fa-cogs',
-				'title' => esc_html__( 'General', 'rank-math' ),
-				'file'  => $this->directory . '/settings/general.php',
-				'desc'  => esc_html__( 'This tab contains settings related to the XML sitemaps.', 'rank-math' ) . ' <a href="' . KB::get( 'sitemap-general' ) . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>',
+		$tabs = [
+			'general' => [
+				'icon'      => 'rm-icon rm-icon-settings',
+				'title'     => esc_html__( 'General', 'rank-math' ),
+				'file'      => $this->directory . '/settings/general.php',
+				'desc'      => esc_html__( 'This tab contains General settings related to the XML sitemaps.', 'rank-math' ) . ' <a href="' . KB::get( 'sitemap-general' ) . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>',
 				/* translators: sitemap url */
-				'after' => $this->get_notice_start() . sprintf( esc_html__( 'When sitemaps are enabled, your sitemap index can be found here: %s', 'rank-math' ), '<a href="' . $sitemap_url . '" target="_blank">' . $sitemap_url . '</a>' ) . '</p></div>',
-			),
-		);
+				'after_row' => $this->get_notice_start() . sprintf( esc_html__( 'Your sitemap index can be found here: %s', 'rank-math' ), '<a href="' . $sitemap_url . '" target="_blank">' . $sitemap_url . '</a>' ) . '</p></div>' . $this->get_nginx_notice(),
+			],
+		];
 
 		if ( Helper::is_author_archive_indexable() ) {
-			$tabs['authors'] = array(
-				'icon'  => 'fa fa-users',
+			$tabs['authors'] = [
+				'icon'  => 'rm-icon rm-icon-users',
 				'title' => esc_html__( 'Authors', 'rank-math' ),
 				/* translators: Learn more link. */
 				'desc'  => sprintf( esc_html__( 'Set the sitemap options for author archive pages. %s.', 'rank-math' ), '<a href="https://s.rankmath.com/sitemaps" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>' ),
 				'file'  => $this->directory . '/settings/authors.php',
-			);
+			];
 		}
 
-		$tabs = $this->do_filter( 'sitemap/settings', $tabs );
+		$tabs = $this->do_filter( 'settings/sitemap', $tabs );
 
-		new Options( array(
-			'key'        => 'rank-math-options-sitemap',
-			'title'      => esc_html__( 'Sitemap Settings', 'rank-math' ),
-			'menu_title' => esc_html__( 'Sitemap Settings', 'rank-math' ),
-			'capability' => 'rank_math_sitemap',
-			'folder'     => 'titles',
-			'position'   => 99,
-			'tabs'       => $tabs,
-		));
+		new Options(
+			[
+				'key'        => 'rank-math-options-sitemap',
+				'title'      => esc_html__( 'Sitemap Settings', 'rank-math' ),
+				'menu_title' => esc_html__( 'Sitemap Settings', 'rank-math' ),
+				'capability' => 'rank_math_sitemap',
+				'folder'     => 'titles',
+				'position'   => 99,
+				'tabs'       => $tabs,
+			]
+		);
 	}
 
 	/**
@@ -129,15 +133,16 @@ class Admin extends Base {
 				'title'     => $object->label,
 				'icon'      => isset( $icons[ $object->name ] ) ? $icons[ $object->name ] : $icons['default'],
 				/* translators: %1$s: thing, %2$s: Learn more link. */
-				'desc'      => sprintf( esc_html__( 'Sitemap settings for %1$s. %2$s.', 'rank-math' ), $thing, '<a href="' . $url . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>' ),
+				'desc'      => sprintf( esc_html__( 'Change Sitemap settings of %1$s. %2$s.', 'rank-math' ), $thing, '<a href="' . $url . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>' ),
 				'post_type' => $object->name,
 				'file'      => $this->directory . '/settings/post-types.php',
 				/* translators: Post Type Sitemap Url */
-				'after'     => $this->get_notice_start() . sprintf( esc_html__( 'Sitemap URL: %s', 'rank-math' ), '<a href="' . $sitemap_url . '" target="_blank">' . $sitemap_url . '</a>' ) . $notice_end,
+				'after_row' => $this->get_notice_start() . sprintf( esc_html__( 'Sitemap URL: %s', 'rank-math' ), '<a href="' . $sitemap_url . '" target="_blank">' . $sitemap_url . '</a>' ) . $notice_end,
 			);
 
 			if ( 'attachment' === $post_type ) {
-				$tabs[ 'sitemap-post-type-' . $object->name ]['after'] = $this->get_notice_start() . esc_html__( 'Please note that this will add the attachment page URLs to the sitemap, not direct image URLs.', 'rank-math' ) . $notice_end;
+				$tabs[ 'sitemap-post-type-' . $object->name ]['after_row'] = $this->get_notice_start() . esc_html__( 'Please note that this will add the attachment page URLs to the sitemap, not direct image URLs.', 'rank-math' ) . $notice_end;
+				$tabs[ 'sitemap-post-type-' . $object->name ]['classes']   = 'rank-math-advanced-option';
 			}
 		}
 
@@ -183,14 +188,14 @@ class Admin extends Base {
 			}
 
 			$tabs[ 'sitemap-taxonomy-' . $taxonomy->name ] = array(
-				'icon'     => isset( $icons[ $taxonomy->name ] ) ? $icons[ $taxonomy->name ] : $icons['default'],
-				'title'    => $taxonomy->label,
+				'icon'      => isset( $icons[ $taxonomy->name ] ) ? $icons[ $taxonomy->name ] : $icons['default'],
+				'title'     => $taxonomy->label,
 				/* translators: %1$s: thing, %2$s: Learn more link. */
-				'desc'     => sprintf( esc_html__( 'Sitemap settings for %1$s. %2$s.', 'rank-math' ), $thing, '<a href="' . $url . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>' ),
-				'taxonomy' => $taxonomy->name,
-				'file'     => $this->directory . '/settings/taxonomies.php',
+				'desc'      => sprintf( esc_html__( 'Change Sitemap settings of %1$s. %2$s.', 'rank-math' ), $thing, '<a href="' . $url . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>' ),
+				'taxonomy'  => $taxonomy->name,
+				'file'      => $this->directory . '/settings/taxonomies.php',
 				/* translators: Taxonomy Sitemap Url */
-				'after'    => $this->get_notice_start() . sprintf( esc_html__( 'Sitemap URL: %s', 'rank-math' ), '<a href="' . $sitemap_url . '" target="_blank">' . $sitemap_url . '</a>' ) . $notice_end,
+				'after_row' => $this->get_notice_start() . sprintf( esc_html__( 'Sitemap URL: %s', 'rank-math' ), '<a href="' . $sitemap_url . '" target="_blank">' . $sitemap_url . '</a>' ) . $notice_end,
 			);
 		}
 
@@ -218,57 +223,6 @@ class Admin extends Base {
 	/**
 	 * Metabox API -----------------------------------------------------------
 	 */
-
-	/**
-	 * Metabox settings in advanced tab.
-	 *
-	 * @param \CMB2 $cmb The CMB2 metabox object.
-	 */
-	public function metabox_settings_advanced( $cmb ) {
-		$cmb->add_field( array(
-			'id'         => 'rank_math_news_sitemap_genres',
-			'type'       => 'text',
-			'name'       => esc_html__( 'News Sitemap - Genres', 'rank-math' ),
-			'desc'       => wp_kses_post( __( 'A comma-separated list of properties characterizing the content of the article, such as "PressRelease" or "UserGenerated." See <a href="https://support.google.com/news/publisher/answer/93992" target="_blank">Google News content properties</a> for a list of possible values.', 'rank-math' ) ),
-			'default'    => 'Blog',
-			'show_on_cb' => array( $this, 'show_on' ),
-		) );
-
-		$cmb->add_field( array(
-			'id'         => 'rank_math_news_sitemap_keywords',
-			'type'       => 'text',
-			'name'       => esc_html__( 'News Sitemap - Keywords', 'rank-math' ),
-			'desc'       => wp_kses_post( __( 'A comma-separated list of keywords describing the topic of the article. Keywords may be drawn from, but are not limited to, the list of existing Google News keywords. More information: <a href="https://support.google.com/news/publisher/answer/116037" target="_blank">Google News keywords</a>.', 'rank-math' ) ),
-			'show_on_cb' => array( $this, 'show_on' ),
-		) );
-
-		$cmb->add_field( array(
-			'id'         => 'rank_math_news_sitemap_stock_tickers',
-			'type'       => 'text',
-			'name'       => esc_html__( 'News Sitemap - Stock Tickers', 'rank-math' ),
-			'desc'       => wp_kses_post( __( 'A comma-separated list of up to 5 stock tickers of the companies, mutual funds, or other financial entities that are the main subject of the article. Relevant primarily for business articles. More information: <a href="https://support.google.com/news/publisher/answer/74288" target="_blank">Creating a Google News Sitemap</a>.', 'rank-math' ) ),
-			'show_on_cb' => array( $this, 'show_on' ),
-		) );
-	}
-
-	/**
-	 * Show field check callback.
-	 *
-	 * @param CMB2_Field $field The current field.
-	 *
-	 * @return boolean
-	 */
-	public function show_on( $field ) {
-
-		$news_sitemap_enabled = Helper::is_module_active( 'news-sitemap' );
-		$is_post_type_news    = in_array( get_post_type(), (array) Helper::get_settings( 'sitemap.news_sitemap_post_type' ), true );
-
-		if ( $news_sitemap_enabled && $is_post_type_news ) {
-			return true;
-		}
-
-		return false;
-	}
 
 	/**
 	 * Adds new "exclude from sitemap" checkbox to media popup in the post editor.
@@ -332,6 +286,37 @@ class Admin extends Base {
 	 * @return string
 	 */
 	private function get_notice_start() {
-		return '<div class="cmb-row notice notice-alt notice-info info inline" style="border:0;margin:15px 0 -10px;padding: 1px 12px"><p>';
+		return '<div class="notice notice-alt notice-info info inline rank-math-notice"><p>';
+	}
+
+	/**
+	 * Get nginx notice.
+	 *
+	 * @since 1.0.41
+	 *
+	 * @return string
+	 */
+	private function get_nginx_notice() {
+		if ( empty( Param::server( 'SERVER_SOFTWARE' ) ) ) {
+			return '';
+		}
+
+		$server_software = explode( '/', Param::server( 'SERVER_SOFTWARE' ) );
+		if ( ! in_array( 'nginx', array_map( 'strtolower', $server_software ), true ) ) {
+			return '';
+		}
+
+		$sitemap_base = Router::get_sitemap_base() ? Router::get_sitemap_base() : '';
+
+		return '<div class="sitemap-nginx-notice notice notice-alt notice-warning rank-math-notice">
+ 		<p>' . sprintf( __( 'Since you are using NGINX, add this code to your NGINX %s <strong>if your Sitemap pages are not loading</strong> or you can ask your hosting support to add it.', 'rank-math' ), '<a href="https://help.dreamhost.com/hc/en-us/articles/216455077-Nginx-configuration-file-locations/?utm_campaign=Rank+Math" target="_blank">' . __( 'configuration file', 'rank-math' ) . '</a>' ) . '
+ 		<a href="#"><span class="show">' . __( 'Click here to see the code.', 'rank-math' ) . '</span><span class="hide">' . __( 'Hide', 'rank-math' ) . '</span></a></p>
+ <pre>
+ # START Nginx Rewrites for Rank Math Sitemaps
+ rewrite ^/' . $sitemap_base . 'sitemap_index.xml$ /index.php?sitemap=1 last;
+ rewrite ^/' . $sitemap_base . '([^/]+?)-sitemap([0-9]+)?.xml$ /index.php?sitemap=$1&sitemap_n=$2 last;
+ # END Nginx Rewrites for Rank Math Sitemaps
+ </pre>
+ 		</div>';
 	}
 }

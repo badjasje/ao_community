@@ -26,6 +26,9 @@ if ( !empty( $user->ID ) && ( in_array( 'administrator', $user->roles ) || ( is_
 		'html' => $default_option['settings']['shortcode_anchor'] === $this->option['settings']['shortcode_anchor'] ? __( 'Delete Account', 'delete-me' ) : $this->option['settings']['shortcode_anchor'],
 		'js_confirm_warning' => $default_option['settings']['shortcode_js_confirm_warning'] === $this->option['settings']['shortcode_js_confirm_warning'] ? /* xgettext:no-php-format */ _x( 'WARNING!\n\nAre you sure you want to delete user %username% from %sitename%?', 'JavaScript confirm user deletion', 'delete-me' ) : $this->option['settings']['shortcode_js_confirm_warning'],
 		'landing_url' => '', // Empty default
+		'form_confirm_warning' => $default_option['settings']['shortcode_form_confirm_warning'] === $this->option['settings']['shortcode_form_confirm_warning'] ? /* xgettext:no-php-format */ __( 'WARNING!<br /><br />Are you sure you want to delete user %username% from %sitename%?', 'delete-me' ) : $this->option['settings']['shortcode_form_confirm_warning'],
+		'form_password_label' => $default_option['settings']['shortcode_form_confirm_password_label'] === $this->option['settings']['shortcode_form_confirm_password_label'] ? __( 'Password', 'delete-me' ) : $this->option['settings']['shortcode_form_confirm_password_label'],
+		'form_confirm_button' => $default_option['settings']['shortcode_form_confirm_button'] === $this->option['settings']['shortcode_form_confirm_button'] ? __( 'Confirm Deletion', 'delete-me' ) : $this->option['settings']['shortcode_form_confirm_button'],
 	) , $atts );
 	$attributes = array();
 	$attributes['class'] = $atts['class'];
@@ -41,6 +44,7 @@ if ( !empty( $user->ID ) && ( in_array( 'administrator', $user->roles ) || ( is_
 	) );
 	$js_confirm_warning = str_replace( '%username%', $this->user_login, $atts['js_confirm_warning'] );
 	$js_confirm_warning = str_replace( '%sitename%', get_option( 'blogname' ), $js_confirm_warning );
+	$js_confirm_warning = str_replace( '%displayname%', $user->display_name, $js_confirm_warning );
 	if ( $this->option['settings']['shortcode_js_confirm_enabled'] ) $attributes['onclick'] = "if ( ! confirm( '" . esc_attr( addcslashes( $js_confirm_warning, "'" ) ) . "' ) ) return false;";
 
 	// Remove empty attributes
@@ -52,9 +56,13 @@ if ( !empty( $user->ID ) && ( in_array( 'administrator', $user->roles ) || ( is_
 	// Implode attributes, return longcode as form or link
 	if ( $this->option['settings']['shortcode_form_enabled'] ) {
 
-		$form_confirm_warning = str_replace( '%username%', $this->user_login, $default_option['settings']['shortcode_form_confirm_warning'] === $this->option['settings']['shortcode_form_confirm_warning'] ? /* xgettext:no-php-format */ __( 'WARNING!<br /><br />Are you sure you want to delete user %username% from %sitename%?', 'delete-me' ) : $this->option['settings']['shortcode_form_confirm_warning'] );
+		$form_confirm_warning = str_replace( '%username%', $this->user_login, $atts['form_confirm_warning'] );
 		$form_confirm_warning = str_replace( '%sitename%', get_option( 'blogname' ), $form_confirm_warning );
+		$form_confirm_warning = str_replace( '%displayname%', $user->display_name, $form_confirm_warning );
 		$incorrect_password_style = empty( $this->POST[$this->info['trigger'] . '_shortcode_password'] ) ? '' : ' style="border: 1px solid #dc3232; box-shadow: 0 0 2px rgba(204,0,0,.8);"';
+		$form_password_label = $atts['form_password_label'];
+		$form_confirm_button = str_replace( '%username%', $this->user_login, $atts['form_confirm_button'] );
+		$form_confirm_button = str_replace( '%displayname%', $user->display_name, $form_confirm_button );
 		$longcode =
 		// Do not escape Warning or Password label, HTML expected.
 		'<form id="' . $this->info['trigger'] . '_shortcode_form" action="' . $attributes['href'] . '" method="post">
@@ -62,11 +70,11 @@ if ( !empty( $user->ID ) && ( in_array( 'administrator', $user->roles ) || ( is_
 				' . $form_confirm_warning . '
 			</p>
 			<p>
-				<label for="' . $this->info['trigger'] . '_shortcode_password">' . ( $default_option['settings']['shortcode_form_confirm_password_label'] === $this->option['settings']['shortcode_form_confirm_password_label'] ? __( 'Password', 'delete-me' ) : $this->option['settings']['shortcode_form_confirm_password_label'] ) . '</label>
+				<label for="' . $this->info['trigger'] . '_shortcode_password">' . ( $form_password_label ) . '</label>
 				<input' . $incorrect_password_style . ' type="password" autocomplete="off" autofocus="autofocus" id="' . $this->info['trigger'] . '_shortcode_password" name="' . $this->info['trigger'] . '_shortcode_password" />
 			</p>
 			<p>
-				<input type="submit" value="' . esc_attr( str_replace( '%username%', $this->user_login, $default_option['settings']['shortcode_form_confirm_button'] === $this->option['settings']['shortcode_form_confirm_button'] ? __( 'Confirm Deletion', 'delete-me' ) : $this->option['settings']['shortcode_form_confirm_button'] ) ) . '" />
+				<input type="submit" value="' . esc_attr( $form_confirm_button ) . '" />
 			</p>
 		</form>';
 

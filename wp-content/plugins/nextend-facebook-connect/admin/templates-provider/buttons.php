@@ -10,7 +10,7 @@ $isPRO = apply_filters('nsl-pro', false);
 ?>
 <div class="nsl-admin-sub-content">
     <script type="text/javascript">
-		(function ($) {
+        (function ($) {
 
             window.resetButtonToDefault = function (id) {
                 var defaultButtonValues = {
@@ -37,8 +37,7 @@ $isPRO = apply_filters('nsl-pro', false);
                         if ($CodeMirror && typeof $CodeMirror.CodeMirror !== 'undefined') {
                             $CodeMirror.CodeMirror.refresh();
                         }
-                    }
-                    else {
+                    } else {
                         $('#custom_default_button_textarea_container').css('display', 'none');
                     }
                 });
@@ -51,8 +50,7 @@ $isPRO = apply_filters('nsl-pro', false);
                         if ($CodeMirror && typeof $CodeMirror.CodeMirror !== 'undefined') {
                             $CodeMirror.CodeMirror.refresh();
                         }
-                    }
-                    else {
+                    } else {
                         $('#custom_icon_button_textarea_container').css('display', 'none');
                     }
                 });
@@ -62,7 +60,7 @@ $isPRO = apply_filters('nsl-pro', false);
 
     <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" novalidate="novalidate">
 
-		<?php wp_nonce_field('nextend-social-login'); ?>
+        <?php wp_nonce_field('nextend-social-login'); ?>
         <input type="hidden" name="action" value="nextend-social-login"/>
         <input type="hidden" name="view" value="provider-<?php echo $provider->getId(); ?>"/>
         <input type="hidden" name="subview" value="buttons"/>
@@ -114,7 +112,7 @@ $isPRO = apply_filters('nsl-pro', false);
                             for="custom_default_button"><?php _e('Default button', 'nextend-facebook-connect'); ?></label>
                 </th>
                 <td>
-					<?php
+                    <?php
                     $useCustom      = false;
                     $buttonTemplate = $settings->get('custom_default_button');
                     if (!empty($buttonTemplate)) {
@@ -145,7 +143,7 @@ $isPRO = apply_filters('nsl-pro', false);
                                 for="custom_icon_button"><?php _e('Icon button', 'nextend-facebook-connect'); ?></label>
                     </th>
                     <td>
-						<?php
+                        <?php
                         $useCustom      = false;
                         $buttonTemplate = $settings->get('custom_icon_button');
                         if (!empty($buttonTemplate)) {

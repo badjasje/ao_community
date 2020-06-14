@@ -42,7 +42,6 @@ function fvm_function_available($func) {
 	return true;
 }
 
-
 # run during activation
 function fastvelocity_plugin_activate() {
 	
@@ -61,16 +60,16 @@ function fastvelocity_plugin_activate() {
 		# default options to enable (1)
 		$options_enable_default = array('fastvelocity_min_fvm_fix_editor', 'fastvelocity_min_remove_print_mediatypes',  'fastvelocity_fvm_clean_header_one', 'fastvelocity_min_skip_google_fonts', 'fastvelocity_min_force_inline_css_footer', 'fastvelocity_min_skip_cssorder', 'fastvelocity_gfonts_method', 'fastvelocity_fontawesome_method', 'fastvelocity_min_disable_css_inline_merge');
 		foreach($options_enable_default as $option) {
-			update_option($option, 1, 'yes');
+			update_option($option, 1, 'no');
 		}
 		
 		# default blacklist
 		$exc = array('/html5shiv.js', '/html5shiv-printshiv.min.js', '/excanvas.js', '/avada-ie9.js', '/respond.js', '/respond.min.js', '/selectivizr.js', '/Avada/assets/css/ie.css', '/html5.js', '/IE9.js', '/fusion-ie9.js', '/vc_lte_ie9.min.css', '/old-ie.css', '/ie.css', '/vc-ie8.min.css', '/mailchimp-for-wp/assets/js/third-party/placeholders.min.js', '/assets/js/plugins/wp-enqueue/min/webfontloader.js', '/a.optnmstr.com/app/js/api.min.js', '/pixelyoursite/js/public.js', '/assets/js/wcdrip-drip.js');
-		update_option('fastvelocity_min_blacklist', implode(PHP_EOL, $exc)); 
+		update_option('fastvelocity_min_blacklist', implode(PHP_EOL, $exc), 'no'); 
 		
 		# default ignore list
-		$exc = array('/Avada/assets/js/main.min.js', '/woocommerce-product-search/js/product-search.js', '/includes/builder/scripts/frontend-builder-scripts.js', '/assets/js/jquery.themepunch.tools.min.js', '/js/TweenMax.min.js', '/jupiter/assets/js/min/full-scripts', '/wp-content/themes/Divi/core/admin/js/react-dom.production.min.js', '/LayerSlider/static/layerslider/js/greensock.js', '/themes/kalium/assets/js/main.min.js', '/elementor/assets/js/common.min.js', '/elementor/assets/js/frontend.min.js', '/elementor-pro/assets/js/frontend.min.js');
-		update_option('fastvelocity_min_ignorelist', implode(PHP_EOL, $exc));
+		$exc = array('/themes/Avada/assets/js/main.min.js', '/plugins/woocommerce-product-search/js/product-search.js', '/plugins/revslider/public/assets/js/jquery.themepunch.tools.min.js', '/js/TweenMax.min.js', '/themes/jupiter/assets/js/min/full-scripts', '/plugins/LayerSlider/static/layerslider/js/greensock.js', '/themes/kalium/assets/js/main.min.js', '/js/mediaelement/', '/plugins/elementor/assets/js/common.min.js', '/plugins/elementor/assets/js/frontend.min.js', '/plugins/elementor-pro/assets/js/frontend.min.js', '/themes/kalium/assets/js/main.min.js', '/wp-includes/js/mediaelement/wp-mediaelement.min.js');
+		update_option('fastvelocity_min_ignorelist', implode(PHP_EOL, $exc), 'no');
 		
 	}
 }
@@ -84,6 +83,28 @@ function fastvelocity_plugin_deactivate() {
 	
 	# old cache purge event cron
 	wp_clear_scheduled_hook( 'fastvelocity_purge_old_cron_event' );
+	
+	# delete leftovers from older versions
+	if(function_exists('_get_cron_array') && function_exists('_set_cron_array')) {
+		$cron = _get_cron_array();
+		if (is_array($cron)) {
+			
+			# count
+			$a = count($cron);
+			
+			# keep only the ones that don't match the cron name
+			$updated = array_filter($cron, function($v){return !array_key_exists("fastvelocity_purge_old_cron_event",$v);});
+			
+			# count
+			$b = count($updated);
+			
+			# update
+			if ($a != $b && is_array($updated) && count($updated) > 0) {
+				_set_cron_array($updated);
+			}
+			
+		}		
+	}
 	
 }
 
@@ -110,9 +131,11 @@ function fastvelocity_plugin_uninstall() {
 }
 
 
+
+
 # try catch wrapper for merged javascript
 function fastvelocity_try_catch_wrap($js) {
-	return 'try{'.PHP_EOL . $js . PHP_EOL . '}' . PHP_EOL . 'catch(e){console.error("An error has occurred: "+e.message);}'.PHP_EOL;
+	return 'try{'.PHP_EOL . $js . PHP_EOL . '}' . PHP_EOL . 'catch(e){console.error("An error has occurred: "+e.stack);}'.PHP_EOL;
 }
 
 
@@ -153,7 +176,8 @@ return $ret;
 function fastvelocity_min_get_hurl($src, $wp_domain, $wp_home) {
 	
 # preserve empty source handles
-$hurl = trim($src); if(empty($hurl)) { return $hurl; }      
+$hurl = trim($src); 
+if(empty($hurl)) { return $hurl; }      
 
 # some fixes
 $hurl = str_ireplace(array('&#038;', '&amp;'), '&', $hurl);
@@ -195,6 +219,9 @@ if (stripos($hurl, '.css?v') !== false) { $hurl = stristr($hurl, '.css?v', true)
 
 # make sure there is a protocol prefix as required
 $hurl = fvm_compat_urls($hurl); # enforce protocol
+
+# add filter for developers
+$hurl = apply_filters('fvm_get_url', $hurl);
 
 return $hurl;	
 }
@@ -285,7 +312,7 @@ function fastvelocity_min_get_js($url, $js, $disable_js_minification) {
 	global $fvm_debug;
 
 # exclude minification on already minified files + jquery (because minification might break those)
-$excl = array('jquery.js', '.min.js', '-min.js', '/uploads/fusion-scripts/', '/min/', '.packed.js');
+$excl = array('jquery.js', '.min.js', '-min.js', '/uploads/fusion-scripts/', '/min/', '.packed.js', '/includes/builder/scripts/');
 foreach($excl as $e) { if (stripos(basename($url), $e) !== false) { $disable_js_minification = true; break; } }
 
 # remove BOM
@@ -298,10 +325,8 @@ if(!$disable_js_minification) {
 	$js = fvm_compat_urls($js); 
 }
 
-# try to remove source mapping files
-$filename = basename($url);
-$remove = array("//# sourceMappingURL=$filename.map", "//# sourceMappingURL = $filename.map");
-$js = str_ireplace($remove, '', $js);
+# remove sourceMappingURL
+$js = preg_replace('/(\/\/\s*[#]\s*sourceMappingURL\s*[=]\s*)([a-zA-Z0-9-_\.\/]+)(\.map)/ui', '', $js);
 
 # needed when merging js files
 $js = trim($js);
@@ -359,7 +384,7 @@ $css = fastvelocity_min_remove_utf8_bom($css);
 if(!empty($url)) {
 	$matches = array(); preg_match_all("/url\(\s*['\"]?(?!data:)(?!http)(?![\/'\"])(.+?)['\"]?\s*\)/ui", $css, $matches);
     foreach($matches[1] as $a) { $b = trim($a); if($b != $a) { $css = str_replace($a, $b, $css); } }
-	$css = preg_replace("/url\(\s*['\"]?(?!data:)(?!http)(?![\/'\"])(.+?)['\"]?\s*\)/ui", "url(".dirname($url)."/$1)", $css); 
+	$css = preg_replace("/url\(\s*['\"]?(?!data:)(?!http)(?![\/'\"#])(.+?)['\"]?\s*\)/ui", "url(".dirname($url)."/$1)", $css);
 }
 
 # no utf8 garbage
@@ -368,6 +393,9 @@ $css = str_ireplace('@charset "UTF-8";', '', $css);
 # remove query strings from fonts (for better seo, but add a small cache buster based on most recent updates)
 $ctime = get_option('fvm-last-cache-update', '0'); # last update or zero
 $css = preg_replace('/(.eot|.woff2|.woff|.ttf)+[?+](.+?)(\)|\'|\")/ui', "$1"."#".$ctime."$3", $css); # fonts cache buster
+
+# remove sourceMappingURL
+$css = preg_replace('/(\/\/\s*[#]\s*sourceMappingURL\s*[=]\s*)([a-zA-Z0-9-_\.\/]+)(\.map)/ui', '', $css);
 
 # minify CSS
 if(!$disable_css_minification) { 
@@ -785,6 +813,9 @@ function fastvelocity_load_fvuag() {
 	$arr = array('tve_form_type', 'tve_lead_shortcode', 'tqb_splash');
 	foreach ($arr as $a) { if(isset($_GET['post_type']) && $_GET['post_type'] == $a) { return true; } }
 	
+	# thrive architect
+	if(isset($_GET['tve']) && $_GET['tve'] == 'true') { return true; }
+	
 	# elementor
 	if(isset($_GET['elementor-preview'])) { return true; }
 	if(is_array($_GET)) {
@@ -824,22 +855,36 @@ function fastvelocity_exclude_contents() {
 		return true;
 	}
 	
-	# customizer preview, visual composer
-	$arr = array('customize_theme', 'preview_id', 'preview');
-	foreach ($arr as $a) { if(isset($_GET[$a])) { return true; } }
-
-	# Thrive plugins and other post_types
-	$arr = array('tve_form_type', 'tve_lead_shortcode', 'tqb_splash');
-	foreach ($arr as $a) { if(isset($_GET['post_type']) && $_GET['post_type'] == $a) { return true; } }
-	
-	# elementor
-	if(isset($_GET['elementor-preview'])) { return true; }
+	# get params exclusions
 	if(is_array($_GET)) {
 		foreach ($_GET as $k=>$v) {
 			if(is_string($v) && is_string($k)) {
+				
+				# elementor
 				if(stripos($k, 'elementor') !== false || stripos($v, 'elementor') !== false) {
 					return true;
 				}
+				
+				# customizer preview, visual composer
+				if(stripos($k, 'customize_theme') !== false || stripos($k, 'preview_id') !== false || stripos($k, 'preview') !== false) {
+					return true;
+				}
+				
+				# thrive plugins post_types
+				if(stripos($k, 'post_type') !== false && (stripos($v, 'tve_') !== false || stripos($v, 'tqb_') !== false)) {
+					return true;
+				}
+				
+				# thrive architect
+				if($k == 'tve' && $v == 'true') {
+					return true;
+				}
+				
+				# Divi Builder
+				if($k == 'et_fb' || $k == 'PageSpeed') {
+					return true;
+				}
+								
 			}
 		}
 	}
@@ -864,8 +909,7 @@ if(is_array($ignore)) {
 	
 	# should we exclude jquery when defer is enabled?
 	$exclude_defer_jquery = get_option('fastvelocity_min_exclude_defer_jquery');
-	$enable_defer_js = get_option('fastvelocity_min_enable_defer_js');
-	if($enable_defer_js == true && $exclude_defer_jquery == true) {
+	if($exclude_defer_jquery == true) {
 		$exc[] = '/jquery.js';
 		$exc[] = '/jquery.min.js';
 	}

@@ -57,13 +57,12 @@ class Assets implements Runner {
 		wp_register_style( self::PREFIX . 'common', $css . 'common.css', null, rank_math()->version );
 		wp_register_style( self::PREFIX . 'cmb2', $css . 'cmb2.css', null, rank_math()->version );
 		wp_register_style( self::PREFIX . 'dashboard', $css . 'dashboard.css', [ 'rank-math-common' ], rank_math()->version );
-		wp_register_style( self::PREFIX . 'plugin-feedback', $css . 'feedback.css', [ 'rank-math-common' ], rank_math()->version );
+		wp_register_style( self::PREFIX . 'plugin-feedback', $css . 'feedback.css', null, rank_math()->version );
 
 		// Scripts.
-		wp_register_script( 'clipboard', rank_math()->plugin_url() . 'assets/vendor/clipboard.min.js', null, '2.0.0', true );
 		wp_register_script( 'validate', rank_math()->plugin_url() . 'assets/vendor/jquery.validate.min.js', [ 'jquery' ], '1.19.0', true );
 		wp_register_script( self::PREFIX . 'validate', $js . 'validate.js', [ 'jquery' ], rank_math()->version, true );
-		wp_register_script( self::PREFIX . 'common', $js . 'common.js', [ 'jquery', 'validate' ], rank_math()->version, true );
+		wp_register_script( self::PREFIX . 'common', $js . 'common.js', [ 'jquery', 'validate', 'wp-i18n' ], rank_math()->version, true );
 		wp_register_script( self::PREFIX . 'dashboard', $js . 'dashboard.js', [ 'jquery', 'clipboard', 'validate' ], rank_math()->version, true );
 		wp_register_script( self::PREFIX . 'plugin-feedback', $js . 'feedback.js', [ 'jquery' ], rank_math()->version, true );
 
@@ -78,6 +77,22 @@ class Assets implements Runner {
 			wp_register_script( 'wp-hooks', rank_math()->plugin_url() . 'assets/vendor/hooks.js', [], rank_math()->version, true );
 		}
 
+		if ( ! wp_script_is( 'wp-wordcount', 'registered' ) ) {
+			wp_register_script( 'wp-wordcount', rank_math()->plugin_url() . 'assets/vendor/wordcount.js', [], rank_math()->version, true );
+		}
+
+		if ( ! wp_script_is( 'wp-autop', 'registered' ) ) {
+			wp_register_script( 'wp-autop', rank_math()->plugin_url() . 'assets/vendor/autop.js', [], rank_math()->version, true );
+		}
+
+		if ( ! wp_script_is( 'wp-url', 'registered' ) ) {
+			wp_register_script( 'wp-url', rank_math()->plugin_url() . 'assets/vendor/url.js', [], rank_math()->version, true );
+		}
+
+		if ( ! wp_script_is( 'wp-i18n', 'registered' ) ) {
+			wp_register_script( 'wp-i18n', rank_math()->plugin_url() . 'assets/vendor/i18n.js', [], rank_math()->version, true );
+		}
+
 		if ( ! wp_script_is( 'lodash', 'registered' ) ) {
 			wp_register_script( 'lodash', rank_math()->plugin_url() . 'assets/vendor/lodash.js', [], rank_math()->version );
 			wp_add_inline_script( 'lodash', 'window.lodash = _.noConflict();' );
@@ -88,6 +103,13 @@ class Assets implements Runner {
 			[
 				'root'  => esc_url_raw( get_rest_url() ),
 				'nonce' => ( wp_installing() && ! is_multisite() ) ? '' : wp_create_nonce( 'wp_rest' ),
+			]
+		);
+
+		Helper::add_json(
+			'keywordsApi',
+			[
+				'url' => 'https://rankmathapi.com/ltkw/v1/',
 			]
 		);
 
@@ -135,7 +157,7 @@ class Assets implements Runner {
 	 */
 	public function admin_footer_text( $text ) {
 		/* translators: plugin url */
-		return Helper::is_whitelabel() ? $text : '<em>' . sprintf( wp_kses_post( __( 'Thank you for using <a href="%s" target="_blank">Rank Math</a>', 'rank-math' ) ), 'https://s.rankmath.com/home' ) . '</em>';
+		return Helper::is_whitelabel() ? $text : sprintf( wp_kses_post( __( 'Thank you for using <a href="%s" target="_blank">Rank Math</a>', 'rank-math' ) ), 'https://s.rankmath.com/home' );
 	}
 
 	/**

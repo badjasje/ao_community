@@ -40,6 +40,9 @@ class Deactivate_Survey implements Runner {
 	public function deactivate_feedback() {
 
 		check_ajax_referer( 'rank_math_deactivate_feedback_nonce', 'security' );
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			$this->error( esc_html__( 'You are not authorized to perform this action.', 'rank-math' ) );
+		}
 
 		$reason_key  = Param::post( 'reason_key', '' );
 		$reason_text = Param::post(
@@ -59,8 +62,6 @@ class Deactivate_Survey implements Runner {
 					'product_slug'    => 'rank-math-suite',
 					'product_name'    => 'Rank Math Suite',
 					'product_version' => rank_math()->version,
-					'site_url'        => esc_url( site_url() ),
-					'site_lang'       => get_bloginfo( 'language' ),
 					'feedback_key'    => $reason_key,
 					'feedback'        => $reason_text,
 				],
@@ -87,13 +88,13 @@ class Deactivate_Survey implements Runner {
 
 		// Form.
 		?>
-		<div class="rank-math-feedback-modal rank-math-ui" id="rank-math-feedback-form">
+		<div class="rank-math-feedback-modal rank-math-ui rank-math-page" id="rank-math-feedback-form">
 			<div class="rank-math-feedback-content">
 
 				<header>
 
 					<h2>
-						<?php echo __( 'Quick Feedback', 'rank-math' ); ?>
+						<?php echo esc_html__( 'Help Us Improve', 'rank-math' ); ?>
 						<span class="button-close dashicons dashicons-no-alt alignright"></span>
 					</h2>
 
@@ -102,13 +103,13 @@ class Deactivate_Survey implements Runner {
 							<p>
 								<?php
 								/* translators: 1. Bold text 2. Bold text */
-								printf( __( '%1$s A filter to remove the Rank Math data from the database is present in your theme. Deactivating this plugin will remove everything related to the Rank Math plugin. %2$s', 'rank-math' ), '<strong>CAUTION:</strong>', '<strong>This action is IRREVERSIBLE.</strong>' );
+								printf( esc_html__( '%1$s A filter to remove the Rank Math data from the database is present in your theme. Deactivating & Deleting this plugin will remove everything related to the Rank Math plugin. %2$s', 'rank-math' ), '<strong>CAUTION:</strong>', '<strong>This action is IRREVERSIBLE.</strong>' );
 								?>
 							</p>
 						</div>
 					<?php } ?>
 
-					<p><?php echo __( 'If you have a moment, please share why you are deactivating Rank Math:', 'rank-math' ); ?></p>
+					<p><?php echo esc_html__( 'Please share why you are deactivating Rank Math', 'rank-math' ); ?></p>
 
 				</header>
 
@@ -116,26 +117,27 @@ class Deactivate_Survey implements Runner {
 
 					<input type="hidden" name="action" value="rank_math_deactivate_feedback" />
 					<?php wp_nonce_field( 'rank_math_deactivate_feedback_nonce', 'security' ); ?>
+					<div class="rank-math-feedback-options-wrapper">
+						<?php foreach ( $this->get_uninstall_reasons() as $key => $reason ) : ?>
+							<div class="rank-math-feedback-input-wrapper">
 
-					<?php foreach ( $this->get_uninstall_reasons() as $key => $reason ) : ?>
-					<div class="rank-math-feedback-input-wrapper">
+								<input id="deactivate-feedback-<?php echo esc_attr( $key ); ?>" type="radio" name="reason_key" value="<?php echo esc_attr( $key ); ?>" />
 
-						<input id="deactivate-feedback-<?php echo esc_attr( $key ); ?>" type="radio" name="reason_key" value="<?php echo esc_attr( $key ); ?>" />
+								<label for="deactivate-feedback-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $reason['title'] ); ?></label>
 
-						<label for="deactivate-feedback-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $reason['title'] ); ?></label>
+								<?php if ( ! empty( $reason['placeholder'] ) ) : ?>
+									<input class="regular-text" type="text" name="reason_<?php echo esc_attr( $key ); ?>" placeholder="<?php echo esc_attr( $reason['placeholder'] ); ?>" />
+								<?php endif; ?>
 
-						<?php if ( ! empty( $reason['placeholder'] ) ) : ?>
-							<input class="regular-text" type="text" name="reason_<?php echo esc_attr( $key ); ?>" placeholder="<?php echo esc_attr( $reason['placeholder'] ); ?>" />
-						<?php endif; ?>
-
+							</div>
+						<?php endforeach; ?>
 					</div>
-					<?php endforeach; ?>
 
 					<footer>
 
-						<button type="submit" class="button button-primary default button-large button-submit"><?php esc_html_e( 'Submit & Deactivate', 'rank-math' ); ?></button>
+						<button type="button" class="button button-link button-skip"><?php esc_html_e( 'Skip & Deactivate', 'rank-math' ); ?></button>
 
-						<button type="button" class="button button-link alignright button-skip"><?php esc_html_e( 'Skip & Deactivate', 'rank-math' ); ?></button>
+						<button type="submit" class="button button-primary alignright button-submit" disabled="disabled"><?php esc_html_e( 'Submit & Deactivate', 'rank-math' ); ?></button>
 
 					</footer>
 

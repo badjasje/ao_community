@@ -21,13 +21,6 @@ class Rollback_Version {
 	use Hooker;
 
 	/**
-	 * Selected Version.
-	 *
-	 * @var string
-	 */
-	private $selected_version;
-
-	/**
 	 * Rollback version option key.
 	 *
 	 * @var string
@@ -68,11 +61,10 @@ class Rollback_Version {
 	 * @return boolean Whether the installation was successful.
 	 */
 	public function rollback() {
-		$this->selected_version = $version;
-
 		$title        = __( 'Rollback Plugin', 'rank-math' );
 		$parent_file  = 'plugins.php';
 		$submenu_file = 'plugins.php';
+		$new_version  = Param::post( 'rm_rollback_version' );
 
 		wp_enqueue_script( 'updates' );
 		$plugin = 'seo-by-rank-math/rank-math.php';
@@ -81,6 +73,13 @@ class Rollback_Version {
 		if ( ! class_exists( '\Plugin_Upgrader' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 		}
+
+		update_option( self::ROLLBACK_VERSION_OPTION, $new_version );
+		// Downgrade version number if necessary.
+		if ( version_compare( rank_math()->version, $new_version, '>' ) ) {
+			update_option( 'rank_math_version', $new_version );
+		}
+
 		add_filter( 'pre_site_transient_update_plugins', [ $this, 'pre_transient_update_plugins' ], 20 );
 		add_filter( 'gettext', [ $this, 'change_updater_strings' ], 20, 3 );
 		$upgrader = new \Plugin_Upgrader( new \Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin' ) ) );
@@ -89,7 +88,7 @@ class Rollback_Version {
 		echo '</div>';
 		remove_filter( 'pre_site_transient_update_plugins', [ $this, 'pre_transient_update_plugins' ], 20 );
 		remove_filter( 'gettext', [ $this, 'change_updater_strings' ], 20 );
-		update_option( self::ROLLBACK_VERSION_OPTION, Param::post( 'rm_rollback_version' ) );
+
 		return true;
 	}
 

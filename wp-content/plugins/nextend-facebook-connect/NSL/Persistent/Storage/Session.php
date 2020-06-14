@@ -60,7 +60,7 @@ class Session extends StorageAbstract {
             } else if ($createSession) {
                 $unique = uniqid('nsl', true);
 
-                $this->setCookie($unique, time() + DAY_IN_SECONDS, apply_filters('nsl_session_use_secure_cookie', false));
+                $this->setCookie($unique, apply_filters('nsl_session_cookie_expiration', 0), apply_filters('nsl_session_use_secure_cookie', false));
 
                 $this->sessionId = 'nsl_persistent_' . md5(SECURE_AUTH_KEY . $unique);
 

@@ -1,7 +1,7 @@
 <?php
   
 require_once("wp-load.php");
-update_post_meta( 1605195, 'previous_members', '');
+//update_post_meta( 74833, 'previous_members', '');
 /*
 
 $args = array(

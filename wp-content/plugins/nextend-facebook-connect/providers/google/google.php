@@ -1,5 +1,7 @@
 <?php
 
+use NSL\Notices;
+
 class NextendSocialProviderGoogle extends NextendSocialProvider {
 
     /** @var NextendSocialProviderGoogleClient */
@@ -90,12 +92,13 @@ class NextendSocialProviderGoogle extends NextendSocialProvider {
         );
 
         parent::__construct(array(
-            'client_id'     => '',
-            'client_secret' => '',
-            'skin'          => 'uniform',
-            'login_label'   => 'Continue with <b>Google</b>',
-            'link_label'    => 'Link account with <b>Google</b>',
-            'unlink_label'  => 'Unlink account from <b>Google</b>'
+            'client_id'      => '',
+            'client_secret'  => '',
+            'select_account' => 1,
+            'skin'           => 'light',
+            'login_label'    => 'Continue with <b>Google</b>',
+            'link_label'     => 'Link account with <b>Google</b>',
+            'unlink_label'   => 'Unlink account from <b>Google</b>'
         ));
     }
 
@@ -121,11 +124,11 @@ class NextendSocialProviderGoogle extends NextendSocialProvider {
                 $svg   = $this->svgUniform;
         }
 
-        return '<span class="nsl-button nsl-button-default nsl-button-' . $this->id . '" data-skin="' . $skin . '" style="background-color:' . $color . ';"><span class="nsl-button-svg-container">' . $svg . '</span><span class="nsl-button-label-container">{{label}}</span></span>';
+        return '<div class="nsl-button nsl-button-default nsl-button-' . $this->id . '" data-skin="' . $skin . '" style="background-color:' . $color . ';"><div class="nsl-button-svg-container">' . $svg . '</div><div class="nsl-button-label-container">{{label}}</div></div>';
     }
 
     public function getRawIconButton() {
-        return '<span class="nsl-button nsl-button-icon nsl-button-' . $this->id . '" style="background-color:' . $this->colorUniform . ';"><span class="nsl-button-svg-container">' . $this->svgUniform . '</span></span>';
+        return '<div class="nsl-button nsl-button-icon nsl-button-' . $this->id . '" style="background-color:' . $this->colorUniform . ';"><div class="nsl-button-svg-container">' . $this->svgUniform . '</div></div>';
     }
 
     public function validateSettings($newData, $postedData) {
@@ -152,8 +155,11 @@ class NextendSocialProviderGoogle extends NextendSocialProvider {
                     }
 
                     if (empty($newData[$key])) {
-                        \NSL\Notices::addError(sprintf(__('The %1$s entered did not appear to be a valid. Please enter a valid %2$s.', 'nextend-facebook-connect'), $this->requiredFields[$key], $this->requiredFields[$key]));
+                        Notices::addError(sprintf(__('The %1$s entered did not appear to be a valid. Please enter a valid %2$s.', 'nextend-facebook-connect'), $this->requiredFields[$key], $this->requiredFields[$key]));
                     }
+                    break;
+                case 'select_account':
+                    $newData[$key] = $value ? 1 : 0;
                     break;
             }
         }
@@ -171,7 +177,11 @@ class NextendSocialProviderGoogle extends NextendSocialProvider {
             $this->client->setClientId($this->settings->get('client_id'));
             $this->client->setClientSecret($this->settings->get('client_secret'));
             $this->client->setRedirectUri($this->getRedirectUri());
-            $this->client->setPrompt('select_account');
+
+            if (!$this->settings->get('select_account')) {
+                $this->client->setPrompt('');
+            }
+
         }
 
         return $this->client;
@@ -228,11 +238,11 @@ class NextendSocialProviderGoogle extends NextendSocialProvider {
             case 'email':
                 return $this->authUserData['email'];
             case 'name':
-                return $this->authUserData['name'];
+                return !empty($this->authUserData['name']) ? $this->authUserData['name'] : '';
             case 'first_name':
-                return $this->authUserData['given_name'];
+                return !empty($this->authUserData['given_name']) ? $this->authUserData['given_name'] : '';
             case 'last_name':
-                return $this->authUserData['family_name'];
+                return !empty($this->authUserData['family_name']) ? $this->authUserData['family_name'] : '';
             case 'picture':
                 return $this->authUserData['picture'];
         }

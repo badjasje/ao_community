@@ -28,6 +28,7 @@ class Elementor {
 	 */
 	public function __construct() {
 		$this->action( 'init', 'init' );
+		$this->filter( 'rank_math/frontend/robots', 'robots' );
 	}
 
 	/**
@@ -42,7 +43,7 @@ class Elementor {
 		add_action( 'elementor/editor/footer', [ rank_math()->json, 'output' ], 0 );
 		$this->action( 'elementor/editor/footer', 'start_capturing', 0 );
 		$this->action( 'elementor/editor/footer', 'end_capturing', 999 );
-		$this->action( 'rank_math/sitemap/content_before_parse_html_images', 'apply_builder_in_content', 10, 2 );
+		$this->filter( 'rank_math/sitemap/content_before_parse_html_images', 'apply_builder_in_content', 10, 2 );
 	}
 
 	/**
@@ -78,6 +79,7 @@ class Elementor {
 			'wp-element',
 			'wp-data',
 			'wp-api-fetch',
+			'wp-media-utils',
 			'rank-math-analyzer',
 			'backbone-marionette',
 			'elementor-common-modules',
@@ -113,7 +115,11 @@ class Elementor {
 	 * @return string The post content.
 	 */
 	public function apply_builder_in_content( $content, $post_id ) {
-		return \Elementor\Plugin::$instance->frontend->get_builder_content( $post_id );
+		if ( \Elementor\Plugin::$instance->db->is_built_with_elementor( $post_id ) ) {
+			return \Elementor\Plugin::$instance->frontend->get_builder_content( $post_id );
+		}
+
+		return $content;
 	}
 
 	/**
@@ -122,11 +128,34 @@ class Elementor {
 	 * @return bool
 	 */
 	private function can_add_seo_tab() {
+		/**
+		 * Filter to show/hide SEO Tab in Elementor Editor.
+		 */
+		if ( ! $this->do_filter( 'elementor/add_seo_tab', true ) ) {
+			return false;
+		}
+
 		$post_type = isset( $_GET['post'] ) ? get_post_type( $_GET['post'] ) : '';
 		if ( $post_type && ! Helper::get_settings( 'titles.pt_' . $post_type . '_add_meta_box' ) ) {
 			return false;
 		}
 
 		return Editor::can_add_editor();
+	}
+
+	/**
+	 * Change robots for Elementor Templates pages
+	 *
+	 * @param array $robots Array of robots to sanitize.
+	 *
+	 * @return array Modified robots.
+	 */
+	public function robots( $robots ) {
+		if ( is_singular( 'elementor_library' ) ) {
+			$robots['index']  = 'noindex';
+			$robots['follow'] = 'nofollow';
+		}
+
+		return $robots;
 	}
 }

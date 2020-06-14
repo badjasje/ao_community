@@ -8,6 +8,12 @@ class NextendSocialLoginCompatibility {
             $this,
             'after_setup_theme'
         ), 11);
+
+        add_action('wp_head', array(
+            $this,
+            'wplms_hide_duplicate_buttons'
+        ), 10);
+
     }
 
     public function after_setup_theme() {
@@ -19,6 +25,20 @@ class NextendSocialLoginCompatibility {
                 /** If the action not removed, then the wp-login.php always redirected to {siteurl}/#login/ and it break social login */
                 remove_action('init', 'ghostpool_login_redirect');
             }
+        }
+    }
+
+    public function wplms_hide_duplicate_buttons() {
+        if (class_exists('vibe_bp_login', false)) {
+            echo "<style>
+                /**
+                    WPLMS triggers the same hook twice in the same form -> Hide duplicated social buttons.
+                 */
+                div#vibe_bp_login div#nsl-custom-login-form-2{
+                    display:none;
+                }
+            </style>
+        ";
         }
     }
 }

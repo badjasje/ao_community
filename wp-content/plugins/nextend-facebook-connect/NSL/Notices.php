@@ -3,6 +3,7 @@
 namespace NSL;
 
 use NSL\Persistent\Persistent;
+use WP_Error;
 
 class Notices {
 
@@ -60,7 +61,7 @@ class Notices {
     }
 
     /**
-     * @param $message string|\WP_Error
+     * @param $message string|WP_Error
      */
     public static function addError($message) {
         if (is_wp_error($message)) {

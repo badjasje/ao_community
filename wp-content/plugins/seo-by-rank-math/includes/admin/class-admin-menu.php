@@ -46,6 +46,13 @@ class Admin_Menu implements Runner {
 			return;
 		}
 
+		$current_user = wp_get_current_user();
+		$capabilities = array_keys( Helper::get_roles_capabilities() );
+
+		if ( empty( array_intersect( $current_user->roles, $capabilities ) ) && ! current_user_can( 'setup_network' ) ) {
+			return;
+		}
+
 		// Dashboard / Welcome / About.
 		new Page(
 			'rank-math',
@@ -94,13 +101,12 @@ class Admin_Menu implements Runner {
 			return;
 		}
 
-		if (
-			current_user_can( 'manage_options' ) &&
-			'Rank Math' === $submenu['rank-math'][0][0]
-		) {
-			$submenu['rank-math'][0][0] = esc_html__( 'Dashboard', 'rank-math' );
-		} else {
-			unset( $submenu['rank-math'][0] );
+		if ( 'Rank Math' === $submenu['rank-math'][0][0] ) {
+			if ( current_user_can( 'manage_options' ) ) {
+				$submenu['rank-math'][0][0] = esc_html__( 'Dashboard', 'rank-math' );
+			} else {
+				unset( $submenu['rank-math'][0] );
+			}
 		}
 
 		if ( empty( $submenu['rank-math'] ) ) {
@@ -140,8 +146,17 @@ class Admin_Menu implements Runner {
 	 * Check for deactivation.
 	 */
 	private function maybe_deregister() {
+		if ( ! Helper::has_cap( 'general' ) ) {
+			return;
+		}
+
+		$nonce = Param::post( '_wpnonce' );
+		if ( ! $nonce || ! wp_verify_nonce( $nonce, 'rank_math_register_product' ) ) {
+			return;
+		}
+
 		if ( 'deregister' === Param::post( 'registration-action' ) ) {
-			Admin_Helper::get_registration_data( false );
+			Admin_Helper::deregister_user();
 		}
 	}
 }

@@ -66,16 +66,21 @@ class Local_Seo {
 	 * Ajax search pages.
 	 */
 	public function search_pages() {
+		check_ajax_referer( 'rank-math-ajax-nonce', 'security' );
+		$this->has_cap_ajax( 'general' );
+
 		$term = Param::get( 'term' );
 		if ( empty( $term ) ) {
 			exit;
 		}
 
-		$pages = get_posts([
-			's'              => $term,
-			'post_type'      => 'page',
-			'posts_per_page' => -1,
-		]);
+		$pages = get_posts(
+			[
+				's'              => $term,
+				'post_type'      => 'page',
+				'posts_per_page' => -1,
+			]
+		);
 
 		$data = [];
 		foreach ( $pages as $page ) {
@@ -102,12 +107,10 @@ class Local_Seo {
 		}
 
 		$entity = [
-			'@context' => 'https://schema.org',
-			'@type'    => '',
-			'@id'      => '',
-			'name'     => '',
-			'url'      => get_home_url(),
-			'sameAs'   => $this->get_social_profiles(),
+			'@type' => '',
+			'@id'   => '',
+			'name'  => '',
+			'url'   => get_home_url(),
 		];
 
 		$json_ld->add_prop( 'email', $entity );
@@ -359,38 +362,5 @@ class Local_Seo {
 		}
 
 		return $entity;
-	}
-
-	/**
-	 * Get global social profile URLs, to use in the `sameAs` property.
-	 *
-	 * @link https://developers.google.com/webmasters/structured-data/customize/social-profiles
-	 */
-	private function get_social_profiles() {
-		$services = [
-			'facebook',
-			'twitter',
-			'google_places',
-			'yelp',
-			'foursquare',
-			'flickr',
-			'reddit',
-			'linkedin',
-			'instagram',
-			'youtube',
-			'pinterest',
-			'soundcloud',
-			'tumblr',
-			'myspace',
-		];
-
-		$profiles = [];
-		foreach ( $services as $profile ) {
-			if ( $profile = Helper::get_settings( 'titles.social_url_' . $profile ) ) { // phpcs:ignore
-				$profiles[] = $profile;
-			}
-		}
-
-		return $profiles;
 	}
 }

@@ -50,11 +50,11 @@
 					 * For real time email matching
 					 */
 					rules.user_confirm_email = {
-						equalTo: '#user_email',
+						equalTo: '.user-registration #user_email',
 					};
 					messages.user_confirm_email = user_registration_params.message_confirm_email_fields;
-        }
-        
+				}
+
 				if ( $this.hasClass('edit-password') ) {
 					/**
 					 * Password matching for `Change Password` form
@@ -68,7 +68,7 @@
 					 * Password matching for registration form
 					 */
 					rules.user_confirm_password = {
-						equalTo: '#user_pass',
+						equalTo: '.user-registration #user_pass',
 					};
 					messages.user_confirm_password = user_registration_params.message_confirm_password_fields;
 				}
@@ -80,7 +80,7 @@
 					messages: messages,
 					errorPlacement: function (error, element) {
 						if ( element.is( '#password_2' ) ) {
-							element.parent().append(error);
+							element.parent().after(error);
 						} else if ( 'radio' === element.attr('type') || 'checkbox' === element.attr('type') || 'password' === element.attr('type') ) {
 							element.parent().parent().parent().append(error);
 						} else if ( element.is('select') && element.attr('class').match(/date-month|date-day|date-year/) ) {
@@ -119,7 +119,7 @@
 						$parent.removeClass('user-registration-has-error');
 					},
 					submitHandler: function (form) {
-						
+
 						// Return `true` for `Change Password` form to allow submission
 						if ( $(form).hasClass('edit-password') ) {
 							return true;
@@ -209,7 +209,14 @@
 						var single_field = $this.closest('.ur-frontend-form').find('.ur-form-grid').find('.ur-frontend-field[name="' + field_name + '"]');
 						if (single_field.length < 2) {
 							var single_data = this_instance.get_fieldwise_data($(this));
-							form_data.push(single_data);
+							var invite_code = document.querySelector('.field-invite_code')
+							if( 'invite_code' === single_data.field_name ) {
+								if( 'none' !== invite_code.style.display ) {
+									form_data.push(single_data);
+								}
+							} else {
+								form_data.push(single_data);
+							}
 						} else {
 							if ($.inArray(field_name, multi_value_field) < 0) {
 								multi_value_field.push(field_name);
@@ -349,6 +356,8 @@
 
 					$('form.register').on('submit', function (event) {
 						var $this = $(this);
+
+						event.stopImmediatePropagation();
 
 						// Validator messages.
 						$.extend($.validator.messages, {
@@ -543,32 +552,32 @@
 		});
 	};
 
-	$(function () {
+	$( function () {
 		$('form.register').ur_form_submission();
 
-		var flatpickr_loaded = false;
-		var date_field = $('#load_flatpickr').attr('data-id');
-		var date_selector = $('.ur-frontend-form #' + date_field);
-			date_selector.attr('type', 'text');
-			date_selector.val( $('#formated_date').val() );
-		$('#load_flatpickr').click( function() {
+		var date_flatpickrs = {};
 
-			var date_flatpickr;
+		$( document.body ).on( 'click', '#load_flatpickr', function() {
+			var field_id = $( this ).data( 'id' );
+			var date_flatpickr = date_flatpickrs[ field_id ];
 
-			if ( ! flatpickr_loaded ) {
-				$(this).attr('data-date-format', date_selector.data('date-format'));
-				$(this).attr('data-mode', date_selector.data('mode'));
-				$(this).attr('data-min-date', date_selector.data('min-date'));
-				$(this).attr('data-max-date', date_selector.data('max-date'));
-				$(this).attr('data-default-date', $('#formated_date').val());
-				date_flatpickr = $(this).flatpickr({
-					disableMobile: true,
-					onChange      : function(selectedDates, dateStr, instance) {
-						$('#'+ date_field).val(dateStr);
-					},
+			// Load a flatpicker for the field, if hasn't been loaded.
+			if ( ! date_flatpickr ) {
+				var formated_date = $( this ).closest( '.ur-field-item' ).find( '#formated_date' ).val();
+				var date_selector = $( '.ur-frontend-form #' + field_id ).attr( 'type', 'text' ).val( formated_date );
+
+				$( this ).attr( 'data-date-format', date_selector.data( 'date-format') );
+				$( this ).attr( 'data-mode', date_selector.data( 'mode') );
+				$( this ).attr( 'data-min-date', date_selector.data( 'min-date') );
+				$( this ).attr( 'data-max-date', date_selector.data( 'max-date') );
+				$( this ).attr( 'data-default-date', formated_date );
+				date_flatpickr = $( this ).flatpickr({
+					disableMobile : true,
+					onChange : function( selectedDates, dateString, instance ) {
+						$( '#' + field_id ).val( dateString );
+					}
 				});
-
-				flatpickr_loaded = true;
+				date_flatpickrs[ field_id ] = date_flatpickr;
 			}
 
 			if ( date_flatpickr ) {
@@ -633,17 +642,23 @@
 		var current_task = ( $(this).hasClass( 'dashicons-hidden' ) ) ? 'show' : 'hide';
 		var $password_field = $(this).closest( '.user-registration-form-row' ).find( 'input[name="password"]' );
 
+		// Hide/show password for user registration form
 		if( $password_field.length === 0 ) {
 			$password_field = $(this).closest( '.field-user_pass' ).find( 'input[name="user_pass"]' );
 		}
 		if( $password_field.length === 0 ) {
 			$password_field = $(this).closest( '.field-user_confirm_password' ).find( 'input[name="user_confirm_password"]' );
 		}
+
+		// Hide/show password for edit password form
 		if( $password_field.length === 0 ) {
-			$password_field = $(this).closest( '.field-user_pass' ).find( 'input[name="user_registration_user_pass"]' );
+			$password_field = $(this).closest( '.user-registration-form-row' ).find( 'input[name="password_current"]' );
 		}
 		if( $password_field.length === 0 ) {
-			$password_field = $(this).closest( '.field-user_confirm_password' ).find( 'input[name="user_registration_user_confirm_password"]' );
+			$password_field = $(this).closest( '.user-registration-form-row' ).find( 'input[name="password_1"]' );
+		}
+		if( $password_field.length === 0 ) {
+			$password_field = $(this).closest( '.user-registration-form-row' ).find( 'input[name="password_2"]' );
 		}
 
 		if( $password_field.length > 0 ) {

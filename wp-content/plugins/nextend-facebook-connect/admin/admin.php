@@ -1,4 +1,7 @@
 <?php
+
+use NSL\Notices;
+
 define('NSL_ADMIN_PATH', __FILE__);
 
 require_once dirname(__FILE__) . '/upgrader.php';
@@ -96,7 +99,7 @@ class NextendSocialLoginAdmin {
             include(dirname(__FILE__) . '/templates/header.php');
             include(dirname(__FILE__) . '/templates/menu.php');
 
-            \NSL\Notices::displayNotices();
+            Notices::displayNotices();
 
             /** @var string $view */
             include(dirname(__FILE__) . '/templates/' . $view . '.php');
@@ -229,7 +232,7 @@ class NextendSocialLoginAdmin {
 
                 NextendSocialLogin::$settings->update($_POST);
 
-                \NSL\Notices::addSuccess(__('Settings saved.'));
+                Notices::addSuccess(__('Settings saved.'));
 
                 wp_redirect(self::getAdminSettingsUrl(!empty($_REQUEST['subview']) ? $_REQUEST['subview'] : ''));
                 exit;
@@ -238,7 +241,7 @@ class NextendSocialLoginAdmin {
                 NextendSocialLogin::$settings->update($_POST);
 
                 if (NextendSocialLogin::hasLicense()) {
-                    \NSL\Notices::addSuccess(__('The activation was successful', 'nextend-facebook-connect'));
+                    Notices::addSuccess(__('The activation was successful', 'nextend-facebook-connect'));
                 }
 
                 wp_redirect(self::getAdminUrl($view));
@@ -249,7 +252,7 @@ class NextendSocialLoginAdmin {
                     'license_key' => ''
                 ));
 
-                \NSL\Notices::addSuccess(__('Deactivate completed.', 'nextend-facebook-connect'));
+                Notices::addSuccess(__('Deactivate completed.', 'nextend-facebook-connect'));
 
                 wp_redirect(self::getAdminUrl('pro-addon'));
                 exit;
@@ -257,9 +260,11 @@ class NextendSocialLoginAdmin {
             } else if (substr($view, 0, 9) == 'provider-') {
                 $providerID = substr($view, 9);
                 if (isset(NextendSocialLogin::$providers[$providerID])) {
-                    NextendSocialLogin::$providers[$providerID]->settings->update($_POST);
 
-                    \NSL\Notices::addSuccess(__('Settings saved.'));
+                    if (NextendSocialLogin::$providers[$providerID]->settings->update($_POST)) {
+                        Notices::addSuccess(__('Settings saved.'));
+                    }
+
                     wp_redirect(NextendSocialLogin::$providers[$providerID]->getAdmin()
                                                                            ->getUrl(isset($_POST['subview']) ? $_POST['subview'] : ''));
                     exit;
@@ -366,7 +371,7 @@ class NextendSocialLoginAdmin {
                     }
                     break;
                 case 'license_key':
-                    \NSL\Notices::clear();
+                    Notices::clear();
 
                     $value = trim(sanitize_text_field($value));
 
@@ -380,12 +385,13 @@ class NextendSocialLoginAdmin {
                                         'domain'      => NextendSocialLogin::getDomain()
                                     )
                                 );
+                                wp_clean_plugins_cache();
                             }
                         } catch (Exception $e) {
-                            \NSL\Notices::addError($e->getMessage());
+                            Notices::addError($e->getMessage());
                         }
                     } else {
-                        delete_site_transient('update_plugins');
+                        wp_clean_plugins_cache();
                         $newData['licenses'] = array();
                     }
                     break;
@@ -424,8 +430,9 @@ class NextendSocialLoginAdmin {
         if ($file != NSL_PLUGIN_BASENAME) {
             return $links;
         }
-        $settings_link = '<a href="' . esc_url(menu_page_url('nextend-social-login', false)) . '">' . __('Settings') . '</a>';
-        array_unshift($links, $settings_link);
+        $settings_link   = '<a href="' . esc_url(menu_page_url('nextend-social-login', false)) . '">' . __('Settings') . '</a>';
+        $reactivate_link = sprintf('<a href="%s">%s</a>', wp_nonce_url(admin_url('admin.php?page=nextend-social-login&repairnsl=1'), 'repairnsl'), 'Reactivate');
+        array_unshift($links, $settings_link, $reactivate_link);
 
         return $links;
     }
@@ -501,7 +508,7 @@ class NextendSocialLoginAdmin {
             if (isset($response['message'])) {
                 $message = 'Nextend Social Login Pro Addon: ' . $response['message'];
 
-                \NSL\Notices::addError($message);
+                Notices::addError($message);
 
                 return new WP_Error('error', $message);
             }
@@ -610,127 +617,128 @@ class NextendSocialLoginAdmin {
         $authorizeUrl = NextendSocialLoginAdmin::trackUrl('https://secure.nextendweb.com/authorize/', 'authorize');
         ?>
         <div class="nsl-box nsl-box-yellow nsl-box-padlock">
-        <h2 class="title"><?php _e('Activate your Pro Addon', 'nextend-facebook-connect'); ?></h2>
-        <p><?php _e('To be able to use the Pro features, you need to activate Nextend Social Connect Pro Addon. You can do this by clicking on the Activate button below then select the related purchase.', 'nextend-facebook-connect'); ?></p>
+            <h2 class="title"><?php _e('Activate your Pro Addon', 'nextend-facebook-connect'); ?></h2>
+            <p><?php _e('To be able to use the Pro features, you need to activate Nextend Social Connect Pro Addon. You can do this by clicking on the Activate button below then select the related purchase.', 'nextend-facebook-connect'); ?></p>
 
-        <p>
-            <a href="#"
-               onclick="NSLActivate()"
-               class="button button-primary"><?php _e('Activate', 'nextend-facebook-connect'); ?></a>
-        </p>
-    </div>
+            <p>
+                <a href="#"
+                   onclick="NSLActivate()"
+                   class="button button-primary"><?php _e('Activate', 'nextend-facebook-connect'); ?></a>
+            </p>
+        </div>
 
         <script type="text/javascript">
-		(function ($) {
+            (function ($) {
 
-            var args = <?php echo wp_json_encode($args); ?>;
-            window.addEventListener('message', function (e) {
-                if (e.origin === 'https://secure.nextendweb.com') {
-                    if (typeof window.authorizeWindow === 'undefined') {
-                        if (typeof e.source !== 'undefined') {
-                            window.authorizeWindow = e.source;
-                        } else {
-                            return false;
-                        }
-                    }
-
-                    try {
-                        var envelope = JSON.parse(e.data);
-
-                        if (envelope.action) {
-                            switch (envelope.action) {
-                                case 'ready':
-                                    window.authorizeWindow.postMessage(JSON.stringify({
-                                        'action': 'authorize',
-                                        'data': args
-                                    }), 'https://secure.nextendweb.com');
-                                    break;
-                                case 'license':
-                                    $('#nsl_license_key').val(envelope.license_key);
-                                    $('#nsl_license_form').submit();
-                                    break;
+                var args = <?php echo wp_json_encode($args); ?>;
+                window.addEventListener('message', function (e) {
+                    if (e.origin === 'https://secure.nextendweb.com') {
+                        if (typeof window.authorizeWindow === 'undefined') {
+                            if (typeof e.source !== 'undefined') {
+                                window.authorizeWindow = e.source;
+                            } else {
+                                return false;
                             }
-
                         }
-                    } catch (ex) {
-                        console.error(ex);
-                        console.log(e);
+
+                        try {
+                            var envelope = JSON.parse(e.data);
+
+                            if (envelope.action) {
+                                switch (envelope.action) {
+                                    case 'ready':
+                                        window.authorizeWindow.postMessage(JSON.stringify({
+                                            'action': 'authorize',
+                                            'data': args
+                                        }), 'https://secure.nextendweb.com');
+                                        break;
+                                    case 'license':
+                                        $('#nsl_license_key').val(envelope.license_key);
+                                        $('#nsl_license_form').submit();
+                                        break;
+                                }
+
+                            }
+                        } catch (ex) {
+                            console.error(ex);
+                            console.log(e);
+                        }
                     }
+                });
+            })(jQuery);
+
+            function NSLActivate() {
+                var isIE = (function detectIE() {
+                    var ua = window.navigator.userAgent;
+
+                    var msie = ua.indexOf('MSIE ');
+                    if (msie > 0) {
+                        // IE 10 or older => return version number
+                        return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+                    }
+
+                    var trident = ua.indexOf('Trident/');
+                    if (trident > 0) {
+                        // IE 11 => return version number
+                        var rv = ua.indexOf('rv:');
+                        return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+                    }
+
+                    var edge = ua.indexOf('Edge/');
+                    if (edge > 0) {
+                        // Edge (IE 12+) => return version number
+                        return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+                    }
+
+                    // other browser
+                    return false;
+                })();
+
+                if (isIE <= 11) {
+                    /**
+                     * Trick for cross origin popup postMessage in IE 11
+                     * @see <https://stackoverflow.com/a/36630058/305604>
+                     */
+
+                    window.authorizeWindow = NSLPopup('/', 'authorize-window', 800, 800);
+                    window.authorizeWindow.location.href = 'about:blank';
+                    window.authorizeWindow.location.href = '<?php echo $authorizeUrl; ?>';
+                } else {
+                    window.authorizeWindow = NSLPopup('<?php echo $authorizeUrl; ?>', 'authorize-window', 800, 800);
                 }
-            });
-        })(jQuery);
-
-        function NSLActivate() {
-            var isIE = (function detectIE() {
-                var ua = window.navigator.userAgent;
-
-                var msie = ua.indexOf('MSIE ');
-                if (msie > 0) {
-                    // IE 10 or older => return version number
-                    return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
-                }
-
-                var trident = ua.indexOf('Trident/');
-                if (trident > 0) {
-                    // IE 11 => return version number
-                    var rv = ua.indexOf('rv:');
-                    return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
-                }
-
-                var edge = ua.indexOf('Edge/');
-                if (edge > 0) {
-                    // Edge (IE 12+) => return version number
-                    return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
-                }
-
-                // other browser
                 return false;
-            })();
-
-            if (isIE <= 11) {
-                /**
-                 * Trick for cross origin popup postMessage in IE 11
-                 * @see <https://stackoverflow.com/a/36630058/305604>
-                 */
-
-                window.authorizeWindow = NSLPopupCenter('/', 'authorize-window', 800, 800);
-                window.authorizeWindow.location.href = 'about:blank';
-                window.authorizeWindow.location.href = '<?php echo $authorizeUrl; ?>';
-            } else {
-                window.authorizeWindow = NSLPopupCenter('<?php echo $authorizeUrl; ?>', 'authorize-window', 800, 800);
             }
-            return false;
-        }
-    </script>
+        </script>
 
         <form id="nsl_license_form" method="post" action="<?php echo admin_url('admin-post.php'); ?>"
               novalidate="novalidate" style="display:none;">
 
-		<?php wp_nonce_field('nextend-social-login'); ?>
+            <?php wp_nonce_field('nextend-social-login'); ?>
             <input type="hidden" name="action" value="nextend-social-login"/>
-        <input type="hidden" name="view" value="<?php echo $view; ?>"/>
+            <input type="hidden" name="view" value="<?php echo $view; ?>"/>
 
-        <table class="form-table">
-            <tbody>
-            <tr>
-                <th scope="row"><label
-                            for="nsl_license_key"><?php _e('License key', 'nextend-facebook-connect'); ?></label></th>
-                <?php
-                $license_key    = '';
-                $authorizedData = NextendSocialLogin::getLicense();
-                if ($authorizedData !== false) {
-                    $license_key = $authorizedData['license_key'];
-                }
-                ?>
-                <td><input name="license_key" type="text" id="nsl_license_key"
-                           value="<?php echo esc_attr($license_key); ?>"
-                           class="regular-text">
-                </td>
-            </tr>
-            </tbody>
-        </table>
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th scope="row"><label
+                                for="nsl_license_key"><?php _e('License key', 'nextend-facebook-connect'); ?></label>
+                    </th>
+                    <?php
+                    $license_key    = '';
+                    $authorizedData = NextendSocialLogin::getLicense();
+                    if ($authorizedData !== false) {
+                        $license_key = $authorizedData['license_key'];
+                    }
+                    ?>
+                    <td><input name="license_key" type="text" id="nsl_license_key"
+                               value="<?php echo esc_attr($license_key); ?>"
+                               class="regular-text">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-    </form>
+        </form>
         <?php
     }
 

@@ -29,7 +29,6 @@ class Router {
 	public function __construct() {
 		$this->action( 'init', 'init', 1 );
 		$this->action( 'parse_query', 'request_sitemap', 1 );
-		$this->filter( 'redirect_canonical', 'redirect_canonical' );
 		$this->action( 'template_redirect', 'template_redirect', 0 );
 		$this->action( 'after_setup_theme', 'reduce_query_load', 99 );
 	}
@@ -40,24 +39,14 @@ class Router {
 	public function init() {
 		global $wp;
 
+		$base = self::get_sitemap_base();
 		$wp->add_query_var( 'sitemap' );
 		$wp->add_query_var( 'sitemap_n' );
 		$wp->add_query_var( 'xsl' );
 
-		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
-		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
-		add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?xsl=$matches[1]', 'top' );
-	}
-
-	/**
-	 * Stop trailing slashes on sitemap.xml URLs.
-	 *
-	 * @param string $redirect The redirect URL currently determined.
-	 *
-	 * @return boolean|string $redirect
-	 */
-	public function redirect_canonical( $redirect ) {
-		return ( get_query_var( 'sitemap' ) || get_query_var( 'xsl' ) ) ? false : $redirect;
+		add_rewrite_rule( $base . 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
+		add_rewrite_rule( $base . '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
+		add_rewrite_rule( $base . '([a-z]+)?-?sitemap\.xsl$', 'index.php?xsl=$matches[1]', 'top' );
 	}
 
 	/**
@@ -72,7 +61,8 @@ class Router {
 
 		$xsl = get_query_var( 'xsl' );
 		if ( ! empty( $xsl ) ) {
-			$stylesheet = new Stylesheet;
+			$this->filter( 'user_has_cap', 'filter_user_has_cap' );
+			$stylesheet = new Stylesheet();
 			$stylesheet->output( $xsl );
 			return;
 		}
@@ -131,19 +121,29 @@ class Router {
 	 * @return string base URL (incl page)
 	 */
 	public static function get_base_url( $page ) {
+		$page = self::get_page_url( $page );
+		$base = self::get_sitemap_base();
+		return home_url( $base . $page );
+	}
+
+	/**
+	 * Create base URL for the sitemap.
+	 *
+	 * @since 1.0.43
+	 *
+	 * @return string Sitemap base.
+	 */
+	public static function get_sitemap_base() {
 		global $wp_rewrite;
 
-		$page = self::get_page_url( $page );
-		$base = $wp_rewrite->using_index_permalinks() ? $wp_rewrite->index . '/' : '/';
+		$base = $wp_rewrite->using_index_permalinks() ? $wp_rewrite->index . '/' : '';
 
 		/**
 		 * Filter the base URL of the sitemaps
 		 *
 		 * @param string $base The string that should be added to home_url() to make the full base URL.
 		 */
-		$base = apply_filters( 'rank_math/sitemap/base_url', $base );
-
-		return home_url( $base . $page );
+		return apply_filters( 'rank_math/sitemap/base_url', $base );
 	}
 
 	/**

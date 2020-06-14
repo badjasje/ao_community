@@ -10,7 +10,6 @@
 
 namespace RankMath\Redirections;
 
-use CMB2_hookup;
 use RankMath\Helper;
 use RankMath\Module\Base;
 use RankMath\Traits\Ajax;
@@ -37,19 +36,21 @@ class Admin extends Base {
 	 */
 	public function __construct() {
 		$directory = dirname( __FILE__ );
-		$this->config([
-			'id'             => 'redirect',
-			'directory'      => $directory,
-			'table'          => 'RankMath\Redirections\Table',
-			'help'           => [
-				'title' => esc_html__( 'Redirections', 'rank-math' ),
-				'view'  => $directory . '/views/help.php',
-			],
-			'screen_options' => [
-				'id'      => 'rank_math_redirections_per_page',
-				'default' => 100,
-			],
-		]);
+		$this->config(
+			[
+				'id'             => 'redirect',
+				'directory'      => $directory,
+				'table'          => 'RankMath\Redirections\Table',
+				'help'           => [
+					'title' => esc_html__( 'Redirections', 'rank-math' ),
+					'view'  => $directory . '/views/help.php',
+				],
+				'screen_options' => [
+					'id'      => 'rank_math_redirections_per_page',
+					'default' => 100,
+				],
+			]
+		);
 		parent::__construct();
 
 		$this->ajax_hooks();
@@ -68,7 +69,7 @@ class Admin extends Base {
 		if ( $this->page->is_current_page() ) {
 			new Export;
 			$this->action( 'init', 'init' );
-			add_action( 'admin_enqueue_scripts', [ 'CMB2_hookup', 'enqueue_cmb_css' ] );
+			add_action( 'admin_enqueue_scripts', [ 'CMB2_Hookup', 'enqueue_cmb_css' ] );
 			Helper::add_json( 'maintenanceMode', esc_html__( 'Maintenance Code', 'rank-math' ) );
 			Helper::add_json( 'emptyError', __( 'This field must not be empty.', 'rank-math' ) );
 		}
@@ -108,42 +109,45 @@ class Admin extends Base {
 		$dir = $this->directory . '/views/';
 		$uri = untrailingslashit( plugin_dir_url( __FILE__ ) );
 
-		$this->page = new Page( 'rank-math-redirections', esc_html__( 'Redirections', 'rank-math' ), [
-			'position'   => 12,
-			'parent'     => 'rank-math',
-			'capability' => 'rank_math_redirections',
-			'render'     => $dir . 'main.php',
-			'classes'    => [ 'rank-math-page' ],
-			'help'       => [
-				'redirections-overview'       => [
-					'title' => esc_html__( 'Overview', 'rank-math' ),
-					'view'  => $dir . 'help-tab-overview.php',
+		$this->page = new Page(
+			'rank-math-redirections',
+			esc_html__( 'Redirections', 'rank-math' ),
+			[
+				'position'   => 12,
+				'parent'     => 'rank-math',
+				'capability' => 'rank_math_redirections',
+				'render'     => $dir . 'main.php',
+				'help'       => [
+					'redirections-overview'       => [
+						'title' => esc_html__( 'Overview', 'rank-math' ),
+						'view'  => $dir . 'help-tab-overview.php',
+					],
+					'redirections-screen-content' => [
+						'title' => esc_html__( 'Screen Content', 'rank-math' ),
+						'view'  => $dir . 'help-tab-screen-content.php',
+					],
+					'redirections-actions'        => [
+						'title' => esc_html__( 'Available Actions', 'rank-math' ),
+						'view'  => $dir . 'help-tab-actions.php',
+					],
+					'redirections-bulk'           => [
+						'title' => esc_html__( 'Bulk Actions', 'rank-math' ),
+						'view'  => $dir . 'help-tab-bulk.php',
+					],
 				],
-				'redirections-screen-content' => [
-					'title' => esc_html__( 'Screen Content', 'rank-math' ),
-					'view'  => $dir . 'help-tab-screen-content.php',
+				'assets'     => [
+					'styles'  => [
+						'rank-math-common'       => '',
+						'rank-math-cmb2'         => '',
+						'rank-math-redirections' => $uri . '/assets/css/redirections.css',
+					],
+					'scripts' => [
+						'rank-math-common'       => '',
+						'rank-math-redirections' => $uri . '/assets/js/redirections.js',
+					],
 				],
-				'redirections-actions'        => [
-					'title' => esc_html__( 'Available Actions', 'rank-math' ),
-					'view'  => $dir . 'help-tab-actions.php',
-				],
-				'redirections-bulk'           => [
-					'title' => esc_html__( 'Bulk Actions', 'rank-math' ),
-					'view'  => $dir . 'help-tab-bulk.php',
-				],
-			],
-			'assets'     => [
-				'styles'  => [
-					'rank-math-common'       => '',
-					'rank-math-cmb2'         => '',
-					'rank-math-redirections' => $uri . '/assets/redirections.css',
-				],
-				'scripts' => [
-					'rank-math-common'       => '',
-					'rank-math-redirections' => $uri . '/assets/redirections.js',
-				],
-			],
-		]);
+			]
+		);
 	}
 
 	/**
@@ -161,15 +165,19 @@ class Admin extends Base {
 		 */
 		Helper::add_json( 'redirectionPastedContent', $this->do_filter( 'redirections/pastedContent', 100 ) );
 
-		Arr::insert( $tabs, [
-			'redirections' => [
-				'icon'  => 'dashicons dashicons-controls-forward',
-				'title' => esc_html__( 'Redirections', 'rank-math' ),
-				/* translators: Link to kb article */
-				'desc'  => sprintf( esc_html__( 'Enable Redirections to set up custom 301, 302, 307, 410, or 451 redirections. %s.', 'rank-math' ), '<a href="' . \RankMath\KB::get( 'redirections-settings' ) . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>' ),
-				'file'  => $this->directory . '/views/options.php',
+		Arr::insert(
+			$tabs,
+			[
+				'redirections' => [
+					'icon'  => 'rm-icon rm-icon-redirection',
+					'title' => esc_html__( 'Redirections', 'rank-math' ),
+					/* translators: Link to kb article */
+					'desc'  => sprintf( esc_html__( 'Easily create redirects without fiddling with tedious code. %s.', 'rank-math' ), '<a href="' . \RankMath\KB::get( 'redirections-settings' ) . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>' ),
+					'file'  => $this->directory . '/views/options.php',
+				],
 			],
-		], 8 );
+			8
+		);
 
 		return $tabs;
 	}

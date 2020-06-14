@@ -13,19 +13,19 @@ $provider = $this->getProvider();
     <h2 class="title"><?php printf(_x('Create %s', 'App creation', 'nextend-facebook-connect'), 'Twitter App'); ?></h2>
 
     <ol>
-        <li><?php printf(__('Navigate to %s', 'nextend-facebook-connect'), '<a href="https://developer.twitter.com/en/apps/create" target="_blank">https://developer.twitter.com/en/apps/create</a>'); ?></li>
+        <li><?php printf(__('Navigate to <b>%s</b>', 'nextend-facebook-connect'), '<a href="https://developer.twitter.com/en/apps/create" target="_blank">https://developer.twitter.com/en/apps/create</a>'); ?></li>
         <li><?php printf(__('Log in with your %s credentials if you are not logged in yet', 'nextend-facebook-connect'), 'Twitter'); ?></li>
         <li><?php _e('If you don\'t have a developer account yet, please apply one by filling all the required details! This is required for the next steps!', 'nextend-facebook-connect'); ?></li>
-        <li><?php printf(__('Once your developer account is complete, navigate back to %s if you aren\'t already there!', 'nextend-facebook-connect'), '<a href="https://developer.twitter.com/en/apps/create" target="_blank">https://developer.twitter.com/en/apps/create</a>'); ?>
-        <li><?php printf(__('Fill the App name, Application description fields. Then enter your site\'s URL to the Website URL field: <b>%s</b>', 'nextend-facebook-connect'), site_url()); ?></li>
-        <li><?php _e('Tick the checkbox next to Enable Sign in with Twitter!', 'nextend-facebook-connect'); ?></li>
-        <li><?php printf(__('Add the following URL to the "Callback URLs" field: <b>%s</b>', 'nextend-facebook-connect'), $provider->getRedirectUriForApp()); ?></li>
-        <li><?php _e('Fill the “Terms of Service URL", "Privacy policy URL" and "Tell us how this app will be used” fields!', 'nextend-facebook-connect'); ?></li>
-        <li><?php _e('Click the Create button.', 'nextend-facebook-connect'); ?></li>
-        <li><?php _e('Read the Developer Terms and click the Create button again!', 'nextend-facebook-connect'); ?></li>
-        <li><?php _e('Select the Permissions tab and click Edit.', 'nextend-facebook-connect'); ?></li>
-        <li><?php _e('Tick the Request email address from users under the Additional permissions section and click Save.', 'nextend-facebook-connect'); ?></li>
-        <li><?php _e('Go to the Keys and tokens tab and find the API key and API secret key', 'nextend-facebook-connect'); ?></li>
+        <li><?php printf(__('Once your developer account is complete, navigate back to <b>%s</b> if you aren\'t already there!', 'nextend-facebook-connect'), '<a href="https://developer.twitter.com/en/apps/create" target="_blank">https://developer.twitter.com/en/apps/create</a>'); ?>
+        <li><?php printf(__('Fill the <b>App name</b>, <b>Application description</b> fields. Then enter your site\'s URL to the <b>Website URL</b> field: <b>%s</b>', 'nextend-facebook-connect'), site_url()); ?></li>
+        <li><?php _e('Tick the checkbox next to <b>Enable Sign in with Twitter</b>!', 'nextend-facebook-connect'); ?></li>
+        <li><?php printf(__('Add the following URL to the "<b>Callback URLs</b>" field: <b>%s</b>', 'nextend-facebook-connect'), $provider->getRedirectUriForApp()); ?></li>
+        <li><?php _e('Fill the “<b>Terms of Service URL</b>", "<b>Privacy policy URL</b>" and "<b>Tell us how this app will be used</b>" fields!', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Click the <b>Create</b> button.', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Read the Developer Terms and click the <b>Create</b> button again!', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Select the <b>Permissions</b> tab and click <b>Edit</b>.', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Tick the <b>Request email address from users</b> under the Additional permissions section and click <b>Save</b>.', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Go to the <b>Keys and tokens</b> tab and find the <b>API key</b> and <b>API secret key</b>', 'nextend-facebook-connect'); ?></li>
     </ol>
 
     <a href="<?php echo $this->getUrl('settings'); ?>"

@@ -15,6 +15,8 @@ use RankMath\Paper\Paper;
 use RankMath\Traits\Hooker;
 use MyThemeShop\Helpers\Url;
 use MyThemeShop\Helpers\Conditional;
+use MyThemeShop\Helpers\WordPress;
+use MyThemeShop\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -52,6 +54,7 @@ class JsonLD {
 	public function __construct() {
 		$this->action( 'rank_math/head', 'json_ld', 90 );
 		$this->action( 'rank_math/json_ld', 'add_context_data' );
+		new Block_Parser;
 	}
 
 	/**
@@ -72,15 +75,13 @@ class JsonLD {
 		 * @param array  $unsigned An array of data to output in json-ld.
 		 * @param JsonLD $unsigned JsonLD instance.
 		 */
-		$json = $this->do_filter( 'json_ld', [], $this );
-		if ( is_array( $json ) && ! empty( $json ) ) {
-			foreach ( $json as $context => $data ) {
-				if ( empty( $data ) ) {
-					continue;
-				}
-
-				echo '<script type="application/ld+json">' . wp_json_encode( $data ) . '</script>' . "\n";
-			}
+		$data = $this->do_filter( 'json_ld', [], $this );
+		if ( is_array( $data ) && ! empty( $data ) ) {
+			$json = [
+				'@context' => 'https://schema.org',
+				'@graph'   => array_values( array_filter( $data ) ),
+			];
+			echo '<script type="application/ld+json">' . wp_json_encode( $json ) . '</script>' . "\n";
 		}
 	}
 
@@ -228,8 +229,8 @@ class JsonLD {
 			'reviewRating'  => [
 				'@type'       => 'Rating',
 				'ratingValue' => $rating,
-				'bestRating'  => Helper::get_post_meta( "snippet_{$schema}_rating_max" ),
-				'worstRating' => Helper::get_post_meta( "snippet_{$schema}_rating_min" ),
+				'bestRating'  => Helper::get_post_meta( "snippet_{$schema}_rating_max" ) ? Helper::get_post_meta( "snippet_{$schema}_rating_max" ) : 5,
+				'worstRating' => Helper::get_post_meta( "snippet_{$schema}_rating_min" ) ? Helper::get_post_meta( "snippet_{$schema}_rating_min" ) : 1,
 			],
 		];
 	}
@@ -260,7 +261,6 @@ class JsonLD {
 		}
 
 		wp_reset_query();
-
 		return $collection;
 	}
 
@@ -271,17 +271,32 @@ class JsonLD {
 	 * @param array $data       Array of json-ld data.
 	 */
 	public function get_post_collection_item( &$collection, $data ) {
-		$post_id = get_the_ID();
-		$schema  = Helper::get_post_meta( 'rich_snippet', $post_id );
+		$post_id   = get_the_ID();
+		$post_type = get_post_type();
+
+		$schema         = Helper::get_post_meta( 'rich_snippet', $post_id );
+		$default_schema = Helper::get_settings( "titles.pt_{$post_type}_default_rich_snippet" );
+
+		$article_type         = Helper::get_post_meta( 'snippet_article_type', $post_id );
+		$default_article_type = Helper::get_settings( "titles.pt_{$post_type}_default_article_type" );
+
+		if ( ! $schema ) {
+			$schema = $default_schema;
+		}
 		if ( ! $schema || 'article' !== $schema ) {
 			return;
 		}
+		if ( ! $article_type ) {
+			$article_type = $default_article_type ? $default_article_type : 'Article';
+		}
+
+		$this->post = get_post( $post_id );
 
 		$title = $this->get_post_title( $post_id );
 		$url   = $this->get_post_url( $post_id );
 
 		$part = [
-			'@type'            => isset( $data['schema'] ) ? $data['schema'] : Helper::get_post_meta( 'snippet_article_type', $post_id ),
+			'@type'            => ! empty( $data['schema'] ) ? $data['schema'] : $article_type,
 			'headline'         => $title,
 			'name'             => $title,
 			'url'              => $url,
@@ -393,12 +408,14 @@ class JsonLD {
 	 * @return array
 	 */
 	public function get_comments( $post_id = 0 ) {
-		$post_comments = get_comments([
-			'post_id' => $post_id,
-			'number'  => 10,
-			'status'  => 'approve',
-			'type'    => 'comment',
-		]);
+		$post_comments = get_comments(
+			[
+				'post_id' => $post_id,
+				'number'  => 10,
+				'status'  => 'approve',
+				'type'    => 'comment',
+			]
+		);
 
 		if ( empty( $post_comments ) ) {
 			return '';
@@ -434,7 +451,7 @@ class JsonLD {
 		];
 
 		if ( get_the_author_meta( 'description' ) ) {
-			$author['description'] = get_the_author_meta( 'description' );
+			$author['description'] = wp_strip_all_tags( get_the_author_meta( 'description' ), true );
 		}
 
 		if ( version_compare( get_bloginfo( 'version' ), '4.2', '>=' ) ) {
@@ -550,10 +567,12 @@ class JsonLD {
 		$title = Helper::get_post_meta( 'snippet_name', $post_id );
 
 		if ( ! $title && ! empty( $this->post ) ) {
-			$title = Helper::replace_vars( Helper::get_settings( "titles.pt_{$this->post->post_type}_default_snippet_name" ), $this->post );
+			$title = Helper::replace_vars( Helper::get_settings( "titles.pt_{$this->post->post_type}_default_snippet_name", '%seo_title%' ), $this->post );
 		}
 
-		return $title ? $title : Paper::get()->get_title();
+		$title = $title ? $title : Paper::get()->get_title();
+
+		return Str::truncate( $title );
 	}
 
 	/**
@@ -571,16 +590,38 @@ class JsonLD {
 	/**
 	 * Get product description.
 	 *
-	 * @param  int $post_id Post ID to get url for.
+	 * @param  object $product Product Object.
 	 * @return string
 	 */
-	public function get_product_desc( $post_id = 0 ) {
-		$product = wc_get_product( $post_id );
+	public function get_product_desc( $product = [] ) {
 		if ( empty( $product ) ) {
 			return;
 		}
 
+		if ( $description = Helper::get_post_meta( 'description', $product->get_id() ) ) { //phpcs:ignore
+			return $description;
+		}
+
 		$description = $product->get_short_description() ? $product->get_short_description() : $product->get_description();
-		return wp_strip_all_tags( do_shortcode( $description ), true );
+		$description = $this->do_filter( 'product_description/appy_shortcode', false ) ? do_shortcode( $description ) : WordPress::strip_shortcodes( $description );
+		return wp_strip_all_tags( $description, true );
+	}
+
+	/**
+	 * Get product title.
+	 *
+	 * @param  object $product Product Object.
+	 * @return string
+	 */
+	public function get_product_title( $product = [] ) {
+		if ( empty( $product ) ) {
+			return '';
+		}
+
+		if ( $title = Helper::get_post_meta( 'title', $product->get_id() ) ) { //phpcs:ignore
+			return $title;
+		}
+
+		return $product->get_name();
 	}
 }

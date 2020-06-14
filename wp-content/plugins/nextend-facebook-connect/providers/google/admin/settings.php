@@ -9,13 +9,13 @@ $settings = $provider->settings;
 
 <div class="nsl-admin-sub-content">
 
-	<?php
+    <?php
     $this->renderSettingsHeader();
     ?>
 
     <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" novalidate="novalidate">
 
-		<?php wp_nonce_field('nextend-social-login'); ?>
+        <?php wp_nonce_field('nextend-social-login'); ?>
         <input type="hidden" name="action" value="nextend-social-login"/>
         <input type="hidden" name="view" value="provider-<?php echo $provider->getId(); ?>"/>
         <input type="hidden" name="subview" value="settings"/>
@@ -25,7 +25,7 @@ $settings = $provider->settings;
             <tbody>
             <tr>
                 <th scope="row"><label for="client_id"><?php _e('Client ID', 'nextend-facebook-connect'); ?>
-                        - <em>(<?php _e('Required', 'nextend-facebook-connect'); ?>)</em></label></label>
+                        - <em>(<?php _e('Required', 'nextend-facebook-connect'); ?>)</em></label>
                 </th>
                 <td>
                     <input name="client_id" type="text" id="client_id"
@@ -37,10 +37,23 @@ $settings = $provider->settings;
             </tr>
             <tr>
                 <th scope="row"><label
-                            for="client_secret"><?php _e('Client Secret', 'nextend-facebook-connect'); ?></label>
-                            - <em>(<?php _e('Required', 'nextend-facebook-connect'); ?>)</em></label></th>
+                            for="client_secret"><?php _e('Client Secret', 'nextend-facebook-connect'); ?>
+                        - <em>(<?php _e('Required', 'nextend-facebook-connect'); ?>)</em></label></th>
                 <td><input name="client_secret" type="text" id="client_secret"
                            value="<?php echo esc_attr($settings->get('client_secret')); ?>" class="regular-text">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><?php _e('Select account on each login', 'nextend-facebook-connect'); ?></th>
+                <td>
+                    <label for="select_account">
+                        <input type="hidden" name="select_account" value="0">
+                        <input type="checkbox" name="select_account" id="select_account"
+                               value="1" <?php if ($settings->get('select_account') == 1) : ?> checked="checked" <?php endif; ?>>
+                        <?php _e('Enabled', 'nextend-facebook-connect'); ?>
+                    </label>
+                    <p class="description"
+                       id="tagline-select_account"><?php _e('Disable, when you don\'t want to see the account select prompt on each login.', 'nextend-facebook-connect'); ?></p>
                 </td>
             </tr>
             </tbody>

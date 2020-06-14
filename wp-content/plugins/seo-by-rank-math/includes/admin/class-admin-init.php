@@ -36,7 +36,7 @@ class Admin_Init {
 		rank_math()->admin        = new Admin;
 		rank_math()->admin_assets = new Assets;
 
-		$this->load_review_tab();
+		$this->load_review_reminders();
 		$this->load_setup_wizard();
 		$this->search_console_ajax();
 		$this->load_post_columns_and_filters();
@@ -65,7 +65,7 @@ class Admin_Init {
 	 * Load out post list and edit screen class.
 	 */
 	private function load_post_columns_and_filters() {
-		if ( Admin_Helper::is_post_list() || Admin_Helper::is_media_library() ) {
+		if ( Admin_Helper::is_post_list() || Admin_Helper::is_media_library() || wp_doing_ajax() ) {
 			$this->run([
 				new Post_Columns,
 				new Post_Filters,
@@ -74,9 +74,9 @@ class Admin_Init {
 	}
 
 	/**
-	 * Load review tab in metabox.
+	 * Load review tab in metabox & footer notice.
 	 */
-	private function load_review_tab() {
+	private function load_review_reminders() {
 		if (
 			get_option( 'rank_math_already_reviewed' ) ||
 			get_option( 'rank_math_install_date' ) + ( 2 * WEEK_IN_SECONDS ) > current_time( 'timestamp' )

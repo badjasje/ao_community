@@ -65,7 +65,7 @@ if(!is_page_template('blank-page.php') && !is_page_template('blank-page-with-con
                     <span class="sep"> | </span>
                     Your local date/time is <strong id="footerTime"></strong>.<br>
                     Current server date/time is
-                    <strong><?=date("d-m-Y G:i:s", strtotime('+1 hours'))?></strong>
+                    <strong><?=date("d-m-Y G:i:s", strtotime('+2 hours'))?></strong>
                     | Resolution <span id="footerResolution"></span><br>
                     Current round date: <?=Round::startDate(true)?> - <?=Round::endDate(true)?><br>
                     <? if($user->isLoggedIn()) { ?>

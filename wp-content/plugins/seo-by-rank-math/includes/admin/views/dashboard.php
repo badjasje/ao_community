@@ -6,29 +6,22 @@
  * @subpackage RankMath\Admin
  */
 
+use MyThemeShop\Helpers\Param;
 use RankMath\Admin\Admin_Helper;
 use RankMath\Admin\System_Info;
 
 $is_network_admin  = is_network_admin();
 $is_network_active = RankMath\Helper::is_plugin_active_for_network();
-$current_tab       = $is_network_active && $is_network_admin ? 'help' : ( isset( $_GET['view'] ) ? filter_input( INPUT_GET, 'view' ) : 'modules' );
+$current_tab       = $is_network_active && $is_network_admin ? 'help' : Param::get( 'view', 'modules' );
+
+// Header.
+rank_math()->admin->display_admin_header();
 ?>
-<div class="wrap rank-math-wrap">
+<div class="wrap rank-math-wrap dashboard">
 
 	<span class="wp-header-end"></span>
 
-	<h1><?php esc_html_e( 'Welcome to Rank Math!', 'rank-math' ); ?></h1>
-
-	<div class="rank-math-text">
-		<?php esc_html_e( 'The most complete WordPress SEO plugin to convert your website into a traffic generating machine.', 'rank-math' ); ?>
-	</div>
-
-
-	<?php
-	if ( ! ( $is_network_active && $is_network_admin ) ) {
-		rank_math()->admin->display_dashboard_nav();
-	}
-	?>
+	<?php rank_math()->admin->display_dashboard_nav(); ?>
 
 	<?php
 	if ( $is_network_active && ! $is_network_admin && 'help' === $current_tab ) {
@@ -42,7 +35,10 @@ $current_tab       = $is_network_active && $is_network_admin ? 'help' : ( isset(
 
 	// Others.
 	} else {
-		include_once Admin_Helper::get_view( "dashboard-{$current_tab}" );
+		$file = apply_filters( 'rank_math/admin/dashboard_view', Admin_Helper::get_view( "dashboard-{$current_tab}" ), $current_tab );
+		if ( file_exists( $file ) ) {
+			include_once $file;
+		}
 	}
 	// phpcs:enable
 	?>

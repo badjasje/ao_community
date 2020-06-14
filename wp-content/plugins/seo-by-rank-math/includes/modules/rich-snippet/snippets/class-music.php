@@ -29,8 +29,7 @@ class Music implements Snippet {
 	 */
 	public function process( $data, $jsonld ) {
 		$entity = [
-			'@context'    => 'https://schema.org',
-			'@type'       => Helper::get_post_meta( 'snippet_music_type' ),
+			'@type'       => Helper::get_post_meta( 'snippet_music_type' ) ? Helper::get_post_meta( 'snippet_music_type' ) : 'MusicGroup',
 			'name'        => $jsonld->parts['title'],
 			'description' => $jsonld->parts['desc'],
 			'url'         => $jsonld->parts['url'],

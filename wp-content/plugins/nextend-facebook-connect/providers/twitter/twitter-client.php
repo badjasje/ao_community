@@ -1,4 +1,7 @@
 <?php
+
+use NSL\Persistent\Persistent;
+
 require_once NSL_PATH . '/includes/auth.php';
 
 class NextendSocialProviderTwitterClient extends NextendSocialAuth {
@@ -35,7 +38,7 @@ class NextendSocialProviderTwitterClient extends NextendSocialAuth {
 
 
     public function deleteLoginPersistentData() {
-        \NSL\Persistent\Persistent::delete($this->providerID . '_request_token');
+        Persistent::delete($this->providerID . '_request_token');
     }
 
     /**
@@ -50,10 +53,9 @@ class NextendSocialProviderTwitterClient extends NextendSocialAuth {
 
         $oauthTokenData = $this->extract_params($response);
 
-        \NSL\Persistent\Persistent::set($this->providerID . '_request_token', maybe_serialize($oauthTokenData));
+        Persistent::set($this->providerID . '_request_token', maybe_serialize($oauthTokenData));
 
-        return $this->endpoint . 'oauth/authenticate?oauth_token=' . $oauthTokenData['oauth_token'] /*. '&force_login=1'*/
-            ;
+        return $this->endpoint . 'oauth/authenticate?oauth_token=' . $oauthTokenData['oauth_token'] /*. '&force_login=1'*/ ;
     }
 
     /**
@@ -74,7 +76,7 @@ class NextendSocialProviderTwitterClient extends NextendSocialAuth {
      * @throws Exception
      */
     public function authenticate() {
-        $requestToken = maybe_unserialize(\NSL\Persistent\Persistent::get($this->providerID . '_request_token'));
+        $requestToken = maybe_unserialize(Persistent::get($this->providerID . '_request_token'));
 
         $response = $this->oauthRequest($this->endpoint . 'oauth/access_token', 'POST', array(), array(
             'oauth_verifier' => $_GET['oauth_verifier']
@@ -123,8 +125,8 @@ class NextendSocialProviderTwitterClient extends NextendSocialAuth {
     /**
      * @param        $url
      * @param        $method
-     * @param  array $_requestData
-     * @param  array $_oauthData
+     * @param array  $_requestData
+     * @param array  $_oauthData
      * @param array  $context
      *
      * @return string

@@ -73,8 +73,24 @@ class Block_Parser {
 		$post          = get_post();
 		$parsed_blocks = parse_blocks( $post->post_content );
 
-		foreach ( $parsed_blocks as $block ) {
-			if ( ! $this->is_valid_block( $block ) ) {
+		/**
+		 * Filter: 'rank_math/schema/block/before_filter'
+		 *
+		 * @param array $parsed_blocks Array of parsed blocks.
+		 */
+		$parsed_blocks = $this->do_filter( 'schema/block/before_filter', $parsed_blocks );
+
+		$this->filter_blocks( $parsed_blocks );
+	}
+
+	/**
+	 * Filter blocks.
+	 *
+	 * @param array $blocks Blocks to filter.
+	 */
+	private function filter_blocks( $blocks ) {
+		foreach ( $blocks as $block ) {
+			if ( $this->is_nested_block( $block ) || ! $this->is_valid_block( $block ) ) {
 				continue;
 			}
 
@@ -86,6 +102,39 @@ class Block_Parser {
 
 			$this->blocks[ $name ][] = $block;
 		}
+	}
+
+	/**
+	 * Is nested block.
+	 *
+	 * @param array $block Block.
+	 *
+	 * @return boolean
+	 */
+	private function is_nested_block( $block ) {
+		if ( empty( $block['blockName'] ) ) {
+			return false;
+		}
+
+		/**
+		 * Filter: 'rank_math/schema/nested_blocks' - Allows filtering for nested blocks.
+		 *
+		 * @param array $data  Array of json-ld data.
+		 * @param array $block The block.
+		 */
+		$nested = $this->do_filter( 'schema/nested_blocks', [
+			'core/group',
+			'core/columns',
+			'core/column',
+		] );
+
+		if ( ! in_array( $block['blockName'], $nested, true ) ) {
+			return false;
+		}
+
+		$this->filter_blocks( $block['innerBlocks'] );
+
+		return true;
 	}
 
 	/**
