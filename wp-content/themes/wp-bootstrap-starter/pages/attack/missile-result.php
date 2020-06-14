@@ -48,7 +48,7 @@ if($startingbonus == 'defensive'){
 	$defensive_multi = 1.25;
 }
 
-$shootdown_chance = min((($AMS*100)/$def_land)*100,75);
+$shootdown_chance = $defender->getShootdownChance(false); //min((($AMS*100)/$def_land)*100,75);
 $shootdown = rand(1, 100);
 
 if($shootdown < $shootdown_chance){
@@ -478,7 +478,9 @@ if($war_type != 'none' && $result == 'success') {
 
 	$clan_points = (($def_NW_lost/1100)+((sqrt($def_NW_lost)/25) * ((sqrt($networth_def*1.5)/4.1)/100)))*0.9;
 
-	if($war_type == 'incoming') $clan_points = round($clan_points/2);
+	/* determine points multiplier due to war */
+	$war_multiplier = get_war_multiplier($war_type);
+	$clan_points = ceil($clan_points * $war_multiplier);
 
 	// points cap
 	if($clan_points < 1) $clan_points = 1;

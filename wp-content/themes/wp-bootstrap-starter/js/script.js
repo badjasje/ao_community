@@ -40,7 +40,7 @@ function updateHeaderData(cb) {
                     $(this).off('click').find('.badge').text(0).hide();
                 });
             }
-            $('header .freeland').attr({'data-original-title': 'Free land: '+data.formatted.freeland});
+            $('header .landwrapper .stattext').attr({'data-original-title': 'Free land: '+data.formatted.freeland});
             $('.globalsBadge').text(data.globals).toggle((data.globals>0));
             $('.localsBadge').text(data.locals).toggle((data.locals>0));
             $('.messagesBadge').text(data.messages).toggle((data.messages>0));

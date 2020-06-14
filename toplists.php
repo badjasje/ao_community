@@ -94,7 +94,7 @@ $users = get_users($args);
 	foreach ($users as $user) {
 		$user_ID = $user->ID;
 		$member_data = get_userdata($user_ID);
-		$attacks = get_user_meta($user_ID, 'attacks_made', true);
+		$attacks = get_user_meta($user_ID, 'succesful_attacks', true);
 		$count++;
 		if($count == 1){
 			$winnerArray['Medal of Courage'] = array($user_ID,'Attacks: '.number_format($attacks, 0, ',', ' '));
@@ -246,6 +246,7 @@ $users = get_users($args);
 		$member_data = get_userdata($user_ID);
 		$referrals = get_user_meta($user_ID, 'referral_num', true);
 		$count++;
+		if(intval($referrals) < 1) continue;
 		if($count == 1){
 			$winnerArray['Medal of Recruitment'] = array($user_ID, $referrals);
 		}

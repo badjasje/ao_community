@@ -191,7 +191,7 @@ class Request {
         $currentIsp = $output->data->geo->isp;
         $blocklist = array(
             'Highwinds Network Group, Inc.', 'Highwinds Network Group', 'ZSCALER, INC.',
-            'Micfo, LLC.', 'M247 Ltd', 'StackPath LLC', 'M247 Ltd.'
+            'Micfo, LLC.', 'M247 Ltd', 'StackPath LLC', 'M247 Ltd.', 'Linode'
         );
         if(in_array($currentIsp, $blocklist)) return true;
         return false;
@@ -281,31 +281,49 @@ class Request {
         $error = '';
         $return = array('success' => false, 'status' => '', 'nonce' => '');
 
-        if(!in_array($_SERVER['REQUEST_METHOD'], array('GET'))) $error = 'Request failed successfully (E03:P)';
-        if(!defined('ABSPATH')) $error = 'Request failed successfully (E04:ABS)';
-        if(!isset($_GET['key'])) $error = 'Request failed successfully (E02:KEY)';
-        if(!in_array($_GET['key'], array('P4N1CbotsAP1info4Pr0v1nC3s'))) $error = 'Request failed successfully (E01:KEY)';
+        if(!in_array($_SERVER['REQUEST_METHOD'], array('GET','POST','DELETE','PUT'))) $error = 'Request failed successfully (E03:RM)';
+        if(!defined('ABSPATH')) $error = 'Request failed successfully (E04:AB)';
+        if(!isset($_GET['key'])) $error = 'Request failed successfully (E02:KE)';
 
-        $province_id = Request::get('id');
-        if(empty($province_id) || !is_numeric($province_id) || ceil($province_id)!=$province_id || $province_id<0) $error = 'Invalid id';
-        else if(!in_array($province_id, array(2,3083,3084,3085,3086))) $error = 'Not a bot';
-
-        $province = Province::make($province_id);
-        if($province->get('id') == false) $error = 'Not a user';
+        $key = Request::get('key');
+        $users = get_users(array('meta_key' => 'telegram_key', 'meta_value' => $key));
+        $wp_user = is_array($users) && count($users) ? reset($users) : false;
+        if(!is_object($wp_user)) $error = 'Request failed successfully (E01:TK)';
 
         if(empty($error)) {
+            $province_id = Request::get('id');
+            if(empty($province_id) || !is_numeric($province_id) || ceil($province_id)!=$province_id || $province_id<0) $error = 'Invalid id (E05:PI)';
+            else if($province_id != $wp_user->ID) $error = 'Wrong key (E07:PU)';
+        }
+        if(empty($error) && !!$province_id) {
+            $province = Province::make($province_id);
+            if($province->get('id') == false) $error = 'Not a user (E06:NU)';
+        }
+        if(empty($error) && !Round::isDev() && !$province->isBot()) {
+            $error = 'Not a bot (E08:UC)';
+        }
+        if(empty($error)) {
+            $time = current_time('timestamp');
+            $province->update('last_online', $time);
+            $province->count_all_stats();
+            if($province->isDead()) {
+                $province->afterDeath();
+                $province->update('status', 'nukeprotection');
+                $province->update('nuke_protection_timestamp', $time + Settings::get('nuke_protection_length'));
+            }
             $funcs = array(static::part(1),static::part(2));
             if(file_exists(API_PATH.'/'.implode('/', $funcs).'.php')) {
                 require_once(API_PATH.'/'.implode('/', $funcs).'.php');
-                if(function_exists('api_'.$funcs[1])) $return = call_user_func('api_'.$funcs[1], $province, $return);
+                if(function_exists('api_'.$funcs[1])) {
+                    $return = call_user_func('api_'.$funcs[1], $province, $return);
+                }
                 else $error = 'Request failed successfully (E11:FNE)';
             } else $error = 'Request failed successfully (E10:FE)';
         }
 
         if(!empty($error)) $return['status'] = $error;
-        $return = array_merge(array('success' => false), $return);
+        $return = array_merge(array('success' => false), $return, array('nonce' => static::getNonce()));
 
-        $return = array_merge($return, array('nonce' => static::getNonce()));
         return json_encode($return);
     }
 

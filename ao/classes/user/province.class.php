@@ -35,7 +35,6 @@ class Province extends DbObject {
 
         // Missiles
         'nuke_owned','nuke_ordered','chemical_owned','chemical_ordered','bio_owned','bio_ordered','moab_owned','moab_ordered',
-        'tomahawk_ordered','tomahawk_owned',
 
         // Sats
         'sat_in_progress','sat_owned','stealth_sat_status','level_satellite_construction','sat_endlife','stealth_sat_time',
@@ -94,6 +93,11 @@ class Province extends DbObject {
 
     // As long as we are using WP, we re-use this function
     public function update($key, $value) {
+        if(in_array($key, array('display_name'))) {
+            $_userdata = array('ID'=>$this->id);
+            $_userdata[$key] = $value;
+            wp_update_user($_userdata);
+        }
         if(in_array($key,$this->fields)) update_user_meta($this->id, $key, $value); //@wp
         return parent::update($key, $value);
     }
@@ -109,6 +113,12 @@ class Province extends DbObject {
     }
     public function isBanned() {
         return User::make($this->id)->isBanned();
+    }
+    public function isAdmin() {
+        return (isset($this->id) && in_array($this->id, Settings::get('admin_ids'))); // can this even BE more ugly?
+    }
+    public function isBot() {
+        return ($this->get('user_country') == 'skaro');
     }
 
     /**
@@ -154,6 +164,25 @@ class Province extends DbObject {
         $viewerNetworth = $province->getNetworth();
         $range = Settings::get('attack_range_mult');
         return ($networth > $viewerNetworth / $range && $networth < $viewerNetworth * $range);
+    }
+
+    public function isAttackable($attack_type='regular', $user_id=false) {
+        if(in_array($attack_type, array('spy','thief'))) return true; // You can always spy and thief
+        if(!$this->inRange($user_id)) return false;
+        if($this->isBot()) return true; // bots in range are always attackable
+
+        $user = (!$user_id ? CurrentUser::make() : User::make($user_id));
+        $province = $user->getProvince();
+        $min = Settings::get('oow_attack_minimum');
+        if($province->getNetworth() >= $min && $this->getNetworth() >= $min) return true; // Big solo & clan players are attackable OOW
+
+        $clan = $this->getClan();
+        $my_clan_id = $province->getClanId();
+        if($clan == false && $my_clan_id == false) return true; // clanless vs clanless (in range)
+        elseif($clan != false && $my_clan_id != false) { // both in clan
+            if($clan->getWarType($my_clan_id) != 'none') return true; // some type of war
+        }
+        return false; // either out of war, or clan vs clanless
     }
 
     /**
@@ -549,7 +578,6 @@ class Province extends DbObject {
                     }
                 }
                 foreach($missiles as $missile_key => $missile) {
-                    if($missile_key == 'tomahawk') continue; // are not housed in buildings
                     if($missile['type'] == $building['houses']) $occupied += ($missile['ordered'] + $missile['num']);
                 }
             }
@@ -562,12 +590,9 @@ class Province extends DbObject {
             Hooks::trigger('get_province_building', null, $buildings, $id, $this);
         }
 
-        if($shootdown_chance = $this->getShootdownChance()) {
-            $buildings['antimissile']['shootdown_chance'] = $shootdown_chance;
-            $buildings['antimissile']['description'] = 'Each Anti-Missile System protects 100m2 of your built land.
-                Chance to shoot down missiles is currently '. $shootdown_chance .'%.
-                Every Anti-Missile System has a 25% chance to shoot down tomahawk missiles.';
-        }
+        $shootdown_chance = $this->getShootdownChance();
+        $buildings['antimissile']['shootdown_chance'] = $shootdown_chance;
+        $buildings['antimissile']['description'] = 'For max protection you currently need '. $this->getMaxAMS(true).' ams.';
 
         return ($key != null ? (!!$buildings[$key] ? $buildings[$key] : false) : $buildings);
     }
@@ -615,11 +640,25 @@ class Province extends DbObject {
         $shootdown_chance = 0;
         $AMS = intval($this->get('antimissile'));
         if($AMS > 0) {
-            $def_land = intval($this->get('builtland'));
-            $shootdown_chance = round( (($AMS*100)/$def_land)*100, 2 );
-            if ($shootdown_chance >= 75) $shootdown_chance = 75;
+            //$def_land = intval($this->get('builtland'));
+            //$shootdown_chance = round( (($AMS*100)/$def_land)*100, 2 );
+            //if ($shootdown_chance >= 75) $shootdown_chance = 75;
+            $g = $this->getMaxAMS(false);
+            $shootdown_chance = min(round(1/( (1/75) * (1/$AMS) * $g),2), 75);
         }
         return ($format ? $shootdown_chance.'%' : $shootdown_chance);
+    }
+    public function getMaxAMS($format=false) {
+        $def_land = intval($this->get('builtland'));
+        if($def_land == 0) return 0;
+        $g = (1.508427518 * pow(10,-24) * pow($def_land,5)) -
+            (1.621601531 * pow(10,-18) * pow($def_land,4)) +
+            (6.342827634 * pow(10,-13) * pow($def_land,3)) -
+            (1.112051958 * pow(10,-7) * pow($def_land,2))  +
+            (9.145346415 * pow(10,-3) * $def_land) +
+            7.346489612;
+        return ($format ? ceil($g) : $g);
+        //return ($def_land > 0 ? ceil(($def_land/100)*0.75) : 0);
     }
 
     /**
@@ -661,10 +700,6 @@ class Province extends DbObject {
         $units = Units::get();
         $discount = $this->getShippingDiscount();
 
-        // You cannot sell subs when having tommy's
-        $totalmissiles = ($this->get('tomahawk_owned') + $this->get('tomahawk_ordered'));
-        $maxSellSubs = ($totalmissiles > 0 ? ceil($totalmissiles/2) : -1);
-
         foreach($units as $id => $unit) {
             $units[$id]['num'] = (!!$this->get($id.'_owned') ? intval($this->get($id.'_owned')) : 0);
             $units[$id]['ordered'] = (!!$this->get($id.'_ordered') ? intval($this->get($id.'_ordered')) : 0);
@@ -690,9 +725,6 @@ class Province extends DbObject {
             $units[$id]['maxbuild'] = min($maxSpecialBuy, $maxBuy, $maxSpace, $maxTurns);
             $units[$id]['maxorder'] = min($maxOrder, $maxSpace, $maxSpecialSpace, $maxSpecialOrder);
             $units[$id]['maxsell'] = min($maxSell, $maxSpecialSell);
-            if($id == 'submarine' && $maxSellSubs > -1) {
-                $units[$id]['maxsell'] = min($units[$id]['maxsell'], ($units[$id]['num']-$maxSellSubs));
-            }
 
             Hooks::trigger('get_province_unit', null, $units, $id, $this);
         }
@@ -833,7 +865,7 @@ class Province extends DbObject {
         return (!!Satellites::get($sat) ? 1 : 0);
     }
 
-    public function crashSatellite($key,$cost=0) {
+    public function crashSatellite($key, $demo_cost=0) {
 
         $this->update('sat_owned', 0);
         $this->update('sat_endlife', 0);
@@ -887,6 +919,42 @@ class Province extends DbObject {
         ));
         foreach($posts as $post) $convos[] = Conversation::make($post->ID);
         return $convos;
+    }
+
+    /**
+     * Spy Reports
+     */
+    public function getReports($target_id) {
+        if($this->get('id') == $target_id) return false;
+        if($this->isFellowClanMember($target_id)) return false;
+        $target = Province::make($target_id);
+        if(!$target->getName()) return false;
+
+        $members = array($this->get('id'));
+        if($clan = $this->getClan()) $members = $clan->getMembers();
+
+        // Only latest post per type
+        $reports = array();
+        $args = array(
+            'posts_per_page' => 1, 'author__in'	=> $members, 'post_type' => 'spy_rep',
+            'meta_query' => array(
+                'relation' => 'AND',
+                array('key' => 'spied_id', 'value' => $target_id, 'compare' => '='),
+                array('key'	=> 'spy_type', 'value' => 'spyplane', 'compare' => '='),
+                //array('key' => 'clan_id_report', 'value' => $visiting_clan, 'compare' => '='),
+            )
+        );
+        $posts = get_posts($args);
+        foreach($posts as $post) {
+            $reports['buildings'] = new Report($post);
+        }
+
+        $args['meta_query'][1]['value'] = 'spy';
+        $posts = get_posts($args);
+        foreach($posts as $post) {
+            $reports['units'] = new Report($post);
+        }
+        return $reports;
     }
 
     /**

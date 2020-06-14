@@ -24,11 +24,11 @@ $stats = $menu = array();
 if(!!$province) {
 	$stats = array(
 		0 => array('title' => 'Money', 'value' => $province->getMoney(true)), //moneyheader
-		1 => array('title' => 'Networth', 'short' => 'Net.', 'value' => $province->getNetworth(true)), //networthheader
+		1 => array('title' => 'Networth', 'short' => 'Net.', 'class' => 'networth', 'value' => $province->getNetworth(true)), //networthheader
 		2 => array('title' => 'Turns', 'value' => $province->getTurns(true)), //turnsheader
 		3 => array('title' => 'Morale', 'value' => $province->getMorale(true), 'sup' => $province->getMoralePool(true)),
 		4 => array('title' => 'Land', 'value' => $province->getLand(true), 'tooltip' => 'Free land: '.$province->getFreeLand(true)),
-		5 => array('title' => 'Power usage', 'value' => $province->getPower(true)),
+		5 => array('title' => 'Power usage', 'value' => $province->getPower(true), 'class' => 'power'),
 	);
 	if($province->getSatelliteNum()) {
 		$stats[3]['tooltip'] = 'Satellite power: '.$province->getSatMorale(true);
@@ -169,9 +169,9 @@ $timeLeft = Market::timeLeft();
 
 				<div class="row topstatheader">
 					<? foreach($stats as $i => $stat) {
-						$stat['class'] = strtolower($stat['title']);
+						$stat['class'] = (!empty($stat['class']) ? $stat['class'] : strtolower($stat['title']));
 						?>
-						<div class="col-md-2 statitem">
+						<div class="col-md-2 statitem <?=$stat['class']?>wrapper">
 							<span class="stattext"<?=(!empty($stat['tooltip'])?' data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.$stat['tooltip'].'"':'')?>>
 								<strong><?=$stat['title']?>:</strong> <span class="<?=$stat['class']?>header"><?=$stat['value']?></span>
 								<?=(!empty($stat['sup'])?'<sup><span class="'.$stat['class'].'sup">'.$stat['sup'].'</span></sup>':'')?>
@@ -183,8 +183,9 @@ $timeLeft = Market::timeLeft();
 			<?php } ?>
 		</header>
 
-		<div id="mySidenav" class="sidenav">
-			<?php if($user->isLoggedIn()) { ?>
+
+		<?php if($user->isLoggedIn()) { ?>
+			<div id="mySidenav" class="sidenav">
 				<? foreach($menu as $i => $row) {
 					$row['url'] = (!isset($row['url']) ? $row['links'][0]['url'] : $row['url']);
 					$firstLink = $row['links'][0];
@@ -221,9 +222,9 @@ $timeLeft = Market::timeLeft();
 					<div class="row statheader">
 						<? foreach($stats as $i => $stat) {
 							$stat['title'] = (!empty($stat['short']) ? $stat['short'] : $stat['title']);
-							$stat['class'] = strtolower($stat['title']);
+							$stat['class'] = (!empty($stat['class']) ? $stat['class'] : strtolower($stat['title']));
 							?>
-							<div class="col-6 statitem">
+							<div class="col-6 statitem <?=$stat['class']?>wrapper">
 								<span class="stattext"<?=(!empty($stat['tooltip'])?' data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.$stat['tooltip'].'"':'')?>>
 									<strong><?=$stat['title']?>:</strong> <span class="<?=$stat['class']?>header"><?=$stat['value']?></span>
 									<?=(!empty($stat['sup'])?'<sup><span class="'.$stat['class'].'sup">'.$stat['sup'].'</span></sup>':'')?>
@@ -233,8 +234,8 @@ $timeLeft = Market::timeLeft();
 						<? } ?>
 					</div>
 				</div>
-			<?php } ?>
-		</div>
+			</div>
+		<?php } ?>
 
 		<?php if(Round::isPaused()) { ?>
 			<div class="permaNotification">

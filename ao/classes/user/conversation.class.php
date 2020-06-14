@@ -36,18 +36,32 @@ class Conversation extends PostObject {
             'field_5d9217a58552c' => $timestamp,
         );
         add_row('field_5b5ef246154f0', $row, $this->get('id'));
-        $receiver = Province::make($to);
-        $receiver->update('new_messages', $receiver->get('new_messages')+1);
-        $receiver->notify('message', $from);
+        if(!$this->hasProfanity($to)) {
+            $receiver = Province::make($to);
+            $receiver->update('new_messages', $receiver->get('new_messages')+1);
+            $receiver->notify('message', $from);
+        }
     }
 
     function with($userId) { // Convo with the other user
         return ($userId == $this->get('receiver_id') ? $this->get('sender_id') : $this->get('receiver_id'));
     }
 
+    function hasProfanity($user_id=false) {
+        if(!$user_id) $user_id = CurrentUser::make()->get('id');
+        if($user_id == $this->get('sender_id')) return false;
+        if(Format::strHasProfanity($this->getSubject())) return true;
+        $messages = $this->getMessages();
+        foreach($messages as $msg) {
+            if($msg->hasProfanity($user_id)) return true;
+        }
+        return false;
+    }
+
     function hasNewMessage($userId) {
         $messages = $this->getMessages();
         if(count($messages) == 0) return false;
+        if($this->hasProfanity($userId)) return false;
         $lastMsg = end($messages);
         return ($lastMsg->getSender() != $userId && $this->get('general_status') != 'Read');
     }

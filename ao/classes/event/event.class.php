@@ -322,12 +322,9 @@ class Event extends PostObject {
         // Land and money
         $money = ($format == true ? '<strong>'.Format::money($this->get('money_lost')).'</strong>' : $this->get('money_lost'));
         $land = ($format == true ? '<strong>'.Format::land($this->get('land_lost')).'</strong>' : $this->get('land_lost'));
-        $tomahawkHit = (!empty($this->get('tomahawk_hit')) ? $this->get('tomahawk_hit') : 0);
-        $body .= ($format==true?'<p>':'').'In this attack '. $land .' and '. $money .' was stolen';
-        $body .= ($tomahawkHit>0 ? ', ' . Format::plural($tomahawkHit, 'tomahawk') .' hit the base' : '') . ($format==true?'</p>':'. ');
+        $body .= ($format==true?'<p>':'') . 'In this attack '. $land .' and '. $money .' was stolen' . ($format==true?'</p>':'. ');
 
         // Attacker losses
-		$tomahawkDown = (!empty($this->get('tomahawk_down')) ? $this->get('tomahawk_down') : 0);
         $unit_losses = array();
         $att_num_losses = (!empty($this->get('att_total_units_lost')) ? $this->get('att_total_units_lost') : 0);
         $att_lost = (!empty($this->get('attacker_lost')) ? maybe_unserialize($this->get('attacker_lost')) : array());
@@ -336,10 +333,9 @@ class Event extends PostObject {
             $num = array_values($item)[1];
             if($item['type']=='unit' && isset($units[$key])) $unit_losses[] = $units[$key]['normalname'].': '.$num;
         }
-        $body .= ($format==true?'<p>':''). ($format==true && (count($att_lost)>0 || $tomahawkDown>0)?'<strong>':'');
+        $body .= ($format==true?'<p>':''). ($format==true && count($att_lost)>0 ? '<strong>':'');
         $body .= 'Attacker losses: ' . Format::plural($att_num_losses, 'unit');
-        $body .= ($tomahawkDown>0?', '. Format::plural($tomahawkDown, 'tomahawk').' shot down':'');
-        $body .= ($format==true && (count($att_lost)>0 || $tomahawkDown>0)? '</strong><br>':'');
+        $body .= ($format==true && count($att_lost)>0 ? '</strong><br>':'');
         $body .= implode(', ', $unit_losses) . ($format==true?'</p>':'. ');
 
         // Defender losses

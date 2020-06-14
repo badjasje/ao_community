@@ -34,13 +34,6 @@ function ajax_units($province, $return) {
         }
     }
 
-    // Check tomahawk space
-    if(empty($build['submarine'])) {
-        $totalmissiles = ($province->get('tomahawk_owned') + $province->get('tomahawk_ordered'));
-        $minSubs = ($totalmissiles > 0 ? ceil($totalmissiles/2) : -1);
-        if($minSubs > -1 && $units['submarine']['num'] < $minSubs) return array('status' => 'Too many tomahawks, sell them or buy submarines');
-    }
-
     // Check other stuff
     $turns_needed = ceil($turns_needed);
     if($build_price > $money) {

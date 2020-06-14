@@ -52,15 +52,6 @@ function ajax_market($province, $return) {
         return array('status' => 'You cannot order more than '.Settings::get('max_special_order').' special units');
     }
 
-    // You cannot sell subs when having tommy's
-    if(!empty($sell['submarine'])) {
-        $totalmissiles = ($province->get('tomahawk_owned') + $province->get('tomahawk_ordered'));
-        $maxSubs = ($totalmissiles > 0 ? ceil($totalmissiles/2) : -1);
-        if($maxSubs > -1 && $sell['submarine'] > ($units['submarine']['num'] - $maxSubs)) {
-            return array('status' => 'You must sell the tomahawks occupying the submarines before you can sell them');
-        }
-    }
-
     // You cannot sell more than you have
     foreach($sell as $key => $num) {
         if($num > $units[$key]['maxsell']) $sell[$key] = $units[$key]['maxsell'];
@@ -86,13 +77,6 @@ function ajax_market($province, $return) {
                 return array('status' => ''.($usedSpace[$type]-$num).' '.$type.' units have no housing, fix that first.');
             }
         }
-    }
-
-    // Check tomahawk space
-    if(empty($order['submarine'])) {
-        $totalmissiles = ($province->get('tomahawk_owned') + $province->get('tomahawk_ordered'));
-        $minSubs = ($totalmissiles > 0 ? ceil($totalmissiles/2) : -1);
-        if($minSubs > -1 && $units['submarine']['num'] < $minSubs) return array('status' => 'Too many tomahawks, sell them or buy submarines');
     }
 
     // Total order-price, without redacting trades

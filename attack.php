@@ -51,7 +51,8 @@ $array = array();
     $clan_id = $userData['clan_id_user'][0];
     $turns = $userData['turns'][0];
     $morale = $userData['morale'][0];
-	$maintarget = (isset($_POST['maintarget']) ? $_POST['maintarget'] : '');
+    $maintarget = (isset($_POST['maintarget']) ? $_POST['maintarget'] : '');
+    $attacktype = $_POST['attacktype'];
 
 	if($userData['status'][0] == 'dead' || $userData['status'][0] == 'nukeprotection'){
 		$array['status'] = 'You cannot attack while dead or under assault protection';
@@ -69,7 +70,8 @@ $array = array();
 		exit;
 
     }*/
-    Province::make($target_id)->count_all_stats();
+    $defender = Province::make($target_id);
+    $defender->count_all_stats();
 
 	$attackmode = (isset($_POST['attackmode']) ? $_POST['attackmode'] : '');
     $attack_type = $_POST['attacktype'];
@@ -138,11 +140,10 @@ $array = array();
 
 /* determine war type and war points multiplier */
     $attacker_clan_ID = $userData['clan_id_user'][0];
-    $defender_clan_ID = get_user_meta($target_id, 'clan_id_user')[0];
-    $war_type = get_war_type($attacker_clan_ID,$defender_clan_ID);
+    $defender_clan = $defender->getClan();
+    $war_type = (!!$defender_clan ? $defender_clan->getWarType($attacker_clan_ID) : '');
 
 /* determine if target is in range */
-    $attacktype = $_POST['attacktype'];
     $networth_att = $userData['networth'][0];
     $networth_def = get_user_meta($target_id, 'networth')[0];
 
@@ -211,6 +212,12 @@ $array = array();
 
     }
 
+    if(!$defender->isAttackable($attacktype)) {
+        $array['status'] = 'You cannot attack this player';
+        $array['next'] = false;
+        echo json_encode($array);
+        exit;
+    }
 /* validations passed - advance to step 2 */
 
 

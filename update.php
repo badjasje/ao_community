@@ -29,6 +29,19 @@ function setPageEditor($pageName, $userId) {
 
 if(isset($_GET['secret']) && isset($_GET['v']) && $_GET['secret']=='kutcloudflare') {
 
+    // Set telegram_key and user_country=skaro in user_meta to turn users into a bot
+    // Dev bots: Sec (3, Zx2Qk&6y37wr), Thay (4, 2quB@7nGWREN), Jast (5, uQgGJAY&&p89) and Caan (7, qrrEt%g34w^3)
+    // (Clan: Cult of Skaro, https://en.wikipedia.org/wiki/Cult_of_Skaro)
+    if($_GET['v'] == '5') {
+        $userForBot = (isset($_GET['userForBot']) ? $_GET['userForBot'] : 0);
+        $keyForBot = (isset($_GET['keyForBot']) ? $_GET['keyForBot'] : '');
+        $valueForBot = (isset($_GET['valueForBot']) ? $_GET['valueForBot'] : 'skaro');
+        if($userForBot > 0 && in_array($keyForBot,array('telegram_key','user_country','clan_id_user','display_name')) && !empty($valueForBot)) {
+            $p = Province::make($userForBot);
+            if(!!$p) { $p->update($keyForBot, $valueForBot); wtf('Great success!'); }
+        } else wtf('omg fail');
+    }
+
     if($_GET['v'] == '4') {
         $users = get_users(array(
             'meta_key' => 'last_online', 'orderby' => 'meta_value_num', 'meta_value' => current_time('timestamp') - 1728000, 'meta_compare' => '>'

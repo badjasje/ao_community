@@ -50,6 +50,10 @@ if(Request::isAjax()) {
 
 // Handle API-requests privately
 if(Request::isApi()) {
+    header('Content-Type: application/json');
     echo Request::api();
     die();
+}
+else if(!isset($_GET['action']) && Province::make($user->get('id'))->isBot()) {
+    die('Bot\'s do not use browsers, <a href="/wp-login.php?action=logout">logout</a>');
 }

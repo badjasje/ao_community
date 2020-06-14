@@ -56,6 +56,7 @@ if (!is_user_logged_in()) {
 $declarer_clan_ID = $userData['clan_id_user'][0];
 $timestamp = current_time('timestamp');
 $def_clan_leader = get_post_meta($_POST['clan'], 'clan_leader', true);
+$defending_clan = Clan::make($_POST['clan']);
 
 $war_ID = md5(uniqid(rand(), true));
 
@@ -101,6 +102,15 @@ if (count($warcheck) == 0) {
 		echo json_encode($array);
 		update_user_meta($declarer_ID, 'user_lock', 0);
 		exit;
+    }
+
+    if(!!$defending_clan) {
+        if(count($defending_clan->getIncomingWars()) >= Settings::get('max_incoming_wars')) {
+            $array['status'] = 'Clan cannot be warred';
+            $array['next'] = false;
+            echo json_encode($array);
+            exit;
+        }
     }
 }
 

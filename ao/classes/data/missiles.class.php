@@ -8,7 +8,7 @@ class Missiles extends DataObject {
     static $data = array(
         'nuke'      => array(
             'price'         =>  '125000',
-            'networth'      =>  9,
+            'networth'      =>  10,
             'normalname'    =>  'Nuclear Missile',
             'shortname'     =>  'Nuke',
             'shortatt'      =>  array('s','a','i','b','v'),
@@ -20,7 +20,7 @@ class Missiles extends DataObject {
         ),
         'chemical'      => array(
             'price'         =>  '62500',
-            'networth'      =>  9,
+            'networth'      =>  10,
             'normalname'    =>  'Chemical Missile',
             'shortname'     =>  'Chem',
             'shortatt'      =>  array('s','a','v'),
@@ -32,7 +32,7 @@ class Missiles extends DataObject {
         ),
         'bio'       => array(
             'price'         =>  '43750',
-            'networth'      =>  9,
+            'networth'      =>  10,
             'normalname'    =>  'Biochemical Missile',
             'shortname'     =>  'Bio',
             'shortatt'      =>  array('i'),
@@ -44,7 +44,7 @@ class Missiles extends DataObject {
         ),
         'moab'      => array(
             'price'         =>  '57000',
-            'networth'      =>  9,
+            'networth'      =>  10,
             'normalname'    =>  'MOAB',
             'shortname'     =>  'MOAB',
             'shortatt'      =>  array('b'),
@@ -56,25 +56,13 @@ class Missiles extends DataObject {
         ),
         'empmis'    => array(
             'price'         =>  '65000',
-            'networth'      =>  9,
+            'networth'      =>  10,
             'normalname'    =>  'EMP Missile',
             'shortname'     =>  'EMP Missile',
             'shortatt'      =>  array('b'),
             'attacks'       =>  array('N/A'),
             'defends'       =>  array(''),
             'attack'        =>  0,
-            'type'          =>  'mis',
-            'life'          =>  0
-        ),
-        'tomahawk'      => array(
-            'price'         =>  '1500',
-            'networth'      =>  10,
-            'normalname'    =>  'Tomahawk',
-            'shortname'     =>  'TOM',
-            'shortatt'      =>  array('b'),
-            'attacks'       =>  array('bld'),
-            'defends'       =>  array(''),
-            'attack'        =>  1850,
             'type'          =>  'mis',
             'life'          =>  0
         ),
