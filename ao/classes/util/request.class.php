@@ -108,7 +108,7 @@ class Request {
             $id = (!!$user->get('id') ? $user->get('id') : 0);
             //Log::add('path log', array('id' => $id, 'ip' => static::getIpAddress(), 'path' => static::$path), true);
         }
-        if(Round::isTest() || Round::isDev()) return;
+        if(Round::isTest() || Round::isDev() || $user->isAdmin()) return;
         if(in_array(static::$path, array_keys(static::$rate_limits))) {
             if(!isset($_SESSION['path_num'])) $_SESSION['path_num'] = array(date('H') => array());
             if(array_keys($_SESSION['path_num'])[0] != date('H')) $_SESSION['path_num'] = array(date('H') => array());
