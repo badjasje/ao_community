@@ -471,7 +471,7 @@ function after_death($user_id) {
         update_user_meta($user_id, 'airfield', 0);
         update_user_meta($user_id, 'warfactory', 0);
         update_user_meta($user_id, 'baracks', 0);
-        update_user_meta($user_id, 'powerplant', 50);
+        update_user_meta($user_id, 'powerplant', Settings::get('start_powerplant'));
         update_user_meta($user_id, 'advancedpowerplant', 0);
         update_user_meta($user_id, 'torpedolauncher', 0);
         update_user_meta($user_id, 'samsite', 0);
@@ -494,19 +494,21 @@ function after_death($user_id) {
         update_user_meta($user_id, 'empmis_ordered', 0);
 
         // SET STATS after death
-        update_user_meta($user_id, 'money', 450000);
-
+        update_user_meta($user_id, 'money', Settings::get('start_money'));
         update_user_meta($user_id, 'land_sold_today', 0);
         update_user_meta($user_id, 'explored_today', 0);
-        update_user_meta($user_id, 'turns', 200);
+        update_user_meta($user_id, 'turns', Settings::get('start_turns'));
         update_user_meta($user_id, 'networth', 0);
-        update_user_meta($user_id, 'land', 2000);
+        update_user_meta($user_id, 'land', Settings::get('start_land'));
         update_user_meta($user_id, 'power', 0);
         update_user_meta($user_id, 'builtland', 1000);
-        update_user_meta($user_id, 'morale', 0);
+        update_user_meta($user_id, 'morale', Settings::get('start_morale'));
         update_user_meta($user_id, 'sat_morale', 0);
-        update_user_meta($user_id, 'morale_pool', 0);
+        update_user_meta($user_id, 'morale_pool', Settings::get('start_morale_pool'));
         update_user_meta($user_id, 'total_deposits', 0);
+
+        update_user_meta($user_id, 'silo_disable_1', 0);
+        update_user_meta($user_id, 'silo_disable_2', 0);
 
         // RESET RESEARCH ///
         update_user_meta($user_id, 'level_money_production', 0);
