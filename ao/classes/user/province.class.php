@@ -167,7 +167,7 @@ class Province extends DbObject {
     }
 
     public function isAttackable($attack_type='regular', $user_id=false) {
-        if(in_array($attack_type, array('spy','thief'))) return true; // You can always spy and thief
+        if(in_array($attack_type, array('spy','thief','saboteur'))) return true; // You can always spy and thief
         if(!$this->inRange($user_id)) return false;
         if($this->isBot()) return true; // bots in range are always attackable
 
