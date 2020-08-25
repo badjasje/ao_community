@@ -146,7 +146,8 @@ class Settings extends DataObject {
         'clan_join_mutual_delay' =>  (24 * 3600),
 
         // War
-        'cooldown_time' => (36 * 3600),
+        'resume_after_hours' => 12, // in hours because of user notification
+        'cooldown_time' => (72 * 3600),
         'peace_after_time' => (24 * 3600),
         'max_incoming_wars' => 3,
         'war_type_multi' => array(

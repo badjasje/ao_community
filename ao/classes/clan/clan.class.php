@@ -212,6 +212,36 @@ class Clan extends PostObject {
         return false;
     }
 
+    //  After peace there is a 72 hour cooldown before you can declare war on that clan again,
+    //  unless that clan has a war declared on you, then there will be a 12h cooldown before you can resume war.
+    public function canResume($defend_clan_id=false) {
+        $posts = get_posts(array('numberposts' => 1, 'post_type' => 'wars', 'post_status' => 'trash', 'meta_query' => array('relation' => 'AND',
+            array('key' => 'declared_by', 'value' => $this->get('id')),
+            array('key' => 'declared_on', 'value' => $defend_clan_id),
+        )));
+        if (count($posts) == 0) {
+            //$array['status'] = 'War not found';
+            return false;
+        }
+        $peacetime = 0;
+        $eventposts = get_posts(array('numberposts' => 1, 'post_title' => 'PEACE', 'post_status' => 'publish', 'post_type' => 'event_local',
+            'meta_query' => array('relation' => 'AND',
+                array('key' => 'attacker_clan_id', 'value' => $this->get('id')),
+                array('key' => 'defender_clan_id', 'value' => $defend_clan_id),
+            ),
+        ));
+        if(count($eventposts)) {
+            $peacetime = get_post_meta($eventposts[0]->ID, 'time_attacked', true);
+        }
+        $timestamp = current_time('timestamp');
+        $resume_time = Settings::get('resume_after_hours');
+        if($timestamp - $peacetime < (60*60* $resume_time)) {
+            //$array['status'] = 'You can only resume after '.$resume_time.' hours of peace, peaced at '.date('d-m-Y H:i:s', $peacetime);
+            return false;
+        }
+        return true;
+    }
+
     public function getIncomingWars($viewer_clan_id=false) {
         $incoming_wars = get_posts(
             array('numberposts'	=> -1, 'post_type' => 'wars', 'post_status' => 'publish', 'meta_query' => array('relation' => 'AND',
