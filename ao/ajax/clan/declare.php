@@ -37,6 +37,9 @@ function ajax_declare($province, $return) {
     if(!$canPeace && !$inWar && !$inCooldown && $inRange) {
         if(count($clan->getIncomingWars()) >= Settings::get('max_incoming_wars')) return array('status' => 'Clan cannot be warred');
     }
+    if(!$canPeace && !$inWar && $inCooldown && $canResume) {
+        if(count($clan->getIncomingWars()) >= Settings::get('max_incoming_wars')) return array('status' => 'War cannot be resumed');
+    }
 
     // A war can last for a maximum of 72h, it will then auto-peace.
 
