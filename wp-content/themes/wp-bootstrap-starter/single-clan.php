@@ -172,42 +172,44 @@ $userIsMember = $clan->isMember();
         }
         ?>
         <div class="row fw-row no-gutters">
-            <?
-            if($userCanDeclare) {
-                echo '<div class="col">'.PHP_EOL;
-                if($canPeace) {
-                    echo '<button class="mainSubmit declarePeaceButton" data-toggle="modal" data-target="#declarePeaceModal">
+            <div class="col">
+                <?
+                if($userCanDeclare && $canPeace) {
+                    echo '<button class="mainSubmit declarePeaceButton" data-toggle="modal" data-target="#declareModal">
                         <i class="fas fa-dove" aria-hidden="true"></i> Declare peace
                     </button>'.PHP_EOL;
                 }
                 elseif(in_array($warType, array('incoming','mutual'))) {
-                    echo '<button class="mainSubmit disabled">You are at war with this clan</button>'.PHP_EOL;
+                    echo '<button class="mainSubmit disabled">In a'.($warType=='mutual'?' mutual':' outgoing').' war</button>'.PHP_EOL;
                 }
                 elseif($inCooldown) {
-                    /* To test, we always show the resume when in cooldown
-                    if(!$canResume) {
-                        echo '<button class="mainSubmit disabled">
-                        Cooldown: <span data-countdown="'.($userCooldownlist[$clan_id]-$timestamp).'"></span>
-                    </button>'.PHP_EOL;
-                    } else {*/ ?>
-                        <form id="resumeWar" method="POST">
-                            <input type="hidden" name="declaredon" value="<?=$clan_id?>">
+                    if($canResume) {
+                        if($userCanDeclare) { ?>
+                        <form id="declare" method="POST">
+                            <input type="hidden" name="clan_id" value="<?=$clan_id?>">
                             <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
                             <button type="submit" name="submit" class="mainSubmit resumeWarButton">
                                 <i class="fas fa-fire" aria-hidden="true"></i> Resume war
                             </button>
                         </form>
-                    <? /*}*/
+                    <? } else echo '<button class="mainSubmit disabled">
+                        War resumable: <span data-countdown="'.($userCooldownlist[$clan_id]-$timestamp).'"></span>
+                        </button>'.PHP_EOL;
+                    } else {
+                        echo '<button class="mainSubmit disabled">
+                            Cooldown: <span data-countdown="'.($userCooldownlist[$clan_id]-$timestamp).'"></span>
+                        </button>'.PHP_EOL;
+                    }
                 }
                 else if($inRange) {
-                    echo '<button class="mainSubmit warDecSubmit" data-toggle="modal" data-target="#declareWarModal">
+                    if($userCanDeclare) echo '<button class="mainSubmit warDecSubmit" data-toggle="modal" data-target="#declareModal">
                         <i class="fas fa-fire" aria-hidden="true"></i> Declare'.($warType=='outgoing'?' mutual':'').' war
                     </button>'.PHP_EOL;
+                    else echo '<button class="mainSubmit disabled">In range'.($warType=='outgoing'?', incoming war':'').'</button>'.PHP_EOL;
                 }
                 else echo '<button class="mainSubmit disabled">Currently not in range</button>'.PHP_EOL;
-                echo '</div>'.PHP_EOL;
-            }
-            ?>
+                ?>
+            </div>
             <a class="col mainSubmit" href="<?=Request::siteUrl()?>/spy-report-overview/?id=<?=$clan_id?>">
                 <i class="fas fa-binoculars" aria-hidden="true"></i> &nbsp;View spyreports
             </a>
@@ -218,9 +220,11 @@ $userIsMember = $clan->isMember();
         wtf(array(
             'clan_id' => $clan_id,
             'userclan' => (!!$userClan ? $userClan->get('id') : '-'),
+            'userCanDeclare' => $userCanDeclare,
             'wartype' => $warType,
             'cooldown' => $userCooldownlist,
             'inrange' => $inRange,
+            'inCooldown' => $inCooldown,
             'canpeace' => $canPeace,
             'canResume' => $canResume,
             'incoming' => !!$incomingWar,
@@ -232,41 +236,21 @@ $userIsMember = $clan->isMember();
     <div class="pageSpacer"></div>
 </div>
 
-<div class="modal fade" id="declareWarModal" tabindex="-1" role="dialog" aria-labelledby="declareWarModalLabel" aria-hidden="true">
-    <form method="POST" id="declareWar" class="modal-dialog" role="document">
+<div class="modal fade" id="declareModal" tabindex="-1" role="dialog" aria-labelledby="declareModalLabel" aria-hidden="true">
+    <form method="POST" id="declare" class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title" id="exampleModalLabel">Are you sure?</h2>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <label>Declaration message</label>
+                <label>Message</label>
                 <input placeholder="Max. 50 characters." class="unitInput" type="text" name="dec_msg" maxlength="50" style="border:none;">
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
-                <input type="hidden" name="clan" value="<?=$clan_id?>">
+                <input type="hidden" name="clan_id" value="<?=$clan_id?>">
                 <button type="submit" class="mainSubmit">Declare war</button>
-            </div>
-        </div>
-    </form>
-</div>
-<div class="modal fade" id="declarePeaceModal" tabindex="-1" role="dialog" aria-labelledby="declarePeaceModalLabel" aria-hidden="true">
-    <form method="POST" id="declarePeace" class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="exampleModalLabel">Are you sure?</h2>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <label>Peace message</label>
-                <input placeholder="Max. 50 characters." class="unitInput" type="text" name="dec_msg" maxlength="50" style="border:none;">
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
-                <input type="hidden" name="war" value="<?=(!!$incomingWar?$incomingWar->ID:0)?>">
-                <input type="hidden" name="clan" value="<?=$clan_id?>">
-                <button type="submit" class="mainSubmit">Declare peace</button>
             </div>
         </div>
     </form>

@@ -149,11 +149,12 @@ class Settings extends DataObject {
         'resume_after_hours' => 12, // in hours because of user notification
         'cooldown_time' => (72 * 3600),
         'peace_after_time' => (24 * 3600),
+        'auto_peace_time' => (72 * 3600),
         'max_incoming_wars' => 3,
         'war_type_multi' => array(
             'mutual' => 1,
             'outgoing' => 1,
-            'incoming' => 1,
+            'incoming' => .5,
             'none' => 0,
         ),
     );

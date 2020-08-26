@@ -101,6 +101,7 @@ jQuery(function($) {
         requests[url] = $.ajax({url:url,type:'post',data:serializedData}).done(function(response) {
             var data = $.parseJSON(response);
             if(!!data.redirect) { location.href=data.redirect; return; }
+            if(!!data.refresh) { location.reload(); return; }
             $('.pageLoader, #page-cover').fadeOut("fast");
             if(data.nonce) $('.nonce').val(data.nonce);
             updateHeaderData(function() {
@@ -588,31 +589,9 @@ jQuery(function($) {
     });
 
     // clan page
-    $('#declareWar').on('submit', function(e) {
+    $('#declare').on('submit', function(e) {
         e.preventDefault();
-        singleAjax(site_url+'/declare_war.php', $(this), function(data) {
-            if(data.next == true) {
-                $('.warDecSubmit').html('You are at war with this clan').addClass("disabled");
-                $('#declareWarModal,.modal-backdrop').remove();
-            }
-        });
-    });
-    $('#declarePeace').on('submit', function(e) {
-        e.preventDefault();
-        singleAjax(site_url+'/declare_peace.php', $(this), function(data) {
-            if(data.next == true){
-                $('.declarePeaceButton').addClass('disabled');
-                $('#declarePeaceModal,.modal-backdrop').remove();
-            }
-        });
-    });
-    $('#resumeWar').on('submit', function(e) {
-        e.preventDefault();
-        singleAjax(site_url+'/resumewar.php', $(this), function(data) {
-            if(data.next == true){
-                $('.resumeWarButton').html('You are at war with this clan').addClass("disabled");
-            }
-        });
+        singleAjax(site_url+'/ajax/clandeclare', $(this));
     });
 
     // Sending aid
