@@ -259,7 +259,7 @@ $userIsMember = $clan->isMember();
             <div class="modal-footer">
                 <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
                 <input type="hidden" name="clan_id" value="<?=$clan_id?>">
-                <button type="submit" class="mainSubmit">Declare war</button>
+                <button type="submit" class="mainSubmit">Declare</button>
             </div>
         </div>
     </form>
