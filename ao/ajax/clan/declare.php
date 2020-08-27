@@ -37,15 +37,18 @@ function ajax_declare($province, $return) {
     if(!$canPeace && !$inWar && !$inCooldown && $inRange) {
         if(count($clan->getIncomingWars()) >= Settings::get('max_incoming_wars')) return array('status' => 'Clan cannot be warred');
     }
-    if(!$canPeace && !$inWar && $inCooldown && $canResume) {
-        if(count($clan->getIncomingWars()) >= Settings::get('max_incoming_wars')) return array('status' => 'War cannot be resumed');
-    }
 
     // A war can last for a maximum of 72h, it will then auto-peace.
 
     // After peace there is a 72 hour cooldown before you can declare war on that clan again,
     // unless that clan has a war declared on you, then there will be a 12h cooldown before you can resume war.
     $canResume = $clan->canResume($myClan->get('id'));
+
+    if(!$canPeace && !$inWar && $inCooldown && $canResume) {
+        if(count($clan->getIncomingWars()) >= Settings::get('max_incoming_wars')) return array('status' => 'War cannot be resumed');
+    }
+
+
 
     if($canPeace) {
         $clan->peaceWar($dec_msg);
