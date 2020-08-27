@@ -117,7 +117,8 @@ $userIsMember = $clan->isMember();
         $incomingWar = (!!$userClan ? $clan->getIncomingWars($userClan->get('id')) : false);
         $outgoingWar = (!!$userClan ? $clan->getOutgoingWars($userClan->get('id')) : false);
         $inCooldown = array_key_exists($clan_id, $userCooldownlist);
-        $inRange = $clan->inRange() || $warType == 'outgoing';
+        $resumetime = (!!$userClan ? $clan->getResumetime($userClan->get('id')) : false);
+        $inRange = (!!$userClan ? $clan->inRange() || $warType == 'outgoing' : false);
         $canPeace = (!!$userClan ? $clan->canPeace($userClan->get('id')) : false);
         $canResume = (!!$userClan ? $clan->canResume($userClan->get('id')) : false);
 
@@ -196,9 +197,16 @@ $userIsMember = $clan->isMember();
                         War resumable: <span data-countdown="'.($userCooldownlist[$clan_id]-$timestamp).'"></span>
                         </button>'.PHP_EOL;
                     } else {
-                        echo '<button class="mainSubmit disabled">
-                            Cooldown: <span data-countdown="'.($userCooldownlist[$clan_id]-$timestamp).'"></span>
-                        </button>'.PHP_EOL;
+                        if($resumetime!==0) {
+                            echo '<button class="mainSubmit disabled">
+                                Resumable in: <span data-countdown="'.($resumetime-$timestamp).'"></span>
+                            </button>'.PHP_EOL;
+                        }
+                        else {
+                            echo '<button class="mainSubmit disabled">
+                                Cooldown: <span data-countdown="'. ($userCooldownlist[$clan_id]-$timestamp) .'"></span>
+                            </button>'.PHP_EOL;
+                        }
                     }
                 }
                 else if($inRange) {
@@ -225,6 +233,7 @@ $userIsMember = $clan->isMember();
             'cooldown' => $userCooldownlist,
             'inrange' => $inRange,
             'inCooldown' => $inCooldown,
+            'resumetime' => $resumetime,
             'canpeace' => $canPeace,
             'canResume' => $canResume,
             'incoming' => !!$incomingWar,

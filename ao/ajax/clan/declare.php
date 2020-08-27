@@ -48,8 +48,6 @@ function ajax_declare($province, $return) {
         if(count($clan->getIncomingWars()) >= Settings::get('max_incoming_wars')) return array('status' => 'War cannot be resumed');
     }
 
-
-
     if($canPeace) {
         $clan->peaceWar($dec_msg);
         $_SESSION['showError'] = 'Peace declared';

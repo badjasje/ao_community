@@ -218,30 +218,38 @@ class Clan extends PostObject {
         return false;
     }
 
-    //  After peace there is a 72 hour cooldown before you can declare war on that clan again,
-    //  unless that clan has a war declared on you, then there will be a 12h cooldown before you can resume war.
-    public function canResume($viewer_clan_id=false) {
+    public function getResumetime($viewer_clan_id=false) {
+
+        $warType = $this->getWarType($viewer_clan_id);
+        if($warType == 'none') return 0;
+
         // Find peaced war
-        $posts = get_posts(array('numberposts' => 1, 'post_type' => 'wars', 'post_status' => 'trash', 'meta_query' => array('relation' => 'AND',
-            array('key' => 'declared_by', 'value' => $viewer_clan_id),
-            array('key' => 'declared_on', 'value' => $this->get('id')),
-        )));
-        if (count($posts) == 0) return false;
+        if(!$war = $this->getIncomingWars($viewer_clan_id, 'trash')) {
+            return 0;
+        }
 
         // Find peace time
         $peacetime = 0;
+        $resume_time = Settings::get('resume_after_hours');
         $eventposts = get_posts(array('numberposts' => 1, 'post_title' => 'PEACE', 'post_status' => 'publish', 'post_type' => 'event_local',
             'meta_query' => array('relation' => 'AND',
                 array('key' => 'attacker_clan_id', 'value' => $viewer_clan_id),
                 array('key' => 'defender_clan_id', 'value' => $this->get('id')),
             ),
         ));
-        if(count($eventposts)) $peacetime = get_post_meta($eventposts[0]->ID, 'time_attacked', true);
+        if(count($eventposts)) {
+            $peacetime = intval(get_post_meta($eventposts[0]->ID, 'time_attacked', true)) + (60*60* $resume_time);
+        }
 
-        $timestamp = current_time('timestamp');
-        $resume_time = Settings::get('resume_after_hours');
-        if($timestamp - $peacetime < (60*60* $resume_time)) return false;
+        return $peacetime;
+    }
 
+    //  After peace there is a 72 hour cooldown before you can declare war on that clan again,
+    //  unless that clan has a war declared on you, then there will be a 12h cooldown before you can resume war.
+    public function canResume($viewer_clan_id=false) {
+        $peacetime = $this->getResumetime($viewer_clan_id);
+        if($peacetime == 0) return false;
+        if(current_time('timestamp') < $peacetime) return false;
         return true;
     }
 
@@ -278,15 +286,13 @@ class Clan extends PostObject {
         $viewer_clan = $province->getClan();
         if(empty($viewer_clan->get('id'))) return false; // Just in case
 
-        // Find war
-        $posts = get_posts(array('numberposts' => 1, 'post_type' => 'wars', 'post_status' => 'trash', 'meta_query' => array('relation' => 'AND',
-            array('key' => 'declared_by', 'value' => $viewer_clan->get('id')),
-            array('key' => 'declared_on', 'value' => $this->get('id')),
-        )));
-        if (count($posts) == 0) return false;
+        // Find peaced war
+        if(!$war = $this->getIncomingWars($viewer_clan->get('id'), 'trash')) {
+            return false;
+        }
 
         // Update the war-post into the database
-        $my_post = array('ID' => $posts[0]->ID, 'post_status' => 'publish', 'post_title' => $timestamp);
+        $my_post = array('ID' => $war->ID, 'post_status' => 'publish', 'post_title' => $timestamp);
         wp_update_post($my_post);
 
         // unset in cooldownlist
@@ -357,9 +363,9 @@ class Clan extends PostObject {
         return true;
     }
 
-    public function getIncomingWars($viewer_clan_id=false) {
+    public function getIncomingWars($viewer_clan_id=false, $status='publish') {
         $incoming_wars = get_posts(
-            array('numberposts'	=> -1, 'post_type' => 'wars', 'post_status' => 'publish', 'meta_query' => array('relation' => 'AND',
+            array('numberposts'	=> -1, 'post_type' => 'wars', 'post_status' => $status, 'meta_query' => array('relation' => 'AND',
                 array('key' => 'declared_on', 'value' => $this->get('id'), 'compare' => '='),
             ))
         );
@@ -373,10 +379,9 @@ class Clan extends PostObject {
         return $incoming_wars;
     }
 
-    public function getOutgoingWars($viewer_clan_id=false) {
+    public function getOutgoingWars($viewer_clan_id=false, $status='publish') {
         $outgoing_wars = get_posts(
-            array('numberposts'	=> -1, 'post_type' => 'wars',
-                'post_status'   => 'publish', 'meta_query' => array('relation' => 'AND',
+            array('numberposts'	=> -1, 'post_type' => 'wars', 'post_status' =>  $status, 'meta_query' => array('relation' => 'AND',
                 array('key' => 'declared_by', 'value' => $this->get('id'), 'compare' => '='),
             ))
         );
