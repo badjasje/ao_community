@@ -28,6 +28,7 @@ class Request {
         'clanbonus' => array('clan', 'bonus'),
         'claninvite' => array('clan','invite'),
         'clanmessage' => array('clan','setmessage'),
+        'clandeclare' => array('clan','declare'),
     );
     // Rate limiting per hour
     public static $rate_limits = array(
@@ -75,6 +76,7 @@ class Request {
         'ajax/buildings' => 50,         //37
         'ajax/units' => 50,             //38
         'ajax/sendaid' => 20,           //39
+        'ajax/clandeclare' => 5,        //40
     );
 
     public static $page_links = array(

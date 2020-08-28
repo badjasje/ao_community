@@ -203,7 +203,7 @@ $timeLeft = Market::timeLeft();
 						</div>
 						<div class="col-md-10 col-xs-10 menuText">
 							<? foreach($row['links'] as $link) { ?>
-								<a href="<?=Request::siteUrl().'/'.$link['url']?>" class="marketMenu">
+								<a href="<?=Request::siteUrl().'/'.$link['url']?>" class="marketMenu num-<?=count($row['links'])?>">
 									<?=$link['title']?>
 									<? if(!empty($link['badge'])) {
 										if(!empty($link['tooltip'])) {

@@ -166,7 +166,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
         $war_time = $war->post_title;
 
         /* check if 3 days have passed */
-        if ($war_time+(86400*3) < $timestamp) {
+        if ($war_time+Settings::get('auto_peace_time') < $timestamp) {
             $declarer_clan_ID = get_post_meta($war->ID, 'declared_by', true);
             $declarer_ID = get_post_meta($declarer_clan_ID, 'clan_leader', true);
 

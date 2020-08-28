@@ -1355,6 +1355,7 @@ input[type="radio"]:checked + label {
 	display: inline-block;
     width: 32.6%;
 }
+.marketMenu.num-1 { width: 80%; }
 .menuRow a{
 	color:#fff;
 }

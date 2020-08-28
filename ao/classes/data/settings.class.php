@@ -109,7 +109,7 @@ class Settings extends DataObject {
         ),
 
         // Turn costs
-        'turns_order_missile' => 3,
+        'turns_order_missile' => 4,
         'turns_missile' => 3,
         'turns_attack' => 3,
         'turns_thief' => 2,
@@ -137,7 +137,7 @@ class Settings extends DataObject {
         // Attack range multiplier
         'attack_range_mult' => 1.4,
         'average_declare_nw_allowed' => 1.6,
-        'oow_attack_minimum' => 500000,
+        'oow_attack_minimum' => 0,
 
         // Clan stuff
         'clan_trustee_num' => 5,
@@ -146,13 +146,15 @@ class Settings extends DataObject {
         'clan_join_mutual_delay' =>  (24 * 3600),
 
         // War
-        'cooldown_time' => (36 * 3600),
+        'resume_after_hours' => 12, // in hours because of user notification
+        'cooldown_time' => (72 * 3600),
         'peace_after_time' => (24 * 3600),
+        'auto_peace_time' => (72 * 3600),
         'max_incoming_wars' => 3,
         'war_type_multi' => array(
             'mutual' => 1,
             'outgoing' => 1,
-            'incoming' => 1,
+            'incoming' => .5,
             'none' => 0,
         ),
     );
