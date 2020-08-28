@@ -34,11 +34,12 @@ class REST {
                 ),
             ),
             array(
-                'methods'  => 'POST',
-                'callback' => array(
+                'methods'             => 'POST',
+                'callback'            => array(
                     $this,
                     'get_user'
-                )
+                ),
+                'permission_callback' => '__return_true'
             ),
         ));
 

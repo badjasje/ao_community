@@ -15,6 +15,21 @@ NextendSocialLoginAdmin::showProBox();
 <table class="form-table">
     <tbody>
     <tr>
+        <th scope="row"><?php _e('Login form', 'nextend-facebook-connect'); ?></th>
+        <td>
+            <fieldset>
+                <label><input type="radio" name="memberpress_login"
+                              value="" <?php if ($settings->get('memberpress_login') == '') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('No Connect button in Login form', 'nextend-facebook-connect'); ?></span></label><br>
+                <label><input type="radio" name="memberpress_login"
+                              value="before" <?php if ($settings->get('memberpress_login') == 'before') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Connect button on', 'nextend-facebook-connect'); ?></span>
+                    <code><?php _e('Action:'); ?>
+                        mepr-login-form-before-submit</code></label>
+            </fieldset>
+        </td>
+    </tr>
+    <tr>
         <th scope="row"><?php _e('Login form button style', 'nextend-facebook-connect'); ?></th>
         <td>
             <fieldset>

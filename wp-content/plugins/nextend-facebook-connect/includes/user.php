@@ -119,12 +119,11 @@ class NextendSocialUser {
                 $proxyPage = NextendSocialLogin::getProxyPage();
                 if ($proxyPage) {
                     $errors = new WP_Error();
-                    $errors->add('registerdisabled', __('User registration is currently not allowed.'));
+                    $errors->add('registerdisabled', apply_filters('nsl_disabled_register_error_message', __('User registration is currently not allowed.')));
                     Notices::addError($errors->get_error_message());
                 }
 
-
-                NextendSocialProvider::redirect(__('Authentication error', 'nextend-facebook-connect'), add_query_arg('registration', 'disabled', NextendSocialLogin::getLoginUrl()));
+                NextendSocialProvider::redirect(__('Authentication error', 'nextend-facebook-connect'), apply_filters('nsl_disabled_register_redirect_url', add_query_arg('registration', 'disabled', NextendSocialLogin::getLoginUrl())));
                 exit;
             }
 
@@ -515,6 +514,13 @@ class NextendSocialUser {
                     $this,
                     'wp_redirect_filter'
                 ), 10000000);
+
+                /**
+                 * Fix: WishList Member exits before our redirects.
+                 */
+                if (class_exists('WishListMember', false)) {
+                    add_filter('wishlistmember_login_redirect_override', '__return_true');
+                }
             }
 
             do_action('wp_login', $user_info->user_login, $user_info);

@@ -250,13 +250,17 @@ function fastvelocity_get_cachestats() {
 function fastvelocity_rrmdir($path) {
 	clearstatcache();
 	if(is_dir($path)) {
-		$i = new DirectoryIterator($path);
-		foreach($i as $f){
-			if($f->isFile()){ unlink($f->getRealPath());
-			} else if(!$f->isDot() && $f->isDir()){
-				fastvelocity_rrmdir($f->getRealPath());
-				if(is_dir($f->getRealPath())) { @rmdir($f->getRealPath()); }
+		try {
+			$i = new DirectoryIterator($path);
+			foreach($i as $f){
+				if($f->isFile()){ @unlink($f->getRealPath());
+				} else if(!$f->isDot() && $f->isDir()){
+					fastvelocity_rrmdir($f->getRealPath());
+					if(is_dir($f->getRealPath())) { @rmdir($f->getRealPath()); }
+				}
 			}
+		} catch (Exception $e) {
+			return get_class($e) . ": " . $e->getMessage();
 		}
 		
 		# self

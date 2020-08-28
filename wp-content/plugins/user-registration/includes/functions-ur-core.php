@@ -295,14 +295,14 @@ function ur_locate_template( $template_name, $template_path = '', $default_path 
  *
  * @return string
  */
-function ur_help_tip( $tip, $allow_html = false ) {
+function ur_help_tip( $tip, $allow_html = false, $classname = 'user-registration-help-tip' ) {
 	if ( $allow_html ) {
 		$tip = ur_sanitize_tooltip( $tip );
 	} else {
 		$tip = esc_attr( $tip );
 	}
 
-	return '<span class="user-registration-help-tip" data-tip="' . $tip . '"></span>';
+	return sprintf( '<span class="%s" data-tip="%s"></span>', $classname, $tip );
 }
 
 /**
@@ -494,15 +494,23 @@ function ur_get_one_time_draggable_fields() {
  * @return array
  */
 function ur_exclude_profile_details_fields() {
+
+	$fields_to_exclude = array(
+		'user_pass',
+		'user_confirm_password',
+		'user_confirm_email',
+		'invite_code',
+	);
+
+	// Check if the my account page contains [user_registration_my_account] shortcode.
+	if ( ur_post_content_has_shortcode( 'user_registration_my_account' ) ) {
+		// Push profile_picture field to fields_to_exclude array.
+		array_push( $fields_to_exclude, 'profile_picture' );
+	}
+
 	return apply_filters(
 		'user_registration_exclude_profile_fields',
-		array(
-			'user_pass',
-			'user_confirm_password',
-			'user_confirm_email',
-			'profile_picture',
-			'invite_code',
-		)
+		$fields_to_exclude
 	);
 }
 
@@ -652,6 +660,41 @@ function ur_get_registered_form_fields() {
 }
 
 /**
+ * All registered form fields with default labels
+ *
+ * @return mixed|array
+ */
+function ur_get_registered_form_fields_with_default_labels() {
+	return apply_filters(
+		'user_registration_registered_form_fields_with_default_labels',
+		array(
+			'user_email'            => __( 'User Email', 'user-registration' ),
+			'user_confirm_email'    => __( 'User Confirm Email', 'user-registration' ),
+			'user_pass'             => __( 'User Pass', 'user-registration' ),
+			'user_confirm_password' => __( 'User Confirm Password', 'user-registration' ),
+			'user_login'            => __( 'User Login', 'user-registration' ),
+			'nickname'              => __( 'Nickname', 'user-registration' ),
+			'first_name'            => __( 'First Name', 'user-registration' ),
+			'last_name'             => __( 'Last Name', 'user-registration' ),
+			'user_url'              => __( 'User URL', 'user-registration' ),
+			'display_name'          => __( 'Display Name', 'user-registration' ),
+			'description'           => __( 'Description', 'user-registration' ),
+			'text'                  => __( 'Text', 'user-registration' ),
+			'password'              => __( 'Password', 'user-registration' ),
+			'email'                 => __( 'Email', 'user-registration' ),
+			'select'                => __( 'Select', 'user-registration' ),
+			'country'               => __( 'Country', 'user-registration' ),
+			'textarea'              => __( 'Textarea', 'user-registration' ),
+			'number'                => __( 'Number', 'user-registration' ),
+			'date'                  => __( 'Date', 'user-registration' ),
+			'checkbox'              => __( 'Checkbox', 'user-registration' ),
+			'privacy_policy'        => __( 'Privacy Policy', 'user-registration' ),
+			'radio'                 => __( 'Radio', 'user-registration' ),
+		)
+	);
+}
+
+/**
  * General settings for each fields
  *
  * @param string $id id for each field.
@@ -666,6 +709,7 @@ function ur_get_general_settings( $id ) {
 			'name'        => 'ur_general_setting[label]',
 			'placeholder' => __( 'Label', 'user-registration' ),
 			'required'    => true,
+			'tip'         => __( 'Enter text for the form field label. This is recommended and can be hidden in the Advanced Settings.', 'user-registration' ),
 		),
 		'description' => array(
 			'type'        => 'textarea',
@@ -673,6 +717,7 @@ function ur_get_general_settings( $id ) {
 			'name'        => 'ur_general_setting[description]',
 			'placeholder' => __( 'Description', 'user-registration' ),
 			'required'    => true,
+			'tip'         => __( 'Enter text for the form field description.', 'user-registration' ),
 		),
 		'field_name'  => array(
 			'type'        => 'text',
@@ -680,6 +725,7 @@ function ur_get_general_settings( $id ) {
 			'name'        => 'ur_general_setting[field_name]',
 			'placeholder' => __( 'Field Name', 'user-registration' ),
 			'required'    => true,
+			'tip'         => __( 'Unique key for the field.', 'user-registration' ),
 		),
 
 		'placeholder' => array(
@@ -688,6 +734,7 @@ function ur_get_general_settings( $id ) {
 			'name'        => 'ur_general_setting[placeholder]',
 			'placeholder' => __( 'Placeholder', 'user-registration' ),
 			'required'    => true,
+			'tip'         => __( 'Enter placeholder for the field.', 'user-registration' ),
 		),
 		'required'    => array(
 			'type'        => 'select',
@@ -699,6 +746,7 @@ function ur_get_general_settings( $id ) {
 				'no'  => __( 'No', 'user-registration' ),
 				'yes' => __( 'Yes', 'user-registration' ),
 			),
+			'tip'         => __( 'Check this option to mark the field required. A form will not submit unless all required fields are provided.', 'user-registration' ),
 		),
 		'hide_label'  => array(
 			'type'        => 'select',
@@ -710,6 +758,7 @@ function ur_get_general_settings( $id ) {
 				'no'  => __( 'No', 'user-registration' ),
 				'yes' => __( 'Yes', 'user-registration' ),
 			),
+			'tip'         => __( 'Check this option to hide the label of this field.', 'user-registration' ),
 		),
 	);
 
@@ -872,6 +921,7 @@ function ur_admin_form_settings_fields( $form_id ) {
 				'input_class'       => array(),
 				'required'          => false,
 				'options'           => ur_login_option(),
+				'tip'               => __( 'Login method that should be used by the users registered through this form.', 'user-registration' ),
 			),
 			array(
 				'type'              => 'select',
@@ -884,6 +934,7 @@ function ur_admin_form_settings_fields( $form_id ) {
 				'options'           => $all_roles,
 				'custom_attributes' => array(),
 				'default'           => ur_get_single_post_meta( $form_id, 'user_registration_form_setting_default_user_role', 'subscriber' ),
+				'tip'               => __( 'Default role for the users registered through this form.', 'user-registration' ),
 			),
 			array(
 				'type'              => 'checkbox',
@@ -895,6 +946,7 @@ function ur_admin_form_settings_fields( $form_id ) {
 				'input_class'       => array(),
 				'custom_attributes' => array(),
 				'default'           => ur_get_single_post_meta( $form_id, 'user_registration_form_setting_enable_strong_password', 'yes' ),
+				'tip'               => __( 'Make strong password compulsary.', 'user-registration' ),
 			),
 			array(
 				'type'              => 'select',
@@ -912,6 +964,7 @@ function ur_admin_form_settings_fields( $form_id ) {
 				),
 				'custom_attributes' => array(),
 				'default'           => ur_get_single_post_meta( $form_id, 'user_registration_form_setting_minimum_password_strength', '3' ),
+				'tip'               => __( 'Set minimum required password strength.', 'user-registration' ),
 			),
 			array(
 				'type'              => 'text',
@@ -922,6 +975,7 @@ function ur_admin_form_settings_fields( $form_id ) {
 				'input_class'       => array(),
 				'custom_attributes' => array(),
 				'default'           => ur_get_single_post_meta( $form_id, 'user_registration_form_setting_redirect_options', get_option( 'user_registration_general_setting_redirect_options', '' ) ),  // Getting redirect options from global settings for backward compatibility.
+				'tip'               => __( 'URL to redirect to after registration.', 'user-registration' ),
 			),
 			array(
 				'type'              => 'text',
@@ -933,6 +987,7 @@ function ur_admin_form_settings_fields( $form_id ) {
 				'input_class'       => array(),
 				'custom_attributes' => array(),
 				'default'           => ur_get_single_post_meta( $form_id, 'user_registration_form_setting_form_submit_class', '' ),
+				'tip'               => __( 'Custom css class to embed in the submit button. You can enter multiple classes seperated with space.', 'user-registration' ),
 			),
 			array(
 				'type'              => 'text',
@@ -944,6 +999,7 @@ function ur_admin_form_settings_fields( $form_id ) {
 				'input_class'       => array(),
 				'custom_attributes' => array(),
 				'default'           => ur_get_single_post_meta( $form_id, 'user_registration_form_setting_form_submit_label', 'Submit' ),
+				'tip'               => __( 'Set label for the submit button.', 'user-registration' ),
 			),
 			array(
 				'type'              => 'checkbox',
@@ -955,6 +1011,7 @@ function ur_admin_form_settings_fields( $form_id ) {
 				'input_class'       => array(),
 				'custom_attributes' => array(),
 				'default'           => ur_get_single_post_meta( $form_id, 'user_registration_form_setting_enable_recaptcha_support', 'no' ),
+				'tip'               => __( 'Enable reCaptcha for strong security from spams and bots.', 'user-registration' ),
 			),
 			array(
 				'type'              => 'select',
@@ -973,6 +1030,7 @@ function ur_admin_form_settings_fields( $form_id ) {
 				),
 				'custom_attributes' => array(),
 				'default'           => ur_get_single_post_meta( $form_id, 'user_registration_form_template', 'default' ),
+				'tip'               => __( 'Choose form template to use.', 'user-registration' ),
 			),
 			array(
 				'type'              => 'text',
@@ -984,6 +1042,7 @@ function ur_admin_form_settings_fields( $form_id ) {
 				'input_class'       => array(),
 				'custom_attributes' => array(),
 				'default'           => ur_get_single_post_meta( $form_id, 'user_registration_form_custom_class' ),
+				'tip'               => __( 'Custom css class to embed in the registration form. You can enter multiple classes seperated with space.', 'user-registration' ),
 			),
 		),
 	);
@@ -1644,6 +1703,70 @@ function ur_get_form_id_by_userid( $user_id ) {
 		$form_id = $form_id_array[0];
 	}
 	return $form_id;
+}
+
+/**
+ * Get source ID through which the given user was supposedly registered.
+ *
+ * @since 1.9.0
+ *
+ * @param int $user_id
+ *
+ * @return mixed
+ */
+function ur_get_registration_source_id( $user_id ) {
+	$user_metas = get_user_meta( $user_id );
+
+	if ( isset( $user_metas['user_registration_social_connect_bypass_current_password'] ) ) {
+		$networks = array( 'facebook', 'linkedin', 'google', 'twitter' );
+
+		foreach ( $networks as $network ) {
+
+			if ( isset( $user_metas[ 'user_registration_social_connect_' . $network . '_username' ] ) ) {
+				return $network;
+			}
+		}
+	} elseif ( isset( $user_metas['ur_form_id'] ) ) {
+		return $user_metas['ur_form_id'][0];
+	} else {
+		return null;
+	}
+}
+
+/**
+ * Check if a datetime falls in a range of time.
+ *
+ * @since 1.9.0
+ *
+ * @param string      $target_date
+ * @param string|null $start_date
+ * @param string|null $end_date
+ *
+ * @return bool
+ */
+function ur_falls_in_date_range( $target_date, $start_date = null, $end_date = null ) {
+	$start_ts       = strtotime( $start_date );
+	$end_ts         = strtotime( $end_date );
+	$target_date_ts = strtotime( $target_date );
+
+	// If the starting and the ending date are set as same.
+	if ( $start_ts === $end_ts ) {
+		$datetime = new DateTime();
+		$datetime->setTimestamp( $end_ts );
+
+		date_add( $datetime, date_interval_create_from_date_string( '23 hours 59 mins 59 secs' ) );
+		$end_ts = $datetime->getTimestamp();
+	}
+
+	if ( $start_date && $end_date ) {
+		return ( $start_ts <= $target_date_ts ) && ( $target_date_ts <= $end_ts );
+	} elseif ( $start_date ) {
+		return ( $start_ts <= $target_date_ts );
+	} elseif ( $end_date ) {
+		return ( $target_date_ts <= $end_ts );
+	} else {
+		return false;
+	}
 }
 
 /**

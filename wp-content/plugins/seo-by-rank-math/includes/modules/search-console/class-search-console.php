@@ -57,10 +57,6 @@ class Search_Console extends Base {
 			[
 				'id'        => 'search-console',
 				'directory' => $directory,
-				'help'      => [
-					'title' => esc_html__( 'Search Console', 'rank-math' ),
-					'view'  => $directory . '/views/help.php',
-				],
 			]
 		);
 		parent::__construct();
@@ -427,7 +423,7 @@ class Search_Console extends Base {
 			return;
 		}
 
-		$this->sitemaps = new Sitemaps;
+		$this->sitemaps = new Sitemaps();
 		if ( $this->sitemaps->selected_site_is_domain_property() ) {
 			unset( $tabs['sitemaps'] );
 		}

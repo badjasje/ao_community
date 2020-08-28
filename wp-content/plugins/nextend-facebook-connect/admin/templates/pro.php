@@ -23,7 +23,7 @@ function nsl_get_pro_installed() {
     ?>
     <div class="nsl-box nsl-box-blue">
         <h2 class="title"><?php _e('Pro Addon is not activated', 'nextend-facebook-connect'); ?></h2>
-        <p><?php _e('To be able to use the Pro features, you need to install and activate the Nextend Social Connect Pro Addon.', 'nextend-facebook-connect'); ?></p>
+        <p><?php _e('To be able to use the Pro features, you need to install and activate the Nextend Social Login Pro Addon.', 'nextend-facebook-connect'); ?></p>
         <p>
             <a href="<?php echo wp_nonce_url(add_query_arg(array(
                 'action'        => 'activate',
@@ -41,7 +41,7 @@ function nsl_get_pro_not_installed() {
     ?>
     <div class="nsl-box nsl-box-blue">
         <h2 class="title"><?php _e('Pro Addon is not installed', 'nextend-facebook-connect'); ?></h2>
-        <p><?php _e('To be able to use the Pro features, you need to install and activate the Nextend Social Connect Pro Addon.', 'nextend-facebook-connect'); ?></p>
+        <p><?php _e('To be able to use the Pro features, you need to install and activate the Nextend Social Login Pro Addon.', 'nextend-facebook-connect'); ?></p>
         <p>
             <a href="<?php echo NextendSocialLoginAdmin::getAdminUrl('pro-addon'); ?>"
                class="button button-primary"><?php _e('Install Pro Addon', 'nextend-facebook-connect'); ?></a>

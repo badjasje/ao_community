@@ -101,16 +101,6 @@ class Admin extends WP_REST_Controller {
 	private function gutenberg_routes() {
 		register_rest_route(
 			$this->namespace,
-			'/enableScore',
-			[
-				'methods'             => WP_REST_Server::EDITABLE,
-				'callback'            => [ $this, 'enable_score' ],
-				'permission_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'can_manage_options' ],
-			]
-		);
-
-		register_rest_route(
-			$this->namespace,
 			'/updateMeta',
 			[
 				'methods'             => WP_REST_Server::CREATABLE,
@@ -252,24 +242,6 @@ class Admin extends WP_REST_Controller {
 	}
 
 	/**
-	 * Enable SEO Score.
-	 *
-	 * @param WP_REST_Request $request Full details about the request.
-	 *
-	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
-	 */
-	public function enable_score( WP_REST_Request $request ) {
-		$settings = wp_parse_args(
-			rank_math()->settings->all_raw(),
-			[ 'general' => '' ]
-		);
-
-		$settings['general']['frontend_seo_score'] = 'true' === $request->get_param( 'enable' ) ? 'on' : 'off';
-		Helper::update_all_settings( $settings['general'], null, null );
-		return true;
-	}
-
-	/**
 	 * Enable Auto update.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
@@ -277,13 +249,14 @@ class Admin extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function auto_update( WP_REST_Request $request ) {
-		$settings = wp_parse_args(
-			rank_math()->settings->all_raw(),
-			[ 'general' => '' ]
-		);
+		$field = $request->get_param( 'key' );
+		if ( 'enable_auto_update' !== $field ) {
+			return false;
+		}
 
-		$settings['general']['enable_auto_update'] = 'true' === $request->get_param( 'enable' ) ? 'on' : 'off';
-		Helper::update_all_settings( $settings['general'], null, null );
+		$value = 'true' === $request->get_param( 'value' ) ? 'on' : 'off';
+		Helper::toggle_auto_update_setting( $value );
+
 		return true;
 	}
 

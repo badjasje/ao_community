@@ -2,9 +2,9 @@
 Contributors: nextendweb
 Tags: social login, facebook, google, twitter, linkedin, register, login, social, nextend facebook connect, social sign in
 Donate link: https://www.facebook.com/nextendweb
-Requires at least: 4.5
-Tested up to: 5.4.1
-Stable tag: 3.0.24
+Requires at least: 4.9
+Tested up to: 5.5
+Stable tag: 3.0.25
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -106,7 +106,7 @@ Using the Pro Addon you can set where the login buttons should appear on the Reg
 1. Download [Nextend Social Login](https://downloads.wordpress.org/plugin/nextend-facebook-connect.zip)
 2. Upload Nextend Social Login through 'Plugins > Add New > Upload' interface or upload nextend-facebook-connect folder to the `/wp-content/plugins/` directory.
 3. Activate the Nextend Social Login plugin through the 'Plugins' menu in WordPress.
-4. Go to the 'Settings > Nextend Social Connect' to see the available providers.
+4. Go to the 'Settings > Nextend Social Login' to see the available providers.
 5. Configure the provider you would like to use. (You'll find detailed instructions for each provider.)
 6. Test the configuration then enable the provider.
 
@@ -117,6 +117,30 @@ Using the Pro Addon you can set where the login buttons should appear on the Reg
 2. Nextend Social Login and Register in the profile page for account linking
 
 == Changelog ==
+
+= 3.0.25 =
+* Fix: WishList Member plugin prevented the strong redirects of Nextend Social Login.
+* Fix: Connect button – URL encoding in the redirect parameter to keep the URL parameters after login.
+* Fix: JavaScript errors on JavaScript minification with WP Hide & Security Enhancer
+* Fix: Delayed login caused by image optimization plugins, like EWWW Image Optimizer.
+* Fix: Social button styles will be loaded in AMP Reader template pages, too.
+* Improvement: Reactivate renamed to Analyze & Repair
+* Improvement: Notification at the backend, when there is at least one configured provider however it is not enabled.
+* Improvement: Facebook provider – updated steps and new video guide in the Getting Started section.
+* Improvement: Facebook provider – new default button color.
+* Improvement: Facebook provider – we will use Graph API v7.0 for the endpoints.
+* Improvement: Google provider – updated steps and new video guide in the Getting Started section.
+* Improvement: Allow [redirect](https://nextendweb.com/nextend-social-login-docs/backend-developer/#disabled-reg-redirect-override) and [error message](https://nextendweb.com/nextend-social-login-docs/backend-developer/#disabled-reg-message-override) overrides when registration is disabled.
+* Improvement: The Google button will no longer be hidden for Instagram, Twitter and Facebook App WebViews, as Google allows the authentication over the WebView of these Apps.
+* Feature: Facebook provider – [button skin](https://nextendweb.com/nextend-social-login-docs/provider-facebook/#guidelines) selector added.
+
+* PRO: New provider: [GitHub](https://nextendweb.com/nextend-social-login-docs/provider-github/)
+* PRO: Improvement: WooCommerce Billing – Default with separator layout to display the buttons on the place where the action is fired.
+* PRO: Improvement: LinkedIn provider – updated steps in Getting Started section.
+* PRO: Improvement: Pro Addon PHP 7.0 version check to load Pro Addon only on compatible PHP versions.
+* PRO: Improvement: MemberPress Login form – option to hide the social buttons.
+* PRO: Feature: [Show linked providers](https://nextendweb.com/nextend-social-login-docs/global-settings/#linked-providers) – Option to display the name of the providers which are linked to a WordPress account.
+
 
 = 3.0.24 =
 * Fix: BuddyPress 6.0 compatibility fix.
@@ -153,7 +177,7 @@ Using the Pro Addon you can set where the login buttons should appear on the Reg
 * Feature: Option to disable the Google account select prompt on each login.
 * For developers: The provider instance can now be accessed over "nsl_registration_form_start" and "nsl_registration_form_end" actions
 
-* PRO: Provider: [Apple](https://nextendweb.com/nextend-social-login-docs/provider-apple/)
+* PRO: New provider: [Apple](https://nextendweb.com/nextend-social-login-docs/provider-apple/)
 * PRO: Fix: Plugin update error - WordPress cached the wrong update url.
 * PRO: Fix: Social button layouts in Theme My Login forms.
 * PRO: Fix: Ultimate Member and [Support login restrictions](https://nextendweb.com/nextend-social-login-docs/login-restriction/) - Users will be redirected to the Ultimate Member login page after the registration.
@@ -191,7 +215,7 @@ Using the Pro Addon you can set where the login buttons should appear on the Reg
 * PRO: Fix: Update notice when the Free and Pro Addon are not compatible.
 * PRO: Feature: Social buttons for BuddyPress - Login widget
 * PRO: Feature: Option to disable the WordPress Toolbar on the front-end for some roles.
-* PRO: New provider - [Yahoo](https://nextendweb.com/nextend-social-login-docs/provider-yahoo/)
+* PRO: New provider: [Yahoo](https://nextendweb.com/nextend-social-login-docs/provider-yahoo/)
 * PRO: Note: We had plans to implement the [Instagram](https://nextendweb.com/nextend-social-login-docs/provider-instagram/) provider. Unfortunately we need to change our mind, since the Instagram API will become deprecated soon!
 
 = 3.0.17 =
@@ -231,8 +255,8 @@ Using the Pro Addon you can set where the login buttons should appear on the Reg
 
 * PRO: Fix: Ultimate Member - missing avatar when Support login restriction is disabled.
 * PRO: Fix: Authorized domain notification when the page was authorized on non www but was visited on www or vice versa.
-* PRO: New provider - [WordPress.com](https://nextendweb.com/nextend-social-login-docs/provider-wordpress-com/)
-* PRO: New provider - [Disqus](https://nextendweb.com/nextend-social-login-docs/provider-disqus/)
+* PRO: New provider: [WordPress.com](https://nextendweb.com/nextend-social-login-docs/provider-wordpress-com/)
+* PRO: New provider: [Disqus](https://nextendweb.com/nextend-social-login-docs/provider-disqus/)
 
 = 3.0.13 =
 * Fix: Twitter Getting Started and Settings page updated according to the new Twitter App creation.
@@ -296,9 +320,9 @@ Using the Pro Addon you can set where the login buttons should appear on the Reg
 * Feature: Twitter screen name as username
 * Fix: SocialRabbit compatibility
 
-* PRO: New provider - [VKontakte - vk.com](https://nextendweb.com/nextend-social-login-docs/provider-vkontakte/)
-* PRO: New provider - [Amazon](https://nextendweb.com/nextend-social-login-docs/provider-amazon/)
-* PRO: New provider -  [UserPro Login and Register support.](https://nextendweb.com/nextend-social-login-docs/global-settings-userpro/)
+* PRO: New provider: [VKontakte - vk.com](https://nextendweb.com/nextend-social-login-docs/provider-vkontakte/)
+* PRO: New provider: [Amazon](https://nextendweb.com/nextend-social-login-docs/provider-amazon/)
+* PRO: Feature: [UserPro Login and Register support.](https://nextendweb.com/nextend-social-login-docs/global-settings-userpro/)
 
 = 3.0.6 =
 * Avatars are stored in your media library as Facebook blocked the url access

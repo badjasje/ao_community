@@ -78,6 +78,21 @@ NextendSocialLoginAdmin::showProBox();
         </tr>
 
         <tr>
+            <th scope="row"><?php _e('Show linked providers', 'nextend-facebook-connect'); ?></th>
+            <td>
+                <fieldset>
+                    <label><input type="radio" name="show_linked_providers"
+                                  value="0" <?php if ($settings->get('show_linked_providers') == '0') : ?> checked="checked" <?php endif; ?> <?php echo $attr; ?>>
+                        <span><?php _e('Disabled', 'nextend-facebook-connect'); ?></span></label><br>
+                    <label><input type="radio" name="show_linked_providers"
+                                  value="1" <?php if ($settings->get('show_linked_providers') == '1') : ?> checked="checked" <?php endif; ?> <?php echo $attr; ?>>
+                        <span><?php _e('Enabled', 'nextend-facebook-connect'); ?></span></label><br>
+                </fieldset>
+                <p class="description" id="tagline-show-linked-providers"><?php printf(__('Providers linked to the account will appear in the %1$s.', 'nextend-facebook-connect'), ' <a href="' . admin_url('users.php') . '" target="_blank">' . __('Users table', 'nextend-facebook-connect') . '</a>') ?></p>
+            </td>
+        </tr>
+
+        <tr>
             <th scope="row"><?php _e('Disable Admin bar for roles', 'nextend-facebook-connect'); ?></th>
 
             <td>

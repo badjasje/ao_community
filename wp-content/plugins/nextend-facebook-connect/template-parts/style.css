@@ -128,20 +128,31 @@ div.nsl-container .nsl-button-google[data-skin="light"] {
     color: RGBA(0, 0, 0, 0.54);
 }
 
-div.nsl-container .nsl-button-apple .nsl-button-svg-container{
+div.nsl-container .nsl-button-apple .nsl-button-svg-container {
     padding: 0 6px;
 }
-div.nsl-container .nsl-button-apple .nsl-button-svg-container svg{
+
+div.nsl-container .nsl-button-apple .nsl-button-svg-container svg {
     height: 40px;
     width: auto;
 }
 
 div.nsl-container .nsl-button-apple[data-skin="light"] {
     color: #000;
-    box-shadow: 0 0 0 1px #000
+    box-shadow: inset 0 0 0 1px #000;
 }
 
-div.nsl-container .nsl-button-apple div.nsl-button-label-container{
+div.nsl-container .nsl-button-facebook[data-skin="white"] {
+    color: #000;
+    box-shadow: inset 0 0 0 1px #000;
+}
+
+div.nsl-container .nsl-button-facebook[data-skin="light"] {
+    color: #1877F2;
+    box-shadow: inset 0 0 0 1px #1877F2;
+}
+
+div.nsl-container .nsl-button-apple div.nsl-button-label-container {
     font-size: 17px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }

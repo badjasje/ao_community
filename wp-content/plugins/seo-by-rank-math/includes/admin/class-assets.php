@@ -93,6 +93,10 @@ class Assets implements Runner {
 			wp_register_script( 'wp-i18n', rank_math()->plugin_url() . 'assets/vendor/i18n.js', [], rank_math()->version, true );
 		}
 
+		if ( ! wp_script_is( 'clipboard', 'registered' ) ) {
+			wp_register_script( 'clipboard', rank_math()->plugin_url() . 'assets/vendor/clipboard.min.js', [], rank_math()->version, true );
+		}
+
 		if ( ! wp_script_is( 'lodash', 'registered' ) ) {
 			wp_register_script( 'lodash', rank_math()->plugin_url() . 'assets/vendor/lodash.js', [], rank_math()->version );
 			wp_add_inline_script( 'lodash', 'window.lodash = _.noConflict();' );
@@ -190,7 +194,7 @@ class Assets implements Runner {
 	/**
 	 * Enqueues styles.
 	 *
-	 * @param string $style The name of the style to enqueue.
+	 * @param string $style Name of the style.
 	 */
 	public function enqueue_style( $style ) {
 		wp_enqueue_style( self::PREFIX . $style );
@@ -199,7 +203,7 @@ class Assets implements Runner {
 	/**
 	 * Enqueues scripts.
 	 *
-	 * @param string $script The name of the script to enqueue.
+	 * @param string $script Name of the script.
 	 */
 	public function enqueue_script( $script ) {
 		wp_enqueue_script( self::PREFIX . $script );

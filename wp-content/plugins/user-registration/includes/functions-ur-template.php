@@ -50,13 +50,16 @@ function ur_login_template_redirect() {
 	if ( ( has_shortcode( $post_content, 'user_registration_login' ) || has_shortcode( $post_content, 'user_registration_my_account' ) ) && is_user_logged_in() ) {
 		preg_match( '/' . get_shortcode_regex() . '/s', $post_content, $matches );
 
-		$attributes   = shortcode_parse_atts( $matches[3] );
+		// Remove all html tags.
+		$escaped_atts_string = preg_replace( '/<[\/]{0,1}[^<>]*>/', '', $matches[3] );
+
+		$attributes   = shortcode_parse_atts( $escaped_atts_string );
 		$redirect_url = isset( $attributes['redirect_url'] ) ? $attributes['redirect_url'] : '';
 		$redirect_url = trim( $redirect_url, ']' );
 		$redirect_url = trim( $redirect_url, '"' );
 		$redirect_url = trim( $redirect_url, "'" );
 
-		if ( ! empty( $redirect_url ) ) {
+		if ( ! is_elementor_editing_page() && ! empty( $redirect_url ) ) {
 			wp_redirect( $redirect_url );
 			exit();
 		}
@@ -99,7 +102,7 @@ function ur_registration_template_redirect() {
 			$redirect_url = ur_get_single_post_meta( $form_id[0][0], 'user_registration_form_setting_redirect_options', '' );
 			$redirect_url = apply_filters( 'user_registration_redirect_from_registration_page', $redirect_url, $current_user );
 
-			if ( ! empty( $redirect_url ) ) {
+			if ( ! is_elementor_editing_page() && ! empty( $redirect_url ) ) {
 				wp_redirect( $redirect_url );
 				exit();
 			}
@@ -234,11 +237,17 @@ if ( ! function_exists( 'user_registration_form_field' ) ) {
 			}
 		}
 
+		$tooltip_html    = ! empty( $args['tip'] ) ? ur_help_tip( $args['tip'] ) : '';
 		$field           = '';
 		$label_id        = $args['id'];
 		$sort            = $args['priority'] ? $args['priority'] : '';
 		$field_container = '<div class="form-row %1$s" id="%2$s" data-priority="' . esc_attr( $sort ) . '">%3$s</div>';
+
 		switch ( $args['type'] ) {
+
+			case 'title':
+				$field .= '<h4>' . esc_html( $args['title'] ) . '</h4>';
+				break;
 
 			case 'textarea':
 				$field .= '<textarea data-rules="' . esc_attr( $rules ) . '" data-id="' . esc_attr( $key ) . '" name="' . esc_attr( $key ) . '" class="input-text ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" id="' . esc_attr( $args['id'] ) . '" placeholder="' . esc_attr( $args['placeholder'] ) . '" ' . ( empty( $args['custom_attributes']['rows'] ) ? ' rows="2"' : '' ) . ( empty( $args['custom_attributes']['cols'] ) ? ' cols="5"' : '' ) . implode( ' ', $custom_attributes ) . '>' . esc_textarea( $value ) . '</textarea>';
@@ -259,7 +268,7 @@ if ( ! function_exists( 'user_registration_form_field' ) ) {
 					$choices = isset( $options ) ? $options : array();
 
 					$field  = '<label class="ur-label" ' . implode( ' ', $custom_attributes ) . '">';
-					$field .= $args['label'] . $required . '</label>';
+					$field .= $args['label'] . $required . $tooltip_html . '</label>';
 
 					$checkbox_start = 0;
 
@@ -282,7 +291,7 @@ if ( ! function_exists( 'user_registration_form_field' ) ) {
 				} else {
 					$field = '<label class="ur-label checkbox ' . implode( ' ', $custom_attributes ) . '">
 							<input data-rules="' . esc_attr( $rules ) . '" data-id="' . esc_attr( $key ) . '" ' . implode( ' ', $custom_attributes ) . ' data-value="' . $value . '" type="' . esc_attr( $args['type'] ) . '" class="input-checkbox ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" value="1" ' . checked( $value, 1, false ) . ' /> '
-						. $args['label'] . $required . '</label>';
+						. $args['label'] . $required . $tooltip_html . '</label>';
 				}
 				break;
 
@@ -343,11 +352,11 @@ if ( ! function_exists( 'user_registration_form_field' ) ) {
 				if ( empty( $extra_params ) ) {
 					$field .= '<input data-rules="' . esc_attr( $rules ) . '" data-id="' . esc_attr( $key ) . '" type="text" id="load_flatpickr" value="' . esc_attr( $actual_value ) . '" class="regular-text" readonly />';
 					$field .= '<input type="hidden" id="formated_date" value="' . esc_attr( $value ) . '"/>';
-					$field .= '<input data-rules="' . esc_attr( $rules ) . '" data-id="' . esc_attr( $key ) . '" type="' . esc_attr( $args['type'] ) . '" class="input-text input-' . esc_attr( $args['type'] ) . ' ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" placeholder="' . esc_attr( $args['placeholder'] ) . '"  ' . implode( ' ', $custom_attributes ) . ' style="display:none"/>';
+					$field .= '<input data-rules="' . esc_attr( $rules ) . '" data-id="' . esc_attr( $key ) . '" type="text" data-field-type="' . esc_attr( $args['type'] ) . '" value="' . esc_attr( $actual_value ) . '" class="input-text input-' . esc_attr( $args['type'] ) . ' ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" placeholder="' . esc_attr( $args['placeholder'] ) . '"  ' . implode( ' ', $custom_attributes ) . ' style="display:none"/>';
 				} else {
 					$field .= '<input data-rules="' . esc_attr( $rules ) . '" data-id="' . esc_attr( $key ) . '" type="text" id="load_flatpickr" value="' . esc_attr( $actual_value ) . '" class="regular-text" readonly />';
 					$field .= '<input type="hidden" id="formated_date" value="' . esc_attr( $value ) . '"/>';
-					$field .= '<input data-rules="' . esc_attr( $rules ) . '" data-id="' . esc_attr( $key ) . '" type="' . esc_attr( $args['type'] ) . '" class="input-text ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" placeholder="' . esc_attr( $args['placeholder'] ) . '"  ' . implode( ' ', $custom_attributes ) . ' style="display:none" />';
+					$field .= '<input data-rules="' . esc_attr( $rules ) . '" data-id="' . esc_attr( $key ) . '" type="text" data-field-type="' . esc_attr( $args['type'] ) . '" value="' . esc_attr( $actual_value ) . '" class="input-text ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" placeholder="' . esc_attr( $args['placeholder'] ) . '"  ' . implode( ' ', $custom_attributes ) . ' style="display:none" />';
 				}
 				break;
 
@@ -369,7 +378,7 @@ if ( ! function_exists( 'user_registration_form_field' ) ) {
 					$custom_attributes[] = 'data-allow_clear="true"';
 					foreach ( $args['options'] as $option_key => $option_text ) {
 						$selected_attribute = '';
-						
+
 						if ( empty( $args['placeholder'] ) ) {
 							$selected_attribute = selected( $value, trim( $option_key ), false );
 						}
@@ -462,7 +471,7 @@ if ( ! function_exists( 'user_registration_form_field' ) ) {
 						),
 						'span' => array(),
 					)
-				) . $required . '</label>';
+				) . $required . $tooltip_html . '</label>';
 			}
 
 			$field_html     .= $field;
@@ -573,6 +582,14 @@ if ( ! function_exists( 'user_registration_form_data' ) ) {
 								$extra_params['options'] = $class_name::get_instance()->get_selected_countries( $form_id, $field_name );
 								break;
 
+							case 'file':
+								$extra_params['max_files'] = isset( $field->general_setting->max_files ) ? $field->general_setting->max_files : '';
+								break;
+
+							case 'phone':
+								$extra_params['phone_format'] = isset( $field->general_setting->phone_format ) ? $field->general_setting->phone_format : '';
+								break;
+
 							default:
 								break;
 						}
@@ -580,11 +597,12 @@ if ( ! function_exists( 'user_registration_form_data' ) ) {
 						$extra_params['default'] = isset( $all_meta_value[ 'user_registration_' . $field_name ][0] ) ? $all_meta_value[ 'user_registration_' . $field_name ][0] : '';
 
 						if ( in_array( $field_key, ur_get_user_profile_field_only() ) ) {
+
 							$fields[ 'user_registration_' . $field_name ] = array(
-								'label'       => $field_label,
-								'description' => $field_description,
+								'label'       => ur_string_translation( $form_id, 'user_registration_' . $field_name . '_label', $field_label ),
+								'description' => ur_string_translation( $form_id, 'user_registration_' . $field_name . '_description', $field_description ),
 								'type'        => $field_type,
-								'placeholder' => $placeholder,
+								'placeholder' => ur_string_translation( $form_id, 'user_registration_' . $field_name . '_placeholder', $placeholder ),
 								'field_key'   => $field_key,
 								'required'    => $required,
 							);
@@ -603,7 +621,7 @@ if ( ! function_exists( 'user_registration_form_data' ) ) {
 							'field_name' => $field_name,
 						);
 
-						$filtered_data_array = apply_filters( 'user_registration_profile_account_filter_' . $field_key, $filter_data );
+						$filtered_data_array = apply_filters( 'user_registration_profile_account_filter_' . $field_key, $filter_data, $form_id );
 						if ( isset( $filtered_data_array['fields'] ) ) {
 							$fields = $filtered_data_array['fields'];
 						}
@@ -711,4 +729,17 @@ function ur_logout_url( $redirect = '' ) {
 	} else {
 		return wp_logout_url( $redirect );
 	}
+}
+
+/**
+ * See if current page elementor page for editing.
+ *
+ * @since 1.8.5
+ *
+ * @return bool
+ */
+function is_elementor_editing_page() {
+	return ( ! empty( $_POST['action'] ) && 'elementor_ajax' === $_POST['action'] ) ||
+			! empty( $_GET['elementor-preview'] ) ||
+			( ! empty( $_GET['action'] ) && 'elementor' === $_GET['action'] );
 }

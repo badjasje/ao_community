@@ -36,10 +36,12 @@ class Helper {
 	 * @param array  $args    Context object, can be post, taxonomy or term.
 	 * @param array  $exclude Excluded variables won't be replaced.
 	 *
+	 * Inspired from Yoast (https://github.com/Yoast/wordpress-seo/)
+	 *
 	 * @return string
 	 */
 	public static function replace_vars( $content, $args = [], $exclude = [] ) {
-		$replace = new Replacer;
+		$replace = new Replacer();
 		return $replace->replace( $content, $args, $exclude );
 	}
 
@@ -86,6 +88,8 @@ class Helper {
 	 * @param  string $url  The URL to parse.
 	 * @param  string $part The URL part to retrieve.
 	 * @return string The extracted URL part.
+	 *
+	 * Adapted from Yoast (https://github.com/Yoast/wordpress-seo/)
 	 */
 	public static function get_url_part( $url, $part ) {
 		$url_parts = wp_parse_url( $url );
@@ -131,12 +135,11 @@ class Helper {
 	 * @return bool|array
 	 */
 	public static function search_console_data( $data = null ) {
-		$encryption   = new Data_Encryption();
 		$key          = 'rank_math_search_console_data';
 		$encrypt_keys = [
 			'access_token',
 			'refresh_token',
-			'profiles'
+			'profiles',
 		];
 
 		// Clear data.
@@ -148,25 +151,28 @@ class Helper {
 		$saved = get_option( $key, [] );
 		foreach ( $encrypt_keys as $enc_key ) {
 			if ( isset( $saved[ $enc_key ] ) ) {
-				$saved[ $enc_key ] = $encryption->deep_decrypt( $saved[ $enc_key ] );
+				$saved[ $enc_key ] = Data_Encryption::deep_decrypt( $saved[ $enc_key ] );
 			}
 		}
 
 		// Getter.
 		if ( is_null( $data ) ) {
-			return wp_parse_args( $saved, array(
-				'authorized' => false,
-				'profiles'   => [],
-			) );
+			return wp_parse_args(
+				$saved,
+				[
+					'authorized' => false,
+					'profiles'   => [],
+				]
+			);
 		}
 
 		// Setter.
 		foreach ( $encrypt_keys as $enc_key ) {
 			if ( isset( $saved[ $enc_key ] ) ) {
-				$saved[ $enc_key ] = $encryption->deep_encrypt( $saved[ $enc_key ] );
+				$saved[ $enc_key ] = Data_Encryption::deep_encrypt( $saved[ $enc_key ] );
 			}
 			if ( isset( $data[ $enc_key ] ) ) {
-				$data[ $enc_key ] = $encryption->deep_encrypt( $data[ $enc_key ] );
+				$data[ $enc_key ] = Data_Encryption::deep_encrypt( $data[ $enc_key ] );
 			}
 		}
 
@@ -206,7 +212,7 @@ class Helper {
 		foreach ( $modules as $module => $action ) {
 			if ( 'off' === $action ) {
 				if ( in_array( $module, $stored, true ) ) {
-					$stored = array_diff( $stored, array( $module ) );
+					$stored = array_diff( $stored, [ $module ] );
 				}
 				continue;
 			}
@@ -244,7 +250,7 @@ class Helper {
 		}
 
 		// If SG CachePress is installed, reset its caches.
-		if ( class_exists( 'SG_CachePress_Supercacher' ) && is_callable( array( 'SG_CachePress_Supercacher', 'purge_cache' ) ) ) {
+		if ( class_exists( 'SG_CachePress_Supercacher' ) && is_callable( [ 'SG_CachePress_Supercacher', 'purge_cache' ] ) ) {
 			\SG_CachePress_Supercacher::purge_cache();
 		}
 
@@ -261,6 +267,7 @@ class Helper {
 
 	/**
 	 * Clear varnish cache for the dynamic files.
+	 * Credit @davidbarratt: https://github.com/davidbarratt/varnish-http-purge
 	 */
 	private static function clear_varnish_cache() {
 		// Parse the URL for proxy proxies.
@@ -274,14 +281,15 @@ class Helper {
 
 		// If we made varniship, let it sail.
 		$purgeme = ( isset( $varniship ) && null !== $varniship ) ? $varniship : $parsed_url['host'];
-		wp_remote_request( 'http://' . $purgeme,
-			array(
+		wp_remote_request(
+			'http://' . $purgeme,
+			[
 				'method'  => 'PURGE',
-				'headers' => array(
+				'headers' => [
 					'host'           => $parsed_url['host'],
 					'X-Purge-Method' => 'default',
-				),
-			)
+				],
+			]
 		);
 	}
 }

@@ -31,17 +31,13 @@ class Admin extends Base {
 			[
 				'id'        => 'seo-analysis',
 				'directory' => $directory,
-				'help'      => [
-					'title' => esc_html__( 'SEO Analysis', 'rank-math' ),
-					'view'  => $directory . '/views/help.php',
-				],
 			]
 		);
 		parent::__construct();
 
 		if ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || $this->page->is_current_page() ) {
 			include_once 'seo-analysis-tests.php';
-			$this->analyzer = new SEO_Analyzer;
+			$this->analyzer = new SEO_Analyzer();
 		}
 	}
 

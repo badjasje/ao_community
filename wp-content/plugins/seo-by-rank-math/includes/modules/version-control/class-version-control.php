@@ -110,10 +110,7 @@ class Version_Control {
 		// Sanitize input.
 		$new_value = Param::post( 'enable_auto_update' ) === 'on' ? 'on' : 'off';
 
-		$settings                       = get_option( 'rank-math-options-general', [] );
-		$settings['enable_auto_update'] = $new_value;
-		rank_math()->settings->set( 'general', 'enable_auto_update', 'on' === $new_value ? true : false );
-		update_option( 'rank-math-options-general', $settings );
+		Helper::toggle_auto_update_setting( $new_value );
 
 		return true;
 	}

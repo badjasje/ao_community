@@ -54,7 +54,7 @@ class JsonLD {
 	public function __construct() {
 		$this->action( 'rank_math/head', 'json_ld', 90 );
 		$this->action( 'rank_math/json_ld', 'add_context_data' );
-		new Block_Parser;
+		new Block_Parser();
 	}
 
 	/**
@@ -72,7 +72,7 @@ class JsonLD {
 		/**
 		 * Collect data to output in JSON-LD.
 		 *
-		 * @param array  $unsigned An array of data to output in json-ld.
+		 * @param array  $unsigned An array of data to output in JSON-LD.
 		 * @param JsonLD $unsigned JsonLD instance.
 		 */
 		$data = $this->do_filter( 'json_ld', [], $this );
@@ -88,7 +88,7 @@ class JsonLD {
 	/**
 	 * Get Default Schema Data.
 	 *
-	 * @param array $data Array of json-ld data.
+	 * @param array $data Array of JSON-LD data.
 	 *
 	 * @return array
 	 */
@@ -107,7 +107,7 @@ class JsonLD {
 
 		foreach ( $snippets as $class => $can_run ) {
 			if ( $can_run ) {
-				$class = new $class;
+				$class = new $class();
 				$data  = $class->process( $data, $this );
 			}
 		}
@@ -122,7 +122,7 @@ class JsonLD {
 	 */
 	private function can_add_breadcrumb() {
 		/**
-		 * Allow developer to disable the breadcrumb json-ld output.
+		 * Allow developer to disable the breadcrumb JSON-LD output.
 		 *
 		 * @param bool $unsigned Default: true
 		 */
@@ -142,7 +142,7 @@ class JsonLD {
 	 * Add property to entity.
 	 *
 	 * @param string $prop   Name of the property to add into entity.
-	 * @param array  $entity Array of json-ld entity.
+	 * @param array  $entity Array of JSON-LD entity.
 	 */
 	public function add_prop( $prop, &$entity ) {
 		if ( empty( $prop ) ) {
@@ -167,9 +167,9 @@ class JsonLD {
 	}
 
 	/**
-	 * Add property to entity.
+	 * Add URL property to entity.
 	 *
-	 * @param array $entity Array of json-ld entity.
+	 * @param array $entity Array of JSON-LD entity.
 	 */
 	private function add_prop_url( &$entity ) {
 		if ( $url = Helper::get_settings( 'titles.url' ) ) { // phpcs:ignore
@@ -180,7 +180,7 @@ class JsonLD {
 	/**
 	 * Add property to entity.
 	 *
-	 * @param array $entity Array of json-ld entity.
+	 * @param array $entity Array of JSON-LD entity.
 	 */
 	private function add_prop_address( &$entity ) {
 		if ( $address = Helper::get_settings( 'titles.local_address' ) ) { // phpcs:ignore
@@ -191,7 +191,7 @@ class JsonLD {
 	/**
 	 * Add property to entity.
 	 *
-	 * @param array $entity Array of json-ld entity.
+	 * @param array $entity Array of JSON-LD entity.
 	 */
 	private function add_prop_thumbnail( &$entity ) {
 		$image = Helper::get_thumbnail_with_fallback( get_the_ID(), 'full' );
@@ -209,7 +209,7 @@ class JsonLD {
 	 * Add aggregateratings to entity.
 	 *
 	 * @param string $schema Schema to get data for.
-	 * @param array  $entity Array of json-ld entity to attach data to.
+	 * @param array  $entity Array of JSON-LD entity to attach data to.
 	 */
 	public function add_ratings( $schema, &$entity ) {
 		$rating = Helper::get_post_meta( "snippet_{$schema}_rating" );
@@ -247,9 +247,9 @@ class JsonLD {
 	}
 
 	/**
-	 * Get post parts
+	 * Get post parts.
 	 *
-	 * @param array $data Array of json-ld data.
+	 * @param array $data Array of JSON-LD data.
 	 *
 	 * @return array
 	 */
@@ -265,10 +265,10 @@ class JsonLD {
 	}
 
 	/**
-	 * Process single post
+	 * Process single post.
 	 *
 	 * @param array $collection Collection holder.
-	 * @param array $data       Array of json-ld data.
+	 * @param array $data       Array of JSON-LD data.
 	 */
 	public function get_post_collection_item( &$collection, $data ) {
 		$post_id   = get_the_ID();
@@ -319,7 +319,7 @@ class JsonLD {
 	}
 
 	/**
-	 * Get publisher
+	 * Get publisher.
 	 *
 	 * @param array $data Entity.
 	 *
@@ -358,9 +358,9 @@ class JsonLD {
 	}
 
 	/**
-	 * Get post thumbnail if any
+	 * Get post thumbnail if any.
 	 *
-	 * @param int $post_id  Post id to get featured image  for.
+	 * @param int $post_id  Post ID to get featured image  for.
 	 *
 	 * @return array
 	 */
@@ -370,6 +370,9 @@ class JsonLD {
 		}
 
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'full' );
+		if ( empty( $image ) ) {
+			return false;
+		}
 
 		return [
 			'@type'  => 'ImageObject',
@@ -380,9 +383,9 @@ class JsonLD {
 	}
 
 	/**
-	 * Get post terms
+	 * Get post terms.
 	 *
-	 * @param int    $post_id  Post id to get terms  for.
+	 * @param int    $post_id  Post ID to get terms  for.
 	 * @param string $taxonomy Taxonomy name.
 	 *
 	 * @return array
@@ -401,9 +404,9 @@ class JsonLD {
 	}
 
 	/**
-	 * Get comments data
+	 * Get comments data.
 	 *
-	 * @param int $post_id Post id to get comments for.
+	 * @param int $post_id Post ID to get comments for.
 	 *
 	 * @return array
 	 */
@@ -472,7 +475,7 @@ class JsonLD {
 	/**
 	 * Set publisher/provider data for JSON-LD.
 	 *
-	 * @param array  $entity Array of json-ld entity.
+	 * @param array  $entity Array of JSON-LD entity.
 	 * @param array  $organization Organization data.
 	 * @param string $type         Type data set to. Default: 'publisher'.
 	 */
@@ -494,7 +497,7 @@ class JsonLD {
 	 * Set address for JSON-LD.
 	 *
 	 * @param string $schema Schema to get data for.
-	 * @param array  $entity Array of json-ld entity to attach data to.
+	 * @param array  $entity Array of JSON-LD entity to attach data to.
 	 */
 	public function set_address( $schema, &$entity ) {
 		$address = Helper::get_post_meta( "snippet_{$schema}_address" );
@@ -516,7 +519,7 @@ class JsonLD {
 	 * Loop through post meta value grab data and attache it to the entity.
 	 *
 	 * @param array $hash   Key to get data and Value to save as.
-	 * @param array $entity Array of json-ld entity to attach data to.
+	 * @param array $entity Array of JSON-LD entity to attach data to.
 	 */
 	public function set_data( $hash, &$entity ) {
 		foreach ( $hash as $metakey => $dest ) {
@@ -578,7 +581,7 @@ class JsonLD {
 	/**
 	 * Get post url.
 	 *
-	 * @param  int $post_id Post ID to get url for.
+	 * @param  int $post_id Post ID to get URL for.
 	 * @return string
 	 */
 	public function get_post_url( $post_id = 0 ) {
@@ -603,7 +606,7 @@ class JsonLD {
 		}
 
 		$description = $product->get_short_description() ? $product->get_short_description() : $product->get_description();
-		$description = $this->do_filter( 'product_description/appy_shortcode', false ) ? do_shortcode( $description ) : WordPress::strip_shortcodes( $description );
+		$description = $this->do_filter( 'product_description/apply_shortcode', false ) ? do_shortcode( $description ) : WordPress::strip_shortcodes( $description );
 		return wp_strip_all_tags( $description, true );
 	}
 

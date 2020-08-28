@@ -21,7 +21,7 @@ $provider = $this->getProvider();
         <li><?php _e('Click the “<b>OAuth consent screen</b>” button on the left hand side.', 'nextend-facebook-connect'); ?></li>
         <li><?php _e('Choose a <b>User Type</b> according to your needs. If you want to enable the social login with Google for any users with a Google account, then pick the External option!', 'nextend-facebook-connect'); ?>
             <ul>
-                <li><?php printf(__('<b>Note:</b> We don\'t use sensitive or restricted scopes either. But if you will use this App for other purposes too, then you may need to go through an %1$s!', 'nextend-facebook-connect'),'<a href="https://support.google.com/cloud/answer/9110914" target="_blank">independent security review</a>'); ?></li>
+                <li><?php printf(__('<b>Note:</b> We don\'t use sensitive or restricted scopes either. But if you will use this App for other purposes too, then you may need to go through an %1$s!', 'nextend-facebook-connect'), '<a href="https://support.google.com/cloud/answer/9110914" target="_blank">independent security review</a>'); ?></li>
             </ul>
         </li>
         <li><?php _e('Enter a name for your App to the "<b>Application name</b>" field, which will appear as the name of the app asking for consent.', 'nextend-facebook-connect'); ?></li>
@@ -30,7 +30,7 @@ $provider = $this->getProvider();
         <li><?php printf(__('On the left side, click on the "<b>%1$s</b>" menu point, then click the "<b>%2$s</b>" button in the top bar.', 'nextend-facebook-connect'), 'Credentials', '+ Create Credentials') ?></li>
         <li><?php _e('Choose the "<b>OAuth client ID</b>" option.', 'nextend-facebook-connect'); ?></li>
         <li><?php _e('Select the "<b>Web application</b>" under Application type.', 'nextend-facebook-connect'); ?></li>
-        <li><?php _e('Enter "<b>Name</b>" that for your OAuth client ID.', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Enter a "<b>Name</b>" for your OAuth client ID.', 'nextend-facebook-connect'); ?></li>
         <li><?php printf(__('Add the following URL to the "<b>Authorised redirect URIs</b>" field: <b>%s</b>', 'nextend-facebook-connect'), $provider->getLoginUrl()); ?></li>
         <li><?php _e('Click on the "<b>Create</b>" button', 'nextend-facebook-connect'); ?></li>
         <li><?php _e('A modal should pop up with your credentials. If that doesn\'t happen, go to the Credentials in the left hand menu and select your app by clicking on its name and you\'ll be able to copy-paste the "<b>Client ID</b>" and "<b>Client Secret</b>" from there.', 'nextend-facebook-connect'); ?></li>
@@ -42,6 +42,6 @@ $provider = $this->getProvider();
     <br>
     <div class="nsl-admin-embed-youtube">
         <div></div>
-        <iframe src="https://www.youtube.com/embed/BdV8ugLaSU8?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/i01nbsbNMmw?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 </div>

@@ -452,6 +452,9 @@ $printurl = str_ireplace(array(site_url(), home_url(), 'http:', 'https:'), '', $
 				$code = fastvelocity_min_get_css($hurl, file_get_contents($f).$inline, $disable_minification); 
 			}
 			
+			# wp hide filter request
+			$code = apply_filters( 'fvm_after_download_and_minify_code', $code, $type);         
+			
 			# check for php code, skip if found
 			if(strtolower(substr($code, 0, 5)) != "<?php" && stripos($code, "<?php") === false) {
 				# log, save and return
@@ -475,6 +478,9 @@ $printurl = str_ireplace(array(site_url(), home_url(), 'http:', 'https:'), '', $
 			} else { 
 				$code = fastvelocity_min_get_css($hurl, file_get_contents($f).$inline, $disable_minification); 
 			}
+			
+			# wp hide filter request
+			$code = apply_filters( 'fvm_after_download_and_minify_code', $code, $type);
 			
 			# check for php code, skip if found
 			if(strtolower(substr($code, 0, 5)) != "<?php" && stripos($code, "<?php") === false) {
@@ -502,6 +508,9 @@ $printurl = str_ireplace(array(site_url(), home_url(), 'http:', 'https:'), '', $
 			$code = fastvelocity_min_get_css($hurl, $code.$inline, $disable_minification); 
 		}
 		
+		# wp hide filter request
+		$code = apply_filters( 'fvm_after_download_and_minify_code', $code, $type);
+		
 		# log, save and return
 		$log = $printurl;
 		if($fvm_debug == true) { $log.= " --- Debug: $printhandle was fetched from $hurl ---"; }
@@ -521,6 +530,9 @@ $printurl = str_ireplace(array(site_url(), home_url(), 'http:', 'https:'), '', $
 			} else { 
 				$code = fastvelocity_min_get_css($hurl, $code.$inline, $disable_minification); 
 			}
+			
+			# wp hide filter request
+			$code = apply_filters( 'fvm_after_download_and_minify_code', $code, $type);
 			
 			# log, save and return
 			$log = $printurl;

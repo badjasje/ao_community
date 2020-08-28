@@ -20,7 +20,11 @@ class UR_Form_Handler {
 	 */
 	public static function init() {
 		add_action( 'template_redirect', array( __CLASS__, 'redirect_reset_password_link' ) );
-		add_action( 'template_redirect', array( __CLASS__, 'save_profile_details' ) );
+
+		if ( 'no' === get_option( 'user_registration_ajax_form_submission_on_edit_profile', 'no' ) ) {
+			add_action( 'template_redirect', array( __CLASS__, 'save_profile_details' ) );
+		}
+
 		add_action( 'template_redirect', array( __CLASS__, 'save_change_password' ) );
 		add_action( 'wp_loaded', array( __CLASS__, 'process_login' ), 20 );
 		add_action( 'wp_loaded', array( __CLASS__, 'process_lost_password' ), 20 );
@@ -47,6 +51,7 @@ class UR_Form_Handler {
 	 * @return mixed
 	 */
 	public static function save_profile_details() {
+
 		if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
 			return;
 		}
@@ -60,6 +65,7 @@ class UR_Form_Handler {
 		if ( $user_id <= 0 ) {
 			return;
 		}
+
 		if ( has_action( 'uraf_profile_picture_buttons' ) ) {
 			if ( isset( $_POST['profile_pic_url'] ) && ! empty( $_POST['profile_pic_url'] ) ) {
 				update_user_meta( $user_id, 'user_registration_profile_pic_url', $_POST['profile_pic_url'] );
@@ -158,6 +164,15 @@ class UR_Form_Handler {
 				ur_add_notice( sprintf( __( '%s is a required field.', 'user-registration' ), $field['label'] ), 'error' );
 			}
 
+			if ( 'user_email' === $field['field_key'] ) {
+				do_action( 'user_registration_validate_email_whitelist', $_POST[ $key ], '' );
+
+				// Check if email already exists before updating user details.
+				if ( email_exists( $_POST[ $key ] ) === 1 ) {
+					ur_add_notice( __( 'Email already exists', 'user-registration' ), 'error' );
+				}
+			}
+
 			if ( ! empty( $_POST[ $key ] ) ) {
 
 				// Validation rules.
@@ -170,6 +185,7 @@ class UR_Form_Handler {
 								if ( ! is_email( $_POST[ $key ] ) ) {
 									ur_add_notice( sprintf( __( '%s is not a valid email address.', 'user-registration' ), '<strong>' . $field['label'] . '</strong>' ), 'error' );
 								}
+
 								break;
 						}
 					}
@@ -308,6 +324,16 @@ class UR_Form_Handler {
 	 */
 	public static function process_login() {
 
+		// Custom error messages.
+		$messages = array(
+			'username_is_required' => get_option( 'user_registration_message_username_required', __( 'Username is required.', 'user-registration' ) ),
+			'empty_password'       => get_option( 'user_registration_message_empty_password', null ),
+			'invalid_username'     => get_option( 'user_registration_message_invalid_username', null ),
+			'unknown_email'        => get_option( 'user_registration_message_unknown_email', __( 'A user could not be found with this email address.', 'user-registration' ) ),
+			'pending_approval'     => get_option( 'user_registration_message_pending_approval', null ),
+			'denied_access'        => get_option( 'user_registration_message_denied_account', null ),
+		);
+
 		$nonce_value     = isset( $_POST['_wpnonce'] ) ? $_POST['_wpnonce'] : '';
 		$nonce_value     = isset( $_POST['user-registration-login-nonce'] ) ? $_POST['user-registration-login-nonce'] : $nonce_value;
 		$recaptcha_value = isset( $_POST['g-recaptcha-response'] ) ? $_POST['g-recaptcha-response'] : '';
@@ -347,7 +373,7 @@ class UR_Form_Handler {
 				}
 
 				if ( empty( $username ) ) {
-					throw new Exception( '<strong>' . __( 'ERROR:', 'user-registration' ) . '</strong>' . __( 'Username is required.', 'user-registration' ) );
+					throw new Exception( '<strong>' . __( 'ERROR:', 'user-registration' ) . '</strong>' . $messages['username_is_required'] );
 				}
 
 				if ( is_email( $username ) && apply_filters( 'user_registration_get_username_from_email', true ) ) {
@@ -356,7 +382,7 @@ class UR_Form_Handler {
 					if ( isset( $user->user_login ) ) {
 						$creds['user_login'] = $user->user_login;
 					} else {
-						throw new Exception( '<strong>' . __( 'ERROR:', 'user-registration' ) . '</strong>' . __( 'A user could not be found with this email address.', 'user-registration' ) );
+						throw new Exception( '<strong>' . __( 'ERROR:', 'user-registration' ) . '</strong>' . $messages['unknown_email'] );
 					}
 				} else {
 					$creds['user_login'] = $username;
@@ -375,6 +401,20 @@ class UR_Form_Handler {
 				$user = wp_signon( apply_filters( 'user_registration_login_credentials', $creds ), is_ssl() );
 
 				if ( is_wp_error( $user ) ) {
+					// Set custom error messages.
+					if ( ! empty( $user->errors['empty_password'] ) && ! empty( $messages['empty_password'] ) ) {
+						$user->errors['empty_password'][0] = sprintf( '<strong>%s:</strong> %s', __( 'ERROR', 'user-registration' ), $messages['empty_password'] );
+					}
+					if ( ! empty( $user->errors['invalid_username'] ) && ! empty( $messages['invalid_username'] ) ) {
+						$user->errors['invalid_username'][0] = $messages['invalid_username'];
+					}
+					if ( ! empty( $user->errors['pending_approval'] ) && ! empty( $messages['pending_approval'] ) ) {
+						$user->errors['pending_approval'][0] = sprintf( '<strong>%s:</strong> %s', __( 'ERROR', 'user-registration' ), $messages['pending_approval'] );
+					}
+					if ( ! empty( $user->errors['denied_access'] ) && ! empty( $messages['denied_access'] ) ) {
+						$user->errors['denied_access'][0] = sprintf( '<strong>%s:</strong> %s', __( 'ERROR', 'user-registration' ), $messages['denied_access'] );
+					}
+
 					$message = $user->get_error_message();
 					$message = str_replace( '<strong>' . esc_html( $creds['user_login'] ) . '</strong>', '<strong>' . esc_html( $username ) . '</strong>', $message );
 					throw new Exception( $message );

@@ -31,6 +31,27 @@ class UR_Shortcode_My_Account {
 	}
 
 	/**
+	 * Determine whether the shortcode should be rendered or not.
+	 * For example: we don't need to render shortcode when a page containing this shortcode
+	 * is being edited by Elementor.
+	 *
+	 * @since 1.8.5
+	 *
+	 * @param mixed  $return Content to return. If returned false, the shortcode will be rendered.
+	 * @param string $tag Current shortocode tag.
+	 * @param array  $attr List of shortcode attributes
+	 * @param array  $matches List of matches obtained while doing regex for shortcodes.
+	 */
+	public static function pre_do_shortcode_tag( $return, $tag, $attr, $matches ) {
+		// Prevent shortcode rendering for Elementor.
+		if ( 'user_registration_my_account' === $tag && is_elementor_editing_page() ) {
+			$return = $matches[0];
+		}
+
+		return $return;
+	}
+
+	/**
 	 * Output the shortcode.
 	 *
 	 * @param array $atts
@@ -43,12 +64,10 @@ class UR_Shortcode_My_Account {
 
 		if ( ! is_user_logged_in() ) {
 
-			$recaptcha_enabled = get_option( 'user_registration_login_options_enable_recaptcha', 'no' );
-			$recaptcha_node    = ur_get_recaptcha_node( $recaptcha_enabled, 'login' );
-			$redirect_url      = isset( $atts['redirect_url'] ) ? trim( $atts['redirect_url'] ) : '';
+			$redirect_url = isset( $atts['redirect_url'] ) ? trim( $atts['redirect_url'] ) : '';
 			$redirect_url      = ( isset( $_GET['redirect_to'] ) && empty( $redirect_url ) ) ? esc_url( wp_unslash( $_GET['redirect_to'] ) ) : ''; // @codingStandardsIgnoreLine
-			$form_id           = isset( $atts['form_id'] ) ? absint( $atts['form_id'] ) : 0;
-			$message           = apply_filters( 'user_registration_my_account_message', '' );
+			$form_id      = isset( $atts['form_id'] ) ? absint( $atts['form_id'] ) : 0;
+			$message      = apply_filters( 'user_registration_my_account_message', '' );
 
 			if ( ! empty( $message ) ) {
 				ur_add_notice( $message );
@@ -62,6 +81,8 @@ class UR_Shortcode_My_Account {
 			if ( isset( $wp->query_vars['ur-lost-password'] ) ) {
 				self::lost_password();
 			} else {
+				$recaptcha_enabled = get_option( 'user_registration_login_options_enable_recaptcha', 'no' );
+				$recaptcha_node    = ur_get_recaptcha_node( $recaptcha_enabled, 'login' );
 				ob_start();
 
 				ur_get_template(
@@ -100,6 +121,7 @@ class UR_Shortcode_My_Account {
 
 			if ( ! empty( $form_id ) ) {
 
+				do_action( 'user_registration_my_account_enqueue_scripts', array(), $form_id );
 				$has_date = ur_has_date_field( $form_id );
 
 				if ( true === $has_date ) {
