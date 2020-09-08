@@ -22,6 +22,16 @@ function turn_spread($turntype, $addedturns) {
     update_user_meta($userId, 'turn_spread', maybe_serialize($turnSpread));
 }
 
+/**
+ * Make sure (normal) users cannot see other users' posts and events via de wp-link plugin in wp-editor
+ */
+function wpq_link_query( $results, $query ) {
+    if($_POST['action'] == 'wp-link-ajax' && !CurrentUser::make()->isAdmin()) $results = array();
+    return $results;
+}
+
+add_filter('wp_link_query', 'wpq_link_query', 10, 2);
+
 function get_user_ip_address() {
     return Request::getIpAddress();
 }

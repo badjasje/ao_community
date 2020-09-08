@@ -208,6 +208,13 @@ class CurrentUser extends User {
     }
 
     /**
+     * https://stackoverflow.com/questions/4117555/simplest-way-to-detect-a-mobile-device-in-php
+     */
+    public function isMobile() {
+        return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+    }
+
+    /**
      * @todo: these huge data-array's should be stored elsewhere
      */
     public function isMulti($ip_array=false) {
@@ -235,6 +242,10 @@ class CurrentUser extends User {
         }
         if($my_user->get('multi_whitelist') == 1) {
             if(isset($_GET['checkmulti'])) { die('Whitelisted: not a multi'); }
+            return false;
+        }
+        if($this->isMobile()) {
+            if(isset($_GET['checkmulti'])) { die('Mobile user is much too often a false positive'); }
             return false;
         }
         $my_ip = Request::getIpAddress();

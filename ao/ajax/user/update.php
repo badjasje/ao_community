@@ -9,8 +9,11 @@ function ajax_update($province, $return) {
         return array('status' => 'Please use another playername');
     }
     if(!empty($playername)) $playername = trim(preg_replace('/[^A-Za-z0-9\- ]/', '', $playername));
-    if(empty($playername)) {
-        return array('status' => 'Invalid player name');
+    if(strlen($playername) > 32) {
+        return array('status' => 'Playername too long');
+    }
+    if(strlen($playername) < 3) {
+        return array('status' => 'Playername too short');
     }
 
     $email = Request::post('email');
