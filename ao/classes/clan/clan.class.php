@@ -231,7 +231,7 @@ class Clan extends PostObject {
         // Find peace time
         $peacetime = 0;
         $resume_time = Settings::get('resume_after_hours');
-        $eventposts = get_posts(array('numberposts' => 1, 'post_title' => 'PEACE', 'post_status' => 'publish', 'post_type' => 'event_local',
+        $eventposts = get_posts(array('numberposts' => 1, 'title' => 'PEACE', 'post_status' => 'publish', 'post_type' => 'event_local',
             'meta_query' => array('relation' => 'AND',
                 array('key' => 'attacker_clan_id', 'value' => $viewer_clan_id),
                 array('key' => 'defender_clan_id', 'value' => $this->get('id')),
