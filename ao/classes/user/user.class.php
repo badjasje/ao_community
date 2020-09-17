@@ -209,7 +209,13 @@ class User extends DbObject {
         if($wp_query->have_posts()) {
             foreach($wp_query->get_posts() as $post) {
                 $post->category = $category;
-                $events[] = new Event($post);
+                $event = new Event($post);
+                $attacker_id = $event->get('attacker_id');
+                $defender_id = $event->get('defender_id');
+                if(!empty($attacker_id) && !empty($defender_id)){
+                    if($defender_id == $this->get('id') && Province::make($attacker_id)->isShadowBanned()) continue;
+                }
+                $events[] = $event;
             }
         }
 

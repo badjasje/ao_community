@@ -66,7 +66,9 @@ $satMorale = $defenderData['sat_morale'][0];
 if($satMorale >= 20 && $power < 100){
 	if($defSat == 'amssat'){
 		$shotdown = true;
-		update_user_meta($target_id, 'sat_morale', $satMorale-20);
+		if(!$attacker->isShadowBanned()) {
+			update_user_meta($target_id, 'sat_morale', $satMorale-20);
+		}
 	}
 }
 
@@ -237,10 +239,10 @@ if($result == 'success') {
 				$units_lost = round($damage / $units[$key]['life']);
 				if ($units_lost > 0) {
 					if ($def_units_owned < $units_lost) {
-						update_user_meta($target_id, $key . '_owned', 0);
+						if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key . '_owned', 0);
 						$defender_lost[] = array('type' => 'unit', $key => $def_units_owned);
 					} else {
-						update_user_meta($target_id, $key . '_owned', $def_units_owned - $units_lost);
+						if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key . '_owned', $def_units_owned - $units_lost);
 						$defender_lost[] = array('type' => 'unit', $key => $units_lost);
 					}
 				}
@@ -264,10 +266,10 @@ if($result == 'success') {
 				$units_lost = round($damage / $units[$key]['life']);
 				if ($units_lost > 0) {
 					if ($def_units_owned < $units_lost) {
-						update_user_meta($target_id, $key . '_owned', 0);
+						if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key . '_owned', 0);
 						$defender_lost[] = array('type' => 'unit', $key => $def_units_owned);
 					} else {
-						update_user_meta($target_id, $key . '_owned', $def_units_owned - $units_lost);
+						if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key . '_owned', $def_units_owned - $units_lost);
 						$defender_lost[] = array('type' => 'unit', $key => $units_lost);
 					}
 				}
@@ -292,10 +294,10 @@ if($result == 'success') {
 
 				if ($units_lost > 0) {
 					if ($def_units_owned < $units_lost) {
-						update_user_meta($target_id, $key . '_owned', 0);
+						if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key . '_owned', 0);
 						$defender_lost[] = array('type' => 'unit', $key => $def_units_owned);
 					} else {
-						update_user_meta($target_id, $key . '_owned', $def_units_owned - $units_lost);
+						if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key . '_owned', $def_units_owned - $units_lost);
 						$defender_lost[] = array('type' => 'unit', $key => $units_lost);
 					}
 				}
@@ -320,10 +322,10 @@ if($result == 'success') {
 
 				if ($units_lost > 0) {
 					if ($def_units_owned < $units_lost) {
-						update_user_meta($target_id, $key . '_owned', 0);
+						if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key . '_owned', 0);
 						$defender_lost[] = array('type' => 'unit', $key => $def_units_owned);
 					} else {
-						update_user_meta($target_id, $key . '_owned', $def_units_owned - $units_lost);
+						if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key . '_owned', $def_units_owned - $units_lost);
 						$defender_lost[] = array('type' => 'unit', $key => $units_lost);
 					}
 				}
@@ -355,10 +357,10 @@ if($result == 'success') {
 			$buildings_lost = round($damage / ($building['life']*$defensive_multi));
 			if ($buildings_lost > 0) {
 				if ($def_bld_owned < $buildings_lost) {
-					update_user_meta($target_id, $key, 0);
+					if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key, 0);
 					$defender_lost[] = array('type' => 'bld', $key => $def_bld_owned);
 				} else {
-					update_user_meta($target_id, $key, $def_bld_owned - $buildings_lost);
+					if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key, $def_bld_owned - $buildings_lost);
 					$defender_lost[] = array('type' => 'bld', $key => $buildings_lost);
 				}
 			}
@@ -386,8 +388,10 @@ $missiles_launched = $attackerData['missiles_launched'][0];
 update_user_meta($userId, 'missiles_launched', $missiles_launched+1);
 
 // defender
-$missiles_received = $defenderData['missiles_received'][0];
-update_user_meta($target_id, 'missiles_received', $missiles_received+1);
+if(!$attacker->isShadowBanned()) {
+	$missiles_received = $defenderData['missiles_received'][0];
+	update_user_meta($target_id, 'missiles_received', $missiles_received+1);
+}
 
 if($result == 'success'){
 	/* add stats */
@@ -397,8 +401,10 @@ if($result == 'success'){
 	update_user_meta($userId, 'missiles_hit', $missiles_hit+1);
 
 	// defender
-	$missiles_hit_rec = $attackerData['missiles_hit_rec'][0];
-	update_user_meta($target_id, 'missiles_hit_rec', $missiles_hit_rec+1);
+	if(!$attacker->isShadowBanned()) {
+		$missiles_hit_rec = $attackerData['missiles_hit_rec'][0];
+		update_user_meta($target_id, 'missiles_hit_rec', $missiles_hit_rec+1);
+	}
 
 	foreach ($units as $unitkey => $order) {
 		foreach ($def_unitslost as $key => $def_unitlost) {
@@ -439,13 +445,14 @@ $money_stolen = 0;
 
 $killed = false;
 if($result == 'success'){
-
-	if ($def_lostbuildings_tot >= $_total_bld_def) {
-		$killed = true;
-		update_user_meta($target_id, 'status', 'dead');
-		update_user_meta($target_id, 'networth', 0);
-		update_user_meta($target_id, 'land', 0);
-		after_death($target_id);
+	if(!$attacker->isShadowBanned()) {
+		if ($def_lostbuildings_tot >= $_total_bld_def) {
+			$killed = true;
+			update_user_meta($target_id, 'status', 'dead');
+			update_user_meta($target_id, 'networth', 0);
+			update_user_meta($target_id, 'land', 0);
+			after_death($target_id);
+		}
 	}
 }
 
@@ -497,6 +504,7 @@ if($war_type != 'none' && $result == 'success') {
 		// Jaap, points based on difference between clanpoints totals
 		$clan_points = scaled_points_to_clanpoints($clan_points, $userId, $target_id);
 	}
+	if($attacker->isShadowBanned()) $clan_points = 0;
 
 	if($debug) debug_var('Clan points', $clan_points);
 }
@@ -523,8 +531,10 @@ if($result == 'success'):
 	update_user_meta($userId, 'nw_damage_missiles', $nw_damage_missiles+$def_NW_lost);
 
 	//defender
-	$nw_damage_missiles_rec = $defenderData['nw_damage_missiles_rec'][0];
-	update_user_meta($target_id, 'nw_damage_missiles_rec', $nw_damage_missiles_rec+$def_NW_lost);
+	if(!$attacker->isShadowBanned()) {
+		$nw_damage_missiles_rec = $defenderData['nw_damage_missiles_rec'][0];
+		update_user_meta($target_id, 'nw_damage_missiles_rec', $nw_damage_missiles_rec+$def_NW_lost);
+	}
 	?>
 	<div class="blockHeader">Your missile hit the base of <?php echo get_user_name($target_id);?>
 	<?php if ($killed == true):?>
@@ -673,8 +683,9 @@ if($killed == true){
 
 update_user_meta($userId,'turns',$turns-3);
 turn_spread('regular_missile',3);
-update_user_meta($target_id, 'new_events', $defenderData['new_events'][0]+1);
-
+if(!$attacker->isShadowBanned()) {
+	update_user_meta($target_id, 'new_events', $defenderData['new_events'][0]+1);
+}
 $user_pts = $attackerData['user_clan_points'][0];
 update_user_meta($userId,'user_clan_points',$user_pts+$clan_points);
 
@@ -685,13 +696,15 @@ $userAttPts = $attackerData['current_clan_points'][0];
 update_user_meta($userId, 'current_clan_points', $userAttPts+$clan_points);
 
 /* Add globals to defender */
-$clan = $defender_clan_ID;
-$clan_members = get_post_meta($clan,'clan_members');
+if(!$attacker->isShadowBanned()) {
+	$clan = $defender_clan_ID;
+	$clan_members = get_post_meta($clan,'clan_members');
 
-if(!empty($clan) || $clan != 0){
-	foreach ($clan_members[0] as $member) {
-		$globals = get_user_meta($member, 'new_global_events', true);
-		update_user_meta($member, 'new_global_events', $globals+1);
+	if(!empty($clan) || $clan != 0){
+		foreach ($clan_members[0] as $member) {
+			$globals = get_user_meta($member, 'new_global_events', true);
+			update_user_meta($member, 'new_global_events', $globals+1);
+		}
 	}
 }
 

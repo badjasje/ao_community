@@ -26,6 +26,7 @@ global $userId;
 global $userData;
 $attackerData = $userData;
 $defenderData = get_user_meta($target_id);
+$attacker = CurrentUser::make()->getProvince();
 $defender = Province::make($target_id);
 
 // LOCK

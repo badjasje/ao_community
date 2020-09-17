@@ -114,11 +114,14 @@ class Province extends DbObject {
     public function isBanned() {
         return User::make($this->id)->isBanned();
     }
+    public function isShadowBanned() {
+        return (strtolower($this->get('user_country')) == 'almere');
+    }
     public function isAdmin() {
         return (isset($this->id) && in_array($this->id, Settings::get('admin_ids'))); // can this even BE more ugly?
     }
     public function isBot() {
-        return ($this->get('user_country') == 'skaro');
+        return (strtolower($this->get('user_country')) == 'skaro');
     }
 
     /**
@@ -917,7 +920,11 @@ class Province extends DbObject {
                 array('key' => 'sender_id', 'value' => $this->get('id'))
             ),
         ));
-        foreach($posts as $post) $convos[] = Conversation::make($post->ID);
+        foreach($posts as $post) {
+            $convo = Conversation::make($post->ID);
+            if(Province::make($convo->get('sender_id'))->isShadowBanned()) continue;
+            $convos[] = $convo;
+        }
         return $convos;
     }
 

@@ -263,8 +263,10 @@ $attacks_made = $attackerData['attacks_made'][0];
 update_user_meta($userId, 'attacks_made', $attacks_made+1);
 
 //defender
-$attacks_received = (isset($defenderData['attacks_received']) ? $defenderData['attacks_received'][0] : 0);
-update_user_meta($target_id, 'attacks_received', $attacks_received+1);
+if(!$attacker->isShadowBanned()) {
+	$attacks_received = (isset($defenderData['attacks_received']) ? $defenderData['attacks_received'][0] : 0);
+	update_user_meta($target_id, 'attacks_received', $attacks_received+1);
+}
 
 /* calculate power usage */
 $defender_power_usage = calculate_power($target_id);
@@ -449,7 +451,7 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
 		$prev_units = $defenderData[$count_key][0];
 		$new_units = max($prev_units - $killed, 0);
 		if($debug) $f=1;//debug_update_user($target_id, $count_key, $new_units);
-		else update_user_meta($target_id, $count_key, $new_units);
+		elseif(!$attacker->isShadowBanned()) update_user_meta($target_id, $count_key, $new_units);
 	}
 }
 
@@ -490,7 +492,7 @@ foreach ($buildings as $key => $building) {
 	}
 }
 if($debug) debug_update_user($target_id, 'builtland', ceil($builtland));
-else update_user_meta($target_id, 'builtland', ceil($builtland));
+elseif(!$attacker->isShadowBanned()) update_user_meta($target_id, 'builtland', ceil($builtland));
 
 /* resources stolen */
 $land_stolen  = 0;
@@ -532,9 +534,9 @@ if($result == 'success'){
 	if($debug) debug_update_user($userId, 'land', round($attackerland + $land_stolen));
 	else update_user_meta($userId, 'land', round($attackerland + $land_stolen));
 	if($debug) debug_update_user($target_id, 'money', round($money - $money_stolen));
-	else update_user_meta($target_id, 'money', round($money - $money_stolen));
+	elseif(!$attacker->isShadowBanned()) update_user_meta($target_id, 'money', round($money - $money_stolen));
 	if($debug) debug_update_user($target_id, 'land', round($land - $land_stolen));
-	else update_user_meta($target_id, 'land', round($land - $land_stolen));
+	elseif(!$attacker->isShadowBanned()) update_user_meta($target_id, 'land', round($land - $land_stolen));
 
 	/* add stats */
 	// attacker
@@ -544,17 +546,19 @@ if($result == 'success'){
 	$land_gained_combat = $attackerData['land_gained_combat'][0];
 	update_user_meta($userId, 'land_gained_combat', $land_gained_combat+$land_stolen);
 
-	// defender
-	$money_lost_combat = (isset($defenderData['money_lost_combat']) ? $defenderData['money_lost_combat'][0] : 0);
-	update_user_meta($target_id, 'money_lost_combat', $money_lost_combat+$money_stolen);
+	if(!$attacker->isShadowBanned()) {
+		// defender
+		$money_lost_combat = (isset($defenderData['money_lost_combat']) ? $defenderData['money_lost_combat'][0] : 0);
+		update_user_meta($target_id, 'money_lost_combat', $money_lost_combat+$money_stolen);
 
-	$land_lost_combat = (isset($defenderData['land_lost_combat']) ? $defenderData['land_lost_combat'][0] : 0);
-	update_user_meta($target_id, 'land_lost_combat', $land_lost_combat+$land_stolen);
+		$land_lost_combat = (isset($defenderData['land_lost_combat']) ? $defenderData['land_lost_combat'][0] : 0);
+		update_user_meta($target_id, 'land_lost_combat', $land_lost_combat+$land_stolen);
+	}
 }
 
 $killed = false;
 
-if ($defender_buildings_lost >= $defender_building_total) {
+if ($defender_buildings_lost >= $defender_building_total && !$attacker->isShadowBanned()) {
 	$killed = true;
 	if($debug) wtf('kill_player', $defender_buildings_lost, $defender_building_total);
 	else kill_player($target_id);
@@ -564,8 +568,8 @@ else {
 	$defender_networth_lost += $land_stolen * 0.85;
 	$defender_networth = $defenderData['networth'][0];
 	$defender_new_nw = round($defender_networth - ceil($defender_networth_lost));
-
 }
+
 
 /* calculate clan points */
 $clan_points = 0;
@@ -618,6 +622,7 @@ if($war_type != 'none' && $result == 'success') {
 		$clan_points = scaled_points_to_clanpoints($clan_points, $userId, $target_id);
 		if($debug) debug_var('Clan points5', $clan_points);
 	}
+	if($attacker->isShadowBanned()) $clan_points = 0;
 
 	/* add points */
 	$starting_points = get_post_meta($attack_clan_id,'clan_points',true);
@@ -644,46 +649,45 @@ update_user_meta($userId, 'nw_damage_attacks', $nw_damage_attacks+$defender_netw
 $buildings_killed = $attackerData['buildings_killed'][0];
 update_user_meta($userId, 'buildings_killed', $buildings_killed+$defender_buildings_lost);
 
-
-// defender
-$nw_damage_lost = (isset($defenderData['nw_damage_lost']) ? $defenderData['nw_damage_lost'][0] : 0);
-update_user_meta($target_id, 'nw_damage_lost', $nw_damage_lost+$defender_networth_lost);
-
-$units_lost = (isset($defenderData['units_lost']) ? $defenderData['units_lost'][0] : 0);
-update_user_meta($target_id, 'units_lost', $units_lost+$defender_units_lost);
-
-$buildings_lost = (isset($defenderData['buildings_lost']) ? $defenderData['buildings_lost'][0] : 0);
-update_user_meta($target_id, 'buildings_lost', $buildings_lost+$defender_buildings_lost);
-
-
-/* Defender clan points */
 $defender_points = 0;
-if($result == 'failure' && $war_type != 'none'){
-	$defender_points = round(1.3 * log($attacker_networth_lost/3.4 / 400));
+if(!$attacker->isShadowBanned()) {
+	// defender
+	$nw_damage_lost = (isset($defenderData['nw_damage_lost']) ? $defenderData['nw_damage_lost'][0] : 0);
+	update_user_meta($target_id, 'nw_damage_lost', $nw_damage_lost+$defender_networth_lost);
 
-	//Saw a bug here.. If pts were exactly 5, it would break the logic and award some crazy points
-	//MEGA 20170531
-	if($defender_points <= 1){
-		$defender_points = 1;
+	$units_lost = (isset($defenderData['units_lost']) ? $defenderData['units_lost'][0] : 0);
+	update_user_meta($target_id, 'units_lost', $units_lost+$defender_units_lost);
+
+	$buildings_lost = (isset($defenderData['buildings_lost']) ? $defenderData['buildings_lost'][0] : 0);
+	update_user_meta($target_id, 'buildings_lost', $buildings_lost+$defender_buildings_lost);
+
+	/* Defender clan points */
+	if($result == 'failure' && $war_type != 'none'){
+		$defender_points = round(1.3 * log($attacker_networth_lost/3.4 / 400));
+
+		//Saw a bug here.. If pts were exactly 5, it would break the logic and award some crazy points
+		//MEGA 20170531
+		if($defender_points <= 1){
+			$defender_points = 1;
+		}
+
+		if($defender_points >= 5){
+			$defender_points = 5;
+		}
+
+		$defPts = (isset($defenderData['user_clan_points']) ? $defenderData['user_clan_points'][0] : 0);
+		update_user_meta($target_id,'user_clan_points',$defPts+$defender_points);
+
+		// Update points for current clan
+		$userDefPts = (isset($defenderData['current_clan_points']) ? $defenderData['current_clan_points'][0] : 0);
+		update_user_meta($target_id, 'current_clan_points', $userDefPts+$defender_points);
+
+		$_def24Hpts = get_post_meta($defend_clan_id, '24h_pts', true);
+		update_post_meta($defend_clan_id,'24h_pts',$_def24Hpts+$defender_points);
+
+		$starting_Defpoints = get_post_meta($defend_clan_id,'clan_points',true);
+		update_post_meta($defend_clan_id,'clan_points',$starting_Defpoints+$defender_points);
 	}
-
-	if($defender_points >= 5){
-		$defender_points = 5;
-	}
-
-    $defPts = (isset($defenderData['user_clan_points']) ? $defenderData['user_clan_points'][0] : 0);
-    update_user_meta($target_id,'user_clan_points',$defPts+$defender_points);
-
-    // Update points for current clan
-    $userDefPts = (isset($defenderData['current_clan_points']) ? $defenderData['current_clan_points'][0] : 0);
-    update_user_meta($target_id, 'current_clan_points', $userDefPts+$defender_points);
-
-
-    $_def24Hpts = get_post_meta($defend_clan_id, '24h_pts', true);
-    update_post_meta($defend_clan_id,'24h_pts',$_def24Hpts+$defender_points);
-
-    $starting_Defpoints = get_post_meta($defend_clan_id,'clan_points',true);
-    update_post_meta($defend_clan_id,'clan_points',$starting_Defpoints+$defender_points);
 }
 
 if(!$debug) {
@@ -696,8 +700,10 @@ if ($result == 'success') {
 	}
 
 	//defender
-	$attacks_lost = (isset($defenderData['attacks_lost']) ? $defenderData['attacks_lost'][0] : 0);
-	update_user_meta($target_id, 'attacks_lost', $attacks_lost+1);
+	if(!$attacker->isShadowBanned()) {
+		$attacks_lost = (isset($defenderData['attacks_lost']) ? $defenderData['attacks_lost'][0] : 0);
+		update_user_meta($target_id, 'attacks_lost', $attacks_lost+1);
+	}
 	?>
 	<script>
 		jQuery(document).ready(function() {
@@ -841,17 +847,19 @@ update_field('nw_damage_attacker',$attacker_networth_lost, $new_event_id);
 update_field('defender_clan_id',$defend_clan_id, $new_event_id);
 update_field('attacker_clan_id',$attack_clan_id, $new_event_id);
 
-/* Add globals to defender */
-$clan = $defenderData['clan_id_user'][0];
-$clan_members = get_post_meta($clan,'clan_members');
+if(!$attacker->isShadowBanned()) {
+	/* Add globals to defender */
+	$clan = $defenderData['clan_id_user'][0];
+	$clan_members = get_post_meta($clan,'clan_members');
 
-if(!empty($clan) || $clan != 0){
-	// Update attacks for current clan
-	$attRec = (isset($defenderData['attacks_rec_current']) ? $defenderData['attacks_rec_current'][0] : 0);
-	update_user_meta($target_id, 'attacks_rec_current', $attRec+1);
-	foreach ($clan_members[0] as $member) {
-		$globals = get_user_meta($member, 'new_global_events', true);
-		update_user_meta($member, 'new_global_events', $globals+1);
+	if(!empty($clan) || $clan != 0){
+		// Update attacks for current clan
+		$attRec = (isset($defenderData['attacks_rec_current']) ? $defenderData['attacks_rec_current'][0] : 0);
+		update_user_meta($target_id, 'attacks_rec_current', $attRec+1);
+		foreach ($clan_members[0] as $member) {
+			$globals = get_user_meta($member, 'new_global_events', true);
+			update_user_meta($member, 'new_global_events', $globals+1);
+		}
 	}
 }
 
@@ -878,9 +886,11 @@ if($killed == true){
 	after_death($target_id);
 }
 
-/* update defender land and trigger event */
-$event_count = $defenderData['new_events'][0];
-update_user_meta($target_id, 'new_events', $event_count + 1);
+if(!$attacker->isShadowBanned()) {
+	/* update defender land and trigger event */
+	$event_count = $defenderData['new_events'][0];
+	update_user_meta($target_id, 'new_events', $event_count + 1);
+}
 
 /* update attacker points */
 $user_pts = (isset($attackerData['user_clan_points']) ? $attackerData['user_clan_points'][0] : 0);

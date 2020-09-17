@@ -55,10 +55,10 @@ if ($result == 'success') {
 	$silo1Status = get_user_meta($target_id, 'silo_disable_1', true);
 	if($silos >= 1) {
 		if($silo1Status == '' || $silo1Status == 'inactive') {
-			update_user_meta($target_id, 'silo_disable_1', 'active');
+			if(!$attacker->isShadowBanned()) update_user_meta($target_id, 'silo_disable_1', 'active');
 		} else {
 			if($silos >= 2 && $missileLevel < 3) {
-				update_user_meta($target_id, 'silo_disable_2', 'active');
+				if(!$attacker->isShadowBanned()) update_user_meta($target_id, 'silo_disable_2', 'active');
 			}
 		}
 	}

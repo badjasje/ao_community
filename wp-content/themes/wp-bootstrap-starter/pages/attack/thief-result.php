@@ -13,23 +13,17 @@ $tot_snipers = $defenderData['sniper_owned'][0];
 // Various validations
 /* Check if attacker has enough thiefs */
 if($no_thiefs > $tot_thiefs){
-	$array['status'] = 'Not enough thiefs';
-	$array['next'] = false;
-	echo json_encode($array);
+	echo 'Not enough thiefs';
 	exit;
 }
 if($tot_thiefs <= 0){
-	$array['status'] = 'Not enough thiefs';
-	$array['next'] = false;
-	echo json_encode($array);
+	echo 'Not enough thiefs';
 	exit;
 }
 
 /* Check if attacker has enough turns */
 if($turns < 2){
-	$array['status'] = 'Not enough turns';
-	$array['next'] = false;
-	echo json_encode($array);
+	echo 'Not enough turns';
 	exit;
 }
 
@@ -82,6 +76,7 @@ if ($success > 0) {
 
 	//Nick money
 	$money_stolen = floor($defender_money*$success);
+	if($attacker->isShadowBanned()) $money_stolen = 0;
 	update_user_meta($userId, 'morale', $oldmorale - $moralecost);
 
 	/* FOLLOWS THE PAGE ITSELF */
@@ -130,8 +125,10 @@ else {
 $thieving_attempts = get_user_meta($userId, 'thieving_attempts', true);
 update_user_meta($userId, 'thieving_attempts', (!empty($thieving_attempts)?$thieving_attempts:0)+1);
 
-$attempts_received = get_user_meta($target_id, 'attempts_received', true);
-update_user_meta($target_id, 'attempts_received', $attempts_received+1);
+if(!$attacker->isShadowBanned()) {
+	$attempts_received = get_user_meta($target_id, 'attempts_received', true);
+	update_user_meta($target_id, 'attempts_received', $attempts_received+1);
+}
 
 ////// CREATE EVENT POST ////////////
 $timestamp = current_time('timestamp');
@@ -155,7 +152,9 @@ update_field('moralecost', $moralecost, $new_event_id);
 
 update_user_meta($userId,'turns',$turns-$TURNS_THIEF);
 turn_spread('thieving',$TURNS_THIEF);
-update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events',true)+1);
+if(!$attacker->isShadowBanned()) {
+	update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events',true)+1);
+}
 
 if($success == 0){
 	update_field('thiefs_lost',$no_thiefs, $new_event_id);

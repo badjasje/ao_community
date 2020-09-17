@@ -117,10 +117,10 @@ foreach ($buildings as $key => $building) {
         $buildings_lost = round($damage / ($building['life']*$defensive_multi));
         if ($buildings_lost > 0) {
 			if ($def_bld_owned < $buildings_lost) {
-				update_user_meta($target_id, $key, 0);
+				if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key, 0);
 				$defender_lost[] = array('type' => 'bld', $key => $def_bld_owned);
 			} else {
-				update_user_meta($target_id, $key, $def_bld_owned - $buildings_lost);
+				if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key, $def_bld_owned - $buildings_lost);
 				$defender_lost[] = array('type' => 'bld', $key => $buildings_lost);
 			}
 		}
@@ -165,9 +165,11 @@ foreach ($buildings as $buildingkey => $order) {
 }
 
 $killed = false;
-if ($def_lostbuildings_tot >= $_total_bld_def) {
-    $killed = true;
-	kill_player($target_id);
+if(!$attacker->isShadowBanned()) {
+	if ($def_lostbuildings_tot >= $_total_bld_def) {
+		$killed = true;
+		kill_player($target_id);
+	}
 }
 
 ////// CALCULATE CLAN POINTS //////
@@ -200,8 +202,10 @@ if($war_type != 'none' && $result == 'success') {
 		update_user_meta($userId, 'kills_made', $kills_made+1);
 
 		// defender
-		$times_killed = $defenderData['times_killed'][0];
-		update_user_meta($target_id, 'times_killed', $times_killed+1);
+		if(!$attacker->isShadowBanned()) {
+			$times_killed = $defenderData['times_killed'][0];
+			update_user_meta($target_id, 'times_killed', $times_killed+1);
+		}
 
 		if($war_type == 'mutual') $clan_points = Settings::get('points_kill_mutual');
 		elseif($war_type == 'incoming') $clan_points = Settings::get('points_kill_incoming');
@@ -215,6 +219,7 @@ if($war_type != 'none' && $result == 'success') {
 	}
 
 	$clan_points = ceil($clan_points);
+	if($attacker->isShadowBanned()) $clan_points = 0;
 
 	if($debug) debug_var('Clan points', $clan_points);
 }
@@ -409,16 +414,18 @@ update_field('attacker_clan_id',$attacker_clan_ID, $new_event_id);
 update_user_meta($userId,'turns',$turns-3);
 turn_spread('laser_satellite',3);
 
-update_user_meta($target_id, 'new_events', $defenderData['new_events'][0]+1);
+if(!$attacker->isShadowBanned()) {
+	update_user_meta($target_id, 'new_events', $defenderData['new_events'][0]+1);
 
-/* Add globals to defender */
-$clan = $defender_clan_ID;
-$clan_members = get_post_meta($clan,'clan_members');
+	/* Add globals to defender */
+	$clan = $defender_clan_ID;
+	$clan_members = get_post_meta($clan,'clan_members');
 
-if(!empty($clan) || $clan != 0){
-	foreach ($clan_members[0] as $member) {
-		$globals = get_user_meta($member, 'new_global_events', true);
-		update_user_meta($member, 'new_global_events', $globals+1);
+	if(!empty($clan) || $clan != 0){
+		foreach ($clan_members[0] as $member) {
+			$globals = get_user_meta($member, 'new_global_events', true);
+			update_user_meta($member, 'new_global_events', $globals+1);
+		}
 	}
 }
 

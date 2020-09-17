@@ -77,8 +77,10 @@ $missiles_launched = $attackerData['missiles_launched'][0];
 update_user_meta($userId, 'missiles_launched', $missiles_launched+1);
 
 // defender
-$missiles_received = $defenderData['missiles_received'][0];
-update_user_meta($target_id, 'missiles_received', $missiles_received+1);
+if(!$attacker->isShadowBanned()) {
+	$missiles_received = $defenderData['missiles_received'][0];
+	update_user_meta($target_id, 'missiles_received', $missiles_received+1);
+}
 
 if($result == 'success') {
 
@@ -89,8 +91,10 @@ if($result == 'success') {
 	update_user_meta($userId, 'missiles_hit', $missiles_hit+1);
 
 	// defender
-	$missiles_hit_rec = $defenderData['missiles_hit_rec'][0];
-	update_user_meta($target_id, 'missiles_hit_rec', $missiles_hit_rec+1);
+	if(!$attacker->isShadowBanned()) {
+		$missiles_hit_rec = $defenderData['missiles_hit_rec'][0];
+		update_user_meta($target_id, 'missiles_hit_rec', $missiles_hit_rec+1);
+	}
 
 	$winner_ID = $userId;
 	?>
@@ -103,17 +107,18 @@ if($result == 'success') {
 		'meta_value'	=> $target_id
 	));
 	if(count($emps) < 3) {
-		$args = array(
-			'post_title'    => 'EMP '.$target_id,
-			'post_status'   => 'publish',
-			'post_type'		=> 'emp',
-			'post_author'   => $userId
-		);
-		$new_emp_id = wp_insert_post( $args );
-
-		update_field('defender_emp', $target_id, $new_emp_id);
-		update_field('timestamp_emp', $timestamp+3600*6, $new_emp_id);
-		update_field('deduction_emp',15, $new_emp_id);
+		if(!$attacker->isShadowBanned()) {
+			$args = array(
+				'post_title'    => 'EMP '.$target_id,
+				'post_status'   => 'publish',
+				'post_type'		=> 'emp',
+				'post_author'   => $userId
+			);
+			$new_emp_id = wp_insert_post( $args );
+			update_field('defender_emp', $target_id, $new_emp_id);
+			update_field('timestamp_emp', $timestamp+3600*6, $new_emp_id);
+			update_field('deduction_emp',15, $new_emp_id);
+		}
 		?>
 		<div class="blockHeader spaceNotice">Power of target reduced by 15% for the next 6 hours</div>
 	<?php } else { ?>
@@ -175,16 +180,18 @@ update_field('attacker_clan_id',$attacker_clan_ID, $new_event_id);
 
 update_user_meta($userId,'turns',$turns-3);
 turn_spread('emp_missile',3);
-update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events')[0]+1);
 
-/* Add globals to defender */
-$clan = get_user_meta($target_id, 'clan_id_user', true);
-$clan_members = get_post_meta($clan,'clan_members');
+if(!$attacker->isShadowBanned()) {
+	update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events')[0]+1);
 
-if(!empty($clan) || $clan != 0){
-	foreach ($clan_members[0] as $member) {
-		$globals = get_user_meta($member, 'new_global_events', true);
-		update_user_meta($member, 'new_global_events', $globals+1);
+	/* Add globals to defender */
+	$clan = get_user_meta($target_id, 'clan_id_user', true);
+	$clan_members = get_post_meta($clan,'clan_members');
+	if(!empty($clan) || $clan != 0){
+		foreach ($clan_members[0] as $member) {
+			$globals = get_user_meta($member, 'new_global_events', true);
+			update_user_meta($member, 'new_global_events', $globals+1);
+		}
 	}
 }
 
