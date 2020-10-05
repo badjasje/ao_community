@@ -36,7 +36,8 @@ class Conversation extends PostObject {
             'field_5d9217a58552c' => $timestamp,
         );
         add_row('field_5b5ef246154f0', $row, $this->get('id'));
-        if(!$this->hasProfanity($to)) {
+        $sender = Province::make($from);
+        if(!$this->hasProfanity($to) && !$sender->isShadowBanned()) {
             $receiver = Province::make($to);
             $receiver->update('new_messages', $receiver->get('new_messages')+1);
             $receiver->notify('message', $from);

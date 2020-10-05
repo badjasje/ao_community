@@ -64,12 +64,12 @@ $spy_life = $units['spy']['life']*$defender_spies;
 $sniper_life = ($units['sniper']['life']-50)*$defender_snipers;
 $saboteur_life = ($units['saboteur']['life'])*$defender_saboteurs;
 
-$tot_life = $thief_life+$spy_life+$sniper_life+$saboteur_life;
+$tot_life = 0+$thief_life+$spy_life+$sniper_life+$saboteur_life;
 
-$spy_damage = $tot_sniper_attackpower*($spy_life/$tot_life);
-$thief_damage = $tot_sniper_attackpower*($thief_life/$tot_life);
-$sniper_damage = $tot_sniper_attackpower*($sniper_life/$tot_life);
-$saboteur_damage = $tot_sniper_attackpower*($saboteur_life/$tot_life);
+$spy_damage = ($tot_life > 0 ? $tot_sniper_attackpower*($spy_life/$tot_life) : 0);
+$thief_damage = ($tot_life > 0 ? $tot_sniper_attackpower*($thief_life/$tot_life) : 0);
+$sniper_damage = ($tot_life > 0 ? $tot_sniper_attackpower*($sniper_life/$tot_life) : 0);
+$saboteur_damage = ($tot_life > 0 ? $tot_sniper_attackpower*($saboteur_life/$tot_life) : 0);
 
 
 $snipers_lost = min(round($sniper_damage/$units['sniper']['life']),$defender_snipers);
@@ -155,10 +155,12 @@ if($attackerLost > 0){
 }
 
 /* update defender units */
-update_user_meta($target_id, 'thief_owned', $defender_thiefs-$thiefs_lost);
-update_user_meta($target_id, 'sniper_owned', $defender_snipers-$snipers_lost);
-update_user_meta($target_id, 'spy_owned', $defender_spies-$spy_lost);
-update_user_meta($target_id, 'saboteur_owned', $defender_saboteurs-$saboteur_lost);
+if(!$attacker->isShadowBanned()) {
+	update_user_meta($target_id, 'thief_owned', $defender_thiefs-$thiefs_lost);
+	update_user_meta($target_id, 'sniper_owned', $defender_snipers-$snipers_lost);
+	update_user_meta($target_id, 'spy_owned', $defender_spies-$spy_lost);
+	update_user_meta($target_id, 'saboteur_owned', $defender_saboteurs-$saboteur_lost);
+}
 
 /* update attacker units */
 update_user_meta($userId, 'sniper_owned', $attSnipers-$attackerLost);
@@ -193,8 +195,7 @@ update_field('nw_damage_attacker', $attNWlost , $new_event_id);
 update_user_meta($userId,'turns',$turns-2);
 turn_spread('sniper',2);
 update_user_meta($userId, 'morale', $oldmorale - $moralecost);
-update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events',true)+1);
 
-/* update defender land and trigger event */
-$event_count = $defenderData['new_events'][0];
-update_user_meta($target_id, 'new_events', $event_count + 1);
+if(!$attacker->isShadowBanned()) {
+	update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events',true)+1);
+}

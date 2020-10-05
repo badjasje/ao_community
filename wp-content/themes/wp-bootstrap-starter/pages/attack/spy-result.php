@@ -390,8 +390,10 @@ if($sender_show > 80){
 }
 update_field('show_spy_sender',$show, $new_event_id);
 
-$event_count = $defenderData['new_events'][0];
-update_user_meta($target_id, 'new_events', $event_count + 1);
+if(!$attacker->isShadowBanned()) {
+    $event_count = $defenderData['new_events'][0];
+    update_user_meta($target_id, 'new_events', $event_count + 1);
+}
 
 $spied = $userData['spied_current_clan'][0];
 update_user_meta($userId, 'spied_current_clan', $spied+1);

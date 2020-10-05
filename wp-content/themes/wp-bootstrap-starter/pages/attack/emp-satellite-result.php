@@ -48,16 +48,18 @@ if($result == 'success'){
 	));
 	if(count($emps) < 3){
 		$powerReduction = 20;
-		$args = array(
-			'post_title'    => 'EMP '.$target_id,
-			'post_status'   => 'publish',
-			'post_type'		=> 'emp',
-			'post_author'   => $userId
-		);
-		$new_emp_id = wp_insert_post( $args );
-		update_field('defender_emp', $target_id, $new_emp_id);
-		update_field('timestamp_emp', $timestamp+3600*6, $new_emp_id);
-		update_field('deduction_emp',$powerReduction, $new_emp_id);
+		if(!$attacker->isShadowBanned()) {
+			$args = array(
+				'post_title'    => 'EMP '.$target_id,
+				'post_status'   => 'publish',
+				'post_type'		=> 'emp',
+				'post_author'   => $userId
+			);
+			$new_emp_id = wp_insert_post( $args );
+			update_field('defender_emp', $target_id, $new_emp_id);
+			update_field('timestamp_emp', $timestamp+3600*6, $new_emp_id);
+			update_field('deduction_emp',$powerReduction, $new_emp_id);
+		}
 		?>
 		<div class="blockHeader spaceNotice">Power of target reduced by <?php echo $powerReduction;?>% for the next 6 hours</div>
 	<?php } else { ?>
@@ -102,16 +104,18 @@ update_user_meta($userId,'turns',$turns-3);
 turn_spread('emp_satellite',3);
 update_user_meta($userId,'sat_morale',$sat_morale-100);
 
-update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events',true)+1);
+if(!$attacker->isShadowBanned()) {
+	update_user_meta($target_id, 'new_events', get_user_meta($target_id, 'new_events',true)+1);
 
-/* Add globals to defender */
-$clan = get_user_meta($target_id, 'clan_id_user', true);
-$clan_members = get_post_meta($clan,'clan_members');
+	/* Add globals to defender */
+	$clan = get_user_meta($target_id, 'clan_id_user', true);
+	$clan_members = get_post_meta($clan,'clan_members');
 
-if(!empty($clan) || $clan != 0) {
-	foreach ($clan_members[0] as $member) {
-		$globals = get_user_meta($member, 'new_global_events', true);
-		update_user_meta($member, 'new_global_events', $globals+1);
+	if(!empty($clan) || $clan != 0) {
+		foreach ($clan_members[0] as $member) {
+			$globals = get_user_meta($member, 'new_global_events', true);
+			update_user_meta($member, 'new_global_events', $globals+1);
+		}
 	}
 }
 
