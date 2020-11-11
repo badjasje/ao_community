@@ -342,7 +342,7 @@ if($result == 'success') {
 		$_total_bld_def += $def_bld_owned;
 	}
 
-	foreach ($buildings as $key => $building) {
+	foreach ($defender->getBuildings() as $key => $building) {
 
 		/* get building by type */
 		$def_bld_owned = $defenderData[$key][0];
