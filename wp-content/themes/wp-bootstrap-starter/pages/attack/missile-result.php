@@ -483,7 +483,7 @@ if($war_type != 'none' && $result == 'success') {
 		$unit_points = $def_lostunits_tot/$def_total_units;
 	}
 
-	$clan_points = (($def_NW_lost/1100)+((sqrt($def_NW_lost)/25) * ((sqrt($networth_def*1.5)/4.1)/100)))*0.9;
+	$clan_points = (($def_NW_lost/1100)+((sqrt($def_NW_lost)/25) * ((sqrt($networth_def*1.5)/4.1)/100)))*0.6;
 
 	/* determine points multiplier due to war */
 	$war_multiplier = get_war_multiplier($war_type);
