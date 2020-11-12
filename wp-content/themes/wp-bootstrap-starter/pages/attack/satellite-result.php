@@ -105,7 +105,7 @@ foreach ($buildings as $key => $building) {
     $_total_bld_def += $def_bld_owned;
 }
 
-foreach ($buildings as $key => $building) {
+foreach ($defender->getBuildings() as $key => $building) {
 
 	//bld
 	$def_bld_owned = $defenderData[$key][0];

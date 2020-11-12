@@ -33,7 +33,7 @@ class Request {
     // Rate limiting per hour
     public static $rate_limits = array(
         'wp-login.php' => 10,           //0
-        'ajax/message' => 5,            //1
+        'ajax/message' => 20,            //1
 
         // Old&new ajax calls
         'missiles.php' => 10,           //2

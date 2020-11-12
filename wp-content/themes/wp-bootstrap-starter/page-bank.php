@@ -7,6 +7,7 @@ get_header();
 $user = CurrentUser::make();
 $province = $user->getProvince();
 $rates = $province->getBankInterestRates();
+$all_rates = Bank::getRates(true);
 $deposits = $province->getDeposits();
 $dep_num = $province->getDepositNum();
 $max_dep = $province->getMaxDeposit();
@@ -14,6 +15,7 @@ $max_input = floor(min($max_dep,$province->getMoney()));
 $bm = $province->getResearches('bank_management');
 $bank_level = $bm['level'];
 $withdraw_penalty = ($bank_level >= 2 ? ($bm['level'.$bank_level.'_withdraw'] * 100) : 0);
+$market_close = floor(Market::timeLeft() / 60 / 60 / 24);
 
 $disabled = (!Bank::isOpen() || $dep_num >= $province->getMaxDeposits() ? true : false);
 ?>
@@ -27,6 +29,7 @@ $disabled = (!Bank::isOpen() || $dep_num >= $province->getMaxDeposits() ? true :
 		Your finance startbonus gives 50% more deposit.
 		<? } ?>
 		You currently have <span class="totaldeposits"><?=$dep_num?></span> <?=($dep_num==1?'deposit':'deposits')?>.
+		<? if(count($rates) != count($all_rates)) {?><b>Market closes in <?=$market_close?> days.</b><?}?>
 	</div>
 
 	<form id="bankform" method="post">

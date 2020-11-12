@@ -130,7 +130,7 @@ $activeTab = isset($_GET['tab']) ? Request::get('tab') : $province->getMostUsedU
             </div>
 
             <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
-            <input type="submit" value="<?=(Market::isOpen()?'Order / Sell / Trade':'Sell')?>" class="mainSubmit hoverEffect<?=$disabled?>">
+            <input type="submit" value="<?=(Market::isOpen()?'Order / Sell / Trade':'Sell')?>" class="mainSubmit hoverEffect">
 
         </div>
     </form>

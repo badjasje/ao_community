@@ -11,6 +11,9 @@ function ajax_message($user, $return) {
     if(ctype_space($message_text) || $message_text == '') {
         return array('status' => 'Message is empty');
     }
+    if(Format::strHasProfanity($message_text)) {
+        return array('status' => 'Message contains profanity');
+    }
     if($message_ID == 'first') {
         $title = Request::post('title');
         if(ctype_space($title) || $title == '') {
