@@ -118,7 +118,9 @@ function get_attack_cost_turns($attack_type) {
     if (strtolower($attack_type) == 'saboteur') return Settings::get('turns_saboteur');
     if (strtolower($attack_type) == 'spy') return Settings::get('turns_spy');
     if (strtolower($attack_type) == 'missile') return Settings::get('turns_missile');
+    if (strtolower($attack_type) == 'satellite') return Settings::get('turns_satellite');
     if (in_array(strtolower($attack_type), array('air_sea','regular','ground'))) return Settings::get('turns_attack');
+
     return 0;
 };
 
