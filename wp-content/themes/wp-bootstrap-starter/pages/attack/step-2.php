@@ -439,9 +439,9 @@ $count = 0;
 						<span class="columnDataLeft">Targets</span>
 						<span class="columnDataRight">Spies, thiefs, snipers, saboteurs</span>
 				    </div>
-				    <div id="button<?php echo $unitKey;?>" class="col-md-2 celBlock maxBlock" data-key="<?php echo $unitKey;?>" data-units-owned="<?php echo $unitsOwned; ?>">
+				    <div id="button<?=$unitKey?>" class="col-md-2 celBlock maxBlock" data-key="<?=$unitKey?>" data-units-owned="<?=min(10, $unitsOwned)?>">
                         <span class="columnDataLeft">Owned</span>
-                        <span class="columnDataRight"><?php echo $unitsOwned; ?></span>
+                        <span class="columnDataRight"><?=$unitsOwned?></span>
 				    </div>
 				    <div class="col-md-2 celBlock inputBlock">
 				        <input id="<?php echo $unitKey;?>" style="border: 5px solid rgba(<?php echo $backColor;?>, <?php echo 0.3-($count/25);?>);" max="10" class="unitInput <?php echo $unitKey;?>-input" min="0" value="" type="number" id="<?php echo $unitKey;?>" name="<?php echo $unitKey;?>"/>
