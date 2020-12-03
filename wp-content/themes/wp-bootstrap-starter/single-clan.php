@@ -181,7 +181,7 @@ $userIsMember = $clan->isMember();
                     </button>'.PHP_EOL;
                 }
                 elseif(in_array($warType, array('incoming','mutual'))) {
-                    echo '<button class="mainSubmit disabled">In a'.($warType=='mutual'?' mutual':' outgoing').' war</button>'.PHP_EOL;
+                    echo '<button class="mainSubmit disabled">In a'.($warType=='mutual'?' mutual':'n outgoing').' war</button>'.PHP_EOL;
                 }
                 elseif($inCooldown) {
                     if($canResume) {
