@@ -608,10 +608,10 @@ jQuery(function($) {
     });
 
     // Sending message
-    $("#message").on('submit', function(e) {
+    $("#messageForm").on('submit', function(e) {
         e.preventDefault();
         singleAjax(site_url+'/ajax/message', $(this), function(data) {
-            $('#message').trigger('reset');
+            if(data.success) $('#message').trigger('reset');
         });
     });
     $("#claninvite").on('submit', function(e) {

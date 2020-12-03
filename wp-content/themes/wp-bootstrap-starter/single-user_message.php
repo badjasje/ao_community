@@ -40,7 +40,7 @@ $invite_hash = $conv->getInviteKey();
         }
         ?>
         <div id="lastrow"></div>
-        <form class="form fw-row" id="message" method="post">
+        <form class="form fw-row" id="messageForm" method="post">
             <input type="hidden" name="receiver" value="<?=$conv->with($user->get('id'))?>">
             <input type="hidden" name="main_message" value="<?=$conv->get('id')?>">
             <input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
