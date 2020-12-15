@@ -27,8 +27,8 @@ class Researches extends DataObject {
             $bm = $province->getResearches('bank_management');
             $bank_level = $bm['level'];
             $extra_interest = 0;
-            for($i=0; $i<$bank_level; $i++) {
-                $extra_interest += (isset($bm['level'.$bank_level.'_interest']) ? $bm['level'.$bank_level.'_interest'] : 0);
+            for($i=0; $i<=$bank_level; $i++) {
+                $extra_interest += (isset($bm['level'.$i.'_interest']) ? $bm['level'.$i.'_interest'] : 0);
             }
             foreach($rates as $length => $rate) {
                 $rates[$length] = $rate + $extra_interest;
