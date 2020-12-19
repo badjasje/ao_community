@@ -30,7 +30,7 @@ if($turns < 2) {
 $successCount = mt_rand(1,100);
 $result = 'success';
 
-if($missileLevel == 3 && $successCount > 40) {
+if($missileLevel == 3 && $successCount > 90) {
 	$result = 'failure';
 }
 

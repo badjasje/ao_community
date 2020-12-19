@@ -111,6 +111,7 @@ class Settings extends DataObject {
         // Turn costs
         'turns_order_missile' => 4,
         'turns_missile' => 3,
+        'turns_satellite' => 3,
         'turns_attack' => 3,
         'turns_thief' => 2,
         'turns_spy' => 1,

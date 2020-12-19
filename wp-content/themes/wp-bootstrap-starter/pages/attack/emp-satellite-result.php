@@ -6,6 +6,13 @@ $attackmode = ($debug ? $_POST['attackmode'] : filter_input(INPUT_POST, 'attackm
 $attackmode = ($attackmode == 'aggressive' ? 'aggressive' : 'normal');
 $turns = $attackerData['turns'][0];
 
+if($turns < Settings::get('turns_satellite')){
+	$array['status'] = 'Not enough turns';
+	$array['next'] = false;
+	echo json_encode($array);
+	exit;
+}
+
 $powerReduction = 0;
 
 $sat_morale = $attackerData['sat_morale'][0];
@@ -100,8 +107,8 @@ update_post_meta( $new_event_id, 'event_ip_address', get_user_ip_address());
 update_field('defender_clan_id',$defender_clan_ID, $new_event_id);
 update_field('attacker_clan_id',$attacker_clan_ID, $new_event_id);
 
-update_user_meta($userId,'turns',$turns-3);
-turn_spread('emp_satellite',3);
+update_user_meta($userId,'turns',$turns-Settings::get('turns_satellite'));
+turn_spread('emp_satellite',Settings::get('turns_satellite'));
 update_user_meta($userId,'sat_morale',$sat_morale-100);
 
 if(!$attacker->isShadowBanned()) {

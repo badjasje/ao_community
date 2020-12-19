@@ -839,16 +839,11 @@ function fcm_send_notification($receiver, $type, $attacker=0) {
     $lb_notified = get_user_meta($receiver, 'low_buildings_notified', true);
     if ($type == 'buildings' && (empty($lb_notified) || $lb_notified == 'no')) {
         $avatar = get_user_meta($receiver, 'avatar_user', true);
-        $body = 'You have less then 50 buildings. Rebuild as soon as possible';
+        if(date('d-m-Y', Round::startDate()) == date('d-m-Y')) $body = 'A new round has begun';
+        else $body = 'You have less then 50 buildings. Rebuild as soon as possible';
         $url = get_site_url() . '/buildings/';
         update_user_meta($receiver, 'low_buildings_notified', 'yes');
     }
-
-    /*if ($type == 'roundstart') {
-        $avatar = get_user_meta($receiver, 'avatar_user', true);
-        $body = 'A new round has begun';
-        $url = get_site_url() . '/dashboard/';
-    }*/
 
     // Max turns -> /add_turns.php (cron)
     $mt_notified = get_user_meta($receiver, 'max_turns_notified', true);

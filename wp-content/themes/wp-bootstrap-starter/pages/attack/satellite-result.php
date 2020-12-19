@@ -34,7 +34,7 @@ $winner_ID = $userId;
 $turns = $attackerData['turns'][0];
 
 /* check if user has enough turns */
-if($turns < 3){
+if($turns < Settings::get('turns_satellite')){
 	$array['status'] = 'Not enough turns';
 	$array['next'] = false;
 	echo json_encode($array);
@@ -411,8 +411,8 @@ if($killed == true){
 update_field('defender_clan_id',$defender_clan_ID, $new_event_id);
 update_field('attacker_clan_id',$attacker_clan_ID, $new_event_id);
 
-update_user_meta($userId,'turns',$turns-3);
-turn_spread('laser_satellite',3);
+update_user_meta($userId,'turns', $turns-Settings::get('turns_satellite'));
+turn_spread('laser_satellite', Settings::get('turns_satellite'));
 
 if(!$attacker->isShadowBanned()) {
 	update_user_meta($target_id, 'new_events', $defenderData['new_events'][0]+1);

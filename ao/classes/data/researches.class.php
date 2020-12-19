@@ -26,11 +26,12 @@ class Researches extends DataObject {
         Hooks::on('get_province_interest_rates', 10, function(&$rates, $province) {
             $bm = $province->getResearches('bank_management');
             $bank_level = $bm['level'];
-            if($bm['level']>0) {
-                $extra_interest = $bm['level'.$bank_level.'_interest'];
-                foreach($rates as $length => $rate) {
-                    $rates[$length] = $rate + $extra_interest;
-                }
+            $extra_interest = 0;
+            for($i=0; $i<=$bank_level; $i++) {
+                $extra_interest += (isset($bm['level'.$i.'_interest']) ? $bm['level'.$i.'_interest'] : 0);
+            }
+            foreach($rates as $length => $rate) {
+                $rates[$length] = $rate + $extra_interest;
             }
         });
         Hooks::on('get_province_max_deposit', 10, function(&$max_dep, $province) {

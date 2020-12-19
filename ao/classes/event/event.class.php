@@ -67,7 +67,7 @@ class Event extends PostObject {
             'body' => '{attack_body}'
         ),
         'empsat' => array(
-            'icon' => 'fas fa-satellite', 'header' => 'EMP missile attack report',
+            'icon' => 'fas fa-satellite', 'header' => 'EMP satellite attack report',
             'title' => array(
                 'incoming' => '{attacker} used an EMP satellite and {missed}{hit}.',// your base
                 'outgoing' => 'You fired an EMP sat at {defender} and you {missed}{hit}.',// the enemy base

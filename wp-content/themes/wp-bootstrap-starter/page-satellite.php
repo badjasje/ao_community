@@ -18,8 +18,8 @@ $has_ordered_satellites = (count($province->getOrderedSatellites()) > 0);
 		if($sc['level']==0) echo '<i class="fas fa-exclamation-triangle"></i> Research satellite construction to build satellites. ';
 		else echo 'Building a satellite requires ' . Settings::get('sat_turn_cost') . ' turns and ' . (Settings::get('sat_delivery_time')/3600) . ' hours. ';
 		if($sc['level']>2 && !$has_satellite && !$has_ordered_satellites) echo 'Satellite costs reduced by 20% because of your research level. ';
-		if($has_satellite) echo 'Demolishing a satellite costs 20% of it\'s price.';
-		if($has_ordered_satellites) echo 'Cancelling a satellite order returns 75% of it\'s price. ';
+		if($has_satellite) echo 'Demolishing a satellite costs 20% of its price.';
+		if($has_ordered_satellites) echo 'Cancelling a satellite order returns 75% of its price. ';
 		?>
 	</div>
 	<div id="satellites" class="aoTable">
