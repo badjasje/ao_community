@@ -19,7 +19,7 @@ if($receiver->get('id') != false) {
 			</div>
 			<div class="px-3 py-2">Sending message to <?=$receiver->getLink(true)?></div>
 		</div>
-		<form class="form fw-row" id="message" >
+		<form class="form fw-row" id="messageForm" >
 			<div class="row no-gutters">
 				<div class="col-md-2">
 					<div class="collabel">Subject</div>
