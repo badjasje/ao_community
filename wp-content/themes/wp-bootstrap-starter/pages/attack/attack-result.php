@@ -28,6 +28,8 @@ $attackerData = $userData;
 $defenderData = get_user_meta($target_id);
 $attacker = CurrentUser::make()->getProvince();
 $defender = Province::make($target_id);
+$attackerClan = $attacker->getClan(); // might be "false" if no clan
+$defenderClan = $defender->getClan(); // might be "false" if no clan
 
 // LOCK
 $userLock = ($debug ? 0 : intval($attackerData['user_lock'][0]));

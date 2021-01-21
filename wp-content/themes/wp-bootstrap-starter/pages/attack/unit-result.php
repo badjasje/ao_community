@@ -625,16 +625,9 @@ if($war_type != 'none' && $result == 'success') {
 	if($attacker->isShadowBanned()) $clan_points = 0;
 
 	/* add points */
-	$starting_points = get_post_meta($attack_clan_id,'clan_points',true);
-	update_post_meta($attack_clan_id,'clan_points',$starting_points+$clan_points);
-	/* add attacks for UA */
-	$starting_attacks = get_post_meta($attack_clan_id,'ua_total',true);
-	if(empty($starting_attacks)) $starting_attacks = 0;
-	update_post_meta($attack_clan_id,'ua_total',$starting_attacks+1);
-
-	/* 24H pts update */
-	$_pts = get_post_meta($attack_clan_id, '24h_pts', true);
-	update_post_meta($attack_clan_id,'24h_pts',$_pts+$clan_points);
+	$attackerClan->addToMeta('clan_points', $clan_points);
+	$attackerClan->addToMeta('ua_total', 1);
+	$attackerClan->addToMeta('24h_pts', $clan_points);
 }
 
 /* add stats */
