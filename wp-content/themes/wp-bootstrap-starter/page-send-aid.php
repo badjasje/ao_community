@@ -24,7 +24,7 @@ if($clan) {
 	<div class="fw-row">
 
 		<div class="blockHeader">
-			You can send aid <?=Settings::get('max_aid_times')?> times every 24 hours, with a maximum of <?=Format::money(Settings::get('max_aid'))?> per aid.
+			You can send aid <?=Settings::get('max_aid_times')?> times per day, with a maximum of <?=Format::money(Settings::get('max_aid'))?> per aid.
 		</div>
 		<div class="blockHeader spaceNotice">
 			You have sent aid <span id="aidssent"><?=$aid_sent?></span> times today
