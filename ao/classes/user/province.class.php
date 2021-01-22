@@ -126,6 +126,7 @@ class Province extends DbObject {
     }
 
     public function register() {
+
         // Initial fields
         foreach(['clan_id_user','user_clan_points','points_position','networth_position','new_events','new_messages','user_country','first_visit'] as $key) {
             $this->update($key, 0);
@@ -150,6 +151,7 @@ class Province extends DbObject {
     // Moved from after_death($this->id);
     // This actually a "reset"-function of everything
     public function afterDeath() {
+
         // Reset buildings
         foreach(Buildings::get() as $key => $building) {
             $num = Settings::get('start_'.$key); // For starting powerplant num
@@ -179,7 +181,7 @@ class Province extends DbObject {
         }
         $this->update('starting_bonus', '');
 
-        // Reset stats with starting values
+        // Reset stats with starting values from settings
         foreach(['money','turns','land','morale','morale_pool'] as $key) {
             $this->update($key, Settings::get('start_'.$key));
         }
@@ -208,7 +210,7 @@ class Province extends DbObject {
             $order->trash();
         }
 
-        // For builtland & power key
+        // For builtland & power stats
         $this->count_all_stats();
     }
 
@@ -1179,7 +1181,7 @@ class Province extends DbObject {
         if($count = $wpdb->query('UPDATE '.$wpdb->prefix.'usermeta SET `meta_value` = "dead" WHERE `meta_key` = "status" AND `user_id` = '.$this->get('id').' AND `meta_value` != "dead"')) {
             // When update status to dead is actually successful:
             parent::update('status', 'dead'); // update cache too
-            $this->afterDeath();
+            $this->afterDeath(); // Reset a bunch of things
             return true;
         }
         return false;
