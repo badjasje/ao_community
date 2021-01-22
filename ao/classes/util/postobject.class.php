@@ -33,6 +33,10 @@ class PostObject extends PhpObject {
         parent::__construct($props);
     }
 
+    public function trash() { // Used on player reset, death or when a order/deposit/research ends
+        wp_trash_post($this->get('id'));
+    }
+
     function update($key, $value) {
         update_post_meta($this->id, $key, $value);
         $this->setPropertiesFromArray(array($key => $value));
