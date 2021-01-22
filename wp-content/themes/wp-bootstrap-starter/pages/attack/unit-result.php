@@ -557,21 +557,19 @@ if($result == 'success'){
 }
 
 $killed = false;
-
 if ($defender_buildings_lost >= $defender_building_total && !$attacker->isShadowBanned()) {
-	$killed = true;
 	if($debug) wtf('kill_player', $defender_buildings_lost, $defender_building_total);
-	else kill_player($target_id);
+	else $killed = $defender->dies();
 }
-/* not a kill - handle damage */
-else {
+
+// not a kill - handle damage
+if(!$killed) {
 	$defender_networth_lost += $land_stolen * 0.85;
 	$defender_networth = $defenderData['networth'][0];
 	$defender_new_nw = round($defender_networth - ceil($defender_networth_lost));
 }
 
-
-/* calculate clan points */
+// calculate clan points
 $clan_points = 0;
 $unit_points = 0;
 
@@ -874,9 +872,6 @@ update_field('clan_points', $clan_points, $new_event_id);
 if($killed == true){
 	kill_event($userId,$target_id,$result,$defend_clan_id,$attack_clan_id);
 	update_post_meta($new_event_id, 'status_defender', 'death');
-	update_user_meta($target_id,'status','dead');
-	update_user_meta($target_id, 'networth', 0);
-	after_death($target_id);
 }
 
 if(!$attacker->isShadowBanned()) {

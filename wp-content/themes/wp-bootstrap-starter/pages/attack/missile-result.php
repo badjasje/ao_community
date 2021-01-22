@@ -441,16 +441,9 @@ $land_stolen  = 0;
 $money_stolen = 0;
 
 $killed = false;
-if($result == 'success'){
-	if(!$attacker->isShadowBanned()) {
-		if ($def_lostbuildings_tot >= $_total_bld_def) {
-			$killed = true;
-			update_user_meta($target_id, 'status', 'dead');
-			update_user_meta($target_id, 'networth', 0);
-			update_user_meta($target_id, 'land', 0);
-			after_death($target_id);
-		}
-	}
+if($result == 'success' && !$attacker->isShadowBanned() && $def_lostbuildings_tot >= $_total_bld_def) {
+	if($debug) wtf('kill_player', $def_lostbuildings_tot, $_total_bld_def);
+	else $killed = $defender->dies();
 }
 
 ////// CALCULATE CLAN POINTS //////
