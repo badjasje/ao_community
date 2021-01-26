@@ -73,7 +73,7 @@ class CurrentUser extends User {
             $province = $this->getProvince();
             $province->count_all_stats(); // @todo: On each request might be a big hit
             if(!Request::isAjax() && $province->isDead() && $province->get('times_killed') == 0) {
-                $province->afterDeath();
+                //$province->afterDeath(); Already happens on register,killed & reset
                 $province->update('status', 'nukeprotection');
                 $province->update('nuke_protection_timestamp', current_time('timestamp') + Settings::get('nuke_protection_length'));
             }
@@ -150,7 +150,7 @@ class CurrentUser extends User {
      *  WP-hook, happends after registration was successful.
      */
     public function register() {
-        // @todo: We can set standards here, just like after_death
+        if($province = $this->getProvince()) $province->register();
     }
 
     /**

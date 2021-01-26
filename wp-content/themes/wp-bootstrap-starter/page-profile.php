@@ -274,7 +274,7 @@ if($user->isAdmin()) {
 	echo '<p>Referral: '.$viewedUser->get('referral_userid').',
 		score: '.$viewedUser->get('referral_score').', '.(is_array($referral_code)?implode(', ',$referral_code):'none').' </p>';
 	echo '<p>Multi whitelist: '. ($multi_whitelist==1?'yes':'no') .'</p>';
-	echo '<div class="logindata">'. $viewedUser->getLoginData(true) .'</div>';
+	if(isset($_GET['showlogindata']))  echo '<div class="logindata">'. $viewedUser->getLoginData(true) .'</div>';
 }
 ?>
 

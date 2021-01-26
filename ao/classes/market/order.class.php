@@ -76,7 +76,7 @@ class Order extends PostObject {
             $province->update('sat_in_progress', 0);
         }
         $province->update('money', $province->getMoney() + $this->cashback());
-        wp_trash_post($this->get('id'));
+        $this->trash();
         return true;
     }
 
@@ -94,7 +94,7 @@ class Order extends PostObject {
             $total_units_on_order = intval($province->get($unit_type.'_ordered'));
             $province->update($unit_type.'_ordered', $total_units_on_order - $units_in_this_order);
             $province->update($unit_type.'_owned', $units_in_this_order + $ownedunits);
-            wp_trash_post($this->get('id'));
+            $this->trash();
         }
 
         if($this->type() == 'satellite') {
@@ -105,7 +105,7 @@ class Order extends PostObject {
             $province->update('sat_owned', $unit_type);
             $province->update('sat_in_progress', 0);
             $province->update('sat_endlife', current_time('timestamp') + ($satellite['days'] * 86400));
-            wp_trash_post($this->get('id'));
+            $this->trash();
         }
 
         if($this->type() == 'missile') {
@@ -117,7 +117,7 @@ class Order extends PostObject {
             $total_missiles_on_order = intval($province->get($unit_type.'_ordered'));
             $province->update($unit_type.'_ordered', $total_missiles_on_order - $missiles_in_this_order);
             $province->update($unit_type.'_owned', $missiles_in_this_order + $ownedMissiles['num']);
-            wp_trash_post($this->get('id'));
+            $this->trash();
         }
 
         return true;

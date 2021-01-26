@@ -557,21 +557,19 @@ if($result == 'success'){
 }
 
 $killed = false;
-
 if ($defender_buildings_lost >= $defender_building_total && !$attacker->isShadowBanned()) {
-	$killed = true;
 	if($debug) wtf('kill_player', $defender_buildings_lost, $defender_building_total);
-	else kill_player($target_id);
+	else $killed = $defender->dies();
 }
-/* not a kill - handle damage */
-else {
+
+// not a kill - handle damage
+if(!$killed) {
 	$defender_networth_lost += $land_stolen * 0.85;
 	$defender_networth = $defenderData['networth'][0];
 	$defender_new_nw = round($defender_networth - ceil($defender_networth_lost));
 }
 
-
-/* calculate clan points */
+// calculate clan points
 $clan_points = 0;
 $unit_points = 0;
 
@@ -625,16 +623,9 @@ if($war_type != 'none' && $result == 'success') {
 	if($attacker->isShadowBanned()) $clan_points = 0;
 
 	/* add points */
-	$starting_points = get_post_meta($attack_clan_id,'clan_points',true);
-	update_post_meta($attack_clan_id,'clan_points',$starting_points+$clan_points);
-	/* add attacks for UA */
-	$starting_attacks = get_post_meta($attack_clan_id,'ua_total',true);
-	if(empty($starting_attacks)) $starting_attacks = 0;
-	update_post_meta($attack_clan_id,'ua_total',$starting_attacks+1);
-
-	/* 24H pts update */
-	$_pts = get_post_meta($attack_clan_id, '24h_pts', true);
-	update_post_meta($attack_clan_id,'24h_pts',$_pts+$clan_points);
+	$attackerClan->addToMeta('clan_points', $clan_points);
+	$attackerClan->addToMeta('ua_total', 1);
+	$attackerClan->addToMeta('24h_pts', $clan_points);
 }
 
 /* add stats */
@@ -881,9 +872,6 @@ update_field('clan_points', $clan_points, $new_event_id);
 if($killed == true){
 	kill_event($userId,$target_id,$result,$defend_clan_id,$attack_clan_id);
 	update_post_meta($new_event_id, 'status_defender', 'death');
-	update_user_meta($target_id,'status','dead');
-	update_user_meta($target_id, 'networth', 0);
-	after_death($target_id);
 }
 
 if(!$attacker->isShadowBanned()) {

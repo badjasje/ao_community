@@ -134,14 +134,10 @@ jQuery(function($) {
         }
     });
 
-    $(".viewmemberinfo.active").toggle(function(){
+    $(".viewmemberinfo.active").on('click', function(e) {
         var member = $(this).attr('member-id');
         var viewtype = $(this).attr('viewtype');
-        $('.'+viewtype+'_'+member).show(150);
-    }, function(){
-        var member = $(this).attr('member-id');
-        var viewtype = $(this).attr('viewtype');
-        $('.'+viewtype+'_'+member).hide(150);
+        $('.'+viewtype+'_'+member).toggle(150);
     });
 
     $('[data-toggle="tooltip"]').tooltip();

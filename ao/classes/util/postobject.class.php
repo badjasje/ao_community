@@ -33,10 +33,37 @@ class PostObject extends PhpObject {
         parent::__construct($props);
     }
 
-    function update($key,$value) {
+    public function trash() { // Used on player reset, death or when a order/deposit/research ends
+        wp_trash_post($this->get('id'));
+    }
+
+    function update($key, $value) {
         update_post_meta($this->id, $key, $value);
         $this->setPropertiesFromArray(array($key => $value));
         $this->setCache(array($key => $value));
+        return true;
+    }
+
+    function addToMeta($key='clan_points', $value=0) {
+        // Make a query that does:
+        // UPDATE 23zx_postmeta SET meta_value = meta_value + $points WHERE meta_key = "clan_points" AND post_id = $this->id
+        // Because two attacks can happen at the same time, and 100+10 and 100+20 will eventually become 120, while it should be 130
+        global $wpdb;
+
+        // Check if meta_value is not NULL but 0??
+        $data = $wpdb->get_row('SELECT `meta_value` FROM '.$wpdb->prefix.'postmeta WHERE `meta_key` = "'.$key.'" AND `post_id` = '.$this->id, ARRAY_A);
+        if(empty($data)) $wpdb->query('INSERT INTO '.$wpdb->prefix.'postmeta SET `meta_value` = 0, `meta_key` = "'.$key.'", `post_id` = '.$this->id);
+
+        // Update
+        if($value > 0) {
+            $wpdb->query('UPDATE '.$wpdb->prefix.'postmeta SET `meta_value` = `meta_value` + '.$value.' WHERE `meta_key` = "'.$key.'" AND `post_id` = '.$this->id);
+        }
+
+        // Get new value, might not be accurate due to multiple processes at the same time
+        $data = $wpdb->get_row('SELECT `meta_value` FROM '.$wpdb->prefix.'postmeta WHERE `meta_key` = "'.$key.'" AND `post_id` = '.$this->id, ARRAY_A);
+        $new_value = $data['meta_value'];
+        $this->setPropertiesFromArray(array($key => $new_value));
+        $this->setCache(array($key => $new_value));
         return true;
     }
 

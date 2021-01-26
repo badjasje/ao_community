@@ -420,9 +420,6 @@ if($result == 'success'){
 		}
 	}
 
-}
-
-if($result == 'success'){
 	foreach ($buildings as $buildingkey => $order) {
 		foreach ($def_unitslost as $key => $def_bld_lost) {
 			if (isset($def_bld_lost[$buildingkey])) {
@@ -444,16 +441,9 @@ $land_stolen  = 0;
 $money_stolen = 0;
 
 $killed = false;
-if($result == 'success'){
-	if(!$attacker->isShadowBanned()) {
-		if ($def_lostbuildings_tot >= $_total_bld_def) {
-			$killed = true;
-			update_user_meta($target_id, 'status', 'dead');
-			update_user_meta($target_id, 'networth', 0);
-			update_user_meta($target_id, 'land', 0);
-			after_death($target_id);
-		}
-	}
+if($result == 'success' && !$attacker->isShadowBanned() && $def_lostbuildings_tot >= $_total_bld_def) {
+	if($debug) wtf('kill_player', $def_lostbuildings_tot, $_total_bld_def);
+	else $killed = $defender->dies();
 }
 
 ////// CALCULATE CLAN POINTS //////
@@ -461,7 +451,6 @@ $clan_points = 0;
 $unit_points = 0;
 
 $attackerClanData = get_post_meta($attacker_clan_ID);
-$old_CP = $attackerClanData['clan_points'][0];
 
 if($war_type != 'none' && $result == 'success') {
 
@@ -507,16 +496,13 @@ if($war_type != 'none' && $result == 'success') {
 	if($attacker->isShadowBanned()) $clan_points = 0;
 
 	if($debug) debug_var('Clan points', $clan_points);
+
+	/* add points */
+	$attackerClan->addToMeta('clan_points', $clan_points);
+	$attackerClan->addToMeta('ua_total', 1);
+	$attackerClan->addToMeta('24h_pts', $clan_points);
 }
 // End MEGA 20180215
-
-if($def_NW_lost <= 1){
-	$clan_points == 0;
-}
-
-/* 24H pts update */
-$_pts = get_post_meta($attacker_clan_ID, '24h_pts', true);
-update_post_meta($attacker_clan_ID,'24h_pts',$_pts+$clan_points);
 
 if($result == 'success'):
 	// Modes
@@ -688,8 +674,6 @@ if(!$attacker->isShadowBanned()) {
 }
 $user_pts = $attackerData['user_clan_points'][0];
 update_user_meta($userId,'user_clan_points',$user_pts+$clan_points);
-
-update_post_meta($attacker_clan_ID,'clan_points',$old_CP+$clan_points);
 
 // Update attacker points for current clan
 $userAttPts = $attackerData['current_clan_points'][0];

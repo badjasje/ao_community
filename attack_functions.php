@@ -9,8 +9,6 @@
 	Returns:
 		war_type : 'mutual', 'outgoing', 'incoming', 'none'
 */
-include('constants.php');
-
 
 function calculate_pts($bld_damage, $unit_damage, $aggressive_multi) {
     global $debug;
@@ -62,11 +60,9 @@ function get_war_multiplier($war_type) {
 		in_range : true/false
 */
 function target_in_range($attack_type, $attack_nw, $defend_nw, $war_type) {
-    include('constants.php');
-
     $in_range = false;
-    $range_min = $attack_nw / $ATTACK_RANGE_MULT;
-    $range_max = $attack_nw * $ATTACK_RANGE_MULT;
+    $range_min = $attack_nw / Settings::get('attack_range_mult');
+    $range_max = $attack_nw * Settings::get('attack_range_mult');
     $in_range = ($defend_nw >= $range_min && $defend_nw <= $range_max);
 
     /* always in range for spying or mutuals */
@@ -137,7 +133,6 @@ function create_defender_array($target_id, $type_array) {
     global $debug;
     $units = Units::get();
     $buildings = Buildings::get(); // @todo: get it from province to automatically get life with ppe-research and/or defensive startbonus
-    include('constants.php');
 
     // Check for starting bonus
     $startingbonus = get_user_meta($target_id, 'starting_bonus',true);
@@ -194,7 +189,11 @@ function create_defender_array($target_id, $type_array) {
     foreach($units as $key => $data) {
         $unit_type = $data['type'];
         $unit_count = $target_data[$key."_owned"][0];
+<<<<<<< HEAD
         if ($unit_count > 0 && $data['sectype'] != 'special') {
+=======
+        if ($unit_count > 0 && !in_array($key, Settings::get('special_units'))) {
+>>>>>>> f33c5c3dec62f9ab19cee6a29506f7d24627da69
             $unit_life = $data['life'];
             $unit_sum_life = $unit_life * $unit_count;
             $stat_array[$unit_type][$key]['life'] = $unit_sum_life;
@@ -283,7 +282,6 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
     global $debug;
     $units = Units::get();
     $buildings = Buildings::get(); // @todo: get it from province to automatically get life with ppe-research and/or defensive startbonus
-    include('constants.php');
 
     // Check for starting bonus
     $startingbonus = get_user_meta($target_id, 'starting_bonus',true);
@@ -327,7 +325,7 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
 
 
         /* if valid DB add to attack array */
-        if ($power < 100 && in_array($key, $DEFENSIVE_BUILDINGS)) {
+        if ($power < 100 && in_array($key, Settings::get('defensive_buildings'))) {
             $target_type = $buildings[$key]['attacks'][0];
             $attack_power = $buildings[$key]['attack'];
 
@@ -402,7 +400,6 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
     global $debug;
     $units = Units::get();
     $buildings = Buildings::get(); // @todo: get it from province to automatically get life with ppe-research and/or defensive startbonus
-    include('constants.php');
 
     // Check for starting bonus
     $startingbonus = get_user_meta($target_id, 'starting_bonus',true);
@@ -445,7 +442,7 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
         $power = get_user_meta($target_id, 'power', true);
 
         /* if valid DB add to attack array */
-        if ($power < 100 && in_array($key, $DEFENSIVE_BUILDINGS)) {
+        if ($power < 100 && in_array($key, Settings::get('defensive_buildings'))) {
             $target_type = $buildings[$key]['attacks'][0];
             $attack_power = $buildings[$key]['attack'];
 
@@ -551,10 +548,9 @@ function calculate_power($target_id) {
 		$dice_modifier
 */
 function attack_dice_roll() {
-    include('constants.php');
     $gameType = get_field('game_type','option');
-    if(in_array($gameType, array('Development','Test'))) return $UNIT_DICEROLL_DAMAGE_MIN / 100;
-    return rand($UNIT_DICEROLL_DAMAGE_MIN, $UNIT_DICEROLL_DAMAGE_MAX) / 100;
+    if(in_array($gameType, array('Development','Test'))) return Settings::get('unit_diceroll_damage_min') / 100;
+    return rand(Settings::get('unit_diceroll_damage_min'),Settings::get('unit_diceroll_damage_max')) / 100;
 }
 
 
@@ -566,10 +562,9 @@ function attack_dice_roll() {
 		$dice_modifier
 */
 function resource_dice_roll() {
-    include('constants.php');
     $gameType = get_field('game_type','option');
-    if(in_array($gameType, array('Development','Test'))) return $RESOURCE_DICEROLL_MIN / 100;
-    return rand($RESOURCE_DICEROLL_MIN, $RESOURCE_DICEROLL_MAX) / 100;
+    if(in_array($gameType, array('Development','Test'))) return Settings::get('resource_diceroll_min') / 100;
+    return rand(Settings::get('resource_diceroll_min'),Settings::get('resource_diceroll_max')) / 100;
 }
 
 
@@ -587,7 +582,6 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
     global $maintarget;
     $units = Units::get();
     $buildings = Buildings::get(); // @todo: get it from province to automatically get life with ppe-research and/or defensive startbonus
-    include('constants.php');
 
     // Check for starting bonus
     $startingbonus = get_user_meta($target_id, 'starting_bonus',true);
@@ -686,10 +680,7 @@ function calculate_unit_kills($unit_array, $attacker_type_power, $attack_type,$t
 		void
 */
 function kill_player($user_id) {
-    update_user_meta($user_id, 'status', 'dead');
-    update_user_meta($user_id, 'networth', 0);
-    update_user_meta($user_id, 'land', 0);
-    update_user_meta($user_id, 'total_deposits', 0);
+    return Province::make($user_id)->dies();
 }
 
 

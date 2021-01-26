@@ -35,6 +35,7 @@ class Province extends DbObject {
 
         // Missiles
         'nuke_owned','nuke_ordered','chemical_owned','chemical_ordered','bio_owned','bio_ordered','moab_owned','moab_ordered',
+        'tomahawk_owned', 'tomahawk_ordered', 'empmis_owned', 'empmis_ordered',
 
         // Sats
         'sat_in_progress','sat_owned','stealth_sat_status','level_satellite_construction','sat_endlife','stealth_sat_time',
@@ -124,14 +125,93 @@ class Province extends DbObject {
         return (strtolower($this->get('user_country')) == 'skaro');
     }
 
+    public function register() {
+
+        // Initial fields
+        foreach(['clan_id_user','user_clan_points','points_position','networth_position','new_events','new_messages','user_country','first_visit'] as $key) {
+            $this->update($key, 0);
+        }
+        $this->afterDeath(); // Buildings, units, missiles, research, stats
+
+        $this->update('status', 'nukeprotection');
+
+        $timestamp = current_time('timestamp');
+        $this->update('nuke_protection_timestamp', $timestamp + Settings::get('nuke_protection_length'));
+
+        return true;
+    }
+
     /**
      * Status: dead
      */
     public function isDead() {
         return $this->get('status') == 'dead';
     }
+
+    // Moved from after_death($this->id);
+    // This actually a "reset"-function of everything
     public function afterDeath() {
-        after_death($this->id);
+
+        // Reset buildings
+        foreach(Buildings::get() as $key => $building) {
+            $num = Settings::get('start_'.$key); // For starting powerplant num
+            $this->update($key, ($num===false?0:$num));
+        }
+
+        // Reset units
+        foreach (Units::get() as $key => $unit) {
+            $this->update($key.'_owned', 0);
+            $this->update($key.'_ordered', 0);
+        }
+
+        // Reset missiles
+        foreach(Missiles::get() as $key => $missile) {
+            $this->update($key.'_owned', 0);
+            $this->update($key.'_ordered', 0);
+        }
+        $this->update('tomahawk_owned', 0);
+        $this->update('tomahawk_ordered', 0);
+
+        // Reset generic stats & sattellite
+        foreach([
+            'land_sold_today','explored_today','networth','power','builtland','sat_morale','total_deposits',
+            'silo_disable_1','silo_disable_2','sat_in_progress','sat_owned','stealth_sat_status'
+        ] as $key) {
+            $this->update($key, 0);
+        }
+        $this->update('starting_bonus', '');
+
+        // Reset stats with starting values from settings
+        foreach(['money','turns','land','morale','morale_pool'] as $key) {
+            $this->update($key, Settings::get('start_'.$key));
+        }
+
+        // Reset pending research (before resetting 'research_in_progress'!)
+        if($research = $this->getCurrentResearch()) {
+            $research->trash();
+        }
+
+        // Reset research stats
+        foreach(Researches::get() as $key => $research) {
+            $this->update('level_'.$key, 0);
+        }
+        foreach(['research_in_progress','queued_research'] as $key) {
+            $this->update($key, 0);
+        }
+
+        // Bank deposits
+        foreach($this->getDeposits() as $deposit) {
+            $deposit->trash();
+            $this->set('deposits', []);
+        }
+
+        // Market orders
+        foreach($this->getOrders() as $order) {
+            $order->trash();
+        }
+
+        // For builtland & power stats
+        $this->count_all_stats();
     }
 
     /**
@@ -1091,7 +1171,20 @@ class Province extends DbObject {
         if(($moneyThieved-20000000) <= 0) $newValue = 0;
         else $newValue = $moneyThieved-20000000;
         $this->update('money_gained_thieving', $newValue);
+        $this->afterDeath();
         return true;
+    }
+
+    public function dies($attacker_id) {
+        global $wpdb;
+        // We have to use a direct update-query here, checking the meta_value to make sure we don't kill a player twice in two simultaneous processes/attacks
+        if($count = $wpdb->query('UPDATE '.$wpdb->prefix.'usermeta SET `meta_value` = "dead" WHERE `meta_key` = "status" AND `user_id` = '.$this->get('id').' AND `meta_value` != "dead"')) {
+            // When update status to dead is actually successful:
+            parent::update('status', 'dead'); // update cache too
+            $this->afterDeath(); // Reset a bunch of things
+            return true;
+        }
+        return false;
     }
 
     public function notify($type, $attacker=0) {
@@ -1102,8 +1195,6 @@ class Province extends DbObject {
     invite(),
     kick(),
     getTrophies(),
-    kill(),
-    attack(),
     spy()
     */
 }

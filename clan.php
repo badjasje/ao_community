@@ -76,6 +76,8 @@ update_field('ct_4', 0, $new_order_id);
 
 update_post_meta($new_order_id, 'bonus_level', 0);
 update_post_meta($new_order_id, 'clan_points', 0);
+update_post_meta($new_order_id, 'ua_total', 0);
+update_post_meta($new_order_id, '24h_pts', 0);
 
 /*$array['optin'] = $_POST['optin_status'];
 

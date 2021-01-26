@@ -43,7 +43,7 @@ class Research extends PostObject {
         $province->update('research_in_progress', 0);
         $province->update('level_'.$this->get('key'), min( ($current_level+1), $this->get('maxlevel')));
         $province->notify('research', $user_ID);
-        wp_trash_post($this->get('ID'));
+        $this->trash();
 
         // Let user know
         Event::create(array(

@@ -158,6 +158,15 @@ class Settings extends DataObject {
             'incoming' => .5,
             'none' => 0,
         ),
+
+        // Dicerolls
+        'missile_hit_chance' => 90,
+        'missile_diceroll_damage_min' => 90,
+        'missile_diceroll_damage_max' => 110,
+        'unit_diceroll_damage_min' => 95,
+        'unit_diceroll_damage_max' => 105,
+        'resource_diceroll_min' => 90,
+        'resource_diceroll_max'=> 140,
     );
 
 }
