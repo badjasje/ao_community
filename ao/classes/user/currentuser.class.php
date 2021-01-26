@@ -73,7 +73,7 @@ class CurrentUser extends User {
             $province = $this->getProvince();
             $province->count_all_stats(); // @todo: On each request might be a big hit
             if(!Request::isAjax() && $province->isDead() && $province->get('times_killed') == 0) {
-                //$province->afterDeath(); Already happens on register,killed & reset
+                $province->afterDeath(); //Already happens on register,killed & reset, but there are round start issues
                 $province->update('status', 'nukeprotection');
                 $province->update('nuke_protection_timestamp', current_time('timestamp') + Settings::get('nuke_protection_length'));
             }
