@@ -443,7 +443,7 @@ $money_stolen = 0;
 $killed = false;
 if($result == 'success' && !$attacker->isShadowBanned() && $def_lostbuildings_tot >= $_total_bld_def) {
 	if($debug) wtf('kill_player', $def_lostbuildings_tot, $_total_bld_def);
-	else $killed = $defender->dies();
+	else $killed = $defender->dies($attacker->get('id'));
 }
 
 ////// CALCULATE CLAN POINTS //////

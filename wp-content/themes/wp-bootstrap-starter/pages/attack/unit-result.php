@@ -559,7 +559,7 @@ if($result == 'success'){
 $killed = false;
 if ($defender_buildings_lost >= $defender_building_total && !$attacker->isShadowBanned()) {
 	if($debug) wtf('kill_player', $defender_buildings_lost, $defender_building_total);
-	else $killed = $defender->dies();
+	else $killed = $defender->dies($attacker->get('id'));
 }
 
 // not a kill - handle damage
