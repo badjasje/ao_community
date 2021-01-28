@@ -1175,7 +1175,7 @@ class Province extends DbObject {
         return true;
     }
 
-    public function dies($attacker_id) {
+    public function dies($attacker_id=0) {
         global $wpdb;
         // We have to use a direct update-query here, checking the meta_value to make sure we don't kill a player twice in two simultaneous processes/attacks
         if($count = $wpdb->query('UPDATE '.$wpdb->prefix.'usermeta SET `meta_value` = "dead" WHERE `meta_key` = "status" AND `user_id` = '.$this->get('id').' AND `meta_value` != "dead"')) {
