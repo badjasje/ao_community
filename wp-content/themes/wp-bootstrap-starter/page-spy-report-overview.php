@@ -320,14 +320,10 @@ $buildings = Buildings::get();
 	endforeach; // End clan member loop ?>
 
 	<script>
-		jQuery(".viewmemberinfo").toggle(function(){
+		jQuery(".viewmemberinfo").on('click', function(e) {
 			var member = jQuery(this).attr('member-id');
 			var viewtype = jQuery(this).attr('viewtype');
-			jQuery('.'+viewtype+'_'+member).show(150);
-		}, function(){
-			var member = jQuery(this).attr('member-id');
-			var viewtype = jQuery(this).attr('viewtype');
-			jQuery('.'+viewtype+'_'+member).hide(150);;
+			jQuery('.'+viewtype+'_'+member).toggle(150);
 		});
 	</script>
 </div> <!-- end .pageRow -->
