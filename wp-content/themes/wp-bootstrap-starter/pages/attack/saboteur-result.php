@@ -108,7 +108,7 @@ update_field('attacker_id',$userId, $new_event_id);
 update_field('attacktype','saboteur', $new_event_id);
 update_field('winner_id',$winner_id, $new_event_id);
 update_field('moralecost', $moralecost, $new_event_id);
-update_field('silos', $silos, $new_event_id);
+update_field('silos', ($silos > 0 ? 1 : 0), $new_event_id); // Do not save the amount of silo's defender has, but how many are disabled (max 1)
 
 update_user_meta($userId,'turns',$turns-2);
 turn_spread('saboteur',2);
