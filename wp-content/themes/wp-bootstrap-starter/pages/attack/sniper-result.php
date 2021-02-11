@@ -53,6 +53,8 @@ if($sat_status == 'active') {
 	$result = 'failure';
 }
 
+$attackerLost = $no_snipers;
+$tot_sniper_attackpower = 0;
 if($result == 'success'){
 	$winner_id = $userId;
 	$tot_sniper_attackpower = ($units['sniper']['attack']-30)*$no_snipers*(mt_rand(200,500)/100);
