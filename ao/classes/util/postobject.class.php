@@ -6,6 +6,7 @@ class PostObject extends PhpObject {
 
     public static $list = array();
     public static $cache = false;
+    public static $wp_post_type = false;
 
     /**
      * getSome($key,$value)  // get some, returns array, using get_posts(args)
@@ -31,6 +32,16 @@ class PostObject extends PhpObject {
             if(isset($this->id)) $this->setCache($props);
         }
         parent::__construct($props);
+    }
+
+    public static function getAll() {
+        if(!static::$wp_post_type) return;
+
+        $collection = array();
+		foreach(get_posts(array('post_type' => static::$wp_post_type, 'posts_per_page' => -1)) as $row) {
+			if(isset($row->ID)) $collection[$row->ID] = static::make($row);
+		}
+		return $collection;
     }
 
     public function trash() { // Used on player reset, death or when a order/deposit/research ends
