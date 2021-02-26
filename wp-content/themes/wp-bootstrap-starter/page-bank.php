@@ -29,7 +29,7 @@ $disabled = (!Bank::isOpen() || $dep_num >= $province->getMaxDeposits() ? true :
 		Your finance startbonus gives 50% more deposit.
 		<? } ?>
 		You currently have <span class="totaldeposits"><?=$dep_num?></span> <?=($dep_num==1?'deposit':'deposits')?>.
-		<? if(count($rates) != count($all_rates)) {?><b>Market closes in <?=$market_close?> days.</b><?}?>
+		<? if(count($rates) != count($all_rates) && $market_close > -1) {?><b>Market closes in <?=$market_close?> days.</b><?}?>
 	</div>
 
 	<form id="bankform" method="post">

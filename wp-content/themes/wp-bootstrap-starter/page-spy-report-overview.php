@@ -15,6 +15,7 @@ $buttonColor = "70, 118, 94";
 $clan_ID = $_GET['id'];
 $clanData = get_post_meta($clan_ID);
 $clan_members = maybe_unserialize($clanData['clan_members'][0]);
+if(!is_array($clan_members)) $clan_members = [];
 
 global $userId;
 global $userData;
@@ -80,7 +81,6 @@ $buildings = Buildings::get();
 
 	$NRmembers = count($clan_members);
 	$counter = $count = 0;
-
 	foreach ($clan_members as $key => $member):
 		$unitarray = array();
 		$bldarray = array();
