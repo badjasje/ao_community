@@ -28,10 +28,10 @@ $targetProvince = Province::make($targetID);
 	        <div class="blockHeader spaceNotice">Current networth: <?=$targetProvince->getNetworth(true)?></div>
         </div>
         <div class="col-md-6">
-            <select class="blockHeader spaceNotice" onchange="location.href='?id='+this.value;">
+            <select class="blockHeader spaceNotice redirectOnChange">
                 <option disabled selected>Select clanmember</option>
                 <? foreach($targetProvince->getClanMembers() as $member_id) { ?>
-                    <option value="<?=$member_id?>"><?=Province::make($member_id)->getName()?></option>
+                    <option value="?id=<?=$member_id?>"><?=Province::make($member_id)->getName()?></option>
                 <? } ?>
             </select>
         </div>

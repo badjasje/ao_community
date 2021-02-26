@@ -142,6 +142,14 @@ jQuery(function($) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
+    if($(".searchclans").length) $(".searchclans").select2();
+
+    if($('.redirectOnChange').length) {
+        $('.redirectOnChange').on('change', function(e) {
+            if($(this).val()!='' && $(this).val()!=false) window.location.href = $(this).val();
+        });
+    }
+
     // Used on buildings and users page
     function toggleDescriptions(type, s) {
         setCookie(type+'_descriptions', s, 256);

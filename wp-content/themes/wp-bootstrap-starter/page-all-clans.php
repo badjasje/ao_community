@@ -47,7 +47,7 @@ if( ! empty( $transient ) ) {
 	</script>
 
 	<form class="fw-row">
-		<select id="clan" name="clan" class="searchclans" onchange="if (this.value) window.location.href=this.value">
+		<select id="clan" name="clan" class="searchclans redirectOnChange">
 			<option></option>
 			<?php foreach ($clans as $clan) {
 				$clanId = $clan->ID;
