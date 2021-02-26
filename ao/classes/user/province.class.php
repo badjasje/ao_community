@@ -971,6 +971,10 @@ class Province extends DbObject {
     public function getClan() {
         return (!empty($this->get('clan_id_user')) ? Clan::make($this->get('clan_id_user')) : false);
     }
+    public function getClanMembers() { // returns an array of id's
+        if($clan = $this->getClan()) return $clan->getMembers();
+        return false;
+    }
     public function isFellowClanMember($target_id) {
         if($clan = $this->getClan()) {
             return in_array($target_id, $clan->getMembers());
