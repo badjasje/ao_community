@@ -42,7 +42,7 @@ $targetProvince = Province::make($targetID);
 	<? /* owned/ordered unites block */ ?>
 	<div class="row no-gutters aoTable grey">
 		<div class="col-md-6">
-            <div class="blockHeader">Units</div>
+            <div class="blockHeader bg-red w-100">Units</div>
             <div class="row unitRow headerRow">
                 <div class="col-md-6 celBlock nameBlock">Name</div>
                 <div class="col-md-6 celBlock">Owned (ordered)</div>
@@ -57,7 +57,7 @@ $targetProvince = Province::make($targetID);
             <? } ?>
     	</div>
         <div class="col-md-6">
-	        <div class="blockHeader">Current orders</div>
+	        <div class="blockHeader bg-red w-100">Current orders</div>
             <div class="row unitRow headerRow">
                 <div class="col-md-4 celBlock nameBlock">Name</div>
                 <div class="col-md-4 celBlock nameBlock">Ordered</div>
@@ -96,7 +96,7 @@ $targetProvince = Province::make($targetID);
 
     <? /* owned buildings block */ ?>
     <div class="aoTable grey">
-        <div class="blockHeader">Buildings</div>
+        <div class="blockHeader bg-blue w-100">Buildings</div>
         <div class="row unitRow headerRow">
             <div class="col-md-6 celBlock nameBlock">Name</div>
             <div class="col-md-6 celBlock nameBlock">Owned</div>
@@ -115,7 +115,7 @@ $targetProvince = Province::make($targetID);
 
     <? /* Bank block */ ?>
     <div class="aoTable grey">
-        <div class="blockHeader">Bank</div>
+        <div class="blockHeader bg-red w-100">Bank</div>
         <div class="row unitRow headerRow bankHeader">
             <div class="col-md-3 celBlock nameBlock">Deposited</div>
             <div class="col-md-3 celBlock">Including interest</div>
@@ -134,7 +134,7 @@ $targetProvince = Province::make($targetID);
 
     <? /* Research block */ ?>
     <div class="aoTable grey">
-        <div class="blockHeader">Research</div>
+        <div class="blockHeader bg-blue w-100">Research</div>
         <div class="row unitRow headerRow">
             <div class="col-md-6 celBlock nameBlock">Name</div>
             <div class="col-md-6 celBlock">Level</div>

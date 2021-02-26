@@ -1,40 +1,40 @@
 <?php
- /*
+/**
  * Template Name: Spy reports single
-*/
+ */
+get_header();
+
 if(!is_user_logged_in()) {
-	exit(wp_redirect(home_url('/')));
+	wp_redirect(home_url('/'));
 }
 
 $user = CurrentUser::make();
 $province = $user->getProvince();
 
-get_header();
-
-global $userId;
 $target_id = $_GET['id'];
+if(empty($target_id) || !is_numeric($target_id)) {
+	wp_redirect(get_permalink(3486));
+}
+$member = Province::make($target_id);
+$reports = $province->getReports($target_id);
 
-$user = get_userdata($target_id);
-
-$clan_ID = get_user_meta($userId, 'clan_id_user',true);
-$target_clan_ID = get_user_meta($target_id, 'clan_id_user',true);
-
-$members = get_post_meta($clan_ID,'clan_members',true);
-$members[] = $userId;
-
-$profileData = get_user_meta($target_id);
-$status = $profileData['status'][0];
-
+$repUnits = $repBuildings = [];
+if(!!$reports['units']) {
+	$repUnits = $reports['units']->getEntities();
+}
+if(!!$reports['buildings']) {
+	$repBuildings = $reports['buildings']->getEntities();
+}
 ?>
 <div class="row pageRow">
 	<div class="row fw-row no-gutters profileButtonRow">
-		<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 1);" href="/attack/?id=<?php echo $target_id;?>">
+		<a class="col-md-4 profileButton" href="/attack/?id=<?=$target_id?>">
 			<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
 		</a>
-		<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.9);" href="/users/profile/?id=<?php echo $target_id;?>">
+		<a class="col-md-4 profileButton" href="/users/profile/?id=<?=$target_id?>">
 			<i class="fa fa-user" aria-hidden="true"></i> &nbsp;Profile
 		</a>
-		<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/spy-report-overview/?id=<?php echo $target_clan_ID;?>">
+		<a class="col-md-4 profileButton" href="/spy-report-overview/?id=<?=$target_clan_ID?>">
 			<i class="fas fa-address-card" aria-hidden="true"></i> &nbsp;Clan reports
 		</a>
 	</div>
@@ -44,21 +44,89 @@ $status = $profileData['status'][0];
 	?>
 
 	<div class="pageSpacer"></div>
-	<div class="fw-row">
-		<nav class="nav nav-pills nav-fill flex-column flex-sm-row">
-			<a class="nav-item nav-link navItem w-50 active" data-toggle="tab" data-target="#buildings" href="?tab=buildings">Buildings</a>
-			<a class="nav-item nav-link navItem w-50" data-toggle="tab" data-target="#units" href="?tab=units">Units</a>
-		</nav>
+
+	<div class="aoTable grey">
+		<div class="blockHeader"><?=$member->getLink(true)?></div>
+		<div class="row fw-row userRow row-no-padding">
+			<div class="col-md-3 celBlock">
+				<span class="dataVisibleLeft">Networth current</span>
+				<span class="dataVisibleRight"><?=$member->getNetworth(true)?></span>
+			</div>
+			<div class="col-md-3 celBlock">
+				<span class="dataVisibleLeft">Networth registered</span>
+				<span class="dataVisibleRight"><?=(isset($reports['networth'])?$reports['networth']:'')?></span>
+			</div>
+			<div class="col-md-3 celBlock">
+				<span class="dataVisibleLeft">Land current</span>
+				<span class="dataVisibleRight"><?=$member->getLand(true)?></span>
+			</div>
+			<div class="col-md-3 celBlock">
+				<span class="dataVisibleLeft">Land registered</span>
+				<span class="dataVisibleRight"><?=(isset($reports['land'])?$reports['land']:'')?></span>
+			</div>
+		</div>
+		<div class="row fw-row userRow row-no-padding">
+			<div class="col-md-3 celBlock">
+				<span class="dataVisibleLeft">Units spied date</span>
+				<span class="dataVisibleRight"><?=(!!$reports['units']?Format::time_elapsed($reports['units']->getDate()):'')?></span>
+			</div>
+			<div class="col-md-3 celBlock">
+				<span class="dataVisibleLeft">Buildings spied date</span>
+				<span class="dataVisibleRight"><?=(!!$reports['buildings']?Format::time_elapsed($reports['buildings']->getDate()):'')?></span>
+			</div>
+			<div class="col-md-3 celBlock">
+				<span class="dataVisibleLeft">Unit types</span>
+				<span class="dataVisibleRight"><?=implode(', ', $reports['type_array'])?></span>
+			</div>
+			<div class="col-md-3 celBlock">
+				<span class="dataVisibleLeft">Can attack</span>
+				<span class="dataVisibleRight"><?=implode(', ', $reports['attack_array'])?></span>
+			</div>
+		</div>
+		<div class="row fw-row no-gutters">
+			<div class="col-md-6 celBlock py-0">
+				<div class="blockHeader bg-red w-100">Units</div>
+				<div class="px-3 py-2">
+					<? if(count($repUnits)) { ?>
+						<? foreach($repUnits as $normalname => $amount){ ?>
+							<span class="dataVisibleLeft"><?=$normalname?></span>
+							<span class="dataVisibleRight"><?=$amount?></span><br/>
+						<? } ?>
+						<div class="mt-3 small">
+							Last spied by
+							<?=Province::make($reports['units']->get('province_id'))->getName(false)?>
+							<? if($reports['units']->getEnhanced()>0) { ?>
+							<strong>Enhanced <?=$reports['units']->getEnhanced()?> times</strong>
+						</div>
+					<? } ?>
+				<? } ?>
+				</div>
+			</div>
+			<div class="col-md-6 celBlock py-0">
+				<div class="blockHeader bg-blue w-100">Buildings</div>
+				<div class="px-3 py-2">
+					<? if(count($repBuildings)) { ?>
+						<? foreach($repBuildings as $normalname => $amount){ ?>
+							<span class="dataVisibleLeft"><?=$normalname?></span>
+							<span class="dataVisibleRight"><?=$amount?></span><br/>
+						<? }?>
+						<div class="mt-3 small">
+							Last spied by
+							<?=Province::make($reports['buildings']->get('province_id'))->getName(false)?>
+							<? if($reports['buildings']->getEnhanced()>0) { ?>
+							<strong>Enhanced <?=$reports['buildings']->getEnhanced()?> times</strong>
+							<? } ?>
+						</div>
+					<? } ?>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
-	<div class="tab-content current tabbed-table">
-		<div class="tab-pane active"  id="buildings" role="tabpanel">
-			<?php include 'pages/spyrep/buildings.php'; ?>
-		</div> <!-- // End tab pane 1 -->
-		<div class="tab-pane"  id="units" role="tabpanel">
-			<?php include 'pages/spyrep/units.php'; ?>
-		</div> <!-- // End pane 2 -->
-	</div>
-</div> <!-- end .pageRow -->
+	<div class="pageSpacer"></div>
+
+</div>
 <?php
+
 get_footer();

@@ -29,8 +29,6 @@ $viewClan = Clan::make($clan_ID);
 if(empty($viewClan->get('id'))) {
 	wp_redirect(get_permalink(3486));
 }
-
-$units = Units::get();
 ?>
 <div class="row pageRow">
 	<div class="attackDropdown statCol-2 p-0 w-100">
@@ -68,39 +66,13 @@ $units = Units::get();
 	<?php
 	foreach($viewClan->getMembers() as $member_id) {
 		$member = Province::make($member_id);
-		$reports = $province->getReports($member_id);
+		$reports = $province->getReports($member_id, true);
 
-		$newest = false;
-		if(isset($reports['buildings']) && isset($reports['units'])) {
-			if(strtotime($reports['buildings']->getDate()) > strtotime($reports['units']->getDate())) {
-				$newest = $reports['buildings'];
-			} else $newest = $reports['units'];
-		}
-		else if(isset($reports['buildings'])) $newest = $reports['buildings'];
-		else if(isset($reports['units'])) $newest = $reports['units'];
-
-		$regNW = $regLand = '';
-		if(!!$newest) {
-			$regNW = $newest->getNetworthRegistered(true);
-			$regLand = $newest->getLandRegistered(true);
-		}
-
-		$type_array = $attack_array = $repUnits = [];
-		if(isset($reports['units'])) {
+		$repUnits = $repBuildings = [];
+		if(!!$reports['units']) {
 			$repUnits = $reports['units']->getEntities();
-			foreach($units as $unit) {
-				foreach($repUnits as $normalname => $amount) {
-					if($normalname == $unit['normalname']) { // Match on name, ehw
-						$type_array[] = $unit['type'];
-						$attack_array = array_merge($attack_array, $unit['attacks']);
-					}
-				}
-			}
-			$type_array = array_unique($type_array);
 		}
-
-		$repBuildings = [];
-		if(isset($reports['buildings'])) {
+		if(!!$reports['buildings']) {
 			$repBuildings = $reports['buildings']->getEntities();
 		}
 		?>
@@ -113,7 +85,7 @@ $units = Units::get();
 				</div>
 				<div class="col-md-3 celBlock">
 					<span class="dataVisibleLeft">Networth registered</span>
-					<span class="dataVisibleRight"><?=$regNW?></span>
+					<span class="dataVisibleRight"><?=(isset($reports['networth'])?$reports['networth']:'')?></span>
 				</div>
 				<div class="col-md-3 celBlock">
 					<span class="dataVisibleLeft">Land current</span>
@@ -121,25 +93,25 @@ $units = Units::get();
 				</div>
 				<div class="col-md-3 celBlock">
 					<span class="dataVisibleLeft">Land registered</span>
-					<span class="dataVisibleRight"><?=$regLand?></span>
+					<span class="dataVisibleRight"><?=(isset($reports['land'])?$reports['land']:'')?></span>
 				</div>
 			</div>
 			<div class="row fw-row userRow row-no-padding">
 				<div class="col-md-3 celBlock">
 					<span class="dataVisibleLeft">Units spied date</span>
-					<span class="dataVisibleRight"><?=(isset($reports['units'])?$reports['units']->getDate():'')?></span>
+					<span class="dataVisibleRight"><?=(!!$reports['units']?Format::time_elapsed($reports['units']->getDate()):'')?></span>
 				</div>
 				<div class="col-md-3 celBlock">
 					<span class="dataVisibleLeft">Buildings spied date</span>
-					<span class="dataVisibleRight"><?=(isset($reports['buildings'])?$reports['buildings']->getDate():'')?></span>
+					<span class="dataVisibleRight"><?=(!!$reports['buildings']?Format::time_elapsed($reports['buildings']->getDate()):'')?></span>
 				</div>
 				<div class="col-md-3 celBlock">
 					<span class="dataVisibleLeft">Unit types</span>
-					<span class="dataVisibleRight"><?=implode(', ', $type_array)?></span>
+					<span class="dataVisibleRight"><?=implode(', ', $reports['type_array'])?></span>
 				</div>
 				<div class="col-md-3 celBlock">
 					<span class="dataVisibleLeft">Can attack</span>
-					<span class="dataVisibleRight"><?=implode(', ', $attack_array)?></span>
+					<span class="dataVisibleRight"><?=implode(', ', $reports['attack_array'])?></span>
 				</div>
 			</div>
 			<div class="row fw-row no-gutters">
@@ -154,10 +126,19 @@ $units = Units::get();
 						<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Units
 					</button>
 					<div class="memberInfo units_<?=$member_id?>">
-						<?foreach($repUnits as $normalname => $amount){ ?>
-							<span class="dataVisibleLeft"><?=$normalname?></span>
-							<span class="dataVisibleRight"><?=$amount?></span><br/>
-						<? }?>
+						<? if(count($repUnits)) {
+							foreach($repUnits as $normalname => $amount){ ?>
+								<span class="dataVisibleLeft"><?=$normalname?></span>
+								<span class="dataVisibleRight"><?=$amount?></span><br/>
+							<? } ?>
+							<div class="mt-3 small">
+								Last spied by
+								<?=Province::make($reports['units']->get('province_id'))->getName(false)?>
+								<? if($reports['units']->getEnhanced()>0) { ?>
+								<strong>Enhanced <?=$reports['units']->getEnhanced()?> times</strong>
+								<? } ?>
+							</div>
+						<? } ?>
 					</div>
 				</div>
 				<div class="col-md-4 celBlock py-0">
@@ -166,10 +147,19 @@ $units = Units::get();
 						<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Buildings
 					</button>
 					<div class="memberInfo buildings_<?=$member_id?>">
-						<?foreach($repBuildings as $normalname => $amount){ ?>
-							<span class="dataVisibleLeft"><?=$normalname?></span>
-							<span class="dataVisibleRight"><?=$amount?></span><br/>
-						<? }?>
+						<? if(count($repBuildings)) {
+							foreach($repBuildings as $normalname => $amount){ ?>
+								<span class="dataVisibleLeft"><?=$normalname?></span>
+								<span class="dataVisibleRight"><?=$amount?></span><br/>
+							<? }?>
+							<div class="mt-3 small">
+								Last spied by
+								<?=Province::make($reports['buildings']->get('province_id'))->getName(false)?>
+								<? if($reports['buildings']->getEnhanced()>0) { ?>
+								<strong>Enhanced <?=$reports['buildings']->getEnhanced()?> times</strong>
+								<? } ?>
+							</div>
+						<? } ?>
 					</div>
 				</div>
 			</div>
