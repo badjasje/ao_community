@@ -34,7 +34,7 @@ if(!!$reports['buildings']) {
 		<a class="col-md-4 profileButton" href="/users/profile/?id=<?=$target_id?>">
 			<i class="fa fa-user" aria-hidden="true"></i> &nbsp;Profile
 		</a>
-		<a class="col-md-4 profileButton" href="/spy-report-overview/?id=<?=$target_clan_ID?>">
+		<a class="col-md-4 profileButton" href="/spy-report-overview/?id=<?=$member->getClanId()?>">
 			<i class="fas fa-address-card" aria-hidden="true"></i> &nbsp;Clan reports
 		</a>
 	</div>
@@ -97,9 +97,9 @@ if(!!$reports['buildings']) {
 							<?=Province::make($reports['units']->get('province_id'))->getName(false)?>
 							<? if($reports['units']->getEnhanced()>0) { ?>
 							<strong>Enhanced <?=$reports['units']->getEnhanced()?> times</strong>
+							<? } ?>
 						</div>
 					<? } ?>
-				<? } ?>
 				</div>
 			</div>
 			<div class="col-md-6 celBlock py-0">
