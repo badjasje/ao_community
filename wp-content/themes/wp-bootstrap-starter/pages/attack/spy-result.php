@@ -46,7 +46,6 @@ $land_def = $defenderData['land'][0];
 $networth_def = $defenderData['networth'][0];
 
 $success = mt_rand(1,110)+($snipers*0.25);
-
 if($sat_status == 'active'){
 	$success = 100;
 }
@@ -236,6 +235,7 @@ if($spytype == 'spy'):?>
                 Spy report overview clan
             </a>
         </div>
+        <?=$attacker->get_spy_buttons($target_id)?>
         <div class="pageSpacer"></div>
     <?php endif;?>
 <?php endif;?>
@@ -354,6 +354,7 @@ if($spytype == 'spy'):?>
                 Spy report overview clan
             </a>
         </div>
+        <?=$attacker->get_spy_buttons($target_id)?>
         <div class="pageSpacer"></div>
     <?php endif;?>
 <?php endif;?>
