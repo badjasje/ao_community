@@ -99,11 +99,11 @@ if(empty($viewClan->get('id'))) {
 			<div class="row fw-row userRow row-no-padding">
 				<div class="col-md-3 celBlock">
 					<span class="dataVisibleLeft">Units spied date</span>
-					<span class="dataVisibleRight"><?=(!!$reports['units']?Format::time_elapsed($reports['units']->getDate()):'')?></span>
+					<span class="dataVisibleRight"><?=(!!$reports['units']?$reports['units']->getDate(true):'')?></span>
 				</div>
 				<div class="col-md-3 celBlock">
 					<span class="dataVisibleLeft">Buildings spied date</span>
-					<span class="dataVisibleRight"><?=(!!$reports['buildings']?Format::time_elapsed($reports['buildings']->getDate()):'')?></span>
+					<span class="dataVisibleRight"><?=(!!$reports['buildings']?$reports['buildings']->getDate(true):'')?></span>
 				</div>
 				<div class="col-md-3 celBlock">
 					<span class="dataVisibleLeft">Unit types</span>
