@@ -3,6 +3,10 @@ if(!isset($debug)) $debug = false;
 if(!$debug) require_once("../../../../../wp-load.php");
 nocache_headers();
 
+if(!Round::isLive()) {
+	die(json_encode(array('status' => 'Game is paused.', 'next' => false)));
+}
+
 include(ABSPATH."/attack_functions.php");
 include ABSPATH.'/constants.php';
 $timestamp = current_time('timestamp');

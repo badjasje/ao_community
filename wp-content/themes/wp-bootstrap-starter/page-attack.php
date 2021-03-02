@@ -9,6 +9,7 @@ if(!$user->isLoggedIn()) {
 	exit(wp_redirect(home_url('/')));
 }
 
+
 get_header();
 nocache_headers();
 include 'constants.php';

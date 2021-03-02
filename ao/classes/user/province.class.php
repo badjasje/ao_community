@@ -860,6 +860,7 @@ class Province extends DbObject {
         return $spiesOwned;
     }
     function get_spy_buttons($target_id) {
+        if(!Round::isLive()) return;
         if($this->get('id') == $target_id) return;
         if($this->isFellowClanMember($target_id)) return;
         $target = Province::make($target_id);
