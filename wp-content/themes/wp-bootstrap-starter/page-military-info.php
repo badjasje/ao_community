@@ -52,7 +52,7 @@ $targetProvince = Province::make($targetID);
                 ?>
                 <div class="row unitRow">
                     <div class="col-8 col-md-6 celBlock"><?=$unit['normalname']?></div>
-                    <div class="col-4 col-md-6 celBlock"><?=$unit['num']?> (<?=$unit['ordered']?>)</div>
+                    <div class="col-4 col-md-6 celBlock text-right text-md-left"><?=$unit['num']?> (<?=$unit['ordered']?>)</div>
                 </div>
             <? } ?>
     	</div>
@@ -66,7 +66,7 @@ $targetProvince = Province::make($targetID);
             <? foreach($targetProvince->getOrders() as $key => $order) { ?>
                 <div class="row unitRow" id="order<?=$order->get('id')?>">
                     <div class="col-4 celBlock"><?=$order->title(true)?></div>
-                    <div class="col-4 celBlock"><?=$order->amount(true)?></div>
+                    <div class="col-4 celBlock text-right text-md-left"><?=$order->amount(true)?></div>
                     <div class="col-4 celBlock"><span data-countdown="<?=$order->timeLeft()?>"></span></div>
                 </div>
             <? } ?>
@@ -87,7 +87,7 @@ $targetProvince = Province::make($targetID);
             ?>
             <div class="row unitRow">
                 <div class="col-8 col-md-6 celBlock"><?=$missile['normalname']?></div>
-                <div class="col-4 col-md-6 celBlock"><?=$missile['num']?> (<?=$missile['ordered']?>)</div>
+                <div class="col-4 col-md-6 celBlock text-right text-md-left"><?=$missile['num']?> (<?=$missile['ordered']?>)</div>
             </div>
         <? } ?>
     </div>
@@ -106,7 +106,7 @@ $targetProvince = Province::make($targetID);
             ?>
             <div class="row unitRow">
                 <div class="col-8 col-md-6 celBlock"><?=$building['normalname']?></div>
-                <div class="col-4 col-md-6 celBlock"><?=$building['num']?></div>
+                <div class="col-4 col-md-6 celBlock text-right text-md-left"><?=$building['num']?></div>
             </div>
         <? } ?>
     </div>
@@ -143,7 +143,7 @@ $targetProvince = Province::make($targetID);
             if($research['level']==0) continue;?>
             <div class="row unitRow">
                 <div class="col-8 col-md-6 celBlock"><?=$research['name']?></div>
-                <div class="col-4 col-md-6 celBlock"><?=$research['level']?></div>
+                <div class="col-4 col-md-6 celBlock text-right text-md-left"><?=$research['level']?></div>
             </div>
         <? } ?>
     </div>
