@@ -16,7 +16,7 @@ if(empty($target_id) || !is_numeric($target_id)) {
 	wp_redirect(get_permalink(3486));
 }
 $member = Province::make($target_id);
-$reports = $province->getReports($target_id);
+$reports = $province->getReports($target_id, true);
 
 $repUnits = $repBuildings = [];
 if(!!$reports['units']) {
