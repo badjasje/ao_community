@@ -4,7 +4,7 @@ function ajax_declare($province, $return) {
     $timestamp = current_time('timestamp');
 
     if(!Round::isLive()) {
-        return array('status' => 'Game is paused.');
+        return array('status' => 'The round has ended.');
     }
 
     $myClan = $province->getClan();

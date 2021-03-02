@@ -2,7 +2,7 @@
 
 function ajax_sendaid($province, $return) {
     if(!Round::isLive()) {
-        return array('status' => 'Game is paused.');
+        return array('status' => 'The round has ended.');
     }
 
     $receiver = Province::make(Request::post('receiver'));

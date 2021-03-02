@@ -1,7 +1,7 @@
 <?php
 
 function ajax_market($province, $return) {
-    if(!Round::isLive()) return array('status' => 'Game is paused.');
+    if(!Round::isLive()) return array('status' => 'The round has ended.');
 
     if((isset($_POST['demo']) && !is_array($_POST['demo'])) || (isset($_POST['build']) && !is_array($_POST['build']))) {
         return array('status' => 'Not a valid request.');

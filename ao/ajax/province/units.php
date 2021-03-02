@@ -2,7 +2,7 @@
 
 function ajax_units($province, $return) {
     if(!Round::isLive()) {
-        return array('status' => 'Game is paused.');
+        return array('status' => 'The round has ended.');
     }
     if(!is_array($_POST['build'])) {
         return array('status' => 'Not a valid request.');

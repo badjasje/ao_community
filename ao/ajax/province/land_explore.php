@@ -1,7 +1,7 @@
 <?php
 
 function ajax_land_explore($province, $return) {
-    if(!Round::isLive()) return array('status' => 'Game is paused.');
+    if(!Round::isLive()) return array('status' => 'The round has ended.');
     $postedTurns = abs(floor(Request::post('turns')));
 
     if ($postedTurns < 1 || !is_numeric(($postedTurns))) {

@@ -1,7 +1,7 @@
 <?php
 
 function ajax_buildings($province, $return) {
-    if(!Round::isLive()) return array('status' => 'Game is paused.');
+    if(!Round::isLive()) return array('status' => 'The round has ended.');
     $buildings = $province->getBuildings();
 
     if(!is_array($_POST['demo']) || !is_array($_POST['build'])) {
