@@ -1063,6 +1063,7 @@ class Province extends DbObject {
 				}
 			}
 			$reports['type_array'] = array_unique($reports['type_array']);
+            $reports['attack_array'] = array_unique($reports['attack_array']);
 		}
 
         $newest = false;
