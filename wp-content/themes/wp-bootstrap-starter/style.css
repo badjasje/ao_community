@@ -1752,6 +1752,9 @@ input[type="radio"]:checked + label {
 .wp-polls .pollbar { background: #46765d; border: none; }
 
 /* global table lists, used in Bank, Research, Buildings, Units, Sattelites, Market */
+.bg-blue { background: #3f525f; }
+.bg-red { background: #927065; }
+.bg-green { background: #45755e; }
 .aoPage { width: 100%; }
 .aoPage .blockHeader p { margin-bottom:10px;}
 .aoPage .blockHeader a { color: #000!important; }
@@ -1768,8 +1771,8 @@ input[type="radio"]:checked + label {
 .aoTable.grey .headerRow { background: rgba(81, 81, 81, 0.75); }
 .aoTable .headerRow th { font-weight:normal; border-bottom: 1px solid #FFF; }
 .aoTable .headerRow th, .aoTable .unitRow td { padding: 10px 10px 10px 15px; }
-.aoTable .headerRow .buildBlock, .bg-blue { background: #3f525f; width: 15%; }
-.aoTable .headerRow .demoBlock, .bg-red { background: #927065; width: 15%; }
+.aoTable .headerRow .buildBlock { background: #3f525f; width: 15%; }
+.aoTable .headerRow .demoBlock { background: #927065; width: 15%; }
 .aoTable .unitRow .mainSubmit { border:none; }
 .aoTable .unitRow td { border-bottom: 1px solid rgba(255,255,255,.2); }
 .aoTable .buildBlock { background: rgba(45,67,81,.3); }
