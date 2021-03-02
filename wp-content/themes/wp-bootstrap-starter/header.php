@@ -251,9 +251,9 @@ $timeLeft = Market::timeLeft();
 			</div>
 		<?php } ?>
 
-		<?php if(Round::isLive() && $timeLeft < 1 && $pageId == 3179):?>
+		<?php if(Round::isLive() && $timeLeft < 1 && in_array($pageTitle, ['Market','Missiles'])):?>
 			<div class="permaNotification">
-				<i class="fas fa-info-circle"></i> You cannot order units during the last 24 hours of the round
+				<i class="fas fa-info-circle"></i> You cannot order <?=($pageTitle=='Market'?'units':'missiles')?> during the last 24 hours of the round
 			</div>
 		<?php endif;?>
 
