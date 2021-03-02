@@ -1,8 +1,23 @@
 <?
 $clan = $province->getClan();
+
 $settings = array('media_buttons' => false, 'editor_height' => 300, 'textarea_name' => 'new_message');
 ?>
 <div class="blockHeader">Clan message <?=$clan->getName()?></div>
+
+<div class="statusBlock border-bottom">
+	<div class="row statusTotalRow">
+		<div class="col-md-6 col-lg-4 statusRow statCol-1">
+			<div class="statusInsideCol">Total networth</div><div class="statusInsideCol"><?=$clan->getNetworth(true)?></div>
+		</div>
+		<div class="col-md-6 col-lg-4 statusRow statCol-2">
+			<div class="statusInsideCol">Average networth</div><div class="statusInsideCol"><?=$clan->getAvgNetworth(true)?></div>
+		</div>
+		<div class="col-md-6 col-lg-4 statusRow statCol-3">
+			<div class="statusInsideCol">Points</div><div class="statusInsideCol"><?=$clan->getPoints(true)?></div>
+		</div>
+	</div>
+</div>
 
 <div class="col-md-10 clanMessage">
 	<div id="savedmsg"><?=$clan->getMessage(true)?></div>
