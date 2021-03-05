@@ -2,7 +2,7 @@
 
 function ajax_removenp($province, $return) {
     if(!Round::isLive()) {
-        return array('status' => 'Game is paused.');
+        return array('status' => 'The round has ended.');
     }
 
     if(!$province->isProtected()) {

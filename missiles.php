@@ -38,6 +38,10 @@ if (strlen(implode("",$_POST)) <= 0) {
     exit;
 }
 
+if(!Market::isOpen()) {
+    die(json_encode(array('status' => 'The market is closed','next' => false)));
+}
+
 $totalmoney = get_user_meta($userId, 'money', true);
 
 $turns = get_user_meta($userId, 'turns', true);

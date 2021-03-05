@@ -1752,6 +1752,9 @@ input[type="radio"]:checked + label {
 .wp-polls .pollbar { background: #46765d; border: none; }
 
 /* global table lists, used in Bank, Research, Buildings, Units, Sattelites, Market */
+.bg-blue { background: #3f525f; }
+.bg-red { background: #927065; }
+.bg-green { background: #45755e; }
 .aoPage { width: 100%; }
 .aoPage .blockHeader p { margin-bottom:10px;}
 .aoPage .blockHeader a { color: #000!important; }

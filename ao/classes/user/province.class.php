@@ -860,6 +860,7 @@ class Province extends DbObject {
         return $spiesOwned;
     }
     function get_spy_buttons($target_id) {
+        if(!Round::isLive()) return;
         if($this->get('id') == $target_id) return;
         if($this->isFellowClanMember($target_id)) return;
         $target = Province::make($target_id);
@@ -971,6 +972,10 @@ class Province extends DbObject {
     public function getClan() {
         return (!empty($this->get('clan_id_user')) ? Clan::make($this->get('clan_id_user')) : false);
     }
+    public function getClanMembers() { // returns an array of id's
+        if($clan = $this->getClan()) return $clan->getMembers();
+        return false;
+    }
     public function isFellowClanMember($target_id) {
         if($clan = $this->getClan()) {
             return in_array($target_id, $clan->getMembers());
@@ -1011,7 +1016,7 @@ class Province extends DbObject {
     /**
      * Spy Reports
      */
-    public function getReports($target_id) {
+    public function getReports($target_id, $format=false) {
         if($this->get('id') == $target_id) return false;
         if($this->isFellowClanMember($target_id)) return false;
         $target = Province::make($target_id);
@@ -1021,7 +1026,14 @@ class Province extends DbObject {
         if($clan = $this->getClan()) $members = $clan->getMembers();
 
         // Only latest post per type
-        $reports = array();
+        $reports = array(
+            'buildings' => false,
+            'units' => false,
+            'type_array' => [],
+            'attack_array' => [],
+            'networth' => false,
+            'land' => false,
+        );
         $args = array(
             'posts_per_page' => 1, 'author__in'	=> $members, 'post_type' => 'spy_rep',
             'meta_query' => array(
@@ -1041,6 +1053,33 @@ class Province extends DbObject {
         foreach($posts as $post) {
             $reports['units'] = new Report($post);
         }
+
+		if(!!$reports['units']) {
+			foreach(Units::get() as $unit) {
+				foreach($reports['units']->getEntities() as $normalname => $amount) {
+					if($normalname == $unit['normalname']) { // Match on name, ehw
+						$reports['type_array'][] = $unit['type'];
+						$reports['attack_array'] = array_merge($reports['attack_array'], $unit['attacks']);
+					}
+				}
+			}
+			$reports['type_array'] = array_unique($reports['type_array']);
+            $reports['attack_array'] = array_unique($reports['attack_array']);
+		}
+
+        $newest = false;
+		if(!!$reports['buildings'] && !!$reports['units']) {
+			if(strtotime($reports['buildings']->getDate()) > strtotime($reports['units']->getDate())) {
+				$newest = $reports['buildings'];
+			} else $newest = $reports['units'];
+		}
+		else if(!!$reports['buildings']) $newest = $reports['buildings'];
+		else if(!!$reports['units']) $newest = $reports['units'];
+		if(!!$newest) {
+			$reports['networth'] = $newest->getNetworthRegistered($format); //Formatted?
+			$reports['land'] = $newest->getLandRegistered($format);
+		}
+
         return $reports;
     }
 

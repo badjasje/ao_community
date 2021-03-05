@@ -2,7 +2,7 @@
 
 function ajax_setresearch($province, $return) {
     if(!Round::isLive()) {
-        return array('status' => 'Game is paused.');
+        return array('status' => 'The round has ended.');
     }
     $researchInProgress = $province->getCurrentResearch();
     $researchQueued = $province->getQueuedResearch();

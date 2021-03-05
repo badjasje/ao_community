@@ -67,7 +67,8 @@ class Report extends PostObject {
         return $this->entities;
     }
 
-    function getDate($format=false) { // Original: Y-m-d H:i:s
-        return ($format ? Format::date($this->post_date) : $this->post_date);
+    function getDate($format=false, $dateFormat='H:i | d-m-Y') { // Original: Y-m-d H:i:s
+        $d = strtotime($this->post_date);
+        return ($format ? Format::date($d, $dateFormat) : $d);
     }
 }

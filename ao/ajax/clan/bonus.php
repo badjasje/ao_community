@@ -2,7 +2,7 @@
 
 function ajax_bonus($province, $return) {
     if(!Round::isLive()) {
-        return array('status' => 'Game is paused.');
+        return array('status' => 'The round has ended.');
     }
     $bonus = Bonus::make(intval(Request::post('id')));
     if($bonus->get('id')==0) {

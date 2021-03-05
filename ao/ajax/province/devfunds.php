@@ -2,7 +2,7 @@
 
 
 function ajax_devfunds($province, $return) {
-    if(!Round::isLive()) return array('status' => 'Game is paused.');
+    if(!Round::isLive()) return array('status' => 'The round has ended.');
     if(!Round::isDev() && !Round::isTest() && !Round::isSandbox()) {
         return array('status' => 'Unavailable');
     }

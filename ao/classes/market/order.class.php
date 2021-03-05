@@ -1,6 +1,8 @@
 <?php
 class Order extends PostObject {
 
+    public static $wp_post_type = 'market_order';
+
     function __construct($postData=null) {
         parent::__construct($postData);
         if(!empty($this->post_author)) {
@@ -8,17 +10,19 @@ class Order extends PostObject {
         }
         $unit_type = $this->get('unit_type');
 
-        if($this->type() == 'units') {
-            $unit = Units::get($unit_type);
-            if(!!$unit) $this->set('title', $unit['normalname']);
-        }
-        if($this->type() == 'satellite') {
-            $satellite = Satellites::get($unit_type);
-            if(!!$satellite) $this->set('title', $satellite['name']);
-        }
-        if($this->type() == 'missile') {
-            $missile = Missiles::get($unit_type);
-            if(!!$missile) $this->set('title', $missile['normalname']);
+        switch($this->type()) {
+            case 'units':
+                $unit = Units::get($unit_type);
+                if(!!$unit) $this->set('title', $unit['normalname']);
+                break;
+            case 'satellite':
+                $satellite = Satellites::get($unit_type);
+                if(!!$satellite) $this->set('title', $satellite['name']);
+                break;
+            case 'missile':
+                $missile = Missiles::get($unit_type);
+                if(!!$missile) $this->set('title', $missile['normalname']);
+                break;
         }
     }
 
@@ -46,13 +50,36 @@ class Order extends PostObject {
         return intval($this->get('amount_ordered'));
     }
 
+    public function value($format=false) {
+        $n = intval($this->get('order_value'));
+        return ($format ? Format::money($n) : $n);
+    }
+
+    public function networth($format=false) {
+        $n = 0;
+        $unit_type = $this->get('unit_type');
+        switch($this->type()) {
+            case 'units':
+                $unit = Units::get($unit_type);
+                $n = (($unit['price'] * $unit['networth']) / 100) * $this->amount();
+                break;
+            case 'satellite':
+                $n = $this->value() * Satellites::get($unit_type)['networth']/100;
+                break;
+            case 'missile':
+                $n = $this->value() * Missiles::get($unit_type)['networth']/100;
+                break;
+        }
+        return ($format ? Format::networth($n) : $n);
+    }
+
     public function timeLeft($format=false) {
         $diff = intval($this->get('delivery_time')) - current_time('timestamp');
         return ($format ? Format::time_diff($diff) : $diff);
     }
 
     public function cashback($format=false) {
-        $n = round(intval($this->get('order_value')) * Settings::get('order_cancel_cashback'));
+        $n = round($this->value() * Settings::get('order_cancel_cashback'));
         if ($this->type() == 'satellite') {
             $sat = Satellites::get($this->get('unit_type'));
             $n = (!!$sat ? round($sat['price'] * Settings::get('order_cancel_cashback')) : 0);

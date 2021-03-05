@@ -142,6 +142,14 @@ jQuery(function($) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
+    if($(".searchclans").length) $(".searchclans").select2();
+
+    if($('.redirectOnChange').length) {
+        $('.redirectOnChange').on('change', function(e) {
+            if($(this).val()!='' && $(this).val()!=false) window.location.href = $(this).val();
+        });
+    }
+
     // Used on buildings and users page
     function toggleDescriptions(type, s) {
         setCookie(type+'_descriptions', s, 256);
@@ -411,16 +419,15 @@ jQuery(function($) {
         var turns = provinceData.turns - totals.turns;
         var money = provinceData.money - totals.cost;
         $('#turnbuild .unitRow:not(.headerRow,.descriptionRow)').each(function() {
-            var bpt = parseInt($(this).data('bpt')), space = parseInt($(this).data('space'));
-            var special_space = ($(this).data('specialspace') != undefined ? parseInt($(this).data('specialspace')) : false);
+            var bpt = parseInt($(this).data('bpt')), space = parseInt($(this).attr('data-space'));
+            var special_space = ($(this).attr('data-specialspace') != undefined ? parseInt($(this).attr('data-specialspace')) : false);
             var ttl = specialttl = 0;
             $(this).siblings(':not(.headerRow,.descriptionRow)').add(this).each(function() {
-                if($(this).data('specialspace') != undefined) specialttl += Math.abs($('.buildBlock .unitInput',this).val());
+                if($(this).attr('data-specialspace') != undefined) specialttl += Math.abs($('.buildBlock .unitInput',this).val());
                 ttl += Math.abs($('.buildBlock .unitInput',this).val());
             });
             var nm = Math.min( Math.floor(money/$(this).data('buildprice')), turns*bpt, Math.floor(space - ttl));
             nm = (special_space !== false ? Math.min(nm, Math.floor(special_space - specialttl)) : nm);
-            /*console.log(special_space, specialttl, Math.abs($('.buildBlock .unitInput',this).val()));*/
             var sm = Math.abs($('.buildBlock .unitInput', this).val()) + nm;
             $('.buildmax', this).attr('data-amount', sm ).text(nm);
             $('.buildBlock .unitInput', this).attr('max', sm);
@@ -445,6 +452,7 @@ jQuery(function($) {
                 r.attr('data-space', sp).attr('data-specialspace', ssp);
             }
             $(this).trigger('reset');
+            //console.log($('.sniper .buildmax', this).attr('data-amount'));
             calculateUnitsTotals();
         });
     });
@@ -487,8 +495,8 @@ jQuery(function($) {
             space[type] = parseInt($('#'+type+'spacecount').text());
             $('.unitRow:not(.headerRow,.descriptionRow)', this).each(function() {
                 var b = Math.abs($('.buildBlock .unitInput',this).val()), d = Math.abs($('.demoBlock .unitInput',this).val());
-                if($(this).data('specialspace') != undefined && space.special == -1) space.special = parseInt($(this).data('specialspace'));
-                if($(this).data('specialspace') != undefined) space.special += d - b;
+                if($(this).attr('data-specialspace') != undefined && space.special == -1) space.special = parseInt($(this).attr('data-specialspace'));
+                if($(this).attr('data-specialspace') != undefined) space.special += d - b;
                 space[type] += d - b;
             });
         });
@@ -497,7 +505,7 @@ jQuery(function($) {
         $('#market .unitRow:not(.headerRow,.descriptionRow)').each(function() {
             var type = $(this).parents('.unitBuildTable').attr('id');
             var nm = space[type];
-            nm = ($(this).data('specialspace') != undefined ? Math.min(nm, space.special) : nm);
+            nm = ($(this).attr('data-specialspace') != undefined ? Math.min(nm, space.special) : nm);
             var tradeMax = Math.floor( ((money-totals.buytotal)+totals.trade) / $(this).data('buyprice')); // max we can trade
             nm = Math.min( tradeMax, nm);
             var sm = Math.abs($('.buildBlock .unitInput', this).val()) + nm;

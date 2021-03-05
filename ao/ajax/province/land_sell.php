@@ -2,7 +2,7 @@
 
 function ajax_land_sell($province, $return) {
     if(!Round::isLive()) {
-        return array('status' => 'Game is paused.');
+        return array('status' => 'The round has ended.');
     }
 
     $postedLand = abs(floor(Request::post('land')));

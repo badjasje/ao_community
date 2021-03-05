@@ -1,7 +1,7 @@
 <?php
 
 function ajax_satellite($province, $return) {
-    if(!Round::isLive()) return array('status' => 'Game is paused.');
+    if(!Round::isLive()) return array('status' => 'The round has ended.');
 
     $action = Request::post('action');
     switch($action) {

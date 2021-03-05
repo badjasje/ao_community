@@ -2,6 +2,7 @@
 class Clan extends PostObject {
 
     public static $cache = 'clans';
+    public static $wp_post_type = 'clan';
 
     function __construct($postData=null) {
         parent::__construct($postData);
