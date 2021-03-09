@@ -351,7 +351,7 @@ if($spytype == 'spy'):?>
                 <i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
             </a>
             <a class="col-md-4 mainSubmit hoverEffect" href="/spy-report-overview/?id=<?php echo $clan_defender_id;?>">
-                Spy report overview clan
+                <i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy report overview clan
             </a>
         </div>
         <?=$attacker->get_spy_buttons($target_id)?>
