@@ -1031,8 +1031,6 @@ class Province extends DbObject {
             'units' => false,
             'type_array' => [],
             'attack_array' => [],
-            'networth' => false,
-            'land' => false,
         );
         $args = array(
             'posts_per_page' => 1, 'author__in'	=> $members, 'post_type' => 'spy_rep',
@@ -1063,21 +1061,10 @@ class Province extends DbObject {
 					}
 				}
 			}
+            asort($reports['type_array']);
+            asort($reports['attack_array']);
 			$reports['type_array'] = array_unique($reports['type_array']);
             $reports['attack_array'] = array_unique($reports['attack_array']);
-		}
-
-        $newest = false;
-		if(!!$reports['buildings'] && !!$reports['units']) {
-			if(strtotime($reports['buildings']->getDate()) > strtotime($reports['units']->getDate())) {
-				$newest = $reports['buildings'];
-			} else $newest = $reports['units'];
-		}
-		else if(!!$reports['buildings']) $newest = $reports['buildings'];
-		else if(!!$reports['units']) $newest = $reports['units'];
-		if(!!$newest) {
-			$reports['networth'] = $newest->getNetworthRegistered($format); //Formatted?
-			$reports['land'] = $newest->getLandRegistered($format);
 		}
 
         return $reports;
