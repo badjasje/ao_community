@@ -105,7 +105,7 @@ if(empty($viewClan->get('id'))) {
 				</div>
 				<div class="col-md-4 statusRow statCol-2">
 					<div class="row fw-row userRow row-no-padding">
-						<div class="col-md-12 celBlock"><strong>Units report <?=(!!$unitProvince ? 'by '.$unitProvince->getName(false) : '')?></strong></div>
+						<div class="col-md-12 celBlock"><strong>Units report</strong></div>
 						<? if(!!$reports['units']) { ?>
 							<div class="col-md-12 celBlock">
 								<span class="dataVisibleLeft">Networth</span>
@@ -116,7 +116,7 @@ if(empty($viewClan->get('id'))) {
 								<span class="dataVisibleRight"><?=$reports['units']->getLandRegistered(true)?></span>
 							</div>
 							<div class="col-md-12 celBlock">
-								<span class="dataVisibleLeft">Date</span>
+								<span class="dataVisibleLeft">Report by <?=$unitProvince->getName(false)?> on</span>
 								<span class="dataVisibleRight"><?=$reports['units']->getDate(true)?></span>
 							</div>
 						<? } else echo '<div class="col-md-12"><em>No reports yet</em></div>'; ?>
@@ -124,7 +124,7 @@ if(empty($viewClan->get('id'))) {
 				</div>
 				<div class="col-md-4 statusRow statCol-3">
 					<div class="row fw-row userRow row-no-padding">
-						<div class="col-md-12 celBlock"><strong>Buildings report <?=(!!$buildingProvince ? 'by '.$buildingProvince->getName(false) : '')?></strong></div>
+						<div class="col-md-12 celBlock"><strong>Buildings report</strong></div>
 						<? if(!!$reports['buildings']) { ?>
 							<div class="col-md-12 celBlock">
 								<span class="dataVisibleLeft">Networth</span>
@@ -135,7 +135,7 @@ if(empty($viewClan->get('id'))) {
 								<span class="dataVisibleRight"><?=$reports['buildings']->getLandRegistered(true)?></span>
 							</div>
 							<div class="col-md-12 celBlock">
-								<span class="dataVisibleLeft">Date</span>
+								<span class="dataVisibleLeft">Report by <?=$buildingProvince->getName(false)?> on</span>
 								<span class="dataVisibleRight"><?=$reports['buildings']->getDate(true)?></span>
 							</div>
 						<? } else echo '<div class="col-md-12"><em>No reports yet</em></div>'; ?>
