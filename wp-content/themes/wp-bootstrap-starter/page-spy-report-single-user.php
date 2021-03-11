@@ -145,7 +145,7 @@ if(!!$reports['buildings']) {
 
 		<div class="row fw-row row-no-padding">
 			<div class="col-md-<?=$member->getClanId()?3:4?> p-0 profileButtonRow">
-				<a href="<?=Request::siteUrl()?>/attack/?id=<?=$member_id?>" class="cancelButton profileButton">
+				<a href="<?=Request::siteUrl()?>/attack/?id=<?=$target_id?>" class="cancelButton profileButton">
 					<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
 				</a>
 			</div>
