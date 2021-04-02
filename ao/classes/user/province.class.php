@@ -8,7 +8,7 @@ class Province extends DbObject {
     public $fields = array(
         // Generic
         'id','display_name','avatar_user','status','starting_bonus','new_events','new_messages','new_global_events',
-        'user_lock','morale_lock','telegram_key','last_online',
+        'user_lock','morale_lock','telegram_key','last_online','reset_status',
 
         // Resources
         'money','turns','networth','land','power','morale','morale_pool','sat_morale',
