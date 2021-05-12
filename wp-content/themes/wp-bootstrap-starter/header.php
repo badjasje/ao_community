@@ -14,7 +14,7 @@ $researchInProgress = false;
 if(!!$province && $r = $province->getCurrentResearch()) $researchInProgress = $r->get('name');
 
 $provinceDied = (!!$province && $province->isDead() && $province->get('times_killed') > 0);
-if($provinceDied) { // this also happens in currentuser construct, but only the first time I guess?
+if($provinceDied || $province->get('status') == false) { // this also happens in currentuser construct, but only the first time I guess?
 	$province->afterDeath();
 	$province->update('status', 'nukeprotection');
 	$province->update('nuke_protection_timestamp', current_time('timestamp') + Settings::get('nuke_protection_length'));

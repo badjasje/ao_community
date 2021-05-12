@@ -119,7 +119,7 @@ if(empty($viewClan->get('id'))) {
 								<span class="dataVisibleLeft">Report by <?=$unitProvince->getName(false)?> on</span>
 								<span class="dataVisibleRight"><?=$reports['units']->getDate(true)?></span>
 							</div>
-						<? } else echo '<div class="col-md-12"><em>No reports yet</em></div>'; ?>
+						<? } else echo '<div class="col-md-12 celBlock"><em>No reports yet</em></div>'; ?>
 					</div>
 				</div>
 				<div class="col-md-4 statusRow statCol-3">
@@ -138,7 +138,7 @@ if(empty($viewClan->get('id'))) {
 								<span class="dataVisibleLeft">Report by <?=$buildingProvince->getName(false)?> on</span>
 								<span class="dataVisibleRight"><?=$reports['buildings']->getDate(true)?></span>
 							</div>
-						<? } else echo '<div class="col-md-12"><em>No reports yet</em></div>'; ?>
+						<? } else echo '<div class="col-md-12 celBlock"><em>No reports yet</em></div>'; ?>
 					</div>
 				</div>
 
