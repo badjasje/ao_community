@@ -411,15 +411,15 @@ add_filter('manage_users_columns', 'new_modify_user_table');
 function new_modify_user_table_row($val, $column_name, $user_id) {
     $member_data = get_userdata($user_id);
     $userData = get_user_meta($user_id);
-    $lastseen = date('G:i:s | d-m-Y', $userData['last_online'][0]);
-    $clan_id = $userData['clan_id_user'][0];
+    $lastseen = (isset($userData['last_online']) ? date('G:i:s | d-m-Y', $userData['last_online'][0]) : 0);
+    $clan_id = (isset($userData['clan_id_user']) ? $userData['clan_id_user'][0] : 0);
 
     switch ($column_name) {
         case 'networth':
-            return '$ ' . number_format($userData['networth'][0], 0, ',', ' ');
+            return  (isset($userData['networth']) ? '$ ' . number_format($userData['networth'][0], 0, ',', ' ') : '');
             break;
         case 'land':
-            return number_format($userData['land'][0], 0, ',', ' ') . ' m<sup>2</sup>';
+            return (isset($userData['land']) ? number_format($userData['land'][0], 0, ',', ' ') . ' m<sup>2</sup>' : '');
             break;
         case 'playername':
             return '<a target="_blank" href="/users/profile/?id=' . $user_id . '">' . $member_data->display_name . ' (#' . $user_id . ')</a>';
