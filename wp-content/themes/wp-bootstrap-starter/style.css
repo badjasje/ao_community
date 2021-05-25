@@ -1554,6 +1554,10 @@ input[type="radio"]:checked + label {
 .userRow{
 	height:50px;
 }
+@media only screen and (min-width: 768px) {
+    .userRow { height:auto }
+}
+
 .memberField { display: inline-flex; }
 .memberField .nameId { margin:0 3px; }
 
@@ -1847,9 +1851,6 @@ input[type="radio"]:checked + label {
     }
     .bankCol{
         min-height:41px;
-    }
-    .userRow{
-        height:auto
     }
     .cancelButton,.allUsersAvatarCol,.attackTypeInput,.bonusTrack{
         height:41px;
