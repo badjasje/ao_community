@@ -128,7 +128,7 @@ $count = 0;
         $points = get_post_meta($clan_ID, 'clan_points', true);
         $count++;
         if($count < 4){
-        	$winnerArray['Points Champion'][$count] = array($clan_ID,'Points: $ '.number_format($points, 0, ',', ' '));
+        	$winnerArray['Points Champion'][$count] = array($clan_ID, 'Points: $ '.number_format($points, 0, ',', ' '));
         }
         ?>
         <tr>

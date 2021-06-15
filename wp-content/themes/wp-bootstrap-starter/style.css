@@ -1751,6 +1751,11 @@ input[type="radio"]:checked + label {
     background-position: center !important;
 }
 
+.award_Bronze { color: #CD7F32; }
+.award_Silver { color: silver; }
+.award_Gold { color:  gold; }
+.award_Diamond { color: #d12bff; }
+
 .wp-polls p { margin: 0; }
 .wp-polls ul, .wp-polls-ul, .wp-polls-ans ul { margin:0; }
 .wp-polls .pollbar { background: #46765d; border: none; }
