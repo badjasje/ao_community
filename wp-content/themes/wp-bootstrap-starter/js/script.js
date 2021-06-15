@@ -18,7 +18,7 @@ function getCookie(name) {
     return null;
 }
 
-var provinceData = {};
+var provinceData = {}, oldTitle = document.title;
 function updateHeaderData(cb) {
     var $ = jQuery;
     $.ajax({url:site_url+'/ajax/header',type:'post'}).done(function(response) { // ajax without loader, returns html in json
@@ -44,6 +44,8 @@ function updateHeaderData(cb) {
             $('.globalsBadge').text(data.globals).toggle((data.globals>0));
             $('.localsBadge').text(data.locals).toggle((data.locals>0));
             $('.messagesBadge').text(data.messages).toggle((data.messages>0));
+            var unread = data.globals + data.locals + data.messages;
+            if(unread > 0) document.title = '('+unread+') '+oldTitle;
             if(!!cb) cb.call();
         }
     });
