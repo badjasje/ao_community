@@ -1551,12 +1551,6 @@ input[type="radio"]:checked + label {
 	padding:25px;
 	background-color:#fff;
 }
-.userRow{
-	height:50px;
-}
-@media only screen and (min-width: 768px) {
-    .userRow { height:auto }
-}
 
 .memberField { display: inline-flex; }
 .memberField .nameId { margin:0 3px; }
@@ -1940,8 +1934,6 @@ input[type="radio"]:checked + label {
         padding: 7px 12px;
     }
     .eventFooter { margin-bottom:20px; }
-
-    .memberinfo-main .userRow { height: auto }
 }
 
 .hidden { display:none; }
