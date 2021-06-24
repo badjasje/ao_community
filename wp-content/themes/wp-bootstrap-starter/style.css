@@ -1940,6 +1940,8 @@ input[type="radio"]:checked + label {
         padding: 7px 12px;
     }
     .eventFooter { margin-bottom:20px; }
+
+    .memberinfo-main .userRow { height: auto }
 }
 
 .hidden { display:none; }
