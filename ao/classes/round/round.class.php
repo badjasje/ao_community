@@ -5,7 +5,6 @@ class Round extends DataObject {
 
     public static function init() { // @wp
         global $wpdb;
-        
         $config = array();
         $fields = array('starting_date','end_date','new_round_start','game_type','game_status','golden_shotgun','round_nr');
         foreach($fields as $key) $config[$key] = false; // prefill

@@ -77,7 +77,7 @@ class Units extends DataObject {
             'life'			=>	41
         ),
         'rah66_commanches' 	=> array(
-            'price'			=>	'780',
+            'price'			=>	'840',
             'networth'		=>	11,
             'normalname'	=>	'Siege Chopper',
             'attacks'		=>  array('air','veh','bld'),
@@ -115,7 +115,7 @@ class Units extends DataObject {
             'life'			=>	54
         ),
         'abraham' 		=> array(
-            'price'			=>	'625',
+            'price'			=>	'685',
             'networth'		=>	11,
             'normalname'	=>	'Mirage Tank',
             'attacks'		=>  array('sea','inf','bld'),
@@ -265,7 +265,7 @@ class Units extends DataObject {
             'life'			=>	24
         ),
         'flamethrower' 	=> array(
-            'price'			=>	'510',
+            'price'			=>	'550',
             'networth'		=>	11,
             'normalname'	=>	'Rocketeer',
             'attacks'		=>  array('sea','air','bld'),
@@ -339,7 +339,7 @@ class Units extends DataObject {
             'life'			=>	49
         ),
         'destroyer' 		=> array(
-            'price'			=>	'1265',
+            'price'			=>	'1365',
             'networth'		=>	11,
             'normalname'	=>	'Destroyer',
             'attacks'		=>  array('veh','inf','bld'),
@@ -348,7 +348,7 @@ class Units extends DataObject {
             'type'			=>	'sea',
             'sectype'		=>	'normal',
             'attacktype'	=>	array('air_sea'),
-            'life'			=>	87
+            'life'			=>	80
         ),
         'sparrow'	 		=> array(
             'price'			=>	'1090',

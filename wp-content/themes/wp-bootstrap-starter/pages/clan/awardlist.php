@@ -1,11 +1,5 @@
 <?php
 
-$colorMap = [
-    "Bronze" => "#CD7F32",
-    "Silver" => "silver",
-    "Gold"   => "gold"
-];
-
 $awardTypeMap = [
     "PTS" => "points champion",
     "UA"  => "united arms",
@@ -23,13 +17,12 @@ foreach ($awards as $award){
     $position = $meta['position_clan'][0];
 
     $roundNr   = filter_var($round, FILTER_SANITIZE_NUMBER_INT);
-    $color     = $colorMap[$position];
     $awardType = array_search(strtolower($award->post_title), $awardTypeMap);
-    if (!isset($color) || $awardType==false) {
-        array_push($otherAwards, ["round" => $round,"color" => $color,"name"  => $award->post_title]);
+    if ($awardType==false) {
+        array_push($otherAwards, ["round" => $round,"color" => $position, "name"  => $award->post_title]);
     } else {
         if (!isSet($awardsPerRound[$roundNr])) $awardsPerRound[$roundNr] = array();
-        $awardsPerRound[$roundNr][$awardType]=$color;
+        $awardsPerRound[$roundNr][$awardType] = $position;
     }
 }
 krsort($awardsPerRound);
@@ -59,15 +52,15 @@ else {
                 $color = array_key_exists($awardType, $awards) ? $awards[$awardType] : false;
                 ?>
                 <div class="col-sm-2 col-2">
-                    <?=($color ? '<i class="fa fa-trophy fa-lg" style="color:'. $color .'" aria-hidden="true"></i>' : '-')?>
+                    <?=($color ? '<i class="fa fa-trophy fa-lg award_'.$color.'" aria-hidden="true"></i>' : ' ')?>
                 </div>
-                <? 
+                <?
             } ?>
         </div>
     <? } ?>
 
     <? foreach($otherAwards as $award) { ?>
-        <i class="fa fa-trophy fa-lg" style="color:<?=$award['color']?>" aria-hidden="true"></i>
+        <i class="fa fa-trophy fa-lg award_<?=$award['color']?>" aria-hidden="true"></i>
         &nbsp;<?=$award["round"]?>: <?=$award["name"]?>
         <br>
     <? }

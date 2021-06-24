@@ -24,7 +24,7 @@ class Settings extends DataObject {
         'start_morale' => 100,
         'start_morale_pool' => 100,
         'nuke_protection_length' => (48 * 3600),
-        'nuke_protection_removal' => (24 * 3600),
+        'nuke_protection_removal' => (36 * 3600), // Time left, not time passed
 
         // Default income
         'income_turns' => 1,
@@ -37,7 +37,7 @@ class Settings extends DataObject {
 
         // Nw costs multipliers for types without nw
         'nw_land' => 0.85,
-        'nw_research' => 950,
+        'nw_research' => 1500,
         // Satellite has their personal settings, just like buildings and units
 
         // Bank
@@ -117,7 +117,7 @@ class Settings extends DataObject {
         'turns_spy' => 1,
         'turns_saboteur' => 2,
         'turns_research' => 2, // duration times 2
-        'turns_queue_research' => 2.5, // duration times 3
+        'turns_queue_research' => 2.1, // duration times 3
 
         // Market, Satellite & Missile
         'sat_turn_cost' => 25,
