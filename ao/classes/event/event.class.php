@@ -340,13 +340,13 @@ class Event extends PostObject {
 
         // Defender losses
         $bld_losses = $unit_losses = array();
-        $def_unit_num_losses = (!empty($this->get('def_total_units_lost')) ? $this->get('def_total_units_lost') : 0);
+        $def_unit_num_losses = (!empty($this->get('def_total_units_lost')) ? round($this->get('def_total_units_lost')) : 0);
         $def_buildings_num_lost = (!empty($this->get('total_buildings_lost')) ? $this->get('total_buildings_lost') : 0);
         $def_lost = (!empty($this->get('defender_lost')) ? maybe_unserialize($this->get('defender_lost')) : array());
         foreach ($def_lost as $item) {
             $key = array_keys($item)[1];
             $num = array_values($item)[1];
-            if($item['type']=='unit' && isset($units[$key])) $unit_losses[] = $units[$key]['normalname'].': '.$num;
+            if($item['type']=='unit' && isset($units[$key])) $unit_losses[] = $units[$key]['normalname'].': '.round($num);
             else if($item['type']=='bld' && isset($buildings[$key])) $bld_losses[] = $buildings[$key]['normalname'].': '.$num;
         }
         $body .= ($format==true?'<p>':''). ($format==true&&count($def_lost)>0?'<strong>':'').'Defender losses: ' . Format::plural($def_unit_num_losses, 'unit');
