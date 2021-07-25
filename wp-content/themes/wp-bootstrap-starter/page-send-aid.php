@@ -42,12 +42,12 @@ if($clan) {
 					<div class="col-md-6 no-gutters">
 						<div class="row no-gutters">
 							<div class="attackDropdown statCol-1 no-gutters">Player to aid</div>
-							<div class="attackDropdown statCol-2 no-gutters p-0">
-								<select name="receiver" class="attackTypeInput">
+							<div class="attackDropdown statCol-2 no-gutters">
 									<? foreach ($members as $member) { ?>
-										<option name="receiver" value="<?=$member->get('id')?>"><?=$member->getName()?> (#<?=$member->get('id')?>)</option>
+										<label class="d-block">
+											<input type="radio" name="receiver" value="<?=$member->get('id')?>"> <?=$member->getName()?> (#<?=$member->get('id')?>)
+										</label>
 									<? } ?>
-								</select>
 							</div>
 						</div>
 					</div>
@@ -57,7 +57,7 @@ if($clan) {
 							<div class="col-sm-6 bankCol">
 								<input class="inputnr" min="0" max="<?=$maxAmount?>"<?=(!$can_send?' disabled':'')?> placeholder="Enter amount" type="number" id="amount" name="amount" />
 							</div>
-							<div id="maxaid" class="col-sm-6 bankCol mainSubmit">
+							<div id="maxaid" class="col-sm-6 bankCol mainSubmit border-top-0">
 								MAX
 							</div>
 						</div>
