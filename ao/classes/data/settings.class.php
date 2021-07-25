@@ -125,7 +125,7 @@ class Settings extends DataObject {
         'sat_demo_price' => .2,
         'sat_delivery_time' => (12 * 3600),
         'stealthsat_turn_cost' => 3,
-        'stealthsat_time' => (3600 * 3.5),
+        'stealthsat_time' => (3600 * 4),
         'stealthsat_morale_cost' => 100,
         'order_cancel_cashback' => 0.75,
         'missile_sell_multi' => 0.75,
