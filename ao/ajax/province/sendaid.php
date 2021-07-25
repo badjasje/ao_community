@@ -5,6 +5,10 @@ function ajax_sendaid($province, $return) {
         return array('status' => 'The round has ended.');
     }
 
+    if(current_time('timestamp') < (Round::startDate()+Settings::get('start_round_no_aid'))) {
+        return array('status' => 'You cannot send aid in the first '.(Settings::get('start_round_no_aid')/60/60).' hours of the round.');
+    }
+
     $receiver = Province::make(Request::post('receiver'));
     $aid = abs(floor(Request::post('amount')));
     if(!$receiver->get('id')) {

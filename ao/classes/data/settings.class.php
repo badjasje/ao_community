@@ -69,6 +69,7 @@ class Settings extends DataObject {
         // Aid
         'max_aid' => 250000,
         'max_aid_times' => 3,
+        'start_round_no_aid' => (72*60*60),
 
         // Attack constants
         'attack_maintargets' => array(

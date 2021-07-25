@@ -10,6 +10,8 @@ $province = $user->getProvince();
 $aid_sent = $province->get('aid_sent_today');
 $maxAmount = round(min(Settings::get('max_aid'), $province->getMoney()));
 
+$can_send = current_time('timestamp') >= (Round::startDate()+Settings::get('start_round_no_aid'));
+
 $clan = $province->getClan();
 $members = array();
 if($clan) {
@@ -24,7 +26,11 @@ if($clan) {
 	<div class="fw-row">
 
 		<div class="blockHeader">
+			<? if($can_send) { ?>
 			You can send aid <?=Settings::get('max_aid_times')?> times per day, with a maximum of <?=Format::money(Settings::get('max_aid'))?> per aid.
+			<? } else { ?>
+			You cannot send aid in the first <?=(Settings::get('start_round_no_aid')/60/60)?> hours of the round.
+			<? } ?>
 		</div>
 		<div class="blockHeader spaceNotice">
 			You have sent aid <span id="aidssent"><?=$aid_sent?></span> times today
@@ -49,7 +55,7 @@ if($clan) {
 					<div class="col-md-6 no-gutters">
 						<div class="row no-gutters">
 							<div class="col-sm-6 bankCol">
-								<input class="unitInput" min="0" max="<?=$maxAmount?>" placeholder="Enter amount" type="number" id="amount" name="amount" />
+								<input class="inputnr" min="0" max="<?=$maxAmount?>"<?=(!$can_send?' disabled':'')?> placeholder="Enter amount" type="number" id="amount" name="amount" />
 							</div>
 							<div id="maxaid" class="col-sm-6 bankCol mainSubmit">
 								MAX
@@ -59,7 +65,7 @@ if($clan) {
 				</div>
 
 				<input type="hidden" name="nonce" value="<?=Request::getNonce()?>" class="nonce">
-				<input type="submit" value="Send aid" class="mainSubmit">
+				<input type="submit" value="Send aid" class="mainSubmit"<?=(!$can_send?' disabled':'')?>>
 			</form>
 		<? } else if($aid_sent < Settings::get('max_aid_times'))  { ?>
 			<div class="blockHeader spaceNotice">
