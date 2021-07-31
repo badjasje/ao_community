@@ -195,7 +195,7 @@ class Clan extends PostObject {
     }
 
     public function getWarArray() {
-        $war_array = maybe_unserialize($this->get('war_array'));
+        $war_array = maybe_unserialize(maybe_unserialize($this->get('war_array'))); //old data may be malformed
         if(!is_array($war_array)) $war_array = array();
         return $war_array;
     }

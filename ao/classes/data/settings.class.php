@@ -69,6 +69,7 @@ class Settings extends DataObject {
         // Aid
         'max_aid' => 250000,
         'max_aid_times' => 3,
+        'start_round_no_aid' => (72*60*60),
 
         // Attack constants
         'attack_maintargets' => array(
@@ -124,7 +125,7 @@ class Settings extends DataObject {
         'sat_demo_price' => .2,
         'sat_delivery_time' => (12 * 3600),
         'stealthsat_turn_cost' => 3,
-        'stealthsat_time' => (3600 * 3.5),
+        'stealthsat_time' => (3600 * 4),
         'stealthsat_morale_cost' => 100,
         'order_cancel_cashback' => 0.75,
         'missile_sell_multi' => 0.75,

@@ -22,9 +22,16 @@ if($provinceDied || (!!$province && $province->get('status') == false)) { // thi
 
 $stats = $menu = array();
 if(!!$province) {
+
+	$nw = $province->getNetworth(false);
+	$minNW = Format::networth($nw / Settings::get('attack_range_mult'));
+	$maxNW = Format::networth($nw * Settings::get('attack_range_mult'));
+
 	$stats = array(
 		0 => array('title' => 'Money', 'value' => $province->getMoney(true)), //moneyheader
-		1 => array('title' => 'Networth', 'short' => 'Net.', 'class' => 'networth', 'value' => $province->getNetworth(true)), //networthheader
+		1 => array('title' => 'Networth', 'short' => 'Net.', 'class' => 'networth',
+			'value' => $province->getNetworth(true), 'tooltip' => 'Range '.$minNW.' - '.$maxNW
+		),
 		2 => array('title' => 'Turns', 'value' => $province->getTurns(true)), //turnsheader
 		3 => array('title' => 'Morale', 'value' => $province->getMorale(true), 'sup' => $province->getMoralePool(true)),
 		4 => array('title' => 'Land', 'value' => $province->getLand(true), 'tooltip' => 'Free land: '.$province->getFreeLand(true)),
