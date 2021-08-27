@@ -24,7 +24,7 @@ class Settings extends DataObject {
         'start_morale' => 100,
         'start_morale_pool' => 100,
         'nuke_protection_length' => (48 * 3600),
-        'nuke_protection_removal' => (36 * 3600), // Time left, not time passed
+        'nuke_protection_removal' => (24 * 3600), // Time left, not time passed
 
         // Default income
         'income_turns' => 1,
