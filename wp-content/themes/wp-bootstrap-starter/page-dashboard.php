@@ -7,6 +7,8 @@ get_header();
 $user = CurrentUser::make();
 $province = $user->getProvince();
 
+
+
 echo '<div class="row pageRow">';
 
 	if($province->getNetworth() <= 3499) {
@@ -33,6 +35,7 @@ echo '<div class="row pageRow">';
 
 	require_once('pages/dashboard/status-column.php');
 	echo '<div class="pageSpacer"></div>';
+	
 
 	require_once('pages/dashboard/latest-block.php');
 	echo '<div class="pageSpacer"></div>';

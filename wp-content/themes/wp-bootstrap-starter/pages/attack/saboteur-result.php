@@ -52,6 +52,7 @@ $moralecost = Settings::get('saboteur_morale_cost');
 update_user_meta($userId, 'morale', $oldmorale - $moralecost);
 
 if ($result == 'success') {
+	$attacker->updateXP('sabotage');
 	$silo1Status = get_user_meta($target_id, 'silo_disable_1', true);
 	if($silos >= 1) {
 		if($silo1Status == '' || $silo1Status == 'inactive') {

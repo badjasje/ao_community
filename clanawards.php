@@ -139,7 +139,7 @@ $count = 0;
 </table>
 <?php
 
-if($_GET['add'] == 1) {
+
     foreach ($winnerArray as $key => $winners) {
         foreach ($winners as $position => $winner) {
             if($position == 1) {
@@ -151,6 +151,23 @@ if($_GET['add'] == 1) {
             if($position == 3) {
                 $position = 'Bronze';
             }
+            
+            $clan = Clan::make($winner[0]);
+			$clanMembers = $clan->getMembers();
+		
+			$new_xp_pts = 4800/count($clanMembers);
+		
+            foreach ($clanMembers as $clanMember) {
+				
+				$user = User::make($clanMember);
+				$province = $user->getProvince();
+			
+				
+				$province->updateXP('clanaward',count($clanMembers));
+            }
+            
+            
+            /*
             $args = [
                 'post_title' => $key,
                 'post_status' => 'publish',
@@ -160,8 +177,8 @@ if($_GET['add'] == 1) {
             $newAwardId = wp_insert_post($args);
             update_field('round', 'Beta round ' . Round::getRoundNr(), $newAwardId);
             update_field('winning_clan', $winner[0], $newAwardId);
-            update_field('position_clan', $position, $newAwardId);
+            update_field('position_clan', $position, $newAwardId);*/
         }
     }
-}
+
 

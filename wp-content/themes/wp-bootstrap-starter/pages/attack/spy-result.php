@@ -128,6 +128,7 @@ if($spytype == 'spy'):?>
         <?php
         $winner_id = $userId;
         $result = 'success';
+        $attacker->updateXP('spy');
         ?>
         <div class="blockHeader">Your spy entered the base of <?php echo get_user_name($target_id);?></div>
         <div class="blockHeader spaceNotice">
@@ -245,6 +246,7 @@ if($spytype == 'spy'):?>
         <?php
         $winner_id = $userId;
         $result = 'success';
+        $attacker->updateXP('spy');
         ?>
         <div class="blockHeader">Your spyplane flew over the base of <?php echo get_user_name($target_id);?></div>
         <div class="blockHeader spaceNotice">

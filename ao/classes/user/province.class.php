@@ -8,7 +8,7 @@ class Province extends DbObject {
     public $fields = array(
         // Generic
         'id','display_name','avatar_user','status','starting_bonus','new_events','new_messages','new_global_events',
-        'user_lock','morale_lock','telegram_key','last_online','reset_status',
+        'user_lock','morale_lock','telegram_key','last_online','reset_status','player_xp',
 
         // Resources
         'money','turns','networth','land','power','morale','morale_pool','sat_morale',
@@ -102,6 +102,106 @@ class Province extends DbObject {
         if(in_array($key,$this->fields)) update_user_meta($this->id, $key, $value); //@wp
         return parent::update($key, $value);
     }
+    
+    
+    public function updateXP($key,$members=0) {
+
+	    switch ($key) {
+			case 'unit_attack': //
+				$num = 10;
+			break;
+			case 'missile_attack':
+				$num = 12;
+			break;
+			case 'missile_shot': //
+				$num = 2;
+			break;
+			case 'sat_attack': //
+				$num = 8;
+			break;
+			case 'succesful_defense': //
+				$num = 40;
+			break;
+			case 'research_complete': //
+				$num = 3;
+			break;
+			case 'spy': //
+				$num = 1;
+			break;
+			case 'sabotage': // 
+				$num = 1;
+			break;
+			case 'sniper': //
+				$num = 1;
+			break;
+			case 'aid':
+				$num = 30;
+			break;
+			case 'medal_1':
+				$num = 10000;
+			break;
+			case 'medal_2':
+				$num = 3000;
+			break;
+			case 'medal_3':
+				$num = 1000;
+			break;
+			case 'kill': //
+				$num = 500;
+			break;
+			case 'bank':
+				$num = 3;
+			break;
+			case 'clanaward':
+				$num = 4800/$members;
+			break;
+			
+			
+			case 'reset': //
+				$num = -5000;
+			break;
+			case 'unit_defeat': //
+				$num = -3;
+			break;
+			case 'sat_fail': //
+				$num = -5;
+			break;
+			case 'missile_hit': //
+				$num = -5;
+			break;
+			case 'missile_fail': //
+				$num = -2;
+			break;
+			case 'defeat_attacking': //
+				$num = -30;
+			break;
+			case 'death':
+				$num = -500;
+			break;
+		
+
+
+			default:
+			$num = 0;
+		}
+		$oldXP = $this->get('player_xp');
+
+		$damp = 1;
+		
+		if($oldXP >= 100000){
+			$damp = 0.9;
+		}
+		if($oldXP >= 150000){
+			$damp = 0.9;
+		}
+		if($oldXP >= 200000){
+			$damp = 0.8;
+		}
+		
+		$_SESSION['showError'] = "You gained $num experience points";
+        $this->update('player_xp', $oldXP + ($num*$damp));
+    }
+    
 
     /**
      * Helper function

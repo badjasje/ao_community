@@ -53,7 +53,7 @@ function ajax_sendaid($province, $return) {
 
     $province->update('aid_sent_today', $province->get('aid_sent_today') + 1);
     $receiver->update('new_events', $receiver->get('new_events') + 1);
-
+	$province->updateXP('aid');
     $ev = Event::create(array(
         'title' => 'Aid sent by '.$province->get('id').' Receiver: '.$receiver->get('id'),
         'type' => 'aid',

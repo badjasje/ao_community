@@ -56,6 +56,7 @@ if($sat_status == 'active') {
 $attackerLost = $no_snipers;
 $tot_sniper_attackpower = 0;
 if($result == 'success'){
+	$attacker->updateXP('sniper');
 	$winner_id = $userId;
 	$tot_sniper_attackpower = ($units['sniper']['attack']-30)*$no_snipers*(mt_rand(200,500)/100);
 	$attackerLost = min(round($no_snipers*mt_rand(6,20)/70),$no_snipers,$attSnipers);

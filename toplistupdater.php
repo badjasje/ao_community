@@ -62,5 +62,25 @@ foreach ($users as $user) {
 	}
 }
 
+
+
+
+
+$args = array(
+	'meta_key' => 'player_xp',
+	'orderby'  => 'meta_value_num',
+	'order'    => 'DESC',
+	'number'   => 50,
+);
+$users = get_users($args);
+
+foreach ($users as $user) {
+	$status = get_user_meta($user->ID, 'status', true);
+
+		$toplistArray['experience'][] = $user->ID;
+	
+}
+
 $toplistArray = maybe_serialize($toplistArray);
 update_field('toplistarray', $toplistArray,'options');
+

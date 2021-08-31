@@ -38,7 +38,7 @@ function ajax_bank_deposit($province, $return) {
     }
 
     $deposit = Deposit::create(array('province_id' => $province->id, 'length' => $length, 'amount' => $amount));
-
+	$attacker->updateXP('bank');
     return array(
         'success' => true,
         'status' => $deposit->deposited(true).' deposited for '. $deposit->get('days') .' days',

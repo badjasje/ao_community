@@ -25,6 +25,6 @@ function ajax_reset($province, $return) {
     }
 
     $province->reset();
-
+	$province->updateXP('reset');
     return array('success' => true);
 }

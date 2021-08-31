@@ -371,18 +371,25 @@ foreach($defender_unit_losses as $unit_type => $breakdown) {
     }
 }
 
+/* determine if attacker is winner or loser of battle */
 if($defender_total_power*1.2 <= $attacker_total_power){
 	$result = 'success';
 	$winner_id = $userId;
+	$attacker->updateXP('unit_attack');
+	$defender->updateXP('unit_defeat');
 }
 else{
 	$result = 'failure';
 	$winner_id = $target_id;
+	$attacker->updateXP('defeat_attacking');
+	$defender->updateXP('succesful_defense');
 }
 
 if ($lost_building_count == 0 && $lost_unit_count == 0) {
 	/* attacker did no damage */
 	$result       = 'failure';
+	$attacker->updateXP('defeat_attacking');
+	$defender->updateXP('succesful_defense');
 	$land_stolen  = 0;
 	$money_stolen = 0;
 	$winner_id = $target_id;
@@ -872,6 +879,8 @@ update_field('clan_points', $clan_points, $new_event_id);
 if($killed == true){
 	kill_event($userId,$target_id,$result,$defend_clan_id,$attack_clan_id);
 	update_post_meta($new_event_id, 'status_defender', 'death');
+	$attacker->updateXP('kill');
+	$defender->updateXP('death');
 }
 
 if(!$attacker->isShadowBanned()) {

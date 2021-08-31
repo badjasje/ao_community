@@ -50,6 +50,7 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
         /* finish research */
         if($research = $province->getCurrentResearch()) {
             if($research->timeLeft() <= 0) $research->end(); // starts queued research too, sends notification
+            $attacker->updateXP('research_complete');
         }
 
         /* remove NP */

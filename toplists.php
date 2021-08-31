@@ -17,7 +17,28 @@ $users = get_users($args);
 		$count++;
 		if($count == 1) {
 			$winnerArray['Medal of Earth'] = array($user_ID,'Land: '.number_format($land, 0, ',', ' ').'m2');
+			
 		}
+		
+		if($_GET['add'] == 1){
+			
+			if($count == 1) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+			}
+			if($count == 2) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+			}
+			if($count == 3) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+			}
+				
+		}
+		
+		
+		
 		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)</td>
@@ -45,6 +66,24 @@ $users = get_users($args);
 		if($count == 1){
 			$winnerArray['Medal of Honor'] = array($user_ID,'Points: '.number_format($points, 0, ',', ' '));
 		}
+		
+		if($_GET['add'] == 1){
+			
+			if($count == 1) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+			}
+			if($count == 2) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+			}
+			if($count == 3) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+			}
+				
+		}
+		
 		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)</td>
@@ -72,6 +111,24 @@ $users = get_users($args);
 		if($count == 1){
 			$winnerArray['Medal of Growth'] = array($user_ID,'Networth: $ '.number_format($networth, 0, ',', ' '));
 		}
+		
+		if($_GET['add'] == 1){
+			
+			if($count == 1) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+			}
+			if($count == 2) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+			}
+			if($count == 3) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+			}
+				
+		}
+		
 		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)</td>
@@ -99,6 +156,24 @@ $users = get_users($args);
 		if($count == 1){
 			$winnerArray['Medal of Courage'] = array($user_ID,'Attacks: '.number_format($attacks, 0, ',', ' '));
 		}
+		
+		if($_GET['add'] == 1){
+			
+			if($count == 1) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+			}
+			if($count == 2) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+			}
+			if($count == 3) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+			}
+				
+		}
+		
 		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)</td>
@@ -126,6 +201,24 @@ $users = get_users($args);
 		if($count == 1){
 			$winnerArray['Medal of Death'] = array($user_ID,'Kills: '.number_format($kills, 0, ',', ' '));
 		}
+		
+		if($_GET['add'] == 1){
+			
+			if($count == 1) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+			}
+			if($count == 2) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+			}
+			if($count == 3) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+			}
+				
+		}
+		
 		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)</td>
@@ -153,6 +246,24 @@ $users = get_users($args);
 		if($count == 1){
 			$winnerArray['Medal of Thievery'] = array($user_ID,'Stolen: $ '.number_format($stolen, 0, ',', ' '));
 		}
+		
+		if($_GET['add'] == 1){
+			
+			if($count == 1) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+			}
+			if($count == 2) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+			}
+			if($count == 3) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+			}
+				
+		}
+		
 		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)</td>
@@ -180,6 +291,24 @@ $users = get_users($args);
 		if($count == 1){
 			$winnerArray['Medal of Destruction'] = array($user_ID,'Damage: $ '.number_format($damage, 0, ',', ' '));
 		}
+		
+		if($_GET['add'] == 1){
+			
+			if($count == 1) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+			}
+			if($count == 2) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+			}
+			if($count == 3) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+			}
+				
+		}
+		
 		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)</td>
@@ -218,6 +347,24 @@ $attacks = get_posts($args);
 			if($count == 1){
 				$winnerArray['Medal of Devastation'] = array($user_ID,'Damage: $ '.number_format($damage, 0, ',', ' '));
 			}
+			
+			if($_GET['add'] == 1){
+			
+				if($count == 1) {
+					$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+					update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+				}
+				if($count == 2) {
+					$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+					update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+				}
+				if($count == 3) {
+					$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+					update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+				}
+				
+			}
+			
 			?>
 			<tr>
 				<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)</td>
@@ -250,6 +397,24 @@ $users = get_users($args);
 		if($count == 1){
 			$winnerArray['Medal of Recruitment'] = array($user_ID, $referrals);
 		}
+		
+		if($_GET['add'] == 1){
+			
+			if($count == 1) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+			}
+			if($count == 2) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+			}
+			if($count == 3) {
+				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
+				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+			}
+				
+		}
+		
 		?>
 		<tr>
 			<td><?php echo $member_data->display_name;?> (#<?php echo $user_ID;?>)</td>
