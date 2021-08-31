@@ -161,7 +161,11 @@ if($_GET['add'] == 1){
 				
 				$user = User::make($clanMember);
 				$province = $user->getProvince();
-			
+				
+				Event::create(array(
+            'title' => 'Achievement for '.$clanMember, 'author' => $clanMember, 'outcome' =>"You won a $position $key award. You gained $new_xp_pts experience points.", 'type' => 'achievement',
+            'defender_id' => $clanMember, 'attacker_id' => $clanMember
+        ), $clanMember);
 				
 				$province->updateXP('clanaward',count($clanMembers));
             }
