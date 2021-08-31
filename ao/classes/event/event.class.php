@@ -144,6 +144,11 @@ class Event extends PostObject {
             'icon' => 'fas fa-award', 'header' => 'Bonus received', 'avatar' => 'attacker_clan_id',
             'title' => 'Whoop! We got bonus',
             'body' => 'You can now receive {bonus_money} and {bonus_turns} turns',
+        ),
+        'achievement' => array(
+            'icon' => 'fas fa-award', 'header' => 'Achievement',
+            'title' => '{achievement_name}',
+            'body' => 'Congratulations, you received experience points.',
         )
         /* TODO:
         - market close - fas fa-shopping-cart
@@ -192,7 +197,7 @@ class Event extends PostObject {
     public static function getPossibleEventTypes($category='') {
         $eventTypes = array('aid','air_sea','empmissile', 'empsat', 'ground', 'killed', 'missile', 'regular', 'satellite');
         switch($category) {
-            case 'incoming': $eventTypes = array_merge($eventTypes, array('thief','nukeprotection','research_ready','user_kicked','sat_crash','sniper','spy', 'bonus')); break;
+            case 'incoming': $eventTypes = array_merge($eventTypes, array('thief','nukeprotection','research_ready','achievement','user_kicked','sat_crash','sniper','spy', 'bonus')); break;
             case 'outgoing': $eventTypes = array_merge($eventTypes, array('thief', 'user_kicked', 'sniper','saboteur')); break;
             case 'global':   $eventTypes = array_merge($eventTypes, array('war_declared', 'peace_declared', 'user_change')); break;
         }
@@ -483,6 +488,9 @@ class Event extends PostObject {
             $rs = Researches::get($this->get('outcome'));
             $replace['{research_name}'] = ($rs ? $rs['name'] : '');
         }
+        if($this->eventtype == 'achievement') {
+            $replace['{achievement_name}'] = $this->get('outcome');
+		}
         if($this->eventtype =='missile') {
             $ms = Missiles::get($this->get('missile_type'));
             $replace['{missile_name}'] = ($ms ? $ms['normalname'] : '');
