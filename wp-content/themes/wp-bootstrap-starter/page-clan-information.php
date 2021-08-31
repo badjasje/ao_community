@@ -11,15 +11,17 @@ $clan_id_user = $userData['clan_id_user'][0];
 $clanCreate = $userData['clan_create_counter'][0];
 if(Round::isDev() || Round::isTest()) $clanCreate = 0;
 
-$clanData = get_post_meta($clan_id_user);
+if($clan_id_user != 0) {
+	$clanData = get_post_meta($clan_id_user);
 
-$clan_leader = $clanData['clan_leader'][0];
+	$clan_leader = $clanData['clan_leader'][0];
 
-$cts=array();
-for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
-    $cts[$i] = (isset($clanData['ct_'.$i]) ? $clanData['ct_'.$i][0] : 0);
+	$cts=array();
+	for($i=1; $i<=Settings::get('clan_trustee_num'); $i++) {
+		$cts[$i] = (isset($clanData['ct_'.$i]) ? $clanData['ct_'.$i][0] : 0);
+	}
+	$allowed = array_merge($cts,array($clan_leader));
 }
-$allowed = array_merge($cts,array($clan_leader));
 ?>
 
 <div class="row pageRow">
