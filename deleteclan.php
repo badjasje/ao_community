@@ -91,7 +91,7 @@ foreach ($clan_members as $member) {
 
 wp_trash_post($clan);
 update_user_meta($userId, 'clan_id_user', 0);
-update_user_meta($userId, 'clan_create_counter', 1);
+//update_user_meta($userId, 'clan_create_counter', 1);
 
 $array['status'] = 'Your clan was deleted';
 $array['next'] = true;

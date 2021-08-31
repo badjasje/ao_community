@@ -58,11 +58,11 @@ class Units extends DataObject {
             'normalname'	=>	'Harrier',
             'attacks'		=>  array('air'),
             'defends'		=>  array('air'),
-            'attack'		=>	50,
+            'attack'		=>	55,
             'type'			=>	'air',
             'sectype'		=>	'normal',
             'attacktype'	=>	array('air_sea','regular'),
-            'life'			=>	42
+            'life'			=>	47
         ),
         'seahawk' 		=> array(
             'price'			=>	'840',
