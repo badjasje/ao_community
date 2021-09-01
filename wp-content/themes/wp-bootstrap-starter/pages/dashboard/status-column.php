@@ -88,6 +88,19 @@ if(!!$province && $r = $province->getCurrentResearch()) $researchInProgress = $r
 					<u><a href="#startingBonus">None</a></u>
 				<? } ?>
 			</div>
+			
+
+			<div class="statusInsideCol">
+				<strong><u><a href="/experience-points/">Experience points</a></u></strong>
+			</div>
+			<div class="statusInsideCol">
+
+			<span class="hover-tip" data-toggle="tooltip" data-title="Experience points are based on the actions you make in game. Attack, research or do various other activities to obtain more experience points." data-html="true" data-placement="left">
+				<?php echo $province->get('player_xp');?>
+			</span>
+				
+			</div>
+			
 
 			<? if(!empty($researchInProgress)) { ?>
 			<div class="statusInsideCol">

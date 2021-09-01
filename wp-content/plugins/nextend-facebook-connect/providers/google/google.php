@@ -128,7 +128,23 @@ class NextendSocialProviderGoogle extends NextendSocialProvider {
     }
 
     public function getRawIconButton() {
-        return '<div class="nsl-button nsl-button-icon nsl-button-' . $this->id . '" style="background-color:' . $this->colorUniform . ';"><div class="nsl-button-svg-container">' . $this->svgUniform . '</div></div>';
+        $skin = $this->settings->get('skin');
+        switch ($skin) {
+            case 'dark':
+                $color = $this->color;
+                $svg   = $this->svg;
+                break;
+            case 'light':
+                $color = '#fff';
+                $svg   = $this->svg;
+                break;
+            default:
+                $color = $this->colorUniform;
+                $svg   = $this->svgUniform;
+        }
+
+        return '<div class="nsl-button nsl-button-icon nsl-button-' . $this->id . '" data-skin="' . $skin . '" style="background-color:' . $color . ';"><div class="nsl-button-svg-container">' . $svg . '</div></div>';
+
     }
 
     public function validateSettings($newData, $postedData) {

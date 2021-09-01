@@ -167,6 +167,19 @@ NextendSocialLoginAdmin::showProBox();
                     <span><?php _e('Connect button on', 'nextend-facebook-connect'); ?></span></label>
                 <code><?php _e('Action:'); ?>
                     woocommerce_after_checkout_billing_form</code><br>
+
+                <label><input type="radio" name="woocommerce_billing"
+                              value="before-checkout-registration" <?php if ($settings->get('woocommerce_billing') == 'before-checkout-registration') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Connect button on', 'nextend-facebook-connect'); ?></span>
+                    <code><?php _e('Action:'); ?>
+                        woocommerce_before_checkout_registration_form</code></label><br>
+
+                <label><input type="radio" name="woocommerce_billing"
+                              value="after-checkout-registration" <?php if ($settings->get('woocommerce_billing') == 'after-checkout-registration') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Connect button on', 'nextend-facebook-connect'); ?></span></label>
+                <code><?php _e('Action:'); ?>
+                    woocommerce_after_checkout_registration_form</code><br>
+
             </fieldset>
         </td>
     </tr>
@@ -179,6 +192,12 @@ NextendSocialLoginAdmin::showProBox();
                            value="default" <?php if ($settings->get('woocommerce_billing_form_layout') == 'default') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
                     <span><?php _e('Default', 'nextend-facebook-connect'); ?></span><br/>
                     <img src="<?php echo plugins_url('images/layouts/default.png', NSL_ADMIN_PATH) ?>"/>
+                </label>
+                <label>
+                    <input type="radio" name="woocommerce_billing_form_layout"
+                           value="default-separator" <?php if ($settings->get('woocommerce_billing_form_layout') == 'default-separator') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Default with separator', 'nextend-facebook-connect'); ?></span><br/>
+                    <img src="<?php echo plugins_url('images/layouts/default-separator.png', NSL_ADMIN_PATH) ?>"/>
                 </label>
                 <label>
                     <input type="radio" name="woocommerce_billing_form_layout"

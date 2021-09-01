@@ -106,6 +106,8 @@ class Installer {
 	 * Run network-wide activation/deactivation of the plugin.
 	 *
 	 * @param bool $activate True for plugin activation, false for de-activation.
+	 *
+	 * Forked from Yoast (https://github.com/Yoast/wordpress-seo/)
 	 */
 	private function network_activate_deactivate( $activate ) {
 		global $wpdb;
@@ -129,7 +131,7 @@ class Installer {
 	 */
 	private function activate() {
 		// Init to use the common filters.
-		new \RankMath\Defaults;
+		new \RankMath\Defaults();
 
 		$current_version    = get_option( 'rank_math_version', null );
 		$current_db_version = get_option( 'rank_math_db_version', null );
@@ -158,7 +160,7 @@ class Installer {
 		}
 
 		// Activate Watcher.
-		$watcher = new Watcher;
+		$watcher = new Watcher();
 		$watcher->check_activated_plugin();
 
 		$this->clear_rewrite_rules( true );
@@ -236,11 +238,11 @@ class Installer {
 
 			// Link meta.
 			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}rank_math_internal_meta (
-				object_id bigint(20) UNSIGNED NOT NULL,
+				object_id BIGINT(20) UNSIGNED NOT NULL,
 				internal_link_count int(10) UNSIGNED NULL DEFAULT 0,
 				external_link_count int(10) UNSIGNED NULL DEFAULT 0,
 				incoming_link_count int(10) UNSIGNED NULL DEFAULT 0,
-				UNIQUE KEY object_id (object_id)
+				PRIMARY KEY (object_id)
 			) $collate;",
 
 			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}rank_math_sc_analytics (
@@ -297,6 +299,7 @@ class Installer {
 			'buddypress',
 			'bbpress',
 			'acf',
+			'web-stories',
 		];
 
 		// Role Manager.
@@ -368,8 +371,7 @@ class Installer {
 					'frontend_seo_score_post_types'       => [ 'post' ],
 					'frontend_seo_score_position'         => 'top',
 					'frontend_seo_score'                  => 'off',
-					'enable_auto_update'                  => 'off',
-					'setup_mode'                          => 'easy',
+					'setup_mode'                          => 'advanced',
 				]
 			)
 		);
@@ -430,8 +432,8 @@ class Installer {
 	 * @param array $sitemap Hold sitemap settings.
 	 */
 	private function create_post_type_options( &$titles, &$sitemap ) {
-		$post_types   = Helper::get_accessible_post_types();
-		$post_types[] = 'product';
+		$post_types = Helper::get_accessible_post_types();
+		array_push( $post_types, 'product', 'web-story' );
 
 		$titles['pt_download_default_rich_snippet'] = 'product';
 		foreach ( $post_types as $post_type ) {
@@ -450,7 +452,7 @@ class Installer {
 				$titles[ 'pt_' . $post_type . '_archive_title' ] = '%title% %page% %sep% %sitename%';
 			}
 
-			if ( 'attachment' === $post_type ) {
+			if ( in_array( $post_type, [ 'attachment', 'web-story' ], true ) ) {
 				$sitemap[ 'pt_' . $post_type . '_sitemap' ]     = 'off';
 				$titles[ 'pt_' . $post_type . '_add_meta_box' ] = 'off';
 				continue;
@@ -482,10 +484,11 @@ class Installer {
 	 */
 	private function get_post_type_defaults( $post_type ) {
 		$rich_snippets = [
-			'post'     => 'article',
-			'page'     => 'article',
-			'product'  => 'product',
-			'download' => 'product',
+			'post'      => 'article',
+			'page'      => 'article',
+			'product'   => 'product',
+			'download'  => 'product',
+			'web-story' => 'article',
 		];
 
 		$defaults = [

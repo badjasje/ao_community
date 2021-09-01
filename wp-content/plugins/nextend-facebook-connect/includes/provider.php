@@ -80,6 +80,13 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
 
     }
 
+    /**
+     * @return string
+     */
+    public function getDbID() {
+        return $this->dbID;
+    }
+
     public function getOptionKey() {
         return $this->optionKey;
     }
@@ -359,7 +366,9 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                                     }
 
                                 } catch (e) {
-                                    // Blocked cross origin
+                                    /**
+                                     * Blocked cross origin
+                                     */
                                     sameOrigin = false;
                                 }
                                 if (sameOrigin) {
@@ -580,7 +589,10 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
         } else if (!empty($_GET['redirect_to'])) {
             $arg['redirect'] = urlencode($_GET['redirect_to']);
         } else {
-            $arg['redirect'] = NextendSocialLogin::getCurrentPageURL();
+            $currentPageUrl = NextendSocialLogin::getCurrentPageURL();
+            if ($currentPageUrl !== false) {
+                $arg['redirect'] = urlencode($currentPageUrl);
+            }
         }
 
         if ($trackerData !== false) {
@@ -918,7 +930,9 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                                 }
 
                             } catch (e) {
-                                // Blocked cross origin
+                                /**
+                                 * Blocked cross origin
+                                 */
                                 sameOrigin = false;
                             }
                             if (sameOrigin) {
@@ -1007,7 +1021,9 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                             }
 
                         } catch (e) {
-                            // Blocked cross origin
+                            /**
+                             * Blocked cross origin
+                             */
                             sameOrigin = false;
                         }
                         if (sameOrigin) {

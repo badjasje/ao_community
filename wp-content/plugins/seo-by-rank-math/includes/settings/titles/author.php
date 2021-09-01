@@ -8,7 +8,7 @@
 
 use RankMath\Helper;
 
-$dep = [ [ 'disable_author_archives', 'off' ] ];
+$dep = [ [ 'disable_author_archives', 'on' ] ];
 
 $cmb->add_field(
 	[
@@ -101,19 +101,18 @@ $cmb->add_field(
 
 $cmb->add_field(
 	[
-		'id'              => 'author_archive_description',
-		'type'            => 'textarea_small',
-		'name'            => esc_html__( 'Author Archive Description', 'rank-math' ),
-		'desc'            => esc_html__( 'Author archive meta description. SEO options for specific author archives can be set with the meta box in the user profiles.', 'rank-math' ),
-		'classes'         => 'rank-math-supports-variables rank-math-description rank-math-advanced-option',
-		'dep'             => $dep,
-		'attributes'      => [
+		'id'         => 'author_archive_description',
+		'type'       => 'textarea_small',
+		'name'       => esc_html__( 'Author Archive Description', 'rank-math' ),
+		'desc'       => esc_html__( 'Author archive meta description. SEO options for specific author archives can be set with the meta box in the user profiles.', 'rank-math' ),
+		'classes'    => 'rank-math-supports-variables rank-math-description rank-math-advanced-option',
+		'dep'        => $dep,
+		'attributes' => [
 			'class'                  => 'cmb2-textarea-small wp-exclude-emoji',
 			'data-gramm_editor'      => 'false',
 			'rows'                   => 2,
 			'data-exclude-variables' => 'seo_title,seo_description',
 		],
-		'sanitization_cb' => [ '\RankMath\CMB2', 'sanitize_textfield' ],
 	]
 );
 

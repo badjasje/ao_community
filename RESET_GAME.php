@@ -1,5 +1,5 @@
 <?php
-
+/*
     require_once("wp-load.php");
     $units = Units::get();
 	$buildings = Buildings::get();

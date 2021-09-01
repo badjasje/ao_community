@@ -23,6 +23,9 @@ $backColor24h = "126, 100, 68";
 			<a class="nav-item nav-link navItem <?php echo $activeTab === 'clanpoints' ? 'active' : ''; ?>" data-toggle="tab" data-target="#clanpoints" href="?tab=clanpoints">Clan Points</a>
 			<a class="nav-item nav-link navItem <?php echo $activeTab === 'clannw' ? 'active' : ''; ?>" data-toggle="tab" data-target="#clannw" href="?tab=clannw">Clan Networth</a>
 			<a class="nav-item nav-link navItem <?php echo $activeTab === 'clanpointstoday' ? 'active' : ''; ?>" data-toggle="tab" data-target="#clanpointstoday" href="?tab=clanpointstoday">Clan points today</a>
+			<a class="nav-item nav-link navItem <?php echo $activeTab === 'xp' ? 'active' : ''; ?>" data-toggle="tab" data-target="#xp" href="?tab=xp">Experience</a>
+			
+			
 		</nav>
 	</div>
 
@@ -38,6 +41,9 @@ $backColor24h = "126, 100, 68";
 		</div>
 		<div class="tab-pane <?php echo $activeTab === 'clanpointstoday' ? 'active' : ''; ?>"  id="clanpointstoday" role="tabpanel">
 			<?php include 'pages/toplist/clan_points_today.php'; ?>
+		</div>
+		<div class="tab-pane <?php echo $activeTab === 'xp' ? 'active' : ''; ?>"  id="xp" role="tabpanel">
+			<?php include 'pages/toplist/experience.php'; ?>
 		</div>
 	</div>
 </div> <!-- end .pageRow -->

@@ -114,6 +114,9 @@ class NextendSocialLoginAdmin {
     }
 
     public static function admin_init() {
+
+        require_once(dirname(__FILE__).'/sale.php');
+
         if (current_user_can('manage_options')) {
             if (!isset($_GET['page']) || $_GET['page'] != 'nextend-social-login' || !isset($_GET['view']) || $_GET['view'] != 'fix-redirect-uri') {
                 add_action('admin_notices', 'NextendSocialLoginAdmin::show_oauth_uri_notice');
@@ -431,7 +434,7 @@ class NextendSocialLoginAdmin {
             return $links;
         }
         $settings_link   = '<a href="' . esc_url(menu_page_url('nextend-social-login', false)) . '">' . __('Settings') . '</a>';
-        $reactivate_link = sprintf('<a href="%s">%s</a>', wp_nonce_url(admin_url('admin.php?page=nextend-social-login&repairnsl=1'), 'repairnsl'), 'Reactivate');
+        $reactivate_link = sprintf('<a href="%s">%s</a>', wp_nonce_url(admin_url('admin.php?page=nextend-social-login&repairnsl=1'), 'repairnsl'), 'Analyze & Repair');
         array_unshift($links, $settings_link, $reactivate_link);
 
         return $links;
@@ -583,7 +586,14 @@ class NextendSocialLoginAdmin {
     }
 
     public static function show_woocommerce_notice() {
-        $dismissUrl = wp_nonce_url(add_query_arg(array('redirect_to' => NextendSocialLogin::getCurrentPageURL()), NextendSocialLoginAdmin::getAdminUrl('dismiss_woocommerce')), 'nsl_dismiss_woocommerce');
+        $redirectTo = array();
+
+        $currentPageUrl = NextendSocialLogin::getCurrentPageURL();
+        if ($currentPageUrl !== false) {
+            $redirectTo['redirect_to'] = urlencode($currentPageUrl);
+        }
+
+        $dismissUrl = wp_nonce_url(add_query_arg($redirectTo, NextendSocialLoginAdmin::getAdminUrl('dismiss_woocommerce')), 'nsl_dismiss_woocommerce');
         echo '<div class="notice notice-info">
             <p>' . sprintf(__('%1$s detected that %2$s installed on your site. You need the Pro Addon to display Social Login buttons in %2$s login form!', 'nextend-facebook-connect'), '<b>Nextend Social Login</b>', '<b>WooCommerce</b>') . '</p>
             <p><a href="' . NextendSocialLoginAdmin::trackUrl('https://nextendweb.com/social-login/', 'woocommerce-notice') . '" target="_blank" onclick="window.location.href=\'' . esc_url($dismissUrl) . '\';" class="button button-primary">' . __('Dismiss and check Pro Addon', 'nextend-facebook-connect') . '</a> <a href="' . esc_url($dismissUrl) . '" class="button button-secondary">' . __('Dismiss', 'nextend-facebook-connect') . '</a></p>
@@ -618,7 +628,7 @@ class NextendSocialLoginAdmin {
         ?>
         <div class="nsl-box nsl-box-yellow nsl-box-padlock">
             <h2 class="title"><?php _e('Activate your Pro Addon', 'nextend-facebook-connect'); ?></h2>
-            <p><?php _e('To be able to use the Pro features, you need to activate Nextend Social Connect Pro Addon. You can do this by clicking on the Activate button below then select the related purchase.', 'nextend-facebook-connect'); ?></p>
+            <p><?php _e('To be able to use the Pro features, you need to activate Nextend Social Login Pro Addon. You can do this by clicking on the Activate button below then select the related purchase.', 'nextend-facebook-connect'); ?></p>
 
             <p>
                 <a href="#"

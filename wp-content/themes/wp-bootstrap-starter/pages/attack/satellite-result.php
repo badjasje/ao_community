@@ -98,6 +98,13 @@ if($hit > 97){
 
 $defender_lost = array();
 
+
+if($result == 'success'){
+	$attacker->updateXP('sat_attack');
+}
+if($result == 'failure'){
+	$attacker->updateXP('sat_fail');
+}
 // KILLING BUILDINGS OF DEFENDER //
 $_total_bld_def = 0;
 foreach ($buildings as $key => $building) {
@@ -198,6 +205,9 @@ if($war_type != 'none' && $result == 'success') {
 		// attacker
 		$kills_made = $attackerData['kills_made'][0];
 		update_user_meta($userId, 'kills_made', $kills_made+1);
+		
+		$attacker->updateXP('kill');
+		$defender->updateXP('death');
 
 		// defender
 		if(!$attacker->isShadowBanned()) {

@@ -2,6 +2,14 @@
 wp_enqueue_script('jquery-ui-sortable');
 ?>
 <div class="nsl-dashboard-providers-container">
+    <?php
+    if (NextendSocialLogin::hasConfigurationWithNoEnabledProviders()) {
+        echo '<br><div class="notice notice-info">
+            <p>' . sprintf(__('%1$s detected that you have providers configured but none of them are enabled. To display any social buttons, please make sure you have at least one provider enabled!', 'nextend-facebook-connect'), '<b>Nextend Social Login</b>') . '</p>
+        </div>';
+    }
+    ?>
+
     <div class="nsl-dashboard-providers">
         <?php
         if (count(NextendSocialLogin::$enabledProviders) > 0) {

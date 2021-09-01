@@ -85,7 +85,10 @@ if(!!$province) {
 			array('url' => 'toplists', 'title' => 'Toplists (nw)'),
 			array('url' => 'toplists/?tab=clanpoints', 'title' => 'Clan points'),
 			array('url' => 'toplists/?tab=clannw', 'title' => 'Clan nw'),
+			array('url' => 'toplists/?tab=xp', 'title' => 'Experience'),
 		)),
+	
+		
 	);
 	if(!!$researchInProgress) {
 		$menu[2]['links'][0] = array_merge($menu[2]['links'][0], array(

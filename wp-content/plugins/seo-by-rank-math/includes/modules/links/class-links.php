@@ -6,6 +6,8 @@
  * @package    RankMath
  * @subpackage RankMath\Links
  * @author     Rank Math <support@rankmath.com>
+ *
+ * Forked from Yoast (https://github.com/Yoast/wordpress-seo/)
  */
 
 namespace RankMath\Links;
@@ -61,7 +63,7 @@ class Links {
 			return;
 		}
 
-		$processor = new ContentProcessor;
+		$processor = new ContentProcessor();
 
 		// Get links to update linked objects.
 		$links = $processor->get_stored_internal_links( $post_id );
@@ -76,9 +78,13 @@ class Links {
 	/**
 	 * Post column content.
 	 *
-	 * @param int $post_id Post id.
+	 * @param int $post_id Post ID.
 	 */
 	public function post_column_content( $post_id ) {
+		if ( ! Helper::is_post_indexable( $post_id ) ) {
+			return;
+		}
+
 		global $wpdb;
 
 		$counts = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}rank_math_internal_meta WHERE object_id = {$post_id}" ); // phpcs:ignore
@@ -90,11 +96,11 @@ class Links {
 		?>
 		<span class="rank-math-column-display rank-math-link-count">
 			<strong><?php esc_html_e( 'Links: ', 'rank-math' ); ?></strong>
-			<span title="<?php esc_html_e( 'Internal Links', 'rank-math' ); ?>" class="dashicons dashicons-admin-links"></span> <span><?php echo isset( $counts->internal_link_count ) ? $counts->internal_link_count : ''; ?></span>
+			<span title="<?php esc_html_e( 'Internal Links', 'rank-math' ); ?>" class="dashicons dashicons-admin-links"></span> <span><?php echo isset( $counts->internal_link_count ) ? esc_html( $counts->internal_link_count ) : ''; ?></span>
 			<span class="divider"></span>
-			<span title="<?php esc_html_e( 'External Links', 'rank-math' ); ?>" class="dashicons dashicons-external"></span> <span><?php echo isset( $counts->external_link_count ) ? $counts->external_link_count : ''; ?></span>
+			<span title="<?php esc_html_e( 'External Links', 'rank-math' ); ?>" class="dashicons dashicons-external"></span> <span><?php echo isset( $counts->external_link_count ) ? esc_html( $counts->external_link_count ) : ''; ?></span>
 			<span class="divider"></span>
-			<span title="<?php esc_html_e( 'Incoming Links', 'rank-math' ); ?>" class="dashicons dashicons-external internal"></span> <span><?php echo isset( $counts->incoming_link_count ) ? $counts->incoming_link_count : ''; ?></span>
+			<span title="<?php esc_html_e( 'Incoming Links', 'rank-math' ); ?>" class="dashicons dashicons-external internal"></span> <span><?php echo isset( $counts->incoming_link_count ) ? esc_html( $counts->incoming_link_count ) : ''; ?></span>
 		</span>
 		<?php
 	}
@@ -142,7 +148,7 @@ class Links {
 		$content = apply_filters( 'the_content', $content );
 		$content = str_replace( ']]>', ']]&gt;', $content );
 
-		$processor = new ContentProcessor;
+		$processor = new ContentProcessor();
 		$processor->process( $post_id, $content );
 		update_post_meta( $post_id, 'rank_math_internal_links_processed', true );
 	}

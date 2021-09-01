@@ -233,10 +233,10 @@ if ( ! class_exists( 'UR_Admin_Profile', false ) ) :
 													$actual_value = $value;
 													$value        = str_replace( '/', '-', $value );
 													if ( ! strpos( $value, 'to' ) ) {
-														$value = '' !== $value ? date( $date_format, strtotime( $value ) ) : '';
+														$value = '' !== $value ? date_i18n( $date_format, strtotime( $value ) ) : '';
 													} else {
 														$date_range = explode( 'to', $value );
-														$value      = date( $date_format, strtotime( trim( $date_range[0] ) ) ) . ' to ' . date( $date_format, strtotime( trim( $date_range[1] ) ) );
+														$value      = date_i18n( $date_format, strtotime( trim( $date_range[0] ) ) ) . ' to ' . date_i18n( $date_format, strtotime( trim( $date_range[1] ) ) );
 													}
 													?>
 									<input type="text" id="load_flatpickr"
@@ -244,8 +244,8 @@ if ( ! class_exists( 'UR_Admin_Profile', false ) ) :
 										   class="regular-text"
 										   data-id = '<?php echo esc_attr( $key ); ?>'
 										   readonly />
-									<input type="hidden" id="formated_date" value="<?php echo esc_attr( $value ); ?>"/>
-									<input type="date" name="<?php echo esc_attr( $key ); ?>"
+										   <input type="hidden" id="formated_date" value="<?php echo esc_attr( $value ); ?>"/>
+										   <input type="text" name="<?php echo esc_attr( $key ); ?>"
 										   id="<?php echo esc_attr( $key ); ?>"
 										   value="<?php echo esc_attr( $value ); ?>"
 										   class="<?php echo( ! empty( $field['class'] ) ? esc_attr( $field['class'] ) : 'regular-text' ); ?>"
@@ -321,7 +321,7 @@ if ( ! class_exists( 'UR_Admin_Profile', false ) ) :
 
 				foreach ( $save_fields as $fieldset ) {
 					foreach ( $fieldset['fields'] as $key => $field ) {
-						if ( isset( $field['type'] ) && ( 'checkbox' === $field['type'] || 'multi_select2' === $field['type'] ) ) {
+						if ( isset( $field['type'] ) && ( 'checkbox' === $field['type'] || 'multi_select2' === $field['type'] || 'wysiwyg' === $field['type'] ) ) {
 							if ( isset( $_POST[ $key ] ) ) {
 								$value = $_POST[ $key ];
 								if ( is_array( $_POST[ $key ] ) ) {
@@ -428,6 +428,10 @@ if ( ! class_exists( 'UR_Admin_Profile', false ) ) :
 						$field_description = isset( $field->general_setting->description ) ? $field->general_setting->description : '';
 						$field_key         = isset( $field->field_key ) ? $field->field_key : '';
 
+						if ( 'credit_card' === $field_name ) {
+							break;
+						}
+
 						if ( $field_label == '' && isset( $field->general_setting->field_name ) ) {
 							$field_label_array = explode( '_', $field->general_setting->field_name );
 							$field_label       = join( ' ', array_map( 'ucwords', $field_label_array ) );
@@ -513,12 +517,12 @@ if ( ! class_exists( 'UR_Admin_Profile', false ) ) :
 									if ( isset( $field->advance_setting->enable_min_max ) && 'true' === $field->advance_setting->enable_min_max ) {
 										if ( ! empty( $field->advance_setting->min_date ) ) {
 											$min_date = str_replace( '/', '-', $field->advance_setting->min_date );
-											$fields[ $field_index ]['attributes']['data-min-date'] = '' !== $min_date ? date( $date_format, strtotime( $min_date ) ) : '';
+											$fields[ $field_index ]['attributes']['data-min-date'] = '' !== $min_date ? date_i18n( $date_format, strtotime( $min_date ) ) : '';
 										}
 
 										if ( ! empty( $field->advance_setting->max_date ) ) {
 											$max_date = str_replace( '/', '-', $field->advance_setting->max_date );
-											$fields[ $field_index ]['attributes']['data-max-date'] = '' !== $max_date ? date( $date_format, strtotime( $max_date ) ) : '';
+											$fields[ $field_index ]['attributes']['data-max-date'] = '' !== $max_date ? date_i18n( $date_format, strtotime( $max_date ) ) : '';
 										}
 									}
 

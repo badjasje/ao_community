@@ -187,11 +187,17 @@ class NextendSocialLoginAvatar {
             /**
              * $original_attachment_id is false, if the user has had avatar set but the path is not found.
              */
-            $original_attachment_id = get_user_meta($user_id, $wpdb->get_blog_prefix($blog_id) . 'user_avatar', true);
+            $original_attachment_id  = get_user_meta($user_id, $wpdb->get_blog_prefix($blog_id) . 'user_avatar', true);
+            $original_attachment_md5 = false;
             if ($original_attachment_id) {
                 $attached_file = get_attached_file($original_attachment_id);
                 if (($attached_file && !file_exists($attached_file)) || !$attached_file) {
                     $original_attachment_id = false;
+                } else {
+                    /**
+                     * We should only get the md5 value of the image, if there is an existing attachment, indeed.
+                     */
+                    $original_attachment_md5 = get_user_meta($user_id, 'nsl_user_avatar_md5', true);
                 }
             }
             $overwriteAttachment = false;
@@ -245,7 +251,7 @@ class NextendSocialLoginAvatar {
                      * If the uploaded image has extension from the mime type and it is appear in the $mime_to_ext.
                      * Make a unique filename, depending on the extension.
                      * Copy the downloaded file with the new name to the uploads path.
-                     * Unlin the downloaded file.
+                     * Unlink the downloaded file.
                      */
                     if (isset($mime_to_ext[$mime])) {
 
@@ -259,13 +265,14 @@ class NextendSocialLoginAvatar {
                         @unlink($avatarTempPath);
 
                         if (false !== $newFile) {
-                            $url = $wp_upload_dir['url'] . '/' . basename($filename);
+                            $url          = $wp_upload_dir['url'] . '/' . basename($filename);
+                            $newAvatarMD5 = md5_file($newAvatarPath);
 
                             if ($overwriteAttachment) {
                                 $originalAvatarImage = get_attached_file($original_attachment_id);
 
                                 // we got the same image, so we do not want to store it
-                                if (md5_file($originalAvatarImage) === md5_file($newAvatarPath)) {
+                                if ($original_attachment_md5 === $newAvatarMD5) {
                                     @unlink($newAvatarPath);
                                 } else {
                                     // Store the new avatar and remove the old one
@@ -278,6 +285,7 @@ class NextendSocialLoginAvatar {
                                     wp_update_attachment_metadata($original_attachment_id, wp_generate_attachment_metadata($original_attachment_id, $newAvatarPath));
 
                                     update_user_meta($user_id, $wpdb->get_blog_prefix($blog_id) . 'user_avatar', $original_attachment_id);
+                                    update_user_meta($user_id, 'nsl_user_avatar_md5', $newAvatarMD5);
                                 }
                             } else {
                                 $attachment = array(
@@ -300,6 +308,7 @@ class NextendSocialLoginAvatar {
                                     update_post_meta($new_attachment_id, '_wp_attachment_wp_user_avatar', $user_id);
 
                                     update_user_meta($user_id, $wpdb->get_blog_prefix($blog_id) . 'user_avatar', $new_attachment_id);
+                                    update_user_meta($user_id, 'nsl_user_avatar_md5', $newAvatarMD5);
                                 }
                             }
                         }

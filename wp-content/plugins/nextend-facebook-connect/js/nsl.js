@@ -165,6 +165,20 @@ function checkWebView() {
     return isWebView;
 }
 
+function isAllowedWebViewForUserAgent() {
+    var nav = window.navigator || {};
+    var ua = nav.userAgent || "";
+    if (/Instagram/.test(ua)) {
+        /*Instagram WebView*/
+        return true;
+    } else if (/FBAV/.test(ua) || /FBAN/.test(ua)) {
+        /*Facebook WebView*/
+        return true;
+    }
+
+    return false;
+}
+
 window._nsl.push(function ($) {
 
     window.nslRedirect = function (url) {
@@ -226,7 +240,7 @@ window._nsl.push(function ($) {
     });
 
     var googleLoginButton = $('a[data-plugin="nsl"][data-provider="google"]');
-    if (googleLoginButton.length && checkWebView()) {
+    if (googleLoginButton.length && checkWebView() && !isAllowedWebViewForUserAgent()) {
         googleLoginButton.remove();
     }
 });

@@ -19,9 +19,9 @@ require_once(NSL_PATH . '/compat.php');
 
 class NextendSocialLogin {
 
-    public static $version = '3.0.24';
+    public static $version = '3.0.25';
 
-    public static $nslPROMinVersion = '3.0.23';
+    public static $nslPROMinVersion = '3.0.25';
 
     public static $proxyPage = false;
 
@@ -123,6 +123,11 @@ class NextendSocialLogin {
 
     public static $WPLoginCurrentFlow = 'login';
 
+    private static $allowedPostStates = array(
+        'classic-editor-plugin',
+        'elementor'
+    );
+
     public static function init() {
         add_action('plugins_loaded', 'NextendSocialLogin::plugins_loaded');
         register_activation_hook(NSL_PATH_FILE, 'NextendSocialLogin::install');
@@ -186,6 +191,7 @@ class NextendSocialLogin {
             'woocommerce_cfw'                  => 'show',
             'woocommerce_cfw_layout'           => 'below',
 
+            'memberpress_login'                    => 'before',
             'memberpress_form_button_align'        => 'left',
             'memberpress_login_form_button_style'  => 'default',
             'memberpress_login_form_layout'        => 'below-separator',
@@ -195,6 +201,7 @@ class NextendSocialLogin {
             'memberpress_account_details'          => 'after',
             'registration_notification_notify'     => '0',
             'debug'                                => '0',
+            'show_linked_providers'                => '0',
             'login_restriction'                    => '0',
             'avatars_in_all_media'                 => '0',
             'review_state'                         => -1,
@@ -349,6 +356,15 @@ class NextendSocialLogin {
 
             add_action('wp_head', 'NextendSocialLogin::styles', 100);
 
+            /*
+             * AMP plugin does not call wp_head in Reader mode.
+             */
+
+            if (function_exists('is_amp_endpoint') && is_amp_endpoint() && !did_action('wp_head')) {
+                add_action('amp_post_template_head', 'NextendSocialLogin::styles', 100);
+            }
+
+
             add_action('admin_head', 'NextendSocialLogin::styles', 100);
             add_action('login_head', 'NextendSocialLogin::loginHead', 100);
 
@@ -466,7 +482,8 @@ class NextendSocialLogin {
         `register_date` datetime NOT NULL default '0000-00-00 00:00:00',
         `login_date` datetime NOT NULL default '0000-00-00 00:00:00',
         `link_date` datetime NOT NULL default '0000-00-00 00:00:00',
-        KEY `ID` (`ID`,`type`)
+        KEY `ID` (`ID`,`type`),
+        KEY `identifier` (`identifier`)
         ) " . $charset_collate . ";";
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
@@ -916,7 +933,7 @@ class NextendSocialLogin {
     public static function getCurrentPageURL() {
 
         if (defined('DOING_AJAX') && DOING_AJAX) {
-            return '';
+            return false;
         }
 
         $currentUrl = set_url_scheme('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
@@ -1155,7 +1172,7 @@ class NextendSocialLogin {
         foreach ($pages as $page) {
             $post_states = array();
             $post_states = apply_filters('display_post_states', $post_states, $page);
-            if (NextendSocialLogin::getRegisterFlowPage() === $page->ID || !$post_states) {
+            if (NextendSocialLogin::getRegisterFlowPage() === $page->ID || !$post_states || (count($post_states) === 1 && array_intersect(self::$allowedPostStates, array_keys($post_states)))) {
                 $availablePages[] = $page;
             }
         }
@@ -1169,7 +1186,7 @@ class NextendSocialLogin {
         foreach ($pages as $page) {
             $post_states = array();
             $post_states = apply_filters('display_post_states', $post_states, $page);
-            if (NextendSocialLogin::getProxyPage() === $page->ID || !$post_states) {
+            if (NextendSocialLogin::getProxyPage() === $page->ID || !$post_states || (count($post_states) === 1 && array_intersect(self::$allowedPostStates, array_keys($post_states)))) {
                 $availablePages[] = $page;
             }
         }
@@ -1224,6 +1241,19 @@ class NextendSocialLogin {
         return false;
     }
 
+    public static function hasConfigurationWithNoEnabledProviders() {
+        if (count(NextendSocialLogin::$enabledProviders) === 0) {
+            foreach (NextendSocialLogin::$providers AS $provider) {
+                $state = $provider->getState();
+                // Has providers configured, but none of them are enabled
+                if ($state === 'disabled') {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
 }
 

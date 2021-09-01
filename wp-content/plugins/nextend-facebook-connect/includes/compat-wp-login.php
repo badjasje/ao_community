@@ -1,4 +1,8 @@
 <?php
+/**
+ * Adjusted according to wp-login.php - WordPress 5.4.2
+ */
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -15,11 +19,21 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 global $error, $interim_login, $action;
 
 // Don't index any of these forms
-add_action('login_head', 'wp_no_robots');
+if (function_exists('wp_sensitive_page_meta')) {
+    /**
+     * wp_sensitive_page_meta() was introduced in 5.0.1
+     */
+    add_action('login_head', 'wp_sensitive_page_meta');
+} else {
+    add_action('login_head', 'wp_no_robots');
+}
+
 
 add_action('login_head', 'wp_login_viewport_meta');
 
-if (empty($wp_error)) $wp_error = new WP_Error();
+if (!is_wp_error($wp_error)) {
+    $wp_error = new WP_Error();
+}
 
 // Shake it!
 $shake_error_codes = array(
@@ -41,7 +55,7 @@ $shake_error_codes = array(
  */
 $shake_error_codes = apply_filters('shake_error_codes', $shake_error_codes);
 
-if ($shake_error_codes && $wp_error->get_error_code() && in_array($wp_error->get_error_code(), $shake_error_codes)) add_action('login_head', 'wp_shake_js', 12);
+if ($shake_error_codes && $wp_error->get_error_code() && in_array($wp_error->get_error_code(), $shake_error_codes, true)) add_action('login_footer', 'wp_shake_js', 12);
 
 $login_title = get_bloginfo('name', 'display');
 
@@ -145,6 +159,16 @@ $login_title = apply_filters('login_title', $login_title, $title);
     } else {
         $login_header_text = $login_header_title;
     }
+
+    /**
+     * Filters the link text of the header logo above the login form.
+     *
+     * @param string $login_header_text The login header logo link text.
+     *
+     * @since 5.2.0
+     *
+     */
+    $login_header_text = apply_filters('login_headertext', $login_header_text);
 
     $classes = array(
         'login-action-' . $action,
@@ -292,6 +316,19 @@ do_action('login_footer'); ?>
 }
 
 /**
+ * Outputs the Javascript to handle the form shaking.
+ *
+ * @since 3.0.0
+ */
+function wp_shake_js() {
+    ?>
+    <script type="text/javascript">
+        document.querySelector('form').classList.add('shake');
+    </script>
+    <?php
+}
+
+/**
  * @since 3.7.0
  */
 function wp_login_viewport_meta() {
@@ -299,6 +336,8 @@ function wp_login_viewport_meta() {
     <meta name="viewport" content="width=device-width"/>
     <?php
 }
+
+$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : 'login';
 
 if (!in_array($action, array(
         'postpass',

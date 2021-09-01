@@ -44,7 +44,7 @@ class UR_Setting_Date extends UR_Field_Settings {
 				'required'    => false,
 				'default'     => '',
 				'placeholder' => __( 'Custom Class', 'user-registration' ),
-
+				'tip'         => __( 'Class name to embed in this field.', 'user-registration' ),
 			),
 
 			'date_format'       => array(
@@ -57,10 +57,11 @@ class UR_Setting_Date extends UR_Field_Settings {
 				'default'     => 'Y-m-d',
 				'required'    => false,
 				'options'     => array(
-					'Y-m-d'  => date( 'Y-m-d' ) . ' (Y-m-d)',
-					'F j, Y' => date( 'F j, Y' ) . ' (F j, Y)',
-					'd/m/Y'  => date( 'd/m/Y' ) . ' (d/m/Y)',
+					'Y-m-d'  => date_i18n( 'Y-m-d' ) . ' (Y-m-d)',
+					'F j, Y' => date_i18n( 'F j, Y' ) . ' (F j, Y)',
+					'd/m/Y'  => date_i18n( 'd/m/Y' ) . ' (d/m/Y)',
 				),
+				'tip'         => __( 'Which format do you want to use to show date.', 'user-registration' ),
 			),
 
 			'enable_min_max'    => array(
@@ -75,6 +76,7 @@ class UR_Setting_Date extends UR_Field_Settings {
 					'true'  => 'Yes',
 					'false' => 'No',
 				),
+				'tip'      => __( 'Enable min/max date.', 'user-registration' ),
 			),
 
 			'min_date'          => array(
@@ -85,6 +87,7 @@ class UR_Setting_Date extends UR_Field_Settings {
 				'type'     => 'text',
 				'required' => false,
 				'default'  => '',
+				'tip'      => __( 'Enter min date.', 'user-registration' ),
 			),
 
 			'max_date'          => array(
@@ -95,6 +98,7 @@ class UR_Setting_Date extends UR_Field_Settings {
 				'type'     => 'text',
 				'required' => false,
 				'default'  => '',
+				'tip'      => __( 'Enter max date.', 'user-registration' ),
 			),
 
 			'set_current_date'  => array(
@@ -109,6 +113,7 @@ class UR_Setting_Date extends UR_Field_Settings {
 					'today' => 'Yes',
 					''      => 'No',
 				),
+				'tip'      => __( 'Set current as default.', 'user-registration' ),
 			),
 
 			'enable_date_range' => array(
@@ -123,6 +128,7 @@ class UR_Setting_Date extends UR_Field_Settings {
 					'range' => 'Yes',
 					''      => 'No',
 				),
+				'tip'      => __( 'Enable date range feature.', 'user-registration' ),
 			),
 		);
 

@@ -987,7 +987,7 @@ input[type="radio"]:checked + label {
     .menuRow a:hover div, .menuText a:hover { text-decoration: underline; }
 
     .menuOpen .contentRow { margin-left: 2.5% !important; width: 95%; }
-    .menuOpen .sidenav { width:325px; min-width: unset; background-color: #313d43; }
+    .menuOpen .sidenav { width:500px; min-width: unset; background-color: #313d43; }
     .menuOpen #content.site-content { margin-left: 325px; }
     .menuOpen footer#colophon { margin-left: 325px; width: calc(100% - 325px); }
 }
@@ -1184,6 +1184,7 @@ input[type="radio"]:checked + label {
 	}
 	.columnDataLeft{
 		float:left;
+		display: block;
 	}
 	.columnDataRight{
 		float:right;
@@ -1358,6 +1359,9 @@ input[type="radio"]:checked + label {
 .marketMenu.num-1 { width: 80%; }
 .menuRow a{
 	color:#fff;
+}
+.marketMenu.num-4{
+	width:24.5%;
 }
 .buttonItem{
 	max-width:70px;

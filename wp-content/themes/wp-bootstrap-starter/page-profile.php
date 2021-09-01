@@ -68,6 +68,9 @@ if(empty($telegram_key)) {
 			<div class="attackingRow statCol-2">
 				<div class="profileColumn">Land</div> <?=$viewed_province->getLand(true)?>
 			</div>
+			<div class="attackingRow statCol-4">
+				<div class="profileColumn"><a href="/experience-points/"><u>Experience points</u></a></div> <?=$viewed_province->get('player_xp');?>
+			</div>
 			<div class="attackingRow statCol-1 elipOverflow">
 				<div class="profileColumn">Clan</div>
 				<?

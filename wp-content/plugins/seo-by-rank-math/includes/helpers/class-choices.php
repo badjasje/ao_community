@@ -534,6 +534,7 @@ trait Choices {
 				'page'       => 'rm-icon rm-icon-page',
 				'attachment' => 'rm-icon rm-icon-attachment',
 				'product'    => 'rm-icon rm-icon-cart',
+				'web-story'  => 'rm-icon rm-icon-stories',
 			]
 		);
 	}
@@ -614,7 +615,7 @@ trait Choices {
 	 * @return array
 	 */
 	public static function choices_phone_types() {
-		return array(
+		return [
 			'customer support'    => esc_html__( 'Customer Service', 'rank-math' ),
 			'technical support'   => esc_html__( 'Technical Support', 'rank-math' ),
 			'billing support'     => esc_html__( 'Billing Support', 'rank-math' ),
@@ -626,6 +627,6 @@ trait Choices {
 			'baggage tracking'    => esc_html__( 'Baggage Tracking', 'rank-math' ),
 			'roadside assistance' => esc_html__( 'Roadside Assistance', 'rank-math' ),
 			'package tracking'    => esc_html__( 'Package Tracking', 'rank-math' ),
-		);
+		];
 	}
 }

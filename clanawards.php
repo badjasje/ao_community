@@ -138,8 +138,8 @@ $count = 0;
     <?php } ?>
 </table>
 <?php
+if($_GET['add'] == 1){
 
-if($_GET['add'] == 1) {
     foreach ($winnerArray as $key => $winners) {
         foreach ($winners as $position => $winner) {
             if($position == 1) {
@@ -151,6 +151,27 @@ if($_GET['add'] == 1) {
             if($position == 3) {
                 $position = 'Bronze';
             }
+            
+            $clan = Clan::make($winner[0]);
+			$clanMembers = $clan->getMembers();
+		
+			$new_xp_pts = 4800/count($clanMembers);
+		
+            foreach ($clanMembers as $clanMember) {
+				
+				$user = User::make($clanMember);
+				$province = $user->getProvince();
+				
+				Event::create(array(
+            'title' => 'Achievement for '.$clanMember, 'author' => $clanMember, 'outcome' =>"You won a $position $key award. You gained $new_xp_pts experience points.", 'type' => 'achievement',
+            'defender_id' => $clanMember, 'attacker_id' => $clanMember
+        ), $clanMember);
+				
+				$province->updateXP('clanaward',count($clanMembers));
+            }
+            
+            
+            
             $args = [
                 'post_title' => $key,
                 'post_status' => 'publish',

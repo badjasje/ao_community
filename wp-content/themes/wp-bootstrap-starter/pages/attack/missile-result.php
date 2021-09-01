@@ -197,7 +197,17 @@ $_total_inf_units_def = 0;
 $_total_veh_units_def = 0;
 $_total_sea_units_def = 0;
 
+
+if($result == 'failure'){
+	$attacker->updateXP('missile_fail');
+	$defender->updateXP('missile_shot');
+}
+
 if($result == 'success') {
+	
+	
+	$attacker->updateXP('missile_attack');
+	$defender->updateXP('missile_hit');
 
 	foreach ($units as $key => $order) {
 		$units_defending = $defenderData[$key . '_owned'][0];
@@ -532,6 +542,11 @@ if($result == 'success'):
 	<?php
 		$clan_points = 0;
 		$winner_ID = $target_id;
+		
+		$attacker->updateXP('missile_fail');
+		$defender->updateXP('missile_shot');
+		
+		
 	?>
 	<?php if($result == 'failure' && $shotdown != true && $disabled != true): ?>
 		<div class="blockHeader">Your missile missed the base of <?php echo get_user_name($target_id);?></div>
@@ -665,6 +680,8 @@ if($killed == true){
 	kill_event($userId,$target_id,$result,$defender_clan_ID,$attacker_clan_ID);
 	update_field('status_defender','death', $new_event_id);
 	update_field('attacktype','missile', $new_event_id);
+	$attacker->updateXP('kill');
+	$defender->updateXP('death');
 }
 
 update_user_meta($userId,'turns',$turns-3);

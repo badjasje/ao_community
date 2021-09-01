@@ -9,9 +9,13 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
     /** @var NextendSocialProviderFacebookClient */
     protected $client;
 
-    protected $color = '#4267b2';
+    protected $color = '#1877F2';
 
-    protected $svg = '<svg xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M22.688 0H1.323C.589 0 0 .589 0 1.322v21.356C0 23.41.59 24 1.323 24h11.505v-9.289H9.693V11.09h3.124V8.422c0-3.1 1.89-4.789 4.658-4.789 1.322 0 2.467.1 2.8.145v3.244h-1.922c-1.5 0-1.801.711-1.801 1.767V11.1h3.59l-.466 3.622h-3.113V24h6.114c.734 0 1.323-.589 1.323-1.322V1.322A1.302 1.302 0 0 0 22.688 0z"/></svg>';
+    protected $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1365.3 1365.3" height="1365.3" width="1365.3"><path d="M1365.3 682.7A682.7 682.7 0 10576 1357V880H402.7V682.7H576V532.3c0-171.1 102-265.6 257.9-265.6 74.6 0 152.8 13.3 152.8 13.3v168h-86.1c-84.8 0-111.3 52.6-111.3 106.6v128h189.4L948.4 880h-159v477a682.8 682.8 0 00576-674.3" fill="#fff"/></svg>';
+
+    protected $svgBlue = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1365.3 1365.3" height="1365.3" width="1365.3"><path d="M1365.3 682.7A682.7 682.7 0 10576 1357V880H402.7V682.7H576V532.3c0-171.1 102-265.6 257.9-265.6 74.6 0 152.8 13.3 152.8 13.3v168h-86.1c-84.8 0-111.3 52.6-111.3 106.6v128h189.4L948.4 880h-159v477a682.8 682.8 0 00576-674.3" fill="#1877f2"/><path d="M948.4 880l30.3-197.3H789.3v-128c0-54 26.5-106.7 111.3-106.7h86V280s-78-13.3-152.7-13.3c-156 0-257.9 94.5-257.9 265.6v150.4H402.7V880H576v477a687.8 687.8 0 00213.3 0V880h159.1" fill="#fff"/></svg>';
+
+    protected $svgBlack = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1365.3 1365.3" height="1365.3" width="1365.3"><path d="M1365.3 682.7A682.7 682.7 0 10576 1357V880H402.7V682.7H576V532.3c0-171.1 102-265.6 257.9-265.6 74.6 0 152.8 13.3 152.8 13.3v168h-86.1c-84.8 0-111.3 52.6-111.3 106.6v128h189.4L948.4 880h-159v477a682.8 682.8 0 00576-674.3" fill="#100f0d"/><path d="M948.4 880l30.3-197.3H789.3v-128c0-54 26.5-106.7 111.3-106.7h86V280s-78-13.3-152.7-13.3c-156 0-257.9 94.5-257.9 265.6v150.4H402.7V880H576v477a687.8 687.8 0 00213.3 0V880h159.1" fill="#fff"/></svg>';
 
     protected $popupWidth = 475;
 
@@ -69,6 +73,7 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
         parent::__construct(array(
             'appid'        => '',
             'secret'       => '',
+            'skin'         => 'dark',
             'login_label'  => 'Continue with <b>Facebook</b>',
             'link_label'   => 'Link account with <b>Facebook</b>',
             'unlink_label' => 'Unlink account from <b>Facebook</b>'
@@ -79,6 +84,52 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
         __('Continue with <b>Facebook</b>', 'nextend-facebook-connect');
         __('Link account with <b>Facebook</b>', 'nextend-facebook-connect');
         __('Unlink account from <b>Facebook</b>', 'nextend-facebook-connect');
+    }
+
+    public function getRawDefaultButton() {
+        $skin = $this->settings->get('skin');
+        switch ($skin) {
+            case 'light':
+                $color = '#fff';
+                $svg   = $this->svgBlue;
+                break;
+            case 'black':
+                $color = '#000';
+                $svg   = $this->svg;
+                break;
+            case 'white':
+                $color = '#fff';
+                $svg   = $this->svgBlack;
+                break;
+            default:
+                $color = $this->color;
+                $svg   = $this->svg;
+        }
+
+        return '<div class="nsl-button nsl-button-default nsl-button-' . $this->id . '" data-skin="' . $skin . '" style="background-color:' . $color . ';"><div class="nsl-button-svg-container">' . $svg . '</div><div class="nsl-button-label-container">{{label}}</div></div>';
+    }
+
+    public function getRawIconButton() {
+        $skin = $this->settings->get('skin');
+        switch ($skin) {
+            case 'light':
+                $color = '#fff';
+                $svg   = $this->svgBlue;
+                break;
+            case 'black':
+                $color = '#000';
+                $svg   = $this->svg;
+                break;
+            case 'white':
+                $color = '#fff';
+                $svg   = $this->svgBlack;
+                break;
+            default:
+                $color = $this->color;
+                $svg   = $this->svg;
+        }
+
+        return '<div class="nsl-button nsl-button-icon nsl-button-' . $this->id . '" data-skin="' . $skin . '" style="background-color:' . $color . ';"><div class="nsl-button-svg-container">' . $svg . '</div></div>';
     }
 
     public function finalizeSettings($settings) {
@@ -134,6 +185,9 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
                     if (empty($newData[$key])) {
                         Notices::addError(sprintf(__('The %1$s entered did not appear to be a valid. Please enter a valid %2$s.', 'nextend-facebook-connect'), $this->requiredFields[$key], $this->requiredFields[$key]));
                     }
+                    break;
+                case 'skin':
+                    $newData[$key] = trim(sanitize_text_field($value));
                     break;
             }
         }

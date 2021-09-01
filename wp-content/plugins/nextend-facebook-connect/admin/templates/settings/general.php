@@ -52,6 +52,7 @@
             </fieldset>
         </td>
     </tr>
+
     <tr>
         <th scope="row"><?php _e('Page for register flow', 'nextend-facebook-connect'); ?></th>
         <td>
