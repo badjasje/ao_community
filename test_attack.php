@@ -2,6 +2,8 @@
 require_once("./wp-load.php");
 nocache_headers();
 
+if(!Round::isDev() && !Round::isTest() && !Round::isSandbox()) die('Not on live!');
+
 global $userId;
 if(isset($_GET['attacker'])) $userId = $_GET['attacker'];
 else $userId = get_current_user_id(); // Attacker
