@@ -43,11 +43,12 @@ if ( ! class_exists( 'UR_Admin_Profile', false ) ) :
 		public function get_user_meta_by_form_fields( $user_id ) {
 
 			$show_fields       = array();
-			$form_id           = $this->get_user_meta( $user_id, 'ur_form_id' );
+			$form_id           = ur_get_form_id_by_userid( $user_id );
 			$all_meta_for_user = $this->get_user_meta_by_prefix( $user_id, 'user_registration_' );
 			$form_fields       = $this->get_form_fields( $all_meta_for_user, $form_id );
 
 			if ( ! empty( $form_fields ) ) {
+				unset( $form_fields['user_registration_profile_pic_url'] );
 				$show_fields = apply_filters(
 					'user_registration_profile_meta_fields',
 					array(
@@ -86,31 +87,6 @@ if ( ! class_exists( 'UR_Admin_Profile', false ) ) :
 				<table class="form-table" id="<?php echo esc_attr( 'fieldset-' . $fieldset_key ); ?>">
 
 					<?php
-					$default_image      = plugins_url( '/assets/images/default_profile.png', UR_PLUGIN_FILE );
-					$profile_picture_id = get_user_meta( $user->ID, 'user_registration_profile_pic_id', true );
-
-					if ( $profile_picture_id ) {
-						$image = wp_get_attachment_thumb_url( $profile_picture_id );
-					} else {
-						$image = $default_image;
-					}
-					?>
-					<tr>
-						<th>
-							<label for=""><?php echo __( 'Profile Picture', 'user-registration' ); ?></label>
-						</th>
-						<td>
-							<img class="profile-preview" alt="profile-picture" src="<?php echo $image; ?>" width="96px" height="96px" /><br/>
-
-							<input type="hidden" name="profile-pic-id" value="<?php echo $profile_picture_id; ?>" />
-							<input type="hidden" name="profile-default-image" value="<?php echo $default_image; ?>" />
-
-							<button class="button profile-pic-remove" style="<?php echo ( $default_image === $image ) ? 'display:none;' : ''; ?>"><?php echo __( 'Remove', 'user-registration' ); ?></php></button>
-							<button class="button profile-pic-upload"><?php echo __( 'Upload Image', 'user-registration' ); ?></php></button>
-						</td>
-					</tr>
-
-					<?php
 					$profile_field_type = array(
 						'select',
 						'country',
@@ -125,8 +101,12 @@ if ( ! class_exists( 'UR_Admin_Profile', false ) ) :
 						$field['description'] = isset( $field['description'] ) ? $field['description'] : '';
 						$attributes           = isset( $field['attributes'] ) ? $field['attributes'] : array();
 						$attribute_string     = '';
+						$date_format          = '';
 
 						foreach ( $attributes as $name => $value ) {
+							if ( 'data-date-format' === $name ) {
+								$date_format = $value;
+							}
 							if ( is_bool( $value ) ) {
 								if ( $value ) {
 									$attribute_string .= $name . ' ';
@@ -247,15 +227,33 @@ if ( ! class_exists( 'UR_Admin_Profile', false ) ) :
 											  rows="5"
 											  cols="30"><?php echo esc_attr( $this->get_user_meta( $user->ID, $key ) ); ?></textarea>
 
-								<?php elseif ( ! empty( $field['type'] ) && 'date' === $field['type'] ) : ?>
+											  <?php elseif ( ! empty( $field['type'] ) && 'date' === $field['type'] ) : ?>
+												  <?php
+													$value        = $this->get_user_meta( $user->ID, $key );
+													$actual_value = $value;
+													$value        = str_replace( '/', '-', $value );
+													if ( ! strpos( $value, 'to' ) ) {
+														$value = '' !== $value ? date( $date_format, strtotime( $value ) ) : '';
+													} else {
+														$date_range = explode( 'to', $value );
+														$value      = date( $date_format, strtotime( trim( $date_range[0] ) ) ) . ' to ' . date( $date_format, strtotime( trim( $date_range[1] ) ) );
+													}
+													?>
+									<input type="text" id="load_flatpickr"
+										   value="<?php echo esc_attr( $actual_value ); ?>"
+										   class="regular-text"
+										   data-id = '<?php echo esc_attr( $key ); ?>'
+										   readonly />
+									<input type="hidden" id="formated_date" value="<?php echo esc_attr( $value ); ?>"/>
 									<input type="date" name="<?php echo esc_attr( $key ); ?>"
-												   id="<?php echo esc_attr( $key ); ?>"
-												   value="<?php echo esc_attr( $this->get_user_meta( $user->ID, $key ) ); ?>"
-												   class="<?php echo( ! empty( $field['class'] ) ? esc_attr( $field['class'] ) : 'regular-text' ); ?>"
-												<?php echo esc_attr( $attribute_string ); ?>
+										   id="<?php echo esc_attr( $key ); ?>"
+										   value="<?php echo esc_attr( $value ); ?>"
+										   class="<?php echo( ! empty( $field['class'] ) ? esc_attr( $field['class'] ) : 'regular-text' ); ?>"
+										   style="display:none"
+												  <?php echo $attribute_string; ?>
 											/>
 
-									<?php
+												  <?php
 								else :
 
 									if ( ! empty( $field['type'] ) ) {
@@ -312,27 +310,30 @@ if ( ! class_exists( 'UR_Admin_Profile', false ) ) :
 		 */
 		public function update_user_profile( $user_id ) {
 
-			if ( isset( $_POST['profile-pic-id'] ) ) {
-				$picture_id = absint( $_POST['profile-pic-id'] );
-				update_user_meta( $user_id, 'user_registration_profile_pic_id', $picture_id );
-			}
-
 			$save_fields = $this->get_user_meta_by_form_fields( $user_id );
 
-			foreach ( $save_fields as $fieldset ) {
-				foreach ( $fieldset['fields'] as $key => $field ) {
-					if ( isset( $field['type'] ) && ( 'checkbox' === $field['type'] || 'multi_select2' === $field['type'] ) ) {
-						if ( isset( $_POST[ $key ] ) ) {
-							$value = $_POST[ $key ];
-							if ( is_array( $_POST[ $key ] ) ) {
-								$value = array_map( 'sanitize_text_field', $value );
+			if ( ! empty( $save_fields ) ) {
+
+				$form_id = ur_get_form_id_by_userid( $user_id );
+
+				$profile = user_registration_form_data( $user_id, $form_id );
+				do_action( 'user_registration_after_admin_save_profile_validation', $user_id, $profile );
+
+				foreach ( $save_fields as $fieldset ) {
+					foreach ( $fieldset['fields'] as $key => $field ) {
+						if ( isset( $field['type'] ) && ( 'checkbox' === $field['type'] || 'multi_select2' === $field['type'] ) ) {
+							if ( isset( $_POST[ $key ] ) ) {
+								$value = $_POST[ $key ];
+								if ( is_array( $_POST[ $key ] ) ) {
+									$value = array_map( 'sanitize_text_field', $value );
+								}
+								update_user_meta( $user_id, $key, $value );
+							} else {
+								update_user_meta( $user_id, $key, '' );
 							}
-							update_user_meta( $user_id, $key, $value );
-						} else {
-							update_user_meta( $user_id, $key, '' );
+						} elseif ( isset( $_POST[ $key ] ) ) {
+							update_user_meta( $user_id, $key, sanitize_text_field( $_POST[ $key ] ) );
 						}
-					} elseif ( isset( $_POST[ $key ] ) ) {
-						update_user_meta( $user_id, $key, sanitize_text_field( $_POST[ $key ] ) );
 					}
 				}
 			}
@@ -506,6 +507,30 @@ if ( ! class_exists( 'UR_Admin_Profile', false ) ) :
 
 								case 'date':
 									$fields[ $field_index ]['type'] = 'date';
+									$date_format                    = isset( $field->advance_setting->date_format ) ? $field->advance_setting->date_format : '';
+									$fields[ $field_index ]['attributes']['data-date-format'] = $date_format;
+
+									if ( isset( $field->advance_setting->enable_min_max ) && 'true' === $field->advance_setting->enable_min_max ) {
+										if ( ! empty( $field->advance_setting->min_date ) ) {
+											$min_date = str_replace( '/', '-', $field->advance_setting->min_date );
+											$fields[ $field_index ]['attributes']['data-min-date'] = '' !== $min_date ? date( $date_format, strtotime( $min_date ) ) : '';
+										}
+
+										if ( ! empty( $field->advance_setting->max_date ) ) {
+											$max_date = str_replace( '/', '-', $field->advance_setting->max_date );
+											$fields[ $field_index ]['attributes']['data-max-date'] = '' !== $max_date ? date( $date_format, strtotime( $max_date ) ) : '';
+										}
+									}
+
+									if ( ! empty( $field->advance_setting->set_current_date ) ) {
+										$set_current_date = isset( $field->advance_setting->set_current_date ) ? $field->advance_setting->set_current_date : '';
+										$fields[ $field_index ]['attributes']['data-default-date'] = $set_current_date;
+									}
+
+									if ( ! empty( $field->advance_setting->enable_date_range ) ) {
+										$enable_date_range                                 = isset( $field->advance_setting->enable_date_range ) ? $field->advance_setting->enable_date_range : '';
+										$fields[ $field_index ]['attributes']['data-mode'] = $enable_date_range;
+									}
 									break;
 
 								case 'privacy_policy':

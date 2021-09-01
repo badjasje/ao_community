@@ -16,6 +16,7 @@ use RankMath\Sitemap\Router;
 use RankMath\Traits\Hooker;
 use MyThemeShop\Helpers\Str;
 use MyThemeShop\Helpers\Url;
+use RankMath\Helpers\Security;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -403,7 +404,7 @@ class Paper {
 		}
 
 		if ( ! $wp_rewrite->using_permalinks() ) {
-			return add_query_arg(
+			return Security::add_query_arg_raw(
 				'paged',
 				get_query_var( 'paged' ),
 				is_front_page() ? trailingslashit( $canonical ) : $canonical
@@ -447,7 +448,17 @@ class Paper {
 	 */
 	public static function get_from_options( $id, $source = [], $default = '' ) {
 		$value = Helper::get_settings( "titles.$id" );
-		return '' !== $value ? Helper::replace_vars( $value, $source ) : $default;
+
+		// Break loop.
+		if ( ! Str::ends_with( 'default_snippet_name', $value ) && ! Str::ends_with( 'default_snippet_desc', $value ) ) {
+			$value = \str_replace(
+				[ '%seo_title%', '%seo_description%' ],
+				[ '%title%', '%excerpt%' ],
+				$value
+			);
+		}
+
+		return Helper::replace_vars( '' !== $value ? $value : $default, $source );
 	}
 
 	/**

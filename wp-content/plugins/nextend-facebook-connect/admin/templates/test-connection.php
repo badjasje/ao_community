@@ -7,7 +7,7 @@ if (isset($_GET['provider'])) {
         $provider = NextendSocialLogin::$allowedProviders[$providerID];
         ?>
         <div class="nsl-admin-content">
-        <h1>Debug: <?php echo $provider->getLabel(); ?></h1>
+            <h1>Debug: <?php echo $provider->getLabel(); ?></h1>
 
             <?php
 
@@ -38,7 +38,9 @@ if (isset($_GET['provider'])) {
             $verboseLog = stream_get_contents($temporaryHandle);
             if (preg_match('/connected/i', $verboseLog)) {
                 ?>
-                <div class="updated"><p><b><?php printf(__('Network connection successful: %1$s', 'nextend-facebook-connect'), $provider->getTestUrl()); ?></b></p></div>
+                <div class="updated"><p>
+                        <b><?php printf(__('Network connection successful: %1$s', 'nextend-facebook-connect'), $provider->getTestUrl()); ?></b>
+                    </p></div>
                 <?php
             } else {
                 ?>

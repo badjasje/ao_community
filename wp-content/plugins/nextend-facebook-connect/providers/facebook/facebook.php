@@ -1,5 +1,7 @@
 <?php
 
+use NSL\Notices;
+
 class NextendSocialProviderFacebook extends NextendSocialProvider {
 
     protected $dbID = 'fb';
@@ -130,7 +132,7 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
                     }
 
                     if (empty($newData[$key])) {
-                        \NSL\Notices::addError(sprintf(__('The %1$s entered did not appear to be a valid. Please enter a valid %2$s.', 'nextend-facebook-connect'), $this->requiredFields[$key], $this->requiredFields[$key]));
+                        Notices::addError(sprintf(__('The %1$s entered did not appear to be a valid. Please enter a valid %2$s.', 'nextend-facebook-connect'), $this->requiredFields[$key], $this->requiredFields[$key]));
                     }
                     break;
             }
@@ -185,13 +187,22 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
             case 'id':
                 return $this->authUserData['id'];
             case 'email':
-                return $this->authUserData['email'];
+                return !empty($this->authUserData['email']) ? $this->authUserData['email'] : '';
             case 'name':
                 return $this->authUserData['name'];
             case 'first_name':
                 return $this->authUserData['first_name'];
             case 'last_name':
                 return $this->authUserData['last_name'];
+            case 'picture':
+                $profilePicture = $this->authUserData['picture'];
+                if (!empty($profilePicture) && !empty($profilePicture['data'])) {
+                    if (isset($profilePicture['data']['is_silhouette']) && !$profilePicture['data']['is_silhouette']) {
+                        return $profilePicture['data']['url'];
+                    }
+                }
+
+                return '';
         }
 
         return parent::getAuthUserData($key);
@@ -200,13 +211,9 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
     public function syncProfile($user_id, $provider, $access_token) {
         if ($this->needUpdateAvatar($user_id)) {
 
-            $profilePicture = $this->authUserData['picture'];
-            if (!empty($profilePicture) && !empty($profilePicture['data'])) {
-                if (isset($profilePicture['data']['is_silhouette']) && !$profilePicture['data']['is_silhouette']) {
-                    $this->updateAvatar($user_id, $profilePicture['data']['url']);
-                }
+            if ($this->getAuthUserData('picture')) {
+                $this->updateAvatar($user_id, $this->getAuthUserData('picture'));
             }
-
         }
 
         $this->storeAccessToken($user_id, $access_token);

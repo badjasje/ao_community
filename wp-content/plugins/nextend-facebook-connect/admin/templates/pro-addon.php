@@ -34,7 +34,7 @@ function nsl_license_installed($view) {
                 'action' => 'nextend-social-login',
                 'view'   => 'pro-addon-deauthorize'
             ), admin_url('admin-post.php')), 'nextend-social-login'); ?>" class="button button-secondary">
-				<?php _e('Deactivate Pro Addon', 'nextend-facebook-connect'); ?>
+                <?php _e('Deactivate Pro Addon', 'nextend-facebook-connect'); ?>
             </a>
         </p>
     </div>
@@ -61,7 +61,7 @@ function nsl_license_not_installed($view) {
         </p>
     </div>
     <script type="text/javascript">
-		(function ($) {
+        (function ($) {
             $(document).on('ready', function () {
                 var $button = $('.install-now').on('click.nsl', function (event) {
                     if (typeof wp.updates.installPlugin === 'function') {
@@ -139,7 +139,7 @@ function nsl_license_activated($view) {
                 'action' => 'nextend-social-login',
                 'view'   => 'pro-addon-deauthorize'
             ), admin_url('admin-post.php')), 'nextend-social-login'); ?>" class="button button-secondary">
-				<?php _e('Deactivate Pro Addon', 'nextend-facebook-connect'); ?>
+                <?php _e('Deactivate Pro Addon', 'nextend-facebook-connect'); ?>
             </a>
         </p>
     </div>
@@ -149,7 +149,7 @@ function nsl_license_activated($view) {
 
 ?>
 <div class="nsl-admin-content">
-	<?php
+    <?php
     switch ($state) {
         case 'no-capability':
             nsl_license_no_capability($view);

@@ -2,7 +2,7 @@
 /*
 Plugin Name: Delete Me
 Description: Allow users with specific WordPress roles to delete themselves from the <code>Your Profile</code> page or anywhere Shortcodes can be used using the Shortcode <code>[plugin_delete_me /]</code>. Settings for this plugin are found on the <code>Settings &rarr; Delete Me</code> subpanel. Multisite and Network Activation supported.
-Version: 2.8
+Version: 3.0
 Author: Clinton Caldwell
 Text Domain: delete-me
 Domain Path: /languages
@@ -11,7 +11,7 @@ License: GPL2 http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 /*
-Copyright (c) 2011-2018 - Clinton Caldwell <clint3215@gmail.com>
+Copyright (c) 2011-2020 - Clinton Caldwell <clint3215@gmail.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as 
@@ -63,7 +63,7 @@ class plugin_delete_me {
 		$this->info = array(
 			'name' => 'Delete Me',
 			'url' => 'https://wordpress.org/plugins/delete-me/',
-			'version' => '2.8',
+			'version' => '3.0',
 			'wp_version_min' => '3.7',
 			'option' => 'plugin_delete_me',
 			'shortcode' => 'plugin_delete_me',
@@ -328,7 +328,7 @@ class plugin_delete_me {
 	public function shortcode( $atts = array(), $content = '', $code = '' ) {
 		
 		include( $this->info['dirname'] . '/inc/shortcode.php' );
-		return ( isset( $longcode ) ) ? $longcode : $content;
+		return ( isset( $longcode ) ) ? '<p>' . $longcode . '</p>' : '<p>' . $content . '</p>';
 		
 	}
 	

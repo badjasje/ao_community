@@ -1,6 +1,6 @@
 <?php
 /**
- * The Rich Snippet Module
+ * The Schema Module
  *
  * @since      0.9.0
  * @package    RankMath
@@ -31,6 +31,7 @@ class RichSnippet {
 		}
 		$this->action( 'wp', 'integrations' );
 
+		new Blocks;
 		new Snippet_Shortcode;
 	}
 

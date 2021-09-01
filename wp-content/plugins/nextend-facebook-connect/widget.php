@@ -50,23 +50,23 @@ class Nextend_Social_Login_Widget extends WP_Widget {
         <?php endif; ?>
 
         <p>
-                <label for="<?php echo $this->get_field_id('align'); ?>"><?php _e('Button align:', 'nextend-facebook-connect'); ?></label><br>
-                <input class="widefat" id="<?php echo $this->get_field_id('align_left'); ?>"
-                       name="<?php echo $this->get_field_name('align'); ?>" type="radio" value="left"
-                       <?php if ($align == 'left'): ?>checked<?php endif; ?>/>
-                <label for="<?php echo $this->get_field_id('align_left'); ?>"><?php _e('Left', 'nextend-facebook-connect'); ?></label>
-                <br>
-                <input class="widefat" id="<?php echo $this->get_field_id('align_center'); ?>"
-                       name="<?php echo $this->get_field_name('align'); ?>" type="radio" value="center"
-                       <?php if ($align == 'center'): ?>checked<?php endif; ?>/>
-                <label for="<?php echo $this->get_field_id('align_center'); ?>"><?php _e('Center', 'nextend-facebook-connect'); ?></label>
-                <br>
-                <input class="widefat" id="<?php echo $this->get_field_id('align_right'); ?>"
-                       name="<?php echo $this->get_field_name('align'); ?>" type="radio" value="right"
-                       <?php if ($align == 'right'): ?>checked<?php endif; ?>/>
-                <label for="<?php echo $this->get_field_id('align_right'); ?>"><?php _e('Right', 'nextend-facebook-connect'); ?></label>
-                <br>
-            </p>
+            <label for="<?php echo $this->get_field_id('align'); ?>"><?php _e('Button align:', 'nextend-facebook-connect'); ?></label><br>
+            <input class="widefat" id="<?php echo $this->get_field_id('align_left'); ?>"
+                   name="<?php echo $this->get_field_name('align'); ?>" type="radio" value="left"
+                   <?php if ($align == 'left'): ?>checked<?php endif; ?>/>
+            <label for="<?php echo $this->get_field_id('align_left'); ?>"><?php _e('Left', 'nextend-facebook-connect'); ?></label>
+            <br>
+            <input class="widefat" id="<?php echo $this->get_field_id('align_center'); ?>"
+                   name="<?php echo $this->get_field_name('align'); ?>" type="radio" value="center"
+                   <?php if ($align == 'center'): ?>checked<?php endif; ?>/>
+            <label for="<?php echo $this->get_field_id('align_center'); ?>"><?php _e('Center', 'nextend-facebook-connect'); ?></label>
+            <br>
+            <input class="widefat" id="<?php echo $this->get_field_id('align_right'); ?>"
+                   name="<?php echo $this->get_field_name('align'); ?>" type="radio" value="right"
+                   <?php if ($align == 'right'): ?>checked<?php endif; ?>/>
+            <label for="<?php echo $this->get_field_id('align_right'); ?>"><?php _e('Right', 'nextend-facebook-connect'); ?></label>
+            <br>
+        </p>
 
         <p>
             <input name="<?php echo $this->get_field_name('login-buttons'); ?>" type="hidden" value="0"/>

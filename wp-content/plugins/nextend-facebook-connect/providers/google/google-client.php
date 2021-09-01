@@ -36,10 +36,15 @@ class NextendSocialProviderGoogleClient extends NextendSocialOauth2 {
 
 
     public function createAuthUrl() {
-        return add_query_arg(array(
-            'access_type'     => urlencode($this->accessType),
-            'prompt' => urlencode($this->prompt)
-        ), parent::createAuthUrl());
+        $args = array(
+            'access_type' => urlencode($this->accessType)
+        );
+
+        if ($this->prompt != '') {
+            $args['prompt'] = urlencode($this->prompt);
+        }
+
+        return add_query_arg($args, parent::createAuthUrl());
     }
 
     /**

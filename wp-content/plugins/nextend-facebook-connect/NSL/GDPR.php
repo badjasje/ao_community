@@ -2,6 +2,8 @@
 
 namespace NSL;
 
+use NextendSocialLogin;
+
 class GDPR {
 
     public function __construct() {
@@ -86,7 +88,7 @@ class GDPR {
 
         $user_data_to_export = array();
 
-        foreach (\NextendSocialLogin::$allowedProviders AS $provider) {
+        foreach (NextendSocialLogin::$allowedProviders AS $provider) {
             $user_data_to_export = array_merge($user_data_to_export, $provider->exportPersonalData($user->ID));
         }
 

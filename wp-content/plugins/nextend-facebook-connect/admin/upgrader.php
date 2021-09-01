@@ -1,5 +1,7 @@
 <?php
 
+use NSL\Notices;
+
 class NextendSocialUpgrader {
 
     public static function init() {
@@ -49,10 +51,10 @@ class NextendSocialUpgrader {
                         NextendSocialLogin::$settings->update(array(
                             'license_key' => ''
                         ));
-                        $message.=' - the stored license key has been removed!';
+                        $message .= ' - the stored license key has been removed!';
                     }
 
-                    \NSL\Notices::addError($message);
+                    Notices::addError($message);
 
                     return new WP_Error('error', $message);
                 }

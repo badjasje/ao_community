@@ -41,7 +41,7 @@ $cmb->add_field([
 
 $cmb->add_field([
 	'id'      => 'url',
-	'type'    => 'text',
+	'type'    => 'text_url',
 	'name'    => esc_html__( 'URL', 'rank-math' ),
 	'desc'    => esc_html__( 'URL of the item.', 'rank-math' ),
 	'default' => site_url(),
@@ -121,7 +121,6 @@ $cmb->add_group_field( $opening_hours, [
 $cmb->add_group_field( $opening_hours, [
 	'id'         => 'time',
 	'type'       => 'text',
-	'default'    => '09:00-17:00',
 	'attributes' => [ 'placeholder' => esc_html__( 'e.g. 09:00-17:00', 'rank-math' ) ],
 ]);
 
@@ -154,19 +153,7 @@ $phones = $cmb->add_field([
 $cmb->add_group_field( $phones, [
 	'id'      => 'type',
 	'type'    => 'select',
-	'options' => [
-		'customer support'    => esc_html__( 'Customer Service', 'rank-math' ),
-		'technical support'   => esc_html__( 'Technical Support', 'rank-math' ),
-		'billing support'     => esc_html__( 'Billing Support', 'rank-math' ),
-		'bill payment'        => esc_html__( 'Bill Payment', 'rank-math' ),
-		'sales'               => esc_html__( 'Sales', 'rank-math' ),
-		'reservations'        => esc_html__( 'Reservations', 'rank-math' ),
-		'credit card support' => esc_html__( 'Credit Card Support', 'rank-math' ),
-		'emergency'           => esc_html__( 'Emergency', 'rank-math' ),
-		'baggage tracking'    => esc_html__( 'Baggage Tracking', 'rank-math' ),
-		'roadside assistance' => esc_html__( 'Roadside Assistance', 'rank-math' ),
-		'package tracking'    => esc_html__( 'Package Tracking', 'rank-math' ),
-	],
+	'options' => Helper::choices_phone_types(),
 	'default' => 'customer_support',
 ]);
 $cmb->add_group_field( $phones, [

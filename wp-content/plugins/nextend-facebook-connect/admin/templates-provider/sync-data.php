@@ -16,13 +16,13 @@ if (!$isPRO) {
 
 <div class="nsl-admin-sub-content">
 
-<?php
-NextendSocialLoginAdmin::showProBox();
-?>
+    <?php
+    NextendSocialLoginAdmin::showProBox();
+    ?>
 
     <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" novalidate="novalidate">
 
-		<?php wp_nonce_field('nextend-social-login'); ?>
+        <?php wp_nonce_field('nextend-social-login'); ?>
         <input type="hidden" name="action" value="nextend-social-login"/>
         <input type="hidden" name="view" value="provider-<?php echo $provider->getId(); ?>"/>
         <input type="hidden" name="subview" value="sync-data"/>

@@ -7,6 +7,7 @@ if ( $this->option['settings']['your_profile_enabled'] == false ) return; // sto
 
 // Does user have the capability?
 if ( current_user_can( $this->info['cap'] ) == false || ( is_multisite() && is_super_admin() ) ) return; // stop executing file
+$user = wp_get_current_user();
 
 // Temporarily hold default option
 $default_option = $this->default_option();
@@ -19,7 +20,12 @@ $default_option = $this->default_option();
 			// Do not escape Warning or Password label, HTML expected.
 			$warning = str_replace( '%username%', $this->user_login, $default_option['settings']['your_profile_confirm_warning'] === $this->option['settings']['your_profile_confirm_warning'] ? /* xgettext:no-php-format */ __( 'WARNING!<br /><br />Are you sure you want to delete user %username% from %sitename%?', 'delete-me' ) : $this->option['settings']['your_profile_confirm_warning'] );
 			$warning = str_replace( '%sitename%', get_option( 'blogname' ), $warning );
+			$warning = str_replace( '%displayname%', $user->display_name, $warning );
 			echo $warning;
+
+			// Confirm Button
+			$your_profile_confirm_button = str_replace( '%username%', $this->user_login, $default_option['settings']['your_profile_confirm_button'] === $this->option['settings']['your_profile_confirm_button'] ? __( 'Confirm Deletion', 'delete-me' ) : $this->option['settings']['your_profile_confirm_button'] );
+			$your_profile_confirm_button = str_replace( '%displayname%', $user->display_name, $your_profile_confirm_button );
 			?>
 		</p>
 		<?php if ( $this->option['settings']['your_profile_confirm_password_required'] === true ) : ?>
@@ -32,7 +38,7 @@ $default_option = $this->default_option();
 		</table>
 		<?php endif; ?>
 		<p class="submit">
-			<input type="submit" class="button-primary" value="<?php echo esc_attr( str_replace( '%username%', $this->user_login, $default_option['settings']['your_profile_confirm_button'] === $this->option['settings']['your_profile_confirm_button'] ? __( 'Confirm Deletion', 'delete-me' ) : $this->option['settings']['your_profile_confirm_button'] ) ); ?>" />
+			<input type="submit" class="button-primary" value="<?php echo esc_attr( $your_profile_confirm_button ); ?>" />
 		</p>
 	</form>
 </div>

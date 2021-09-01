@@ -8,13 +8,13 @@ $settings = $provider->settings;
 ?>
 
 <div class="nsl-admin-sub-content">
-	<?php
+    <?php
     $this->renderSettingsHeader();
     ?>
 
     <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" novalidate="novalidate">
 
-		<?php wp_nonce_field('nextend-social-login'); ?>
+        <?php wp_nonce_field('nextend-social-login'); ?>
         <input type="hidden" name="action" value="nextend-social-login"/>
         <input type="hidden" name="view" value="provider-<?php echo $provider->getId(); ?>"/>
         <input type="hidden" name="subview" value="settings"/>
@@ -24,8 +24,8 @@ $settings = $provider->settings;
             <tbody>
             <tr>
                 <th scope="row"><label
-                            for="consumer_key"><?php _e('API Key', 'nextend-facebook-connect'); ?></label>
-                            - <em>(<?php _e('Required', 'nextend-facebook-connect'); ?>)</em></label></th>
+                            for="consumer_key"><?php _e('API Key', 'nextend-facebook-connect'); ?>
+                        - <em>(<?php _e('Required', 'nextend-facebook-connect'); ?>)</em></label></th>
                 <td>
                     <input name="consumer_key" type="text" id="consumer_key"
                            value="<?php echo esc_attr($settings->get('consumer_key')); ?>" class="regular-text">
@@ -53,25 +53,25 @@ $settings = $provider->settings;
 
         <table class="form-table">
             <tbody>
-                <tr>
-                    <th scope="row"><?php _e('Profile image size', 'nextend-facebook-connect'); ?></th>
-                    <td>
-                        <fieldset>
-                            <label><input type="radio" name="profile_image_size"
-                                          value="mini" <?php if ($settings->get('profile_image_size') == 'mini') : ?> checked="checked" <?php endif; ?>>
-                                <span>24x24</span></label><br>
-                            <label><input type="radio" name="profile_image_size"
-                                          value="normal" <?php if ($settings->get('profile_image_size') == 'normal') : ?> checked="checked" <?php endif; ?>>
-                                <span>48x48</span></label><br>
-                            <label><input type="radio" name="profile_image_size"
-                                          value="bigger" <?php if ($settings->get('profile_image_size') == 'bigger') : ?> checked="checked" <?php endif; ?>>
-                                <span>73x73</span></label><br>
-                            <label><input type="radio" name="profile_image_size"
-                                          value="original" <?php if ($settings->get('profile_image_size') == 'original') : ?> checked="checked" <?php endif; ?>>
-                                    <span><?php _e('Original', 'nextend-facebook-connect'); ?></span></label><br>
-                        </fieldset>
-                    </td>
-                </tr>
+            <tr>
+                <th scope="row"><?php _e('Profile image size', 'nextend-facebook-connect'); ?></th>
+                <td>
+                    <fieldset>
+                        <label><input type="radio" name="profile_image_size"
+                                      value="mini" <?php if ($settings->get('profile_image_size') == 'mini') : ?> checked="checked" <?php endif; ?>>
+                            <span>24x24</span></label><br>
+                        <label><input type="radio" name="profile_image_size"
+                                      value="normal" <?php if ($settings->get('profile_image_size') == 'normal') : ?> checked="checked" <?php endif; ?>>
+                            <span>48x48</span></label><br>
+                        <label><input type="radio" name="profile_image_size"
+                                      value="bigger" <?php if ($settings->get('profile_image_size') == 'bigger') : ?> checked="checked" <?php endif; ?>>
+                            <span>73x73</span></label><br>
+                        <label><input type="radio" name="profile_image_size"
+                                      value="original" <?php if ($settings->get('profile_image_size') == 'original') : ?> checked="checked" <?php endif; ?>>
+                            <span><?php _e('Original', 'nextend-facebook-connect'); ?></span></label><br>
+                    </fieldset>
+                </td>
+            </tr>
             </tbody>
         </table>
 

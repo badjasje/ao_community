@@ -2,7 +2,7 @@
 /**
  * SEO Analysis admin page contents.
  *
- * @package   MTS_SEO
+ * @package   RANK_MATH
  * @author    Rank Math <support@rankmath.com>
  * @license   GPL-2.0+
  * @link      https://rankmath.com/wordpress/plugin/seo-suite/
@@ -14,55 +14,45 @@ use RankMath\Helper;
 
 $assets   = plugin_dir_url( dirname( __FILE__ ) );
 $analyzer = Helper::get_module( 'seo-analysis' )->admin->analyzer;
+
+// Header.
+rank_math()->admin->display_admin_header();
 ?>
-<div class="wrap rank-math-seo-analysis-wrap">
 
-	<span class="wp-header-end"></span>
+<div class="wrap rank-math-wrap rank-math-seo-analysis-wrap">
 
-	<h2>
-		<?php echo esc_html( get_admin_page_title() ); ?>
-		<a class="page-title-action" href="<?php KB::the( 'seo-analysis' ); ?>" target="_blank"><?php esc_html_e( 'What is this?', 'rank-math' ); ?></a>
-	</h2>
+	<div class="container">
 
-	<?php if ( Helper::is_site_connected() ) : ?>
-	<div class="rank-math-seo-analysis-header rank-math-ui<?php echo empty( $analyzer->results ) ? '' : ' hidden'; ?>">
+		<header class="rank-math-box">
+			<h2>
+				<?php echo esc_html( get_admin_page_title() ); ?>
+				<a class="button button-secondary button-small" href="<?php KB::the( 'seo-analysis' ); ?>" target="_blank"><?php esc_html_e( 'What is this?', 'rank-math' ); ?></a>
+			</h2>
+			<?php if ( Helper::is_site_connected() && ! empty( $analyzer->results ) ) : ?>
+				<div>
+					<button data-what="website" class="button button-primary button-xlarge rank-math-recheck"><?php esc_html_e( 'Start Analysis Again', 'rank-math' ); ?></button>
+				</div>
+			<?php endif; ?>
+		</header>
 
-		<?php if ( $analyzer->analyse_subpage ) { ?>
-			<p class="page-analysis-selected">
-				<?php echo sprintf( esc_html__( 'Selected page: %s', 'rank-math' ), '<a href="' . esc_url( $analyzer->analyse_url ) . '" class="rank-math-current-url" target="_blank">' . $analyzer->analyse_url . '</a>' ); // phpcs:ignore ?>
-				<input type="text" class="rank-math-analyze-url" value="<?php echo esc_url( $analyzer->analyse_url ); ?>">
-				<button class="button button-secondary rank-math-changeurl-ok"><?php esc_html_e( 'OK', 'rank-math' ); ?></button>
-				<button class="button button-secondary rank-math-changeurl"><?php esc_html_e( 'Change URL', 'rank-math' ); ?></button>
-			</p>
-			<button data-what="page" class="button button-primary button-xlarge rank-math-recheck"><?php esc_html_e( 'Start Page Analysis', 'rank-math' ); ?></button>
+		<div class="rank-math-box rank-math-analyzer-result">
 
-			<h2><?php esc_html_e( 'Analysing Page&hellip;', 'rank-math' ); ?></h2>
+			<span class="wp-header-end"></span>
 
-		<?php } else { ?>
-			<button data-what="website" class="button button-primary button-xlarge rank-math-recheck"><?php esc_html_e( 'Start Site-Wide Analysis', 'rank-math' ); ?></button>
+			<?php if ( Helper::is_site_connected() ) : ?>
+				<?php include dirname( __FILE__ ) . '/form.php'; ?>
 
-			<h2><?php esc_html_e( 'Analysing Website&hellip;', 'rank-math' ); ?></h2>
+				<?php if ( ! $analyzer->analyse_subpage ) : ?>
+					<div class="rank-math-results-wrapper">
+						<?php $analyzer->display(); ?>
+					</div>
+				<?php endif; ?>
 
-		<?php } ?>
-
-		<div class="progress-bar">
-			<div class="progress"></div>
-			<label><span>0%</span> <?php esc_html_e( 'Complete', 'rank-math' ); ?></label>
+			<?php else : ?>
+				<div class="rank-math-seo-analysis-header">
+					<h3><?php echo esc_html( 'Analyze your site by ', 'rank-math' ) . '<a href="' . Helper::get_connect_url() . '" target="_blank">' . esc_html( 'linking your Rank Math account', 'rank-math' ) . '</a>.</h3>'; ?>
+				</div>
+			<?php endif; ?>
 		</div>
-
-	</div>
-	<?php // phpcs:disable ?>
-
-	<?php if ( ! $analyzer->analyse_subpage ) : ?>
-	<div class="rank-math-results-wrapper">
-		<?php $analyzer->display(); ?>
-	</div>
-	<?php endif; ?>
-
-<?php else : ?>
-	<div class="rank-math-seo-analysis-header rank-math-ui">
-		<h3><?php printf( __( 'Analyze your site by <a href="%1$s" target="_blank">linking your Rank Math account', 'rank-math' ), Helper::get_connect_url() ); ?></a>.</h3>
-	</div>
-	<?php // phpcs:enable ?>
-<?php endif; ?>
+	</div><!--.container-->
 </div>

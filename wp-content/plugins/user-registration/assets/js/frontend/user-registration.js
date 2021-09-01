@@ -3,7 +3,7 @@
 /* global  grecaptcha */
 (function ($) {
 	var user_registration = {
-		$user_registration: $('.ur-frontend-form form.register'),
+		$user_registration: $('.ur-frontend-form form.register, .ur-frontend-form form.edit-password'),
 		init: function () {
 			this.load_validation();
 			this.init_inputMask();
@@ -42,12 +42,46 @@
 
 			this.$user_registration.each(function () {
 				var $this = $(this);
+				var rules = {};
+				var messages = {};
+
+				if ( $this.find( '#user_confirm_email' ).length ) {
+					/**
+					 * For real time email matching
+					 */
+					rules.user_confirm_email = {
+						equalTo: '.user-registration #user_email',
+					};
+					messages.user_confirm_email = user_registration_params.message_confirm_email_fields;
+				}
+
+				if ( $this.hasClass('edit-password') ) {
+					/**
+					 * Password matching for `Change Password` form
+					 */
+					rules.password_2 = {
+						equalTo: '#password_1',
+					};
+					messages.password_2 = user_registration_params.message_confirm_password_fields;
+				} else if ( $this.hasClass('register') && $this.find( '#user_confirm_password' ).length ) {
+					/**
+					 * Password matching for registration form
+					 */
+					rules.user_confirm_password = {
+						equalTo: '.user-registration #user_pass',
+					};
+					messages.user_confirm_password = user_registration_params.message_confirm_password_fields;
+				}
 
 				$this.validate({
 					errorClass: 'user-registration-error',
 					validClass: 'user-registration-valid',
+					rules: rules,
+					messages: messages,
 					errorPlacement: function (error, element) {
-						if ( 'radio' === element.attr('type') || 'checkbox' === element.attr('type') || 'password' === element.attr('type') ) {
+						if ( element.is( '#password_2' ) ) {
+							element.parent().after(error);
+						} else if ( 'radio' === element.attr('type') || 'checkbox' === element.attr('type') || 'password' === element.attr('type') ) {
 							element.parent().parent().parent().append(error);
 						} else if ( element.is('select') && element.attr('class').match(/date-month|date-day|date-year/) ) {
 							if (element.parent().find('label.user-registration-error:visible').length === 0) {
@@ -85,6 +119,12 @@
 						$parent.removeClass('user-registration-has-error');
 					},
 					submitHandler: function (form) {
+
+						// Return `true` for `Change Password` form to allow submission
+						if ( $(form).hasClass('edit-password') ) {
+							return true;
+						}
+
 						return false;
 					}
 				});
@@ -169,7 +209,14 @@
 						var single_field = $this.closest('.ur-frontend-form').find('.ur-form-grid').find('.ur-frontend-field[name="' + field_name + '"]');
 						if (single_field.length < 2) {
 							var single_data = this_instance.get_fieldwise_data($(this));
-							form_data.push(single_data);
+							var invite_code = document.querySelector('.field-invite_code')
+							if( 'invite_code' === single_data.field_name ) {
+								if( 'none' !== invite_code.style.display ) {
+									form_data.push(single_data);
+								}
+							} else {
+								form_data.push(single_data);
+							}
 						} else {
 							if ($.inArray(field_name, multi_value_field) < 0) {
 								multi_value_field.push(field_name);
@@ -310,6 +357,8 @@
 					$('form.register').on('submit', function (event) {
 						var $this = $(this);
 
+						event.stopImmediatePropagation();
+
 						// Validator messages.
 						$.extend($.validator.messages, {
 							required: user_registration_params.message_required_fields,
@@ -350,7 +399,18 @@
 							return true;
 						}
 
-						if (!$this.valid()) {
+						var exist_detail = $('.uraf-profile-picture-upload').find('.user-registration-error').length;
+
+						if( 1 === exist_detail ){
+							var profile = $('.uraf-profile-picture-upload').find('.uraf-profile-picture-input')
+							var wrapper = $('.uraf-profile-picture-upload');
+							wrapper.find('#' + profile.attr('name') + '-error').remove();
+							wrapper.find('.uraf-profile-picture-file-error').remove();
+							var error_message = '<label id="' + profile.attr('name') + '-error' + '" class="user-registration-error" for="' + profile.attr('name') + '">' + user_registration_params.message_required_fields + '</label>';
+							wrapper.find('button.wp_uraf_profile_picture_upload').after( error_message );
+						}
+
+						if ( !$this.valid() ) {
 							return;
 						}
 
@@ -438,13 +498,13 @@
 										$('.user-registration-password-hint').remove();
 										$('.user-registration-password-strength').remove();
 
-										if (user_registration_params.login_option == 'admin_approval') {
+										if ( response.data.form_login_option == 'admin_approval') {
 											message.append('<li>' + ursL10n.user_under_approval + '</li>');
 										}
-										else if (user_registration_params.login_option == 'email_confirmation') {
+										else if ( response.data.form_login_option == 'email_confirmation') {
 											message.append('<li>' + ursL10n.user_email_pending + '</li>');
 										}
-										else if (user_registration_params.login_option == 'payment') {
+										else if ( response.data.form_login_option == 'payment') {
 											message.append('<li>' + response.data.message + '</li>');
 										}
 										else {
@@ -492,20 +552,46 @@
 		});
 	};
 
-	$(function () {
+	$( function () {
 		$('form.register').ur_form_submission();
-		var date_selector = $('.ur-frontend-form  input[type="date"]');
-		if (date_selector.length > 0) {
-			date_selector.addClass('flatpickr-field').attr('type', 'text').flatpickr({
-				disableMobile: true
-			});
-		}
 
-		$("form.register").on("focusout", "#user_pass", function() {
-			$this = $('#user_pass');
+		var date_flatpickrs = {};
+
+		$( document.body ).on( 'click', '#load_flatpickr', function() {
+			var field_id = $( this ).data( 'id' );
+			var date_flatpickr = date_flatpickrs[ field_id ];
+
+			// Load a flatpicker for the field, if hasn't been loaded.
+			if ( ! date_flatpickr ) {
+				var formated_date = $( this ).closest( '.ur-field-item' ).find( '#formated_date' ).val();
+				var date_selector = $( '.ur-frontend-form #' + field_id ).attr( 'type', 'text' ).val( formated_date );
+
+				$( this ).attr( 'data-date-format', date_selector.data( 'date-format') );
+				$( this ).attr( 'data-mode', date_selector.data( 'mode') );
+				$( this ).attr( 'data-min-date', date_selector.data( 'min-date') );
+				$( this ).attr( 'data-max-date', date_selector.data( 'max-date') );
+				$( this ).attr( 'data-default-date', formated_date );
+				date_flatpickr = $( this ).flatpickr({
+					disableMobile : true,
+					onChange : function( selectedDates, dateString, instance ) {
+						$( '#' + field_id ).val( dateString );
+					}
+				});
+				date_flatpickrs[ field_id ] = date_flatpickr;
+			}
+
+			if ( date_flatpickr ) {
+				date_flatpickr.open();
+			}
+		});
+
+		$("form.register, form.edit-password").on("focusout", "#user_pass, #password_1", function() {
+			$this = $(this);
+			var this_name = $(this).attr( 'name' );
+			var this_data_id = $(this).data( 'id' );
 			var enable_strength_password  = $this.closest( 'form' ).attr( 'data-enable-strength-password' );
 
-			if ( 'yes' === enable_strength_password ) {
+			if ( 'yes' === enable_strength_password || '1' === enable_strength_password ) {
 				var wrapper                   = $this.closest('form');
 				var minimum_password_strength = wrapper.attr( 'data-minimum-password-strength' );
 				var blacklistArray            = wp.passwordStrength.userInputBlacklist();
@@ -515,9 +601,9 @@
 
 				var strength = wp.passwordStrength.meter( $this.val(), blacklistArray );
 				if( strength < minimum_password_strength ) {
-					if( wrapper.find('input[data-id="user_pass"]').val() !== "" ){
-						wrapper.find( '#user_pass_error' ).remove();
-						var error_msg_dom = '<label id="user_pass_error" class="user-registration-error" for="user_pass">' + ursL10n.password_strength_error +'.</label>';
+					if( $this.val() !== "" ){
+						wrapper.find( '#' + this_data_id + '_error' ).remove();
+						var error_msg_dom = '<label id="' + this_data_id + '_error" class="user-registration-error" for="' + this_name + '">' + ursL10n.password_strength_error +'.</label>';
 						wrapper.find('.user-registration-password-hint').after( error_msg_dom );
 					}
 				}
@@ -529,22 +615,50 @@
 		request_recaptcha_token();
 	});
 
+	/**
+	 * Append a country option and Remove it on click, if the country is not allowed.
+	 */
+	$(function() {
+		if ( $('.user-registration-EditProfileForm.edit-profile .field-country').length > 0 ) {
+			$('.field-country').each(function() {
+				var option_value = $(this).find( '.ur-data-holder' ).data('option-value');
+				var option_html  = $(this).find( '.ur-data-holder' ).data('option-html');
+				var $select      = $(this).find('select');
+
+				if ( option_value && option_html ) {
+					if ( $select.find('option[value="' + option_value + '"]').length === 0 ) {
+						$select.append( "<option class='ur-remove' selected='selected' value='" + option_value + "'>" + option_html + "</option>" );
+					}
+					$(this).on( 'click', function() {
+						$(this).find('.ur-remove').remove();
+					});
+				}
+			});
+		}
+	});
+
 	$( document ).on( 'click', '.password_preview', function( e ) {
 		e.preventDefault();
 		var current_task = ( $(this).hasClass( 'dashicons-hidden' ) ) ? 'show' : 'hide';
 		var $password_field = $(this).closest( '.user-registration-form-row' ).find( 'input[name="password"]' );
 
+		// Hide/show password for user registration form
 		if( $password_field.length === 0 ) {
 			$password_field = $(this).closest( '.field-user_pass' ).find( 'input[name="user_pass"]' );
 		}
 		if( $password_field.length === 0 ) {
 			$password_field = $(this).closest( '.field-user_confirm_password' ).find( 'input[name="user_confirm_password"]' );
 		}
+
+		// Hide/show password for edit password form
 		if( $password_field.length === 0 ) {
-			$password_field = $(this).closest( '.field-user_pass' ).find( 'input[name="user_registration_user_pass"]' );
+			$password_field = $(this).closest( '.user-registration-form-row' ).find( 'input[name="password_current"]' );
 		}
 		if( $password_field.length === 0 ) {
-			$password_field = $(this).closest( '.field-user_confirm_password' ).find( 'input[name="user_registration_user_confirm_password"]' );
+			$password_field = $(this).closest( '.user-registration-form-row' ).find( 'input[name="password_1"]' );
+		}
+		if( $password_field.length === 0 ) {
+			$password_field = $(this).closest( '.user-registration-form-row' ).find( 'input[name="password_2"]' );
 		}
 
 		if( $password_field.length > 0 ) {

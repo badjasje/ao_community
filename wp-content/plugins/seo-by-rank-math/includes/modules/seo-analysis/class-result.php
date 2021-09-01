@@ -10,6 +10,8 @@
 
 namespace RankMath\SEO_Analysis;
 
+use RankMath\Helper;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -46,6 +48,9 @@ class Result {
 	 * @param bool   $is_subpage Is sub-page result.
 	 */
 	public function __construct( $id, $data, $is_subpage ) {
+		if ( is_a( $data, 'RankMath\\SEO_Analysis\\Result' ) ) {
+			$data = $data->result;
+		}
 		$this->id         = $id;
 		$this->result     = $data;
 		$this->is_subpage = $is_subpage;
@@ -74,7 +79,7 @@ class Result {
 			<div class="row-content">
 
 				<?php if ( $this->has_fix() ) : ?>
-				<a href="#" class="button button-secondary result-action"><?php esc_html_e( 'How to fix', 'rank-math' ); ?></a>
+				<a href="#" class="button button-secondary button-small result-action"><?php esc_html_e( 'How to fix', 'rank-math' ); ?></a>
 				<?php endif; ?>
 
 				<?php echo wp_kses_post( $this->result['message'] ); ?>
@@ -115,7 +120,7 @@ class Result {
 	 * @return string
 	 */
 	public function get_category() {
-		return isset( $this->result['category'] ) ? $this->result['category'] : '';
+		return is_array( $this->result ) && isset( $this->result['category'] ) ? $this->result['category'] : '';
 	}
 
 	/**
@@ -124,7 +129,7 @@ class Result {
 	 * @return string
 	 */
 	public function get_status() {
-		return isset( $this->result['status'] ) ? $this->result['status'] : '';
+		return is_array( $this->result ) && isset( $this->result['status'] ) ? $this->result['status'] : '';
 	}
 
 	/**
@@ -133,13 +138,17 @@ class Result {
 	 * @return bool
 	 */
 	private function has_fix() {
-		return in_array( $this->result['status'], [ 'fail', 'warning' ], true ) && ! empty( $this->result['fix'] );
+		return is_array( $this->result ) && in_array( $this->result['status'], [ 'fail', 'warning' ], true ) && ! empty( $this->result['fix'] );
 	}
 
 	/**
 	 * Output test result status.
 	 */
 	private function the_status() {
+		if ( ! is_array( $this->result ) ) {
+			return;
+		}
+
 		$status = $this->result['status'];
 		if ( ! empty( $this->result['is_info'] ) ) {
 			$status = 'info';
@@ -171,6 +180,10 @@ class Result {
 	 * Output test data
 	 */
 	private function the_content() {
+		if ( ! is_array( $this->result ) ) {
+			return;
+		}
+
 		$data = $this->result['data'];
 
 		if ( 'common_keywords' === $this->id ) {
@@ -185,7 +198,7 @@ class Result {
 
 		$explode = [ 'h1_heading', 'h2_headings', 'title_length', 'description_length', 'canonical' ];
 		if ( in_array( $this->id, $explode, true ) ) {
-			echo '<br><code>' . join( ', ', (array) $data ) . '</code>';
+			echo '<code class="full-width">' . join( ', ', (array) $data ) . '</code>';
 			return;
 		}
 	}
@@ -275,6 +288,32 @@ class Result {
 	}
 
 	/**
+	 * Is test hidden.
+	 *
+	 * @return bool
+	 */
+	public function is_hidden() {
+		$hidden_tests = [
+			// Performance.
+			'image_header',
+			'minify_css',
+			'minify_js',
+			'page_objects',
+			'page_size',
+			'response_time',
+
+			// Security.
+			'directory_listing',
+			'safe_browsing',
+			'ssl',
+			'active_plugins',
+			'active_theme',
+		];
+
+		return ! Helper::is_advanced_mode() && in_array( $this->id, $hidden_tests, true );
+	}
+
+	/**
 	 * Get tests score.
 	 *
 	 * @return int
@@ -286,7 +325,7 @@ class Result {
 			'img_alt'             => 4,
 			'keywords_meta'       => 5,
 			'links_ratio'         => 3,
-			'title_length'        => 3,
+			'title_length'        => 4,
 			'permalink_structure' => 7,
 			'focus_keywords'      => 3,
 			'post_titles'         => 4,
@@ -313,13 +352,6 @@ class Result {
 			'directory_listing'   => 1,
 			'safe_browsing'       => 8,
 			'ssl'                 => 7,
-
-			// Social SEO.
-			'facebook_connected'  => 1,
-			'instagram_connected' => 1,
-			'linkedin_connected'  => 1,
-			'twitter_connected'   => 1,
-			'youtube_connected'   => 1,
 		];
 
 		return isset( $score[ $this->id ] ) ? $score[ $this->id ] : 0;

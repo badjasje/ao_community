@@ -1,5 +1,8 @@
 <?php
 
+use NSL\Notices;
+use NSL\Persistent\Persistent;
+
 require_once(NSL_PATH . '/includes/exceptions.php');
 
 require_once dirname(__FILE__) . '/NSL/Persistent/Persistent.php';
@@ -16,9 +19,9 @@ require_once(NSL_PATH . '/compat.php');
 
 class NextendSocialLogin {
 
-    public static $version = '3.0.20';
+    public static $version = '3.0.24';
 
-    public static $nslPROMinVersion = '3.0.20';
+    public static $nslPROMinVersion = '3.0.23';
 
     public static $proxyPage = false;
 
@@ -50,14 +53,14 @@ class NextendSocialLogin {
     public static function noticeUpdateFree() {
         if (is_admin() && current_user_can('manage_options')) {
             $file = 'nextend-facebook-connect/nextend-facebook-connect.php';
-            \NSL\Notices::addError(sprintf(__('Please update %1$s to version %2$s or newer.', 'nextend-facebook-connect'), "Nextend Social Login", NextendSocialLoginPRO::$nslMinVersion) . ' <a href="' . esc_url(wp_nonce_url(admin_url('update.php?action=upgrade-plugin&plugin=') . $file, 'upgrade-plugin_' . $file)) . '">' . __('Update now!', 'nextend-facebook-connect') . '</a>');
+            Notices::addError(sprintf(__('Please update %1$s to version %2$s or newer.', 'nextend-facebook-connect'), "Nextend Social Login", NextendSocialLoginPRO::$nslMinVersion) . ' <a href="' . esc_url(wp_nonce_url(admin_url('update.php?action=upgrade-plugin&plugin=') . $file, 'upgrade-plugin_' . $file)) . '">' . __('Update now!', 'nextend-facebook-connect') . '</a>');
         }
     }
 
     public static function noticeUpdatePro() {
         if (is_admin() && current_user_can('manage_options')) {
             $file = 'nextend-social-login-pro/nextend-social-login-pro.php';
-            \NSL\Notices::addError(sprintf(__('Please update %1$s to version %2$s or newer.', 'nextend-facebook-connect'), "Nextend Social Login Pro Addon", self::$nslPROMinVersion) . ' <a href="' . esc_url(wp_nonce_url(admin_url('update.php?action=upgrade-plugin&plugin=') . $file, 'upgrade-plugin_' . $file)) . '">' . __('Update now!', 'nextend-facebook-connect') . '</a>');
+            Notices::addError(sprintf(__('Please update %1$s to version %2$s or newer.', 'nextend-facebook-connect'), "Nextend Social Login Pro Addon", self::$nslPROMinVersion) . ' <a href="' . esc_url(wp_nonce_url(admin_url('update.php?action=upgrade-plugin&plugin=') . $file, 'upgrade-plugin_' . $file)) . '">' . __('Update now!', 'nextend-facebook-connect') . '</a>');
         }
     }
 
@@ -180,6 +183,8 @@ class NextendSocialLogin {
             'woocoommerce_form_button_style'   => 'default',
             'woocoommerce_form_button_align'   => 'left',
             'woocommerce_account_details'      => 'before',
+            'woocommerce_cfw'                  => 'show',
+            'woocommerce_cfw_layout'           => 'below',
 
             'memberpress_form_button_align'        => 'left',
             'memberpress_login_form_button_style'  => 'default',
@@ -248,12 +253,17 @@ class NextendSocialLogin {
             update_option('nsl-version', self::$version, true);
             wp_redirect(set_url_scheme('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
             exit;
+        } else if (isset($_REQUEST['repairnsl']) && current_user_can('manage_options') && check_admin_referer('repairnsl')) {
+            self::install();
+            wp_redirect(admin_url('admin.php?page=nextend-social-login'));
+            exit;
         }
+
         do_action('nsl_start');
 
         load_plugin_textdomain('nextend-facebook-connect', false, basename(dirname(__FILE__)) . '/languages/');
 
-        \NSL\Notices::init();
+        Notices::init();
 
         self::$providersPath = NSL_PATH . '/providers/';
 
@@ -445,9 +455,19 @@ class NextendSocialLogin {
     }
 
     public static function install() {
-        global $wpdb;
-        $table_name = $wpdb->prefix . "social_users";
-        $sql        = "CREATE TABLE " . $table_name . " (`ID` int(11) NOT NULL, `type` varchar(20) NOT NULL, `identifier` varchar(100) NOT NULL, KEY `ID` (`ID`,`type`));";
+        /** @var $wpdb WPDB */ global $wpdb;
+        $table_name      = $wpdb->prefix . "social_users";
+        $charset_collate = $wpdb->get_charset_collate();
+
+        $sql = "CREATE TABLE " . $table_name . " (
+        `ID` int(11) NOT NULL,
+        `type` varchar(20) NOT NULL,
+        `identifier` varchar(100) NOT NULL,
+        `register_date` datetime NOT NULL default '0000-00-00 00:00:00',
+        `login_date` datetime NOT NULL default '0000-00-00 00:00:00',
+        `link_date` datetime NOT NULL default '0000-00-00 00:00:00',
+        KEY `ID` (`ID`,`type`)
+        ) " . $charset_collate . ";";
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
     }
@@ -612,7 +632,7 @@ class NextendSocialLogin {
             $errors = new WP_Error();
         }
 
-        $errorMessages = \NSL\Notices::getErrors();
+        $errorMessages = Notices::getErrors();
         if ($errorMessages !== false) {
             foreach ($errorMessages AS $errorMessage) {
                 $errors->add('error', $errorMessage);
@@ -704,10 +724,12 @@ class NextendSocialLogin {
      * @param bool|false|string $heading
      * @param bool              $link
      * @param bool              $unlink
+     * @param string            $align
+     * @param array|string      $providers
      *
      * @return string
      */
-    public static function renderLinkAndUnlinkButtons($heading = '', $link = true, $unlink = true, $align = "left") {
+    public static function renderLinkAndUnlinkButtons($heading = '', $link = true, $unlink = true, $align = "left", $providers = false) {
         if (count(self::$enabledProviders)) {
             $buttons = '';
             if ($heading !== false) {
@@ -727,25 +749,37 @@ class NextendSocialLogin {
             }
 
 
-            $providerCount = 0;
-            foreach (self::$enabledProviders AS $provider) {
-                if ($provider->isCurrentUserConnected()) {
-                    if ($unlink) {
-                        $buttons .= $provider->getUnLinkButton();
-                        $providerCount++;
-                    }
-                } else {
-                    if ($link) {
-                        $buttons .= $provider->getLinkButton();
-                        $providerCount++;
+            $enabledProviders = false;
+            if (is_array($providers)) {
+                $enabledProviders = array();
+                foreach ($providers AS $provider) {
+                    if ($provider && isset(self::$enabledProviders[$provider->getId()])) {
+                        $enabledProviders[$provider->getId()] = $provider;
                     }
                 }
             }
+            if ($enabledProviders === false) {
+                $enabledProviders = self::$enabledProviders;
+            }
 
-            if ($providerCount > 0) {
+            if (count($enabledProviders)) {
+                $buttons = '';
+                foreach ($enabledProviders AS $provider) {
+                    if ($provider->isCurrentUserConnected()) {
+                        if ($unlink) {
+                            $buttons .= $provider->getUnLinkButton();
+                        }
+                    } else {
+                        if ($link) {
+                            $buttons .= $provider->getLinkButton();
+                        }
+                    }
+                }
+
                 $buttons = '<div class="nsl-container-buttons">' . $buttons . '</div>';
 
                 return '<div class="nsl-container ' . self::$styles['default']['container'] . '" data-align="' . esc_attr($align) . '">' . $buttons . '</div>';
+
             }
         }
 
@@ -753,11 +787,11 @@ class NextendSocialLogin {
     }
 
     /**
-     * @deprecated
-     *
      * @param $user_id
      *
      * @return bool
+     * @deprecated
+     *
      */
     public static function getAvatar($user_id) {
         foreach (self::$enabledProviders AS $provider) {
@@ -776,12 +810,19 @@ class NextendSocialLogin {
         }
 
         $atts = array_merge(array(
-            'login'   => 1,
-            'link'    => 0,
-            'unlink'  => 0,
-            'heading' => false,
-            'align'   => 'left',
+            'provider' => false,
+            'login'    => 1,
+            'link'     => 0,
+            'unlink'   => 0,
+            'heading'  => false,
+            'align'    => 'left',
         ), $atts);
+
+        $providers  = false;
+        $providerID = $atts['provider'] === false ? false : $atts['provider'];
+        if ($providerID !== false && isset(self::$enabledProviders[$providerID])) {
+            $providers = array(self::$enabledProviders[$providerID]);
+        }
 
         if (!is_user_logged_in()) {
 
@@ -791,16 +832,9 @@ class NextendSocialLogin {
 
             $atts = array_merge(array(
                 'style'       => 'default',
-                'provider'    => false,
                 'redirect'    => false,
                 'trackerdata' => false
             ), $atts);
-
-            $providers  = false;
-            $providerID = $atts['provider'] === false ? false : $atts['provider'];
-            if ($providerID !== false && isset(self::$enabledProviders[$providerID])) {
-                $providers = array(self::$enabledProviders[$providerID]);
-            }
 
             return self::renderButtonsWithContainerAndTitle($atts['heading'], $atts['style'], $providers, $atts['redirect'], $atts['trackerdata'], $atts['align']);
         }
@@ -809,7 +843,7 @@ class NextendSocialLogin {
         $unlink = filter_var($atts['unlink'], FILTER_VALIDATE_BOOLEAN);
 
         if ($link || $unlink) {
-            return self::renderLinkAndUnlinkButtons($atts['heading'], $link, $unlink, $atts['align']);
+            return self::renderLinkAndUnlinkButtons($atts['heading'], $link, $unlink, $atts['align'], $providers);
         }
 
         return '';
@@ -1012,8 +1046,7 @@ class NextendSocialLogin {
     }
 
     public static function delete_user($user_id) {
-        /** @var $wpdb WPDB */
-        global $wpdb, $blog_id;
+        /** @var $wpdb WPDB */ global $wpdb, $blog_id;
 
         $wpdb->delete($wpdb->prefix . 'social_users', array(
             'ID' => $user_id
@@ -1085,7 +1118,7 @@ class NextendSocialLogin {
     }
 
     public static function getTrackerData() {
-        return \NSL\Persistent\Persistent::get('trackerdata');
+        return Persistent::get('trackerdata');
     }
 
     public static function getDomain() {
@@ -1114,6 +1147,34 @@ class NextendSocialLogin {
         }
 
         return $proxyPage;
+    }
+
+    public static function getFreePagesForRegisterFlow($pages) {
+
+        $availablePages = array();
+        foreach ($pages as $page) {
+            $post_states = array();
+            $post_states = apply_filters('display_post_states', $post_states, $page);
+            if (NextendSocialLogin::getRegisterFlowPage() === $page->ID || !$post_states) {
+                $availablePages[] = $page;
+            }
+        }
+
+        return $availablePages;
+    }
+
+    public static function getFreePagesForOauthProxyPage($pages) {
+
+        $availablePages = array();
+        foreach ($pages as $page) {
+            $post_states = array();
+            $post_states = apply_filters('display_post_states', $post_states, $page);
+            if (NextendSocialLogin::getProxyPage() === $page->ID || !$post_states) {
+                $availablePages[] = $page;
+            }
+        }
+
+        return $availablePages;
     }
 
     public static function is_register_allowed($isAllowed) {

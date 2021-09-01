@@ -1,5 +1,5 @@
 <?php
-/*
+
     require_once("wp-load.php");
     $units = Units::get();
 	$buildings = Buildings::get();
@@ -192,5 +192,5 @@
 
 	// Add roundnr
 	$round_nr = Round::getRoundNr();
-	update_field('round_nr', $round_nr+1, 'option');
+	//update_field('round_nr', $round_nr+1, 'option');
 /* */

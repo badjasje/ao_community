@@ -16,13 +16,7 @@ $monitor->table->prepare_items();
 
 	<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 
-	<style>
-	#doaction, #doaction2 { margin: 0 }
-	.column-times_accessed { width: 14% }
-	.rank-math-clear-logs { color: #a00 !important; margin-bottom: 1px !important}
-	.rank-math-clear-logs:hover { border-color: #a00 !important }
-	</style>
-	<p>
+	<p style="width:540px;max-width:100%;margin-bottom:0;font-size:15px;">
 		<?php
 		printf(
 			/* Translators: 1: link to Monitor docs 2: link to Fix 404 docs */

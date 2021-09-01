@@ -35,6 +35,10 @@ class NextendSocialLoginSettings {
     }
 
     public function get($key, $storage = 'final') {
+        if (!isset($this->settings[$storage][$key])) {
+            return false;
+        }
+
         return $this->settings[$storage][$key];
     }
 
@@ -47,6 +51,11 @@ class NextendSocialLoginSettings {
         return $this->settings[$storage];
     }
 
+    /**
+     * @param array $postedData
+     *
+     * @return bool
+     */
     public function update($postedData) {
         if (is_array($postedData)) {
             $newData = array();
@@ -67,9 +76,13 @@ class NextendSocialLoginSettings {
                     $this->settings['stored'] = array_intersect_key($this->settings['stored'], array_flip($allowedKeys));
 
                     $this->storeSettings();
+
+                    return true;
                 }
             }
         }
+
+        return false;
     }
 
     protected function storeSettings() {

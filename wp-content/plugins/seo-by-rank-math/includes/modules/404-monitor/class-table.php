@@ -79,7 +79,7 @@ class Table extends List_Table {
 		}
 		?>
 		<div class="alignleft actions">
-			<input type="button" class="button action rank-math-clear-logs" value="<?php esc_attr_e( 'Clear Log', 'rank-math' ); ?>">
+			<input type="button" class="button button-link-delete action rank-math-clear-logs" value="<?php esc_attr_e( 'Clear Log', 'rank-math' ); ?>">
 		</div>
 		<?php
 	}
@@ -110,7 +110,7 @@ class Table extends List_Table {
 	 * @param object $item The current item.
 	 */
 	protected function column_referer( $item ) {
-		return '<a href="' . esc_attr( $item['referer'] ) . '" target="_blank">' . esc_html( $item['referer'] ) . '</a>';
+		return '<a href="' . esc_url( $item['referer'] ) . '" target="_blank">' . esc_html( $item['referer'] ) . '</a>';
 	}
 
 	/**

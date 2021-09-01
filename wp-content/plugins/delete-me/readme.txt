@@ -3,8 +3,8 @@ Contributors: cmc3215
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=L5VY6QDSAAZUL
 Tags: delete, unsubscribe, user management, gdpr, multisite
 Requires at least: 3.7
-Tested up to: 5.0
-Stable tag: 2.8
+Tested up to: 5.4
+Stable tag: 3.0
 Requires PHP: 5.2.4
 License: GPL2 http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -138,6 +138,17 @@ No, the only data stored is related to the plugin's settings which are located o
 
 == Changelog ==
 
+= 3.0 =
+
+* Release date: 05/09/2020
+* Added 3 new attributes for the shortcode form: form_confirm_warning, form_password_label, form_confirm_button
+* Added %displayname% replacement string everywhere that %username% was already available.
+
+= 2.9 =
+
+* Release date: 04/05/2020
+* Added paragraph tag around shortcode output to prevent alignment issues.
+
 = 2.8 =
 
 * Release date: 12/19/2018
@@ -268,6 +279,6 @@ No, the only data stored is related to the plugin's settings which are located o
 
 == Upgrade Notice ==
 
-= 2.8 =
+= 3.0 =
 
 See [Changelog](https://wordpress.org/plugins/delete-me/#developers) for details.

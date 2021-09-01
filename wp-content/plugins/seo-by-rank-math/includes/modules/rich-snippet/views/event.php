@@ -40,12 +40,61 @@ $cmb->add_field([
 ]);
 
 $cmb->add_field([
-	'id'      => 'rank_math_snippet_event_venue',
-	'type'    => 'text',
-	'name'    => esc_html__( 'Venue Name', 'rank-math' ),
-	'desc'    => esc_html__( 'The venue name.', 'rank-math' ),
-	'classes' => 'cmb-row-50',
+	'id'      => 'rank_math_snippet_event_status',
+	'type'    => 'select',
+	'name'    => esc_html__( 'Event Status', 'rank-math' ),
+	'desc'    => esc_html__( 'Current status of the event (optional)', 'rank-math' ),
+	'options' => [
+		''                 => esc_html__( 'None', 'rank-math' ),
+		'EventScheduled'   => esc_html__( 'Scheduled', 'rank-math' ),
+		'EventCancelled'   => esc_html__( 'Cancelled', 'rank-math' ),
+		'EventPostponed'   => esc_html__( 'Postponed', 'rank-math' ),
+		'EventRescheduled' => esc_html__( 'Rescheduled', 'rank-math' ),
+		'EventMovedOnline' => esc_html__( 'Moved Online', 'rank-math' ),
+	],
+	'classes' => 'cmb-row-33',
 	'dep'     => $event,
+]);
+
+$cmb->add_field([
+	'id'      => 'rank_math_snippet_event_attendance_mode',
+	'type'    => 'select',
+	'name'    => esc_html__( 'Event Attendance Mode', 'rank-math' ),
+	'desc'    => esc_html__( 'Indicates whether the event occurs online, offline at a physical location, or a mix of both online and offline.', 'rank-math' ),
+	'options' => [
+		'offline' => esc_html__( 'Offline', 'rank-math' ),
+		'online'  => esc_html__( 'Online', 'rank-math' ),
+		'both'    => esc_html__( 'Online + Offline', 'rank-math' ),
+	],
+	'classes' => 'cmb-row-33',
+	'dep'     => $event,
+]);
+
+$cmb->add_field([
+	'id'      => 'rank_math_snippet_online_event_url',
+	'type'    => 'text_url',
+	'name'    => esc_html__( 'Online Event URL', 'rank-math' ),
+	'desc'    => esc_html__( 'The URL of the online event, where people can join. This property is required if your event is happening online.', 'rank-math' ),
+	'dep'     => [
+		'relation' => 'and',
+		[ 'rank_math_rich_snippet', 'event' ],
+		[ 'rank_math_snippet_event_attendance_mode', 'online, both' ],
+	],
+	'classes' => 'rank-math-validate-field',
+]);
+
+$cmb->add_field([
+	'id'              => 'rank_math_snippet_event_venue',
+	'type'            => 'text',
+	'name'            => esc_html__( 'Venue Name', 'rank-math' ),
+	'desc'            => esc_html__( 'The venue name.', 'rank-math' ),
+	'classes'         => 'cmb-row-50',
+	'dep'             => [
+		'relation' => 'and',
+		[ 'rank_math_rich_snippet', 'event' ],
+		[ 'rank_math_snippet_event_attendance_mode', 'offline, both' ],
+	],
+	'sanitization_cb' => [ '\RankMath\CMB2', 'sanitize_textfield' ],
 ]);
 
 $cmb->add_field([
@@ -53,16 +102,24 @@ $cmb->add_field([
 	'type'       => 'text_url',
 	'name'       => esc_html__( 'Venue URL', 'rank-math' ),
 	'desc'       => esc_html__( 'Website URL of the venue', 'rank-math' ),
-	'classes'    => 'rank-math-validate-field',
+	'classes'    => 'rank-math-validate-field cmb-row-50',
 	'attributes' => [ 'data-rule-url' => 'true' ],
-	'dep'        => $event,
+	'dep'        => [
+		'relation' => 'and',
+		[ 'rank_math_rich_snippet', 'event' ],
+		[ 'rank_math_snippet_event_attendance_mode', 'offline, both' ],
+	],
 ]);
 
 $cmb->add_field([
 	'id'   => 'rank_math_snippet_event_address',
 	'type' => 'address',
 	'name' => esc_html__( 'Address', 'rank-math' ),
-	'dep'  => $event,
+	'dep'  => [
+		'relation' => 'and',
+		[ 'rank_math_rich_snippet', 'event' ],
+		[ 'rank_math_snippet_event_attendance_mode', 'offline, both' ],
+	],
 ]);
 
 $cmb->add_field([
@@ -79,39 +136,24 @@ $cmb->add_field([
 ]);
 
 $cmb->add_field([
-	'id'      => 'rank_math_snippet_event_performer',
-	'type'    => 'text',
-	'name'    => esc_html__( 'Performer Name', 'rank-math' ),
-	'desc'    => esc_html__( 'A performer at the event', 'rank-math' ),
-	'classes' => 'cmb-row-50',
-	'dep'     => $event,
+	'id'              => 'rank_math_snippet_event_performer',
+	'type'            => 'text',
+	'name'            => esc_html__( 'Performer Name', 'rank-math' ),
+	'desc'            => esc_html__( 'A performer at the event', 'rank-math' ),
+	'classes'         => 'cmb-row-33',
+	'dep'             => $event,
+	'sanitization_cb' => [ '\RankMath\CMB2', 'sanitize_textfield' ],
 ]);
 
 $cmb->add_field([
 	'id'         => 'rank_math_snippet_event_performer_url',
-	'type'       => 'text',
+	'type'       => 'text_url',
 	'name'       => esc_html__( 'Performer URL', 'rank-math' ),
 	'attributes' => [
 		'data-rule-url' => 'true',
 	],
-	'classes'    => 'rank-math-validate-field',
+	'classes'    => 'rank-math-validate-field cmb-row-33',
 	'dep'        => $event,
-]);
-
-$cmb->add_field([
-	'id'      => 'rank_math_snippet_event_status',
-	'type'    => 'select',
-	'name'    => esc_html__( 'Event Status', 'rank-math' ),
-	'desc'    => esc_html__( 'Current status of the event (optional)', 'rank-math' ),
-	'options' => [
-		''                 => esc_html__( 'None', 'rank-math' ),
-		'EventScheduled'   => esc_html__( 'Scheduled', 'rank-math' ),
-		'EventCancelled'   => esc_html__( 'Cancelled', 'rank-math' ),
-		'EventPostponed'   => esc_html__( 'Postponed', 'rank-math' ),
-		'EventRescheduled' => esc_html__( 'Rescheduled', 'rank-math' ),
-	],
-	'classes' => 'cmb-row-33',
-	'dep'     => $event,
 ]);
 
 $cmb->add_field([
@@ -120,7 +162,7 @@ $cmb->add_field([
 	'date_format' => 'Y-m-d',
 	'name'        => esc_html__( 'Start Date', 'rank-math' ),
 	'desc'        => esc_html__( 'Date and time of the event.', 'rank-math' ),
-	'classes'     => 'cmb-row-33',
+	'classes'     => 'cmb-row-50',
 	'dep'         => $event,
 ]);
 
@@ -130,13 +172,13 @@ $cmb->add_field([
 	'date_format' => 'Y-m-d',
 	'name'        => esc_html__( 'End Date', 'rank-math' ),
 	'desc'        => esc_html__( 'End date and time of the event.', 'rank-math' ),
-	'classes'     => 'cmb-row-33',
+	'classes'     => 'cmb-row-50',
 	'dep'         => $event,
 ]);
 
 $cmb->add_field([
 	'id'         => 'rank_math_snippet_event_ticketurl',
-	'type'       => 'text',
+	'type'       => 'text_url',
 	'name'       => esc_html__( 'Ticket URL', 'rank-math' ),
 	'desc'       => esc_html__( 'A URL where visitors can purchase tickets for the event.', 'rank-math' ),
 	'classes'    => 'cmb-row-33 rank-math-validate-field',
@@ -147,30 +189,33 @@ $cmb->add_field([
 ]);
 
 $cmb->add_field([
-	'id'         => 'rank_math_snippet_event_price',
-	'type'       => 'text',
-	'name'       => esc_html__( 'Entry Price', 'rank-math' ),
-	'desc'       => esc_html__( 'Entry price of the event (optional)', 'rank-math' ),
-	'classes'    => 'cmb-row-33',
-	'dep'        => $event,
-	'attributes' => [
+	'id'              => 'rank_math_snippet_event_price',
+	'type'            => 'text',
+	'name'            => esc_html__( 'Entry Price', 'rank-math' ),
+	'desc'            => esc_html__( 'Entry price of the event (optional)', 'rank-math' ),
+	'classes'         => 'cmb-row-33',
+	'dep'             => $event,
+	'attributes'      => [
 		'type' => 'number',
 		'step' => 'any',
 	],
+	'escape_cb'       => [ '\RankMath\CMB2', 'sanitize_float' ],
+	'sanitization_cb' => [ '\RankMath\CMB2', 'sanitize_float' ],
 ]);
 
 $cmb->add_field([
-	'id'         => 'rank_math_snippet_event_currency',
-	'type'       => 'text',
-	'name'       => esc_html__( 'Currency', 'rank-math' ),
-	'desc'       => esc_html__( 'ISO 4217 Currency code. Example: EUR', 'rank-math' ),
-	'classes'    => 'cmb-row-33 rank-math-validate-field',
-	'attributes' => [
+	'id'              => 'rank_math_snippet_event_currency',
+	'type'            => 'text',
+	'name'            => esc_html__( 'Currency', 'rank-math' ),
+	'desc'            => esc_html__( 'ISO 4217 Currency code. Example: EUR', 'rank-math' ),
+	'classes'         => 'cmb-row-33 rank-math-validate-field',
+	'attributes'      => [
 		'data-rule-regex'       => 'true',
 		'data-validate-pattern' => '^[A-Z]{3}$',
 		'data-msg-regex'        => esc_html__( 'Please use the correct format. Example: EUR', 'rank-math' ),
 	],
-	'dep'        => $event,
+	'dep'             => $event,
+	'sanitization_cb' => [ '\RankMath\CMB2', 'sanitize_textfield' ],
 ]);
 
 $cmb->add_field([
@@ -199,40 +244,48 @@ $cmb->add_field([
 ]);
 
 $cmb->add_field([
-	'id'         => 'rank_math_snippet_event_inventory',
-	'type'       => 'text',
-	'name'       => esc_html__( 'Stock Inventory', 'rank-math' ),
-	'desc'       => esc_html__( 'Number of tickets (optional)', 'rank-math' ),
-	'classes'    => 'cmb-row-33 nob',
-	'dep'        => $event,
-	'attributes' => [ 'type' => 'number' ],
+	'id'              => 'rank_math_snippet_event_inventory',
+	'type'            => 'text',
+	'name'            => esc_html__( 'Stock Inventory', 'rank-math' ),
+	'desc'            => esc_html__( 'Number of tickets (optional)', 'rank-math' ),
+	'classes'         => 'cmb-row-33 nob',
+	'dep'             => $event,
+	'attributes'      => [ 'type' => 'number' ],
+	'escape_cb'       => 'absint',
+	'sanitization_cb' => 'absint',
 ]);
 
 $cmb->add_field([
-	'id'      => 'rank_math_snippet_event_rating',
-	'type'    => 'text',
-	'name'    => esc_html__( 'Rating', 'rank-math' ),
-	'desc'    => esc_html__( 'Rating score of the event. Optional.', 'rank-math' ),
-	'classes' => 'cmb-row-33',
-	'dep'     => $event,
+	'id'              => 'rank_math_snippet_event_rating',
+	'type'            => 'text',
+	'name'            => esc_html__( 'Rating', 'rank-math' ),
+	'desc'            => esc_html__( 'Rating score of the event. Optional.', 'rank-math' ),
+	'classes'         => 'cmb-row-33',
+	'dep'             => $event,
+	'escape_cb'       => [ '\RankMath\CMB2', 'sanitize_float' ],
+	'sanitization_cb' => [ '\RankMath\CMB2', 'sanitize_float' ],
 ]);
 
 $cmb->add_field([
-	'id'      => 'rank_math_snippet_event_rating_min',
-	'type'    => 'text',
-	'name'    => esc_html__( 'Rating Minimum', 'rank-math' ),
-	'desc'    => esc_html__( 'Rating minimum score of the event.', 'rank-math' ),
-	'classes' => 'cmb-row-33',
-	'default' => 1,
-	'dep'     => $event,
+	'id'              => 'rank_math_snippet_event_rating_min',
+	'type'            => 'text',
+	'name'            => esc_html__( 'Rating Minimum', 'rank-math' ),
+	'desc'            => esc_html__( 'Rating minimum score of the event.', 'rank-math' ),
+	'classes'         => 'cmb-row-33',
+	'default'         => 1,
+	'dep'             => $event,
+	'escape_cb'       => 'absint',
+	'sanitization_cb' => 'absint',
 ]);
 
 $cmb->add_field([
-	'id'      => 'rank_math_snippet_event_rating_max',
-	'type'    => 'text',
-	'name'    => esc_html__( 'Rating Maximum', 'rank-math' ),
-	'desc'    => esc_html__( 'Rating maximum score of the event.', 'rank-math' ),
-	'classes' => 'cmb-row-33',
-	'default' => 5,
-	'dep'     => $event,
+	'id'              => 'rank_math_snippet_event_rating_max',
+	'type'            => 'text',
+	'name'            => esc_html__( 'Rating Maximum', 'rank-math' ),
+	'desc'            => esc_html__( 'Rating maximum score of the event.', 'rank-math' ),
+	'classes'         => 'cmb-row-33',
+	'default'         => 5,
+	'dep'             => $event,
+	'escape_cb'       => 'absint',
+	'sanitization_cb' => 'absint',
 ]);

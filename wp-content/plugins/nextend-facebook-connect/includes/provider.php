@@ -1,5 +1,8 @@
 <?php
 
+use NSL\Notices;
+use NSL\Persistent\Persistent;
+
 require_once dirname(__FILE__) . '/provider-admin.php';
 require_once dirname(__FILE__) . '/provider-dummy.php';
 require_once dirname(__FILE__) . '/user.php';
@@ -83,11 +86,11 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
 
     public function getRawDefaultButton() {
 
-        return '<span class="nsl-button nsl-button-default nsl-button-' . $this->id . '" style="background-color:' . $this->color . ';"><span class="nsl-button-svg-container">' . $this->svg . '</span><span class="nsl-button-label-container">{{label}}</span></span>';
+        return '<div class="nsl-button nsl-button-default nsl-button-' . $this->id . '" style="background-color:' . $this->color . ';"><div class="nsl-button-svg-container">' . $this->svg . '</div><div class="nsl-button-label-container">{{label}}</div></div>';
     }
 
     public function getRawIconButton() {
-        return '<span class="nsl-button nsl-button-icon nsl-button-' . $this->id . '" style="background-color:' . $this->color . ';"><span class="nsl-button-svg-container">' . $this->svg . '</span></span>';
+        return '<div class="nsl-button nsl-button-icon nsl-button-' . $this->id . '" style="background-color:' . $this->color . ';"><div class="nsl-button-svg-container">' . $this->svg . '</div></div>';
     }
 
     public function getDefaultButton($label) {
@@ -268,14 +271,14 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
 
             $interim_login = isset($_REQUEST['interim-login']);
             if ($interim_login) {
-                \NSL\Persistent\Persistent::set($this->id . '_interim_login', 1);
+                Persistent::set($this->id . '_interim_login', 1);
             }
             /**
              * Store the settings for the provider login.
              */
             $display = isset($_REQUEST['display']);
             if ($display && $_REQUEST['display'] == 'popup') {
-                \NSL\Persistent\Persistent::set($this->id . '_display', 'popup');
+                Persistent::set($this->id . '_display', 'popup');
             }
 
         } else { //This is just to verify the settings.
@@ -291,7 +294,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             if (!$allowed) {
                 global $wp_cerber;
                 $error = $wp_cerber->getErrorMsg();
-                \NSL\Notices::addError($error);
+                Notices::addError($error);
                 $this->redirectToLoginForm();
             }
         }
@@ -337,8 +340,8 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
              * in the source window the user is redirected to the login url.
              * and the popup window must be closed
              */
-            if (\NSL\Persistent\Persistent::get($this->id . '_display') == 'popup') {
-                \NSL\Persistent\Persistent::delete($this->id . '_display');
+            if (Persistent::get($this->id . '_display') == 'popup') {
+                Persistent::delete($this->id . '_display');
                 ?>
                 <!doctype html>
                 <html lang=en>
@@ -346,7 +349,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                     <meta charset=utf-8>
                     <title><?php _e('Authentication successful', 'nextend-facebook-connect'); ?></title>
                     <script type="text/javascript">
-						try {
+                        try {
                             if (window.opener !== null && window.opener !== window) {
                                 var sameOrigin = true;
                                 try {
@@ -360,7 +363,12 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                                     sameOrigin = false;
                                 }
                                 if (sameOrigin) {
-                                    window.opener.location = <?php echo wp_json_encode($this->getLoginUrl()); ?>;
+                                    var url = <?php echo wp_json_encode($this->getLoginUrl()); ?>;
+                                    if (typeof window.opener.nslRedirect === 'function') {
+                                        window.opener.nslRedirect(url);
+                                    } else {
+                                        window.opener.location = url;
+                                    }
                                     window.close();
                                 } else {
                                     window.location.reload(true);
@@ -406,14 +414,14 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     /**
      * @param $user_id
      * @param $providerIdentifier
+     * @param $isRegister
      * Insert the userid into the wp_social_users table,
      * in this way a link is created between user accounts and the providers.
      *
      * @return bool
      */
-    public function linkUserToProviderIdentifier($user_id, $providerIdentifier) {
-        /** @var $wpdb WPDB */
-        global $wpdb;
+    public function linkUserToProviderIdentifier($user_id, $providerIdentifier, $isRegister = false) {
+        /** @var $wpdb WPDB */ global $wpdb;
 
         $connectedProviderID = $this->getProviderIdentifierByUserID($user_id);
 
@@ -427,15 +435,39 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             return false;
         }
 
-        $wpdb->insert($wpdb->prefix . 'social_users', array(
-            'ID'         => $user_id,
-            'type'       => $this->dbID,
-            'identifier' => $providerIdentifier
-        ), array(
-            '%d',
-            '%s',
-            '%s'
-        ));
+        if ($isRegister) {
+            /**
+             * This is a register action.
+             */
+            $wpdb->insert($wpdb->prefix . 'social_users', array(
+                'ID'            => $user_id,
+                'type'          => $this->dbID,
+                'identifier'    => $providerIdentifier,
+                'register_date' => current_time('mysql'),
+                'link_date'     => current_time('mysql'),
+            ), array(
+                '%d',
+                '%s',
+                '%s',
+                '%s',
+                '%s'
+            ));
+        } else {
+            /**
+             * This is a link action.
+             */
+            $wpdb->insert($wpdb->prefix . 'social_users', array(
+                'ID'         => $user_id,
+                'type'       => $this->dbID,
+                'identifier' => $providerIdentifier,
+                'link_date'  => current_time('mysql'),
+            ), array(
+                '%d',
+                '%s',
+                '%s',
+                '%s'
+            ));
+        }
 
         do_action('nsl_' . $this->getId() . '_link_user', $user_id, $this->getId());
 
@@ -443,8 +475,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     }
 
     public function getUserIDByProviderIdentifier($identifier) {
-        /** @var $wpdb WPDB */
-        global $wpdb;
+        /** @var $wpdb WPDB */ global $wpdb;
 
         return $wpdb->get_var($wpdb->prepare('SELECT ID FROM `' . $wpdb->prefix . 'social_users` WHERE type = %s AND identifier = %s', array(
             $this->dbID,
@@ -453,8 +484,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     }
 
     protected function getProviderIdentifierByUserID($user_id) {
-        /** @var $wpdb WPDB */
-        global $wpdb;
+        /** @var $wpdb WPDB */ global $wpdb;
 
         return $wpdb->get_var($wpdb->prepare('SELECT identifier FROM `' . $wpdb->prefix . 'social_users` WHERE type = %s AND ID = %s', array(
             $this->dbID,
@@ -467,8 +497,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
      * Delete the link between the user account and the provider.
      */
     public function removeConnectionByUserID($user_id) {
-        /** @var $wpdb WPDB */
-        global $wpdb;
+        /** @var $wpdb WPDB */ global $wpdb;
 
         $wpdb->query($wpdb->prepare('DELETE FROM `' . $wpdb->prefix . 'social_users` WHERE type = %s AND ID = %d', array(
             $this->dbID,
@@ -498,8 +527,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
      * @return bool|null|string
      */
     public function isCurrentUserConnected() {
-        /** @var $wpdb WPDB */
-        global $wpdb;
+        /** @var $wpdb WPDB */ global $wpdb;
 
         $current_user = wp_get_current_user();
         $ID           = $wpdb->get_var($wpdb->prepare('SELECT identifier FROM `' . $wpdb->prefix . 'social_users` WHERE type LIKE %s AND ID = %d', array(
@@ -520,8 +548,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
      * @return bool|null|string
      */
     public function isUserConnected($user_id) {
-        /** @var $wpdb WPDB */
-        global $wpdb;
+        /** @var $wpdb WPDB */ global $wpdb;
 
         $ID = $wpdb->get_var($wpdb->prepare('SELECT identifier FROM `' . $wpdb->prefix . 'social_users` WHERE type LIKE %s AND ID = %d', array(
             $this->dbID,
@@ -620,9 +647,9 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
 
             if (isset($_GET['action']) && $_GET['action'] == 'unlink') {
                 if ($this->unlinkUser()) {
-                    \NSL\Notices::addSuccess(__('Unlink successful.', 'nextend-facebook-connect'));
+                    Notices::addSuccess(__('Unlink successful.', 'nextend-facebook-connect'));
                 } else {
-                    \NSL\Notices::addError(__('Unlink is not allowed!', 'nextend-facebook-connect'));
+                    Notices::addError(__('Unlink is not allowed!', 'nextend-facebook-connect'));
                 }
             }
 
@@ -631,10 +658,10 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
         }
 
         if (isset($_GET['action']) && $_GET['action'] == 'link') {
-            \NSL\Persistent\Persistent::set($this->id . '_action', 'link');
+            Persistent::set($this->id . '_action', 'link');
         }
 
-        if (is_user_logged_in() && \NSL\Persistent\Persistent::get($this->id . '_action') != 'link') {
+        if (is_user_logged_in() && Persistent::get($this->id . '_action') != 'link') {
             $this->deleteLoginPersistentData();
 
             $this->redirectToLastLocationOther();
@@ -648,17 +675,17 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     public function liveConnectRedirect() {
         if (!empty($_GET['trackerdata']) && !empty($_GET['trackerdata_hash'])) {
             if (wp_hash($_GET['trackerdata']) === $_GET['trackerdata_hash']) {
-                \NSL\Persistent\Persistent::set('trackerdata', $_GET['trackerdata']);
+                Persistent::set('trackerdata', $_GET['trackerdata']);
             }
         }
         if (!empty($_GET['redirect'])) {
-            \NSL\Persistent\Persistent::set('redirect', $_GET['redirect']);
+            Persistent::set('redirect', $_GET['redirect']);
         }
     }
 
     public function redirectToLastLocation() {
 
-        if (\NSL\Persistent\Persistent::get($this->id . '_interim_login') == 1) {
+        if (Persistent::get($this->id . '_interim_login') == 1) {
             $this->deleteLoginPersistentData();
 
             $url = add_query_arg('interim_login', 'nsl', NextendSocialLogin::getLoginUrl('login'));
@@ -729,7 +756,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
         if (!empty($fixedRedirect)) {
             $redirect_to = $fixedRedirect;
         } else {
-            $requested_redirect_to = \NSL\Persistent\Persistent::get('redirect');
+            $requested_redirect_to = Persistent::get('redirect');
 
             if (!empty($requested_redirect_to)) {
                 if (empty($requested_redirect_to) || !NextendSocialLogin::isAllowedRedirectUrl($requested_redirect_to)) {
@@ -782,7 +809,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             $redirect_to = site_url();
         }
 
-        \NSL\Persistent\Persistent::delete('redirect');
+        Persistent::delete('redirect');
 
         return apply_filters('nsl_' . $this->getId() . 'last_location_redirect', $redirect_to, $requested_redirect_to);
     }
@@ -803,10 +830,10 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     public function isTest() {
         if (is_user_logged_in() && current_user_can('manage_options')) {
             if (isset($_REQUEST['test'])) {
-                \NSL\Persistent\Persistent::set('test', 1);
+                Persistent::set('test', 1);
 
                 return true;
-            } else if (\NSL\Persistent\Persistent::get('test') == 1) {
+            } else if (Persistent::get('test') == 1) {
                 return true;
             }
         }
@@ -826,7 +853,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             'oauth_redirect_url' => $this->getRedirectUri()
         ));
 
-        \NSL\Notices::addSuccess(__('The test was successful', 'nextend-facebook-connect'));
+        Notices::addSuccess(__('The test was successful', 'nextend-facebook-connect'));
 
         ?>
         <!doctype html>
@@ -835,7 +862,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             <meta charset=utf-8>
             <title><?php _e('The test was successful', 'nextend-facebook-connect'); ?></title>
             <script type="text/javascript">
-				window.opener.location.reload(true);
+                window.opener.location.reload(true);
                 window.close();
             </script>
         </head>
@@ -849,19 +876,19 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
      * Store the accessToken data.
      */
     protected function setAnonymousAccessToken($accessToken) {
-        \NSL\Persistent\Persistent::set($this->id . '_at', $accessToken);
+        Persistent::set($this->id . '_at', $accessToken);
     }
 
     protected function getAnonymousAccessToken() {
-        return \NSL\Persistent\Persistent::get($this->id . '_at');
+        return Persistent::get($this->id . '_at');
     }
 
     public function deleteLoginPersistentData() {
-        \NSL\Persistent\Persistent::delete($this->id . '_at');
-        \NSL\Persistent\Persistent::delete($this->id . '_interim_login');
-        \NSL\Persistent\Persistent::delete($this->id . '_display');
-        \NSL\Persistent\Persistent::delete($this->id . '_action');
-        \NSL\Persistent\Persistent::delete('test');
+        Persistent::delete($this->id . '_at');
+        Persistent::delete($this->id . '_interim_login');
+        Persistent::delete($this->id . '_display');
+        Persistent::delete($this->id . '_action');
+        Persistent::delete('test');
     }
 
     /**
@@ -881,7 +908,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                 <meta charset=utf-8>
                 <title><?php echo __('Authentication failed', 'nextend-facebook-connect'); ?></title>
                 <script type="text/javascript">
-					try {
+                    try {
                         if (window.opener !== null && window.opener !== window) {
                             var sameOrigin = true;
                             try {
@@ -926,11 +953,11 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     }
 
     /**
-     * @deprecated
-     *
      * @param $user_id
      *
      * @return bool
+     * @deprecated
+     *
      */
     public function getAvatar($user_id) {
 
@@ -970,7 +997,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             <meta charset=utf-8>
             <title><?php echo $title; ?></title>
             <script type="text/javascript">
-				try {
+                try {
                     if (window.opener !== null && window.opener !== window) {
                         var sameOrigin = true;
                         try {
@@ -988,8 +1015,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                             window.close();
                         }
                     }
-                }
-                catch (e) {
+                } catch (e) {
                 }
                 window.location = <?php echo wp_json_encode($url); ?>;
             </script>
@@ -1075,5 +1101,20 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
 
     public function getSyncDataFieldDescription($fieldName) {
         return '';
+    }
+
+    /**
+     * @param $user_id
+     * Update social_users table with login date of the user.
+     */
+    public function logLoginDate($user_id) {
+        /** @var $wpdb WPDB */ global $wpdb;
+        $wpdb->update($wpdb->prefix . 'social_users', array('login_date' => current_time('mysql'),), array(
+            'ID'   => $user_id,
+            'type' => $this->dbID
+        ), array(
+            '%s',
+            '%s'
+        ));
     }
 }

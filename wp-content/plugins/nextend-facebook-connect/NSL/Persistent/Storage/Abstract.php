@@ -56,7 +56,7 @@ abstract class StorageAbstract {
         if (empty($this->data)) {
             delete_site_transient($this->sessionId);
         } else {
-            set_site_transient($this->sessionId, $this->data, 3600);
+            set_site_transient($this->sessionId, $this->data, apply_filters('nsl_persistent_expiration', HOUR_IN_SECONDS));
         }
     }
 

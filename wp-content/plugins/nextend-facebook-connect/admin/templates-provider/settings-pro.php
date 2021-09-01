@@ -92,7 +92,7 @@ NextendSocialLoginAdmin::showProBox();
         <tr>
             <th scope="row"><?php _e('Disable login for the selected roles', 'nextend-facebook-connect'); ?></th>
             <td>
-				<?php
+                <?php
                 $wp_roles = new WP_Roles();
                 $roles    = $wp_roles->get_names();
 
@@ -112,7 +112,7 @@ NextendSocialLoginAdmin::showProBox();
         <tr>
             <th scope="row"><?php _e('Default roles for user who registered with this provider', 'nextend-facebook-connect'); ?></th>
             <td>
-				<?php
+                <?php
                 $register_roles = $settings->get('register_roles');
                 ?>
                 <fieldset><label for="register_roles_default">

@@ -52,8 +52,8 @@ class Form {
 				$cmb->show_form();
 			?>
 			<footer class="form-footer rank-math-ui">
-				<button type="button" class="button button-link-delete button-xlarge alignleft"><?php esc_html_e( 'Cancel', 'rank-math' ); ?></button>
-				<button type="submit" class="button button-primary button-xlarge"><?php echo $this->is_editing() ? esc_html__( 'Update Redirection', 'rank-math' ) : esc_html__( 'Add Redirection', 'rank-math' ); ?></button>
+				<button type="button" class="button button-secondary button-link-delete alignleft"><?php esc_html_e( 'Cancel', 'rank-math' ); ?></button>
+				<button type="submit" class="button button-primary"><?php echo $this->is_editing() ? esc_html__( 'Update Redirection', 'rank-math' ) : esc_html__( 'Add Redirection', 'rank-math' ); ?></button>
 			</footer>
 		</form>
 
@@ -83,59 +83,74 @@ class Form {
 	public function register_form() {
 		$cmb = $this->create_box();
 
-		$cmb->add_field([
-			'id'      => 'sources',
-			'type'    => 'group',
-			'name'    => esc_html__( 'Source URLs', 'rank-math' ),
-			'options' => [
-				'add_button'    => esc_html__( 'Add another', 'rank-math' ),
-				'remove_button' => esc_html__( 'Remove', 'rank-math' ),
-			],
-			'classes' => 'cmb-group-text-only',
-			'fields'  => [
-				[
-					'id'              => 'pattern',
-					'type'            => 'text',
-					'escape_cb'       => [ $this, 'stripslashes' ],
-					'sanitization_cb' => false,
+		$cmb->add_field(
+			[
+				'id'      => 'sources',
+				'type'    => 'group',
+				'name'    => esc_html__( 'Source URLs', 'rank-math' ),
+				'options' => [
+					'add_button'    => esc_html__( 'Add another', 'rank-math' ),
+					'remove_button' => esc_html__( 'Remove', 'rank-math' ),
 				],
-				[
-					'id'      => 'comparison',
-					'type'    => 'select',
-					'options' => Helper::choices_comparison_types(),
+				'classes' => 'cmb-group-text-only',
+				'fields'  => [
+					[
+						'id'              => 'pattern',
+						'type'            => 'text',
+						'escape_cb'       => [ $this, 'escape_sources' ],
+						'sanitization_cb' => false,
+					],
+					[
+						'id'      => 'comparison',
+						'type'    => 'select',
+						'options' => Helper::choices_comparison_types(),
+					],
+					[
+						'id'   => 'ignore',
+						'type' => 'checkbox',
+						'desc' => esc_html__( 'Ignore Case', 'rank-math' ),
+					],
 				],
-			],
-		]);
+			]
+		);
 
-		$cmb->add_field([
-			'id'   => 'url_to',
-			'type' => 'text',
-			'name' => esc_html__( 'Destination URL', 'rank-math' ),
-		]);
+		$cmb->add_field(
+			[
+				'id'   => 'url_to',
+				'type' => 'text_url',
+				'name' => esc_html__( 'Destination URL', 'rank-math' ),
+			]
+		);
 
-		$cmb->add_field([
-			'id'      => 'header_code',
-			'type'    => 'radio_inline',
-			'name'    => esc_html__( 'Redirection Type', 'rank-math' ),
-			'options' => Helper::choices_redirection_types(),
-			'default' => Helper::get_settings( 'general.redirections_header_code' ),
-		]);
+		$cmb->add_field(
+			[
+				'id'      => 'header_code',
+				'type'    => 'radio_inline',
+				'name'    => esc_html__( 'Redirection Type', 'rank-math' ),
+				'options' => Helper::choices_redirection_types(),
+				'default' => Helper::get_settings( 'general.redirections_header_code' ),
+			]
+		);
 
-		$cmb->add_field([
-			'id'      => 'status',
-			'type'    => 'radio_inline',
-			'name'    => esc_html__( 'Status', 'rank-math' ),
-			'options' => [
-				'active'   => esc_html__( 'Activate', 'rank-math' ),
-				'inactive' => esc_html__( 'Deactivate', 'rank-math' ),
-			],
-			'default' => 'active',
-		]);
+		$cmb->add_field(
+			[
+				'id'      => 'status',
+				'type'    => 'radio_inline',
+				'name'    => esc_html__( 'Status', 'rank-math' ),
+				'options' => [
+					'active'   => esc_html__( 'Activate', 'rank-math' ),
+					'inactive' => esc_html__( 'Deactivate', 'rank-math' ),
+				],
+				'default' => 'active',
+			]
+		);
 
-		$cmb->add_field([
-			'id'   => 'id',
-			'type' => 'hidden',
-		]);
+		$cmb->add_field(
+			[
+				'id'   => 'id',
+				'type' => 'hidden',
+			]
+		);
 	}
 
 	/**
@@ -152,6 +167,15 @@ class Form {
 		if ( $url = Param::get( 'url' ) ) { // phpcs:ignore
 			$url = esc_attr( $url );
 			return [ 'sources' => [ [ 'pattern' => $url ] ] ];
+		}
+
+		if ( $urls = Param::get( 'urls', false, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) { // phpcs:ignore
+			$urls   = array_map( 'esc_attr', $urls );
+			$return = [ 'sources' => [] ];
+			foreach ( $urls as $url ) {
+				$return['sources'][] = [ 'pattern' => $url ];
+			}
+			return $return;
 		}
 
 		if ( ! empty( $_REQUEST['log'] ) && is_array( $_REQUEST['log'] ) ) {
@@ -171,10 +195,12 @@ class Form {
 	 */
 	private function get_sources_for_log() {
 		$logs = array_map( 'absint', $_REQUEST['log'] );
-		$logs = Monitor_DB::get_logs([
-			'ids'     => $logs,
-			'orderby' => '',
-		]);
+		$logs = Monitor_DB::get_logs(
+			[
+				'ids'     => $logs,
+				'orderby' => '',
+			]
+		);
 
 		$sources = [];
 		foreach ( $logs['logs'] as $log ) {
@@ -197,6 +223,9 @@ class Form {
 		}
 
 		check_admin_referer( 'rank-math-save-redirections', 'security' );
+		if ( ! Helper::has_cap( 'redirections' ) ) {
+			return false;
+		}
 
 		$cmb    = cmb2_get_metabox( 'rank-math-redirections' );
 		$values = $cmb->get_sanitized_values( $_POST );
@@ -235,7 +264,7 @@ class Form {
 	 *
 	 * @return mixed                  Escaped value to be displayed.
 	 */
-	public function stripslashes( $value, $field_args, $field ) {
-		return \stripslashes( $value );
+	public function escape_sources( $value, $field_args, $field ) {
+		return esc_attr( \stripslashes( $value ) );
 	}
 }

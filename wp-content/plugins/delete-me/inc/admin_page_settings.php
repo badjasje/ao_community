@@ -390,7 +390,7 @@ function editable_string_color( $unchanged ) {
 				</td>
 			</tr>
 			<tr>
-				<th scope="row" style="padding-left: 1em;"><label for="your_profile_confirm_warning"><?php echo esc_html__( 'Confirm Warning', 'delete-me' ); ?></label> <a href="#" onclick="return false;" style="text-decoration: none;" title="<?php /* xgettext:no-php-format */ echo esc_attr__( 'Warning, in HTML, used on confirmation page. Use %username% for Username. Use %sitename% for Site name.', 'delete-me' ); ?>">[?]</a></th>
+				<th scope="row" style="padding-left: 1em;"><label for="your_profile_confirm_warning"><?php echo esc_html__( 'Confirm Warning', 'delete-me' ); ?></label> <a href="#" onclick="return false;" style="text-decoration: none;" title="<?php /* xgettext:no-php-format */ echo esc_attr__( 'Warning, in HTML, used on confirmation page. Use %username% for Username, %displayname% for Display Name, and %sitename% for Site name.', 'delete-me' ); ?>">[?]</a></th>
 				<td>
 					<input type="text" id="your_profile_confirm_warning" name="your_profile_confirm_warning" class="code large-text" style="background: <?php echo editable_string_color( $option['settings']['your_profile_confirm_warning'] === $default_option['settings']['your_profile_confirm_warning'] ); ?>;" value="<?php echo esc_attr( $option['settings']['your_profile_confirm_warning'] ); ?>" />
 				</td>
@@ -407,7 +407,7 @@ function editable_string_color( $unchanged ) {
 				</td>
 			</tr>
 			<tr>
-				<th scope="row" style="padding-left: 1em;"><label for="your_profile_confirm_button"><?php echo esc_html__( 'Confirm Button', 'delete-me' ); ?></label> <a href="#" onclick="return false;" style="text-decoration: none;" title="<?php /* xgettext:no-php-format */ echo esc_attr__( 'Button text used on confirmation page. Use %username% for Username.', 'delete-me' ); ?>">[?]</a></th>
+				<th scope="row" style="padding-left: 1em;"><label for="your_profile_confirm_button"><?php echo esc_html__( 'Confirm Button', 'delete-me' ); ?></label> <a href="#" onclick="return false;" style="text-decoration: none;" title="<?php /* xgettext:no-php-format */ echo esc_attr__( 'Button text used on confirmation page. Use %username% for Username and %displayname% for Display Name.', 'delete-me' ); ?>">[?]</a></th>
 				<td>
 					<code>
 						&lt;input
@@ -446,7 +446,7 @@ function editable_string_color( $unchanged ) {
 				</td>
 			</tr>
 			<tr>
-				<th scope="row" style="padding-left: 1em;"><label for="shortcode_js_confirm_warning"><?php echo esc_html__( 'JS Confirm Warning', 'delete-me' ); ?></label> <a href="#" onclick="return false;" style="text-decoration: none;" title="<?php /* xgettext:no-php-format */ echo esc_attr__( 'Warning text used for Javascript confirm dialog when using Link, ignored if using Form. Use \n for new lines and %username% for Username.', 'delete-me' ); ?>">[?]</a></th>
+				<th scope="row" style="padding-left: 1em;"><label for="shortcode_js_confirm_warning"><?php echo esc_html__( 'JS Confirm Warning', 'delete-me' ); ?></label> <a href="#" onclick="return false;" style="text-decoration: none;" title="<?php /* xgettext:no-php-format */ echo esc_attr__( 'Warning text used for Javascript confirm dialog when using Link, ignored if using Form. Use \n for new lines, %username% for Username, and %displayname% for Display Name.', 'delete-me' ); ?>">[?]</a></th>
 				<td>
 					<input type="text" id="shortcode_js_confirm_warning" name="shortcode_js_confirm_warning" class="code large-text" style="background: <?php echo editable_string_color( $option['settings']['shortcode_js_confirm_warning'] === $default_option['settings']['shortcode_js_confirm_warning'] ); ?>;" value="<?php echo esc_attr( $option['settings']['shortcode_js_confirm_warning'] ); ?>" />
 				</td>
@@ -458,7 +458,7 @@ function editable_string_color( $unchanged ) {
 				</td>
 			</tr>
 			<tr>
-				<th scope="row" style="padding-left: 1em;"><label for="shortcode_form_enabled"><?php echo esc_html__( 'Use Form Instead of Link', 'delete-me' ); ?></label> <a href="#" onclick="return false;" style="text-decoration: none;" title="<?php /* xgettext:no-php-format */ echo esc_attr__( 'Check box to use the form below instead of the Link. The form also requires users to confirm their password. Uncheck box to use Link configured above. Use %username% for Username (1st and 3rd inputs). Use %sitename% for Site name (1st input only). Typical form use would be to place the shortcode on a custom confirmation page you create for account deletion, then link to the confirmation page from somewhere appropriate on your site (e.g. a profile page).', 'delete-me' ); ?>">[?]</a></th>
+				<th scope="row" style="padding-left: 1em;"><label for="shortcode_form_enabled"><?php echo esc_html__( 'Use Form Instead of Link', 'delete-me' ); ?></label> <a href="#" onclick="return false;" style="text-decoration: none;" title="<?php /* xgettext:no-php-format */ echo esc_attr__( 'Check box to use the form below instead of the Link. The form also requires users to confirm their password. Uncheck box to use Link configured above. Use %username% for Username and %displayname% for Display Name (1st and 3rd inputs). Use %sitename% for Site name (1st input only). Typical form use would be to place the shortcode on a custom confirmation page you create for account deletion, then link to the confirmation page from somewhere appropriate on your site (e.g. a profile page).', 'delete-me' ); ?>">[?]</a></th>
 				<td>
 					<input type="checkbox" id="shortcode_form_enabled" name="shortcode_form_enabled" value="1"<?php echo ( $option['settings']['shortcode_form_enabled'] == true ) ? ' checked="checked"' : ''; ?> />
 				</td>
@@ -495,7 +495,10 @@ function editable_string_color( $unchanged ) {
 						<code>&lt;?php echo do_shortcode( '[<?php echo $this->info['shortcode']; ?>]<?php echo esc_html__( 'Text inside Shortcode tags', 'delete-me' ); ?>[/<?php echo $this->info['shortcode']; ?>]' ); ?&gt;</code>
 					</p>
 					<p>
-						<code><?php echo esc_html__( 'Attributes: class, style, html, js_confirm_warning, landing_url (originally created for the Link, only landing_url will apply when using the Form)', 'delete-me' ); ?></code>
+						<code><?php echo esc_html__( 'Link attributes: class, style, html, js_confirm_warning, landing_url', 'delete-me' ); ?></code>
+					</p>
+					<p>
+						<code><?php echo esc_html__( 'Form attributes: form_confirm_warning, form_password_label, form_confirm_button, landing_url', 'delete-me' ); ?></code>
 					</p>
 				</td>
 			</tr>

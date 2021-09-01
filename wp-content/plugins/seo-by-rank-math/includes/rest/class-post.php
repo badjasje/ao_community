@@ -16,7 +16,7 @@ use WP_Error;
 use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Controller;
-use RankMath\Rest\Helper as RestHelper;
+use RankMath\Helper;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -29,7 +29,7 @@ class Post extends WP_REST_Controller {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->namespace = RestHelper::BASE;
+		$this->namespace = \RankMath\Rest\Rest_Helper::BASE;
 	}
 
 	/**
@@ -66,6 +66,11 @@ class Post extends WP_REST_Controller {
 				continue;
 			}
 
+			$post_type = get_post_type( $post_id );
+			if ( ! Helper::is_post_type_accessible( $post_type ) && 'attachment' !== $post_type ) {
+				continue;
+			}
+
 			$this->save_row( $post_id, $data );
 		}
 
@@ -96,11 +101,14 @@ class Post extends WP_REST_Controller {
 			return;
 		}
 
+		$sanitizer = Sanitize::get();
 		if ( 'image_title' === $column ) {
-			wp_update_post([
-				'ID'         => $post_id,
-				'post_title' => $value,
-			]);
+			wp_update_post(
+				[
+					'ID'         => $post_id,
+					'post_title' => $sanitizer->sanitize( 'image_title', $value ),
+				]
+			);
 			return;
 		}
 
@@ -112,7 +120,7 @@ class Post extends WP_REST_Controller {
 		}
 
 		$column = 'image_alt' === $column ? '_wp_attachment_image_alt' : 'rank_math_' . $column;
-		update_post_meta( $post_id, $column, $value );
+		update_post_meta( $post_id, $column, $sanitizer->sanitize( $column, $value ) );
 	}
 
 	/**
@@ -125,7 +133,7 @@ class Post extends WP_REST_Controller {
 			'rows' => [
 				'required'          => true,
 				'description'       => esc_html__( 'No meta rows found to update.', 'rank-math' ),
-				'validate_callback' => [ '\\RankMath\\Rest\\Helper', 'is_param_empty' ],
+				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
 			],
 		];
 	}

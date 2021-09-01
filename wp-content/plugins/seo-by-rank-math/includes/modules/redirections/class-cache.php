@@ -47,7 +47,7 @@ class Cache {
 	 * @return object
 	 */
 	public static function get_by_url( $url ) {
-		return empty( $url ) ? false : self::table()->where( 'from_url', $url )->one();
+		return empty( $url ) ? false : self::table()->where( 'BINARY from_url', $url )->one();
 	}
 
 	/**
@@ -60,13 +60,16 @@ class Cache {
 			return false;
 		}
 
-		$args = wp_parse_args( $args, [
-			'from_url'       => '',
-			'redirection_id' => '',
-			'object_id'      => '',
-			'object_type'    => 'post',
-			'is_redirected'  => '1',
-		]);
+		$args = wp_parse_args(
+			$args,
+			[
+				'from_url'       => '',
+				'redirection_id' => '',
+				'object_id'      => '',
+				'object_type'    => 'post',
+				'is_redirected'  => '1',
+			]
+		);
 
 		return self::table()->insert( $args, [ '%s', '%d', '%d', '%s', '%d' ] );
 	}

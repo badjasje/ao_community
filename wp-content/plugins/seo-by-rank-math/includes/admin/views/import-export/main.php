@@ -7,38 +7,34 @@
  */
 
 ?>
-<div class="wrap rank-math-wrap">
+<div class="rank-math-import-export">
 
-	<span class="wp-header-end"></span>
+	<h2><?php esc_html_e( 'Import &amp; Export', 'rank-math' ); ?></h2>
 
-	<h1 class="page-title"><?php esc_html_e( 'Import &amp; Export', 'rank-math' ); ?></h1>
-
-	<p style="font-size: 1rem;">
+	<p class="description">
 		<?php
 		/* translators: Link to learn about import export panel KB article */
 		printf( esc_html__( 'Import your previous backed up setting. Or, Export your Rank Math settings and meta data for backup or for reuse on (another) blog. %s', 'rank-math' ), '<a href="' . \RankMath\KB::get( 'import-export-settings' ) . '" target="_blank">' . esc_html__( 'Learn more about the Import/Export option.', 'rank-math' ) . '</a>' );
 		?>
 	</p>
 
+	<div class="two-col">
 
-	<div class="two-col rank-math-ui">
-
-		<div class="col">
-
+		<div class="col rank-math-box">
 			<?php include_once 'export-panel.php'; ?>
-
-			<?php include_once 'import-panel.php'; ?>
-
 		</div>
 
-		<div class="col">
+		<div class="col rank-math-box">
+			<?php include_once 'import-panel.php'; ?>
+		</div>
 
-			<?php include_once 'backup-panel.php'; ?>
-
+		<div class="col rank-math-box no-borders">
 			<?php include_once 'plugins-panel.php'; ?>
+		</div>
 
+		<div class="col rank-math-box no-borders">
+			<?php include_once 'backup-panel.php'; ?>
 		</div>
 
 	</div>
-
 </div>

@@ -7,6 +7,14 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
 </IfModule>
+
+
+<Files "xmlrpc.php">
+Order Deny,Allow
+Deny from all
+</Files>
+
+
 Redirect 301 https://assault.online/ https://assault.online/home
 Redirect 301 https://assault.online https://assault.online/home
 
@@ -19,8 +27,28 @@ Allow from 87.209.229.255
 Allow from 213.125.228.34
 Allow from 217.121.5.245
 Allow from 213.125.228.34
+Allow from 31.21.220.147
 </Files>
 
+<Files "toplists.php">
+Order Deny,Allow
+Deny from all
+Allow from 87.209.229.255
+Allow from 213.125.228.34
+Allow from 217.121.5.245
+Allow from 213.125.228.34
+Allow from 31.21.220.147
+</Files>
+
+<Files "clanawards.php">
+Order Deny,Allow
+Deny from all
+Allow from 87.209.229.255
+Allow from 213.125.228.34
+Allow from 217.121.5.245
+Allow from 31.21.220.147
+Allow from 213.125.228.34
+</Files>
 
 
 
@@ -135,5 +163,18 @@ ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
 # END WP-HUMMINGBIRD-CACHING
 # BEGIN WP-HUMMINGBIRD-GZIP
 # END Wordfence WAF
+
+# BEGIN WordPress
+# The directives (lines) between `BEGIN WordPress` and `END WordPress` are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
 
 # END WordPress

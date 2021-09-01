@@ -4,8 +4,7 @@
             $('#custom_redirect_enabled').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#redirect').css('display', '');
-                }
-                else {
+                } else {
                     $('#redirect').css('display', 'none');
                 }
             });
@@ -13,8 +12,7 @@
             $('#custom_redirect_reg_enabled').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#redirect_reg').css('display', '');
-                }
-                else {
+                } else {
                     $('#redirect_reg').css('display', 'none');
                 }
             });
@@ -22,8 +20,7 @@
             $('#default_redirect_enabled').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#default_redirect').css('display', '');
-                }
-                else {
+                } else {
                     $('#default_redirect').css('display', 'none');
                 }
             });
@@ -31,15 +28,13 @@
             $('#default_redirect_reg_enabled').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#default_redirect_reg').css('display', '');
-                }
-                else {
+                } else {
                     $('#default_redirect_reg').css('display', 'none');
                 }
             });
         });
     })(jQuery);
 </script>
-
 
 
 <table class="form-table">
@@ -60,11 +55,22 @@
     <tr>
         <th scope="row"><?php _e('Page for register flow', 'nextend-facebook-connect'); ?></th>
         <td>
-             <?php wp_dropdown_pages(array(
-                 'name'             => 'register-flow-page',
-                 'show_option_none' => __('None', "nextend-facebook-connect"),
-                 'selected'         => $settings->get('register-flow-page')
-             )); ?>
+            <?php
+            add_filter('get_pages', array(
+                'NextendSocialLogin',
+                'getFreePagesForRegisterFlow'
+            ));
+
+            wp_dropdown_pages(array(
+                'name'             => 'register-flow-page',
+                'show_option_none' => __('None', "nextend-facebook-connect"),
+                'selected'         => $settings->get('register-flow-page')
+            ));
+            remove_filter('get_pages', array(
+                'NextendSocialLogin',
+                'getFreePagesForRegisterFlow'
+            ));
+            ?>
             <p class="description" id="tagline-register-flow-page-1"><?php _e("This setting is used when you request additional data from the users (such as email address) and to display the Terms and conditions.", "nextend-facebook-connect"); ?></p>
             <p class="description" id="tagline-register-flow-page"><?php printf(__('%2$s First create a new page and insert the following shortcode: %1$s then select this page above', 'nextend-facebook-connect'), '<code>[nextend_social_login_register_flow]</code>', '<b>' . __("Usage:", "nextend-facebook-connect") . '</b>'); ?></p>
             <p class="description" id="tagline-register-flow-page"><?php printf(__('%1$s You won\'t be able to reach the selected page unless a social login/registration happens.', 'nextend-facebook-connect'), '<b>' . __("Important:", "nextend-facebook-connect") . '</b>'); ?></p>
@@ -73,11 +79,24 @@
     <tr>
         <th scope="row"><?php _e('OAuth redirect uri proxy page', 'nextend-facebook-connect'); ?></th>
         <td>
-             <?php wp_dropdown_pages(array(
-                 'name'             => 'proxy-page',
-                 'show_option_none' => __('None', "nextend-facebook-connect"),
-                 'selected'         => $settings->get('proxy-page')
-             )); ?>
+
+            <?php
+            add_filter('get_pages', array(
+                'NextendSocialLogin',
+                'getFreePagesForOauthProxyPage'
+            ));
+
+            wp_dropdown_pages(array(
+                'name'             => 'proxy-page',
+                'show_option_none' => __('None', "nextend-facebook-connect"),
+                'selected'         => $settings->get('proxy-page')
+            ));
+
+            remove_filter('get_pages', array(
+                'NextendSocialLogin',
+                'getFreePagesForOauthProxyPage'
+            ));
+            ?>
             <p class="description" id="tagline-proxy-page-1"><?php _e("You can use this setting when wp-login.php page is not available to handle the OAuth flow.", "nextend-facebook-connect") ?></p>
             <p class="description" id="tagline-register-flow-page"><?php printf(__('%1$s First create a new page then select this page above.', 'nextend-facebook-connect'), '<b>' . __("Usage:", "nextend-facebook-connect") . '</b>'); ?></p>
             <p class="description" id="tagline-register-flow-page"><?php printf(__('%1$s You won\'t be able to reach the selected page unless a social login/registration happens.', 'nextend-facebook-connect'), '<b>' . __("Important:", "nextend-facebook-connect") . '</b>'); ?></p>
@@ -173,14 +192,14 @@
         </td>
     </tr>
 
-     <tr>
+    <tr>
         <th scope="row"><?php _e('Blacklisted redirects', 'nextend-facebook-connect'); ?></th>
-         <td>
+        <td>
             <?php
             $blacklistedUrls = $settings->get('blacklisted_urls');
             ?>
-             <textarea rows="4" cols="53" name="blacklisted_urls" id="blacklisted_urls"><?php echo esc_textarea($blacklistedUrls); ?></textarea>
-             <p class="description"><?php _e('If you want to blacklist redirect url params. One pattern per line.', 'nextend-facebook-connect'); ?></p>
+            <textarea rows="4" cols="53" name="blacklisted_urls" id="blacklisted_urls"><?php echo esc_textarea($blacklistedUrls); ?></textarea>
+            <p class="description"><?php _e('If you want to blacklist redirect url params. One pattern per line.', 'nextend-facebook-connect'); ?></p>
         </td>
     </tr>
 

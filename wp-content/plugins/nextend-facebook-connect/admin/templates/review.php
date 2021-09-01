@@ -10,21 +10,21 @@ if ((0 < $state && $state < 5) || $state == 6) {
 
 <?php if ($state == -1): ?>
     <div class="nsl-box-review nsl-box-review-step-1" data-stars="0">
-    <div class="nsl-box-review-bigstar"></div>
-    <div class="nsl-box-review-label" data-star="0"><?php _e('Rate your experience!', 'nextend-facebook-connect'); ?></div>
-    <div class="nsl-box-review-label" data-star="1"><?php _e('Hated it', 'nextend-facebook-connect'); ?></div>
-    <div class="nsl-box-review-label" data-star="2"><?php _e('Disliked it', 'nextend-facebook-connect'); ?></div>
-    <div class="nsl-box-review-label" data-star="3"><?php _e('It was ok', 'nextend-facebook-connect'); ?></div>
-    <div class="nsl-box-review-label" data-star="4"><?php _e('Liked it', 'nextend-facebook-connect'); ?></div>
-    <div class="nsl-box-review-label" data-star="5"><?php _e('Loved it', 'nextend-facebook-connect'); ?></div>
-    <div class="nsl-box-review-stars-container">
-        <div class="nsl-box-review-star" data-star="1" data-href="<?php echo esc_attr(NextendSocialLoginAdmin::trackUrl('https://nextendweb.com/contact-us/suggestion/', 'dashboard-review-1')); ?>"></div>
-        <div class="nsl-box-review-star" data-star="2" data-href="<?php echo esc_attr(NextendSocialLoginAdmin::trackUrl('https://nextendweb.com/contact-us/suggestion/', 'dashboard-review-2')); ?>"></div>
-        <div class="nsl-box-review-star" data-star="3" data-href="<?php echo esc_attr(NextendSocialLoginAdmin::trackUrl('https://nextendweb.com/contact-us/satisfaction-feedback/', 'dashboard-review-3')); ?>"></div>
-        <div class="nsl-box-review-star" data-star="4" data-href="<?php echo esc_attr(NextendSocialLoginAdmin::trackUrl('https://nextendweb.com/contact-us/satisfaction-feedback/', 'dashboard-review-4')); ?>"></div>
-        <div class="nsl-box-review-star" data-star="5"></div>
+        <div class="nsl-box-review-bigstar"></div>
+        <div class="nsl-box-review-label" data-star="0"><?php _e('Rate your experience!', 'nextend-facebook-connect'); ?></div>
+        <div class="nsl-box-review-label" data-star="1"><?php _e('Hated it', 'nextend-facebook-connect'); ?></div>
+        <div class="nsl-box-review-label" data-star="2"><?php _e('Disliked it', 'nextend-facebook-connect'); ?></div>
+        <div class="nsl-box-review-label" data-star="3"><?php _e('It was ok', 'nextend-facebook-connect'); ?></div>
+        <div class="nsl-box-review-label" data-star="4"><?php _e('Liked it', 'nextend-facebook-connect'); ?></div>
+        <div class="nsl-box-review-label" data-star="5"><?php _e('Loved it', 'nextend-facebook-connect'); ?></div>
+        <div class="nsl-box-review-stars-container">
+            <div class="nsl-box-review-star" data-star="1" data-href="<?php echo esc_attr(NextendSocialLoginAdmin::trackUrl('https://nextendweb.com/contact-us/suggestion/', 'dashboard-review-1')); ?>"></div>
+            <div class="nsl-box-review-star" data-star="2" data-href="<?php echo esc_attr(NextendSocialLoginAdmin::trackUrl('https://nextendweb.com/contact-us/suggestion/', 'dashboard-review-2')); ?>"></div>
+            <div class="nsl-box-review-star" data-star="3" data-href="<?php echo esc_attr(NextendSocialLoginAdmin::trackUrl('https://nextendweb.com/contact-us/satisfaction-feedback/', 'dashboard-review-3')); ?>"></div>
+            <div class="nsl-box-review-star" data-star="4" data-href="<?php echo esc_attr(NextendSocialLoginAdmin::trackUrl('https://nextendweb.com/contact-us/satisfaction-feedback/', 'dashboard-review-4')); ?>"></div>
+            <div class="nsl-box-review-star" data-star="5"></div>
+        </div>
     </div>
-</div>
 <?php endif; ?>
 
 <div class="nsl-box-review nsl-box-review-star-5" <?php if ($state != 5): ?>style="display:none;"<?php endif; ?>>
@@ -37,7 +37,7 @@ if ((0 < $state && $state < 5) || $state == 6) {
     <div class="nsl-box-review-star-5-close"></div>
 </div>
 <script>
-	(function ($) {
+    (function ($) {
         $(document).ready(function () {
             var $box = $('.nsl-box-review-step-1'),
                 $box5 = $('.nsl-box-review-star-5'),

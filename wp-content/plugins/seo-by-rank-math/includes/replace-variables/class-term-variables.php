@@ -26,7 +26,7 @@ class Term_Variables extends Basic_Variables {
 	public function setup_term_variables() {
 		if ( $this->is_term_edit ) {
 			$tag_id = Param::request( 'tag_ID', 0, FILTER_VALIDATE_INT );
-			$term   = get_term( $tag_id, $GLOBALS['taxnow'], OBJECT, 'edit' );
+			$term   = get_term( $tag_id, $GLOBALS['taxnow'], OBJECT );
 		}
 
 		$this->register_replacement(
@@ -106,7 +106,7 @@ class Term_Variables extends Basic_Variables {
 		}
 
 		$term_desc = get_term_field( 'description', $this->args->term_id, $this->args->taxonomy );
-		return '' !== $term_desc ? wp_strip_all_tags( $term_desc ) : null;
+		return '' !== $term_desc ? Str::truncate( $term_desc, 160 ) : null;
 	}
 
 	/**

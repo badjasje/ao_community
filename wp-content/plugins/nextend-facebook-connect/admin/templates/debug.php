@@ -54,10 +54,10 @@
         foreach (NextendSocialLogin::$allowedProviders AS $provider) {
             ?>
             <p>
-            <a target="_blank" href="<?php echo add_query_arg('provider', $provider->getId(), NextendSocialLoginAdmin::getAdminUrl('test-connection')); ?>" class="button button-primary">
-                <?php printf(__('Test %1$s connection', 'nextend-facebook-connect'), $provider->getLabel()); ?>
-            </a>
-        </p>
+                <a target="_blank" href="<?php echo add_query_arg('provider', $provider->getId(), NextendSocialLoginAdmin::getAdminUrl('test-connection')); ?>" class="button button-primary">
+                    <?php printf(__('Test %1$s connection', 'nextend-facebook-connect'), $provider->getLabel()); ?>
+                </a>
+            </p>
             <?php
         }
     }

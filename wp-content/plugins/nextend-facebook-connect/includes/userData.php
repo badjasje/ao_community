@@ -1,5 +1,7 @@
 <?php
 
+use NSL\Notices;
+
 class NextendSocialUserData {
 
     /** @var array */
@@ -67,11 +69,12 @@ class NextendSocialUserData {
         $this->userData = apply_filters('nsl_registration_user_data', $this->userData, $this->provider, $this->errors);
 
         if ($this->errors->get_error_code() != '') {
+            $this->provider->deleteLoginPersistentData();
             if ($this->errors->get_error_message() != '') {
-                \NSL\Notices::addError($this->errors->get_error_message());
+                Notices::addError($this->errors->get_error_message());
             }
 
-            wp_redirect( site_url( 'wp-login.php' ) );
+            wp_redirect(site_url('wp-login.php'));
             exit();
         }
     }
@@ -176,13 +179,14 @@ class NextendSocialUserData {
         <form name="registerform" id="registerform" action="<?php echo esc_url($postUrl); ?>" method="post">
             <input type="hidden" name="submit" value="1"/>
 
-            <?php do_action('nsl_registration_form_start', $this->userData); ?>
+            <?php do_action('nsl_registration_form_start', $this->userData, $this->provider); ?>
 
-            <?php do_action('nsl_registration_form_end', $this->userData); ?>
+            <?php do_action('nsl_registration_form_end', $this->userData, $this->provider); ?>
 
             <br class="clear"/>
             <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
-                                     class="button button-primary button-large" value="<?php esc_attr_e('Register'); ?>"/></p>
+                                     class="button button-primary button-large" value="<?php esc_attr_e('Register'); ?>"/>
+            </p>
         </form>
         <?php
         return ob_get_clean();

@@ -43,7 +43,7 @@ class UR_Admin_Assets {
 		wp_register_style( 'user-registration-form-modal-css', UR()->plugin_url() . '/assets/css/form-modal.css', array(), UR_VERSION );
 
 		wp_register_style( 'user-registration-admin', UR()->plugin_url() . '/assets/css/admin.css', array( 'nav-menus', 'wp-color-picker' ), UR_VERSION );
-		wp_register_style( 'jquery-ui-style', '//code.jquery.com/ui/' . $jquery_version . '/themes/smoothness/jquery-ui.css', array(), $jquery_version );
+		wp_register_style( 'jquery-ui-style', UR()->plugin_url() . '/assets/css/jquery-ui/jq-smoothness.css', array(), $jquery_version );
 		wp_register_style( 'flatpickr', UR()->plugin_url() . '/assets/css/flatpickr/flatpickr.min.css', '4.5.1' );
 		wp_register_style( 'perfect-scrollbar', UR()->plugin_url() . '/assets/css/perfect-scrollbar/perfect-scrollbar.css', array(), '1.4.0' );
 		wp_register_style( 'sweetalert2', UR()->plugin_url() . '/assets/css/sweetalert2/sweetalert2.min.css', array(), '8.17.1' );
@@ -74,9 +74,8 @@ class UR_Admin_Assets {
 			wp_enqueue_style( 'perfect-scrollbar' );
 			wp_enqueue_style( 'sweetalert2' );
 		}
-
 		// Enqueue flatpickr on user profile screen.
-		if ( 'user-edit' === $screen_id || 'profile' === $screen_id ) {
+		if ( 'user-edit' === $screen_id || 'profile' === $screen_id || 'user-registration_page_add-new-registration' === $screen_id ) {
 			wp_enqueue_style( 'flatpickr' );
 		}
 
@@ -230,14 +229,13 @@ class UR_Admin_Assets {
 				'form_one_time_draggable_fields' => ur_get_one_time_draggable_fields(),
 				'i18n_admin'                     => self::get_i18n_admin_data(),
 				'add_new'                        => esc_html( 'Add New', 'user-registratoin' ),
-
 			);
 
 			wp_localize_script( 'user-registration-admin', 'user_registration_admin_data', $params );
 		}
 
 		// Enqueue flatpickr on user profile screen.
-		if ( 'user-edit' === $screen_id || 'profile' === $screen_id ) {
+		if ( 'user-edit' === $screen_id || 'profile' === $screen_id || 'user-registration_page_add-new-registration' === $screen_id ) {
 			wp_enqueue_script( 'flatpickr' );
 			wp_enqueue_media();
 			wp_enqueue_script( 'ur-my-account' );
@@ -304,6 +302,8 @@ class UR_Admin_Assets {
 	public static function get_i18n_admin_data() {
 
 		$i18n = array(
+			'i18n_choice_ok'                         => esc_html__( 'Ok', 'user-registration' ),
+			'i18n_choice_cancel'                     => esc_html__( 'Cancel', 'user-registration' ),
 			'i18n_user_email'                        => _x( 'User Email', 'user-registration admin', 'user-registration' ),
 			'i18n_user_password'                     => _x( 'User Password', 'user-registration admin', 'user-registration' ),
 			'i18n_are_you_sure_want_to_delete'       => _x( 'Are you sure want to delete?', 'user registration admin', 'user-registration' ),
@@ -313,6 +313,7 @@ class UR_Admin_Assets {
 			'i18n_form_successfully_saved'           => _x( 'Form successfully saved.', 'user registration admin', 'user-registration' ),
 			'i18n_success'                           => _x( 'Success', 'user registration admin', 'user-registration' ),
 			'i18n_error'                             => _x( 'Error', 'user registration admin', 'user-registration' ),
+			'i18n_msg_delete'                        => esc_html__( 'Confirm Deletion', 'user-registration' ),
 			'i18n_at_least_one_field_need_to_select' => _x( 'At least one field needs to be selected.', 'user registration admin', 'user-registration' ),
 			'i18n_empty_form_name'                   => _x( 'Empty form name.', 'user registration admin', 'user-registration' ),
 			'i18n_previous_save_action_ongoing'      => _x( 'Previous save action on going.', 'user registration admin', 'user-registration' ),
@@ -322,6 +323,7 @@ class UR_Admin_Assets {
 			'i18n_multiple_field_key'                => _x( 'Multiple field key ', 'user registration admin', 'user-registration' ),
 			'i18n_field_is_required'                 => _x( 'field is required.', 'user registration admin', 'user-registration' ),
 			'i18n_drag_your_first_item_here'         => _x( 'Drag your first form item here.', 'user registration admin', 'user-registration' ),
+			'i18n_select_countries'                  => _x( 'Please select at least one country.', 'user registration admin', 'user-registration' ),
 
 		);
 
