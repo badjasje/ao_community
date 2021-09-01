@@ -988,8 +988,8 @@ input[type="radio"]:checked + label {
 
     .menuOpen .contentRow { margin-left: 2.5% !important; width: 95%; }
     .menuOpen .sidenav { width:500px; min-width: unset; background-color: #313d43; }
-    .menuOpen #content.site-content { margin-left: 325px; }
-    .menuOpen footer#colophon { margin-left: 325px; width: calc(100% - 325px); }
+    .menuOpen #content.site-content { margin-left: 500px; }
+    .menuOpen footer#colophon { margin-left: 500px; width: calc(100% - 325px); }
 }
 @media only screen and (max-width: 1023px) {
     .footer-nav h4 { margin-top: 10px; }
@@ -1942,3 +1942,20 @@ input[type="radio"]:checked + label {
 
 .hidden { display:none; }
 .nopadding { padding:0; }
+.achievementBlock{
+	text-align: center;
+
+	padding:75px 20px;
+}
+.xpptsblock{
+	position: absolute;
+    bottom: 0;
+    text-align: center;
+    margin-left: -20px;
+    margin-right: -20px;
+    width: 100%;
+    background-color: #545454;
+    padding: 3px;
+    text-transform: uppercase;
+    font-size: 12px;
+}

@@ -87,6 +87,9 @@ if(!!$province) {
 			array('url' => 'toplists/?tab=clannw', 'title' => 'Clan nw'),
 			array('url' => 'toplists/?tab=xp', 'title' => 'Experience'),
 		)),
+		12 => array('icon' => 'fas fa-gamepad', 'links' => array(
+			array('url' => 'achievements', 'title' => 'Achievements'),
+		)),
 	
 		
 	);

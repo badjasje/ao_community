@@ -148,7 +148,7 @@ class Event extends PostObject {
         'achievement' => array(
             'icon' => 'fas fa-award', 'header' => 'Achievement',
             'title' => '{achievement_name}',
-            'body' => 'Congratulations, you received experience points.',
+            'body' => 'Congratulations, you unlocked an achievement!',
         )
         /* TODO:
         - market close - fas fa-shopping-cart
