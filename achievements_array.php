@@ -31,28 +31,28 @@
         ),
         '50_buildings' 		=> array(
             'title'			=>	'50 buildings built',
-            'description'	=>	'Build 50 buildings during a single round',
+            'description'	=>	'Build 50 buildings',
             'event_message'	=> 	'You received 50 experience points for building 50 buildings',
             'one_time'		=> 	'yes',
             'xp'			=> 	50
         ),
         '1000_buildings' 	=> array(
             'title'			=>	'1 000 buildings built',
-            'description'	=>	'Build 1 000 buildings during a single round',
+            'description'	=>	'Build 1 000 buildings',
             'event_message'	=> 	'You received 100 experience points for building 1 000 buildings',
             'one_time'		=> 	'yes',
             'xp'			=> 	100
         ),
         '5000_buildings' 	=> array(
             'title'			=>	'5 000 buildings built',
-            'description'	=>	'Build 5 000 buildings during a single round',
+            'description'	=>	'Build 5 000 buildings',
             'event_message'	=> 	'You received 500 experience points for building 5 000 buildings',
             'one_time'		=> 	'yes',
             'xp'			=>	500
         ),
         '10000_buildings' 	=> array(
             'title'			=>	'10 000 buildings built',
-            'description'	=>	'Build 1 0000 buildings during a single round',
+            'description'	=>	'Build 10 000 buildings',
             'event_message'	=> 	'You received 1 000 experience points for building 10 000 buildings',
             'one_time'		=> 	'yes',
             'xp'			=> 	1000
