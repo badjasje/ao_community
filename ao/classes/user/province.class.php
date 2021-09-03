@@ -189,7 +189,7 @@ class Province extends DbObject {
 			default:
 			$num = 0;
 		}
-		$oldXP = $this->get('player_xp');
+		$oldXP = (int)$this->get('player_xp');
 
 		$damp = 1;
 		
