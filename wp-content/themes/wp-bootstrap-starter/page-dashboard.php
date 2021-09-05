@@ -8,7 +8,6 @@ $user = CurrentUser::make();
 $province = $user->getProvince();
 
 
-
 echo '<div class="row pageRow">';
 
 	if($province->getNetworth() <= 3499) {

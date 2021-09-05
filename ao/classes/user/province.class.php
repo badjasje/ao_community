@@ -104,9 +104,14 @@ class Province extends DbObject {
     }
     
     
-    public function updateXP($key,$members=0) {
+    public function updateXP($key,$members=0,$xp=0) {
 
 	    switch ($key) {
+		    
+		    case 'single_achievement': //
+				$num = $xp;
+			break;
+		    
 			case 'unit_attack': //
 				$num = 10;
 			break;
@@ -184,7 +189,7 @@ class Province extends DbObject {
 			default:
 			$num = 0;
 		}
-		$oldXP = $this->get('player_xp');
+		$oldXP = (int)$this->get('player_xp');
 
 		$damp = 1;
 		
