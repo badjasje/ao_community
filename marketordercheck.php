@@ -1,10 +1,10 @@
 <?php
 require(dirname(__FILE__) . '/wp-load.php');
-include 'achievements_array.php';
+
 
 
 if (get_field('game_status', 'option') != 'Live') { exit; }
-
+	include 'achievements_array.php';
     $timestamp = current_time('timestamp');
 
     $args = array();

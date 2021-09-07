@@ -17,9 +17,14 @@ include $_SERVER['DOCUMENT_ROOT'].'/xparray.php';
     </div>
 	<?php
 		
-	
-		 foreach ($xparray as $key => $item):?>
-	<div class="col-md-12 celBlock">
+		$count = 0;
+		 foreach ($xparray as $key => $item):
+		 $count++;
+		 if($count==5){
+			 $count = 1;
+		 }
+		 ?>
+	<div class="col-md-4 celBlock statCol-<?php echo $count;?>">
 		<?php echo $item['title'];?>
 	</div> 
 		
