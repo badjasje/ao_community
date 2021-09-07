@@ -134,7 +134,8 @@ class Province extends DbObject {
 		if($oldXP >= 200000){
 			$damp = 0.8;
 		}
-		if($key != 'unit_defeat'){
+		// Don't want to see notifications for enemy XP updates
+		if($key != 'unit_defeat' || $key != 'missile_hit'){  
 			$_SESSION['showError'] = "You gained $num experience points";
 		}
         $this->update('player_xp', $oldXP + ($num*$damp));
