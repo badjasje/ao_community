@@ -74,7 +74,7 @@ function ajax_buildings($province, $return) {
         $province->update('turns', $turns - $turns_needed);
         $province->turn_spread('buildings', $turns_needed);
     }
-
+	$province->updateXP('building',0,$turns_needed);
     // Recalculate maxes
     $province->count_all_stats();
     $buildings = $province->getBuildings();
