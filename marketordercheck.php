@@ -1,10 +1,10 @@
 <?php
 require(dirname(__FILE__) . '/wp-load.php');
-include 'achievements_array.php';
+
 
 
 if (get_field('game_status', 'option') != 'Live') { exit; }
-
+	include 'achievements_array.php';
     $timestamp = current_time('timestamp');
 
     $args = array();
@@ -388,8 +388,10 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
 
         /* finish research */
         if($research = $province->getCurrentResearch()) {
-            if($research->timeLeft() <= 0) $research->end(); // starts queued research too, sends notification
-            $province->updateXP('research_complete');
+            if($research->timeLeft() <= 0){
+            	$province->updateXP('research_complete');
+            	$research->end(); // starts queued research too, sends notification
+            }
         }
 
         /* remove NP */

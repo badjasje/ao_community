@@ -106,89 +106,21 @@ class Province extends DbObject {
     
     public function updateXP($key,$members=0,$xp=0) {
 
-	    switch ($key) {
-		    
-		    case 'single_achievement': //
-				$num = $xp;
-			break;
-		    
-			case 'unit_attack': //
-				$num = 10;
-			break;
-			case 'missile_attack':
-				$num = 12;
-			break;
-			case 'missile_shot': //
-				$num = 2;
-			break;
-			case 'sat_attack': //
-				$num = 8;
-			break;
-			case 'succesful_defense': //
-				$num = 40;
-			break;
-			case 'research_complete': //
-				$num = 3;
-			break;
-			case 'spy': //
-				$num = 1;
-			break;
-			case 'sabotage': // 
-				$num = 1;
-			break;
-			case 'sniper': //
-				$num = 1;
-			break;
-			case 'aid':
-				$num = 30;
-			break;
-			case 'medal_1':
-				$num = 10000;
-			break;
-			case 'medal_2':
-				$num = 3000;
-			break;
-			case 'medal_3':
-				$num = 1000;
-			break;
-			case 'kill': //
-				$num = 500;
-			break;
-			case 'bank':
-				$num = 3;
-			break;
-			case 'clanaward':
-				$num = 4800/$members;
-			break;
-			
-			
-			case 'reset': //
-				$num = -5000;
-			break;
-			case 'unit_defeat': //
-				$num = -3;
-			break;
-			case 'sat_fail': //
-				$num = -5;
-			break;
-			case 'missile_hit': //
-				$num = -5;
-			break;
-			case 'missile_fail': //
-				$num = -2;
-			break;
-			case 'defeat_attacking': //
-				$num = -30;
-			break;
-			case 'death':
-				$num = -500;
-			break;
-		
-
-
-			default:
-			$num = 0;
-		}
+	    include $_SERVER['DOCUMENT_ROOT'].'/xparray.php';
+	    
+	    
+	    	$num = $xparray[$key]['xp'];
+	 
+		    if($key == 'single_achievement'){
+			    $num = $xp;
+		    }
+		    if($key == 'clanaward'){
+			    $num = $xparray[$key]['xp']/$members;
+		    }
+	
+	    
+	    
+	    
 		$oldXP = (int)$this->get('player_xp');
 
 		$damp = 1;
@@ -202,8 +134,10 @@ class Province extends DbObject {
 		if($oldXP >= 200000){
 			$damp = 0.8;
 		}
-		
-		$_SESSION['showError'] = "You gained $num experience points";
+		// Don't want to see notifications for enemy XP updates
+		if($key != 'unit_defeat' || $key != 'missile_hit'){  
+			$_SESSION['showError'] = "You gained $num experience points";
+		}
         $this->update('player_xp', $oldXP + ($num*$damp));
     }
     
