@@ -47,14 +47,14 @@ function ajax_update($province, $return) {
     }
 
     if($user->getName() != $playername) { // counts as a playername change
-        if(Round::isLive() && $user->get('name_change_counter') == 1 && $playername != 'Minion') {
+        if(Round::isLive() && $user->get('name_change_counter') == 1) {
             return array('status' => 'Username already changed this round ');
         }
 
         $search_player = new WP_User_Query(array('search' => $playername, 'search_fields' => array('display_name'), 'meta_query'=> array(array(
 			array('key' => 'last_online', 'value' => current_time('timestamp')-1728000, 'compare' => ">", 'type' => 'numeric'),
         ))));
-        if (count($search_player->results) && $playername != 'Minion' && $search_player->results[0]->data->ID != $user->get('id')) {
+        if (count($search_player->results) && $search_player->results[0]->data->ID != $user->get('id')) {
             return array('status' => 'Playername already exists');
         }
         $user->update('display_name', $playername);
