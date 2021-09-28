@@ -64,19 +64,6 @@ $blddamage = rand(6500,8000);
 if($war_type == 'none') {
 	$blddamage = scaled_power_pvp($blddamage, $userId, $target_id);
 }
-/*if($defenderData['land'][0] < 7500){
-	$reduction = $defenderData['land'][0]/7500;
-	if($reduction <= 0.5){
-		$reduction = 0.5;
-	}
-	$blddamage = $blddamage*$reduction;
-}*/
-
-$startingbonus = $defenderData['starting_bonus'][0];
-$defensive_multi = 1;
-if($startingbonus == 'defensive'){
-	$defensive_multi = 1.25;
-}
 
 // Scale building damage on clan size difference
 $blddamage = scaled_damage_to_clansize($blddamage, $userId, $target_id);
@@ -121,7 +108,7 @@ foreach ($defender->getBuildings() as $key => $building) {
 
         $damage = $blddamage * $percentage;
 
-        $buildings_lost = round($damage / ($building['life']*$defensive_multi));
+        $buildings_lost = round($damage / ($building['life']));
         if ($buildings_lost > 0) {
 			if ($def_bld_owned < $buildings_lost) {
 				if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key, 0);
@@ -205,7 +192,7 @@ if($war_type != 'none' && $result == 'success') {
 		// attacker
 		$kills_made = $attackerData['kills_made'][0];
 		update_user_meta($userId, 'kills_made', $kills_made+1);
-		
+
 		$attacker->updateXP('kill');
 		$defender->updateXP('death');
 
