@@ -62,7 +62,7 @@ if ($defender_money == 0) {
 
 $success = do_thief($thief_level, $no_thiefs, $tot_snipers, $defender_money);
 $sat_status = $defenderData['stealth_sat_status'][0];
-
+if(empty($sat_status)) $sat_status = 'inactive';
 if($sat_status == 'active'){
 	$result = 'failure';
 }

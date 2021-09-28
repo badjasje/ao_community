@@ -36,6 +36,7 @@ if($no_snipers > 10){
 }
 
 $sat_status = (isset($defenderData['stealth_sat_status']) ? $defenderData['stealth_sat_status'][0] : 0);
+if(empty($sat_status)) $sat_status = 'inactive';
 $defender_thiefs = $defenderData['thief_owned'][0];
 $defender_spies = $defenderData['spy_owned'][0];
 $defender_snipers = $defenderData['sniper_owned'][0];

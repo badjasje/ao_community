@@ -72,6 +72,7 @@ update_user_meta($userId,'sat_morale',$sat_morale-100);
 $result = 'success';
 
 $sat_status = $defenderData['stealth_sat_status'][0];
+if(empty($sat_status)) $sat_status = 'inactive';
 if($sat_status == 'active'){
 	$result = 'failure';
 	$blddamage = 0;

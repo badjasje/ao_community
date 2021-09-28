@@ -31,7 +31,7 @@ class Province extends DbObject {
 
         // Buildings
         'silo','command_centre','shipyard','airfield','warfactory','baracks','powerplant','advancedpowerplant','torpedolauncher',
-        'samsite','missileturret','machinegunturret','antimissile',
+        'samsite','missileturret','machinegunturret','antimissile','silo_disable_1','silo_disable_2',
 
         // Missiles
         'nuke_owned','nuke_ordered','chemical_owned','chemical_ordered','bio_owned','bio_ordered','moab_owned','moab_ordered',
@@ -102,29 +102,29 @@ class Province extends DbObject {
         if(in_array($key,$this->fields)) update_user_meta($this->id, $key, $value); //@wp
         return parent::update($key, $value);
     }
-    
-    
+
+
     public function updateXP($key,$members=0,$xp=0) {
 
 	    include $_SERVER['DOCUMENT_ROOT'].'/xparray.php';
-	    
-	    
+
+
 	    	$num = $xparray[$key]['xp'];
-	 
+
 		    if($key == 'single_achievement'){
 			    $num = $xp;
 		    }
 		    if($key == 'clanaward'){
 			    $num = $xparray[$key]['xp']/$members;
 		    }
-	
-	    
-	    
-	    
+
+
+
+
 		$oldXP = (int)$this->get('player_xp');
 
 		$damp = 1;
-		
+
 		if($oldXP >= 100000){
 			$damp = 0.9;
 		}
@@ -135,12 +135,12 @@ class Province extends DbObject {
 			$damp = 0.8;
 		}
 		// Don't want to see notifications for enemy XP updates
-		if($key != 'unit_defeat' || $key != 'missile_hit'){  
+		if($key != 'unit_defeat' || $key != 'missile_hit'){
 			$_SESSION['showError'] = "You gained $num experience points";
 		}
         $this->update('player_xp', $oldXP + ($num*$damp));
     }
-    
+
 
     /**
      * Helper function
@@ -992,7 +992,7 @@ class Province extends DbObject {
 
         $this->update('sat_owned', 0);
         $this->update('sat_endlife', 0);
-        $this->update('stealth_sat_status', 0);
+        $this->update('stealth_sat_status', 'inactive');
         $this->update('stealth_sat_time', 0);
         $this->update('money', $this->getMoney() - $demo_cost);
         Event::create(array(

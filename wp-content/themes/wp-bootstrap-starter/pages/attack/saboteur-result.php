@@ -1,14 +1,14 @@
 <?php
 
-$missileLevel = $defenderData['level_missile_accuracy'][0];
-$sat_status = $defenderData['stealth_sat_status'][0];
+$missileLevel = (!empty($defender->get('level_missile_accuracy')) ? $defender->get('level_missile_accuracy') : 0);
+$sat_status = $defender->get('stealth_sat_status');
+if(empty($sat_status)) $sat_status = 'inactive';
 
 $turns = $attackerData['turns'][0];
-$totalSaboteurs = $attackerData['saboteur_owned'][0];
+$totalSaboteurs = (!empty($attacker->get('saboteur_owned')) ? $attacker->get('saboteur_owned') : 0);
 
-$tot_snipers = $defenderData['sniper_owned'][0];
-
-$silos = $defenderData['silo'][0];
+$tot_snipers = (!empty($defender->get('sniper_owned')) ? $defender->get('sniper_owned') : 0);
+$silos = (!empty($defender->get('silo')) ? $defender->get('silo') : 0);
 
 // Various validations
 /* Check if attacker has enough saboteurs */
@@ -53,13 +53,13 @@ update_user_meta($userId, 'morale', $oldmorale - $moralecost);
 
 if ($result == 'success') {
 	$attacker->updateXP('sabotage');
-	$silo1Status = get_user_meta($target_id, 'silo_disable_1', true);
+	$silo1Status = $defender->get('silo_disable_1');
 	if($silos >= 1) {
-		if($silo1Status == '' || $silo1Status == 'inactive') {
-			if(!$attacker->isShadowBanned()) update_user_meta($target_id, 'silo_disable_1', 'active');
+		if(empty($silo1Status) || $silo1Status == 'inactive') {
+			if(!$attacker->isShadowBanned()) $defender->update('silo_disable_1', 'active');
 		} else {
 			if($silos >= 2 && $missileLevel < 3) {
-				if(!$attacker->isShadowBanned()) update_user_meta($target_id, 'silo_disable_2', 'active');
+				if(!$attacker->isShadowBanned()) $defender->update('silo_disable_2', 'active');
 			}
 		}
 	}
