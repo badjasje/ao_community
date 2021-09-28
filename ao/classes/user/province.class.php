@@ -108,23 +108,17 @@ class Province extends DbObject {
 
 	    include $_SERVER['DOCUMENT_ROOT'].'/xparray.php';
 
+        $num = $xparray[$key]['xp'];
 
-	    	$num = $xparray[$key]['xp'];
-
-		    if($key == 'single_achievement'){
-			    $num = $xp;
-		    }
-		    if($key == 'clanaward'){
-			    $num = $xparray[$key]['xp']/$members;
-		    }
-
-
-
+        if($key == 'single_achievement'){
+            $num = $xp;
+        }
+        if($key == 'clanaward'){
+            $num = $xparray[$key]['xp']/$members;
+        }
 
 		$oldXP = (int)$this->get('player_xp');
-
 		$damp = 1;
-
 		if($oldXP >= 100000){
 			$damp = 0.9;
 		}
