@@ -189,11 +189,7 @@ function create_defender_array($target_id, $type_array) {
     foreach($units as $key => $data) {
         $unit_type = $data['type'];
         $unit_count = $target_data[$key."_owned"][0];
-<<<<<<< HEAD
-        if ($unit_count > 0 && $data['sectype'] != 'special') {
-=======
         if ($unit_count > 0 && !in_array($key, Settings::get('special_units'))) {
->>>>>>> f33c5c3dec62f9ab19cee6a29506f7d24627da69
             $unit_life = $data['life'];
             $unit_sum_life = $unit_life * $unit_count;
             $stat_array[$unit_type][$key]['life'] = $unit_sum_life;
@@ -352,11 +348,11 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
         /* if defender has none of this unit continue */
         if ($unit_count < 1)
             continue;
-            
+
         /* do not incorporate special units */
 		if($units[$key]['sectype'] == 'special')
 			continue;
-		
+
         /* calculate attack power per type */
         $unit_def_types = $units[$key]['defends'];
 
@@ -468,7 +464,7 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
             continue;
 		if($units[$key]['sectype'] == 'special')
 			continue;
-			
+
         /* calculate attack power per type */
         $unit_def_types = $units[$key]['defends'];
 

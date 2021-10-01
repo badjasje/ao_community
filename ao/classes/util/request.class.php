@@ -218,12 +218,12 @@ class Request {
     }
 
     static function getNonce() {
-        if(!isset($_SESSION['nonce'])) { $_SESSION['nonce'] = uniqid(); }
+        if(!isset($_SESSION['nonce'])) { $_SESSION['nonce'] = bin2hex(random_bytes(16)); }
         return $_SESSION['nonce'];
     }
     static function validateNonce() {
         $nonce = static::getNonce();
-        $_SESSION['nonce'] = uniqid();
+        $_SESSION['nonce'] = bin2hex(random_bytes(16));
         if(empty(static::post('nonce'))) return false;
         return (static::post('nonce') == $nonce);
     }

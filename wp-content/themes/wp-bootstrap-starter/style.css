@@ -989,7 +989,7 @@ input[type="radio"]:checked + label {
     .menuOpen .contentRow { margin-left: 2.5% !important; width: 95%; }
     .menuOpen .sidenav { width:500px; min-width: unset; background-color: #313d43; }
     .menuOpen #content.site-content { margin-left: 500px; }
-    .menuOpen footer#colophon { margin-left: 500px; width: calc(100% - 325px); }
+    .menuOpen footer#colophon { margin-left: 500px; width: calc(100% - 500px); }
 }
 @media only screen and (max-width: 1023px) {
     .footer-nav h4 { margin-top: 10px; }

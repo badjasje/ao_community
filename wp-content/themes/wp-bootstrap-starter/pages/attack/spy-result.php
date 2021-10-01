@@ -41,6 +41,7 @@ update_user_meta($userId,'turns',$turns-1);
 turn_spread('spying',3);
 
 $sat_status = (isset($defenderData['stealth_sat_status']) ? $defenderData['stealth_sat_status'][0] : 0);
+if(empty($sat_status)) $sat_status = 'inactive';
 $snipers = (isset($defenderData['snipers_owned']) ? $defenderData['snipers_owned'][0] : 0);
 $land_def = $defenderData['land'][0];
 $networth_def = $defenderData['networth'][0];

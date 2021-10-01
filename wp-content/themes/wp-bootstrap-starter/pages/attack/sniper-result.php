@@ -2,8 +2,8 @@
 $units = Units::get();
 
 $moralecost = Settings::get('sniper_morale_cost');
-$attSnipers = $attackerData['sniper_owned'][0];
-$no_snipers = $attSnipers*$_POST['attackarray']['sniper'];
+$attSnipers = round($attackerData['sniper_owned'][0]);
+$no_snipers = round($attSnipers*$_POST['attackarray']['sniper']);
 
 if($no_snipers > $attSnipers){
 	$no_snipers = $attSnipers;
@@ -36,6 +36,7 @@ if($no_snipers > 10){
 }
 
 $sat_status = (isset($defenderData['stealth_sat_status']) ? $defenderData['stealth_sat_status'][0] : 0);
+if(empty($sat_status)) $sat_status = 'inactive';
 $defender_thiefs = $defenderData['thief_owned'][0];
 $defender_spies = $defenderData['spy_owned'][0];
 $defender_snipers = $defenderData['sniper_owned'][0];
@@ -59,7 +60,7 @@ if($result == 'success'){
 	$attacker->updateXP('sniper');
 	$winner_id = $userId;
 	$tot_sniper_attackpower = ($units['sniper']['attack']-30)*$no_snipers*(mt_rand(200,500)/100);
-	$attackerLost = min(round($no_snipers*mt_rand(6,20)/70),$no_snipers,$attSnipers);
+	$attackerLost = round(min(($no_snipers*mt_rand(6,20)/70),$no_snipers,$attSnipers));
 }
 
 $thief_life = $units['thief']['life']*$defender_thiefs;

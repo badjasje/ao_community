@@ -42,11 +42,6 @@ $shotdown = false;
 $AMS = $defenderData['antimissile'][0];
 $power = $defenderData['power'][0];
 $def_land = $defenderData['builtland'][0];
-$startingbonus = $defenderData['starting_bonus'][0];
-$defensive_multi = 1;
-if($startingbonus == 'defensive'){
-	$defensive_multi = 1.25;
-}
 
 $shootdown_chance = $defender->getShootdownChance(false); //min((($AMS*100)/$def_land)*100,75);
 $shootdown = rand(1, 100);
@@ -204,8 +199,8 @@ if($result == 'failure'){
 }
 
 if($result == 'success') {
-	
-	
+
+
 	$attacker->updateXP('missile_attack');
 	$defender->updateXP('missile_hit');
 
@@ -364,7 +359,7 @@ if($result == 'success') {
 			$damage = $blddamage * $percentage;
 			$TOTAL_ATT_DAMAGE += $damage;
 
-			$buildings_lost = round($damage / ($building['life']*$defensive_multi));
+			$buildings_lost = round($damage / ($building['life']));
 			if ($buildings_lost > 0) {
 				if ($def_bld_owned < $buildings_lost) {
 					if(!$attacker->isShadowBanned()) update_user_meta($target_id, $key, 0);
@@ -542,11 +537,11 @@ if($result == 'success'):
 	<?php
 		$clan_points = 0;
 		$winner_ID = $target_id;
-		
+
 		$attacker->updateXP('missile_fail');
 		$defender->updateXP('missile_shot');
-		
-		
+
+
 	?>
 	<?php if($result == 'failure' && $shotdown != true && $disabled != true): ?>
 		<div class="blockHeader">Your missile missed the base of <?php echo get_user_name($target_id);?></div>
