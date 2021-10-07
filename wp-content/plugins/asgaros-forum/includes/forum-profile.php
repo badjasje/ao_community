@@ -88,7 +88,14 @@ class AsgarosForumProfile {
 
             // Show avatar.
             if ($this->asgarosforum->options['enable_avatars']) {
-                echo get_avatar($user_data->ID, 160, '', '', array('force_display' => true));
+               
+                ?>
+                
+                <img src="<?php echo get_user_meta( $user_data->ID, 'avatar_user', true );?>"  class="avatar avatar-160 photo" height="160" width="160">
+                
+                <?php
+                
+                
             }
 
             echo '<div class="user-info">';

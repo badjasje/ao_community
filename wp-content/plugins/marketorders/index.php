@@ -11,6 +11,11 @@ Copyright: Kevin Bogaard
  */
 require_once('telegrambot.class.php');
 
+
+
+
+
+
 function turn_spread($turntype, $addedturns) {
     global $userId;
 
