@@ -24,7 +24,7 @@ $users = get_users($args);
 			
 			if($count == 1) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+10000);
 				
 				Event::create(array(
             'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' =>"You won the Medal of Earth! You gained 10 000 XP.", 'type' => 'achievement',
@@ -34,7 +34,7 @@ $users = get_users($args);
 			}
 			if($count == 2) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+3000);
 				
 				Event::create(array(
             'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' =>"You came in second place for the Medal of Earth. You gained 3 000 XP.", 'type' => 'achievement',
@@ -44,7 +44,7 @@ $users = get_users($args);
 			}
 			if($count == 3) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+1000);
 				
 				Event::create(array(
             'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' =>"You came in third place for the Medal of Earth. You gained 1 000 XP.", 'type' => 'achievement',
@@ -90,7 +90,7 @@ $users = get_users($args);
 			
 			if($count == 1) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+10000);
 				
 				Event::create(array(
             'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' =>"You won the Medal of Honor! You gained 10 000 XP.", 'type' => 'achievement',
@@ -100,7 +100,7 @@ $users = get_users($args);
 			}
 			if($count == 2) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+3000);
 				Event::create(array(
             'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' =>"You came in second place for the Medal of Honor. You gained 3 000 XP.", 'type' => 'achievement',
             'defender_id' => $user_ID, 'attacker_id' => $user_ID
@@ -108,7 +108,7 @@ $users = get_users($args);
 			}
 			if($count == 3) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+1000);
 				
 				Event::create(array(
             'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' =>"You came in third place for the Medal of Honor. You gained 1 000 XP.", 'type' => 'achievement',
@@ -152,7 +152,7 @@ $users = get_users($args);
 			
 			if($count == 1) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+10000);
 				
 				Event::create(array(
             'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' =>"You won the Medal of Growth! You gained 10 000 XP.", 'type' => 'achievement',
@@ -163,7 +163,7 @@ $users = get_users($args);
 			}
 			if($count == 2) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+3000);
 				
 				Event::create(array(
             'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' =>"You came in second place for the Medal of Growth. You gained 3 000 XP.", 'type' => 'achievement',
@@ -173,7 +173,7 @@ $users = get_users($args);
 			}
 			if($count == 3) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+1000);
 				
 				Event::create(array(
             'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' =>"You came in third place for the Medal of Growth. You gained 1 000 XP.", 'type' => 'achievement',
@@ -216,7 +216,7 @@ $users = get_users($args);
 			
 			if($count == 1) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+10000);
 				
 				
 				Event::create(array(
@@ -228,7 +228,7 @@ $users = get_users($args);
 			}
 			if($count == 2) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+3000);
 				
 				Event::create(array(
             'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' =>"You came in second place for the Medal of Courage. You gained 3 000 XP.", 'type' => 'achievement',
@@ -239,7 +239,7 @@ $users = get_users($args);
 			}
 			if($count == 3) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+1000);
 				
 				
 				Event::create(array(
@@ -285,7 +285,7 @@ $users = get_users($args);
 			
 			if($count == 1) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+10000);
 				
 				
 				Event::create(array(
@@ -297,7 +297,7 @@ $users = get_users($args);
 			}
 			if($count == 2) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+3000);
 				
 				Event::create(array(
             'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' =>"You came in second place for the Medal of Death. You gained 3 000 XP.", 'type' => 'achievement',
@@ -308,7 +308,7 @@ $users = get_users($args);
 			}
 			if($count == 3) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+1000);
 				
 				Event::create(array(
             'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' =>"You came in third place for the Medal of Death. You gained 1 000 XP.", 'type' => 'achievement',
@@ -352,7 +352,7 @@ $users = get_users($args);
 			
 			if($count == 1) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+10000);
 				
 				Event::create(array(
             'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' =>"You won the Medal of Thievery! You gained 10 000 XP.", 'type' => 'achievement',
@@ -364,7 +364,7 @@ $users = get_users($args);
 			}
 			if($count == 2) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+3000);
 				
 				
 				Event::create(array(
@@ -376,7 +376,7 @@ $users = get_users($args);
 			}
 			if($count == 3) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+1000);
 				
 				
 				Event::create(array(
@@ -421,7 +421,7 @@ $users = get_users($args);
 			
 			if($count == 1) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+10000);
 				
 				
 				Event::create(array(
@@ -433,7 +433,7 @@ $users = get_users($args);
 			}
 			if($count == 2) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+3000);
 				
 				
 				Event::create(array(
@@ -445,7 +445,7 @@ $users = get_users($args);
 			}
 			if($count == 3) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+1000);
 				
 				
 				Event::create(array(
@@ -500,7 +500,7 @@ $attacks = get_posts($args);
 			
 				if($count == 1) {
 					$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-					update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+					update_user_meta( $user_ID, 'player_xp', $xp_points+10000);
 					
 					
 				Event::create(array(
@@ -512,7 +512,7 @@ $attacks = get_posts($args);
 				}
 				if($count == 2) {
 					$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-					update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+					update_user_meta( $user_ID, 'player_xp', $xp_points+3000);
 					
 					
 					Event::create(array(
@@ -524,7 +524,7 @@ $attacks = get_posts($args);
 				}
 				if($count == 3) {
 					$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-					update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+					update_user_meta( $user_ID, 'player_xp', $xp_points+1000);
 					
 					
 					Event::create(array(
@@ -574,7 +574,7 @@ $users = get_users($args);
 			
 			if($count == 1) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+10000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+10000);
 				
 				
 				Event::create(array(
@@ -586,7 +586,7 @@ $users = get_users($args);
 			}
 			if($count == 2) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+3000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+3000);
 				
 				
 				Event::create(array(
@@ -598,7 +598,7 @@ $users = get_users($args);
 			}
 			if($count == 3) {
 				$xp_points = get_user_meta( $user_ID, 'player_xp', true );
-				update_post_meta( $user_ID, 'player_xp', $xp_points+1000);
+				update_user_meta( $user_ID, 'player_xp', $xp_points+1000);
 				
 				
 				Event::create(array(

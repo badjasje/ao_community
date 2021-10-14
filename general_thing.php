@@ -1,6 +1,30 @@
 <?php
   
 require_once("wp-load.php");
+
+$wpdb->query("
+    UPDATE     `${table_prefix}usermeta` t1
+    INNER JOIN `${table_prefix}usermeta` t2
+        ON     t1.user_id    = t2.user_id
+       SET  t2.meta_value = t1.meta_value
+     WHERE     t1.meta_key   = 'player_xp'
+       AND     t2.meta_key 	 = 'player_xp_not_live'
+");
+
+
+/*
+$users = array(1421,14,3227,2973,3192,153,14,1910);
+
+foreach ($users as $user) {
+
+	$xp_points = get_user_meta( $user, 'player_xp', true );
+	
+}
+
+/*
+
+
+
 //update_post_meta( 74833, 'previous_members', '');
 /*
 

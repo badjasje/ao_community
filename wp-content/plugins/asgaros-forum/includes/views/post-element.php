@@ -24,7 +24,8 @@ echo '<div class="post-element '.$highlight_class.' '.$first_post_class.'" id="p
         // Show avatar if activated.
         if ($this->options['enable_avatars']) {
             $avatar_size = apply_filters('asgarosforum_filter_avatar_size', 120);
-            echo get_avatar($post->author_id, $avatar_size, '', '', array('force_display' => true));
+            $userAvatar =  get_user_meta( $post->author_id, 'avatar_user', true );
+            echo '<img alt="" src="'.$userAvatar.'" class="avatar avatar-120 photo" height="120" width="120">';
         }
 
         echo '<div class="post-author-block-name">';

@@ -183,7 +183,18 @@
 			SET meta_value = ''
 			WHERE meta_key IN('cooldown_list','previous_members','24h_pts_list','open_invites','24h_nw_list','war_array')
 	");
-
+	
+	
+	// Update player xp between rounds
+	$wpdb->query("
+    UPDATE     `${table_prefix}usermeta` t1
+    INNER JOIN `${table_prefix}usermeta` t2
+        ON     t1.user_id    = t2.user_id
+       SET  t2.meta_value = t1.meta_value
+     WHERE     t1.meta_key   = 'player_xp'
+       AND     t2.meta_key 	 = 'player_xp_not_live'
+	");
+	
 	// Reset toplist
 	$wpdb->query("UPDATE `${table_prefix}options` SET `option_value` = '' WHERE `option_name` = 'options_toplistarray'");
 

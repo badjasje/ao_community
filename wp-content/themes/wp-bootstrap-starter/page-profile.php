@@ -69,7 +69,7 @@ if(empty($telegram_key)) {
 				<div class="profileColumn">Land</div> <?=$viewed_province->getLand(true)?>
 			</div>
 			<div class="attackingRow statCol-4">
-				<div class="profileColumn"><a href="/experience-points/"><u>Experience points</u></a></div> <?=$viewed_province->get('player_xp');?>
+				<div class="profileColumn"><a href="/experience-points/"><u>Experience points</u></a></div> <?php echo get_user_meta( $viewed_id, 'player_xp_not_live', true );?>
 			</div>
 			<div class="attackingRow statCol-1 elipOverflow">
 				<div class="profileColumn">Clan</div>

@@ -109,6 +109,7 @@ class Province extends DbObject {
 	    include $_SERVER['DOCUMENT_ROOT'].'/xparray.php';
 
         $num = $xparray[$key]['xp'];
+        
 
         if($key == 'single_achievement'){
             $num = $xp;
@@ -129,7 +130,7 @@ class Province extends DbObject {
 			$damp = 0.8;
 		}
 		// Don't want to see notifications for enemy XP updates
-		if($key != 'unit_defeat' || $key != 'missile_hit'){
+		if($key != 'unit_defeat' || $key != 'missile_hit' || $key != 'unit_attack' || $key != 'defeat_attacking' | $key != 'succesful_defense'    ){
 			$_SESSION['showError'] = "You gained $num experience points";
 		}
         $this->update('player_xp', $oldXP + ($num*$damp));

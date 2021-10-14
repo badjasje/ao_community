@@ -270,7 +270,7 @@ class Units extends DataObject {
             'normalname'	=>	'Rocketeer',
             'attacks'		=>  array('sea','air','bld'),
             'defends'		=>  array('sea','air','bld'),
-            'attack'		=>	35,
+            'attack'		=>	45,
             'type'			=>	'inf',
             'sectype'		=>	'normal',
             'attacktype'	=>	array('ground','regular'),
