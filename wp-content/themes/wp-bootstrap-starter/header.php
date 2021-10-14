@@ -90,8 +90,8 @@ if(!!$province) {
 		12 => array('icon' => 'fas fa-gamepad', 'links' => array(
 			array('url' => 'achievements', 'title' => 'Achievements'),
 		)),
-	
-		
+
+
 	);
 	if(!!$researchInProgress) {
 		$menu[2]['links'][0] = array_merge($menu[2]['links'][0], array(
@@ -159,8 +159,6 @@ $timeLeft = Market::timeLeft();
 					<button class="menu-item dashMobile" type="button"><i class="fas fa-tachometer-alt"></i></button>
 				</a>
 
-				<div><?=$province->getAvatar('menuAvatar')?></div>
-
 				<a href="<?=Request::siteUrl()?>/conversations">
 					<button class="menu-item messagesButton" type="button" >
 						<i class="fas fa-envelope"></i>
@@ -180,11 +178,11 @@ $timeLeft = Market::timeLeft();
 					</button>
 				</a>
 
-				<div class="row topstatheader">
+				<div class="topstatheader">
 					<? foreach($stats as $i => $stat) {
 						$stat['class'] = (!empty($stat['class']) ? $stat['class'] : strtolower($stat['title']));
 						?>
-						<div class="col-md-2 statitem <?=$stat['class']?>wrapper">
+						<div class="statitem <?=$stat['class']?>wrapper">
 							<span class="stattext"<?=(!empty($stat['tooltip'])?' data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.$stat['tooltip'].'"':'')?>>
 								<strong><?=$stat['title']?>:</strong> <span class="<?=$stat['class']?>header"><?=$stat['value']?></span>
 								<?=(!empty($stat['sup'])?'<sup><span class="'.$stat['class'].'sup">'.$stat['sup'].'</span></sup>':'')?>
@@ -193,6 +191,8 @@ $timeLeft = Market::timeLeft();
 						</div>
 					<? } ?>
 				</div>
+
+				<div class="userAvatar"><?=$province->getAvatar('menuAvatar')?></div>
 			<?php } ?>
 		</header>
 
@@ -203,9 +203,9 @@ $timeLeft = Market::timeLeft();
 					$row['url'] = (!isset($row['url']) ? $row['links'][0]['url'] : $row['url']);
 					$firstLink = $row['links'][0];
 					?>
-					<div class="row menuRow <?=($i==0?'hide-menu-icon':'')?>">
-						<div class="col-md-2 col-xs-2 buttonItem">
-							<a href="<?=Request::siteUrl().'/'.$row['url']?>">
+					<div class="menuRow <?=($i==0?'hide-menu-icon':'')?>">
+						<div class="buttonItem">
+							<a href="<?=Request::siteUrl().'/'.$row['url']?>" class="menuIcon">
 								<div data-toggle="tooltip" data-html="true" data-placement="right" title="<?=$firstLink['title']?> <?
 								if(!empty($firstLink['badge'])) {
 									echo '<span class=\'badge badge-secondary\'>'.str_replace('"','\'', $firstLink['badge']).'</span>';
@@ -214,9 +214,9 @@ $timeLeft = Market::timeLeft();
 								</div>
 							</a>
 						</div>
-						<div class="col-md-10 col-xs-10 menuText">
+						<div class="menuText">
 							<? foreach($row['links'] as $link) { ?>
-								<a href="<?=Request::siteUrl().'/'.$link['url']?>" class="marketMenu num-<?=count($row['links'])?>">
+								<a href="<?=Request::siteUrl().'/'.$link['url']?>" class="menuLink">
 									<?=$link['title']?>
 									<? if(!empty($link['badge'])) {
 										if(!empty($link['tooltip'])) {

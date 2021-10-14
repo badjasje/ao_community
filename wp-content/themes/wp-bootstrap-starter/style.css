@@ -253,9 +253,10 @@ table { margin: 0 0 1.5em; width: 100%; }
 .logged-in #page { min-height: 100vh; }
 
 /* Navigation */
-header#masthead { margin-bottom: 0; min-height:41px; position: fixed; z-index: 3; top:0; }
+header#masthead { margin-bottom: 0; min-height:41px; position: fixed; z-index: 3; top:0; display:flex; }
+header#masthead .userAvatar { margin-left: auto; }
 .logged-in header#masthead {  background-color: #000;  }
-#nextbt { background:transparent; float:left; border:none; color:#FFF; height:40px; width:40px; position:relative; outline: none; }
+#nextbt { background:transparent; border:none; color:#FFF; height:40px; width:40px; position:relative; outline: none; }
 #nextbt .open-icon, #nextbt .close-icon {
     position: absolute; top: 50%; left: 50%; display: block; width: 18px; line-height: 18px; margin: -9px 0 0 -9px; font-size: 16px;
     transition: opacity .3s ease-out;
@@ -282,7 +283,6 @@ body:not(.theme-preset-active) #page-sub-header p {
 }
 
 @media screen and (min-width: 768px) {
-    #nextbt { position: absolute; top:0; left:0; }
     body:not(.theme-preset-active) #page-sub-header h1 {
         font-size: 3.750rem;
     }
@@ -638,8 +638,7 @@ body:not(.theme-preset-active) footer#colophon {
 # Media Query
 --------------------------------------------------------------*/
 
-.menu-item{
-    float: left;
+.menu-item {
     width: 41px;
     border: none;
     background-color: #000;
@@ -651,7 +650,7 @@ body:not(.theme-preset-active) footer#colophon {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 9999999999;
+    z-index: 3095;
     top: 0;
     left: 0;
     background-color: #111;
@@ -660,10 +659,12 @@ body:not(.theme-preset-active) footer#colophon {
 }
 
 /* make a tooltip on small menu */
-.sidenav { z-index: 2070; }
-.sidenav .menu-item { float:none; }
-.tooltip { z-index: 2080; }
-.menuOpen .sidenav { width: 36%; min-width: 400px; }
+.tooltip { z-index: 3096; }
+.menuOpen .sidenav { width: 36%; }
+.menuOpen .menuRow { display:flex; }
+.menuRow .menuLink { color:#fff; min-width: 25%; }
+.menuText{ color: #fff; line-height: 41px; font-size: 13px; display: none; text-transform: uppercase; }
+.menuOpen .menuText { display:flex; flex-grow: 1; flex-wrap: wrap; padding-left: 15px; }
 
 .smallAvatar { height: 40px; width: 40px; background: #000; }
 .setAvatar { position:relative; height:40px; width:40px; overflow:hidden; background: #000; }
@@ -685,16 +686,6 @@ body:not(.theme-preset-active) footer#colophon {
 	margin-left:auto;
 	margin-right:auto;
 }
-.menuText{
-	color: #fff;
-    line-height: 41px;
-    margin-left: 0px;
-    font-size: 13px;
-    display: none;
-    text-transform: uppercase;
-}
-.menuOpen .menuText { display:block; }
-.menuRow { height:41px; }
 
 @keyframes globalsPulse {
     from { background-color: #dc3545;  }
@@ -734,12 +725,8 @@ body:not(.theme-preset-active) footer#colophon {
     border-bottom: 1px solid #fff;
 }
 
-.topstatheader{
-	font-size:13px;
-	margin-left:41px;
-	margin-right:0px;
-	height: 41px;
-}
+.topstatheader { display: flex; flex-grow: 1; }
+.topstatheader .statitem { width: calc(100% / 6); }
 .menuAvatar, .eventAvatar {
     height: 41px;
     width: 41px;
@@ -962,13 +949,6 @@ input[type="radio"]:checked + label {
     .statheader{
         display: none ;
     }
-    .menuText {
-        margin-left: 70px;
-        margin-top: -41px;
-    }
-    .messagesButton {
-        margin-left: 41px;
-    }
 }
 @media only screen and (min-width: 1024px) {
     .contentRow{
@@ -983,17 +963,17 @@ input[type="radio"]:checked + label {
 }
 @media only screen and (min-width: 1400px) {
     .sidenav:before { position: absolute; content: ''; display: block; top: 0; width: 41px; bottom: 0; background: #000; }
-    .menuText { margin-left: 56px; padding-right: 0; max-width: 80%; }
     .menuRow a:hover div, .menuText a:hover { text-decoration: underline; }
 
     .menuOpen .contentRow { margin-left: 2.5% !important; width: 95%; }
-    .menuOpen .sidenav { width:500px; min-width: unset; background-color: #313d43; }
-    .menuOpen #content.site-content { margin-left: 500px; }
-    .menuOpen footer#colophon { margin-left: 500px; width: calc(100% - 500px); }
+    .menuOpen .sidenav { width:450px; min-width: unset; background-color: #313d43; }
+    .menuOpen #content.site-content { margin-left: 450px; }
+    .menuOpen footer#colophon { margin-left: 450px; width: calc(100% - 450px); }
 }
 @media only screen and (max-width: 1023px) {
     .footer-nav h4 { margin-top: 10px; }
     body:not(.theme-preset-active) footer#colophon { padding-left: 0; }
+    .menuRow { display:none; }
 	.stattext{
 		margin:0px;
 	}
@@ -1010,11 +990,6 @@ input[type="radio"]:checked + label {
     .sidenav {
         width:0px;
     }
-	.menuText {
-        color: #fff;
-        font-size: 13px;
-        text-transform: uppercase;
-	}
 	.mobileHide{
 		display:none;
 	}
@@ -1025,8 +1000,6 @@ input[type="radio"]:checked + label {
 		width:100%;
 		margin-top:120px;
     }
-    .menuRow { display:none; }
-    .menuOpen .menuRow { display:flex; }
     .hide-menu-icon, .menuOpen .hide-menu-icon {
 		display: none;
 		height:0px;
@@ -1039,12 +1012,6 @@ input[type="radio"]:checked + label {
         width: 100%;
         z-index: 3;
     }  /* also fixed on top */
-}
-@media only screen and (max-width: 768px) {
-    .menuText {
-        margin-left: 70px;
-        margin-top: -41px;
-    }
 }
 
 .statusBlockButtons{
@@ -1109,7 +1076,7 @@ input[type="radio"]:checked + label {
 }
 @media only screen and (max-width: 768px) {
     .col-xs-6 { flex: 0 0 50%; max-width: 50%; }
-    .alert { right:0px !important; z-index:9999999999999 !important; top:120px!important; }
+    .alert { right:0px !important; z-index:3090!important; top:120px!important; }
     .alert-help { top:auto!important; }
     .logged-in .permaNotification { left:0; top: 120px; }
 	.sortMobile{
@@ -1352,21 +1319,7 @@ input[type="radio"]:checked + label {
     text-align: left;
     color: #212529;
 }
-.marketMenu{
-	display: inline-block;
-    width: 32.6%;
-}
-.marketMenu.num-1 { width: 80%; }
-.menuRow a{
-	color:#fff;
-}
-.marketMenu.num-4{
-	width:24.5%;
-}
-.buttonItem{
-	max-width:70px;
-}
-.everythingElse{
+.everythingElse {
 	background-color: #545454;
     border-radius: 0px;
     height: 41px;
