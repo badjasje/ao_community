@@ -74,13 +74,7 @@ function ajax_buildings($province, $return) {
         $province->update('turns', $turns - $turns_needed);
         $province->turn_spread('buildings', $turns_needed);
         
-        $province->updateXP('building',0,$turns_needed);
-        
-         return array_merge($return, array(
-        'success' => true, 'status' => implode(', ', $status), 'maxbuild' => $province->getMaxBuild(), 'buildspace' => $province->getBuildSpace(),
-        'buildmax' => $maxbuild, 'demomax' => $maxdemo, 'owned' => $owned
-		));
-        
+        if($build_num>0) $province->updateXP('building',0,$turns_needed);       
     }
 	
     // Recalculate maxes
@@ -93,5 +87,8 @@ function ajax_buildings($province, $return) {
         $owned[$key] = $building['num'];
     }
 
-   
+    return array_merge($return, array(
+        'success' => true, 'status' => implode(', ', $status), 'maxbuild' => $province->getMaxBuild(), 'buildspace' => $province->getBuildSpace(),
+        'buildmax' => $maxbuild, 'demomax' => $maxdemo, 'owned' => $owned
+	));   
 }
