@@ -22,16 +22,21 @@ div.nsl-container .nsl-container-buttons {
     padding: 5px 0;
 }
 
-div.nsl-container-block .nsl-container-buttons {
+div.nsl-container.nsl-container-block .nsl-container-buttons {
+    display: inline-grid;
+    grid-template-columns: minmax(145px, auto);
+}
+
+div.nsl-container-block-fullwidth .nsl-container-buttons {
     flex-flow: column;
     align-items: center;
 }
 
+div.nsl-container-block-fullwidth .nsl-container-buttons a,
 div.nsl-container-block .nsl-container-buttons a {
     flex: 1 1 auto;
     display: block;
     margin: 5px 0;
-    max-width: 280px;
     width: 100%;
 }
 
@@ -89,6 +94,7 @@ div.nsl-container .nsl-button-svg-container {
     flex: 0 0 auto;
     padding: 8px;
     display: flex;
+    align-items: center;
 }
 
 div.nsl-container svg {
@@ -139,7 +145,7 @@ div.nsl-container .nsl-button-apple .nsl-button-svg-container svg {
 
 div.nsl-container .nsl-button-apple[data-skin="light"] {
     color: #000;
-    box-shadow: inset 0 0 0 1px #000;
+    box-shadow: 0 0 0 1px #000;
 }
 
 div.nsl-container .nsl-button-facebook[data-skin="white"] {
@@ -157,22 +163,25 @@ div.nsl-container .nsl-button-apple div.nsl-button-label-container {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+div.nsl-container .nsl-button-slack div.nsl-button-label-container {
+    font-size: 17px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+div.nsl-container .nsl-button-slack[data-skin="light"] {
+    color: #000000;
+    box-shadow: inset 0 0 0 1px #DDDDDD;
+}
+
 .nsl-clear {
     clear: both;
 }
 
+.nsl-container {
+    clear: both;
+}
+
 /*Button align start*/
-div.nsl-container-block[data-align="left"] .nsl-container-buttons {
-    align-items: flex-start;
-}
-
-div.nsl-container-block[data-align="center"] .nsl-container-buttons {
-    align-items: center;
-}
-
-div.nsl-container-block[data-align="right"] .nsl-container-buttons {
-    align-items: flex-end;
-}
 
 div.nsl-container-inline[data-align="left"] .nsl-container-buttons {
     justify-content: flex-start;
@@ -208,3 +217,68 @@ div.nsl-container-grid[data-align="space-between"] .nsl-container-buttons {
 }
 
 /* Button align end*/
+
+/* Redirect */
+
+#nsl-redirect-overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1000000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(1px);
+    background-color: RGBA(0, 0, 0, .32);;
+}
+
+#nsl-redirect-overlay-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+#nsl-redirect-overlay-spinner {
+    content: '';
+    display: block;
+    margin: 20px;
+    border: 9px solid RGBA(0, 0, 0, .6);
+    border-top: 9px solid #fff;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px RGBA(0, 0, 0, .6), 0 0 0 1px RGBA(0, 0, 0, .6);
+    width: 40px;
+    height: 40px;
+    animation: nsl-loader-spin 2s linear infinite;
+}
+
+@keyframes nsl-loader-spin {
+    0% {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+#nsl-redirect-overlay-title {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    color: #3C434A;
+}
+
+#nsl-redirect-overlay-text {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    text-align: center;
+    font-size: 14px;
+    color: #3C434A;
+}
+
+/* Redirect END*/

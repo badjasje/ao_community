@@ -8,29 +8,33 @@
             $wrongOauthProviders[] = $provider;
         }
     }
+    ?>
 
-    if (count($wrongOauthProviders) === 0) {
-        echo '<div class="updated"><p>' . __('Every Oauth Redirect URI seems fine', 'nextend-facebook-connect') . '</p></div>';
-
-        foreach (NextendSocialLogin::$enabledProviders AS $provider) {
-            $provider->getAdmin()
-                     ->renderOauthChangedInstruction();
-        }
-    } else {
-        ?>
-        <p><?php printf(__('%s detected that your login url changed. You must update the Oauth redirect URIs in the related social applications.', 'nextend-facebook-connect'), '<b>Nextend Social Login</b>'); ?></p>
-
+    <div class="nsl-admin-fix-redirect-uri">
         <?php
-        foreach ($wrongOauthProviders AS $provider) {
-            $provider->getAdmin()
-                     ->renderOauthChangedInstruction();
-        }
-        ?>
+        if (count($wrongOauthProviders) === 0) {
+            echo '<div class="updated"><p>' . __('Every Oauth Redirect URI seems fine', 'nextend-facebook-connect') . '</p></div>';
+
+            foreach (NextendSocialLogin::$enabledProviders AS $provider) {
+                $provider->getAdmin()
+                         ->renderOauthChangedInstruction();
+            }
+        } else {
+            ?>
+            <p><?php printf(__('%s detected that your login url changed. You must update the Oauth redirect URIs in the related social applications.', 'nextend-facebook-connect'), '<b>Nextend Social Login</b>'); ?></p>
+
+            <?php
+            foreach ($wrongOauthProviders AS $provider) {
+                $provider->getAdmin()
+                         ->renderOauthChangedInstruction();
+            }
+            ?>
 
 
-        <a href="<?php echo wp_nonce_url(NextendSocialLoginAdmin::getAdminUrl('update_oauth_redirect_url'), 'nextend-social-login_update_oauth_redirect_url'); ?>" class="button button-primary">
-            <?php _e('Got it', 'nextend-facebook-connect'); ?>
-        </a>
+            <a href="<?php echo wp_nonce_url(NextendSocialLoginAdmin::getAdminUrl('update_oauth_redirect_url'), 'nextend-social-login_update_oauth_redirect_url'); ?>" class="button button-primary">
+                <?php _e('Got it', 'nextend-facebook-connect'); ?>
+            </a>
 
-    <?php } ?>
+        <?php } ?>
+    </div>
 </div>

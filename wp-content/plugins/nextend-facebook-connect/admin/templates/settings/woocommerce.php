@@ -26,6 +26,12 @@ NextendSocialLoginAdmin::showProBox();
                 </label>
                 <label>
                     <input type="radio" name="woocoommerce_form_button_style"
+                           value="fullwidth" <?php if ($settings->get('woocoommerce_form_button_style') == 'fullwidth') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Fullwidth', 'nextend-facebook-connect'); ?></span><br/>
+                    <img src="<?php echo plugins_url('images/buttons/fullwidth.png', NSL_ADMIN_PATH) ?>"/>
+                </label>
+                <label>
+                    <input type="radio" name="woocoommerce_form_button_style"
                            value="icon" <?php if ($settings->get('woocoommerce_form_button_style') == 'icon') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
                     <span><?php _e('Icon', 'nextend-facebook-connect'); ?></span><br/>
                     <img src="<?php echo plugins_url('images/buttons/icon.png', NSL_ADMIN_PATH) ?>"/>
@@ -227,7 +233,7 @@ NextendSocialLoginAdmin::showProBox();
         </td>
     </tr>
 
-    <?php if (class_exists('Objectiv\Plugins\Checkout\Main', false)) { ?>
+    <?php if (defined('CFW_MAIN_FILE')) { ?>
         <!-- Integration for "Checkout for WooCommerce" plugin: -->
         <tr>
             <th scope="row"><?php _e('Checkout for WooCommerce', 'nextend-facebook-connect'); ?></th>
@@ -316,6 +322,21 @@ NextendSocialLoginAdmin::showProBox();
                               value="right" <?php if ($settings->get('woocoommerce_form_button_align') == 'right') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
                     <span><?php _e('Right', 'nextend-facebook-connect'); ?></span></label><br>
             </fieldset>
+        </td>
+    </tr>
+
+    <tr>
+        <th scope="row"><?php _e('Email template for registration', 'nextend-facebook-connect'); ?></th>
+        <td>
+            <fieldset>
+                <label><input type="radio" name="woocoommerce_registration_email_template"
+                              value="default" <?php if ($settings->get('woocoommerce_registration_email_template') == 'default') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('WordPress default notification', 'nextend-facebook-connect'); ?></span></label><br>
+                <label><input type="radio" name="woocoommerce_registration_email_template"
+                              value="woocommerce" <?php if ($settings->get('woocoommerce_registration_email_template') == 'woocommerce') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('WooCommerce registration notification', 'nextend-facebook-connect'); ?></span></label><br>
+            </fieldset>
+            <p class="description"><?php printf(__('Defines whether the registration with %1$s will send the same registration notification that %2$s does, instead of the %3$s default one.', 'nextend-facebook-connect'), '<b>Nextend Social Login</b>', '<b>WooCommerce</b>', '<b>WordPress</b>'); ?></p>
         </td>
     </tr>
 

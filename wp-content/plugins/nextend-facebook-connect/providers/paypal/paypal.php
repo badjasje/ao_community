@@ -2,7 +2,7 @@
 
 class NextendSocialProviderPaypal extends NextendSocialProviderDummy {
 
-    protected $color = '#3b7bbf';
+    protected $color = '#014ea0';
 
     public function __construct() {
         $this->id    = 'paypal';

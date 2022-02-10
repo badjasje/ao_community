@@ -59,7 +59,9 @@ function checkWebView() {
         function _detectBrowser(ua) {
             var android = /Android/.test(ua);
 
-            if (/CriOS/.test(ua)) {
+            if (/Opera Mini/.test(ua) || / OPR/.test(ua) || / OPT/.test(ua)) {
+                return "Opera";
+            } else if (/CriOS/.test(ua)) {
                 return "Chrome for iOS";
             } else if (/Edge/.test(ua)) {
                 return "Edge";
@@ -82,7 +84,11 @@ function checkWebView() {
         }
 
         function _detectBrowserVersion(ua, browser) {
-            if (browser === "Chrome for iOS") {
+            if (browser === "Opera") {
+                return /Opera Mini/.test(ua) ? _getVersion(ua, "Opera Mini/") :
+                    / OPR/.test(ua) ? _getVersion(ua, " OPR/") :
+                        _getVersion(ua, " OPT/");
+            } else if (browser === "Chrome for iOS") {
                 return _getVersion(ua, "CriOS/");
             } else if (browser === "Edge") {
                 return _getVersion(ua, "Edge/");
@@ -165,82 +171,135 @@ function checkWebView() {
     return isWebView;
 }
 
-function isAllowedWebViewForUserAgent() {
+function isAllowedWebViewForUserAgent(provider) {
+    var googleAllowedWebViews = [
+        'Instagram',
+        'FBAV',
+        'FBAN',
+        'Line',
+    ], facebookAllowedWebViews = [
+        'Instagram',
+        'FBAV',
+        'FBAN'
+    ], whitelist = [];
+
+    switch (provider) {
+        case 'facebook':
+            whitelist = facebookAllowedWebViews;
+            break;
+        case 'google':
+            whitelist = googleAllowedWebViews;
+            break;
+    }
+
     var nav = window.navigator || {};
     var ua = nav.userAgent || "";
-    if (/Instagram/.test(ua)) {
-        /*Instagram WebView*/
-        return true;
-    } else if (/FBAV/.test(ua) || /FBAN/.test(ua)) {
-        /*Facebook WebView*/
+
+    if (whitelist.length && ua.match(new RegExp(whitelist.join('|')))) {
         return true;
     }
 
     return false;
 }
 
-window._nsl.push(function ($) {
+window._nslDOMReady(function () {
 
     window.nslRedirect = function (url) {
-        $('<div style="position:fixed;z-index:1000000;left:0;top:0;width:100%;height:100%;"></div>').appendTo('body');
+        if (_redirectOverlay) {
+            var overlay = document.createElement('div');
+            overlay.id = "nsl-redirect-overlay";
+            var overlayHTML = '',
+                overlayContainer = "<div id='nsl-redirect-overlay-container'>",
+                overlayContainerClose = "</div>",
+                overlaySpinner = "<div id='nsl-redirect-overlay-spinner'></div>",
+                overlayTitle = "<p id='nsl-redirect-overlay-title'>" + _localizedStrings.redirect_overlay_title + "</p>",
+                overlayText = "<p id='nsl-redirect-overlay-text'>" + _localizedStrings.redirect_overlay_text + "</p>";
+
+            switch (_redirectOverlay) {
+                case "overlay-only":
+                    break;
+                case "overlay-with-spinner":
+                    overlayHTML = overlayContainer + overlaySpinner + overlayContainerClose;
+                    break;
+                default:
+                    overlayHTML = overlayContainer + overlaySpinner + overlayTitle + overlayText + overlayContainerClose;
+                    break;
+            }
+
+            overlay.insertAdjacentHTML("afterbegin", overlayHTML);
+            document.body.appendChild(overlay);
+        }
+
         window.location = url;
     };
 
     var targetWindow = _targetWindow || 'prefer-popup',
         lastPopup = false;
 
-    $(document.body).on('click', 'a[data-plugin="nsl"][data-action="connect"],a[data-plugin="nsl"][data-action="link"]', function (e) {
-        if (lastPopup && !lastPopup.closed) {
-            e.preventDefault();
-            lastPopup.focus();
-        } else {
 
-            var $target = $(this),
-                href = $target.attr('href'),
-                success = false;
-            if (href.indexOf('?') !== -1) {
-                href += '&';
-            } else {
-                href += '?';
-            }
-            var redirectTo = $target.data('redirect');
-            if (redirectTo === 'current') {
-                href += 'redirect=' + encodeURIComponent(window.location.href) + '&';
-            } else if (redirectTo && redirectTo !== '') {
-                href += 'redirect=' + encodeURIComponent(redirectTo) + '&';
-            }
-
-            if (targetWindow !== 'prefer-same-window' && checkWebView()) {
-                targetWindow = 'prefer-same-window';
-            }
-
-            if (targetWindow === 'prefer-popup') {
-
-                lastPopup = NSLPopup(href + 'display=popup', 'nsl-social-connect', $target.data('popupwidth'), $target.data('popupheight'));
-                if (lastPopup) {
-                    success = true;
-                    e.preventDefault();
-                }
-            } else if (targetWindow === 'prefer-new-tab') {
-                var newTab = window.open(href + 'display=popup', '_blank');
-                if (newTab) {
-                    if (window.focus) {
-                        newTab.focus();
-                    }
-                    success = true;
-                    e.preventDefault();
-                }
-            }
-
-            if (!success) {
-                window.location = href;
+    var buttonLinks = document.querySelectorAll(' a[data-plugin="nsl"][data-action="connect"], a[data-plugin="nsl"][data-action="link"]');
+    buttonLinks.forEach(function (buttonLink) {
+        buttonLink.addEventListener('click', function (e) {
+            if (lastPopup && !lastPopup.closed) {
                 e.preventDefault();
+                lastPopup.focus();
+            } else {
+
+                var href = this.href,
+                    success = false;
+                if (href.indexOf('?') !== -1) {
+                    href += '&';
+                } else {
+                    href += '?';
+                }
+
+                var redirectTo = this.dataset.redirect;
+                if (redirectTo === 'current') {
+                    href += 'redirect=' + encodeURIComponent(window.location.href) + '&';
+                } else if (redirectTo && redirectTo !== '') {
+                    href += 'redirect=' + encodeURIComponent(redirectTo) + '&';
+                }
+
+                if (targetWindow !== 'prefer-same-window' && checkWebView()) {
+                    targetWindow = 'prefer-same-window';
+                }
+
+                if (targetWindow === 'prefer-popup') {
+                    lastPopup = NSLPopup(href + 'display=popup', 'nsl-social-connect', this.dataset.popupwidth, this.dataset.popupheight);
+                    if (lastPopup) {
+                        success = true;
+                        e.preventDefault();
+                    }
+                } else if (targetWindow === 'prefer-new-tab') {
+                    var newTab = window.open(href + 'display=popup', '_blank');
+                    if (newTab) {
+                        if (window.focus) {
+                            newTab.focus();
+                        }
+                        success = true;
+                        e.preventDefault();
+                    }
+                }
+
+                if (!success) {
+                    window.location = href;
+                    e.preventDefault();
+                }
             }
-        }
+        });
     });
 
-    var googleLoginButton = $('a[data-plugin="nsl"][data-provider="google"]');
-    if (googleLoginButton.length && checkWebView() && !isAllowedWebViewForUserAgent()) {
-        googleLoginButton.remove();
+    var googleLoginButtons = document.querySelectorAll(' a[data-plugin="nsl"][data-provider="google"]');
+    if (googleLoginButtons.length && checkWebView() && !isAllowedWebViewForUserAgent('google')) {
+        googleLoginButtons.forEach(function (googleLoginButton) {
+            googleLoginButton.remove();
+        });
+    }
+
+    var facebookLoginButtons = document.querySelectorAll(' a[data-plugin="nsl"][data-provider="facebook"]');
+    if (facebookLoginButtons.length && checkWebView() && /Android/.test(window.navigator.userAgent) && !isAllowedWebViewForUserAgent('facebook')) {
+        facebookLoginButtons.forEach(function (facebookLoginButton) {
+            facebookLoginButton.remove();
+        });
     }
 });

@@ -21,6 +21,13 @@ $users = get_users($args);
 foreach ($users as $user) {
     $userId = $user->data->ID;
     $userData = get_user_meta($userId);
+    
+   
+        
+	if($userData['player_xp'][0] < 0){
+		update_user_meta($userId, 'player_xp', 0);
+	}
+        
 
     $status = $userData['status'][0];
     if($status == 'banned') continue;

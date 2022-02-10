@@ -24,9 +24,9 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
     protected $scopes = array();
 
     public function checkError() {
-        if (isset($_GET['error']) && isset($_GET['error_description'])) {
+        if (isset($_REQUEST['error']) && isset($_REQUEST['error_description'])) {
             if ($this->validateState()) {
-                throw new Exception($_GET['error'] . ': ' . htmlspecialchars_decode($_GET['error_description']));
+                throw new Exception($_REQUEST['error'] . ': ' . htmlspecialchars_decode($_REQUEST['error_description']));
             }
         }
     }
@@ -83,6 +83,8 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
         if (count($scopes)) {
             $args['scope'] = urlencode($this->formatScopes($scopes));
         }
+
+        $args = apply_filters('nsl_' . $this->providerID . '_auth_url_args', $args);
 
         return add_query_arg($args, $this->getEndpointAuthorization());
     }

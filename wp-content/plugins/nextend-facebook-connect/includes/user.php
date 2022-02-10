@@ -16,6 +16,8 @@ class NextendSocialUser {
 
     protected $user_id;
 
+    protected $shouldAutoLogin = false;
+
     /**
      * NextendSocialUser constructor.
      *
@@ -74,12 +76,12 @@ class NextendSocialUser {
                     Notices::addSuccess(sprintf(__('Your %1$s account is successfully linked with your account. Now you can sign in with %2$s easily.', 'nextend-facebook-connect'), $this->provider->getLabel(), $this->provider->getLabel()));
                 } else {
 
-                    Notices::addError(sprintf(__('You have already linked a(n) %s account. Please unlink the current and then you can link other %s account.', 'nextend-facebook-connect'), $this->provider->getLabel(), $this->provider->getLabel()));
+                    Notices::addError(sprintf(__('You have already linked a(n) %s account. Please unlink the current and then you can link another %s account.', 'nextend-facebook-connect'), $this->provider->getLabel(), $this->provider->getLabel()));
                 }
 
             } else if ($current_user->ID != $user_id) {
 
-                Notices::addError(sprintf(__('This %s account is already linked to other user.', 'nextend-facebook-connect'), $this->provider->getLabel()));
+                Notices::addError(sprintf(__('This %s account is already linked to another user.', 'nextend-facebook-connect'), $this->provider->getLabel()));
             }
         }
     }
@@ -107,6 +109,12 @@ class NextendSocialUser {
         } else {
             $user_id = email_exists($email);
         }
+
+        /**
+         * Can be used for overriding the account where the social account should be automatically linked to.
+         */
+        $user_id = apply_filters('nsl_match_social_account_to_user_id', $user_id, $this, $this->provider);
+
         if ($user_id === false) { // Real register
             if (apply_filters('nsl_is_register_allowed', true, $this->provider)) {
                 $this->register($providerUserID, $email);
@@ -115,15 +123,51 @@ class NextendSocialUser {
                 Persistent::delete($this->provider->getId() . '_at');
                 Persistent::delete($this->provider->getId() . '_state');
 
+                $registerDisabledMessage     = apply_filters('nsl_disabled_register_error_message', '');
+                $registerDisabledRedirectURL = apply_filters('nsl_disabled_register_redirect_url', '');
+
+                $nslLoginUrl            = NextendSocialLogin::getLoginUrl();
+                $defaultDisabledMessage = __('User registration is currently not allowed.');
 
                 $proxyPage = NextendSocialLogin::getProxyPage();
                 if ($proxyPage) {
+                    if (empty($registerDisabledMessage) && $registerDisabledMessage !== false) {
+                        /**
+                         * There is no custom message and proxy page is used, so we need to inform the user with our own message.
+                         */
+                        $registerDisabledMessage = $defaultDisabledMessage;
+                    }
+                } else {
+                    if (empty($registerDisabledMessage) && $registerDisabledMessage !== false) {
+                        if (!empty($registerDisabledRedirectURL)) {
+                            /**
+                             * There is no custom message and it is a custom redirect url, so we need to inform the user with our own message.
+                             */
+                            $registerDisabledMessage = $defaultDisabledMessage;
+                        }
+                    } else {
+                        if (empty($registerDisabledRedirectURL)) {
+                            /**
+                             * By default WordPress displays an error message if the $_GET['registration'] is set to "disabled"
+                             * To avoid displaying the default and the custom error message, the url should not contain it.
+                             */
+                            $registerDisabledRedirectURL = $nslLoginUrl;
+                        }
+                    }
+                }
+
+                if (!empty($registerDisabledMessage)) {
                     $errors = new WP_Error();
-                    $errors->add('registerdisabled', apply_filters('nsl_disabled_register_error_message', __('User registration is currently not allowed.')));
+                    $errors->add('registerdisabled', $registerDisabledMessage);
                     Notices::addError($errors->get_error_message());
                 }
 
-                NextendSocialProvider::redirect(__('Authentication error', 'nextend-facebook-connect'), apply_filters('nsl_disabled_register_redirect_url', add_query_arg('registration', 'disabled', NextendSocialLogin::getLoginUrl())));
+                if (empty($registerDisabledRedirectURL)) {
+                    $registerDisabledRedirectURL = add_query_arg('registration', 'disabled', $nslLoginUrl);
+                }
+
+
+                NextendSocialProvider::redirect(__('Authentication error', 'nextend-facebook-connect'), NextendSocialLogin::enableNoticeForUrl($registerDisabledRedirectURL));
                 exit;
             }
 
@@ -278,7 +322,7 @@ class NextendSocialUser {
                 Persistent::delete($this->provider->getId() . '_state');
 
                 Notices::addError($errors);
-                $this->redirectToLastLocationLogin();
+                $this->redirectToLastLocationLogin(true);
             }
         }
 
@@ -295,6 +339,13 @@ class NextendSocialUser {
             $this,
             'registerComplete'
         ), 31);
+
+        $autoLoginPriority = apply_filters('nsl_autologin_priority', 40);
+        add_action('user_register', array(
+            $this,
+            'doAutoLogin'
+        ), $autoLoginPriority);
+
 
         $this->userExtraData = $userData;
 
@@ -339,7 +390,7 @@ class NextendSocialUser {
         if (is_wp_error($error)) {
 
             Notices::addError($error);
-            $this->redirectToLastLocationLogin();
+            $this->redirectToLastLocationLogin(true);
 
         } else if ($error === 0) {
             $this->registerError();
@@ -379,12 +430,12 @@ class NextendSocialUser {
             if (NextendSocialLogin::$settings->get('store_name') == 1) {
                 $first_name = $this->getAuthUserData('first_name');
                 if (!empty($first_name)) {
-                    add_user_meta($user_id, 'billing_first_name', $first_name);
+                    update_user_meta($user_id, 'billing_first_name', $first_name);
                 }
 
                 $last_name = $this->getAuthUserData('last_name');
                 if (!empty($last_name)) {
-                    add_user_meta($user_id, 'billing_last_name', $last_name);
+                    update_user_meta($user_id, 'billing_last_name', $last_name);
                 }
             }
         }
@@ -423,7 +474,11 @@ class NextendSocialUser {
                 $this,
                 'um_get_loginpage'
             ));
-            do_action('um_user_register', $user_id, array());
+            do_action('um_user_register', $user_id, array(
+                'submitted' => array(
+                    'timestamp' => current_time('timestamp')
+                )
+            ));
         }
 
 
@@ -432,7 +487,7 @@ class NextendSocialUser {
             update_user_meta($user_id, 'wcemailverified', 'true');
         }
 
-        $this->login($user_id);
+        $this->shouldAutoLogin = true;
 
         return true;
     }
@@ -536,9 +591,30 @@ class NextendSocialUser {
             }
 
             $this->finishLogin();
+        } else {
+            $this->provider->deleteLoginPersistentData();
+            $loginDisabledMessage     = apply_filters('nsl_disabled_login_error_message', '');
+            $loginDisabledRedirectURL = apply_filters('nsl_disabled_login_redirect_url', '');
+            if (!empty($loginDisabledMessage)) {
+                Notices::clear();
+                $errors = new WP_Error();
+                $errors->add('logindisabled', $loginDisabledMessage);
+                Notices::addError($errors->get_error_message());
+            }
+
+            if (!empty($loginDisabledRedirectURL)) {
+                NextendSocialProvider::redirect(__('Authentication error', 'nextend-facebook-connect'), NextendSocialLogin::enableNoticeForUrl($loginDisabledRedirectURL));
+            }
+
         }
 
         $this->provider->redirectToLoginForm();
+    }
+
+    public function doAutoLogin($user_id) {
+        if ($this->shouldAutoLogin) {
+            $this->login($user_id);
+        }
     }
 
     public function wp_redirect_filter($redirect) {
@@ -559,8 +635,10 @@ class NextendSocialUser {
      * -the Fixed redirect url if it is set
      * -where the login happened if redirect is specified in the url
      * -the Default redirect url if it is set, and if redirect was not specified in the url
+     *
+     * @param bool $notice
      */
-    public function redirectToLastLocationLogin() {
+    public function redirectToLastLocationLogin($notice = false) {
 
         if (NextendSocialLogin::$settings->get('redirect_prevent_external') == 0) {
             add_filter('nsl_' . $this->provider->getId() . 'default_last_location_redirect', array(
@@ -569,7 +647,7 @@ class NextendSocialUser {
             ), 9, 2);
         }
 
-        $this->provider->redirectToLastLocation();
+        $this->provider->redirectToLastLocation($notice);
     }
 
     /**
@@ -595,7 +673,14 @@ class NextendSocialUser {
         $isAutoLinkAllowed = true;
         $isAutoLinkAllowed = apply_filters('nsl_' . $this->provider->getId() . '_auto_link_allowed', $isAutoLinkAllowed, $this->provider, $user_id);
         if ($isAutoLinkAllowed) {
-            return $this->provider->linkUserToProviderIdentifier($user_id, $providerUserID);
+            $isLinkSuccessful = $this->provider->linkUserToProviderIdentifier($user_id, $providerUserID);
+            if ($isLinkSuccessful) {
+                return $isLinkSuccessful;
+            } else {
+                $this->provider->deleteLoginPersistentData();
+                $alreadyLinkedMessage = apply_filters('nsl_already_linked_error_message', sprintf(__('We found a user with your %1$s email address. Unfortunately it belongs to a different %1$s account, so we are unable to log you in. Please use the linked %1$s account or log in with your password!', 'nextend-facebook-connect'), $this->provider->getLabel()));
+                Notices::addError($alreadyLinkedMessage);
+            }
         }
 
         return false;

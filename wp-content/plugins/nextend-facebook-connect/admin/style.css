@@ -300,6 +300,10 @@
     padding: 20px 0;
 }
 
+.nsl-admin-getting-started, .nsl-admin-fix-redirect-uri {
+    max-width: 65em;
+}
+
 .nsl-box {
     max-width: 500px;
     padding: 30px;

@@ -2,7 +2,7 @@
 
 class NextendSocialProviderWordpress extends NextendSocialProviderDummy {
 
-    protected $color = '#21759b';
+    protected $color = '#3499cd';
 
     public function __construct() {
         $this->id    = 'wordpress';

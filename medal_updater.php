@@ -7,8 +7,32 @@ $gameType = get_field('game_type','option');
 if(in_array($gameType, array('Development'))) { // Just me on dev.
     $extra_args = array('include' => array(2,2768));
 }
+$timestamp = current_time('timestamp');
 
-$args = array_merge($extra_args, array('meta_key' => 'land', 'orderby' => 'meta_value_num', 'order' => 'DESC'));
+$args = array(
+	
+    'meta_query' => array(
+	    'relation' => 'AND',
+        array(
+            'key' => 'land',
+            'value' => 0,
+            'compare' => '>',
+            'type'      => 'numeric',
+            
+        ),
+        array(
+            'key' => 'last_online',
+            'value' => $timestamp-1728000,
+            'compare' => '>',
+            'type'      => 'numeric'
+        )
+    ),
+    'orderby' => 'meta_value_num',
+	'order' => 'DESC'
+    
+);
+
+
 $users = get_users($args);
 $position = 0;
 foreach ($users as $key => $user) {
@@ -33,7 +57,32 @@ foreach ($users as $key => $user) {
 }
 
 
-$args = array_merge($extra_args, array('meta_key' => 'user_clan_points', 'orderby' => 'meta_value_num', 'order' => 'DESC'));
+//$args = array_merge($extra_args, array('meta_key' => 'user_clan_points', 'orderby' => 'meta_value_num', 'order' => 'DESC'));
+
+$args = array(
+	
+    'meta_query' => array(
+	    'relation' => 'AND',
+        array(
+            'key' => 'user_clan_points',
+            'value' => 0,
+            'compare' => '>',
+            'type'      => 'numeric',
+            
+        ),
+        array(
+            'key' => 'last_online',
+            'value' => $timestamp-1728000,
+            'compare' => '>',
+            'type'      => 'numeric'
+        )
+    ),
+    'orderby' => 'meta_value_num',
+	'order' => 'DESC'
+    
+);
+
+
 $users = get_users($args);
 $position = 0;
 foreach ($users as $key => $user) {
@@ -58,7 +107,34 @@ foreach ($users as $key => $user) {
 }
 
 
-$args = array_merge($extra_args, array('meta_key' => 'networth', 'orderby' => 'meta_value_num', 'order'=> 'DESC'));
+//$args = array_merge($extra_args, array('meta_key' => 'networth', 'orderby' => 'meta_value_num', 'order'=> 'DESC'));
+
+
+$args = array(
+	
+    'meta_query' => array(
+	    'relation' => 'AND',
+        array(
+            'key' => 'networth',
+            'value' => 0,
+            'compare' => '>',
+            'type'      => 'numeric',
+            
+        ),
+        array(
+            'key' => 'last_online',
+            'value' => $timestamp-1728000,
+            'compare' => '>',
+            'type'      => 'numeric'
+        )
+    ),
+    'orderby' => 'meta_value_num',
+	'order' => 'DESC'
+    
+);
+
+
+
 $users = get_users($args);
 $position = 0;
 foreach ($users as $key => $user) {
@@ -83,7 +159,35 @@ foreach ($users as $key => $user) {
 }
 
 
-$args = array_merge($extra_args, array('meta_key' => 'in_war_attacks', 'orderby' => 'meta_value_num', 'order' => 'DESC'));
+//$args = array_merge($extra_args, array('meta_key' => 'in_war_attacks', 'orderby' => 'meta_value_num', 'order' => 'DESC'));
+
+
+
+$args = array(
+	
+    'meta_query' => array(
+	    'relation' => 'AND',
+        array(
+            'key' => 'in_war_attacks',
+            'value' => 0,
+            'compare' => '>',
+            'type'      => 'numeric',
+            
+        ),
+        array(
+            'key' => 'last_online',
+            'value' => $timestamp-1728000,
+            'compare' => '>',
+            'type'      => 'numeric'
+        )
+    ),
+    'orderby' => 'meta_value_num',
+	'order' => 'DESC'
+    
+);
+
+
+
 $users = get_users($args);
 $position = 0;
 foreach ($users as $key => $user) {
@@ -108,7 +212,35 @@ foreach ($users as $key => $user) {
 }
 
 
-$args = array_merge($extra_args, array('meta_key' => 'kills_made', 'orderby' => 'meta_value_num', 'order' => 'DESC'));
+//$args = array_merge($extra_args, array('meta_key' => 'kills_made', 'orderby' => 'meta_value_num', 'order' => 'DESC'));
+
+
+
+$args = array(
+	
+    'meta_query' => array(
+	    'relation' => 'AND',
+        array(
+            'key' => 'kills_made',
+            'value' => 0,
+            'compare' => '>',
+            'type'      => 'numeric',
+            
+        ),
+        array(
+            'key' => 'last_online',
+            'value' => $timestamp-1728000,
+            'compare' => '>',
+            'type'      => 'numeric'
+        )
+    ),
+    'orderby' => 'meta_value_num',
+	'order' => 'DESC'
+    
+);
+
+
+
 $users = get_users($args);
 $position = 0;
 foreach ($users as $key => $user) {
@@ -133,7 +265,35 @@ foreach ($users as $key => $user) {
 }
 
 
-$args = array_merge($extra_args, array('meta_key' => 'money_gained_thieving', 'orderby' => 'meta_value_num', 'order' => 'DESC'));
+//$args = array_merge($extra_args, array('meta_key' => 'money_gained_thieving', 'orderby' => 'meta_value_num', 'order' => 'DESC'));
+
+
+
+$args = array(
+	
+    'meta_query' => array(
+	    'relation' => 'AND',
+        array(
+            'key' => 'money_gained_thieving',
+            'value' => 0,
+            'compare' => '>',
+            'type'      => 'numeric',
+            
+        ),
+        array(
+            'key' => 'last_online',
+            'value' => $timestamp-1728000,
+            'compare' => '>',
+            'type'      => 'numeric'
+        )
+    ),
+    'orderby' => 'meta_value_num',
+	'order' => 'DESC'
+    
+);
+
+
+
 $users = get_users($args);
 $position = 0;
 foreach ($users as $key => $user) {
@@ -158,7 +318,33 @@ foreach ($users as $key => $user) {
 }
 
 
-$args = array_merge($extra_args, array('meta_key' => 'nw_damage_missiles_war', 'orderby' => 'meta_value_num', 'order' => 'DESC'));
+//$args = array_merge($extra_args, array('meta_key' => 'nw_damage_missiles_war', 'orderby' => 'meta_value_num', 'order' => 'DESC'));
+
+
+$args = array(
+	
+    'meta_query' => array(
+	    'relation' => 'AND',
+        array(
+            'key' => 'nw_damage_missiles_war',
+            'value' => 0,
+            'compare' => '>',
+            'type'      => 'numeric',
+            
+        ),
+        array(
+            'key' => 'last_online',
+            'value' => $timestamp-1728000,
+            'compare' => '>',
+            'type'      => 'numeric'
+        )
+    ),
+    'orderby' => 'meta_value_num',
+	'order' => 'DESC'
+    
+);
+
+
 $users = get_users($args);
 $position = 0;
 foreach ($users as $key => $user) {

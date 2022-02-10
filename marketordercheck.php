@@ -17,7 +17,8 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
     foreach ($users as $user) {
         $user_ID = $user->ID;
         $province = Province::make($user_ID);
-
+        
+       
         // Check power level
         $power = $province->getPower();
         $buildings = $province->getBuildings();
@@ -220,6 +221,22 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
 			$province->updateXP('single_achievement',0,$xp);
 			
 			} // end 20000 units check
+			
+			
+			$targetNo = 30000;
+			if($units >= $targetNo && $achievements[$targetNo.'_units'] == 0 && $key == $targetNo.'_units') {
+			
+			$eventMsg = $singleAchievement['event_message'];
+			$xp = $singleAchievement['xp'];
+			Event::create(array(
+            'title' => 'Achievement for '.$user_ID, 'author' => $user_ID, 'outcome' => $eventMsg, 'type' => 'achievement',
+            'defender_id' => $user_ID, 'attacker_id' => $user_ID
+        ), $user_ID);
+        
+        	$achievements[$key] = 1;
+			$province->updateXP('single_achievement',0,$xp);
+			
+			} // end 30000 units check
 
 			$targetNo = 50;
 			if($buildings >= $targetNo && $achievements[$targetNo.'_buildings'] == 0 && $key == $targetNo.'_buildings') {

@@ -100,6 +100,32 @@ class Units extends DataObject {
             'attacktype'	=>	array('air_sea','regular'),
             'life'			=>	93
         ),
+        
+        //NEW
+        'unit_1' 	=> array(
+            'price'			=>	'500',
+            'networth'		=>	11,
+            'normalname'	=>	'F-22 Raptor',
+            'attacks'		=>  array('sea','air'),
+            'defends'		=>  array('sea','air'),
+            'attack'		=>	36,
+            'type'			=>	'air',
+            'sectype'		=>	'normal',
+            'attacktype'	=>	array('air_sea','regular'),
+            'life'			=>	30
+        ),
+        'unit_2' 	=> array(
+            'price'			=>	'860',
+            'networth'		=>	11,
+            'normalname'	=>	'F-18 Fighter Hornet',
+            'attacks'		=>  array('bld','air'),
+            'defends'		=>  array('air'),
+            'attack'		=>	60,
+            'type'			=>	'air',
+            'sectype'		=>	'normal',
+            'attacktype'	=>	array('air_sea','regular'),
+            'life'			=>	45
+        ),
 
         /// VEHICLES ///
         'sam' 		=> array(
@@ -153,7 +179,7 @@ class Units extends DataObject {
         'm70mlrs' 			=> array(
             'price'			=>	'755',
             'networth'		=>	11,
-            'normalname'	=>	'Apocalypse Tank',
+            'normalname'	=>	'SAM Tank',
             'attacks'		=>  array('air'),
             'defends'		=>  array('air'),
             'attack'		=>	65,
@@ -174,6 +200,35 @@ class Units extends DataObject {
             'attacktype'	=>	array('ground','regular'),
             'life'			=>	85
         ),
+        //NEW
+        
+        'unit_3' 		=> array(
+            'price'			=>	'440',
+            'networth'		=>	11,
+            'normalname'	=>	'K2 Black Panthers',
+            'attacks'		=>  array('veh','inf'),
+            'defends'		=>  array('veh','inf'),
+            'attack'		=>	32,
+            'type'			=>	'veh',
+            'sectype'		=>	'normal',
+            'attacktype'	=>	array('ground','regular'),
+            'life'			=>	27
+        ),
+        
+         'unit_4' 		=> array(
+            'price'			=>	'695',
+            'networth'		=>	11,
+            'normalname'	=>	'M1 Abram Tank',
+            'attacks'		=>  array('veh','bld'),
+            'defends'		=>  array('veh'),
+            'attack'		=>	50,
+            'type'			=>	'veh',
+            'sectype'		=>	'normal',
+            'attacktype'	=>	array('ground','regular'),
+            'life'			=>	40
+        ),
+        
+        
 
         /// INFANTRY ///
         'thief' 		=> array(
@@ -269,8 +324,8 @@ class Units extends DataObject {
             'networth'		=>	11,
             'normalname'	=>	'Rocketeer',
             'attacks'		=>  array('sea','air','bld'),
-            'defends'		=>  array('sea','air','bld'),
-            'attack'		=>	45,
+            'defends'		=>  array('sea','air'),
+            'attack'		=>	37,
             'type'			=>	'inf',
             'sectype'		=>	'normal',
             'attacktype'	=>	array('ground','regular'),
@@ -300,7 +355,35 @@ class Units extends DataObject {
             'attacktype'	=>	array('ground','regular'),
             'life'			=>	33
         ),
-
+        
+        //NEW
+        
+        'unit_5' 		=> array(
+            'price'			=>	'325',
+            'networth'		=>	11,
+            'normalname'	=>	'Machine Gunners',
+            'attacks'		=>  array('air','inf'),
+            'defends'		=>  array('air','inf'),
+            'attack'		=>	22,
+            'type'			=>	'inf',
+            'sectype'		=>	'normal',
+            'attacktype'	=>	array('ground','regular'),
+            'life'			=>	16
+        ),
+        
+        'unit_6' 		=> array(
+            'price'			=>	'440',
+            'networth'		=>	11,
+            'normalname'	=>	'Cyborg Commando',
+            'attacks'		=>  array('inf','bld'),
+            'defends'		=>  array('inf'),
+            'attack'		=>	30,
+            'type'			=>	'inf',
+            'sectype'		=>	'normal',
+            'attacktype'	=>	array('ground','regular'),
+            'life'			=>	25
+        ),
+	
         /// SEA ///
         'submarine' 		=> array(
             'price'			=>	'950',
@@ -373,6 +456,32 @@ class Units extends DataObject {
             'sectype'		=>	'bk',
             'attacktype'	=>	array('air_sea'),
             'life'			=>	145
+        ),
+        
+        //NEW
+        'unit_7'	 		=> array(
+            'price'			=>	'975',
+            'networth'		=>	11,
+            'normalname'	=>	'Stealth Boat',
+            'attacks'		=>  array('veh','sea'),
+            'defends'		=>  array('veh','sea'),
+            'attack'		=>	70,
+            'type'			=>	'sea',
+            'sectype'		=>	'normal',
+            'attacktype'	=>	array('air_sea'),
+            'life'			=>	55
+        ),
+        'unit_8'	 		=> array(
+            'price'			=>	'1450',
+            'networth'		=>	11,
+            'normalname'	=>	'USS Zumwalt',
+            'attacks'		=>  array('sea','bld'),
+            'defends'		=>  array('sea'),
+            'attack'		=>	110,
+            'type'			=>	'sea',
+            'sectype'		=>	'normal',
+            'attacktype'	=>	array('air_sea'),
+            'life'			=>	90
         ),
     );
 }

@@ -53,6 +53,12 @@ NextendSocialLoginAdmin::showProBox();
                 </label>
                 <label>
                     <input type="radio" name="userpro_login_form_button_style"
+                           value="fullwidth" <?php if ($settings->get('userpro_login_form_button_style') == 'fullwidth') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Fullwidth', 'nextend-facebook-connect'); ?></span><br/>
+                    <img src="<?php echo plugins_url('images/buttons/fullwidth.png', NSL_ADMIN_PATH) ?>"/>
+                </label>
+                <label>
+                    <input type="radio" name="userpro_login_form_button_style"
                            value="icon" <?php if ($settings->get('userpro_login_form_button_style') == 'icon') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
                     <span><?php _e('Icon', 'nextend-facebook-connect'); ?></span><br/>
                     <img src="<?php echo plugins_url('images/buttons/icon.png', NSL_ADMIN_PATH) ?>"/>
@@ -101,6 +107,12 @@ NextendSocialLoginAdmin::showProBox();
                            value="default" <?php if ($settings->get('userpro_register_form_button_style') == 'default') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
                     <span><?php _e('Default', 'nextend-facebook-connect'); ?></span><br/>
                     <img src="<?php echo plugins_url('images/buttons/default.png', NSL_ADMIN_PATH) ?>"/>
+                </label>
+                <label>
+                    <input type="radio" name="userpro_register_form_button_style"
+                           value="fullwidth" <?php if ($settings->get('userpro_register_form_button_style') == 'fullwidth') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Fullwidth', 'nextend-facebook-connect'); ?></span><br/>
+                    <img src="<?php echo plugins_url('images/buttons/fullwidth.png', NSL_ADMIN_PATH) ?>"/>
                 </label>
                 <label>
                     <input type="radio" name="userpro_register_form_button_style"

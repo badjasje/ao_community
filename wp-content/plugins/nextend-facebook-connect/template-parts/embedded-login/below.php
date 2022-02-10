@@ -1,14 +1,15 @@
 <script type="text/javascript">
-    window._nsl.push(function ($) {
-        $(document).ready(function () {
-            var $container = $('#<?php echo $containerID; ?>');
-            $container.find('.nsl-container')
-                .addClass('nsl-container-embedded-login-layout-below')
-                .css('display', 'block');
+    window._nslDOMReady(function () {
+        var container = document.getElementById('<?php echo $containerID; ?>'),
+            form = container.closest('form');
 
-            $container
-                .appendTo($container.closest('form'));
-        });
+        var innerContainer = container.querySelector('.nsl-container');
+        if (innerContainer) {
+            innerContainer.classList.add('nsl-container-embedded-login-layout-below');
+            innerContainer.style.display = 'block';
+        }
+
+        form.appendChild(container);
     });
 </script>
 <?php
@@ -17,7 +18,7 @@ $style = '
         display: none;
     }
 
-    {{containerID}} .nsl-container-login-layout-below {
+    {{containerID}} .nsl-container-embedded-login-layout-below {
         clear: both;
         padding: 20px 0 0;
     }
@@ -35,8 +36,3 @@ $style = '
         display: block;
     }';
 ?>
-<noscript>
-    <style type="text/css">
-        <?php echo str_replace('{{containerID}}','#' . $containerID, $style); ?>
-    </style>
-</noscript>

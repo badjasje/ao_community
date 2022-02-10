@@ -115,9 +115,11 @@ class NextendSocialLoginAdmin {
 
     public static function admin_init() {
 
-        require_once(dirname(__FILE__).'/sale.php');
-
         if (current_user_can('manage_options')) {
+            if (!defined('NSL_PRO_PATH')) {
+                require_once(dirname(__FILE__) . '/notice.php');
+            }
+
             if (!isset($_GET['page']) || $_GET['page'] != 'nextend-social-login' || !isset($_GET['view']) || $_GET['view'] != 'fix-redirect-uri') {
                 add_action('admin_notices', 'NextendSocialLoginAdmin::show_oauth_uri_notice');
             }
@@ -171,7 +173,7 @@ class NextendSocialLoginAdmin {
                         break;
                     case 'update_oauth_redirect_url':
                         if (check_admin_referer('nextend-social-login_update_oauth_redirect_url')) {
-                            foreach (NextendSocialLogin::$enabledProviders AS $provider) {
+                            foreach (NextendSocialLogin::$enabledProviders as $provider) {
                                 $provider->updateOauthRedirectUrl();
                             }
                         }
@@ -219,11 +221,28 @@ class NextendSocialLoginAdmin {
             'NextendSocialLoginAdmin',
             'display_post_states'
         ), 10, 2);
+
+        if (defined('WPML_PLUGIN_BASENAME')) {
+            add_action('nsl_getting_started_warnings', array(
+                'NextendSocialLoginAdmin',
+                'show_WPML_warning'
+            ));
+            add_filter('nsl_redirect_uri_override', array(
+                'NextendSocialLoginAdmin',
+                'WPML_override_provider_redirect_uris'
+            ), 10, 2);
+
+        };
+
+        add_action('nsl_getting_started_warnings', array(
+            'NextendSocialLoginAdmin',
+            'show_getting_started_warning'
+        ), 100, 2);
     }
 
     public static function save_form_data() {
         if (current_user_can('manage_options') && check_admin_referer('nextend-social-login')) {
-            foreach ($_POST AS $k => $v) {
+            foreach ($_POST as $k => $v) {
                 if (is_string($v)) {
                     $_POST[$k] = stripslashes($v);
                 }
@@ -338,6 +357,7 @@ class NextendSocialLoginAdmin {
                 case 'debug':
                 case 'login_restriction':
                 case 'avatars_in_all_media':
+                case 'custom_register_label':
                 case 'terms_show':
                 case 'store_name':
                 case 'store_email':
@@ -361,6 +381,7 @@ class NextendSocialLoginAdmin {
                 case 'show_registration_form':
                 case 'show_embedded_login_form':
                 case 'embedded_login_form_button_align':
+                case 'redirect_overlay':
                     $newData[$key] = sanitize_text_field($value);
                     break;
                 case 'enabled':
@@ -574,7 +595,7 @@ class NextendSocialLoginAdmin {
     }
 
     public static function show_oauth_uri_notice() {
-        foreach (NextendSocialLogin::$enabledProviders AS $provider) {
+        foreach (NextendSocialLogin::$enabledProviders as $provider) {
             if (!$provider->checkOauthRedirectUrl()) {
                 echo '<div class="error">
                         <p>' . sprintf(__('%s detected that your login url changed. You must update the Oauth redirect URIs in the related social applications.', 'nextend-facebook-connect'), '<b>Nextend Social Login</b>') . '</p>
@@ -761,5 +782,242 @@ class NextendSocialLoginAdmin {
         }
 
         return $post_states;
+    }
+
+    public static function show_WPML_warning() {
+        printf(__('<strong><u>Warning</u></strong>: You are using <b>%1$s</b>! Depending on your %1$s configuration the Redirect URI can be different. For more information please check our %2$s %1$s compatibility tutorial%3$s!', 'nextend-facebook-connect'), 'WPML', '<a href="https://nextendweb.com/nextend-social-login-docs/how-to-make-nextend-social-login-compatible-with-wpml/" target="_blank">', '</a>');
+    }
+
+    /**
+     * @param array                 $redirectUrls
+     * @param NextendSocialProvider $provider
+     *
+     * Used for:
+     * -overriding the redirect url with the language specific redirect URLs in provider Getting Started
+     * sections.
+     * -generating language specific redirect urls for the OAuth check warning.
+     *
+     * @return array
+     */
+    public static function WPML_override_provider_redirect_uris($redirectUrls, $provider) {
+
+        $addArg = true;
+        if ($provider->oauthRedirectBehavior !== 'default') {
+            /**
+             * We shouldn't add any query parameters into the redirect url if:
+             * -query parameters are not supported in the redirect uri
+             * -or the redirect is handled over the REST /redirect_uri endpoint of the provider.
+             */
+            $addArg = false;
+        }
+
+
+        global $sitepress;
+        if ($sitepress && method_exists($sitepress, 'get_active_languages')) {
+            $WPML_active_languages = $sitepress->get_active_languages();
+            if (count($WPML_active_languages) > 1 && defined('ICL_LANGUAGE_CODE')) {
+                $originalLanguageCode      = ICL_LANGUAGE_CODE;
+                $defaultLanguageCode       = self::get_default_WPML_language_code();
+                $languageCodeWasOverridden = false;
+
+                $converted_URLs = array();
+                $args           = array('loginSocial' => $provider->getId());
+
+
+                if ($provider->oauthRedirectBehavior !== 'rest_redirect') {
+                    $proxyPage = NextendSocialLogin::getProxyPage();
+
+                    if ($proxyPage) {
+                        /**
+                         * OAuth flow handled over OAuth redirect uri proxy page
+                         * This needs to be handled differently than /wp-login.php URLs, because in these cases
+                         * the slug of the translated OAuth redirect uri proxy page can be different as well!
+                         */
+
+                        foreach ($WPML_active_languages as $lang) {
+                            $convertedURL = get_permalink(apply_filters('wpml_object_id', $proxyPage, 'page', false, $lang['code']));
+                            if ($convertedURL) {
+                                if ($addArg) {
+                                    $convertedURL = add_query_arg($args, $convertedURL);
+                                } else {
+                                    /**
+                                     * Converted URLs may contain GET parameters, so we need to remove them for the providers that don't support GET parameters in the redirect urls.
+                                     */
+                                    $convertedURLPieces = explode('?', $convertedURL);
+                                    $convertedURL       = $convertedURLPieces[0];
+                                }
+                                $converted_URLs[] = $convertedURL;
+                            }
+                        }
+                    } else {
+                        //OAuth flow handled over wp-login.php
+
+                        $WPML_language_url_format = false;
+                        if (method_exists($sitepress, 'get_setting')) {
+                            $WPML_language_url_format = $sitepress->get_setting('language_negotiation_type');
+                        }
+
+                        if ($WPML_language_url_format && $WPML_language_url_format == 3 && (!class_exists('\WPML\UrlHandling\WPLoginUrlConverter') || (class_exists('\WPML\UrlHandling\WPLoginUrlConverter') && (!get_option(\WPML\UrlHandling\WPLoginUrlConverter::SETTINGS_KEY, false) || (get_option(\WPML\UrlHandling\WPLoginUrlConverter::SETTINGS_KEY, false) && !$addArg))))) {
+                            /**
+                             * We need to display the original redirect url when the
+                             * Language URL format is set to "Language name added as a parameter and:
+                             * -when the WPLoginUrlConverter class doesn't exists, since that case it is an old WPML version that can not translate the /wp-login.php page
+                             * -if "Login and registration pages - Allow translating the login and registration pages" is disabled
+                             * -if "Login and registration pages - Allow translating the login and registration pages" is enabled, but the provider doesn't support GET parameters in the redirect URL
+                             */
+                            return $redirectUrls;
+                        } else {
+                            global $wpml_url_converter;
+                            /**
+                             * when the language URL format is set to "Different languages in directories" or "A different domain per language", then the Redirect URI will be different for each languages
+                             * Also when the language URL format is set to "Language name added as a parameter" and the "Login and registration pages - Allow translating the login and registration pages" setting is enabled, the urls will be different.
+                             */
+                            if ($wpml_url_converter && method_exists($wpml_url_converter, 'convert_url')) {
+
+
+                                /**
+                                 * When WPML is set to a non-default language in the backend, then the $wpml_url_converter->convert_url() function won't generate language specific URL
+                                 * if the provided language code is the same the the language code that the backend currently uses.
+                                 */
+                                if ($originalLanguageCode && $defaultLanguageCode && $originalLanguageCode !== $defaultLanguageCode) {
+                                    self::change_WPML_language_code($defaultLanguageCode, false);
+                                    $languageCodeWasOverridden = true;
+                                }
+
+                                foreach ($WPML_active_languages as $lang) {
+                                    $convertedURL = $wpml_url_converter->convert_url(site_url('wp-login.php'), $lang['code']);
+                                    if ($addArg) {
+                                        $convertedURL = add_query_arg($args, $convertedURL);
+                                    }
+                                    $converted_URLs[] = $convertedURL;
+                                }
+
+                                if ($languageCodeWasOverridden) {
+                                    /**
+                                     * we need to switch back to the original language if we had to switch earlier
+                                     */
+                                    self::change_WPML_language_code($originalLanguageCode, true);
+                                    $languageCodeWasOverridden = false;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    /**
+                     * For providers with REST API redirect url, we should generate language specific versions from the rest route.
+                     * These urls should never contain the ?loginSocial={{providerID}} parameter. Since that is the main reason of the provider prefers uses the REST API endpoint.
+                     * The redirect url is not affected by the "/wp-login.php" or "OAuth redirect uri proxy page" changes in this case.
+                     */
+
+                    $WPML_language_url_format = false;
+                    if (method_exists($sitepress, 'get_setting')) {
+                        $WPML_language_url_format = $sitepress->get_setting('language_negotiation_type');
+                    }
+                    if (!$WPML_language_url_format || ($WPML_language_url_format && $WPML_language_url_format == 3)) {
+                        /**
+                         * We need to return the original provider REST API url when:
+                         * -the Language URL format is set to "Language name added as a parameter
+                         * -or if there is no Language URL format set
+                         */
+                        $converted_URLs = $redirectUrls;
+                    } else {
+                        global $wpml_url_converter;
+                        if ($wpml_url_converter && method_exists($wpml_url_converter, 'convert_url')) {
+
+                            /**
+                             * When the WPML language in the backend is set to "All", then WPML will generate an invalid REST API url with this "all" string appearing in it,
+                             * so we would generate wrong redirect urls.
+                             * For this reason it is better if we always use the default language for the URL generation here, too.
+                             */
+                            if ($originalLanguageCode && $defaultLanguageCode && $originalLanguageCode !== $defaultLanguageCode) {
+                                self::change_WPML_language_code($defaultLanguageCode, false);
+                                $languageCodeWasOverridden = true;
+                            }
+
+                            $redirectUrl = $provider->getBaseRedirectUriForAppCreation();
+
+                            foreach ($WPML_active_languages as $lang) {
+                                $convertedURL = $wpml_url_converter->convert_url($redirectUrl, $lang['code']);
+                                /**
+                                 * WPML might generate URLs with trailing slash, however we use the REST redirect URL without trailing slash.
+                                 */
+                                $convertedURL = rtrim($convertedURL, '/');
+                                if ($addArg) {
+                                    $convertedURL = add_query_arg($args, $convertedURL);
+                                }
+                                $converted_URLs[] = $convertedURL;
+                            }
+
+                            if ($languageCodeWasOverridden) {
+                                /**
+                                 * we need to switch back to the original language if we had to switch earlier
+                                 */
+                                self::change_WPML_language_code($originalLanguageCode, true);
+                                $languageCodeWasOverridden = false;
+                            }
+                        }
+                    }
+                }
+
+                if (!empty($converted_URLs)) {
+                    return $converted_URLs;
+                }
+            }
+        }
+
+        return $redirectUrls;
+    }
+
+    /**
+     * Returns the default language code used by WPML.
+     *
+     * @return bool|string
+     */
+    public static function get_default_WPML_language_code() {
+        global $sitepress;
+
+        if ($sitepress) {
+            return $sitepress->get_default_language();
+        }
+
+        return false;
+    }
+
+    /**
+     * Thins function can be used for changing the language code that WPML use during URL conversion.
+     *
+     * @param string $languageCode - the language code that WPML will switch to
+     * @param bool   $restore      - if true, that means we shouldn't override the language for the
+     *                             get_language_from_url() function of WPML.
+     */
+    public static function change_WPML_language_code($languageCode, $restore) {
+        global $sitepress;
+
+        if ($sitepress) {
+            $sitepress->switch_lang($languageCode, true);
+            if ($restore) {
+                remove_filter('wpml_get_language_from_url', 'NextendSocialLoginAdmin::get_default_WPML_language_code', 1000000000);
+            } else {
+                add_filter('wpml_get_language_from_url', 'NextendSocialLoginAdmin::get_default_WPML_language_code', 1000000000);
+            }
+        }
+    }
+
+    public static function show_getting_started_warning($provider, $lastUpdated) {
+        if ($provider && $lastUpdated) {
+
+            $lastUpdatedDate = date_format(date_create_from_format('Y-m-d', $lastUpdated), get_option('date_format'));
+
+            $supportURL         = 'https://nextendweb.com/contact-us/nextend-social-login-support/';
+            $version            = defined('NSL_PRO_PATH') ? 'Pro-Addon' : 'Free';
+            $args               = array(
+                'topic'    => 'Wrong-Steps',
+                'provider' => $provider->getLabel(),
+                'version'  => $version
+            );
+            $supportUrlWithArgs = add_query_arg($args, $supportURL);
+
+            printf(__('<p><strong><u>Warning</u></strong>: Providers change the App setup process quite often, which means some steps below might not be accurate. If you see significant difference in the written instructions and what you see at the provider, feel free to %1$sreport it%2$s, so we can check and update the instructions.<br><strong>Last updated:</strong> %3$s.</p>', 'nextend-facebook-connect'), '<a href="' . $supportUrlWithArgs . '" target="_blank">', '</a>', $lastUpdatedDate);
+        }
     }
 }

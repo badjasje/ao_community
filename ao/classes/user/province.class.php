@@ -51,6 +51,10 @@ class Province extends DbObject {
         'spyplane_owned','spyplane_ordered','dragon_owned','dragon_ordered','f22_raptors_owned','f22_raptors_ordered',
         'rah66_commanches_owned','rah66_commanches_ordered','b2_bomber_owned','b2_bomber_ordered','jsf_owned','jsf_ordered',
         'typhoon_owned','typhoon_ordered','seahawk_owned','seahawk_ordered',
+        
+        // additional units
+        
+        'unit_1_owned','unit_1_owned','unit_2_owned','unit_2_owned','unit_3_owned','unit_3_owned','unit_4_owned','unit_4_owned','unit_5_owned','unit_5_owned','unit_6_owned','unit_6_owned','unit_7_owned','unit_7_owned','unit_8_owned','unit_8_owned','unit_9_owned','unit_9_owned',
 
         // Units: veh
         'apc_owned','apc_ordered','humvee_owned','humvee_ordered','sam_owned','sam_ordered','abraham_owned','abraham_ordered',

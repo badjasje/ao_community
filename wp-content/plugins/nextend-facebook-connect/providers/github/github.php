@@ -2,7 +2,7 @@
 
 class NextendSocialProviderGitHub extends NextendSocialProviderDummy {
 
-    protected $color = '#45668e';
+    protected $color = '#24292e';
 
     public function __construct() {
         $this->id    = 'github';

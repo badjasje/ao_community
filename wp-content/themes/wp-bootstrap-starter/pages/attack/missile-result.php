@@ -54,18 +54,7 @@ if($AMS == 0 || $power > 100){
 	$shotdown = false;
 }
 
-/* AMS-Satellite */
-$defSat = $defenderData['sat_owned'][0];
-$satMorale = $defenderData['sat_morale'][0];
 
-if($satMorale >= 20 && $power < 100){
-	if($defSat == 'amssat'){
-		$shotdown = true;
-		if(!$attacker->isShadowBanned()) {
-			update_user_meta($target_id, 'sat_morale', $satMorale-20);
-		}
-	}
-}
 
 $SEA_ATT_power = 0;
 $AIR_ATT_power = 0;
@@ -116,9 +105,9 @@ if($missile_research >= 2) {
 	}
 }
 
-if($shotdown == true){
-	$result = 'failure';
-}
+
+
+
 
 // Update some basic stats, turns, morale and launched missile
 update_user_meta($userId, 'morale', $oldmorale - $moralecost);
@@ -135,6 +124,30 @@ if($silo1Status == 'active' || $silo2Status == 'active'){
 	$result = 'failure';
 	$disabled = true;
 }
+
+
+
+/* AMS-Satellite */
+if($disabled == false){ // Check if there is no disabling of missile silo
+
+
+	$defSat = $defenderData['sat_owned'][0];
+	$satMorale = $defenderData['sat_morale'][0];
+	
+	if($satMorale >= 20 && $power < 100){
+		if($defSat == 'amssat'){
+			$shotdown = true;
+			if(!$attacker->isShadowBanned()) {
+				update_user_meta($target_id, 'sat_morale', $satMorale-20);
+			}
+		}
+	}
+}
+
+if($shotdown == true){ // Check if missile is shot down. Shot down = always failure
+	$result = 'failure';
+}
+
 
 /* calculate attack power and divide power */
 $attackpower   = $missiles[$key]['attack']*0.87;

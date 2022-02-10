@@ -6,6 +6,23 @@ abstract class NextendSocialProviderDummy {
     protected $label;
     protected $path;
 
+    /**
+     * Defines the way the OAuth redirect is handled
+     *
+     * default_redirect: both the App and the Authorization requests accepts GET parameters in the redirect uri
+     *
+     * default_redirect_but_app_has_restriction: the App doesn't allow redirect URLs with GET parameters, but the
+     * Authorization requests accepts it.
+     *
+     * rest_redirect: the App doesn't allow redirect URLs with GET parameters, and neither the Authorization
+     * requests. In these cases we use the REST Endpoint of the provider e.g:
+     * https://example.com/wp-json/nextend-social-login/v1/{{providerID}}/redirect_uri
+     * that passes the state and code to the login endpoint of the provider.
+     *
+     * @var string
+     */
+    public $oauthRedirectBehavior = "default";
+
     protected $color = '#fff';
 
     protected $popupWidth = 600;

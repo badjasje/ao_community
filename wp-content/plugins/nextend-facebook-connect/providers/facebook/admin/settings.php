@@ -53,6 +53,16 @@ $settings = $provider->settings;
             <?php endif; ?>
             </tbody>
         </table>
+
+        <?php if ($settings->get('appid')): ?>
+            <div class="error">
+                <p><?php printf(__('By replacing your existing %1$s App, users with linked %1$s accounts will no longer be able to login with %1$s.', 'nextend-facebook-connect'), 'Facebook'); ?></p>
+                <p>
+                    <a href="https://nextendweb.com/nextend-social-login-docs/provider-facebook/#app_scoped_user_id" target="_blank"><?php _e('Find out why?', 'nextend-facebook-connect'); ?></a>
+                </p>
+            </div>
+        <?php endif; ?>
+
         <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary"
                                  value="<?php _e('Save Changes'); ?>"></p>
 

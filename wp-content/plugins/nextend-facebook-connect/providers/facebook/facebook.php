@@ -17,9 +17,9 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
 
     protected $svgBlack = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1365.3 1365.3" height="1365.3" width="1365.3"><path d="M1365.3 682.7A682.7 682.7 0 10576 1357V880H402.7V682.7H576V532.3c0-171.1 102-265.6 257.9-265.6 74.6 0 152.8 13.3 152.8 13.3v168h-86.1c-84.8 0-111.3 52.6-111.3 106.6v128h189.4L948.4 880h-159v477a682.8 682.8 0 00576-674.3" fill="#100f0d"/><path d="M948.4 880l30.3-197.3H789.3v-128c0-54 26.5-106.7 111.3-106.7h86V280s-78-13.3-152.7-13.3c-156 0-257.9 94.5-257.9 265.6v150.4H402.7V880H576v477a687.8 687.8 0 00213.3 0V880h159.1" fill="#fff"/></svg>';
 
-    protected $popupWidth = 475;
+    protected $popupWidth = 600;
 
-    protected $popupHeight = 175;
+    protected $popupHeight = 679;
 
     protected $sync_fields = array(
         'age_range' => array(
@@ -51,6 +51,11 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
             'label' => 'Gender',
             'node'  => 'me',
             'scope' => 'user_gender'
+        ),
+        'quotes'    => array(
+            'label' => 'Quotes',
+            'node'  => 'me',
+            'scope' => 'user_likes'
         )
     );
 
@@ -71,17 +76,19 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
         ));
 
         parent::__construct(array(
-            'appid'        => '',
-            'secret'       => '',
-            'skin'         => 'dark',
-            'login_label'  => 'Continue with <b>Facebook</b>',
-            'link_label'   => 'Link account with <b>Facebook</b>',
-            'unlink_label' => 'Unlink account from <b>Facebook</b>'
+            'appid'          => '',
+            'secret'         => '',
+            'skin'           => 'dark',
+            'login_label'    => 'Continue with <b>Facebook</b>',
+            'register_label' => 'Sign up with <b>Facebook</b>',
+            'link_label'     => 'Link account with <b>Facebook</b>',
+            'unlink_label'   => 'Unlink account from <b>Facebook</b>'
         ));
     }
 
     protected function forTranslation() {
         __('Continue with <b>Facebook</b>', 'nextend-facebook-connect');
+        __('Sign up with <b>Facebook</b>', 'nextend-facebook-connect');
         __('Link account with <b>Facebook</b>', 'nextend-facebook-connect');
         __('Unlink account from <b>Facebook</b>', 'nextend-facebook-connect');
     }
@@ -156,7 +163,7 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
 
             $this->client->setClientId($this->settings->get('appid'));
             $this->client->setClientSecret($this->settings->get('secret'));
-            $this->client->setRedirectUri($this->getRedirectUri());
+            $this->client->setRedirectUri($this->getRedirectUriForOAuthFlow());
         }
 
         return $this->client;

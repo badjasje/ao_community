@@ -21,7 +21,7 @@ class NextendSocialProviderGoogleClient extends NextendSocialOauth2 {
 
     protected $endpointAccessToken = 'https://accounts.google.com/o/oauth2/token';
 
-    protected $endpointRestAPI = 'https://www.googleapis.com/oauth2/v1/';
+    protected $endpointRestAPI = 'https://www.googleapis.com/oauth2/v2/';
 
     protected $defaultRestParams = array(
         'alt' => 'json'
