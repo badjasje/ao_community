@@ -709,7 +709,7 @@ body:not(.theme-preset-active) footer#colophon {
 .globalsBadge { top: 3px; animation-name: globalsPulse; }
 .localsBadge { top: 23px; animation-name: localsPulse; }
 .messagesBadge { top: 23px; animation-name: inboxPulse; }
-.messagesBadge, .localsBadge, .globalsBadge {
+.messagesBadge, .localsBadge, .globalsBadge,.warsBadge  {
     display:none; z-index: 99999; position: absolute;
     animation-duration: 2s;
 	animation-iteration-count: infinite;
@@ -1237,6 +1237,16 @@ input[type="radio"]:checked + label {
     to { background-color: #425C6B; }
 }
 
+@keyframes darkPulse {
+    from { background-color: #747463;}
+    50% { background-color: rgba(116, 116, 99, 0.75); }
+    to { background-color: #747463; }
+}
+
+
+
+
+
 .clanMessage{
 	padding: 25px;
   min-height: 164px;
@@ -1256,6 +1266,12 @@ input[type="radio"]:checked + label {
 	width: 49%;
     display: inline-block;
     padding: 13px 0px 13px 25px;
+    vertical-align: middle;
+}
+.defByType{
+	margin: 0px;
+    padding: 0px;
+    list-style: none;
 }
 
 .statusBlock{
@@ -1739,7 +1755,7 @@ input[type="radio"]:checked + label {
 .aoTable .buildBlock .unitInput { box-shadow: inset 0px 0px 0px 1px #468; }
 .aoTable .demoBlock { background: rgba(127,82,67,.3); }
 .aoTable .demoBlock .unitInput { box-shadow: inset 0px 0px 0px 1px #B86; }
-.aoTable .descriptionRow td { background: #CCC; padding: 2px 10px 11px; color: #333; }
+.aoTable .descriptionRow td { background: #CCC; padding: 10px 10px 10px 15px; color: #333; }
 .aoTable .demomax, .aoTable .buildmax { cursor: pointer; display: table-cell; }
 .aoTable .totalsField { cursor:default; }
 .aoTable .nameBlock { font-weight: bold; }
@@ -1856,7 +1872,20 @@ input[type="radio"]:checked + label {
     #af-wrapper .post-wrapper { display: block; }
 }
 
+.text-right {
+    display: inline-block;
+    float: right;
+    margin-top: -45px;
+    margin-right:20px;
+}
+
 @media only screen and (max-width: 768px) {
+	.text-right {
+    display: block;
+    float: unset;
+    margin-top: 0px;
+    margin-right:0px;
+}
     /* Small tables for buildings, units, missiles and market */
     .navItem, .smallTable .mainSubmit, .smallTable .secundarySubmit { padding: 5px; }
 

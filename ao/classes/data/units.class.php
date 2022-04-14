@@ -129,7 +129,7 @@ class Units extends DataObject {
 
         /// VEHICLES ///
         'sam' 		=> array(
-            'price'			=>	'885',
+            'price'			=>	'835',
             'networth'		=>	11,
             'normalname'	=>	'Tiger Tank',
             'attacks'		=>  array('inf','bld'),
@@ -141,7 +141,7 @@ class Units extends DataObject {
             'life'			=>	54
         ),
         'abraham' 		=> array(
-            'price'			=>	'685',
+            'price'			=>	'635',
             'networth'		=>	11,
             'normalname'	=>	'Mirage Tank',
             'attacks'		=>  array('sea','inf','bld'),
@@ -153,7 +153,7 @@ class Units extends DataObject {
             'life'			=>	42
         ),
         'm270_rocket' 		=> array(
-            'price'			=>	'565',
+            'price'			=>	'515',
             'networth'		=>	11,
             'normalname'	=>	'Tesla Tank',
             'attacks'		=>  array('sea','bld'),
@@ -165,7 +165,7 @@ class Units extends DataObject {
             'life'			=>	38
         ),
         'humvee' 		=> array(
-            'price'			=>	'680',
+            'price'			=>	'630',
             'networth'		=>	11,
             'normalname'	=>	'I.F.V',
             'attacks'		=>  array('veh'),
@@ -177,7 +177,7 @@ class Units extends DataObject {
             'life'			=>	42
         ),
         'm70mlrs' 			=> array(
-            'price'			=>	'755',
+            'price'			=>	'705',
             'networth'		=>	11,
             'normalname'	=>	'SAM Tank',
             'attacks'		=>  array('air'),
@@ -189,7 +189,7 @@ class Units extends DataObject {
             'life'			=>	39
         ),
         'artillery' 		=> array(
-            'price'			=>	'1650',
+            'price'			=>	'1600',
             'networth'		=>	11,
             'normalname'	=>	'Paladin',
             'attacks'		=>  array('bld'),
@@ -203,7 +203,7 @@ class Units extends DataObject {
         //NEW
         
         'unit_3' 		=> array(
-            'price'			=>	'440',
+            'price'			=>	'390',
             'networth'		=>	11,
             'normalname'	=>	'K2 Black Panthers',
             'attacks'		=>  array('veh','inf'),
@@ -216,7 +216,7 @@ class Units extends DataObject {
         ),
         
          'unit_4' 		=> array(
-            'price'			=>	'695',
+            'price'			=>	'645',
             'networth'		=>	11,
             'normalname'	=>	'M1 Abram Tank',
             'attacks'		=>  array('veh','bld'),

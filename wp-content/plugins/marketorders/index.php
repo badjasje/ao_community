@@ -16,6 +16,177 @@ require_once('telegrambot.class.php');
 
 
 
+function attackPerNW($target_id,$canAttack){
+	echo '<pre>';
+	print_r($canAttack);
+	echo '</pre>';
+	$units = Units::get();
+	$buildings = Buildings::get();
+	$defenderNwArray = array();
+	
+	foreach($units as $key => $data) {
+		
+		if(array_key_exists($data['type'],$canAttack)){
+			
+			$unit_count = get_user_meta($target_id, $key.'_owned')[0];
+			
+	        /* if defender has none of this unit continue */
+	        if ($unit_count < 1)
+	            continue;
+	
+	        /* do not incorporate special units */
+			if($units[$key]['sectype'] == 'special')
+				continue;
+	
+	        $unitTotNw = $unit_count*$data['price']*$data['networth'];
+	        $defenderNwArray[$data['type']] += $unitTotNw;
+	        
+		}
+	}
+	
+	
+	 foreach($buildings as $key => $data) {
+	 	if(array_key_exists('bld',$canAttack)){
+		 	
+	        $bds_count = get_user_meta($target_id, $key)[0];
+		
+	        /* if defender has none of this unit continue */
+	        if ($bds_count < 1)
+	            continue;
+		
+				
+		
+	        /* calculate attack power per type */
+			$defenderNwArray['bld'] += $bds_count * $data['price']*$data['networth'];
+	        /* Unset types not used in attack by attacker */
+	        
+		}
+
+        
+
+
+	}
+	
+	
+	
+	
+	
+	
+	$defTotNw = array_sum($defenderNwArray);
+	$finalArray = array();
+	foreach ($defenderNwArray as $key => $nw) {
+		
+		$finalArray[$key] = $nw/$defTotNw;
+		
+	}
+	
+	return $finalArray;
+}
+
+
+
+function base_defense_calc($target_id){
+	 $units = Units::get();
+	 $buildings = Buildings::get();
+
+
+    /* get defense from units */
+    foreach($units as $key => $data) {
+        $unit_count = get_user_meta($target_id, $key.'_owned')[0];
+		
+        /* if defender has none of this unit continue */
+        if ($unit_count < 1)
+            continue;
+
+        /* do not incorporate special units */
+		if($units[$key]['sectype'] == 'special')
+			continue;
+
+        /* calculate attack power per type */
+        $unit_def_types = $units[$key]['defends'];
+
+        /* Unset types not used in attack by attacker */
+
+
+        $unit_def_count = count($unit_def_types);
+
+        /* no defense - exit */
+        if ($unit_def_count == 0)
+            continue;
+
+        /* no use calculating if the unit can't defend */
+        if ($unit_def_count < 1)
+            continue;
+
+
+        $unit_atk_power = $data['attack'];
+        $atk_power = $unit_atk_power * $unit_count;
+        $divided_atk_power = $atk_power / $unit_def_count;
+
+        foreach($unit_def_types as $type) {
+            if(!isset($attack_array[$type])) $attack_array[$type] = 0;
+            $attack_array[$type] += $divided_atk_power;
+        }
+
+
+
+
+    }
+
+
+
+
+/* get defense from buildings */
+    foreach($buildings as $key => $data) {
+        $bds_count = get_user_meta($target_id, $key)[0];
+	
+        /* if defender has none of this unit continue */
+        if ($bds_count < 1)
+            continue;
+
+        /* do not incorporate special units */
+		if($key == 'torpedolauncher' || $key == 'samsite' || $key == 'missileturret' || $key == 'machinegunturret'){
+			
+	
+        /* calculate attack power per type */
+		$bds_attack_array[$buildings[$key]['attacks'][0]] += $bds_count * $buildings[$key]['attack'];
+        /* Unset types not used in attack by attacker */
+
+
+        
+
+
+	}
+
+}
+
+
+
+$defense_array['attack'] = $attack_array;
+
+$totalPower = array_sum($defense_array['attack']) + array_sum($bds_attack_array);
+
+$newArray = array();
+
+$vehPow = $totalPower != 0 ? round(($bds_attack_array['veh']+$defense_array['attack']['veh'])/$totalPower*100,1) : 0;
+$infPow = $totalPower != 0 ? round(($bds_attack_array['inf']+$defense_array['attack']['inf'])/$totalPower*100,1) : 0;
+$seaPow = $totalPower != 0 ? round(($bds_attack_array['sea']+$defense_array['attack']['sea'])/$totalPower*100,1) : 0;
+$airPow = $totalPower != 0 ? round(($bds_attack_array['air']+$defense_array['attack']['air'])/$totalPower*100,1) : 0;
+
+
+$newArray['sea'] = 'Sea: '.$seaPow.'%';
+$newArray['air'] = 'Air: '.$airPow.'%';
+$newArray['veh'] = 'Vehicles: '.$vehPow.'%';
+$newArray['inf'] = 'Infantry: '.$infPow.'%';
+
+
+
+return $newArray;
+
+}
+
+
+
 function turn_spread($turntype, $addedturns) {
     global $userId;
 

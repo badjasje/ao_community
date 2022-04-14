@@ -153,6 +153,13 @@
             'one_time'		=> 	'yes',
             'xp'			=> 	500
         ),
+        'dont_die_1' 	=> array(
+            'title'			=>	'Do not die',
+            'description'	=>	'Stay alive for an entire round',
+            'event_message'	=> 	'You received 2000 experience points because you did not die for a single round.',
+            'one_time'		=> 	'yes',
+            'xp'			=> 	2000
+        )
         );
         
 

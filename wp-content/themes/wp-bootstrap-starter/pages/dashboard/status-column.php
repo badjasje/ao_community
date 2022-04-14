@@ -50,6 +50,18 @@ if(!!$province && $r = $province->getCurrentResearch()) $researchInProgress = $r
 			<div class="statusInsideCol">
 				<?=$province->getPosition('mog', true)?>
 			</div>
+			<div class="statusInsideCol">
+				<strong>Defense per type <span class="hover-tip" data-toggle="tooltip" data-original-title="The coverage of defense you have against each unit type. Includes attack power of both units and defense buildings." data-placement="right">
+		<i class="fa fa-info-circle" aria-hidden="true"></i>
+	</span></strong>
+			</div>
+			<div class="statusInsideCol">
+				<ul class="defByType">
+				<?php foreach (base_defense_calc(get_current_user_id()) as $def):?>
+				<li><?php echo $def;?></li>
+				<?php endforeach;?>
+				</ul>
+			</div>
 
 			<div class="statusInsideCol">
 				<strong>AMS Coverage</strong>

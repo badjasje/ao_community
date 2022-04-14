@@ -129,6 +129,82 @@ $timeLeft = Market::timeLeft();
 	<link href="<?=Request::siteUrl()?>/wp-content/themes/wp-bootstrap-starter/css/boe.css" rel="stylesheet" />
 	<? } ?>
 	<meta name="google-site-verification" content="SkamiBCpY328MooWRMZNQN5_DshHSBeAp_4de8oiLpU" />
+	
+<?php if(get_current_user_id() == 1):?>
+<style>
+.pageTitle {
+    background: rgb(119 128 107 / 75%);
+}
+#content.site-content{
+    background-color: #d7d4b6;
+}
+
+.permaNotification{
+    animation-name: darkPulse;
+}
+.logged-in header#masthead,.menu-item,.sidenav{
+	background-color:#35382f;
+}
+.spaceNotice{
+	background-color:#373A30 !important;
+}
+.blockHeader, .successHeader,.aoTable .headerRow,.aoTable.grey .headerRow{
+	background-color:#747463;
+	    color: #fff;
+}
+.menu-item,#nextbt{
+	color: #d7d4b6;
+}
+.statCol-1{
+	background-color:#EDECD9;
+}
+.statCol-2{
+	background-color:#c6c4a8;
+}
+.statCol-3{
+	background-color:#A5A27E;
+}
+.statCol-4{
+	background-color:#838058
+}
+body:not(.theme-preset-active) footer#colophon{
+	background-color:#747463;
+}
+.clanMessageButton, .profileButton, {
+    background-color: #757D54;
+}
+.mainSubmit,.navItem.active{
+	background-color: #757D54 !important;
+}
+.clanMessage {
+    background-color: #969E79;
+}
+.aoTable .unitRow{
+	background-color:#c6c4a8;
+}
+.stattext{
+	background-color:#747463;
+}
+.sidenav:before{
+	background: #35382f;
+}
+.menuOpen .sidenav{
+	background-color: #a4a27e;
+}
+div,span,.border-bottom,.mainSubmit.disabled, .secundarySubmit.disabled,.mainSubmit,.aoTable .headerRow,th,td,tr,.blockHeader, .successHeader{
+	border:none !important;
+	border-width:0px !important;
+	border-bottom:0px !important;
+}
+.pageSpacer {
+    background-color: #d7d4b6;
+}
+.aoPage .blockHeader a{
+	color:#fff !important;
+}
+</style>
+<?php endif;?>
+
 </head>
 
 <body <?php body_class(array(($menuOpen?'menuOpen':''),'game-type-'.Round::get('type'))) ?> data-siteurl="<?=Request::siteUrl()?>">
@@ -177,7 +253,12 @@ $timeLeft = Market::timeLeft();
 						<span class="badge badge-pill badge-danger globalsBadge">0</span>
 					</button>
 				</a>
-
+				<a href="<?=Request::siteUrl()?>/clan-wars/">
+					<button class="menu-item globalsButton" type="button" >
+						<i class="fa fa-fire"></i>
+						<span class="badge badge-pill badge-danger warsBadge">0</span>
+					</button>
+				</a>
 				<div class="topstatheader">
 					<? foreach($stats as $i => $stat) {
 						$stat['class'] = (!empty($stat['class']) ? $stat['class'] : strtolower($stat['title']));

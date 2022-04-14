@@ -171,11 +171,23 @@ foreach ($attack_array as $key => $count) {
 			$one_type = array($type);
 
 			/* calculate attack totals by type */
-			if (array_key_exists($type, $attacker_type_damage)) $attacker_type_damage[$type] += $atk_power_distrib;
-			else $attacker_type_damage[$type] = $atk_power_distrib;
+			if (array_key_exists($type, $attacker_type_damage)) $attacker_type_damage_FIRST[$type] += $atk_power_distrib;
+			else $attacker_type_damage_FIRST[$type] = $atk_power_distrib;
 		}
 	}
 }
+
+
+/* split defense based on units/nw by defender */
+$allDamage = array_sum($attacker_type_damage_FIRST);
+$attacker_type_damage = array();
+foreach (attackPerNW($target_id,$attacker_type_damage_FIRST) as $key => $dmg) {
+	$attacker_type_damage[$key] = ($allDamage*$dmg);
+}
+
+
+
+
 if($debug) debug_var('attacker_type_damage0', print_r($attacker_type_damage,1));
 
 /* If defender has unit type, unset from remove array */

@@ -54,7 +54,7 @@ class Province extends DbObject {
         
         // additional units
         
-        'unit_1_owned','unit_1_owned','unit_2_owned','unit_2_owned','unit_3_owned','unit_3_owned','unit_4_owned','unit_4_owned','unit_5_owned','unit_5_owned','unit_6_owned','unit_6_owned','unit_7_owned','unit_7_owned','unit_8_owned','unit_8_owned','unit_9_owned','unit_9_owned',
+        'unit_1_owned','unit_1_ordered','unit_2_owned','unit_2_ordered','unit_3_owned','unit_3_ordered','unit_4_owned','unit_4_ordered','unit_5_owned','unit_5_ordered','unit_6_owned','unit_6_ordered','unit_7_owned','unit_7_ordered','unit_8_owned','unit_8_ordered','unit_9_owned','unit_9_ordered',
 
         // Units: veh
         'apc_owned','apc_ordered','humvee_owned','humvee_ordered','sam_owned','sam_ordered','abraham_owned','abraham_ordered',
