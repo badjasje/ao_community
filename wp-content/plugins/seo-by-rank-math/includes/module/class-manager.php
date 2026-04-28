@@ -114,7 +114,7 @@ class Manager {
 
 		$modules['local-seo'] = [
 			'title'       => esc_html__( 'Local SEO', 'rank-math' ),
-			'desc'        => esc_html__( 'Dominate the search results for the local audiences by optimizing your website for Local SEO and it also helps you to aquire the Knowledge Graph.', 'rank-math' ),
+			'desc'        => esc_html__( 'Dominate the search results for the local audiences by optimizing your website for Local SEO and it also helps you to acquire the Knowledge Graph.', 'rank-math' ),
 			'class'       => 'RankMath\Local_Seo\Local_Seo',
 			'icon'        => 'local-seo',
 			'upgradeable' => true,
@@ -152,6 +152,15 @@ class Manager {
 			'desc'  => esc_html__( 'Counts the total number of internal, external links, to and from links inside your posts. You can also see the same count in the Posts List Page.', 'rank-math' ),
 			'class' => 'RankMath\Links\Links',
 			'icon'  => 'link',
+		];
+
+		$modules['link-genius'] = [
+			'title'         => esc_html__( 'Link Genius', 'rank-math' ),
+			'desc'          => esc_html__( 'An advanced internal linking tool that analyzes your posts, tracks link data, highlights opportunities, and offers detailed report.', 'rank-math' ),
+			'icon'          => 'link',
+			'probadge'      => true,
+			'disabled'      => true,
+			'disabled_text' => esc_html__( 'This module is available in the PRO version.', 'rank-math' ),
 		];
 
 		$modules['image-seo'] = [

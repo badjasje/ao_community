@@ -81,3 +81,4 @@ Thumbs.db
 !.gitignore
 !.editorconfig
 !readme.md/wp-content/uploads/
+/wp-content/uploads/

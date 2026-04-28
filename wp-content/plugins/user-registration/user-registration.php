@@ -1,9 +1,10 @@
 <?php //phpcs:ignore
+
 /**
  * Plugin Name: User Registration & Membership
  * Plugin URI: https://wpuserregistration.com/
  * Description: The most flexible User Registration and Membership plugin for WordPress.
- * Version: 4.4.6
+ * Version: 5.1.6
  * Author: WPEverest
  * Author URI: https://wpuserregistration.com
  * Text Domain: user-registration
@@ -30,12 +31,13 @@ if ( ! class_exists( 'UserRegistration' ) ) :
 	 */
 	final class UserRegistration {
 
+
 		/**
 		 * Plugin version.
 		 *
 		 * @var string
 		 */
-		public $version = '4.4.6';
+		public $version = '5.1.6';
 
 		/**
 		 * Session instance.
@@ -112,7 +114,7 @@ if ( ! class_exists( 'UserRegistration' ) ) :
 			$this->includes();
 			$this->init_hooks();
 			add_action( 'plugins_loaded', array( $this, 'objects' ), 1 );
-			add_action( 'in_plugin_update_message-' . UR_PLUGIN_BASENAME, array( __CLASS__, 'in_plugin_update_message' ) );
+			add_action( 'in_plugin_update_message-' . UR_PLUGIN_BASENAME, array( __CLASS__, 'in_plugin_update_message' ), 10, 2 );
 
 			do_action( 'user_registration_loaded' );
 		}
@@ -141,11 +143,63 @@ if ( ! class_exists( 'UserRegistration' ) ) :
 
 			if ( $error && in_array( $error['type'], array( E_ERROR, E_PARSE, E_COMPILE_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR ), true ) ) {
 				$logger = ur_get_logger();
+
+				$raw_message = isset( $error['message'] ) ? trim( wp_strip_all_tags( $error['message'] ) ) : __( 'Unknown error', 'user-registration' );
+				$file        = isset( $error['file'] ) ? $error['file'] : __( 'Unknown file', 'user-registration' );
+				$line        = isset( $error['line'] ) ? absint( $error['line'] ) : 0;
+
+				if ( false !== strpos( $file, 'wp-content/' ) ) {
+					$file = substr( $file, strpos( $file, 'wp-content/' ) );
+				}
+
+				$message = $raw_message;
+				$trace   = '';
+
+				if ( false !== strpos( $raw_message, 'Stack trace:' ) ) {
+					$parts = explode( 'Stack trace:', $raw_message, 2 );
+
+					$message = trim( $parts[0] );
+					$trace   = trim( $parts[1] );
+
+					// Remove trailing "thrown in ..." because file/line is already shown separately.
+					$trace = preg_replace( '/thrown in .*$/s', '', $trace );
+					$trace = trim( $trace );
+				}
+
+				$log  = "================================================================\n";
+				$log .= sprintf(
+					/* translators: %s: error timestamp */
+					__( '[%s] CRITICAL  Fatal error', 'user-registration' ),
+					gmdate( 'Y-m-d H:i:s' )
+				) . "\n";
+				$log .= "----------------------------------------------------------------\n";
+				$log .= sprintf(
+					/* translators: %s: error message */
+					__( 'Message : %s', 'user-registration' ),
+					$message
+				) . "\n";
+				$log .= sprintf(
+					/* translators: 1: file path, 2: line number */
+					__( 'File    : %1$s:%2$d', 'user-registration' ),
+					$file,
+					$line
+				) . "\n";
+				$log .= __( 'Status  : FAILED', 'user-registration' ) . "\n";
+
+				if ( ! empty( $trace ) ) {
+					$log .= "\n" . __( 'Trace:', 'user-registration' ) . "\n";
+					$log .= $trace . "\n";
+				}
+
+				$log .= '================================================================';
+
 				$logger->critical(
-					/* translators: 1: error message 2: file name and path 3: line number */
-					sprintf( __( '%1$s in %2$s on line %3$s', 'user-registration' ), $error['message'], $error['file'], $error['line'] ) . PHP_EOL,
+					$log,
 					array(
 						'source' => 'fatal-errors',
+						'type'   => $error['type'],
+						'file'   => $file,
+						'line'   => $line,
 					)
 				);
 			}
@@ -167,6 +221,8 @@ if ( ! class_exists( 'UserRegistration' ) ) :
 			$this->define( 'UR_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 			$this->define( 'UR_VERSION', $this->version );
 			$this->define( 'UR_TEMPLATE_DEBUG_MODE', false );
+			$this->define( 'UR_TEMPLATE_PATH', UR_ABSPATH . 'templates/' );
+			$this->define( 'UR_ASSET_PATH', plugins_url( 'assets/', UR_PLUGIN_FILE ) );
 			$this->define( 'UR_FORM_PATH', UR_ABSPATH . 'includes' . UR_DS . 'form' . UR_DS );
 			$this->define( 'UR_SESSION_CACHE_GROUP', 'ur_session_id' );
 			$this->define( 'UR_PRO_ACTIVE', false );
@@ -208,6 +264,44 @@ if ( ! class_exists( 'UserRegistration' ) ) :
 		 * Includes.
 		 */
 		private function includes() {
+
+			if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+				require_once __DIR__ . '/vendor/autoload.php';
+			} else {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+						sprintf(
+							/* translators: 1: composer command. 2: plugin directory */
+							esc_html__( 'Your installation of the User Registration is incomplete. Please run %1$s within the %2$s directory.', 'user-registration' ),
+							'`composer install`',
+							'`' . esc_html( str_replace( ABSPATH, '', __DIR__ ) ) . '`'
+						)
+					);
+				}
+
+				/**
+				 * Outputs an admin notice if composer install has not been ran.
+				 */
+				add_action(
+					'admin_notices',
+					function () {
+						?>
+					<div class="notice notice-error">
+						<p>
+							<?php
+							printf(
+								/* translators: 1: composer command. 2: plugin directory */
+								esc_html__( 'Your installation of the  User Registration is incomplete. Please run %1$s within the %2$s directory.', 'user-registration' ),
+								'<code>composer install</code>',
+								'<code>' . esc_html( str_replace( ABSPATH, '', __DIR__ ) ) . '</code>'
+							);
+							?>
+						</p>
+					</div>
+						<?php
+					}
+				);
+			}
 
 			/**
 			 * Class autoloader.
@@ -259,6 +353,8 @@ if ( ! class_exists( 'UserRegistration' ) ) :
 			include_once UR_ABSPATH . 'includes/blocks/block-types/class-ur-block-login-logout-menu.php';
 			include_once UR_ABSPATH . 'includes/blocks/block-types/class-ur-block-membership-listing.php';
 			include_once UR_ABSPATH . 'includes/blocks/block-types/class-ur-block-thank-you.php';
+			include_once UR_ABSPATH . 'includes/blocks/block-types/class-ur-block-membership-buy-now.php';
+
 			/**
 			 * Navigation menu item classes.
 			 */
@@ -280,16 +376,24 @@ if ( ! class_exists( 'UserRegistration' ) ) :
 			if ( ur_check_module_activation( 'membership' ) ) {
 				/** include modules */
 				include_once UR_ABSPATH . 'modules/membership/user-registration-membership.php';
+
+				if ( ur_check_module_activation( 'masteriyo-course-integration' ) && ( is_plugin_active( 'learning-management-system/lms.php' )
+				|| is_plugin_active( 'learning-management-system-pro/lms.php' ) ) ) {
+					include_once UR_ABSPATH . 'modules/masteriyo/user-registration-masteriyo.php';
+				}
 			}
 
-			if ( ( ur_check_module_activation( 'membership' ) || ur_check_module_activation( 'payments' ) ) && ur_check_module_activation( 'payment-history' ) ) {
+			if ( ( ur_check_module_activation( 'membership' ) || ur_check_module_activation( 'payments' ) ) ) {
 				include_once UR_ABSPATH . 'modules/payment-history/Orders.php';
 			}
 
-			if ( ur_check_module_activation( 'content-restriction' ) ) {
-				include_once UR_ABSPATH . 'modules/content-restriction/user-registration-content-restriction.php';
-				include_once UR_ABSPATH . 'includes/blocks/block-types/class-ur-block-content-restriction.php';
+			include_once UR_ABSPATH . 'modules/content-restriction/user-registration-content-restriction.php';
+
+			if ( ur_check_module_activation( 'membership' ) && ur_check_module_activation( 'content-restriction' ) && ur_check_module_activation( 'content-drip' ) ) {
+				include_once UR_ABSPATH . 'modules/content-drip/user-registration-content-drip.php';
 			}
+
+			include_once UR_ABSPATH . 'includes/blocks/block-types/class-ur-block-content-restriction.php';
 
 			/**
 			 * Elementor classes.
@@ -329,9 +433,14 @@ if ( ! class_exists( 'UserRegistration' ) ) :
 			}
 			include_once UR_ABSPATH . 'includes/class-ur-cron.php';
 			include_once UR_ABSPATH . 'includes/stats/class-ur-stats.php';
+			include_once UR_ABSPATH . 'includes/stats/class-ur-formbricks.php';
 			include_once UR_ABSPATH . 'includes/class-ur-captcha-conflict-manager.php';
 
 			$this->query = new UR_Query();
+
+			if ( class_exists( 'WPEverest\URM\Analytics\Analytics' ) ) {
+				WPEverest\URM\Analytics\Analytics::get_instance();
+			}
 		}
 
 		/**
@@ -480,16 +589,21 @@ if ( ! class_exists( 'UserRegistration' ) ) :
 		 *
 		 * @param array $args Plugin args.
 		 */
-		public static function in_plugin_update_message( $args ) {
-			$transient_name = 'ur_upgrade_notice_' . $args['Version'];
+		public static function in_plugin_update_message( $plugin_data, $response ) {
+			if ( empty( $response ) || empty( $response->new_version ) ) {
+				return;
+			}
+			$new_version = (string) $response->new_version;
+
+			$transient_name = 'ur_upgrade_notice_' . $new_version;
 			$upgrade_notice = get_transient( $transient_name );
 
 			if ( false === $upgrade_notice ) {
-				$response = wp_safe_remote_get( 'https://plugins.svn.wordpress.org/user-registration/trunk/readme.txt' );
+				$http_response = wp_safe_remote_get( 'https://plugins.svn.wordpress.org/user-registration/trunk/readme.txt' );
 
-				if ( ! is_wp_error( $response ) && ! empty( $response['body'] ) ) {
-					$upgrade_notice = self::parse_update_notice( $response['body'], $args['new_version'] );
-					set_transient( $transient_name, $upgrade_notice, DAY_IN_SECONDS );
+				if ( ! is_wp_error( $http_response ) && ! empty( $http_response['body'] ) ) {
+					$upgrade_notice = self::parse_update_notice( $http_response['body'], $new_version );
+					set_transient( $transient_name, $upgrade_notice, 3 * DAY_IN_SECONDS );
 				}
 			}
 
@@ -503,45 +617,56 @@ if ( ! class_exists( 'UserRegistration' ) ) :
 		 * @param string $new_version New version.
 		 */
 		private static function parse_update_notice( $content, $new_version ) {
-			// Output Upgrade Notice.
-			$matches        = null;
-			$regexp         = '~==\s*Upgrade Notice\s*==\s*=\s*(.*)\s*=(.*)(=\s*' . preg_quote( UR_VERSION ) . '\s*=|$)~Uis';
 			$upgrade_notice = '';
 
-			if ( preg_match( $regexp, $content, $matches ) ) {
+			// Match all version blocks under "== Upgrade Notice =="
+			$blocks_regex = '~=\s*([\d\.]+)\s*=(.*?)(?==\s*[\d\.]+\s*=|$)~s';
+			if ( preg_match_all( $blocks_regex, $content, $matches, PREG_SET_ORDER ) ) {
+				foreach ( $matches as $match ) {
+					$version_line = trim( $match[1] );
+					$block_text   = trim( $match[2] );
 
-				$version = trim( $matches[1] );
-				$notices = (array) preg_split( '~[\r\n]+~', trim( $matches[2] ) );
+					// Only process the block if it matches $new_version
+					if ( $version_line !== $new_version ) {
+						continue;
+					}
 
-				// Check the latest stable version and ignore trunk.
-				if ( $version === $new_version && version_compare( UR_VERSION, $version, '<' ) ) {
+					$notices = (array) preg_split( '~[\r\n]+~', $block_text );
 
 					$upgrade_notice .= '<div class="ur_plugin_upgrade_notice">';
 					$upgrade_notice .= '<div class="ur_plugin_upgrade_notice_body">';
 
 					foreach ( $notices as $line ) {
-
-						$line = trim( $line ); // Remove extra whitespace
-
+						$line = trim( $line );
 						if ( empty( $line ) ) {
-							continue; // Skip empty lines
+							continue;
 						}
 
-						$line = preg_replace( '~\[([^\]]*)\]\(([^\)]*)\)~', '<a href="$2">$1</a>', $line );
+						$line = preg_replace(
+							'~\[\s*([^\]]+)\s*\]\s*\(\s*([^\)]+)\s*\)~',
+							'<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>',
+							$line
+						);
 
-						$line = preg_replace( '~^###\s*(.*)~', '<p class="upgrade-title" style="font-size: 14px;font-weight: 600" >$1</p>', $line );
-
-						if ( ! preg_match( '~^<h3>|<p>|<a |<ul>|<ol>|<li>~', $line ) ) {
-							$line = '<p style="font-size: 12px;>' . $line . '</p>';
+						// Convert headings
+						if ( preg_match( '~^###\s*(.*)~', $line, $heading ) ) {
+							$line = '<p class="upgrade-title" style="font-size:13px;font-weight:600;">' . $heading[1] . '</p>';
+						} elseif ( preg_match( '~^##\s*(.*)~', $line, $heading ) ) {
+							$line = '<p class="upgrade-heading" style="font-size:14px;font-weight:600;">' . $heading[1] . '</p>';
+						} else {
+							$line = '<p style="font-size:12px;">' . $line . '</p>';
 						}
 
-						$upgrade_notice .= wp_kses_post( trim( $line ) );
+						$upgrade_notice .= wp_kses_post( $line );
 					}
 
-					$upgrade_notice .= '</div> ';
-					$upgrade_notice .= '</div> ';
+					$upgrade_notice .= '</div>';
+					$upgrade_notice .= '</div>';
+
+					break;
 				}
 			}
+
 			return wp_kses_post( $upgrade_notice );
 		}
 	}
@@ -640,7 +765,7 @@ if ( ! function_exists( 'UR' ) ) {
 				return;
 			}
 
-			echo '<div class="notice-warning notice is-dismissible"><p>' . wp_kses_post( __( 'As <strong>User Registration & Membership Pro</strong> is active, <strong>User Registration Free</strong> is now not needed.', 'user-registration' ) ) . '</p></div>';
+			echo '<div class="notice-warning notice is-dismissible"><p>' . wp_kses_post( __( 'As <strong>User Registration & Membership Pro</strong> is active, <strong>User Registration & Membership Free</strong> is now not needed.', 'user-registration' ) ) . '</p></div>';
 
 			if ( isset( $_GET['activate'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				unset( $_GET['activate'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -654,5 +779,37 @@ if ( ! function_exists( 'UR' ) ) {
 	// Do not process the plugin code further.
 	return;
 }
+/**
+ * Development: Hot reload support for webpack dev server.
+ * Enable by setting SCRIPT_DEBUG to true in wp-config.php
+ */
+if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+	add_filter(
+		'script_loader_src',
+		function ( $src, $handle ) {
+			$dev_scripts = array(
+				'user-registration-welcome',
+				'user-registration-dashboard',
+				'user-registration-blocks',
+				'user-registration-form-templates',
+				'user-registration-divi-builder',
+				'user-registration-content-access-rules',
+			);
+
+			if ( in_array( $handle, $dev_scripts, true ) ) {
+				$src = str_replace(
+					UR_PLUGIN_URL . 'chunks/',
+					'http://localhost:3000/',
+					$src
+				);
+			}
+
+			return $src;
+		},
+		10,
+		2
+	);
+}
+
 // Global for backwards compatibility.
 $GLOBALS['user-registration'] = UR();

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Disable Gutenberg\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-13 14:03+0000\n"
+"POT-Creation-Date: 2026-01-28 22:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,6 +16,10 @@ msgstr ""
 
 #: disable-gutenberg.php:228
 msgid " or higher, and has been deactivated! "
+msgstr ""
+
+#: inc/settings-display.php:27
+msgid "&#9824; DG Pro currently in development :)"
 msgstr ""
 
 #: inc/plugin-features.php:49
@@ -35,7 +39,7 @@ msgid "Apply code"
 msgstr ""
 
 #: inc/settings-reset.php:40
-msgid "at checkout. Sale ends 1/11/2026."
+msgid "at checkout. Sale ends 3/28/2026."
 msgstr ""
 
 #: inc/plugin-features.php:86
@@ -159,10 +163,6 @@ msgstr ""
 msgid ""
 "Enable this setting to completely disable Gutenberg (and restore the Classic "
 "Editor). Or, disable this setting to display more options."
-msgstr ""
-
-#: inc/settings-reset.php:35
-msgid "Fall Sale!"
 msgstr ""
 
 #: inc/settings-register.php:50
@@ -322,7 +322,7 @@ msgid "Sorry, pal!"
 msgstr ""
 
 #: inc/settings-reset.php:36
-msgid "Take 25% OFF any of our"
+msgid "Take 20% OFF any of our"
 msgstr ""
 
 #: inc/settings-register.php:167
@@ -369,4 +369,8 @@ msgstr ""
 
 #: disable-gutenberg.php:207
 msgid "★★★★★ rating&nbsp;&raquo;"
+msgstr ""
+
+#: inc/settings-reset.php:35
+msgid "❄️ Winter Sale!"
 msgstr ""

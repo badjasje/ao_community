@@ -24,8 +24,8 @@
                 }
 
                 &:checked {
-                    + .slider {
-                        background: $primary_color;
+                    +.slider {
+                        background: $green;
 
                         &::before {
                             transform: translateX(14px);
@@ -60,4 +60,12 @@
             }
         }
     }
+}
+
+.ur-membership-upgrade-action-notice {
+	a {
+		&:focus {
+			box-shadow: 0 0 0 0 #2271b1;
+		}
+	}
 }

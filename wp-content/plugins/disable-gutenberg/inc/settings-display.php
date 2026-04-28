@@ -24,6 +24,8 @@ function disable_gutenberg_display_settings() { ?>
 				submit_button(); 
 			?>
 			
+			<div class="dg-pro"><?php _e('&#9824; DG Pro currently in development :)', 'disable-gutenberg'); ?></div>
+			
 		</form>
 	</div>
 	

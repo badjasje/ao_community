@@ -28,6 +28,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'themegrill/themegrill-sdk' => array(
+            'pretty_version' => '1.0.1',
+            'version' => '1.0.1.0',
+            'reference' => 'bdcd3b56256ce3126054d0dabb22fe8563b0becc',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../themegrill/themegrill-sdk',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'wpeverest/user-registration' => array(
             'pretty_version' => '1.0.0+no-version-set',
             'version' => '1.0.0.0',

@@ -280,6 +280,7 @@ abstract class UR_Form_Field {
 
 				$form_data['options'] = $filtered_options;
 			}
+			$form_data['enable_state'] = isset( $data['advance_setting']->enable_state ) ? $data['advance_setting']->enable_state : '';
 		}
 
 		/**  Redundant codes. */
@@ -903,6 +904,26 @@ abstract class UR_Form_Field {
 						foreach ( $setting_value['options'] as $option_key => $option_value ) {
 							$selected                 = $this->get_general_setting_data( $setting_key ) == $option_key ? 'selected = selected' : '';
 							$general_setting_wrapper .= '<option ' . esc_attr( $selected ) . " value='" . esc_attr( $option_key ) . "'>" . esc_html( $option_value ) . '</option>';
+						}
+
+						$general_setting_wrapper .= '</select>';
+					}
+					break;
+
+				case 'multiselect':
+					if ( isset( $setting_value['options'] )
+					     && gettype( $setting_value['options'] ) == 'array' ) {
+
+						$general_setting_wrapper .= '<select data-field="' . esc_attr( $setting_key ) . '" class="ur-general-setting-field ur-multiselect ur-type-' . esc_attr( $setting_value['type'] ) . '"  name="' . esc_attr( $setting_value['name'] ) . '" multiple>';
+
+						$selected_arr = $this->get_general_setting_data( $setting_key );
+						$selected_arr = maybe_unserialize( $selected_arr );
+						$selected_arr = is_array( $selected_arr ) ? $selected_arr : array();
+						foreach ( $setting_value['options'] as $key => $val ) {
+							$selected  = selected( in_array( $key, $selected_arr ), true, false );
+							$general_setting_wrapper .= '<option value="' . esc_attr( $key ) . '" ' . esc_attr( $selected ) . '>';
+							$general_setting_wrapper .= esc_html( $val );
+							$general_setting_wrapper .= '</option>';
 						}
 
 						$general_setting_wrapper .= '</select>';

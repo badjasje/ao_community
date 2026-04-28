@@ -11,6 +11,7 @@
 namespace RankMath\Analytics;
 
 use RankMath\Traits\Cache;
+use RankMath\Google\Console;
 use RankMath\Helpers\DB as DB_Helper;
 
 defined( 'ABSPATH' ) || exit;
@@ -82,6 +83,31 @@ class Summary {
 			return $cache;
 		}
 
+		if ( ! Console::is_console_connected() ) {
+			return (object) [
+				'clicks'      => [
+					'total'      => 'n/a',
+					'previous'   => 'n/a',
+					'difference' => 'n/a',
+				],
+				'impressions' => [
+					'total'      => 'n/a',
+					'previous'   => 'n/a',
+					'difference' => 'n/a',
+				],
+				'position'    => [
+					'total'      => 'n/a',
+					'previous'   => 'n/a',
+					'difference' => 'n/a',
+				],
+				'keywords'    => [
+					'total'      => 'n/a',
+					'previous'   => 'n/a',
+					'difference' => 'n/a',
+				],
+			];
+		}
+
 		$stats = DB::analytics()
 			->selectSum( 'impressions', 'impressions' )
 			->selectSum( 'clicks', 'clicks' )
@@ -121,9 +147,9 @@ class Summary {
 		];
 
 		$stats->position = [
-			'total'      => (float) \number_format( $stats->position, 2 ),
-			'previous'   => (float) \number_format( $old_stats->position, 2 ),
-			'difference' => (float) \number_format( $stats->position - $old_stats->position, 2 ),
+			'total'      => $stats->position ? (float) \number_format( $stats->position, 2 ) : 0,
+			'previous'   => $stats->position ? (float) \number_format( $old_stats->position, 2 ) : 0,
+			'difference' => $stats->position ? (float) \number_format( $stats->position - $old_stats->position, 2 ) : 0,
 		];
 
 		$stats->keywords = $this->get_keywords_summary();
@@ -226,6 +252,23 @@ class Summary {
 			return $cache;
 		}
 
+		if ( ! Console::is_console_connected() ) {
+			return (object) [
+				'posts'       => 'n/a',
+				'impressions' => 'n/a',
+				'pageviews'   => 'n/a',
+				'clicks'      => 'n/a',
+				'ctr'         => 'n/a',
+				'position'    => 'n/a',
+				'keywords'    => 'n/a',
+				'graph'       => [
+					'merged' => [],
+					'dates'  => [],
+					'map'    => [],
+				],
+			];
+		}
+
 		$stats = DB::analytics()
 			->selectCount( 'DISTINCT(page)', 'posts' )
 			->selectSum( 'impressions', 'impressions' )
@@ -288,6 +331,16 @@ class Summary {
 	 * @return object
 	 */
 	public function get_posts_summary( $post_type = '' ) {
+		if ( ! Console::is_console_connected() ) {
+			return (object) [
+				'ctr'         => 'n/a',
+				'posts'       => 'n/a',
+				'clicks'      => 'n/a',
+				'pageviews'   => 'n/a',
+				'impressions' => 'n/a',
+			];
+		}
+
 		$cache_key = $this->get_cache_key( 'posts_summary', $this->days . 'days' );
 		$cache     = ! $post_type ? get_transient( $cache_key ) : false;
 
@@ -368,11 +421,11 @@ class Summary {
 
 		$data = new \stdClass();
 
-		// Step1. Get splitted date intervals for graph within selected date range.
+		// Step1. Get split date intervals for graph within selected date range.
 		$intervals     = $this->get_intervals();
 		$sql_daterange = $this->get_sql_date_intervals( $intervals );
 
-		// Step2. Get current analytics data by splitted date intervals.
+		// Step2. Get current analytics data by split date intervals.
 		// phpcs:disable
 		$query = $wpdb->prepare(
 			"SELECT DATE_FORMAT( created, '%%Y-%%m-%%d') as date, SUM(clicks) as clicks, SUM(impressions) as impressions, AVG(position) as position, AVG(ctr) as ctr, {$sql_daterange}
@@ -386,7 +439,7 @@ class Summary {
 		$analytics = $this->set_dimension_as_key( $analytics, 'range_group' );
 		// phpcs:enable
 
-		// Step2. Get current keyword data by splitted date intervals. Keyword count should be calculated as total count of most recent date for each splitted date intervals.
+		// Step2. Get current keyword data by split date intervals. Keyword count should be calculated as total count of most recent date for each split date intervals.
 		// phpcs:disable
 		$query = $wpdb->prepare(
 			"SELECT t.range_group, MAX(CONCAT(t.range_group, ':', t.date, ':', t.keywords )) as mixed FROM

@@ -22,24 +22,24 @@ class NextendSocialLoginAdmin {
     public static function getAdminUrl($view = 'providers') {
 
         return add_query_arg(array(
-            'page' => 'nextend-social-login',
-            'view' => $view
+                'page' => 'nextend-social-login',
+                'view' => $view
         ), admin_url('options-general.php'));
     }
 
     public static function getAdminSettingsUrl($subview = 'general') {
 
         return add_query_arg(array(
-            'page'    => 'nextend-social-login',
-            'view'    => 'global-settings',
-            'subview' => $subview
+                'page'    => 'nextend-social-login',
+                'view'    => 'global-settings',
+                'subview' => $subview
         ), admin_url('options-general.php'));
     }
 
     public static function admin_menu() {
         $menu = add_options_page('Nextend Social Login', 'Nextend Social Login', NextendSocialLogin::getRequiredCapability(), 'nextend-social-login', array(
-            'NextendSocialLoginAdmin',
-            'display_admin'
+                'NextendSocialLoginAdmin',
+                'display_admin'
         ));
 
         add_action('admin_print_styles-' . $menu, 'NextendSocialLoginAdmin::admin_css');
@@ -115,9 +115,6 @@ class NextendSocialLoginAdmin {
     public static function admin_init() {
 
         if (current_user_can(NextendSocialLogin::getRequiredCapability())) {
-            if (!defined('NSL_PRO_PATH')) {
-                require_once(dirname(__FILE__) . '/notice.php');
-            }
 
             if (!isset($_GET['page']) || $_GET['page'] != 'nextend-social-login' || !isset($_GET['view']) || $_GET['view'] != 'fix-redirect-uri') {
                 add_action('admin_notices', 'NextendSocialLoginAdmin::show_oauth_uri_notice');
@@ -182,7 +179,7 @@ class NextendSocialLoginAdmin {
                     case 'dismiss_woocommerce':
                         if (check_admin_referer('nsl_dismiss_woocommerce')) {
                             NextendSocialLogin::$settings->update(array(
-                                'woocommerce_dismissed' => 1
+                                    'woocommerce_dismissed' => 1
                             ));
 
                             if (!empty($_REQUEST['redirect_to'])) {
@@ -207,35 +204,30 @@ class NextendSocialLoginAdmin {
         }
 
         add_action('show_user_profile', array(
-            'NextendSocialLoginAdmin',
-            'showUserFields'
+                'NextendSocialLoginAdmin',
+                'showUserFields'
         ));
         add_action('edit_user_profile', array(
-            'NextendSocialLoginAdmin',
-            'showUserFields'
+                'NextendSocialLoginAdmin',
+                'showUserFields'
         ));
 
         add_filter('display_post_states', array(
-            'NextendSocialLoginAdmin',
-            'display_post_states'
+                'NextendSocialLoginAdmin',
+                'display_post_states'
         ), 10, 2);
 
         if (defined('WPML_PLUGIN_BASENAME')) {
             add_action('nsl_getting_started_warnings', array(
-                'NextendSocialLoginAdmin',
-                'show_WPML_warning'
+                    'NextendSocialLoginAdmin',
+                    'show_WPML_warning'
             ));
             add_filter('nsl_redirect_uri_override', array(
-                'NextendSocialLoginAdmin',
-                'WPML_override_provider_redirect_uris'
+                    'NextendSocialLoginAdmin',
+                    'WPML_override_provider_redirect_uris'
             ), 10, 2);
 
         };
-
-        add_action('nsl_getting_started_warnings', array(
-            'NextendSocialLoginAdmin',
-            'show_getting_started_warning'
-        ), 100, 2);
     }
 
     public static function save_form_data() {
@@ -261,6 +253,7 @@ class NextendSocialLoginAdmin {
                 NextendSocialLogin::$settings->update($_POST);
 
                 if (NextendSocialLogin::hasLicense()) {
+                    NextendSocialUpgrader::clearUpdateCache();
                     Notices::addSuccess(__('The activation was successful', 'nextend-facebook-connect'));
                 }
 
@@ -269,7 +262,7 @@ class NextendSocialLoginAdmin {
             } else if ($view == 'pro-addon-deauthorize') {
 
                 NextendSocialLogin::$settings->update(array(
-                    'license_key' => ''
+                        'license_key' => ''
                 ));
 
                 Notices::addSuccess(__('Deactivate completed.', 'nextend-facebook-connect'));
@@ -304,7 +297,7 @@ class NextendSocialLoginAdmin {
                 case 'orderProviders':
                     if (!empty($_POST['ordering'])) {
                         NextendSocialLogin::$settings->update(array(
-                            'ordering' => $_POST['ordering']
+                                'ordering' => $_POST['ordering']
                         ));
                     }
                     break;
@@ -404,10 +397,10 @@ class NextendSocialLoginAdmin {
                             $response = self::apiCall('test-license', array('license_key' => $value));
                             if ($response === 'OK') {
                                 $newData['licenses'] = array(
-                                    array(
-                                        'license_key' => $value,
-                                        'domain'      => NextendSocialLogin::getDomain()
-                                    )
+                                        array(
+                                                'license_key' => $value,
+                                                'domain'      => NextendSocialLogin::getDomain()
+                                        )
                                 );
                                 wp_clean_plugins_cache();
                             }
@@ -504,8 +497,8 @@ class NextendSocialLoginAdmin {
     public static function apiCall($action, $args = array()) {
 
         $body = array(
-            'platform' => 'wordpress',
-            'domain'   => NextendSocialLogin::getDomain()
+                'platform' => 'wordpress',
+                'domain'   => NextendSocialLogin::getDomain()
         );
 
         $activation_data = NextendSocialLogin::getLicense();
@@ -516,9 +509,9 @@ class NextendSocialLoginAdmin {
         }
 
         $http_args = array(
-            'timeout'    => 15,
-            'user-agent' => 'WordPress',
-            'body'       => array_merge($body, $args)
+                'timeout'    => 15,
+                'user-agent' => 'WordPress',
+                'body'       => array_merge($body, $args)
         );
 
         $request = wp_remote_get(self::getEndpoint($action), $http_args);
@@ -576,9 +569,9 @@ class NextendSocialLoginAdmin {
 
     public static function trackUrl($url, $source) {
         return add_query_arg(array(
-            'utm_campaign' => 'nsl',
-            'utm_source'   => urlencode($source),
-            'utm_medium'   => 'nsl-wordpress-' . (apply_filters('nsl-pro', false) ? 'pro' : 'free')
+                'utm_campaign' => 'nsl',
+                'utm_source'   => urlencode($source),
+                'utm_medium'   => 'nsl-wordpress-' . (apply_filters('nsl-pro', false) ? 'pro' : 'free')
         ), $url);
     }
 
@@ -589,7 +582,7 @@ class NextendSocialLoginAdmin {
             if ($review_state > 0) {
 
                 NextendSocialLogin::$settings->update(array(
-                    'review_state' => $review_state
+                        'review_state' => $review_state
                 ));
             }
         }
@@ -641,9 +634,9 @@ class NextendSocialLoginAdmin {
     public static function authorizeBox($view = 'pro-addon') {
 
         $args = array(
-            'product'  => 'nsl',
-            'domain'   => NextendSocialLogin::getDomain(),
-            'platform' => 'wordpress'
+                'product'  => 'nsl',
+                'domain'   => NextendSocialLogin::getDomain(),
+                'platform' => 'wordpress'
 
         );
 
@@ -786,9 +779,6 @@ class NextendSocialLoginAdmin {
         return $post_states;
     }
 
-    public static function show_WPML_warning() {
-        printf(__('<strong><u>Warning</u></strong>: You are using <b>%1$s</b>! Depending on your %1$s configuration the Redirect URI can be different. For more information please check our %2$s %1$s compatibility tutorial%3$s!', 'nextend-facebook-connect'), 'WPML', '<a href="https://social-login.nextendweb.com/documentation/for-developers/guides/how-to-make-nextend-social-login-compatible-with-wpml/" target="_blank">', '</a>');
-    }
 
     /**
      * @param array                 $redirectUrls
@@ -1016,28 +1006,6 @@ class NextendSocialLoginAdmin {
             } else {
                 add_filter('wpml_get_language_from_url', 'NextendSocialLoginAdmin::get_default_WPML_language_code', 1000000000);
             }
-        }
-    }
-
-    /**
-     * @param NextendSocialProviderDummy $provider
-     * @param string                     $lastUpdated
-     */
-    public static function show_getting_started_warning($provider, $lastUpdated) {
-        if ($provider && $lastUpdated) {
-
-            $lastUpdatedDate = date_format(date_create_from_format('Y-m-d', $lastUpdated), get_option('date_format'));
-
-            $supportURL         = 'https://social-login.nextendweb.com/support/';
-            $version            = defined('NSL_PRO_PATH') ? 'Pro-Addon' : 'Free';
-            $args               = array(
-                'topic'    => 'Wrong-Steps',
-                'provider' => $provider->getLabel(),
-                'version'  => $version
-            );
-            $supportUrlWithArgs = add_query_arg($args, $supportURL);
-
-            printf(__('<p><strong><u>Warning</u></strong>: Providers change the App setup process quite often, which means some steps below might not be accurate. If you see a significant difference in the written instructions and what you see at the provider, check the guide in the %1$sonline documentation%2$s first, just in case if we are already aware of the changes, hence updated the guide. Otherwise feel free to %3$sreport the changes%4$s, so we can check and update the instructions.<br><strong>Last updated:</strong> %5$s.</p>', 'nextend-facebook-connect'), '<a href="' . $provider->getDocURL() . '" target="_blank">', '</a>', '<a href="' . $supportUrlWithArgs . '" target="_blank">', '</a>', $lastUpdatedDate);
         }
     }
 }

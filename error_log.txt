@@ -1,0 +1,15 @@
+[16-Jul-2019 17:20:24 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:24 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:24 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:24 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:24 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:25 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:28 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:28 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:28 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:29 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:29 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:29 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:29 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:29 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32
+[16-Jul-2019 17:20:29 Europe/Berlin] PHP Notice:  Constant WP_DEBUG already defined in /usr/www/users/assauo/wp-config.php on line 32

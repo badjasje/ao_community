@@ -41,7 +41,7 @@ class Post_Columns implements Runner {
 	}
 
 	/**
-	 * Intialize.
+	 * Initialize.
 	 */
 	public function init() {
 		if ( ! Helper::has_cap( 'onpage_general' ) ) {
@@ -373,8 +373,8 @@ class Post_Columns implements Runner {
 			return Helper::get_settings( "titles.tax_{$term->taxonomy}_description" );
 		}
 
-		$post_type   = get_post_type( $object_id );
-		$description = has_excerpt( $object_id ) ? '%excerpt%' : Helper::get_settings( "titles.pt_{$post_type}_description" );
+		$post_type = get_post_type( $object_id );
+		return has_excerpt( $object_id ) ? '%excerpt%' : Helper::get_settings( "titles.pt_{$post_type}_description" );
 	}
 
 	/**
@@ -434,7 +434,7 @@ class Post_Columns implements Runner {
 	}
 
 	/**
-	 * Get Post IDs dispalyed on the Post lists page.
+	 * Get Post IDs displayed on the Post lists page.
 	 */
 	private function get_post_ids() {
 		global $wp_query, $per_page;
@@ -566,6 +566,6 @@ class Post_Columns implements Runner {
 			return in_array( 'index', $robots, true ) ? true : false;
 		}
 
-		return Helper::is_post_indexable( $post_id );
+		return Helper::is_post_indexable( $post_id, false );
 	}
 }

@@ -155,7 +155,7 @@ class DB {
 	/**
 	 * Check if table exists in db or not.
 	 *
-	 * @param string $table_name Table name to check for existance.
+	 * @param string $table_name Table name to check for existence.
 	 *
 	 * @return bool
 	 */
@@ -233,6 +233,29 @@ class DB {
 		}
 
 		return $results;
+	}
+
+	/**
+	 * Create index on a column.
+	 *
+	 * @param string $index_name Index name.
+	 * @param string $table_name Table name.
+	 * @param array  $columns    Columns to create index on.
+	 *
+	 * @return void
+	 */
+	public static function create_index( $index_name, $table_name, $columns ) {
+		if ( ! $index_name || ! $table_name || ! $columns ) {
+			return;
+		}
+		global $wpdb;
+
+		// Bail early if index already exists.
+		if ( self::get_var( "SHOW INDEX FROM {$wpdb->prefix}{$table_name} WHERE Key_name = '{$index_name}'" ) ) {
+			return;
+		}
+
+		self::query( "CREATE INDEX {$index_name} ON {$wpdb->prefix}{$table_name} (" . implode( ',', $columns ) . ')' );
 	}
 
 	/**

@@ -17,16 +17,16 @@
 				//Initialize Form Builder.
 				URFormBuilder.init_form_builder();
 				//Field option tab
-				$(document).on(
-					"click",
-					'ul.ur-tab-lists li[aria-controls="ur-tab-field-options"]',
-					function () {
-						// Hide the form settings in fields panel.
-						$(".ur-selected-inputs")
-							.find("form#ur-field-settings")
-							.hide();
-					}
-				);
+				// $(document).on(
+				// 	"click",
+				// 	'ul.ur-tab-lists li[aria-controls="ur-tab-field-options"]',
+				// 	function () {
+				// 		// Hide the form settings in fields panel.
+				// 		$(".ur-selected-inputs")
+				// 			.find("form#ur-field-settings")
+				// 			.hide();
+				// 	}
+				// );
 				// Handle the field settings when a field is selected in the form builder.
 				$(document).on("click", ".ur-selected-item", function () {
 					URFormBuilder.handle_selected_item($(this));
@@ -260,6 +260,22 @@
 							bulk_options_container
 								.find(".ur-type-textarea")
 								.val("");
+						}
+					}
+				);
+				$(document).on(
+					"change",
+					".ur-settings-enable-state",
+					function (e) {
+						var checked = $(this).is(":checked");
+						var $wrapper = $(document).find(
+							".ur-selected-item.ur-item-active"
+						);
+
+						if (checked) {
+							$wrapper.find(".ur-state-container-wrapper").show();
+						} else {
+							$wrapper.find(".ur-state-container-wrapper").hide();
 						}
 					}
 				);
@@ -2185,6 +2201,40 @@
 						}
 					}
 				});
+				// For membership field: read membership_active_memberships from live #ur-setting-form so multiselect value is saved
+				var field_key = $single_item
+					.find(".ur-field")
+					.attr("data-field-key");
+				if (
+					field_key === "membership" &&
+					$single_item.hasClass("ur-item-active")
+				) {
+					var $activeSelect = $(
+						"#ur-setting-form .ur-general-setting-membership_active_memberships select"
+					);
+					if ($activeSelect.length) {
+						var liveVal = $activeSelect.val();
+						general_setting_data.membership_active_memberships =
+							liveVal != null && Array.isArray(liveVal)
+								? liveVal
+								: liveVal
+								? [].concat(liveVal)
+								: [];
+					}
+					var $showBankToggle = $(
+						"#ur-setting-form .ur-general-setting-user_registration_show_bank_details_on_form input.ur-general-setting-field"
+					);
+					if ($showBankToggle.length) {
+						general_setting_data.user_registration_show_bank_details_on_form =
+							$showBankToggle.is(":checked");
+						if (
+							!general_setting_data.user_registration_show_bank_details_on_form
+						) {
+							general_setting_data.user_registration_show_bank_details_on_form =
+								"false";
+						}
+					}
+				}
 				return general_setting_data;
 			},
 			/**
@@ -2546,6 +2596,7 @@
 								this.manage_required_fields();
 								this.manage_label_hidden_fields();
 								this.manage_image_choice_class();
+								this.manage_state_fields();
 							},
 							single_row: function () {
 								if (
@@ -2859,13 +2910,12 @@
 								var $checkboxes = $(
 									"[data-field-group='payments'] input[name^='user_registration_enable_']"
 								);
+								$membershipField = $(
+									".ur-registered-list"
+								).find(
+									"li[data-field-id='user_registration_membership']"
+								);
 								if ($checkboxes.is(":checked")) {
-									// disable membership field.
-									$membershipField = $(
-										".ur-registered-list"
-									).find(
-										"li[data-field-id='user_registration_membership']"
-									);
 									$membershipField.draggable("disable");
 									$membershipField.addClass(
 										"ur-membership-field-disabled"
@@ -2873,16 +2923,32 @@
 									$membershipField.addClass(
 										"ur-locked-field"
 									);
+									$membershipField.removeClass(
+										"ur-no-membership-available"
+									);
+								} else if (
+									typeof user_registration_form_builder_data.form_has_membership_available !==
+										"undefined" &&
+									!user_registration_form_builder_data.form_has_membership_available
+								) {
+									$membershipField.draggable("disable");
+									$membershipField.addClass(
+										"ur-no-membership-available"
+									);
+									$membershipField.addClass(
+										"ur-locked-field"
+									);
+									$membershipField.removeClass(
+										"ur-membership-field-disabled"
+									);
 								} else {
 									// enable membership field.
-									$membershipField = $(
-										".ur-registered-list"
-									).find(
-										"li[data-field-id='user_registration_membership']"
-									);
 									$membershipField.draggable("enable");
 									$membershipField.removeClass(
 										"ur-membership-field-disabled"
+									);
+									$membershipField.removeClass(
+										"ur-no-membership-available"
 									);
 									$membershipField.removeClass(
 										"ur-locked-field"
@@ -3073,6 +3139,23 @@
 										"error"
 									);
 									return;
+								});
+							},
+							manage_state_fields: function () {
+								$(
+									'input[data-advance-field="enable_state"]'
+								).each(function () {
+									if ($(this).is(":checked")) {
+										$(this)
+											.closest(".ur-selected-item")
+											.find(".ur-state-container-wrapper")
+											.show();
+									} else {
+										$(this)
+											.closest(".ur-selected-item")
+											.find(".ur-state-container-wrapper")
+											.hide();
+									}
 								});
 							}
 						};
@@ -4003,6 +4086,22 @@
 							.find("a.nav-tab")
 							.removeClass("active");
 						$(this).addClass("active");
+
+						$(".ur-multiselect").each(function () {
+							var $el = $(this);
+							if ($el.hasClass("select2-hidden-accessible")) {
+								try {
+									$el.select2("destroy");
+								} catch (e) {}
+							}
+							$el.select2();
+							var $wrap = $el.closest(".ur-general-setting");
+							if ($wrap.length) {
+								var $containers =
+									$wrap.find(".select2-container");
+								$containers.slice(1).remove();
+							}
+						});
 					}
 				);
 				$(".ur-tabs").tabs();

@@ -9,9 +9,9 @@
 	Donate link: https://monzillamedia.com/donate.html
 	Contributors: specialk
 	Requires at least: 4.9
-	Tested up to: 6.9
-	Stable tag: 3.2.5
-	Version:    3.2.5
+	Tested up to: 7.0
+	Stable tag: 3.3.1
+	Version:    3.3.1
 	Requires PHP: 5.6.20
 	Text Domain: disable-gutenberg
 	Domain Path: /languages
@@ -32,7 +32,7 @@
 	You should have received a copy of the GNU General Public License
 	with this program. If not, visit: https://www.gnu.org/licenses/
 	
-	Copyright 2025 Monzilla Media. All rights reserved.
+	Copyright 2018-2026 Monzilla Media. All rights reserved.
 */
 
 if (!defined('ABSPATH')) die();
@@ -76,7 +76,7 @@ if (!class_exists('DisableGutenberg')) {
 		
 		function constants() {
 			
-			if (!defined('DISABLE_GUTENBERG_VERSION')) define('DISABLE_GUTENBERG_VERSION', '3.2.5');
+			if (!defined('DISABLE_GUTENBERG_VERSION')) define('DISABLE_GUTENBERG_VERSION', '3.3.1');
 			if (!defined('DISABLE_GUTENBERG_REQUIRE')) define('DISABLE_GUTENBERG_REQUIRE', '4.9');
 			if (!defined('DISABLE_GUTENBERG_AUTHOR'))  define('DISABLE_GUTENBERG_AUTHOR',  'Jeff Starr');
 			if (!defined('DISABLE_GUTENBERG_NAME'))    define('DISABLE_GUTENBERG_NAME',    'Disable Gutenberg');
@@ -181,7 +181,7 @@ if (!class_exists('DisableGutenberg')) {
 				$links[] = '<a target="_blank" rel="noopener noreferrer" href="'. $home_href .'" title="'. $home_title .'">'. $home_text .'</a>';
 				
 				$rate_href  = 'https://wordpress.org/support/plugin/'. DISABLE_GUTENBERG_SLUG .'/reviews/?rate=5#new-post';
-				$rate_title = esc_attr__('Click here to rate and review this plugin on WordPress.org', 'disable-gutenberg');
+				$rate_title = esc_attr__('Click here to rate and review this plugin at WordPress.org', 'disable-gutenberg');
 				$rate_text  = esc_html__('Rate this plugin', 'disable-gutenberg') .'&nbsp;&raquo;';
 				
 				$links[] = '<a target="_blank" rel="noopener noreferrer" href="'. $rate_href .'" title="'. $rate_title .'">'. $rate_text .'</a>';
@@ -225,9 +225,9 @@ if (!class_exists('DisableGutenberg')) {
 						deactivate_plugins(DISABLE_GUTENBERG_FILE);
 						
 						$msg  = '<strong>'. DISABLE_GUTENBERG_NAME .'</strong> '. esc_html__('requires WordPress ', 'disable-gutenberg') . DISABLE_GUTENBERG_REQUIRE;
-						$msg .= esc_html__(' or higher, and has been deactivated! ', 'disable-gutenberg');
-						$msg .= esc_html__('Please return to the', 'disable-gutenberg') .' <a href="'. admin_url() .'">';
-						$msg .= esc_html__('WP Admin Area', 'disable-gutenberg') .'</a> '. esc_html__('to upgrade WordPress and try again.', 'disable-gutenberg');
+						$msg .= esc_html__(' or higher, and has been deactivated. ', 'disable-gutenberg');
+						$msg .= esc_html__('Please return to the', 'disable-gutenberg') .' <a href="'. admin_url('plugins.php') .'">';
+						$msg .= esc_html__('WordPress Admin Area', 'disable-gutenberg') .'</a> '. esc_html__('to upgrade WordPress and try again.', 'disable-gutenberg');
 						
 						wp_die($msg);
 						

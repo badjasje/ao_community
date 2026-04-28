@@ -12,6 +12,8 @@
 .ui-dialog .ui-dialog-buttonpane .ui-button { margin: 0; }
 .ui-dialog .ui-dialog-buttonpane .ui-button:first-child { margin-right: 15px; }
 
+.wp-admin .dg-pro { margin: 10px 0; font-size: 12px; font-style: italic; color: #777; }
+
 .wp-admin .notice code { line-height: 1; font-size: 12px; }
 .wp-admin .disable-gutenberg-dismiss-notice { float: right; }
 

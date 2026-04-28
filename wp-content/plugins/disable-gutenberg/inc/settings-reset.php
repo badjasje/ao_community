@@ -32,12 +32,12 @@ function disable_gutenberg_admin_notice() {
 			
 			<div class="notice notice-success notice-lh">
 				<p>
-					<strong><?php esc_html_e('Fall Sale!', 'disable-gutenberg'); ?></strong> 
-					<?php esc_html_e('Take 25% OFF any of our', 'disable-gutenberg'); ?> 
+					<strong><?php esc_html_e('🌼 Spring Sale!', 'disable-gutenberg'); ?></strong> 
+					<?php esc_html_e('Take 30% OFF any of our', 'disable-gutenberg'); ?> 
 					<a target="_blank" rel="noopener noreferrer" href="https://plugin-planet.com/"><?php esc_html_e('Pro WordPress plugins', 'disable-gutenberg'); ?></a> 
 					<?php esc_html_e('and', 'disable-gutenberg'); ?> 
 					<a target="_blank" rel="noopener noreferrer" href="https://books.perishablepress.com/"><?php esc_html_e('books', 'disable-gutenberg'); ?></a>. 
-					<?php esc_html_e('Apply code', 'disable-gutenberg'); ?> <code>FALL2025</code> <?php esc_html_e('at checkout. Sale ends 1/11/2026.', 'disable-gutenberg'); ?> 
+					<?php esc_html_e('Apply code', 'disable-gutenberg'); ?> <code>SPRING30</code> <?php esc_html_e('at checkout. Sale ends 6/28/2026.', 'disable-gutenberg'); ?> 
 					<?php echo disable_gutenberg_dismiss_notice_link(); ?>
 				</p>
 			</div>
@@ -116,7 +116,7 @@ function disable_gutenberg_dismiss_notice_link() {
 
 function disable_gutenberg_check_date_expired() {
 	
-	$expires = apply_filters('disable_gutenberg_check_date_expired', '2026-01-11');
+	$expires = apply_filters('disable_gutenberg_check_date_expired', '2026-06-28');
 	
 	return (new DateTime() > new DateTime($expires)) ? true : false;
 	
@@ -130,11 +130,13 @@ function disable_gutenberg_reset_options() {
 		
 		if (!current_user_can('manage_options')) exit;
 		
+		$dismiss_delete = delete_option('disable-gutenberg-dismiss-notice');
+		
 		$options_delete = delete_option('disable_gutenberg_options');
 		
 		$result = 'false';
 		
-		if ($options_delete) $result = 'true';
+		if ($dismiss_delete || $options_delete) $result = 'true';
 		
 		$location = admin_url('options-general.php?page=disable-gutenberg&reset-options='. $result);
 		
