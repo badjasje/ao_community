@@ -1,6 +1,6 @@
 <?php
 /**
- * The WooCommerce Module
+ * The product permalink watcher class.
  *
  * @since      0.9.0
  * @package    RankMath
@@ -13,7 +13,8 @@ namespace RankMath\WooCommerce;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use RankMath\Helpers\Sitepress;
-use MyThemeShop\Helpers\Str;
+use RankMath\Helpers\Str;
+use RankMath\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -39,6 +40,27 @@ class Permalink_Watcher {
 	private $categories;
 
 	/**
+	 * Remove product base.
+	 *
+	 * @var bool
+	 */
+	private $remove_product_base;
+
+	/**
+	 * Remove category base.
+	 *
+	 * @var bool
+	 */
+	private $remove_category_base;
+
+	/**
+	 * Remove parent slugs.
+	 *
+	 * @var bool
+	 */
+	private $remove_parent_slugs;
+
+	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
@@ -46,17 +68,27 @@ class Permalink_Watcher {
 		$this->remove_category_base = Helper::get_settings( 'general.wc_remove_category_base' );
 		$this->remove_parent_slugs  = Helper::get_settings( 'general.wc_remove_category_parent_slugs' );
 
-		if ( $this->remove_product_base ) {
+		if ( $this->remove_product_base && ! (bool) Param::get( 'elementor-preview' ) ) {
 			$this->filter( 'post_type_link', 'post_type_link', 1, 2 );
 		}
 
 		if ( $this->remove_category_base || $this->remove_parent_slugs ) {
+			$this->action( 'created_product_cat', 'flush_rules' );
+			$this->action( 'delete_product_cat', 'flush_rules' );
+			$this->action( 'edited_product_cat', 'flush_rules' );
+
 			$this->filter( 'term_link', 'term_link', 0, 3 );
-			add_action( 'created_product_cat', 'RankMath\\Helper::schedule_flush_rewrite' );
-			add_action( 'delete_product_cat', 'RankMath\\Helper::schedule_flush_rewrite' );
-			add_action( 'edited_product_cat', 'RankMath\\Helper::schedule_flush_rewrite' );
 			$this->filter( 'rewrite_rules_array', 'add_rewrite_rules', 99 );
 		}
+	}
+
+	/**
+	 * Flush rewrite rules (soft flush).
+	 *
+	 * @return void
+	 */
+	public function flush_rules() {
+		flush_rewrite_rules( false );
 	}
 
 	/**
@@ -106,7 +138,7 @@ class Permalink_Watcher {
 	}
 
 	/**
-	 * Add rewrite rules for wp.
+	 * Add rewrite rules.
 	 *
 	 * @param array $rules The compiled array of rewrite rules.
 	 *
@@ -133,6 +165,7 @@ class Permalink_Watcher {
 		foreach ( $this->get_categories() as $category ) {
 			$cat_path = $this->get_category_fullpath( $category );
 			$cat_slug = $category_base . ( $this->remove_parent_slugs ? $category['slug'] : $cat_path );
+			$cat_slug = urldecode( $cat_slug );
 
 			$category_rules[ "{$cat_slug}/?\$" ]                                  = 'index.php?product_cat=' . $category['slug'];
 			$category_rules[ "{$cat_slug}/embed/?\$" ]                            = 'index.php?product_cat=' . $category['slug'] . '&embed=true';
@@ -141,6 +174,7 @@ class Permalink_Watcher {
 			$category_rules[ "{$cat_slug}/{$wp_rewrite->pagination_base}/?([0-9]{1,})/?\$" ] = 'index.php?product_cat=' . $category['slug'] . '&paged=$matches[1]';
 
 			if ( $this->remove_product_base && $use_parent_slug ) {
+				$cat_path                                   = urldecode( $cat_path );
 				$product_rules[ $cat_path . '/([^/]+)/?$' ] = 'index.php?product=$matches[1]';
 				$product_rules[ $cat_path . '/([^/]+)/' . $wp_rewrite->comments_pagination_base . '-([0-9]{1,})/?$' ] = 'index.php?product=$matches[1]&cpage=$matches[2]';
 			}
@@ -222,7 +256,7 @@ class Permalink_Watcher {
 	}
 
 	/**
-	 * Can change link
+	 * Check if the link can be changed or not.
 	 *
 	 * @param string $check   Check string.
 	 * @param string $against Against this.

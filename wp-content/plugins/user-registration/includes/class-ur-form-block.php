@@ -1,4 +1,13 @@
 <?php
+/**
+ * UserRegistration UR_Form_Block
+ *
+ * AJAX Event Handler
+ *
+ * @class    UR_AJAX
+ * @version  1.0.0
+ * @package  UserRegistration/Classes
+ */
 
 /**
  * Form Selector Gutenberg block with live preview.
@@ -26,6 +35,8 @@ class UR_Form_Block {
 	 * @return void.
 	 */
 	public function enqueue_block_editor_assets() {
+		global $pagenow;
+		$enqueue_script = array( 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-editor', 'wp-components' );
 
 		wp_register_style(
 			'user-registration-block-editor',
@@ -34,10 +45,13 @@ class UR_Form_Block {
 			UR_VERSION
 		);
 
+		if ( 'widgets.php' === $pagenow ) {
+			unset( $enqueue_script[ array_search( 'wp-editor', $enqueue_script ) ] );
+		}
 		wp_register_script(
 			'user-registration-block-editor',
-			UR()->plugin_url() . '/assets/js/admin/gutenberg/form-block.build.js',
-			array( 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-editor', 'wp-components' ),
+			UR()->plugin_url() . '/chunks/formblock.js',
+			$enqueue_script,
 			UR_VERSION
 		);
 
@@ -45,11 +59,12 @@ class UR_Form_Block {
 			'forms'    => ur_get_all_user_registration_form(),
 			'logo_url' => UR()->plugin_url() . '/assets/images/logo.png',
 			'i18n'     => array(
-				'title'         => esc_html__( 'User Registration', 'user-registration' ),
+				'title'         => esc_html( 'User Registration' ),
 				'description'   => esc_html__( 'Select &#38; display one of your form.', 'user-registration' ),
 				'form_select'   => esc_html__( 'Select a Form', 'user-registration' ),
 				'form_settings' => esc_html__( 'Form Settings', 'user-registration' ),
 				'form_selected' => esc_html__( 'Form', 'user-registration' ),
+				'deprecated_notice' => esc_html__( 'The user registration form selector block has been deprecated. Please use the new updated block with new functionality.', 'user-registration' ),
 			),
 		);
 
@@ -69,7 +84,19 @@ class UR_Form_Block {
 			'user-registration/form-selector',
 			array(
 				'attributes'      => array(
-					'formId' => array(
+					'formId'      => array(
+						'type' => 'string',
+					),
+					'formType'    => array(
+						'type' => 'string',
+					),
+					'shortcode'   => array(
+						'type' => 'string',
+					),
+					'redirectUrl' => array(
+						'type' => 'string',
+					),
+					'logoutUrl'   => array(
 						'type' => 'string',
 					),
 				),
@@ -84,46 +111,74 @@ class UR_Form_Block {
 	 * Render Callback for the block. This is what is output
 	 * in the preview within Gutenberg
 	 *
-	 * @param $attr
+	 * @param array $attr Attributes.
 	 */
-	function render_callback( $attr ) {
+	public function render_callback( $attr ) {
 
-		$form_id = ! empty( $attr['formId'] ) ? absint( $attr['formId'] ) : 0;
+		$form_type = ! empty( $attr['formType'] ) ? _sanitize_text_fields( $attr['formType'] ) : 'registration_form';
+		if ( 'registration_form' === $form_type ) {
+			$form_id = ! empty( $attr['formId'] ) ? absint( $attr['formId'] ) : 0;
 
-		if ( empty( $form_id ) ) {
-			return '';
+			if ( empty( $form_id ) ) {
+				return '';
+			}
+
+			$is_gb_editor = defined( 'REST_REQUEST' ) && REST_REQUEST && ! empty( $_REQUEST['context'] ) && 'edit' === $_REQUEST['context']; // phpcs:ignore WordPress.Security.NonceVerification
+
+			if ( $is_gb_editor ) {
+				add_filter(
+					'user_registration_form_custom_class',
+					function ( $class ) {
+						return $class . ' ur-gutenberg-editor';
+					}
+				);
+
+				add_action(
+					'user_registration_before_registration_form',
+					function () {
+						echo '<fieldset disabled>';
+					}
+				);
+
+				add_action(
+					'user_registration_form_registration',
+					function () {
+						echo '</fieldset>';
+					}
+				);
+			}
+
+			return UR_Shortcodes::form(
+				array(
+					'id' => $form_id,
+				)
+			);
+		} elseif ( 'login_form' === $form_type ) {
+			$shortcode = ! empty( $attr['shortcode'] ) ? _sanitize_text_fields( $attr['shortcode'] ) : '';
+
+			if ( empty( $shortcode ) ) {
+				return '';
+			}
+			$parameters = array();
+
+			if ( ! empty( $attr['redirectUrl'] ) ) {
+				$parameters['redirect_url'] = $attr['redirectUrl'];
+			}
+
+			if ( ! empty( $attr['logoutUrl'] ) ) {
+				$parameters['logout_redirect'] = $attr['logoutUrl'];
+			}
+
+			if ( 'user_registration_login' === $shortcode ) {
+				return UR_Shortcodes::login(
+					$parameters
+				);
+			} else {
+				return UR_Shortcodes::my_account(
+					$parameters
+				);
+			}
 		}
-
-		$is_gb_editor = defined( 'REST_REQUEST' ) && REST_REQUEST && ! empty( $_REQUEST['context'] ) && 'edit' === $_REQUEST['context'];
-
-		if ( $is_gb_editor ) {
-			add_filter(
-				'user_registration_form_custom_class',
-				function( $class ) {
-					return $class . ' ur-gutenberg-editor';
-				}
-			);
-
-			add_action(
-				'user_registration_before_registration_form',
-				function() {
-					echo '<fieldset disabled>';
-				}
-			);
-
-			add_action(
-				'user_registration_form_registration',
-				function() {
-					echo '</fieldset>';
-				}
-			);
-		}
-
-		return UR_Shortcodes::form(
-			array(
-				'id' => $form_id,
-			)
-		);
 	}
 }
 

@@ -1,10 +1,12 @@
 <?php
 /**
- * On-Screen help tab.
+ * On-Screen help tab: Bulk Actions.
  *
  * @package    RankMath
  * @subpackage RankMath\Redirections
  */
+
+defined( 'ABSPATH' ) || exit;
 
 ?>
 <p>

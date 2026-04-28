@@ -32,6 +32,7 @@ $gameType = get_field('game_type','option');
 			data-provider="facebook" data-popupwidth="475" data-popupheight="175">
 			<button style="background-color:#4266b2"class="mainSubmit"><i class="fab fa-facebook-square"></i> Login or register with Facebook</button>
 		</a>
+		<a style="background-color:#ddd;color:#000;text-align:center;border:1px solid #000;padding:5px;margin-top:10px;margin-bottom:10px;display: block;font-weight: bold;"href="https://assault.online/wp-login.php?action=lostpassword">HELP I lost my Password</a>
 		<?php } ?>
 
 		<a href="<?php echo get_site_url();?>/register/"><button style="background-color:#7e7b7b"class="mainSubmit">

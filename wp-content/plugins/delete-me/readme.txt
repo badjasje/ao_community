@@ -3,8 +3,8 @@ Contributors: cmc3215
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=L5VY6QDSAAZUL
 Tags: delete, unsubscribe, user management, gdpr, multisite
 Requires at least: 3.7
-Tested up to: 5.4
-Stable tag: 3.0
+Tested up to: 6.5.3
+Stable tag: 3.2
 Requires PHP: 5.2.4
 License: GPL2 http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,16 @@ No, the only data stored is related to the plugin's settings which are located o
 6. **Settings -> Delete Me** subpanel.
 
 == Changelog ==
+
+= 3.2 =
+
+* Release date: 06/02/2024
+* Added PHP isset check on $_SERVER['SCRIPT_FILENAME'] in delete-me.php file to prevent exception when running via CLI mode. Requested by @gabyrau.
+
+= 3.1 =
+
+* Release date: 11/11/2023
+* Added output sanitization to all editable settings to remove cross-site scripting vulnerability.
 
 = 3.0 =
 

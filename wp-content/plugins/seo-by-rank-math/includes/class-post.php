@@ -7,13 +7,13 @@
  * @subpackage RankMath\Core
  * @author     Rank Math <support@rankmath.com>
  *
- * Some functionality forked from Yoast (https://github.com/Yoast/wordpress-seo/)
+ * @copyright Copyright (C) 2008-2019, Yoast BV
+ * The following code is a derivative work of the code from the Yoast(https://github.com/Yoast/wordpress-seo/), which is licensed under GPL v3.
  */
 
 namespace RankMath;
 
 use WP_Post;
-use MyThemeShop\Helpers\Conditional;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -78,19 +78,19 @@ class Post extends Metadata {
 	/**
 	 * Get a post meta value.
 	 *
-	 * @param  string  $key     Value to get, without prefix.
-	 * @param  integer $post_id ID of the post.
-	 * @param  string  $default Default value to use when metadata does not exists.
+	 * @param  string  $key           Value to get, without prefix.
+	 * @param  integer $post_id       ID of the post.
+	 * @param  string  $default_value Default value to use when metadata does not exists.
 	 * @return mixed
 	 */
-	public static function get_meta( $key, $post_id = 0, $default = '' ) {
+	public static function get_meta( $key, $post_id = 0, $default_value = '' ) {
 		$post = self::get( $post_id );
 
 		if ( is_null( $post ) || ! $post->is_found() || 'auto-draft' === $post->post_status ) {
 			return '';
 		}
 
-		return $post->get_metadata( $key, $default );
+		return $post->get_metadata( $key, $default_value );
 	}
 
 	/**
@@ -98,11 +98,11 @@ class Post extends Metadata {
 	 *
 	 * @return int The ID of the page.
 	 */
-	public static function get_simple_page_id() {
+	public static function get_page_id() {
 		/**
-		 * Filter: Allow changing the default page ID. Short-circuit if 3rd party set page ID.
+		 * Filter: Allow changing the page ID before we process anything.
 		 *
-		 * @param unsigned int $page_id The default page ID.
+		 * @param bool|int $page_id The default page ID.
 		 */
 		$page_id = apply_filters( 'rank_math/pre_simple_page_id', false );
 		if ( false !== $page_id ) {
@@ -122,9 +122,9 @@ class Post extends Metadata {
 		}
 
 		/**
-		 * Filter: Allow changing the default page ID.
+		 * Filter: Allow changing the page ID.
 		 *
-		 * @param unsigned int $page_id The default page ID.
+		 * @param int $page_id The page ID.
 		 */
 		return apply_filters( 'rank_math/simple_page_id', 0 );
 	}
@@ -149,7 +149,7 @@ class Post extends Metadata {
 	 * @return bool Whether the current page is a simple page.
 	 */
 	public static function is_simple_page() {
-		return self::get_simple_page_id() > 0;
+		return self::get_page_id() > 0;
 	}
 
 	/**
@@ -171,7 +171,7 @@ class Post extends Metadata {
 	 * @return bool Whether the current page is a WooCommerce page.
 	 */
 	public static function is_woocommerce_page() {
-		if ( Conditional::is_woocommerce_active() ) {
+		if ( Helper::is_woocommerce_active() ) {
 			return \is_cart() || \is_checkout() || \is_account_page();
 		}
 

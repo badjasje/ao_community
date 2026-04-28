@@ -31,14 +31,14 @@ if ( !empty( $user->ID ) && ( in_array( 'administrator', $user->roles ) || ( is_
 		'form_confirm_button' => $default_option['settings']['shortcode_form_confirm_button'] === $this->option['settings']['shortcode_form_confirm_button'] ? __( 'Confirm Deletion', 'delete-me' ) : $this->option['settings']['shortcode_form_confirm_button'],
 	) , $atts );
 	$attributes = array();
-	$attributes['class'] = $atts['class'];
-	$attributes['style'] = $atts['style'];
+	$attributes['class'] = esc_attr( $atts['class'] );
+	$attributes['style'] = esc_attr( $atts['style'] );
 	$attributes['href'] = esc_url( add_query_arg(
 		array_filter( // Removes landing_url if empty
 			array(
 				$this->info['trigger'] => $this->user_ID,
 				$this->info['nonce'] => wp_create_nonce( $this->info['nonce'] ),
-				$this->info['trigger'] . '_landing_url' => $atts['landing_url'],
+				$this->info['trigger'] . '_landing_url' => urlencode( $atts['landing_url'] ),
 			)
 		)
 	) );
@@ -67,10 +67,10 @@ if ( !empty( $user->ID ) && ( in_array( 'administrator', $user->roles ) || ( is_
 		// Do not escape Warning or Password label, HTML expected.
 		'<form id="' . $this->info['trigger'] . '_shortcode_form" action="' . $attributes['href'] . '" method="post">
 			<p>
-				' . $form_confirm_warning . '
+				' . wp_kses_post( $form_confirm_warning ) . '
 			</p>
 			<p>
-				<label for="' . $this->info['trigger'] . '_shortcode_password">' . ( $form_password_label ) . '</label>
+				<label for="' . $this->info['trigger'] . '_shortcode_password">' . wp_kses_post( $form_password_label ) . '</label>
 				<input' . $incorrect_password_style . ' type="password" autocomplete="off" autofocus="autofocus" id="' . $this->info['trigger'] . '_shortcode_password" name="' . $this->info['trigger'] . '_shortcode_password" />
 			</p>
 			<p>
@@ -80,7 +80,7 @@ if ( !empty( $user->ID ) && ( in_array( 'administrator', $user->roles ) || ( is_
 
 	} else {
 
-		$longcode = '<a ' . implode( ' ', $paired_attributes ) . '>' . $atts['html'] . '</a>';
+		$longcode = '<a ' . implode( ' ', $paired_attributes ) . '>' . wp_kses_post( $atts['html'] ) . '</a>';
 
 	}
 

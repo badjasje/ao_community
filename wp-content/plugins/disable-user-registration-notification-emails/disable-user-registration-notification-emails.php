@@ -2,11 +2,11 @@
 /**
  * Plugin Name: Disable User Registration Notification Emails
  * Description: Turns off the notification sent to the admin email when a new user account is registered. Works with WP >= 4.6.0.
- * Version: 1.0.0
- * Author: Potent Plugins
- * Author URI: http://potentplugins.com/?utm_source=disable-user-registration-notification-emails&utm_medium=link&utm_campaign=wp-plugin-author-uri
- * License: GNU General Public License version 2 or later
- * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * Version: 1.0.1
+ * Author: Aspen Grove Studios
+ * Author URI: https://aspengrovestudios.com/?utm_source=disable-user-registration-notification-emails&utm_medium=link&utm_campaign=wp-plugin-author-uri
+ * License: GNU General Public License version 3 or later
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
 if (!defined('ABSPATH')) {

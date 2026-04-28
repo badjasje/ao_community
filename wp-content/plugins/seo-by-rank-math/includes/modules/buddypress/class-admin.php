@@ -1,6 +1,6 @@
 <?php
 /**
- * The BuddyPress Module
+ * The admin-side code for the BuddyPress module.
  *
  * @since      1.0.32
  * @package    RankMath
@@ -10,7 +10,6 @@
 
 namespace RankMath\BuddyPress;
 
-use RankMath\Helper;
 use RankMath\Traits\Hooker;
 
 defined( 'ABSPATH' ) || exit;
@@ -30,14 +29,13 @@ class Admin {
 	}
 
 	/**
-	 * Add module settings into titles optional panel.
+	 * Add new tab in the Titles & Meta settings for the BuddyPress module.
 	 *
 	 * @param array $tabs Array of option panel tabs.
 	 *
 	 * @return array
 	 */
 	public function add_title_settings( $tabs ) {
-
 		$tabs['buddypress'] = [
 			'title' => esc_html__( 'BuddyPress:', 'rank-math' ),
 			'type'  => 'seprator',
@@ -47,7 +45,7 @@ class Admin {
 			'icon'  => 'rm-icon rm-icon-users',
 			'title' => esc_html__( 'Groups', 'rank-math' ),
 			'desc'  => esc_html__( 'This tab contains SEO options for BuddyPress Group pages.', 'rank-math' ),
-			'file'  => dirname( __FILE__ ) . '/views/options-titles.php',
+			'file'  => __DIR__ . '/views/options-titles.php',
 		];
 
 		return $tabs;

@@ -3,7 +3,19 @@ require_once("wp-load.php");
 
 $winnerArray = array();
 
-$args = array('meta_key' => 'land',	'number' => 10,	'orderby' => 'meta_value_num', 'order' => 'DESC');
+$args = array(
+	'meta_key'     => 'land',
+	'number'       => 10,
+	'orderby'      => 'meta_value_num',
+	'order'        => 'DESC',
+	'meta_query'   => array(
+		array(
+			'key'     => 'status',
+			'value'   => 'banned',
+			'compare' => '!=', // Exclude users with 'status' meta key set to 'banned'
+		),
+	),
+);
 $users = get_users($args);
 ?>
 <strong>Medal of Earth</strong>
@@ -70,7 +82,19 @@ $users = get_users($args);
 <br/>
 <?php
 
-$args = array('meta_key' => 'user_clan_points', 'number' => 10, 'orderby' => 'meta_value_num', 'order' => 'DESC');
+$args = array(
+	'meta_key'     => 'user_clan_points',
+	'number'       => 10,
+	'orderby'      => 'meta_value_num',
+	'order'        => 'DESC',
+	'meta_query'   => array(
+		array(
+			'key'     => 'status',
+			'value'   => 'banned',
+			'compare' => '!=', // Exclude users with 'status' meta key set to 'banned'
+		),
+	),
+);
 $count = 0;
 $users = get_users($args);
 ?>
@@ -132,7 +156,19 @@ $users = get_users($args);
 <br/>
 <?php
 
-$args = array('meta_key' => 'networth', 'number' => 10, 'orderby' => 'meta_value_num', 'order' => 'DESC');
+$args = array(
+	'meta_key'     => 'networth',
+	'number'       => 10,
+	'orderby'      => 'meta_value_num',
+	'order'        => 'DESC',
+	'meta_query'   => array(
+		array(
+			'key'     => 'status',
+			'value'   => 'banned',
+			'compare' => '!=', // Exclude users with 'status' meta key set to 'banned'
+		),
+	),
+);
 $count = 0;
 $users = get_users($args);
 ?>
@@ -196,7 +232,19 @@ $users = get_users($args);
 <br/>
 <?php
 
-$args = array('meta_key' => 'in_war_attacks', 'number' => 10, 'orderby' => 'meta_value_num', 'order' => 'DESC');
+$args = array(
+	'meta_key'     => 'in_war_attacks',
+	'number'       => 10,
+	'orderby'      => 'meta_value_num',
+	'order'        => 'DESC',
+	'meta_query'   => array(
+		array(
+			'key'     => 'status',
+			'value'   => 'banned',
+			'compare' => '!=', // Exclude users with 'status' meta key set to 'banned'
+		),
+	),
+);
 $count = 0;
 $users = get_users($args);
 ?>
@@ -265,7 +313,19 @@ $users = get_users($args);
 <br/>
 <?php
 
-$args = array('meta_key' => 'kills_made', 'number' => 10, 'orderby' => 'meta_value_num', 'order' => 'DESC');
+$args = array(
+	'meta_key'     => 'kills_made',
+	'number'       => 10,
+	'orderby'      => 'meta_value_num',
+	'order'        => 'DESC',
+	'meta_query'   => array(
+		array(
+			'key'     => 'status',
+			'value'   => 'banned',
+			'compare' => '!=', // Exclude users with 'status' meta key set to 'banned'
+		),
+	),
+);
 $count = 0;
 $users = get_users($args);
 ?>
@@ -332,7 +392,19 @@ $users = get_users($args);
 <br/>
 <?php
 
-$args = array('meta_key' => 'money_gained_thieving', 'number' => 10, 'orderby' => 'meta_value_num', 'order' => 'DESC');
+$args = array(
+	'meta_key'     => 'money_gained_thieving',
+	'number'       => 10,
+	'orderby'      => 'meta_value_num',
+	'order'        => 'DESC',
+	'meta_query'   => array(
+		array(
+			'key'     => 'status',
+			'value'   => 'banned',
+			'compare' => '!=', // Exclude users with 'status' meta key set to 'banned'
+		),
+	),
+);
 $count = 0;
 $users = get_users($args);
 ?>
@@ -401,7 +473,19 @@ $users = get_users($args);
 <br/>
 <?php
 
-$args = array('meta_key' => 'nw_damage_missiles_war', 'number' => 10, 'orderby' => 'meta_value_num', 'order' => 'DESC');
+$args = array(
+	'meta_key'     => 'nw_damage_missiles_war',
+	'number'       => 10,
+	'orderby'      => 'meta_value_num',
+	'order'        => 'DESC',
+	'meta_query'   => array(
+		array(
+			'key'     => 'status',
+			'value'   => 'banned',
+			'compare' => '!=', // Exclude users with 'status' meta key set to 'banned'
+		),
+	),
+);
 $count = 0;
 $users = get_users($args);
 ?>

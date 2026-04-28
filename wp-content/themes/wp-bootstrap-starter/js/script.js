@@ -44,7 +44,7 @@ function updateHeaderData(cb) {
             $('.globalsBadge').text(data.globals).toggle((data.globals>0));
             $('.localsBadge').text(data.locals).toggle((data.locals>0));
             $('.messagesBadge').text(data.messages).toggle((data.messages>0));
-            $('.warsBadge').text(data.wars).toggle((data.wars>0));
+            //$('.warsBadge').text(data.wars).toggle((data.wars>0));
             var unread = data.globals + data.locals + data.messages;
             if(unread > 0) document.title = '('+unread+') '+oldTitle;
             if(!!cb) cb.call();

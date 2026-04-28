@@ -12,7 +12,7 @@ $settings = $provider->settings;
         <div class="error">
             <p><?php printf(__('%1$s allows HTTPS OAuth Redirects only. You must move your site to HTTPS in order to allow login with %1$s.', 'nextend-facebook-connect'), 'Facebook'); ?></p>
             <p>
-                <a href="https://nextendweb.com/nextend-social-login-docs/facebook-api-changes/#enforce-https" target="_blank"><?php _e('How to get SSL for my WordPress site?', 'nextend-facebook-connect'); ?></a>
+                <a href="https://social-login.nextendweb.com/documentation/providers/facebook/#enforce-https" target="_blank"><?php _e('How to get SSL for my WordPress site?', 'nextend-facebook-connect'); ?></a>
             </p>
         </div>
     <?php endif; ?>
@@ -58,7 +58,7 @@ $settings = $provider->settings;
             <div class="error">
                 <p><?php printf(__('By replacing your existing %1$s App, users with linked %1$s accounts will no longer be able to login with %1$s.', 'nextend-facebook-connect'), 'Facebook'); ?></p>
                 <p>
-                    <a href="https://nextendweb.com/nextend-social-login-docs/provider-facebook/#app_scoped_user_id" target="_blank"><?php _e('Find out why?', 'nextend-facebook-connect'); ?></a>
+                    <a href="https://social-login.nextendweb.com/documentation/providers/facebook/#app-scoped-user-id" target="_blank"><?php _e('Find out why?', 'nextend-facebook-connect'); ?></a>
                 </p>
             </div>
         <?php endif; ?>
@@ -69,6 +69,36 @@ $settings = $provider->settings;
         <?php
         $this->renderOtherSettings();
 
+        ?>
+
+        <table class="form-table">
+            <tbody>
+            <tr>
+                <th scope="row"><?php _e('Profile image size', 'nextend-facebook-connect'); ?></th>
+                <td>
+                    <fieldset>
+                        <label><input type="radio" name="profile_image_size"
+                                      value="50" <?php if ($settings->get('profile_image_size') == '50') : ?> checked="checked" <?php endif; ?>>
+                            <span><?php _e('Small', 'nextend-facebook-connect'); ?></span></label><br>
+                        <label><input type="radio" name="profile_image_size"
+                                      value="100" <?php if ($settings->get('profile_image_size') == '100') : ?> checked="checked" <?php endif; ?>>
+                            <span><?php _e('Medium', 'nextend-facebook-connect'); ?></span></label><br>
+                        <label><input type="radio" name="profile_image_size"
+                                      value="default" <?php if ($settings->get('profile_image_size') == 'default') : ?> checked="checked" <?php endif; ?>>
+                            <span><?php _e('Default', 'nextend-facebook-connect'); ?></span></label><br>
+                        <label><input type="radio" name="profile_image_size"
+                                      value="480" <?php if ($settings->get('profile_image_size') == '480') : ?> checked="checked" <?php endif; ?>>
+                            <span><?php _e('Large', 'nextend-facebook-connect'); ?></span></label><br>
+                        <label><input type="radio" name="profile_image_size"
+                                      value="720" <?php if ($settings->get('profile_image_size') == '720') : ?> checked="checked" <?php endif; ?>>
+                            <span><?php _e('Extra Large', 'nextend-facebook-connect'); ?></span></label><br>
+                    </fieldset>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <?php
         $this->renderProSettings();
         ?>
     </form>

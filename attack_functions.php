@@ -142,6 +142,10 @@ function create_defender_array($target_id, $type_array) {
         $defensive_multi = 1.25;
         $defensive_multi_units = 1.2;
     }
+    if($startingbonus == 'aggressive'){
+        $defensive_multi = 0.66;
+        $defensive_multi_units = 0.66;
+    }
 
     // Check for ppe
     $PPE_multi = 1;
@@ -287,6 +291,11 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
         $defensive_multi = 1.25;
         $defensive_multi_units = 1.2;
     }
+    
+    $startingMulti = 1;
+    if($startingbonus == 'aggressive'){
+		$startingMulti = 0.66;
+    }
 
     // Check for ppe
     $PPE_multi = 1;
@@ -333,6 +342,7 @@ function calculate_defense_by_type($target_id, $power_on, $attackerRemoveArray) 
 
         /* add to life for all */
         $bld_life = (in_array($key,array('powerplant','advancedpowerplant')) ? $buildings[$key]['life'] * $PPE_multi : $buildings[$key]['life']);
+        $bld_life = $bld_life*$startingMulti;
         $bld_life_total = ($bld_life * $defensive_multi) * $bld_count;
         $life_array['bld'] += $bld_life_total;
 
@@ -408,6 +418,12 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
 
     // Check for ppe
     $PPE_multi = 1;
+    
+    $startingMulti = 1;
+    if($startingbonus == 'aggressive'){
+		$startingMulti = 0.66;
+    }
+    
     $PPE_level = get_user_meta($target_id, 'level_powerplant_efficiency', true);
     if ($PPE_level == 1) $PPE_multi = 1.5;
 
@@ -450,6 +466,7 @@ function calculate_defense_by_type2($target_id, $power_on, $attackerRemoveArray)
 
         /* add to life for all */
         $bld_life = (in_array($key,array('powerplant','advancedpowerplant')) ? $buildings[$key]['life'] * $PPE_multi : $buildings[$key]['life']);
+        $bld_life = $bld_life * $startingMulti;
         $bld_life_total = ($bld_life * $defensive_multi) * $bld_count;
         $life_array['bld'] += $bld_life_total;
         if($debug) debug_var('cbdt2 '.$key, ($bld_life* $defensive_multi));

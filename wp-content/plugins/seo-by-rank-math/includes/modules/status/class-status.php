@@ -1,21 +1,20 @@
 <?php
 /**
- * The Status module.
+ * The Status & Tools internal module.
  *
  * @since      1.0.33
  * @package    RankMath
- * @subpackage RankMath
+ * @subpackage RankMath\Status
  * @author     Rank Math <support@rankmath.com>
  */
 
 namespace RankMath\Status;
 
 use RankMath\Helper;
+use RankMath\Helpers\Param;
 use RankMath\Module\Base;
+use RankMath\Admin\Page;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Admin\Page;
-use MyThemeShop\Helpers\Param;
-use MyThemeShop\Helpers\Conditional;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -27,14 +26,36 @@ class Status extends Base {
 	use Hooker;
 
 	/**
+	 * Module ID.
+	 *
+	 * @var string
+	 */
+	public $id = '';
+
+	/**
+	 * Module directory.
+	 *
+	 * @var string
+	 */
+	public $directory = '';
+
+	/**
+	 * Module page.
+	 *
+	 * @var object
+	 */
+	public $page;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
-		if ( Conditional::is_heartbeat() ) {
+		$this->action( 'rest_api_init', 'init_rest_api' );
+		if ( Helper::is_heartbeat() ) {
 			return;
 		}
 
-		$directory = dirname( __FILE__ );
+		$directory = __DIR__;
 		$this->config(
 			[
 				'id'        => 'status',
@@ -42,9 +63,15 @@ class Status extends Base {
 			]
 		);
 
-		$this->filter( 'rank_math/tools/pages', 'add_status_page', 12 );
-
 		parent::__construct();
+	}
+
+	/**
+	 * Load the REST API endpoints.
+	 */
+	public function init_rest_api() {
+		$rest = new Rest();
+		$rest->register_routes();
 	}
 
 	/**
@@ -63,72 +90,36 @@ class Status extends Base {
 				'render'   => $this->directory . '/views/main.php',
 				'assets'   => [
 					'styles'  => [
+						'wp-components'    => '',
 						'rank-math-common' => '',
 						'rank-math-status' => $uri . '/assets/css/status.css',
 					],
 					'scripts' => [
-						'rank-math-dashboard' => '',
-						'rank-math-status'    => $uri . '/assets/js/status.js',
+						'lodash'               => '',
+						'rank-math-components' => '',
+						'rank-math-dashboard'  => '',
+						'rank-math-status'     => $uri . '/assets/js/status.js',
 					],
+					'json'    => $this->get_json_data( Param::get( 'view', 'version_control' ) ),
 				],
 			]
 		);
 	}
 
 	/**
-	 * Display dashabord tabs.
-	 */
-	public function display_nav() {
-		$default_tab = $this->do_filter( 'tools/default_tab', 'status' );
-		?>
-		<h2 class="nav-tab-wrapper">
-			<?php
-			foreach ( $this->get_views() as $id => $link ) :
-				if ( isset( $link['cap'] ) && ! current_user_can( $link['cap'] ) ) {
-					continue;
-				}
-				?>
-			<a class="nav-tab<?php echo Param::get( 'view', $default_tab ) === sanitize_html_class( $id ) ? ' nav-tab-active' : ''; ?>" href="<?php echo esc_url( Helper::get_admin_url( $link['url'], $link['args'] ) ); ?>" title="<?php echo esc_attr( $link['title'] ); ?>"><?php echo esc_html( $link['title'] ); ?></a>
-			<?php endforeach; ?>
-		</h2>
-		<?php
-	}
-
-	/**
-	 * Display view body.
+	 * Get localized JSON data based on the Page view.
 	 *
-	 * @param string $view Current view.
+	 * @param string $view Current Page view.
 	 */
-	public function display_body( $view ) {
-		$hash = $this->get_views();
-		$hash = new $hash[ $view ]['class']();
-		$hash->display();
-	}
-
-	/**
-	 * Add subpage to Status & Tools screen.
-	 *
-	 * @param array $pages Pages.
-	 * @return array       New pages.
-	 */
-	public function add_status_page( $pages ) {
-		$pages['status'] = [
-			'url'   => 'status',
-			'args'  => 'view=status',
-			'cap'   => 'manage_options',
-			'title' => __( 'System Status', 'rank-math' ),
-			'class' => '\\RankMath\\Status\\System_Status',
+	private function get_json_data( $view ) {
+		return [
+			'isAdvancedMode'           => Helper::is_advanced_mode(),
+			'isPluginActiveForNetwork' => Helper::is_plugin_active_for_network(),
+			'canUser'                  => [
+				'manageOptions'  => current_user_can( 'manage_options' ),
+				'setupNetwork'   => current_user_can( 'setup_network' ),
+				'installPlugins' => current_user_can( 'install_plugins' ),
+			],
 		];
-
-		return $pages;
-	}
-
-	/**
-	 * Get dashbaord navigation links
-	 *
-	 * @return array
-	 */
-	private function get_views() {
-		return $this->do_filter( 'tools/pages', [] );
 	}
 }

@@ -14,9 +14,9 @@ use RankMath\Paper\Paper;
 use RankMath\Traits\Ajax;
 use RankMath\Traits\Meta;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Arr;
-use MyThemeShop\Helpers\Url;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Arr;
+use RankMath\Helpers\Url;
+use RankMath\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -25,7 +25,9 @@ defined( 'ABSPATH' ) || exit;
  */
 class Admin_Bar_Menu {
 
-	use Hooker, Ajax, Meta;
+	use Hooker;
+	use Ajax;
+	use Meta;
 
 	/**
 	 * The unique identifier used for the menu.
@@ -56,9 +58,9 @@ class Admin_Bar_Menu {
 		check_ajax_referer( 'rank-math-ajax-nonce', 'security' );
 		$this->has_cap_ajax( 'onpage_general' );
 
-		$what        = Param::post( 'what' );
-		$object_id   = Param::post( 'objectID' );
-		$object_type = Param::post( 'objectType' );
+		$what        = Param::post( 'what', '', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_BACKTICK );
+		$object_id   = Param::post( 'objectID', 0, FILTER_VALIDATE_INT );
+		$object_type = Param::post( 'objectType', '', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_BACKTICK );
 
 		if ( ! $what || ! $object_id || ! $object_type ) {
 			return 0;
@@ -76,7 +78,7 @@ class Admin_Bar_Menu {
 			$robots = array_filter( $robots );
 
 			Arr::add_delete_value( $robots, $what );
-			$robots = array_unique( $robots );
+			$robots = $this->normalize_robots( $what, array_unique( $robots ) );
 
 			$this->update_meta( $object_type, $object_id, 'rank_math_robots', $robots );
 
@@ -127,6 +129,31 @@ class Admin_Bar_Menu {
 	}
 
 	/**
+	 * Normalize robots.
+	 *
+	 * @param string $what   Current admin menu process.
+	 * @param array  $robots Array to normalize.
+	 *
+	 * @return array
+	 */
+	private function normalize_robots( $what, $robots ) {
+		if ( 'noindex' !== $what ) {
+			return $robots;
+		}
+
+		if ( ! in_array( 'noindex', $robots, true ) ) {
+			$robots[] = ! in_array( 'index', $robots, true ) ? 'index' : '';
+			return $robots;
+		}
+
+		if ( false !== ( $key = array_search( 'index', $robots ) ) ) { // @codingStandardsIgnoreLine
+			unset( $robots[ $key ] );
+		}
+
+		return $robots;
+	}
+
+	/**
 	 * Keep original order when uasort() deals with equal "priority" values.
 	 */
 	private function add_order() {
@@ -169,8 +196,8 @@ class Admin_Bar_Menu {
 	 */
 	private function add_page_menu() {
 		$hash = [
-			'add_home_menu'      => is_home(),
-			'add_post_type_menu' => is_singular( Helper::get_accessible_post_types() ),
+			'add_home_menu'      => is_front_page(),
+			'add_post_type_menu' => is_singular( Helper::get_accessible_post_types() ) || is_home(),
 			'add_date_menu'      => is_date(),
 			'add_taxonomy_menu'  => is_archive() && ! is_post_type_archive() && ! is_author(),
 			'add_search_menu'    => is_search(),
@@ -193,7 +220,7 @@ class Admin_Bar_Menu {
 			'home',
 			[
 				'title'    => esc_html__( 'Homepage SEO', 'rank-math' ),
-				'href'     => Helper::get_admin_url( 'options-titles#setting-panel-homepage' ),
+				'href'     => Helper::get_settings_url( 'titles', 'homepage' ),
 				'meta'     => [ 'title' => esc_html__( 'Edit Homepage SEO Settings', 'rank-math' ) ],
 				'priority' => 35,
 			]
@@ -205,13 +232,23 @@ class Admin_Bar_Menu {
 	 */
 	private function add_post_type_menu() {
 		$post_type = get_post_type();
-		$object    = get_post_type_object( $post_type );
+		if ( ! $post_type ) {
+			return;
+		}
+
+		$name = get_post_type_object( $post_type )->labels->name;
+
+		if ( is_home() ) {
+			$post_type = 'page';
+			$name      = esc_html__( 'Pages', 'rank-math' );
+		}
+
 		$this->add_sub_menu(
 			'posttype',
 			[
 				/* translators: Post Type Singular Name */
-				'title'    => sprintf( esc_html__( 'SEO Settings for %s', 'rank-math' ), $object->labels->name ),
-				'href'     => Helper::get_admin_url( 'options-titles#setting-panel-post-type-' . $post_type ),
+				'title'    => sprintf( esc_html__( 'SEO Settings for %s', 'rank-math' ), $name ),
+				'href'     => Helper::get_settings_url( 'titles', 'post-type-' . $post_type ),
 				'meta'     => [ 'title' => esc_html__( 'Edit default SEO settings for this post type', 'rank-math' ) ],
 				'priority' => 35,
 			]
@@ -223,7 +260,8 @@ class Admin_Bar_Menu {
 	 */
 	private function add_taxonomy_menu() {
 		$term = get_queried_object();
-		if ( empty( $term ) ) {
+
+		if ( empty( $term ) || ! ( $term instanceof \WP_Term ) ) {
 			return;
 		}
 
@@ -233,7 +271,7 @@ class Admin_Bar_Menu {
 			[
 				/* translators: Taxonomy Singular Name */
 				'title'    => sprintf( esc_html__( 'SEO Settings for %s', 'rank-math' ), $labels->name ),
-				'href'     => Helper::get_admin_url( 'options-titles#setting-panel-taxonomy-' . $term->taxonomy ),
+				'href'     => Helper::get_settings_url( 'titles', 'taxonomy-' . $term->taxonomy ),
 				'meta'     => [ 'title' => esc_html__( 'Edit SEO settings for this archive page', 'rank-math' ) ],
 				'priority' => 35,
 			]
@@ -248,7 +286,7 @@ class Admin_Bar_Menu {
 			'date',
 			[
 				'title'    => esc_html__( 'SEO Settings for Date Archives', 'rank-math' ),
-				'href'     => Helper::get_admin_url( 'options-titles#setting-panel-global' ),
+				'href'     => Helper::get_settings_url( 'titles', 'global' ),
 				'meta'     => [ 'title' => esc_html__( 'Edit SEO settings for this archive page', 'rank-math' ) ],
 				'priority' => 35,
 			]
@@ -263,7 +301,7 @@ class Admin_Bar_Menu {
 			'search',
 			[
 				'title'    => esc_html__( 'SEO Settings for Search Page', 'rank-math' ),
-				'href'     => Helper::get_admin_url( 'options-titles#setting-panel-global' ),
+				'href'     => Helper::get_settings_url( 'titles', 'global' ),
 				'meta'     => [ 'title' => esc_html__( 'Edit SEO settings for the search results page', 'rank-math' ) ],
 				'priority' => 35,
 			]
@@ -284,7 +322,7 @@ class Admin_Bar_Menu {
 		);
 
 		$is_pillar_content = '';
-		$dashicon_format   = '<span class="dashicons dashicons-%s" style="font-family: dashicons; font-size: 19px;"></span>';
+		$dashicon_format   = '<span class="dashicons dashicons-%s rm-mark-page-icon"></span>';
 
 		if ( is_singular( Helper::get_accessible_post_types() ) ) {
 			if ( get_post_meta( get_the_ID(), 'rank_math_pillar_content', true ) === 'on' ) {
@@ -349,12 +387,6 @@ class Admin_Bar_Menu {
 				'meta'  => [ 'title' => esc_html__( 'Google PageSpeed Insights', 'rank-math' ) ],
 			],
 
-			'google-mobilefriendly'      => [
-				'title' => esc_html__( 'Google Mobile-Friendly', 'rank-math' ),
-				'href'  => 'https://search.google.com/test/mobile-friendly?url=' . $url,
-				'meta'  => [ 'title' => esc_html__( 'Google Mobile-Friendly Test', 'rank-math' ) ],
-			],
-
 			'google-richresults-mobile'  => [
 				'title' => esc_html__( 'Google Rich Results (Mobile)', 'rank-math' ),
 				'href'  => 'https://search.google.com/test/rich-results?url=' . $url . '&user_agent=1',
@@ -365,12 +397,6 @@ class Admin_Bar_Menu {
 				'title' => esc_html__( 'Google Rich Results (Desktop)', 'rank-math' ),
 				'href'  => 'https://search.google.com/test/rich-results?url=' . $url . '&user_agent=2',
 				'meta'  => [ 'title' => esc_html__( 'Google Rich Results Test - Googlebot Desktop', 'rank-math' ) ],
-			],
-
-			'google-cache'               => [
-				'title' => esc_html__( 'Google Cache', 'rank-math' ),
-				'href'  => 'https://webcache.googleusercontent.com/search?q=cache:' . $url,
-				'meta'  => [ 'title' => esc_html__( 'See Google\'s cached version of your site', 'rank-math' ) ],
 			],
 
 			'fb-debugger'                => [
@@ -389,14 +415,14 @@ class Admin_Bar_Menu {
 	/**
 	 * Add sub menu item
 	 *
-	 * @param string $id     Unique ID for the node.
-	 * @param array  $args   Arguments for adding a node.
-	 * @param string $parent Node parent.
+	 * @param string $id          Unique ID for the node.
+	 * @param array  $args        Arguments for adding a node.
+	 * @param string $parent_node Node parent.
 	 */
-	public function add_sub_menu( $id, $args, $parent = '' ) {
+	public function add_sub_menu( $id, $args, $parent_node = '' ) {
 		$args['priority']   = isset( $args['priority'] ) ? $args['priority'] : 999;
 		$args['id']         = 'rank-math-' . $id;
-		$args['parent']     = '' !== $parent ? 'rank-math-' . $parent : self::MENU_IDENTIFIER;
+		$args['parent']     = '' !== $parent_node ? 'rank-math-' . $parent_node : self::MENU_IDENTIFIER;
 		$this->items[ $id ] = $args;
 	}
 

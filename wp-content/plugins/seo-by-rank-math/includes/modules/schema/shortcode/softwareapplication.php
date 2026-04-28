@@ -1,10 +1,12 @@
 <?php
 /**
- * Shortcode - software application
+ * Shortcode - Software Application
  *
  * @package    RankMath
  * @subpackage RankMath\Schema
  */
+
+defined( 'ABSPATH' ) || exit;
 
 $this->get_title();
 $this->get_image();
@@ -40,5 +42,7 @@ $this->get_image();
 		'applicationCategory'
 	);
 	?>
+
+	<?php $this->show_ratings(); ?>
 
 </div>

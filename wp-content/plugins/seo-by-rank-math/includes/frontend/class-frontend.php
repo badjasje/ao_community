@@ -16,6 +16,7 @@ use RankMath\Paper\Paper;
 use RankMath\Traits\Hooker;
 use RankMath\OpenGraph\Twitter;
 use RankMath\OpenGraph\Facebook;
+use RankMath\OpenGraph\Slack;
 use RankMath\Frontend\Shortcodes;
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +24,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Frontend class.
  *
- * Some functionality inspired from Yoast (https://github.com/Yoast/wordpress-seo/)
+ * @copyright Copyright (C) 2008-2019, Yoast BV
+ * The following code is a derivative work of the code from the Yoast(https://github.com/Yoast/wordpress-seo/), which is licensed under GPL v3.
  */
 class Frontend {
 
@@ -33,7 +35,7 @@ class Frontend {
 	 * The Constructor.
 	 */
 	public function __construct() {
-		if ( \MyThemeShop\Helpers\Param::get( 'et_fb' ) ) {
+		if ( \RankMath\Helpers\Param::get( 'et_fb' ) ) {
 			return;
 		}
 
@@ -53,15 +55,16 @@ class Frontend {
 
 		rank_math()->shortcodes = new Shortcodes();
 
-		if ( Helper::get_settings( 'general.breadcrumbs' ) ) {
+		if ( Helper::is_breadcrumbs_enabled() ) {
 			/**
 			 * If RM's breadcrumbs are enabled then we can remove the bbPress breadcrumbs.
 			 */
 			add_filter( 'bbp_get_breadcrumb', '__return_false' );
 		}
 
-		new Link_Attributes();
-		new Comments();
+		new Redirection();
+		rank_math()->link_attributes = new Link_Attributes();
+		rank_math()->comments        = new Comments();
 	}
 
 	/**
@@ -74,16 +77,6 @@ class Frontend {
 		$this->filter( 'the_content_feed', 'embed_rssfooter' );
 		$this->filter( 'the_excerpt_rss', 'embed_rssfooter_excerpt' );
 
-		// Redirect attachment page to parent post.
-		if ( Helper::get_settings( 'general.attachment_redirect_urls', true ) ) {
-			$this->action( 'wp', 'attachment_redirect_urls' );
-		}
-
-		// Redirect archives.
-		if ( Helper::get_settings( 'titles.disable_author_archives' ) || Helper::get_settings( 'titles.disable_date_archives' ) ) {
-			$this->action( 'wp', 'archive_redirect' );
-		}
-
 		// Add support for shortcode in the Category/Term description.
 		add_filter( 'category_description', 'do_shortcode' );
 		add_filter( 'term_description', 'do_shortcode' );
@@ -94,13 +87,14 @@ class Frontend {
 	 */
 	public function integrations() {
 		$type = get_query_var( 'sitemap' );
-		if ( ! empty( $type ) || is_customize_preview() ) {
+		if ( $this->do_filter( 'frontend/disable_integration', ! empty( $type ) || is_customize_preview() ) ) {
 			return;
 		}
 
 		Paper::get();
 		new Facebook();
 		new Twitter();
+		new Slack();
 
 		// Leave this for backwards compatibility as AMP plugin uses head function. We can remove this in the future update.
 		rank_math()->head = new Head();
@@ -123,7 +117,7 @@ class Frontend {
 		wp_enqueue_script( 'rank-math', rank_math()->assets() . 'js/rank-math.js', [ 'jquery' ], rank_math()->version, true );
 
 		if ( is_singular() ) {
-			Helper::add_json( 'objectID', Post::get_simple_page_id() );
+			Helper::add_json( 'objectID', Post::get_page_id() );
 			Helper::add_json( 'objectType', 'post' );
 		} elseif ( is_category() || is_tag() || is_tax() ) {
 			Helper::add_json( 'objectID', get_queried_object_id() );
@@ -131,44 +125,6 @@ class Frontend {
 		} elseif ( is_author() ) {
 			Helper::add_json( 'objectID', get_queried_object_id() );
 			Helper::add_json( 'objectType', 'user' );
-		}
-	}
-
-	/**
-	 * Redirects attachment to its parent post if it has one.
-	 */
-	public function attachment_redirect_urls() {
-		global $post;
-
-		// Early bail.
-		if ( ! is_attachment() ) {
-			return;
-		}
-
-		$redirect = ! empty( $post->post_parent ) ? get_permalink( $post->post_parent ) : Helper::get_settings( 'general.attachment_redirect_default' );
-
-		/**
-		 * Redirect atachment to its parent post.
-		 *
-		 * @param string  $redirect URL as calculated for redirection.
-		 * @param WP_Post $post     Current post instance.
-		 */
-		Helper::redirect( $this->do_filter( 'frontend/attachment/redirect_url', $redirect, $post ), 301 );
-		exit;
-	}
-
-	/**
-	 * When certain archives are disabled, this redirects those to the homepage.
-	 */
-	public function archive_redirect() {
-		global $wp_query;
-
-		if (
-			( Helper::get_settings( 'titles.disable_date_archives' ) && $wp_query->is_date ) ||
-			( true === Helper::get_settings( 'titles.disable_author_archives' ) && $wp_query->is_author )
-		) {
-			Helper::redirect( get_bloginfo( 'url' ), 301 );
-			exit;
 		}
 	}
 
@@ -224,7 +180,7 @@ class Frontend {
 	public function add_amp_dev_mode_xpaths( $xpaths ) {
 		$xpaths[] = '//script[ contains( text(), "var rankMath" ) ]';
 		$xpaths[] = '//*[ @id = "rank-math-css" ]';
-		$xpaths[] = '//a[starts-with(@href, "tel://")]';
+		$xpaths[] = '//a[starts-with(@href, "tel:")]';
 		return $xpaths;
 	}
 
@@ -258,7 +214,8 @@ class Frontend {
 	/**
 	 * Check if we can add the RSS footer and/or header to the RSS feed item.
 	 *
-	 * Forked from Yoast (https://github.com/Yoast/wordpress-seo/)
+	 * @copyright Copyright (C) 2008-2019, Yoast BV
+	 * The following code is a derivative work of the code from the Yoast(https://github.com/Yoast/wordpress-seo/), which is licensed under GPL v3.
 	 *
 	 * @param string $content Feed item content.
 	 * @param string $context Feed item context, either 'excerpt' or 'full'.
@@ -311,16 +268,18 @@ class Frontend {
 		$no_follow = true === $no_follow ? 'rel="nofollow" ' : '';
 
 		$author_link = '';
-		if ( is_object( $post ) ) {
+		$image       = '';
+		if ( ! empty( $post ) && $post instanceof \WP_Post ) {
 			$author_link = '<a ' . $no_follow . 'href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . esc_html( get_the_author() ) . '</a>';
+
+			// Featured image.
+			$image = Helper::get_thumbnail_with_fallback( $post->ID, 'full' );
+			$image = isset( $image[0] ) ? '<img src="' . $image[0] . '" style="display: block; margin: 1em auto">' : '';
 		}
+
 		$post_link      = '<a ' . $no_follow . 'href="' . esc_url( get_permalink() ) . '">' . esc_html( get_the_title() ) . '</a>';
 		$blog_link      = '<a ' . $no_follow . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . esc_html( get_bloginfo( 'name' ) ) . '</a>';
 		$blog_desc_link = '<a ' . $no_follow . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . esc_html( get_bloginfo( 'name' ) ) . ' - ' . esc_html( get_bloginfo( 'description' ) ) . '</a>';
-
-		// Featured image.
-		$image = Helper::get_thumbnail_with_fallback( $post->ID, 'full' );
-		$image = isset( $image[0] ) ? '<img src="' . $image[0] . '" style="display: block; margin: 1em auto">' : '';
 
 		$content = stripslashes( trim( $content ) );
 		$content = str_replace( '%AUTHORLINK%', $author_link, $content );

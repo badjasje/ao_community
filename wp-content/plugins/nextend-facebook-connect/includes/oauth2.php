@@ -26,7 +26,7 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
     public function checkError() {
         if (isset($_REQUEST['error']) && isset($_REQUEST['error_description'])) {
             if ($this->validateState()) {
-                throw new Exception($_REQUEST['error'] . ': ' . htmlspecialchars_decode($_REQUEST['error_description']));
+                throw new NSLSanitizedRequestErrorMessageException($_REQUEST['error'] . ': ' . htmlspecialchars_decode($_REQUEST['error_description']));
             }
         }
     }
@@ -127,11 +127,11 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
                 )
             );
 
-            $request = wp_remote_post($this->endpointAccessToken, $this->extendAllHttpArgs($http_args));
+            $request = wp_remote_post($this->endpointAccessToken, $this->extendAuthenticateHttpArgs($this->extendAllHttpArgs($http_args)));
 
             if (is_wp_error($request)) {
 
-                throw new Exception($request->get_error_message());
+                throw new NSLSanitizedRequestErrorMessageException($request->get_error_message());
             } else if (wp_remote_retrieve_response_code($request) !== 200) {
 
                 $this->errorFromResponse(json_decode(wp_remote_retrieve_body($request), true));
@@ -140,8 +140,10 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
             $accessTokenData = json_decode(wp_remote_retrieve_body($request), true);
 
             if (!is_array($accessTokenData)) {
-                throw new Exception(sprintf(__('Unexpected response: %s', 'nextend-facebook-connect'), wp_remote_retrieve_body($request)));
+                throw new NSLSanitizedRequestErrorMessageException(sprintf(__('Unexpected response: %s', 'nextend-facebook-connect'), wp_remote_retrieve_body($request)));
             }
+
+            $accessTokenData = $this->extendAccessTokenData($accessTokenData);
 
             $accessTokenData['created'] = time();
 
@@ -160,7 +162,7 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
      */
     protected function errorFromResponse($response) {
         if (isset($response['error'])) {
-            throw new Exception($response['error'] . ': ' . $response['error_description']);
+            throw new NSLSanitizedRequestErrorMessageException($response['error'] . ': ' . $response['error_description']);
         }
     }
 
@@ -276,7 +278,7 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
 
         if (is_wp_error($request)) {
 
-            throw new Exception($request->get_error_message());
+            throw new NSLSanitizedRequestErrorMessageException($request->get_error_message());
         } else if (wp_remote_retrieve_response_code($request) !== 200) {
 
             $this->errorFromResponse(json_decode(wp_remote_retrieve_body($request), true));
@@ -285,7 +287,45 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
         $result = json_decode(wp_remote_retrieve_body($request), true);
 
         if (!is_array($result)) {
-            throw new Exception(sprintf(__('Unexpected response: %s', 'nextend-facebook-connect'), wp_remote_retrieve_body($request)));
+            throw new NSLSanitizedRequestErrorMessageException(sprintf(__('Unexpected response: %s', 'nextend-facebook-connect'), wp_remote_retrieve_body($request)));
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param       $path
+     * @param array $data
+     * @param       $endpoint
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function post($path, $data = array(), $endpoint = false) {
+
+        $http_args = array(
+            'timeout'    => 15,
+            'user-agent' => 'WordPress',
+            'body'       => array_merge($this->defaultRestParams, $data)
+        );
+        if (!$endpoint) {
+            $endpoint = $this->endpointRestAPI;
+        }
+
+
+        $request = wp_remote_post($endpoint . $path, $this->extendHttpArgs($this->extendAllHttpArgs($http_args)));
+
+        if (is_wp_error($request)) {
+
+            throw new NSLSanitizedRequestErrorMessageException($request->get_error_message());
+        } else if (wp_remote_retrieve_response_code($request) !== 200) {
+            $this->errorFromResponse(json_decode(wp_remote_retrieve_body($request), true));
+        }
+
+        $result = json_decode(wp_remote_retrieve_body($request), true);
+
+        if (!is_array($result)) {
+            throw new NSLSanitizedRequestErrorMessageException(sprintf(__('Unexpected response: %s', 'nextend-facebook-connect'), wp_remote_retrieve_body($request)));
         }
 
         return $result;
@@ -299,9 +339,11 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
      * @return mixed
      */
     protected function extendHttpArgs($http_args) {
-        $http_args['headers'] = array(
-            'Authorization' => 'Bearer ' . $this->access_token_data['access_token']
-        );
+        if (isset($this->access_token_data['access_token'])) {
+            $http_args['headers'] = array(
+                'Authorization' => 'Bearer ' . $this->access_token_data['access_token']
+            );
+        }
 
         return $http_args;
     }
@@ -309,5 +351,31 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
     protected function extendAllHttpArgs($http_args) {
 
         return $http_args;
+    }
+
+
+    /**
+     * @param $http_args
+     *
+     * Can be used for adding additional data into the authentication request arguments only.
+     *
+     * @return mixed
+     */
+    protected function extendAuthenticateHttpArgs($http_args) {
+
+        return $http_args;
+    }
+
+    /**
+     * @param $access_token_data
+     *
+     *  Can be used for adding additional data into the access_token_data array or modifying its structure
+     *  if the format is wrong.
+     *
+     * @return mixed
+     */
+    protected function extendAccessTokenData($access_token_data) {
+
+        return $access_token_data;
     }
 }

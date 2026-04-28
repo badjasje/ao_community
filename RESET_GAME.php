@@ -140,6 +140,7 @@
 			UPDATE ${table_prefix}usermeta
 			SET meta_value = 0
 			WHERE meta_key IN($resetArray)
+			AND meta_value != 'postmortem'
     ");
 	$wpdb->query("
 			UPDATE ${table_prefix}usermeta
@@ -152,11 +153,12 @@
 			WHERE meta_key = 'turn_spread'
     ");
 	$wpdb->query("
-			UPDATE ${table_prefix}usermeta
-			SET meta_value = 'dead'
-			WHERE meta_key = 'status'
-			AND meta_value != 'banned'
-    ");
+		UPDATE ${table_prefix}usermeta
+		SET meta_value = 'dead'
+		WHERE meta_key = 'status'
+		AND meta_value != 'banned'
+		AND meta_value != 'postmortem'
+	");
 	$wpdb->query("
 			UPDATE ${table_prefix}usermeta
 			SET meta_value = 'inactive'

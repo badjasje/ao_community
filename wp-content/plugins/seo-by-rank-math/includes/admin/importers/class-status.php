@@ -10,8 +10,6 @@
 
 namespace RankMath\Admin\Importers;
 
-use RankMath\Traits\Hooker;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -34,7 +32,7 @@ class Status {
 	private $message = '';
 
 	/**
-	 * The type of action performed.
+	 * The action being performed.
 	 *
 	 * @var string
 	 */
@@ -106,6 +104,8 @@ class Status {
 	private function get_default_message() {
 		$hash = [
 			'settings'     => esc_html__( 'Settings imported successfully.', 'rank-math' ),
+			'news'         => esc_html__( 'News Settings imported successfully.', 'rank-math' ),
+			'video'        => esc_html__( 'Video Settings imported successfully.', 'rank-math' ),
 			'deactivate'   => esc_html__( 'Plugin deactivated successfully.', 'rank-math' ),
 			/* translators: start, end, total */
 			'postmeta'     => esc_html__( 'Imported post meta for posts %1$s - %2$s out of %3$s ', 'rank-math' ),
@@ -117,6 +117,8 @@ class Status {
 			'redirections' => esc_html__( 'Imported %s redirections.', 'rank-math' ),
 			/* translators: start, end, total */
 			'blocks'       => esc_html__( 'Imported blocks from posts %1$s - %2$s out of %3$s ', 'rank-math' ),
+			/* translators: start, end, total */
+			'recalculate'  => esc_html__( 'Recalculating scores for posts %1$s - %2$s... ', 'rank-math' ),
 		];
 
 		if ( false === $this->is_success() ) {

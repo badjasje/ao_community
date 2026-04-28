@@ -1,10 +1,10 @@
 <?php
 /**
- * The class handles adding of attributes to links and images to content.
+ * The class handles changes in image tag attributes.
  *
  * @since      1.0.15
  * @package    RankMath
- * @subpackage RankMath\Frontend
+ * @subpackage RankMath\Image_Seo
  * @author     Rank Math <support@rankmath.com>
  */
 
@@ -13,7 +13,7 @@ namespace RankMath\Image_Seo;
 use stdClass;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\HTML;
+use RankMath\Helpers\HTML;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -25,14 +25,29 @@ class Add_Attributes {
 	use Hooker;
 
 	/**
+	 * Stores the image alt format if it is set.
+	 *
+	 * @var string|false
+	 */
+	public $is_alt;
+
+	/**
+	 * Stores the image title format if it is set.
+	 *
+	 * @var string|false
+	 */
+	public $is_title;
+
+	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
 		$this->action( 'wp', 'add_attributes', 9999 );
+		$this->action( 'rest_api_init', 'add_attributes' );
 	}
 
 	/**
-	 * Add nofollow, target, title and alt attributes to link and images.
+	 * Add nofollow, target, title and alt attributes to images.
 	 */
 	public function add_attributes() {
 		// Add image title and alt.
@@ -41,7 +56,7 @@ class Add_Attributes {
 
 		if ( $this->is_alt || $this->is_title ) {
 			$this->filter( 'the_content', 'add_img_attributes', 11 );
-			$this->filter( 'post_thumbnail_html', 'add_img_attributes', 11 );
+			$this->filter( 'post_thumbnail_html', 'add_img_attributes', 11, 2 );
 			$this->filter( 'woocommerce_single_product_image_thumbnail_html', 'add_img_attributes', 11 );
 		}
 	}
@@ -49,10 +64,11 @@ class Add_Attributes {
 	/**
 	 * Add 'title' and 'alt' attribute to image.
 	 *
-	 * @param  string $content Post content.
+	 * @param string   $content Post content.
+	 * @param null|int $post_id The current post ID.
 	 * @return string
 	 */
-	public function add_img_attributes( $content ) {
+	public function add_img_attributes( $content, $post_id = null ) {
 		if ( empty( $content ) ) {
 			return $content;
 		}
@@ -63,22 +79,24 @@ class Add_Attributes {
 			return $content;
 		}
 
-		$post = $this->get_post();
+		$post = $this->get_post( $post_id );
 		foreach ( $matches as $image ) {
 			$is_dirty = false;
 			$attrs    = HTML::extract_attributes( $image[0] );
 
-			if ( ! isset( $attrs['src'] ) ) {
+			if ( ! isset( $attrs['src'] ) && ! isset( $attrs['data-ct-lazy'] ) ) {
 				continue;
 			}
 
-			$post->filename = $attrs['src'];
+			$post->filename = isset( $attrs['data-ct-lazy'] ) ? $attrs['data-ct-lazy'] : $attrs['src'];
 
 			// Lazy load support.
 			if ( ! empty( $attrs['data-src'] ) ) {
 				$post->filename = $attrs['data-src'];
 			} elseif ( ! empty( $attrs['data-layzr'] ) ) {
 				$post->filename = $attrs['data-layzr'];
+			} elseif ( ! empty( $attrs['nitro-lazy-srcset'] ) ) {
+				$post->filename = $attrs['nitro-lazy-srcset'];
 			}
 
 			// Pass attributes so they can be used later.
@@ -100,10 +118,11 @@ class Add_Attributes {
 	/**
 	 * Get post object.
 	 *
+	 * @param null|int $post_id The post ID.
 	 * @return object
 	 */
-	private function get_post() {
-		$post = \get_post();
+	private function get_post( $post_id = null ) {
+		$post = \get_post( $post_id );
 		if ( empty( $post ) ) {
 			$post = new stdClass();
 		}

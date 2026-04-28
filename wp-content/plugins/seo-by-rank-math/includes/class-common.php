@@ -12,14 +12,12 @@
 
 namespace RankMath;
 
-use RankMath\Paper\Paper;
 use RankMath\Traits\Ajax;
 use RankMath\Traits\Meta;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Arr;
-use MyThemeShop\Helpers\Str;
-use MyThemeShop\Helpers\Url;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Str;
+use WP_Error;
+use WP_Term;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -28,7 +26,9 @@ defined( 'ABSPATH' ) || exit;
  */
 class Common {
 
-	use Hooker, Ajax, Meta;
+	use Hooker;
+	use Ajax;
+	use Meta;
 
 	/**
 	 * Constructor method.
@@ -40,17 +40,34 @@ class Common {
 		// Change Permalink for primary term.
 		$this->filter( 'post_type_link', 'post_type_link', 9, 2 );
 		$this->filter( 'post_link_category', 'post_link_category', 10, 3 );
+		$this->filter( 'wc_product_post_type_link_product_cat', 'post_link_category', 10, 3 );
 
 		// Reorder categories listing: put primary at the beginning.
 		$this->filter( 'get_the_terms', 'reorder_the_terms', 10, 3 );
 
-		add_action( 'wp_ajax_nopriv_rank_math_overlay_thumb', [ $this, 'generate_overlay_thumbnail' ] );
-
 		$this->filter( 'is_protected_meta', 'hide_rank_math_meta', 10, 2 );
+		$this->action( 'rank_math/admin/before_editor_scripts', 'editor_script' );
 
 		new Auto_Updater();
+		new Update_Email();
 		new Defaults();
 		new Admin_Bar_Menu();
+		new Dashboard_Widget();
+		new Thumbnail_Overlay();
+		new Admin\Lock_Modified_Date();
+	}
+
+	/**
+	 * Enqueue common editor script to use in all editors.
+	 */
+	public function editor_script() {
+		wp_register_script(
+			'rank-math-app',
+			rank_math()->plugin_url() . 'assets/admin/js/rank-math-app.js',
+			[],
+			rank_math()->version,
+			true
+		);
 	}
 
 	/**
@@ -111,25 +128,6 @@ class Common {
 	}
 
 	/**
-	 * AJAX function to generate overlay image. Used in social thumbnails.
-	 */
-	public function generate_overlay_thumbnail() {
-		$thumbnail_id = Param::request( 'id', 0, FILTER_VALIDATE_INT );
-		$type         = Param::request( 'type', 'play' );
-		$choices      = Helper::choices_overlay_images();
-		if ( ! isset( $choices[ $type ] ) ) {
-			die();
-		}
-		$overlay_image = $choices[ $type ]['url'];
-		$image         = wp_get_attachment_image_src( $thumbnail_id, 'full' );
-
-		if ( ! empty( $image ) ) {
-			$this->create_overlay_image( $image[0], $overlay_image );
-		}
-		die();
-	}
-
-	/**
 	 * Reorder terms for a post to put primary category to the beginning.
 	 *
 	 * @param array|WP_Error $terms    List of attached terms, or WP_Error on failure.
@@ -139,6 +137,10 @@ class Common {
 	 * @return array
 	 */
 	public function reorder_the_terms( $terms, $post_id, $taxonomy ) {
+		if ( empty( $terms ) || is_wp_error( $terms ) ) {
+			return $terms;
+		}
+
 		/**
 		 * Filter: Allow disabling the primary term feature.
 		 * 'rank_math/primary_term' is deprecated,
@@ -159,10 +161,6 @@ class Common {
 			return $terms;
 		}
 
-		if ( empty( $terms ) || is_wp_error( $terms ) ) {
-			return [ $primary ];
-		}
-
 		$primary_term = null;
 		foreach ( $terms as $index => $term ) {
 			if ( $primary === $term->term_id ) {
@@ -179,13 +177,13 @@ class Common {
 	/**
 	 * Hide rank math meta keys
 	 *
-	 * @param bool   $protected Whether the key is considered protected.
-	 * @param string $meta_key  Meta key.
+	 * @param bool   $is_protected Whether the key is considered protected.
+	 * @param string $meta_key     Meta key.
 	 *
 	 * @return bool
 	 */
-	public function hide_rank_math_meta( $protected, $meta_key ) {
-		return Str::starts_with( 'rank_math_', $meta_key ) ? true : $protected;
+	public function hide_rank_math_meta( $is_protected, $meta_key ) {
+		return Str::starts_with( 'rank_math_', $meta_key ) ? true : $is_protected;
 	}
 
 	/**
@@ -214,7 +212,7 @@ class Common {
 	/**
 	 * Get chain of hierarchical links.
 	 *
-	 * @param WP_Term $term The term in question.
+	 * @param WP_Term|WP_Error $term The term in question.
 	 *
 	 * @return string
 	 */
@@ -242,50 +240,24 @@ class Common {
 	 * @return object|false Primary term on success, false if there are no terms, WP_Error on failure.
 	 */
 	private function get_primary_term( $taxonomy, $post_id ) {
+		// Early Bail if Primary taxonomy is not enabled on the site.
+		$post_type = get_post_type( $post_id );
+		if ( empty( $post_type ) || ! Helper::get_settings( 'titles.pt_' . $post_type . '_primary_taxonomy', false ) ) {
+			return false;
+		}
+
 		$primary = Helper::get_post_meta( "primary_{$taxonomy}", $post_id );
 		if ( ! $primary ) {
 			return false;
 		}
 
+		// Early Bail if Primary term is not assigned to the post.
+		$terms = wp_get_post_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
+		if ( empty( $terms ) || ! in_array( absint( $primary ), $terms, true ) ) {
+			return false;
+		}
+
 		$primary = get_term( $primary, $taxonomy );
 		return is_wp_error( $primary ) || empty( $primary ) ? false : $primary;
-	}
-
-	/**
-	 * Create Overlay Image.
-	 *
-	 * @param string $image_file    The permalink generated for this post by WordPress.
-	 * @param string $overlay_image The ID of the post.
-	 */
-	private function create_overlay_image( $image_file, $overlay_image ) {
-		$image_format = pathinfo( $image_file, PATHINFO_EXTENSION );
-		if ( ! in_array( $image_format, [ 'jpg', 'jpeg', 'gif', 'png' ], true ) ) {
-			return;
-		}
-		if ( 'jpg' === $image_format ) {
-			$image_format = 'jpeg';
-		}
-
-		$imagecreatef = 'imagecreatefrom' . $image_format;
-		$stamp        = imagecreatefrompng( $overlay_image );
-		$image        = $imagecreatef( $image_file );
-
-		if ( ! $image ) {
-			return;
-		}
-
-		// Set the margins for the stamp and get the height/width of the stamp image.
-		$img_width     = imagesx( $stamp );
-		$img_height    = imagesy( $stamp );
-		$margin_right  = round( abs( imagesx( $image ) - $img_width ) / 2 );
-		$margin_bottom = round( abs( imagesy( $image ) - $img_height ) / 2 );
-
-		// Copy the stamp image onto our photo using the margin offsets and the photo width to calculate positioning of the stamp.
-		imagecopy( $image, $stamp, $margin_right, $margin_bottom, 0, 0, $img_width, $img_height );
-
-		// Output and free memory.
-		header( 'Content-type: image/png' );
-		imagepng( $image );
-		imagedestroy( $image );
 	}
 }

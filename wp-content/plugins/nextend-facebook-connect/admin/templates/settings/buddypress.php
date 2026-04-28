@@ -197,6 +197,22 @@ NextendSocialLoginAdmin::showProBox();
     </tr>
 
     <tr>
+        <th scope="row"><?php _e('Social accounts tab', 'nextend-facebook-connect'); ?></th>
+        <td>
+            <fieldset>
+                <label><input type="radio" name="buddypress_social_accounts_tab"
+                              value="" <?php if ($settings->get('buddypress_social_accounts_tab') == '') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Hide', 'nextend-facebook-connect'); ?></span></label><br>
+                <label><input type="radio" name="buddypress_social_accounts_tab"
+                              value="show" <?php if ($settings->get('buddypress_social_accounts_tab') == 'show') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Show', 'nextend-facebook-connect'); ?></span></label><br>
+                <p class="description" id="tagline-buddypress_social_accounts_tab"><?php printf(__('Creates a new tab called %s, where the Link and Unlink buttons will be displayed.', 'nextend-facebook-connect'), __('Social Accounts', 'nextend-facebook-connect')); ?></p>
+            </fieldset>
+        </td>
+
+    </tr>
+
+    <tr>
         <th scope="row"><?php _e('Button alignment', 'nextend-facebook-connect'); ?></th>
         <td>
             <fieldset>
@@ -211,6 +227,21 @@ NextendSocialLoginAdmin::showProBox();
                               value="right" <?php if ($settings->get('buddypress_register_button_align') == 'right') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
                     <span><?php _e('Right', 'nextend-facebook-connect'); ?></span></label><br>
             </fieldset>
+        </td>
+    </tr>
+
+    <tr>
+        <th scope="row"><?php _e('Email template for registration', 'nextend-facebook-connect'); ?></th>
+        <td>
+            <fieldset>
+                <label><input type="radio" name="buddypress_registration_email_template"
+                              value="default" <?php if ($settings->get('buddypress_registration_email_template') == 'default') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('WordPress default notification', 'nextend-facebook-connect'); ?></span></label><br>
+                <label><input type="radio" name="buddypress_registration_email_template"
+                              value="buddypress" <?php if ($settings->get('buddypress_registration_email_template') == 'buddypress') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('BuddyPress welcome notification', 'nextend-facebook-connect'); ?></span></label><br>
+            </fieldset>
+            <p class="description"><?php printf(__('Defines whether the registration with %1$s will send the same welcome notification that %2$s does, instead of the %3$s default one.', 'nextend-facebook-connect'), '<b>Nextend Social Login</b>', '<b>BuddyPress</b>', '<b>WordPress</b>'); ?></p>
         </td>
     </tr>
     </tbody>

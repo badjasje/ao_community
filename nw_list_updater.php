@@ -72,7 +72,7 @@ foreach ($clans as $clan) {
     $tot_networth = 0;
     foreach ($clan_members[0] as $member) {
 	    $status = get_user_meta($member, 'status', true);
-	    if($status == 'dead'){
+	    if($status == 'dead' || $status == 'banned'){
 		    $networth = 3500;
 	    }else{
         	$networth = get_user_meta($member, 'networth', true);

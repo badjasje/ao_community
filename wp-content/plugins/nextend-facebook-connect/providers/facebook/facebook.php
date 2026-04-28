@@ -2,7 +2,7 @@
 
 use NSL\Notices;
 
-class NextendSocialProviderFacebook extends NextendSocialProvider {
+class NextendSocialProviderFacebook extends NextendSocialProviderOAuth {
 
     protected $dbID = 'fb';
 
@@ -11,11 +11,11 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
 
     protected $color = '#1877F2';
 
-    protected $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1365.3 1365.3" height="1365.3" width="1365.3"><path d="M1365.3 682.7A682.7 682.7 0 10576 1357V880H402.7V682.7H576V532.3c0-171.1 102-265.6 257.9-265.6 74.6 0 152.8 13.3 152.8 13.3v168h-86.1c-84.8 0-111.3 52.6-111.3 106.6v128h189.4L948.4 880h-159v477a682.8 682.8 0 00576-674.3" fill="#fff"/></svg>';
+    protected $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1365.3 1365.3" height="24" width="24"><path d="M1365.3 682.7A682.7 682.7 0 10576 1357V880H402.7V682.7H576V532.3c0-171.1 102-265.6 257.9-265.6 74.6 0 152.8 13.3 152.8 13.3v168h-86.1c-84.8 0-111.3 52.6-111.3 106.6v128h189.4L948.4 880h-159v477a682.8 682.8 0 00576-674.3" fill="#fff"/></svg>';
 
-    protected $svgBlue = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1365.3 1365.3" height="1365.3" width="1365.3"><path d="M1365.3 682.7A682.7 682.7 0 10576 1357V880H402.7V682.7H576V532.3c0-171.1 102-265.6 257.9-265.6 74.6 0 152.8 13.3 152.8 13.3v168h-86.1c-84.8 0-111.3 52.6-111.3 106.6v128h189.4L948.4 880h-159v477a682.8 682.8 0 00576-674.3" fill="#1877f2"/><path d="M948.4 880l30.3-197.3H789.3v-128c0-54 26.5-106.7 111.3-106.7h86V280s-78-13.3-152.7-13.3c-156 0-257.9 94.5-257.9 265.6v150.4H402.7V880H576v477a687.8 687.8 0 00213.3 0V880h159.1" fill="#fff"/></svg>';
+    protected $svgBlue = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1365.3 1365.3" height="24" width="24"><path d="M1365.3 682.7A682.7 682.7 0 10576 1357V880H402.7V682.7H576V532.3c0-171.1 102-265.6 257.9-265.6 74.6 0 152.8 13.3 152.8 13.3v168h-86.1c-84.8 0-111.3 52.6-111.3 106.6v128h189.4L948.4 880h-159v477a682.8 682.8 0 00576-674.3" fill="#1877f2"/><path d="M948.4 880l30.3-197.3H789.3v-128c0-54 26.5-106.7 111.3-106.7h86V280s-78-13.3-152.7-13.3c-156 0-257.9 94.5-257.9 265.6v150.4H402.7V880H576v477a687.8 687.8 0 00213.3 0V880h159.1" fill="#fff"/></svg>';
 
-    protected $svgBlack = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1365.3 1365.3" height="1365.3" width="1365.3"><path d="M1365.3 682.7A682.7 682.7 0 10576 1357V880H402.7V682.7H576V532.3c0-171.1 102-265.6 257.9-265.6 74.6 0 152.8 13.3 152.8 13.3v168h-86.1c-84.8 0-111.3 52.6-111.3 106.6v128h189.4L948.4 880h-159v477a682.8 682.8 0 00576-674.3" fill="#100f0d"/><path d="M948.4 880l30.3-197.3H789.3v-128c0-54 26.5-106.7 111.3-106.7h86V280s-78-13.3-152.7-13.3c-156 0-257.9 94.5-257.9 265.6v150.4H402.7V880H576v477a687.8 687.8 0 00213.3 0V880h159.1" fill="#fff"/></svg>';
+    protected $svgBlack = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1365.3 1365.3" height="24" width="24"><path d="M1365.3 682.7A682.7 682.7 0 10576 1357V880H402.7V682.7H576V532.3c0-171.1 102-265.6 257.9-265.6 74.6 0 152.8 13.3 152.8 13.3v168h-86.1c-84.8 0-111.3 52.6-111.3 106.6v128h189.4L948.4 880h-159v477a682.8 682.8 0 00576-674.3" fill="#100f0d"/><path d="M948.4 880l30.3-197.3H789.3v-128c0-54 26.5-106.7 111.3-106.7h86V280s-78-13.3-152.7-13.3c-156 0-257.9 94.5-257.9 265.6v150.4H402.7V880H576v477a687.8 687.8 0 00213.3 0V880h159.1" fill="#fff"/></svg>';
 
     protected $popupWidth = 600;
 
@@ -60,8 +60,9 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
     );
 
     public function __construct() {
-        $this->id    = 'facebook';
-        $this->label = 'Facebook';
+        $this->id     = 'facebook';
+        $this->docUrl = 'https://social-login.nextendweb.com/documentation/providers/facebook/';
+        $this->label  = 'Facebook';
 
         $this->path = dirname(__FILE__);
 
@@ -76,13 +77,14 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
         ));
 
         parent::__construct(array(
-            'appid'          => '',
-            'secret'         => '',
-            'skin'           => 'dark',
-            'login_label'    => 'Continue with <b>Facebook</b>',
-            'register_label' => 'Sign up with <b>Facebook</b>',
-            'link_label'     => 'Link account with <b>Facebook</b>',
-            'unlink_label'   => 'Unlink account from <b>Facebook</b>'
+            'appid'              => '',
+            'secret'             => '',
+            'skin'               => 'dark',
+            'login_label'        => 'Continue with <b>Facebook</b>',
+            'register_label'     => 'Sign up with <b>Facebook</b>',
+            'link_label'         => 'Link account with <b>Facebook</b>',
+            'unlink_label'       => 'Unlink account from <b>Facebook</b>',
+            'profile_image_size' => 'default'
         ));
     }
 
@@ -163,7 +165,7 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
 
             $this->client->setClientId($this->settings->get('appid'));
             $this->client->setClientSecret($this->settings->get('secret'));
-            $this->client->setRedirectUri($this->getRedirectUriForOAuthFlow());
+            $this->client->setRedirectUri($this->getRedirectUriForAuthFlow());
         }
 
         return $this->client;
@@ -172,7 +174,7 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
     public function validateSettings($newData, $postedData) {
         $newData = parent::validateSettings($newData, $postedData);
 
-        foreach ($postedData AS $key => $value) {
+        foreach ($postedData as $key => $value) {
 
             switch ($key) {
                 case 'tested':
@@ -194,6 +196,7 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
                     }
                     break;
                 case 'skin':
+                case 'profile_image_size':
                     $newData[$key] = trim(sanitize_text_field($value));
                     break;
             }
@@ -223,6 +226,8 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
      * @throws Exception
      */
     protected function getCurrentUserInfo() {
+        $profile_image_size = $this->settings->get('profile_image_size');
+        $profile_image_size !== "default" ? $pictureSize = 'picture.width(' . $profile_image_size . ')' : $pictureSize = 'picture.type(large)';
 
         $fields       = array(
             'id',
@@ -230,7 +235,7 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
             'email',
             'first_name',
             'last_name',
-            'picture.type(large)'
+            $pictureSize
         );
         $extra_fields = apply_filters('nsl_facebook_sync_node_fields', array(), 'me');
 
@@ -243,7 +248,6 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
     }
 
     public function getAuthUserData($key) {
-
         switch ($key) {
             case 'id':
                 return $this->authUserData['id'];
@@ -269,7 +273,7 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
         return parent::getAuthUserData($key);
     }
 
-    public function syncProfile($user_id, $provider, $access_token) {
+    public function syncProfile($user_id, $provider, $data) {
         if ($this->needUpdateAvatar($user_id)) {
 
             if ($this->getAuthUserData('picture')) {
@@ -277,7 +281,9 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
             }
         }
 
-        $this->storeAccessToken($user_id, $access_token);
+        if (!empty($data['access_token_data'])) {
+            $this->storeAccessToken($user_id, $data['access_token_data']);
+        }
     }
 
     protected function saveUserData($user_id, $key, $data) {
@@ -316,6 +322,14 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
 
         return parent::getSyncDataFieldDescription($fieldName);
     }
+
+    public function getProviderEmailVerificationStatus() {
+        /**
+         * The email address (when) returned by Facebook is always verified
+         */
+        return true;
+    }
+
 }
 
 NextendSocialLogin::addProvider(new NextendSocialProviderFacebook);

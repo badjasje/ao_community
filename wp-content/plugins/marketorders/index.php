@@ -11,15 +11,238 @@ Copyright: Kevin Bogaard
  */
 require_once('telegrambot.class.php');
 
+add_action('wp_login', 'ip_tracker_log_ip', 10, 2);
+
+function ip_tracker_log_ip($user_login, $user) {
+    $user_id = $user->ID;
+    $ip_address = $_SERVER['REMOTE_ADDR'];
+
+    // Get existing IPs for this user
+    $ips = get_user_meta($user_id, 'ip_addresses', true);
+    if (!$ips) {
+        $ips = [];
+    }
+
+    // Only add IP if it hasn't been recorded yet
+    if (!in_array($ip_address, $ips)) {
+        $ips[] = $ip_address;
+        update_user_meta($user_id, 'ip_addresses', $ips);
+    }
+}
+
+// Add admin page to display IP information
+add_action('admin_menu', 'ip_tracker_admin_menu');
+
+function ip_tracker_admin_menu() {
+    add_menu_page('IP Tracker', 'IP Tracker', 'manage_options', 'ip-tracker', 'ip_tracker_admin_page');
+}
+
+function ip_tracker_admin_page() {
+    echo '<div class="wrap">';
+    echo '<h1>IP Tracker</h1>';
+    echo '<p>Below is a list of users and the IP addresses they used to log in.</p>';
+    $timestamp = current_time('timestamp');
+    $args = array(
+        'meta_key'     	=> 'last_online',
+        'orderby'      	=> 'meta_value_num',
+        'meta_value'	=> $timestamp-186400,
+        'meta_compare'	=> '>',
+    );
+    $users = get_users($args);
+    $ip_user_map = [];
+
+    // Display IPs for each user and build a map of IPs to users
+    echo '<table class="widefat"><thead><tr><th>User</th><th>IP Addresses</th><th>Other Users with Same IP</th></tr></thead><tbody>';
+
+    foreach ($users as $user) {
+        $user_id = $user->ID;
+        $username = $user->user_login;
+        $ips = get_user_meta($user_id, 'ip_addresses', true);
+
+        if ($ips) {
+            // Display user's IP addresses
+            echo '<tr><td>' . esc_html($username) . ' '.$user_id.'</td><td>' . esc_html(implode(', ', $ips)) . '</td><td>';
+
+            // Find other users with the same IP
+            $shared_users = [];
+            foreach ($ips as $ip) {
+                if (!isset($ip_user_map[$ip])) {
+                    $ip_user_map[$ip] = [];
+                }
+                $ip_user_map[$ip][] = $user_id;
+                foreach ($ip_user_map[$ip] as $other_user_id) {
+                    if ($other_user_id !== $user_id) {
+                        $shared_users[] = get_user_by('ID', $other_user_id)->user_login.' '.$other_user_id;
+                    }
+                }
+            }
+
+            echo esc_html(implode(', ', array_unique($shared_users)));
+            echo '</td></tr>';
+        }
+    }
+
+    echo '</tbody></table>';
+    echo '</div>';
+}
+
+function marketOrderFallback($userId){
+    
+    $units = Units::get();
+    
+    
+    foreach ($units as $key => $unit) {
+        
+        $userData = get_user_meta($userId);
+        $ordered = $userData[$key.'_ordered'][0];
+        
+        if ($ordered < 0) {
+            $ordered = abs($ordered);
+        }
+        
+        if($ordered > 0){
+    
+              $args = array(
+                  'author' => $userId,
+                  'post_type' => 'market_order',
+                  'post_status' => 'publish', // This line ensures only published orders are retrieved
+                  'meta_query' => array(
+                      array(
+                          'key' => 'unit_type',
+                          'value' => $key,
+                          'compare' => '=',
+                      ),
+                  ),
+              );
+             
+            $foundOrders = get_posts($args);
+          
+            if(count($foundOrders) == 0){
+                $owned = get_user_meta($userId, $key.'_owned',true);
+                update_user_meta($userId,$key.'_owned',$owned+$ordered);
+                update_user_meta($userId,$key.'_ordered',0);
+            }
+        
+        }
+    }
+    
+    
+        
+           $missiles = Missiles::get();
+           
+           
+           foreach ($missiles as $key => $missile) {
+               
+               $userData = get_user_meta($userId);
+               $ordered = $userData[$key.'_ordered'][0];
+               
+               if ($ordered < 0) {
+                   $ordered = abs($ordered);
+               }
+               
+               if($ordered > 0){
+           
+                     $args = array(
+                         'author' => $userId,
+                         'post_type' => 'market_order',
+                         'post_status' => 'publish', // This line ensures only published orders are retrieved
+                         'meta_query' => array(
+                             array(
+                                 'key' => 'unit_type',
+                                 'value' => $key,
+                                 'compare' => '=',
+                             ),
+                         ),
+                     );
+                    
+                   $foundOrders = get_posts($args);
+                 
+                   if(count($foundOrders) == 0){
+                       $owned = get_user_meta($userId, $key.'_owned',true);
+                       update_user_meta($userId,$key.'_owned',$owned+$ordered);
+                       update_user_meta($userId,$key.'_ordered',0);
+                   }
+               
+               }
+           }
+       
+}
+    
+    
+    
+    
+    
+    
+    
 
 
+function attackPerNW2($target_id,$canAttack){
+	
+	$units = Units::get();
+	$buildings = Buildings::get();
+	$defenderNwArray = array();
+	
+	foreach($units as $key => $data) {
+		
+		
+			
+			$unit_count = get_user_meta($target_id, $key.'_owned',true);
+			
+	        /* if defender has none of this unit continue */
+	        if ($unit_count < 1) {continue;}
+		
+	        /* do not incorporate special units */
+			if($units[$key]['sectype'] == 'special'){ continue; }
+		if(array_key_exists($data['type'],$canAttack)){
+	        $unitTotNw = $unit_count*$data['price']*$data['networth'];
+	        $defenderNwArray[$data['type']] += $unitTotNw;
+	        
+		}
+	}
+	
+	
+	 foreach($buildings as $key => $data) {
+	 	if(array_key_exists('bld',$canAttack)){
+		 	
+	        $bds_count = get_user_meta($target_id, $key,true);
+		
+	        /* if defender has none of this unit continue */
+	        if ($bds_count < 1)
+	            continue;
+		
+				
+		
+	        /* calculate attack power per type */
+			$defenderNwArray['bld'] += $bds_count * $data['price']*$data['networth'];
+	        /* Unset types not used in attack by attacker */
+	        
+		}
+
+        
+
+
+	}
+	
+	
+	
+	
+	
+	
+	$defTotNw = array_sum($defenderNwArray);
+	$finalArray = array();
+	foreach ($defenderNwArray as $key => $nw) {
+		
+		$finalArray[$key] = $canAttack[$key]*($nw/$defTotNw);
+		
+	}
+	
+	return $finalArray;
+}
 
 
 
 function attackPerNW($target_id,$canAttack){
-	echo '<pre>';
-	print_r($canAttack);
-	echo '</pre>';
+
 	$units = Units::get();
 	$buildings = Buildings::get();
 	$defenderNwArray = array();
@@ -434,7 +657,7 @@ function clan_avatar($clan_ID, $type) {
 function wpse_76815_remove_publish_box() {
     remove_meta_box('submitdiv', 'clan', 'side');
 }
-add_action('admin_menu', 'wpse_76815_remove_publish_box');
+//add_action('admin_menu', 'wpse_76815_remove_publish_box');
 
 function wpse66094_no_admin_access() {
     if(defined('DOING_AJAX')) return;
@@ -905,3 +1128,72 @@ function fcm_send_notification($receiver, $type, $attacker=0) {
         $bot->sendMessage('<a href="'.$url.'">'.$body.'</a>', array('parse_mode' => 'html'));
     }
 }
+
+
+
+// Add IP address logging to user meta data
+function ip_address_logger_add_ip_address($user_id) {
+    $ip_address = $_SERVER['REMOTE_ADDR'];
+    update_user_meta($user_id, 'ip_address', $ip_address);
+}
+add_action('wp_login', 'ip_address_logger_add_ip_address', 10, 2);
+
+// Link accounts with the same IP address
+function ip_address_logger_link_accounts($user_id) {
+    $ip_address = get_user_meta($user_id, 'ip_address', true);
+    if ($ip_address) {
+        $user_query = new WP_User_Query(array(
+            'meta_key' => 'ip_address',
+            'meta_value' => $ip_address,
+            'exclude' => array($user_id)
+        ));
+        $linked_user_ids = array();
+        if ($user_query->results) {
+            foreach ($user_query->results as $user) {
+                $linked_user_ids[] = $user->ID;
+            }
+        }
+        update_user_meta($user_id, 'linked_user_ids', $linked_user_ids);
+    }
+}
+add_action('wp_login', 'ip_address_logger_link_accounts', 10, 2);
+
+// Display linked accounts on user profile
+function ip_address_logger_display_linked_accounts($user) {
+    $linked_user_ids = get_user_meta($user->ID, 'linked_user_ids', true);
+    if ($linked_user_ids) {
+        echo '<h3>Linked Accounts</h3>';
+        echo '<ul>';
+        foreach ($linked_user_ids as $linked_user_id) {
+            $linked_user = get_user_by('ID', $linked_user_id);
+            echo '<li><a href="' . get_edit_user_link($linked_user_id) . '">' . $linked_user->display_name . '</a></li>';
+        }
+        echo '</ul>';
+    }
+}
+add_action('show_user_profile', 'ip_address_logger_display_linked_accounts');
+add_action('edit_user_profile', 'ip_address_logger_display_linked_accounts');
+
+// Add linked accounts column in Users list table
+function ip_address_logger_add_linked_accounts_column($columns) {
+    $columns['linked_accounts'] = 'Linked Accounts';
+    return $columns;
+}
+add_filter('manage_users_columns', 'ip_address_logger_add_linked_accounts_column');
+
+// Populate linked accounts column with linked_user_ids
+function ip_address_logger_populate_linked_accounts_column($value, $column_name, $user_id) {
+    if ($column_name === 'linked_accounts') {
+        $linked_user_ids = get_user_meta($user_id, 'linked_user_ids', true);
+        if ($linked_user_ids) {
+            $linked_accounts = array();
+            foreach ($linked_user_ids as $linked_user_id) {
+                $linked_user = get_user_by('ID', $linked_user_id);
+                $linked_accounts[] = '<a href="' . get_edit_user_link($linked_user_id) . '">' . $linked_user->display_name . '</a>';
+            }
+            $value = implode(', ', $linked_accounts);
+        }
+    }
+    return $value;
+}
+add_filter('manage_users_custom_column', 'ip_address_logger_populate_linked_accounts_column', 10, 3);

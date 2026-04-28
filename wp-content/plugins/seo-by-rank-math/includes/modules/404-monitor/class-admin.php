@@ -1,6 +1,6 @@
 <?php
 /**
- * The 404 Monitor Module
+ * The admin-side code for the 404 Monitor module.
  *
  * @since      0.9.0
  * @package    RankMath
@@ -13,11 +13,9 @@ namespace RankMath\Monitor;
 use RankMath\KB;
 use RankMath\Helper;
 use RankMath\Module\Base;
-use MyThemeShop\Admin\Page;
-use MyThemeShop\Helpers\Str;
-use MyThemeShop\Helpers\Arr;
-use MyThemeShop\Helpers\Param;
-use MyThemeShop\Helpers\WordPress;
+use RankMath\Admin\Page;
+use RankMath\Helpers\Arr;
+use RankMath\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -27,12 +25,38 @@ defined( 'ABSPATH' ) || exit;
 class Admin extends Base {
 
 	/**
-	 * The Constructor.
+	 * Module directory.
 	 *
-	 * @codeCoverageIgnore
+	 * @var string
+	 */
+	public $directory;
+
+	/**
+	 * WP_List_Table class name.
+	 *
+	 * @var string
+	 */
+	public $table;
+
+	/**
+	 * Screen options.
+	 *
+	 * @var array
+	 */
+	public $screen_options = [];
+
+	/**
+	 * Page object.
+	 *
+	 * @var Page
+	 */
+	public $page;
+
+	/**
+	 * The Constructor.
 	 */
 	public function __construct() {
-		$directory = dirname( __FILE__ );
+		$directory = __DIR__;
 		$this->config(
 			[
 				'id'             => '404-monitor',
@@ -51,18 +75,15 @@ class Admin extends Base {
 		}
 
 		if ( Helper::has_cap( '404_monitor' ) ) {
-			$this->action( 'rank_math/dashboard/widget', 'dashboard_widget', 11 );
 			$this->filter( 'rank_math/settings/general', 'add_settings' );
 		}
 	}
 
 	/**
 	 * Initialize.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function init() {
-		$action = WordPress::get_request_action();
+		$action = Helper::get_request_action();
 		if ( false === $action || ! in_array( $action, [ 'delete', 'clear_log' ], true ) ) {
 			return;
 		}
@@ -95,7 +116,8 @@ class Admin extends Base {
 	}
 
 	/**
-	 * Clear logs.
+	 * Clears all 404 logs, by truncating the log table.
+	 * Fired with the `$this->$action();` line inside the `init()` method.
 	 */
 	protected function do_clear_log() {
 		$count = DB::get_count();
@@ -109,9 +131,7 @@ class Admin extends Base {
 	}
 
 	/**
-	 * Register admin page.
-	 *
-	 * @codeCoverageIgnore
+	 * Register the 404 Monitor admin page.
 	 */
 	public function register_admin_page() {
 
@@ -145,7 +165,10 @@ class Admin extends Base {
 					],
 				],
 				'assets'     => [
-					'styles'  => [ 'rank-math-common' => '' ],
+					'styles'  => [
+						'rank-math-common'      => '',
+						'rank-math-404-monitor' => $uri . '/assets/css/404-monitor.css',
+					],
 					'scripts' => [ 'rank-math-404-monitor' => $uri . '/assets/js/404-monitor.js' ],
 				],
 			]
@@ -158,9 +181,7 @@ class Admin extends Base {
 	}
 
 	/**
-	 * Add module settings into general optional panel.
-	 *
-	 * @codeCoverageIgnore
+	 * Add module settings tab in the General Settings.
 	 *
 	 * @param array $tabs Array of option panel tabs.
 	 *
@@ -175,8 +196,11 @@ class Admin extends Base {
 					'icon'  => 'rm-icon rm-icon-404',
 					'title' => esc_html__( '404 Monitor', 'rank-math' ),
 					/* translators: 1. Link to KB article 2. Link to redirection setting scree */
-					'desc'  => sprintf( esc_html__( 'Monitor broken pages that ruin user-experience and affect SEO. %s.', 'rank-math' ), '<a href="' . \RankMath\KB::get( '404-monitor-settings' ) . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>' ),
+					'desc'  => sprintf( esc_html__( 'Monitor broken pages that ruin user-experience and affect SEO. %s.', 'rank-math' ), '<a href="' . KB::get( '404-monitor-settings', 'Options Panel 404 Monitor Tab' ) . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>' ),
 					'file'  => $this->directory . '/views/options.php',
+					'json'  => [
+						'choicesComparisonTypes' => Helper::choices_comparison_types(),
+					],
 				],
 			],
 			7
@@ -186,46 +210,34 @@ class Admin extends Base {
 	}
 
 	/**
-	 * Add stats into admin dashboard.
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function dashboard_widget() {
-		$data = DB::get_stats();
-		?>
-		<br />
-		<h3><?php esc_html_e( '404 Monitor Stats', 'rank-math' ); ?></h3>
-		<ul>
-			<li><span><?php esc_html_e( '404 Monitor Log Count', 'rank-math' ); ?></span><?php echo esc_html( Str::human_number( $data->total ) ); ?></li>
-			<li><span><?php esc_html_e( '404 URL Hits', 'rank-math' ); ?></span><?php echo esc_html( Str::human_number( $data->hits ) ); ?></li>
-		</ul>
-		<?php
-	}
-
-	/**
 	 * Output page title actions.
 	 *
-	 * @param bool $is_editing User is editing a redirection.
 	 * @return void
 	 */
 	public function page_title_actions() {
 		$actions = [
-			'settings' => [
+			'settings'   => [
 				'class' => 'page-title-action',
-				'href'  => Helper::get_admin_url( 'options-general#setting-panel-404-monitor' ),
+				'href'  => Helper::get_settings_url( 'general', '404-monitor' ),
 				'label' => __( 'Settings', 'rank-math' ),
 			],
 			'learn_more' => [
 				'class' => 'page-title-action',
-				'href'  => KB::get( '404-monitor' ),
+				'href'  => KB::get( '404-monitor', '404 Page Learn More Button' ),
 				'label' => __( 'Learn More', 'rank-math' ),
 			],
 		];
+
+		/**
+		 * Filters the title actions available on the 404 Monitor page.
+		 *
+		 * @param array $actions Multidimensional array of actions to show.
+		 */
 		$actions = $this->do_filter( '404_monitor/page_title_actions', $actions );
 
 		foreach ( $actions as $action_name => $action ) {
 			?>
-				<a class="<?php echo esc_attr( $action['class'] ); ?> rank-math-404-monitor-<?php echo esc_attr( $action_name ); ?>" href="<?php echo esc_attr( $action['href'] ); ?>"><?php echo esc_attr( $action['label'] ); ?></a>
+				<a class="<?php echo esc_attr( $action['class'] ); ?> rank-math-404-monitor-<?php echo esc_attr( $action_name ); ?>" href="<?php echo esc_attr( $action['href'] ); ?>" target="_blank"><?php echo esc_attr( $action['label'] ); ?></a>
 			<?php
 		}
 	}

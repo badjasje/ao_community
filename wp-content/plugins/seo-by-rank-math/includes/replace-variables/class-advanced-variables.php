@@ -10,7 +10,8 @@
 
 namespace RankMath\Replace_Variables;
 
-use MyThemeShop\Helpers\Str;
+use RankMath\Paper\Paper;
+use RankMath\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -49,12 +50,24 @@ class Advanced_Variables extends Author_Variables {
 		);
 
 		$this->register_replacement(
+			'keywords',
+			[
+				'name'        => esc_html__( 'Focus Keywords', 'rank-math' ),
+				'description' => esc_html__( 'Focus Keywords of the current post', 'rank-math' ),
+				'variable'    => 'keywords',
+				'example'     => $this->get_focus_keywords(),
+			],
+			[ $this, 'get_focus_keywords' ]
+		);
+
+		$this->register_replacement(
 			'customfield',
 			[
 				'name'        => esc_html__( 'Custom Field (advanced)', 'rank-math' ),
 				'description' => esc_html__( 'Custom field value.', 'rank-math' ),
 				'variable'    => 'customfield(field-name)',
 				'example'     => esc_html__( 'Custom field value', 'rank-math' ),
+				'nocache'     => true,
 			],
 			[ $this, 'get_customfield' ]
 		);
@@ -129,7 +142,7 @@ class Advanced_Variables extends Author_Variables {
 	}
 
 	/**
-	 * Get the numeric post ID to use as a replacement.
+	 * Get the numeric post ID.
 	 *
 	 * @return string|null
 	 */
@@ -138,7 +151,7 @@ class Advanced_Variables extends Author_Variables {
 	}
 
 	/**
-	 * Get the focus keyword to use as a replacement.
+	 * Get the focus keyword.
 	 *
 	 * @return string|null
 	 */
@@ -161,7 +174,29 @@ class Advanced_Variables extends Author_Variables {
 	}
 
 	/**
-	 * Get the current page number (i.e. "page 2 of 4") to use as a replacement.
+	 * Get Focus keywords.
+	 *
+	 * @return string
+	 */
+	public function get_focus_keywords() {
+		if ( is_singular() || is_category() || is_tag() || is_tax() ) {
+			return Paper::get()->get_keywords();
+		}
+
+		$keywords = '';
+		if ( ! empty( $this->args->ID ) ) {
+			$keywords = get_post_meta( $this->args->ID, 'rank_math_focus_keyword', true );
+		}
+
+		if ( ! empty( $this->args->term_id ) ) {
+			$keywords = get_term_meta( $this->args->term_id, 'rank_math_focus_keyword', true );
+		}
+
+		return $keywords;
+	}
+
+	/**
+	 * Get the current page number as a string (i.e. "page 1 of 5").
 	 *
 	 * @return string
 	 */
@@ -171,7 +206,7 @@ class Advanced_Variables extends Author_Variables {
 		$page = $this->determine_page_number();
 
 		if ( $max > 1 && $page > 1 ) {
-			/* translators: 1: current page number, 2: total number of pages. */
+			/* translators: %1$d: current page number, %2$d: max pages. */
 			return sprintf( $sep . ' ' . __( 'Page %1$d of %2$d', 'rank-math' ), $page, $max );
 		}
 
@@ -179,7 +214,7 @@ class Advanced_Variables extends Author_Variables {
 	}
 
 	/**
-	 * Get only the page number (without context) to use as a replacement.
+	 * Get only the page number (without context).
 	 *
 	 * @return string|null
 	 */
@@ -190,7 +225,7 @@ class Advanced_Variables extends Author_Variables {
 	}
 
 	/**
-	 * Get the may page number to use as a replacement.
+	 * Get the max page number.
 	 *
 	 * @return string|null
 	 */
@@ -201,28 +236,33 @@ class Advanced_Variables extends Author_Variables {
 	}
 
 	/**
-	 * Get a specific custom field value to use as a replacement.
+	 * Get a specific custom field value.
 	 *
 	 * @param  string $name The name of the custom field to retrieve.
 	 * @return string|null
 	 */
 	public function get_customfield( $name ) {
-		global $post;
-
-		$on_screen = is_singular() || is_admin();
-		$has_post  = is_object( $post ) && isset( $post->ID );
-		if ( Str::is_non_empty( $name ) && $on_screen && $has_post ) {
-			$name = get_post_meta( $post->ID, $name, true );
-			if ( '' !== $name ) {
-				return $name;
-			}
+		if ( Str::is_empty( $name ) ) {
+			return null;
 		}
 
-		return null;
+		if ( ! empty( get_query_var( 'sitemap' ) ) && 'locations' !== get_query_var( 'sitemap' ) ) {
+			return null;
+		}
+
+		if ( is_author() ) {
+			return get_user_meta( $this->args->ID, $name, true );
+		}
+
+		if ( is_category() || is_tag() || is_tax() ) {
+			return get_term_meta( $this->args->term_id, $name, true );
+		}
+
+		return is_singular() || ! empty( $this->args->post_type ) ? get_post_meta( $this->args->ID, $name, true ) : null;
 	}
 
 	/**
-	 * Get the post type "single" label to use as a replacement.
+	 * Get the post type "single" label.
 	 *
 	 * @return string|null
 	 */
@@ -233,7 +273,7 @@ class Advanced_Variables extends Author_Variables {
 	}
 
 	/**
-	 * Get the post type "plural" label to use as a replacement.
+	 * Get the post type "plural" label.
 	 *
 	 * @return string|null
 	 */

@@ -7,7 +7,8 @@
  * @subpackage RankMath\Frontend
  * @author     Rank Math <support@rankmath.com>
  *
- * Forked from WooCommerce (https://github.com/woocommerce/woocommerce/)
+ * @copyright Copyright (C) 2015, WooCommerce
+ * The following code is a derivative work of the code from the WooCommerce(https://github.com/woocommerce/woocommerce/), which is licensed under GPL v3.
  */
 
 namespace RankMath\Frontend;
@@ -15,6 +16,8 @@ namespace RankMath\Frontend;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use RankMath\Helpers\Security;
+use WP_Error;
+use WP_Term;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -55,7 +58,7 @@ class Breadcrumbs {
 		static $instance;
 
 		$instance = false;
-		if ( Helper::get_settings( 'general.breadcrumbs' ) && false === $instance ) {
+		if ( Helper::is_breadcrumbs_enabled() && false === $instance ) {
 			$instance = new Breadcrumbs();
 		}
 
@@ -63,7 +66,7 @@ class Breadcrumbs {
 	}
 
 	/**
-	 * Magic method to use in case the class would be send to string.
+	 * Convenience method to output as string.
 	 *
 	 * @return string
 	 */
@@ -117,7 +120,7 @@ class Breadcrumbs {
 			wp_parse_args(
 				$args,
 				[
-					'delimiter'   => '&nbsp;&#47;&nbsp;',
+					'separator'   => $this->settings['separator'],
 					'wrap_before' => '<nav aria-label="breadcrumbs" class="rank-math-breadcrumb"><p>',
 					'wrap_after'  => '</p></nav>',
 					'before'      => '',
@@ -133,7 +136,7 @@ class Breadcrumbs {
 		if ( $remove_title ) {
 			array_pop( $crumbs );
 		}
-		$size = sizeof( $crumbs );
+		$size = count( $crumbs );
 
 		if ( ! empty( $this->strings['prefix'] ) ) {
 			$html .= \sprintf( '<span class="label">%s</span> ', $this->strings['prefix'] );
@@ -144,14 +147,14 @@ class Breadcrumbs {
 			$link = $link ? '<a href="' . esc_url( $crumb[1] ) . '">' . esc_html( $crumb[0] ) . '</a>' :
 				'<span class="last">' . esc_html( $crumb[0] ) . '</span>';
 
-			$html .= $args['before'] . $link . $args['after'];
+			$html .= wp_kses_post( $args['before'] ) . $link . wp_kses_post( $args['after'] );
 
 			if ( $size !== $key + 1 ) {
-				$html .= '<span class="separator"> ' . wp_kses_post( $this->settings['separator'] ) . ' </span>';
+				$html .= '<span class="separator"> ' . wp_kses_post( $args['separator'] ) . ' </span>';
 			}
 		}
 
-		$html = $args['wrap_before'] . $html . $args['wrap_after'];
+		$html = wp_kses_post( $args['wrap_before'] ) . $html . wp_kses_post( $args['wrap_after'] );
 
 		/**
 		 * Change the breadcrumbs HTML output.
@@ -160,7 +163,7 @@ class Breadcrumbs {
 		 * @param array       $crumbs The breadcrumbs array.
 		 * @param Breadcrumbs $this   Current breadcrumb.
 		 */
-		return $this->do_filter( 'frontend/breadcrumb/html', $html, $crumbs, $this );
+		return $this->do_filter( 'frontend/breadcrumb/html', wp_kses_post( $html ), $crumbs, $this );
 	}
 
 	/**
@@ -191,7 +194,7 @@ class Breadcrumbs {
 	 */
 	private function add_crumb( $name, $link = '', $hide_in_schema = false ) {
 		$this->crumbs[] = [
-			strip_tags( $name ),
+			wp_strip_all_tags( $name ),
 			$link,
 			'hide_in_schema' => $hide_in_schema,
 		];
@@ -336,7 +339,7 @@ class Breadcrumbs {
 		$term = $GLOBALS['wp_query']->get_queried_object();
 		$this->prepend_shop_page();
 		$this->maybe_add_term_ancestors( $term );
-		$this->add_crumb( $this->get_breadcrumb_title( 'term', $term, $term->name ) );
+		$this->add_crumb( $this->get_breadcrumb_title( 'term', $term, $term->name ), get_term_link( $term ) );
 	}
 
 	/**
@@ -346,14 +349,14 @@ class Breadcrumbs {
 		$term = $GLOBALS['wp_query']->get_queried_object();
 		$this->prepend_shop_page();
 		/* translators: %s: product tag */
-		$this->add_crumb( sprintf( __( 'Products tagged &ldquo;%s&rdquo;', 'rank-math' ), $this->get_breadcrumb_title( 'term', $term, $term->name ) ) );
+		$this->add_crumb( sprintf( __( 'Products tagged &ldquo;%s&rdquo;', 'rank-math' ), $this->get_breadcrumb_title( 'term', $term, $term->name ) ), get_term_link( $term ) );
 	}
 
 	/**
 	 * Shop trail.
 	 */
 	private function add_crumbs_shop() {
-		$shop_page_id = wc_get_page_id( 'shop' );
+		$shop_page_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : false;
 		if ( intval( get_option( 'page_on_front' ) ) === $shop_page_id ) {
 			return;
 		}
@@ -382,7 +385,7 @@ class Breadcrumbs {
 
 		$type_object = get_post_type_object( $post_type );
 		if ( ! empty( $type_object->has_archive ) ) {
-			$this->add_crumb( $type_object->labels->singular_name, get_post_type_archive_link( $post_type ) );
+			$this->add_crumb( $type_object->labels->name, get_post_type_archive_link( $post_type ) );
 		}
 	}
 
@@ -392,6 +395,10 @@ class Breadcrumbs {
 	private function add_crumbs_category() {
 		$this->maybe_add_blog();
 		$term = $GLOBALS['wp_query']->get_queried_object();
+		if ( empty( $term ) ) {
+			return;
+		}
+
 		$this->maybe_add_term_ancestors( $term );
 		$this->add_crumb( $this->get_breadcrumb_title( 'term', $term, $term->name ), get_term_link( $term ) );
 	}
@@ -441,11 +448,18 @@ class Breadcrumbs {
 		global $author;
 
 		$userdata = get_userdata( $author );
+		if ( ! $userdata || ! is_object( $userdata ) || ! isset( $userdata->ID ) ) {
+			return;
+		}
+
 		$this->add_crumb( sprintf( $this->strings['archive_format'], $this->get_breadcrumb_title( 'user', $userdata->ID, $userdata->display_name ) ) );
 	}
 
 	/**
 	 * Single post trail.
+	 *
+	 * @copyright Copyright (C) 2008-2019, Yoast BV
+	 * The following code is a derivative work of the code from the Yoast (https://github.com/Yoast/wordpress-seo/), which is licensed under GPL v3.
 	 *
 	 * @param WP_Post $post Post object.
 	 */
@@ -461,7 +475,6 @@ class Breadcrumbs {
 			return;
 		}
 
-		// Reverse the order so it's oldest to newest.
 		$ancestors = array_reverse( $ancestors );
 		foreach ( $ancestors as $ancestor ) {
 			$this->add_crumb( $this->get_breadcrumb_title( 'post', $ancestor, get_the_title( $ancestor ) ), get_permalink( $ancestor ) );
@@ -472,20 +485,37 @@ class Breadcrumbs {
 	 * Prepend the shop page to the shop trail.
 	 */
 	private function prepend_shop_page() {
-		$permalinks   = wc_get_permalink_structure();
-		$shop_page_id = wc_get_page_id( 'shop' );
+		$shop_page_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : false;
 		$shop_page    = get_post( $shop_page_id );
 
 		// If permalinks contain the shop page in the URI prepend the breadcrumb with shop.
-		if ( $shop_page_id && $shop_page && isset( $permalinks['product_base'] ) && strstr( $permalinks['product_base'], '/' . $shop_page->post_name ) && intval( get_option( 'page_on_front' ) ) !== $shop_page_id ) {
+		if ( $shop_page_id && $shop_page && $this->is_using_shop_base( $shop_page ) && intval( get_option( 'page_on_front' ) ) !== $shop_page_id ) {
 			$this->add_crumb( $this->get_breadcrumb_title( 'post', $shop_page_id, get_the_title( $shop_page ) ), get_permalink( $shop_page ) );
 		}
 	}
 
 	/**
+	 * Checks if the permalinks product base is using the shop base.
+	 *
+	 * @param \WP_Post $shop_page The shop page.
+	 *
+	 * @return bool
+	 */
+	private function is_using_shop_base( $shop_page ) {
+		$permalinks         = wc_get_permalink_structure();
+		$is_using_shop_base = isset( $permalinks['product_base'] ) && strstr( $permalinks['product_base'], '/' . $shop_page->post_name );
+
+		/**
+		 * Allows to filter the "is using shop base" condition.
+		 *
+		 * @param bool True if using shop base or false otherwise.
+		 */
+		return $this->do_filter( 'frontend/breadcrumb/is_using_shop_base', $is_using_shop_base );
+	}
+	/**
 	 * Get the primary term.
 	 *
-	 * @param array $terms Terms attached to the current post.
+	 * @param WP_Term[]|false|WP_Error $terms Terms attached to the current post.
 	 */
 	private function maybe_add_primary_term( $terms ) {
 		// Early Bail!
@@ -534,7 +564,7 @@ class Breadcrumbs {
 	 * @return bool
 	 */
 	private function can_add_term_ancestors( $term ) {
-		if ( 0 === $term->parent || false === $this->settings['show_ancestors'] || false === is_taxonomy_hierarchical( $term->taxonomy ) ) {
+		if ( empty( $term ) || 0 === $term->parent || false === $this->settings['show_ancestors'] || false === is_taxonomy_hierarchical( $term->taxonomy ) ) {
 			return false;
 		}
 
@@ -606,12 +636,12 @@ class Breadcrumbs {
 	/**
 	 * Get the breadcrumb title.
 	 *
-	 * @param  string $object_type Object type.
-	 * @param  int    $object_id   Object ID to get the title for.
-	 * @param  string $default     Default value to use for title.
+	 * @param  string $object_type   Object type.
+	 * @param  int    $object_id     Object ID to get the title for.
+	 * @param  string $default_value Default value to use for title.
 	 * @return string
 	 */
-	private function get_breadcrumb_title( $object_type, $object_id, $default ) {
+	private function get_breadcrumb_title( $object_type, $object_id, $default_value ) {
 		$title = '';
 		if ( 'post' === $object_type ) {
 			$title = Helper::get_post_meta( 'breadcrumb_title', $object_id );
@@ -621,6 +651,6 @@ class Breadcrumbs {
 			$title = Helper::get_user_meta( 'breadcrumb_title', $object_id );
 		}
 
-		return $title ? $title : $default;
+		return $title ? $title : $default_value;
 	}
 }

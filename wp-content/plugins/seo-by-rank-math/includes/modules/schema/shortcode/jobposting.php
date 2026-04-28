@@ -1,10 +1,12 @@
 <?php
 /**
- * Shortcode - resturant
+ * Shortcode - Job Posting
  *
  * @package    RankMath
  * @subpackage RankMath\Schema
  */
+
+defined( 'ABSPATH' ) || exit;
 
 $this->get_title();
 $this->get_image();

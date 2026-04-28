@@ -66,29 +66,31 @@ class NextendSocialUpgrader {
 
     public static function injectUpdate($transient) {
 
-        if (!class_exists('NextendSocialLoginPRO', false)) {
-            return $transient;
-        }
-
-        $filename = "nextend-social-login-pro/nextend-social-login-pro.php";
-
-        if (!isset($transient->response[$filename])) {
-            try {
-                $item = (object)NextendSocialLoginAdmin::apiCall('plugin_information', array('slug' => 'nextend-social-login-pro'));
-            } catch (Exception $e) {
-                $item = new WP_Error('error', $e->getMessage());
+        if (is_object($transient)) {
+            if (!class_exists('NextendSocialLoginPRO', false)) {
+                return $transient;
             }
 
-            if (!is_wp_error($item)) {
-                $item->plugin = 'nextend-social-login-pro/nextend-social-login-pro.php';
-                if (version_compare(NextendSocialLoginPRO::$version, $item->new_version, '<')) {
-                    $transient->response[$filename] = (object)$item;
-                    unset($transient->no_update[$filename]);
-                } else {
-                    $transient->no_update[$filename] = (object)$item;
-                    unset($transient->response[$filename]);
+            $filename = "nextend-social-login-pro/nextend-social-login-pro.php";
+
+            if (!isset($transient->response[$filename])) {
+                try {
+                    $item = (object)NextendSocialLoginAdmin::apiCall('plugin_information', array('slug' => 'nextend-social-login-pro'));
+                } catch (Exception $e) {
+                    $item = new WP_Error('error', $e->getMessage());
                 }
 
+                if (!is_wp_error($item)) {
+                    $item->plugin = 'nextend-social-login-pro/nextend-social-login-pro.php';
+                    if (version_compare(NextendSocialLoginPRO::$version, $item->new_version, '<')) {
+                        $transient->response[$filename] = (object)$item;
+                        unset($transient->no_update[$filename]);
+                    } else {
+                        $transient->no_update[$filename] = (object)$item;
+                        unset($transient->response[$filename]);
+                    }
+
+                }
             }
         }
 

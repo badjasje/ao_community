@@ -1,12 +1,12 @@
 <?php
 /**
- * The images settings.
+ * The Image SEO settings.
  *
  * @package    RankMath
- * @subpackage RankMath\Settings
+ * @subpackage RankMath\Image_Seo
  */
 
-use RankMath\Helper;
+defined( 'ABSPATH' ) || exit;
 
 $cmb->add_field(
 	[

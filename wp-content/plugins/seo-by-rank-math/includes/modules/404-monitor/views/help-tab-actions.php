@@ -1,10 +1,12 @@
 <?php
 /**
- * 404 Monitor inline help.
+ * 404 Monitor inline help: "Available Actions" tab.
  *
  * @package    RankMath
  * @subpackage RankMath\Monitor
  */
+
+defined( 'ABSPATH' ) || exit;
 
 ?>
 <p>

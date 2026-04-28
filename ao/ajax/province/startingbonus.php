@@ -1,7 +1,7 @@
 <?php
 
 function ajax_startingbonus($province, $return) {
-    if(!Round::isLive()) {
+    if(!Round::isLive() && get_current_user_id() != 1) {
         return array('status' => 'The round has ended.');
     }
 

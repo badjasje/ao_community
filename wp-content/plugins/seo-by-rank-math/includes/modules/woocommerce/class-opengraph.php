@@ -1,6 +1,6 @@
 <?php
 /**
- * The WooCommerce register opengraph.
+ * Add Open Graph data for the WooCommerce module.
  *
  * @since      1.0.32
  * @package    RankMath
@@ -10,6 +10,7 @@
 
 namespace RankMath\WooCommerce;
 
+use RankMath\Traits\Hooker;
 use RankMath\OpenGraph\Image as OpenGraph_Image;
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +19,8 @@ defined( 'ABSPATH' ) || exit;
  * WC Opengraph class.
  */
 class Opengraph extends Sitemap {
+
+	use Hooker;
 
 	/**
 	 * Register hooks.
@@ -30,20 +33,18 @@ class Opengraph extends Sitemap {
 	}
 
 	/**
-	 * Filter for the namespace, adding the OpenGraph namespace.
+	 * Add the OpenGraph namespace.
 	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/product/
-	 *
-	 * @param string $input The input namespace string.
+	 * @param string $output The original namespace.
 	 *
 	 * @return string
 	 */
-	public function og_product_namespace( $input ) {
+	public function og_product_namespace( $output ) {
 		if ( is_singular( 'product' ) ) {
-			$input = preg_replace( '/prefix="([^"]+)"/', 'prefix="$1 product: https://ogp.me/ns/product#"', $input );
+			$output = preg_replace( '/prefix="([^"]+)"/', 'prefix="$1 product: https://ogp.me/ns/product#"', $output );
 		}
 
-		return $input;
+		return $output;
 	}
 
 	/**
@@ -76,9 +77,9 @@ class Opengraph extends Sitemap {
 			return;
 		}
 
-		$brands = WooCommerce::get_brands( get_the_ID() );
-		if ( ! empty( $brands ) ) {
-			$opengraph->tag( 'product:brand', $brands[0]->name );
+		$brand = WooCommerce::get_brands( get_the_ID() );
+		if ( ! empty( $brand ) ) {
+			$opengraph->tag( 'product:brand', $brand );
 		}
 
 		/**
@@ -107,6 +108,15 @@ class Opengraph extends Sitemap {
 			$cat          = $wp_query->get_queried_object();
 			$thumbnail_id = get_term_meta( $cat->term_id, 'thumbnail_id', true );
 			$opengraph_image->add_image_by_id( $thumbnail_id );
+		}
+
+		/**
+		 * Passing a truthy value to the filter will effectively short-circuit the process of adding gallery images.
+		 *
+		 * @param bool $return Short-circuit return value. Either false or true.
+		 */
+		if ( ! $this->do_filter( 'woocommerce/opengraph/add_gallery_images', false ) ) {
+			return;
 		}
 
 		$product = $this->get_product();

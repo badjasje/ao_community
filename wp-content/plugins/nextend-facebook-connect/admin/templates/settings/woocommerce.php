@@ -186,6 +186,18 @@ NextendSocialLoginAdmin::showProBox();
                 <code><?php _e('Action:'); ?>
                     woocommerce_after_checkout_registration_form</code><br>
 
+                <label><input type="radio" name="woocommerce_billing"
+                              value="before-checkout-shipping-form" <?php if ($settings->get('woocommerce_billing') == 'before-checkout-shipping-form') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Connect button on', 'nextend-facebook-connect'); ?></span>
+                    <code><?php _e('Action:'); ?>
+                        woocommerce_before_checkout_shipping_form</code></label><br>
+
+                <label><input type="radio" name="woocommerce_billing"
+                              value="after-checkout-shipping-form" <?php if ($settings->get('woocommerce_billing') == 'after-checkout-shipping-form') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Connect button on', 'nextend-facebook-connect'); ?></span></label>
+                <code><?php _e('Action:'); ?>
+                    woocommerce_after_checkout_shipping_form</code><br>
+
             </fieldset>
         </td>
     </tr>
@@ -232,59 +244,6 @@ NextendSocialLoginAdmin::showProBox();
             </fieldset>
         </td>
     </tr>
-
-    <?php if (defined('CFW_MAIN_FILE')) { ?>
-        <!-- Integration for "Checkout for WooCommerce" plugin: -->
-        <tr>
-            <th scope="row"><?php _e('Checkout for WooCommerce', 'nextend-facebook-connect'); ?></th>
-            <td>
-                <fieldset>
-                    <label><input type="radio" name="woocommerce_cfw"
-                                  value="" <?php if ($settings->get('woocommerce_cfw') == '') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
-                        <span><?php _e('No Connect button in "Checkout for WooCommerce" form', 'nextend-facebook-connect'); ?></span></label><br>
-                    <label><input type="radio" name="woocommerce_cfw"
-                                  value="show" <?php if ($settings->get('woocommerce_cfw') == 'show') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
-                        <span><?php _e('Connect button on', 'nextend-facebook-connect'); ?></span>
-                        <code><?php _e('Action:'); ?>
-                            cfw_checkout_after_login</code></label><br>
-                </fieldset>
-            </td>
-        </tr>
-
-        <tr>
-            <th scope="row"><?php _e('Checkout for WooCommerce layout', 'nextend-facebook-connect'); ?></th>
-            <td>
-                <fieldset>
-                    <label>
-                        <input type="radio" name="woocommerce_cfw_layout"
-                               value="below" <?php if ($settings->get('woocommerce_cfw_layout') == 'below') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
-                        <span><?php _e('Below', 'nextend-facebook-connect'); ?></span><br/>
-                        <img src="<?php echo plugins_url('images/layouts/below.png', NSL_ADMIN_PATH) ?>"/>
-                    </label>
-                    <label>
-                        <input type="radio" name="woocommerce_cfw_layout"
-                               value="below-separator" <?php if ($settings->get('woocommerce_cfw_layout') == 'below-separator') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
-                        <span><?php _e('Below with separator', 'nextend-facebook-connect'); ?></span><br/>
-                        <img src="<?php echo plugins_url('images/layouts/below-separator.png', NSL_ADMIN_PATH) ?>"/>
-                    </label>
-                    <label>
-                        <input type="radio" name="woocommerce_cfw_layout"
-                               value="above" <?php if ($settings->get('woocommerce_cfw_layout') == 'above') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
-                        <span><?php _e('Above', 'nextend-facebook-connect'); ?></span><br/>
-                        <img src="<?php echo plugins_url('images/layouts/above.png', NSL_ADMIN_PATH) ?>"/>
-                    </label>
-                    <label>
-                        <input type="radio" name="woocommerce_cfw_layout"
-                               value="above-separator" <?php if ($settings->get('woocommerce_cfw_layout') == 'above-separator') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
-                        <span><?php _e('Above with separator', 'nextend-facebook-connect'); ?></span><br/>
-                        <img src="<?php echo plugins_url('images/layouts/above-separator.png', NSL_ADMIN_PATH) ?>"/>
-                    </label><br>
-                </fieldset>
-            </td>
-        </tr>
-
-
-    <?php } ?>
 
     <tr>
         <th scope="row"><?php _e('Account details', 'nextend-facebook-connect'); ?></th>

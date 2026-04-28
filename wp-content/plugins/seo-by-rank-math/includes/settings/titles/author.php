@@ -8,7 +8,9 @@
 
 use RankMath\Helper;
 
-$dep = [ [ 'disable_author_archives', 'on' ] ];
+defined( 'ABSPATH' ) || exit;
+
+$dep = [ [ 'disable_author_archives', 'off' ] ];
 
 $cmb->add_field(
 	[
@@ -61,7 +63,7 @@ $cmb->add_field(
 		'desc'              => esc_html__( 'Custom values for robots meta tag on author page.', 'rank-math' ),
 		'options'           => Helper::choices_robots(),
 		'select_all_button' => false,
-		'classes'           => 'rank-math-advanced-option',
+		'classes'           => 'rank-math-advanced-option rank-math-robots-data',
 		'dep'               => [
 			'relation' => 'and',
 			[ 'author_custom_robots', 'on' ],
@@ -109,7 +111,7 @@ $cmb->add_field(
 		'dep'        => $dep,
 		'attributes' => [
 			'class'                  => 'cmb2-textarea-small wp-exclude-emoji',
-			'data-gramm_editor'      => 'false',
+			'data-gramm'             => 'false',
 			'rows'                   => 2,
 			'data-exclude-variables' => 'seo_title,seo_description',
 		],
@@ -118,10 +120,22 @@ $cmb->add_field(
 
 $cmb->add_field(
 	[
+		'id'      => 'author_slack_enhanced_sharing',
+		'type'    => 'toggle',
+		'name'    => esc_html__( 'Slack Enhanced Sharing', 'rank-math' ),
+		'desc'    => esc_html__( 'When the option is enabled and an author archive is shared on Slack, additional information will be shown (name & total number of posts).', 'rank-math' ),
+		'default' => 'on',
+		'classes' => 'rank-math-advanced-option',
+		'dep'     => $dep,
+	]
+);
+
+$cmb->add_field(
+	[
 		'id'      => 'author_add_meta_box',
 		'type'    => 'toggle',
-		'name'    => esc_html__( 'Add SEO Meta Box for Users', 'rank-math' ),
-		'desc'    => esc_html__( 'Add SEO Meta Box for user profile pages. Access to the Meta Box can be fine tuned with code, using a special filter hook.', 'rank-math' ),
+		'name'    => esc_html__( 'Add SEO Controls', 'rank-math' ),
+		'desc'    => esc_html__( 'Add SEO Controls for user profile pages. Access to the Meta Box can be fine tuned with code, using a special filter hook.', 'rank-math' ),
 		'default' => 'on',
 		'classes' => 'rank-math-advanced-option',
 		'dep'     => $dep,

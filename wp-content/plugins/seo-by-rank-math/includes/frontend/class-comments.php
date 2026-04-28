@@ -12,8 +12,8 @@ namespace RankMath\Frontend;
 
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\HTML;
-use MyThemeShop\Helpers\Str;
+use RankMath\Helpers\HTML;
+use RankMath\Helpers\Str;
 use RankMath\Helpers\Security;
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Comments class.
  *
- * Forked from Yoast (https://github.com/Yoast/wordpress-seo/)
+ * @copyright Copyright (C) 2008-2019, Yoast BV
+ * The following code is a derivative work of the code from the Yoast(https://github.com/Yoast/wordpress-seo/), which is licensed under GPL v3.
  */
 class Comments {
 
@@ -78,7 +79,7 @@ class Comments {
 
 		if ( isset( $_GET['replytocom'] ) && is_singular() ) {
 			$url          = get_permalink( $GLOBALS['post']->ID );
-			$query_string = Security::remove_query_arg_raw( 'replytocom', sanitize_text_field( $_SERVER['QUERY_STRING'] ) );
+			$query_string = isset( $_SERVER['QUERY_STRING'] ) ? Security::remove_query_arg_raw( 'replytocom', sanitize_text_field( $_SERVER['QUERY_STRING'] ) ) : '';
 			if ( ! empty( $query_string ) ) {
 				$url .= '?' . $query_string;
 			}
@@ -112,5 +113,4 @@ class Comments {
 
 		return $text;
 	}
-
 }

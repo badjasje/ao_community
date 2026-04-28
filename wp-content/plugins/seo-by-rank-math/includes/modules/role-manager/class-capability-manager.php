@@ -11,10 +11,7 @@
 namespace RankMath\Role_Manager;
 
 use RankMath\Helper;
-use RankMath\Module;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Admin\Page;
-use MyThemeShop\Helpers\WordPress;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -63,13 +60,14 @@ class Capability_Manager {
 		$this->register( 'rank_math_link_builder', esc_html__( 'Link Builder', 'rank-math' ) );
 		$this->register( 'rank_math_redirections', esc_html__( 'Redirections', 'rank-math' ) );
 		$this->register( 'rank_math_role_manager', esc_html__( 'Role Manager', 'rank-math' ) );
-		$this->register( 'rank_math_search_console', esc_html__( 'Search Console', 'rank-math' ) );
+		$this->register( 'rank_math_analytics', esc_html__( 'Analytics', 'rank-math' ) );
 		$this->register( 'rank_math_site_analysis', esc_html__( 'Site-Wide Analysis', 'rank-math' ) );
 		$this->register( 'rank_math_onpage_analysis', esc_html__( 'On-Page Analysis', 'rank-math' ) );
 		$this->register( 'rank_math_onpage_general', esc_html__( 'On-Page General Settings', 'rank-math' ) );
 		$this->register( 'rank_math_onpage_advanced', esc_html__( 'On-Page Advanced Settings', 'rank-math' ) );
 		$this->register( 'rank_math_onpage_snippet', esc_html__( 'On-Page Schema Settings', 'rank-math' ) );
 		$this->register( 'rank_math_onpage_social', esc_html__( 'On-Page Social Settings', 'rank-math' ) );
+		$this->register( 'rank_math_content_ai', esc_html__( 'Content AI', 'rank-math' ) );
 		$this->register( 'rank_math_admin_bar', esc_html__( 'Top Admin Bar', 'rank-math' ) );
 	}
 
@@ -84,7 +82,7 @@ class Capability_Manager {
 	}
 
 	/**
-	 * Returns the list of registered capabilitities.
+	 * Get all registered capabilitities.
 	 *
 	 * @param bool $caps Capabilities as keys.
 	 *
@@ -98,7 +96,7 @@ class Capability_Manager {
 	 * Add capabilities on install.
 	 */
 	public function create_capabilities() {
-		foreach ( WordPress::get_roles() as $slug => $role ) {
+		foreach ( Helper::get_roles() as $slug => $role ) {
 			$role = get_role( $slug );
 			if ( ! $role ) {
 				continue;
@@ -113,7 +111,7 @@ class Capability_Manager {
 	 */
 	public function remove_capabilities() {
 		$capabilities = $this->get_capabilities( true );
-		foreach ( WordPress::get_roles() as $slug => $role ) {
+		foreach ( Helper::get_roles() as $slug => $role ) {
 			$role = get_role( $slug );
 			if ( ! $role ) {
 				continue;
@@ -168,5 +166,15 @@ class Capability_Manager {
 		}
 
 		return [];
+	}
+
+	/**
+	 * Reset capabilities.
+	 *
+	 * @return void
+	 */
+	public function reset_capabilities() {
+		$this->remove_capabilities();
+		$this->create_capabilities();
 	}
 }

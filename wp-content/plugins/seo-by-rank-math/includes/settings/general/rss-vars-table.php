@@ -6,8 +6,10 @@
  * @subpackage RankMath\Settings
  */
 
+defined( 'ABSPATH' ) || exit;
+
 ?>
-<div class="cmb-row rank-math-rss-variables">
+<div class="cmb-row rank-math-rss-variables rank-math-exclude-from-search">
 
 	<h3><?php esc_html_e( 'Available variables', 'rank-math' ); ?> </h3>
 

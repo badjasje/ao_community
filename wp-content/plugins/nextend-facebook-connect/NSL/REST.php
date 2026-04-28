@@ -9,6 +9,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use function add_action;
 use function register_rest_route;
+use NextendSocialProviderOAuth;
 
 class REST {
 
@@ -46,7 +47,19 @@ class REST {
     }
 
     public function validate_provider($providerID) {
-        return NextendSocialLogin::isProviderEnabled($providerID);
+        if (NextendSocialLogin::isProviderEnabled($providerID)) {
+            if (NextendSocialLogin::$enabledProviders[$providerID] instanceof NextendSocialProviderOAuth) {
+                return true;
+            } else {
+                /*
+                 * OpenID providers don't have a secure Access Token, but just a simple ID that is usually easy to guess.
+                 * For this reason we shouldn't return the WordPress user ID over the REST API of providers based on OpenID authentication.
+                 */
+                return new WP_Error('error', __('This provider doesn\'t support REST API calls!', 'nextend-facebook-connect'));
+            }
+        }
+
+        return false;
     }
 
     /**

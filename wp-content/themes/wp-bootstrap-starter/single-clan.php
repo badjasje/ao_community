@@ -8,11 +8,15 @@ $clan_id = get_the_ID();
 $clan = Clan::make($clan_id);
 $clanImg = $clan->getImage();
 $clanMembers = $clan->getMembers();
+
 $clanAwards = $clan->getAwards();
 
 $user = CurrentUser::make();
 $province = $user->getProvince();
 $userIsMember = $clan->isMember();
+
+
+
 ?>
 <div class="row pageRow clanContentRow">
     <? while (have_posts()) { the_post(); ?>
@@ -26,7 +30,11 @@ $userIsMember = $clan->isMember();
             <? } ?>
 
             <div class="col-12 attackingRow statCol-1">
-                <div class="profileColumn">Members</div> <?=count($clanMembers)?>
+                <div class="profileColumn">Members</div> 
+                
+                
+           <?= ($clan_id == 51238) ? (count($clanMembers) + 1) : count($clanMembers) ?>
+
             </div>
 
             <div class="col-12 attackingRow statCol-2 elipOverflow">
@@ -100,7 +108,26 @@ $userIsMember = $clan->isMember();
                         </td>
                     <? } ?>
                 </tr>
+                
             <? } ?>
+            <?php if($clan_id == 51238):?>
+            <tr style="opacity: 0.8;" class="unitRow userRow6">
+            <td class="col-no-padding"><a href="https://assault.online/users/profile/?id=312" title="Nymph"><div class="allUsersAvatar setAvatar uploaded"><img src="https://assault.online/wp-content/uploads/2017/07/giphy-downsized.gif"></div></a></td>
+            <td class="provinceName">
+            <span class="name-sort"><a class="memberField" href="https://assault.online/users/profile/?id=312"><span class="name">Nymph</span> <span class="nameId">(#312)</span> 
+
+            
+        
+        <span class="hover-tip" data-toggle="tooltip" data-original-title="This is a post mortem profile." data-placement="right">
+            <i class="fa-solid fa-cross"></i>
+        </span>
+        
+        </a></span>
+            </td>
+            <td class="nw-sort"><span>$ 416 979 <span class="hover-tip" data-toggle="tooltip" data-placement="bottom" data-title="Out of range, min $ 297 843, max $ 583 771" data-original-title="" title=""><i class="far fa-times-circle"></i></span></span></td>
+            <td class="land-sort">35 780m<sup>2</sup></td>
+                            </tr>
+                            <?php endif;?>
         </table>
     </div>
 

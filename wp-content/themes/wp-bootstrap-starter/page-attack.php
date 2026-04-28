@@ -23,8 +23,11 @@ update_user_meta($userId, 'morale_lock', 0);
 
 $networth = $userData['networth'][0];
 $status = $userData['status'][0];
-$satOwned = $userData['sat_owned'][0];
 
+$satOwned = $userData['sat_owned'][0];
+if(get_user_meta($_GET['id'],'status',true) == 'postmortem'){
+	exit(wp_redirect(home_url('/')));
+}
 $attackUserId = sanitize_text_field($_GET['id']);
 if ($attackUserId == $userId) {
 	exit(wp_redirect(home_url('/')));

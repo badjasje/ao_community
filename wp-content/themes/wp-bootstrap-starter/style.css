@@ -1872,20 +1872,10 @@ input[type="radio"]:checked + label {
     #af-wrapper .post-wrapper { display: block; }
 }
 
-.text-right {
-    display: inline-block;
-    float: right;
-    margin-top: -45px;
-    margin-right:20px;
-}
+
 
 @media only screen and (max-width: 768px) {
-	.text-right {
-    display: block;
-    float: unset;
-    margin-top: 0px;
-    margin-right:0px;
-}
+
     /* Small tables for buildings, units, missiles and market */
     .navItem, .smallTable .mainSubmit, .smallTable .secundarySubmit { padding: 5px; }
 

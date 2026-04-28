@@ -42,6 +42,11 @@ class NextendSocialLoginAvatar {
                 'modifyQueryAttachmentsArgs'
             ));
         }
+
+        add_action('nsl_unlink_user', array(
+            $this,
+            'maybeDeleteAvatarOfUnlinkedProvider'
+        ), PHP_INT_MIN, 3);
     }
 
     public function addPostMimeTypeAvatar($types) {
@@ -98,7 +103,7 @@ class NextendSocialLoginAvatar {
                     if (preg_match('/\.(jpg|jpeg|gif|png)/', $avatarUrl, $match)) {
                         $extension = $match[1];
                     }
-                    $avatarTempPath = self::download_url($avatarUrl);
+                    $avatarTempPath = download_url($avatarUrl);
                     if (!is_wp_error($avatarTempPath)) {
                         $umAvatarKey         = 'profile_photo';
                         $umNameWithExtension = $umAvatarKey . '.' . $extension;
@@ -119,8 +124,8 @@ class NextendSocialLoginAvatar {
 
                             update_user_meta($user_id, $umAvatarKey, $umNameWithExtension);
                         }
+                        unlink($avatarTempPath);
                     }
-                    unlink($avatarTempPath);
 
                     UM()
                         ->user()
@@ -139,7 +144,7 @@ class NextendSocialLoginAvatar {
                     }
 
                     require_once(ABSPATH . '/wp-admin/includes/file.php');
-                    $avatarTempPath = self::download_url($avatarUrl);
+                    $avatarTempPath = download_url($avatarUrl);
 
                     if (!is_wp_error($avatarTempPath)) {
                         if (!function_exists('bp_members_avatar_upload_dir')) {
@@ -182,6 +187,10 @@ class NextendSocialLoginAvatar {
             if ($original_attachment_id) {
                 $attached_file = get_attached_file($original_attachment_id);
                 if (($attached_file && !file_exists($attached_file)) || !$attached_file) {
+                    if ($attached_file && !file_exists($attached_file)) {
+                        self::deleteAvatarData($original_attachment_id, $user_id);
+                    }
+
                     $original_attachment_id = false;
                 } else {
                     /**
@@ -200,11 +209,15 @@ class NextendSocialLoginAvatar {
 
             if (!$original_attachment_id) {
                 /**
-                 * If the user unlink and link the social provider back the original avatar will be used.
+                 * If the <preffix>user_avatar user meta was deleted, but the attachment stored by the provider still exists,
+                 * then we should restore the user meta and attempt to use that attachment as the original attachment.
                  */
                 $args  = array(
                     'post_type'   => 'attachment',
-                    'post_status' => 'inherit',
+                    'post_status' => array(
+                        'inherit',
+                        'private'
+                    ),
                     'meta_query'  => array(
                         array(
                             'key'   => $provider->getId() . '_avatar',
@@ -217,6 +230,14 @@ class NextendSocialLoginAvatar {
                     $original_attachment_id = $query->posts[0]->ID;
                     $overwriteAttachment    = true;
                     update_user_meta($user_id, $wpdb->get_blog_prefix($blog_id) . 'user_avatar', $original_attachment_id);
+
+                    $attached_file = get_attached_file($original_attachment_id);
+                    if ($attached_file && file_exists($attached_file)) {
+                        /**
+                         * The user has an avatar stored by the provider, so we should get the stored md5 value of the file, too!
+                         */
+                        $original_attachment_md5 = get_user_meta($user_id, 'nsl_user_avatar_md5', true);
+                    }
                 }
             }
 
@@ -226,7 +247,7 @@ class NextendSocialLoginAvatar {
             if (!$original_attachment_id || $overwriteAttachment === true) {
                 require_once(ABSPATH . '/wp-admin/includes/file.php');
 
-                $avatarTempPath = self::download_url($avatarUrl);
+                $avatarTempPath = download_url($avatarUrl);
                 if (!is_wp_error($avatarTempPath)) {
                     $mime        = wp_get_image_mime($avatarTempPath);
                     $mime_to_ext = apply_filters('getimagesize_mimes_to_exts', array(
@@ -235,6 +256,7 @@ class NextendSocialLoginAvatar {
                         'image/gif'  => 'gif',
                         'image/bmp'  => 'bmp',
                         'image/tiff' => 'tif',
+                        'image/webp' => 'webp'
                     ));
 
                     /**
@@ -259,25 +281,26 @@ class NextendSocialLoginAvatar {
 
                         if (wp_mkdir_p($nslUploadDir)) {
 
-                            $filename = wp_hash($user_id) . '.' . $mime_to_ext[$mime];
+                            $filename = wp_hash(uniqid($user_id . '-')) . '.' . $mime_to_ext[$mime];
                             $filename = wp_unique_filename($nslUploadDir, $filename);
 
                             $newAvatarPath = trailingslashit($nslUploadDir) . $filename;
-                            $newFile       = @copy($avatarTempPath, $newAvatarPath);
-                            @unlink($avatarTempPath);
 
-                            if (false !== $newFile) {
-                                $url          = $wp_upload_dir['baseurl'] . '/' . $nslUploadDirName . '/' . basename($filename);
-                                $newAvatarMD5 = md5_file($newAvatarPath);
+                            $newAvatarMD5 = md5_file($avatarTempPath);
 
-                                if ($overwriteAttachment) {
-                                    $originalAvatarImage = get_attached_file($original_attachment_id);
+                            if ($overwriteAttachment) {
+                                // we got the same image, so we do not want to store it
+                                if ($original_attachment_md5 === $newAvatarMD5) {
+                                    @unlink($avatarTempPath);
+                                } else {
+                                    // Store the new avatar
+                                    $newFile = @copy($avatarTempPath, $newAvatarPath);
+                                    @unlink($avatarTempPath);
 
-                                    // we got the same image, so we do not want to store it
-                                    if ($original_attachment_md5 === $newAvatarMD5) {
-                                        @unlink($newAvatarPath);
-                                    } else {
-                                        // Store the new avatar and remove the old one
+                                    if (false !== $newFile) {
+                                        //and remove the old one
+                                        $originalAvatarImage = get_attached_file($original_attachment_id);
+
                                         @unlink($originalAvatarImage);
 
                                         foreach (get_intermediate_image_sizes() as $size) {
@@ -302,14 +325,24 @@ class NextendSocialLoginAvatar {
 
                                         update_user_meta($user_id, $wpdb->get_blog_prefix($blog_id) . 'user_avatar', $original_attachment_id);
                                         update_user_meta($user_id, 'nsl_user_avatar_md5', $newAvatarMD5);
+
                                     }
-                                } else {
+                                }
+                            } else {
+                                // Store the avatar
+                                $newFile = @copy($avatarTempPath, $newAvatarPath);
+                                @unlink($avatarTempPath);
+
+                                if (false !== $newFile) {
+                                    $url = $wp_upload_dir['baseurl'] . '/' . $nslUploadDirName . '/' . basename($filename);
+
                                     $attachment = array(
                                         'guid'           => $url,
                                         'post_mime_type' => $mime,
                                         'post_title'     => '',
                                         'post_content'   => '',
                                         'post_status'    => 'private',
+                                        'post_author'    => $user_id
                                     );
 
                                     $new_attachment_id = wp_insert_attachment($attachment, $newAvatarPath);
@@ -335,12 +368,36 @@ class NextendSocialLoginAvatar {
         }
     }
 
+    public function maybeDeleteAvatarOfUnlinkedProvider($user_id, $providerID, $unlinkedIdentifier) {
+        global $blog_id, $wpdb;
+        $avatar_attachment_id  = get_user_meta($user_id, $wpdb->get_blog_prefix($blog_id) . 'user_avatar', true);
+        $avatar_attachment_md5 = get_user_meta($user_id, 'nsl_user_avatar_md5', true);
+        if ($avatar_attachment_id && $avatar_attachment_md5) {
+
+            $attachment_post_meta = get_post_meta($avatar_attachment_id, $providerID . '_avatar', true);
+            if ($attachment_post_meta && $attachment_post_meta === $unlinkedIdentifier) {
+                /**
+                 * If this provider has an avatar stored, then we should delete it.
+                 */
+                self::deleteAvatarData($avatar_attachment_id, $user_id);
+            }
+        }
+    }
+
+    public static function deleteAvatarData($post_id, $user_id) {
+        global $blog_id, $wpdb;
+        if (wp_delete_post($post_id, true)) {
+            delete_user_meta($user_id, $wpdb->get_blog_prefix($blog_id) . 'user_avatar');
+            delete_user_meta($user_id, 'nsl_user_avatar_md5');
+        }
+    }
+
     public function preGetAvatarData($args, $id_or_email) {
         global $blog_id, $wpdb;
 
         $id = NextendSocialLogin::getUserIDByIdOrEmail($id_or_email);
 
-        if ($id == 0) {
+        if ($id == 0 || (isset($args['force_default']) && boolval($args['force_default']) === true)) {
             return $args;
         }
 
@@ -373,171 +430,6 @@ class NextendSocialLoginAvatar {
         return $description;
     }
 
-
-    /**
-     * Adjusted according to WordPress 5.7
-     * Override for WordPress default download_url() since wp_tempnam() can not handle long urls properly to generate temp file names.
-     *
-     * Downloads a URL to a local temporary file using the WordPress HTTP API.
-     *
-     * Please note that the calling function must unlink() the file.
-     *
-     * @param string $url                    The URL of the file to download.
-     * @param int    $timeout                The timeout for the request to download the file.
-     *                                       Default 300 seconds.
-     * @param bool   $signature_verification Whether to perform Signature Verification.
-     *                                       Default false.
-     *
-     * @return string|WP_Error Filename on success, WP_Error on failure.
-     * @since 2.5.0
-     * @since 5.2.0 Signature Verification with SoftFail was added.
-     *
-     */
-    public static function download_url($url, $timeout = 300, $signature_verification = false) {
-        // WARNING: The file is not automatically deleted, the script must unlink() the file.
-        if (!$url) {
-            return new WP_Error('http_no_url', __('Invalid URL Provided.'));
-        }
-
-        $tmpfname = wp_tempnam();
-        if (!$tmpfname) {
-            return new WP_Error('http_no_file', __('Could not create Temporary file.'));
-        }
-
-        $response = wp_safe_remote_get($url, array(
-                'timeout'  => $timeout,
-                'stream'   => true,
-                'filename' => $tmpfname,
-            ));
-
-        if (is_wp_error($response)) {
-            unlink($tmpfname);
-
-            return $response;
-        }
-
-        $response_code = wp_remote_retrieve_response_code($response);
-
-        if (200 != $response_code) {
-            $data = array(
-                'code' => $response_code,
-            );
-
-            // Retrieve a sample of the response body for debugging purposes.
-            $tmpf = fopen($tmpfname, 'rb');
-            if ($tmpf) {
-                /**
-                 * Filters the maximum error response body size in `download_url()`.
-                 *
-                 * @param int $size The maximum error response body size. Default 1 KB.
-                 *
-                 * @see   download_url()
-                 *
-                 * @since 5.1.0
-                 *
-                 */
-                $response_size = apply_filters('download_url_error_max_body_size', KB_IN_BYTES);
-                $data['body']  = fread($tmpf, $response_size);
-                fclose($tmpf);
-            }
-
-            unlink($tmpfname);
-
-            return new WP_Error('http_404', trim(wp_remote_retrieve_response_message($response)), $data);
-        }
-
-        $content_md5 = wp_remote_retrieve_header($response, 'content-md5');
-        if ($content_md5) {
-            $md5_check = verify_file_md5($tmpfname, $content_md5);
-            if (is_wp_error($md5_check)) {
-                unlink($tmpfname);
-
-                return $md5_check;
-            }
-        }
-
-        // If the caller expects signature verification to occur, check to see if this URL supports it.
-        if ($signature_verification) {
-            /**
-             * Filters the list of hosts which should have Signature Verification attempted on.
-             *
-             * @param string[] $hostnames List of hostnames.
-             *
-             * @since 5.2.0
-             *
-             */
-            $signed_hostnames       = apply_filters('wp_signature_hosts', array(
-                'wordpress.org',
-                'downloads.wordpress.org',
-                's.w.org'
-            ));
-            $signature_verification = in_array(parse_url($url, PHP_URL_HOST), $signed_hostnames, true);
-        }
-
-        // Perform signature valiation if supported.
-        if ($signature_verification) {
-            $signature = wp_remote_retrieve_header($response, 'x-content-signature');
-            if (!$signature) {
-                // Retrieve signatures from a file if the header wasn't included.
-                // WordPress.org stores signatures at $package_url.sig.
-
-                $signature_url = false;
-                $url_path      = parse_url($url, PHP_URL_PATH);
-
-                if ('.zip' === substr($url_path, -4) || '.tar.gz' === substr($url_path, -7)) {
-                    $signature_url = str_replace($url_path, $url_path . '.sig', $url);
-                }
-
-                /**
-                 * Filters the URL where the signature for a file is located.
-                 *
-                 * @param false|string $signature_url The URL where signatures can be found for a file, or false if none are known.
-                 * @param string       $url           The URL being verified.
-                 *
-                 * @since 5.2.0
-                 *
-                 */
-                $signature_url = apply_filters('wp_signature_url', $signature_url, $url);
-
-                if ($signature_url) {
-                    $signature_request = wp_safe_remote_get($signature_url, array(
-                            'limit_response_size' => 10 * KB_IN_BYTES,
-                            // 10KB should be large enough for quite a few signatures.
-                        ));
-
-                    if (!is_wp_error($signature_request) && 200 === wp_remote_retrieve_response_code($signature_request)) {
-                        $signature = explode("\n", wp_remote_retrieve_body($signature_request));
-                    }
-                }
-            }
-
-            // Perform the checks.
-            $signature_verification = verify_file_signature($tmpfname, $signature, basename(parse_url($url, PHP_URL_PATH)));
-        }
-
-        if (is_wp_error($signature_verification)) {
-            if (/**
-             * Filters whether Signature Verification failures should be allowed to soft fail.
-             *
-             * WARNING: This may be removed from a future release.
-             *
-             * @param bool   $signature_softfail If a softfail is allowed.
-             * @param string $url                The url being accessed.
-             *
-             * @since 5.2.0
-             *
-             */ apply_filters('wp_signature_softfail', true, $url)) {
-                $signature_verification->add_data($tmpfname, 'softfail-filename');
-            } else {
-                // Hard-fail.
-                unlink($tmpfname);
-            }
-
-            return $signature_verification;
-        }
-
-        return $tmpfname;
-    }
 }
 
 NextendSocialLoginAvatar::getInstance();

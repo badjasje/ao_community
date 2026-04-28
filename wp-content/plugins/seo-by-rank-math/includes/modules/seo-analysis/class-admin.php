@@ -1,6 +1,6 @@
 <?php
 /**
- * The SEO Analysis Module
+ * The SEO Analyzer module - admin side functionality.
  *
  * @since      0.9.0
  * @package    RankMath
@@ -10,9 +10,10 @@
 
 namespace RankMath\SEO_Analysis;
 
-use RankMath\Helper;
 use RankMath\Module\Base;
-use MyThemeShop\Admin\Page;
+use RankMath\Admin\Page;
+use RankMath\Helper;
+use RankMath\KB;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,11 +23,39 @@ defined( 'ABSPATH' ) || exit;
 class Admin extends Base {
 
 	/**
+	 * Module ID.
+	 *
+	 * @var string
+	 */
+	public $id = '';
+
+	/**
+	 * Module directory.
+	 *
+	 * @var string
+	 */
+	public $directory = '';
+
+	/**
+	 * Module page.
+	 *
+	 * @var object
+	 */
+	public $page;
+
+	/**
+	 * SEO Analyzer object.
+	 *
+	 * @var object
+	 */
+	public $analyzer;
+
+	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
 
-		$directory = dirname( __FILE__ );
+		$directory = __DIR__;
 		$this->config(
 			[
 				'id'        => 'seo-analysis',
@@ -38,6 +67,9 @@ class Admin extends Base {
 		if ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || $this->page->is_current_page() ) {
 			include_once 'seo-analysis-tests.php';
 			$this->analyzer = new SEO_Analyzer();
+			Helper::add_json( 'results', $this->analyzer->get_results_from_storage() );
+			Helper::add_json( 'analyzeSubpage', $this->analyzer->analyse_subpage );
+			Helper::add_json( 'analyzeUrl', $this->analyzer->analyse_url );
 		}
 	}
 
@@ -49,7 +81,8 @@ class Admin extends Base {
 
 		$this->page = new Page(
 			'rank-math-seo-analysis',
-			esc_html__( 'SEO Analysis', 'rank-math' ),
+			// Translators: placeholder is the new Rank Math label.
+			esc_html__( 'SEO Analyzer', 'rank-math' ),
 			[
 				'position'   => 60,
 				'parent'     => 'rank-math',
@@ -58,12 +91,18 @@ class Admin extends Base {
 				'render'     => $this->directory . '/views/main.php',
 				'assets'     => [
 					'styles'  => [
+						'wp-components'          => '',
 						'rank-math-common'       => '',
 						'rank-math-seo-analysis' => $uri . '/assets/css/seo-analysis.css',
 					],
 					'scripts' => [
-						'circle-progress'        => $uri . '/assets/js/circle-progress.min.js',
+						'wp-element'             => '',
+						'rank-math-components'   => '',
 						'rank-math-seo-analysis' => $uri . '/assets/js/seo-analysis.js',
+					],
+					'json'    => [
+						'connectUrl'      => Helper::get_connect_url(),
+						'isSiteConnected' => Helper::is_site_connected(),
 					],
 				],
 			]

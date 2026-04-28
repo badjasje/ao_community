@@ -1,10 +1,12 @@
 <?php
 /**
- * Shortcode - book
+ * Shortcode - Book
  *
  * @package    RankMath
  * @subpackage RankMath\Schema
  */
+
+defined( 'ABSPATH' ) || exit;
 
 $this->get_title();
 $this->get_image();
@@ -40,8 +42,8 @@ $this->get_image();
 		];
 		foreach ( $schema['hasPart'] as $edition ) {
 			$this->schema = $edition;
-			foreach ( $hash as $id => $label ) {
-				$this->get_field( $label, $id, 'datePublished' === $id );
+			foreach ( $hash as $key => $label ) {
+				$this->get_field( $label, $key );
 			}
 		}
 		$this->schema = $schema;

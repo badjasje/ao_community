@@ -3,15 +3,15 @@
 	Plugin Name: Disable Gutenberg
 	Plugin URI: https://perishablepress.com/disable-gutenberg/
 	Description: Disables Gutenberg Block Editor and restores the Classic Editor and original Edit Post screen. Provides options to enable on specific post types, user roles, and more.
-	Tags: editor, classic editor, block editor, block-editor, gutenberg, disable, blocks, posts, post types
+	Tags: classic editor, block editor, editor, gutenberg
 	Author: Jeff Starr
 	Author URI: https://plugin-planet.com/
 	Donate link: https://monzillamedia.com/donate.html
 	Contributors: specialk
 	Requires at least: 4.9
-	Tested up to: 5.5
-	Stable tag: 2.2
-	Version: 2.2
+	Tested up to: 6.9
+	Stable tag: 3.2.5
+	Version:    3.2.5
 	Requires PHP: 5.6.20
 	Text Domain: disable-gutenberg
 	Domain Path: /languages
@@ -32,7 +32,7 @@
 	You should have received a copy of the GNU General Public License
 	with this program. If not, visit: https://www.gnu.org/licenses/
 	
-	Copyright 2020 Monzilla Media. All rights reserved.
+	Copyright 2025 Monzilla Media. All rights reserved.
 */
 
 if (!defined('ABSPATH')) die();
@@ -46,10 +46,13 @@ if (!class_exists('DisableGutenberg')) {
 			$this->constants();
 			$this->includes();
 			
+			register_activation_hook(__FILE__, 'disable_gutenberg_dismiss_notice_activate');
+			
 			add_action('admin_init',          array($this, 'check_version'));
-			add_action('plugins_loaded',      array($this, 'load_i18n'));
+			add_action('init',                array($this, 'load_i18n'));
 			add_filter('plugin_action_links', array($this, 'action_links'), 10, 2);
 			add_filter('plugin_row_meta',     array($this, 'plugin_links'), 10, 2);
+			add_filter('admin_footer_text',   array($this, 'footer_text'), 10, 1);
 			
 			add_action('admin_enqueue_scripts', 'disable_gutenberg_admin_enqueue_scripts');
 			add_action('admin_print_scripts',   'disable_gutenberg_admin_print_scripts');
@@ -60,19 +63,23 @@ if (!class_exists('DisableGutenberg')) {
 			add_action('admin_menu',            'disable_gutenberg_menu_items', 999);
 			add_action('admin_init',            'disable_gutenberg_acf_enable_meta');
 			add_action('admin_init',            'disable_gutenberg_privacy_notice');
+			add_action('admin_init',            'disable_gutenberg_dismiss_notice_save');
+			add_action('admin_init',            'disable_gutenberg_dismiss_notice_version');
 			add_filter('admin_init',            'disable_gutenberg_disable_nag');
 			add_filter('admin_init',            'disable_gutenberg_init');
 			
 			add_filter('wp_enqueue_scripts', 'disable_gutenberg_wp_enqueue_scripts', 100);
 			
+			add_action('admin_print_styles', 'disable_gutenberg_safari_18_temp_fix');
+			
 		}
 		
 		function constants() {
 			
-			if (!defined('DISABLE_GUTENBERG_VERSION')) define('DISABLE_GUTENBERG_VERSION', '2.2');
+			if (!defined('DISABLE_GUTENBERG_VERSION')) define('DISABLE_GUTENBERG_VERSION', '3.2.5');
 			if (!defined('DISABLE_GUTENBERG_REQUIRE')) define('DISABLE_GUTENBERG_REQUIRE', '4.9');
 			if (!defined('DISABLE_GUTENBERG_AUTHOR'))  define('DISABLE_GUTENBERG_AUTHOR',  'Jeff Starr');
-			if (!defined('DISABLE_GUTENBERG_NAME'))    define('DISABLE_GUTENBERG_NAME',    __('Disable Gutenberg', 'disable-gutenberg'));
+			if (!defined('DISABLE_GUTENBERG_NAME'))    define('DISABLE_GUTENBERG_NAME',    'Disable Gutenberg');
 			if (!defined('DISABLE_GUTENBERG_HOME'))    define('DISABLE_GUTENBERG_HOME',    esc_url('https://perishablepress.com/disable-gutenberg/'));
 			if (!defined('DISABLE_GUTENBERG_URL'))     define('DISABLE_GUTENBERG_URL',     plugin_dir_url(__FILE__));
 			if (!defined('DISABLE_GUTENBERG_DIR'))     define('DISABLE_GUTENBERG_DIR',     plugin_dir_path(__FILE__));
@@ -86,13 +93,13 @@ if (!class_exists('DisableGutenberg')) {
 			require_once DISABLE_GUTENBERG_DIR .'inc/classic-editor.php';
 			require_once DISABLE_GUTENBERG_DIR .'inc/plugin-core.php';
 			require_once DISABLE_GUTENBERG_DIR .'inc/plugin-frontend.php';
+			require_once DISABLE_GUTENBERG_DIR .'inc/settings-reset.php';
 			
 			if (is_admin()) {
 				
 				require_once DISABLE_GUTENBERG_DIR .'inc/resources-enqueue.php';
 				require_once DISABLE_GUTENBERG_DIR .'inc/settings-display.php';
 				require_once DISABLE_GUTENBERG_DIR .'inc/settings-register.php';
-				require_once DISABLE_GUTENBERG_DIR .'inc/settings-reset.php';
 				
 				if (version_compare($GLOBALS['wp_version'], '5.0-beta', '>')) {
 					
@@ -121,6 +128,7 @@ if (!class_exists('DisableGutenberg')) {
 				'whitelist-title' => '',
 				'whitelist'       => 0,
 				'styles-enable'   => 0,
+				'classic-widgets' => 1,
 				
 			);
 			
@@ -184,6 +192,26 @@ if (!class_exists('DisableGutenberg')) {
 			
 		}
 		
+		function footer_text($text) {
+			
+			$screen_id = disable_gutenberg_get_current_screen_id();
+			
+			$ids = array('settings_page_disable-gutenberg');
+			
+			if ($screen_id && apply_filters('disable_gutenberg_admin_footer_text', in_array($screen_id, $ids))) {
+				
+				$text = __('Like this plugin? Give it a', 'disable-gutenberg');
+				
+				$text .= ' <a target="_blank" rel="noopener noreferrer" href="https://wordpress.org/support/plugin/disable-gutenberg/reviews/?rate=5#new-post">';
+				
+				$text .= __('★★★★★ rating&nbsp;&raquo;', 'disable-gutenberg') .'</a>';
+				
+			}
+			
+			return $text;
+			
+		}
+		
 		function check_version() {
 			
 			$wp_version = get_bloginfo('version');
@@ -213,7 +241,7 @@ if (!class_exists('DisableGutenberg')) {
 		
 		function load_i18n() {
 			
-			load_plugin_textdomain('disable-gutenberg', false, DISABLE_GUTENBERG_DIR .'languages/');
+			load_plugin_textdomain('disable-gutenberg', false, dirname(DISABLE_GUTENBERG_FILE) .'/languages/');
 			
 		}
 		

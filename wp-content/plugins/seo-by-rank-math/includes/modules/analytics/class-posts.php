@@ -13,23 +13,27 @@ namespace RankMath\Analytics;
 use stdClass;
 use WP_Error;
 use WP_REST_Request;
+use RankMath\Helper;
 use RankMath\Analytics\DB;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Posts class.
+ *
+ * @method get_analytics_data()
  */
 class Posts extends Objects {
 
 	/**
 	 * Get post data.
 	 *
-	 * @param int $id Post id.
+	 * @param  WP_REST_Request $request post object.
 	 *
 	 * @return object
 	 */
-	public function get_post( $id ) {
+	public function get_post( $request ) {
+		$id   = $request->get_param( 'id' );
 		$post = DB::objects()
 			->where( 'object_id', $id )
 			->one();
@@ -38,44 +42,10 @@ class Posts extends Objects {
 			return [ 'errorMessage' => esc_html__( 'Sorry, no post found for given id.', 'rank-math' ) ];
 		}
 
-		$metrices = $this->get_analytics_data(
-			[
-				'pages'     => [ $post->page ],
-				'pageview'  => true,
-				'sub_where' => " AND page = '{$post->page}'",
-			]
-		);
-		if ( ! empty( $metrices ) ) {
-			$metrices = current( $metrices );
-		}
+		$post->admin_url = admin_url();
+		$post->home_url  = home_url();
 
-		// Keywords.
-		$keywords = DB::analytics()
-			->distinct()
-			->selectCount( 'query', 'keywords' )
-			->whereLike( 'page', $post->page, '%', '' )
-			->whereBetween( 'created', [ $this->start_date, $this->end_date ] )
-			->getVar();
-
-		$old_keywords = DB::analytics()
-			->distinct()
-			->selectCount( 'query', 'keywords' )
-			->whereLike( 'page', $post->page, '%', '' )
-			->whereBetween( 'created', [ $this->compare_start_date, $this->compare_end_date ] )
-			->getVar();
-
-		$post->keywords = [
-			'total'      => (int) $keywords,
-			'previous'   => (int) $old_keywords,
-			'difference' => $keywords - $old_keywords,
-		];
-
-		$post = apply_filters( 'rank_math/analytics/single/report', $post, $this );
-
-		return array_merge(
-			(array) $post,
-			(array) $metrices
-		);
+		return apply_filters( 'rank_math/analytics/post_data', (array) $post, $request );
 	}
 
 	/**
@@ -91,19 +61,29 @@ class Posts extends Objects {
 			return $pre;
 		}
 
+		$cache_group = 'rank_math_posts_rows_by_objects';
+		$cache_key   = $this->generate_hash( $request );
+		$data        = $this->get_cache( $cache_key, $cache_group );
+		if ( false !== $data ) {
+			return rest_ensure_response( $data );
+		}
+
 		// Pagination.
 		$per_page = 25;
 		$offset   = ( $request->get_param( 'page' ) - 1 ) * $per_page;
 
+		// Get objects filtered by seo score range and it's analytics data.
 		$objects = $this->get_objects_by_score( $request );
 		$pages   = \array_keys( $objects['rows'] );
 		$console = $this->get_analytics_data(
 			[
-				'limit'     => "LIMIT 0, {$per_page}",
+				'offset'    => 0, // Here offset should always zero.
+				'perpage'   => $objects['rowsFound'],
 				'sub_where' => " AND page IN ('" . join( "', '", $pages ) . "')",
 			]
 		);
 
+		// Construct return data.
 		$new_rows = [];
 		foreach ( $objects['rows'] as $object ) {
 			$page = $object['page'];
@@ -119,9 +99,26 @@ class Posts extends Objects {
 			$new_rows[ $page ] = $object;
 		}
 
-		return [
+		$count = count( $new_rows );
+
+		if ( $offset + 25 <= $count ) {
+			$new_rows = array_slice( $new_rows, $offset, 25 );
+
+		} else {
+			$rest     = $count - $offset;
+			$new_rows = array_slice( $new_rows, $offset, $rest );
+		}
+		if ( empty( $new_rows ) ) {
+			$new_rows['response'] = 'No Data';
+		}
+
+		$output = [
 			'rows'      => $new_rows,
 			'rowsFound' => $objects['rowsFound'],
 		];
+
+		$this->set_cache( $cache_key, $output, $cache_group, DAY_IN_SECONDS );
+
+		return rest_ensure_response( $output );
 	}
 }

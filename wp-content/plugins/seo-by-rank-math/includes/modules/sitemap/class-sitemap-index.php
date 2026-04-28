@@ -1,6 +1,6 @@
 <?php
 /**
- * The Sitemap Module
+ * The sitemap index runner class.
  *
  * @since      1.0.42
  * @package    RankMath
@@ -10,10 +10,9 @@
 
 namespace RankMath\Sitemap;
 
-use RankMath\Helper;
 use RankMath\Runner;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Str;
+use RankMath\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -35,27 +34,29 @@ class Sitemap_Index implements Runner {
 	/**
 	 * Adds the sitemap index to robots.txt.
 	 *
-	 * @param string $output robots.txt output.
-	 * @param bool   $public Whether the site is public or not.
+	 * @param string $output    robots.txt output.
+	 * @param bool   $is_public Whether the site is public or not.
 	 *
 	 * @return string robots.txt output.
 	 */
-	public function add_sitemap_directive( $output, $public ) {
+	public function add_sitemap_directive( $output, $is_public ) {
 		if (
-			'0' === $public ||
+			'0' === $is_public ||
 			Str::contains( 'Sitemap:', $output ) ||
 			Str::contains( 'sitemap:', $output )
 		) {
 			return $output;
 		}
 
-		return $output . "\nSitemap: " . esc_url( Router::get_base_url( 'sitemap_index.xml' ) );
+		$sitemap_url = esc_url( Router::get_base_url( Sitemap::get_sitemap_index_slug() . '.xml' ) );
+		return $output . "\nSitemap: {$sitemap_url}\n";
 	}
 
 	/**
 	 * Stop trailing slashes on `sitemap.xml` URLs.
 	 *
-	 * Adapted from Yoast (https://github.com/Yoast/wordpress-seo/)
+	 * @copyright Copyright (C) 2008-2019, Yoast BV
+	 * The following code is a derivative work of the code from the Yoast(https://github.com/Yoast/wordpress-seo/), which is licensed under GPL v3.
 	 *
 	 * @param string $redirect The redirect URL currently determined.
 	 *

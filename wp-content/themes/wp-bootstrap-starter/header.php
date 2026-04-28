@@ -5,6 +5,9 @@ $pageTitle = get_the_title();
 if(in_array($pageTitle, array('Market Buy','Market Sell'))) $pageTitle = 'Market';
 
 $user = CurrentUser::make();
+if(!empty($_POST['design'])){
+update_user_meta( $user->id, 'theme', $_POST['design'] );
+}
 $province = ($user->isLoggedIn() ? $user->getProvince() : false);
 
 $menuOpen = (isset($_COOKIE['menuOpen'])&&$_COOKIE['menuOpen']==1?true:false);
@@ -130,7 +133,9 @@ $timeLeft = Market::timeLeft();
 	<? } ?>
 	<meta name="google-site-verification" content="SkamiBCpY328MooWRMZNQN5_DshHSBeAp_4de8oiLpU" />
 	
-<?php if(get_current_user_id() == 1):?>
+<?php 
+$theme = get_user_meta( $user->id, 'theme', true );
+if($theme == 'nostalgia'):?>
 <style>
 .pageTitle {
     background: rgb(119 128 107 / 75%);
@@ -145,12 +150,16 @@ $timeLeft = Market::timeLeft();
 .logged-in header#masthead,.menu-item,.sidenav{
 	background-color:#35382f;
 }
+
+.blockHeader, .successHeader,.aoTable .headerRow,.aoTable.grey{
+	background-color:#747463;
+	color: #fff;
+}
+ .headerRow,.aoTable .headerRow .buildBlock,.aoTable .headerRow .demoBlock{
+ 	background-color:#747463 !important;
+ }
 .spaceNotice{
 	background-color:#373A30 !important;
-}
-.blockHeader, .successHeader,.aoTable .headerRow,.aoTable.grey .headerRow{
-	background-color:#747463;
-	    color: #fff;
 }
 .menu-item,#nextbt{
 	color: #d7d4b6;
@@ -170,10 +179,10 @@ $timeLeft = Market::timeLeft();
 body:not(.theme-preset-active) footer#colophon{
 	background-color:#747463;
 }
-.clanMessageButton, .profileButton, {
-    background-color: #757D54;
+.clanMessageButton, .profileButton, .cancelButton{
+    background-color: #757D54 !important;
 }
-.mainSubmit,.navItem.active{
+.mainSubmit,.navItem.active,.secundarySubmit{
 	background-color: #757D54 !important;
 }
 .clanMessage {
@@ -181,6 +190,12 @@ body:not(.theme-preset-active) footer#colophon{
 }
 .aoTable .unitRow{
 	background-color:#c6c4a8;
+	border: 2px solid #d7d4b6 !important;
+	color: #000000;
+}
+.userRow{
+	background-color:#c6c4a8 !important;
+	border: 1px solid #d7d4b6 !important;
 }
 .stattext{
 	background-color:#747463;
@@ -196,11 +211,113 @@ div,span,.border-bottom,.mainSubmit.disabled, .secundarySubmit.disabled,.mainSub
 	border-width:0px !important;
 	border-bottom:0px !important;
 }
+.clanMessageButton.disabled, .profileButton.disabled{
+	background-color:#C1CAA3 !important;
+	color:#fff !important;
+}
 .pageSpacer {
     background-color: #d7d4b6;
 }
 .aoPage .blockHeader a{
 	color:#fff !important;
+}
+.eventImageCol {
+    background-color: #747463;
+}
+</style>
+<?php endif;?>
+
+
+<?php 
+
+if($user->id == 1):?>
+<style>
+.pageTitle {
+    background: rgb(119 128 107 / 75%);
+}
+#content.site-content{
+    background-color: #d7d4b6;
+}
+
+.permaNotification{
+    animation-name: darkPulse;
+}
+.logged-in header#masthead,.menu-item,.sidenav{
+	background-color:#35382f;
+}
+
+.blockHeader, .successHeader,.aoTable .headerRow,.aoTable.grey{
+	background-color:#747463;
+	color: #fff;
+}
+ .headerRow,.aoTable .headerRow .buildBlock,.aoTable .headerRow .demoBlock{
+ 	background-color:#747463 !important;
+ }
+.spaceNotice{
+	background-color:#373A30 !important;
+}
+.menu-item,#nextbt{
+	color: #d7d4b6;
+}
+.statCol-1{
+	background-color:#EDECD9;
+}
+.statCol-2{
+	background-color:#c6c4a8;
+}
+.statCol-3{
+	background-color:#A5A27E;
+}
+.statCol-4{
+	background-color:#838058
+}
+body:not(.theme-preset-active) footer#colophon{
+	background-color:#747463;
+}
+.clanMessageButton, .profileButton, .cancelButton{
+    background-color: #757D54 !important;
+}
+.mainSubmit,.navItem.active,.secundarySubmit{
+	background-color: #757D54 !important;
+}
+.clanMessage {
+    background-color: #969E79;
+}
+.aoTable .unitRow{
+	background-color:#c6c4a8;
+	border: 2px solid #d7d4b6 !important;
+	color: #000000;
+}
+.userRow{
+	background-color:#c6c4a8 !important;
+	border: 1px solid #d7d4b6 !important;
+}
+.stattext{
+	background-color:#747463;
+}
+.sidenav:before{
+	background: #35382f;
+}
+.menuOpen .sidenav{
+	background-color: #a4a27e;
+}
+div,span,.border-bottom,.mainSubmit.disabled, .secundarySubmit.disabled,.mainSubmit,.aoTable .headerRow,th,td,tr,.blockHeader, .successHeader{
+	border:none !important;
+	border-width:0px !important;
+	border-bottom:0px !important;
+}
+.clanMessageButton.disabled, .profileButton.disabled{
+	background-color:#C1CAA3 !important;
+	color:#fff !important;
+}
+.pageSpacer {
+    background-color: #d7d4b6;
+}
+.aoPage .blockHeader a{
+	color:#fff !important;
+}
+.eventImageCol {
+    background-color: #747463;
 }
 </style>
 <?php endif;?>

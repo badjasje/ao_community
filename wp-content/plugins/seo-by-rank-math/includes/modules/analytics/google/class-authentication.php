@@ -10,9 +10,10 @@
 
 namespace RankMath\Google;
 
-use MyThemeShop\Helpers\Str;
+use RankMath\Helper;
+use RankMath\Helpers\Str;
 use RankMath\Data_Encryption;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Param;
 use RankMath\Helpers\Security;
 
 defined( 'ABSPATH' ) || exit;
@@ -30,7 +31,7 @@ class Authentication {
 	protected static $api_version = '2.1';
 
 	/**
-	 * Get or update Search Console data.
+	 * Get or update token data.
 	 *
 	 * @param  bool|array $data Data to save.
 	 * @return bool|array
@@ -95,7 +96,7 @@ class Authentication {
 	public static function is_token_expired() {
 		$tokens = self::tokens();
 
-		return $tokens['expire'] && time() > ( $tokens['expire'] - 120 );
+		return $tokens['expire'] && time() > $tokens['expire'];
 	}
 
 	/**
@@ -134,7 +135,20 @@ class Authentication {
 	public static function get_page_slug() {
 		$page = Param::get( 'page' );
 		if ( ! empty( $page ) ) {
-			return 'rank-math-wizard' === $page ? 'rank-math-wizard&step=analytics' : 'rank-math-options-general#setting-panel-analytics';
+			switch ( $page ) {
+				case 'rank-math-wizard':
+					return 'rank-math-wizard&step=analytics';
+
+				case 'rank-math-analytics':
+					return 'rank-math-analytics';
+
+				default:
+					if ( Helper::is_react_enabled() ) {
+						return 'rank-math-options-general&view=analytics';
+					}
+
+					return 'rank-math-options-general#setting-panel-analytics';
+			}
 		}
 
 		$page = wp_get_referer();

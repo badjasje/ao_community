@@ -12,7 +12,7 @@ namespace RankMath\Admin\Metabox;
 
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -27,7 +27,20 @@ class Taxonomy_Screen implements IScreen {
 	 * Class construct
 	 */
 	public function __construct() {
-		$this->action( 'rank_math/metabox/process_fields', 'save_general_meta' );
+		add_action( 'init', [ $this, 'allow_tags' ], 15 );
+	}
+
+	/**
+	 * Allow tags in term description.
+	 */
+	public function allow_tags() {
+		$taxonomies = Helper::get_allowed_taxonomies();
+		if ( is_array( $taxonomies ) && ! empty( $taxonomies ) ) {
+			remove_filter( 'pre_term_description', 'wp_filter_kses' );
+			remove_filter( 'term_description', 'wp_kses_data' );
+			add_filter( 'pre_term_description', 'wp_kses_post' );
+			add_filter( 'term_description', 'wp_kses_post' );
+		}
 	}
 
 	/**
@@ -60,10 +73,6 @@ class Taxonomy_Screen implements IScreen {
 		if ( is_array( $taxonomies ) && ! empty( $taxonomies ) ) {
 			$object_types[] = 'term';
 			$this->description_field_editor();
-			remove_filter( 'pre_term_description', 'wp_filter_kses' );
-			remove_filter( 'term_description', 'wp_kses_data' );
-			add_filter( 'pre_term_description', 'wp_kses_post' );
-			add_filter( 'term_description', 'wp_kses_post' );
 		}
 
 		return $object_types;
@@ -95,7 +104,16 @@ class Taxonomy_Screen implements IScreen {
 	 * @return array
 	 */
 	public function get_values() {
-		return [];
+		$url = '';
+		if ( $this->get_object_id() ) {
+			$url  = get_term_link( $this->get_object_id() );
+			$data = array_filter( explode( '/', $url ) );
+			$url  = ! empty( $data ) ? str_replace( array_pop( $data ), '%term%', $url ) : '';
+		}
+
+		return [
+			'permalinkFormat' => $url ? $url : home_url(),
+		];
 	}
 
 	/**
@@ -104,38 +122,11 @@ class Taxonomy_Screen implements IScreen {
 	 * @return array
 	 */
 	public function get_object_values() {
-		return [];
-	}
-
-	/**
-	 * Save handler for metadata.
-	 *
-	 * @param CMB2 $cmb CMB2 instance.
-	 */
-	public function save_general_meta( $cmb ) {
-		if ( Helper::get_settings( "titles.tax_{$cmb->data_to_save['taxonomy']}_title" ) === $cmb->data_to_save['rank_math_title'] ) {
-			$cmb->data_to_save['rank_math_title'] = '';
-		}
-
-		return $cmb;
-	}
-
-	/**
-	 * Adds custom category description editor.
-	 *
-	 * @return {void}
-	 */
-	private function description_field_editor() {
-		$taxonomy        = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
-		$taxonomy_object = get_taxonomy( $taxonomy );
-		if ( empty( $taxonomy_object ) || empty( $taxonomy_object->public ) ) {
-			return;
-		}
-
-		if ( ! Helper::get_settings( 'titles.tax_' . $taxonomy . '_add_meta_box' ) ) {
-			return;
-		}
-		add_action( "{$taxonomy}_edit_form_fields", [ $this, 'category_description_editor' ], 1 );
+		$taxonomy = $this->get_taxonomy();
+		return [
+			'titleTemplate'       => Helper::get_settings( "titles.tax_{$taxonomy}_title", '%term% %sep% %sitename%' ),
+			'descriptionTemplate' => Helper::get_settings( "titles.tax_{$taxonomy}_description", '%term_description%' ),
+		];
 	}
 
 	/**
@@ -165,5 +156,38 @@ class Taxonomy_Screen implements IScreen {
 			</script>
 		</tr>
 		<?php
+	}
+
+	/**
+	 * Add the description field to the edit taxonomy screen if the metabox is
+	 * enabled for the current taxonomy.
+	 *
+	 * @return void
+	 */
+	private function description_field_editor() {
+		$taxonomy = $this->get_taxonomy();
+		if (
+			! Helper::get_settings( 'titles.tax_' . $taxonomy . '_add_meta_box' ) ||
+			$this->do_filter( 'admin/disable_rich_editor', false, $taxonomy )
+		) {
+			return;
+		}
+
+		$this->action( "{$taxonomy}_edit_form_fields", 'category_description_editor', 1 );
+	}
+
+	/**
+	 * Get current taxonomy.
+	 *
+	 * @return {string} Taxonomy slug.
+	 */
+	private function get_taxonomy() {
+		$taxonomy        = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
+		$taxonomy_object = get_taxonomy( $taxonomy );
+		if ( empty( $taxonomy_object ) || empty( $taxonomy_object->public ) ) {
+			return;
+		}
+
+		return $taxonomy;
 	}
 }

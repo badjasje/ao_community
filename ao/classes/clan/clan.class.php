@@ -166,7 +166,7 @@ class Clan extends PostObject {
     }
     public function getMembers() { // returns IDs!
         $members = $this->get('clan_members');
-        if(!empty($members)) $members = unserialize($members);
+        if(!empty($members)) $members = maybe_unserialize(maybe_unserialize($members));
         return (is_array($members) && count($members) ? $members : array());
     }
 

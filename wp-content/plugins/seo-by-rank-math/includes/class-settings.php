@@ -43,6 +43,7 @@ class Settings {
 		$this->add_options( 'titles', 'rank-math-options-titles' );
 		$this->add_options( 'general', 'rank-math-options-general' );
 		$this->add_options( 'sitemap', 'rank-math-options-sitemap' );
+		$this->add_options( 'instant_indexing', 'rank-math-options-instant-indexing' );
 	}
 
 	/**
@@ -87,11 +88,11 @@ class Settings {
 	/**
 	 * Get Setting.
 	 *
-	 * @param  string $field_id ID of field to get.
-	 * @param  mixed  $default  (Optional) Default value.
+	 * @param  string $field_id      ID of field to get.
+	 * @param  mixed  $default_value (Optional) Default value.
 	 * @return mixed
 	 */
-	public function get( $field_id = '', $default = false ) {
+	public function get( $field_id = '', $default_value = false ) {
 		$opts = $this->get_options();
 		$ids  = explode( '.', $field_id );
 
@@ -103,7 +104,7 @@ class Settings {
 		}
 
 		if ( is_null( $opts ) ) {
-			return $default;
+			return $default_value;
 		}
 
 		return $opts;

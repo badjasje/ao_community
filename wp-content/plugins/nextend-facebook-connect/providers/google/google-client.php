@@ -17,9 +17,9 @@ class NextendSocialProviderGoogleClient extends NextendSocialOauth2 {
         'profile'
     );
 
-    protected $endpointAuthorization = 'https://accounts.google.com/o/oauth2/auth';
+    protected $endpointAuthorization = 'https://accounts.google.com/o/oauth2/v2/auth';
 
-    protected $endpointAccessToken = 'https://accounts.google.com/o/oauth2/token';
+    protected $endpointAccessToken = 'https://oauth2.googleapis.com/token';
 
     protected $endpointRestAPI = 'https://www.googleapis.com/oauth2/v2/';
 
@@ -61,7 +61,7 @@ class NextendSocialProviderGoogleClient extends NextendSocialOauth2 {
      */
     protected function errorFromResponse($response) {
         if (isset($response['error']['message'])) {
-            throw new Exception($response['error']['message']);
+            throw new NSLSanitizedRequestErrorMessageException($response['error']['message']);
         }
     }
 

@@ -19,13 +19,20 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 global $error, $interim_login, $action;
 
 // Don't index any of these forms
-if (function_exists('wp_sensitive_page_meta')) {
+if (function_exists('wp_robots_sensitive_page')) {
     /**
-     * wp_sensitive_page_meta() was introduced in 5.0.1
+     * wp_robots_sensitive_page() was introduced in 5.7.0
      */
-    add_action('login_head', 'wp_sensitive_page_meta');
+    add_filter('wp_robots', 'wp_robots_sensitive_page');
 } else {
-    add_action('login_head', 'wp_no_robots');
+    if (function_exists('wp_sensitive_page_meta')) {
+        /**
+         * wp_sensitive_page_meta() was introduced in 5.0.1
+         */
+        add_action('login_head', 'wp_sensitive_page_meta');
+    } else {
+        add_action('login_head', 'wp_no_robots');
+    }
 }
 
 

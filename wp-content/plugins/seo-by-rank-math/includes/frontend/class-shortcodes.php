@@ -14,6 +14,7 @@ use RankMath\Helper;
 use RankMath\Paper\Paper;
 use RankMath\Traits\Hooker;
 use RankMath\Traits\Shortcode;
+use RankMath\Helpers\Arr;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,7 +23,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class Shortcodes {
 
-	use Hooker, Shortcode;
+	use Hooker;
+	use Shortcode;
 
 	/**
 	 * The Constructor.
@@ -40,11 +42,15 @@ class Shortcodes {
 		$this->remove_shortcode( 'wpseo_address' );
 		$this->remove_shortcode( 'wpseo_map' );
 		$this->remove_shortcode( 'wpseo_opening_hours' );
+		$this->remove_shortcode( 'wpseo_breadcrumb' );
+		$this->remove_shortcode( 'aioseo_breadcrumbs' );
 
 		// Add Yoast compatibility shortcodes.
 		$this->add_shortcode( 'wpseo_address', 'yoast_address' );
 		$this->add_shortcode( 'wpseo_map', 'yoast_map' );
 		$this->add_shortcode( 'wpseo_opening_hours', 'yoast_opening_hours' );
+		$this->add_shortcode( 'wpseo_breadcrumb', 'breadcrumb' );
+		$this->add_shortcode( 'aioseo_breadcrumbs', 'breadcrumb' );
 
 		// Add the Contact shortcode.
 		$this->add_shortcode( 'rank_math_contact_info', 'contact_info' );
@@ -61,7 +67,7 @@ class Shortcodes {
 	 * @return string
 	 */
 	public function breadcrumb( $args ) {
-		if ( ! Helper::get_settings( 'general.breadcrumbs' ) ) {
+		if ( ! Helper::is_breadcrumbs_enabled() ) {
 			return;
 		}
 		return Breadcrumbs::get()->get_breadcrumb( $args );
@@ -89,7 +95,7 @@ class Shortcodes {
 		wp_enqueue_style( 'rank-math-contact-info', rank_math()->assets() . 'css/rank-math-contact-info.css', null, rank_math()->version );
 
 		ob_start();
-		echo '<div class="' . $this->get_contact_classes( $allowed, $args['class'] ) . '">';
+		echo '<div class="' . esc_attr( $this->get_contact_classes( $allowed, $args['class'] ) ) . '">';
 
 		foreach ( $allowed as $element ) {
 			$method = 'display_' . $element;
@@ -103,7 +109,12 @@ class Shortcodes {
 		echo '</div>';
 		echo '<div class="clear"></div>';
 
-		return ob_get_clean();
+		/**
+		 * Change the Contact Info HTML output.
+		 *
+		 * @param string $unsigned HTML output.
+		 */
+		return $this->do_filter( 'contact_info/html', ob_get_clean() );
 	}
 
 	/**
@@ -118,10 +129,10 @@ class Shortcodes {
 
 		$allowed = 'person' === $type
 		? [ 'name', 'email', 'person_phone', 'address' ]
-		: [ 'name', 'email', 'address', 'hours', 'phone', 'map' ];
+		: [ 'name', 'organization_description', 'email', 'address', 'hours', 'phone', 'additional_info', 'map' ];
 
 		if ( ! empty( $args['show'] ) && 'all' !== $args['show'] ) {
-			$allowed = array_intersect( array_map( 'trim', explode( ',', $args['show'] ) ), $allowed );
+			$allowed = array_intersect( Arr::from_string( $args['show'] ), $allowed );
 		}
 
 		return $allowed;
@@ -155,37 +166,18 @@ class Shortcodes {
 			return;
 		}
 
-		$format = nl2br( Helper::get_settings( 'titles.local_address_format' ) );
-		/**
-		 * Allow developer to change the address part format.
-		 *
-		 * @param string $parts_format String format to output the address part.
-		 */
-		$parts_format = $this->do_filter( 'shortcode/contact/address_parts_format', '<span class="contact-address-%1$s">%2$s</span>' );
-
-		$hash = [
+		$hash   = [
 			'streetAddress'   => 'address',
 			'addressLocality' => 'locality',
 			'addressRegion'   => 'region',
 			'postalCode'      => 'postalcode',
 			'addressCountry'  => 'country',
 		];
+		$format = nl2br( Helper::get_settings( 'titles.local_address_format' ) );
+		$data   = self::get_address( $hash, $address, $format );
 		?>
 		<label><?php esc_html_e( 'Address:', 'rank-math' ); ?></label>
-		<address>
-			<?php
-			foreach ( $hash as $key => $tag ) {
-				$value = '';
-				if ( isset( $address[ $key ] ) && ! empty( $address[ $key ] ) ) {
-					$value = sprintf( $parts_format, $tag, $address[ $key ] );
-				}
-
-				$format = str_replace( "{{$tag}}", $value, $format );
-			}
-
-			echo $format;
-			?>
-		</address>
+		<address><?php echo wp_kses_post( $data ); ?></address>
 		<?php
 	}
 
@@ -213,8 +205,8 @@ class Shortcodes {
 
 				printf(
 					'<div class="rank-math-opening-hours"><span class="rank-math-opening-days">%1$s</span><span class="rank-math-opening-time">%2$s</span></div>',
-					join( ', ', $days ),
-					$time
+					esc_html( join( ', ', $days ) ),
+					esc_html( $time )
 				);
 			}
 			?>
@@ -236,7 +228,7 @@ class Shortcodes {
 				continue;
 			}
 
-			$combined[ trim( $hour['time'] ) ][] = $this->get_localized_day( $hour['day'] );
+			$combined[ trim( $hour['time'] ) ][] = $this->get_localized_day( $hour['day'] ?? 'Monday' );
 		}
 
 		return $combined;
@@ -270,19 +262,23 @@ class Shortcodes {
 	 */
 	private function display_phone() {
 		$phones = Helper::get_settings( 'titles.phone_numbers' );
-		if ( ! isset( $phones[0]['number'] ) ) {
+		if ( empty( $phones ) ) {
 			return;
 		}
 
 		$choices = Helper::choices_phone_types();
-
 		foreach ( $phones as $phone ) :
+			if ( empty( $phone['number'] ) ) {
+				continue;
+			}
+
 			$number = esc_html( $phone['number'] );
-			$label  = isset( $choices[ $phone['type'] ] ) ? $choices[ $phone['type'] ] : ''
+			$type   = $phone['type'] ?? 'customer support';
+			$label  = isset( $choices[ $type ] ) ? $choices[ $type ] : ''
 			?>
-			<div class="rank-math-phone-number type-<?php echo sanitize_html_class( $phone['type'] ); ?>">
+			<div class="rank-math-phone-number type-<?php echo sanitize_html_class( $type ); ?>">
 				<label><?php echo esc_html( $label ); ?>:</label>
-				<span><?php echo isset( $phone['number'] ) ? '<a href="tel://' . $number . '">' . $number . '</a>' : ''; ?></span>
+				<span><?php echo isset( $phone['number'] ) ? '<a href="tel:' . esc_attr( $number ) . '">' . esc_html( $number ) . '</a>' : ''; ?></span>
 			</div>
 			<?php
 		endforeach;
@@ -297,9 +293,9 @@ class Shortcodes {
 			return;
 		}
 		?>
-			<div class="rank-math-phone-numberx">
+			<div class="rank-math-phone-numbers">
 				<label><?php echo esc_html__( 'Telephone', 'rank-math' ); ?>:</label>
-				<span><a href="tel://<?php echo esc_attr( $phone ); ?>"><?php echo esc_html( $phone ); ?></a></span>
+				<span><a href="tel:<?php echo esc_attr( $phone ); ?>"><?php echo esc_html( $phone ); ?></a></span>
 			</div>
 		<?php
 	}
@@ -308,6 +304,11 @@ class Shortcodes {
 	 * Output google map.
 	 */
 	private function display_map() {
+		$api_key = Helper::get_settings( 'titles.maps_api_key' );
+		if ( ! $api_key ) {
+			return;
+		}
+
 		$address = Helper::get_settings( 'titles.local_address' );
 		if ( false === $address ) {
 			return;
@@ -319,7 +320,7 @@ class Shortcodes {
 		 * @param string $address
 		 */
 		$address = $this->do_filter( 'shortcode/contact/map_address', implode( ' ', $address ) );
-		$address = $this->do_filter( 'shortcode/contact/map_iframe_src', '//maps.google.com/maps?q=' . rawurlencode( $address ) . '&z=15&output=embed&key=' . rawurlencode( Helper::get_settings( 'titles.maps_api_key' ) ) );
+		$address = $this->do_filter( 'shortcode/contact/map_iframe_src', '//maps.google.com/maps?q=' . rawurlencode( $address ) . '&z=15&output=embed&key=' . rawurlencode( $api_key ) );
 		?>
 		<iframe src="<?php echo esc_url( $address ); ?>"></iframe>
 		<?php
@@ -338,7 +339,7 @@ class Shortcodes {
 		?>
 		<h4 class="rank-math-name">
 			<a href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $name ); ?></a>
-		</h3>
+		</h4>
 		<?php
 	}
 
@@ -356,6 +357,48 @@ class Shortcodes {
 			<a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Output Organization description.
+	 */
+	private function display_organization_description() {
+		$description = Helper::get_settings( 'titles.organization_description' );
+		if ( ! $description ) {
+			return;
+		}
+		?>
+		<div class="rank-math-organization-description">
+			<label><?php esc_html_e( 'Description:', 'rank-math' ); ?></label>
+			<p><?php echo esc_html( $description ); ?></p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Output Additional Organization details.
+	 */
+	private function display_additional_info() {
+		$properties = Helper::get_settings( 'titles.additional_info' );
+		if ( empty( $properties ) ) {
+			return;
+		}
+
+		$choices = Helper::choices_additional_organization_info();
+
+		foreach ( $properties as $property ) {
+			if ( empty( $property['value'] ) ) {
+				continue;
+			}
+
+			$type = $property['type'] ?? 'legalName';
+			?>
+			<div class="rank-math-organization-additional-details">
+				<label><?php echo esc_html( $choices[ $type ] ); ?>:</label>
+				<span><?php echo esc_html( $property['value'] ); ?></span>
+			</div>
+			<?php
+		}
 	}
 
 	/**
@@ -407,10 +450,9 @@ class Shortcodes {
 	/**
 	 * Yoast map compatibility functionality.
 	 *
-	 * @param  array $args Array of arguments.
 	 * @return string
 	 */
-	public function yoast_map( $args ) {
+	public function yoast_map() {
 		return $this->contact_info(
 			[
 				'show'  => 'map',
@@ -422,15 +464,36 @@ class Shortcodes {
 	/**
 	 * Yoast opening hours compatibility functionality.
 	 *
-	 * @param  array $args Array of arguments.
 	 * @return string
 	 */
-	public function yoast_opening_hours( $args ) {
+	public function yoast_opening_hours() {
 		return $this->contact_info(
 			[
 				'show'  => 'hours',
 				'class' => 'wpseo_opening_hours_compat',
 			]
 		);
+	}
+
+	/**
+	 * Get address
+	 *
+	 * @param array  $hash   Hash of tags.
+	 * @param array  $address Address data.
+	 * @param string $format Address format.
+	 */
+	public static function get_address( $hash, $address, $format ) {
+		$parts_format = apply_filters( 'rank_math/shortcode/contact/address_parts_format', '<span class="contact-address-%1$s">%2$s</span>' );
+
+		foreach ( $hash as $key => $tag ) {
+			$value = '';
+			if ( isset( $address[ $key ] ) && ! empty( $address[ $key ] ) ) {
+				$value = sprintf( $parts_format, $key, $address[ $key ] );
+			}
+
+			$format = str_replace( "{{$tag}}", $value, $format );
+		}
+
+		return $format;
 	}
 }

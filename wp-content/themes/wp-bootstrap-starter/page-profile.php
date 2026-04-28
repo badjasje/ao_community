@@ -13,6 +13,7 @@ $viewed_id = Request::get('id');
 if(empty($viewed_id)) Request::redirect('/dashboard');
 $viewed = User::make($viewed_id);
 $viewed_province = $viewed->getProvince();
+$status = $viewed_province->get('status');
 $viewed_province->count_all_stats();
 $viewed_clan = $viewed_province->getClan();
 $viewed_clan_id = (!!$viewed_clan ? $viewed_clan->get('id') : 0);
@@ -24,7 +25,10 @@ if(empty($telegram_key)) {
 ?>
 <div class="row pageRow">
 
-	<div class="blockHeader"><?=$viewed_province->getLink(true)?></div>
+	<div class="blockHeader"><?=$viewed_province->getLink(true)?> <?php if($status == 'postmortem'):?>
+	<span class="hover-tip" data-toggle="tooltip" data-original-title="This is a post mortem profile." data-placement="right">
+		<i class="fa-solid fa-cross"></i>
+	</span><?php endif;?></div>
 
 	<div class="d-flex fw-row">
 		<div class="eventImageCol">
@@ -37,7 +41,7 @@ if(empty($telegram_key)) {
 			</div>
 
 			<div class="attackingRow statCol-2 elipOverflow">
-				<div class="profileColumn">Player name</div> <?=$viewed->getName()?>
+				<div class="profileColumn">Player name</div> <?=$viewed->getName()?> 
 			</div>
 
 			<div class="attackingRow statCol-3">
@@ -99,7 +103,7 @@ if(empty($telegram_key)) {
 			$newWarType = $province_clan->getWarType((!!$viewed_clan ? $viewed_clan->get('id') : 0));
 			list($modifiers,$totals) = $province_clan->getWarModifiers((!!$viewed_clan ? $viewed_clan->get('id') : 0), $newWarType);
 		}
-		if(count($modifiers)) {
+		if(count($modifiers) && $status != 'postmortem') {
 			echo '<div class="attackingRow statCol-3"><strong>Current modifiers:</strong></div><div class="px-3 py-2">';
 			foreach($modifiers as $mod) echo $mod.'<br>';
 			echo '</div>';
@@ -108,7 +112,7 @@ if(empty($telegram_key)) {
 	?>
 <?php
 // I am not ready yet to change all the code below, so we fix it by setting some used variables
-$status = $viewed_province->get('status');
+
 $visiting_user = $province->get('id');
 $visiting_clan = $province->getClan();
 $clan_id_user = ($visiting_clan ? $visiting_clan->get('id') : 0);
@@ -124,6 +128,28 @@ $count = 0;
 <?php if($visiting_user != $viewed_id && ($clan_id != $clan_id_user || $clan_id == 0) && !in_array($visiting_user, $CT_CL_array)):?>
 <?php $count = 1;?>
 
+<?php if($status != 'postmortem'):?>
+<div class="row fw-row no-gutters profileButtonRow">
+ 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
+	 	href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewed_id)?>">
+		<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
+	</a>
+
+ 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 0.9);"
+	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewed_id)?>">
+ 		<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
+ 	</a>
+
+ 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewed_id;?>">
+ 		<i class="fas fa-envelope" aria-hidden="true"></i> &nbsp;Send message
+	</a>
+</div>
+<?php endif;?>
+<?php endif;?>
+
+<?php if($visiting_user != $viewed_id && $clan_id != $clan_id_user && in_array($visiting_user, $CT_CL_array) && count($members) == $clan_member_num):?>
+<?php $count = 1;?>
+<?php if($status != 'postmortem'):?>
 <!-- Visiting non-clanmember as non CT/CL -->
 <div class="row fw-row no-gutters profileButtonRow">
  	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
@@ -141,31 +167,12 @@ $count = 0;
 	</a>
 </div>
 <?php endif;?>
-
-<?php if($visiting_user != $viewed_id && $clan_id != $clan_id_user && in_array($visiting_user, $CT_CL_array) && count($members) == $clan_member_num):?>
-<?php $count = 1;?>
-<!-- Visiting non-clanmember as non CT/CL -->
-<div class="row fw-row no-gutters profileButtonRow">
- 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
-	 	href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewed_id)?>">
-		<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
-	</a>
-
- 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 0.9);"
-	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewed_id)?>">
- 		<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
- 	</a>
-
- 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewed_id;?>">
- 		<i class="fas fa-envelope" aria-hidden="true"></i> &nbsp;Send message
-	</a>
-</div>
 <?php endif;?>
 
 
 <?php if($visiting_user != $viewed_id && $clan_id != $clan_id_user && $clan_id == 0 && in_array($visiting_user, $CT_CL_array) && count($members) < $clan_member_num):?>
 <?php $count = 1;?>
-
+<?php if($status != 'postmortem'):?>
 <div class="row no-gutters fw-row profileButtonRow">
 	<a class="col-md-3 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
 		href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewed_id)?>">
@@ -211,9 +218,11 @@ $count = 0;
 	</script>
 </div>
 <?php endif;?>
+<?php endif;?>
 
 <?php if($visiting_user != $viewed_id && $clan_id != $clan_id_user && $count != 1 && in_array($visiting_user, $CT_CL_array)):?>
 <!-- Visiting non-clanmember as non CT/CL -->
+<?php if($status != 'postmortem'):?>
 <div class="row fw-row no-gutters profileButtonRow">
  	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
 	 	href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewed_id)?>">
@@ -230,9 +239,11 @@ $count = 0;
 	</a>
 </div>
 <?php endif;?>
+<?php endif;?>
 
 <?php if($clan_id == $clan_id_user && $count != 1 && $visiting_user != $viewed_id):?>
 <!-- Visiting clanmember profile -->
+<?php if($status != 'postmortem'):?>
 <div class="row fw-row no-gutters profileButtonRow">
 	<a class="col-md-6 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
 		href="<?=(!$game_live?'javascript:void(0);':'/military-overview/?id='.$viewed_id)?>">
@@ -261,6 +272,7 @@ $count = 0;
  		<i class="fas fa-chart-line"></i> &nbsp;View statistics
 	</a>
 </div>
+<?php endif;?>
 <?php endif;?>
 
 <?php

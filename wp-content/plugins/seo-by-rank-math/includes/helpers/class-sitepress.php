@@ -22,6 +22,13 @@ class Sitepress {
 	 *
 	 * @var boolean
 	 */
+	private $has_get_category = false;
+
+	/**
+	 * Has filter removed.
+	 *
+	 * @var boolean
+	 */
 	private $has_get_term = false;
 
 	/**
@@ -38,6 +45,12 @@ class Sitepress {
 	 */
 	private $has_get_terms_args = false;
 
+	/**
+	 * Has home_url filter removed.
+	 *
+	 * @var boolean
+	 */
+	private $has_home_url = false;
 
 	/**
 	 * Main instance
@@ -104,6 +117,33 @@ class Sitepress {
 	}
 
 	/**
+	 * Remove home_url filter.
+	 */
+	public function remove_home_url_filter() {
+		if ( ! $this->is_active() ) {
+			return;
+		}
+
+		global $wpml_url_filters;
+		$this->has_home_url = remove_filter( 'home_url', [ $wpml_url_filters, 'home_url_filter' ], -10 );
+	}
+
+	/**
+	 * Restore home_url filter.
+	 */
+	public function restore_home_url_filter() {
+		if ( ! $this->is_active() ) {
+			return;
+		}
+
+		if ( $this->has_home_url ) {
+			global $wpml_url_filters;
+			$this->has_home_url = false;
+			add_filter( 'home_url', [ $wpml_url_filters, 'home_url_filter' ], -10, 4 );
+		}
+	}
+
+	/**
 	 * Is plugin active.
 	 *
 	 * @return boolean
@@ -115,9 +155,47 @@ class Sitepress {
 	/**
 	 * Get sitepress global variable.
 	 *
-	 * @return object
+	 * @return object|null
 	 */
 	public function get_var() {
-		return $GLOBALS['sitepress'];
+		return ! empty( $GLOBALS['sitepress'] ) ? $GLOBALS['sitepress'] : null;
+	}
+
+	/**
+	 * Delete cached tax permalink.
+	 *
+	 * @param int    $term_id The term ID.
+	 * @param string $taxonomy The taxonomy name.
+	 * @return void
+	 */
+	public function delete_cached_tax_permalink( $term_id, $taxonomy ) {
+		if ( ! $this->is_active() ) {
+			return;
+		}
+
+		wp_cache_delete(
+			md5( wp_json_encode( [ $term_id, $taxonomy, false ] ) ),
+			'icl_tax_permalink_filter'
+		);
+	}
+
+	/**
+	 * Is per domain negotiation type.
+	 *
+	 * @return string
+	 */
+	public function is_per_domain() {
+		if ( ! $this->is_active() ) {
+			return false;
+		}
+
+		$sitepress = $this->get_var();
+		$type      = (int) $sitepress->get_setting( 'language_negotiation_type', 0 );
+
+		if ( absint( $type ) === 2 ) {
+			return true;
+		}
+
+		return false;
 	}
 }

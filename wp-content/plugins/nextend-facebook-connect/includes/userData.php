@@ -76,7 +76,9 @@ class NextendSocialUserData {
                 Notices::addError($this->errors->get_error_message());
             }
 
-            wp_redirect(NextendSocialLogin::enableNoticeForUrl(site_url('wp-login.php')));
+            $registerDisabledRedirectURL = apply_filters('nsl_disabled_register_redirect_url', NextendSocialLogin::getLoginUrl());
+
+            wp_redirect(NextendSocialLogin::enableNoticeForUrl($registerDisabledRedirectURL));
             exit();
         }
     }
@@ -106,11 +108,13 @@ class NextendSocialUserData {
             /**
              * Jetpack removes our "Register" button in our Register flow, so we need to remove their scripts from there.
              * @url https://wordpress.org/plugins/jetpack/
+             *
+             * @see NSLDEV-321
              */
             if (defined('JETPACK__PLUGIN_FILE')) {
-                if (class_exists('Jetpack_SSO') && method_exists('Jetpack_SSO', 'get_instance')) {
+                if (class_exists('Automattic\Jetpack\Connection\SSO') && method_exists('Automattic\Jetpack\Connection\SSO', 'get_instance')) {
                     remove_action('login_enqueue_scripts', array(
-                        Jetpack_SSO::get_instance(),
+                        Automattic\Jetpack\Connection\SSO::get_instance(),
                         'login_enqueue_scripts'
                     ));
                 }
@@ -199,10 +203,13 @@ class NextendSocialUserData {
 
             <?php do_action('nsl_registration_form_end', $this->userData, $this->provider); ?>
 
-            <br class="clear"/>
-            <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
-                                     class="button button-primary button-large" value="<?php echo esc_attr_x('Register', 'Register form submit button label', 'nextend-facebook-connect'); ?>"/>
-            </p>
+            <?php
+
+            $template = NextendSocialLogin::get_template_part('register-flow/submit-button.php');
+            if (!empty($template) && file_exists($template)) {
+                include($template);
+            }
+            ?>
         </form>
         <?php
         return ob_get_clean();

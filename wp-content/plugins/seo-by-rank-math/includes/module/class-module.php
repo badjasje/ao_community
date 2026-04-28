@@ -47,13 +47,13 @@ class Module {
 	/**
 	 * Getter.
 	 *
-	 * @param string $key     Key to get data for.
-	 * @param mixed  $default Defaul value if not found.
+	 * @param string $key           Key to get data for.
+	 * @param mixed  $default_value Defaul value if not found.
 	 *
 	 * @return mixed
 	 */
-	public function get( $key, $default = '' ) {
-		return isset( $this->args[ $key ] ) ? $this->args[ $key ] : $default;
+	public function get( $key, $default_value = '' ) {
+		return isset( $this->args[ $key ] ) ? $this->args[ $key ] : $default_value;
 	}
 
 	/**
@@ -74,6 +74,15 @@ class Module {
 	 */
 	public function get_id() {
 		return $this->id;
+	}
+
+	/**
+	 * Get module id.
+	 *
+	 * @return string
+	 */
+	public function get_args() {
+		return $this->args;
 	}
 
 	/**
@@ -104,6 +113,51 @@ class Module {
 	 */
 	public function is_disabled() {
 		return isset( $this->args['disabled'] ) && $this->args['disabled'];
+	}
+
+	/**
+	 * Does module has BETA version?
+	 *
+	 * @return bool
+	 */
+	public function is_betabadge() {
+		return isset( $this->args['betabadge'] ) && $this->args['betabadge'];
+	}
+
+	/**
+	 * Does module has PRO version?
+	 *
+	 * @return bool
+	 */
+	public function is_probadge() {
+		return isset( $this->args['probadge'] ) && $this->args['probadge'];
+	}
+
+	/**
+	 * Is module upgradeable?
+	 *
+	 * @return bool
+	 */
+	public function is_upgradeable() {
+		return isset( $this->args['upgradeable'] ) && $this->args['upgradeable'];
+	}
+
+	/**
+	 * Is PRO module.
+	 *
+	 * @return bool
+	 */
+	public function is_pro_module() {
+		return isset( $this->args['probadge'] ) && $this->args['probadge'] && ! defined( 'RANK_MATH_PRO_FILE' );
+	}
+
+	/**
+	 * Get the module dependencies.
+	 *
+	 * @return array
+	 */
+	public function get_dependencies() {
+		return isset( $this->args['dep_modules'] ) ? $this->args['dep_modules'] : [];
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?php
 
-namespace MatthiasMullie\PathConverter;
+namespace FVM\MatthiasMullie\PathConverter;
 
 /**
  * Convert paths relative from 1 file to another.

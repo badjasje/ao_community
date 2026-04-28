@@ -12,18 +12,23 @@ require_once dirname(__FILE__) . '/NSL/REST.php';
 require_once dirname(__FILE__) . '/NSL/GDPR.php';
 
 require_once(NSL_PATH . '/class-settings.php');
-require_once(NSL_PATH . '/includes/provider.php');
+require_once(NSL_PATH . '/includes/provider-oauth.php');
+require_once(NSL_PATH . '/includes/provider-openid.php');
 require_once(NSL_PATH . '/admin/admin.php');
 
 require_once(NSL_PATH . '/compat.php');
 
 class NextendSocialLogin {
 
-    public static $version = '3.1.3';
+    public static $version = '3.1.22';
 
-    public static $nslPROMinVersion = '3.1.3';
+    public static $nslPROMinVersion = '3.1.21';
 
     public static $proxyPage = false;
+
+    public static function getRequiredCapability() {
+        return apply_filters('nsl_required_capability', 'manage_options');
+    }
 
     public static function checkVersion() {
 
@@ -51,14 +56,24 @@ class NextendSocialLogin {
 
 
     public static function noticeUpdateFree() {
-        if (is_admin() && current_user_can('manage_options')) {
+        $showNotice = true;
+        if (isset($_GET['page']) && $_GET['page'] === 'nextend-social-login' && isset($_GET['view']) && $_GET['view'] === 'pro-addon') {
+            $showNotice = false;
+        }
+
+        if (is_admin() && current_user_can(NextendSocialLogin::getRequiredCapability()) && $showNotice) {
             $file = 'nextend-facebook-connect/nextend-facebook-connect.php';
             Notices::addError(sprintf(__('Please update %1$s to version %2$s or newer.', 'nextend-facebook-connect'), "Nextend Social Login", NextendSocialLoginPRO::$nslMinVersion) . ' <a href="' . esc_url(wp_nonce_url(admin_url('update.php?action=upgrade-plugin&plugin=') . $file, 'upgrade-plugin_' . $file)) . '">' . __('Update now!', 'nextend-facebook-connect') . '</a>');
         }
     }
 
     public static function noticeUpdatePro() {
-        if (is_admin() && current_user_can('manage_options')) {
+        $showNotice = true;
+        if (isset($_GET['page']) && $_GET['page'] === 'nextend-social-login' && isset($_GET['view']) && $_GET['view'] === 'pro-addon') {
+            $showNotice = false;
+        }
+
+        if (is_admin() && current_user_can(NextendSocialLogin::getRequiredCapability()) && $showNotice) {
             $file = 'nextend-social-login-pro/nextend-social-login-pro.php';
             Notices::addError(sprintf(__('Please update %1$s to version %2$s or newer.', 'nextend-facebook-connect'), "Nextend Social Login Pro Addon", self::$nslPROMinVersion) . ' <a href="' . esc_url(wp_nonce_url(admin_url('update.php?action=upgrade-plugin&plugin=') . $file, 'upgrade-plugin_' . $file)) . '">' . __('Update now!', 'nextend-facebook-connect') . '</a>');
         }
@@ -134,9 +149,15 @@ class NextendSocialLogin {
 
     public static function init() {
         add_action('plugins_loaded', 'NextendSocialLogin::plugins_loaded');
+
         register_activation_hook(NSL_PATH_FILE, 'NextendSocialLogin::install');
 
         add_action('delete_user', 'NextendSocialLogin::delete_user');
+
+        add_action('itsec_initialized', 'NextendSocialLogin::disable_better_wp_security_block_long_urls', -1);
+    }
+
+    public static function plugins_loaded() {
 
         self::$settings = new NextendSocialLoginSettings('nextend_social_login', array(
             'enabled'                          => array(),
@@ -149,11 +170,11 @@ class NextendSocialLogin {
             ),
             'licenses'                         => array(),
             'terms_show'                       => 0,
-            'terms'                            => __('By clicking Register, you accept our <a href="#privacy_policy_url" target="_blank">Privacy Policy</a>', 'nextend-facebook-connect'),
+            'terms'                            => '',
             'store_name'                       => 1,
             'store_email'                      => 1,
             'avatar_store'                     => 1,
-            'store_access_token'               => 1,
+            'store_access_token'               => 0,
             'redirect_prevent_external'        => 0,
             'redirect'                         => '',
             'redirect_reg'                     => '',
@@ -161,6 +182,7 @@ class NextendSocialLogin {
             'default_redirect_reg'             => '',
             'blacklisted_urls'                 => '',
             'redirect_overlay'                 => 'overlay-with-spinner-and-message',
+            'unsupported_webview_behavior'     => '',
             'target'                           => 'prefer-popup',
             'allow_register'                   => -1,
             'allow_unlink'                     => 1,
@@ -174,53 +196,60 @@ class NextendSocialLogin {
             'embedded_login_form_button_style' => 'default',
             'embedded_login_form_layout'       => 'below',
 
-            'custom_actions'               => '',
-            'custom_actions_button_style'  => 'default',
-            'custom_actions_button_layout' => 'default',
-            'custom_actions_button_align'  => 'left',
+            'custom_actions'                          => '',
+            'custom_actions_button_style'             => 'default',
+            'custom_actions_button_layout'            => 'default',
+            'custom_actions_button_align'             => 'left',
+            'custom_actions_register'                 => '',
+            'custom_actions_register_button_style'    => 'default',
+            'custom_actions_register_button_layout'   => 'default',
+            'custom_actions_register_button_align'    => 'left',
+            'custom_actions_link_unlink'              => '',
+            'custom_actions_link_unlink_button_align' => 'left',
 
             'comment_login_button' => 'show',
             'comment_button_align' => 'left',
             'comment_button_style' => 'default',
 
-            'buddypress_register_button'       => 'bp_before_account_details_fields',
-            'buddypress_register_button_align' => 'left',
-            'buddypress_register_button_style' => 'default',
-            'buddypress_register_form_layout'  => 'default',
-            'buddypress_login'                 => 'show',
-            'buddypress_login_form_layout'     => 'default',
-            'buddypress_login_button_style'    => 'default',
-            'buddypress_sidebar_login'         => 'show',
+            'buddypress_register_button'             => 'bp_before_account_details_fields',
+            'buddypress_register_button_align'       => 'left',
+            'buddypress_register_button_style'       => 'default',
+            'buddypress_register_form_layout'        => 'default',
+            'buddypress_login'                       => 'show',
+            'buddypress_login_form_layout'           => 'default',
+            'buddypress_login_button_style'          => 'default',
+            'buddypress_sidebar_login'               => 'show',
+            'buddypress_social_accounts_tab'         => 'show',
+            'buddypress_registration_email_template' => 'buddypress',
 
-            'woocommerce_login'                => 'after',
-            'woocommerce_login_form_layout'    => 'default',
-            'woocommerce_register'             => 'after',
-            'woocommerce_register_form_layout' => 'default',
-            'woocommerce_billing'              => 'before',
-            'woocommerce_billing_form_layout'  => 'default',
-            'woocoommerce_form_button_style'   => 'default',
-            'woocoommerce_form_button_align'   => 'left',
-            'woocommerce_account_details'      => 'before',
-            'woocommerce_cfw'                  => 'show',
-            'woocommerce_cfw_layout'           => 'below',
-
-            'memberpress_login'                        => 'before',
-            'memberpress_form_button_align'            => 'left',
-            'memberpress_login_form_button_style'      => 'default',
-            'memberpress_login_form_layout'            => 'below-separator',
-            'memberpress_signup'                       => 'before',
-            'memberpress_signup_form_button_style'     => 'default',
-            'memberpress_signup_form_layout'           => 'below-separator',
-            'memberpress_account_details'              => 'after',
-            'registration_notification_notify'         => '0',
-            'debug'                                    => '0',
-            'show_linked_providers'                    => '0',
-            'login_restriction'                        => '0',
-            'avatars_in_all_media'                     => '0',
-            'custom_register_label'                    => '0',
-            'review_state'                             => -1,
+            'woocommerce_login'                        => 'after',
+            'woocommerce_login_form_layout'            => 'default',
+            'woocommerce_register'                     => 'after',
+            'woocommerce_register_form_layout'         => 'default',
+            'woocommerce_billing'                      => 'before',
+            'woocommerce_billing_form_layout'          => 'default',
+            'woocoommerce_form_button_style'           => 'default',
+            'woocoommerce_form_button_align'           => 'left',
+            'woocommerce_account_details'              => 'before',
             'woocommerce_dismissed'                    => 0,
             'woocoommerce_registration_email_template' => 'woocommerce',
+
+            'memberpress_login'                    => 'before',
+            'memberpress_form_button_align'        => 'left',
+            'memberpress_login_form_button_style'  => 'default',
+            'memberpress_login_form_layout'        => 'below-separator',
+            'memberpress_signup'                   => 'before',
+            'memberpress_signup_form_button_style' => 'default',
+            'memberpress_signup_form_layout'       => 'below-separator',
+            'memberpress_account_details'          => 'after',
+            'registration_notification_notify'     => '0',
+            'debug'                                => '0',
+            'bypass_cache'                         => '1',
+            'show_linked_providers'                => '0',
+            'login_restriction'                    => '0',
+            'avatars_in_all_media'                 => '0',
+            'custom_register_label'                => '0',
+            'review_state'                         => -1,
 
             'userpro_show_login_form'            => 'show',
             'userpro_show_register_form'         => 'show',
@@ -253,14 +282,8 @@ class NextendSocialLogin {
             'admin_bar_roles' => array(),
         ));
 
-        add_action('itsec_initialized', 'NextendSocialLogin::disable_better_wp_security_block_long_urls', -1);
-
-        add_action('bp_loaded', 'NextendSocialLogin::buddypress_loaded');
-    }
-
-    public static function plugins_loaded() {
-
         NextendSocialLoginAdmin::init();
+        NextendSocialUpgrader::init();
 
         $lastVersion = get_option('nsl-version');
         if ($lastVersion != self::$version) {
@@ -284,9 +307,13 @@ class NextendSocialLogin {
             }
 
             update_option('nsl-version', self::$version, true);
-            wp_redirect(set_url_scheme('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
+            if (!empty($_SERVER['HTTP_HOST'])) {
+                wp_redirect(set_url_scheme('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
+            } else {
+                wp_redirect(admin_url());
+            }
             exit;
-        } else if (isset($_REQUEST['repairnsl']) && current_user_can('manage_options') && check_admin_referer('repairnsl')) {
+        } else if (isset($_REQUEST['repairnsl']) && current_user_can(NextendSocialLogin::getRequiredCapability()) && check_admin_referer('repairnsl')) {
             self::install();
             wp_redirect(admin_url('admin.php?page=nextend-social-login'));
             exit;
@@ -368,6 +395,12 @@ class NextendSocialLogin {
                     break;
             }
 
+            switch (NextendSocialLogin::$settings->get('buddypress_social_accounts_tab')) {
+                case 'show':
+                    add_action('bp_settings_setup_nav', 'NextendSocialLogin::bp_settings_setup_nav', 999999);
+                    break;
+            }
+
             add_action('profile_personal_options', 'NextendSocialLogin::addLinkAndUnlinkButtons');
 
 
@@ -384,14 +417,30 @@ class NextendSocialLogin {
 
             add_action('wp_head', 'NextendSocialLogin::styles', 100);
 
-            /*
+            /**
+             * AMP integration:
              *
-             * We need to call in our styles on the AMP pages using this action, since:
-             * -the "AMP" plugin does not call wp_head in Reader mode.
-             * -the "AMP for WP" plugin does not call wp_head in AMP view at all.
-             * -AMP plugins only allow adding custom CSS in the unique <style> tag with the attribute "amp-custom". Callbacks are only allowed to output bare CSS on this action.
+             * NSL_DISABLE_IN_AMP_REQUESTS constant can be used for disabling our social buttons in the AMP requests.
+             * If the constant is defined, then we shouldn't force the loading of our styles either.
              */
-            add_action('amp_post_template_css', 'NextendSocialLogin::stylesWithoutTag');
+            if (!defined('NSL_DISABLE_IN_AMP_REQUESTS')) {
+                /**
+                 * We need to call in our styles on the AMP pages using this action, since:
+                 * -the "AMP" plugin does not call wp_head in Reader mode.
+                 * -the "AMP for WP" plugin does not call wp_head in AMP view at all.
+                 * -AMP plugins only allow adding custom CSS in the unique <style> tag with the attribute "amp-custom". Callbacks are only allowed to output bare CSS on this action.
+                 */
+                add_action('amp_post_template_css', 'NextendSocialLogin::stylesWithoutTag');
+            } else {
+                /**
+                 * If the NSL_DISABLE_IN_AMP_REQUESTS constant is defined, then our social buttons won't be rendered, so we shouldn't load our assets either.
+                 */
+                add_action('wp', function () {
+                    if (NextendSocialLogin::isAMPRequest()) {
+                        NextendSocialLogin::removeFrontendAssets();
+                    }
+                });
+            }
 
 
             add_action('admin_head', 'NextendSocialLogin::styles', 100);
@@ -418,7 +467,7 @@ class NextendSocialLogin {
             if (!empty($_REQUEST['loginSocial'])) {
                 global $HideMyWP;
                 $loginPath = '/wp-login.php';
-                if (is_object($HideMyWP) && substr($_SERVER['PHP_SELF'], -1 * strlen($loginPath))) {
+                if (is_object($HideMyWP) && !empty($_SERVER['PHP_SELF']) && substr($_SERVER['PHP_SELF'], -1 * strlen($loginPath))) {
                     $login_query = $HideMyWP->opt('login_query');
                     if (!$login_query) {
                         $login_query = 'hide_my_wp';
@@ -454,20 +503,100 @@ class NextendSocialLogin {
             add_filter('jetpack_sso_bypass_login_forward_wpcom', '__return_false');
 
             /**
-             * Fix: our autologin after the registration prevents WooRewards (MyRewards) plugin from awarding the points for the registration
-             * so we need to make our autologin happen after WooRewards have already awarded the points. They use 999999 priority.
+             * Fix: our autologin after the registration prevents WooRewards (MyRewards) and Ultimate Affiliate Pro plugins from awarding the points for the registration
+             * so we need to make our autologin happen after they have already awarded the points. They use 999999 and 99 priority respectively.
              * @url https://plugins.longwatchstudio.com/product/woorewards/
+             * @url2 https://affiliate.wpindeed.com/
              */
-            if (class_exists('LWS_WooRewards')) {
+            if (class_exists('LWS_WooRewards') || class_exists('UAP_Main')) {
                 add_filter('nsl_autologin_priority', function () {
                     return 10000000;
                 });
             }
+
+            /**
+             * Fix: Jetpack Boost - Defer Non-Essential JavaScript opens an output buffer and stops our authentication with a blank page, when the OAuth redirect uri proxy page is used.
+             *
+             * @see NSLDEV-426
+             */
+            if (defined('JETPACK_BOOST_VERSION')) {
+                add_filter('jetpack_boost_should_defer_js', '__return_false');
+            }
+
+            /*
+             * Fix: WP 2FA
+             * @url https://wordpress.org/plugins/wp-2fa/
+             *
+             * It breaks our login with an empty form when 2FA is enforced and the user doesn't have any 2FA method selected yet.
+             * E.g. "Grace period" was set to "Users have to configure 2FA straight away."
+             *
+             * If our Support Login Restrictions feature is enabled and the user has any authentication method configured, then we should still allow the restriction.
+             */
+            if (defined('WP_2FA_VERSION')) {
+                if (self::$settings->get('login_restriction')) {
+                    add_filter('wp_2fa_skip_2fa_login_form', function ($skip, $user) {
+                        if (class_exists('WP2FA\Admin\Helpers\User_Helper', false) && method_exists(WP2FA\Admin\Helpers\User_Helper::class, 'is_user_using_two_factor')) {
+                            $is_user_using_two_factor = WP2FA\Admin\Helpers\User_Helper::is_user_using_two_factor($user->ID);
+                            if ($is_user_using_two_factor) {
+                                return $skip;
+                            }
+                        }
+
+                        return true;
+                    }, 10, 2);
+                } else {
+                    add_filter('wp_2fa_skip_2fa_login_form', '__return_true');
+                }
+
+            }
+
+            /**
+             * Fix: SolidWP - Solid Security Basic
+             * @url https://wordpress.org/plugins/better-wp-security/
+             *
+             * @see NSLDEV-426
+             *
+             * In case of social login, the "Security > Settings > Features > Login Security > Two-Factor" setting should be used only if our Support Login Restrictions feature is enabled.
+             *
+             */
+            if (class_exists('ITSEC_Core', false)) {
+                if (!self::$settings->get('login_restriction')) {
+                    add_action('nsl_before_wp_login', function () {
+                        add_filter('itsec_two_factor_interstitial_show_to_user', '__return_false');
+                    });
+                }
+            }
+
         }
+    }
+
+    public static function getDefaultPrivacyTerms() {
+        return __('By clicking Register, you accept our <a href="#privacy_policy_url" target="_blank">Privacy Policy</a>', 'nextend-facebook-connect');
+    }
+
+    public static function getPrivacyTerms() {
+        $terms = self::$settings->get('terms');
+        if ($terms === '') {
+            /**
+             * As of WordPress 6.7 the text domain should be registered on the 'init' action or later.
+             * Thus, we are not allowed, to define this string in the default settings on the plugins_loaded action anymore.
+             *
+             * @see NSLDEV-663
+             */
+            $terms = self::getDefaultPrivacyTerms();
+        }
+
+        return $terms;
     }
 
     public static function fixSocialRabbit() {
         remove_action('init', '\SR\Utils\Scheduled::init', 10);
+    }
+
+    public static function removeFrontendAssets() {
+        remove_action('wp_head', 'NextendSocialLogin::styles', 100);
+        remove_action('wp_print_footer_scripts', 'NextendSocialLogin::scripts', 100);
+        remove_action('wp_print_scripts', 'NextendSocialLogin::nslDOMReady');
     }
 
     public static function removeLoginFormAssets() {
@@ -482,6 +611,8 @@ class NextendSocialLogin {
         if (!empty($stylesheet) && file_exists($stylesheet)) {
             echo '<style type="text/css">' . file_get_contents($stylesheet) . '</style>';
         }
+
+        self::noticeStyles();
     }
 
     public static function stylesWithoutTag() {
@@ -490,27 +621,63 @@ class NextendSocialLogin {
         if (!empty($stylesheet) && file_exists($stylesheet)) {
             echo file_get_contents($stylesheet);
         }
+
+        self::noticeStylesWithoutTag();
+    }
+
+    public static function noticeStyles() {
+        static $noticeStylesOnce = null;
+        if ($noticeStylesOnce === null) {
+            $noticeStylesheet = self::get_template_part('notice-styles.css');
+            if (!empty($noticeStylesheet) && file_exists($noticeStylesheet)) {
+                echo '<style type="text/css">' . file_get_contents($noticeStylesheet) . '</style>';
+            }
+
+            $noticeStylesOnce = true;
+        }
+    }
+
+    public static function noticeStylesWithoutTag() {
+        static $noticeStylesOnce = null;
+        if ($noticeStylesOnce === null) {
+            $noticeStylesheet = self::get_template_part('notice-styles.css');
+            if (!empty($noticeStylesheet) && file_exists($noticeStylesheet)) {
+                echo file_get_contents($noticeStylesheet);
+            }
+
+            $noticeStylesOnce = true;
+        }
     }
 
     public static function nslDOMReady() {
         echo '<script type="text/javascript">
-            window._nslDOMReady = function (callback) {
-                if ( document.readyState === "complete" || document.readyState === "interactive" ) {
-                    callback();
-                } else {
-                    document.addEventListener( "DOMContentLoaded", callback );
-                }
-            };
-            </script>';
+            window._nslDOMReady = (function () {
+                const executedCallbacks = new Set();
+            
+                return function (callback) {
+                    /**
+                    * Third parties might dispatch DOMContentLoaded events, so we need to ensure that we only run our callback once!
+                    */
+                    if (executedCallbacks.has(callback)) return;
+            
+                    const wrappedCallback = function () {
+                        if (executedCallbacks.has(callback)) return;
+                        executedCallbacks.add(callback);
+                        callback();
+                    };
+            
+                    if (document.readyState === "complete" || document.readyState === "interactive") {
+                        wrappedCallback();
+                    } else {
+                        document.addEventListener("DOMContentLoaded", wrappedCallback);
+                    }
+                };
+            })();
+        </script>';
     }
 
     public static function loginHead() {
         self::styles();
-
-        $template = self::get_template_part('login/' . sanitize_file_name(self::$settings->get('login_form_layout')) . '.php');
-        if (!empty($template) && file_exists($template)) {
-            require($template);
-        }
 
         self::$loginHeadAdded = true;
     }
@@ -521,11 +688,19 @@ class NextendSocialLogin {
             $scripts = NSL_PATH . '/js/nsl.js';
             if (file_exists($scripts)) {
                 $localizedStrings = array(
-                    'redirect_overlay_title' => __('Hold On', 'nextend-facebook-connect'),
-                    'redirect_overlay_text'  => __('You are being redirected to another page,<br>it may take a few seconds.', 'nextend-facebook-connect')
+                    'redirect_overlay_title'    => __('Hold On', 'nextend-facebook-connect'),
+                    'redirect_overlay_text'     => __('You are being redirected to another page,<br>it may take a few seconds.', 'nextend-facebook-connect'),
+                    'webview_notification_text' => __('The selected provider doesn\'t support embedded browsers!', 'nextend-facebook-connect'),
                 );
 
-                echo '<script type="text/javascript">(function (undefined) {var _localizedStrings=' . wp_json_encode($localizedStrings) . ';var _targetWindow=' . wp_json_encode(self::$settings->get('target')) . ';var _redirectOverlay=' . wp_json_encode(self::$settings->get('redirect_overlay')) . ";\n" . file_get_contents($scripts) . '})();</script>';
+                $scriptOptions = array(
+                    '_localizedStrings'           => $localizedStrings,
+                    '_targetWindow'               => self::$settings->get('target'),
+                    '_redirectOverlay'            => self::$settings->get('redirect_overlay'),
+                    '_unsupportedWebviewBehavior' => self::$settings->get('unsupported_webview_behavior'),
+                );
+
+                echo '<script type="text/javascript">(function (undefined) {let scriptOptions=' . wp_json_encode($scriptOptions) . ";\n" . file_get_contents($scripts) . '})();</script>';
             }
             $once = true;
         }
@@ -837,13 +1012,20 @@ class NextendSocialLogin {
         }
 
         self::$loginMainButtonsAdded = true;
+        ob_start();
 
         $ret = '<div id="nsl-custom-login-form-main">';
         $ret .= self::renderButtonsWithContainer(self::$settings->get('login_form_button_style'), false, false, false, self::$settings->get('login_form_button_align'), $labelType);
         $ret .= '</div>';
+        echo $ret;
+
+        $template = self::get_template_part('login/' . sanitize_file_name(self::$settings->get('login_form_layout')) . '.php');
+        if (!empty($template) && file_exists($template)) {
+            include($template);
+        }
 
 
-        return $ret;
+        return ob_get_clean();
     }
 
     public static function addLinkAndUnlinkButtons() {
@@ -861,7 +1043,14 @@ class NextendSocialLogin {
      * @return string
      */
     public static function renderLinkAndUnlinkButtons($heading = '', $link = true, $unlink = true, $align = "left", $providers = false, $style = "default") {
-        if (count(self::$enabledProviders)) {
+        if (is_user_logged_in()) {
+
+            /**
+             * If the NSL_DISABLE_IN_AMP_REQUESTS constant is defined, we shouldn't display the link/unlink buttons on the AMP pages.
+             */
+            if (defined('NSL_DISABLE_IN_AMP_REQUESTS') && NextendSocialLogin::isAMPRequest()) {
+                return '';
+            }
 
             /**
              * We shouldn't allow the icon style for Link and Unlink buttons
@@ -870,15 +1059,6 @@ class NextendSocialLogin {
                 $style = 'default';
             }
 
-            $buttons = '';
-            if ($heading !== false) {
-                if (empty($heading)) {
-                    $heading = __('Social Login', 'nextend-facebook-connect');
-                }
-                $buttons = '<h2>' . $heading . '</h2>';
-            }
-
-
             if ($unlink) {
                 //Filter to disable unlinking social accounts
                 $isUnlinkAllowed = apply_filters('nsl_allow_unlink', true);
@@ -886,7 +1066,6 @@ class NextendSocialLogin {
                     $unlink = false;
                 }
             }
-
 
             $enabledProviders = false;
             if (is_array($providers)) {
@@ -915,10 +1094,15 @@ class NextendSocialLogin {
                     }
                 }
 
+                if (!empty($heading)) {
+                    $heading = '<h2 class="nsl-heading">' . $heading . '</h2>';
+                } else {
+                    $heading = '';
+                }
+
                 $buttons = '<div class="nsl-container-buttons">' . $buttons . '</div>';
 
-                return '<div class="nsl-container ' . self::$styles[$style]['container'] . '"' . ($style !== 'fullwidth' ? ' data-align="' . esc_attr($align) . '"' : '') . '>' . $buttons . '</div>';
-
+                return '<div class="nsl-container ' . self::$styles[$style]['container'] . '"' . ($style !== 'fullwidth' ? ' data-align="' . esc_attr($align) . '"' : '') . '>' . wp_kses_post($heading) . $buttons . '</div>';
             }
         }
 
@@ -955,7 +1139,7 @@ class NextendSocialLogin {
             'link'     => 0,
             'unlink'   => 0,
             'heading'  => false,
-            'align'    => 'left',
+            'align'    => 'left'
         ), $atts);
 
         $providers  = false;
@@ -973,10 +1157,11 @@ class NextendSocialLogin {
             $atts = array_merge(array(
                 'redirect'    => false,
                 'trackerdata' => false,
-                'labeltype'   => 'login'
+                'labeltype'   => 'login',
+                'customlabel' => false
             ), $atts);
 
-            return self::renderButtonsWithContainerAndTitle($atts['heading'], $atts['style'], $providers, $atts['redirect'], $atts['trackerdata'], $atts['align'], $atts['labeltype']);
+            return self::renderButtonsWithContainerAndTitle($atts['heading'], $atts['style'], $providers, $atts['redirect'], $atts['trackerdata'], $atts['align'], $atts['labeltype'], $atts['customlabel']);
         }
 
         $link   = filter_var($atts['link'], FILTER_VALIDATE_BOOLEAN);
@@ -1003,52 +1188,64 @@ class NextendSocialLogin {
         return self::renderButtonsWithContainerAndTitle(false, $style, $providers, $redirect_to, $trackerData, $align, $labelType);
     }
 
-    private static function renderButtonsWithContainerAndTitle($heading = false, $style = 'default', $providers = false, $redirect_to = false, $trackerData = false, $align = 'left', $labelType = 'login') {
+    private static function renderButtonsWithContainerAndTitle($heading = false, $style = 'default', $providers = false, $redirect_to = false, $trackerData = false, $align = 'left', $labelType = 'login', $customLabel = false) {
+        if (!is_user_logged_in()) {
 
-        if (!isset(self::$styles[$style])) {
-            $style = 'default';
-        }
+            /**
+             * If the NSL_DISABLE_IN_AMP_REQUESTS constant is defined, we shouldn't display the social buttons in the AMP requests.
+             */
+            if (defined('NSL_DISABLE_IN_AMP_REQUESTS') && NextendSocialLogin::isAMPRequest()) {
+                return '';
+            }
 
-        if (!in_array($align, self::$styles[$style]['align'])) {
-            $align = 'left';
-        }
+            if (!isset(self::$styles[$style])) {
+                $style = 'default';
+            }
+
+            if (!in_array($align, self::$styles[$style]['align'])) {
+                $align = 'left';
+            }
 
 
-        $enabledProviders = false;
-        if (is_array($providers)) {
-            $enabledProviders = array();
-            foreach ($providers as $provider) {
-                if ($provider && isset(self::$enabledProviders[$provider->getId()])) {
-                    $enabledProviders[$provider->getId()] = $provider;
+            $enabledProviders = false;
+            if (is_array($providers)) {
+                $enabledProviders = array();
+                foreach ($providers as $provider) {
+                    if ($provider && isset(self::$enabledProviders[$provider->getId()])) {
+                        $enabledProviders[$provider->getId()] = $provider;
+                    }
                 }
             }
-        }
-        if ($enabledProviders === false) {
-            $enabledProviders = self::$enabledProviders;
-        }
-
-        if (count($enabledProviders)) {
-            $buttons = '';
-            foreach ($enabledProviders as $provider) {
-                $buttons .= $provider->getConnectButton($style, $redirect_to, $trackerData, $labelType);
+            if ($enabledProviders === false) {
+                $enabledProviders = self::$enabledProviders;
             }
 
-            if (!empty($heading)) {
-                $heading = '<h2>' . $heading . '</h2>';
-            } else {
-                $heading = '';
-            }
+            if (count($enabledProviders)) {
+                $buttons = '';
+                foreach ($enabledProviders as $provider) {
+                    $buttons .= $provider->getConnectButton($style, $redirect_to, $trackerData, $labelType, $customLabel);
+                }
 
-            $buttons = '<div class="nsl-container-buttons">' . $buttons . '</div>';
+                if (!empty($heading)) {
+                    $heading = '<h2 class="nsl-heading">' . $heading . '</h2>';
+                } else {
+                    $heading = '';
+                }
 
-            $ret = '<div class="nsl-container ' . self::$styles[$style]['container'] . '"' . ($style !== 'fullwidth' ? ' data-align="' . esc_attr($align) . '"' : '') . '>' . $heading . $buttons . '</div>';
-            if (defined('DOING_AJAX') && DOING_AJAX) {
-                $id  = md5(uniqid('nsl-ajax-'));
-                $ret = '<div id="' . $id . '">' . $ret . '</div><script>window._nslDOMReady(function(){var socialButtonContainer=document.getElementById("' . $id . '");if(socialButtonContainer){var socialButtons=socialButtonContainer.querySelectorAll("a");socialButtons.forEach(function(el,i){var href=el.getAttribute("href");if(href.indexOf("?")===-1){href+="?"}else{href+="&"}
+                $buttons = '<div class="nsl-container-buttons">' . $buttons . '</div>';
+
+                $ret = '<div class="nsl-container ' . self::$styles[$style]['container'] . '"' . ($style !== 'fullwidth' ? ' data-align="' . esc_attr($align) . '"' : '') . '>' . wp_kses_post($heading) . $buttons . '</div>';
+                if (defined('DOING_AJAX') && DOING_AJAX) {
+                    $id  = md5(uniqid('nsl-ajax-'));
+                    $ret = '<div id="' . $id . '">' . $ret . '</div>';
+                    if (!$redirect_to) {
+                        $ret .= '<script>window._nslDOMReady(function(){var socialButtonContainer=document.getElementById("' . $id . '");if(socialButtonContainer){var socialButtons=socialButtonContainer.querySelectorAll("a");socialButtons.forEach(function(el,i){var href=el.getAttribute("href");if(href.indexOf("?")===-1){href+="?"}else{href+="&"}
 el.setAttribute("href",href+"redirect="+encodeURIComponent(window.location.href))})}});</script>';
-            }
+                    }
+                }
 
-            return $ret;
+                return $ret;
+            }
         }
 
         return '';
@@ -1057,7 +1254,7 @@ el.setAttribute("href",href+"redirect="+encodeURIComponent(window.location.href)
 
     public static function getCurrentPageURL() {
 
-        if (defined('DOING_AJAX') && DOING_AJAX) {
+        if ((defined('DOING_AJAX') && DOING_AJAX) || empty($_SERVER['HTTP_HOST']) || empty($_SERVER['REQUEST_URI'])) {
             return false;
         }
 
@@ -1083,6 +1280,7 @@ el.setAttribute("href",href+"redirect="+encodeURIComponent(window.location.href)
         }
 
         if ($alternateLoginPage !== false) {
+
             return $alternateLoginPage;
         }
 
@@ -1211,13 +1409,9 @@ el.setAttribute("href",href+"redirect="+encodeURIComponent(window.location.href)
         }
     }
 
-    public static function buddypress_loaded() {
-        add_action('bp_settings_setup_nav', 'NextendSocialLogin::bp_settings_setup_nav');
-    }
-
     public static function bp_settings_setup_nav() {
 
-        if (!bp_is_active('settings')) {
+        if (!bp_is_active('settings') || !bp_is_active('members')) {
             return;
         }
 
@@ -1231,13 +1425,21 @@ el.setAttribute("href",href+"redirect="+encodeURIComponent(window.location.href)
         // Get the settings slug.
         $settings_slug = bp_get_settings_slug();
 
+        $subnav_slug = apply_filters('nsl_bp_social_accounts_tab_slug', 'social');
+        if (buddypress()->members->nav->get($settings_slug . '/' . $subnav_slug)) {
+            /**
+             * If there is a sub-nav item with the used slug, then we should use "nsl-social" as a fallback.
+             */
+            $subnav_slug = 'nsl-social';
+        }
+
         bp_core_new_subnav_item(array(
             'name'            => __('Social Accounts', 'nextend-facebook-connect'),
-            'slug'            => 'social',
+            'slug'            => $subnav_slug,
             'parent_url'      => trailingslashit($user_domain . $settings_slug),
             'parent_slug'     => $settings_slug,
             'screen_function' => 'NextendSocialLogin::bp_display_account_link',
-            'position'        => 30,
+            'position'        => 29,
             'user_has_access' => bp_core_can_edit_settings()
         ), 'members');
 
@@ -1270,7 +1472,7 @@ el.setAttribute("href",href+"redirect="+encodeURIComponent(window.location.href)
         static $registerFlowPage = null;
         if ($registerFlowPage === null) {
             $registerFlowPage = intval(self::$settings->get('register-flow-page'));
-            if (empty($registerFlowPage) || get_post($registerFlowPage) === null) {
+            if (empty($registerFlowPage) || get_post($registerFlowPage) === null || get_post_status($registerFlowPage) !== 'publish') {
                 $registerFlowPage = false;
             }
         }
@@ -1282,7 +1484,7 @@ el.setAttribute("href",href+"redirect="+encodeURIComponent(window.location.href)
         static $proxyPage = null;
         if ($proxyPage === null) {
             $proxyPage = intval(self::$settings->get('proxy-page'));
-            if (empty($proxyPage) || get_post($proxyPage) === null) {
+            if (empty($proxyPage) || get_post($proxyPage) === null || get_post_status($proxyPage) !== 'publish') {
                 $proxyPage = false;
             }
         }
@@ -1290,32 +1492,38 @@ el.setAttribute("href",href+"redirect="+encodeURIComponent(window.location.href)
         return $proxyPage;
     }
 
-    public static function getFreePagesForRegisterFlow($pages) {
+    public static function getExcludedPagesForRegisterFlow() {
+        $pages = get_pages();
 
-        $availablePages = array();
+        $unavailablePageIDs = [];
+
         foreach ($pages as $page) {
             $post_states = array();
             $post_states = apply_filters('display_post_states', $post_states, $page);
-            if (NextendSocialLogin::getRegisterFlowPage() === $page->ID || !$post_states || (count($post_states) === 1 && array_intersect(self::$allowedPostStates, array_keys($post_states)))) {
-                $availablePages[] = $page;
+
+            if (NextendSocialLogin::getRegisterFlowPage() !== $page->ID && (!empty($post_states) && ((count($post_states) === 1 && !array_intersect(self::$allowedPostStates, array_keys($post_states))) || count($post_states) > 1))) {
+                $unavailablePageIDs[] = $page->ID;
             }
         }
 
-        return $availablePages;
+        return $unavailablePageIDs;
     }
 
-    public static function getFreePagesForOauthProxyPage($pages) {
+    public static function getExcludedPagesForOauthProxyPage() {
+        $pages = get_pages();
 
-        $availablePages = array();
+        $unavailablePageIDs = [];
+
         foreach ($pages as $page) {
             $post_states = array();
             $post_states = apply_filters('display_post_states', $post_states, $page);
-            if (NextendSocialLogin::getProxyPage() === $page->ID || !$post_states || (count($post_states) === 1 && array_intersect(self::$allowedPostStates, array_keys($post_states)))) {
-                $availablePages[] = $page;
+
+            if (NextendSocialLogin::getProxyPage() !== $page->ID && (!empty($post_states) && ((count($post_states) === 1 && !array_intersect(self::$allowedPostStates, array_keys($post_states))) || count($post_states) > 1))) {
+                $unavailablePageIDs[] = $page->ID;
             }
         }
 
-        return $availablePages;
+        return $unavailablePageIDs;
     }
 
     public static function is_register_allowed($isAllowed) {
@@ -1408,6 +1616,77 @@ el.setAttribute("href",href+"redirect="+encodeURIComponent(window.location.href)
         }
 
         return $id;
+    }
+
+    /**
+     * For logged in users, this function might add the 'nsl_bypass_cache' GET parameter to a URL with a unique value
+     * to bypass the cache.
+     *
+     * @param $url
+     *
+     * @return string
+     */
+    public static function maybeAddBypassCacheArgToUrl($url) {
+        if ($url && self::$settings->get('bypass_cache')) {
+            if (is_user_logged_in()) {
+                if (has_filter('nsl_bypass_cache_url')) {
+                    $url = apply_filters('nsl_bypass_cache_url', $url);
+                } else {
+                    $url = add_query_arg(array('nsl_bypass_cache' => wp_hash(get_current_user_id() . current_time('timestamp'))), $url);
+                }
+            }
+        }
+
+        return $url;
+    }
+
+    public static function isLostPasswordRequest() {
+        $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : 'login';
+
+        return $action === 'lostpassword';
+    }
+
+    /**
+     * @param String $providerID
+     *
+     * @return bool|NextendSocialProvider
+     */
+    public static function getProviderByProviderID($providerID) {
+        if (NextendSocialLogin::isProviderEnabled($providerID)) {
+            return NextendSocialLogin::$enabledProviders[$providerID];
+        }
+
+        return false;
+    }
+
+    /**
+     * This action should be used only at places where the "wp" action has been already fired!
+     *
+     * @return bool
+     */
+    public static function isAMPRequest() {
+        /**
+         * Both the AMP and the AMP For WordPress plugins need to have access to the WP_Query object, so we need to run these checks after the object has been already set up.
+         */
+        if (did_action('wp')) {
+
+            /*
+             * AMP plugin
+             */
+            if (class_exists('AMP_Theme_Support') && function_exists('amp_is_request') && amp_is_request()) {
+                return true;
+            }
+
+            /*
+             * AMP for WP plugin
+             */
+            if ((defined('AMPFORWP_VERSION') && function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint()) || (function_exists('amp_activate') && function_exists('is_amp_endpoint') && is_amp_endpoint())) {
+                return true;
+            }
+
+        }
+
+        return false;
     }
 
 }

@@ -9,12 +9,14 @@
  * @subpackage RankMath\Links
  * @author     Rank Math <support@rankmath.com>
  *
- * Some functionality adapted from Yoast (https://github.com/Yoast/wordpress-seo/)
+ * @copyright Copyright (C) 2008-2019, Yoast BV
+ * The following code is a derivative work of the code from the Yoast(https://github.com/Yoast/wordpress-seo/), which is licensed under GPL v3.
  */
 
 namespace RankMath\Links;
 
-use MyThemeShop\Helpers\Str;
+use RankMath\Helpers\Str;
+use RankMath\Helper;
 use RankMath\Sitemap\Classifier;
 
 defined( 'ABSPATH' ) || exit;
@@ -59,8 +61,14 @@ class ContentProcessor {
 			'external_link_count' => 0,
 		];
 
-		$new_links = [];
+		$new_links      = [];
+		$post_permalink = $this->normalize_link( get_permalink( $post_id ) );
 		foreach ( $links as $link ) {
+			$normalized_link = $this->normalize_link( $link );
+			if ( $post_permalink === $normalized_link ) {
+				continue;
+			}
+
 			$this->process_link( $link, $new_links, $counts );
 		}
 
@@ -73,11 +81,11 @@ class ContentProcessor {
 	/**
 	 * Process a link.
 	 *
-	 * @param string $link   Link to process.
-	 * @param array  $list   Links to add after process.
-	 * @param array  $counts Counts array.
+	 * @param string $link      Link to process.
+	 * @param array  $new_links Links to add after process.
+	 * @param array  $counts    Counts array.
 	 */
-	private function process_link( $link, &$list, &$counts ) {
+	private function process_link( $link, &$new_links, &$counts ) {
 		$link_type = $this->is_valid_link_type( $link );
 		if ( empty( $link_type ) ) {
 			return;
@@ -86,10 +94,15 @@ class ContentProcessor {
 		$target_post_id = 0;
 		if ( Classifier::TYPE_INTERNAL === $link_type ) {
 			$target_post_id = url_to_postid( $link );
+
+			if ( 0 === $target_post_id ) {
+				// Maybe a product with altered url!
+				$target_post_id = $this->maybe_product_id( $link );
+			}
 		}
 		$counts[ "{$link_type}_link_count" ] += 1;
 
-		$list[] = new Link( $link, $target_post_id, $link_type );
+		$new_links[] = new Link( $link, $target_post_id, $link_type );
 	}
 
 	/**
@@ -148,10 +161,49 @@ class ContentProcessor {
 	 * @return boolean
 	 */
 	private function is_valid_link_type( $link ) {
-		if ( empty( $link ) || '#' === $link[0] ) {
-			return false;
+		$type = false;
+		if ( ! empty( $link ) && '#' !== $link[0] ) {
+			$type = $this->classifier->classify( $link );
 		}
 
-		return $this->classifier->classify( $link );
+		if ( Classifier::TYPE_INTERNAL === $type && preg_match( '/\.(jpg|jpeg|png|gif|bmp|pdf|mp3|zip)$/i', $link ) ) {
+			$type = false;
+		}
+
+		/**
+		 * Filter: 'rank_math/links/link_type' - Allow developers to filter the link type.
+		 */
+		return apply_filters( 'rank_math/links/link_type', $type, $link );
+	}
+
+	/**
+	 * Normalize a link: remove trailing slash, remove fragment identifier, remove home_url.
+	 *
+	 * @param string $link The link to normalize.
+	 * @return string
+	 */
+	private function normalize_link( $link ) {
+		$normalized = untrailingslashit( str_replace( home_url(), '', explode( '#', $link )[0] ) );
+		return $normalized;
+	}
+
+
+	/**
+	 * Gets the post id from a modified link.
+	 *
+	 * @param string $link Link to process.
+	 * @return int
+	 */
+	private function maybe_product_id( $link ) {
+		// Early bail if Remove Base option is not enabled.
+		if ( ! Helper::get_settings( 'general.wc_remove_product_base' ) ) {
+			return 0;
+		}
+
+		$product = get_page_by_path( basename( untrailingslashit( $link ) ), OBJECT, [ 'product' ] );
+		if ( ! $product ) {
+			return 0;
+		}
+		return $product->ID;
 	}
 }

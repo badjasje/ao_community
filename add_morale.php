@@ -30,7 +30,7 @@ foreach ($users as $user) {
         
 
     $status = $userData['status'][0];
-    if($status == 'banned') continue;
+    if($status == 'banned' || $status == 'postmortem') continue;
 
     update_user_meta($userId, 'morale_lock', 1);
     AddSatPower($userId);

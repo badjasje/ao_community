@@ -15,7 +15,7 @@ use RankMath\Helper;
 use RankMath\Traits\Ajax;
 use RankMath\Traits\Hooker;
 use RankMath\Helpers\Sitepress;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -24,7 +24,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class Notices implements Runner {
 
-	use Hooker, Ajax;
+	use Hooker;
+	use Ajax;
 
 	/**
 	 * Register hooks.
@@ -41,6 +42,48 @@ class Notices implements Runner {
 		$this->is_plugin_configured();
 		$this->new_post_type();
 		$this->convert_wpml_settings();
+		$this->permalink_changes_warning();
+		$this->react_settings_ui_notice();
+	}
+
+	/**
+	 * Show a persistent admin notice when the React Settings UI is disabled.
+	 *
+	 * Adds a dismissible, persistent error when the temporary option to
+	 * disable the React-based Settings UI is turned off. The notice is removed
+	 * when the React Settings UI is enabled again.
+	 *
+	 * @since 1.0.255
+	 * @return void
+	 */
+	private function react_settings_ui_notice() {
+		// Only relevant for admins in the dashboard context.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		$notice_id = 'rank_math_react_settings_ui_disabled';
+
+		if ( ! Helper::is_react_enabled() ) {
+			$message = sprintf(
+				// Translators: 1: opening anchor tag, 2: closing anchor tag.
+				__( 'The React Settings UI is currently disabled, and the classic settings interface is active. Note: The PHP-based settings interface will be removed in an upcoming release. %1$sEnable the React Settings UI%2$s to switch back.', 'rank-math' ),
+				'<a href="' . esc_url( Helper::get_dashboard_url() ) . '">',
+				'</a>'
+			);
+
+			Helper::add_notification(
+				$message,
+				[
+					'type' => 'error',
+					'id'   => $notice_id,
+				]
+			);
+			return;
+		}
+
+		// React UI is enabled; ensure any prior notice is removed.
+		Helper::remove_notification( $notice_id );
 	}
 
 	/**
@@ -61,6 +104,10 @@ class Notices implements Runner {
 
 		if ( 'convert_wpml_settings' === $notification_id ) {
 			update_option( 'rank_math_wpml_notice_dismissed', true );
+		}
+
+		if ( 'rank-math-site-url-mismatch' === $notification_id ) {
+			update_option( 'rank_math_siteurl_mismatch_notice_dismissed', true );
 		}
 	}
 
@@ -99,10 +146,17 @@ class Notices implements Runner {
 			return;
 		}
 
-		$list = implode( ', ', $new );
-		/* translators: post names */
-		$message = $this->do_filter( 'admin/notice/new_post_type', __( 'We detected new post type(s) (%1$s), and you would want to check the settings of <a href="%2$s">Titles &amp; Meta page</a>.', 'rank-math' ) );
-		$message = sprintf( wp_kses_post( $message ), $list, Helper::get_admin_url( 'options-titles#setting-panel-post-type-' . key( $new ) ), Helper::get_admin_url( 'options-sitemap#setting-panel-sitemap-post-type-' . key( $new ) ) );
+		$list = '<code>' . implode( '</code>, <code>', $new ) . '</code>';
+		/* Translators: placeholder is the post type name. */
+		$message = __( 'Rank Math has detected a new post type: %1$s. You may want to check the settings of the <a href="%2$s">Titles &amp; Meta page</a>.', 'rank-math' );
+		$count   = count( $new );
+		if ( $count > 1 ) {
+			/* Translators: placeholder is the post type names separated with commas. */
+			$message = __( 'Rank Math has detected new post types: %1$s. You may want to check the settings of the <a href="%2$s">Titles &amp; Meta page</a>.', 'rank-math' );
+		}
+
+		$message = $this->do_filter( 'admin/notice/new_post_type', $message, $count );
+		$message = sprintf( wp_kses_post( $message ), $list, Helper::get_settings_url( 'titles', 'post-type-' . key( $new ) ), Helper::get_settings_url( 'sitemap', 'post-type-' . key( $new ) ) );
 		Helper::add_notification(
 			$message,
 			[
@@ -133,7 +187,7 @@ class Notices implements Runner {
 			return;
 		}
 
-		$languages = icl_get_languages();
+		$languages = icl_get_languages(); // @phpstan-ignore-line
 		foreach ( $languages as $lang_code => $language ) {
 
 			foreach ( [ 'general', 'titles' ] as $option ) {
@@ -148,8 +202,8 @@ class Notices implements Runner {
 				}
 
 				foreach ( $common_data as $option_key ) {
-					$string_id = icl_get_string_id( Helper::get_settings( "$option.$option_key" ), "admin_texts_rank-math-options-$option" );
-					icl_add_string_translation( $string_id, $lang_code, $data[ $option_key ], 10 );
+					$string_id = icl_get_string_id( Helper::get_settings( "$option.$option_key" ), "admin_texts_rank-math-options-$option" ); // @phpstan-ignore-line
+					icl_add_string_translation( $string_id, $lang_code, $data[ $option_key ], 10 ); // @phpstan-ignore-line
 				}
 			}
 		}
@@ -216,5 +270,37 @@ class Notices implements Runner {
 		}
 
 		return $options;
+	}
+
+	/**
+	 * Maybe add notice on Permalinks page about the risks of changing the permalinks on a live site.
+	 *
+	 * @return void
+	 */
+	public function permalink_changes_warning() {
+		global $pagenow;
+		if ( 'options-permalink.php' !== $pagenow ) {
+			return;
+		}
+
+		$this->action( 'admin_enqueue_scripts', 'add_permalink_changes_warning', 12 );
+	}
+
+	/**
+	 * Add the notice for the Permalinks page.
+	 *
+	 * @return void
+	 */
+	public function add_permalink_changes_warning() {
+		wp_enqueue_script( 'rank-math-core-permalink-settings' );
+		$message = __( '<b>Rank Math Warning:</b> Changing the permalinks on a live, indexed site may result in serious loss of traffic if done incorrectly. Consider adding a new redirection from the old URL format to the new one.', 'rank-math' );
+		Helper::add_notification(
+			$message,
+			[
+				'type'    => 'warning',
+				'screen'  => 'options-permalink',
+				'classes' => 'hidden rank-math-notice-permalinks-warning is-dismissible',
+			]
+		);
 	}
 }

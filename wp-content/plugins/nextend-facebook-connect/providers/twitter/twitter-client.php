@@ -157,12 +157,12 @@ class NextendSocialProviderTwitterClient extends NextendSocialAuth {
 
         if (is_wp_error($request)) {
 
-            throw new Exception($request->get_error_message());
+            throw new NSLSanitizedRequestErrorMessageException($request->get_error_message());
         } else if (wp_remote_retrieve_response_code($request) !== 200) {
 
             $this->errorFromResponse(json_decode(wp_remote_retrieve_body($request), true));
 
-            throw new Exception(sprintf(__('Unexpected response: %s', 'nextend-facebook-connect'), wp_remote_retrieve_body($request)));
+            throw new NSLSanitizedRequestErrorMessageException(sprintf(__('Unexpected response: %s', 'nextend-facebook-connect'), wp_remote_retrieve_body($request)));
         }
 
         return wp_remote_retrieve_body($request);
@@ -216,7 +216,7 @@ class NextendSocialProviderTwitterClient extends NextendSocialAuth {
      */
     private function errorFromResponse($response) {
         if (isset($response['errors']) && is_array($response['errors'])) {
-            throw new Exception($response['errors'][0]['message']);
+            throw new NSLSanitizedRequestErrorMessageException($response['errors'][0]['message']);
         }
     }
 

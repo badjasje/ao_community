@@ -10,9 +10,15 @@
 
 namespace RankMath\Admin;
 
+use RankMath\KB;
 use RankMath\Helper;
 use RankMath\Runner;
 use RankMath\Traits\Hooker;
+use RankMath\Google\Console;
+use RankMath\Google\Analytics;
+use RankMath\Analytics\Url_Inspection;
+use RankMath\Admin\Admin_Helper;
+use RankMath\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -38,7 +44,7 @@ class Assets implements Runner {
 		$this->action( 'admin_enqueue_scripts', 'enqueue' );
 		$this->action( 'admin_enqueue_scripts', 'overwrite_wplink', 99 );
 
-		if ( 'elementor' === \MyThemeShop\Helpers\Param::get( 'action' ) ) {
+		if ( 'elementor' === \RankMath\Helpers\Param::get( 'action' ) ) {
 			$this->action( 'elementor/editor/before_enqueue_scripts', 'register' );
 			$this->action( 'elementor/editor/before_enqueue_scripts', 'enqueue' );
 			$this->action( 'elementor/editor/before_enqueue_scripts', 'overwrite_wplink', 99 );
@@ -56,22 +62,21 @@ class Assets implements Runner {
 		// Styles.
 		wp_register_style( self::PREFIX . 'common', $css . 'common.css', null, rank_math()->version );
 		wp_register_style( self::PREFIX . 'cmb2', $css . 'cmb2.css', null, rank_math()->version );
-		wp_register_style( self::PREFIX . 'dashboard', $css . 'dashboard.css', [ 'rank-math-common' ], rank_math()->version );
-		wp_register_style( self::PREFIX . 'plugin-feedback', $css . 'feedback.css', null, rank_math()->version );
+		wp_register_style( self::PREFIX . 'dashboard', $css . 'dashboard.css', [ 'rank-math-common', 'wp-components' ], rank_math()->version );
+		wp_register_style( self::PREFIX . 'dashboard-widget', $css . 'dashboard-widget.css', null, rank_math()->version );
 
 		// Scripts.
-		wp_register_script( 'validate', rank_math()->plugin_url() . 'assets/vendor/jquery.validate.min.js', [ 'jquery' ], '1.19.0', true );
-		wp_register_script( self::PREFIX . 'validate', $js . 'validate.js', [ 'jquery' ], rank_math()->version, true );
-		wp_register_script( self::PREFIX . 'common', $js . 'common.js', [ 'jquery', 'validate', 'wp-i18n' ], rank_math()->version, true );
-		wp_register_script( self::PREFIX . 'dashboard', $js . 'dashboard.js', [ 'jquery', 'clipboard', 'validate' ], rank_math()->version, true );
-		wp_register_script( self::PREFIX . 'plugin-feedback', $js . 'feedback.js', [ 'jquery' ], rank_math()->version, true );
+		wp_register_script( self::PREFIX . 'common', $js . 'common.js', [ 'jquery', 'wp-i18n', 'lodash' ], rank_math()->version, true );
+		wp_register_script( self::PREFIX . 'dashboard', $js . 'dashboard.js', [ 'jquery', 'clipboard', 'lodash', 'wp-components', 'wp-element', 'rank-math-components' ], rank_math()->version, true );
+		wp_register_script( self::PREFIX . 'components', $js . 'components.js', [ 'lodash', 'wp-components', 'wp-element', 'wp-api-fetch' ], rank_math()->version, true );
 
 		// Select2.
 		wp_register_style( 'select2-rm', $vendor . 'select2/select2.min.css', null, '4.0.6-rc.1' );
 		wp_register_script( 'select2-rm', $vendor . 'select2/select2.min.js', null, '4.0.6-rc.1', true );
 
-		// Tagify.
-		wp_register_script( 'tagify', $vendor . 'tagify/tagify.min.js', null, '2.31.6', true );
+		// Inline script for core admin page Settings > Permalinks.
+		wp_register_script( self::PREFIX . 'core-permalink-settings', '' ); // phpcs:ignore
+		wp_add_inline_script( self::PREFIX . 'core-permalink-settings', $this->get_permalinks_inline_script() );
 
 		if ( ! wp_script_is( 'wp-hooks', 'registered' ) ) {
 			wp_register_script( 'wp-hooks', rank_math()->plugin_url() . 'assets/vendor/hooks.js', [], rank_math()->version, true );
@@ -98,7 +103,7 @@ class Assets implements Runner {
 		}
 
 		if ( ! wp_script_is( 'lodash', 'registered' ) ) {
-			wp_register_script( 'lodash', rank_math()->plugin_url() . 'assets/vendor/lodash.js', [], rank_math()->version );
+			wp_register_script( 'lodash', rank_math()->plugin_url() . 'assets/vendor/lodash.js', [], rank_math()->version, [] );
 			wp_add_inline_script( 'lodash', 'window.lodash = _.noConflict();' );
 		}
 
@@ -113,8 +118,13 @@ class Assets implements Runner {
 		Helper::add_json(
 			'keywordsApi',
 			[
-				'url' => 'https://rankmathapi.com/ltkw/v1/',
+				'url' => 'https://api.rankmath.com/ltkw/v1/',
 			]
+		);
+
+		Helper::add_json(
+			'links',
+			KB::get_links()
 		);
 
 		Helper::add_json(
@@ -127,6 +137,12 @@ class Assets implements Runner {
 			]
 		);
 
+		Helper::add_json( 'capitalizeTitle', Helper::get_settings( 'titles.capitalize_titles' ) );
+
+		Helper::add_json( 'isConsoleConnected', Console::is_console_connected() );
+		Helper::add_json( 'isAnalyticsConnected', Analytics::is_analytics_connected() );
+		Helper::add_json( 'isUrlInspectionEnabled', Url_Inspection::is_enabled() );
+
 		/**
 		 * Allow other plugins to register/deregister admin styles or scripts after plugin assets.
 		 */
@@ -138,6 +154,23 @@ class Assets implements Runner {
 	 */
 	public function enqueue() {
 		$screen = get_current_screen();
+
+		if ( 'dashboard' === $screen->id ) {
+			wp_enqueue_style( self::PREFIX . 'dashboard-widget' );
+			wp_enqueue_script( self::PREFIX . 'dashboard' );
+		}
+
+		if ( in_array( $screen->id, [ 'toplevel_page_rank-math', 'rank-math_page_rank-math-content-ai-page', 'rank-math_page_rank-math-analytics', 'rank-math_page_rank-math-role-manager', 'rank-math_page_rank-math-seo-analysis', 'rank-math_page_rank-math-status' ], true ) ||
+			Str::starts_with( 'rank-math_page_rank-math-options-', $screen->id )
+		) {
+			Helper::add_json(
+				'dashboardHeader',
+				[
+					'dashboardUrl' => esc_url( Helper::get_admin_url() ),
+					'proBadge'     => $this->do_filter( 'pro_badge', '' ),
+				]
+			);
+		}
 
 		// Our screens only.
 		if ( ! in_array( $screen->taxonomy, Helper::get_allowed_taxonomies(), true ) && ! in_array( $screen->id, $this->get_admin_screen_ids(), true ) ) {
@@ -161,7 +194,7 @@ class Assets implements Runner {
 	 */
 	public function admin_footer_text( $text ) {
 		/* translators: plugin url */
-		return Helper::is_whitelabel() ? $text : sprintf( wp_kses_post( __( 'Thank you for using <a href="%s" target="_blank">Rank Math</a>', 'rank-math' ) ), 'https://s.rankmath.com/home' );
+		return Helper::is_whitelabel() ? $text : sprintf( wp_kses_post( __( 'Thank you for using <a href="%s" target="_blank">Rank Math</a>', 'rank-math' ) ), KB::get( 'seo-suite', 'Admin Footer Text' ) );
 	}
 
 	/**
@@ -171,7 +204,7 @@ class Assets implements Runner {
 	public function overwrite_wplink() {
 
 		wp_deregister_script( 'wplink' );
-		wp_register_script( 'wplink', rank_math()->plugin_url() . 'assets/admin/js/wplink.js', [ 'jquery', 'wpdialogs' ], rank_math()->version, true );
+		wp_register_script( 'wplink', rank_math()->plugin_url() . 'assets/admin/js/wplink.js', [ 'jquery', 'wp-a11y' ], rank_math()->version, true );
 
 		wp_localize_script(
 			'wplink',
@@ -222,7 +255,7 @@ class Assets implements Runner {
 			'rank-math_page_rank-math-404-monitor',
 			'rank-math_page_rank-math-redirections',
 			'rank-math_page_rank-math-link-builder',
-			'rank-math_page_rank-math-search-console',
+			'rank-math_page_rank-math-analytics',
 			'rank-math_page_rank-math-import-export',
 			'rank-math_page_rank-math-help',
 			'user-edit',
@@ -231,5 +264,32 @@ class Assets implements Runner {
 		];
 
 		return array_merge( $pages, Helper::get_allowed_post_types() );
+	}
+
+	/**
+	 * Inline script to warn the user about the risks of changing the permalinks on a live site.
+	 *
+	 * @return string
+	 */
+	public function get_permalinks_inline_script() {
+		// Don't add the script if site is set to noindex.
+		if ( ! get_option( 'blog_public' ) ) {
+			return '';
+		}
+
+		return "jQuery( window ).load( function() {
+			var noticeShown = false;
+			var showNotice = function() {
+				if ( noticeShown ) {
+					return true;
+				}
+				jQuery( '.rank-math-notice-permalinks-warning' ).removeClass( 'hidden' ).insertBefore( 'p.submit' );
+				noticeShown = true;
+				return true;
+			}
+
+			jQuery( '.available-structure-tags button' ).on( 'click', showNotice );
+			jQuery( 'input[type=text], input[type=radio]' ).on( 'focus change', showNotice );
+		} );";
 	}
 }

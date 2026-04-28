@@ -5,7 +5,7 @@ require(dirname(__FILE__) . '/wp-load.php');
 
 
 if (get_field('game_status', 'option') != 'Live') { exit; }
-	include 'achievements_array.php';
+	
 
 
 
@@ -13,10 +13,23 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
     if(in_array($gameType, array('Development'))) { // Just me on dev.
         $args = array('include' => array(2,2768));
     }
-
-    $users = get_users(array('fields'=>array('ID'),'meta_key'=>'last_online','meta_value'=>$timestamp-1728000,'meta_compare'=>'>'));
+    global $wpdb;
+    $timestamp_minus_20_days = time() - 1728000;
+    $query = $wpdb->prepare(
+        "SELECT ID
+        FROM $wpdb->users
+        INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
+        WHERE $wpdb->usermeta.meta_key = 'last_online'
+        AND CAST($wpdb->usermeta.meta_value AS SIGNED) > %d",
+        $timestamp_minus_20_days
+    );
+    
+    // Execute the query
+    $users = $wpdb->get_results($query);
+  
     foreach ($users as $user) {
         $user_ID = $user->ID;
+        marketOrderFallback($user_ID);
         $province = Province::make($user_ID);
         
        
@@ -63,6 +76,13 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
         /* deactivate stealth sat */
         if(($province->get('stealth_sat_time') - $timestamp) <= 0) {
             $province->update('stealth_sat_status', 'inactive');
+        }
+        
+        if(($province->get('land_bonus_counter') - $timestamp) <= 0 && $province->get('starting_bonus') == 'land') {
+
+			$province->update('land', $province->getLand() + 7000); 
+			$province->update('land_bonus_counter', $timestamp+(86400*4)); 
+            
         }
 
         /* finish research */

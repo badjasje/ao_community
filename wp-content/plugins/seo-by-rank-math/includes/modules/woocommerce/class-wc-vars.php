@@ -1,6 +1,6 @@
 <?php
 /**
- * The WooCommerce register variables.
+ * Register additional variables for WooCommerce.
  *
  * @since      1.0.32
  * @package    RankMath
@@ -144,11 +144,6 @@ class WC_Vars extends Opengraph {
 			return '';
 		}
 
-		$brands = $this->get_brands( $product->get_id() );
-		if ( ! empty( $brands ) ) {
-			return $brands[0]->name;
-		}
-
-		return '';
+		return $this->get_brands( $product->get_id() );
 	}
 }

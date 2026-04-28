@@ -19,6 +19,13 @@ if ( ! class_exists( 'UR_Settings_Import_Export' ) ) :
 	class UR_Settings_Import_Export extends UR_Settings_Page {
 
 		/**
+		 * Setting Id.
+		 *
+		 * @var string
+		 */
+		public $id = 'import_export';
+
+		/**
 		 * Constructor.
 		 */
 		public function __construct() {
@@ -43,6 +50,11 @@ if ( ! class_exists( 'UR_Settings_Import_Export' ) ) :
 				'import-export-forms' => __( 'Import/Export Forms', 'user-registration' ),
 			);
 
+			/**
+			 * Filter to get the settings.
+			 *
+			 * @param array $settings Options Settings to be enlisted.
+			 */
 			return apply_filters( 'user_registration_get_sections_' . $this->id, $sections );
 		}
 

@@ -2,11 +2,9 @@
 (function ($) {
 	var user_registration_form_selector;
 
-	user_registration_form_selector = $(".ur-frontend-form form");
-
-	if (user_registration_form_selector.hasClass("login")) {
-		return;
-	}
+	user_registration_form_selector = $(
+		".ur-frontend-form form, form.cart, form.checkout"
+	);
 
 	var field_selector = "";
 
@@ -20,7 +18,7 @@
 			this.add_validation_methods();
 			this.load_validation();
 			this.init_inputMask();
-			this.init_tiptip();
+			this.init_tooltipster();
 
 			// Inline validation
 			this.$user_registration.on(
@@ -28,21 +26,55 @@
 				".input-text, select, input:checkbox input:radio",
 				this.validate_field
 			);
+
+			$(".input-text").keypress(function (event) {
+				$this = $(this);
+				var has_max_words = Number($this.attr("max-words"));
+				var words = $this.val().split(" ").length;
+
+				if (typeof has_max_words !== "undefined") {
+					if (words > has_max_words) {
+						event.preventDefault();
+					}
+				}
+			});
+
+			// Prevent invalid key input in number fields.
+			$("[type='number']").keypress(function (event) {
+				var keyCode = event.keyCode || event.which;
+				var currentValue = $(this).val();
+				if (
+					(keyCode !== 46 || currentValue.indexOf(".") !== -1) &&
+					(keyCode < 48 || keyCode > 57)
+				) {
+					event.preventDefault();
+				}
+			});
 		},
 		init_inputMask: function () {
 			if (typeof $.fn.inputmask !== "undefined") {
 				$(".ur-masked-input").inputmask();
 			}
 		},
-		init_tiptip: function () {
-			if (typeof tipTip !== "undefined") {
-				var tiptip_args = {
-					attribute: "title",
-					fadeIn: 50,
-					fadeOut: 50,
-					delay: 200,
+		init_tooltipster: function () {
+			if (typeof tooltipster !== "undefined") {
+				var tooltipster_args = {
+					theme: "tooltipster-borderless",
+					maxWidth: 200,
+					multiple: true,
+					interactive: true,
+					position: "bottom",
+					contentAsHTML: true,
+					functionInit: function (instance, helper) {
+						var $origin = jQuery(helper.origin),
+							dataTip = $origin.attr("data-tip");
+
+						if (dataTip) {
+							instance.content(dataTip);
+						}
+					}
 				};
-				$(".user-registration-help-tip").tipTip(tiptip_args);
+				$(".user-registration-help-tip").tooltipster(tooltipster_args);
 			}
 		},
 		/**
@@ -60,6 +92,44 @@
 				return this.optional(element) || pattern.test(value);
 			};
 
+			//required field
+			$.validator.methods.required = function (value, element, param) {
+				// Check if dependency is met
+				if (!this.depend(param, element)) {
+					return "dependency-mismatch";
+				}
+				if (element.nodeName.toLowerCase() === "select") {
+					// Could be an array for select-multiple or a string, both are fine this way
+					var val = $(element).val();
+					return val && val.length > 0;
+				}
+				if (this.checkable(element)) {
+					return this.getLength(value, element) > 0;
+				}
+				return (
+					value.trim() !== undefined &&
+					value.trim() !== null &&
+					value.trim().length > 0
+				);
+			};
+
+			/**
+			 * Validation for min words.
+			 *
+			 * @since 3.1.2
+			 */
+			$.validator.addMethod(
+				"wordsValidator",
+				function (value, element, param) {
+					var wordsCount = value.trim().split(/\s+/).length;
+					if ("" == value) {
+						return true;
+					}
+					return wordsCount >= param;
+				},
+				$.validator.format("Please enter at least {0} words.")
+			);
+
 			/**
 			 * Validation for username length.
 			 *
@@ -71,6 +141,22 @@
 					return value.length <= param;
 				},
 				$.validator.format("Please enter less than {0} characters.")
+			);
+
+			/**
+			 * Validation for username validation for special character.
+			 *
+			 * @since 1.9.7
+			 */
+			$.validator.addMethod(
+				"SpecialCharacterValidator",
+				function (value, element) {
+					var reg = new RegExp(
+						/^(?=.{3,20}$)[a-zA-Z][a-zA-Z0-9]*(?: [a-zA-Z0-9]+)*$/
+					);
+					return this.optional(element) || reg.test(value);
+				},
+				user_registration_params.message_username_character_fields
 			);
 
 			/**
@@ -91,6 +177,11 @@
 						$(element).closest(".field-multi_select2").length
 					) {
 						$checked = $(element).val();
+					} else if (
+						$(element).closest(".field-multiple_choice").length
+					) {
+						var ul = $(element).closest("ul");
+						$checked = ul.find('input[type="checkbox"]:checked');
 					}
 
 					if (0 === choiceLimit) {
@@ -100,12 +191,30 @@
 					return $checked.length <= choiceLimit;
 				},
 
-				$.validator.format("Please select no more than {0} options.")
+				$.validator.format(
+					user_registration_params.user_registration_checkbox_validation_message
+				)
+			);
+
+			$.validator.addMethod(
+				"patternValidator",
+				function (value, element, params) {
+					var regex = new RegExp(params.pattern);
+					return this.optional(element) || regex.test(value);
+				},
+				function (params, element) {
+					return params.errorMessage;
+				}
 			);
 		},
 		load_validation: function () {
 			if (typeof $.fn.validate === "undefined") {
 				return false;
+			}
+			//Validation by pass for wc quantity field.
+			var qty_max = $(document).find('[name="quantity"]');
+			if (qty_max.attr("max") === "") {
+				qty_max.removeAttr("max");
 			}
 			var $this_node = this;
 
@@ -117,6 +226,39 @@
 				$this.validate({
 					errorClass: "user-registration-error",
 					validClass: "user-registration-valid",
+					ignore: function (index, element) {
+						// Return true to ignore the element, false to include it in validation
+						if (
+							$(element)
+								.closest(".ur-field-item")
+								.is(":hidden") ||
+							$(element)
+								.closest(
+									".ur_membership_frontend_input_container"
+								)
+								.is(":hidden")
+						) {
+							return true;
+						}
+						if ($(element).hasClass("ur-flatpickr-field")) {
+							return true;
+						}
+
+						// return (
+						// 	element.id &&
+						// 	(element.id.startsWith("billing_") ||
+						// 		element.id.startsWith("shipping_") ||
+						// 		element.id.startsWith("quantity_"))
+						// );
+
+						if (
+							element.id &&
+							element.id.startsWith("shipping_") &&
+							$(element).closest(".form-row").is(":hidden")
+						) {
+							return true;
+						}
+					},
 					rules: validator_params.rules,
 					messages: validator_params.messages,
 					focusInvalid: false,
@@ -129,7 +271,11 @@
 						);
 					},
 					errorPlacement: function (error, element) {
-						if (element.is("#password_2")) {
+						if (
+							element.is("#password_current") ||
+							element.is("#password_1") ||
+							element.is("#password_2")
+						) {
 							element.parent().after(error);
 						} else if (
 							"radio" === element.attr("type") ||
@@ -156,7 +302,7 @@
 									.after(error);
 							}
 						} else if (element.hasClass("ur-smart-phone-field")) {
-							var wrapper = element.closest("p.form-row");
+							var wrapper = element.closest(".form-row");
 							wrapper
 								.find("#" + element.data("id") + "-error")
 								.remove();
@@ -170,14 +316,37 @@
 									.closest(".ur-range-row")
 									.find(".ur-range-number")
 							);
+						} else if (
+							"text" === element.attr("type") &&
+							element.hasClass("input-timepicker")
+						) {
+							if (!element.hasClass("timepicker-end")) {
+								error.insertAfter(element.parent());
+							}
 						} else {
+							$(document).trigger(
+								"user-registration-append-error-messages",
+								element
+							);
 							if (
 								element.hasClass("urfu-file-input") ||
 								element.closest(".field-multi_select2").length
 							) {
 								error.insertAfter(element.parent().parent());
-							} else {
+							} else if (
+								"number" === element.attr("type") &&
+								element.hasClass("ur-quantity")
+							) {
+								error.insertAfter(element.parent());
+							} else if (
+								"text" === element.attr("type") &&
+								element.hasClass("ur-payment-price")
+							) {
 								error.insertAfter(element);
+							} else if ("url" === element.attr("type")) {
+								error.insertAfter(element.parent());
+							} else {
+								error.insertAfter(element.parent().parent());
 							}
 						}
 					},
@@ -185,11 +354,17 @@
 						var $element = $(element),
 							$parent = $element.closest(".form-row"),
 							inputName = $element.attr("name");
+						$element
+							.removeClass("ur-input-border-green")
+							.addClass("ur-input-border-red");
 					},
 					unhighlight: function (element, errorClass, validClass) {
 						var $element = $(element),
 							$parent = $element.closest(".form-row"),
 							inputName = $element.attr("name");
+						$element
+							.removeClass("ur-input-border-red")
+							.addClass("ur-input-border-green");
 
 						if (
 							$element.attr("type") === "radio" ||
@@ -209,19 +384,18 @@
 					},
 					submitHandler: function (form) {
 						/**
-						 * Return `true` for `Change Password` form and `Edit Profile` when ajax submission is off to allow submission
+						 * Return `false` for `Registration` form and `Edit Profile` when ajax submission is on to allow ajax submission
 						 */
 						if (
-							$(form).hasClass("edit-password") ||
+							$(form).hasClass("register") ||
 							($(form).hasClass("edit-profile") &&
-								"no" ===
-									user_registration_params.ajax_submission_on_edit_profile)
+								user_registration_params.ajax_submission_on_edit_profile)
 						) {
-							return true;
+							return false;
 						}
 
-						return false;
-					},
+						return true;
+					}
 				});
 			});
 		},
@@ -233,7 +407,7 @@
 				email: user_registration_params.message_email_fields,
 				number: user_registration_params.message_number_fields,
 				confirmpassword:
-					user_registration_params.message_confirm_password_fields,
+					user_registration_params.message_confirm_password_fields
 			});
 
 			var $this = $(this),
@@ -305,6 +479,30 @@
 			var rules = {},
 				messages = {};
 
+			var minWordsDiv = this_node.find("[data-min-words]");
+			if (minWordsDiv.length) {
+				/**
+				 * For real time min words validation
+				 */
+				$.each(minWordsDiv, function (key, element) {
+					var minWordsValidator = {};
+					$this = $(element);
+
+					minWordsValidator.wordsValidator = $this.data("min-words");
+
+					var selector = $this.data("id");
+					rules[selector] = minWordsValidator;
+
+					messages[selector] = {
+						wordsValidator:
+							user_registration_params.message_min_words_fields.replace(
+								"%qty%",
+								minWordsValidator.wordsValidator
+							)
+					};
+				});
+			}
+
 			if (this_node.find("#user_confirm_email").length) {
 				/**
 				 * For real time email matching
@@ -312,18 +510,25 @@
 				var form_id = this_node.closest(".ur-frontend-form").attr("id");
 
 				rules.user_confirm_email = {
-					equalTo: "#" + form_id + " #user_email",
+					required: true,
+					equalTo: "#" + form_id + " #user_email"
 				};
-				messages.user_confirm_email =
-					user_registration_params.message_confirm_email_fields;
+				messages.user_confirm_email = {
+					required: user_registration_params.message_required_fields,
+					equalTo:
+						user_registration_params.message_confirm_email_fields
+				};
 			}
 
-			if (this_node.hasClass("edit-password")) {
+			if (
+				this_node.hasClass("edit-password") ||
+				this_node.hasClass("ur_lost_reset_password")
+			) {
 				/**
 				 * Password matching for `Change Password` form
 				 */
 				rules.password_2 = {
-					equalTo: "#password_1",
+					equalTo: "#password_1"
 				};
 				messages.password_2 =
 					user_registration_params.message_confirm_password_fields;
@@ -337,48 +542,112 @@
 				var form_id = this_node.closest(".ur-frontend-form").attr("id");
 
 				rules.user_confirm_password = {
-					equalTo: "#" + form_id + " #user_pass",
+					required: true,
+					equalTo: "#" + form_id + " #user_pass"
 				};
-				messages.user_confirm_password =
-					user_registration_params.message_confirm_password_fields;
+				messages.user_confirm_password = {
+					required: user_registration_params.message_required_fields,
+					equalTo:
+						user_registration_params.message_confirm_password_fields
+				};
 			}
 
 			/**
-			 * Real time username length validation
+			 * Real time username length validation and special character validation in username
 			 */
 			var user_login_div = this_node.find("#user_login");
-
-			if (user_login_div.length) {
-				rules.user_login = {
-					lengthValidator: user_login_div.data("username-length"),
-				};
+			var username_validator = {};
+			if (
+				user_login_div.length &&
+				"undefined" !== typeof user_login_div.data("username-length")
+			) {
+				username_validator.lengthValidator =
+					user_login_div.data("username-length");
 			}
+
+			if (
+				typeof user_login_div.data("username-character") ===
+					"undefined" &&
+				this_node.closest(".ur-frontend-form").find(".register").length
+			) {
+				username_validator.SpecialCharacterValidator = true;
+			}
+
+			rules.user_login = username_validator;
 
 			/**
 			 * Real time choice limit validation
 			 */
 			var checkbox_div = this_node.find(".field-checkbox"),
-				multiselect2_div = this_node.find(".field-multi_select2");
+				multiselect2_div = this_node.find(".field-multi_select2"),
+				multiple_choice_div = this_node.find(".field-multiple_choice");
 
 			if (checkbox_div.length) {
 				checkbox_div.each(function () {
-					rules[field_selector + $(this).data("field-id") + "[]"] = {
+					if (
+						$(this)
+							.attr("data-field-id")
+							.indexOf("user_registration_") > -1
+					) {
+						field_selector = "";
+					}
+					rules[
+						field_selector + $(this).attr("data-field-id") + "[]"
+					] = {
 						checkLimit: $(this).find("ul").data("choice-limit")
 							? $(this).find("ul").data("choice-limit")
-							: 0,
+							: 0
 					};
 				});
 			}
 
 			if (multiselect2_div.length) {
 				multiselect2_div.each(function () {
-					rules[field_selector + $(this).data("field-id") + "[]"] = {
+					if (
+						$(this)
+							.attr("data-field-id")
+							.indexOf("user_registration_") > -1
+					) {
+						field_selector = "";
+					}
+
+					rules[
+						field_selector + $(this).attr("data-field-id") + "[]"
+					] = {
 						checkLimit: $(this).find("select").data("choice-limit")
 							? $(this).find("select").data("choice-limit")
-							: 0,
+							: 0
 					};
 				});
 			}
+
+			if (multiple_choice_div.length) {
+				multiple_choice_div.each(function () {
+					rules[field_selector + $(this).data("field-id") + "[]"] = {
+						checkLimit: $(this).find("ul").data("choice-limit")
+							? $(this).find("ul").data("choice-limit")
+							: 0
+					};
+				});
+			}
+
+			$('div[data-field-pattern-enabled="1"]').each(function () {
+				var $div = $(this);
+				var inputId = $div.data("field-id");
+				var pattern = $div.data("field-pattern-value");
+				var errorMessage = $div.data("field-pattern-message");
+
+				rules[inputId] = {
+					patternValidator: {
+						pattern: pattern,
+						errorMessage: errorMessage,
+						param: {
+							pattern: pattern,
+							errorMessage: errorMessage
+						}
+					}
+				};
+			});
 
 			return { rules: rules, messages: messages };
 		},
@@ -415,10 +684,14 @@
 					element.step
 				);
 			};
-		},
+		}
 	};
 
 	$(window).on("load", function () {
+		user_registration_form_validator.init();
+	});
+
+	$(window).on("user_registration_repeater_modified", function () {
 		user_registration_form_validator.init();
 	});
 })(jQuery);

@@ -1,15 +1,17 @@
 === Send From ===
-Contributors: Benjamin Buddle
-Tags: mail, mailer, phpmailer, change, from, send, email
-Requires at least: 3.2.1
-Tested up to: 4.1.2
-Stable tag: 2.2
+Contributors: mahoskye
+Tags: email, phpmailer, smtp, mail-from, sender
+Requires at least: 5.9
+Tested up to: 6.4
+Stable tag: 2.5
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Plugin for modifying the from line on all emails coming from WordPress.
 
 == Description ==
 
-I have issues with my hosting service not allowing me to easily set the 'From line' for my server email. Whenever a new user signs up they see username@hostingservice.com even though they should see user@site.com. Before Send From you would be required to modify your installation of Wordpress just about every time you do an update. No longer! With Send From, you simply go into 'Settings->Send From' and set what the end user will see on their emails from line.
+I have issues with my hosting service not allowing me to easily set the 'From line' for my server email. Whenever a new user signs up they see username@hostingservice.com even though they should see user@site.com. Before Send From you would be required to modify your installation of Wordpress just about every time you do an update. No longer! With Send From, you simply go into your admin panel and set what the end user will see on their emails from line.
 
 == Installation ==
 
@@ -19,7 +21,7 @@ I have issues with my hosting service not allowing me to easily set the 'From li
 
 = Set Defaults =
 
-1. Under the 'Settings' area, click the link for 'Send From'
+1. Under the 'Plugins' area, click the link for 'Send From'
 2. Change the From Name and From Email
 3. Click Update Options
 
@@ -43,29 +45,33 @@ Chances are if it's not working with another plugin then I have not encountered 
 
 == Support Questions ==
 
-If there are any issues that crop up, I will be happy to take a look at solving them. I don't often check the support forum for issues, so if you have anything that needs immediate attention, reach out to me on twitter @mahoskye. 
+If there are any issues that crop up, I will be happy to take a look at solving them. However, due to many factors, I can't offer active support for the plugin. 
 
 == Changelog ==
-2.2 - Added missing quotation marks on line 63, moved config location under Settings
+ 2.5 - Added full multisite support with network-aware option storage and a network admin UI. Expanded PHPUnit coverage to include multisite runs and updated Docker tooling to execute both single-site and multisite suites.
+ 2.4 - Added full internationalization (i18n) support for all user-facing strings. Plugin is now translation-ready for community translations.
+ 2.3 - Security: Fixed stored XSS (CVE-2025-46469). Added input sanitization and output escaping. Enhanced email validation with stricter domain requirements. Improved code quality and error handling. Bumped compatibility flags.
+ 2.2 - Added missing quotation marks on line 63, moved config location under Settings
+ 2.1 - Tested and confirmed working in WP 4.1.2
+ 2.0 - Updated the code to fix naming conventions, reduce size, and fix and issue with the options page
+ 1.3 - Fixed typo
+ 1.2 - Fixed issue with update message not displaying properly
+ 1.1 - Fixed Error where default address was not properly used
+ 1.0 - Send Test Working and showing proper messages
+ 0.9 - Send Test Implemented and working, showing 'Settings Saved.'
+ 0.8 - Working without Send Test option
+ 0.7 - Added Options Page
+ 0.5 - Revision / working draft
+ 0.1 - Initial approact to content
 
-2.1 - Tested and confirmed working in WP 4.1.2
+== Security ==
 
-2.0 - Updated the code to fix naming conventions, reduce size, and fix and issue with the options page
+CVE: CVE-2025-46469 - Cross-site scripting (Stored XSS) in plugin settings.
 
-1.3 - Fixed typo
+Summary: A stored XSS issue was reported in older versions of this plugin where un-sanitized input saved in plugin options could later be rendered into the admin interface without proper escaping. The repository has been updated to sanitize incoming option values and escape output when rendering form fields. The plugin also validates the test-send email address.
 
-1.2 - Fixed issue with update message not displaying properly
-
-1.1 - Fixed Error where default address was not properly used
-
-1.0 - Send Test Working and showing proper messages
-
-0.9 - Send Test Implemented and working, showing 'Settings Saved.'
-
-0.8 - Working without Send Test option
-
-0.7 - Added Options Page
-
-0.5 - Revision / working draft
-
-0.1 - Initial approact to content
+Mitigation applied in this repository:
+- Sanitize email values with WordPress' sanitize_email() before saving.
+- Sanitize name fields with sanitize_text_field() before saving.
+- Escape values when printed into HTML attributes using esc_attr().
+- Validate test-send addresses with is_email() and refuse to save invalid addresses.

@@ -28,7 +28,7 @@ class Permissions {
 			return;
 		}
 
-		$url = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' . $tokens['access_token'];
+		$url      = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' . $tokens['access_token'];
 		$response = wp_remote_get( $url );
 		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
 			return;
@@ -103,13 +103,9 @@ class Permissions {
 	 * @return string
 	 */
 	public static function get_status() {
-		$list = [
-			esc_html__( 'AdSense', 'rank-math' )        => self::get_status_text( self::has_adsense() ),
-			esc_html__( 'Analytics', 'rank-math' )      => self::get_status_text( self::has_analytics() ),
+		return [
 			esc_html__( 'Search Console', 'rank-math' ) => self::get_status_text( self::has_console() ),
 		];
-
-		return $list;
 	}
 
 	/**
@@ -127,7 +123,15 @@ class Permissions {
 	 */
 	public static function print_warning() {
 		?>
-		<p class="warning"><strong class="warning"><?php esc_html_e( 'Warning:', 'rank-math' ); ?></strong> <?php printf( wp_kses_post( __( 'You have not given the permission to fetch this data. Please <a href="%s">reconnect</a> with all required permissions.', 'rank-math' ) ), wp_nonce_url( admin_url( 'admin.php?reconnect=google' ), 'rank_math_reconnect_google' ) ); ?></p>
+		<p class="warning">
+			<strong class="warning">
+				<?php esc_html_e( 'Warning:', 'rank-math' ); ?>
+			</strong>
+			<?php
+				/* translators: %s is the reconnect link. */
+				printf( wp_kses_post( __( 'You have not given the permission to fetch this data. Please <a href="%s">reconnect</a> with all required permissions.', 'rank-math' ) ), esc_url( wp_nonce_url( admin_url( 'admin.php?reconnect=google' ), 'rank_math_reconnect_google' ) ) );
+			?>
+		</p>
 		<?php
 	}
 }

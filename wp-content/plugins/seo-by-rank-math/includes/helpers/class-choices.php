@@ -12,6 +12,7 @@ namespace RankMath\Helpers;
 
 use RankMath\Helper;
 use RankMath\Admin\Admin_Helper;
+use RankMath\Helpers\DB as DB_Helper;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -53,6 +54,11 @@ trait Choices {
 			]
 		);
 
+		// Allow custom positions.
+		foreach ( $list as $name => $data ) {
+			$list[ $name ]['position'] = apply_filters( 'rank_math/social/overlay_image_position', 'middle_center', $name );
+		}
+
 		return 'names' === $output ? wp_list_pluck( $list, 'name' ) : $list;
 	}
 
@@ -69,7 +75,7 @@ trait Choices {
 			'noindex'      => esc_html__( 'No Index', 'rank-math' ) . Admin_Helper::get_tooltip( esc_html__( 'Prevents pages from being indexed and displayed in search engine result pages', 'rank-math' ) ),
 			'nofollow'     => esc_html__( 'No Follow', 'rank-math' ) . Admin_Helper::get_tooltip( esc_html__( 'Prevents search engines from following links on the pages', 'rank-math' ) ),
 			'noarchive'    => esc_html__( 'No Archive', 'rank-math' ) . Admin_Helper::get_tooltip( esc_html__( 'Prevents search engines from showing Cached links for pages', 'rank-math' ) ),
-			'noimageindex' => esc_html__( 'No Image Index', 'rank-math' ) . Admin_Helper::get_tooltip( esc_html__( 'Lets you specify that you do not want your pages to appear as the referring page for images that appear in image search results', 'rank-math' ) ),
+			'noimageindex' => esc_html__( 'No Image Index', 'rank-math' ) . Admin_Helper::get_tooltip( esc_html__( 'Prevents images on a page from being indexed by Google and other search engines', 'rank-math' ) ),
 			'nosnippet'    => esc_html__( 'No Snippet', 'rank-math' ) . Admin_Helper::get_tooltip( esc_html__( 'Prevents a snippet from being shown in the search results', 'rank-math' ) ),
 		];
 	}
@@ -79,23 +85,16 @@ trait Choices {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param  string $current Currently saved separator if any.
 	 * @return array
 	 */
-	public static function choices_separator( $current = '' ) {
-		$defaults = [ '-', '&ndash;', '&mdash;', '&raquo;', '|', '&bull;' ];
-		if ( ! $current || in_array( $current, $defaults, true ) ) {
-			$current = '';
-		}
-
+	public static function choices_separator() {
 		return [
 			'-'       => '-',
-			'&ndash;' => '&ndash;',
-			'&mdash;' => '&mdash;',
-			'&raquo;' => '&raquo;',
+			'&ndash;' => '–',
+			'&mdash;' => '—',
+			'&raquo;' => '»',
 			'|'       => '|',
-			'&bull;'  => '&bull;',
-			$current  => '<span class="custom-sep" contenteditable>' . $current . '</span>',
+			'&bull;'  => '•',
 		];
 	}
 
@@ -104,15 +103,17 @@ trait Choices {
 	 *
 	 * @codeCoverageIgnore
 	 *
+	 * @param boolean $force_refresh Whether to force a fresh call to get_post_types() even if the value is cached. Default false.
+	 *
 	 * @return array
 	 */
-	public static function choices_post_types() {
+	public static function choices_post_types( $force_refresh = false ) {
 		static $choices_post_types;
 
-		if ( ! isset( $choices_post_types ) ) {
+		if ( ! isset( $choices_post_types ) || $force_refresh ) {
 			$choices_post_types = Helper::get_accessible_post_types();
 			$choices_post_types = \array_map(
-				function( $post_type ) {
+				function ( $post_type ) {
 					$object = get_post_type_object( $post_type );
 					return $object->label;
 				},
@@ -150,273 +151,254 @@ trait Choices {
 		$data = apply_filters(
 			'rank_math/json_ld/business_types',
 			[
-				[ 'label' => 'Airport' ],
-				[ 'label' => 'Animal Shelter' ],
-				[ 'label' => 'Aquarium' ],
 				[
-					'label' => 'Automotive Business',
+					'label' => 'Organization',
 					'child' => [
-						[ 'label' => 'Auto Body Shop' ],
-						[ 'label' => 'Auto Dealer' ],
-						[ 'label' => 'Auto Parts Store' ],
-						[ 'label' => 'Auto Rental' ],
-						[ 'label' => 'Auto Repair' ],
-						[ 'label' => 'Auto Wash' ],
-						[ 'label' => 'Gas Station' ],
-						[ 'label' => 'Motorcycle Dealer' ],
-						[ 'label' => 'Motorcycle Repair' ],
+						[ 'label' => 'Airline' ],
+						[ 'label' => 'Consortium' ],
+						[ 'label' => 'Corporation' ],
+						[
+							'label' => 'Educational Organization',
+							'child' => [
+								[ 'label' => 'College Or University' ],
+								[ 'label' => 'Elementary School' ],
+								[ 'label' => 'High School' ],
+								[ 'label' => 'Middle School' ],
+								[ 'label' => 'Preschool' ],
+								[ 'label' => 'School' ],
+							],
+						],
+						[ 'label' => 'Funding Scheme' ],
+						[ 'label' => 'Government Organization' ],
+						[ 'label' => 'Library System' ],
+						[
+							'label' => 'Local Business',
+							'child' => [
+								[ 'label' => 'Animal Shelter' ],
+								[ 'label' => 'Archive Organization' ],
+								[
+									'label' => 'Automotive Business',
+									'child' => [
+										[ 'label' => 'Auto Body Shop' ],
+										[ 'label' => 'Auto Dealer' ],
+										[ 'label' => 'Auto Parts Store' ],
+										[ 'label' => 'Auto Rental' ],
+										[ 'label' => 'Auto Repair' ],
+										[ 'label' => 'Auto Wash' ],
+										[ 'label' => 'Gas Station' ],
+										[ 'label' => 'Motorcycle Dealer' ],
+										[ 'label' => 'Motorcycle Repair' ],
+									],
+								],
+								[ 'label' => 'Child Care' ],
+								[ 'label' => 'Dry Cleaning Or Laundry' ],
+								[
+									'label' => 'Emergency Service',
+									'child' => [
+										[ 'label' => 'Fire Station' ],
+										[ 'label' => 'Hospital' ],
+										[ 'label' => 'Police Station' ],
+									],
+								],
+								[ 'label' => 'Employment Agency' ],
+								[
+									'label' => 'Entertainment Business',
+									'child' => [
+										[ 'label' => 'Adult Entertainment' ],
+										[ 'label' => 'Amusement Park' ],
+										[ 'label' => 'Art Gallery' ],
+										[ 'label' => 'Casino' ],
+										[ 'label' => 'Comedy Club' ],
+										[ 'label' => 'Movie Theater' ],
+										[ 'label' => 'Night Club' ],
+									],
+								],
+								[
+									'label' => 'Financial Service',
+									'child' => [
+										[ 'label' => 'Accounting Service' ],
+										[ 'label' => 'Automated Teller' ],
+										[ 'label' => 'Bank Or CreditUnion' ],
+										[ 'label' => 'Insurance Agency' ],
+									],
+								],
+								[
+									'label' => 'Food Establishment',
+									'child' => [
+										[ 'label' => 'Bakery' ],
+										[ 'label' => 'Bar Or Pub' ],
+										[ 'label' => 'Brewery' ],
+										[ 'label' => 'Cafe Or CoffeeShop' ],
+										[ 'label' => 'Distillery' ],
+										[ 'label' => 'Fast Food Restaurant' ],
+										[ 'label' => 'IceCream Shop' ],
+										[ 'label' => 'Restaurant' ],
+										[ 'label' => 'Winery' ],
+									],
+								],
+								[
+									'label' => 'Government Office',
+									'child' => [
+										[ 'label' => 'Post Office' ],
+									],
+								],
+								[
+									'label' => 'Health And Beauty Business',
+									'child' => [
+										[ 'label' => 'Beauty Salon' ],
+										[ 'label' => 'Day Spa' ],
+										[ 'label' => 'Hair Salon' ],
+										[ 'label' => 'Health Club' ],
+										[ 'label' => 'Nail Salon' ],
+										[ 'label' => 'Tattoo Parlor' ],
+									],
+								],
+								[
+									'label' => 'Home And Construction Business',
+									'child' => [
+										[ 'label' => 'Electrician' ],
+										[ 'label' => 'General Contractor' ],
+										[ 'label' => 'HVAC Business' ],
+										[ 'label' => 'House Painter' ],
+										[ 'label' => 'Locksmith' ],
+										[ 'label' => 'Moving Company' ],
+										[ 'label' => 'Plumber' ],
+										[ 'label' => 'Roofing Contractor' ],
+									],
+								],
+								[ 'label' => 'Internet Cafe' ],
+								[
+									'label' => 'Legal Service',
+									'child' => [
+										[ 'label' => 'Notary' ],
+									],
+								],
+								[ 'label' => 'Library' ],
+								[
+									'label' => 'Lodging Business',
+									'child' => [
+										[ 'label' => 'Bed And Breakfast' ],
+										[ 'label' => 'Campground' ],
+										[ 'label' => 'Hostel' ],
+										[ 'label' => 'Hotel' ],
+										[ 'label' => 'Motel' ],
+										[
+											'label' => 'Resort',
+											'child' => [
+												[ 'label' => 'Ski Resort' ],
+											],
+										],
+									],
+								],
+								[
+									'label' => 'Medical Business',
+									'child' => [
+										[ 'label' => 'Community Health' ],
+										[ 'label' => 'Dentist' ],
+										[ 'label' => 'Dermatology' ],
+										[ 'label' => 'Diet Nutrition' ],
+										[ 'label' => 'Emergency' ],
+										[ 'label' => 'Geriatric' ],
+										[ 'label' => 'Gynecologic' ],
+										[ 'label' => 'Medical Clinic' ],
+										[ 'label' => 'Optician' ],
+										[ 'label' => 'Pharmacy' ],
+										[ 'label' => 'Physician' ],
+									],
+								],
+								[ 'label' => 'Professional Service' ],
+								[ 'label' => 'Radio Station' ],
+								[ 'label' => 'Real Estate Agent' ],
+								[ 'label' => 'Recycling Center' ],
+								[ 'label' => 'Self Storage' ],
+								[ 'label' => 'Shopping Center' ],
+								[
+									'label' => 'Sports Activity Location',
+									'child' => [
+										[ 'label' => 'Bowling Alley' ],
+										[ 'label' => 'Exercise Gym' ],
+										[ 'label' => 'Golf Course' ],
+										[ 'label' => 'Health Club' ],
+										[ 'label' => 'Public Swimming Pool' ],
+										[ 'label' => 'Ski Resort' ],
+										[ 'label' => 'Sports Club' ],
+										[ 'label' => 'Stadium Or Arena' ],
+										[ 'label' => 'Tennis Complex' ],
+									],
+								],
+								[
+									'label' => 'Store',
+									'child' => [
+										[ 'label' => 'Auto Parts Store' ],
+										[ 'label' => 'Bike Store' ],
+										[ 'label' => 'Book Store' ],
+										[ 'label' => 'Clothing Store' ],
+										[ 'label' => 'Computer Store' ],
+										[ 'label' => 'Convenience Store' ],
+										[ 'label' => 'Department Store' ],
+										[ 'label' => 'Electronics Store' ],
+										[ 'label' => 'Florist' ],
+										[ 'label' => 'Furniture Store' ],
+										[ 'label' => 'Garden Store' ],
+										[ 'label' => 'Grocery Store' ],
+										[ 'label' => 'Hardware Store' ],
+										[ 'label' => 'Hobby Shop' ],
+										[ 'label' => 'Home Goods Store' ],
+										[ 'label' => 'Jewelry Store' ],
+										[ 'label' => 'Liquor Store' ],
+										[ 'label' => 'Mens Clothing Store' ],
+										[ 'label' => 'Mobile Phone Store' ],
+										[ 'label' => 'Movie Rental Store' ],
+										[ 'label' => 'Music Store' ],
+										[ 'label' => 'Office Equipment Store' ],
+										[ 'label' => 'Outlet Store' ],
+										[ 'label' => 'Pawn Shop' ],
+										[ 'label' => 'Pet Store' ],
+										[ 'label' => 'Shoe Store' ],
+										[ 'label' => 'Sporting GoodsStore' ],
+										[ 'label' => 'Tire Shop' ],
+										[ 'label' => 'Toy Store' ],
+										[ 'label' => 'Wholesale Store' ],
+									],
+								],
+								[ 'label' => 'Television Station' ],
+								[ 'label' => 'Tourist Information Center' ],
+								[ 'label' => 'Travel Agency' ],
+							],
+						],
+						[
+							'label' => 'Medical Organization',
+							'child' => [
+								[ 'label' => 'Diagnostic Lab' ],
+								[ 'label' => 'Veterinary Care' ],
+							],
+						],
+						[ 'label' => 'NGO' ],
+						[ 'label' => 'News Media Organization' ],
+						[
+							'label' => 'Performing Group',
+							'child' => [
+								[ 'label' => 'Dance Group' ],
+								[ 'label' => 'Music Group' ],
+								[ 'label' => 'Theater Group' ],
+							],
+						],
+						[
+							'label' => 'Project',
+							'child' => [
+								[ 'label' => 'Funding Agency' ],
+								[ 'label' => 'Research Project' ],
+							],
+						],
+						[
+							'label' => 'Sports Organization',
+							'child' => [
+								[ 'label' => 'Sports Team' ],
+							],
+						],
+						[ 'label' => 'Workers Union' ],
 					],
 				],
-				[ 'label' => 'Beach' ],
-				[ 'label' => 'Bus Station' ],
-				[ 'label' => 'BusStop' ],
-				[ 'label' => 'Campground' ],
-				[ 'label' => 'Cemetery' ],
-				[ 'label' => 'Child Care' ],
-				[ 'label' => 'Corporation' ],
-				[ 'label' => 'Crematorium' ],
-				[ 'label' => 'Dry Cleaning or Laundry' ],
-				[
-					'label' => 'Educational Organization',
-					'child' => [
-						[ 'label' => 'College or University' ],
-						[ 'label' => 'Elementary School' ],
-						[ 'label' => 'High School' ],
-						[ 'label' => 'Middle School' ],
-						[ 'label' => 'Preschool' ],
-						[ 'label' => 'School' ],
-					],
-				],
-				[
-					'label' => 'Emergency Service',
-					'child' => [
-						[ 'label' => 'Fire Station' ],
-						[ 'label' => 'Hospital' ],
-						[ 'label' => 'Police Station' ],
-					],
-				],
-				[ 'label' => 'Employment Agency' ],
-				[
-					'label' => 'Entertainment Business',
-					'child' => [
-						[ 'label' => 'Adult Entertainment' ],
-						[ 'label' => 'Amusement Park' ],
-						[ 'label' => 'Art Gallery' ],
-						[ 'label' => 'Casino' ],
-						[ 'label' => 'Comedy Club' ],
-						[ 'label' => 'Movie Theater' ],
-						[ 'label' => 'Night Club' ],
-					],
-				],
-				[ 'label' => 'Event Venue' ],
-				[
-					'label' => 'Financial Service',
-					'child' => [
-						[ 'label' => 'Accounting Service' ],
-						[ 'label' => 'Automated Teller' ],
-						[ 'label' => 'Bank or Credit Union' ],
-						[ 'label' => 'Insurance Agency' ],
-					],
-				],
-				[ 'label' => 'Fire Station' ],
-				[
-					'label' => 'Food Establishment',
-					'child' => [
-						[ 'label' => 'Bakery' ],
-						[ 'label' => 'Bar or Pub' ],
-						[ 'label' => 'Brewery' ],
-						[ 'label' => 'Cafe or Coffee Shop' ],
-						[ 'label' => 'Fast Food Restaurant' ],
-						[ 'label' => 'Ice Cream Shop' ],
-						[ 'label' => 'Restaurant' ],
-						[ 'label' => 'Winery' ],
-					],
-				],
-				[
-					'label' => 'Government Building',
-					'child' => [
-						[ 'label' => 'City Hall' ],
-						[ 'label' => 'Courthouse' ],
-						[ 'label' => 'Defence Establishment' ],
-						[ 'label' => 'Embassy' ],
-						[ 'label' => 'Legislative Building' ],
-					],
-				],
-				[
-					'label' => 'Government Office',
-					'child' => [
-						[ 'label' => 'Post Office' ],
-					],
-				],
-				[ 'label' => 'Government Organization' ],
-				[
-					'label' => 'Health And Beauty Business',
-					'child' => [
-						[ 'label' => 'Beauty Salon' ],
-						[ 'label' => 'Day Spa' ],
-						[ 'label' => 'Hair Salon' ],
-						[ 'label' => 'Health Club' ],
-						[ 'label' => 'Nail Salon' ],
-						[ 'label' => 'Tattoo Parlor' ],
-					],
-				],
-				[
-					'label' => 'Home And Construction Business',
-					'child' => [
-						[ 'label' => 'Electrician' ],
-						[ 'label' => 'General Contractor' ],
-						[ 'label' => 'HVAC Business' ],
-						[ 'label' => 'House Painter' ],
-						[ 'label' => 'Locksmith' ],
-						[ 'label' => 'Moving Company' ],
-						[ 'label' => 'Plumber' ],
-						[ 'label' => 'Roofing Contractor' ],
-					],
-				],
-				[ 'label' => 'Hospital' ],
-				[ 'label' => 'Internet Cafe' ],
-				[ 'label' => 'Library' ],
-				[ 'label' => 'Local Business' ],
-				[
-					'label' => 'Lodging Business',
-					'child' => [
-						[ 'label' => 'Bed And Breakfast' ],
-						[ 'label' => 'Hostel' ],
-						[ 'label' => 'Hotel' ],
-						[ 'label' => 'Motel' ],
-					],
-				],
-				[
-					'label' => 'Medical Organization',
-					'child' => [
-						[ 'label' => 'Dentist' ],
-						[ 'label' => 'Diagnostic Lab' ],
-						[ 'label' => 'Hospital' ],
-						[ 'label' => 'Medical Clinic' ],
-						[ 'label' => 'Optician' ],
-						[ 'label' => 'Pharmacy' ],
-						[ 'label' => 'Physician' ],
-						[ 'label' => 'Veterinary Care' ],
-					],
-				],
-				[ 'label' => 'Movie Theater' ],
-				[ 'label' => 'Museum' ],
-				[ 'label' => 'Music Venue' ],
-				[ 'label' => 'NGO' ],
-				[ 'label' => 'Organization' ],
-				[ 'label' => 'Park' ],
-				[ 'label' => 'Parking Facility' ],
-				[ 'label' => 'Performing Arts Theater' ],
-				[
-					'label' => 'Performing Group',
-					'child' => [
-						[ 'label' => 'Dance Group' ],
-						[ 'label' => 'Music Group' ],
-						[ 'label' => 'Theater Group' ],
-					],
-				],
-				[
-					'label' => 'Place Of Worship',
-					'child' => [
-						[ 'label' => 'Buddhist Temple' ],
-						[ 'label' => 'Catholic Church' ],
-						[ 'label' => 'Church' ],
-						[ 'label' => 'Hindu Temple' ],
-						[ 'label' => 'Mosque' ],
-						[ 'label' => 'Synagogue' ],
-					],
-				],
-				[ 'label' => 'Playground' ],
-				[ 'label' => 'PoliceStation' ],
-				[
-					'label' => 'Professional Service',
-					'child' => [
-						[ 'label' => 'Accounting Service' ],
-						[ 'label' => 'Legal Service' ],
-						[ 'label' => 'Dentist' ],
-						[ 'label' => 'Electrician' ],
-						[ 'label' => 'General Contractor' ],
-						[ 'label' => 'House Painter' ],
-						[ 'label' => 'Locksmith' ],
-						[ 'label' => 'Notary' ],
-						[ 'label' => 'Plumber' ],
-						[ 'label' => 'Roofing Contractor' ],
-					],
-				],
-				[ 'label' => 'Radio Station' ],
-				[ 'label' => 'Real Estate Agent' ],
-				[ 'label' => 'Recycling Center' ],
-				[
-					'label' => 'Residence',
-					'child' => [
-						[ 'label' => 'Apartment Complex' ],
-						[ 'label' => 'Gated Residence Community' ],
-						[ 'label' => 'Single Family Residence' ],
-					],
-				],
-				[ 'label' => 'RV Park' ],
-				[ 'label' => 'Self Storage' ],
-				[ 'label' => 'Shopping Center' ],
-				[
-					'label' => 'Sports Activity Location',
-					'child' => [
-						[ 'label' => 'Bowling Alley' ],
-						[ 'label' => 'Exercise Gym' ],
-						[ 'label' => 'Golf Course' ],
-						[ 'label' => 'Health Club' ],
-						[ 'label' => 'Public Swimming Pool' ],
-						[ 'label' => 'Ski Resort' ],
-						[ 'label' => 'Sports Club' ],
-						[ 'label' => 'Stadium or Arena' ],
-						[ 'label' => 'Tennis Complex' ],
-					],
-				],
-				[ 'label' => 'Sports Team' ],
-				[ 'label' => 'Stadium Or Arena' ],
-				[
-					'label' => 'Store',
-					'child' => [
-						[ 'label' => 'Auto Parts Store' ],
-						[ 'label' => 'Bike Store' ],
-						[ 'label' => 'Book Store' ],
-						[ 'label' => 'Clothing Store' ],
-						[ 'label' => 'Computer Store' ],
-						[ 'label' => 'Convenience Store' ],
-						[ 'label' => 'Department Store' ],
-						[ 'label' => 'Electronics Store' ],
-						[ 'label' => 'Florist' ],
-						[ 'label' => 'Furniture Store' ],
-						[ 'label' => 'Garden Store' ],
-						[ 'label' => 'Grocery Store' ],
-						[ 'label' => 'Hardware Store' ],
-						[ 'label' => 'Hobby Shop' ],
-						[ 'label' => 'HomeGoods Store' ],
-						[ 'label' => 'Jewelry Store' ],
-						[ 'label' => 'Liquor Store' ],
-						[ 'label' => 'Mens Clothing Store' ],
-						[ 'label' => 'Mobile Phone Store' ],
-						[ 'label' => 'Movie Rental Store' ],
-						[ 'label' => 'Music Store' ],
-						[ 'label' => 'Office Equipment Store' ],
-						[ 'label' => 'Outlet Store' ],
-						[ 'label' => 'Pawn Shop' ],
-						[ 'label' => 'Pet Store' ],
-						[ 'label' => 'Shoe Store' ],
-						[ 'label' => 'Sporting Goods Store' ],
-						[ 'label' => 'Tire Shop' ],
-						[ 'label' => 'Toy Store' ],
-						[ 'label' => 'Wholesale Store' ],
-					],
-				],
-				[ 'label' => 'Subway Station' ],
-				[ 'label' => 'Television Station' ],
-				[ 'label' => 'Tourist Information Center' ],
-				[ 'label' => 'Train Station' ],
-				[ 'label' => 'Travel Agency' ],
-				[ 'label' => 'Taxi Stand' ],
-				[ 'label' => 'Website' ],
-				[ 'label' => 'Graphic Novel' ],
-				[ 'label' => 'Zoo' ],
 			]
 		);
 
@@ -429,9 +411,7 @@ trait Choices {
 			$business[ str_replace( ' ', '', $item['label'] ) ] = $item['label'];
 
 			if ( isset( $item['child'] ) ) {
-				foreach ( $item['child'] as $child ) {
-					$business[ str_replace( ' ', '', $child['label'] ) ] = '&mdash; ' . $child['label'];
-				}
+				self::indent_child_elements( $business, $item['child'] );
 			}
 		}
 
@@ -443,10 +423,11 @@ trait Choices {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param  bool $none Add none option to the list.
+	 * @param  bool   $none      Add none option to the list.
+	 * @param  string $post_type Post type.
 	 * @return array
 	 */
-	public static function choices_rich_snippet_types( $none = false ) {
+	public static function choices_rich_snippet_types( $none = false, $post_type = '' ) {
 		$types = [
 			'article'    => esc_html__( 'Article', 'rank-math' ),
 			'book'       => esc_html__( 'Book', 'rank-math' ),
@@ -474,9 +455,10 @@ trait Choices {
 		/**
 		 * Allow developers to add/remove Schema type choices.
 		 *
-		 * @param array $types Schema types.
+		 * @param array  $types     Schema types.
+		 * @param string $post_type Post type.
 		 */
-		return apply_filters( 'rank_math/settings/snippet/types', $types );
+		return apply_filters( 'rank_math/settings/snippet/types', $types, $post_type );
 	}
 
 	/**
@@ -597,7 +579,7 @@ trait Choices {
 		);
 
 		$meta_query = $meta_query->get_sql( 'post', $wpdb->posts, 'ID' );
-		$posts = $wpdb->get_col( "SELECT {$wpdb->posts}.ID FROM $wpdb->posts {$meta_query['join']} WHERE 1=1 {$meta_query['where']} AND ({$wpdb->posts}.post_status = 'publish')" ); // phpcs:ignore
+		$posts      = DB_Helper::get_col( "SELECT {$wpdb->posts}.ID FROM $wpdb->posts {$meta_query['join']} WHERE 1=1 {$meta_query['where']} AND ({$wpdb->posts}.post_status = 'publish')" );
 
 		if ( 0 === count( $posts ) ) {
 			update_option( 'rank_math_review_posts_converted', true );
@@ -627,6 +609,141 @@ trait Choices {
 			'baggage tracking'    => esc_html__( 'Baggage Tracking', 'rank-math' ),
 			'roadside assistance' => esc_html__( 'Roadside Assistance', 'rank-math' ),
 			'package tracking'    => esc_html__( 'Package Tracking', 'rank-math' ),
+		];
+	}
+
+	/**
+	 * Additional Organization details for schema.
+	 *
+	 * @return array
+	 */
+	public static function choices_additional_organization_info() {
+		return [
+			'legalName'            => esc_html__( 'Legal Name', 'rank-math' ),
+			'foundingDate'         => esc_html__( 'Founding Date', 'rank-math' ),
+			'iso6523Code'          => esc_html__( 'ISO 6523 Code', 'rank-math' ),
+			'duns'                 => esc_html__( 'DUNS', 'rank-math' ),
+			'leiCode'              => esc_html__( 'LEI Code', 'rank-math' ),
+			'naics'                => esc_html__( 'NAICS Code', 'rank-math' ),
+			'globalLocationNumber' => esc_html__( 'Global Location Number', 'rank-math' ),
+			'vatID'                => esc_html__( 'VAT ID', 'rank-math' ),
+			'taxID'                => esc_html__( 'Tax ID', 'rank-math' ),
+			'numberOfEmployees'    => esc_html__( 'Number of Employees', 'rank-math' ),
+		];
+	}
+
+	/**
+	 * Function to indent child business types..
+	 *
+	 * @param array $business Business types array.
+	 * @param array $item     Array of child data.
+	 * @param int   $level    Nesting level of the current iteration.
+	 */
+	private static function indent_child_elements( &$business, $item, $level = 1 ) {
+		foreach ( $item as $child ) {
+			$business[ str_replace( ' ', '', $child['label'] ) ] = str_repeat( '&mdash; ', $level ) . $child['label'];
+
+			if ( isset( $child['child'] ) ) {
+				self::indent_child_elements( $business, $child['child'], ( $level + 1 ) );
+			}
+		}
+	}
+
+	/**
+	 * Country.
+	 *
+	 * @return array
+	 */
+	public static function choices_contentai_countries() {
+		return [
+			'all'      => esc_html__( 'Worldwide', 'rank-math' ),
+			'ar_DZ'    => esc_html__( 'Algeria', 'rank-math' ),
+			'es_AR'    => esc_html__( 'Argentina', 'rank-math' ),
+			'hy_AM'    => esc_html__( 'Armenia', 'rank-math' ),
+			'en_AU'    => esc_html__( 'Australia', 'rank-math' ),
+			'de_AT'    => esc_html__( 'Austria', 'rank-math' ),
+			'tr_AZ'    => esc_html__( 'Azerbaijan', 'rank-math' ),
+			'ar_BH'    => esc_html__( 'Bahrain', 'rank-math' ),
+			'en_BD'    => esc_html__( 'Bangladesh', 'rank-math' ),
+			'ru_BY'    => esc_html__( 'Belarus', 'rank-math' ),
+			'de_BE'    => esc_html__( 'Belgium', 'rank-math' ),
+			'es_BO'    => esc_html__( 'Bolivia, Plurinational State Of', 'rank-math' ),
+			'pt_BR'    => esc_html__( 'Brazil', 'rank-math' ),
+			'bg_BG'    => esc_html__( 'Bulgaria', 'rank-math' ),
+			'vi_KH'    => esc_html__( 'Cambodia', 'rank-math' ),
+			'en_CA'    => esc_html__( 'Canada', 'rank-math' ),
+			'es_CL'    => esc_html__( 'Chile', 'rank-math' ),
+			'es_CO'    => esc_html__( 'Colombia', 'rank-math' ),
+			'es_CR'    => esc_html__( 'Costa Rica', 'rank-math' ),
+			'hr_HR'    => esc_html__( 'Croatia', 'rank-math' ),
+			'el_CY'    => esc_html__( 'Cyprus', 'rank-math' ),
+			'cs_CZ'    => esc_html__( 'Czechia', 'rank-math' ),
+			'da_DK'    => esc_html__( 'Denmark', 'rank-math' ),
+			'es_EC'    => esc_html__( 'Ecuador', 'rank-math' ),
+			'ar_EG'    => esc_html__( 'Egypt', 'rank-math' ),
+			'es_SV'    => esc_html__( 'El Salvador', 'rank-math' ),
+			'et_EE'    => esc_html__( 'Estonia', 'rank-math' ),
+			'fi_FI'    => esc_html__( 'Finland', 'rank-math' ),
+			'fr_FR'    => esc_html__( 'France', 'rank-math' ),
+			'de_DE'    => esc_html__( 'Germany', 'rank-math' ),
+			'en_GH'    => esc_html__( 'Ghana', 'rank-math' ),
+			'el_GR'    => esc_html__( 'Greece', 'rank-math' ),
+			'es_GT'    => esc_html__( 'Guatemala', 'rank-math' ),
+			'en_HK'    => esc_html__( 'Hong Kong', 'rank-math' ),
+			'hu_HU'    => esc_html__( 'Hungary', 'rank-math' ),
+			'hi_IN'    => esc_html__( 'India', 'rank-math' ),
+			'id_ID'    => esc_html__( 'Indonesia', 'rank-math' ),
+			'en_IE'    => esc_html__( 'Ireland', 'rank-math' ),
+			'iw_IL'    => esc_html__( 'Israel', 'rank-math' ),
+			'it_IT'    => esc_html__( 'Italy', 'rank-math' ),
+			'ja_JP'    => esc_html__( 'Japan', 'rank-math' ),
+			'ar_JO'    => esc_html__( 'Jordan', 'rank-math' ),
+			'ru_KZ'    => esc_html__( 'Kazakhstan', 'rank-math' ),
+			'en_KE'    => esc_html__( 'Kenya', 'rank-math' ),
+			'ko_KR'    => esc_html__( 'Korea, Republic Of', 'rank-math' ),
+			'lv_LV'    => esc_html__( 'Latvia', 'rank-math' ),
+			'lt_LT'    => esc_html__( 'Lithuania', 'rank-math' ),
+			'tr_MK'    => esc_html__( 'Macedonia, The Former Yugoslav Republic Of', 'rank-math' ),
+			'en_MY'    => esc_html__( 'Malaysia', 'rank-math' ),
+			'en_MT'    => esc_html__( 'Malta', 'rank-math' ),
+			'es_MX'    => esc_html__( 'Mexico', 'rank-math' ),
+			'ar_MA'    => esc_html__( 'Morocco', 'rank-math' ),
+			'mnw_MM'   => esc_html__( 'Myanmar', 'rank-math' ),
+			'nl_NL'    => esc_html__( 'Netherlands', 'rank-math' ),
+			'en_NZ'    => esc_html__( 'New Zealand', 'rank-math' ),
+			'es_NI'    => esc_html__( 'Nicaragua', 'rank-math' ),
+			'en_NG'    => esc_html__( 'Nigeria', 'rank-math' ),
+			'no_NO'    => esc_html__( 'Norway', 'rank-math' ),
+			'en_PK'    => esc_html__( 'Pakistan', 'rank-math' ),
+			'es_PY'    => esc_html__( 'Paraguay', 'rank-math' ),
+			'es_PE'    => esc_html__( 'Peru', 'rank-math' ),
+			'en_PH'    => esc_html__( 'Philippines', 'rank-math' ),
+			'pl_PL'    => esc_html__( 'Poland', 'rank-math' ),
+			'pt_PT'    => esc_html__( 'Portugal', 'rank-math' ),
+			'ro_RO'    => esc_html__( 'Romania', 'rank-math' ),
+			'ru_RU'    => esc_html__( 'Russian Federation', 'rank-math' ),
+			'ar_SA'    => esc_html__( 'Saudi Arabia', 'rank-math' ),
+			'fr_SN'    => esc_html__( 'Senegal', 'rank-math' ),
+			'hr_RS'    => esc_html__( 'Serbia', 'rank-math' ),
+			'en_SG'    => esc_html__( 'Singapore', 'rank-math' ),
+			'sk_SK'    => esc_html__( 'Slovakia', 'rank-math' ),
+			'sl_SI'    => esc_html__( 'Slovenia', 'rank-math' ),
+			'en_ZA'    => esc_html__( 'South Africa', 'rank-math' ),
+			'es_ES'    => esc_html__( 'Spain', 'rank-math' ),
+			'en_LK'    => esc_html__( 'Sri Lanka', 'rank-math' ),
+			'sv_SE'    => esc_html__( 'Sweden', 'rank-math' ),
+			'de_CH'    => esc_html__( 'Switzerland', 'rank-math' ),
+			'zh-TW_TW' => esc_html__( 'Taiwan', 'rank-math' ),
+			'th_TH'    => esc_html__( 'Thailand', 'rank-math' ),
+			'ar_TN'    => esc_html__( 'Tunisia', 'rank-math' ),
+			'tr_TR'    => esc_html__( 'Turkey', 'rank-math' ),
+			'ru_UA'    => esc_html__( 'Ukraine', 'rank-math' ),
+			'ar_AE'    => esc_html__( 'United Arab Emirates', 'rank-math' ),
+			'en_GB'    => esc_html__( 'United Kingdom', 'rank-math' ),
+			'en_US'    => esc_html__( 'United States Of America', 'rank-math' ),
+			'es_UY'    => esc_html__( 'Uruguay', 'rank-math' ),
+			'es_VE'    => esc_html__( 'Venezuela, Bolivarian Republic Of', 'rank-math' ),
+			'vi_VN'    => esc_html__( 'Viet Nam', 'rank-math' ),
 		];
 	}
 }

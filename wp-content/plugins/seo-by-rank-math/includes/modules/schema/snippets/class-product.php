@@ -11,7 +11,6 @@
 namespace RankMath\Schema;
 
 use RankMath\Helper;
-use MyThemeShop\Helpers\Conditional;
 use RankMath\Schema\Product_Edd;
 use RankMath\Schema\Product_WooCommerce;
 
@@ -38,43 +37,17 @@ class Product implements Snippet {
 	 * @return array
 	 */
 	public function process( $data, $jsonld ) {
-		$this->json = $jsonld;
-		$sku        = Helper::get_post_meta( 'snippet_product_sku' );
-		$price      = Helper::get_post_meta( 'snippet_product_price' );
-		$entity     = [
-			'@type'       => 'Product',
-			'sku'         => $sku ? $sku : '',
-			'name'        => $jsonld->parts['title'],
-			'description' => $jsonld->parts['desc'],
-			'releaseDate' => $jsonld->parts['published'],
-			'offers'      => [
-				'@type'           => 'Offer',
-				'priceCurrency'   => Helper::get_post_meta( 'snippet_product_currency' ),
-				'price'           => $price ? $price : '0',
-				'url'             => $jsonld->parts['url'],
-				'priceValidUntil' => Helper::get_post_meta( 'snippet_product_price_valid' ),
-				'availability'    => Helper::get_post_meta( 'snippet_product_instock' ) ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-			],
+		$entity = [
+			'@type' => 'Product',
 		];
-
-		$brand = Helper::get_post_meta( 'snippet_product_brand' );
-		if ( $brand ) {
-			$entity['brand'] = [
-				'@type' => 'Thing',
-				'name'  => $brand,
-			];
-		}
-		$jsonld->add_ratings( 'product', $entity );
-
-		if ( Conditional::is_woocommerce_active() && is_product() ) {
+		if ( Helper::is_woocommerce_active() && is_product() ) {
 			remove_action( 'wp_footer', [ WC()->structured_data, 'output_structured_data' ], 10 );
 			remove_action( 'woocommerce_email_order_details', [ WC()->structured_data, 'output_email_structured_data' ], 30 );
-			$product = new Product_WooCommerce();
-			unset( $entity['offers'] );
-			$product->set_product( $entity, $jsonld );
+			Product_WooCommerce::get()->set_product( $entity, $jsonld );
 		}
 
-		if ( Conditional::is_edd_active() && is_singular( 'download' ) ) {
+		if ( Helper::is_edd_active() && is_singular( 'download' ) ) {
+			remove_filter( 'wp_footer', [ \EDD()->structured_data, 'output_structured_data' ] );
 			remove_action( 'edd_purchase_link_top', 'edd_purchase_link_single_pricing_schema', 10 );
 			remove_action( 'loop_start', 'edd_microdata_wrapper_open', 10 );
 			$product = new Product_Edd();
@@ -96,7 +69,7 @@ class Product implements Snippet {
 		$type     = Helper::get_settings( 'titles.knowledgegraph_type' );
 		$seller   = [
 			'@type' => 'person' === $type ? 'Person' : 'Organization',
-			'@id'   => $site_url . '/',
+			'@id'   => trailingslashit( $site_url ),
 			'name'  => $jsonld->get_website_name(),
 			'url'   => $site_url,
 		];
@@ -124,7 +97,7 @@ class Product implements Snippet {
 			return $categories[0]->name;
 		}
 
-		$ancestors = get_ancestors( $categories[0]->term_id, $taxonomy );
+		$ancestors = array_reverse( get_ancestors( $categories[0]->term_id, $taxonomy ) );
 		foreach ( $ancestors as $parent ) {
 			$term       = get_term( $parent, $taxonomy );
 			$category[] = $term->name;

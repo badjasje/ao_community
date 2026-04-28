@@ -3,7 +3,7 @@ require_once NSL_PATH . '/includes/oauth2.php';
 
 class NextendSocialProviderFacebookClient extends NextendSocialOauth2 {
 
-    const DEFAULT_GRAPH_VERSION = 'v7.0';
+    const DEFAULT_GRAPH_VERSION = 'v19.0';
 
     private $isTest = false;
 
@@ -27,10 +27,12 @@ class NextendSocialProviderFacebookClient extends NextendSocialOauth2 {
 
     public function getEndpointAuthorization() {
 
-        if (preg_match('/Android|iPhone|iP[ao]d|Mobile/', $_SERVER['HTTP_USER_AGENT'])) {
-            $endpointAuthorization = 'https://m.facebook.com/';
-        } else {
-            $endpointAuthorization = 'https://www.facebook.com/';
+        $endpointAuthorization = 'https://www.facebook.com/';
+
+        if (!empty($_SERVER['HTTP_USER_AGENT'])) {
+            if (preg_match('/Android|iPhone|iP[ao]d|Mobile/', $_SERVER['HTTP_USER_AGENT'])) {
+                $endpointAuthorization = 'https://m.facebook.com/';
+            }
         }
 
         $endpointAuthorization .= self::DEFAULT_GRAPH_VERSION . '/dialog/oauth';
@@ -48,7 +50,7 @@ class NextendSocialProviderFacebookClient extends NextendSocialOauth2 {
 
     public function isAccessTokenLongLived() {
 
-        return $this->access_token_data['created'] + $this->access_token_data['expires_in'] > time() + (60 * 60 * 2);
+        return isset($this->access_token_data['expires_in']) ? ($this->access_token_data['created'] + $this->access_token_data['expires_in'] > time() + (60 * 60 * 2)) : true;
     }
 
     /**
@@ -72,7 +74,7 @@ class NextendSocialProviderFacebookClient extends NextendSocialOauth2 {
 
         if (is_wp_error($request)) {
 
-            throw new Exception($request->get_error_message());
+            throw new NSLSanitizedRequestErrorMessageException($request->get_error_message());
         } else if (wp_remote_retrieve_response_code($request) !== 200) {
 
             $this->errorFromResponse(json_decode(wp_remote_retrieve_body($request), true));
@@ -81,7 +83,7 @@ class NextendSocialProviderFacebookClient extends NextendSocialOauth2 {
         $accessTokenData = json_decode(wp_remote_retrieve_body($request), true);
 
         if (!is_array($accessTokenData)) {
-            throw new Exception(sprintf(__('Unexpected response: %s', 'nextend-facebook-connect'), wp_remote_retrieve_body($request)));
+            throw new NSLSanitizedRequestErrorMessageException(sprintf(__('Unexpected response: %s', 'nextend-facebook-connect'), wp_remote_retrieve_body($request)));
         }
 
         $accessTokenData['created'] = time();
@@ -93,7 +95,7 @@ class NextendSocialProviderFacebookClient extends NextendSocialOauth2 {
 
     protected function errorFromResponse($response) {
         if (isset($response['error'])) {
-            throw new Exception($response['error']['message']);
+            throw new NSLSanitizedRequestErrorMessageException($response['error']['message']);
         }
     }
 

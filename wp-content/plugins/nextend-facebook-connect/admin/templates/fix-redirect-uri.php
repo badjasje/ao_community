@@ -4,7 +4,7 @@
     /** @var NextendSocialProvider[] $wrongOauthProviders */
     $wrongOauthProviders = array();
     foreach (NextendSocialLogin::$enabledProviders AS $provider) {
-        if (!$provider->checkOauthRedirectUrl()) {
+        if (!$provider->checkAuthRedirectUrl()) {
             $wrongOauthProviders[] = $provider;
         }
     }

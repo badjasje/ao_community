@@ -9,6 +9,7 @@
 
 namespace RankMath;
 
+use RankMath\KB;
 use RankMath\Post;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
@@ -22,7 +23,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class Frontend_SEO_Score {
 
-	use Hooker, Shortcode;
+	use Hooker;
+	use Shortcode;
 
 	/**
 	 * SEO Score.
@@ -39,7 +41,7 @@ class Frontend_SEO_Score {
 	private $css_added = false;
 
 	/**
-	 * Magic method to use in case the class would be sent to string.
+	 * Convenience method to output as string.
 	 *
 	 * @return string
 	 */
@@ -54,7 +56,6 @@ class Frontend_SEO_Score {
 	 */
 	public function __construct() {
 		$this->filter( 'the_content', 'insert_score' );
-		$this->action( 'rank_math/metabox/settings/advanced', 'metabox_settings_advanced', 11 );
 
 		$this->add_shortcode( 'rank_math_seo_score', 'shortcode' );
 	}
@@ -139,7 +140,7 @@ class Frontend_SEO_Score {
 
 		// If template is empty we output $score value directly.
 		$html     = $score;
-		$backlink = '<a href="https://rankmath.com" target="_blank" rel="noopener">Rank Math SEO</a>';
+		$backlink = '<a href="' . KB::get( 'seo-suite', 'Frontend SEO score' ) . '" target="_blank" rel="noopener">Rank Math SEO</a>';
 		if ( ! empty( $args['template'] ) ) {
 			ob_start();
 
@@ -147,7 +148,7 @@ class Frontend_SEO_Score {
 			<div class="rank-math-seo-score template-<?php echo sanitize_html_class( $args['template'], 'circle' ); ?> <?php echo sanitize_html_class( $rating, 'unknown' ); ?>-seo <?php echo esc_attr( $args['class'] ); ?>">
 
 				<span class="score">
-					<?php echo esc_html( $score ); ?>
+					<?php echo esc_html( absint( $score ) ); ?>
 					<span class="outof">
 						/ 100
 					</span>
@@ -157,10 +158,12 @@ class Frontend_SEO_Score {
 					<div class="backlink">
 						<span class="poweredby">
 							<?php
-							printf(
-								/* translators: %s is a Rank Math link. */
-								__( 'Powered by %s', 'rank-math' ),
-								$this->do_filter( 'frontend/seo_score/backlink', $backlink )
+							echo wp_kses_post(
+								sprintf(
+									/* translators: %s is a Rank Math link. */
+									__( 'Powered by %s', 'rank-math' ),
+									$this->do_filter( 'frontend/seo_score/backlink', $backlink )
+								)
 							);
 							?>
 						</span>
@@ -168,7 +171,7 @@ class Frontend_SEO_Score {
 				<?php endif; ?>
 
 				<span class="label">
-					<?php esc_html__( 'SEO Score', 'rank-math' ); ?>
+					<?php echo esc_html__( 'SEO Score', 'rank-math' ); ?>
 				</span>
 
 			</div>
@@ -222,10 +225,9 @@ class Frontend_SEO_Score {
 	/**
 	 * Show field check callback.
 	 *
-	 * @param  CMB2_Field $field The current field.
 	 * @return boolean
 	 */
-	public static function show_on( $field = [] ) {
+	public static function show_on() {
 		// Early Bail if is sttic homepage.
 		if ( Admin_Helper::is_home_page() ) {
 			return false;
@@ -234,27 +236,6 @@ class Frontend_SEO_Score {
 		$post_type = get_post_type();
 		return Helper::get_settings( 'general.frontend_seo_score' ) &&
 			in_array( $post_type, (array) Helper::get_settings( 'general.frontend_seo_score_post_types' ), true );
-	}
-
-	/**
-	 * Metabox settings in advanced tab.
-	 *
-	 * @param \CMB2 $cmb The CMB2 metabox object.
-	 */
-	public function metabox_settings_advanced( $cmb ) {
-		$cmb->add_field(
-			[
-				'id'         => 'rank_math_dont_show_seo_score',
-				'type'       => 'switch',
-				'name'       => esc_html__( 'Show SEO Score on Front-end', 'rank-math' ),
-				'options'    => [
-					'on'  => esc_html__( 'Off', 'rank-math' ),
-					'off' => esc_html__( 'On', 'rank-math' ),
-				],
-				'show_on_cb' => [ $this, 'show_on' ],
-				'default'    => Admin_Helper::is_home_page() ? 'on' : 'off',
-			]
-		);
 	}
 
 	/**
@@ -287,7 +268,7 @@ class Frontend_SEO_Score {
 		}
 		?>
 		<style type="text/css">
-		.rank-math-seo-score{font-family:sans-serif;position:relative;display:inline-block;height:96px;width:96px;margin:20px 20px 30px;text-align:center;color:#fff;border:none;border-radius:50%;background:#eee;-webkit-box-shadow:1px 1px 1px #bbb;box-shadow:1px 1px 1px #bbb}.rank-math-seo-score.before-content{margin:0 0 30px 20px;float:right}.rank-math-seo-score.after-content{margin:20px 0 30px 20px}.rank-math-seo-score.as-shortcode{display:inline-block}.rank-math-seo-score .label{font-size:12px;position:absolute;top:100px;left:0;display:block;width:100%;color:#979ea5}.rank-math-seo-score .score{font-size:42px;font-weight:bold;line-height:42px;display:block}.rank-math-seo-score .outof{font-size:12px;font-weight:normal;line-height:12px;display:block;color:rgba(255,255,255,0.7)}.rank-math-seo-score .backlink{font-size:12px;position:absolute;top:-94px;left:-12px;display:block;visibility:hidden;width:120px;padding:8px 10px;-webkit-transition:.25s all ease;transition:.25s all ease;-webkit-transition-delay:.25s;transition-delay:.25s;opacity:0;color:#a8a8a8;border:none;border-radius:8px;background:#fff;-webkit-box-shadow:0 4px 14px rgba(60,60,90,0.2);box-shadow:0 4px 12px rgba(60,60,90,0.15)}.rank-math-seo-score .backlink:after{position:absolute;bottom:-8px;left:calc(50% - 7px);width:0;height:0;content:'';border-width:8px 7.5px 0 7.5px;border-style:solid;border-color:#fff transparent transparent transparent}.rank-math-seo-score:hover .backlink{top:-74px;visibility:visible;opacity:1}.rank-math-seo-score .poweredby{font-size:13px;color:#a8a8a8}.rank-math-seo-score .poweredby a{display:block;font-weight:normal;text-decoration:none;color:#6372b6;border:none}.rank-math-seo-score.unknown-seo{background:#eee;background:linear-gradient(135deg, #b9b9b9 0%, #989898 100%);-webkit-box-shadow:1px 1px 1px #bbb;box-shadow:1px 1px 1px #bbb}.rank-math-seo-score.bad-seo{background:#f8b0a2;background:linear-gradient(135deg, #f8b0a2 0%, #f1938c 100%);-webkit-box-shadow:1px 1px 1px #e48982;box-shadow:1px 1px 1px #e48982;filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8b0a2', endColorstr='#f1938c',GradientType=1 )}.rank-math-seo-score.good-seo{background:#fdd07a;background:linear-gradient(135deg, #fdd07a 0%, #fcbe6c 100%);-webkit-box-shadow:1px 1px 1px #efb463;box-shadow:1px 1px 1px #efb463;filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdd07a', endColorstr='#fcbe6c',GradientType=1 )}.rank-math-seo-score.great-seo{background:#99d484;background:linear-gradient(135deg, #99d484 0%, #83c97f 100%);-webkit-box-shadow:1px 1px 1px #5ba857;box-shadow:1px 1px 1px #5ba857;filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#99d484', endColorstr='#83c97f',GradientType=1 )}.rank-math-seo-score.template-circle .score{margin-top:22px !important}.rank-math-seo-score.template-square{height:80px;width:110px;border-radius:12px}.rank-math-seo-score.template-square .score{margin:10px 12px;text-align:left}.rank-math-seo-score.template-square .outof{display:inline-block;margin-left:-8px}.rank-math-seo-score.template-square .label{font-size:13px;top:52px;left:14px;text-align:left;color:rgba(255,255,255,0.8)}.rank-math-seo-score.template-square .backlink{left:-5px}.rank-math-seo-score.template-square.before-content{margin-bottom:20px}.rank-math-seo-score.template-square.after-content{margin-bottom:0}
+		.rank-math-seo-score{font-family:sans-serif;position:relative;display:inline-block;height:96px;width:96px;margin:20px 20px 30px;text-align:center;color:#fff;border:none;border-radius:50%;background:#eee;-webkit-box-shadow:1px 1px 1px #bbb;box-shadow:1px 1px 1px #bbb}.rank-math-seo-score.before-content{margin:0 0 30px 20px;float:right}.rank-math-seo-score.after-content{margin:20px 0 30px 20px}.rank-math-seo-score.as-shortcode{display:inline-block}.rank-math-seo-score .label{font-size:12px;position:absolute;top:100px;left:0;display:block;width:100%;color:#979ea5}.rank-math-seo-score .score{font-size:42px;font-weight:bold;line-height:42px;display:block}.rank-math-seo-score .outof{font-size:12px;font-weight:normal;line-height:12px;display:block;color:rgba(255,255,255,0.7)}.rank-math-seo-score .backlink{font-size:12px;position:absolute;top:-94px;left:-12px;display:block;visibility:hidden;width:120px;padding:8px 10px;-webkit-transition:.25s all ease;transition:.25s all ease;-webkit-transition-delay:.25s;transition-delay:.25s;opacity:0;color:#a8a8a8;border:none;border-radius:8px;background:#fff;-webkit-box-shadow:0 4px 14px rgba(60,60,90,0.2);box-shadow:0 4px 12px rgba(60,60,90,0.15)}.rank-math-seo-score .backlink:after{position:absolute;bottom:-8px;left:calc(50% - 7px);width:0;height:0;content:'';border-width:8px 7.5px 0 7.5px;border-style:solid;border-color:#fff transparent transparent transparent}.rank-math-seo-score:hover .backlink{top:-74px;visibility:visible;opacity:1}.rank-math-seo-score .poweredby{font-size:13px;color:#a8a8a8}.rank-math-seo-score .poweredby a{display:block;font-weight:normal;text-decoration:none;color:#6372b6;border:none}.rank-math-seo-score.unknown-seo{background:#eee;background:linear-gradient(135deg, #b9b9b9 0%, #989898 100%);-webkit-box-shadow:1px 1px 1px #bbb;box-shadow:1px 1px 1px #bbb}.rank-math-seo-score.bad-seo{background:#f8b0a2;background:linear-gradient(135deg, #f8b0a2 0%, #f1938c 100%);-webkit-box-shadow:1px 1px 1px #e48982;box-shadow:1px 1px 1px #e48982;filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8b0a2', endColorstr='#f1938c',GradientType=1 )}.rank-math-seo-score.good-seo{background:#fdd07a;background:linear-gradient(135deg, #fdd07a 0%, #fcbe6c 100%);-webkit-box-shadow:1px 1px 1px #efb463;box-shadow:1px 1px 1px #efb463;filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdd07a', endColorstr='#fcbe6c',GradientType=1 )}.rank-math-seo-score.great-seo{background:#99d484;background:linear-gradient(135deg, #99d484 0%, #83c97f 100%);-webkit-box-shadow:1px 1px 1px #5ba857;box-shadow:1px 1px 1px #5ba857;filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#99d484', endColorstr='#83c97f',GradientType=1 )}.rank-math-seo-score.template-circle .score{margin-top:22px !important}.rank-math-seo-score.template-square{height:80px;width:110px;border-radius:12px}.rank-math-seo-score.template-square .score{margin:10px 12px;text-align:left}.rank-math-seo-score.template-square .outof{display:inline-block;margin-left:-8px}.rank-math-seo-score.template-square .label{font-size:13px;top:52px;left:14px;text-align:left;color:rgba(255,255,255,0.8)}.rank-math-seo-score.template-square .backlink{left:-5px}.rank-math-seo-score.template-square.before-content{margin-bottom:20px}.rank-math-seo-score.template-square.after-content{margin-bottom:0}.theme-twentytwenty .rank-math-seo-score{width:96px !important}.theme-twentytwenty .rank-math-seo-score.template-square{width:110px !important}.theme-twentytwenty .rank-math-seo-score.before-content{margin:0 auto 30px auto;display:inherit;float:none}.theme-twentytwenty .rank-math-seo-score.template-circle .score,.theme-twentytwenty .rank-math-seo-score.template-square .score{transform:translateY(22px)}
 		</style>
 		<?php
 		$this->css_added = true;

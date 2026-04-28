@@ -17,8 +17,10 @@ use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Controller;
 use RankMath\Helper;
+use RankMath\Traits\Hooker;
 use RankMath\Traits\Meta;
-use MyThemeShop\Helpers\Str;
+use RankMath\Role_Manager\Capability_Manager;
+use RankMath\Redirections\Redirection;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -28,6 +30,7 @@ defined( 'ABSPATH' ) || exit;
 class Admin extends WP_REST_Controller {
 
 	use Meta;
+	use Hooker;
 
 	/**
 	 * Constructor.
@@ -40,7 +43,6 @@ class Admin extends WP_REST_Controller {
 	 * Registers the routes for the objects of the controller.
 	 */
 	public function register_routes() {
-
 		register_rest_route(
 			$this->namespace,
 			'/saveModule',
@@ -54,31 +56,12 @@ class Admin extends WP_REST_Controller {
 
 		register_rest_route(
 			$this->namespace,
-			'/updateRedirection',
-			[
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => [ $this, 'update_redirection' ],
-				'permission_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'get_redirection_permissions_check' ],
-			]
-		);
-
-		register_rest_route(
-			$this->namespace,
-			'/autoUpdate',
-			[
-				'methods'             => WP_REST_Server::EDITABLE,
-				'callback'            => [ $this, 'auto_update' ],
-				'permission_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'can_manage_options' ],
-			]
-		);
-
-		register_rest_route(
-			$this->namespace,
 			'/toolsAction',
 			[
 				'methods'             => WP_REST_Server::EDITABLE,
 				'callback'            => [ $this, 'tools_actions' ],
 				'permission_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'can_manage_options' ],
+				'args'                => $this->get_tools_action_args(),
 			]
 		);
 
@@ -89,214 +72,52 @@ class Admin extends WP_REST_Controller {
 				'methods'             => WP_REST_Server::EDITABLE,
 				'callback'            => [ $this, 'update_mode' ],
 				'permission_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'can_manage_options' ],
-			]
-		);
-
-		$this->gutenberg_routes();
-	}
-
-	/**
-	 * Routes needed for gutenberg sidebar to work.
-	 */
-	private function gutenberg_routes() {
-		register_rest_route(
-			$this->namespace,
-			'/updateMeta',
-			[
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => [ $this, 'update_metadata' ],
-				'args'                => $this->get_update_metadata_args(),
-				'permission_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'get_object_permissions_check' ],
+				'args'                => $this->get_update_mode_args(),
 			]
 		);
 
 		register_rest_route(
 			$this->namespace,
-			'/updateSchemas',
+			'/dashboardWidget',
 			[
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => [ $this, 'update_schemas' ],
-				'args'                => $this->get_update_schemas_args(),
-				'permission_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'get_object_permissions_check' ],
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'dashboard_widget_items' ],
+				'permission_callback' => function () {
+					return current_user_can( 'read' );
+				},
 			]
 		);
-	}
 
-	/**
-	 * Update redirection.
-	 *
-	 * @param WP_REST_Request $request Full details about the request.
-	 *
-	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
-	 */
-	public function update_redirection( WP_REST_Request $request ) {
-		$cmb     = new \stdClass();
-		$metabox = new \RankMath\Redirections\Metabox();
+		register_rest_route(
+			$this->namespace,
+			'/updateSeoScore',
+			[
+				'methods'             => \WP_REST_Server::EDITABLE,
+				'callback'            => [ $this, 'update_seo_score' ],
+				'permission_callback' => [ $this, 'can_edit_posts' ],
+				'args'                => $this->get_update_seo_score_args(),
+			]
+		);
 
-		$cmb->object_id    = $request->get_param( 'objectID' );
-		$cmb->data_to_save = [
-			'has_redirect'                 => $request->get_param( 'hasRedirect' ),
-			'redirection_id'               => $request->get_param( 'redirectionID' ),
-			'redirection_url_to'           => $request->get_param( 'redirectionUrl' ),
-			'redirection_sources'          => \str_replace( home_url( '/' ), '', $request->get_param( 'redirectionSources' ) ),
-			'redirection_header_code'      => $request->get_param( 'redirectionType' ) ? $request->get_param( 'redirectionType' ) : 301,
-			'rank_math_enable_redirection' => 'on',
-		];
+		register_rest_route(
+			$this->namespace,
+			'/updateSettings',
+			[
+				'methods'             => WP_REST_Server::EDITABLE,
+				'callback'            => [ $this, 'update_settings' ],
+				'permission_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'can_manage_settings' ],
+			]
+		);
 
-		if ( false === $request->get_param( 'hasRedirect' ) ) {
-			unset( $cmb->data_to_save['redirection_url_to'] );
-		}
-
-		if ( empty( $request->get_param( 'redirectionID' ) ) ) {
-			unset( $cmb->data_to_save['redirection_id'] );
-		}
-
-		return $metabox->save_advanced_meta( $cmb );
-	}
-
-	/**
-	 * Update metadata.
-	 *
-	 * @param WP_REST_Request $request Full details about the request.
-	 *
-	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
-	 */
-	public function update_metadata( WP_REST_Request $request ) {
-		$object_id   = $request->get_param( 'objectID' );
-		$object_type = $request->get_param( 'objectType' );
-		$meta        = $request->get_param( 'meta' );
-
-		$new_slug = true;
-		if ( isset( $meta['permalink'] ) && ! empty( $meta['permalink'] ) ) {
-			$post     = get_post( $object_id );
-			$new_slug = wp_unique_post_slug( $meta['permalink'], $post->ID, $post->post_status, $post->post_type, $post->post_parent );
-			wp_update_post(
-				[
-					'ID'        => $object_id,
-					'post_name' => $new_slug,
-				]
-			);
-			unset( $meta['permalink'] );
-		}
-
-		// Add protection.
-		remove_all_filters( 'is_protected_meta' );
-		add_filter( 'is_protected_meta', [ $this, 'only_this_plugin' ], 10, 2 );
-
-		$sanitizer = Sanitize::get();
-		foreach ( $meta as $meta_key => $meta_value ) {
-			// Delete schema by meta id.
-			if ( Str::starts_with( 'rank_math_delete_', $meta_key ) ) {
-				\delete_metadata_by_mid( 'post', absint( \str_replace( 'rank_math_delete_schema-', '', $meta_key ) ) );
-				update_post_meta( $object_id, 'rank_math_rich_snippet', 'off' );
-				continue;
-			}
-
-			if ( empty( $meta_value ) ) {
-				delete_metadata( $object_type, $object_id, $meta_key );
-				continue;
-			}
-
-			$this->update_meta( $object_type, $object_id, $meta_key, $sanitizer->sanitize( $meta_key, $meta_value ) );
-		}
-
-		return $new_slug;
-	}
-
-	/**
-	 * Update metadata.
-	 *
-	 * @param WP_REST_Request $request Full details about the request.
-	 *
-	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
-	 */
-	public function update_schemas( WP_REST_Request $request ) {
-		$object_id = $request->get_param( 'objectID' );
-		$schemas   = $request->get_param( 'schemas' );
-
-		$new_ids   = [];
-		$sanitizer = Sanitize::get();
-		foreach ( $schemas as $meta_id => $schema ) {
-			$meta_key = 'rank_math_schema_' . $schema['@type'];
-
-			// Add new.
-			if ( Str::starts_with( 'new-', $meta_id ) ) {
-				$new_ids[ $meta_id ] = add_post_meta( $object_id, $meta_key, $sanitizer->sanitize( $meta_key, $schema ) );
-				continue;
-			}
-
-			// Update old.
-			$db_id      = absint( str_replace( 'schema-', '', $meta_id ) );
-			$prev_value = update_metadata_by_mid( 'post', $db_id, $schema, $meta_key );
-		}
-
-		return $new_ids;
-	}
-
-	/**
-	 * Allow only rank math meta keys
-	 *
-	 * @param bool   $protected Whether the key is considered protected.
-	 * @param string $meta_key  Meta key.
-	 *
-	 * @return bool
-	 */
-	public function only_this_plugin( $protected, $meta_key ) {
-		return Str::starts_with( 'rank_math_', $meta_key );
-	}
-
-	/**
-	 * Get update metadata endpoint arguments.
-	 *
-	 * @return array
-	 */
-	private function get_update_metadata_args() {
-		return [
-			'objectType' => [
-				'type'              => 'string',
-				'required'          => true,
-				'description'       => esc_html__( 'Object Type i.e. post, term, user', 'rank-math' ),
-				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
-			],
-			'objectID'   => [
-				'type'              => 'integer',
-				'required'          => true,
-				'description'       => esc_html__( 'Object unique id', 'rank-math' ),
-				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
-			],
-			'meta'       => [
-				'required'          => true,
-				'description'       => esc_html__( 'Meta to add or update data.', 'rank-math' ),
-				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
-			],
-		];
-	}
-
-	/**
-	 * Get update schemas endpoint arguments.
-	 *
-	 * @return array
-	 */
-	private function get_update_schemas_args() {
-		return [
-			'objectType' => [
-				'type'              => 'string',
-				'required'          => true,
-				'description'       => esc_html__( 'Object Type i.e. post, term, user', 'rank-math' ),
-				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
-			],
-			'objectID'   => [
-				'type'              => 'integer',
-				'required'          => true,
-				'description'       => esc_html__( 'Object unique id', 'rank-math' ),
-				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
-			],
-			'schemas'    => [
-				'required'          => true,
-				'description'       => esc_html__( 'schemas to add or update data.', 'rank-math' ),
-				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
-			],
-		];
+		register_rest_route(
+			$this->namespace,
+			'/searchPage',
+			[
+				'methods'             => WP_REST_Server::ALLMETHODS,
+				'callback'            => [ $this, 'search_page' ],
+				'permission_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'can_manage_options' ],
+			]
+		);
 	}
 
 	/**
@@ -311,50 +132,18 @@ class Admin extends WP_REST_Controller {
 		$state  = $request->get_param( 'state' );
 
 		Helper::update_modules( [ $module => $state ] );
-
+		$this->maybe_delete_rewrite_rules( $module );
 		do_action( 'rank_math/module_changed', $module, $state );
 		return true;
 	}
 
 	/**
-	 * Enable Auto update.
-	 *
-	 * @param WP_REST_Request $request Full details about the request.
-	 *
-	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 * Function to get the dashboard widget content.
 	 */
-	public function auto_update( WP_REST_Request $request ) {
-		$field = $request->get_param( 'key' );
-		if ( 'enable_auto_update' !== $field ) {
-			return false;
-		}
-
-		$value = 'true' === $request->get_param( 'value' ) ? 'on' : 'off';
-		Helper::toggle_auto_update_setting( $value );
-
-		return true;
-	}
-
-	/**
-	 * Get save module endpoint arguments.
-	 *
-	 * @return array
-	 */
-	private function get_save_module_args() {
-		return [
-			'module' => [
-				'type'              => 'string',
-				'required'          => true,
-				'description'       => esc_html__( 'Module slug', 'rank-math' ),
-				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
-			],
-			'state'  => [
-				'type'              => 'string',
-				'required'          => true,
-				'description'       => esc_html__( 'Module state either on or off', 'rank-math' ),
-				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
-			],
-		];
+	public function dashboard_widget_items() {
+		ob_start();
+		$this->do_action( 'dashboard/widget' );
+		return ob_get_clean();
 	}
 
 	/**
@@ -366,7 +155,37 @@ class Admin extends WP_REST_Controller {
 	 */
 	public function tools_actions( WP_REST_Request $request ) {
 		$action = $request->get_param( 'action' );
-		return apply_filters( 'rank_math/tools/' . $action, 'Something went wrong.' );
+		return apply_filters( 'rank_math/tools/' . $action, 'Something went wrong.', $request );
+	}
+
+	/**
+	 * Rest route to update the seo score.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function update_seo_score( WP_REST_Request $request ) {
+		$post_scores = $request->get_param( 'postScores' );
+		if ( empty( $post_scores ) ) {
+			return 0;
+		}
+
+		foreach ( $post_scores as $post_id => $score ) {
+			$post = get_post( $post_id );
+			if ( ! $post ) {
+				continue;
+			}
+
+			$score = (int) $score;
+			if ( $score < 0 || $score > 100 ) {
+				continue;
+			}
+
+			update_post_meta( $post_id, 'rank_math_seo_score', $score );
+		}
+
+		return 1;
 	}
 
 	/**
@@ -386,5 +205,246 @@ class Admin extends WP_REST_Controller {
 		Helper::update_all_settings( $settings['general'], null, null );
 
 		return true;
+	}
+
+	/**
+	 * Check if user can edit post.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return bool
+	 */
+	public function can_edit_posts( WP_REST_Request $request ) {
+		$post_scores = $request->get_param( 'postScores' );
+		if ( empty( $post_scores ) ) {
+			return false;
+		}
+
+		foreach ( $post_scores as $post_id => $score ) {
+			if ( ! current_user_can( 'edit_post', $post_id ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Update Settings.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function update_settings( WP_REST_Request $request ) {
+		$settings = $request->get_param( 'settings' );
+		$type     = $request->get_param( 'type' );
+		$is_reset = $request->get_param( 'isReset' );
+
+		if ( $type === 'roleCapabilities' ) {
+			$is_reset ? Capability_Manager::get()->reset_capabilities() : Helper::set_capabilities( $settings );
+			return [
+				'settings' => Helper::get_roles_capabilities(),
+			];
+		}
+
+		if ( $type === 'redirections' ) {
+			$redirection = Redirection::from(
+				[
+					'id'          => isset( $settings['id'] ) ? $settings['id'] : '',
+					'sources'     => $settings['sources'],
+					'url_to'      => isset( $settings['url_to'] ) ? $settings['url_to'] : '',
+					'header_code' => $settings['header_code'],
+					'status'      => $settings['status'],
+				]
+			);
+			if ( $redirection->is_infinite_loop() ) {
+				if ( ! $redirection->get_id() ) {
+					$redirection->set_status( 'inactive' );
+					return rest_ensure_response(
+						[
+							'error' => __( 'The redirection you are trying to create may cause an infinite loop. Please check the source and destination URLs. The redirection has been deactivated.', 'rank-math' ),
+						]
+					);
+				}
+
+				return rest_ensure_response(
+					[
+						'error' => __( 'The redirection you are trying to update may cause an infinite loop. Please check the source and destination URLs.', 'rank-math' ),
+					]
+				);
+
+			}
+
+			if ( false === $redirection->save() ) {
+				return __( 'Please add at least one valid source URL.', 'rank-math' );
+			}
+
+			$this->do_action( 'redirection/saved', $redirection, $settings );
+			return true;
+		}
+
+		if ( $type === 'instant-indexing' ) {
+			$key          = 'rank-math-options-instant-indexing';
+			$org_settings = get_option( $key );
+			if ( $is_reset ) {
+				if ( isset( $org_settings['bing_post_types'] ) ) {
+					unset( $org_settings['bing_post_types'] );
+				}
+			}
+
+			$org_settings['bing_post_types'] = isset( $settings['bing_post_types'] ) ? array_map( 'sanitize_text_field', $settings['bing_post_types'] ) : [];
+
+			update_option( $key, $org_settings, false );
+			return [
+				'settings' => $org_settings,
+			];
+		}
+
+		if ( ! in_array( $type, [ 'general', 'titles', 'sitemap' ], true ) ) {
+			return __( 'Invalid type.', 'rank-math' );
+		}
+
+		return \RankMath\Admin\Option_Center::save_settings(
+			$type,
+			$settings,
+			$request->get_param( 'fieldTypes' ),
+			$request->get_param( 'updated' ),
+			$is_reset
+		);
+	}
+
+	/**
+	 * Update Settings.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function search_page( WP_REST_Request $request ) {
+		$term = sanitize_text_field( $request->get_param( 'searchedTerm' ) );
+
+		if ( empty( $term ) ) {
+			return rest_ensure_response( [ 'results' => [] ] );
+		}
+
+		global $wpdb;
+		$pages = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT ID, post_title FROM {$wpdb->prefix}posts WHERE post_type = 'page' AND post_status = 'publish' AND post_title LIKE %s",
+				'%' . $wpdb->esc_like( $term ) . '%'
+			),
+			ARRAY_A
+		);
+
+		$data = array_map(
+			function ( $page ) {
+				return [
+					'id'   => (int) $page['ID'],
+					'text' => $page['post_title'],
+					'url'  => get_permalink( $page['ID'] ),
+				];
+			},
+			$pages
+		);
+
+		return rest_ensure_response( [ 'results' => $data ] );
+	}
+
+	/**
+	 * Get save module endpoint arguments.
+	 *
+	 * @return array
+	 */
+	private function get_save_module_args() {
+		return [
+			'module' => [
+				'type'              => 'string',
+				'required'          => true,
+				'description'       => esc_html__( 'Module slug', 'rank-math' ),
+				'sanitize_callback' => 'rest_sanitize_request_arg',
+				'validate_callback' => function ( $param, $request, $key ) {
+					$modules = array_keys( rank_math()->manager->modules );
+					if ( ! in_array( $param, $modules, true ) ) {
+						return new WP_Error( 'invalid_module', esc_html__( 'Invalid module', 'rank-math' ), [ 'status' => 400 ] );
+					}
+
+					return rest_validate_request_arg( $param, $request, $key );
+				},
+			],
+			'state'  => [
+				'type'              => 'string',
+				'required'          => true,
+				'description'       => esc_html__( 'Module state either on or off', 'rank-math' ),
+				'enum'              => [ 'on', 'off' ],
+				'sanitize_callback' => 'rest_sanitize_request_arg',
+				'validate_callback' => 'rest_validate_request_arg',
+			],
+		];
+	}
+
+	/**
+	 * Get update seo score endpoint arguments.
+	 *
+	 * @return array
+	 */
+	private function get_update_seo_score_args() {
+		return [
+			'postScores' => [
+				'type'              => 'object',
+				'required'          => true,
+				'description'       => esc_html__( 'Post scores', 'rank-math' ),
+				'sanitize_callback' => 'rest_sanitize_request_arg',
+				'validate_callback' => 'rest_validate_request_arg',
+			],
+		];
+	}
+
+	/**
+	 * Get tools action endpoint arguments.
+	 *
+	 * @return array
+	 */
+	private function get_tools_action_args() {
+		return [
+			'action' => [
+				'type'              => 'string',
+				'required'          => true,
+				'description'       => esc_html__( 'Action to perform', 'rank-math' ),
+				'sanitize_callback' => 'rest_sanitize_request_arg',
+				'validate_callback' => 'rest_validate_request_arg',
+			],
+		];
+	}
+
+	/**
+	 * Get update mode endpoint arguments.
+	 *
+	 * @return array
+	 */
+	private function get_update_mode_args() {
+		return [
+			'mode' => [
+				'type'              => 'string',
+				'required'          => true,
+				'description'       => esc_html__( 'Mode to set', 'rank-math' ),
+				'enum'              => [ 'easy', 'advanced', 'custom' ],
+				'sanitize_callback' => 'rest_sanitize_request_arg',
+				'validate_callback' => 'rest_validate_request_arg',
+			],
+		];
+	}
+
+	/**
+	 * Maybe update(delete) rewrite rules.
+	 *
+	 * @param string $module The module name.
+	 *
+	 * @return void
+	 */
+	private function maybe_delete_rewrite_rules( $module ) {
+		if ( in_array( $module, [ 'sitemap', 'llms-txt' ], true ) ) {
+			delete_option( 'rewrite_rules' );
+		}
 	}
 }

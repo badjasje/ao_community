@@ -88,7 +88,23 @@ class NextendSocialProviderAdmin {
             }
         }
 
-        foreach ($postedData AS $key => $value) {
+        if (!empty($postedData['sync_profile']) && is_array($postedData['sync_profile'])) {
+            $sync_profile = $postedData['sync_profile'];
+
+            if (isset($sync_profile['register'])) {
+                $newData['sync_profile/register'] = intval($sync_profile['register']) ? 1 : 0;
+            }
+
+            if (isset($sync_profile['login'])) {
+                $newData['sync_profile/login'] = intval($sync_profile['login']) ? 1 : 0;
+            }
+
+            if (isset($sync_profile['link'])) {
+                $newData['sync_profile/link'] = intval($sync_profile['link']) ? 1 : 0;
+            }
+        }
+
+        foreach ($postedData as $key => $value) {
 
             switch ($key) {
                 case 'login_label':
@@ -99,7 +115,19 @@ class NextendSocialProviderAdmin {
                     break;
                 case 'user_prefix':
                 case 'user_fallback':
-                    $newData[$key] = preg_replace("/[^A-Za-z0-9\-_ ]/", '', $value);
+                    $value = preg_replace("/[^A-Za-z0-9\-_ ]/", '', $value);
+
+                    /**
+                     * The length of WordPress usernames are limited to a maximum of 60 characters.
+                     * We should allow a maximum of 28 characters for both prefix and fallback, as the fallback generates 32 character long md5 hashes.
+                     *
+                     * @see NSLDEV-623
+                     */
+
+                    if (mb_strlen($value) > 28) {
+                        $value = substr($value, 0, 28);
+                    }
+                    $newData[$key] = $value;
                     break;
                 case 'settings_saved':
                     $newData[$key] = intval($value) ? 1 : 0;
@@ -135,11 +163,16 @@ class NextendSocialProviderAdmin {
                     $this->render('buttons');
                     break;
                 case 'sync-data':
-                    if ($this->provider->hasSyncFields()) {
+                    if ($this->provider->hasSyncFields() || $this->provider->hasSyncableProfileFields()) {
                         $this->render('sync-data');
                     } else {
-                        wp_redirect($this->provider->getAdmin()
-                                                   ->getUrl());
+                        if (headers_sent()) {
+                            echo '<script>window.location.href="' . $this->provider->getAdmin()
+                                                                                   ->getUrl() . '"</script>';
+                        } else {
+                            wp_redirect($this->provider->getAdmin()
+                                                       ->getUrl());
+                        }
                         exit;
                     }
                     break;
@@ -310,6 +343,16 @@ class NextendSocialProviderAdmin {
                     });
                 }
             });
+
+            if (typeof BroadcastChannel === "function") {
+                const nslVerifySettingsBroadCastChannel = new BroadcastChannel("nsl_verify_settings_broadcast_channel");
+                nslVerifySettingsBroadCastChannel.onmessage = (event) => {
+                    if (window?._nslHasOpenedPopup && event.data?.action === 'reload') {
+                        nslVerifySettingsBroadCastChannel.close();
+                        window.location.reload();
+                    }
+                }
+            }
         </script>
         <?php
     }
@@ -332,9 +375,19 @@ class NextendSocialProviderAdmin {
      * Displays message if Oauth Redirect URI has changed.
      */
     public function renderOauthChangedInstruction() {
-        echo '<h2>' . $this->provider->getLabel() . '</h2>';
+        $path = $this->path . '/fix-redirect-uri.php';
+        if (file_exists($path)) {
+            echo '<h2>' . $this->provider->getLabel() . '</h2>';
 
-        include($this->path . '/fix-redirect-uri.php');
+            include($path);
+        }
+    }
+
+    public static function getSiteUrlWithoutPath() {
+        $siteUrl     = site_url();
+        $siteUrlPath = parse_url($siteUrl, PHP_URL_PATH);
+
+        return $siteUrlPath ? str_replace($siteUrlPath, "", $siteUrl) : $siteUrl;
     }
 }
 

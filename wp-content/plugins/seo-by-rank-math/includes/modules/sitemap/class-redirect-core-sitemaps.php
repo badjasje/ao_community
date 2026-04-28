@@ -1,24 +1,29 @@
 <?php
 /**
- * Redirect Core Sitemap class.
+ * Redirect core sitemaps.
+ *
+ * Disable WP core sitemap feature added in version 5.5 and
+ * use Rank Math's sitemaps instead.
  *
  * @since      1.0.47
  * @package    RankMath
  * @subpackage RankMath\Sitemap
  * @author     Rank Math <support@rankmath.com>
+ *
+ * @copyright Copyright (C) 2008-2019, Yoast BV
+ * The following code is a derivative work of the code from the Yoast(https://github.com/Yoast/wordpress-seo/), which is licensed under GPL v3.
  */
 
 namespace RankMath\Sitemap;
 
+use RankMath\Helper;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Str;
+use RankMath\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Redirect Core Sitemaps class
- *
- * Forked from Yoast (https://github.com/Yoast/wordpress-seo/)
+ * Redirect Core Sitemaps class.
  */
 class Redirect_Core_Sitemaps {
 
@@ -57,7 +62,7 @@ class Redirect_Core_Sitemaps {
 			return;
 		}
 
-		wp_safe_redirect( home_url( $redirect ), 301 );
+		Helper::redirect( home_url( $redirect ), 301 );
 		exit;
 	}
 
@@ -70,7 +75,7 @@ class Redirect_Core_Sitemaps {
 	 */
 	private function get_redirect_url( $path ) {
 		if ( '/wp-sitemap.xml' === $path ) {
-			return '/sitemap_index.xml';
+			return '/' . Sitemap::get_sitemap_index_slug() . '.xml';
 		}
 
 		if ( preg_match( '/^\/wp-sitemap-(posts|taxonomies)-(\w+)-(\d+)\.xml$/', $path, $matches ) ) {

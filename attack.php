@@ -60,6 +60,12 @@ $array = array();
 		echo json_encode($array);
 		exit;
 	}
+   if($userData['status'][0] == 'postmortem'){
+      $array['status'] = 'You cannot do that';
+      $array['next'] = false;
+      echo json_encode($array);
+      exit;
+   }
     $sat_morale = $userData['sat_morale'][0];
 
     $target_id = round($_POST['target_id']);

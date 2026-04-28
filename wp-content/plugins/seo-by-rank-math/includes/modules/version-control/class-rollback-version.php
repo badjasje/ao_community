@@ -8,10 +8,10 @@
 
 namespace RankMath;
 
-use RankMath\Helper;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Str;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Param;
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Rollback_Version class.
@@ -33,11 +33,23 @@ class Rollback_Version {
 	 * @return boolean Whether it is rollback or not.
 	 */
 	public static function is_rollback_version() {
-		return boolval( get_option( self::ROLLBACK_VERSION_OPTION, false ) );
+		$is_rollback = boolval( get_option( self::ROLLBACK_VERSION_OPTION, false ) );
+		if ( ! $is_rollback ) {
+			return false;
+		}
+
+		$current_version = rank_math()->version;
+		$latest_version  = Beta_Optin::get_latest_version();
+		if ( $current_version === $latest_version ) {
+			delete_option( self::ROLLBACK_VERSION_OPTION );
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
-	 * Rollback or not?
+	 * Check if we should roll back in this request or not.
 	 */
 	public static function should_rollback() {
 		if ( ! Param::post( 'rm_rollback_version' ) ) {
@@ -48,7 +60,7 @@ class Rollback_Version {
 			return false;
 		}
 
-		if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'rank-math-rollback' ) ) {
+		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), 'rank-math-rollback' ) ) {
 			return false;
 		}
 
@@ -69,9 +81,9 @@ class Rollback_Version {
 		wp_enqueue_script( 'updates' );
 		$plugin = 'seo-by-rank-math/rank-math.php';
 		$nonce  = 'upgrade-plugin_' . $plugin;
-		$url    = 'update.php?action=upgrade-plugin&plugin=' . urlencode( $plugin );
+		$url    = 'update.php?action=upgrade-plugin&plugin=' . rawurlencode( $plugin );
 		if ( ! class_exists( '\Plugin_Upgrader' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // @phpstan-ignore-line
 		}
 
 		update_option( self::ROLLBACK_VERSION_OPTION, $new_version );
@@ -81,13 +93,13 @@ class Rollback_Version {
 		}
 
 		add_filter( 'pre_site_transient_update_plugins', [ $this, 'pre_transient_update_plugins' ], 20 );
-		add_filter( 'gettext', [ $this, 'change_updater_strings' ], 20, 3 );
+		add_filter( 'gettext', [ $this, 'change_updater_strings' ], 20, 2 );
 		$upgrader = new \Plugin_Upgrader( new \Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin' ) ) );
 		echo '<div class="rank-math-rollback-status">';
 		$upgrader->upgrade( $plugin );
 		echo '</div>';
 		remove_filter( 'pre_site_transient_update_plugins', [ $this, 'pre_transient_update_plugins' ], 20 );
-		remove_filter( 'gettext', [ $this, 'change_updater_strings' ], 20 );
+		remove_filter( 'gettext', [ $this, 'change_updater_strings' ], 20, 2 );
 
 		return true;
 	}
@@ -95,10 +107,9 @@ class Rollback_Version {
 	/**
 	 * Inject old version in the `update_plugins` transient for downgrading.
 	 *
-	 * @param  boolean $false False. Pass truthy value to short-circuit the get_site_transient().
-	 * @return object         New `update_plugins` data object.
+	 * @return object New `update_plugins` data object.
 	 */
-	public function pre_transient_update_plugins( $false ) {
+	public function pre_transient_update_plugins() {
 		$versions       = Beta_Optin::get_available_versions( true );
 		$selected       = Param::post( 'rm_rollback_version' );
 		$package        = $versions[ $selected ];
@@ -118,11 +129,10 @@ class Rollback_Version {
 	 *
 	 * @param  string $translation Translated text.
 	 * @param  string $text        Original text.
-	 * @param  string $domain      Text-domain.
 	 *
 	 * @return string New translated text.
 	 */
-	public function change_updater_strings( $translation, $text, $domain ) {
+	public function change_updater_strings( $translation, $text ) {
 		if ( 'Plugin updated successfully.' === $text ) {
 			return __( 'Plugin rollback successful.', 'rank-math' );
 		}

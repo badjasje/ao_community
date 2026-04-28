@@ -10,22 +10,25 @@
 
 namespace RankMath\Links;
 
+use RankMath\Helpers\DB as DB_Helper;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Storage class.
  *
- * Some functionality adapted from Yoast (https://github.com/Yoast/wordpress-seo/)
+ * @copyright Copyright (C) 2008-2019, Yoast BV
+ * The following code is a derivative work of the code from the Yoast(https://github.com/Yoast/wordpress-seo/), which is licensed under GPL v3.
  */
 class Storage {
 
 	/**
 	 * Get query builder.
 	 *
-	 * @return \MyThemeShop\Database\Query_Builder
+	 * @return \RankMath\Admin\Database\Query_Builder
 	 */
 	private function table() {
-		return \MyThemeShop\Helpers\DB::query_builder( 'rank_math_internal_links' );
+		return \RankMath\Helpers\DB::query_builder( 'rank_math_internal_links' );
 	}
 
 	/**
@@ -165,20 +168,16 @@ class Storage {
 	public function save_meta_data( $post_id, array $meta_data ) {
 		global $wpdb;
 
-		// Suppress database errors and store current state.
-		$last_suppressed_state = $wpdb->suppress_errors();
-
 		$where  = [ 'object_id' => $post_id ];
-		$data   = array_merge( $where, $meta_data );
-		$result = $wpdb->insert( $wpdb->prefix . 'rank_math_internal_meta', $data );
+		$exists = DB_Helper::get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}rank_math_internal_meta WHERE object_id = %d", $post_id ) );
 
-		if ( false === $result ) {
-			$result = $wpdb->update( $wpdb->prefix . 'rank_math_internal_meta', $data, $where );
+		if ( $exists ) {
+			$result = $wpdb->update( $wpdb->prefix . 'rank_math_internal_meta', $meta_data, $where );
+			return $result;
 		}
 
-		// Revert to previous state of database error suppression.
-		$wpdb->suppress_errors( $last_suppressed_state );
-
+		$data   = array_merge( $where, $meta_data );
+		$result = $wpdb->insert( $wpdb->prefix . 'rank_math_internal_meta', $data );
 		return $result;
 	}
 }

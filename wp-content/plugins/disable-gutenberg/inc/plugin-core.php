@@ -16,6 +16,8 @@ function disable_gutenberg_init() {
 	
 	if (disable_gutenberg()) disable_gutenberg_remove();
 	
+	disable_gutenberg_restore_widgets();
+	
 }
 
 function disable_gutenberg($post_id = false) {
@@ -31,6 +33,8 @@ function disable_gutenberg($post_id = false) {
 	if (isset($_GET['block-editor'])) return false;
 	
 	if (isset($_GET['classic-editor'])) return true;
+	
+	if (isset($_POST['classic-editor'])) return true;
 	
 	if (disable_gutenberg_disable_all()) return true;
 	
@@ -101,9 +105,9 @@ function disable_gutenberg_get_enabled_user_roles() {
 
 function disable_gutenberg_get_post_types() {
 	
-	$post_types = get_post_types(array(), 'objects');
+	$post_types = get_post_types(array('show_ui' => true), 'objects');
 	
-	$unset = array('attachment', 'revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block');
+	$unset = array('attachment', 'custom_css', 'customize_changeset', 'nav_menu_item', 'oembed_cache', 'revision', 'user_request', 'wp_block', 'wp_navigation');
 	
 	$unset = apply_filters('disable_gutenberg_post_types_unset', $unset);
 	
@@ -174,7 +178,7 @@ function disable_gutenberg_disable_post_type() {
 	
 	if ($pagenow === 'edit.php') {
 		
-		if (empty($typenow)) $typenow = 'post';
+		// if (empty($typenow)) $typenow = 'post';
 		
 		$post_type = $typenow;
 		
@@ -402,6 +406,8 @@ function disable_gutenberg_whitelist_title($post_id = false) {
 
 function disable_gutenberg_explode($string) {
 	
+	if (!$string) $string = '';
+	
 	$explode = array_map('trim', explode(',', $string));
 	
 	$array = array();
@@ -425,5 +431,53 @@ function disable_gutenberg_get_post_id($post_id = false) {
 	}
 	
 	return $post_id;
+	
+}
+
+function disable_gutenberg_restore_widgets() {
+	
+	$restore = false;
+	
+	$options = disable_gutenberg_get_options();
+	
+	if (isset($options['classic-widgets'])) {
+		
+		$restore = (!empty($options['classic-widgets'])) ? true : false;
+		
+	}
+	
+	if ($restore) {
+		
+		add_filter('gutenberg_use_widgets_block_editor', '__return_false');
+		add_filter('use_widgets_block_editor', '__return_false');
+		
+	}
+	
+}
+
+/*
+	Thanks to Classic Editor plugin (v1.6.5) for this fix:
+	Temporary fix for Safari 18 negative horizontal margin on floats.
+	See: https://core.trac.wordpress.org/ticket/62082 and
+	https://bugs.webkit.org/show_bug.cgi?id=280063.
+	TODO: Remove when Safari is fixed.
+ */
+function disable_gutenberg_safari_18_temp_fix() {
+	
+	global $current_screen;
+	
+	if (isset($current_screen->base) && 'post' === $current_screen->base) {
+		
+		$clear = is_rtl() ? 'right' : 'left';
+		
+		?>
+		
+		<style id="classic-editor-safari-18-temp-fix">
+			_::-webkit-full-page-media, _:future, :root #post-body #postbox-container-2 { clear: <?php echo $clear; ?>; }
+		</style>
+		
+		<?php
+		
+	}
 	
 }

@@ -91,7 +91,7 @@ class Settings extends DataObject {
         'maintarget_notarget_multi' => 1.25,
 
         // Morale costs
-        'saboteur_morale_cost' => 30,
+        'saboteur_morale_cost' => 25,
         'sniper_morale_cost' => 10,
         'thief_morale_cost' => 5,
         'spy_morale_cost' => 0,
@@ -110,7 +110,7 @@ class Settings extends DataObject {
         ),
 
         // Turn costs
-        'turns_order_missile' => 4,
+        'turns_order_missile' => 3,
         'turns_missile' => 3,
         'turns_satellite' => 3,
         'turns_attack' => 3,
@@ -152,7 +152,7 @@ class Settings extends DataObject {
         'cooldown_time' => (72 * 3600),
         'peace_after_time' => (24 * 3600),
         'auto_peace_time' => (72 * 3600),
-        'max_incoming_wars' => 3,
+        'max_incoming_wars' => 5,
         'war_type_multi' => array(
             'mutual' => 1,
             'outgoing' => 1,

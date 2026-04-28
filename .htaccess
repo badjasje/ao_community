@@ -20,17 +20,7 @@ Redirect 301 https://assault.online https://assault.online/home
 
 RewriteRule \.(txt|htaccess)$ https://assault.online [R,L]
 
-<Files "general_thing.php">
-Order Deny,Allow
-Deny from all
-Allow from 87.209.229.255
-Allow from 213.125.228.34
-Allow from 82.174.185.25
-Allow from 217.121.5.245
-Allow from 213.125.228.34
-Allow from 31.21.220.147
-Allow from 82.174.185.25
-</Files>
+
 
 <Files "toplists.php">
 Order Deny,Allow
@@ -41,6 +31,10 @@ Allow from 217.121.5.245
 Allow from 213.125.228.34
 Allow from 31.21.220.147
 Allow from 82.174.185.25
+Allow from 95.98.253.160
+Allow from 82.174.185.188
+Allow from 89.205.226.92
+Allow from 87.212.146.226
 </Files>
 
 
@@ -52,7 +46,11 @@ Allow from 213.125.228.34
 Allow from 217.121.5.245
 Allow from 213.125.228.34
 Allow from 31.21.220.147
+Allow from 95.98.253.160
+Allow from 89.205.226.92
+Allow from 82.174.185.188
 Allow from 82.174.185.25
+Allow from 87.212.146.226
 </Files>
 
 
@@ -170,11 +168,12 @@ ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
 # END Wordfence WAF
 
 # BEGIN WordPress
-# The directives (lines) between `BEGIN WordPress` and `END WordPress` are
+# The directives (lines) between "BEGIN WordPress" and "END WordPress" are
 # dynamically generated, and should only be modified via WordPress filters.
 # Any changes to the directives between these markers will be overwritten.
 <IfModule mod_rewrite.c>
 RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 RewriteBase /
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f

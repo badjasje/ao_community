@@ -2,8 +2,6 @@
 /**
  * Class for displaying plugin warning notifications and determining 3rd party plugin compatibility.
  *
- * @author   WPEverest
- * @category Admin
  * @package  UserRegistration/Admin
  * @version  1.1.0
  */
@@ -34,7 +32,7 @@ class UR_Plugin_Updates {
 	/**
 	 * Get plugins that have a valid value for a specific header.
 	 *
-	 * @param string $header
+	 * @param string $header Header.
 	 * @return array of plugin info arrays
 	 */
 	protected function get_plugins_with_header( $header ) {
@@ -47,6 +45,13 @@ class UR_Plugin_Updates {
 			}
 		}
 
+		/**
+		 * Filter to modify plugins information with header.
+		 *
+		 * @param array $matches Array of information.
+		 * @param string $header Header information.
+		 * @param array $plugins Array of plugins.
+		 */
 		return apply_filters( 'user_registration_get_plugins_with_header', $matches, $header, $plugins );
 	}
 }

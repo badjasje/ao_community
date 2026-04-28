@@ -1,6 +1,6 @@
 <?php
 /**
- * The WooCommerce Module
+ * The WooCommerce module.
  *
  * @since      0.9.0
  * @package    RankMath
@@ -12,8 +12,9 @@ namespace RankMath\WooCommerce;
 
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Str;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Str;
+use RankMath\Helpers\Param;
+use RankMath\Helpers\DB as DB_Helper;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -25,11 +26,25 @@ class WooCommerce extends WC_Vars {
 	use Hooker;
 
 	/**
-	 * Hold product.
+	 * Remove product base.
 	 *
-	 * @var WC_Product
+	 * @var bool
 	 */
-	private $product = null;
+	private $remove_product_base;
+
+	/**
+	 * Remove category base.
+	 *
+	 * @var bool
+	 */
+	private $remove_category_base;
+
+	/**
+	 * Remove parent slugs.
+	 *
+	 * @var bool
+	 */
+	private $remove_parent_slugs;
 
 	/**
 	 * The Constructor.
@@ -45,12 +60,37 @@ class WooCommerce extends WC_Vars {
 
 		$this->integrations();
 
-		if ( $this->remove_product_base || $this->remove_category_base ) {
+		if ( $this->should_redirect() ) {
 			new Product_Redirection();
+			new Permalink_Watcher();
 		}
 
-		new Permalink_Watcher();
 		parent::__construct();
+
+		$this->filter( 'rank_math/recalculate_score/data', 'recalculate_score_data', 10, 2 );
+	}
+
+	/**
+	 * Check if we should redirect product permalinks.
+	 *
+	 * @return bool
+	 */
+	public function should_redirect() {
+		$remove_base = $this->remove_product_base || $this->remove_category_base || $this->remove_parent_slugs;
+		if ( ! $remove_base ) {
+			return false;
+		}
+
+		if ( ! function_exists( 'affiliate_wp' ) || ! isset( $_SERVER['REQUEST_URI'] ) ) {
+			return $remove_base;
+		}
+
+		$referral_var = affiliate_wp()->tracking->get_referral_var();
+		if ( strpos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), '/' . $referral_var . '/' ) === false ) {
+			return $remove_base;
+		}
+
+		return false;
 	}
 
 	/**
@@ -78,7 +118,7 @@ class WooCommerce extends WC_Vars {
 	}
 
 	/**
-	 * Replace request if product found.
+	 * Replace request if product was found.
 	 *
 	 * @param array $request Current request.
 	 *
@@ -106,13 +146,18 @@ class WooCommerce extends WC_Vars {
 			$slug           = array_pop( $url );
 		}
 
-		if ( 0 === strpos( $slug, 'comment-page-' ) ) {
+		if ( ! empty( $slug ) && 0 === strpos( $slug, 'comment-page-' ) ) {
 			$replace['cpage'] = substr( $slug, strlen( 'comment-page-' ) );
 			$slug             = array_pop( $url );
 		}
 
+		if ( ! empty( $slug ) && 0 === strpos( $slug, 'schema-preview' ) ) {
+			$replace['schema-preview'] = '';
+			$slug                      = array_pop( $url );
+		}
+
 		$query = "SELECT COUNT(ID) as count_id FROM {$wpdb->posts} WHERE post_name = %s AND post_type = %s";
-		$num   = intval( $wpdb->get_var( $wpdb->prepare( $query, [ $slug, 'product' ] ) ) ); // phpcs:ignore
+		$num   = intval( DB_Helper::get_var( $wpdb->prepare( $query, [ $slug, 'product' ] ) ) );
 		if ( $num > 0 ) {
 			$replace['page']      = '';
 			$replace['name']      = $slug;
@@ -126,7 +171,7 @@ class WooCommerce extends WC_Vars {
 	}
 
 	/**
-	 * Change robots for WooCommerce pages according to settings
+	 * Change robots for WooCommerce pages according to the settings.
 	 *
 	 * @param array $robots Array of robots to sanitize.
 	 *
@@ -215,42 +260,18 @@ class WooCommerce extends WC_Vars {
 	}
 
 	/**
-	 * Returns the product object when the current page is the product page.
+	 * Update the values used for recalculating SEO score for products.
 	 *
-	 * @return null|WC_Product
+	 * @param array $values The values to be sent to the analyzer.
+	 * @param int   $post_id The post ID.
+	 *
+	 * @return array
 	 */
-	public function get_product() {
-		if ( ! is_null( $this->product ) ) {
-			return $this->product;
+	public function recalculate_score_data( $values, $post_id ) {
+		if ( 'product' === get_post_type( $post_id ) ) {
+			$values['content'] = $values['content'] . ' ' . get_the_excerpt( $post_id );
 		}
 
-		$product_id    = Param::get( 'post', get_queried_object_id(), FILTER_VALIDATE_INT );
-		$this->product = (
-			! function_exists( 'wc_get_product' ) ||
-			! $product_id ||
-			(
-				! is_admin() &&
-				! is_singular( 'product' )
-			)
-		) ? null : wc_get_product( $product_id );
-
-		return $this->product;
-	}
-
-	/**
-	 * Returns the array of brand taxonomy.
-	 *
-	 * @param int $product_id The id to get the product brands for.
-	 *
-	 * @return bool|array
-	 */
-	public static function get_brands( $product_id ) {
-		$taxonomy = Helper::get_settings( 'general.product_brand' );
-		if ( ! $taxonomy || ! taxonomy_exists( $taxonomy ) ) {
-			return false;
-		}
-
-		$brands = wp_get_post_terms( $product_id, $taxonomy );
-		return empty( $brands ) || is_wp_error( $brands ) ? false : $brands;
+		return $values;
 	}
 }

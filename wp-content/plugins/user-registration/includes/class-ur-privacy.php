@@ -28,7 +28,7 @@ class UR_Privacy {
 			$content = $this->get_privacy_message();
 
 			if ( $content ) {
-				wp_add_privacy_policy_content( __( 'User Registration', 'user-registration' ), $this->get_privacy_message() );
+				wp_add_privacy_policy_content( 'User Registration', $this->get_privacy_message() );
 			}
 		}
 	}
@@ -90,7 +90,11 @@ class UR_Privacy {
 			'</div>' .
 			'<p>' . __( 'We send beautiful email through MailChimp. When processing emails, some of your data will be passed to MailChimp, including information required to process or support the email marketing services, such as the name, email address and any other information that you intend to pass or collect including all collected information through subscription.', 'user-registration' ) . '</p>' .
 			'<p>' . __( 'Please see the <a href="https://mailchimp.com/legal/privacy/">MailChimp Privacy Policy</a> for more details.', 'user-registration' ) . '</p>';
-
+		/**
+		 * Applies filter to modify the privacy policy content.
+		 *
+		 * @param string $content The privacy policy content.
+		 */
 		return apply_filters( 'user_registration_privacy_policy_content', $content );
 	}
 }

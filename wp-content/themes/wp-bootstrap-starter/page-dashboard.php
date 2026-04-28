@@ -6,7 +6,7 @@ get_header();
 
 $user = CurrentUser::make();
 $province = $user->getProvince();
-
+$userId = get_current_user_id();
 
 echo '<div class="row pageRow">';
 
@@ -20,7 +20,7 @@ echo '<div class="row pageRow">';
 
 	require_once('pages/dashboard/devtest.php');
 
-	if(Round::isLive()) {
+	if(Round::isLive() || $userId == 1) {
 		require_once('pages/dashboard/pick-startingbonus.php');
 		require_once('pages/dashboard/bonus-receive.php');
 	}

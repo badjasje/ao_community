@@ -92,13 +92,16 @@ if(!!$province && $r = $province->getCurrentResearch()) $researchInProgress = $r
 				<strong>Starting bonus</strong>
 			</div>
 			<div class="statusInsideCol">
-				<? if($startingbonus) {?>
+				<? if($startingbonus) { ?>
 					<span class="hover-tip" data-toggle="tooltip" data-title="<?=$startingbonus['description']?>" data-html="true" data-placement="left">
 						<i class="fa <?=$startingbonus['icon']?>" aria-hidden="true"></i> <?=$startingbonus['name']?>
 					</span>
 				<? } else { ?>
 					<u><a href="#startingBonus">None</a></u>
 				<? } ?>
+				<?php if($startingbonus['name'] == 'Land'):?>
+				<div style="display: block;margin-top:5px;">You will receive new land on <?php echo date('d-m-Y H:i:s', get_user_meta( $userId, 'land_bonus_counter', true ));?></div>
+				<?php endif;?>
 			</div>
 			
 

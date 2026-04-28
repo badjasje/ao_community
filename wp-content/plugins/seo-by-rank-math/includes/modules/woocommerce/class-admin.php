@@ -1,6 +1,6 @@
 <?php
 /**
- * The WooCommerce Module
+ * The WooCommerce module - admin side functionality.
  *
  * @since      0.9.0
  * @package    RankMath
@@ -15,7 +15,7 @@ use RankMath\Helper;
 use RankMath\Admin\Admin_Helper;
 use RankMath\Module\Base;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Arr;
+use RankMath\Helpers\Arr;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -31,7 +31,7 @@ class Admin extends Base {
 	 */
 	public function __construct() {
 
-		$directory = dirname( __FILE__ );
+		$directory = __DIR__;
 		$this->config(
 			[
 				'id'        => 'woocommerce',
@@ -44,7 +44,7 @@ class Admin extends Base {
 		$this->filter( 'rank_math/settings/general', 'add_general_settings' );
 		$this->filter( 'rank_math/flush_fields', 'flush_fields' );
 
-		$this->action( 'rank_math/admin/enqueue_scripts', 'enqueue' );
+		$this->action( 'rank_math/admin/editor_scripts', 'enqueue' );
 	}
 
 	/**
@@ -56,7 +56,7 @@ class Admin extends Base {
 			return;
 		}
 
-		wp_enqueue_script( 'rank-math-description-analysis', rank_math()->plugin_url() . 'assets/admin/js/product-description.js', [ 'rank-math-metabox' ], rank_math()->version, true );
+		wp_enqueue_script( 'rank-math-description-analysis', rank_math()->plugin_url() . 'includes/modules/woocommerce/assets/js/woocommerce.js', [ 'rank-math-editor' ], rank_math()->version, true );
 	}
 
 	/**
@@ -74,8 +74,11 @@ class Admin extends Base {
 					'icon'  => 'rm-icon rm-icon-cart',
 					'title' => esc_html__( 'WooCommerce', 'rank-math' ),
 					/* translators: Link to kb article */
-					'desc'  => sprintf( esc_html__( 'Choose how you want Rank Math to handle your WooCommerce SEO. %s.', 'rank-math' ), '<a href="' . KB::get( 'woocommerce-settings' ) . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>' ),
+					'desc'  => sprintf( esc_html__( 'Choose how you want Rank Math to handle your WooCommerce SEO. %s.', 'rank-math' ), '<a href="' . KB::get( 'woocommerce-settings', 'Options Panel WooCommerce Tab' ) . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>' ),
 					'file'  => $this->directory . '/views/options-general.php',
+					'json'  => [
+						'brandTaxonomies' => Helper::get_object_taxonomies( 'product', 'choices', false ),
+					],
 				],
 			],
 			7

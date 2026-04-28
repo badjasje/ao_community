@@ -12,9 +12,9 @@ namespace RankMath\Frontend;
 
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Str;
-use MyThemeShop\Helpers\Url;
-use MyThemeShop\Helpers\HTML;
+use RankMath\Helpers\Str;
+use RankMath\Helpers\Url;
+use RankMath\Helpers\HTML;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -26,10 +26,61 @@ class Link_Attributes {
 	use Hooker;
 
 	/**
+	 * Add rel=noopener or not.
+	 *
+	 * @var bool
+	 */
+	public $add_noopener;
+
+	/**
+	 * Add rel=nofollow to links or not.
+	 *
+	 * @var bool
+	 */
+	public $nofollow_link;
+
+	/**
+	 * Add rel=nofollow to images or not.
+	 *
+	 * @var bool
+	 */
+	public $nofollow_image;
+
+	/**
+	 * Open links in a new window or not.
+	 *
+	 * @var bool
+	 */
+	public $new_window_link;
+
+	/**
+	 * Remove existing CSS class from links or not.
+	 *
+	 * @var bool
+	 */
+	public $remove_class;
+
+	/**
+	 * Check if the link attributes have been modified or not.
+	 *
+	 * @var bool
+	 */
+	public $is_dirty;
+
+	/**
+	 * Additional attributes to add to links.
+	 *
+	 * @var array
+	 */
+	public $add_attributes;
+
+
+	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
 		$this->action( 'wp', 'add_attributes', 9999 );
+		$this->action( 'rest_api_init', 'add_attributes' );
 	}
 
 	/**
@@ -45,7 +96,10 @@ class Link_Attributes {
 		$this->remove_class    = $this->do_filter( 'link/remove_class', false );
 		$this->is_dirty        = false;
 
-		if ( $this->nofollow_link || $this->new_window_link || $this->nofollow_image || $this->add_noopener || $this->remove_class ) {
+		// Filter to run the link attributes function even when Link options are disabled.
+		$this->add_attributes = $this->do_filter( 'link/add_attributes', $this->nofollow_link || $this->new_window_link || $this->nofollow_image || $this->add_noopener );
+
+		if ( $this->add_attributes || $this->remove_class ) {
 			$this->filter( 'the_content', 'add_link_attributes', 11 );
 		}
 	}
@@ -57,7 +111,12 @@ class Link_Attributes {
 	 * @return string
 	 */
 	public function add_link_attributes( $content ) {
-		preg_match_all( '/<(a\s[^>]+)>/', $content, $matches );
+		// Early bail if content is empty.
+		if ( empty( $content ) ) {
+			return $content;
+		}
+		$stripped_content = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $content );
+		preg_match_all( '/<(a\s[^>]+)>/', $stripped_content, $matches );
 		if ( empty( $matches ) || empty( $matches[0] ) ) {
 			return $content;
 		}
@@ -108,7 +167,11 @@ class Link_Attributes {
 	 */
 	private function can_add_attributes( $attrs ) {
 		// If link has no href attribute or if the link is not valid then we don't need to do anything.
-		if ( empty( $attrs['href'] ) || empty( wp_parse_url( $attrs['href'], PHP_URL_HOST ) ) || ( isset( $attrs['role'] ) && 'button' === $attrs['role'] ) ) {
+		if (
+			empty( $attrs['href'] ) ||
+			( empty( wp_parse_url( $attrs['href'], PHP_URL_HOST ) ) && ! Url::is_affiliate( $attrs['href'] ) ) ||
+			( isset( $attrs['role'] ) && 'button' === $attrs['role'] )
+		) {
 			return false;
 		}
 
@@ -149,7 +212,7 @@ class Link_Attributes {
 	 * @return array $attrs
 	 */
 	private function set_external_attrs( $attrs ) {
-		if ( ! $this->nofollow_link && ! $this->new_window_link && ! $this->nofollow_image && ! $this->add_noopener ) {
+		if ( ! $this->add_attributes ) {
 			return $attrs;
 		}
 
@@ -160,14 +223,14 @@ class Link_Attributes {
 			return $attrs;
 		}
 
-		if ( $this->should_add_nofollow( $attrs['href'] ) ) {
+		if ( $this->do_filter( 'nofollow/url', $this->should_add_nofollow( $attrs['href'] ), $attrs['href'] ) ) {
 			if ( $this->nofollow_link || ( $this->nofollow_image && $this->is_valid_image( $attrs['href'] ) ) ) {
 				$this->is_dirty = true;
 				$this->set_rel_attribute( $attrs, 'nofollow', ( isset( $attrs['rel'] ) && ! Str::contains( 'dofollow', $attrs['rel'] ) && ! Str::contains( 'nofollow', $attrs['rel'] ) ) );
 			}
 		}
 
-		if ( $this->new_window_link && ! isset( $attrs['target'] ) ) {
+		if ( $this->new_window_link && ! isset( $attrs['target'] ) && $this->do_filter( 'target_blank/domain', Url::get_domain( $attrs['href'] ) ) ) {
 			$this->is_dirty  = true;
 			$attrs['target'] = '_blank';
 		}
@@ -175,6 +238,11 @@ class Link_Attributes {
 		if ( $this->add_noopener && $this->do_filter( 'noopener/domain', Url::get_domain( $attrs['href'] ) ) ) {
 			$this->is_dirty = true;
 			$this->set_rel_attribute( $attrs, 'noopener', ( isset( $attrs['rel'] ) && ! Str::contains( 'noopener', $attrs['rel'] ) ) );
+		}
+
+		if ( Url::is_affiliate( $attrs['href'] ) ) {
+			$this->is_dirty = true;
+			$this->set_rel_attribute( $attrs, 'sponsored', ( isset( $attrs['rel'] ) && ! Str::contains( 'sponsored', $attrs['rel'] ) ) );
 		}
 
 		return $attrs;
@@ -194,14 +262,15 @@ class Link_Attributes {
 		$include_domains = $this->get_nofollow_domains( 'include' );
 		$exclude_domains = $this->get_nofollow_domains( 'exclude' );
 		$parent_domain   = Url::get_domain( $url );
+		$parent_domain   = preg_replace( '/^www\./', '', $parent_domain );
 
 		// Check if domain is in list.
 		if ( ! empty( $include_domains ) ) {
-			return Str::contains( $parent_domain, $include_domains );
+			return in_array( $parent_domain, $include_domains, true );
 		}
 
-		// Check if domains is NOT in list.
-		if ( ! empty( $exclude_domains ) && Str::contains( $parent_domain, $exclude_domains ) ) {
+		// Check if domain is NOT in list.
+		if ( ! empty( $exclude_domains ) && in_array( $parent_domain, $exclude_domains, true ) ) {
 			return false;
 		}
 
@@ -225,7 +294,16 @@ class Link_Attributes {
 		$domains = Helper::get_settings( "general.{$setting}" );
 		$domains = Str::to_arr_no_empty( $domains );
 
-		$rank_math_nofollow_domains[ $type ] = empty( $domains ) ? false : join( ';', $domains );
+		// Strip off www. prefixes.
+		$domains = array_map(
+			function ( $domain ) {
+				$domain = preg_replace( '#^http(s)?://#', '', trim( $domain, '/' ) );
+				return preg_replace( '/^www\./', '', $domain );
+			},
+			$domains
+		);
+
+		$rank_math_nofollow_domains[ $type ] = $domains;
 
 		return $rank_math_nofollow_domains[ $type ];
 	}

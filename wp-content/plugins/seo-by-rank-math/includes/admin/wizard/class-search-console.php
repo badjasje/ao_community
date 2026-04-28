@@ -10,9 +10,16 @@
 
 namespace RankMath\Wizard;
 
-use RankMath\KB;
 use RankMath\Helper;
-use RankMath\Search_Console\Data_Fetcher;
+use RankMath\Helpers\Param;
+use RankMath\Admin\Admin_Helper;
+use RankMath\Google\Authentication;
+use RankMath\Google\Permissions;
+use RankMath\Analytics\Email_Reports;
+use RankMath\Analytics\Workflow\Objects;
+use RankMath\Analytics\Workflow\Console;
+use RankMath\Analytics\Workflow\Inspections;
+
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,131 +29,125 @@ defined( 'ABSPATH' ) || exit;
 class Search_Console implements Wizard_Step {
 
 	/**
-	 * Render step body.
+	 * Get Localized data to be used in the Analytics step.
 	 *
-	 * @param object $wizard Wizard class instance.
-	 *
-	 * @return void
+	 * @return array
 	 */
-	public function render( $wizard ) {
-		?>
-		<header>
-			<h1><?php esc_html_e( 'Google&trade; Search Console', 'rank-math' ); ?> </h1>
-			<p>
-				<?php
-				/* translators: Link to How to Setup Google Search Console KB article */
-				printf( esc_html__( 'Verify your site on Google Search Console and connect it here to see crawl error notifications, keyword statistics and other important information right in your WordPress dashboard. %s', 'rank-math' ), '<a href="' . KB::get( 'search-console' ) . '" target="_blank">' . esc_html__( 'Read more about it here.', 'rank-math' ) . '</a>' );
-				?>
-			</p>
-		</header>
-
-		<?php $wizard->cmb->show_form(); ?>
-
-		<footer class="form-footer wp-core-ui rank-math-ui">
-			<?php $wizard->get_skip_link(); ?>
-			<button type="submit" class="button button-primary"><?php esc_html_e( 'Save and Continue', 'rank-math' ); ?></button>
-		</footer>
-		<?php
-	}
-
-	/**
-	 * Render form for step.
-	 *
-	 * @param object $wizard Wizard class instance.
-	 *
-	 * @return void
-	 */
-	public function form( $wizard ) {
-		$dep  = '';
-		$data = Helper::search_console_data();
-
-		if ( ! Helper::is_module_active( 'search-console' ) ) {
-			$wizard->cmb->add_field(
-				[
-					'id'      => 'search-console',
-					'type'    => 'toggle',
-					'name'    => esc_html__( 'Search Console', 'rank-math' ),
-					'desc'    => esc_html__( 'Connect Rank Math with Google Search Console to see the most important information from Google directly in your WordPress dashboard.', 'rank-math' ),
-					'default' => 'off',
-				]
-			);
-			$dep = [ [ 'search-console', 'on' ] ];
-		}
-
-		$wizard->cmb->add_field(
+	public static function get_localized_data() {
+		$all_services = get_option(
+			'rank_math_analytics_all_services',
 			[
-				'id'         => 'console_authorization_code',
-				'type'       => 'text',
-				'name'       => esc_html__( 'Search Console', 'rank-math' ),
-				'attributes' => [ 'data-authorized' => $data['authorized'] ? 'true' : 'false' ],
-				'after'      => $this->get_buttons(),
-				'dep'        => $dep,
-				'classes'    => $data['authorized'] ? 'authorized' : 'unauthorized',
+				'isVerified'           => '',
+				'inSearchConsole'      => '',
+				'hasSitemap'           => '',
+				'hasAnalytics'         => '',
+				'hasAnalyticsProperty' => '',
+				'homeUrl'              => '',
+				'sites'                => '',
+				'accounts'             => [],
+				'adsenseAccounts'      => [],
+			]
+		);
+		$analytics    = wp_parse_args(
+			get_option( 'rank_math_google_analytic_options' ),
+			[
+				'adsense_id'       => '',
+				'account_id'       => '',
+				'property_id'      => '',
+				'view_id'          => '',
+				'measurement_id'   => '',
+				'stream_name'      => '',
+				'country'          => 'all',
+				'install_code'     => false,
+				'anonymize_ip'     => false,
+				'local_ga_js'      => false,
+				'exclude_loggedin' => false,
 			]
 		);
 
-		$profile       = Helper::get_settings( 'general.console_profile' );
-		$profile_label = str_replace( 'sc-domain:', __( 'Domain Property: ', 'rank-math' ), $profile );
-		foreach ( $data['profiles'] as $key => $value ) {
-			$data['profiles'][ $key ] = str_replace( 'sc-domain:', __( 'Domain Property: ', 'rank-math' ), $value );
-		}
+		$page         = Param::get( 'page', '', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_BACKTICK );
+		$page         = in_array( $page, [ 'rank-math-options-general', 'rank-math-analytics' ], true ) ? 'rank-math-options-general' : 'rank-math-wizard&step=analytics';
+		$activate_url = Admin_Helper::get_activate_url( admin_url( 'admin.php?analytics=1&page=' . $page ) );
 
-		$wizard->cmb->add_field(
+		$profile = wp_parse_args(
+			get_option( 'rank_math_google_analytic_profile' ),
 			[
-				'id'           => 'console_profile',
-				'type'         => 'select',
-				'name'         => esc_html__( 'Search Console Profile', 'rank-math' ),
-				'desc'         => esc_html__( 'After authenticating with Google Search Console, select your website from the dropdown list.', 'rank-math' ) .
-					' <span id="gsc-dp-info" class="hidden">' . __( 'Please note that the Sitemaps overview in the Search Console module will not be available when using a Domain Property.', 'rank-math' ) . '</span>' .
-					/* translators: Link to setting screen */
-					'<br><br><span style="color: orange;">' . sprintf( __( 'Is your site not listed? <a href="%1$s" target="_blank">Click here</a> to get your website verified.', 'rank-math' ), Helper::get_admin_url( 'options-general#setting-panel-webmaster' ) ) . '</span>',
-				'options'      => $profile ? [ $profile => $profile_label ] : $data['profiles'],
-				'default'      => $profile,
-				'before_field' => '<button class="button button-primary hidden rank-math-refresh" ' . ( $data['authorized'] ? '' : 'disabled="disabled"' ) . '>' . esc_html__( 'Refresh Sites', 'rank-math' ) . '</button>',
-				'attributes'   => $data['authorized'] ? [ 'data-s2' => '' ] : [
-					'disabled' => 'disabled',
-					'data-s2'  => '',
-				],
-				'dep'          => $dep,
+				'profile'             => '',
+				'country'             => 'all',
+				'enable_index_status' => true,
+				'sites'               => $all_services['sites'],
 			]
 		);
+
+		return [
+			'isSiteConnected'        => Helper::is_site_connected(),
+			'isAuthorized'           => Authentication::is_authorized(),
+			'isSiteUrlValid'         => Admin_Helper::is_site_url_valid(),
+			'hasConsolePermission'   => Permissions::has_console(),
+			'hasAnalyticsPermission' => Permissions::has_analytics(),
+			'hasAdsensePermission'   => Permissions::has_adsense(),
+			'activateUrl'            => $activate_url,
+			'authUrl'                => Authentication::get_auth_url(),
+			'reconnectGoogleUrl'     => wp_nonce_url( admin_url( 'admin.php?reconnect=google' ), 'rank_math_reconnect_google' ),
+			'showEmailReports'       => ! Email_Reports::are_fields_hidden(),
+			'searchConsole'          => $profile,
+			'console_email_reports'  => Helper::get_settings( 'general.console_email_reports' ),
+			'analyticsData'          => $analytics,
+			'allServices'            => $all_services,
+		];
 	}
 
 	/**
 	 * Save handler for step.
 	 *
-	 * @param array  $values Values to save.
-	 * @param object $wizard Wizard class instance.
+	 * @param array $values Values to save.
 	 *
 	 * @return bool
 	 */
-	public function save( $values, $wizard ) {
-		$module   = 'off';
-		$settings = rank_math()->settings->all_raw();
-
-		if ( isset( $values['console_profile'] ) ) {
-			$module                                 = 'on';
-			$settings['general']['console_profile'] = $values['console_profile'];
-			Data_Fetcher::get()->clean_start();
+	public static function save( $values ) {
+		if ( isset( $values['console_email_reports'] ) ) {
+			$settings                                     = rank_math()->settings->all_raw();
+			$settings['general']['console_email_reports'] = $values['console_email_reports'] ? 'on' : 'off';
+			Helper::update_all_settings( $settings['general'], null, null );
 		}
 
-		Helper::update_modules( [ 'search-console' => $module ] );
-		Helper::update_all_settings( $settings['general'], null, null );
+		// For Search console.
+		if ( isset( $values['searchConsole'] ) && ! empty( $values['searchConsole'] ) ) {
+			$search_console_data = $values['searchConsole'];
+			$value               = [
+				'country'             => sanitize_text_field( $search_console_data['country'] ),
+				'profile'             => sanitize_text_field( $search_console_data['profile'] ?? '' ),
+				'enable_index_status' => sanitize_text_field( $search_console_data['enable_index_status'] ),
+			];
+			update_option( 'rank_math_google_analytic_profile', $value );
+		}
+
+		// For Analytics.
+		if ( isset( $values['analyticsData'] ) && ! empty( $values['analyticsData'] ) ) {
+			$analytics_data = $values['analyticsData'];
+			$analytic_value = [
+				'adsense_id'       => sanitize_text_field( $analytics_data['adsense_id'] ),
+				'account_id'       => sanitize_text_field( $analytics_data['account_id'] ),
+				'property_id'      => sanitize_text_field( $analytics_data['property_id'] ),
+				'view_id'          => sanitize_text_field( $analytics_data['view_id'] ),
+				'measurement_id'   => sanitize_text_field( $analytics_data['measurement_id'] ),
+				'stream_name'      => sanitize_text_field( $analytics_data['stream_name'] ),
+				'country'          => sanitize_text_field( $analytics_data['country'] ),
+				'install_code'     => sanitize_text_field( $analytics_data['install_code'] ),
+				'anonymize_ip'     => sanitize_text_field( $analytics_data['anonymize_ip'] ),
+				'local_ga_js'      => sanitize_text_field( $analytics_data['local_ga_js'] ),
+				'exclude_loggedin' => sanitize_text_field( $analytics_data['exclude_loggedin'] ),
+			];
+			update_option( 'rank_math_google_analytic_options', $analytic_value );
+		}
+
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+		if ( 'rank-math-wizard' === $page ) {
+			new Objects();
+			new Console();
+			new Inspections();
+		}
 
 		return true;
-	}
-
-	/**
-	 * Get buttons html.
-	 *
-	 * @return string
-	 */
-	private function get_buttons() {
-		$data      = Helper::search_console_data();
-		$primary   = '<button class="button button-primary rank-math-authorize-account">' . ( $data['authorized'] ? esc_html__( 'De-authorize Account', 'rank-math' ) : esc_html__( 'Authorize', 'rank-math' ) ) . '</button>';
-		$secondary = '<a href="' . esc_url( Helper::get_console_auth_url() ) . '" class="button button-primary custom rank-math-get-authorization-code"' . ( $data['authorized'] ? ' style="display:none;"' : '' ) . '>' . esc_html__( 'Get Authorization Code', 'rank-math' ) . '</a><br />';
-		/* translators: Link to 'How To Create a Google API Project For Connecting Search Console' KB article */
-		$desc = '<div class="cmb2-metabox-description">' . sprintf( esc_html__( 'You can also create your own app and connect that instead. %s', 'rank-math' ), '<a href="' . KB::get( 'custom-gsc-project' ) . '" target="_blank">' . esc_html__( 'Follow this tutorial.', 'rank-math' ) . '</a>' ) . '</div>';
-		return $primary . $secondary . $desc;
 	}
 }

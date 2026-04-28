@@ -14,7 +14,7 @@ class Missiles extends DataObject {
             'shortatt'      =>  array('s','a','i','b','v'),
             'attacks'       =>  array('sea','air','inf','bld','veh'),
             'defends'       =>  array(''),
-            'attack'        =>  25000,
+            'attack'        =>  27500,
             'type'          =>  'mis',
             'life'          =>  0
         ),

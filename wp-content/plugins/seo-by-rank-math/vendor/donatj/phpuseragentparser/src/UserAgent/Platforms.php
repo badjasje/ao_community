@@ -13,6 +13,7 @@ interface Platforms {
 	const ANDROID          = 'Android';
 	const BLACKBERRY       = 'BlackBerry';
 	const FREEBSD          = 'FreeBSD';
+	const FUCHSIA          = 'Fuchsia';
 	const IPAD             = 'iPad';
 	const IPHONE           = 'iPhone';
 	const IPOD             = 'iPod';
@@ -29,7 +30,10 @@ interface Platforms {
 	const PLAYBOOK         = 'PlayBook';
 	const PLAYSTATION_3    = 'PlayStation 3';
 	const PLAYSTATION_4    = 'PlayStation 4';
+	const PLAYSTATION_5    = 'PlayStation 5';
 	const PLAYSTATION_VITA = 'PlayStation Vita';
+	const SAILFISH         = 'Sailfish';
+	const SYMBIAN          = 'Symbian';
 	const TIZEN            = 'Tizen';
 	const WINDOWS_PHONE    = 'Windows Phone';
 	const XBOX             = 'Xbox';

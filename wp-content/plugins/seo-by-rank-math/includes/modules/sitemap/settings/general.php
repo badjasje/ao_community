@@ -1,10 +1,12 @@
 <?php
 /**
- * Sitemap - General
+ * Sitemap settings - General tab.
  *
  * @package    RankMath
  * @subpackage RankMath\Sitemap
  */
+
+defined( 'ABSPATH' ) || exit;
 
 if ( class_exists( 'SitePress' ) ) {
 	$cmb->add_field(
@@ -70,17 +72,6 @@ $cmb->add_field(
 		'type'    => 'text',
 		'name'    => esc_html__( 'Exclude Terms', 'rank-math' ),
 		'desc'    => esc_html__( 'Add term IDs, separated by comma. This option is applied for all taxonomies.', 'rank-math' ),
-		'classes' => 'rank-math-advanced-option',
-	]
-);
-
-$cmb->add_field(
-	[
-		'id'      => 'ping_search_engines',
-		'type'    => 'toggle',
-		'name'    => esc_html__( 'Ping Search Engines', 'rank-math' ),
-		'desc'    => esc_html__( 'Automatically notify Google &amp; Bing when a sitemap gets updated.', 'rank-math' ),
-		'default' => 'on',
 		'classes' => 'rank-math-advanced-option',
 	]
 );

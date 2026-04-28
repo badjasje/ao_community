@@ -24,7 +24,7 @@ class Notices {
                 'load'
             ), 11);
 
-            if (basename($_SERVER['PHP_SELF']) !== 'options-general.php' || empty($_GET['page']) || $_GET['page'] !== 'nextend-social-login') {
+            if ((!empty($_SERVER['PHP_SELF']) && basename($_SERVER['PHP_SELF']) !== 'options-general.php') || empty($_GET['page']) || $_GET['page'] !== 'nextend-social-login') {
                 add_action('admin_notices', array(
                     $this,
                     'admin_notices'
@@ -115,57 +115,9 @@ class Notices {
         if (!empty($html)) {
             ?>
             <div id="nsl-notices-fallback" onclick="this.parentNode.removeChild(this);">
-                <?php echo $html; ?>
-                <style>
-                    #nsl-notices-fallback {
-                        position: fixed;
-                        right: 10px;
-                        top: 10px;
-                        z-index: 10000;
-                    }
-
-                    .admin-bar #nsl-notices-fallback {
-                        top: 42px;
-                    }
-
-                    #nsl-notices-fallback > div {
-                        position: relative;
-                        background: #fff;
-                        border-left: 4px solid #fff;
-                        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-                        margin: 5px 15px 2px;
-                        padding: 1px 20px;
-                    }
-
-                    #nsl-notices-fallback > div.error {
-                        display: block;
-                        border-left-color: #dc3232;
-                    }
-
-                    #nsl-notices-fallback > div.updated {
-                        display: block;
-                        border-left-color: #46b450;
-                    }
-
-                    #nsl-notices-fallback p {
-                        margin: .5em 0;
-                        padding: 2px;
-                    }
-
-                    #nsl-notices-fallback > div:after {
-                        position: absolute;
-                        right: 5px;
-                        top: 5px;
-                        content: '\00d7';
-                        display: block;
-                        height: 16px;
-                        width: 16px;
-                        line-height: 16px;
-                        text-align: center;
-                        font-size: 20px;
-                        cursor: pointer;
-                    }
-                </style>
+                <?php echo $html;
+                \NextendSocialLogin::noticeStyles();
+                ?>
             </div>
             <?php
         }

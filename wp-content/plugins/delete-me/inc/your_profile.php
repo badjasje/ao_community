@@ -19,8 +19,8 @@ if ( in_array( 'administrator', $user->roles ) || ( is_multisite() && is_super_a
 
 	// User has capability, prepare delete link
 	$attributes = array();
-	$attributes['class'] = $this->option['settings']['your_profile_class'];
-	$attributes['style'] = $this->option['settings']['your_profile_style'];
+	$attributes['class'] = esc_attr( $this->option['settings']['your_profile_class'] );
+	$attributes['style'] = esc_attr( $this->option['settings']['your_profile_style'] );
 	$attributes['href'] = esc_url( self_admin_url( 'options.php?page=' . $this->info['slug_prefix'] . '_confirmation' ) );
 
 	// Remove empty attributes
@@ -35,7 +35,7 @@ if ( in_array( 'administrator', $user->roles ) || ( is_multisite() && is_super_a
 	Function called separately from array key for PHP < 5.4
 	*/
 	$default_option = $this->default_option();
-	$output = '<a ' . implode( ' ', $paired_attributes ) . '>' . ( $default_option['settings']['your_profile_anchor'] === $this->option['settings']['your_profile_anchor'] ? __( 'Delete Account', 'delete-me' ) : $this->option['settings']['your_profile_anchor'] ) . '</a>';
+	$output = '<a ' . implode( ' ', $paired_attributes ) . '>' . wp_kses_post( $default_option['settings']['your_profile_anchor'] === $this->option['settings']['your_profile_anchor'] ? __( 'Delete Account', 'delete-me' ) : $this->option['settings']['your_profile_anchor'] ) . '</a>';
 }
 ?>
 <table class="form-table">

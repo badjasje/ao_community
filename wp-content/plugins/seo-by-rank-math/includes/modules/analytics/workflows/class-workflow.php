@@ -11,7 +11,7 @@
 namespace RankMath\Analytics\Workflow;
 
 use RankMath\Traits\Hooker;
-use function as_enqueue_async_action;
+use RankMath\Helpers\Schedule;
 use function as_unschedule_all_actions;
 
 defined( 'ABSPATH' ) || exit;
@@ -52,65 +52,76 @@ class Workflow {
 
 		// Console.
 		$this->action( 'rank_math/analytics/workflow/console', 'init_console_workflow', 5, 0 );
+
+		// Inspections.
+		$this->action( 'rank_math/analytics/workflow/inspections', 'init_inspections_workflow', 5, 0 );
 	}
 
 	/**
 	 * Maybe first install.
 	 */
 	public function maybe_first_install() {
-		new \RankMath\Analytics\Workflow\Objects();
+		new Objects();
 	}
 
 	/**
 	 * Init Console workflow
 	 */
 	public function init_console_workflow() {
-		new \RankMath\Analytics\Workflow\Console();
+		new Console();
+	}
+
+	/**
+	 * Init Inspections workflow.
+	 */
+	public function init_inspections_workflow() {
+		new Inspections();
 	}
 
 	/**
 	 * Create tables only.
 	 */
 	public function create_tables_only() {
-		( new \RankMath\Analytics\Workflow\Objects() )->create_tables();
-		new \RankMath\Analytics\Workflow\Console();
+		( new Objects() )->create_tables();
+		( new Inspections() )->create_tables();
+		new Console();
 	}
 
 	/**
 	 * Service workflow
 	 *
-	 * @param string  $action Action to perform.
-	 * @param integer $days   Number of days to fetch from past.
-	 * @param string  $prev   Previous saved value.
-	 * @param string  $new    New posted value.
+	 * @param string  $action    Action to perform.
+	 * @param integer $days      Number of days to fetch from past.
+	 * @param string  $prev      Previous saved value.
+	 * @param string  $new_value New posted value.
 	 */
-	public function start_workflow( $action, $days, $prev, $new ) {
+	public function start_workflow( $action, $days = 0, $prev = null, $new_value = null ) {
 		do_action(
 			'rank_math/analytics/workflow/' . $action,
 			$days,
 			$prev,
-			$new
+			$new_value
 		);
 	}
 
 	/**
 	 * Service workflow
 	 *
-	 * @param string  $action Action to perform.
-	 * @param integer $days   Number of days to fetch from past.
-	 * @param string  $prev   Previous saved value.
-	 * @param string  $new    New posted value.
+	 * @param string  $action    Action to perform.
+	 * @param integer $days      Number of days to fetch from past.
+	 * @param string  $prev      Previous saved value.
+	 * @param string  $new_value New posted value.
 	 */
-	public static function do_workflow( $action, $days, $prev = null, $new = null ) {
-		as_enqueue_async_action(
+	public static function do_workflow( $action, $days = 0, $prev = null, $new_value = null ) {
+		Schedule::async_action(
 			'rank_math/analytics/workflow',
 			[
-				'action' => $action,
-				'days'   => $days,
-				'prev'   => $prev,
-				'new'    => $new,
+				$action,
+				$days,
+				$prev,
+				$new_value,
 			],
-			'workflow'
+			'rank-math'
 		);
 	}
 
@@ -125,6 +136,7 @@ class Workflow {
 		as_unschedule_all_actions( 'rank_math/analytics/get_console_data' );
 		as_unschedule_all_actions( 'rank_math/analytics/get_analytics_data' );
 		as_unschedule_all_actions( 'rank_math/analytics/get_adsense_data' );
+		as_unschedule_all_actions( 'rank_math/analytics/get_inspections_data' );
 
 		do_action( 'rank_math/analytics/clear_cache' );
 	}
@@ -136,11 +148,13 @@ class Workflow {
 	 */
 	public static function add_clear_cache( $time ) {
 		as_unschedule_all_actions( 'rank_math/analytics/clear_cache' );
-		as_schedule_single_action(
+		Schedule::single_action(
 			$time,
 			'rank_math/analytics/clear_cache',
 			[],
 			'rank-math'
 		);
+
+		delete_option( 'rank_math_analytics_last_single_action_schedule_time' );
 	}
 }

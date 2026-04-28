@@ -48,6 +48,19 @@ if(!is_page_template('blank-page.php') && !is_page_template('blank-page-with-con
                             <li><a href="<?=Request::siteUrl()?>/player-statistics">Statistics</a></li>
                             <li><a href="<?=$province->getLink()?>">Set push notifications</a></li>
                         </ul>
+                        <br/>
+                        
+                        <?php 
+	                        
+	                        $theme = get_user_meta( $user->id, 'theme', true ); ?>
+                        
+                        <label>Design</label>
+                        <form method="post" action="https://assault.online/dashboard/">
+                        <select onchange="this.form.submit()" name="design">
+	                        <option <?php if($theme == 'standard'):?>selected<?php endif;?> value="standard">Standard</option>
+	                        <option <?php if($theme == 'nostalgia'):?>selected<?php endif;?> value="nostalgia">Nostalgia</option>
+                        </select>
+                        </form>
                     <? } else{?>
                         <h4>Additional</h4>
                         <ul class="footer-list">

@@ -111,7 +111,22 @@ function nsl_license_not_installed($view) {
     <?php
 }
 
-function nsl_not_compatible($view) {
+function nsl_free_not_compatible($view) {
+    $file = 'nextend-facebook-connect/nextend-facebook-connect.php';
+    ?>
+    <div class="nsl-box nsl-box-blue">
+        <h2 class="title"><?php _e('Not compatible!', 'nextend-facebook-connect'); ?></h2>
+        <p><?php printf(__('%1$s and %2$s are not compatible. Please update %1$s to version %3$s or newer.', 'nextend-facebook-connect'), "Nextend Social Login", "Nextend Social Login Pro Addon", NextendSocialLoginPRO::$nslMinVersion); ?></p>
+
+        <p>
+            <a href="<?php echo esc_url(wp_nonce_url(admin_url('update.php?action=upgrade-plugin&plugin=') . $file, 'upgrade-plugin_' . $file)); ?>"
+               class="button button-primary"><?php printf(__('Update %s', 'nextend-facebook-connect'), "Nextend Social Login"); ?></a>
+        </p>
+    </div>
+    <?php
+}
+
+function nsl_pro_not_compatible($view) {
     $file = 'nextend-social-login-pro/nextend-social-login-pro.php';
     ?>
     <div class="nsl-box nsl-box-blue">
@@ -163,8 +178,11 @@ function nsl_license_activated($view) {
         case 'no-license':
             NextendSocialLoginAdmin::authorizeBox($view);
             break;
-        case 'not-compatible':
-            nsl_not_compatible($view);
+        case 'free-not-compatible':
+            nsl_free_not_compatible($view);
+            break;
+        case 'pro-not-compatible':
+            nsl_pro_not_compatible($view);
             break;
         case 'activated':
             nsl_license_activated($view);

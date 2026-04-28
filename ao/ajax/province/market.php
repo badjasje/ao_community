@@ -13,6 +13,8 @@ function ajax_market($province, $return) {
         }
         $delay = ceil($_POST['delay']);
     }
+    
+    $province->update('turn_lock', 1);
 
     $status = array('Done');
     $timestamp = current_time('timestamp');
@@ -154,4 +156,5 @@ function ajax_market($province, $return) {
         'success' => true, 'status' => implode(', ', $status), 'specialsold' => $province->get('special_sold_today'), 'typespace' => $typeSpace, 'usedtypespace' => $usedTypeSpace,
         'buildmax' => $maxbuild, 'demomax' => $maxdemo, 'owned' => $owned, 'ordered' => $ordered, 'space' => $space, 'specialspace' => $specialspace
     ));
+    $province->update('turn_lock', 0);
 }

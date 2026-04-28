@@ -9,7 +9,7 @@ function ajax_header($province, $return) {
         'globals' => $user->getGlobalNum(),
         'locals' => $user->getLocalNum(),
         'messages' => $user->getMessageNum(),
-        'wars' => getIncomingWars($province->getClanId()),
+        //'wars' => getIncomingWars($province->getClanId()),
         'formatted' => array(
             'turns'	=> $province->getTurns(true), 'networth'=> $province->getNetworth(true), 'money' => $province->getMoney(true),
             'morale' => $province->getMorale(true), 'land' => $province->getLand(true), 'freeland'=> $province->getFreeLand(true),

@@ -56,6 +56,12 @@ if($attack_type == 'ground' ){
 	$resourceMulti = 1;
 }
 
+
+if($attackerData['starting_bonus'][0] == 'aggressive'){
+	$dmgMulti = $dmgMulti*1.20;
+}
+
+
 // Check if user is member of clan for 24h, if not, cannot attack out of range in mutual
 $join_timestamp = $attackerData['clan_join_stamp'][0];
 $timestamp = current_time('timestamp');
@@ -171,23 +177,11 @@ foreach ($attack_array as $key => $count) {
 			$one_type = array($type);
 
 			/* calculate attack totals by type */
-			if (array_key_exists($type, $attacker_type_damage)) $attacker_type_damage_FIRST[$type] += $atk_power_distrib;
-			else $attacker_type_damage_FIRST[$type] = $atk_power_distrib;
+			if (array_key_exists($type, $attacker_type_damage)) $attacker_type_damage[$type] += $atk_power_distrib;
+			else $attacker_type_damage[$type] = $atk_power_distrib;
 		}
 	}
 }
-
-
-/* split defense based on units/nw by defender */
-$allDamage = array_sum($attacker_type_damage_FIRST);
-$attacker_type_damage = array();
-foreach (attackPerNW($target_id,$attacker_type_damage_FIRST) as $key => $dmg) {
-	$attacker_type_damage[$key] = ($allDamage*$dmg);
-}
-
-
-
-
 if($debug) debug_var('attacker_type_damage0', print_r($attacker_type_damage,1));
 
 /* If defender has unit type, unset from remove array */

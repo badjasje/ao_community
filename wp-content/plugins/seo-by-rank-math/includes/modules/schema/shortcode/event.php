@@ -1,10 +1,12 @@
 <?php
 /**
- * Shortcode - event
+ * Shortcode - Event
  *
  * @package    RankMath
  * @subpackage RankMath\Schema
  */
+
+defined( 'ABSPATH' ) || exit;
 
 $this->get_title();
 $this->get_image();

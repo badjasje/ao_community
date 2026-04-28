@@ -25,7 +25,7 @@ class Breadcrumbs implements Snippet {
 	 *
 	 * @link https://schema.org/BreadcrumbList
 	 *
-	 * @param array  $data   Array of JSON-LD data.
+	 * @param array  $data Array of JSON-LD data.
 	 * @param JsonLD $jsonld JsonLD Instance.
 	 *
 	 * @return array
@@ -57,11 +57,15 @@ class Breadcrumbs implements Snippet {
 				],
 			];
 
-			$position++;
+			++$position;
 		}
 
-		$data['BreadcrumbList'] = apply_filters( 'rank_math/snippet/breadcrumb', $entity );
+		$entity = apply_filters( 'rank_math/snippet/breadcrumb', $entity );
+		if ( empty( $entity['itemListElement'] ) ) {
+			return $data;
+		}
 
+		$data['BreadcrumbList'] = $entity;
 		return $data;
 	}
 }

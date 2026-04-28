@@ -4,8 +4,6 @@
  *
  * @version  1.0.0
  * @package  UserRegistration/Admin
- * @category Admin
- * @author   WPEverest
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -64,7 +62,7 @@ if ( ! class_exists( 'UR_Settings_Page', false ) ) :
 		/**
 		 * Add this page to settings.
 		 *
-		 * @param  array $pages
+		 * @param  array $pages Pages.
 		 * @return mixed
 		 */
 		public function add_settings_page( $pages ) {
@@ -79,6 +77,11 @@ if ( ! class_exists( 'UR_Settings_Page', false ) ) :
 		 * @return array
 		 */
 		public function get_settings() {
+			/**
+			 * Filter to retrieve the settings
+			 *
+			 * @param array Array of settings to be retrieved.
+			 */
 			return apply_filters( 'user_registration_get_settings_' . $this->id, array() );
 		}
 
@@ -88,6 +91,11 @@ if ( ! class_exists( 'UR_Settings_Page', false ) ) :
 		 * @return array
 		 */
 		public function get_sections() {
+			/**
+			 * Filter to retrieve the sections.
+			 *
+			 * @param array Array of sections to retrieve.
+			 */
 			return apply_filters( 'user_registration_get_sections_' . $this->id, array() );
 		}
 
@@ -103,15 +111,19 @@ if ( ! class_exists( 'UR_Settings_Page', false ) ) :
 				return;
 			}
 
-			echo '<ul class="subsubsub">';
+			echo '<div class="ur-scroll-ui__scroll-nav"><ul class="subsubsub  ur-scroll-ui__items">';
 
 			$array_keys = array_keys( $sections );
 
 			foreach ( $sections as $id => $label ) {
-				echo '<li><a href="' . admin_url( 'admin.php?page=user-registration-settings&tab=' . $this->id . '&section=' . sanitize_title( $id ) ) . '" class="' . ( $current_section == $id ? 'current' : '' ) . '">' . $label . '</a> ' . ' </li>';
+				if ( 'login-options' === $id ) {
+					echo '<li><a href="' . esc_url( admin_url( 'admin.php?page=user-registration-login-forms' ) ) . '" class="' . ( $current_section === $id ? 'current' : '' ) . ' ur-scroll-ui__item">' . esc_html( $label ) . '</a></li>';
+				} else {
+					echo '<li><a href="' . esc_url( admin_url( 'admin.php?page=user-registration-settings&tab=' . $this->id . '&section=' . sanitize_title( $id ) ) ) . '" class="' . ( $current_section === $id ? 'current' : '' ) . ' ur-scroll-ui__item">' . esc_html( $label ) . '</a></li>';
+				}
 			}
 
-			echo '</ul><br class="clear" />';
+			echo '</ul></div>';
 		}
 
 		/**
@@ -133,6 +145,11 @@ if ( ! class_exists( 'UR_Settings_Page', false ) ) :
 			UR_Admin_Settings::save_fields( $settings );
 
 			if ( $current_section ) {
+				/**
+				 * Action to update the options.
+				 *
+				 * @param mixed $current_section Section to be updated.
+				 */
 				do_action( 'user_registration_update_options_' . $this->id . '_' . $current_section );
 			}
 		}

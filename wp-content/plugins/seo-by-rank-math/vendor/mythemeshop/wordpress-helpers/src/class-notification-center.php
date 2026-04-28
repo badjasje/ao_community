@@ -30,6 +30,20 @@ class Notification_Center {
 	private $notifications = [];
 
 	/**
+	 * Stores whether we need to clear storage or not.
+	 *
+	 * @var array
+	 */
+	private $should_clear_storage = true;
+
+	/**
+	 * Stores already displayed notice texts to avoid duplication.
+	 *
+	 * @var array
+	 */
+	private $displayed_notifications = [];
+
+	/**
 	 * Internal flag for whether notifications have been retrieved from storage.
 	 *
 	 * @var bool
@@ -43,7 +57,7 @@ class Notification_Center {
 	 */
 	public function __construct( $storage_key = 'mythemeshop_notifications' ) {
 		$this->storage_key = $storage_key;
-		add_action( 'init', array( $this, 'get_from_storage' ) );
+		add_action( 'plugins_loaded', array( $this, 'get_from_storage' ), 5 );
 		add_action( 'all_admin_notices', array( $this, 'display' ) );
 		add_action( 'shutdown', array( $this, 'update_storage' ) );
 		add_action( 'admin_footer', array( $this, 'print_javascript' ) );
@@ -68,6 +82,7 @@ class Notification_Center {
 
 		// Check if notifications are stored.
 		if ( empty( $notifications ) ) {
+			$this->should_clear_storage = false;
 			return;
 		}
 
@@ -99,8 +114,9 @@ class Notification_Center {
 		}
 
 		foreach ( $notifications as $notification ) {
-			if ( $notification->can_display() ) {
+			if ( $notification->can_display() && ! in_array( (string) $notification, $this->displayed_notifications, true ) ) {
 				echo $notification;
+				$this->displayed_notifications[] = (string) $notification;
 			}
 		}
 	}
@@ -114,7 +130,7 @@ class Notification_Center {
 		?>
 		<script>
 			;(function($) {
-				$( '.is-dismissible' ).on( 'click', '.notice-dismiss', function() {
+				$( '.wp-helpers-notice.is-dismissible' ).on( 'click', '.notice-dismiss', function() {
 					var notice = $( this ).parent()
 
 					$.ajax({
@@ -152,7 +168,7 @@ class Notification_Center {
 		$notifications = apply_filters( 'wp_helpers_notifications_before_storage', $notifications );
 
 		// No notifications to store, clear storage.
-		if ( empty( $notifications ) ) {
+		if ( empty( $notifications ) && $this->should_clear_storage ) {
 			delete_option( $this->storage_key );
 			return;
 		}
@@ -321,5 +337,21 @@ class Notification_Center {
 	 */
 	private function is_network_admin() {
 		return function_exists( 'is_network_admin' ) && is_network_admin();
+	}
+
+	/**
+	 * Check if a notification with the given ID exists.
+	 *
+	 * @param string $id Notification ID.
+	 * @return boolean
+	 */
+	public function has_notification( $id ) {
+		$notifications = $this->get_notifications();
+		foreach ( $notifications as $notification ) {
+			if ( isset( $notification->options['id'] ) && $notification->options['id'] === $id ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
