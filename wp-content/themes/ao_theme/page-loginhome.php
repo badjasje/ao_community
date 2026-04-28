@@ -28,9 +28,9 @@ $gameType = get_field('game_type','option');
 		</form>
 
 		<?php if(!in_array($gameType, array('Test','Development'))) { ?>
-		<a href="/wp-login.php?loginSocial=facebook" data-plugin="nsl" data-action="connect" data-redirect="current"
+		<a href="https://assault.online/wp-login.php?action=register" data-plugin="nsl" data-action="connect" data-redirect="current"
 			data-provider="facebook" data-popupwidth="475" data-popupheight="175">
-			<button style="background-color:#4266b2"class="mainSubmit"><i class="fab fa-facebook-square"></i> Login or register with Facebook</button>
+			<button style="background-color:#000"class="mainSubmit"> Register an account</button>
 		</a>
 		<a style="background-color:#ddd;color:#000;text-align:center;border:1px solid #000;padding:5px;margin-top:10px;margin-bottom:10px;display: block;font-weight: bold;"href="https://assault.online/wp-login.php?action=lostpassword">HELP I lost my Password</a>
 		<?php } ?>
