@@ -1,58 +1,61 @@
-# ignore htaccess files
+# WordPress core
+/wp-admin/
+/wp-includes/
+/index.php
+/license.txt
+/readme.html
+/wp-*.php
+/xmlrpc.php
+
+# Config and sensitive files
+/wp-config.php
+wp-config.php
+/.user.ini
+/wordfence-waf.php
+params.php
+RESET_GAME.php
+
+# htaccess
 .htaccess
 wp-admin/.htaccess
 
-# ignore wp config files
-wp-config.php
-wp-config-sample.php
- 
-# ignore sitemaps
+# wp-content defaults
+/wp-content/index.php
+/wp-content/plugins/index.php
+/wp-content/themes/index.php
+/wp-content/languages/
 
-sitemap.xml
+# Allow custom plugins and themes
+!/wp-content/plugins/
+!/wp-content/themes/
+
+# Default themes
+/wp-content/themes/twenty*
+
+# Logs, cache, security
+/wp-content/wflogs/
+*.log
+
+# Database dumps
+*.sql
+*.sqlite
+
+# Sitemaps
 sitemap.xml
 sitemap.xml.gz
 
-# ignore osx files
+# OS files
 .DS_Store
-
-# ignore all files starting with .
-.*
- 
-# track this file .gitignore (i.e. do NOT ignore it)
-!.gitignore
- 
-# track .editorconfig file (i.e. do NOT ignore it)
-!.editorconfig
- 
-# track readme.md in the root (i.e. do NOT ignore it)
-!readme.md
- 
-# ignore all files that start with ~
-~*
- 
-# ignore OS generated files
 ehthumbs.db
 Thumbs.db
- 
-# ignore Editor files
+
+# IDE/editor files
+.idea/
 *.sublime-project
 *.sublime-workspace
 *.komodoproject
- 
-# ignore log files and databases
-*.log
-*.sql
-*.sqlite
- 
-# ignore compiled files
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
- 
-# ignore packaged files
+
+# Archives/packages
 *.7z
 *.dmg
 *.gz
@@ -61,26 +64,20 @@ Thumbs.db
 *.rar
 *.tar
 *.zip
-*.txt
- 
-# ignore everything in the "wp-content" directory, except:
-# "plugins" directory
-# "themes" directory
-wp-content/*
-!wp-content/plugins/
-!wp-content/themes/
-!wp-content/languages/
 
- 
-# ignore all default themes
-wp-content/themes/twenty*
+# Compiled/binary files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
 
-/replace
-/.user.ini
-/wordfence-waf.php
-/wp-content/wflogs
+# Temporary files
+~*
+/replace/
 
-# ignore intellij IDEs
-.idea
-params.php
-/wp-config.php
+# Keep useful dotfiles
+!.gitignore
+!.editorconfig
+!readme.md/wp-content/uploads/
