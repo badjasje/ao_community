@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Marketorders
+Plugin Name: AO Functions
 Plugin URI:
 Description:
 Version: 1
@@ -1197,3 +1197,37 @@ function ip_address_logger_populate_linked_accounts_column($value, $column_name,
     return $value;
 }
 add_filter('manage_users_custom_column', 'ip_address_logger_populate_linked_accounts_column', 10, 3);
+
+
+
+
+
+add_action('acf/init', function () {
+    if (!is_admin()) {
+        return;
+    }
+
+    $screen = $_SERVER['SCRIPT_NAME'] ?? '';
+
+    if (
+        str_contains($screen, 'wp-login.php') ||
+        str_contains($screen, 'wp-register.php')
+    ) {
+        remove_action('register_form', 'acf_form_head');
+    }
+});
+
+add_filter('acf/get_field_groups', function ($field_groups) {
+    $script = $_SERVER['SCRIPT_NAME'] ?? '';
+    $action = $_REQUEST['action'] ?? '';
+
+    $is_register_screen =
+        str_contains($script, 'wp-login.php') &&
+        $action === 'register';
+
+    if (!$is_register_screen) {
+        return $field_groups;
+    }
+
+    return [];
+}, 999);
