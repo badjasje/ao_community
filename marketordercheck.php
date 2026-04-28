@@ -1,6 +1,21 @@
 <?php
 require(dirname(__FILE__) . '/wp-load.php');
-    $timestamp = current_time('timestamp');
+
+if (!function_exists('marketOrderCheckLogError')) {
+    function marketOrderCheckLogError($context, $entityId, $exception) {
+        $message = sprintf(
+            '[marketordercheck] %s failed for %s: %s in %s:%s',
+            $context,
+            (string) $entityId,
+            $exception->getMessage(),
+            $exception->getFile(),
+            $exception->getLine()
+        );
+        error_log($message);
+    }
+}
+
+$timestamp = current_time('timestamp');
     
 
 
@@ -29,14 +44,26 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
   
     foreach ($users as $user) {
         $user_ID = $user->ID;
-        marketOrderFallback($user_ID);
-        $province = Province::make($user_ID);
+
+        try {
+            marketOrderFallback($user_ID);
+            $province = Province::make($user_ID);
+        } catch (\Throwable $e) {
+            marketOrderCheckLogError('province bootstrap', $user_ID, $e);
+            continue;
+        }
         
        
         // Check power level
-        $power = $province->getPower();
-        $buildings = $province->getBuildings();
-        $plants = $buildings['powerplant']['num'] + $buildings['advancedpowerplant']['num'];
+        try {
+            $power = $province->getPower();
+            $buildings = $province->getBuildings();
+            $plants = (int) ($buildings['powerplant']['num'] ?? 0) + (int) ($buildings['advancedpowerplant']['num'] ?? 0);
+        } catch (\Throwable $e) {
+            marketOrderCheckLogError('power check', $user_ID, $e);
+            $plants = 0;
+            $power = 0;
+        }
         if($plants > 0 && $power >= 100) {
             $province->notify('lowpower', $user_ID);
         }
@@ -51,9 +78,9 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
 
 		/* Achievement checker */
 		
-		$achievements = maybe_unserialize(get_user_meta( $user_ID, 'achievements', true ));
-		/* create achievements array for saving */
-		if(empty($achievements)){
+        $achievements = maybe_unserialize(get_user_meta( $user_ID, 'achievements', true ));
+        /* create achievements array for saving */
+        if(empty($achievements) && isset($achievementsArray) && is_array($achievementsArray)){
 			
 			foreach ($achievementsArray as $key => $singleAchievement) {
 				$achievements[$key] = 0;
@@ -63,46 +90,66 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
 		
 		
         /* sat crash */
-        $sat_owned = $province->get('sat_owned');
-        if(!empty($sat_owned)) {
-            $sat = $province->getSatellites($sat_owned);
-            $timeleft = (!!$sat && $sat['num'] > 0 ? $sat['timeleft'] : 0);
-            if ($timeleft <= 0) {
-                $province->crashSatellite($sat_owned);
-                $province->notify('satcrash', $user_ID);
+        try {
+            $sat_owned = $province->get('sat_owned');
+            if(!empty($sat_owned)) {
+                $sat = $province->getSatellites($sat_owned);
+                $timeleft = (!!$sat && $sat['num'] > 0 ? $sat['timeleft'] : 0);
+                if ($timeleft <= 0) {
+                    $province->crashSatellite($sat_owned);
+                    $province->notify('satcrash', $user_ID);
+                }
             }
+        } catch (\Throwable $e) {
+            marketOrderCheckLogError('satellite lifecycle', $user_ID, $e);
         }
 
         /* deactivate stealth sat */
-        if(($province->get('stealth_sat_time') - $timestamp) <= 0) {
-            $province->update('stealth_sat_status', 'inactive');
+        try {
+            if(($province->get('stealth_sat_time') - $timestamp) <= 0) {
+                $province->update('stealth_sat_status', 'inactive');
+            }
+        } catch (\Throwable $e) {
+            marketOrderCheckLogError('stealth sat deactivation', $user_ID, $e);
         }
         
-        if(($province->get('land_bonus_counter') - $timestamp) <= 0 && $province->get('starting_bonus') == 'land') {
+        try {
+            if(($province->get('land_bonus_counter') - $timestamp) <= 0 && $province->get('starting_bonus') == 'land') {
 
-			$province->update('land', $province->getLand() + 7000); 
-			$province->update('land_bonus_counter', $timestamp+(86400*4)); 
+    			$province->update('land', $province->getLand() + 7000); 
+    			$province->update('land_bonus_counter', $timestamp+(86400*4)); 
             
+            }
+        } catch (\Throwable $e) {
+            marketOrderCheckLogError('land bonus', $user_ID, $e);
         }
 
         /* finish research */
-        if($research = $province->getCurrentResearch()) {
-            if($research->timeLeft() <= 0){
-            	$province->updateXP('research_complete');
-            	$research->end(); // starts queued research too, sends notification
+        try {
+            if($research = $province->getCurrentResearch()) {
+                if($research->timeLeft() <= 0){
+                	$province->updateXP('research_complete');
+                	$research->end(); // starts queued research too, sends notification
+                }
             }
+        } catch (\Throwable $e) {
+            marketOrderCheckLogError('research processing', $user_ID, $e);
         }
 
         /* remove NP */
-        if ($province->isProtected()) {
-            if(($province->get('nuke_protection_timestamp') - $timestamp) < 0) {
-                $province->update('status', 'online');
-                $province->notify('nukeprotectremoved', $user_ID);
-                Event::create(array(
-                    'title' => 'Assault protection removed for '.$user_ID, 'author' => $user_ID, 'type' => 'nukeprotection',
-                    'defender_id' => $user_ID, 'attacker_id' => $user_ID
-                ), $user_ID);
+        try {
+            if ($province->isProtected()) {
+                if(($province->get('nuke_protection_timestamp') - $timestamp) < 0) {
+                    $province->update('status', 'online');
+                    $province->notify('nukeprotectremoved', $user_ID);
+                    Event::create(array(
+                        'title' => 'Assault protection removed for '.$user_ID, 'author' => $user_ID, 'type' => 'nukeprotection',
+                        'defender_id' => $user_ID, 'attacker_id' => $user_ID
+                    ), $user_ID);
+                }
             }
+        } catch (\Throwable $e) {
+            marketOrderCheckLogError('protection removal', $user_ID, $e);
         }
     }
 
@@ -115,51 +162,56 @@ if (get_field('game_status', 'option') != 'Live') { exit; }
     $clans = get_posts($args);
     foreach ($clans as $clan) {
         $clan_ID = $clan->ID;
-        $clanData = get_post_meta($clan_ID);
 
-        $cooldownlist = (isset($clanData['cooldown_list']) ? maybe_unserialize($clanData['cooldown_list'][0]) : false);
-        if(!is_array($cooldownlist) && !empty($cooldownlist)) $cooldownlist = maybe_unserialize($cooldownlist); // Temp fix double serialization
-        if(!is_array($cooldownlist)) $cooldownlist = array();
-        foreach ($cooldownlist as $key => $unset_time) {
-            if ($unset_time < $timestamp) unset($cooldownlist[$key]);
-            update_post_meta($clan_ID, 'cooldown_list', $cooldownlist);
-        }
+        try {
+            $clanData = get_post_meta($clan_ID);
 
-        if (empty($clan_points)) {
-            $clan_points = 0;
-        }
-
-        $clan_members   = get_post_meta($clan_ID, 'clan_members');
-        $clan_points    = $clanData['clan_points'][0];
-        if($clan_points == 'NAN'){
-	        $clan_points = 0;
-        }
-        $bonus_level    = $clanData['bonus_level'][0];
-
-		if($bonus_level == 'NAN'){
-	        $bonus_level = 0;
-        }
-
-        $level = "level_";
-        $level .= $bonus_level;
-        $high_end   =   $bonus[$level]['points'];
-
-        if ($clan_points >= $high_end) {
-            update_post_meta($clan_ID, 'bonus_level', $bonus_level+1);
-
-            $bonusMoney = round($bonus[$level]['money']/count($clan_members[0]));
-            $bonusTurns = round($bonus[$level]['turns']/count($clan_members[0]));
-
-            foreach ($clan_members[0] as $member) {
-                $evt = Event::create(array(
-                    'title' => 'Bonus for: #'.$member, 'author' => $member, 'type' => 'bonus', 'defender_id' => $member,
-                    'bonus_money' => $bonusMoney, 'bonus_turns' => $bonusTurns, 'attacker_clan_id' => $clan_ID
-                ), $member);
+            $cooldownlist = (isset($clanData['cooldown_list']) ? maybe_unserialize($clanData['cooldown_list'][0]) : false);
+            if(!is_array($cooldownlist) && !empty($cooldownlist)) $cooldownlist = maybe_unserialize($cooldownlist); // Temp fix double serialization
+            if(!is_array($cooldownlist)) $cooldownlist = array();
+            foreach ($cooldownlist as $key => $unset_time) {
+                if ($unset_time < $timestamp) unset($cooldownlist[$key]);
+                update_post_meta($clan_ID, 'cooldown_list', $cooldownlist);
             }
 
-            if($level == 'level_2' && empty(Round::getGoldenShotgun())) {
-                Round::setGoldenShotgun($clan_ID);
+            if (empty($clan_points)) {
+                $clan_points = 0;
             }
+
+            $clan_members   = get_post_meta($clan_ID, 'clan_members');
+            $clan_points    = $clanData['clan_points'][0];
+            if($clan_points == 'NAN'){
+    	        $clan_points = 0;
+            }
+            $bonus_level    = $clanData['bonus_level'][0];
+
+    		if($bonus_level == 'NAN'){
+    	        $bonus_level = 0;
+            }
+
+            $level = "level_";
+            $level .= $bonus_level;
+            $high_end   =   $bonus[$level]['points'];
+
+            if ($clan_points >= $high_end) {
+                update_post_meta($clan_ID, 'bonus_level', $bonus_level+1);
+
+                $bonusMoney = round($bonus[$level]['money']/count($clan_members[0]));
+                $bonusTurns = round($bonus[$level]['turns']/count($clan_members[0]));
+
+                foreach ($clan_members[0] as $member) {
+                    $evt = Event::create(array(
+                        'title' => 'Bonus for: #'.$member, 'author' => $member, 'type' => 'bonus', 'defender_id' => $member,
+                        'bonus_money' => $bonusMoney, 'bonus_turns' => $bonusTurns, 'attacker_clan_id' => $clan_ID
+                    ), $member);
+                }
+
+                if($level == 'level_2' && empty(Round::getGoldenShotgun())) {
+                    Round::setGoldenShotgun($clan_ID);
+                }
+            }
+        } catch (\Throwable $e) {
+            marketOrderCheckLogError('clan processing', $clan_ID, $e);
         }
     }
 	
