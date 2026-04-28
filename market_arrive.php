@@ -4,6 +4,7 @@ require(dirname(__FILE__) . '/wp-load.php');
 if (get_field('game_status', 'option') != 'Live') { exit; }
 
 $timestamp = current_time('timestamp');
+$lock_grace_seconds = 600; // Fallback for stale locks so overdue orders do not get stuck forever
 $args = array(
     'posts_per_page'   	=> -1,
     'post_status'      	=> 'publish',
@@ -12,7 +13,6 @@ $args = array(
     'meta_compare'		=> '<',
     'post_type'        	=> 'market_order',
 );
-$orders = get_posts($args);
 $the_query = new WP_Query($args);
 
 if ($the_query->have_posts()) {
@@ -26,11 +26,21 @@ if ($the_query->have_posts()) {
 
         $delivery_time = $orderData['delivery_time'][0];
 
-        $moraleLock = get_user_meta($user_ID, 'morale_lock', true);
-        $turnLock = get_user_meta($user_ID, 'turn_lock', true);
+        $moraleLock = intval(get_user_meta($user_ID, 'morale_lock', true));
+        $turnLock = intval(get_user_meta($user_ID, 'turn_lock', true));
 
-        $timeleft = $delivery_time-$timestamp;
-        if ($timeleft <= 0 && $moraleLock == 0 && $turnLock == 0) {
+        $timeleft = $delivery_time - $timestamp;
+        $lockActive = ($moraleLock !== 0 || $turnLock !== 0);
+        $staleLock = ($lockActive && abs($timeleft) >= $lock_grace_seconds);
+
+        // Normally wait for active locks, but do not let stale locks block delivery forever.
+        if ($staleLock) {
+            update_user_meta($user_ID, 'morale_lock', 0);
+            update_user_meta($user_ID, 'turn_lock', 0);
+            $lockActive = false;
+        }
+
+        if ($timeleft <= 0 && !$lockActive) {
             $unit_type = $orderData['unit_type'][0];
 
             /* check if order is satellite */
