@@ -14,13 +14,15 @@ class Units extends DataObject {
     }
 
     static $data = array(
+
         /// AIR UNITS ///
+
         'spyplane' => array(
             'price'         => '10000',
             'networth'      => 6,
             'normalname'    => 'RQ-170 Sentinel',
             'description'   => 'The RQ-170 Sentinel is an advanced reconnaissance UAV developed in the 2000s. It operates at extreme altitudes to gather critical intelligence behind enemy lines while evading modern air defenses. Its stealthy design and long-endurance capabilities make it a vital asset in strategic surveillance missions.',
-            'attacks'       => array(),  // Excluded
+            'attacks'       => array(),
             'defends'       => array(),
             'attack'        => 0,
             'type'          => 'air',
@@ -28,192 +30,209 @@ class Units extends DataObject {
             'attacktype'    => array('spy'),
             'life'          => 200
         ),
+
         'f22_raptors' => array(
-            'price'         => '1045',
+            'price'         => '1120',
             'networth'      => 11,
-            'normalname'    => 'F-22 Raptor',
-            'description'   => 'The F-22 Raptor is a fifth-generation stealth fighter known for its exceptional agility and advanced avionics. It is designed to execute precision strikes against enemy fortifications and infantry with unmatched stealth. Its integrated sensor systems and superior maneuverability have set the standard for modern aerial combat.',
-            'attacks'       => array('bld', 'inf'),
-            'defends'       => array('bld', 'inf'),
-            'attack'        => 70,
+            'normalname'    => 'Aegis Falcon',
+            'description'   => 'The Aegis Falcon is a high-speed air superiority fighter built to control the skies before ground forces move in. It combines advanced radar, stealth shaping and precision weapons to hunt enemy aircraft while still supporting attacks against exposed infantry. Its balanced speed and survivability make it a reliable first choice for commanders who need air dominance.',
+            'attacks'       => array('air', 'inf'),
+            'defends'       => array('air', 'inf'),
+            'attack'        => 76,
             'type'          => 'air',
             'sectype'       => 'normal',
             'attacktype'    => array('air_sea', 'regular'),
-            'life'          => 55
+            'life'          => 58
         ),
+
         'jsf' => array(
-            'price'         => '1193',
+            'price'         => '1260',
             'networth'      => 11,
-            'normalname'    => 'F-35 Lightning II',
-            'description'   => 'The F-35 Lightning II is a state-of-the-art multirole stealth fighter that integrates advanced sensor fusion with precision strike capabilities. It is built to engage enemy structures and armored vehicles under the most contested conditions. Its stealth design, combined with unmatched situational awareness, makes it a cornerstone of modern air combat.',
+            'normalname'    => 'Specter Warden',
+            'description'   => 'The Specter Warden is a stealth multirole strike aircraft designed to slip through contested airspace and hit valuable targets. It performs especially well against armored vehicles and hardened structures, making it useful in both offensive pushes and precision raids. Its advanced sensors allow it to identify weak points before delivering decisive strikes.',
             'attacks'       => array('bld', 'veh'),
             'defends'       => array('bld', 'veh'),
-            'attack'        => 88,
+            'attack'        => 90,
+            'type'          => 'air',
+            'sectype'       => 'normal',
+            'attacktype'    => array('air_sea', 'regular'),
+            'life'          => 62
+        ),
+
+        'typhoon' => array(
+            'price'         => '1185',
+            'networth'      => 11,
+            'normalname'    => 'Stormlance Interceptor',
+            'description'   => 'The Stormlance Interceptor is a fast-response fighter built for aggressive patrols and rapid counterattacks. It is effective against hostile aircraft and lighter vehicle formations, giving it strong value in mixed battles. Its agility and dependable weapons systems make it a flexible defensive and offensive air unit.',
+            'attacks'       => array('air', 'veh'),
+            'defends'       => array('air', 'veh'),
+            'attack'        => 82,
             'type'          => 'air',
             'sectype'       => 'normal',
             'attacktype'    => array('air_sea', 'regular'),
             'life'          => 60
         ),
-        'typhoon' => array(
-            'price'         => '1035',
-            'networth'      => 11,
-            'normalname'    => 'Eurofighter Typhoon',
-            'description'   => 'The Eurofighter Typhoon is a highly agile, multirole combat aircraft engineered for rapid response. It delivers precise strikes against enemy vehicles and infantry, making it indispensable in dynamic aerial engagements. Its advanced flight controls and sensor systems ensure it remains at the forefront of modern air superiority.',
-            'attacks'       => array('veh', 'inf'),
-            'defends'       => array('veh', 'inf'),
-            'attack'        => 75,
-            'type'          => 'air',
-            'sectype'       => 'normal',
-            'attacktype'    => array('air_sea', 'regular'),
-            'life'          => 59
-        ),
+
         'seahawk' => array(
-            'price'         => '1260',
+            'price'         => '1100',
             'networth'      => 11,
-            'normalname'    => 'MH-60R Seahawk',
-            'description'   => 'The MH-60R Seahawk is a modern naval helicopter that excels in multi-role missions at sea. It is equipped with advanced sensors and weaponry to engage enemy ships and armored assets with precision. Its robust design and versatility ensure it can operate effectively in complex maritime environments.',
+            'normalname'    => 'Maritime Talon',
+            'description'   => 'The Maritime Talon is a naval attack helicopter optimized for coastal warfare and fleet support. It excels at striking ships and exposed armored columns, especially when deployed alongside sea units. Its sensor package and low-altitude maneuverability allow it to remain effective in chaotic battlefield conditions.',
             'attacks'       => array('sea', 'veh'),
             'defends'       => array('sea', 'veh'),
-            'attack'        => 85,
-            'type'          => 'air',
-            'sectype'       => 'normal',
-            'attacktype'    => array('air_sea', 'regular'),
-            'life'          => 60
-        ),
-        'rah66_commanches' => array(
-            'price'         => '1260',
-            'networth'      => 11,
-            'normalname'    => 'Eurocopter Tiger',
-            'description'   => 'The Eurocopter Tiger is a cutting-edge attack helicopter renowned for its lethal air-to-air and air-to-ground capabilities. It employs advanced missile systems and precision avionics to engage enemy aircraft effectively. Its agility and sophisticated targeting systems make it a key player in modern rotary-wing operations.',
-            'attacks'       => array('air'),
-            'defends'       => array('air'),
-            'attack'        => 110,
-            'type'          => 'air',
-            'sectype'       => 'normal',
-            'attacktype'    => array('air_sea', 'regular'),
-            'life'          => 60
-        ),
-        'b2_bomber' => array(
-            'price'         => '2700',
-            'networth'      => 11,
-            'normalname'    => 'B-21 Raider',
-            'description'   => 'The B-21 Raider is a next-generation stealth bomber designed to penetrate sophisticated enemy air defenses. It carries precision-guided munitions capable of demolishing fortified enemy structures with overwhelming firepower. Its advanced stealth technology and long-range capabilities ensure it remains undetected in high-threat environments.',
-            'attacks'       => array('bld'),
-            'defends'       => array('bld'),
-            'attack'        => 205,
-            'type'          => 'air',
-            'sectype'       => 'bk',
-            'attacktype'    => array('air_sea', 'regular'),
-            'life'          => 130
-        ),
-        'unit_1' => array(
-            'price'         => '1125',
-            'networth'      => 11,
-            'normalname'    => 'F/A-18E Super Hornet',
-            'description'   => 'The F/A-18E Super Hornet is a versatile carrier-based fighter that dominates maritime operations with its superior agility and firepower. It is built to perform both air superiority and strike missions with exceptional precision. Its state-of-the-art avionics and rugged design ensure that it remains effective even in the most hostile environments.',
-            'attacks'       => array('sea'),
-            'defends'       => array('sea'),
-            'attack'        => 100,
+            'attack'        => 78,
             'type'          => 'air',
             'sectype'       => 'normal',
             'attacktype'    => array('air_sea', 'regular'),
             'life'          => 56
         ),
 
-        /// VEHICLE UNITS ///
-        'sam' => array(
-            'price'         => '1253',
+        'rah66_commanches' => array(
+            'price'         => '1150',
             'networth'      => 11,
-            'normalname'    => 'M1A2 Abrams',
-            'description'   => 'The M1A2 Abrams is a state-of-the-art main battle tank with advanced composite armor and precision firepower. It is engineered to withstand and deliver sustained fire in high-intensity conflicts. Its integrated targeting and communication systems make it one of the most formidable armored vehicles in modern warfare.',
-            'attacks'       => array('bld', 'inf'),
-            'defends'       => array('bld', 'inf'),
-            'attack'        => 85,
+            'normalname'    => 'Dragonfly Gunship',
+            'description'   => 'The Dragonfly Gunship is a nimble attack helicopter designed for rapid battlefield response. It can harass infantry formations and challenge enemy aircraft that move too close to the front line. While not as durable as heavier aircraft, its speed and focused firepower make it dangerous in the right engagement.',
+            'attacks'       => array('air', 'inf'),
+            'defends'       => array('air', 'inf'),
+            'attack'        => 80,
+            'type'          => 'air',
+            'sectype'       => 'normal',
+            'attacktype'    => array('air_sea', 'regular'),
+            'life'          => 52
+        ),
+
+        'b2_bomber' => array(
+            'price'         => '2800',
+            'networth'      => 11,
+            'normalname'    => 'Nightfall Bomber',
+            'description'   => 'The Nightfall Bomber is a heavy stealth bomber built for deep strategic strikes against enemy infrastructure. It carries a devastating payload and specializes in destroying fortified buildings that would slow down a conventional assault. Its high cost is balanced by its exceptional damage output and strong durability.',
+            'attacks'       => array('bld'),
+            'defends'       => array('bld'),
+            'attack'        => 220,
+            'type'          => 'air',
+            'sectype'       => 'bk',
+            'attacktype'    => array('air_sea', 'regular'),
+            'life'          => 125
+        ),
+
+        'unit_1' => array(
+            'price'         => '1340',
+            'networth'      => 11,
+            'normalname'    => 'Thunderbolt Strike Wing',
+            'description'   => 'The Thunderbolt Strike Wing is a rugged close-air-support platform built to punish enemy armor and infantry. It lacks the stealth of advanced fighters, but compensates with heavy weapons, battlefield endurance and excellent ground-attack performance. It is a strong choice when commanders need reliable pressure against land forces.',
+            'attacks'       => array('veh', 'inf'),
+            'defends'       => array('veh', 'inf'),
+            'attack'        => 95,
+            'type'          => 'air',
+            'sectype'       => 'normal',
+            'attacktype'    => array('air_sea', 'regular'),
+            'life'          => 65
+        ),
+
+
+        /// VEHICLE UNITS ///
+
+        'sam' => array(
+            'price'         => '1200',
+            'networth'      => 11,
+            'normalname'    => 'Skyguard SAM',
+            'description'   => 'The Skyguard SAM is a mobile surface-to-air missile platform designed to protect ground forces from hostile aircraft. It delivers strong anti-air damage while remaining durable enough to survive on the front line. Its focused role makes it one of the most important counters against air-heavy armies.',
+            'attacks'       => array('air'),
+            'defends'       => array('air'),
+            'attack'        => 92,
             'type'          => 'veh',
             'sectype'       => 'normal',
             'attacktype'    => array('ground', 'regular'),
             'life'          => 60
         ),
+
         'abraham' => array(
-            'price'         => '953',
+            'price'         => '1300',
             'networth'      => 11,
-            'normalname'    => 'LAV-25',
-            'description'   => 'The LAV-25 is an amphibious light armored vehicle used for rapid deployment and versatile strike operations. It is designed to operate in a variety of terrains, including urban and maritime environments. Its speed, maneuverability, and modular weapon systems make it an essential asset in modern battlefield operations.',
-            'attacks'       => array('bld', 'sea'),
-            'defends'       => array('bld', 'sea'),
-            'attack'        => 69,
+            'normalname'    => 'Ironback MBT',
+            'description'   => 'The Ironback MBT is a modern main battle tank designed to lead armored advances through hostile territory. Its heavy cannon and reinforced armor make it effective against enemy vehicles and defensive structures. It is expensive, but offers excellent staying power in prolonged ground battles.',
+            'attacks'       => array('veh', 'bld'),
+            'defends'       => array('veh', 'bld'),
+            'attack'        => 88,
             'type'          => 'veh',
             'sectype'       => 'normal',
             'attacktype'    => array('ground', 'regular'),
-            'life'          => 45
+            'life'          => 70
         ),
+
         'm270_rocket' => array(
-            'price'         => '800',
+            'price'         => '1180',
             'networth'      => 11,
-            'normalname'    => 'M270 MLRS',
-            'description'   => 'The M270 MLRS is a modern multiple launch rocket system capable of delivering rapid, long-range barrages. It is engineered to achieve high accuracy in striking enemy armored vehicles. Its ability to saturate target areas with precision rockets makes it indispensable for artillery support.',
-            'attacks'       => array('veh'),
-            'defends'       => array('veh'),
-            'attack'        => 70,
+            'normalname'    => 'Hailstorm MLRS',
+            'description'   => 'The Hailstorm MLRS is a mobile rocket artillery system built to soften enemy positions before the main attack begins. It performs well against buildings and clustered infantry, delivering high area pressure from a safe distance. Its lighter armor means it should be protected by tougher front-line units.',
+            'attacks'       => array('bld', 'inf'),
+            'defends'       => array('bld', 'inf'),
+            'attack'        => 96,
             'type'          => 'veh',
             'sectype'       => 'normal',
             'attacktype'    => array('ground', 'regular'),
-            'life'          => 35
+            'life'          => 48
         ),
+
         'humvee' => array(
-            'price'         => '945',
+            'price'         => '680',
             'networth'      => 11,
-            'normalname'    => 'JLTV',
-            'description'   => 'The Joint Light Tactical Vehicle (JLTV) is a modern replacement for the Humvee, offering superior mobility, protection, and off-road capability. It is designed to rapidly counter enemy armored threats in a wide range of combat scenarios. Its robust construction and advanced systems ensure optimal performance under fire.',
+            'normalname'    => 'Ranger JLTV',
+            'description'   => 'The Ranger JLTV is a fast tactical vehicle used for scouting, patrols and quick strikes. It is affordable and useful against infantry and low-flying threats, but it should avoid extended fights with heavy armor. Its low cost makes it valuable for building flexible armies early in the game.',
             'attacks'       => array('inf', 'air'),
             'defends'       => array('inf', 'air'),
-            'attack'        => 65,
+            'attack'        => 50,
             'type'          => 'veh',
             'sectype'       => 'normal',
             'attacktype'    => array('ground', 'regular'),
-            'life'          => 53
+            'life'          => 44
         ),
+
         'm70mlrs' => array(
-            'price'         => '1073',
+            'price'         => '1050',
             'networth'      => 11,
-            'normalname'    => 'NASAMS',
-            'description'   => 'NASAMS is an advanced surface-to-air missile system engineered for rapid interception of hostile aircraft. It integrates cutting-edge sensor technology with precision-guided missiles to provide robust air defense. This system is critical for protecting high-value assets against emerging aerial threats.',
+            'normalname'    => 'Sentinel Air Defense',
+            'description'   => 'The Sentinel Air Defense system combines radar tracking with rapid missile response to defend against both aircraft and incoming naval strikes. It is not the strongest attacker, but its flexible targeting makes it useful in mixed defensive armies. Commanders often deploy it to protect valuable vehicles and artillery.',
             'attacks'       => array('air', 'sea'),
             'defends'       => array('air', 'sea'),
-            'attack'        => 80,
+            'attack'        => 74,
             'type'          => 'veh',
             'sectype'       => 'normal',
             'attacktype'    => array('ground', 'regular'),
-            'life'          => 49
+            'life'          => 54
         ),
+
         'artillery' => array(
-            'price'         => '2325',
+            'price'         => '2400',
             'networth'      => 11,
-            'normalname'    => 'M109A6 Paladin',
-            'description'   => 'The M109A6 Paladin is a self-propelled howitzer delivering sustained, high-caliber firepower. It is designed to breach enemy fortifications and provide decisive artillery support. Its advanced targeting and fire control systems ensure precise, reliable performance in all combat conditions.',
+            'normalname'    => 'Siegebreaker Howitzer',
+            'description'   => 'The Siegebreaker Howitzer is a heavy self-propelled artillery unit designed to crush fortified positions. It delivers punishing damage against buildings, making it ideal for breaking defensive players who rely on infrastructure. Its high price and narrow target focus are offset by excellent destructive power.',
             'attacks'       => array('bld'),
             'defends'       => array('bld'),
-            'attack'        => 180,
+            'attack'        => 190,
             'type'          => 'veh',
             'sectype'       => 'bk',
             'attacktype'    => array('ground', 'regular'),
-            'life'          => 110
+            'life'          => 105
         ),
+
         'unit_3' => array(
-            'price'         => '885',
+            'price'         => '980',
             'networth'      => 11,
-            'normalname'    => 'CV90',
-            'description'   => 'The CV90 is a modern infantry fighting vehicle celebrated for its speed and lethal firepower. It is designed for rapid deployment and effective engagement of enemy infantry. Its advanced armor and integrated weapon systems make it a versatile platform in modern mechanized warfare.',
-            'attacks'       => array('inf'),
-            'defends'       => array('inf'),
-            'attack'        => 80,
+            'normalname'    => 'Vanguard IFV',
+            'description'   => 'The Vanguard IFV is an infantry fighting vehicle built to escort troops through contested ground. Its autocannon and missile systems allow it to pressure both infantry and lighter armored targets. It offers a balanced mix of price, durability and damage for commanders who want dependable ground support.',
+            'attacks'       => array('inf', 'veh'),
+            'defends'       => array('inf', 'veh'),
+            'attack'        => 76,
             'type'          => 'veh',
             'sectype'       => 'normal',
             'attacktype'    => array('ground', 'regular'),
-            'life'          => 43
+            'life'          => 58
         ),
 
+
         /// INFANTRY UNITS ///
+
         'thief' => array(
             'price'         => '5000',
             'networth'      => 6,
@@ -227,6 +246,7 @@ class Units extends DataObject {
             'attacktype'    => array('thief'),
             'life'          => 60
         ),
+
         'saboteur' => array(
             'price'         => '6000',
             'networth'      => 6,
@@ -240,6 +260,7 @@ class Units extends DataObject {
             'attacktype'    => array('saboteur'),
             'life'          => 75
         ),
+
         'sniper' => array(
             'price'         => '5000',
             'networth'      => 6,
@@ -253,6 +274,7 @@ class Units extends DataObject {
             'attacktype'    => array('sniper'),
             'life'          => 150
         ),
+
         'spy' => array(
             'price'         => '4000',
             'networth'      => 6,
@@ -266,189 +288,204 @@ class Units extends DataObject {
             'attacktype'    => array('spy'),
             'life'          => 250
         ),
+
         'grenade' => array(
-            'price'         => '705',
+            'price'         => '720',
             'networth'      => 11,
-            'normalname'    => 'Marine Rifle Squad',
-            'description'   => 'The Marine Rifle Squad is a disciplined infantry unit trained for rapid assault. They specialize in breaching enemy defenses and seizing key positions with coordinated firepower. Their rigorous training and teamwork enable them to adapt swiftly to dynamic combat scenarios.',
-            'attacks'       => array('bld', 'air'),
-            'defends'       => array('bld', 'air'),
-            'attack'        => 50,
+            'normalname'    => 'Breach Team',
+            'description'   => 'The Breach Team is a disciplined assault squad trained to open gaps in enemy defenses. It performs well against infantry and light structures, making it useful during early attacks and urban fighting. Its moderate price gives commanders a dependable offensive infantry option without overcommitting resources.',
+            'attacks'       => array('bld', 'inf'),
+            'defends'       => array('bld', 'inf'),
+            'attack'        => 58,
             'type'          => 'inf',
             'sectype'       => 'normal',
             'attacktype'    => array('ground', 'regular'),
-            'life'          => 31
+            'life'          => 36
         ),
+
         'rifle' => array(
-            'price'         => '1100',
+            'price'         => '790',
             'networth'      => 11,
-            'normalname'    => 'Infantry Vanguard',
-            'description'   => 'The Infantry Vanguard leads the charge on the frontline with exceptional coordination and resolve. Equipped with advanced weaponry and communication systems, they breach enemy fortifications with precision. Their relentless assault and tactical acumen form the backbone of modern ground offensives.',
-            'attacks'       => array('bld', 'sea'),
-            'defends'       => array('bld', 'sea'),
-            'attack'        => 80,
-            'type'          => 'inf',
-            'sectype'       => 'normal',
-            'attacktype'    => array('ground', 'regular'),
-            'life'          => 35
-        ),
-        'rocket' => array(
-            'price'         => '653',
-            'networth'      => 11,
-            'normalname'    => 'Anti-Vehicle Assault Team',
-            'description'   => 'The Anti-Vehicle Assault Team is a rapid-response unit armed with shoulder-fired anti-tank missiles. They are trained to disable enemy armored vehicles and disrupt mechanized formations. Their quick reaction and specialized equipment provide a critical countermeasure against enemy armor in modern warfare.',
-            'attacks'       => array('veh', 'sea'),
-            'defends'       => array('veh', 'sea'),
-            'attack'        => 45,
-            'type'          => 'inf',
-            'sectype'       => 'normal',
-            'attacktype'    => array('ground', 'regular'),
-            'life'          => 35
-        ),
-        'flamethrower' => array(
-            'price'         => '825',
-            'networth'      => 11,
-            'normalname'    => 'Urban Assault Team',
-            'description'   => 'The Urban Assault Team is specialized for close-quarter combat in built-up environments. They use advanced incendiary weapons to clear enemy fortifications and secure urban terrain. Their aggressive tactics and rapid maneuvering make them highly effective in densely populated combat zones.',
-            'attacks'       => array('air'),
-            'defends'       => array('air'),
-            'attack'        => 73,
+            'normalname'    => 'Line Infantry',
+            'description'   => 'Line Infantry are the backbone of any ground army, trained to hold territory and push steadily through enemy positions. They are effective against infantry and buildings, especially when deployed in large numbers. Their simple role, fair cost and reliable performance make them a core unit throughout the game.',
+            'attacks'       => array('inf', 'bld'),
+            'defends'       => array('inf', 'bld'),
+            'attack'        => 64,
             'type'          => 'inf',
             'sectype'       => 'normal',
             'attacktype'    => array('ground', 'regular'),
             'life'          => 40
         ),
-        'paratrooper' => array(
-            'price'         => '1320',
+
+        'rocket' => array(
+            'price'         => '760',
             'networth'      => 11,
-            'normalname'    => 'Airborne Infantry',
-            'description'   => 'Airborne Infantry are elite paratroopers trained for rapid deployment behind enemy lines. They are capable of seizing and holding critical positions with precision and speed. Their rigorous training in airborne operations and close combat makes them indispensable in modern rapid reaction forces.',
-            'attacks'       => array('bld'),
-            'defends'       => array('bld'),
-            'attack'        => 100,
-            'type'          => 'inf',
-            'sectype'       => 'normal',
-            'attacktype'    => array('ground', 'regular'),
-            'life'          => 60
-        ),
-        'armoured' => array(
-            'price'         => '923',
-            'networth'      => 11,
-            'normalname'    => 'Guardian Elite',
-            'description'   => 'Guardian Elite is a specialized infantry unit equipped with advanced protective gear for close-quarters combat. They are tasked with defending vital positions and repelling enemy assaults. Their exceptional resilience and tactical training ensure the security of strategic assets on the battlefield.',
-            'attacks'       => array('inf'),
-            'defends'       => array('inf'),
-            'attack'        => 80,
-            'type'          => 'inf',
-            'sectype'       => 'normal',
-            'attacktype'    => array('ground', 'regular'),
-            'life'          => 41
-        ),
-        'unit_5' => array(
-            'price'         => '660',
-            'networth'      => 11,
-            'normalname'    => 'Cyber Commando',
-            'description'   => 'Cyber Commando units combine state-of-the-art cybernetic enhancements with traditional infantry tactics. They specialize in disrupting enemy communications and neutralizing both aerial and armored threats. Their blend of technology and combat expertise makes them uniquely effective in modern network-centric warfare.',
+            'normalname'    => 'Titan AT Team',
+            'description'   => 'The Titan AT Team carries portable anti-armor and anti-air weapons for flexible front-line support. It is dangerous against vehicles and aircraft, but remains vulnerable when caught by dedicated infantry counters. Its value comes from answering expensive enemy units at a manageable price.',
             'attacks'       => array('veh', 'air'),
             'defends'       => array('veh', 'air'),
-            'attack'        => 47,
+            'attack'        => 62,
             'type'          => 'inf',
             'sectype'       => 'normal',
             'attacktype'    => array('ground', 'regular'),
-            'life'          => 31
+            'life'          => 34
         ),
 
-        /// SEA UNITS ///
-        'submarine' => array(
-            'price'         => '2295',
+        'flamethrower' => array(
+            'price'         => '870',
             'networth'      => 11,
-            'normalname'    => 'Virginia-class Submarine',
-            'description'   => 'The Virginia-class Submarine is a modern, nuclear-powered fast-attack vessel designed for stealth and precision. It is equipped with advanced sonar and torpedo systems to execute covert operations in contested coastal waters. Its silent operation and cutting-edge technology make it a linchpin of modern naval warfare.',
-            'attacks'       => array('bld', 'veh'),
-            'defends'       => array('bld', 'veh'),
-            'attack'        => 160,
-            'type'          => 'sea',
+            'normalname'    => 'Urban Fire Team',
+            'description'   => 'The Urban Fire Team specializes in clearing fortified streets, bunkers and dense defensive positions. It is strong against buildings and infantry, but it does not offer much value against armor or naval forces. Used correctly, it can turn a slow siege into a rapid breakthrough.',
+            'attacks'       => array('bld', 'inf'),
+            'defends'       => array('bld', 'inf'),
+            'attack'        => 70,
+            'type'          => 'inf',
             'sectype'       => 'normal',
-            'attacktype'    => array('air_sea', 'regular'),
-            'life'          => 100
+            'attacktype'    => array('ground', 'regular'),
+            'life'          => 38
         ),
-        'cruiser' => array(
-            'price'         => '2123',
+
+        'paratrooper' => array(
+            'price'         => '1120',
             'networth'      => 11,
-            'normalname'    => 'Ticonderoga-class Cruiser',
-            'description'   => 'The Ticonderoga-class Cruiser is a versatile warship outfitted with advanced missile systems and radar arrays. It is engineered to counter both aerial and surface threats with its formidable firepower. Its multi-role capability and robust design have made it a mainstay in modern naval fleets.',
-            'attacks'       => array('bld', 'air'),
-            'defends'       => array('bld', 'air'),
+            'normalname'    => 'Drop Vanguard',
+            'description'   => 'The Drop Vanguard is an elite airborne force trained to strike key locations before the enemy can fully react. It is especially useful against buildings and isolated sea assets, giving it a unique role in surprise attacks. Its higher cost reflects better training, mobility and battlefield discipline.',
+            'attacks'       => array('bld', 'sea'),
+            'defends'       => array('bld', 'sea'),
+            'attack'        => 83,
+            'type'          => 'inf',
+            'sectype'       => 'normal',
+            'attacktype'    => array('ground', 'regular'),
+            'life'          => 48
+        ),
+
+        'armoured' => array(
+            'price'         => '990',
+            'networth'      => 11,
+            'normalname'    => 'Bulwark Guard',
+            'description'   => 'The Bulwark Guard is a heavily protected infantry unit built to absorb punishment while advancing under fire. It performs well against infantry and vehicles, making it a sturdy anchor for ground formations. Its strength lies in survivability and consistent pressure rather than raw speed.',
+            'attacks'       => array('inf', 'veh'),
+            'defends'       => array('inf', 'veh'),
+            'attack'        => 78,
+            'type'          => 'inf',
+            'sectype'       => 'normal',
+            'attacktype'    => array('ground', 'regular'),
+            'life'          => 52
+        ),
+
+        'unit_5' => array(
+            'price'         => '830',
+            'networth'      => 11,
+            'normalname'    => 'Drone Hunter Cell',
+            'description'   => 'The Drone Hunter Cell is a compact specialist squad equipped with portable sensors and smart launchers. It is designed to threaten aircraft and armored vehicles without the cost of heavy machinery. Although fragile, it gives infantry armies a valuable answer to advanced technology.',
+            'attacks'       => array('air', 'veh'),
+            'defends'       => array('air', 'veh'),
+            'attack'        => 68,
+            'type'          => 'inf',
+            'sectype'       => 'normal',
+            'attacktype'    => array('ground', 'regular'),
+            'life'          => 33
+        ),
+
+
+        /// SEA UNITS ///
+
+        'submarine' => array(
+            'price'         => '2250',
+            'networth'      => 11,
+            'normalname'    => 'Wraith Submarine',
+            'description'   => 'The Wraith Submarine is a silent attack vessel built to strike from below the surface before the enemy can respond. It is highly effective against ships and vehicle supply routes near the coast. Its stealth and strong damage make it dangerous, but its price requires careful use.',
+            'attacks'       => array('sea', 'veh'),
+            'defends'       => array('sea', 'veh'),
             'attack'        => 155,
             'type'          => 'sea',
             'sectype'       => 'normal',
             'attacktype'    => array('air_sea', 'regular'),
-            'life'          => 90
-        ),
-        'frigate' => array(
-            'price'         => '1313',
-            'networth'      => 11,
-            'normalname'    => 'Type 26 Frigate',
-            'description'   => 'The Type 26 Frigate is a next-generation stealth warship with advanced sensors and a low radar profile. It is designed to intercept enemy aircraft and protect naval assets with rapid response capabilities. Its state-of-the-art design and efficient systems ensure unparalleled performance in modern maritime security.',
-            'attacks'       => array('air', 'inf'),
-            'defends'       => array('air', 'inf'),
-            'attack'        => 95,
-            'type'          => 'sea',
-            'sectype'       => 'normal',
-            'attacktype'    => array('air_sea', 'regular'),
-            'life'          => 61
-        ),
-        'destroyer' => array(
-            'price'         => '2150',
-            'networth'      => 11,
-            'normalname'    => 'Arleigh Burke Destroyer',
-            'description'   => 'The Arleigh Burke Destroyer is a modern naval combatant armed with an array of guided missiles and advanced radar systems. It is built for aggressive close-quarters engagements and excels at dominating hostile waters. Its robust firepower and rapid maneuverability make it a critical asset in fleet defense and offensive operations.',
-            'attacks'       => array('sea'),
-            'defends'       => array('sea'),
-            'attack'        => 200,
-            'type'          => 'sea',
-            'sectype'       => 'normal',
-            'attacktype'    => array('air_sea', 'regular'),
             'life'          => 100
         ),
-        'sparrow' => array(
-            'price'         => '1635',
+
+        'cruiser' => array(
+            'price'         => '2100',
             'networth'      => 11,
-            'normalname'    => 'Visby-class Corvette',
-            'description'   => 'The Visby-class Corvette is a stealthy and agile warship built with advanced composite materials and sensor technology. It is designed for rapid strike operations against enemy armored vehicles and infantry. Its low radar signature and high maneuverability give it a significant edge in modern naval engagements.',
-            'attacks'       => array('veh', 'inf'),
-            'defends'       => array('veh', 'inf'),
-            'attack'        => 110,
+            'normalname'    => 'Aegis Cruiser',
+            'description'   => 'The Aegis Cruiser is a fleet defense warship designed to protect naval groups from aircraft and enemy ships. Its advanced radar and missile systems give it strong control over sea lanes. It is costly, but it brings excellent defensive value to any maritime strategy.',
+            'attacks'       => array('air', 'sea'),
+            'defends'       => array('air', 'sea'),
+            'attack'        => 145,
             'type'          => 'sea',
             'sectype'       => 'normal',
             'attacktype'    => array('air_sea', 'regular'),
-            'life'          => 94
+            'life'          => 92
         ),
-        'battleship' => array(
-            'price'         => '3000',
+
+        'frigate' => array(
+            'price'         => '1350',
             'networth'      => 11,
-            'normalname'    => 'Oceanic Titan',
-            'description'   => 'Oceanic Titan is a colossal heavy warship engineered to deliver overwhelming firepower. It is equipped with a massive missile arsenal designed to demolish enemy fortifications. Its sheer size and advanced weapon systems ensure that it remains a dominant force in any maritime conflict.',
+            'normalname'    => 'Guardian Frigate',
+            'description'   => 'The Guardian Frigate is a versatile escort ship built for patrols, convoy protection and coastal support. It is effective against aircraft and infantry, making it useful when supporting landings or defending against mixed attacks. Its moderate cost gives naval players an accessible all-round option.',
+            'attacks'       => array('air', 'inf'),
+            'defends'       => array('air', 'inf'),
+            'attack'        => 98,
+            'type'          => 'sea',
+            'sectype'       => 'normal',
+            'attacktype'    => array('air_sea', 'regular'),
+            'life'          => 70
+        ),
+
+        'destroyer' => array(
+            'price'         => '2300',
+            'networth'      => 11,
+            'normalname'    => 'Tempest Destroyer',
+            'description'   => 'The Tempest Destroyer is an aggressive surface combatant made for ship-to-ship battles and coastal bombardment. It can punish enemy fleets while also damaging important structures near the shoreline. Its strong attack and solid durability make it one of the most reliable high-tier naval units.',
+            'attacks'       => array('sea', 'bld'),
+            'defends'       => array('sea', 'bld'),
+            'attack'        => 170,
+            'type'          => 'sea',
+            'sectype'       => 'normal',
+            'attacktype'    => array('air_sea', 'regular'),
+            'life'          => 105
+        ),
+
+        'sparrow' => array(
+            'price'         => '1500',
+            'networth'      => 11,
+            'normalname'    => 'Swift Corvette',
+            'description'   => 'The Swift Corvette is a fast and agile warship used for raiding, scouting and disrupting lighter enemies. It performs well against ships and infantry, especially in quick coastal operations. While it lacks the staying power of heavier vessels, its speed and cost make it tactically useful.',
+            'attacks'       => array('sea', 'inf'),
+            'defends'       => array('sea', 'inf'),
+            'attack'        => 105,
+            'type'          => 'sea',
+            'sectype'       => 'normal',
+            'attacktype'    => array('air_sea', 'regular'),
+            'life'          => 76
+        ),
+
+        'battleship' => array(
+            'price'         => '3100',
+            'networth'      => 11,
+            'normalname'    => 'Leviathan Battleship',
+            'description'   => 'The Leviathan Battleship is a massive bombardment platform built to erase enemy structures from extreme range. It is slow and expensive, but its firepower against buildings is unmatched among naval forces. When protected by escorts, it can decide long wars through raw destructive pressure.',
             'attacks'       => array('bld'),
             'defends'       => array('bld'),
-            'attack'        => 240,
+            'attack'        => 250,
             'type'          => 'sea',
             'sectype'       => 'bk',
             'attacktype'    => array('air_sea', 'regular'),
-            'life'          => 140
+            'life'          => 145
         ),
+
         'unit_7' => array(
-            'price'         => '1973',
+            'price'         => '1850',
             'networth'      => 11,
-            'normalname'    => 'Stealth Wave',
-            'description'   => 'Stealth Wave is a fast attack craft that employs advanced stealth technology and high-speed maneuverability to execute precision strikes on enemy armored vehicles. It is built for rapid hit-and-run operations along hostile coastlines. Its agility and sophisticated systems allow it to disrupt enemy supply lines effectively.',
-            'attacks'       => array('veh'),
-            'defends'       => array('veh'),
-            'attack'        => 160,
+            'normalname'    => 'Riptide Missile Craft',
+            'description'   => 'The Riptide Missile Craft is a compact strike vessel designed for fast missile attacks against ships and coastal vehicle formations. It is cheaper than major warships but still carries enough firepower to threaten valuable targets. Its best use is in mobile fleets that rely on speed, timing and concentrated damage.',
+            'attacks'       => array('sea', 'veh'),
+            'defends'       => array('sea', 'veh'),
+            'attack'        => 135,
             'type'          => 'sea',
             'sectype'       => 'normal',
             'attacktype'    => array('air_sea', 'regular'),
-            'life'          => 94
+            'life'          => 82
         )
     );
 }
