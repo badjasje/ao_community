@@ -108,10 +108,10 @@ $defNWlost = ($snipers_lost*$units['sniper']['price']*0.06)+($thiefs_lost*$units
 </div>
 
 <div class="row statusBlockButtons">
-	<div class="col-md-4 battleReportInfo" style="background-color: rgba(45, 67, 81, 0.56);">
+	<div class="col-md-4 battleReportInfo u-panel-bg-56">
 		Your networth decreased: $ <?php echo number_format($attNWlost, 0, ',', ' ');?>
 	</div>
-	<div class="col-md-8 battleReportInfo" style="background-color: rgba(45, 67, 81, 0.48);">
+	<div class="col-md-8 battleReportInfo u-panel-bg-48">
 		Enemy networth decreased: $ <?php echo number_format($defNWlost, 0, ',', ' ');?>
 	</div>
 </div>

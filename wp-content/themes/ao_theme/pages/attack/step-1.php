@@ -83,7 +83,7 @@
 				<div class="attackDropdown statCol-1 no-gutters">
 					Attack Type
 				</div>
-				<div style="padding:0px;" class="attackDropdown statCol-2 no-gutters">
+				<div class="attackDropdown u-no-padding statCol-2 no-gutters">
 					<select name="attackmode" class="attackTypeInput">
 						<option name="attackmode" value="normal">Normal</option>
 						<option name="attackmode" value="aggressive">Aggressive (Higher gain and higher loss. Costs 10% extra morale.)</option>
@@ -96,7 +96,7 @@
 				<div class="attackDropdown statCol-3 no-gutters">
 					Main target
 				</div>
-				<div style="padding:0px;" class="attackDropdown statCol-4 no-gutters">
+				<div class="attackDropdown u-no-padding statCol-4 no-gutters">
 					<select name="maintarget" class="attackTypeInput">
 						<option name="maintarget" value="none">-- none --</option>
 						<? foreach(Settings::get('attack_maintargets') as $k => $v) { ?>

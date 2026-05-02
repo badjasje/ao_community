@@ -33,7 +33,7 @@ if( ! empty( $transient ) ) {
 	<? if(empty($clan_ID)) { ?>
 	<div class="blockHeader noticeBlock">
 		<strong>Play together?</strong>
-		Join us on <a href="http://bit.ly/2US8Dh0" style="text-decoration:underline" target="_blank">discord</a> and find the clan that fits your playstyle.
+		Join us on <a href="http://bit.ly/2US8Dh0" class="u-link-underline" target="_blank">discord</a> and find the clan that fits your playstyle.
 	</div>
 	<div class="pageSpacer"></div>
 	<? } ?>
@@ -66,7 +66,7 @@ if( ! empty( $transient ) ) {
 		<nav id="allthetabs" class="nav nav-pills nav-fill flex-column flex-sm-row">
 			<a class="nav-item nav-link navItem <?php echo $activeTab === 'all' ? 'active' : ''; ?>" data-toggle="tab" data-target="#all" href="?tab=all">All</a>
 			<a class="nav-item nav-link navItem <?php echo $activeTab === 'in-range' ? 'active' : ''; ?>" data-toggle="tab" data-target="#in-range" href="?tab=in-range">In range</a>
-			<a class="nav-item nav-link navItem" href="/users" style="background-color: rgba(70, 118, 94, 0.8);">All users</a>
+			<a href="/users" class="nav-item nav-link navItem u-bg-3">All users</a>
 		</nav>
 	</div>
 

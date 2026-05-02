@@ -247,10 +247,10 @@ if($result == 'success') { ?>
 	</div>
 
 	<div class="row statusBlockButtons">
-		<div class="col-md-4 battleReportInfo" style="background-color: rgba(45, 67, 81, 0.56);">
+		<div class="col-md-4 battleReportInfo u-panel-bg-56">
 			Your networth decreased: $<?php echo number_format(0, 0, ',', ' ');?>
 		</div>
-		<div class="col-md-8 battleReportInfo" style="background-color: rgba(45, 67, 81, 0.48);">
+		<div class="col-md-8 battleReportInfo u-panel-bg-48">
 			Enemy networth decreased: $<?php echo number_format($def_NW_lost, 0, ',', ' ');?>
 		</div>
 	</div>
@@ -314,10 +314,10 @@ if($result == 'failure'){
 	</div>
 
 	<div class="row statusBlockButtons">
-		<div class="col-md-4 battleReportInfo" style="background-color: rgba(45, 67, 81, 0.56);">
+		<div class="col-md-4 battleReportInfo u-panel-bg-56">
 			Your networth decreased: $<?php echo number_format(0, 0, ',', ' ');?>
 		</div>
-		<div class="col-md-8 battleReportInfo" style="background-color: rgba(45, 67, 81, 0.48);">
+		<div class="col-md-8 battleReportInfo u-panel-bg-48">
 			Enemy networth decreased: $<?php echo number_format($def_NW_lost, 0, ',', ' ');?>
 		</div>
 	</div>

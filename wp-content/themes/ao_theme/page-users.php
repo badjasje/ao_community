@@ -21,7 +21,7 @@ $backColor = "45, 67, 81";
 	<form class="fw-row">
 		<select id="clan" name="clan" class="searchusers">
 			<option></option>
-			<? foreach ($allUsers as $allUser) { ?>
+			<?php foreach ($allUsers as $allUser) { ?>
 			<option name="clan" value="/users/profile/?id=<?=$allUser->get('id')?>">
 				<?=$allUser->getName()?> (#<?=$allUser->get('id')?>)
 			</option>
@@ -36,7 +36,7 @@ $backColor = "45, 67, 81";
 			<a class="nav-item nav-link navItem <?=($activeTab==='all' ? 'active' : '')?>" data-toggle="tab" data-target="#all" href="?tab=all">All</a>
 			<a class="nav-item nav-link navItem sort2 <?=($activeTab==='in-range' ? 'active' : '')?>" data-toggle="tab" data-target="#in-range" href="?tab=in-range">In range</a>
 			<a class="nav-item nav-link navItem sort3 <?=($activeTab==='online' ? 'active' : '')?>" data-toggle="tab" data-target="#online" href="?tab=online">Online</a>
-			<a class="nav-item nav-link navItem" href="/all-clans" style="background-color: rgba(70, 118, 94, 0.8);">All clans</a>
+			<a href="/all-clans" class="nav-item nav-link navItem u-bg-3">All clans</a>
 		</nav>
 	</div>
 
