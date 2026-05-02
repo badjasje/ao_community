@@ -65,7 +65,7 @@ if (!empty($openInvites)) {
 		</span>
 	</div>
 
-	<div class="col-md-2 celBlock" style="padding:0px;">
+	<div class="col-md-2 celBlock u-no-padding">
 		<a href="/cancel_invite.php/?invite=<?php echo $invite['invite']; ?>&clan=<?php echo $clanId; ?>">
 		<button class="cancelButton hoverEffect" onclick="return confirm('Are you sure you want to cancel this invite?')" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);" type="submit">Cancel</button>
 		</a>

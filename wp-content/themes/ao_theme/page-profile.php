@@ -86,7 +86,7 @@ if(empty($telegram_key)) {
 			<?php if($viewed->get('id') == $user->get('id')) { ?>
 			<div class="attackingRow statCol-2">
 				<div class="profileColumn">Push notifications</div>
-				Install <a href="https://t.me/assaultonlinebot" style="text-decoration:underline;" target="_blank">Telegram</a> on your mobile
+				Install <a href="https://t.me/assaultonlinebot" class="u-link-underline" target="_blank">Telegram</a> on your mobile
 				device and use this code <strong><?=$telegram_key?></strong> to get instant notifications.</a>
 			</div>
 			<div class="attackingRow statCol-1">
@@ -130,17 +130,17 @@ $count = 0;
 
 <?php if($status != 'postmortem'):?>
 <div class="row fw-row no-gutters profileButtonRow">
- 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
+ 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?> u-bg-1"
 	 	href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewed_id)?>">
 		<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
 	</a>
 
- 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 0.9);"
+ 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?> u-bg-2"
 	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewed_id)?>">
  		<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
  	</a>
 
- 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewed_id;?>">
+ 	<a class="col-md-4 profileButton u-bg-3" href="/send-message/?id=<?php echo $viewed_id;?>">
  		<i class="fas fa-envelope" aria-hidden="true"></i> &nbsp;Send message
 	</a>
 </div>
@@ -152,17 +152,17 @@ $count = 0;
 <?php if($status != 'postmortem'):?>
 <!-- Visiting non-clanmember as non CT/CL -->
 <div class="row fw-row no-gutters profileButtonRow">
- 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
+ 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?> u-bg-1"
 	 	href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewed_id)?>">
 		<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
 	</a>
 
- 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 0.9);"
+ 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?> u-bg-2"
 	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewed_id)?>">
  		<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
  	</a>
 
- 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewed_id;?>">
+ 	<a class="col-md-4 profileButton u-bg-3" href="/send-message/?id=<?php echo $viewed_id;?>">
  		<i class="fas fa-envelope" aria-hidden="true"></i> &nbsp;Send message
 	</a>
 </div>
@@ -174,26 +174,26 @@ $count = 0;
 <?php $count = 1;?>
 <?php if($status != 'postmortem'):?>
 <div class="row no-gutters fw-row profileButtonRow">
-	<a class="col-md-3 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
+	<a class="col-md-3 profileButton<?=(!$game_live?' disabled':'')?> u-bg-1"
 		href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewed_id)?>">
 		<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
 	</a>
 
- 	<a class="col-md-3 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 0.9);"
+ 	<a class="col-md-3 profileButton<?=(!$game_live?' disabled':'')?> u-bg-2"
 	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewed_id)?>">
  		<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
  	</a>
 
- 	<a class="col-md-3 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewed_id;?>">
+ 	<a class="col-md-3 profileButton u-bg-3" href="/send-message/?id=<?php echo $viewed_id;?>">
  		<i class="fas fa-envelope" aria-hidden="true"></i> &nbsp;Send message
 	</a>
 
 	<?php if(in_array($viewed_id, $previous_members)):?>
-		<a class="col-md-3 profileButton" style="background-color: rgba(70, 118, 94, 0.7);" href="#">
+		<a class="col-md-3 profileButton u-bg-4" href="#">
 			<i class="fa fa-user-plus" aria-hidden="true"></i> &nbsp;Cannot invite
 		</a>
 	<?php else:?>
-		<a class="col-md-3 profileButton inviteButton" style="background-color: rgba(70, 118, 94, 0.7);" href="javascript:void(0);">
+		<a class="col-md-3 profileButton inviteButton u-bg-4" href="javascript:void(0);">
 			<i class="fa fa-user-plus" aria-hidden="true"></i> &nbsp;Send clan invite
 		</a>
 	<?php endif;?>
@@ -224,17 +224,17 @@ $count = 0;
 <!-- Visiting non-clanmember as non CT/CL -->
 <?php if($status != 'postmortem'):?>
 <div class="row fw-row no-gutters profileButtonRow">
- 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
+ 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?> u-bg-1"
 	 	href="<?=(!$game_live?'javascript:void(0);':'/attack/?id='.$viewed_id)?>">
 		<i class="fa fa-crosshairs" aria-hidden="true"></i> &nbsp;Attack
 	</a>
 
- 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 0.9);"
+ 	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?> u-bg-2"
 	 	href="<?=(!$game_live?'javascript:void(0);':'/spy-reports/?id='.$viewed_id)?>">
  		<i class="fa fa-binoculars" aria-hidden="true"></i> &nbsp;Spy reports
  	</a>
 
- 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/send-message/?id=<?php echo $viewed_id;?>">
+ 	<a class="col-md-4 profileButton u-bg-3" href="/send-message/?id=<?php echo $viewed_id;?>">
  		<i class="fas fa-envelope" aria-hidden="true"></i> &nbsp;Send message
 	</a>
 </div>
@@ -245,12 +245,12 @@ $count = 0;
 <!-- Visiting clanmember profile -->
 <?php if($status != 'postmortem'):?>
 <div class="row fw-row no-gutters profileButtonRow">
-	<a class="col-md-6 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
+	<a class="col-md-6 profileButton<?=(!$game_live?' disabled':'')?> u-bg-1"
 		href="<?=(!$game_live?'javascript:void(0);':'/military-overview/?id='.$viewed_id)?>">
 		<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Military overview
 	</a>
 
-	<a class="col-md-6 profileButton" style="background-color: rgba(70, 118, 94, 0.9);" href="/send-message/?id=<?php echo $viewed_id;?>">
+	<a class="col-md-6 profileButton u-bg-2" href="/send-message/?id=<?php echo $viewed_id;?>">
 		<i class="fas fa-envelope" aria-hidden="true"></i> &nbsp;Send message
 	</a>
 </div>
@@ -259,16 +259,16 @@ $count = 0;
 <?php if($visiting_user == $viewed_id):?>
 <!-- visiting own profile -->
 <div class="row no-gutters fw-row profileButtonRow">
-	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?>" style="background-color: rgba(70, 118, 94, 1);"
+	<a class="col-md-4 profileButton<?=(!$game_live?' disabled':'')?> u-bg-1"
 		href="<?=(!$game_live?'javascript:void(0);':'/military-overview/?id='.$viewed_id)?>">
 		<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;Military overview
 	</a>
 
- 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.9);" href="/users/profile/edit/">
+ 	<a class="col-md-4 profileButton u-bg-2" href="/users/profile/edit/">
  		<i class="fa fa-wrench" aria-hidden="true"></i> &nbsp;Edit your profile
  	</a>
 
- 	<a class="col-md-4 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="/player-statistics/">
+ 	<a class="col-md-4 profileButton u-bg-3" href="/player-statistics/">
  		<i class="fas fa-chart-line"></i> &nbsp;View statistics
 	</a>
 </div>

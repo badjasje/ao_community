@@ -85,7 +85,7 @@ $wars_by = get_posts(array(
 					<?php echo human_time_diff( get_the_title($war->ID), $timestamp );?>
 				</span>
 			</div>
-			<div class="col-md-4 celBlock" style="padding:0px;">
+			<div class="col-md-4 celBlock u-no-padding">
 				<a href="/spy-report-overview/?id=<?php echo $declared_on_ID;?>">
 				<button class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);" type="submit">Spy report overview</button>
 				</a>
@@ -127,7 +127,7 @@ $wars_by = get_posts(array(
 					<?php echo human_time_diff( get_the_title($war->ID), $timestamp );?>
 				</span>
 			</div>
-			<div class="col-md-4 celBlock" style="padding:0px;">
+			<div class="col-md-4 celBlock u-no-padding">
 				<a href="/spy-report-overview/?id=<?php echo $declared_on_ID;?>">
 				<button class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);" type="submit">Spy report overview</button>
 				</a>
@@ -196,7 +196,7 @@ $wars_by = get_posts(array(
 					</span>
 				</div>
 
-				<div class="col-md-2 celBlock" style="padding:0px;">
+				<div class="col-md-2 celBlock u-no-padding">
 					<a href="/war-statistics/?id=<?php echo $key;?>">
 						<button class="cancelButton hoverEffect" style="background-color: rgba(<?php echo $buttonColor;?>, <?php echo 1-($count/70);?>);" type="submit"><i class="fa fa-chart-line" aria-hidden="true"></i> &nbsp;View statistics</button>
 					</a>

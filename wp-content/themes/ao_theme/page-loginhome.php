@@ -7,9 +7,9 @@ $gameType = get_field('game_type','option');
 ?>
 
 <div class="row pageRow">
-	<div class="col-md-3" style="padding:0px;"></div>
+	<div class="col-md-3 u-no-padding"></div>
 
-	<div class="col-md-6"  style="padding:0px;">
+	<div class="col-md-6 u-no-padding">
 		<div class="blockHeader">Login</div>
 
 		<form id="loginform" action="/wp-login.php" method="post" name="loginform">
@@ -57,21 +57,21 @@ $gameType = get_field('game_type','option');
 
 		<div class="blockHeader">Resources</div>
 
-		<a class="col-md-12 profileButton" style="background-color: rgba(70, 118, 94, 1);" href="https://assault.online/manual/">
+		<a class="col-md-12 profileButton u-bg-1" href="https://assault.online/manual/">
 			Manual
 		</a>
-		<a class="col-md-12 profileButton" style="background-color: rgba(70, 118, 94, 0.9);" href="https://assault.online/category/changes/">
+		<a class="col-md-12 profileButton u-bg-2" href="https://assault.online/category/changes/">
 			Round changes
 		</a>
-		<a class="col-md-12 profileButton" style="background-color: rgba(70, 118, 94, 0.8);" href="https://assault.online/category/awards-medals/">
+		<a class="col-md-12 profileButton u-bg-3" href="https://assault.online/category/awards-medals/">
 			Medals & awards
 		</a>
-		<a class="col-md-12 profileButton" style="background-color: rgba(70, 118, 94, 0.7);" href="https://assault.online/toplists/">
+		<a class="col-md-12 profileButton u-bg-4" href="https://assault.online/toplists/">
 			Toplists
 		</a>
 	</div>
 
-	<div class="col-md-3" style="padding:0px;"></div>
+	<div class="col-md-3 u-no-padding"></div>
 </div>
 <?php
 

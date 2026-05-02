@@ -44,7 +44,7 @@
 						</span>
 					</div>
 
-					<div class="col-md-4 celBlock inputBlock" style="padding:0px;">
+					<div class="col-md-4 celBlock inputBlock u-no-padding">
 						<input class="unitInput sellInput" data-nw="<?php echo $order['networth'];?>" data-nwprice="<?php echo $order['price'];?>" data-key="<?php echo $key;?>" data-price="<?php echo $order['price']*0.75;?>" max="<?php echo $missiles_owned;?>" type="number" id="sell_<?php echo $key;?>" min="0" name="<?php echo $key;?>" style="border: solid rgba(<?php echo $sellBackColor;?>, <?php echo 0.6-($count/25);?>);border-width:5px 13px 5px 13px;"/>
 					</div>
 				</div> <!-- //Close Unit row -->

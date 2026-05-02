@@ -402,8 +402,8 @@ endif;
 	<a id="stepback" href="/attack/?id=<?php echo $target_id?>" class="col-md-6 totalsField statCol-1">
 		Back
 	</a>
-	<div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
-		<button class="mainSubmit" id="attack3" style="border-top:0px;">Attack</button>
+	<div id="nextstep3" class="col-md-6 attackStep-2-submit u-no-padding">
+		<button class="mainSubmit u-no-border-top" id="attack3">Attack</button>
 	</div>
 </div>
 

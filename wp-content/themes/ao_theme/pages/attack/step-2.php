@@ -147,8 +147,8 @@ $count = 0;
             <div id="sendAll" class="col-md-4 totalsField statCol-2" data-val="<?php echo implode('|',$sendall);?>">
                 Send all available units
             </div>
-            <div id="nextstep3" class="col-md-4 attackStep-2-submit" style="padding:0px;">
-                <input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
+            <div id="nextstep3" class="col-md-4 attackStep-2-submit u-no-padding">
+                <input class="mainSubmit u-no-border-top" type="submit" value="Next step">
             </div>
         </div>
         <script>
@@ -234,7 +234,7 @@ $count = 0;
         		Back
 	        </a>
 	        <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0;">
-		        <input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
+		        <input class="mainSubmit u-no-border-top" type="submit" value="Next step">
 	        </div>
         </div>
     <?php
@@ -306,7 +306,7 @@ $count = 0;
         		Back
 	        </a>
 	        <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0;">
-		        <input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
+		        <input class="mainSubmit u-no-border-top" type="submit" value="Next step">
 	        </div>
         </div>
         <?php
@@ -387,7 +387,7 @@ $count = 0;
             </a>
             <?php if($unitsOwned > 0):?>
             <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0;">
-                <input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
+                <input class="mainSubmit u-no-border-top" type="submit" value="Next step">
             </div>
             <?php endif;?>
         </div>
@@ -455,8 +455,8 @@ $count = 0;
 	        	Back
 	        </a>
             <?php if($unitsOwned > 0):?>
-                <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
-                    <input class="mainSubmit" type="submit" value="Next Step" style="border-top:0px;">
+                <div id="nextstep3" class="col-md-6 attackStep-2-submit u-no-padding">
+                    <input class="mainSubmit u-no-border-top" type="submit" value="Next Step">
                 </div>
             <?php endif;?>
         </div>
@@ -538,7 +538,7 @@ $count = 0;
             </a>
             <?php if($unitsOwned > 0):?>
                 <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0;">
-                    <input class="mainSubmit" type="submit" value="Next step" style="border-top:0px;">
+                    <input class="mainSubmit u-no-border-top" type="submit" value="Next step">
                 </div>
             <?php endif;?>
         </div>
@@ -590,8 +590,8 @@ $count = 0;
                 Back
             </a>
             <?php if($userData['sat_owned'][0] == 'laser' || $userData['sat_owned'][0] == 'empsat'):?>
-            <div id="nextstep3" class="col-md-6 attackStep-2-submit" style="padding:0px;">
-                <input class="mainSubmit" type="submit" value="Next Step" style="border-top:0px;">
+            <div id="nextstep3" class="col-md-6 attackStep-2-submit u-no-padding">
+                <input class="mainSubmit u-no-border-top" type="submit" value="Next Step">
             </div>
             <?php endif;?>
         </div>
